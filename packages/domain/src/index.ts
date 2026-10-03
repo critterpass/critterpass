@@ -166,6 +166,7 @@ export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/queues';
+export * from './places/hours-research';
 export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
 export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';
 export {

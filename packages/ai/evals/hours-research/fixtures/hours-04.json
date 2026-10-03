@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T15:07:22.631Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "Fushimi Inari Taisha 伏見稲荷大社 Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Fushimi_Inari-taisha",
+          "title": "Fushimi Inari-taisha - Wikipedia",
+          "content": "The shrine is just outside Inari Station on the Nara Line of the West Japan Railway Company (JR), a five-minute ride from Kyoto Station. It is a short walk from Fushimi-Inari Station on the Main Line of the Keihan Electric Railway.\n\nThe shrine is open 24 hours with the approach to the shrine and the Honden (本殿, main hall) itself illuminated all night. There is no entrance fee. [...] Fushimi Inari-taisha (Japanese: 伏見稲荷大社) is the head shrine of the kami Inari, located in Fushimi-ku, Kyoto, Japan. The shrine sits at the base of a mountain, also named Inari, which is 233 metres (764 ft) above sea level, and includes trails up the mountain to many smaller shrines which span 4 kilometres (2.5 mi) and take approximately 2 hours to walk up. It is unclear whether the mountain's name, Inariyama, or the shrine's name came first. [...] Fushimi Inari-taisha is located in Kyoto city\nFushimi Inari-taisha\nFushimi Inari-taisha is located in Japan\nFushimi Inari-taisha",
+          "score": 0.8506799,
+          "raw_content": null,
+          "published_date": "Thu, 30 Jul 2026 14:07:52 GMT",
+          "id": "d504c2-00"
+        },
+        {
+          "url": "https://www.travelcaffeine.com/fushimi-inari-shrine-night-kyoto",
+          "title": "Fushimi Inari Shrine at Night: Kyoto, Japan Tips - TravelCaffeine.com",
+          "content": "Travel Caffeine\n\n\n\n# Why You Should Visit Fushimi Inari Shrine at Night\n\n/22 Comments/in Things to Do Japan, Kyoto /by Tom Bricker\n\nFushimi Inari Taisha is an incredibly popular shrine in Kyoto, Japan that’s open 24/7. It’s especially beautiful at night, and this post features photos & tips of making the most of it. Visiting after sunset is one of the best travel hacks, as you can avoid crowds and have a unique experience. (Updated December 22, 2023.) [...] The other reason why you should do Fushimi Inari at night is because it’s one of the few things to do in Kyoto after 6 pm (it’s open 24/7/365). In a city with literally dozens of must-dos, you’ll never feel like you have enough time to see and experience it all. Trust us, we’ve spent monthsin Kyoto and still feel like there are things we’ve missed. [...] In the latest update to this guide for nighttime at Fushimi Inari Taisha (伏見稲荷大社), I wanted to share a couple of things. First, it’s now even more important than ever that you visit Fushimi Inari either before 9 a.m. or at sunset (staying until nightfall so you get a day/night experience) if you want low crowds.",
+          "score": 0.82220376,
+          "raw_content": null,
+          "published_date": "Fri, 22 Dec 2023 17:00:29 GMT",
+          "id": "83129b-01"
+        },
+        {
+          "url": "https://www.accessible-japan.com/places/japan/kyoto/kyoto/attractions/fushimi-inari-shrine",
+          "title": "Fushimi Inari Taisha – Accessibility Guide (Wheelchair Access & More)",
+          "content": "Fushimi Inari Shrine is open 24/7 year round. It gets extremely busy during the day, but arriving before 9am or after 4pm usually allows for thinner crowds.  However, please note that the elevator to the Torii Gate paths is only available between 9:00-15:00.\n\n## Getting There\n\nYou can get to Fushimi Inari Shrine via JR Inari Station located right next to the shrine, or Fushimi Inari Station (Keihan Main Line) which is a short walk from the shrine. Both stations are wheelchair accessible. [...] ## Conclusion\n\nWhile a large part of the mountain is out of reach to visitors with mobility needs, it is still possible to take pictures in the famous torii gates with a bit of effort and the help of one or two people. Since the shrine grounds are open 24hrs, it may be best to avoid the crowds and visit before 9am or after 4pm.\n\n### Credits\n\nSpecial thanks: Accessible Japan would like to offer a heartfelt thanks to: [...] To go to the paths with the torii gates, there is an elevator behind the main shrine and a nicely paved path at the top that leads to the start of the main torii tunnel. (Note that the elevator can only be used between 9:00-15:00.)\n\nOnce up the elevator, you can through the start of the torii tunnel and the double tunnel all the way to the inner okusha shrine.",
+          "score": 0.7785319,
+          "raw_content": null,
+          "published_date": "Fri, 07 Sep 2018 03:35:03 GMT",
+          "id": "4f142f-02"
+        },
+        {
+          "url": "https://www.hikemasterjapan.com/complete-guide-to-fushimi-inari",
+          "title": "A Complete Guide To Fushimi Inari",
+          "content": "Fushimi Inari is open 24/7 and can be really amazing at night. Lanterns decorate the Senbon Torii section, and there are much less people compared to the daytime. Flood lamps illuminate the entire hike so you can even hike the mountain at midnight, just be careful of the wild boar that sometimes make an appearance. [...] Fushimi Inari is open 24/7 and is completely free, this is the entrance on Google Maps.\n\n##### FAQ\n\n1. What is Fushimi Inari famous for?\n2. How old is Fushimi Inari?\n3. What's the deal with all those torii gates?\n4. How much time do you need?\n5. How crowded is Fushimi Inari?\n6. Is it worth it to hike to the viewpoint?\n7. Fushimi Inari at night?\n8. What does the fox mean?\n9. Which season is best for Fushimi Inari?\n10. Is it worth getting a tour guide?\n\n##### The Main Features of Fushimi Inari [...] Fushimi Inari is the most popular shrine in Japan, it receives approximately 10 million visitors each year. The best time to visit Fushimi Inari in order to avoid the crowds is either during sunrise, or at night time after 6pm. During normal hours, you will need to be mentally prepared for large crowds, especially during the peak tourism season, which occurs from mid-March to early April for the cherry blossoms, and at the end of November for the autumn leaves.",
+          "score": 0.6811549,
+          "raw_content": null,
+          "published_date": "Mon, 01 Dec 2025 05:35:27 GMT",
+          "id": "7cf377-03"
+        },
+        {
+          "url": "https://www.japan-guide.com/e/e3915.html",
+          "title": "Fushimi Inari Shrine (Fushimi Inari Taisha) - Kyoto Travel",
+          "content": "Fushimi Inari Shrine is located just outside JR Inari Station, the second station from Kyoto Station along the JR Nara Line (5 minutes, 150 yen one way from Kyoto Station). The shrine can also be reached in a short walk from Fushimi Inari Station along the Keihan Main Line.\n\nHow to get to and around Kyoto\n\n## Hours and Fees\n\n#### Hours\n\nAlways open\n\n#### Closed\n\nNo closing days\n\n#### Admission\n\nFree\n\nQuestions? Ask in our forum.\n\n## Links and Resources\n\n### English\n\n #### Fushimi Inari Taisha [...] The hike to the summit of the mountain and back takes about 2-3 hours, however, visitors are free to walk just as far as they wish before turning back. Along the way, there are multiple smaller shrines with stacks of miniature torii gates that were donated by visitors with smaller budgets. There are also a few restaurants along the way, which offer locally themed dishes such as Inari Sushi and Kitsune Udon (\"Fox Udon\"), both featuring pieces of aburaage (fried tofu), said to be a favorite food [...] View on Klook\n  + [](\n\n    Kyoto 4 Hour Low-Down Private Walking Tour\n\n    ¥15,657\n\n    ★★★★★\n\n    7\n\n    See a tailor-made selection of sites, picked by your local guide, that show every side of Kyoto\n\n    View on Klook\n  + [](\n\n    Maiko and a Samurai Makeover Experience for Couple\n\n    ¥30,550\n\n    ★★★★★\n\n    4\n\n    Change into a beautiful Maiko and a cool Samura\n\n    View on Klook\n  + [](\n\n    World Heritage Shirakawago and Takayama Private Tour from Nagoya\n\n    ¥110,000\n\n    ★★★★★",
+          "score": 0.6530611,
+          "raw_content": null,
+          "published_date": "Tue, 10 Feb 2026 00:00:00 GMT",
+          "id": "0ba0f2-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "4aa4bf83-b8e1-468a-95bb-617cb56450be"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "4997859a-44c5-4012-b497-df600dcf3671",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"Multiple results state Fushimi Inari Taisha in Kyoto is open 24 hours every day.\",\"source_url\":\"https://www.japan-guide.com/e/e3915.html\",\"confidence\":0.95,\"always_open\":true,\"weekly\":{\"mo\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"tu\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"we\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"th\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"fr\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"sa\":[{\"start\":\"00:00\",\"end\":\"24:00\"}],\"su\":[{\"start\":\"00:00\",\"end\":\"24:00\"}]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2370,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 172,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

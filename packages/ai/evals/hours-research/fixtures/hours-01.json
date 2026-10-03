@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T15:07:13.801Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "鹿苑寺 (金閣寺) (Kinkaku-Ji Temple) Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.yelp.com/biz/%E9%B9%BF%E8%8B%91%E5%AF%BA-%E4%BA%AC%E9%83%BD%E5%B8%82-2",
+          "title": "鹿苑寺 - Buddhist Temples",
+          "content": "Mon - 9:00 am - 5:00 pm, Tue - 9:00 am - 5:00 pm, Wed - 9:00 am - 5:00 ... Kinkaku-ji is a Zen temple known for its top 2 floors covered in gold leaf.",
+          "score": 0.86441374,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1e16af-00"
+        },
+        {
+          "url": "https://www.shokoku-ji.jp/en/kinkakuji/access",
+          "title": "ACCESS | Kinkaku-ji | 臨済宗相国寺派",
+          "content": "From Ginkaku-ji\n\nCity Bus:Get on at Ginkakuji-michi Stop.Get off at Kinkakuji-michi Stop.\n\nNo.102 No.204\n\n## PARKING\n\nHours\n:   8：40 a.m. – 5：10 p.m.\n\nSpace\n:   250 cars\n\n| The first 60 minutes | every half hour |\n --- |\n| Passenger Car | 400 yen | 200 yen |\n| Minicoach | 600 yen | 300 yen |\n| Bus | 1,300 yen | 650 yen |\n| Motorsycle | 200 yen | 100 yen |\n\nKinkaku-ji GUIDE MAP\n\n### GUIDE MAP\n\nPDF\n\n## VISIT\n\nHours\n:   9:00 a.m.-5:00 p.m. [...] open all year round\n Hours may change for special exhibitions.\n\nAdmission\n:   General500 yen\n:   Primary and Middle School Students300 yen\n\n There is no group discount, but if it is over 30 people please enter as a group.\n The admission fee may change for special exhibitions.\n\n PAGE TOP [...] # 金閣寺\n\n# Kinkaku-ji\n\n \n\n# ACCESS\n\n ADDRESS\n ACCESS\n PARKING\n VISIT\n\n## ADDRESS\n\n1 Kinkakuji-cho, Kita-ku, Kyoto 603-8361 Japan  \n Contact  \n 075-461-0013(Japanese only)\n\nGoogle Map\n\n## ACCESS\n\nBy bus\n\nCity Bus:Get off at Kinkakuji-michi Stop.\n\nNo.12 No.59 No.205 No.M1\n\nFrom Shokoku-ji\n\nCity Bus:Get on at Karasuma Imadegawa Stop.Get off at Kinkakuji-michi Stop.\n\nNo.59 No.102\n\nCity Bus:Get on at Doshisha-mae Stop.Get off at Kinkakuji-michi Stop.\n\nNo.59\n\nFrom Ginkaku-ji",
+          "score": 0.7672197,
+          "raw_content": null,
+          "published_date": "Thu, 13 Jun 2019 03:42:45 GMT",
+          "id": "a9fafa-01"
+        },
+        {
+          "url": "https://www.japan-guide.com/e/e3908.html",
+          "title": "Kinkakuji (Golden Pavilion) - Kyoto Travel",
+          "content": "Tea Garden\n\n## Getting there and around\n\nKinkakuji can be accessed from Kyoto Station by direct Kyoto City Bus number 205 in about 40 minutes and for 230 yen. Alternatively, it can be faster and more reliable to take the Karasuma Subway Line to Kitaoji Station (15 minutes, 260 yen) and a taxi (10 minutes, about 1500 yen) or bus (10 minutes, 230 yen, bus numbers 204 or 205) from there to Kinkakuji.\n\nHow to get to and around Kyoto\n\n## Hours and Fees\n\n#### Hours\n\n9:00 to 17:00\n\n#### Closed [...] Kinkakuji (t, Golden Pavilion) is a Zen temple in northern Kyoto whose top two floors are completely covered in gold leaf. Formally known as Rokuonji, the temple was the retirement villa of the shogun Ashikaga Yoshimitsu, and according to his will it became a Zen temple of the Rinzai sect after his death in 1408. Kinkakuji was the inspiration for the similarly named Ginkakuji (Silver Pavilion), built by Yoshimitsu's grandson, Ashikaga Yoshimasa, on the other side of the city a few decades [...] #### Closed\n\nNo closing days\n\n#### Admission\n\n500 yen\n\n#### Typical Visit Duration\n\n15-45 minutes\n\nQuestions? Ask in our forum.\n\n## Links and Resources\n\n### English\n\n #### Kinkakuji\n\n  Official website.\n\n### Japanese\n\n #### Kinkakuji\n\n  Official website.\n\n## Hotels around Kyoto\n\nRead our Kyoto Hotel Guide\n\n + \n\n    Sponsored\n\n    arashiyama villa Serenitas kyoto",
+          "score": 0.6757865,
+          "raw_content": null,
+          "published_date": "Fri, 05 Dec 2025 00:00:00 GMT",
+          "id": "e7c66d-02"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kinkaku-ji",
+          "title": "Kinkaku-ji - Wikipedia",
+          "content": ", lit. 'Temple of the Golden Pavilion'), officially named Rokuon-ji (鹿苑寺; ( \"Help:IPA/Japanese\"), lit. 'Deer Garden Temple'), is a Zen Buddhist temple in Kyoto, Japan and a tourist attraction. It is designated as a World Heritage Site, a National Special Historic Site, a National Special Landscape, and one of the 17 Historic Monuments of Ancient Kyoto \"Historic Monuments of Ancient Kyoto (Kyoto, Uji and Otsu Cities)\"). The temple is nicknamed after its reliquary (shariden), the Golden Pavilion [...] | 鹿苑寺 |\n| The shariden at Rokuon-ji,  commonly known as the Golden Pavilion (Kinkakuji) |\n| Kinkaku-ji is located in Japan Kinkaku-ji  Location within Japan |\n| Religion |\n| Affiliation | Buddhism |\n| Sect | Zen, Rinzai sect, Shōkoku-ji school |\n| Deity | Kannon Bosatsu (Avalokiteśvara) |\n| Location |\n| Location | 1 Kinkakuji-chō, Kita-ku, Kyōto, Kyoto Prefecture |\n| Country | Japan |\n| Map Interactive map of Rokuon-ji | [...] Zen Buddhist temple in Kyoto, Japan\n\nThis article is about a Buddhist temple in Kyoto, Japan. For other topics translated as \"Temple of the Golden Pavilion\" or \"Golden Pavilion Temple\" in English, see Temple of the Golden Pavilion (disambiguation) \"Temple of the Golden Pavilion (disambiguation)\").\n\n| Rokuon-ji |",
+          "score": 0.44059017,
+          "raw_content": null,
+          "published_date": null,
+          "id": "db0def-03"
+        },
+        {
+          "url": "https://www.instagram.com/p/DWfkvgHlKd4",
+          "title": "The iconic Kinkaku-ji Temple (金閣寺/鹿苑寺) in Kyoto ...",
+          "content": "It's known for the gold leaf exterior, and the three story design that each represents a different aspect of Japanese historical architecture.",
+          "score": 0.299162,
+          "raw_content": null,
+          "published_date": "Mon, 06 Apr 2026 15:00:00 GMT",
+          "id": "c744fc-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "203161d2-4326-456b-8c7a-95c9d8db2da4"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "75a4e019-5bc1-4db8-b57d-c2d21f4d76df",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"The official Kinkaku-ji access page states visit hours of 9:00 a.m.-5:00 p.m. and open all year round, with no closing days.\",\"source_url\":\"https://www.shokoku-ji.jp/en/kinkakuji/access\",\"confidence\":0.9,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"tu\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"we\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"th\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"fr\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"sa\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"su\":[{\"start\":\"09:00\",\"end\":\"17:00\"}]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2914,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 192,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
