@@ -5,8 +5,6 @@ name: native-build
 # them (`--no-wait`) and lists their ids and pages in the summary.
 #   gh workflow run native-build.yml -f ref=main -f profile=staging -f platform=ios
 on:
-  push:
-    branches: [ci/native-build-from-actions]
   workflow_dispatch:
     inputs:
       ref:
@@ -40,7 +38,6 @@ env:
 jobs:
   start:
     name: ${{ inputs.profile }} ${{ inputs.platform }} at ${{ inputs.ref }}
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -118,7 +115,4 @@ jobs:
           while read -r platform id; do
             echo "$platform build started: $id $EAS_BUILDS_URL/$id"
             echo "| $platform | \`$id\` | $EAS_BUILDS_URL/$id |" >> "$summary"
-          done <<< "$builds"
-          while read -r platform id; do
-            npx --yes "$EAS_CLI" build:cancel "$id" --non-interactive 2>&1 | tail -3
           done <<< "$builds"
