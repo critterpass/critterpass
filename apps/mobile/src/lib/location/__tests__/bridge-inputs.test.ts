@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { tripLocationMode } from '@cp/domain';
 import Database from 'better-sqlite3';
 
 import {
@@ -48,10 +49,10 @@ describe('engine inputs from synced rows', () => {
     db.exec(`
       CREATE TABLE trips (id TEXT, status TEXT, start_date TEXT, end_date TEXT, tz TEXT, destination_id TEXT);
       CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, rsvp TEXT, role TEXT);
-      CREATE TABLE destinations (id TEXT, country TEXT, critter_set_id TEXT);
+      CREATE TABLE destinations (id TEXT, country TEXT, critter_set_id TEXT, tz TEXT);
       CREATE TABLE critter_sets (id TEXT, country TEXT);
       INSERT INTO critter_sets VALUES ('set-vn', 'VN');
-      INSERT INTO destinations VALUES ('da-nang', 'Vietnam', 'set-vn'), ('unplaced', 'Vietnam', NULL);
+      INSERT INTO destinations VALUES ('da-nang', 'Vietnam', 'set-vn', 'Asia/Ho_Chi_Minh'), ('unplaced', 'Vietnam', NULL, NULL);
       INSERT INTO trips VALUES ('${TRIP}', 'in_trip', '2026-10-02', '2026-10-04', 'Asia/Ho_Chi_Minh', 'da-nang');
       INSERT INTO trip_participants VALUES ('${TRIP}', '${USER}', 'in', 'member');
     `);
@@ -63,6 +64,33 @@ describe('engine inputs from synced rows', () => {
     expect(toTripModeTrip(read())?.destinationCountry).toBe('VN');
     db.exec(`UPDATE trips SET destination_id = NULL`);
     expect(toTripModeTrip(read())?.destinationCountry).toBeNull();
+    db.close();
+  });
+
+  it("follows the destination's clock when the trip has no zone of its own", () => {
+    const db = new Database(':memory:');
+    db.exec(`
+      CREATE TABLE trips (id TEXT, status TEXT, start_date TEXT, end_date TEXT, tz TEXT, destination_id TEXT);
+      CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, rsvp TEXT, role TEXT);
+      CREATE TABLE destinations (id TEXT, country TEXT, critter_set_id TEXT, tz TEXT);
+      CREATE TABLE critter_sets (id TEXT, country TEXT);
+      INSERT INTO destinations VALUES ('da-nang', 'VN', NULL, 'Asia/Ho_Chi_Minh');
+      INSERT INTO trips VALUES ('${TRIP}', 'pre_trip', '2026-10-03', '2026-10-05', NULL, 'da-nang');
+      INSERT INTO trip_participants VALUES ('${TRIP}', '${USER}', 'in', 'organiser');
+    `);
+    const row = db.prepare(tripSql(USER)).get() as TripRow;
+    expect(row.tz).toBe('Asia/Ho_Chi_Minh');
+    // 01:00 UTC is 08:00 in Đà Nẵng on the first day: inside the window there, before 05:00 on a
+    // phone still on UTC.
+    const mode = tripLocationMode({
+      trip: toTripModeTrip(row),
+      now: new Date('2026-10-03T01:00:00Z'),
+      homeCountry: 'VN',
+      currentCountry: null,
+      exploreAtHome: false,
+      deviceTz: 'UTC',
+    });
+    expect(mode).toEqual({ mode: 'travel_day', reason: 'on' });
     db.close();
   });
 
