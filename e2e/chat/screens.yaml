@@ -49,7 +49,8 @@ appId: app.critterpass.dev
     visible:
       id: 'crews-sheet-panel'
     timeout: 10000
-- tapOn: 'Quiet Crew'
+# iOS reads a crew card as one line (its name, members and plans).
+- tapOn: '.*Quiet Crew.*'
 - extendedWaitUntil:
     notVisible:
       id: 'crews-sheet-panel'
