@@ -1,0 +1,12 @@
+# Recap copy: a finished trip's facts (computed by code) → the guide's words for each story card and
+# a title and line per award. Every number must be one the facts hold, the tone rules keep crewmates
+# safe from jokes about bodies, health, drinking, money owed or lateness, and anything else falls
+# back to the template copy. Cases live in cases/*.yaml and run through the real writeRecapCopy (see
+# suite.ts); seeded cases grade the validator on deliberate model slips.
+# Run: pnpm --filter @cp/ai eval recap
+description: Recap story cards and crew awards worded from the trip's facts
+prompts:
+  - '{{facts}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-02.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "ecd0f73a-c9bf-4816-a729-b2fdabee5bf2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need to produce JSON with cards and awards. Use facts. Stay in character as Tokek. Narration each card, headline and line optional but we can provide for some. Awards from data. Ensure all numbers as digits, no rounding. Use names given. No forbidden topics. Keep warm humorous. Let's craft.",
+          "signature": "ecd0f73a-c9bf-4816-a729-b2fdabee5bf2"
+        },
+        {
+          "type": "text",
+          "text": "{\n  \"cards\": {\n    \"cover\": {\n      \"narration\": \"The Bali Six, 8 days from 12–19 Oct 2026, starting right here where the sun won't wait.\",\n      \"headline\": \"Bali\",\n      \"line\": \"Six travellers, five stops, one very good idea.\"\n    },\n    \"critters\": {\n      \"narration\": \"You spotted 9 forms out there and made friends with 4 new critters. Rise and shine, little locals.\",\n      \"headline\": \"New neighbours\",\n      \"line\": \"Nine forms counted, four brand new faces in the crew book.\"\n    },\n    \"route\": {\n      \"narration\": \"Seminyak to Ubud to Mount Batur to Amed to Nusa Penida, 214 km all in, and Made drove 180.2 of them like a dream.\",\n      \"headline\": \"The long way round\",\n      \"line\": \"Longest leg was Ubud to Amed, 84.6 km and 180 minutes, with Made at the wheel.\"\n    },\n    \"awards\": {\n      \"narration\": \"And now the bits of paper and glory I hand over with a little bow. Terima kasih (thank you), all of you.\",\n      \"headline\": \"The crew honours\",\n      \"line\": \"Every one of you earned a moment in the sun.\"\n    },\n    \"receipt\": {\n      \"narration\": \"The whole trip ran USD 6,980, which is USD 1,163 each, and you came in USD 460 under the USD 7,440 plan. I know a guy who calls that a win.\",\n      \"headline\": \"Bali maths\",\n      \"line\": \"Under budget, over memories. Settle up when you like, the island isn't going anywhere.\"\n    },\n    \"got_away\": {\n      \"narration\": \"One legendary critter stayed just out of reach. Dev missed it by a whisker, but it comes back May to September, so no hard feelings.\",\n      \"headline\": \"The one that got away\",\n      \"line\": \"Dev, it'll be back May to September. Bring a bigger smile next time.\"\n    },\n    \"stamp\": {\n      \"narration\": \"Here's the stamp for the passport. Bali goes on the pass, and the pass goes everywhere with you.\",\n      \"headline\": \"Signed and sealed\",\n      \"line\": \"One more stamp for the shelf. The trip is officially yours.\"\n    },\n    \"postcard\": {\n      \"narration\": \"Last card. Write something short and sweet, then let the sun set on this one.\",\n      \"headline\": \"Wish you were here\",\n      \"line\": \"Bali was loud, lovely, and full of tiny voices. Miss you all already.\"\n    }\n  },\n  \"awards\": [\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000001\",\n      \"title\": \"Earliest riser\",\n      \"line\": \"Jordan started 3 early mornings, earliest at 02:51, that's 38% of the crew's 8.\"\n    },\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000002\",\n      \"title\": \"Treasurer\",\n      \"line\": \"Rin logged 23 of 61 expenses, a cool 38% of the crew's receipts.\"\n    },\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000003\",\n      \"title\": \"Best find\",\n      \"line\": \"Alex took the crew back to Warung Pondok 2 times, 40% of all 5 revisits.\"\n    },\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000004\",\n      \"title\": \"Planner\",\n      \"line\": \"Wen made 14 of 20 plan edits, that's 70% of the crew's tinkering.\"\n    },\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000005\",\n      \"title\": \"Navigator\",\n      \"line\": \"Maya logged 9 of 12 rides, 75% of the crew's wheel time.\"\n    },\n    {\n      \"user_id\": \"0199a0f2-0000-7000-8000-000000000006\",\n      \"title\": \"Good company\",\n      \"line\": \"Dev, no numbers needed. Thanks for coming, terima kasih (thank you).\"\n    }\n  ]\n}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 31,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1664,
+        "output_tokens": 1081,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
