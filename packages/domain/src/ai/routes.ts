@@ -26,6 +26,7 @@ export const AI_ROUTES = [
   'tips.phrase',
   'season.research',
   'hours.research',
+  'facts.research',
   // Pitches, drafting, redrafts, proposals, briefings, recaps, parsers and the guest guide.
   'guide.chat_escalation',
   'pitch.place',

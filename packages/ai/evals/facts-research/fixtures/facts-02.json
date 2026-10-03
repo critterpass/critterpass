@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T19:28:59.535Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "Tirta Gangga Bali entrance fee dress code visitor tips",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.baliholidaysecrets.com/tirta-gangga-water-palace",
+          "title": "Tirta Gangga Water Palace: 2026 Entrance Fees, Hours & Info",
+          "content": "Summary\n\n📍 Location: Ababi Village, Karangasem Regency, East Bali  \n🕗 Opening Hours: Daily, 6 AM – 7 PM  \n🎟️ Entrance Fee: Adults IDR 90k | Children 45k | Seniors 70k  \n🛶 Extras: Boat ride IDR 20k | Drone permit IDR 200k  \n🚗 Parking: IDR 5k – 10k  \n🩳 Dress Code: No sarong needed, casual respectful clothing  \n🥤 Food & Drink: On-site cafe + restaurants outside  \n⏳ Recommended Visit: 1–2 hours\n\n## Significance of Tirta Gangga [...] 💡 Pro Tip: You’ll definitely want to take loads of photos here. Dress in bright colors to “pop out” from the architecture in the background.\n\n## Fish Feeding at Tirta Gangga\n\nOne of the first things you’ll notice when you arrive is the small stalls selling bags of fish food. They’re cheap, usually IDR 5,000–10,000 for a small bag. [...] That said, it’s still a cultural site, so it’s best to dress respectfully. Bikinis, see-through outfits, or anything too revealing won’t feel appropriate in this setting.\n\nThe entire area is paved, so you don’t need hiking shoes. Regular sneakers, sandals, or anything you’d normally walk in will be fine.\n\nSince most of the gardens are outdoors, don’t forget sun protection. A hat, sunglasses, and sunscreen will make your visit more comfortable, especially around midday when shade is limited.",
+          "score": 0.8925721,
+          "raw_content": null,
+          "published_date": "Fri, 05 Sep 2025 05:45:04 GMT",
+          "id": "4339a6-00"
+        },
+        {
+          "url": "https://forevervacation.com/bali/tirta-gangga",
+          "title": "Tirta Gangga | Entrance Fee, Opening Hours & More",
+          "content": "Are there any rules or dress codes to follow while visiting Tirta Gangga?\n:   While visiting Tirta Gangga, it is advised to dress modestly and maintain respectful behavior. Swimming attire should be worn only in designated pool areas.\n\n## Log in to your Account\n\nForgot password?\n\nBy proceeding, you agree to ForeverVacation's Terms of Service and acknowledge ForeverVacation's Privacy Policy.\n\nor\n\n Continue with Google \n\nDon't have a ForeverVacation account? Sign up\n\n## Create a Free Account [...] |  |  |\n --- |\n| 📌 Address | Jalan Raya Abang Desa Adat, Ababi, Kec. Abang, Kabupaten Karangasem, Bali 80852 |\n| ⏰ Opening Hours | 8:00 AM - 5:00 PM |\n| 💸 Entrance Fee | IDR 50,000 |\n\n### Find it on google maps\n\n## Bali Attractions\n\n Amed Beach\n\n  Amed Beach\n Tukad Cepung Waterfall\n\n  Tukad Cepung Waterfall\n Tourism Village Osing\n\n  Tourism Village Osing\n Goa Gajah\n\n  Goa Gajah\n\n## Frequently asked questions [...] |  |  |\n --- |\n| 📌 Address | Jalan Raya Abang Desa Adat, Ababi, Kec. Abang, Kabupaten Karangasem, Bali 80852 |\n| ⏰ Opening Hours | 8:00 AM - 5:00 PM |\n| 💸 Entrance Fee | IDR 50,000 |\n\n### Find it on google maps\n\n4.88/5 - (8 Votes)\n\nexpert \n\nAprio\n\nLocal tour guide",
+          "score": 0.8116913,
+          "raw_content": null,
+          "published_date": null,
+          "id": "224da1-01"
+        },
+        {
+          "url": "https://thewonderspace.com/blog/a-practical-guide-to-visiting-tirta-gangga",
+          "title": "A Practical Guide to Visiting Tirta Gangga in East Bali",
+          "content": "You need to wear lightweight and comfortable clothing. Besides, you still have to dress respectfully, as the place has sacred spots and",
+          "score": 0.7418428,
+          "raw_content": null,
+          "published_date": "Tue, 30 Jun 2026 00:00:00 GMT",
+          "id": "d34d27-02"
+        },
+        {
+          "url": "https://www.instagram.com/p/DAYaDEVTIHB",
+          "title": "Tirta Gangga, the stunning and insta famous water palace ...",
+          "content": "there is no dress code, so you can wear your favorite beautiful outfits here. recommend you to wear white, orange, yellow or green color",
+          "score": 0.73138535,
+          "raw_content": null,
+          "published_date": "Thu, 03 Oct 2024 19:00:00 GMT",
+          "id": "0378b8-03"
+        },
+        {
+          "url": "https://faheyjamestravel.com/tirta-gangga-water-palace",
+          "title": "Tirta Gangga Water Palace: Honest Review and Guide",
+          "content": "Does Tirta Gangga Have A Dress Code? Unlike in other parts of Asia, there is no dress code to enter the palace. I have seen people wear many",
+          "score": 0.6562404,
+          "raw_content": null,
+          "published_date": "Thu, 16 Oct 2025 00:00:00 GMT",
+          "id": "d20f2c-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "2f506a75-766d-43dc-a642-b25ed2d55113"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "ff08e8d3-4f8c-41e9-bc58-e6acd355f1e9",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"Pages give conflicting adult entry fees (IDR 90k vs IDR 50,000) and disagree on dress code, but several state dress guidance and practical tips.\",\"confidence\":0.4,\"entry\":null,\"dress\":{\"value\":\"Dress modestly\",\"source_url\":\"https://forevervacation.com/bali/tirta-gangga\",\"quote\":\"While visiting Tirta Gangga, it is advised to dress modestly and maintain respectful behavior.\"},\"know_before\":[{\"value\":\"Swimming attire only in designated pool areas\",\"source_url\":\"https://forevervacation.com/bali/tirta-gangga\",\"quote\":\"Swimming attire should be worn only in designated pool areas.\"},{\"value\":\"Bikinis, see-through or revealing outfits are not appropriate\",\"source_url\":\"https://www.baliholidaysecrets.com/tirta-gangga-water-palace\",\"quote\":\"Bikinis, see-through outfits, or anything too revealing won’t feel appropriate in this setting.\"},{\"value\":\"Entire area is paved, so no hiking shoes needed\",\"source_url\":\"https://www.baliholidaysecrets.com/tirta-gangga-water-palace\",\"quote\":\"The entire area is paved, so you don’t need hiking shoes.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1050,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 278,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

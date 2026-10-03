@@ -1,0 +1,150 @@
+# Place facts research cases: one curated place each → an entry fee, what to wear and things to
+# know, each quoted from one cited page, or no proposal. `expect.entry` is the fee's amount, `free`
+# or `none`; `expect.dress` a word the dress line must hold, or `none`; `expect.dropped` the fact
+# kinds the validator must drop; `expect.none` means no proposal at all. `seeded` cases reuse
+# another case's recorded search (`search_from`) with an inline model slip.
+- id: facts-01
+  description: Bali temple with a fee and a sarong rule
+  place:
+    name: Pura Lempuyang
+    address: 'Tri Buana, Karangasem'
+    city: 'Bali, Indonesia'
+    category: temple_shrine
+  expect: { entry: none, dress: sarong }
+- id: facts-02
+  description: Bali water palace
+  place:
+    name: Tirta Gangga
+    address: 'Ababi, Karangasem'
+    city: 'Bali, Indonesia'
+    category: temple_shrine
+  expect: { entry: none, dress: none }
+- id: facts-03
+  description: Bali cliff temple with monkeys
+  place:
+    name: Uluwatu Temple
+    local_name: Pura Luhur Uluwatu
+    address: 'Pecatu, Kuta Selatan'
+    city: 'Bali, Indonesia'
+    category: temple_shrine
+  expect: { entry: none, dress: sarong }
+- id: facts-04
+  description: Kyoto temple with an admission fee
+  place:
+    name: Kiyomizu-dera
+    local_name: 清水寺
+    address: '東山区清水1丁目294'
+    city: 'Kyoto, Japan'
+    category: temple_shrine
+  expect: { entry: none, dress: modest }
+- id: facts-05
+  description: Kyoto shrine with free entry
+  place:
+    name: Fushimi Inari Taisha
+    local_name: 伏見稲荷大社
+    address: '伏見区深草藪之内町68'
+    city: 'Kyoto, Japan'
+    category: temple_shrine
+  expect: { entry: none, dress: no strict dress code }
+- id: facts-06
+  description: Đà Nẵng mountains with a ticket and an elevator
+  place:
+    name: Marble Mountains
+    local_name: Ngũ Hành Sơn
+    address: 'Hòa Hải, Ngũ Hành Sơn'
+    city: 'Đà Nẵng, Vietnam'
+    category: nature
+  expect: { entry: 40000 }
+- id: facts-07
+  description: Đà Nẵng pagoda on the peninsula
+  place:
+    name: Linh Ung Pagoda
+    local_name: Chùa Linh Ứng Bãi Bụt
+    address: 'Sơn Trà'
+    city: 'Đà Nẵng, Vietnam'
+    category: temple_shrine
+  expect: { entry: none }
+- id: facts-08
+  description: a fee the quoted sentence does not state
+  seeded: true
+  search_from: facts-06
+  place:
+    {
+      name: Marble Mountains,
+      local_name: Ngũ Hành Sơn,
+      address: 'Hòa Hải, Ngũ Hành Sơn',
+      city: 'Đà Nẵng, Vietnam',
+      category: nature,
+    }
+  reply:
+    decision: propose
+    reason: the page states the fee
+    confidence: 0.9
+    entry:
+      {
+        value: '60,000 VND',
+        source_url: 'https://vietnam.travel/things-to-do/around-marble-mountains',
+        quote: 'The entrance fee is 40,000 VND and the elevator should you use it is 15,000 VND.',
+      }
+    dress: null
+    know_before: []
+  expect: { none: true }
+- id: facts-09
+  description: a fee citing a page the search never returned
+  seeded: true
+  search_from: facts-06
+  place:
+    {
+      name: Marble Mountains,
+      local_name: Ngũ Hành Sơn,
+      address: 'Hòa Hải, Ngũ Hành Sơn',
+      city: 'Đà Nẵng, Vietnam',
+      category: nature,
+    }
+  reply:
+    decision: propose
+    reason: the page states the fee
+    confidence: 0.9
+    entry:
+      {
+        value: '40,000 VND',
+        source_url: 'https://example.com/marble-mountains-tickets',
+        quote: 'The entrance fee is 40,000 VND and the elevator should you use it is 15,000 VND.',
+      }
+    dress: null
+    know_before:
+      - {
+          value: Wear comfortable walking shoes,
+          source_url: 'https://vietnam.travel/things-to-do/around-marble-mountains',
+          quote: 'Because you’ll be walking uphill a lot, be sure to wear comfortable walking or hiking shoes, and bring your sun hat and water along.',
+        }
+  expect: { entry: none, dropped: [entry] }
+- id: facts-10
+  description: a dress rule whose quote is not on the cited page
+  seeded: true
+  search_from: facts-01
+  place:
+    {
+      name: Pura Lempuyang,
+      address: 'Tri Buana, Karangasem',
+      city: 'Bali, Indonesia',
+      category: temple_shrine,
+    }
+  reply:
+    decision: propose
+    reason: the page states the rule
+    confidence: 0.9
+    entry:
+      {
+        value: 'Rp 100k',
+        source_url: 'https://www.baliholidaysecrets.com/lempuyang-temple',
+        quote: 'The entrance donation is Rp 100,000 per person.',
+      }
+    dress:
+      {
+        value: Sarong,
+        source_url: 'https://www.baliholidaysecrets.com/lempuyang-temple',
+        quote: 'A sarong is included in the Rp 100,000 entrance donation.',
+      }
+    know_before: []
+  expect: { none: true }

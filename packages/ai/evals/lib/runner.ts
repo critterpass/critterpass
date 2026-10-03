@@ -32,6 +32,7 @@ import { ALBUM_SUITE, runAlbumSuite } from '../album/suite';
 import { runTranslateSuite, TRANSLATE_SUITE } from '../translate/suite';
 import { HELP_SUITE, runHelpSuite } from '../help/suite';
 import { SOS_SUITE, runSosSuite } from '../sos/suite';
+import { FACTS_RESEARCH_SUITE, runFactsResearchSuite } from '../facts-research/suite';
 import { HOURS_RESEARCH_SUITE, runHoursResearchSuite } from '../hours-research/suite';
 import { LINK_EXTRACT_SUITE, runLinkExtractSuite } from '../link-extract/suite';
 import { PLACE_COMPROMISE_SUITE, runPlaceCompromiseSuite } from '../place-compromise/suite';
@@ -271,6 +272,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === HELP_SUITE) return runHelpSuite(options, threshold);
   if (name === SOS_SUITE) return runSosSuite(options, threshold);
   if (name === HOURS_RESEARCH_SUITE) return runHoursResearchSuite(options, threshold);
+  if (name === FACTS_RESEARCH_SUITE) return runFactsResearchSuite(options, threshold);
   if (name === SEARCH_PARSE_SUITE) return runSearchParseSuite(options, threshold);
   if (name === LINK_EXTRACT_SUITE) return runLinkExtractSuite(options, threshold);
   if (name === PLACE_COMPROMISE_SUITE) return runPlaceCompromiseSuite(options, threshold);

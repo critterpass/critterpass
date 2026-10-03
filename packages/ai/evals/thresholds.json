@@ -35,7 +35,8 @@
     "hours-research": 1,
     "search-parse": 1,
     "link-extract": 1,
-    "place-compromise": 1
+    "place-compromise": 1,
+    "facts-research": 1
   },
   "live": {
     "chat": 0.9,
@@ -73,7 +74,8 @@
     "hours-research": 0.8,
     "search-parse": 0.9,
     "link-extract": 0.85,
-    "place-compromise": 0.85
+    "place-compromise": 0.85,
+    "facts-research": 0.85
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

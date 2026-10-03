@@ -209,6 +209,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'tips.phrase': fast(null, 256),
   'season.research': fast(null, 2048, { output: 'structured' }),
   'hours.research': fast(null, 1024, { output: 'structured', temperature: 0 }),
+  'facts.research': fast(null, 1536, { output: 'structured', temperature: 0 }),
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'explore.place_qna': fast(null, 512, { output: 'structured' }),

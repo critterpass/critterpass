@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T19:29:08.255Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "Marble Mountains Ngũ Hành Sơn Đà Nẵng entrance fee dress code visitor tips",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://blisshoian.com/news/marble-mountains-dress-code",
+          "title": "Marble Mountains dress code: What to wear",
+          "content": "## What is the Marble Mountains dress code?\n\n| Area | Dress Code Strictness | Notes |\n --- \n| Linh Ung Pagoda | Strictest | Shoulders and knees must be covered to enter the main hall |\n| Tam Thai Pagoda | Strict | Same expectations as Linh Ung |\n| Huyen Khong Cave | Moderate | Contains a Buddha altar; modest dress recommended |\n| Am Phu Cave | Flexible | Separate 20,000 VND ticket; less strictly checked |\n| Outdoor stairs/paths | Not enforced | Prioritize comfort and non-slip shoes | [...] When visiting Marble Mountains (Ngu Hanh Son), there is no extremely strict dress code like at some major religious sites, but visitors are still expected to dress modestly and respectfully, especially when entering temples and sacred caves. [...] While the cost is relatively low, stopping to buy or rent something can interrupt your itinerary, especially during peak hours.\n\nPractical tip: It’s best to bring a light scarf or jacket in your bag from the start. It takes up very little space but gives you full flexibility to adjust your outfit whenever needed.\n\n> Read more: Marble Mountains Pagodas: A guide to temples in the Marble Mountains Da Nang\n\n## Extra tips for visiting Marble Mountains comfortably",
+          "score": 0.78749067,
+          "raw_content": null,
+          "published_date": "Mon, 27 Apr 2026 18:15:09 GMT",
+          "id": "6021c9-00"
+        },
+        {
+          "url": "https://www.yogawinetravel.com/the-marble-mountains-in-vietnam",
+          "title": "Visit the Marble Mountains in Vietnam: Da Nang’s Five Limestone Karsts | Yoga, Wine & Travel",
+          "content": "👚 What to wear to visit the Marble Mountains:In general, the dress code in Da Nang and Hoi An is fairly relaxed and vacation wear is the norm. However, visitors to the Marble Mountains are advised to abide by a more conservative dress code as it is a religious site. You should wear clothing that covers your legs and shoulders and comfortable walking shoes that are easy to slip on or off as they will need to be removed to enter temple areas. [...] How much does it cost to go to Marble Mountain? The Marble Mountain entrance fee is 40,000 VND and the fee to use the elevator is 15,000 VND (each way) as of April 2023. Entry into the Am Phu “Hell Cave” requires a separate ticket which costs 20,000 VND, the ticket booth is near the lift. Entry is free for children under 6 years old. [...] Entry into the Am Phu Cave requires a separate ticket which costs 20,000 VND for adults.",
+          "score": 0.7811474,
+          "raw_content": null,
+          "published_date": "Thu, 29 Jun 2023 14:25:28 GMT",
+          "id": "3ecfd3-01"
+        },
+        {
+          "url": "https://hoiandaytrip.com/marble-mountains-dress-code",
+          "title": "Marble Mountains Dress Code - What to Wear to Marble Mountains Vietnam",
+          "content": "> Dress code checking is strict in the Marble Mountains. Visitors will be not allowed to enter worshipping places if do not wear respectively.\n>\n> If do not have a long pant or shirt because of traveling in hot months, visitors can go to shops around the foot of the Marble Mountains to buy. Using a sarong or a long piece of fabric to wrap around the body to cover shoulders, chest, armpits, navel and upper knees, is okay.\n\n## Things to Bring to Marble Mountains in Dry Season [...] Visitors need to wear respectively to the Marble Mountains. In Vietnam, this is a holy/religious place because it has Buddhist temples and pagodas (Linh Ung Pagoda, Tam Thai Pagoda,…). In other words, men and women need to wear long pants which cover the upper knees and a shirt which covers the navel and armpits. Female visitors also need to make sure that their shirt covers the back and the chest. The skirt must be long (to cover the navel). Clothes made of see-through materials are not [...] – Easy dry clothing: The Marble Mountains is rainy and windy in the wet season. Visitors may be wet although wear rain poncho or have umbrella.\n\n– Mosquito repellent: Although there are not many mosquitos at the Marble Mountains (especially on cold/rainy/cloudy days), but it’s still needed to bring mosquitoes. If don’t have, visitors should go to shops around the city to buy. No mosquito repellents for sale at the park.",
+          "score": 0.6937432,
+          "raw_content": null,
+          "published_date": "Fri, 28 Mar 2025 08:15:47 GMT",
+          "id": "b5e6fd-02"
+        },
+        {
+          "url": "https://vietnam.travel/things-to-do/around-marble-mountains",
+          "title": "A walk around Marble Mountains | Vietnam Tourism",
+          "content": "### Before you go\n\nMarble Mountains (or Ngu Hanh Son in Vietnamese) are open daily from 7am to 5:30pm. You’ll want to set aside at least two hours to see Marble Mountains, and avoid coming during rainy season or in the hottest hours of the day. The entrance fee is 40,000 VND and the elevator should you use it is 15,000 VND. [...] Marble Mountains is a group of five limestone peaks situated seven kilometres from downtown Da Nang. The five karsts (called Ngu Hanh Son in Vietnamese) are named after the five elements: Kim (metal), Thuỷ (water), Mộc (wood), Hoả (fire) and Thổ (earth). Over centuries, Marble Mountains has held special significance for the people of Central Vietnam. The ancient Cham revered the karsts as a spiritual site, and Vietnamese emperors from Hue and legendary generals passing through paid visits to [...] Because you’ll be walking uphill a lot, be sure to wear comfortable walking or hiking shoes, and bring your sun hat and water along. Visitors are requested to wear modest clothing when touring Marble Mountains, which is an important spiritual and pilgrimage site. Be sure to remove your shoes and hat before entering any pagodas.\n\n#### Want more Vietnam travel ideas? Sign up for our newsletter to receive our best stories in your inbox.\n\n## read more",
+          "score": 0.6617704,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1a36d1-03"
+        },
+        {
+          "url": "https://www.facebook.com/groups/3632943210320748/posts/4491871341094593",
+          "title": "Is 2 hours enough time to visit Marble Mountains from Da ...",
+          "content": "Hi, how long should we plan to go to Marble Mountains for tomorow morning? Is say 9.30am to 11.30am enough time incl travel from our central city hotel",
+          "score": 0.09562799,
+          "raw_content": null,
+          "published_date": "Tue, 04 Aug 2026 19:00:00 GMT",
+          "id": "5d7c7a-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "7e873e5e-3e07-44f8-ab33-96e8ef005ccf"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "6e833469-85ff-4d14-8950-14c9627da76a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"Several pages state the Marble Mountains adult entrance fee, modest dress expectations, and practical visiting tips.\",\"confidence\":0.7,\"entry\":{\"value\":\"40,000 VND\",\"source_url\":\"https://vietnam.travel/things-to-do/around-marble-mountains\",\"quote\":\"The entrance fee is 40,000 VND and the elevator should you use it is 15,000 VND.\"},\"dress\":{\"value\":\"Cover legs and shoulders\",\"source_url\":\"https://www.yogawinetravel.com/the-marble-mountains-in-vietnam\",\"quote\":\"You should wear clothing that covers your legs and shoulders and comfortable walking shoes that are easy to slip on or off as they will need to be removed to enter temple areas.\"},\"know_before\":[{\"value\":\"Walking uphill a lot; wear comfortable walking or hiking shoes\",\"source_url\":\"https://vietnam.travel/things-to-do/around-marble-mountains\",\"quote\":\"Because you’ll be walking uphill a lot, be sure to wear comfortable walking or hiking shoes, and bring your sun hat and water along.\"},{\"value\":\"Remove shoes and hat before entering any pagodas\",\"source_url\":\"https://vietnam.travel/things-to-do/around-marble-mountains\",\"quote\":\"Be sure to remove your shoes and hat before entering any pagodas.\"},{\"value\":\"Dress code checking is strict; visitors not dressed respectfully may be denied entry to worshipping places\",\"source_url\":\"https://hoiandaytrip.com/marble-mountains-dress-code\",\"quote\":\"Dress code checking is strict in the Marble Mountains. Visitors will be not allowed to enter worshipping places if do not wear respectively.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 750,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1792,
+        "output_tokens": 368,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
