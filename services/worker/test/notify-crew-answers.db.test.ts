@@ -180,7 +180,7 @@ describe('a member’s answer to a trip', () => {
         title: 'Rin is in',
         body: 'See who is coming to Bali crew.',
         collapse_key: `rsvp:${tripId}`,
-        deep_link: `/hub/${tripId}`,
+        deep_link: `/trips/${tripId}`,
       },
     ]);
     expect(await notificationsFor(dev)).toEqual([]);
@@ -281,7 +281,7 @@ describe('a confirmed trip', () => {
         title: `It's on: Bali crew, ${tripDates('en', '2026-10-02', '2026-10-04') ?? ''}`,
         body: 'Maya locked the trip in.',
         collapse_key: `trip_confirmed:${tripId}`,
-        deep_link: `/hub/${tripId}`,
+        deep_link: `/trips/${tripId}`,
       },
     ]);
     const [inVietnamese] = await notificationsFor(linh);
