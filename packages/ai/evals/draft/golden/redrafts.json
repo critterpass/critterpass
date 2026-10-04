@@ -142,7 +142,7 @@
   {
     "id": "redraft-16",
     "crew": "cusco-2",
-    "day": 2,
+    "day": 1,
     "reasons": ["more_food"],
     "note": "Tom wants the market for lunch.",
     "chat": []
@@ -207,6 +207,23 @@
     "reasons": ["less_travel", "lighter_day"],
     "note": null,
     "chat": []
+  },
+  {
+    "id": "redraft-24",
+    "crew": "dalat-held-1",
+    "day": 2,
+    "reasons": ["slower"],
+    "note": null,
+    "chat": []
+  },
+  {
+    "id": "redraft-25",
+    "crew": "dalat-curated-1",
+    "day": 3,
+    "reasons": ["less_travel"],
+    "note": null,
+    "chat": [],
+    "locale": "vi"
   },
   {
     "id": "inject-redraft-1",

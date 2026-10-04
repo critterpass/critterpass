@@ -28,12 +28,13 @@ import {
   weekdayOf,
   type DraftPlanInput,
 } from './context';
+import { heldLines, mealsNeeded } from './held';
 import { hopCap } from './areas';
 import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@3';
+export const DAY_PROMPT_VERSION = 'draft-day@4';
 
 const TASK = [
   '# Task',
@@ -173,8 +174,9 @@ export function buildDayRequest(
       : index === input.frame.dates.length - 1
         ? ' The crew flies home after it.'
         : '';
-  const meals = mealsInWindow(window);
+  const meals = mealsNeeded(input, day.dayNo);
   const sunAt = sunsetAt(input, day);
+  const own = heldLines(input, day.dayNo, day.date);
   const header = [
     `Destination: ${input.destination}. Day ${day.dayNo} of ${input.frame.dates.length}: ${weekdayOf(day.date)} ${day.date}.`,
     `Theme: ${day.theme}, around ${day.area}.${edge}`,
@@ -184,6 +186,15 @@ export function buildDayRequest(
       : `This day needs ${meals.join(' and ')}: one place for each.`,
     ...(sunAt === null ? [] : [`The sun sets around ${clockText(sunAt)}.`]),
     crewLine(input),
+    ...(own.length === 0
+      ? []
+      : [
+          '',
+          '## Already on this day (the organiser placed these; they stay exactly as they are)',
+          ...own,
+          'Plan the rest of the day around them: do not list them, do not use their places again,',
+          'pick nothing that serves the same dish as one of them, and leave their hours free.',
+        ]),
   ];
   const fix =
     repair === undefined

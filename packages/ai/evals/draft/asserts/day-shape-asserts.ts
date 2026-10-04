@@ -132,3 +132,75 @@ export function gradeDayFinish(input: DraftPlanInput, itinerary: Itinerary): str
   }
   return failures;
 }
+
+/**
+ * The organiser's own stops are where she put them, and the day is planned around them: nothing
+ * else at their hours or their places, and no second meal beside a meal of hers.
+ */
+export function gradeHeld(input: DraftPlanInput, itinerary: Itinerary): string[] {
+  const failures: string[] = [];
+  const { tz } = input.frame;
+  for (const { dayNo, item: own } of input.held ?? []) {
+    const day = itinerary.days.find((d) => d.day_no === dayNo);
+    const kept = day?.items.find((item) => item.stable_id === own.stable_id);
+    const name = input.pois.get(own.poi_id ?? '')?.name ?? 'her stop';
+    if (day === undefined || kept === undefined) {
+      failures.push(`held: ${name} is gone from day ${dayNo}`);
+      continue;
+    }
+    if (kept.starts_at !== own.starts_at || kept.ends_at !== own.ends_at)
+      failures.push(`held: ${name} was moved`);
+    if (kept.locked_reason !== 'user') failures.push(`held: ${name} lost its lock`);
+    const others = day.items.filter((item) => item.stable_id !== own.stable_id);
+    if (
+      others.some(
+        (item) =>
+          Date.parse(item.starts_at) < Date.parse(own.ends_at) &&
+          Date.parse(item.ends_at) > Date.parse(own.starts_at),
+      )
+    )
+      failures.push(`held: a stop overlaps ${name}`);
+    const again = itinerary.days
+      .flatMap((d) => d.items)
+      .filter((item) => item.poi_id === own.poi_id && item.stable_id !== own.stable_id);
+    if (again.length > 0) failures.push(`held: ${name} is planned a second time`);
+    const slot = mealAt(minuteOfDate(new Date(own.starts_at), day.date, tz));
+    if (own.kind === 'meal' && slot !== null) {
+      const second = others.some(
+        (item) =>
+          item.kind === 'meal' &&
+          mealAt(minuteOfDate(new Date(item.starts_at), day.date, tz)) === slot,
+      );
+      if (second) failures.push(`held: a second ${slot} beside ${name}`);
+    }
+  }
+  return failures;
+}
+
+const ENGLISH = new Set(
+  'the and with for of to is in your you this that at on it a an are we our from by'.split(' '),
+);
+
+/** Whether a line reads as an English sentence: several English function words, no Vietnamese letters. */
+export function looksEnglish(text: string): boolean {
+  // ă â đ ê ô ơ ư and every toned vowel: letters English never uses.
+  if (/[\u0103\u00e2\u0111\u00ea\u00f4\u01a1\u01b0\u1ea0-\u1ef9]/iu.test(text.normalize('NFC')))
+    return false;
+  const words = text.toLowerCase().split(/[^a-z]+/u);
+  return words.filter((word) => ENGLISH.has(word)).length >= 3;
+}
+
+/** A redraft read in another language has no English sentence in its title, summary or notes. */
+export function gradeLanguage(locale: string | undefined, outcome: RedraftOutcome): string[] {
+  if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
+  const read = [
+    ['title', outcome.title],
+    ['summary', outcome.summary],
+    ...outcome.day.items.map((item) => ['a note', item.note] as const),
+  ] as const;
+  return read.flatMap(([what, text]) =>
+    text !== null && looksEnglish(text)
+      ? [`language: ${what} is in English: "${text.slice(0, 60)}"`]
+      : [],
+  );
+}

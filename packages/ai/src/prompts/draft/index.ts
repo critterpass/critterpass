@@ -5,6 +5,7 @@ export {
   hoursOn,
   type DraftModel,
   type DraftPlanInput,
+  type HeldStop,
   type UntimedMustDo,
 } from './context';
 export { stopBudget } from './budget';

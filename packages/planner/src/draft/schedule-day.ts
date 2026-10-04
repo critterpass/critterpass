@@ -200,6 +200,18 @@ function openFrom(poi: DraftPoi, date: string, minute: number): number {
   return opens < 1440 ? ceilGrid(opens) : minute;
 }
 
+/** The local minutes a stop with its own times runs between on `date`; null for any other stop. */
+export function fixedMinutes(
+  choice: Pick<DayChoice, 'fixed'>,
+  date: string,
+  tz: string,
+): { readonly startMin: number; readonly endMin: number } | null {
+  if (choice.fixed === undefined || choice.fixed === null) return null;
+  const startMin = minuteOfDate(new Date(choice.fixed.startsAt), date, tz);
+  const endMin = minuteOfDate(new Date(choice.fixed.endsAt), date, tz);
+  return { startMin, endMin: Math.max(startMin, endMin) };
+}
+
 export interface ScheduleDayInput {
   readonly dayNo: number;
   readonly date: string;
@@ -254,10 +266,13 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
         ? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other')
         : timedDuration(poi, choice.when),
     );
-    const end = start + duration;
+    // A booking or a stop placed by hand keeps its own times, whatever comes before it.
+    const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz);
+    if (fixed !== null) start = fixed.startMin;
+    const end = fixed === null ? start + duration : fixed.endMin;
     const tz = poi?.tz ?? input.tz;
     items.push({
-      stable_id: input.idFor(choice, index),
+      stable_id: choice.stableId ?? input.idFor(choice, index),
       kind: choice.kind,
       poi_id: choice.poiId,
       starts_at: instantAt(input.date, start, tz).toISOString(),

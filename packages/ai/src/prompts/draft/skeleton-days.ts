@@ -26,6 +26,7 @@ import { hopCap } from './areas';
 import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
+import { heldChoices, mealsNeeded } from './held';
 import { whenOf } from './wish-answers';
 
 export interface OutlineDay {
@@ -42,7 +43,14 @@ const MIN_DAY_ACTIVITIES = 3;
 const MEALS_PER_SLOT = 3;
 const SPARES_PER_DAY = 4;
 
+/** The stops a day has before the guide adds any: the organiser's own, then its must-dos. */
 function mustDoChoices(input: DraftPlanInput, day: OutlineDay): DayChoice[] {
+  const held = heldChoices(input, day.dayNo);
+  const made = new Set(held.map((choice) => choice.mustDoId).filter(Boolean));
+  return [...held, ...mustDos(input, day).filter((choice) => !made.has(choice.mustDoId))];
+}
+
+function mustDos(input: DraftPlanInput, day: OutlineDay): DayChoice[] {
   return day.mustDoIds.flatMap((mustDoId): DayChoice[] => {
     const slot = input.pools.mustDos.find((s) => s.mustDoId === mustDoId);
     const poi = slot === undefined ? undefined : input.pois.get(slot.poiId);
@@ -101,10 +109,10 @@ function eateriesFor(
 }
 
 /** Stand-ins for the day's meals while sizing it: the nearest place that serves each meal. */
-function mealProxies(input: DraftPlanInput, day: OutlineDay, window: DayWindow): DayChoice[] {
+function mealProxies(input: DraftPlanInput, day: OutlineDay): DayChoice[] {
   const anchors = anchorsOf(input, day);
   const taken = new Set<string>();
-  return mealsInWindow(window).flatMap((slot): DayChoice[] => {
+  return mealsNeeded(input, day.dayNo).flatMap((slot): DayChoice[] => {
     const poi = eateriesFor(input, day, slot, anchors).find((p) => !taken.has(p.id));
     if (poi === undefined) return [];
     taken.add(poi.id);
@@ -121,7 +129,7 @@ export function mealsIn(window: DayWindow): number {
 function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[]): boolean {
   const window = dayWindow(input.frame, day.dayNo - 1);
   const fixed = mustDoChoices(input, day);
-  const proxies = mealProxies(input, { ...day, poiIds: [...poiIds] }, window);
+  const proxies = mealProxies(input, { ...day, poiIds: [...poiIds] });
   const choices = [...fixed, ...proxies, ...poiIds.map(activity)];
   if (fixed.length + poiIds.length + mealsIn(window) > stopBudget(window.endMin - window.startMin))
     return false;
@@ -224,7 +232,6 @@ export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]):
           .map(place)
           .filter((poi): poi is DraftPoi => poi !== undefined && foodRole(poi) === 'meal');
   for (const day of [...days].sort((a, b) => a.dayNo - b.dayNo)) {
-    const window = dayWindow(input.frame, day.dayNo - 1);
     const anchors = anchorsOf(input, day);
     const around = [
       ...eaten(days.find((d) => d.dayNo === day.dayNo - 1)),
@@ -232,7 +239,7 @@ export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]):
         input.pools.mustDos.some((slot) => slot.poiId === poi.id),
       ),
     ];
-    for (const slot of mealsInWindow(window)) {
+    for (const slot of mealsNeeded(input, day.dayNo)) {
       let count = 0;
       for (const poi of eateriesFor(input, day, slot, anchors)) {
         if (count >= MEALS_PER_SLOT) break;

@@ -92,7 +92,14 @@ export function withNoteLine(note: string | null, line: string): string {
  * Says what the planner assumed where no arrival or departure is known: on the first stop of the
  * first day and the last stop of the last day (a one-stop trip says the departure only).
  */
-export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): Itinerary {
+export function withAssumedTravelNotes(
+  itinerary: Itinerary,
+  frame: TripFrame,
+  lines: { readonly arrival: string; readonly departure: string } = {
+    arrival: ASSUMED_ARRIVAL_NOTE,
+    departure: ASSUMED_DEPARTURE_NOTE,
+  },
+): Itinerary {
   const first = frame.dates[0];
   const last = frame.dates[frame.dates.length - 1];
   const mark = (day: DraftDay): DraftDay => {
@@ -105,9 +112,9 @@ export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): 
       ...day,
       items: day.items.map((item, index) =>
         index === at.arrival
-          ? { ...item, note: withNoteLine(item.note, ASSUMED_ARRIVAL_NOTE) }
+          ? { ...item, note: withNoteLine(item.note, lines.arrival) }
           : index === at.departure
-            ? { ...item, note: withNoteLine(item.note, ASSUMED_DEPARTURE_NOTE) }
+            ? { ...item, note: withNoteLine(item.note, lines.departure) }
             : item,
       ),
     };

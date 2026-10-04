@@ -7,12 +7,19 @@ import type { Itinerary } from '@cp/domain';
 import { choicesOfDay, foodRole, type DraftPoi } from '@cp/planner';
 import { describe, expect, it } from 'vitest';
 
-import { CREWS, baselineItinerary, planInput } from '../evals/draft/cases';
+import { baselineItinerary } from '../evals/draft/baseline';
+import { CREWS, planInput } from '../evals/draft/cases';
 import { hopCap } from '../src/prompts/draft/areas';
 import { fillMeals } from '../src/prompts/draft/complete-days';
-import { scheduleChoices } from '../src/prompts/draft/day';
+import { buildDayRequest, scheduleChoices } from '../src/prompts/draft/day';
 import { titleFits, titleFrom, withFittingTitles } from '../src/prompts/draft/day-titles';
-import { LONG_RIDE_NOTE, NO_MEAL_NOTE, withFinalNotes } from '../src/prompts/draft/final-notes';
+import {
+  LONG_RIDE_NOTE,
+  NO_MEAL_NOTE,
+  plannerLines,
+  withFinalNotes,
+} from '../src/prompts/draft/final-notes';
+import { buildRedraftRequest } from '../src/prompts/draft/redraft';
 import { settle } from '../src/prompts/draft/settle';
 import type { SkeletonDay } from '../src/prompts/draft/skeleton';
 import { validate } from '../src/prompts/draft/validate';
@@ -171,5 +178,83 @@ describe('a stop placed by hand', { timeout: 60_000 }, () => {
     const kept = settled.itinerary.days[1]?.items.find((item) => item.poi_id === lake.id);
     expect(kept?.locked_reason).toBe('user');
     expect(settled.dropped.map((d) => d.stableId)).not.toContain(kept?.stable_id);
+  });
+});
+
+describe('stops the organiser placed before the draft', { timeout: 60_000 }, () => {
+  const held = CREWS.find((c) => c.id === 'dalat-held-1');
+  if (held === undefined) throw new Error('no dalat-held-1 crew');
+  const plan = planInput(held);
+  const [lunch, pagoda] = (plan.held ?? []).map((stop) => stop.item);
+  const outline: SkeletonDay = {
+    dayNo: 2,
+    date: plan.frame.dates[1] as string,
+    theme: 'A day',
+    area: 'the centre',
+    mustDoIds: [],
+    poiIds: [],
+    mealIds: [],
+    spareIds: [],
+  };
+
+  it('are told to the guide and kept out of what it is offered', () => {
+    const text = JSON.stringify(buildDayRequest(plan, { day: outline, usedElsewhere: new Set() }));
+    expect(text).toContain('Already on this day');
+    expect(text).toContain('12:00–13:00 | Nem Nướng Bà Hùng | a meal');
+    expect(text).toContain('This day needs dinner: one place for each.');
+    expect(plan.pools.eateries.some((poi) => poi.id === lunch?.poi_id)).toBe(false);
+    expect(plan.pools.sights.some((poi) => poi.id === pagoda?.poi_id)).toBe(false);
+  });
+
+  it('are on the day whatever the guide answers, and its stop at one of their places is not', () => {
+    const sight = plan.pools.activities[0] as DraftPoi;
+    const timed = scheduleChoices(
+      plan,
+      { ...outline, poiIds: [sight.id] },
+      [
+        { poiId: sight.id, kind: 'activity', mustDoId: null, note: null },
+        { poiId: pagoda?.poi_id ?? '', kind: 'activity', mustDoId: null, note: 'again' },
+      ],
+      'around',
+    );
+    const kept = timed.items.filter((item) => item.locked_reason === 'user');
+    expect(kept.map((item) => [item.stable_id, item.starts_at, item.ends_at])).toEqual(
+      [lunch, pagoda].map((item) => [item?.stable_id, item?.starts_at, item?.ends_at]),
+    );
+    expect(timed.items.filter((item) => item.poi_id === pagoda?.poi_id)).toHaveLength(1);
+    expect(timed.items.some((item) => item.poi_id === sight.id)).toBe(true);
+    // Her lunch is the day's lunch: the planner adds a dinner and no second lunch.
+    const whole: Itinerary = {
+      currency: 'USD',
+      days: plan.frame.dates.map((date, index) =>
+        index === 1 ? timed : { day_no: index + 1, date, theme: 'A day', items: [] },
+      ),
+    };
+    const fed = fillMeals(plan, [outline], whole).itinerary.days[1];
+    const meals = (fed?.items ?? []).filter((item) => item.kind === 'meal');
+    expect(meals.map((item) => item.stable_id)).toContain(lunch?.stable_id);
+    expect(meals).toHaveLength(2);
+  });
+});
+
+describe('a redraft for a reader of another language', () => {
+  it('asks for her language, and says nothing when she reads English', () => {
+    const request = (locale?: string) =>
+      JSON.stringify(
+        buildRedraftRequest({
+          ...input,
+          ...(locale === undefined ? {} : { locale }),
+          base,
+          dayNo: 2,
+          reasons: ['slower'],
+          note: null,
+          chat: [],
+        }),
+      );
+    expect(request('vi')).toContain('every note in Vietnamese (vi)');
+    expect(request('en-GB')).not.toContain('every note in');
+    expect(request()).not.toContain('every note in');
+    expect(plannerLines('vi').longRide).not.toBe(plannerLines('en').longRide);
+    expect(plannerLines('fr')).toBe(plannerLines(undefined));
   });
 });

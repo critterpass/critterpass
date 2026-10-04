@@ -12,7 +12,7 @@ import { ceilGrid, spansOn } from './day-minutes';
 import { dinnerIsRideHome, longHops } from './hops';
 import { DINNER, LUNCH, mealAt, mealSlotAt, servingOn } from './meal-slots';
 import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
-import { defaultDurationMin } from './schedule-day';
+import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
 
@@ -34,6 +34,8 @@ export interface SequenceInput {
   readonly travel: TravelMatrix;
   /** The longest ride between two stops that is still one part of the map (./hops). */
   readonly hopCapMin?: number;
+  /** The destination's zone, for stops that keep their own times (default: the place's own). */
+  readonly tz?: string;
   /** Meal places that suit the crew: with none near the day, its dinner is a ride home (./hops). */
   readonly mealPlaces?: readonly DraftPoi[];
 }
@@ -58,6 +60,22 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let dinnerAt: number | undefined;
   for (const [index, choice] of order.entries()) {
     const poi = input.pois.get(choice.poiId);
+    // A stop with its own times stands where it is: the order must reach it in time.
+    const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz ?? 'UTC');
+    if (fixed !== null) {
+      const ride = previous === null ? 0 : (input.travel(previous, choice.poiId) ?? 0);
+      const arrived = ceilGrid(at + ride);
+      if (previous !== null && arrived > fixed.startMin) broken += 1;
+      idle += Math.max(0, fixed.startMin - Math.max(arrived, input.window.startMin));
+      if (choice.kind === 'meal') {
+        const slot = mealAt(fixed.startMin);
+        if (slot !== null) meals.add(slot);
+        if (slot === 'dinner') dinnerAt ??= index;
+      }
+      at = Math.max(at, fixed.endMin);
+      previous = choice.poiId;
+      continue;
+    }
     if (poi === undefined) {
       broken += 1;
       continue;

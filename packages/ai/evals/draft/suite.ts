@@ -24,12 +24,14 @@ import { jsonResponse } from '../lib/transports';
 import {
   gradeDayFinish,
   gradeFullDays,
+  gradeHeld,
+  gradeLanguage,
   gradeMustDos,
   gradeRedraftReasons,
 } from './asserts/day-shape-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
+import { baselineItinerary } from './baseline';
 import {
-  baselineItinerary,
   CREWS,
   INJECTION_DRAFTS,
   planInput,
@@ -176,6 +178,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           ),
           ...(crew.expect_full_days ? gradeFullDays(result.input, result) : []),
           ...gradeDayFinish(result.input, result.itinerary),
+          ...gradeHeld(result.input, result.itinerary),
         ],
         `${output} || ${text}`,
       ),
@@ -206,6 +209,7 @@ async function redraftCase(
       dayNo: redraft.day,
       reasons: redraft.reasons,
       note: redraft.note,
+      ...(redraft.locale === undefined ? {} : { locale: redraft.locale }),
       chat: redraft.chat.map((line, i) => ({
         id: `chat-${i}`,
         author: line.author,
@@ -221,6 +225,8 @@ async function redraftCase(
         [
           ...gradeRedraft(input, base, redraft.day, outcome),
           ...gradeRedraftReasons(input, base, redraft.day, redraft.reasons, outcome),
+          ...gradeHeld(input, outcome.itinerary),
+          ...gradeLanguage(redraft.locale, outcome),
         ],
         output,
       ),

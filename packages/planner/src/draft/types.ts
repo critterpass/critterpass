@@ -84,6 +84,18 @@ export interface DayChoice {
   readonly when?: WishTime | null;
   /** Why the stop may not be taken off the day (a booking, a stop the organiser placed by hand). */
   readonly lockedReason?: LockedReason | null;
+  /**
+   * The times a booking or a hand-placed stop keeps (ISO instants): the planner never moves it,
+   * and times the rest of the day around it.
+   */
+  readonly fixed?: { readonly startsAt: string; readonly endsAt: string } | null;
+  /** The id the stop already has, kept when the day is timed again. */
+  readonly stableId?: string;
+}
+
+/** Whether a stop keeps its own times: a booking or one the organiser placed, not a must-do. */
+export function isTheirs(item: Pick<DraftItem, 'locked_reason'>): boolean {
+  return item.locked_reason === 'user' || item.locked_reason === 'booking';
 }
 
 /**
@@ -97,12 +109,15 @@ export function isKept(item: Pick<DraftItem, 'must_do_id' | 'locked_reason'>): b
 
 /** A day's stops as choices, in their order, each keeping why it is locked. */
 export function choicesOfDay(day: Pick<DraftDay, 'items'>): DayChoice[] {
-  return day.items.map((item) => ({
+  return day.items.map((item): DayChoice => ({
     poiId: item.poi_id ?? '',
     kind: item.kind,
     mustDoId: item.must_do_id,
     note: item.note,
     lockedReason: item.locked_reason,
+    ...(isTheirs(item)
+      ? { fixed: { startsAt: item.starts_at, endsAt: item.ends_at }, stableId: item.stable_id }
+      : {}),
   }));
 }
 

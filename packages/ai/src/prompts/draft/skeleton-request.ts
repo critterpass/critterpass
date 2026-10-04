@@ -19,6 +19,7 @@ import {
   weekdayOf,
   type DraftPlanInput,
 } from './context';
+import { heldLines } from './held';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
@@ -95,6 +96,9 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
     const open = pools.openDays.get(poi.id) ?? [];
     return `${placeLine(input, poi, null, areas.of(poi.id))} | open on days ${open.join(', ')}`;
   });
+  const held = frame.dates.flatMap((date, index) =>
+    heldLines(input, index + 1, date).map((line) => `- Day ${index + 1}: ${line.slice(2)}`),
+  );
   const facts = [
     `Destination: ${input.destination}. ${frame.dates.length} days.`,
     crewLine(input),
@@ -105,6 +109,15 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
     '## Days',
     ...days,
     '',
+    ...(held.length === 0
+      ? []
+      : [
+          '## Already placed by the organiser (these stay exactly as they are)',
+          ...held,
+          'Plan each of these days around its stops: fewer activities on a day that already has',
+          'some, nothing at their hours, and never their places again.',
+          '',
+        ]),
     '## Must-dos (must_do_ids)',
     ...(mustDos.length > 0 ? mustDos : ['- none']),
     '',

@@ -104,7 +104,7 @@ function shortName(poi: DraftPoi): string | null {
 }
 
 /** A title from the day's own stops: its headline sights, the crew's own first. */
-export function titleFrom(input: Pick<DraftPlanInput, 'pois'>, day: DraftDay): string {
+export function titleFrom(input: Pick<DraftPlanInput, 'pois' | 'locale'>, day: DraftDay): string {
   const ranked = day.items
     .flatMap((item, index) => {
       const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
@@ -127,13 +127,13 @@ export function titleFrom(input: Pick<DraftPlanInput, 'pois'>, day: DraftDay): s
     .slice(0, 2)
     .sort((a, b) => a.index - b.index)
     .map((entry) => entry.name);
-  const both = heads.join(' and ');
+  const both = heads.join(input.locale?.toLowerCase().startsWith('vi') === true ? ' và ' : ' and ');
   if (heads.length === 2 && both.length <= TITLE_MAX) return both;
   return heads[0] ?? day.theme;
 }
 
 export function withFittingTitles(
-  input: Pick<DraftPlanInput, 'pois'>,
+  input: Pick<DraftPlanInput, 'pois' | 'locale'>,
   itinerary: Itinerary,
 ): { readonly itinerary: Itinerary; readonly retitled: number } {
   let retitled = 0;

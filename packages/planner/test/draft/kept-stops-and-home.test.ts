@@ -7,6 +7,7 @@ import type { Itinerary } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
 import {
+  bestOrder,
   candidatePools,
   choicesOfDay,
   collapseSamePlaces,
@@ -14,6 +15,7 @@ import {
   dropViolations,
   foodRole,
   homeBase,
+  instantAt,
   isKept,
   nearHome,
   scheduleDay,
@@ -151,5 +153,84 @@ describe('the day the crew leaves', () => {
       tastes: {},
     });
     expect(asked.mustDos).toEqual([{ mustDoId: id(900), poiId: id(83), openDays: [1, 2, 3] }]);
+  });
+});
+
+describe('a stop with its own times', () => {
+  const at = (minute: number) => instantAt(FRAME.dates[1] as string, minute, TZ).toISOString();
+  const lunch: DayChoice = {
+    ...stop(P.lunch, 'meal'),
+    lockedReason: 'user',
+    fixed: { startsAt: at(12 * 60 + 30), endsAt: at(13 * 60 + 30) },
+    stableId: id(4001),
+  };
+  const choices = [stop(P.museum), stop(P.pagoda), stop(P.park), lunch, stop(P.dinner, 'meal')];
+  const order = bestOrder({
+    date: FRAME.dates[1] as string,
+    choices,
+    pois: POIS,
+    window: dayWindow(FRAME, 1),
+    travel: NEAR,
+    hopCapMin: 40,
+    tz: TZ,
+  });
+  const planned = day(
+    1,
+    order.order.map((index) => choices[index] as DayChoice),
+  );
+  const mine = planned.items.find((item) => item.poi_id === P.lunch.id);
+
+  it('stands where it was put, with its id and its lock, and the day is timed around it', () => {
+    expect(order.broken).toBe(0);
+    expect(mine).toMatchObject({
+      stable_id: id(4001),
+      starts_at: at(12 * 60 + 30),
+      ends_at: at(13 * 60 + 30),
+      locked_reason: 'user',
+    });
+    // Two of the guide's stops fit before it, the third after: none runs into it.
+    const before = planned.items.filter((item) => item.ends_at <= at(12 * 60 + 30));
+    expect(before.map((item) => item.kind)).toEqual(['activity', 'activity']);
+    const clash = planned.items.filter(
+      (item) =>
+        item !== mine && item.starts_at < at(13 * 60 + 30) && item.ends_at > at(12 * 60 + 30),
+    );
+    expect(clash).toEqual([]);
+    // Timed again from its own rows, it has not moved.
+    const again = day(1, choicesOfDay(planned));
+    expect(again.items.find((item) => item.poi_id === P.lunch.id)?.starts_at).toBe(mine?.starts_at);
+  });
+
+  it('is the day’s lunch: a second one from the guide is the extra', () => {
+    const check = (itinerary: Itinerary) =>
+      validateItinerary({
+        itinerary,
+        pois: POIS,
+        frame: FRAME,
+        travel: NEAR,
+        requiredMustDoIds: [],
+        mealPlaces: [P.lunch, P.dinner, P.farLunch],
+        hopCapMin: 40,
+      }).violations;
+    expect(check({ currency: 'VND', days: [planned] }).map((v) => v.code)).toEqual([]);
+    const early: DayChoice = stop(P.farLunch, 'meal');
+    const doubled = day(1, [stop(P.museum), early, lunch, stop(P.dinner, 'meal')]);
+    const extra = check({ currency: 'VND', days: [doubled] }).filter(
+      (v) => v.code === 'EXTRA_MEAL',
+    );
+    expect(extra.map((v) => v.poiId)).toEqual([P.farLunch.id]);
+  });
+
+  it('breaks an order that cannot reach it in time', () => {
+    const late = bestOrder({
+      date: FRAME.dates[1] as string,
+      choices: [stop(P.falls), lunch],
+      pois: POIS,
+      window: { startMin: 11 * 60, endMin: 22 * 60 },
+      travel: NEAR,
+      tz: TZ,
+    });
+    // The falls take until half past twelve and are ninety minutes away: only after lunch.
+    expect(late.order).toEqual([1, 0]);
   });
 });

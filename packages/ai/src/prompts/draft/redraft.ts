@@ -39,13 +39,13 @@ import {
   redraftSkeletonDay,
   type RedraftPlanInput,
 } from './redraft-input';
-import { REASON_TEXT, reasonTarget } from './redraft-reasons';
+import { languageLine, REASON_TEXT, reasonTarget } from './redraft-reasons';
 import { validate } from './repair';
 import { withFinalNotes } from './final-notes';
 import { settle } from './settle';
 import { proseProblem, REDRAFT_FORMAT, redraftReplySchema } from './schema';
 
-export const REDRAFT_PROMPT_VERSION = 'redraft-day@2';
+export const REDRAFT_PROMPT_VERSION = 'redraft-day@3';
 
 export {
   plannedRedraft,
@@ -66,6 +66,7 @@ const TASK = [
   '  reasons: a slower or lighter day drops activities, never a meal. Pick them from the meal list,',
   '  one place per meal and no place twice; with too few meal places, plan the meals there are.',
   '- Keep the day in one part of the map: stops in the same area or areas listed as near each other.',
+  '  Area letters are for you alone: never write one in a title, the summary or a note.',
   '- Order the stops so each place is open for its whole visit, and stay within the stop limit.',
   '- The note on each stop says why it is there or what changed, in your voice.',
   '- Title (under 40 characters), summary (one sentence) and notes are words only: no numbers,',
@@ -116,6 +117,7 @@ export function buildRedraftRequest(
     `Destination: ${input.destination}. Day ${day.day_no} of ${input.base.days.length}: ${weekdayOf(day.date)} ${day.date}, now "${day.theme}".`,
     `The day runs ${clockText(window.startMin)}–${clockText(window.endMin)}: at most ${stopBudget(window.endMin - window.startMin)} stops, meals included.`,
     crewLine(input),
+    ...languageLine(input.locale),
     `Reasons: ${input.reasons.map((r) => REASON_TEXT[r]).join('; ') || 'see the organiser note'}.`,
     ...input.reasons.map(
       (r) =>

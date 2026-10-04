@@ -17,9 +17,12 @@ export function withinCapacity(
   pois: ReadonlyMap<string, DraftPoi> = new Map(),
 ): DayChoice[] {
   const planned = new Set(day.poiIds);
-  let activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null).length;
-  let meals = choices.filter((c) => c.kind === 'meal' && c.mustDoId === null).length;
-  const mealRoom = mealsIn(window);
+  const free = (c: DayChoice) => c.mustDoId === null && (c.lockedReason ?? null) === null;
+  let activities = choices.filter((c) => c.kind === 'activity' && free(c)).length;
+  let meals = choices.filter((c) => c.kind === 'meal' && free(c)).length;
+  // A meal the organiser placed is the day's meal for its stretch: one fewer for the guide.
+  const own = choices.filter((c) => c.kind === 'meal' && !free(c) && c.mustDoId === null).length;
+  const mealRoom = Math.max(0, mealsIn(window) - own);
   const cut = new Set<number>();
   const isBreak = (choice: DayChoice) => {
     const poi = pois.get(choice.poiId);

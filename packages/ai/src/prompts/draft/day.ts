@@ -10,6 +10,7 @@ import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@c
 import { parseStructuredText, textOf } from '../../structured';
 import { hopCap } from './areas';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
+import { heldChoices } from './held';
 import { withinCapacity } from './day-capacity';
 import { buildDayRequest, type DayContext, type DayRepair } from './day-request';
 import { dayReplySchema, proseProblem, type StopReply } from './schema';
@@ -90,9 +91,19 @@ function ownStops(
   picked: readonly DayChoice[],
 ): DayChoice[] {
   const seen = new Set<string>();
-  return picked.filter((choice) => {
-    if (seen.has(choice.poiId)) return false;
-    seen.add(choice.poiId);
+  const ids = new Set<string>();
+  // The organiser's own stops come first, so a stop the guide named at one of their places (or
+  // the same stop named twice) is the one left out.
+  const held = heldChoices(input, day.dayNo);
+  const made = new Set(held.map((choice) => choice.mustDoId).filter(Boolean));
+  return [...held, ...picked].filter((choice) => {
+    if (choice.stableId !== undefined) {
+      if (ids.has(choice.stableId)) return false;
+      ids.add(choice.stableId);
+    } else if (choice.mustDoId !== null && made.has(choice.mustDoId)) return false;
+    if (choice.poiId !== '' && seen.has(choice.poiId)) return false;
+    if (choice.poiId !== '') seen.add(choice.poiId);
+    if (choice.fixed !== undefined && choice.fixed !== null) return true;
     if (choice.mustDoId !== null) return day.mustDoIds.includes(choice.mustDoId);
     // A place the guide named outside its lists still goes only on a day it is open (on the
     // last day: near where the crew leaves from). A stop placed by hand is the organiser's call.
@@ -123,6 +134,7 @@ export function scheduleChoices(
     travel: input.travel,
     hopCapMin: hopCap(input),
     mealPlaces: input.pools.eateries,
+    tz: input.frame.tz,
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({
