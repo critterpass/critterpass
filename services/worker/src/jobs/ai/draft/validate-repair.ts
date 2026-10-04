@@ -1,7 +1,8 @@
 /**
  * The check stage: the planner validates the whole draft, the guide redoes only the days that broke
  * a rule (two passes at most, those days in parallel), stops without a must-do give way before a
- * must-do does, and whatever still breaks a rule is dropped and shown as missing.
+ * must-do does, and whatever still breaks a rule is dropped and shown as missing. Stops the
+ * organiser placed by hand are then put back where she placed them (./held-stops.ts).
  */
 import {
   validateAndRepair,
@@ -11,14 +12,18 @@ import {
   type SkeletonPlan,
 } from '@cp/ai';
 import type { Itinerary } from '@cp/domain';
+import { holdStops, type HeldStop } from './held-stops';
 
-export function checkStage(
+export async function checkStage(
   model: DraftModel,
   input: DraftPlanInput,
   skeleton: SkeletonPlan,
   drafted: Itinerary,
+  held: readonly HeldStop[] = [],
 ): Promise<RepairOutcome> {
-  return validateAndRepair(model, input, skeleton, drafted);
+  const outcome = await validateAndRepair(model, input, skeleton, drafted);
+  // Her own stops go back in last, exactly as she placed them: nothing above can move one.
+  return { ...outcome, itinerary: holdStops(outcome.itinerary, held, input.travel).itinerary };
 }
 
 /**

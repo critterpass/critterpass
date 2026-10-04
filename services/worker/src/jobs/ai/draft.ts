@@ -159,7 +159,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'validate', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
+          const { trip, input, held } = await load(ctx, prefetched(ctx));
           const skeleton = (ctx.results.skeleton as { skeleton: SkeletonPlan }).skeleton;
           const drafted = ctx.results.days as DraftedDays;
           const outcome = await checkStage(
@@ -167,6 +167,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             input,
             skeleton,
             drafted.itinerary,
+            held,
           );
           const label = foodLabel(trip);
           await hint(ctx, 'validate', 'done', label);
@@ -178,7 +179,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 3,
         run: async (ctx) => {
           await hint(ctx, 'persist', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
+          const { trip, input, held } = await load(ctx, prefetched(ctx));
           const checked = ctx.results.validate as Pick<
             RepairOutcome,
             'itinerary' | 'first' | 'loops' | 'dropped'
@@ -188,6 +189,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             trip,
             input,
             outcome: checked,
+            held,
             stays: stayRows(trip),
             closures: prefetched(ctx),
             slotAvailable: await slots(trip, checked.itinerary, input),
