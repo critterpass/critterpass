@@ -56,3 +56,22 @@ export const restoreDraftVersionPayloadSchema = z.strictObject({
   version_id: z.uuid(),
 });
 export type RestoreDraftVersionPayload = z.infer<typeof restoreDraftVersionPayloadSchema>;
+
+/** Gives a trip with locked dates its empty plan (a day per date, no stops) when it has none. */
+export const ensurePlanDaysPayloadSchema = z.strictObject({ trip_id: z.uuid() });
+export type EnsurePlanDaysPayload = z.infer<typeof ensurePlanDaysPayloadSchema>;
+
+/** The organiser takes the plan she built by hand on to review, without a guide draft. */
+export const reviewHandPlanPayloadSchema = z.strictObject({
+  trip_id: z.uuid(),
+  base_version: z.uuid(),
+});
+export type ReviewHandPlanPayload = z.infer<typeof reviewHandPlanPayloadSchema>;
+
+/** Where a stop went when the trip's dates changed under it. */
+export interface MovedStop {
+  readonly stable_id: string;
+  readonly to: 'ideas' | 'day';
+  /** The day it moved to (`to: 'day'`). */
+  readonly day_no?: number;
+}

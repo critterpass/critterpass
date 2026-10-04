@@ -12,6 +12,7 @@ export const DRAFT_EVENT_TYPES = [
   'draft.failed',
   'draft.cancelled',
   'draft.version_restored',
+  'draft.ops_applied',
   'redraft.requested',
   'redraft.delivered',
   'redraft.kept',
@@ -33,6 +34,13 @@ export const DRAFT_EVENT_PAYLOADS = {
     trip_id: z.uuid(),
     version_id: z.uuid(),
     from_version_id: z.uuid(),
+  }),
+  // The organiser changed her private draft by hand. Never an activity, never a push.
+  'draft.ops_applied': z.object({
+    trip_id: z.uuid(),
+    version_id: z.uuid(),
+    base_version_id: z.uuid(),
+    op_count: z.number().int().nonnegative(),
   }),
   'redraft.requested': redraft.extend({
     day_no: z.number().int().positive(),
