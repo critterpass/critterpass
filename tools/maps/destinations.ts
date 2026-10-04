@@ -8,8 +8,8 @@
  *
  * The other 55 (of 61) places are guest-guide, city-bbox packs built from the same pipeline
  * (`build-pmtiles.ts --destination <slug> --bounds <minLon,minLat,maxLon,maxLat> --geofabrik-region
- * <region>`). A guest place gets an entry here once its pack is built, so the box it was built
- * from is on record; start from its `destinations.place_bounds` and widen it to the day trips
+ * <region>`). A guest place gets an entry in `GUEST_PLACE_EXTRACTS` once its pack is built, so the
+ * box it was built from is on record; start from its `destinations.place_bounds` and widen it to the day trips
  * (`missing-regions.ts` lists the places that still need one).
  */
 export interface DestinationExtract {
@@ -64,6 +64,14 @@ export const GUIDE_DESTINATION_EXTRACTS: readonly DestinationExtract[] = [
     geofabrikRegion: 'asia/vietnam',
     bounds: '107.95,15.84,108.36,16.21',
   },
+];
+
+/**
+ * Guest places with a pack. Kept apart from the guide destinations: these boxes reach out to the
+ * day trips, so they are wider than the place's own `place_bounds` and must never be written back
+ * over it (`ingest-cli.ts --backfill-bounds` reads the guide list only).
+ */
+export const GUEST_PLACE_EXTRACTS: readonly DestinationExtract[] = [
   {
     slug: 'vn-da-lat',
     // Wider than the town's place box, which stops short of the day trips: Lang Biang in the
@@ -80,10 +88,13 @@ export const GUIDE_DESTINATION_EXTRACTS: readonly DestinationExtract[] = [
 ];
 
 export function resolveGuideDestination(slug: string): DestinationExtract {
-  const destination = GUIDE_DESTINATION_EXTRACTS.find((entry) => entry.slug === slug);
+  const extracts = [...GUIDE_DESTINATION_EXTRACTS, ...GUEST_PLACE_EXTRACTS];
+  const destination = extracts.find((entry) => entry.slug === slug);
   if (!destination) {
-    const known = GUIDE_DESTINATION_EXTRACTS.map((entry) => entry.slug).join(', ');
-    throw new Error(`tiles: unknown guide destination slug "${slug}"; known: ${known}`);
+    const known = extracts.map((entry) => entry.slug).join(', ');
+    throw new Error(
+      `tiles: no box on record for "${slug}" (pass --bounds and --geofabrik-region); known: ${known}`,
+    );
   }
   return destination;
 }
