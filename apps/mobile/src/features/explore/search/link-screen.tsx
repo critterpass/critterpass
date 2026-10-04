@@ -9,6 +9,7 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { toast } from '@/motion/island-toast';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
@@ -74,6 +75,11 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
   const weekday = day?.weekday ?? '';
   const tip = day === null || state.status !== 'done' ? problem : tipLine(weekday);
   const pickingMatch = state.matches.find((match) => match.label === picking);
+  const pickPhotos = usePlaceTilePhotos(
+    pickingMatch?.kind === 'ambiguous'
+      ? pickingMatch.candidates.map((candidate) => candidate.poi_id)
+      : [],
+  );
 
   const saveToIdeas = () => {
     const count = places.length;
@@ -135,6 +141,7 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
         <PickOneSheet
           label={pickingMatch.label}
           candidates={pickingMatch.candidates}
+          photos={pickPhotos}
           onPick={(poiId) => {
             dispatch({ type: 'pick', label: pickingMatch.label, poiId });
             setPicking(null);

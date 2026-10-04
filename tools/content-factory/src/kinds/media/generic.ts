@@ -1,6 +1,6 @@
 /**
  * Generic stock for a place with no photo of its own: when its name says what it serves or is (a
- * dish, a coffee, a craft-beer bar, a beach), a stock photo of that thing, which the app labels as
+ * dish, a coffee, a craft-beer bar, a restaurant, a beach), a stock photo of that thing, which the app labels as
  * not this place. Landmarks never get one (temples, museums, nature, markets, transport, stays and
  * hospitals keep their category's doodle), and neither does a place whose name says nothing
  * generic: a stock picture is only ever of the kind of thing, never of the named place.
@@ -26,10 +26,13 @@ interface Entry {
   readonly query: string;
   /** The categories it applies to (a bare "beach" names a beach only in the beach category). */
   readonly categories: readonly string[];
+  /** The destinations it applies to, when the picture is a local thing (a phin of coffee). */
+  readonly destinations?: readonly string[];
 }
 
 const DISHES = ['food', 'other'];
 const DRINKS = ['food', 'nightlife', 'other'];
+const VIETNAM = ['da-nang'];
 
 const dish = (phrases: readonly string[], key: string, query: string): Entry => ({
   phrases,
@@ -43,11 +46,13 @@ const drink = (phrases: readonly string[], key: string, query: string): Entry =>
   query,
   categories: DRINKS,
 });
+const only = (entry: Entry, destinations: readonly string[]): Entry => ({ ...entry, destinations });
 
 /**
- * First match wins, so the specific dishes come before the general words. A phrase with Vietnamese
- * marks matches only the marked name (phở is soup, phố is a street; lẩu is hot pot, lầu a floor);
- * an unmarked one matches the name with its marks dropped.
+ * First match wins, so the specific dishes come before the general words. A phrase with marks
+ * matches only the marked name (phở is soup, phố is a street; lẩu is hot pot, lầu a floor); an
+ * unmarked one matches the name with its marks dropped; a Japanese one matches anywhere in the
+ * name, which has no spaces.
  */
 const ENTRIES: readonly Entry[] = [
   drink(['cà phê trứng', 'ca phe trung', 'egg coffee'], 'egg-coffee', 'vietnamese egg coffee'),
@@ -67,31 +72,123 @@ const ENTRIES: readonly Entry[] = [
   dish(['nem nuong', 'nem lui'], 'nem-nuong', 'vietnamese grilled pork skewers'),
   dish(['banh trang'], 'banh-trang', 'vietnamese rice paper rolls'),
   dish(['bo ne'], 'bo-ne', 'vietnamese beef steak egg skillet'),
-  dish(['hai san', 'seafood'], 'seafood', 'grilled seafood platter'),
-  dish(['kem', 'gelato', 'ice cream'], 'ice-cream', 'gelato ice cream'),
+  dish(['babi guling'], 'babi-guling', 'babi guling balinese roast pork'),
+  dish(['betutu'], 'betutu', 'balinese chicken rice dish'),
+  dish(['nasi campur', 'nasi goreng', 'nasi'], 'nasi', 'nasi campur indonesian rice'),
+  dish(['sate', 'satay'], 'satay', 'satay skewers'),
+  dish(['ラーメン', 'ramen'], 'ramen', 'ramen bowl'),
+  dish(['うどん', 'udon'], 'udon', 'udon noodles'),
+  dish(['そば', '蕎麦', 'soba'], 'soba', 'soba noodles'),
+  dish(['焼肉', 'yakiniku'], 'yakiniku', 'japanese yakiniku grilled beef'),
+  dish(['すき焼き', 'sukiyaki'], 'sukiyaki', 'sukiyaki hot pot'),
+  dish(['餃子', 'gyoza'], 'gyoza', 'gyoza dumplings'),
+  dish(['天ぷら', 'tempura'], 'tempura', 'tempura'),
+  dish(['とうふ', '豆腐', 'tofu'], 'tofu', 'japanese tofu dish'),
+  dish(['おばんざい', '京料理', '懐石', 'kaiseki'], 'kaiseki', 'kaiseki japanese cuisine'),
+  drink(['tea ceremony', '茶室'], 'tea-ceremony', 'japanese tea ceremony'),
+  drink(
+    ['抹茶', '茶寮', '茶房', '茶舗', '茶屋', '茶庵', 'matcha', 'hojicha'],
+    'matcha',
+    'matcha green tea',
+  ),
+  drink(['酒造', '酒蔵', '日本酒', 'sake'], 'sake', 'japanese sake cups'),
+  dish(['だんご', '団子', '八ツ橋', '菓寮', 'wagashi'], 'wagashi', 'japanese sweets wagashi'),
+  dish(['taco', 'tacos', 'taqueria'], 'tacos', 'tacos'),
+  dish(['ceviche', 'cevicheria'], 'ceviche', 'ceviche'),
+  dish(['picanteria'], 'peruvian', 'peruvian food'),
+  dish(['churros', 'churreria'], 'churros', 'churros'),
+  dish(['chocolate', 'chocolates', 'chocolateria'], 'chocolate', 'chocolate pieces'),
+  dish(['tapas', 'taberna', 'tasca'], 'tapas', 'tapas'),
+  dish(['hot dog', 'pylsur'], 'hot-dog', 'hot dog'),
+  dish(['curry', 'indian'], 'curry', 'indian curry'),
+  dish(['pasta', 'trattoria', 'osteria'], 'pasta', 'pasta dish'),
+  dish(['breakfast', 'brunch'], 'brunch', 'brunch table'),
+  dish(
+    [
+      ...['hai san', 'seafood', 'mariscos', 'marisqueria', 'marisqueira', 'peixe', 'peixaria'],
+      ...['pescado', 'fish', 'lobster', 'ikan', 'bacalhau'],
+    ],
+    'seafood',
+    'grilled seafood platter',
+  ),
+  dish(
+    ['kem', 'gelato', 'ice cream', 'helados', 'heladeria', 'gelateria', 'gelados', 'ís'],
+    'ice-cream',
+    'gelato ice cream',
+  ),
   dish(['bagel', 'bagels'], 'bagels', 'bagels'),
   dish(['pizza', 'pizzeria'], 'pizza', 'pizza'),
-  dish(['burger', 'burgers'], 'burger', 'burger'),
-  dish(['sushi'], 'sushi', 'sushi'),
+  dish(['burger', 'burgers', 'hamburgueria'], 'burger', 'burger'),
+  dish(['sushi', '寿司', '鮨', 'すし'], 'sushi', 'sushi'),
   dish(['steak', 'steakhouse'], 'steak', 'steak dinner'),
-  dish(['nướng', 'bbq', 'grill'], 'barbecue', 'barbecue grill'),
+  dish(['nướng', 'bbq', 'grill', 'barbacoa', 'parrilla', 'asador'], 'barbecue', 'barbecue grill'),
   dish(['chay', 'vegan', 'vegetarian'], 'vegan', 'vegan food bowl'),
-  dish(['bakery', 'banh ngot'], 'bakery', 'bakery pastries'),
+  dish(
+    [
+      ...['bakery', 'banh ngot', 'panaderia', 'pasteleria', 'pastelaria', 'confeitaria'],
+      ...['padaria', 'patisserie', 'boulangerie', 'bakari'],
+    ],
+    'bakery',
+    'bakery pastries',
+  ),
   dish(['chè'], 'che', 'vietnamese che dessert'),
   drink(['tra sua', 'bubble tea', 'milk tea'], 'bubble-tea', 'bubble tea'),
-  drink(['ca phe', 'cafe', 'coffee'], 'coffee', 'vietnamese coffee phin'),
-  dish(['lẩu', 'hot pot', 'hotpot'], 'hot-pot', 'vietnamese hot pot'),
+  only(drink(['ca phe', 'cafe', 'coffee'], 'coffee', 'vietnamese coffee phin'), VIETNAM),
+  drink(
+    [
+      ...['cafe', 'coffee', 'caffe', 'cafeteria', 'kaffi', 'kaffihus', 'kopi', 'roasters'],
+      ...['espresso', '珈琲', 'コーヒー', 'カフェ', '喫茶'],
+    ],
+    'coffee-cup',
+    'cup of coffee on cafe table',
+  ),
+  drink(['tea', 'teahouse'], 'tea', 'teapot and cup of tea'),
+  only(dish(['lẩu', 'hot pot', 'hotpot'], 'hot-pot', 'vietnamese hot pot'), VIETNAM),
+  dish(['hot pot', 'hotpot'], 'hot-pot-table', 'hot pot'),
+  dish(['noodle', 'noodles'], 'noodles', 'noodle soup bowl'),
   drink(['beach club', 'beach bar', 'beach lounge'], 'beach-bar', 'beach bar sunset'),
-  drink(['brewing', 'brewery', 'craft beer', 'beer', 'bia'], 'craft-beer', 'craft beer glasses'),
-  drink(['cocktail', 'cocktails'], 'cocktails', 'cocktail bar drinks'),
-  drink(['wine'], 'wine', 'wine bar glasses'),
+  drink(
+    [
+      ...['brewing', 'brewery', 'craft beer', 'beer', 'bia', 'cerveceria', 'cervejaria'],
+      ...['cerveza', 'cervejeira', 'brewpub', 'taproom', 'brugghus'],
+    ],
+    'craft-beer',
+    'craft beer glasses',
+  ),
+  drink(['pisco'], 'pisco', 'pisco sour cocktail'),
+  drink(['mezcal', 'mezcaleria', 'tequila', 'tequileria'], 'mezcal', 'mezcal shot glasses'),
+  drink(['cocktail', 'cocktails', 'speakeasy'], 'cocktails', 'cocktail bar drinks'),
+  drink(['whisky', 'whiskey'], 'whisky', 'whisky glass'),
+  drink(['wine', 'vinho', 'vino', 'vinos', 'garrafeira'], 'wine', 'wine bar glasses'),
   drink(['rooftop', 'roof', 'sky bar'], 'rooftop-bar', 'rooftop bar night city'),
-  drink(['pub'], 'pub', 'pub interior'),
-  drink(['bar', 'lounge'], 'bar', 'bar counter drinks'),
   {
-    phrases: ['bai bien', 'beach'],
+    phrases: ['nightclub', 'club', 'discotheque', 'disco'],
+    key: 'nightclub',
+    query: 'nightclub dance floor lights',
+    categories: ['nightlife'],
+  },
+  drink(['pub'], 'pub', 'pub interior'),
+  drink(['bar', 'lounge', 'cantina', 'pulqueria', 'barinn'], 'bar', 'bar counter drinks'),
+  dish(['warung'], 'warung', 'indonesian food plate'),
+  dish(
+    [
+      ...['restaurant', 'restaurante', 'restoran', 'resto', 'restobar', 'bistro', 'kitchen'],
+      ...['cuisine', 'cocina', 'eatery', 'dining'],
+    ],
+    'restaurant',
+    'restaurant table setting',
+  ),
+  {
+    phrases: ['bai bien', 'beach', 'praia', 'playa', 'pantai'],
     key: 'beach',
     query: 'tropical sandy beach',
+    categories: ['beach'],
+    destinations: ['da-nang', 'bali'],
+  },
+  {
+    phrases: ['beach', 'praia', 'playa'],
+    key: 'beach-shore',
+    query: 'sandy beach waves',
     categories: ['beach'],
   },
 ];
@@ -105,18 +202,26 @@ function marked(name: string): string {
     .trim();
 }
 
+const JAPANESE = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u;
+
 /** The generic subject a place's photo may show, or null when it may only show itself. */
 export function genericSubjectFor(place: {
   readonly name: string;
   readonly category: string;
+  readonly destination?: string;
 }): GenericSubject | null {
   if (!GENERIC_CATEGORIES.has(place.category)) return null;
   const plain = ` ${words(place.name).join(' ')} `;
   const withMarks = ` ${marked(place.name)} `;
-  const has = (phrase: string) =>
-    (/^[a-z ]+$/u.test(phrase) ? plain : withMarks).includes(` ${phrase} `);
+  const has = (phrase: string) => {
+    if (JAPANESE.test(phrase)) return place.name.includes(phrase);
+    return (/^[a-z ]+$/u.test(phrase) ? plain : withMarks).includes(` ${phrase} `);
+  };
   for (const entry of ENTRIES) {
     if (!entry.categories.includes(place.category)) continue;
+    if (entry.destinations !== undefined && !entry.destinations.includes(place.destination ?? '')) {
+      continue;
+    }
     if (entry.phrases.some(has)) {
       return { key: entry.key, query: entry.query };
     }

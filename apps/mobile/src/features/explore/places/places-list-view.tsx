@@ -4,11 +4,12 @@
  * chosen order, with the sort menu, at most one labelled sponsored row and the way back to the map.
  */
 import type { PlaceFit } from '@cp/domain';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { FitLine } from '@/data/fit/fit-line';
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { useTheme } from '@/ui/theme';
@@ -51,6 +52,9 @@ export interface PlacesListViewProps {
   readonly lines: ReadonlyMap<string, FitLine>;
   /** Each day's short weekday, for the editors' best-time lines. */
   readonly weekdays: ReadonlyMap<number, string>;
+  /** The places' photos by POI id, and the rows on screen, for the screen to read theirs. */
+  readonly photos?: PlaceTilePhotos | undefined;
+  readonly onInView?: ((poiIds: readonly string[]) => void) | undefined;
   /** The server's ranked suggestions and their count; null before it answers. */
   readonly suggestOrder: readonly string[] | null;
   readonly suggestTotal: number | null;
@@ -112,6 +116,22 @@ export function PlacesListView(props: PlacesListViewProps) {
     return place.poiId === null ? undefined : lines.get(place.poiId);
   };
 
+  // FlatList wants one handler for its whole life; it reads the latest prop through the ref.
+  const inView = useRef(props.onInView);
+  useEffect(() => {
+    inView.current = props.onInView;
+  });
+  const [onViewable] = useState(
+    () =>
+      ({ viewableItems }: { viewableItems: readonly { readonly item: ListItem }[] }) => {
+        inView.current?.(
+          viewableItems.flatMap(({ item }) =>
+            item.kind === 'place' && item.place.poiId !== null ? [item.place.poiId] : [],
+          ),
+        );
+      },
+  );
+
   const renderItem = ({ item }: { item: ListItem }) => {
     if (item.kind === 'title') {
       const title =
@@ -134,6 +154,7 @@ export function PlacesListView(props: PlacesListViewProps) {
             place.category,
             props.stay === null ? null : minutesBetween(props.stay.at, place),
           )}
+          photo={poiId === null ? undefined : props.photos?.get(poiId)}
           savers={saversOf(place)}
           fit={lineFor(place)}
           onOpen={() => props.onOpen(place, item.sponsored)}
@@ -186,6 +207,7 @@ export function PlacesListView(props: PlacesListViewProps) {
         renderItem={renderItem}
         onEndReached={props.onLoadMore}
         onEndReachedThreshold={0.6}
+        onViewableItemsChanged={onViewable}
         contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['24'] }}
         testID="places-list-rows"
       />

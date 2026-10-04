@@ -6,9 +6,14 @@
  * item's labels share most of the words that set the name apart (not a place type, not the city),
  * every place type in the place's name (pagoda, museum, beach) is in the item's labels too, and a
  * type all of the item's labels carry is in the place's name.
+ * An item that is a venue named after something (a museum, a market, a station) only matches a
+ * place named as that venue, and a temple never matches the beach or hill it is named after.
+ * Between equally good items the closer name wins, then the nearer item.
  * Food, nightlife, health and stays match only on an identical whole name. Administrative areas
  * are left out of the items (see places.ts).
  */
+
+import { FEATURES, PLAIN, TYPE_ENDINGS, TYPES, VENUES, WORSHIP } from './place-words';
 
 export interface PlaceForMatch {
   readonly name: string;
@@ -45,60 +50,13 @@ const WIDE = new Set(['beach', 'nature']);
 const MIN_SCORE = 0.65;
 const EXACT_ONLY = new Set(['food', 'nightlife', 'health', 'stay']);
 
-/** Place types, each in the words Vietnamese and English names use for it. */
-const TYPES: Readonly<Record<string, readonly string[]>> = {
-  religious: ['chua', 'pagoda', 'temple', 'den', 'shrine', 'mieu', 'thien vien'],
-  church: ['nha tho', 'cathedral', 'church'],
-  museum: ['bao tang', 'museum'],
-  bridge: ['cau', 'bridge'],
-  beach: ['bai bien', 'beach', 'bai tam', 'bay', 'vinh'],
-  mountain: ['nui', 'mountain', 'mountains', 'peak', 'hill', 'hills'],
-  pass: ['deo', 'pass'],
-  cave: ['cave', 'caves', 'grotto'],
-  market: ['cho', 'market'],
-  park: ['cong vien', 'park'],
-  lake: ['ho', 'lake'],
-  waterfall: ['thac', 'waterfall', 'waterfalls', 'falls'],
-  river: ['song', 'river'],
-  restaurant: ['nha hang', 'restaurant', 'quan an'],
-  hospital: ['benh vien', 'hospital'],
-  station: ['ga', 'station', 'san bay', 'airport'],
-  hotel: ['khach san', 'hotel', 'resort'],
-};
-
-/** Words that name the region, or say nothing about which place it is. */
-const PLAIN = new Set([
-  'da',
-  'nang',
-  'danang',
-  'hoi',
-  'an',
-  'hoian',
-  'lat',
-  // "Khu du lịch": tourist area.
-  'khu',
-  'du',
-  'lich',
-  'kdl',
-  'quang',
-  'nam',
-  'viet',
-  'vietnam',
-  'of',
-  'the',
-  'and',
-  'va',
-  'de',
-  'old',
-  'ancient',
-  'town',
-  'city',
-  'thanh',
-  'pho',
-  'co',
-  'dinh',
-  'lang',
-]);
+/** Whole-word overlap of two names, which settles equal scores (a museum over a gallery). */
+function closeness(variant: string, label: string): number {
+  const a = new Set(words(variant));
+  const b = new Set(words(label));
+  const shared = [...a].filter((word) => b.has(word)).length;
+  return shared / (a.size + b.size - shared || 1);
+}
 
 const TYPE_WORDS = new Set(Object.values(TYPES).flatMap((phrases) => phrases.flatMap(words)));
 
@@ -108,7 +66,7 @@ export function words(text: string): string[] {
     .normalize('NFD')
     .replace(/\p{M}/gu, '')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/gu, ' ')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .replace(/\bdalat\b/gu, 'da lat')
     .trim()
     .split(' ')
@@ -126,13 +84,23 @@ function typesOf(tokens: readonly string[]): Set<string> {
   for (const [type, phrases] of Object.entries(TYPES)) {
     if (phrases.some((phrase) => joined.includes(` ${phrase} `))) found.add(type);
   }
+  for (const token of tokens) {
+    for (const [ending, type] of TYPE_ENDINGS) {
+      if (token.length > ending.length && token.endsWith(ending)) found.add(type);
+    }
+  }
   return found;
 }
 
-/** The names a place goes by: the whole name and its parts around brackets, dashes and commas. */
+/**
+ * The names a place goes by: the whole name and its parts around brackets, dashes and slashes
+ * (a second language, or a second name). After a comma comes where it is ("Penha Palace, Sintra,
+ * Portugal"), which is no name of the place: only what stands before the first comma counts.
+ */
 export function nameVariants(name: string): string[] {
-  const parts = name.split(/[()[\],/|]|\s[-–—]\s|-(?=\s)|(?<=\S)-(?=\p{Lu})/u);
-  return [...new Set([name, ...parts].map((part) => part.trim()).filter(Boolean))];
+  const head = name.split(',')[0] ?? name;
+  const parts = head.split(/[()[\]/|]|\s[-–—]\s|-(?=\s)|(?<=\S)-(?=\p{Lu})/u);
+  return [...new Set([name, head, ...parts].map((part) => part.trim()).filter(Boolean))];
 }
 
 export function distanceM(
@@ -168,10 +136,12 @@ export function nameScore(
   const placeTypes = typesOf(words(name));
   const labelTypes = typesOf(labels.flatMap((text) => [...words(text), '|']));
   if (![...placeTypes].every((type) => labelTypes.has(type))) return 0;
-  // An item every label calls a church is not a ward or a waterfall that shares its name.
+  // An item every label calls a church is not a ward that shares its name.
   const always = labels.map((text) => typesOf(words(text)));
   const needed = [...(always[0] ?? [])].filter((type) => always.every((types) => types.has(type)));
   if (!needed.every((type) => placeTypes.has(type))) return 0;
+  // A museum, market or station named after the place is not the place.
+  if ([...typesOf([...b])].some((type) => VENUES.has(type) && !placeTypes.has(type))) return 0;
   if (identical) return [...a].some((word) => !PLAIN.has(word)) ? 1 : 0;
   if (exactOnly) return 0;
   const telling = (word: string) => !PLAIN.has(word) && !TYPE_WORDS.has(word);
@@ -196,20 +166,32 @@ export function matchPlace<T extends WikidataPoint>(
   const variants = nameVariants(place.name).filter(
     (variant) => !wholeName || telling.every((word) => tellingWords(variant).includes(word)),
   );
+  const placeTypes = typesOf(words(place.name));
   let best: PlaceMatch<T> | null = null;
+  let bestClose = 0;
   for (const item of items) {
     const distance = Math.round(distanceM(place, item));
     if (distance > (WIDE.has(place.category) ? WIDE_DISTANCE_M : MAX_DISTANCE_M)) continue;
+    // A temple named after the beach or the hill it stands by is not that beach or hill.
+    if (place.category === 'temple_shrine') {
+      const itemTypes = typesOf(item.labels.flatMap((text) => [...words(text), '|']));
+      const worship = [...WORSHIP].some((type) => itemTypes.has(type));
+      const feature = [...FEATURES].some((type) => itemTypes.has(type) && !placeTypes.has(type));
+      if (feature && !worship) continue;
+    }
     for (const variant of variants) {
       for (const label of item.labels) {
         const score = nameScore(place.name, variant, label, exactOnly, item.labels);
         if (score < MIN_SCORE) continue;
+        const close = closeness(variant, label);
         if (
           best === null ||
           score > best.score ||
-          (score === best.score && distance < best.distanceM)
+          (score === best.score && close > bestClose) ||
+          (score === best.score && close === bestClose && distance < best.distanceM)
         ) {
           best = { item, label, score, distanceM: distance };
+          bestClose = close;
         }
       }
     }

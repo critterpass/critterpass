@@ -14,6 +14,7 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
 import { PlaceCard, PlanningTag, type FitTone } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
@@ -38,6 +39,8 @@ export interface CarouselEntry {
 
 export interface PlacesCarouselProps {
   readonly entries: readonly CarouselEntry[];
+  /** The cards' photos by place id, as they arrive. */
+  readonly photos?: PlaceTilePhotos | undefined;
   readonly focusedId: string | null;
   readonly onSettle: (id: string) => void;
   readonly onOpen: (id: string) => void;
@@ -136,6 +139,7 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
               description={item.description}
               facts={item.facts}
               icon={categoryIcon(item.category)}
+              {...props.photos?.get(item.id)?.tile}
               savers={item.savers}
               fit={item.fit}
               picked={item.id === props.focusedId}

@@ -4,20 +4,27 @@
  * it only shares a word with, and never a stock photo; a place batch carries the live destination
  * media, since publishing replaces every asset.
  */
+import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { buildRelease, poiRefOfSubject, poiRefSubject, type ContentItem } from '@cp/content';
+import {
+  buildRelease,
+  loadRelease,
+  poiRefOfSubject,
+  poiRefSubject,
+  type ContentItem,
+} from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
-import { committedItems } from '../src/committed';
 import { mediaKind } from '../src/kinds/media';
 import type { SourceHttp } from '../src/kinds/media/http';
 import { GENERIC_TITLE, genericSubjectFor } from '../src/kinds/media/generic';
 import { carriedItems, curatedPlaces } from '../src/kinds/media/place-batch';
 import { matchPlace, nameScore, type WikidataPlace } from '../src/kinds/media/place-match';
 import { placePhotos, sourceAllowedFor } from '../src/kinds/media/places';
-import { REJECTED_GENERIC } from '../src/kinds/media/rejected';
+import { REJECTED_MATCHES, turnedDown } from '../src/kinds/media/rejected';
 import { runValidators } from '../src/validators/registry';
+import { FACTORY_DIR } from '../src/work';
 import {
   CATHEDRAL,
   EGG_CAFE,
@@ -105,6 +112,12 @@ describe('place photos', { timeout: 60_000 }, () => {
     }
   });
 
+  it('never offers a place the item a reviewer turned down for it', async () => {
+    const photos = await placePhotos(http, FIXTURE_PLACES, { [LINH_UNG.ref]: ['Q18277260'] });
+    expect(photos.map((photo) => photo.place.ref)).not.toContain(LINH_UNG.ref);
+    expect(photos.map((photo) => photo.place.ref)).toContain(MY_KHE.ref);
+  });
+
   it('keys a place by its source ref, which publishing resolves', () => {
     expect(poiRefSubject(LINH_UNG.ref)).toBe('poi:fsq-os-4d5cfd269895b1f725f8ea0f');
     expect(poiRefOfSubject('poi:fsq-os-4d5cfd269895b1f725f8ea0f')).toEqual({
@@ -163,7 +176,8 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
   });
 
   it('never offers a landmark a generic photo, and only what the name says', () => {
-    const at = (name: string, category: string) => genericSubjectFor({ name, category });
+    const at = (name: string, category: string) =>
+      genericSubjectFor({ name, category, destination: 'da-nang' });
     expect(at('Chùa Mỹ Khê', 'temple_shrine')).toBeNull();
     expect(at('Bảo Tàng Hội An', 'museum')).toBeNull();
     expect(at('Marble Mountains', 'nature')).toBeNull();
@@ -196,19 +210,43 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
     });
     const carried = carriedItems(live, FIXTURE_PLACES);
     expect(carried.map((c) => c.id)).toEqual(['pexels-photo-26550067']);
+    // A photo the destination shares with a researched place stays, for the destination alone.
+    const shared = buildRelease({
+      ...live,
+      items: [stock(['destination:da-nang', poiRefSubject(MY_KHE.ref)])],
+    });
+    expect(carriedItems(shared, FIXTURE_PLACES).map((c) => c.subjects)).toEqual([
+      ['destination:da-nang'],
+    ]);
     const whole = runValidators('media', [...photos, ...carried], mediaKind.validators);
     expect(whole.severity).not.toBe('fail');
   });
 });
 
-describe('the committed place media batches', () => {
-  it('hold no generic photo a reviewer turned down, and carry the destination media', () => {
-    const items = committedItems('media');
-    expect(items.filter((item) => REJECTED_GENERIC[item.id] !== undefined)).toEqual([]);
+describe('the committed place media batch awaiting review', () => {
+  it('holds no generic photo a reviewer turned down, and carries the destination media', () => {
+    const dir = path.join(FACTORY_DIR, 'batches', 'media');
+    const latest = readdirSync(dir)
+      .filter((file) => file.endsWith('.json'))
+      .sort()
+      .at(-1);
+    if (latest === undefined) throw new Error('no committed media batch');
+    const { items } = loadRelease(
+      JSON.parse(readFileSync(path.join(dir, latest), 'utf8')) as unknown,
+      'media',
+    );
+    expect(items.filter((item) => turnedDown(item.id))).toEqual([]);
     const report = runValidators('media', items, mediaKind.validators);
     expect(report.severity).not.toBe('fail');
     expect(items.some((item) => item.subjects.some((s) => s.startsWith('destination:')))).toBe(
       true,
     );
+    // The matches a reviewer turned down are not in it.
+    for (const [ref, ids] of Object.entries(REJECTED_MATCHES)) {
+      const photos = items.filter((item) => item.subjects.includes(poiRefSubject(ref)));
+      for (const id of ids) {
+        expect(photos.filter((photo) => photo.title?.includes(`Wikidata ${id} `))).toEqual([]);
+      }
+    }
   });
 });

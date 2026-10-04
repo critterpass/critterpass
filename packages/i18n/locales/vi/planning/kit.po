@@ -21,6 +21,10 @@ msgstr "Thu gọn"
 msgid "kit.mapSheet.expand"
 msgstr "Mở rộng"
 
+#: ../../apps/mobile/src/ui/planning/place-thumb.tsx
+msgid "kit.placeThumb.notThisPlace"
+msgstr "Ảnh minh hoạ"
+
 #: ../../apps/mobile/src/ui/planning/stance-bar.tsx
 msgid "kit.stanceBar.ratherNot"
 msgstr "Không muốn"

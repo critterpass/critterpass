@@ -9,6 +9,7 @@ import type { SearchChip } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
+import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import type { PlaceCandidate } from '@/data/places/match-places';
 
 import { AddressSection } from '../address-section';
@@ -89,6 +90,12 @@ function TypingScene() {
           typed('Tirta Gangga', 'curated', 'temple_shrine'),
           typed('Tirta Sudamala', 'server', 'nature'),
         ]}
+        photos={
+          new Map([
+            ['Tirta Empul', LAB_PHOTOS.temple],
+            ['Tirta Gangga', LAB_PHOTOS.generic],
+          ])
+        }
         state="results"
         live={{ kind: 'none' }}
         onOpen={noop}
@@ -170,6 +177,13 @@ function PlainScene() {
           notWed ? SAYAN_PLACES : [...SAYAN_PLACES.slice(0, 1), ...SAYAN_PLACES.slice(1).reverse()],
           labSearchTrip(),
         )}
+        photos={
+          new Map([
+            ['sayan', LAB_PHOTOS.food],
+            ['bridges', LAB_PHOTOS.generic],
+            ['murnis', LAB_PHOTOS.food],
+          ])
+        }
         loading={false}
         softMisses={3}
         showingSoftMisses={false}
@@ -251,6 +265,7 @@ function OfflineScene({ answered }: { readonly answered: boolean }) {
               saved: true,
             },
           ]}
+          photos={new Map([['b', LAB_PHOTOS.terraces]])}
           area="Jatiluwih"
           saved={14}
           curated={306}

@@ -16,6 +16,10 @@ const useStyles = makeStyles((t) => ({
     position: 'absolute',
     start: t.space['12'],
     paddingHorizontal: t.space['6'],
+    // On ink, so the line reads on a photo in its own colours.
+    backgroundColor: t.semantic.bg.base,
+    borderRadius: t.radius.xs,
+    overflow: 'hidden',
     opacity: 0.85,
   },
 }));
@@ -23,9 +27,12 @@ const useStyles = makeStyles((t) => ({
 export function GenericPhotoLabel({
   photo,
   at = 'bottom',
+  inset = 6,
 }: {
   readonly photo: MediaAsset | null | undefined;
   readonly at?: 'top' | 'bottom';
+  /** How far from that edge. */
+  readonly inset?: number;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -36,7 +43,7 @@ export function GenericPhotoLabel({
       variant="caption"
       color={theme.semantic.text.secondary}
       numberOfLines={1}
-      style={[styles.label, at === 'top' ? { top: 6 } : { bottom: 6 }]}
+      style={[styles.label, at === 'top' ? { top: inset } : { bottom: inset }]}
       testID="explore-photo-generic"
     >
       {t({ id: 'explore.photo.notThisPlace', message: 'Not this place' })}

@@ -45,11 +45,11 @@ msgstr "{hours}h{mm}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.fromStay"
-msgstr "{kind} · {minutes} min from {stayName}"
+msgstr "{kind} · {length} from {stayName}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.minutesOn"
-msgstr "{kind} · {minutes} min on"
+msgstr "{kind} · {length} on"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.plan.summaryMore"

@@ -4,10 +4,12 @@
  * ♡ and the button work on the page; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 
 import { guideFor } from '../../format';
+import { LAB_PICK_MEDIA } from '../../trip-explore/dev/lab-pick-media';
 import { readPlaceDetail } from '../context';
 import { PlaceFurther } from '../further';
 import {
@@ -109,11 +111,13 @@ function Scene({
   patch = {},
   trip = true,
   savedAtStart = false,
+  photo = null,
 }: {
   readonly patch?: Record<string, unknown>;
   readonly trip?: boolean;
   /** ♡ already on: the viewer saved it (the 7e-1 render). */
   readonly savedAtStart?: boolean;
+  readonly photo?: MediaAsset | null;
 }) {
   const { t, i18n } = useLingui();
   const [saved, setSaved] = useState(savedAtStart);
@@ -134,7 +138,7 @@ function Scene({
       name="Tirta Empul"
       category="temple_shrine"
       guide={guide}
-      photo={null}
+      photo={photo}
       heroUrl={null}
       saved={saved}
       offline={false}
@@ -203,8 +207,11 @@ function Scene({
 }
 
 export const PLACE_DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  'place-detail': () => <Scene savedAtStart />,
-  'place-detail-member': () => <Scene patch={{ add_mode: 'changeset' }} />,
+  'place-detail': () => <Scene savedAtStart photo={LAB_PICK_MEDIA['tirta-empul'] ?? null} />,
+  // A stock photo standing in for the place: the hero says it is not this place.
+  'place-detail-member': () => (
+    <Scene patch={{ add_mode: 'changeset' }} photo={LAB_PICK_MEDIA.campuhan ?? null} />
+  ),
   'place-detail-in-plan': () => (
     <Scene
       patch={{ in_plan: { day_no: 3, stable_id: id(9), starts_at: '2026-10-17T00:00:00.000Z' } }}

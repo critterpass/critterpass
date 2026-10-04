@@ -19,6 +19,8 @@ export interface PlaceRowProps {
   /** "Water temple · 45 min · Rp 75k". */
   readonly meta?: string | undefined;
   readonly photo?: ImageSourcePropType | undefined;
+  /** The photo is a stock one standing in for the place (the picture marks it). */
+  readonly genericPhoto?: boolean | undefined;
   readonly icon?: DoodleName | undefined;
   readonly savers?: readonly StackMember[] | undefined;
   /** Faces at the row's end (Ideas, 7f-2) instead of beside the fit line (Places list). */
@@ -46,6 +48,7 @@ export function PlaceRow({
   title,
   meta,
   photo,
+  genericPhoto,
   icon,
   savers = [],
   saversAtEnd = false,
@@ -60,7 +63,12 @@ export function PlaceRow({
   const label = [title, meta, fitLine?.text].filter((part) => part !== undefined).join(', ');
   const content = (
     <View style={styles.row}>
-      <PlaceThumb photo={photo} icon={icon} size={saversAtEnd ? 38 : 56} />
+      <PlaceThumb
+        photo={photo}
+        genericPhoto={genericPhoto}
+        icon={icon}
+        size={saversAtEnd ? 38 : 56}
+      />
       <View style={styles.body}>
         <Text variant="title" numberOfLines={1}>
           {title}
