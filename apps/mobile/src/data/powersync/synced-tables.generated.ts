@@ -207,7 +207,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id custom_place provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',
   plan_legs:
     'trip_id version_id day_id from_key to_key mode minutes:integer meters:integer source approx:integer shape computed_at created_at updated_at',
-  pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at hours_source price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at confidence:real website phone brand created_at updated_at',
+  pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at hours_source price_level:integer source_ids editorial tags fts status curation pick_rank:integer pick_source merged_into_id geofence visit_radius_m:integer timezone last_live_check_at confidence:real website phone brand created_at updated_at',
   poll_options:
     'poll_id crew_id trip_id kind ref_id label frozen_quote_id pitch_id proposed_by position:integer eliminated_at created_at updated_at',
   poll_reveals: 'poll_id user_id seen_at created_at updated_at',

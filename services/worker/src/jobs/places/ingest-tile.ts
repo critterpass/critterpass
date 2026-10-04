@@ -24,6 +24,7 @@ import {
   type TileRunSources,
 } from '../../places/ingest-tile-run';
 import type { IngestTile } from '../../places/ingest-tiles';
+import { queuePlacePick } from './pick';
 
 export const PLACES_INGEST_TILE_QUEUE = 'places.ingest_tile';
 
@@ -238,6 +239,11 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
         ...result,
       };
       logger.info(summary, 'places ingest finished');
+      // A destination without a curated set gets its picks from the rows that just landed (the
+      // job skips a curated or already picked one). The ingest is done either way.
+      await queuePlacePick(boss, slug).catch((error: unknown) =>
+        logger.warn({ err: error, slug }, 'places pick not queued after the ingest'),
+      );
       return summary;
     },
   });

@@ -11,14 +11,14 @@ import { useCallback, useMemo, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
-import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
-import type { DayChip } from '@/ui/planning';
+import { PhotoCredit, type DayChip } from '@/ui/planning';
 
 import { addRoute } from '../add/routes';
 import { ideaIcon } from './idea-icon';
@@ -172,7 +172,12 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
             }
           : null
       }
-      rows={rows}
+      rows={
+        <>
+          {rows}
+          <PhotoCredit credits={screenCredits(photos.values())} />
+        </>
+      }
       scrolls={drag.dragging === null}
       onBack={() => (router.canGoBack() ? router.back() : undefined)}
       onMap={mapHref === undefined ? null : () => router.push(mapHref)}

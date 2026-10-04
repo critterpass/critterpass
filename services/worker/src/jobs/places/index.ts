@@ -33,6 +33,8 @@ import { backfillPlaceBounds, type DestinationPlaceBounds } from '../../places/p
 import { fsqOsSource } from '../../places/source-readers';
 import { placesIngestTileJob, queueTileRun } from './ingest-tile';
 
+export { mapRegionRegisterJob } from './map-region-register';
+
 export const PLACES_INGEST_QUEUE = PLACES_QUEUES.ingest;
 export const PLACES_FSQ_EXPORT_CHUNK_QUEUE = 'places.fsq_export_chunk';
 

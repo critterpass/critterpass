@@ -4,11 +4,16 @@
  * else a crew stay booking found by its title). Read as `guide_reader` through `llm.*` views only.
  */
 import type { ReaderClient } from '@cp/ai';
+import { LLM_RECOMMENDED } from '@cp/db';
 
 import { parseGuidePlaceQuery } from './guide-place-query';
 
-/** Curated by the content factory: the only quality signal the catalogue has (no ratings). */
-export const RECOMMENDED = "(curation = 'editorial' OR must_see)";
+/**
+ * What the guide may call recommended: curated by the content factory, or picked for a
+ * destination without a curated set (the shared definition in `@cp/db`). The catalogue has no
+ * ratings, so this is the only quality signal.
+ */
+export const RECOMMENDED = LLM_RECOMMENDED;
 
 export interface TripDestination {
   readonly id: string;

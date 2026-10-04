@@ -81,7 +81,7 @@ const typed = (
   source,
 });
 
-function TypingScene() {
+function TypingScene({ foursquare = false }: { readonly foursquare?: boolean }) {
   return (
     <SearchView header={header('tirta')} scope={null}>
       <NameResults
@@ -92,7 +92,7 @@ function TypingScene() {
         ]}
         photos={
           new Map([
-            ['Tirta Empul', LAB_PHOTOS.temple],
+            ['Tirta Empul', foursquare ? LAB_PHOTOS.foursquare : LAB_PHOTOS.temple],
             ['Tirta Gangga', LAB_PHOTOS.generic],
           ])
         }
@@ -286,6 +286,7 @@ export const SEARCH_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '7d-1': () => <EmptyScene paste={false} />,
   '7d-1-paste': () => <EmptyScene paste />,
   '7d-1-typing': () => <TypingScene />,
+  '7d-1-typing-foursquare': () => <TypingScene foursquare />,
   '7d-1-addresses': () => <AddressScene />,
   '7d-2': () => <PlainScene />,
   '7d-4': () => <NothingScene addresses={false} />,

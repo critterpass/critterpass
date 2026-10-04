@@ -6,7 +6,7 @@
  * line of facts. The card on top follows the finger and flings past 110 pt (right is yes, left is
  * no); the one under it waits a little smaller.
  */
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
@@ -42,7 +42,7 @@ export interface SwipeCardFace {
   /** Already worded: "Alex + Rin said yes"; null when nobody else has. */
   readonly social: string | null;
   /** The place's own photo; null draws the category's doodle (never the destination's photo). */
-  readonly photo: MediaAsset | null;
+  readonly photo: PlaceMediaAsset | null;
 }
 
 const useStyles = makeStyles((t) => ({

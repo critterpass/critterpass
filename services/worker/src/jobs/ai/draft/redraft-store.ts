@@ -55,6 +55,20 @@ export async function loadBaseDraft(
   versionId: string,
   travel: TravelMatrix,
 ): Promise<BaseDraft | null> {
+  // The version's days come from `plan_days`, not from its items: a day the draft left empty is
+  // still a day of the trip, and the organiser may ask for it to be redrafted. Read as the system
+  // (the guide's views list items only), for an organiser of the trip alone.
+  const planned = await withSystem(pool, (tx) =>
+    tx.query<{ day_no: number; date: string | null; theme: string | null }>(
+      `SELECT d.day_no, d.date::text AS date, d.theme
+         FROM plan_days d JOIN itinerary_versions v ON v.id = d.version_id
+        WHERE d.version_id = $1 AND v.trip_id = $2
+          AND EXISTS (SELECT 1 FROM trip_participants tp
+                       WHERE tp.trip_id = v.trip_id AND tp.user_id = $3 AND tp.role = 'organiser')
+        ORDER BY d.day_no`,
+      [versionId, tripId, organiser],
+    ),
+  );
   return withGuideReader(pool, organiser, tripId, async (tx) => {
     const { rows } = await tx.query<PlanRow>(
       `SELECT version_id, day_no, date::text AS date, theme, stable_id, category, poi_id, starts_at,
@@ -62,8 +76,13 @@ export async function loadBaseDraft(
          FROM llm.plan_items WHERE version_id = $1 ORDER BY day_no, starts_at`,
       [versionId],
     );
-    if (rows.length === 0) return null;
-    const days = new Map<number, DraftDay>();
+    if (rows.length === 0 && planned.rows.length === 0) return null;
+    const days = new Map<number, DraftDay>(
+      planned.rows.map((day) => [
+        day.day_no,
+        { day_no: day.day_no, date: day.date ?? '', theme: day.theme ?? '', items: [] },
+      ]),
+    );
     for (const row of rows) {
       const day = days.get(row.day_no) ?? {
         day_no: row.day_no,
@@ -103,7 +122,10 @@ export async function loadBaseDraft(
       crewId,
     ]);
     return {
-      itinerary: { currency: rows[0]?.currency ?? 'USD', days: [...days.values()] },
+      itinerary: {
+        currency: rows[0]?.currency ?? 'USD',
+        days: [...days.values()].sort((a, b) => a.day_no - b.day_no),
+      },
       chat: chat.rows
         .filter((m) => m.author_kind === 'member' && m.body.trim().length > 0)
         .map((m) => ({

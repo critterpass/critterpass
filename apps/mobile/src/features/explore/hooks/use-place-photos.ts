@@ -4,7 +4,7 @@
  * keyed by the sorted ids, so swiping through the deck does not read again. A place with no asset
  * of its own is simply missing: the card draws its category's doodle.
  */
-import { DECK_SIZE, type MediaAsset } from '@cp/domain';
+import { DECK_SIZE, type PlaceMediaAsset } from '@cp/domain';
 import { useMemo } from 'react';
 
 import { useSubjectMedia } from '@/data/media/use-subject-media';
@@ -19,7 +19,7 @@ function chunkSubjects(ids: readonly string[], index: number): string | null {
   return chunk.length === 0 ? null : chunk.map(poiSubject).join(',');
 }
 
-export function usePlacePhotos(poiIds: readonly string[]): ReadonlyMap<string, MediaAsset> {
+export function usePlacePhotos(poiIds: readonly string[]): ReadonlyMap<string, PlaceMediaAsset> {
   const key = [...new Set(poiIds)].sort().slice(0, DECK_SIZE).join(',');
   const ids = useMemo(() => (key === '' ? [] : key.split(',')), [key]);
   const first = useSubjectMedia(chunkSubjects(ids, 0)).items;

@@ -7,11 +7,11 @@ import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles, Text, useTheme } from '@/ui';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { PlaceRow, PlanningTag } from '@/ui/planning';
+import { PhotoCredit, PlaceRow, PlanningTag } from '@/ui/planning';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { placeIcon } from './place-icons';
@@ -129,6 +129,7 @@ export function OfflineResults(props: OfflineResultsProps) {
           />
         </View>
       )}
+      <PhotoCredit credits={screenCredits(props.photos?.values() ?? [])} />
     </View>
   );
 }

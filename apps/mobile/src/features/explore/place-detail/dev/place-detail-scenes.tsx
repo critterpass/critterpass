@@ -4,7 +4,7 @@
  * ♡ and the button work on the page; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 
@@ -117,7 +117,7 @@ function Scene({
   readonly trip?: boolean;
   /** ♡ already on: the viewer saved it (the 7e-1 render). */
   readonly savedAtStart?: boolean;
-  readonly photo?: MediaAsset | null;
+  readonly photo?: PlaceMediaAsset | null;
 }) {
   const { t, i18n } = useLingui();
   const [saved, setSaved] = useState(savedAtStart);
