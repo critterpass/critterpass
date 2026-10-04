@@ -50,8 +50,10 @@ No new table, so no new RLS policy. The permission test covers what changes: a m
 - Status: pending
 
 ### T4. Readers of the draft pointer stay honest
-- Files (read all, change only where a reader assumed "pointer set = guide drafted"): `services/api/src/cost/preview.ts`, `services/worker/src/cost/inputs.ts`, `services/api/src/commands/proposal/create-proposal.ts`, `services/api/src/commands/draft/{request-redraft,restore-draft-version}.ts`, `services/api/src/bookings/plan-sync.ts`; tests beside each one changed.
-- Test: a `setup` trip with an empty draft: cost preview, proposal build and redraft answer as they do today for a trip with no draft.
+- Files (read all, change only where a reader assumed "pointer set = guide drafted"): `services/api/src/cost/preview.ts`, `services/worker/src/cost/inputs.ts`, `services/api/src/commands/proposal/create-proposal.ts`, `services/api/src/commands/draft/{request-redraft,restore-draft-version}.ts`, `services/api/src/bookings/plan-sync.ts`, `services/worker/src/jobs/ai/draft/persist.ts`; tests beside each one changed.
+- Found while planning: cost, proposal build, redraft and restore are gated by the trip status and need no change (tests pin it). The installed draft history lists every organiser version, so an untouched empty plan (`origin = 'dates'`, no stops) is deleted when the guide's draft or a dates change replaces it, and never shows as a history row.
+- Known difference for installed builds: the draft review screen sends an organiser to the drafting screen only when the draft pointer is null and a job runs. With an empty plan the pointer is set, so opening the review by link during the first draft shows its "no draft yet" state until the job ends. Phase 3 fixes the condition (trip status) for both switch states.
+- Test: a `setup` trip with an empty draft: cost preview, proposal build and redraft answer as they do today for a trip with no draft; after the first guide draft the trip has exactly one organiser version.
 - Status: pending
 
 ### T5. Add to plan, the place page and Ideas read the organiser's draft
