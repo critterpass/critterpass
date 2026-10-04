@@ -489,11 +489,46 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: collaboration-35-minh-tapped-a-pick
+# Out of the note the way an Android user leaves anything: back. Then the close button, if the
+# note is still up.
+- runFlow:
+    when:
+      visible:
+        id: 'sheet-panel'
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: collaboration-35b-minh-back-from-the-note
+- runFlow:
+    when:
+      visible:
+        id: 'sheet-close'
+    commands:
+      - tapOn:
+          id: 'sheet-close'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - runFlow:
     when:
       notVisible:
-        id: 'version-in'
-    file: ../../onboarding/subflows/back.yaml
+        id: 'proposal-version'
+    commands:
+      - takeScreenshot: collaboration-35c-minh-back-left-the-proposal
+      - runFlow: subflows/home.yaml
+      - runFlow: ../../proposal/subflows/open-proposal-card.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'proposal-trailer'
+          commands:
+            - tapOn:
+                id: 'trailer-close'
+                optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'version-in'
+          timeout: 60000
 - scrollUntilVisible:
     element:
       id: 'version-whole-plan'
@@ -541,38 +576,57 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-40-minh-version-after-maybe
-# Before deciding he reads the whole plan, and tries to say something about a stop.
+# Before deciding he reads the whole plan: the map, the day's stops, one stop, and a question on
+# it. He taps what reads like a title first; the sheet's handle is the second try.
 - scrollUntilVisible:
     element:
       id: 'version-whole-plan'
     timeout: 20000
 - tapOn:
     id: 'version-whole-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
 - waitForAnimationToEnd:
-    timeout: 15000
+    timeout: 10000
 - takeScreenshot: collaboration-41-minh-whole-plan-undecided
 - tapOn:
-    id: 'trip-map-open-day'
-    optional: true
-- tapOn:
-    id: 'plan-day-1'
+    id: 'trip-map-day-title'
     optional: true
 - waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-41b-minh-tapped-the-day-title
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map-half'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
     timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
 - takeScreenshot: collaboration-42-minh-day-one-undecided
 - tapOn:
-    id: 'stop-1|plan-day-row-.*'
-    index: 0
+    id: 'stop-1'
     optional: true
 - waitForAnimationToEnd:
     timeout: 10000
-- takeScreenshot: collaboration-43-minh-stop-sheet-undecided
-- scrollUntilVisible:
-    element:
-      id: 'plan-item-comment-field'
-    direction: DOWN
-    timeout: 10000
+- takeScreenshot: collaboration-43-minh-stop-undecided
+- tapOn:
+    id: 'stop-1-note'
     optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-43b-minh-stop-note
 - tapOn:
     id: 'plan-item-comment-field'
     optional: true
@@ -587,6 +641,11 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd:
           timeout: 8000
 - takeScreenshot: collaboration-44-minh-question-on-a-stop
+# Back to the proposal by hand: where does each back land?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-44-minh-from-the-plan
 
 # Minh says he is in.
 - runFlow: subflows/home.yaml
@@ -752,6 +811,44 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-63-minh-trip-map
+# He wants Ba Na Hills in. First try: the search pill at the top of the map.
+- tapOn:
+    id: 'trip-map-search'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-64-minh-map-search
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: collaboration-64b-minh-back-from-map-search
+# Second try: into the day. The title, then the sheet's handle.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map-half'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-65-minh-day-on-the-map
 - tapOn:
     id: 'trip-map-open-day'
     optional: true
@@ -762,7 +859,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 10000
-- takeScreenshot: collaboration-64-minh-day-plan
+- takeScreenshot: collaboration-65b-minh-day-plan
 - tapOn:
     id: 'day-plan-add'
     optional: true
@@ -772,11 +869,16 @@ appId: app.critterpass.dev
     timeout: 20000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: collaboration-65-minh-add-search
+- takeScreenshot: collaboration-65c-minh-add-search
 - tapOn:
     id: 'search-field-query'
     optional: true
-- inputText: 'Ba Na'
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - inputText: 'Ba Na'
 - extendedWaitUntil:
     visible:
       id: 'search-row-0'
@@ -810,6 +912,13 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-67-minh-add-to-plan-sheet
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: collaboration-67b-minh-add-to-plan-sheet-lower
 - tapOn:
     id: 'plan-add-confirm'
     optional: true
@@ -819,6 +928,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-69-minh-after-add-settled
+# Home by hand this time: where does each back land after an add?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-69-minh-after-add
 - runFlow: subflows/home.yaml
 - takeScreenshot: collaboration-70-minh-home-after-his-add
 - tapOn:
@@ -872,6 +986,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-75-linh-review-answered
+# Home by hand: where does each back land after answering?
+- runFlow:
+    file: subflows/walk-back.yaml
+    env:
+      SHOT: collaboration-75-linh-after-review
 - runFlow: subflows/home.yaml
 - tapOn:
     id: 'tab-trips'
@@ -887,9 +1006,10 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 15000
 - takeScreenshot: collaboration-76-linh-trip-map-after-review
-- tapOn:
-    id: 'trip-map-open-day'
-    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-77-linh-day-plan-after-review
@@ -917,9 +1037,56 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 15000
-- tapOn:
-    id: 'trip-map-open-day'
-    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-80-minh-day-plan-outcome
+
+# ── Part 5. Swipe together, then where the crew disagrees. Minh first: no to the first two
+# places, yes to the next two. Linh: yes to the first two, no to the next two. The matches are
+# meant to land in Ideas; a place one wants and the other does not is the crew's split.
+- runFlow: subflows/home.yaml
+- runFlow:
+    file: subflows/swipe-together.yaml
+    env:
+      SHOT: collaboration-81-minh
+      FIRST: explore-swipe-no
+      SECOND: explore-swipe-yes
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-82-linh-returns-home-minh-swiped
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-83-linh-minh-swiped
+- runFlow:
+    file: subflows/swipe-together.yaml
+    env:
+      SHOT: collaboration-84-linh
+      FIRST: explore-swipe-yes
+      SECOND: explore-swipe-no
+- runFlow: subflows/home.yaml
+- runFlow:
+    file: subflows/ideas-and-split.yaml
+    env:
+      SHOT: collaboration-85-linh
+      STANCE: split-pick-want
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-86-minh-returns-home-both-swiped
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-87-minh-both-swiped
+- runFlow:
+    file: subflows/ideas-and-split.yaml
+    env:
+      SHOT: collaboration-88-minh
+      STANCE: split-pick-rather-not

@@ -1,0 +1,103 @@
+appId: app.critterpass.dev
+---
+# From Home to the trip's Ideas, the way the plan offers it (hub, plan tile, the map's sheet
+# raised to all days, Ideas), then the first idea: the crew's split on it when they disagree.
+# ${STANCE} is this person's side (split-pick-want | split-pick-rather-not).
+- tapOn:
+    id: 'tab-trips'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: UP
+    timeout: 20000
+    optional: true
+- takeScreenshot: ${SHOT}-hub
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}-trip-map
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn:
+    id: 'trip-map-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'trip-map-ideas'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- takeScreenshot: ${SHOT}-all-days
+- tapOn:
+    id: 'trip-map-ideas'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-ideas'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}-ideas
+- tapOn:
+    id: 'plan-idea-[^h].*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}-first-idea
+- runFlow:
+    when:
+      visible:
+        id: 'split'
+    commands:
+      - tapOn:
+          id: 'split-say'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: ${SHOT}-split-say
+      - tapOn:
+          id: ${STANCE}
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: ${SHOT}-split-stance
+      - scrollUntilVisible:
+          element:
+            id: 'split-option-0'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'split-option-0'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: ${SHOT}-split-option
+      - tapOn:
+          id: 'split-vote'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: ${SHOT}-split-voted
+- runFlow:
+    file: walk-back.yaml
+    env:
+      SHOT: ${SHOT}-ideas
