@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cf43e887-18aa-421a-a039-70a886e371bf",
+        "id": "64535cad-c2ba-4783-a609-c87db104d891",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chapultepec arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Historic centre\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p5\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Coyoacán farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p2\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chapultepec arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p6\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Historic centre\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p5\",\n        \"p12\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Coyoacán farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\n        \"m3\"\n      ],\n      \"poi_ids\": [\n        \"p2\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 40,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 185,
+          "output_tokens": 211,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "d10a04ff-998b-466e-9b14-78b8918da866",
+        "id": "11e11a20-3190-462f-8fa8-e09a1b4821ad",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the stalls for tostadas, fresh fruit and the hum of Coyoacán life.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Step into the blue house where Frida’s world still feels vividly, beautifully hers.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the stalls for tostadas, fresh fruit and the hum of Coyoacán life.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Step into the blue house where Frida's world still feels vividly present.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 104,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 88,
+          "output_tokens": 85,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "468691ea-6874-4dba-8cb8-188dedf0cd3f",
+        "id": "fe34c4c4-92ba-4d8f-b340-69e860de82c1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The Aztec Sun Stone alone is worth the trip, and the courtyard umbrella is a photo waiting to happen.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A green lung right in the city, perfect for a slow wander before the evening settles in.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tacos al pastor made from plants, with all the salsa and none of the compromise.\"}]}"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The great stone sun and the Aztec halls are worth every minute of your landing day.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green pause among the trees, with quiet paths and a view of the city's lungs.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Plant-based tacos with proper salsa, a friendly spot for the whole crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 483,
+          "input_tokens": 99,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 129,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 170,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "727259f8-00cc-4879-9706-6e6096cf825d",
+        "id": "9f2fc982-d7d6-4473-a609-e6804e227550",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The heart of the old city, where the flag waves over centuries of stories.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Walk among the ruins of the Aztec great temple, right beside the cathedral.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates with plenty of green things for the veggie crew.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"That golden dome and the murals inside are pure Mexico City drama.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A market full of curious bites and market chatter, good for a wander.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Warm, spiced vegetarian dishes in a calm spot to end the day.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the city, where the flag waves over centuries of stories.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Walk among the ruins where the Aztecs once heard the beat of drums.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright plates and fresh flavours, with plenty for the herbivores among you.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"That golden dome and marble hall are pure theatre, even before the curtain rises.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market where the city’s cooks come for the good stuff, from mole paste to exotic fruit.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm spices and slow-cooked comfort, with a menu that treats vegetables like royalty.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 436,
+          "input_tokens": 52,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 225,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 327,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "e5e8b56f-27e7-467d-960c-e2d214b593d6",
+        "id": "04ac6367-b959-48d7-b2fc-12f6b2cb0744",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Three gentle days: park, plaza, and a fond adiós — every must-do accounted for."
+            "text": "Arrival in Chapultepec, heart of the historic centre, then a Coyoacán goodbye — every must-do made it, amiguito."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 222,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 21,
+          "output_tokens": 31,
           "service_tier": "standard"
         }
       }

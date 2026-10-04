@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1bc96a12-8081-42f1-a6cf-202834f80743",
+        "id": "1444189a-9267-4061-ac2d-dacdf8c74afe",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Ubud's quieter corners\",\n  \"summary\": \"A slower day around Ubud with the monkey forest, a hidden water temple and the art market, leaving the evening free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-do, and the monkeys are always a surprise, especially before the crowds wake up.\",\n      \"note\": \"The crew's must-do, and the monkeys are always a surprise, especially before the crowds wake up.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple the crew would not expect, tucked behind a lotus pond in the middle of Ubud.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the market for a taste of local life, with no rush to be anywhere else.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Ubud Day With a Hidden Temple\",\n  \"summary\": \"A gentle Ubud day that keeps the monkey forest and market, then slips in a lotus temple the crew would not expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Rise and shine, the monkeys are already awake and they do not care about your coffee.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slower browse after the forest, with plenty of shade and a little local life.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus pond temple tucked behind the main street. I know a guy who swears it is the quietest corner in Ubud.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 571,
+          "input_tokens": 59,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 249,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 238,
           "service_tier": "standard"
         }
       }

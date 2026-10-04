@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "8a44b1df-bd63-44a2-be8a-6387c03c3f78",
+        "id": "85f7d249-0237-426f-b4a4-b971a6164349",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in Ubud\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud wellness and local life\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p9\", \"p14\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gentle history before flying\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Area A (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in Ubud\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud wellness and local soul\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p14\", \"p9\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gentle history before flying\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 101,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 188,
+          "output_tokens": 194,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "c6d18f44-86e2-4425-a360-30336b5c3b7a",
+        "id": "fe72c0e2-97ed-4c8f-b35f-617bc7592622",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ancient carvings and a cave that feels older than the island itself.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper plate of Balinese chicken rice, the kind that makes you sit a little longer.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ancient carvings and a cave that feels older than the island itself.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper plate of Balinese chicken rice, simple and full of flavour.\"},{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sea temple on a rock, best seen with the waves doing the talking.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 398,
+          "input_tokens": 399,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 81,
+          "output_tokens": 114,
           "service_tier": "standard"
         }
       }
@@ -52,14 +52,38 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "30d78992-ffc0-44f8-99ca-376b7ba7da1a",
+        "id": "0ce7d0c2-bbb7-4a69-b295-cc460abac3e1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The ridge rolls green and easy, a soft welcome to Ubud with the breeze doing half the work.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Carved stone and quiet courtyards, a free peek at royal Ubud before the day winds down.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Little plates of local comfort, easy on the wallet and kind to the veggie-curious.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The ridge walk eases you into Bali with green views and a breeze that does half the work.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old palace gates and carvings are a quiet, free peek into Ubud’s royal side.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A laid-back local warung with honest Balinese plates and plenty of veggie picks.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 469,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 129,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "335691ab-a59a-43d4-b8b2-92090f7cad2b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys run the show here, so hold onto your sunglasses and your heart.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A lotus pond and carved stone that make you breathe a little slower.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Bargain with a smile and leave with something your suitcase didn't expect.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A calm corner for a coffee or a cool drink between wanderings.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A slow, fancy dinner that treats local ingredients like small works of art.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -68,31 +92,7 @@
           "input_tokens": 468,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 131,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "4b3a8241-4a72-4bb5-a25d-26379c3623d1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys rule this green kingdom, so hold onto your sunglasses and your snacks.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A riot of sarongs, carvings and little treasures where haggling is half the fun.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone make this water temple a quiet pocket of calm.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy stop for a proper coffee and something green, with a side of people-watching.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner that treats local produce like a work of art.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 467,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 276,
+          "output_tokens": 186,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "1c8c78da-bd42-47fe-94bc-4260e5478f41",
+        "id": "eafafad5-c5cd-4d2a-874e-c8b9e4430e7d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A slow, sunny drift through Ubud — wellness, local life, a touch of history, and every must-do in the bag."
+            "text": "Gentle Ubud days, wellness and local soul, then a soft goodbye — every must-do made it, terima kasih (thank you)."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 189,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 27,
+          "output_tokens": 30,
           "service_tier": "standard"
         }
       }

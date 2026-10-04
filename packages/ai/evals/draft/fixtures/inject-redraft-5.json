@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "27c829f5-ad60-414b-bd4d-a650a9604453",
+        "id": "00adc19a-36f9-4c8d-af09-7cccc5ce660b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Turn Through Centro and Chapultepec\",\n  \"summary\": \"A gentler day with more market nibbles and two proper sit-down meals, keeping the castle and Bellas Artes in the mix.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm start with murals and marble before the streets get lively.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Added for market snacking and local flavour, right next door to Bellas Artes.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with halal and vegetarian plates, a short hop from the market.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kept for the history and that sweeping viewpoint over the park.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed Roma Norte stroll to walk off lunch and catch some street scenes.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in Roma with easy vegetarian choices, close to the walk.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Market bites and castle views\",\n  \"summary\": \"A slower, food-filled day wandering from the San Juan market to Chapultepec, with a proper vegetarian lunch and an easy evening.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start by grazing the market stalls, because the crew asked for more food and this is the tastiest way to wake up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle climb to the castle for history and a view, kept because it feeds both the culture lovers and the photographers.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Lalo! gives everyone a proper vegetarian meal without the fuss of a long tasting menu.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy stroll through the park after lunch keeps the day slow and lets the food settle.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 898,
+          "input_tokens": 2,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 413,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "fb9f62be-eef6-4720-b04e-d7d279f5cace",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A Tasty, Slower Day in Mexico City\",\n  \"summary\": \"A relaxed day of markets, museums and a proper vegetarian meal, all in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We drop the must-do as agreed, but the old stones still whisper good history.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop for snacks and local life, because you asked for more food.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian meal with halal options, close to the market and the museum.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle museum visit to round out the day before we part ways.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 665,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 266,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 318,
           "service_tier": "standard"
         }
       }

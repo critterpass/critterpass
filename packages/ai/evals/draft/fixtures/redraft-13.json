@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "24679d46-afa1-4ad4-9bbc-ef00b161ae5c",
+        "id": "5e8f621b-280e-48de-b9cb-867d96a2f2bf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A gentler Reykjavik day\",\n  \"summary\": \"A slower day with fewer stops, keeping the Blue Lagoon and staying close to home to spare the crew any long bus rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that matters most, with a long, unhurried soak to ease those bus-weary bones.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Reykjavik day\",\n  \"summary\": \"We trade bus rides for breathing room, keeping the Blue Lagoon and letting the city wait.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays, and with fewer stops we can soak properly instead of rushing off.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 731,
+          "input_tokens": 91,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 115,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 103,
           "service_tier": "standard"
         }
       }

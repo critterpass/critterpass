@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "78e34861-247d-47a6-8899-84e982e408b5",
+        "id": "0e0c653e-c8b2-4b8b-9c46-da5812f1fc12",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Quirky Cusco Day\",\n  \"summary\": \"A gentle day in Cusco that swaps the usual ruins for a wander through San Blas, a sunlit temple, and a long lazy lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the day, Qorikancha stays because some history is too good to skip.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: instead of another grand stone wall, we wander the little lanes and workshops of San Blas.\",\n      \"start\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates, and a long table for four to rest our feet.\",\n      \"start\": \"12:00\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral stays as the afternoon anchor, but now it feels like a bonus after the quiet morning.\",\n      \"start\": \"14:00\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Surprising Day in Cusco\",\n  \"summary\": \"A relaxed day mixing Cusco's sacred heart with a hidden artisan quarter and a meal that suits everyone.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see temple stays put, a calm start before the streets wake up.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A twist for the day: the San Blas lanes give the market and photo lovers an unexpected local-life wander.\",\n      \"start\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch keeps the vegetarian promise with a kitchen that knows how to please every palate.\",\n      \"start\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral closes the day with history and a golden glow, a fitting end for the early birds.\",\n      \"start\": \"14:30\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 593,
+          "input_tokens": 81,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 320,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 308,
           "service_tier": "standard"
         }
       }

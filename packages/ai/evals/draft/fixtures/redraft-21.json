@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "309c418c-8ac0-4b0b-b703-0cf0658e74c8",
+        "id": "e560ecd5-45b6-4eb8-b7bf-92f8b56d4318",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow morning, sea breeze afternoon\",\n  \"summary\": \"A lazy start, a beach wander, a proper bowl of noodles, then a gentle evening by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With a slow morning, East Sea Park is the right first breath: easy walking, sea air, no rush.\",\n      \"note\": \"With a slow morning, East Sea Park is the right first breath: easy walking, sea air, no rush.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) at Mì Quảng Nhung, because a slow day still needs a proper bowl.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bãi Biển Phạm Văn Đồng is the sunset spot, quiet and close, so the day ends where the sky does the work.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is Ốc Cười, street food and local life in one, because one person at a snail table is never lonely.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Slow Start, Sea Breeze\",\n  \"summary\": \"A gentle day that begins late, stays close to the water, and ends with a quiet sunset by the bay.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow morning still deserves sand between the toes. An Bang is my kind of welcome mat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crew of one, plate of chicken rice, zero rush. This is how you do a late lunch in area B.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little green pause after eating, close by and easy on the legs. Even a langur approves of shade.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We drift over to the bay for the golden hour. Phạm Văn Đồng beach knows how to end a day.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and noodle-warm. Mì Quảng Nhung keeps the evening simple and tasty.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1610,
+          "input_tokens": 1297,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 342,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 352,
           "service_tier": "standard"
         }
       }

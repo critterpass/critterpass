@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4c91feab-0897-4740-973e-481b0b5c88aa",
+        "id": "aa5b5b8a-5811-48b4-b505-a13568291d88",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Ubud Sunday\",\n  \"summary\": \"We ease off the temple trail and spend the day wandering Ubud's green edges, market lanes and a long, lazy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper on the list, and worth it: those green steps wake you up better than coffee.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"No temples, Leo, I heard you. Just a busy little market full of colour, chatter and things you didn't know you needed.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan lunch stop, because everyone at the table should leave happy and full.\",\n      \"kind\": \"meal\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk with no roofs, no carvings, just sky and green. The sun won’t wait, but this path doesn’t rush either.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner to end the day properly. Terima kasih (thank you) to whoever suggested we linger.\",\n      \"kind\": \"meal\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Ubud Sunday\",\n  \"summary\": \"A gentle day swapping temple-heavy sights for leafy walks, market browsing and a long, lazy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the rice terraces, Leo. Green views, no temple queues.\",\n      \"note\": \"The one keeper: those terraces still earn their spot, and the sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge walk instead of another temple. Easy legs, big sky.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander for colour and photo spots, no incense required.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays veggie-friendly and easy. Terima kasih (thank you), Alchemy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace peek for history, but we keep it short and sweet.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner for the night owls. I know a guy, and he eats well.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 713,
+          "input_tokens": 73,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 389,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 388,
           "service_tier": "standard"
         }
       }

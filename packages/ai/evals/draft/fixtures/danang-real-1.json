@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "aecfd676-8d65-433b-b175-83a4bc73b50c",
+        "id": "5195e155-f6bd-4eb8-b60f-3889a84beede",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, near the river and beach\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River sunset and street snacks\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p59\", \"p82\", \"p81\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sơn Trà wild side\",\n      \"area\": \"Area F\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p65\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Old town morning\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p8\", \"p16\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p50\",\n      \"day_no\": 2,\n      \"when\": \"afternoon\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A, near the beach and river\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River sunset and local bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p59\", \"p82\", \"p81\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Old town, beach and a show\",\n      \"area\": \"Area B and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p8\", \"p41\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula morning and farewell\",\n      \"area\": \"Area G and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p65\", \"p57\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p50\",\n      \"day_no\": 2,\n      \"when\": \"afternoon\",\n      \"weekdays\": []\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 21,
+          "input_tokens": 1482,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 3584,
-          "output_tokens": 240,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 257,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "249181fe-f70e-4d15-8123-23da06e7aad8",
+        "id": "6908e885-618c-46dc-9026-03d491f014ca",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old tiles, silk lanterns and stories older than the port itself. Go slow, the details are the whole point.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Little steamed rice cakes topped with shrimp and crackling. One plate is never enough, order like you mean it.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves and a horizon that clears the head before the flight home. Dip your toes, not your phone.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p65\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Red socks on, eyes on the sea. Sơn Trà is my backyard, so go slow and let the doucs show themselves.\"},{\"poi_id\":\"p64\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Sky going grey over Sơn Trà? Sit by the water and let the view do the talking while you eat.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 622,
+          "input_tokens": 370,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 191,
+          "output_tokens": 100,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "e3841136-fe76-4106-bd59-67cc173adce2",
+        "id": "b6c55970-8e7a-4637-b4d5-066e7a502386",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Catch the dragon carp with the river turning gold behind it. Best seat in the house, and I say that from the trees.\"\n    },\n    {\n      \"poi_id\": \"p81\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coconut cream in a cup, cold enough to make your eyes go wide. Mr. Quân's little stall is a proper street-snack legend.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crackly rice paper, soft noodles, a good whack of fish sauce. Smash it, dip it, repeat until the plate looks lonely.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sand between your toes and the sea doing its slow night breathing. A beach club with the volume turned to island time.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p57\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dip your toes in the bay and watch the fishing boats bob while the city wakes up behind you.\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon carp statue glows when the light drops over the river, so find a rail and let the sky do the work.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pull up a tiny plastic stool and work through a pile of snails with lime, salt and chilli on your fingers.\"\n    },\n    {\n      \"poi_id\": \"p81\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coconut cream scooped into a cup, cold enough to make you forget the humidity for a minute.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 610,
+          "input_tokens": 649,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 268,
+          "output_tokens": 245,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "95541a6f-0695-48fd-9ee1-ddeb4fee0b1d",
+        "id": "ae07b7d3-b324-4161-b133-36bb46a27a52",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Turmeric noodles with pork, shrimp and a sesame cracker — the real deal, and the crew of one gets the corner stool with the best steam.\"\n    },\n    {\n      \"poi_id\": \"p57\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vịnh Đà Nẵng stretches out like a slow blue yawn. Walk the edge, watch the fishing boats, let the salt do the talking.\"\n    },\n    {\n      \"poi_id\": \"p84\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fish cake noodles in a broth that hugs you back. Slurp loud, it’s the local applause.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Green lawns and photo-ready corners where the city comes to breathe. A fine spot to stretch the legs after noodles.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach turns pink and gold as the sun drops. Quiet waves, long shadows, and the city exhaling.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Snails by the plateful, garlic butter everywhere, and a cold drink to chase it. This is how the locals end a beach day.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Slurp the turmeric noodles like a local, sesame cracker crumbled on top. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old tiles, old stories, and a courtyard that slows your heartbeat right down.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, and a horizon that resets your whole head.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny steamed rice cakes, crispy shallots, and a fish sauce dip worth writing home about.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A pocket of green where the city exhales and the squirrels do the entertaining.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quiet corners, incense in the air, and a bell that rings like a long, slow breath.\"\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pick your fish, point at your prawns, and let the kitchen show off with garlic and chilli.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 727,
+          "input_tokens": 726,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 388,
+          "output_tokens": 399,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "b9a25a98-36bb-42fd-a482-b97f05bd962b",
+        "id": "e199723c-b742-44de-9752-2595effc78ba",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset sips by the river, wild Sơn Trà mornings, old-town wanderings — the whole Đà Nẵng dream, wrapped up warm."
+            "text": "Sunset on the river, old town sparkle, then Sơn Trà sunrise before we wave goodbye."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 238,
+          "input_tokens": 240,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 640,
-          "output_tokens": 34,
+          "output_tokens": 22,
           "service_tier": "standard"
         }
       }

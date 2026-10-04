@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e7ee7f6e-47e9-4c8f-bfa6-2d32145356bb",
+        "id": "57893dc3-f2ca-403b-bdd6-0ab8325a0300",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"C-side Kyoto: temples, tofu, twilight\",\n  \"summary\": \"A compact day around Area C and nearby B, keeping Kinkaku-ji and swapping the far-flung stops for closer temples, a museum, and a vegetarian-friendly dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kinkaku-ji stays. The golden pavilion is the one thing the crew would mutiny over, and it anchors the morning.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, Sanjusangen-do keeps the temple lovers happy without dragging anyone across the city.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the afternoon stops. Ain Soph Journey covers every vegetarian in the crew and keeps the budget from whimpering.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hanamikoji Street is free, open all day, and gives the street-food and photo-spot people something to do while the culture buffs soak up Gion.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pontocho Alley after dark suits the night owl and the street-food fan, and it is a short stumble from dinner.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Kichi Kichi Omurice, because the crew deserves one theatrical meal and the vegetarian options keep everyone fed.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Kyoto, close and quiet\",\n  \"summary\": \"A slower day around one corner of Kyoto, with Kinkaku-ji kept and the rest gathered near it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing you asked to keep, so we start here before the buses and the selfie sticks wake up.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a long slow walk for the two early birds who hate being rushed.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian for all four of you, and close enough to the path that nobody has to watch a clock over lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, flat, and full of old shopfronts — the street-food and photo-spot people can wander while the temple people rest their feet.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening lanterns, because the night owl in your crew deserves one meal after dark.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1286,
+          "input_tokens": 6,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 502,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 354,
           "service_tier": "standard"
         }
       }

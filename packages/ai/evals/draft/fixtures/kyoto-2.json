@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "1a44fa0f-d38c-49a8-b38c-2b7d0a676c5d",
+        "id": "427184cf-f17b-44b8-b32e-8b51a2a25562",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, near Kyoto Station and the museum quarter\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in old Kyoto\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"History, shrines and a bamboo hush\",\n      \"area\": \"Area A and Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p3\", \"p5\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A, near Kyoto National Museum\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Museum afternoon, lantern evening\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\", \"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Shrine morning, market farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p4\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 9,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 156,
+          "output_tokens": 148,
           "service_tier": "standard"
         }
       }
@@ -28,20 +28,20 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "94a628ba-5cf9-4e10-b5d8-49ba2e8ee1fe",
+        "id": "e8618c29-05c4-4511-8ef9-03ca4091cff5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Start with the torii tunnels before the crowds find their selfie sticks.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp the broth like you mean it; the chef will notice.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The wooden stage leans over the maples like it's listening for the city.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Torii after torii up the hill, foxes watching from every corner.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp the broth, mind the line, leave happy.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Squeeze through the stalls, graze as you go, buy the pickles.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 443,
+          "input_tokens": 439,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
           "output_tokens": 115,
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "526783a6-e15e-4e6f-9c5a-5d0012bb3bfd",
+        "id": "f191d5ab-5581-4d79-bc8e-51ab459c8cfc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The national collection of old Kyoto, from scrolls to tea bowls. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A thousand wooden arms of Kannon, and the long hall that holds them. Worth one message.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old geisha lane, all tea-house fronts and evening lanterns. The deer will cope without you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done the Kyoto way, quiet and precise. A gentle first dinner.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The national collection of Kyoto history, from scrolls to swords, all under one very serious roof.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand gilded Kannon statues, standing in rows like they are judging your posture.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tofu done so many ways it stops being a side dish and becomes the whole conversation.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lantern-lit alley where the evening air smells of yakitori and old Kyoto secrets.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 574,
+          "input_tokens": 572,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 238,
+          "output_tokens": 165,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "a9e3b273-fa0e-490d-8833-c9e85872ec9d",
+        "id": "062d7acb-0e1f-4436-9fa5-5edd3fe9e9f3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Soft landing in old Kyoto, then shrines, history and a bamboo hush — shoes off, phone down, eyes up."
+            "text": "Museums, lanterns, shrines, market — every must-do is in, so nobody gets to say “tentative” later."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 215,
+          "input_tokens": 212,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 26,
+          "output_tokens": 30,
           "service_tier": "standard"
         }
       }

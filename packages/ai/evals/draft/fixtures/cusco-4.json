@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "867a771c-f882-4323-8cde-42fcec54ae0c",
+        "id": "308612b3-1fcb-46cd-9852-9f446afb74cb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden hour in the old capital\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley day trip\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p4\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p3\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"museums and a last viewpoint\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 84,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 191,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "64e67a19-d596-4569-853e-efd56c3f18b6",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 442,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 6,
+          "output_tokens": 197,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "a7243cbd-68e9-41a6-9da4-e319ec66ae3c",
+        "id": "3a30ecfe-f53b-4a53-a97b-4a23f5c5a2ff",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The Inca stonework here still holds its curves and corners, a quiet marvel under Inti (the sun).\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Step inside for cedar, silver, and a painting of the Last Supper with a very Andean guest on the plate.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the Inca halls and let the old stones whisper their history.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stand by the white Christ and drink in the whole bowl of Cusco below.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 397,
+          "input_tokens": 342,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 96,
+          "output_tokens": 79,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "af3bf8f0-f1ee-4e74-8515-bf441961302d",
+        "id": "09fcb2c4-1069-4411-8a76-c5067cde083e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old square glows as Inti (the sun) dips, and the stones hold centuries of stories.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little stop to see cacao turned into something worth writing home about.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"Gastón Acurio's table brings the highlands to your plate with proper flair.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little stop to learn how cacao becomes chocolate, with plenty of samples to keep the crew smiling.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"A splash of modern Peruvian flavour from Gastón Acurio, where the plates are as colourful as Cusco itself.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 409,
+          "input_tokens": 417,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 127,
+          "output_tokens": 96,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "ed03a07c-ba0d-4ed1-b9e0-2b8d26132a79",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Inca stonework so precise even a blade won't slip between the joins, with colonial arches resting on top.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"A weighty silver altar and a painting of the Last Supper with a very Andean guest on the plate.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Baskets of giant maize, pyramids of fruit and the hum of Quechua bargaining under one roof.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cyclopean stones fitted like a puzzle by hands that left no mortar and no easy answers.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cobbled lanes, tiny workshops and balconies painted the colour of a good sunset.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 490,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 218,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "1f20e19b-8e3b-4e78-9314-8dbbbd01a149",
+        "id": "906fbcd0-8a3d-417f-b3bd-24d63fabe580",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Old capital glow, Sacred Valley wander, then Inca stones and market colours — your guide in Cusco approves."
+            "text": "A gentle Cusco wander, from Inca stones to market colours and one last view — every must-do snug inside."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 135,
+          "input_tokens": 264,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 128,
-          "output_tokens": 23,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

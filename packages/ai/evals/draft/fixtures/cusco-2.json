@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "0a108331-e722-48a8-8896-3a8a81b3b294",
+        "id": "1bb596b8-a530-48a0-8b1c-eee442727070",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco welcome and sweet arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p4\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca heritage and old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p2\",\n        \"p5\",\n        \"p6\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco heart and sweet arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p5\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stories before goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p2\",\n        \"p6\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 90,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 162,
+          "output_tokens": 156,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "89c8d085-cfd6-483d-ae74-2ff979c48269",
+        "id": "b777d9f9-285b-4a3d-8e4f-68df3a5aa353",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Inca gold, woven stories and stone rooms that whisper the old ways.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sun temple walls that once shone with Inti (the sun) himself.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Courtyard tables, wood-fired oven and Andean plates worth a slow bite.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Inca gold, woven stories and a quiet courtyard to start the goodbye.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old sun temple where Inca stonework still holds its ground.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A warm courtyard lunch with Andean flavours before the flight.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 525,
+          "input_tokens": 503,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 117,
+          "output_tokens": 110,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "30ce7146-97ca-4966-98d0-b299a24872ef",
+        "id": "eba6fc40-8f53-41f8-bf8f-c8453e899de7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of Cusco, where colonial arcades and Inca stonework share the same square.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A riot of fruit, herbs and market chatter; the city’s pantry with a pulse.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Cacao from bean to bar, with a sweet smell that hugs you at the door.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Peruvian comfort food with a modern wink, close to the plaza’s evening glow.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the old city, where the stones have watched over every festival and fiesta.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A sweet little museum where the cacao bean tells its story from jungle to cup.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Colonial grandeur built on Inca foundations, with a painting of the Last Supper starring cuy.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lively kitchen with Peruvian classics and plenty of room for vegetarian and halal appetites.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 588,
+          "input_tokens": 558,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 227,
+          "output_tokens": 229,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "b174e9e5-f95f-4e84-af79-299e5f0b6c1b",
+        "id": "a48b78b4-5e49-4bab-957a-03fff0b73028",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A warm Cusco hello, then straight into Inca wonders — every must-do tucked in, amigo."
+            "text": "Cusco welcomes you softly, then sends you off whispering Inca tales — every must-do tucked in, my friend."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 259,
+          "input_tokens": 258,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 22,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

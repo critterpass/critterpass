@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "32a6e1c5-b494-446f-8745-f323bc069e2b",
+        "id": "ba54e488-1c71-4dba-bf6f-951e322148c4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"title\":\"Ubud easy day, close and calm\",\"summary\":\"A slower day around one temple and two easy meals, with the afternoon left free to wander.\",\"stops\":[{\"poi_id\":\"p15\",\"kind\":\"activity\",\"must_do_id\":\"p15\",\"note\":\"One proper temple stop, close to the meal spots and gentle on the legs.\",\"must_do_id\":\"p15\"},{\"poi_id\":\"p25\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Lunch right by the temple area, no long ride needed.\",\"must_do_id\":null},{\"poi_id\":\"p55\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Dinner stays local and easy, then the evening is yours.\",\"must_do_id\":null}]}"
+            "text": "{\n  \"title\": \"A gentle temple morning, then free\",\n  \"summary\": \"A slower day around one temple with lunch and dinner kept close by, leaving the rest of the day open.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The one temple we keep, best seen in the morning light before the day heats up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays simple and close by, so the day feels easy on the legs.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is another local plate, near enough to keep the evening unhurried.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1470,
+          "input_tokens": 1307,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 168,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 234,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "a33c628a-16ec-4e20-b794-d0a711c592fc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Lempuyang, easy and close\",\n  \"summary\": \"A gentle temple morning at Lempuyang with lunch and dinner kept simple and nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped for the closer Lempuyang temple so we stay put and skip the long ride.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kept as the one light activity, right beside the other temple.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays, but it is a long ride away, so we eat before leaving the area.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner near the temples, no long hop back.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 54,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 292,
           "service_tier": "standard"
         }
       }

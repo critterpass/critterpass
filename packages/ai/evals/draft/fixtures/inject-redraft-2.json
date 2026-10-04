@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f7754ee7-542d-4eee-a0b6-fbf1d067d68b",
+        "id": "fae39b91-b1e0-4850-8c99-ac5aaa1fee5a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud on a lighter wallet\",\n  \"summary\": \"A gentler Ubud day with free ridge views and palace corners, keeping the rice terraces and a plant-based lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The sun won’t wait, so we start here for those green terraces.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays plant-based and easy for everyone, terima kasih (thank you) to Alchemy.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so we can wander the ridge without watching the clock.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free palace stop keeps the day lighter on the wallet and heavier on charm.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter, Cheaper Ubud Day\",\n  \"summary\": \"We keep the rice terraces, then spend a free and easy day around Ubud with a vegan lunch and a relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces, the one must-do we keep.\",\n      \"note\": \"Rise and shine for the terraces, the one must-do we keep.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays vegan-friendly at Alchemy, terima kasih (thank you) for making it easy.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free ridge walk keeps the wallet happy and the legs moving.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ubud Palace costs nothing and gives us a little history before dinner.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays vegetarian-friendly, a calm end to a cheaper day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 726,
+          "input_tokens": 86,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 277,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 333,
           "service_tier": "standard"
         }
       }

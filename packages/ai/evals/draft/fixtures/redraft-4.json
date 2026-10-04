@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2cc924a3-4878-4b76-a4a8-effff6bdef81",
+        "id": "91e18d99-3d34-48b0-a59a-7f4f66603285",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A hungrier day in Kyoto\",\n  \"summary\": \"Rin gets her wish: a market wander, a proper lunch, and an evening of snacks and yakitori, with the temple kept front and centre.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the anchor. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin wanted to eat her way through the day, so we start with the market’s street food.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, proper bowl for lunch. Budget-friendly and very Kyoto.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow walk through Gion to settle lunch before the evening snacks.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with sticks and smoke. Splurge taste, street-level price.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Eat Your Way Through Kyoto\",\n  \"summary\": \"A slower, tastier day built around Rin's appetite, with a market, a proper lunch, and an evening meal without leaving the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the one we keep. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's first excuse to graze. A market stop is a meal with extra steps, and these steps are delicious.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, cheap and cheerful. Lunch stays because even a food day needs a table to lean on.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander to settle the noodles. History and local life, no ticket required.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her second proper meal, and the rest of us get to watch an omelette show.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 968,
+          "input_tokens": 72,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 318,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 347,
           "service_tier": "standard"
         }
       }

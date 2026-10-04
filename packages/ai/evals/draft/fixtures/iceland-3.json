@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "e1154762-094b-43ff-a4bc-25b9d5a20668",
+        "id": "46b417cd-937c-44bf-ab15-35cad191ccd3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Reykjavik area B\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Volcanic soak and city lights\",\n      \"area\": \"A then B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\", \"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Wellness, views and local finds\",\n      \"area\": \"B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p4\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area B\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soak and settle\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"City ease and views\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p3\", \"p6\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 4,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 149,
+          "output_tokens": 132,
           "service_tier": "standard"
         }
       }
@@ -28,22 +28,22 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "6289feed-2b7d-4d6b-8154-8a837627a508",
+        "id": "75b3a9c9-f62e-48a9-95b5-f2daa24a6490",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Slip into the milky blue warmth and let the silica do its quiet magic.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Slip into the milky blue warmth and let the silica do its quiet work.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 257,
+          "input_tokens": 126,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
+          "cache_read_input_tokens": 896,
           "output_tokens": 45,
           "service_tier": "standard"
         }
@@ -52,23 +52,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "286b52a4-ae70-4ca7-aac8-09ee9637c75f",
+        "id": "1b018bd4-306d-41e6-8cce-7596ac596d2d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The seven-step ritual ends with a long soak looking over the North Atlantic.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that make kale feel like a treat.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A real ice cave and a sweeping view of the city from the glass dome.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, wholesome plates that leave you feeling light on your feet.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steamy soak with the ocean right there, pure Nordic bliss.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 552,
+          "input_tokens": 536,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 162,
+          "output_tokens": 156,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "95402d87-8100-4695-ae08-11fefb3fd7f4",
+        "id": "33a8f4ad-4060-4621-b517-648d7486c054",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A cosy soak, city sparkle and the good stuff in between — every must-do made it, my friend."
+            "text": "A gentle soak, then a city stroll with a view — Reykjavik, easy as puffin pie."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 221,
+          "input_tokens": 217,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 24,
+          "output_tokens": 23,
           "service_tier": "standard"
         }
       }

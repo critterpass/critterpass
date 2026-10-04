@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "626e2c47-6a0c-4876-80f3-ab84dc16ef18",
+        "id": "07345ee5-d741-4e8b-badb-ce27edb37ad7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Different Lisbon, Same Sardine Love\",\n  \"summary\": \"We keep the riverside icon, then wander Alfama and Bairro Alto with a proper sit-down lunch and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Still the star of the morning, because some views deserve a second bow.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A flea market ramble instead of the usual lookout, full of local life and odd treasures.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian options, warm spices and zero sardine guilt.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The classic tram rattle through the old streets, because Lisbon is best enjoyed sideways.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, where the night owls earn their keep and the early birds pretend to be cool.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a tucked-away taberna with vegetarian plates that even a sardine would respect.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Belém to Bairro Alto, with bites\",\n  \"summary\": \"A day of two halves: the riverside history of Belém, then the hilltop views and evening buzz of Bairro Alto, with a proper sit-down meal in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we refuse to swap. Belém Tower, still standing, still smug about it.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"New for today: LX Factory. Old warehouses, new coffee, and enough photo spots to keep the shutterbugs busy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Taberna da Rua das Flores. Vegetarian options that even a sardine respects.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Miradouro da Senhora do Monte. The view that makes everyone forget the climb.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark. Because the night owls asked nicely, and the early birds can nap on the tram.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 731,
+          "input_tokens": 91,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 386,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 405,
           "service_tier": "standard"
         }
       }

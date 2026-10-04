@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "60d00f15-a68a-4ce3-aaaa-d1832c6ecaae",
+        "id": "b15b7867-567e-4801-b43a-baf822c3f4fa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden hour in the old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and starry skies\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p5\", \"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sacred Valley salt and circles\",\n      \"area\": \"Area C and Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Artisan lanes and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Last views over Cusco\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\", \"m4\"],\n      \"poi_ids\": [\"p4\", \"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"sacred valley day trip\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"salt and terraces far loop\",\n      \"area\": \"Area C and Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"easy morning and farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p5\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,15 +20,15 @@
           "input_tokens": 36,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 307,
+          "output_tokens": 303,
           "service_tier": "standard"
         }
       }
     },
-    "day-5": {
+    "day-3": {
       "status": 200,
       "body": {
-        "id": "86f11e3f-65ac-4a68-b03f-19c2103f7f38",
+        "id": "81ea9ceb-ce01-421f-ba07-247bfecf46c7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -41,34 +41,34 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 301,
+          "input_tokens": 44,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
+          "cache_read_input_tokens": 1024,
           "output_tokens": 6,
           "service_tier": "standard"
         }
       }
     },
-    "day-3": {
+    "day-5": {
       "status": 200,
       "body": {
-        "id": "48df444f-e5ab-4a1e-9c4a-f0456819407b",
+        "id": "2330852c-ab65-42ee-8fca-38dbed089b03",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The salt pans shimmer like a thousand tiny mirrors under Inti (the sun).\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Those circular terraces feel like a giant’s amphitheatre carved into the earth.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Step inside for the gold-leaf altars and the painting of the last supper with a very Andean guest on the plate.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little museum where the story of cacao ends with warm, melty samples.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 335,
+          "input_tokens": 337,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 83,
+          "output_tokens": 91,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "f222553a-e615-4fe6-892f-c9153cb828d8",
+        "id": "5d0e77e7-5d25-4fd2-9da3-2516f888d739",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Wander the artisan lanes of San Blas, where tiny workshops spill colour onto the cobbles.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lose yourself among market stalls piled with fruit, flowers and the hum of local life.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Follow cacao from bean to bar in a little museum that smells like heaven.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The salt pans shimmer like a thousand tiny mirrors under Inti (the sun) — bring your camera and a steady foot.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Those concentric terraces feel like a giant green amphitheatre carved for the wind.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 366,
+          "input_tokens": 336,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 124,
+          "output_tokens": 90,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "65d90cb5-df92-46bc-9d9e-7b1605f878af",
+        "id": "d7296cc2-d3e9-4a4f-a009-411a6b3610f2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old square hums with stories and golden light on the stones.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The temple walls still hold the warmth of Inti (the sun) in their seams.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A white figure on the hill, watching the city turn amber below.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A plant-filled corner where even the alpacas would approve of the menu.\"\n    }\n  ]\n}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old square hums with stories under the watchful mountains.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Sun-worn stones and Inca walls hold the city's oldest heartbeat.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A plant-filled corner where the crew can refuel without a fuss.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 392,
+          "input_tokens": 8,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 213,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 111,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d5798d59-110d-4972-b25c-820a54eafadd",
+        "id": "a753f036-d9ac-4e81-b732-42683d503f6b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Giant Inca stones with a view over the whole city, and a story in every zigzag wall.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Gold leaf, cedar carvings and a painting of the Last Supper with a very Andean guest on the plate.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Quiet rooms full of Inca goldwork, quipus and mummies that make history feel very close.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"A dome full of southern stars and the Inca constellations, told with warmth and a little theatre.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Giant Inca stones with a view over the red-tiled roofs, and Inti (the sun) warming the old walls.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stalls of fruit, flowers and woven colour, with juice ladies calling you over.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cool stone rooms full of Inca gold, textiles and stories of the old kings.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Winding lanes of whitewashed walls, tiny galleries and balconies spilling with flowers.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 419,
+          "input_tokens": 459,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 177,
+          "output_tokens": 171,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "a469ef30-724f-4986-94cb-6c017df151c7",
+        "id": "a48a2b32-f450-42a1-bfd5-ddc29bfecb99",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Five days of Inti (the sun)-kissed stone, salt and markets, with every must-do tucked in."
+            "text": "A gentle Cusco wander, from Inca stones to salt flats, all must-dos tucked in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 151,
+          "input_tokens": 147,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 25,
+          "output_tokens": 21,
           "service_tier": "standard"
         }
       }

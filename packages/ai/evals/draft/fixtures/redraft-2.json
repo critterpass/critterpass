@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d3a426c7-085e-4e77-bc42-0761a95b2965",
+        "id": "3a85bab2-cc07-44c9-84ff-182626def228",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Day in Kyoto\",\n  \"summary\": \"A slower day with one temple, one evening stroll, and two proper vegan meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here because the crew needs vegan and this kitchen does it without a fuss.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Sanjusangen-do gives you stillness without a sprint.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept for the night owls. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at Ain Soph because it is the only vegan meal place on the list and the day still needs two meals.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Kyoto Morning\",\n  \"summary\": \"A slower day with one temple, a long lunch, and the evening kept for Pontocho.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Enough time to actually look at the thousand statues instead of nodding at them.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays. Vegan, unhurried, and close enough to the temple that nobody needs to rush.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do. Shoes off, phone down, eyes up after dark.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 693,
+          "input_tokens": 53,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 261,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 211,
           "service_tier": "standard"
         }
       }

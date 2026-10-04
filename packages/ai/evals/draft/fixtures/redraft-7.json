@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3cf9015c-b618-42e9-814c-7407b538db69",
+        "id": "c9794167-e34e-4d55-bfe5-c7761ae91c04",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, softer Ubud day\",\n  \"summary\": \"One gentle temple visit, a free stop, and two easy meals around Ubud with plenty of time to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, peaceful temple stop to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch kept easy and plant-based, right where the day slows down.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, comforting local dinner to end the day gently.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower, softer Bali day\",\n  \"summary\": \"One gentle temple visit, a free wander, and two easy meals around the same leafy corner of Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free lotus-pond temple to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, cheap local lunch so the budget can breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan dinner to wind down, terima kasih (thank you) to a gentle day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1099,
+          "input_tokens": 75,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 223,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 227,
           "service_tier": "standard"
         }
       }

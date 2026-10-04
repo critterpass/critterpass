@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "acdc1935-1ae1-4e55-83c5-1973b996dd70",
+        "id": "cd6aa256-21f6-4887-96c0-31e60603710f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Wander Through Lisbon\",\n  \"summary\": \"A slower day built around grazing, a proper sit-down meal, and the one museum we cannot skip, all in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start here because Ana asked for pastries and this market is the closest thing to a treasure hunt for snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle Alfama wander to walk off the first round of treats, with no rush and plenty of photo corners.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with vegetarian options, because a food day still needs a real meal and this one is easier on the budget.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we must keep, and it fits perfectly after lunch when the museum is still wide open.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A casual, cheaper dinner to end the food crawl without emptying anyone's pockets.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Tasty, Easy Lisbon Day\",\n  \"summary\": \"A slower day in the same corner of Lisbon, with a market, a castle, a must-see museum and two proper meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the perfect first bite of the day, all bustle and local life and maybe a pastel de nata if you squint hard enough.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A castle with a view, and a fine way to walk off the market snacks before lunch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper Portuguese flavour and a few vegetarian options, so nobody has to live on grilled sardines alone. Tragic, I know.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-see museum, kept right where it belongs, with time to wander without rushing.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter, cheaper dinner to end the day gently, with halal and vegetarian choices for the crew.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 684,
+          "input_tokens": 44,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 395,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 403,
           "service_tier": "standard"
         }
       }

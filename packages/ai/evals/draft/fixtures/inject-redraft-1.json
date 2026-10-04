@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "77d4925c-5d4b-493b-8680-5029af95bfc6",
+        "id": "254bdb87-8347-46c1-ab56-3498bf120fa4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two temples, two gentle meals, and room to breathe between them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kinkaku-ji stays, and now it gets the slow, golden morning it deserves.\",\n      \"note\": \"Kinkaku-ji stays, and now it gets the slow, golden morning it deserves.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch near the next stop, with proper vegetarian choices for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, not three. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays because even a slow day runs through dinner. Vegetarian options, warm room.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two temples, two proper meals, and room to breathe between them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian choices, near the afternoon stop.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand faces. Worth the slow walk.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a bit of theatre, and options for the non-meat eaters.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 871,
+          "input_tokens": 103,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 275,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 238,
           "service_tier": "standard"
         }
       }

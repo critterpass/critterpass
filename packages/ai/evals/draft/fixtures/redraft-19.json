@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3c68d2e9-c372-46dc-888d-0b5a045010c2",
+        "id": "841c6e8c-4acd-4137-af05-5eb29a9b63ec",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in Roma Norte\",\n  \"summary\": \"A gentle day with a long neighbourhood walk and a deep dive into Aztec history, leaving plenty of room to linger.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the heart of the day, with extra time to wander side streets and soak up local life.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the trajineras so we stay in one area and take history at a slower pace.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day in Mexico City\",\n  \"summary\": \"A gentle day with a long morning walk and a museum visit, leaving room to wander and rest.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte stroll, now with extra time to dawdle and notice the little things.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor stays, but we arrive unrushed and let the old stones do the talking.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 698,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 168,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 178,
           "service_tier": "standard"
         }
       }
