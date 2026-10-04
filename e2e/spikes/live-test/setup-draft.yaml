@@ -1,0 +1,991 @@
+appId: app.critterpass.dev
+---
+# A first-time traveller's walk on staging, read in Vietnamese from the splash: onboarding, Đà Lạt
+# found from first-run Home and pitched with no crew (the crew is started on the page), locked in,
+# the trip set up two weeks out for four days, the wait left and come back to, the guide's draft
+# read day by day, then CHANGE A DAY three times (keep, put back, the last free one), and a second
+# crew started to read its code. It stops before the plan goes to the crew. Every screen and every action that changes it leaves a
+# frame (setup-draft-<nn>-<what>); the waits put their seconds in the frame's name. Steps that
+# explore are optional, so a screen that refuses still leaves its frame and the walk goes on. Android's
+# driver cannot type Vietnamese marks, so she types without them, as many do in a search field.
+- runFlow: ../../happy/subflows/fresh-install.yaml
+# The language: the developer gallery switches the running app (the test phone itself is English).
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-01-splash
+
+# Onboarding, as far as she must go.
+- repeat:
+    while:
+      notVisible:
+        id: 'onboarding-name-field'
+    times: 3
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'onboarding-open'
+          commands:
+            - waitForAnimationToEnd:
+                timeout: 3000
+            - tapOn:
+                id: 'onboarding-open'
+      - extendedWaitUntil:
+          visible:
+            id: 'onboarding-name-field'
+          timeout: 10000
+          optional: true
+- takeScreenshot: setup-draft-02-name
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Linh'
+- takeScreenshot: setup-draft-03-name-typed
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-04-photo
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-photo-next'
+    commands:
+      - tapOn:
+          id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-05-taste
+- repeat:
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- takeScreenshot: setup-draft-06-taste-done
+- tapOn:
+    id: 'taste-done'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-07-home-airport
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Ho Chi'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SGN'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-08-home-airport-search
+      - tapOn:
+          id: 'home-row-SGN'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-.*'
+      selected: true
+    timeout: 10000
+- takeScreenshot: setup-draft-09-home-airport-picked
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-10-pass-issued
+- tapOn:
+    id: 'onboarding-issued-save'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-11-save-sheet
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-12-permissions
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+# The new planning screens, for this phone only.
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-13-home-first-run
+# Going with friends: the way to start a crew sits beside joining one. She reads it and comes back.
+- tapOn:
+    id: 'home-start-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-13b-start-a-crew-from-home
+- repeat:
+    while:
+      notVisible:
+        id: 'home-first-run'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd
+
+# How does she begin? Home, the other tabs, then the place search that leads the page.
+- scrollUntilVisible:
+    element:
+      id: 'home-somewhere-else'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-14-home-lower
+- tapOn:
+    id: 'tab-trips'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-15-trips-tab-no-trip
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'home-somewhere-else'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'home-somewhere-else'
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-16-place-search
+- inputText: 'Da Lat'
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-17-place-search-typed
+# With no result for the name as she writes it, she tries it without the marks.
+- runFlow:
+    when:
+      notVisible:
+        id: 'place-result-.*'
+    commands:
+      - eraseText: 10
+      - inputText: 'da lat'
+      - extendedWaitUntil:
+          visible:
+            id: 'place-result-.*'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-17b-place-search-plain
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination|guest-page'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: setup-draft-18-destination-page
+- scrollUntilVisible:
+    element:
+      id: 'explore-pitch|guest-pitch'
+    direction: DOWN
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-19-destination-actions
+- tapOn:
+    id: 'explore-pitch|guest-pitch'
+# With no crew the page starts one: a name already filled in, one button.
+- extendedWaitUntil:
+    visible:
+      id: 'explore-pitch-no-crew-start|crew-picker-none-start'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'explore-pitch-no-crew-start|crew-picker-none-start'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-20-pitch-starts-a-crew
+- evalScript: ${output.t0 = Date.now()}
+- tapOn:
+    id: 'explore-pitch-no-crew-start|crew-picker-none-start'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: setup-draft-21-crew-being-made
+# The crew syncs and the pitch opens by itself.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 90000
+- evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-30-pitch-card-after-${output.secs}s
+- scrollUntilVisible:
+    element:
+      id: 'pitch-add'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: setup-draft-30b-after-add-to-the-vote
+# Home the way she would get there: back, until Home shows.
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen'
+    times: 5
+    commands:
+      - back
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-31-home-board
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-32-board-lock-in
+- tapOn:
+    id: 'board-lock-in'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: setup-draft-33-after-lock-in-tap
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-34-reveal
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: setup-draft-35-when
+
+# When: two weeks from today (Vietnam time), four days.
+- evalScript: ${var day = function (n) { return new Date(Date.now() + 7 * 3600000 + n * 86400000).toISOString().slice(0, 10); }; output.first = day(14); output.last = day(17); output.mid = day(15)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-36-when-lower
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-37-picker-open
+# How many days: four.
+- tapOn:
+    id: 'picker-length-4'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-37b-picker-four-days-asked
+# The suggested window, when the sheet offers one.
+- runFlow:
+    when:
+      visible:
+        id: 'picker-best-0'
+    commands:
+      - tapOn:
+          id: 'picker-best-0'
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-38-picker-suggested-window
+      - tapOn:
+          id: 'picker-clear'
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'picker-today'
+    commands:
+      - tapOn:
+          id: 'picker-today'
+      - waitForAnimationToEnd
+# Holding a day, the gesture the sheet's line names.
+- longPressOn:
+    id: ${'heat-pick-' + output.mid}
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-39-picker-day-held
+- tapOn:
+    id: 'picker-clear'
+    optional: true
+- tapOn:
+    id: ${'heat-pick-' + output.first}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-40-picker-first-day
+- tapOn:
+    id: ${'heat-pick-' + output.last}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-41-picker-four-days
+- scrollUntilVisible:
+    element:
+      id: 'picker-lock'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- evalScript: ${output.t0 = Date.now()}
+- tapOn:
+    id: 'picker-lock'
+
+# Budget, in đồng.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+    optional: true
+- evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-42-budget-after-${output.secs}s
+- swipe:
+    from:
+      id: 'budget-track'
+    direction: RIGHT
+    duration: 900
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-43-budget-dragged-up
+# The amount she has in mind, typed.
+- scrollUntilVisible:
+    element:
+      id: 'budget-typed'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'budget-typed'
+- inputText: '5000000'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-43b-budget-typed
+- scrollUntilVisible:
+    element:
+      id: 'budget-lock'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-44-budget-lower
+- tapOn:
+    id: 'budget-lock'
+
+# Rooms: nothing to decide for a crew of one with no stay, so setup goes straight on. Should the
+# step show (a stay on offer), its frame is kept and LOOKS GOOD moves on.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add|setup-rooms-lock'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-45-rooms
+      - tapOn:
+          id: 'setup-rooms-lock'
+
+# Must-dos: one in her own words, one picked from the place search.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-47-must-dos-empty
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-48-add-must-do
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'An banh can buoi sang'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-49-must-do-own-words
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-list'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-50-must-dos-one
+- tapOn:
+    id: 'must-dos-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'add-must-do-field'
+    optional: true
+- inputText: 'Crazy House'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-51-must-do-search
+- tapOn:
+    id: 'add-must-do-place-.*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-52-must-do-picked
+# A place with no match is kept as typed, so the second must-do is on the list either way.
+- runFlow:
+    when:
+      visible:
+        id: 'add-must-do-keep'
+    commands:
+      - tapOn:
+          id: 'add-must-do-keep'
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-53-must-dos-two
+- evalScript: ${output.draftT0 = Date.now()}
+- tapOn:
+    id: 'must-dos-draft'
+
+# The drafting wait: what it shows, and how long.
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
+- takeScreenshot: setup-draft-54-drafting-start
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-leave|draft-review'
+    timeout: 20000
+    optional: true
+- takeScreenshot: setup-draft-55-drafting-20s
+# She leaves the wait: Must-dos keeps one button, which follows the draft.
+- runFlow:
+    when:
+      visible:
+        id: 'drafting-leave'
+    commands:
+      - tapOn:
+          id: 'drafting-leave'
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-drafting|must-dos-see-draft'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-56-left-the-wait-must-dos
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-see-draft'
+          timeout: 600000
+      - evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-57-must-dos-draft-ready-at-${output.secs}s
+      - tapOn:
+          id: 'must-dos-see-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- evalScript: ${output.secs = Math.round((Date.now() - output.draftT0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-59-draft-review-after-${output.secs}s
+
+# The draft, read to the end.
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-60-draft-review-scrolled-1
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-61-draft-review-scrolled-2
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-62-draft-review-end
+# Every day opened and read; a stop opened on each.
+- evalScript: ${output.day = 0}
+- repeat:
+    times: 4
+    commands:
+      - evalScript: ${output.day = output.day + 1}
+      - scrollUntilVisible:
+          element:
+            id: ${'draft-day-' + output.day}
+          direction: UP
+          timeout: 8000
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: ${'draft-day-' + output.day}
+          direction: DOWN
+          timeout: 8000
+          optional: true
+      - tapOn:
+          id: ${'draft-day-' + output.day}
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: setup-draft-63-day-${output.day}-a-opened
+      - swipe:
+          direction: UP
+          duration: 600
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-63-day-${output.day}-b-scrolled
+      - swipe:
+          direction: UP
+          duration: 600
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-63-day-${output.day}-c-scrolled
+      - swipe:
+          direction: UP
+          duration: 600
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-63-day-${output.day}-d-end
+      - runFlow:
+          when:
+            notVisible:
+              id: 'draft-review'
+          commands:
+            - tapOn:
+                id: 'plan-day-row-.*'
+                index: 0
+                optional: true
+            - waitForAnimationToEnd:
+                timeout: 5000
+            - takeScreenshot: setup-draft-63-day-${output.day}-e-stop-tapped
+      - repeat:
+          while:
+            notVisible:
+              id: 'draft-review'
+          times: 4
+          commands:
+            - back
+            - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-63-day-${output.day}-f-back-on-draft
+
+# CHANGE A DAY, the first time: day 2, slower, plus her own words. KEEP IT.
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-2'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-64-change-day-sheet
+- tapOn:
+    id: 'change-day-2'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-65-change-day-2-picked
+- tapOn:
+    id: 'redraft-reason-slower'
+- tapOn:
+    id: 'change-day-note'
+- inputText: 'Them mot quan ca phe view dep, bot di bo'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-66-change-day-own-words
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-67-change-day-ready
+- evalScript: ${output.t0 = Date.now()}
+- tapOn:
+    id: 'change-day-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-thinking|redraft-diff|redraft-outcome|last-redraft-use'
+    timeout: 30000
+- takeScreenshot: setup-draft-68-redraft-thinking
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff|redraft-outcome'
+    timeout: 60000
+    optional: true
+- takeScreenshot: setup-draft-69-redraft-thinking-60s
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff|redraft-outcome'
+    timeout: 600000
+- evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-70-redraft-diff-after-${output.secs}s
+- tapOn:
+    id: 'redraft-change-toggle-0'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-71-redraft-change-opened
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-72-redraft-diff-scrolled
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-73-redraft-diff-end
+# Leaving that change out would put two stops at the same time: the keep waits and says why, and
+# she ticks it again.
+- runFlow:
+    when:
+      visible:
+        id: 'redraft-clash'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'redraft-change-toggle-0'
+          direction: UP
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'redraft-change-toggle-0'
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-73b-change-ticked-again
+- tapOn:
+    id: 'redraft-keep'
+    optional: true
+- tapOn:
+    id: 'redraft-outcome-back'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-74-draft-after-keep
+- scrollUntilVisible:
+    element:
+      id: 'draft-day-2'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'draft-day-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: setup-draft-75-day-2-after-keep-a
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-75-day-2-after-keep-b
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-75-day-2-after-keep-c
+- repeat:
+    while:
+      notVisible:
+        id: 'draft-review'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd
+
+# The second time: day 3, first with only her own words, then a reason; she leaves while the guide
+# thinks, comes back by the draft's banner, and puts the day back.
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-76-draft-footer-one-used
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-3'
+    timeout: 15000
+- tapOn:
+    id: 'change-day-3'
+- tapOn:
+    id: 'change-day-note'
+- inputText: 'Hom do troi hay mua, cho minh cho trong nha'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-77-change-day-words-only
+- tapOn:
+    id: 'change-day-submit'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: setup-draft-78-words-only-submitted
+# REDRAFT stays off without a reason chip: she picks one.
+- runFlow:
+    when:
+      visible:
+        id: 'change-day-submit'
+    commands:
+      - tapOn:
+          id: 'redraft-reason-more_food'
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-79-change-day-reason-added
+      - tapOn:
+          id: 'change-day-submit'
+- evalScript: ${output.t0 = Date.now()}
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-thinking|redraft-diff|redraft-outcome|last-redraft-use'
+    timeout: 30000
+- takeScreenshot: setup-draft-80-second-redraft-thinking
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      - tapOn:
+          id: 'last-redraft-use'
+- runFlow:
+    when:
+      visible:
+        id: 'redraft-thinking'
+    commands:
+      - back
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-81-left-while-thinking
+      - scrollUntilVisible:
+          element:
+            id: 'draft-open-redraft-go'
+          direction: UP
+          timeout: 10000
+          optional: true
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-82-draft-banner-redrafting
+      - tapOn:
+          id: 'draft-open-redraft-go'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff|redraft-outcome'
+    timeout: 600000
+- evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-83-second-diff-after-${output.secs}s
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-84-second-diff-scrolled
+- scrollUntilVisible:
+    element:
+      id: 'redraft-put-back'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'redraft-put-back'
+    optional: true
+- tapOn:
+    id: 'redraft-outcome-back'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-85-draft-after-put-back
+
+# The third time: the last free redraft asks first. She reads it and backs out.
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-86-draft-footer-two-used
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-1'
+    timeout: 15000
+- tapOn:
+    id: 'change-day-1'
+- tapOn:
+    id: 'redraft-reason-surprise_me'
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-87-change-day-1-surprise
+- tapOn:
+    id: 'change-day-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'last-redraft-use|redraft-thinking|redraft-diff|redraft-outcome'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-88-last-free-redraft-question
+- tapOn:
+    id: 'last-redraft-close'
+    optional: true
+- extendedWaitUntil:
+    notVisible:
+      id: 'last-redraft-use'
+    timeout: 8000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-89-draft-after-backing-out
+
+# Earlier drafts, and the way back to Home with the plan still private.
+- scrollUntilVisible:
+    element:
+      id: 'draft-history-open'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'draft-history-open'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-90-earlier-drafts
+- runFlow:
+    when:
+      visible:
+        id: 'draft-history'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'draft-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: setup-draft-91-back-from-draft
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: setup-draft-92-home-with-private-draft
+
+# A second crew, started the long way, to read the page it ends on: its code and the share button.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Hoi ban than'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-93-crew-created
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-94-crew-code-and-share
