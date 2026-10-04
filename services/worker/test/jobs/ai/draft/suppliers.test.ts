@@ -70,6 +70,7 @@ const TRIP: DraftTripData = {
     freeCancelUntil: '2026-11-01T23:00:00.000Z',
   },
   bands: { foodPpDayMinor: 4_500, funPpDayMinor: 3_500 },
+  transport: [],
 };
 
 describe('draft stays', () => {

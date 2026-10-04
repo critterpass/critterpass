@@ -2,8 +2,8 @@
  * What a draft is built from. The trip and its crew come through the guide's own view
  * (`llm.trip_context`, read as `guide_reader` for the organiser): names, taste tags, the budget
  * band. The crew-visible setup rows (must-dos, consented dietary flags, the locked budget plan, the
- * room plan) are read as the system; nothing here is C3, and no supplier
- * content exists to read. The places themselves are read in `./load-places`.
+ * room plan, and when the flights and trains the crew shares leave and land) are read as the
+ * system; nothing here is C3, and no supplier content exists to read. The places themselves are read in `./load-places`.
  */
 import { withGuideReader, withSystem } from '@cp/db';
 import { budgetEstimates, type BudgetEstimateSource } from '@cp/cost-engine';
@@ -54,6 +54,11 @@ export interface DraftTripData {
     readonly freeCancelUntil: string | null;
   } | null;
   readonly bands: { readonly foodPpDayMinor: number; readonly funPpDayMinor: number } | null;
+  /** When each flight or train shared with the crew leaves and lands (ISO instants). */
+  readonly transport: readonly {
+    readonly startsAt: string | null;
+    readonly endsAt: string | null;
+  }[];
 }
 
 const DIETS = new Set(['vegetarian', 'vegan', 'pescatarian', 'halal', 'kosher']);
@@ -157,6 +162,13 @@ export async function loadDraftTrip(
       'SELECT rooms, version, stay_booking_id, free_cancel_until FROM room_plans WHERE trip_id = $1',
       [tripId],
     );
+    const transport = await tx.query<{ starts_at: Date | null; ends_at: Date | null }>(
+      `SELECT starts_at, ends_at FROM bookings
+        WHERE trip_id = $1 AND deleted_at IS NULL AND status = 'booked' AND visibility = 'crew'
+          AND (type = 'rail' OR (type = 'flight' AND flight_crew_visible))
+        ORDER BY starts_at, id`,
+      [tripId],
+    );
     const inputs = await tx.query<{ inputs: BudgetEstimateSource }>(
       'SELECT app.setup_budget_inputs($1) AS inputs',
       [tripId],
@@ -166,6 +178,7 @@ export async function loadDraftTrip(
       flags: flags.rows,
       budget: budget.rows[0],
       rooms: rooms.rows[0],
+      transport: transport.rows,
       inputs: inputs.rows[0]?.inputs,
     };
   });
@@ -229,5 +242,9 @@ export async function loadDraftTrip(
             foodPpDayMinor: Number(index.foodPpDayMinor),
             funPpDayMinor: Number(index.funPpDayMinor),
           },
+    transport: rest.transport.map((row) => ({
+      startsAt: row.starts_at?.toISOString() ?? null,
+      endsAt: row.ends_at?.toISOString() ?? null,
+    })),
   };
 }
