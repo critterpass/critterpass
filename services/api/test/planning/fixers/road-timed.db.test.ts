@@ -154,6 +154,13 @@ beforeAll(async () => {
         JSON.stringify({ name: 'A place in Ubud', ...place }),
       ],
     );
+  // A booked dinner without a place, so the day runs into the evening and an order has room.
+  await q(
+    `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz,
+       category, locked_reason)
+     VALUES ($1, $2, $3, $4, $5, $6, 'Asia/Tokyo', 'dinner', 'booking')`,
+    [versionId, dayId, crew.tripId, randomUUID(), at(19), at(20)],
+  );
   await item(stops.temple, 9, SARASWATI);
   await item(stops.spring, 11, TIRTA_EMPUL);
   await item(stops.terraces, 13, TEGALLALANG);

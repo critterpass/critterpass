@@ -29,6 +29,8 @@ import type { LoadedCheckInput } from './check-input';
 /** The whole lookup of one request, every round included. */
 export const ROAD_BUDGET_MS = 3000;
 const MAX_ROUNDS = 3;
+/** The local minute a planned day ends (22:00), whatever kind of day it is. */
+const DAY_END_MIN = 22 * 60;
 
 export interface Roads {
   /** The check input on the travel known so far. */
@@ -176,19 +178,14 @@ export function roadsFor(
       const clash = checkPlan(after).some(
         (issue) => issue.kind === 'clash' && issue.stableIds.some((id) => targets.has(id)),
       );
-      // A stop moved past the end of the day (22:00, or as late as it already ran) is no fix.
+      // A stop moved past the end of the day (22:00, or as late as the day already ran) is no fix.
       const late = days.some((day) => {
-        const end = instantAt(day.date, day.toMin, context.tz).getTime();
-        const was = new Map(
-          context.days
-            .find((entry) => entry.dayId === day.dayId)
-            ?.items.map((item) => [item.stableId, item.endsAt.getTime()] as const),
+        const before = context.days.find((entry) => entry.dayId === day.dayId)?.items ?? [];
+        const end = Math.max(
+          instantAt(day.date, DAY_END_MIN, context.tz).getTime(),
+          ...before.map((item) => item.endsAt.getTime()),
         );
-        return day.items.some(
-          (item) =>
-            targets.has(item.stableId) &&
-            item.endsAt.getTime() > Math.max(end, was.get(item.stableId) ?? 0),
-        );
+        return day.items.some((item) => targets.has(item.stableId) && item.endsAt.getTime() > end);
       });
       const checked = days.flatMap(routePairs).every((pair) => has(pair)?.approx === false);
       return { clash: clash || late, checked };
