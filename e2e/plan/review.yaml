@@ -764,8 +764,8 @@ appId: app.critterpass.dev
     element:
       text: 'Plan ideas.*'
     direction: DOWN
-    timeout: 20000
-    # Slow, or iOS flings past it.
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
     speed: 20
     centerElement: true
 - tapOn:
@@ -996,8 +996,8 @@ appId: app.critterpass.dev
     element:
       text: 'Plan ideas.*'
     direction: DOWN
-    timeout: 20000
-    # Slow, or iOS flings past it.
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
     speed: 20
     centerElement: true
 - tapOn:
