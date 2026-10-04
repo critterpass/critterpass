@@ -30,6 +30,7 @@ export function WhereScreen({ formId }: { readonly formId: string }) {
       requirement={data.requirement}
       critter={data.critter}
       slug={data.trip.slug}
+      placeName={data.trip.name}
       position={data.position}
       away={away}
       onDirections={() => {
