@@ -434,51 +434,64 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-map-peek'
     timeout: 60000
-# The check runs by itself after the plan is locked in (a debounce, then the job); the guide's
-# note on the sheet shows once it has.
+# The check runs by itself once the plan changes (a debounce, then the job), and hourly for a trip
+# that has none yet; the guide's note on the sheet, with the way into the check, shows once it has.
+# A trip whose first check has not run yet has no way in: the shot records that, and the walk ends.
 - extendedWaitUntil:
     visible:
       id: 'trip-map-check'
-    timeout: 300000
-- waitForAnimationToEnd:
-    timeout: 4000
-- takeScreenshot: en-7h-1-entry
-# With something to fix or know the note carries CHECK; with nothing, SEE on the whole-trip sheet.
-- runFlow:
-    when:
-      visible: '(?i)check'
-    commands:
-      - tapOn: '(?i)check'
+    timeout: 150000
+    optional: true
 - runFlow:
     when:
       notVisible:
-        id: 'plan-check-title'
+        id: 'trip-map-check'
     commands:
-      - swipe:
-          start: 50%, 70%
-          end: 50%, 46%
-          duration: 700
+      - takeScreenshot: en-7h-1-entry-check-not-run
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-check'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: en-7h-1-entry
+      # With something to fix or know the note carries CHECK; with nothing, SEE on the whole trip.
+      - runFlow:
+          when:
+            visible: '(?i)check'
+          commands:
+            - tapOn: '(?i)check'
+      - runFlow:
+          when:
+            notVisible:
+              id: 'plan-check-title'
+          commands:
+            - swipe:
+                start: 50%, 70%
+                end: 50%, 46%
+                duration: 700
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-map-half'
+                timeout: 10000
+            - tapOn:
+                id: 'trip-map-all-days'
+            - extendedWaitUntil:
+                visible:
+                  id: 'trip-map-full'
+                timeout: 10000
+            - scrollUntilVisible:
+                element:
+                  id: 'trip-map-check-card'
+                direction: DOWN
+                timeout: 20000
+            - tapOn: '(?i)see'
       - extendedWaitUntil:
           visible:
-            id: 'trip-map-half'
-          timeout: 10000
-      - tapOn:
-          id: 'trip-map-all-days'
-      - extendedWaitUntil:
-          visible:
-            id: 'trip-map-full'
-          timeout: 10000
-      - scrollUntilVisible:
-          element:
-            id: 'trip-map-check-card'
-          direction: DOWN
-          timeout: 20000
-      - tapOn: '(?i)see'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-check-title'
-    timeout: 30000
-- waitForAnimationToEnd:
-    timeout: 8000
-- assertNotVisible: 'CHECKING…'
-- takeScreenshot: en-7h-1-live
+            id: 'plan-check-title'
+          timeout: 30000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - assertNotVisible: 'CHECKING…'
+      - takeScreenshot: en-7h-1-live
