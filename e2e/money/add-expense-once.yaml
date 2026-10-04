@@ -88,7 +88,7 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# The dates: today in Vietnam as the first day, three days long, picked in the week sheet by the
+# The dates: today in Vietnam as the first day, three days long, picked in the day sheet by each
 # day's own id; the lock's label is checked before it is tapped.
 - evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
 - scrollUntilVisible:
@@ -98,59 +98,16 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'when-pick-week'
-- extendedWaitUntil:
-    visible:
-      id: 'picker-shorter'
-    timeout: 10000
-- waitForAnimationToEnd
-# The sheet opens on the suggested week's month, and the dates step under it has a month title and
-# arrows of its own: page the sheet's own month (inside `week-picker-panel`) to the day's, then tap
-# the day's cell by its id.
-- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickWeekMonth = '(?i)' + months[Number(output.pickDate.slice(5, 7)) - 1] + ' ' + output.pickDate.slice(0, 4); output.pickWeekCell = 'heat-pick-' + output.pickDate}
-- repeat:
-    while:
-      notVisible:
-        text: ${output.pickWeekMonth}
-        childOf:
-          id: 'week-picker-panel'
-    times: 6
-    commands:
-      - tapOn:
-          id: 'heatmap-prev'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
-- repeat:
-    while:
-      notVisible:
-        text: ${output.pickWeekMonth}
-        childOf:
-          id: 'week-picker-panel'
-    times: 12
-    commands:
-      - tapOn:
-          id: 'heatmap-next'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
+# The sheet opens on the suggested week's month, and the dates step under it has a month title of
+# its own: pick-days.yaml turns the sheet's own month to each day and taps it by its id.
+- runFlow:
+    file: ../happy/subflows/pick-days.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 3
 - assertVisible:
-    text: ${output.pickWeekMonth}
-    childOf:
-      id: 'week-picker-panel'
-- tapOn:
-    id: ${output.pickWeekCell}
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
-- repeat:
-    while:
-      notVisible: '3 days'
-    times: 30
-    commands:
-      - tapOn:
-          id: 'picker-shorter'
-- assertVisible: '3 days'
+    id: 'picker-length'
+    text: '3 days .*'
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}

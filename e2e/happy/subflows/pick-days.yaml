@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Picks ${PICK_DAYS} days from ${PICK_DATE} (YYYY-MM-DD) in the open day picker sheet: anything
+# already picked is cleared, then the first day and the last day are tapped by their ids, each on
+# its own month (pick-week-day.yaml), and the lock is waited for. Check `picker-lock` names the
+# days before tapping it.
+#   - runFlow:
+#       file: ../happy/subflows/pick-days.yaml
+#       env:
+#         PICK_DATE: ${output.pickDate}
+#         PICK_DAYS: 3
+- evalScript: ${output.pickLast = new Date(Date.parse(PICK_DATE + 'T12:00:00Z') + (Number(PICK_DAYS) - 1) * 86400000).toISOString().slice(0, 10)}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'picker-clear'
+    commands:
+      - tapOn:
+          id: 'picker-clear'
+- runFlow:
+    file: pick-week-day.yaml
+    env:
+      PICK_DATE: ${PICK_DATE}
+- runFlow:
+    file: pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickLast}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000

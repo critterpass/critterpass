@@ -15,7 +15,7 @@ msgstr "{dayName}, {state}"
 msgid "setup.connected.back"
 msgstr "Về phần chuẩn bị"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.busy"
 msgstr "Bận"
 
@@ -43,7 +43,7 @@ msgstr "Không đọc được lịch của bạn."
 msgid "setup.calendar.title"
 msgstr "Tìm ngày bạn rảnh"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.free"
 msgstr "Rảnh"
 
@@ -67,17 +67,13 @@ msgstr "Tự đánh dấu ngày"
 msgid "setup.manual.title"
 msgstr "Đánh dấu ngày của bạn"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.maybe"
 msgstr "Có thể"
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.unavailable"
 msgstr "Cần bản cập nhật mới nhất. Tạm thời hãy tự đánh dấu ngày."
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.next"
-msgstr "Tháng sau"
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.notConnected"
@@ -87,7 +83,7 @@ msgstr "Chưa kết nối"
 msgid "setup.connected.deniedTitle"
 msgstr "Chưa kết nối"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.unmarked"
 msgstr "Chưa đánh dấu"
 
@@ -100,8 +96,8 @@ msgid "setup.calendar.microsoft"
 msgstr "Outlook Calendar"
 
 #: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.previous"
-msgstr "Tháng trước"
+msgid "setup.manual.paintLine"
+msgstr "Chọn Rảnh, Có thể hoặc Bận, rồi chạm hay kéo qua các ngày. Tô lại một ngày để xoá."
 
 #: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
 msgid "setup.connected.connectingLine"
@@ -126,10 +122,6 @@ msgstr "Đồng bộ ngay"
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.synced"
 msgstr "Đã đồng bộ {age}"
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.line"
-msgstr "Chạm một ngày để đánh dấu rảnh, chạm lần nữa là bận, rồi có thể."
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.oauthFailed"

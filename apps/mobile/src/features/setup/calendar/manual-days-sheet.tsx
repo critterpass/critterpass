@@ -1,81 +1,56 @@
 /**
- * Mark days by hand (undesigned; the dates step's own month grid in a sheet): one month at a
- * time from today to the six-month horizon, each tap cycling a day free → busy → maybe → unmarked,
- * a legend so no state is colour alone, and Save, which queues `set_availability` (works offline).
+ * Mark days by hand (undesigned; the dates step's own month grid in a sheet): one month at a time
+ * from today to the six-month horizon, swiped sideways. Pick a tool, Free / Maybe / Busy, then tap
+ * or hold and drag to paint days; painting a day already in that state clears it. Each state has
+ * a glyph and a label, and Maybe a dashed edge, so none is colour alone. Save queues
+ * `set_availability` (works offline).
  */
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { Row } from '@/ui/layout/Row';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme, type Theme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { setAvailabilityCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
+import { monthLabel, weekdayLetters } from '../when/copy';
+import { DayGrid, weeksOfDates } from '../when/day-grid';
+import { MonthTitle } from '../when/month-pager';
 import {
+  datesBetween,
   loadMarks,
   manualPayload,
   monthCount,
   monthGrid,
+  paintMode,
+  painted,
   saveMarks,
-  toggled,
   type ManualMark,
   type ManualMarks,
+  type PaintMode,
 } from './manual-days';
+import { DayFace, GLYPH, markWord, Swatch } from './manual-day-face';
 import { syncRange } from './sync-plan';
+
+const TOOLS: readonly ManualMark[] = ['free', 'maybe', 'busy'];
+/** A tap that lands right after a drag is the drag's own release, not a second paint. */
+const RELEASE_MS = 400;
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
-  // One row per week with seven equal flex cells: percentage widths (100 / 7 %) round up on
-  // iOS's pixel grid and wrap the seventh day onto its own line.
-  week: { flexDirection: 'row' },
-  cell: { flex: 1, padding: th.space['2'] },
-  box: {
-    borderRadius: th.radius.sm,
-    minHeight: th.space['32'] + th.space['12'],
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  row: { gap: th.space['8'], flexWrap: 'wrap' },
   legend: { gap: th.space['12'], flexWrap: 'wrap' },
-  swatch: { width: th.space['12'], height: th.space['12'], borderRadius: th.radius.xs },
 }));
-
-function markColour(theme: Theme, mark: ManualMark | undefined): string {
-  switch (mark) {
-    case 'free':
-      return theme.semantic.state.success;
-    case 'busy':
-      return theme.semantic.state.urgent;
-    case 'maybe':
-      return theme.semantic.state.warning;
-    case undefined:
-      return theme.semantic.bg.control;
-  }
-}
-
-const GLYPH: Readonly<Record<ManualMark, string>> = { free: '✓', busy: '✕', maybe: '?' };
-
-function markWord(mark: ManualMark | undefined): string {
-  switch (mark) {
-    case 'free':
-      return t({ id: 'setup.manual.free', message: 'Free' });
-    case 'busy':
-      return t({ id: 'setup.manual.busy', message: 'Busy' });
-    case 'maybe':
-      return t({ id: 'setup.manual.maybe', message: 'Maybe' });
-    case undefined:
-      return t({ id: 'setup.manual.unmarked', message: 'Not marked' });
-  }
-}
 
 export interface ManualDaysViewProps {
   /** First and last dates that can be marked (today to the horizon). */
@@ -85,34 +60,28 @@ export interface ManualDaysViewProps {
   readonly page: number;
   readonly saving: boolean;
   readonly onPage: (page: number) => void;
-  readonly onToggle: (date: string) => void;
+  readonly onMarks: (marks: ManualMarks) => void;
   readonly onSave: () => void;
   readonly onDismiss: () => void;
+  /** The tool it opens with (Free unless a lab scene says otherwise). */
+  readonly initialTool?: ManualMark | undefined;
 }
 
 export function ManualDaysView(props: ManualDaysViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  const [tool, setTool] = useState<ManualMark>(props.initialTool ?? 'free');
+  const stroke = useRef<{ origin: string; base: ManualMarks; mode: PaintMode } | null>(null);
+  const lastStroke = useRef(0);
   const pages = monthCount(props.from, props.to);
   const grid = monthGrid(props.from, props.page);
-  const monthTitle = format.date(locale, new Date(Date.UTC(grid.year, grid.month - 1, 15)), {
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC',
-  });
-  // 2024-01-01 was a Monday: seven narrow weekday names in Monday-first order.
-  const weekdays = Array.from({ length: 7 }, (_, i) =>
-    format.date(locale, new Date(Date.UTC(2024, 0, 1 + i)), { weekday: 'narrow', timeZone: 'UTC' }),
-  );
-  const cells: (string | null)[] = [
-    ...Array.from({ length: grid.leadingBlanks }, () => null),
-    ...grid.days,
-  ];
-  while (cells.length % 7 !== 0) cells.push(null);
-  const weeks = Array.from({ length: cells.length / 7 }, (_, row) =>
-    cells.slice(row * 7, row * 7 + 7),
-  );
+  const open = (date: string) => date >= props.from && date <= props.to;
+  const paint = (date: string) => {
+    if (Date.now() - lastStroke.current < RELEASE_MS) return;
+    props.onMarks(painted(props.marks, [date], tool, paintMode(props.marks, date, tool)));
+  };
+  const step = (by: 1 | -1) => props.onPage(Math.max(0, Math.min(pages - 1, props.page + by)));
   const heading = t({ id: 'setup.manual.title', message: 'Mark your days' });
   return (
     <Sheet
@@ -127,104 +96,85 @@ export function ManualDaysView(props: ManualDaysViewProps) {
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({
-            id: 'setup.manual.line',
-            message: 'Tap a day to mark it free, tap again for busy, then maybe.',
+            id: 'setup.manual.paintLine',
+            message:
+              'Pick Free, Maybe or Busy, then tap or drag across days. Paint a day again to clear it.',
           })}
         </Text>
-        <Row justify="space-between" align="center">
-          <IconButton
-            label={t({ id: 'setup.manual.previous', message: 'Previous month' })}
-            glyph={<Text variant="title">‹</Text>}
-            size={40}
-            disabled={props.page === 0}
-            onPress={() => props.onPage(props.page - 1)}
-            testID="manual-days-previous"
-          />
-          <Text variant="title" accessibilityRole="header" testID="manual-days-month">
-            {monthTitle}
-          </Text>
-          <IconButton
-            label={t({ id: 'setup.manual.next', message: 'Next month' })}
-            glyph={<Text variant="title">›</Text>}
-            size={40}
-            disabled={props.page >= pages - 1}
-            onPress={() => props.onPage(props.page + 1)}
-            testID="manual-days-next"
-          />
+        <Row style={styles.row}>
+          {TOOLS.map((option) => (
+            <ChoiceChip
+              key={option}
+              label={`${GLYPH[option]} ${markWord(option)}`}
+              selected={tool === option}
+              tilt={0}
+              onPress={() => setTool(option)}
+              testID={`manual-tool-${option}`}
+            />
+          ))}
         </Row>
-        <View style={styles.week} importantForAccessibility="no-hide-descendants">
-          {weekdays.map((weekday, index) => (
-            <View key={`w${index}`} style={styles.cell}>
-              <Text
-                variant="label"
-                color={theme.semantic.text.secondary}
-                style={{ textAlign: 'center' }}
+        <MonthTitle
+          title={monthLabel(locale, grid.year, grid.month)}
+          index={props.page}
+          count={pages}
+          onStep={step}
+          todayIndex={0}
+          onToday={() => props.onPage(0)}
+          variant="title"
+          testID="manual-days"
+        />
+        <DayGrid
+          weekdays={weekdayLetters(locale)}
+          weeks={weeksOfDates(grid.leadingBlanks, grid.days)}
+          onSwipe={pages > 1 ? step : undefined}
+          onDrag={{
+            begin: (date) => {
+              if (!open(date)) return;
+              const mode = paintMode(props.marks, date, tool);
+              stroke.current = { origin: date, base: props.marks, mode };
+              props.onMarks(painted(props.marks, [date], tool, mode));
+            },
+            move: (date) => {
+              const held = stroke.current;
+              if (held === null) return;
+              const days = datesBetween(held.origin, date).filter(open);
+              props.onMarks(painted(held.base, days, tool, held.mode));
+            },
+            end: () => {
+              stroke.current = null;
+              lastStroke.current = Date.now();
+            },
+          }}
+          renderDay={(date) => {
+            const mark = props.marks[date];
+            const face = <DayFace date={date} mark={mark} open={open(date)} />;
+            if (!open(date)) return face;
+            const dayName = format.date(locale, new Date(Date.parse(date) + 12 * 3_600_000), {
+              day: 'numeric',
+              month: 'long',
+              timeZone: 'UTC',
+            });
+            const state = markWord(mark);
+            return (
+              <PressScale
+                widthClass="narrow"
+                accessibilityLabel={t({
+                  id: 'setup.manual.dayA11y',
+                  message: `${dayName}, ${state}`,
+                })}
+                onPress={() => paint(date)}
+                testID={`manual-day-${date}`}
               >
-                {weekday}
-              </Text>
-            </View>
-          ))}
-        </View>
-        <View>
-          {weeks.map((week, row) => (
-            <View key={`r${row}`} style={styles.week}>
-              {week.map((date, column) => {
-                if (date === null) return <View key={row * 7 + column} style={styles.cell} />;
-                const mark = props.marks[date];
-                const open = date >= props.from && date <= props.to;
-                const day = Number(date.slice(8));
-                const dayName = format.date(locale, new Date(Date.parse(date) + 12 * 3_600_000), {
-                  day: 'numeric',
-                  month: 'long',
-                  timeZone: 'UTC',
-                });
-                const state = markWord(mark);
-                const ink =
-                  mark === undefined ? theme.semantic.text.primary : theme.semantic.text.onAccent;
-                const face = (
-                  <View
-                    style={[
-                      styles.box,
-                      { backgroundColor: markColour(theme, mark), opacity: open ? 1 : 0.35 },
-                    ]}
-                  >
-                    <Text variant="label" color={ink}>
-                      {String(day)}
-                    </Text>
-                    {mark === undefined ? null : (
-                      <Text variant="caption" color={ink}>
-                        {GLYPH[mark]}
-                      </Text>
-                    )}
-                  </View>
-                );
-                return (
-                  <View key={date} style={styles.cell}>
-                    {open ? (
-                      <PressScale
-                        widthClass="narrow"
-                        accessibilityLabel={t({
-                          id: 'setup.manual.dayA11y',
-                          message: `${dayName}, ${state}`,
-                        })}
-                        onPress={() => props.onToggle(date)}
-                        testID={`manual-day-${date}`}
-                      >
-                        {face}
-                      </PressScale>
-                    ) : (
-                      face
-                    )}
-                  </View>
-                );
-              })}
-            </View>
-          ))}
-        </View>
+                {face}
+              </PressScale>
+            );
+          }}
+          testID="manual-days-grid"
+        />
         <Row style={styles.legend}>
-          {(['free', 'busy', 'maybe'] as const).map((mark) => (
+          {TOOLS.map((mark) => (
             <Row key={mark} gap="6" align="center">
-              <View style={[styles.swatch, { backgroundColor: markColour(theme, mark) }]} />
+              <Swatch mark={mark} />
               <Text variant="caption">{`${GLYPH[mark]} ${markWord(mark)}`}</Text>
             </Row>
           ))}
@@ -291,7 +241,7 @@ export function ManualDaysSheet({ tripId, onDismiss, tz }: ManualDaysSheetProps)
       page={page}
       saving={saving}
       onPage={setPage}
-      onToggle={(date) => setMarks((current) => toggled(current, date))}
+      onMarks={setMarks}
       onSave={onSave}
       onDismiss={onDismiss}
     />

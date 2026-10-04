@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# The dates step's picking in Vietnamese (dates-picker.yaml's steps): the dev gallery switches the
+# running app's language (not persisted), then back through the developer tools into the scenes.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-setup'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-setup'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-scene-3c-3-when'
+    timeout: 20000
+- runFlow:
+    file: subflows/dates-picker.yaml
+    env:
+      PREFIX: vi
