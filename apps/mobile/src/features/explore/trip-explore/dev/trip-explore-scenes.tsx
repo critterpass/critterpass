@@ -1,6 +1,6 @@
 /**
  * Lab scenes for Explore in a trip (7g-1): Bali as designed (the Wednesday window with three ideas,
- * a saved pick, one in day 3 and one to add, four swiping), the days full, nothing planned yet, the
+ * a saved pick, one in day 3 and one to add, a swipe to join), the days full, nothing planned yet, the
  * window offline (no ideas), and Đà Nẵng with long Vietnamese names. The + saves in the scene (the
  * card flips to ♥ SAVED); nothing is sent.
  */
@@ -61,7 +61,7 @@ const BALI: Spec = {
     { id: 'tegallalang', name: 'Tegallalang', category: 'nature', state: { kind: 'add' } },
   ],
   places: '86',
-  live: { kind: 'live', count: 4 },
+  live: { kind: 'join' },
 };
 
 const DA_NANG: Spec = {

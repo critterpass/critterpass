@@ -57,13 +57,9 @@ export function nextGap<G extends DatedGap>(
   return ahead[0] ?? null;
 }
 
-/** The swipe card's pill: nobody started a session, one is open, or this many are swiping now. */
-export type SwipeLive =
-  | { readonly kind: 'start' }
-  | { readonly kind: 'join' }
-  | { readonly kind: 'live'; readonly count: number };
+/** The swipe card's pill: join the trip's open session, or start one when there is none. */
+export type SwipeLive = { readonly kind: 'start' } | { readonly kind: 'join' };
 
-export function swipeLive(sessionOpen: boolean, othersLive: number): SwipeLive {
-  if (!sessionOpen) return { kind: 'start' };
-  return othersLive > 0 ? { kind: 'live', count: othersLive } : { kind: 'join' };
+export function swipeLive(sessionOpen: boolean): SwipeLive {
+  return { kind: sessionOpen ? 'join' : 'start' };
 }

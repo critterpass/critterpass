@@ -14,6 +14,12 @@ export function guideTagline(guide: GuideFacts, place: string): string {
       message: "Not my island, but I've done my homework.",
     });
   }
+  if (guide.id === 'tokek') {
+    return t({
+      id: 'explore.guide.tokekLine',
+      message: 'Slow mornings, early temples, late dinners.',
+    });
+  }
   if (guide.id === 'pon') {
     return t({ id: 'explore.guide.ponLine', message: 'Shoes off, phone down, eyes up.' });
   }

@@ -197,6 +197,10 @@ msgstr "Chọn sân bay gần nhà"
 msgid "explore.guide.ponLine"
 msgstr "Cởi giày, cất điện thoại, ngẩng đầu lên."
 
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.tokekLine"
+msgstr "Sáng thong thả, đền chùa đi sớm, bữa tối muộn."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.solo"
 msgstr "Đi một mình"

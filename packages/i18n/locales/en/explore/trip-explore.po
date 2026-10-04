@@ -24,10 +24,6 @@ msgid "explore.trip.picksAll"
 msgstr "{count} ›"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
-msgid "explore.trip.swipeLive"
-msgstr "{count} live"
-
-#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.pairIdea"
 msgstr "{first} + {second}"
 

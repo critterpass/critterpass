@@ -112,14 +112,7 @@ export const swipeBody = (count: number) =>
   });
 
 export function swipePill(live: SwipeLive): string {
-  switch (live.kind) {
-    case 'start':
-      return t({ id: 'explore.trip.swipeStart', message: 'Start' });
-    case 'join':
-      return t({ id: 'explore.trip.swipeJoin', message: 'Join' });
-    case 'live': {
-      const count = live.count;
-      return t({ id: 'explore.trip.swipeLive', message: `${count} live` });
-    }
-  }
+  return live.kind === 'start'
+    ? t({ id: 'explore.trip.swipeStart', message: 'Start' })
+    : t({ id: 'explore.trip.swipeJoin', message: 'Join' });
 }

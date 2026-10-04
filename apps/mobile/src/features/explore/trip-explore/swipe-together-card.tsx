@@ -1,6 +1,6 @@
 /**
- * SWIPE TOGETHER (7g-1): the pink card into the crew's swipe, with how many are swiping right now
- * ("4 LIVE"), JOIN when a session is open with nobody in it, or START when there is none.
+ * SWIPE TOGETHER (7g-1): the pink card into the crew's swipe, with JOIN when the trip has an open
+ * session or START when there is none. Who is swiping right now shows on the swipe screen.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
