@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 
 import { fitLine } from '@/data/fit/fit-line';
+import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { dayTileColour } from '@/features/plan/overview/day-card';
 
@@ -75,9 +76,16 @@ function fit(
 }
 
 export const IDEAS = [
-  { name: 'Tirta Empul', category: 'temple_shrine', savers: [2, 4], fit: fit(6, '08:00', []) },
+  {
+    name: 'Tirta Empul',
+    photo: LAB_PHOTOS.temple,
+    category: 'temple_shrine',
+    savers: [2, 4],
+    fit: fit(6, '08:00', []),
+  },
   {
     name: 'Seniman Coffee',
+    photo: LAB_PHOTOS.food,
     category: 'food',
     savers: [5],
     fit: fit(3, '16:00', [
@@ -86,6 +94,7 @@ export const IDEAS = [
   },
   {
     name: 'Tibumana',
+    photo: LAB_PHOTOS.generic,
     category: 'nature',
     savers: [0],
     fit: fit(6, '10:15', [{ code: 'after_item', params: { stable_id: id(901) } }]),
@@ -104,12 +113,14 @@ export const IDEAS = [
   },
   {
     name: 'Single Fin',
+    photo: LAB_PHOTOS.generic,
     category: 'beach',
     savers: [3],
     fit: fit(7, '19:15', [{ code: 'after_item', params: { stable_id: id(904) } }]),
   },
   {
     name: 'Pura Lempuyang',
+    photo: LAB_PHOTOS.temple,
     category: 'temple_shrine',
     savers: [1, 3],
     fit: fit(2, '07:00', [{ code: 'crew_split', params: { want: 2, rather_not: 2 } }], {
@@ -118,6 +129,7 @@ export const IDEAS = [
   },
   {
     name: 'Sari Organik',
+    photo: LAB_PHOTOS.food,
     category: 'food',
     savers: [1],
     fit: fit(3, '12:30', [{ code: 'needs_move', params: { stable_id: id(905) } }], {
@@ -167,6 +179,7 @@ function IdeasScene({
           ideaId={id(300 + index)}
           name={idea.name.toUpperCase()}
           icon={ideaIcon(idea.category)}
+          photo={'photo' in idea ? idea.photo : undefined}
           fitLine={fitLine(idea.fit, context) ?? undefined}
           savers={idea.savers.flatMap((n) => (CREW[n] === undefined ? [] : [CREW[n]]))}
           frame={frame}

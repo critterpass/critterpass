@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
 
+import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
+import type { PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { guideFor } from '../../format';
@@ -15,6 +17,7 @@ import * as copy from '../copy';
 import type { GapsCardState } from '../gaps-card';
 import type { PickState, SwipeLive } from '../trip-explore-model';
 import { TripExploreView, type TripPick } from '../trip-explore-view';
+import { LAB_PICK_MEDIA } from './lab-pick-media';
 import { SWIPE_IDEA_SCENES } from './swipe-idea-scenes';
 
 interface PickFixture {
@@ -37,6 +40,8 @@ interface Spec {
     readonly busy: string | null;
   };
   readonly ideas: readonly string[];
+  /** The ideas' photos, in order (none keeps the chip's plain tile). */
+  readonly ideaPhotos?: readonly (PlaceTilePhoto | undefined)[];
   readonly picks: readonly PickFixture[];
   readonly places: string;
   readonly live: SwipeLive;
@@ -50,6 +55,7 @@ const BALI: Spec = {
   // 14 Oct 2026 is a Wednesday.
   gap: { date: '2026-10-14', from: '16:00', to: '19:00', who: 4, busy: 'Karsa Spa' },
   ideas: ['Seniman', 'ARMA', 'Pool'],
+  ideaPhotos: [LAB_PHOTOS.food, LAB_PHOTOS.generic, undefined],
   picks: [
     { id: 'tirta-empul', name: 'Tirta Empul', category: 'temple_shrine', state: { kind: 'saved' } },
     {
@@ -124,14 +130,19 @@ function TripExploreScene({ spec }: { readonly spec: Spec }) {
           tiles:
             spec.gaps === 'offline'
               ? []
-              : spec.ideas.map((label) => ({ key: label, label, onPress: () => undefined })),
+              : spec.ideas.map((label, index) => ({
+                  key: label,
+                  label,
+                  photo: spec.ideaPhotos?.[index],
+                  onPress: () => undefined,
+                })),
           onFill: () => undefined,
         };
   const picks: TripPick[] = spec.picks.map((pick) => ({
     id: pick.id,
     name: pick.name,
     category: pick.category,
-    photo: null,
+    photo: LAB_PICK_MEDIA[pick.id] ?? null,
     state: saved.has(pick.id) ? { kind: 'saved' } : pick.state,
   }));
   return (
