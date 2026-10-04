@@ -51,9 +51,10 @@ function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
     onRemovePack: noop,
     ...overrides,
   };
-  // GO shows where the screen has a next stop to go to, as `dayOfGo` decides on the real screen.
+  // GO shows on today (no way back to it) with a next stop, as `dayOfGo` decides on the screen.
   const hasStop =
-    merged.leaveBy !== null || (merged.firstUp !== null && merged.firstUp.kind !== 'done');
+    merged.onToday === undefined &&
+    (merged.leaveBy !== null || (merged.firstUp !== null && merged.firstUp.kind !== 'done'));
   return { ...merged, onGo: hasStop ? noop : undefined };
 }
 

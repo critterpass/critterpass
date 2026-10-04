@@ -1,0 +1,57 @@
+appId: app.critterpass.dev
+---
+# Every GO preview lab scene in ${LANG}, then the day-of screen with its GO button (Android: the
+# scenes are left with back). Shots are named `<lang>-go-<state>`: GO has no render, so compare mode
+# shows them beside the undesigned-states row.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-dev-lab.yaml
+    env:
+      NAV: dev-nav-go-lab
+      LIST: go-lab-go-routed
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-routed
+      READY: go-preview-routed
+      SHOT: ${LANG}-go-routed
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-routed-walk
+      READY: go-preview-routed
+      SHOT: ${LANG}-go-routed-walk
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-no-location
+      READY: go-preview-no_location
+      SHOT: ${LANG}-go-no-location
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-offline
+      READY: go-preview-offline
+      SHOT: ${LANG}-go-offline
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-straight
+      READY: go-preview-straight
+      SHOT: ${LANG}-go-straight
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: go-lab-go-no-grab
+      READY: go-preview-routed
+      SHOT: ${LANG}-go-no-grab
+- runFlow:
+    file: ../../screens/sweep/subflows/open-dev-lab.yaml
+    env:
+      NAV: dev-nav-trip-day-lab
+      LIST: trip-day-lab-3k-1-pre-trip
+- runFlow:
+    file: ../../screens/sweep/subflows/lab-scene.yaml
+    env:
+      ITEM: trip-day-lab-3k-2-window
+      READY: trip-day-go
+      SHOT: ${LANG}-3k-2-window-go
