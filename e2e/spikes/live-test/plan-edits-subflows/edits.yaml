@@ -209,7 +209,8 @@ appId: app.critterpass.dev
     optional: true
 - takeScreenshot: ${SHOTS}-15-must-do-held
 
-# 4. A stop to another day: the day is picked, the sheet says what moves there, SAVE commits it.
+# 4. A stop to another day (the last, lightest one): the day is picked, the sheet says what moves
+# there, SAVE commits it.
 - extendedWaitUntil:
     visible:
       id: 'edits-wait'
@@ -223,14 +224,14 @@ appId: app.critterpass.dev
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-item-move-3'
+      id: 'plan-item-move-5'
     direction: DOWN
     timeout: 10000
 - tapOn:
-    id: 'plan-item-move-3'
+    id: 'plan-item-move-5'
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: ${SHOTS}-16-move-picked-day-3
+- takeScreenshot: ${SHOTS}-16-move-picked-day-5
 # If its own time is taken on that day the sheet says so: an evening hour from the picker instead.
 - scrollUntilVisible:
     element:
@@ -243,16 +244,16 @@ appId: app.critterpass.dev
     optional: true
 - scrollUntilVisible:
     element:
-      id: 'plan-time-start-hour-19'
+      id: 'plan-time-start-hour-20'
     direction: DOWN
     timeout: 8000
     optional: true
 - tapOn:
-    id: 'plan-time-start-hour-19'
+    id: 'plan-time-start-hour-20'
     optional: true
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: ${SHOTS}-16a-move-day-3-evening
+- takeScreenshot: ${SHOTS}-16a-move-day-5-evening
 - tapOn:
     id: 'plan-item-save'
     optional: true

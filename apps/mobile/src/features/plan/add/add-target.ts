@@ -6,7 +6,8 @@
 import type { PlanDayRow, PlanItemRow } from '@/data/plan/queries';
 import { minutesOnDay } from '@/data/plan/plan-model';
 
-import { stopOfPlace, type AddDay, type AddPreset, type PlacedStop } from './add-model';
+import type { AddDay, AddPreset } from './add-model';
+import { stopOfPlace, type PlacedStop } from './placed-stop';
 import { resolvePreset, type RoutePreset } from './routes';
 import type { AddSubject } from './use-add-subject';
 

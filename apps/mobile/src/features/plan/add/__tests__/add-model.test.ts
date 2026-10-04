@@ -8,16 +8,8 @@ import type { DayFit, PlaceFit, PlanState } from '@cp/domain';
 
 import { toChangeSetOps } from '@/data/plan/plan-ops';
 
-import {
-  addOps,
-  initialChoice,
-  isWhereItIs,
-  pickDay,
-  pickTime,
-  shownDayFit,
-  stopOfPlace,
-  type AddDay,
-} from '../add-model';
+import { addOps, initialChoice, pickDay, pickTime, shownDayFit, type AddDay } from '../add-model';
+import { isWhereItIs, stopOfPlace } from '../placed-stop';
 
 const TZ = 'Asia/Makassar';
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;

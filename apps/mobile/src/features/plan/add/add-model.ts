@@ -62,7 +62,9 @@ export function initialChoice(
   preset: AddPreset,
   days: readonly AddDay[],
   tz: string,
-  existing: PlacedStop | null = null,
+  existing: { readonly dayNo: number; readonly startMin: number } | null = null,
+  /** Where a block starts on a day with no fitted slot (after its last stop). */
+  openStart: (dayNo: number) => number = () => FALLBACK_START_MIN,
 ): AddChoice | null {
   const first = days[0];
   if (first === undefined) return null;
@@ -74,7 +76,9 @@ export function initialChoice(
       return { dayNo: preset.dayNo, startMin: preset.startMin, timePicked: true };
     }
     const fallback =
-      existing !== null && existing.dayNo !== preset.dayNo ? existing.startMin : FALLBACK_START_MIN;
+      existing !== null && existing.dayNo !== preset.dayNo
+        ? existing.startMin
+        : openStart(preset.dayNo);
     return {
       dayNo: preset.dayNo,
       startMin: slotStart(fit, preset.dayNo, tz, fallback),
@@ -94,65 +98,24 @@ export function initialChoice(
   return { dayNo: first.dayNo, startMin: FALLBACK_START_MIN, timePicked: false };
 }
 
-/** Where a place already sits in the plan. */
-export interface PlacedStop {
-  readonly stableId: string;
-  readonly dayNo: number;
-  readonly startMin: number;
-}
-
-/** The choice is exactly where the stop is now: there is nothing to move. */
-export function isWhereItIs(choice: AddChoice | null, existing: PlacedStop | null): boolean {
-  return (
-    choice !== null &&
-    existing !== null &&
-    choice.dayNo === existing.dayNo &&
-    choice.startMin === existing.startMin
-  );
-}
-
-/** How close two spots are when the catalogue holds one place under two rows. */
-const SAME_SPOT_DEG = 0.002;
-const sameName = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
-
 /**
- * The plan's stop for a place: the same place id, or (the catalogue sometimes holds one place
- * twice) the same name on the same spot, so a place is never put in the plan a second time.
+ * Another day: the block moves to that day's fitted time; when none fits it keeps a time the
+ * person picked, else goes after that day's last stop.
  */
-export function stopOfPlace<
-  Row extends {
-    readonly stable_id: string;
-    readonly poi_id: string | null;
-    readonly poi_lat: number | null;
-    readonly poi_lng: number | null;
-  },
->(
-  place: {
-    readonly poiId: string | null;
-    readonly name: string;
-    readonly lat: number;
-    readonly lng: number;
-  },
-  rows: readonly Row[],
-  titleOf: (stableId: string) => string | null,
-): Row | undefined {
-  return (
-    rows.find((row) => place.poiId !== null && row.poi_id === place.poiId) ??
-    rows.find(
-      (row) =>
-        row.poi_lat !== null &&
-        row.poi_lng !== null &&
-        Math.abs(row.poi_lat - place.lat) < SAME_SPOT_DEG &&
-        Math.abs(row.poi_lng - place.lng) < SAME_SPOT_DEG &&
-        sameName(titleOf(row.stable_id) ?? '', place.name),
-    )
-  );
-}
-
-/** Another day: the block moves to that day's fitted time (or keeps its time when none fits). */
-export function pickDay(choice: AddChoice, dayNo: number, fit: PlaceFit | null, tz: string) {
+export function pickDay(
+  choice: AddChoice,
+  dayNo: number,
+  fit: PlaceFit | null,
+  tz: string,
+  /** Where a block starts on a day with no fitted slot, unless the person picked the time. */
+  openStart?: (dayNo: number) => number,
+) {
   const fitted = dayFitOf(fit, dayNo)?.slot ?? null;
-  if (fitted === null) return { dayNo, startMin: choice.startMin, timePicked: choice.timePicked };
+  if (fitted === null) {
+    const startMin =
+      choice.timePicked || openStart === undefined ? choice.startMin : openStart(dayNo);
+    return { dayNo, startMin, timePicked: choice.timePicked };
+  }
   return { dayNo, startMin: minutesOf(fitted.starts_at, tz), timePicked: false };
 }
 

@@ -23,7 +23,7 @@ import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 import { PhotoCredit, type DayChip } from '@/ui/planning';
 
-import { stopOfPlace } from '../add/add-model';
+import { stopOfPlace } from '../add/placed-stop';
 import { usePlanGuide } from '../plan-guide';
 import { addRoute } from '../add/routes';
 import { dayName } from '../day/format';

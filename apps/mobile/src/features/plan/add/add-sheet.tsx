@@ -8,24 +8,20 @@
  * for later" keeps it in the trip's Ideas instead. Offline it still adds from the last fit, which
  * the queue sends later.
  */
-import { generateStableId, generateUuidV7 } from '@cp/domain';
-import { useLingui } from '@lingui/react/macro';
+import { generateStableId } from '@cp/domain';
 import { router, useRootNavigationState } from 'expo-router';
 import { useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
 import { useLocalFit } from '@/data/fit/local-fit';
 import { instantOnDay } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useDayEditing } from '@/features/plan/day/use-day-editing';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
-import { toast } from '@/motion/island-toast';
 
 import { usePlanGuide } from '../plan-guide';
-import { saveIdeaCommand } from '../ideas/commands';
-import { ideasRoute } from '../ideas/routes';
 import { AddBlock } from './add-block';
+import { addIntoDay, openStartOn } from './add-into-day';
 import {
   blockDetail,
   dayHeader,
@@ -42,7 +38,6 @@ import {
   clockOf,
   dayGrades,
   initialChoice,
-  isWhereItIs,
   moveStopOps,
   pickDay,
   pickTime,
@@ -50,13 +45,15 @@ import {
   type AddChoice,
 } from './add-model';
 import { AddSheetView } from './add-sheet-view';
-import { guidePickLabel, seeIdeasLabel, sheetWords, voteNote } from './add-states-copy';
+import { isWhereItIs } from './placed-stop';
+import { guidePickLabel, sheetWords, voteNote } from './add-states-copy';
 import { nearbyAddOf, useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
 import { addTarget } from './add-target';
 import { originDayId, type RoutePreset } from './routes';
 import { useAddDays } from './use-add-days';
 import { useAddSubject } from './use-add-subject';
-import { WhoGoing } from './who-going';
+import { useSaveToIdeas } from './use-save-to-ideas';
+import { toggledOut, WhoGoing } from './who-going';
 
 export interface AddSheetProps {
   readonly tripId: string;
@@ -71,12 +68,11 @@ const close = () => (router.canGoBack() ? router.back() : undefined);
 const WAITING_TIME = '··:··';
 
 export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
-  const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const guide = usePlanGuide().name;
   const editor = useDayEditing(plan);
-  const saveIdea = useCommand(saveIdeaCommand);
+  const saveToIdeas = useSaveToIdeas(tripId);
   const { subject } = useAddSubject(tripId, placeId);
   const tz = plan.trip?.tz ?? 'UTC';
   const poiId = subject?.poiId ?? null;
@@ -114,7 +110,8 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     server.fit === null &&
     preset.after === undefined &&
     preset.startMin === undefined;
-  const choice = picked ?? initialChoice(server.fit, preset, days, tz, existing);
+  const openStart = (dayNo: number) => openStartOn(plan, dayNo, tz);
+  const choice = picked ?? initialChoice(server.fit, preset, days, tz, existing, openStart);
   const day = days.find((entry) => entry.dayNo === choice?.dayNo) ?? null;
   const at =
     choice?.timePicked === true && day !== null
@@ -141,6 +138,27 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     preset.after === undefined;
   const anyway = existing === null && server.fit !== null && shown?.grade === 'no' && !nowhere;
   const stays = isWhereItIs(choice, existing);
+  // A time the fit did not choose is timed against that day before it is added.
+  const loose =
+    choice !== null && existing === null && !nowhere && !waiting && subject !== null
+      ? choice.timePicked || shown === null || shown.grade === 'no'
+      : false;
+  const into = addIntoDay({
+    plan,
+    day,
+    tz,
+    locale,
+    block:
+      !loose || choice === null || subject === null
+        ? null
+        : {
+            stableId: stableIds[0],
+            title: subject.name,
+            start: choice.startMin,
+            end: choice.startMin + length,
+            place: { lat: subject.lat, lng: subject.lng },
+          },
+  });
   const best = server.fit?.best ?? null;
   const guidePick =
     best === null || choice === null || existing !== null || best.day_no === choice.dayNo
@@ -192,7 +210,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
             nearby: withNearby ? nearbyAdd : null,
             stableIds,
           });
-    const outcome = await editor.submit(ops, { label: subject.name });
+    const outcome = await editor.submit([...ops, ...(into?.ops ?? [])], { label: subject.name });
     setBusy(false);
     if (outcome.kind === 'unavailable') return;
     close();
@@ -200,20 +218,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
 
   const onSaveLater = async () => {
     if (subject === null) return;
-    await saveIdea.send({
-      idea_id: subject.ideaId ?? generateUuidV7(),
-      trip_id: tripId,
-      ...(subject.poiId === null
-        ? { pin: { name: subject.name, lat: subject.lat, lng: subject.lng } }
-        : { poi_id: subject.poiId }),
-      source: 'save',
-    });
-    toast.show({
-      id: 'plan-add-saved',
-      title: subject.name,
-      subtitle: t({ id: 'plan.add.savedToast', message: 'Saved to Ideas' }),
-      action: { label: seeIdeasLabel(), onPress: () => router.push(ideasRoute(tripId)) },
-    });
+    await saveToIdeas(subject);
     close();
   };
 
@@ -226,7 +231,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
       onDay={(dayNo) => {
         if (choice === null) return;
         impact('tick');
-        setPicked(pickDay(choice, dayNo, server.fit, tz));
+        setPicked(pickDay(choice, dayNo, server.fit, tz, openStart));
         setLengthMin(null);
       }}
       guidePick={guidePick}
@@ -267,27 +272,23 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
           ? []
           : reasonTiles(shown, day === null ? '' : monthOf(day.date), stopName)
       }
-      note={server.status === 'offline' && server.fit === null ? offlineNote(guide) : null}
+      note={
+        into?.line ??
+        (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
+      }
       who={
         <WhoGoing
           members={members}
           out={out}
           open={whoOpen}
           onOpen={() => setWhoOpen((open) => !open)}
-          onToggle={(uid) =>
-            setOut((current) => {
-              const next = new Set(current);
-              if (next.has(uid)) next.delete(uid);
-              else if (next.size < members.length - 1) next.add(uid);
-              return next;
-            })
-          }
+          onToggle={(uid) => setOut((current) => toggledOut(current, uid, members.length))}
         />
       }
       voteNote={plan.canApply || nowhere || waiting ? null : voteNote()}
       cta={words.cta}
       busy={busy || editor.pending}
-      disabled={choice === null || subject === null || waiting || stays}
+      disabled={choice === null || subject === null || waiting || stays || into?.blocked === true}
       onAdd={() => void (nowhere ? onSaveLater() : onAdd())}
       onSaveLater={subject === null || nowhere ? null : () => void onSaveLater()}
     />
