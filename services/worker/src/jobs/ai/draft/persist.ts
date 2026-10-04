@@ -17,6 +17,7 @@ import type {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { carryBaseRows, type HeldStop } from './held-stops';
 import type { DraftTripData } from './load';
 import { staysPpMinor, tripDates } from './plan-input';
 
@@ -27,6 +28,8 @@ export interface DraftToSave {
   readonly outcome: Pick<RepairOutcome, 'itinerary' | 'first' | 'loops' | 'dropped'>;
   readonly stays: readonly StayRow[];
   readonly closures: readonly ClosureRecord[];
+  /** Stops the organiser placed by hand on the draft this one replaces (./held-stops.ts). */
+  readonly held?: readonly HeldStop[];
   /** Extra per-item flags (a supplier's own availability answer). */
   readonly slotAvailable: readonly string[];
 }
@@ -66,12 +69,12 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
     }
   }
   const dates = tripDates(trip);
+  // A must-do she placed herself was never the guide's to place: it counts as made.
+  const asked = new Set(input.frame.mustDos.map((m) => m.id));
+  const hers = trip.mustDos.filter((m) => !asked.has(m.id) && placed.has(m.id)).length;
+  const total = input.frame.mustDos.length + hers;
   return {
-    must_dos: {
-      total: input.frame.mustDos.length,
-      made: input.frame.mustDos.length - missing.length,
-      missing,
-    },
+    must_dos: { total, made: total - missing.length, missing },
     flags,
     closures: [...save.closures],
     stays: [...save.stays],
@@ -204,6 +207,17 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   const versionId = rows[0]?.id;
   if (versionId === undefined) throw new Error('draft version insert returned no id');
   await insertDays(tx, save.trip.tripId, versionId, save.outcome.itinerary);
+  if (trip.draft_version_id !== null && !untouched) {
+    // Her stops keep everything the planner's items do not carry, and their places their names.
+    await carryBaseRows(tx, trip.draft_version_id, versionId);
+    await tx.query(
+      `UPDATE itinerary_versions v
+          SET coverage = jsonb_set(v.coverage, '{places}',
+                coalesce(b.coverage->'places', '{}'::jsonb) || coalesce(v.coverage->'places', '{}'::jsonb))
+         FROM itinerary_versions b WHERE v.id = $1 AND b.id = $2`,
+      [versionId, trip.draft_version_id],
+    );
+  }
   // Bookings already in the wallet sit on the draft as anchored items from the start.
   await writeBookedPlanItems(tx, save.trip.tripId, versionId);
   if (trip.draft_version_id !== null) {

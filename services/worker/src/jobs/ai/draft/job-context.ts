@@ -18,6 +18,7 @@ import { z } from 'zod';
 
 import type { AgentStepContext } from '../../../ai/job-runner';
 
+import { heldMustDoIds, heldPlaceIds, loadHeldStops, type HeldStop } from './held-stops';
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
@@ -31,6 +32,34 @@ export type DraftModelFactory = (usage: UsageContext) => DraftModel;
 export interface Loaded {
   readonly trip: DraftTripData;
   readonly input: DraftPlanInput;
+  /** Stops the organiser placed by hand on the draft this job starts from (./held-stops.ts). */
+  readonly held: readonly HeldStop[];
+}
+
+/**
+ * Her stops on the version the job starts from (a redraft names it; a draft starts from the trip's
+ * draft), and the places the crew saved to Ideas, which the guide is offered first.
+ */
+async function alreadyThere(
+  pool: pg.Pool,
+  trip: DraftTripData,
+  baseVersionId: string | null,
+): Promise<{ held: HeldStop[]; ideaPlaces: string[] }> {
+  return withSystem(pool, async (tx) => {
+    const { rows } = await tx.query<{ version_id: string | null; idea_places: string[] }>(
+      `SELECT coalesce($2::uuid, t.draft_version_id) AS version_id,
+              coalesce((SELECT array_agg(DISTINCT i.poi_id) FROM trip_ideas i
+                         WHERE i.trip_id = t.id AND i.deleted_at IS NULL AND i.poi_id IS NOT NULL),
+                       '{}') AS idea_places
+         FROM trips t WHERE t.id = $1`,
+      [trip.tripId, baseVersionId],
+    );
+    const versionId = rows[0]?.version_id ?? null;
+    return {
+      held: versionId === null ? [] : await loadHeldStops(tx, versionId, trip),
+      ideaPlaces: rows[0]?.idea_places ?? [],
+    };
+  });
 }
 
 /** A redraft job's input names the version it redrafts. */
@@ -60,26 +89,39 @@ export async function load(
         ),
     ignoreNames,
   );
-  const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
-    ...trip.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
-    ...wished.places.values(),
-    ...wished.offered,
-  ]);
-  const asked = buildPlanInput(trip, places, {
+  const base = redraftBaseSchema.safeParse(ctx.input);
+  const there = await alreadyThere(ctx.pool, trip, base.success ? base.data.base_version : null);
+  // A draft plans the rest of the trip around her stops: their places are not offered again and a
+  // must-do she placed herself is not placed twice. A redraft reads them in the day it redoes.
+  const around = base.success ? [] : there.held;
+  const taken = heldPlaceIds(around);
+  const made = heldMustDoIds(around);
+  const mustDos = trip.mustDos.filter(
+    (m) => !made.has(m.id) && !(m.poiId !== null && taken.has(m.poiId)),
+  );
+  const places = (
+    await loadDraftPlaces(ctx.pool, trip.destinationId, [
+      ...mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
+      ...wished.places.values(),
+      ...wished.offered,
+      ...there.ideaPlaces,
+    ])
+  ).filter((poi) => !taken.has(poi.id));
+  const asked = buildPlanInput({ ...trip, mustDos }, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
     wished,
     ignoreNames,
+    prefer: there.ideaPlaces,
   });
   // Once the outline has run, every later step plans with the guide's answers to the wishes. A
   // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
   const outline = (ctx.results.skeleton as { skeleton?: SkeletonPlan } | undefined)?.skeleton;
-  const base = redraftBaseSchema.safeParse(ctx.input);
   const answers =
     outline?.wishAnswers ??
     (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
-  return { trip, input: withWishAnswers(asked, answers) };
+  return { trip, input: withWishAnswers(asked, answers), held: there.held };
 }
 
 export function modelFor(
