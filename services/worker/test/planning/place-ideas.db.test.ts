@@ -168,7 +168,8 @@ describe('ai.place_ideas', () => {
     expect(placed).toEqual(
       [ideas['temple'], ideas['museum'], ideas['pin']].map((id) => `idea:${id}`).sort(),
     );
-    for (const op of ops) expect(op.after?.day_no).toBe(2);
+    // Nothing goes on the booked day; the free day and the leaving morning take them.
+    for (const op of ops) expect([2, 3]).toContain(op.after?.day_no);
     expect(ops.find((op) => op.after?.poi_id === null)?.after?.custom_place).toMatchObject({
       name: 'Our ramen spot',
     });
