@@ -7,6 +7,12 @@ appId: app.critterpass.dev
 # turns the planning screens on for this phone, and opens Explore from the trip hub; the + on a pick
 # saves it to Ideas, and SWIPE TOGETHER opens the crew's swipe.
 - runFlow: subflows/lab-en.yaml
+# The trip-explore scenes sit near the end of the lab's long list.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-trip-explore'
+    direction: DOWN
+    timeout: 120000
 - runFlow:
     file: subflows/scene.yaml
     env: { SCENE: trip-explore, READY: explore-trip-gap-when, SHOT: 'en-7g-1-destination' }
@@ -29,6 +35,12 @@ appId: app.critterpass.dev
         SHOT: 'en-7g-1-da-nang-long-names',
       }
 - runFlow: subflows/lab-vi.yaml
+# The trip-explore scenes sit near the end of the lab's long list.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-trip-explore'
+    direction: DOWN
+    timeout: 120000
 - runFlow:
     file: subflows/scene.yaml
     env: { SCENE: trip-explore, READY: explore-trip-gap-when, SHOT: 'vi-7g-1-destination' }

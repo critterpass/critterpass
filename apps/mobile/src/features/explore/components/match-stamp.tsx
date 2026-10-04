@@ -7,13 +7,12 @@
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withTiming,
 } from 'react-native-reanimated';
 
@@ -65,28 +64,37 @@ const useStyles = makeStyles((t) => ({
   drop: { alignItems: 'center', gap: t.space['16'] },
 }));
 
+/**
+ * The hold runs on a JS timer, not an animation delay: with the system's reduced motion on,
+ * animations jump to their end, and the match would vanish before anyone saw it. Reduced motion
+ * skips the drop and hands the deck back after the hold.
+ */
 function useDropToIdeas(active: boolean, holdMs: number, onDone: () => void) {
   const reduced = useReducedImpactMotion();
   const offset = useSharedValue(0);
   const fade = useSharedValue(1);
+  const done = useRef(onDone);
   useEffect(() => {
-    if (!active) return;
+    done.current = onDone;
+  }, [onDone]);
+  useEffect(() => {
+    if (!active) return undefined;
     const finish = (finished?: boolean) => {
       'worklet';
-      if (finished === true) runOnJS(onDone)();
+      if (finished === true) runOnJS(callDone)();
     };
-    if (reduced) {
-      fade.value = withDelay(holdMs, withTiming(0, { duration: DROP_MS }, finish));
-      return;
+    function callDone() {
+      done.current();
     }
-    offset.value = withDelay(
-      holdMs,
-      withTiming(DROP_BY, { duration: DROP_MS, easing: dropEasing }),
-    );
-    fade.value = withDelay(
-      holdMs,
-      withTiming(0, { duration: DROP_MS, easing: dropEasing }, finish),
-    );
+    const timer = setTimeout(() => {
+      if (reduced) {
+        callDone();
+        return;
+      }
+      offset.value = withTiming(DROP_BY, { duration: DROP_MS, easing: dropEasing });
+      fade.value = withTiming(0, { duration: DROP_MS, easing: dropEasing }, finish);
+    }, holdMs);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs; the drop runs once per match.
   }, [active, holdMs, reduced]);
   return useAnimatedStyle(() => ({
