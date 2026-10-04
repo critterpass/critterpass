@@ -10,6 +10,7 @@ export {
   type ValhallaOptimizedRoute,
   type ValhallaPoint,
   type ValhallaRoute,
+  type ValhallaRouteLeg,
 } from './client';
 export { createCircuitBreaker, type CircuitBreaker, type CircuitBreakerOptions } from './breaker';
 export { ValhallaError, type ValhallaErrorKind } from './errors';

@@ -4,9 +4,11 @@
  * from anywhere that reaches the database (it never calls Valhalla itself):
  *
  *   railway run --service worker --environment staging -- \
- *     pnpm --filter @cp/worker exec tsx src/jobs/planning/legs/backfill.ts [--dry-run] [--per-minute 60]
+ *     pnpm --filter @cp/worker exec tsx src/jobs/planning/legs/backfill.ts [--dry-run] [--per-minute 60] \
+ *       [--missing-shapes]
  *
- * `--dry-run` counts the trips and writes nothing.
+ * `--dry-run` counts the trips and writes nothing; `--missing-shapes` queues only trips with a
+ * routed leg that has no road shape yet.
  */
 import { createPool, registerJobProducer } from '@cp/db';
 import { PgBoss } from 'pg-boss';
@@ -25,6 +27,7 @@ async function main(): Promise<void> {
   if (connectionString === undefined) throw new Error('DATABASE_URL is required');
   const dryRun = process.argv.includes('--dry-run');
   const perMinute = Number(flag('per-minute') ?? 60);
+  const missingShapes = process.argv.includes('--missing-shapes');
   const pool = createPool({ connectionString, max: 2 });
   const boss = new PgBoss({
     connectionString,
@@ -41,9 +44,9 @@ async function main(): Promise<void> {
       await boss.start();
       registerJobProducer(boss);
     }
-    const result = await queueLegsBackfill(pool, { dryRun, perMinute });
+    const result = await queueLegsBackfill(pool, { dryRun, perMinute, missingShapes });
     console.log(
-      `trips with a live plan: ${result.trips}; queued ${result.queued}, already queued ${result.alreadyQueued}` +
+      `trips with a live plan${missingShapes ? ' and a leg without a road shape' : ''}: ${result.trips}; queued ${result.queued}, already queued ${result.alreadyQueued}` +
         (dryRun ? ' (dry run, nothing written)' : '') +
         `; last run starts in ${Math.ceil(result.lastStartsIn / 60)} min`,
     );
