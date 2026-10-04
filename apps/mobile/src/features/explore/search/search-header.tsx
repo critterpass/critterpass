@@ -97,7 +97,8 @@ export function SearchHeader(props: SearchHeaderProps) {
             style={[
               styles.input,
               font,
-              { color: showStart ? 'transparent' : theme.semantic.text.primary },
+              // Hidden but still there for the tap (a transparent colour leaves Android's text showing).
+              { color: theme.semantic.text.primary, opacity: showStart ? 0 : 1 },
             ]}
             testID="search-field"
           />
