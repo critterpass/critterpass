@@ -2,14 +2,14 @@
  * The trip outline: a theme and an area per day, which must-dos go on which day, and which of the
  * listed activities belong to it. Code then fixes what the outline got wrong before any day is
  * drafted: ids we do not know are dropped, a place picked for two days keeps its first, and a
- * must-do left out or put on a day it is closed moves to the lightest day it is open on. The
+ * must-do left out or put on a day it is closed moves to the lightest day it is open on. Then each
+ * day is made workable (./skeleton-days.ts): stops that do not fit or sit too far away go back to
+ * the pool, light days are topped up, and every day gets its own meal places and spares. The
  * outline also answers the must-dos members typed by hand (./wish-answers.ts). The request itself
  * is built in ./skeleton-request.ts.
  */
-import { bestOrder, dayWindow, mealSlots, mealsInWindow, type DayChoice } from '@cp/planner';
-
-import { stopBudget } from './budget';
-import { checkWishAnswers, whenOf, withWishAnswers, type WishAnswer } from './wish-answers';
+import { assignMeals, assignSpares, keepWhatFits, topUpDays } from './skeleton-days';
+import { checkWishAnswers, withWishAnswers, type WishAnswer } from './wish-answers';
 
 import { parseStructuredText, textOf } from '../../structured';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
@@ -25,7 +25,7 @@ export interface SkeletonDay {
   readonly area: string;
   readonly mustDoIds: readonly string[];
   readonly poiIds: readonly string[];
-  /** Meal places set aside for this day (code splits the meal list across days). */
+  /** Meal places set aside for this day: the best eateries near its stops. */
   readonly mealIds: readonly string[];
   /** Unplanned activities set aside for this day only, for when a planned one does not fit. */
   readonly spareIds: readonly string[];
@@ -40,40 +40,11 @@ export interface SkeletonPlan {
   readonly proseRejected: number;
   /** The guide's answers to the typed must-dos (apply them with `withWishAnswers`). */
   readonly wishAnswers: readonly WishAnswer[];
+  /** What code changed in the outline: planned stops it took out, and stops it added to light days. */
+  readonly adjusted?: { readonly removed: number; readonly added: number };
 }
 
-/** Stand-ins for the day's meals while sizing it: its first meal place that serves each meal. */
-function mealProxies(
-  input: DraftPlanInput,
-  day: { readonly date: string; readonly mealIds: readonly string[] },
-  window: { readonly startMin: number; readonly endMin: number },
-): DayChoice[] {
-  const wanted = mealsInWindow(window);
-  return wanted.flatMap((slot): DayChoice[] => {
-    const id = day.mealIds.find((mealId) => {
-      const poi = input.pois.get(mealId);
-      return poi !== undefined && mealSlots(poi, day.date).includes(slot);
-    });
-    return id === undefined ? [] : [{ poiId: id, kind: 'meal', mustDoId: null, note: null }];
-  });
-}
-
-/** Meals a day window runs through (lunch, dinner). */
-export function mealsIn(window: { readonly startMin: number; readonly endMin: number }): number {
-  return mealsInWindow(window).length;
-}
-
-function splitMeals(input: DraftPlanInput): string[][] {
-  const count = input.frame.dates.length;
-  const meals = input.pools.meals.map((poi) => poi.id);
-  const perDay = Math.max(3, Math.ceil(meals.length / count));
-  return input.frame.dates.map((_, day) =>
-    Array.from(
-      { length: Math.min(perDay, meals.length) },
-      (__, k) => meals[(day + k * count) % meals.length] as string,
-    ),
-  );
-}
+export { mealsIn } from './skeleton-days';
 
 export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): SkeletonPlan {
   const reply = skeletonReplySchema.parse(raw);
@@ -90,9 +61,16 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
   const answeredDay = new Map(checked.answers.map((a) => [a.wishId, a.dayNo]));
   // An answered wish's place is a must-do now: never also a day's activity.
   for (const slot of pools.mustDos) if (answeredDay.has(slot.mustDoId)) taken.add(slot.poiId);
-  const meals = splitMeals(input);
   const days = frame.dates.map(
-    (date, index): SkeletonDay & { mustDoIds: string[]; spareIds: string[]; poiIds: string[] } => {
+    (
+      date,
+      index,
+    ): SkeletonDay & {
+      mustDoIds: string[];
+      spareIds: string[];
+      poiIds: string[];
+      mealIds: string[];
+    } => {
       const dayNo = index + 1;
       const found = reply.days.find((day) => day.day_no === dayNo);
       const poiIds: string[] = [];
@@ -135,7 +113,7 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
         area: clean(found?.area, 'the centre'),
         mustDoIds: mine,
         poiIds,
-        mealIds: meals[index] ?? [],
+        mealIds: [],
         spareIds: [],
       };
     },
@@ -149,59 +127,23 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
       )[0];
     lightest?.mustDoIds.push(slot.mustDoId);
   }
-  // What the outline gave a day must fit its hours: with time kept for its meals, each planned
-  // activity stays only while the planner can still time the day's must-dos and it together.
-  for (const day of days) {
-    const window = dayWindow(frame, day.dayNo - 1);
-    const proxyMeals = mealProxies(input, day, window);
-    const fixed = day.mustDoIds.flatMap((m): DayChoice[] => {
-      const slot = pools.mustDos.find((s) => s.mustDoId === m);
-      const poi = slot === undefined ? undefined : input.pois.get(slot.poiId);
-      return poi === undefined
-        ? []
-        : [
-            {
-              poiId: poi.id,
-              kind: poi.category === 'food' ? 'meal' : 'activity',
-              mustDoId: m,
-              note: null,
-              when: whenOf(input, m),
-            },
-          ];
-    });
-    const keep: string[] = [];
-    for (const id of day.poiIds) {
-      const choices = [...fixed, ...proxyMeals, ...keep, id].map((poiId) =>
-        typeof poiId === 'string'
-          ? { poiId, kind: 'activity' as const, mustDoId: null, note: null }
-          : poiId,
-      );
-      const fits =
-        choices.length - proxyMeals.length + mealsIn(window) <=
-          stopBudget(window.endMin - window.startMin) &&
-        bestOrder({
-          date: day.date,
-          choices,
-          pois: input.pois,
-          window,
-          travel: input.travel,
-        }).broken === 0;
-      if (fits) keep.push(id);
-      else taken.delete(id);
-    }
-    day.poiIds.splice(0, day.poiIds.length, ...keep);
-  }
-  for (const poi of pools.activities) {
-    if (taken.has(poi.id)) continue;
-    const open = pools.openDays.get(poi.id) ?? [];
-    const day = days
-      .filter((d) => open.includes(d.dayNo) && d.spareIds.length < 5)
-      .sort((a, b) => a.spareIds.length - b.spareIds.length)[0];
-    day?.spareIds.push(poi.id);
-  }
+  // What the outline gave a day must fit its hours and sit together; light days are topped up.
+  const planned = days.reduce((sum, day) => sum + day.poiIds.length, 0);
+  keepWhatFits(input, days, taken);
+  const kept = days.reduce((sum, day) => sum + day.poiIds.length, 0);
+  const added = topUpDays(input, days, taken);
+  assignMeals(input, days);
+  assignSpares(input, days, taken);
   const stayArea =
     proseProblem(reply.stay_area, 60, placeNames(input)) === null ? reply.stay_area : 'the centre';
-  return { stayArea, days, unknownIds, proseRejected, wishAnswers: checked.answers };
+  return {
+    stayArea,
+    days,
+    unknownIds,
+    proseRejected,
+    wishAnswers: checked.answers,
+    adjusted: { removed: planned - kept, added },
+  };
 }
 
 export async function runSkeleton(model: DraftModel, input: DraftPlanInput): Promise<SkeletonPlan> {

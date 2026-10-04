@@ -7,13 +7,16 @@
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { WEEKDAYS, type Hours } from '@cp/domain';
-import type {
-  CandidatePools,
-  CostBands,
-  DraftPoi,
-  TravelMatrix,
-  TripFrame,
-  WishTime,
+import {
+  foodRole,
+  placeTime,
+  type CandidatePools,
+  type CostBands,
+  type DraftPoi,
+  type PlaceTime,
+  type TravelMatrix,
+  type TripFrame,
+  type WishTime,
 } from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
@@ -172,10 +175,28 @@ export function aliases(input: Pick<DraftPlanInput, 'pois' | 'frame'>): Aliases 
   return made;
 }
 
+const TIME_LABEL: Readonly<Record<PlaceTime, string>> = {
+  morning: 'a morning place',
+  sunset: 'for the sunset',
+  evening: 'an evening place',
+  after_dark: 'for after dark',
+};
+
+/** What the planner knows a place is for: a break, or a time of day it holds the stop to. */
+export function purposeOf(poi: DraftPoi): string | null {
+  const time = placeTime(poi);
+  const parts = [
+    foodRole(poi) === 'light' ? 'coffee or snack break, never a meal' : null,
+    time === null ? null : TIME_LABEL[time],
+  ].filter((part): part is string => part !== null);
+  return parts.length === 0 ? null : parts.join(', ');
+}
+
 export function placeLine(
   input: Pick<DraftPlanInput, 'pois' | 'frame'>,
   poi: DraftPoi,
   date: string | null,
+  area?: string,
 ): string {
   const parts = [
     aliases(input).place(poi.id),
@@ -183,6 +204,9 @@ export function placeLine(
     poi.category,
     `visit ${poi.durationMin} min`,
   ];
+  if (area !== undefined) parts.push(`area ${area}`);
+  const purpose = purposeOf(poi);
+  if (purpose !== null) parts.push(purpose);
   if (date !== null) {
     parts.push(hoursOn(poi.hours, date));
     const latest = lastStartOn(poi.hours, date, poi.durationMin);

@@ -1,19 +1,28 @@
 /**
  * Validate, then repair only the days that broke a rule (at most two passes, the broken days in
  * parallel), then drop whatever still breaks one: the drafting job's last model stage. The planner
- * decides what is broken and on which day; the guide only redoes those days.
+ * decides what is broken and on which day; the guide only redoes those days. What the planner can
+ * finish itself needs no model call (./complete-days.ts): a missing lunch or dinner is added
+ * before the first check, and days left thin after the repairs are filled at the end. Last, a
+ * line that names a time its stop is not at is taken off, and the first and last stop say what
+ * was assumed about arriving and leaving.
  */
 import type { Itinerary } from '@cp/domain';
 import {
   dropViolations,
   repairTargets,
-  validateItinerary,
+  withAssumedTravelNotes,
+  withHonestNotes,
   type ValidationResult,
 } from '@cp/planner';
 
+import { fillMeals, fillThinDays } from './complete-days';
 import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay, scheduleChoices } from './day';
 import type { SkeletonDay, SkeletonPlan } from './skeleton';
+import { validate } from './validate';
+
+export { requiredMustDoIds, validate } from './validate';
 
 export const MAX_REPAIR_LOOPS = 2;
 
@@ -25,20 +34,47 @@ export interface RepairOutcome {
   readonly dropped: readonly { readonly stableId: string; readonly mustDoId: string | null }[];
   readonly unknownIds: number;
   readonly proseRejected: number;
+  /** What each check found (pass 0 is the first), kept with the job to explain a draft later. */
+  readonly passes: readonly RepairPass[];
+  /** Stops the planner added itself: missing meals, and activities on days left thin. */
+  readonly filled: number;
+  /** Lines taken off because they named a meal or time of day their stop is not at. */
+  readonly notesRemoved: number;
 }
 
-export function requiredMustDoIds(input: DraftPlanInput): string[] {
-  return input.pools.mustDos.map((slot) => slot.mustDoId);
+export interface RepairPass {
+  readonly pass: number;
+  readonly violations: readonly {
+    readonly code: string;
+    readonly dayNo: number | null;
+    readonly poiId: string | null;
+  }[];
 }
 
-export function validate(input: DraftPlanInput, itinerary: Itinerary): ValidationResult {
-  return validateItinerary({
-    itinerary,
-    pois: input.pois,
-    frame: input.frame,
-    travel: input.travel,
-    requiredMustDoIds: requiredMustDoIds(input),
-  });
+function passOf(pass: number, result: ValidationResult): RepairPass {
+  return {
+    pass,
+    violations: result.violations.map((v) => ({
+      code: v.code,
+      dayNo: v.dayNo,
+      poiId: v.poiId ?? null,
+    })),
+  };
+}
+
+/**
+ * The finishing touches every stage shares: notes that name a time their stop is not at come off,
+ * and the stops at the trip's edges say what was assumed about arriving and leaving.
+ */
+export function withFinalNotes(
+  input: DraftPlanInput,
+  itinerary: Itinerary,
+): { readonly itinerary: Itinerary; readonly removed: number } {
+  const honest = withHonestNotes(itinerary, input.pois, input.frame.tz);
+  return {
+    itinerary: withAssumedTravelNotes(honest.itinerary, input.frame),
+    removed: honest.removed,
+  };
 }
 
 function dayViolations(result: ValidationResult, dayNo: number): number {
@@ -108,8 +144,12 @@ export async function validateAndRepair(
   drafted: Itinerary,
   onRepaired?: (dayNo: number) => Promise<void>,
 ): Promise<RepairOutcome> {
-  let itinerary = drafted;
+  // A day the guide left without its lunch or dinner gets one before anything is checked.
+  const fed = fillMeals(input, skeleton.days, drafted);
+  let itinerary = fed.itinerary;
+  let filled = fed.added;
   const first = validate(input, itinerary);
+  const passes = [passOf(0, first)];
   let current = first;
   let loops = 0;
   let unknownIds = 0;
@@ -172,6 +212,7 @@ export async function validateAndRepair(
       };
     }
     current = validate(input, itinerary);
+    passes.push(passOf(loops, current));
   }
   if (!current.ok) {
     itinerary = trimForMustDos(input, skeleton.days, itinerary, current);
@@ -184,5 +225,25 @@ export async function validateAndRepair(
     dropped = cut.dropped;
     current = validate(input, itinerary);
   }
-  return { itinerary, first, final: current, loops, dropped, unknownIds, proseRejected };
+  // What repairs, trims and drops left short is filled from the day's own lists.
+  for (const fill of [fillMeals, fillThinDays]) {
+    const done = fill(input, skeleton.days, itinerary);
+    itinerary = done.itinerary;
+    filled += done.added;
+  }
+  if (filled > fed.added) current = validate(input, itinerary);
+  if (loops > 0 || dropped.length > 0) passes.push(passOf(loops + 1, current));
+  const noted = withFinalNotes(input, itinerary);
+  return {
+    itinerary: noted.itinerary,
+    first,
+    final: current,
+    loops,
+    dropped,
+    unknownIds,
+    proseRejected,
+    passes,
+    filled,
+    notesRemoved: noted.removed,
+  };
 }
