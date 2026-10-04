@@ -6,3 +6,121 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.thinking"
+msgstr "{0} is working out a way."
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.going"
+msgstr "{going} going"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.costEach"
+msgstr "{money} each"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.costCar"
+msgstr "{money}, the car"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentOne"
+msgstr "{names} hasn't said"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silent"
+msgstr "{names} haven't said"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.all"
+msgstr "All {going}"
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLabel"
+msgstr "In your own words (optional)"
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.posted"
+msgstr "It's in crew chat as a vote."
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLong"
+msgstr "Keep it to 140 characters"
+
+#: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWays"
+msgstr "No way out yet. Say where you stand and I’ll look again."
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refusedBody"
+msgstr "Nothing was posted. Try again."
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.vote"
+msgstr "Put it to a vote instead"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.ratherNot"
+msgstr "Rather not"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.say"
+msgstr "Say it"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestFirst"
+msgstr "Suggest the first one"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestSecond"
+msgstr "Suggest the second one"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.clear"
+msgstr "Take it back"
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.clear"
+msgstr "Taking back where you stood"
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refused"
+msgstr "That didn't go through"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteSeen"
+msgstr "The crew sees this with your name."
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.ways"
+msgstr "Two ways nobody loses:"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.update"
+msgstr "Update"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.want"
+msgstr "Want it"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.where"
+msgstr "Where do you stand?"
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.stance"
+msgstr "Where you stand"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.you"
+msgstr "you"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentYou"
+msgstr "You haven't said"

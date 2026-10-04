@@ -13,6 +13,9 @@ import type { ApiCommandDoors } from '../feature-routes';
 import { registerPlanLegs } from './legs';
 import { fitModule } from './fit';
 import { planCheckHooks } from './fit/check-hook';
+import { stanceCommands } from '../commands/stances';
+import { splitModule } from './split';
+import { placeContextTravel } from '../explore/place-context';
 import { ideasModule } from './ideas/register';
 
 export interface PlanningDeps {
@@ -29,6 +32,9 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   registerPlanLegs,
   fitModule,
   planCheckHooks,
+  stanceCommands,
+  splitModule,
+  placeContextTravel,
   ideasModule,
 ];
 
