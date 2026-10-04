@@ -1,7 +1,7 @@
 ---
 phase: 9
 title: Search, plain words, add from a link, and offline search
-status: pending
+status: in review
 depends_on: [1, 3, 4, 5, 6]
 wave: 3
 screens: [7d-1, 7d-2, 7d-3, 7d-4, 7i-2]
@@ -103,7 +103,7 @@ Reuse / extend / new: reuse accent folding (`foldPlaceText`), the phone/server m
 - Steps: 1. Bring `foldPlaceText`/`matchPlaces`/merge into `data/places` (the old add sheet's copies go with the sheet in phase 14) and move "More places" out of setup. 2. Offline: fold-match over synced curated POIs + idea display copies (≤ ~1,000 rows, no FTS needed); keep `offlineSearch.ts` for region packs only if still used, else delete. 3. Scope and counts for 7i-2.
 - Tests: `pnpm --filter @cp/mobile test -- data/places` ("cafe" finds "Café", "da nang" finds "Đà Nẵng", ideas outrank curated, offline counts)
 - Done when: must-dos search runs on the shared search with unchanged device flows (the old add sheet keeps its copy until phase 14 deletes it with the sheet).
-- Status: todo
+- Status: done — ff2057000
 
 ### T2 — Server search: filters, fit, ways out
 - Goal: plain-words filters and "what you'd get" counts.
@@ -135,41 +135,41 @@ Reuse / extend / new: reuse accent folding (`foldPlaceText`), the phone/server m
 - Steps: 1. Scope params. 2. Clipboard per platform. 3. Typed examples (reduce motion: shown still). 4. Live name results. 5. Register `7d-1`.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/search/clipboard` (URL classification; already-imported link hidden)
 - Done when: opening from the map, the add bar and a place shows the right scope label and results.
-- Status: todo
+- Status: done — 65d2c75c5
 
 ### T6 — Plain-words results (7d-2)
 - Files: `apps/mobile/src/features/explore/search/{plain-results,chip-row,use-plain-search}.ts(x)`
 - Steps: 1. Parse, chips, note. 2. Chip removal reruns without the model. 3. LIST/MAP via `useScreenHref('7c-1', …)`. 4. + → 7f-1.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/search/use-plain-search` (chip removal state machine, stale responses dropped)
 - Done when: removing NOT WED brings Wednesday places back in place.
-- Status: todo
+- Status: done — 09bc044ac
 
 ### T7 — Add from a link (7d-3) and screenshots
 - Files: `apps/mobile/src/features/explore/search/{link-sheet,match-row,pick-one-sheet,use-link-import,screenshot-import}.ts(x)`, `apps/mobile/src/app/(trip)/[tripId]/search/link.tsx`
 - Steps: 1. SSE consumer with a reducer. 2. Tick-in animation; PICK ONE chooser. 3. Save to Ideas / put them on a day. 4. Screenshot → `cp-ocr` → text import.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/search/use-link-import` (event reducer: out-of-order, error mid-stream, retry)
 - Done when: on device a TikTok link saves two places to Ideas and the Ideas count hops.
-- Status: todo
+- Status: done — 3928c472b
 
 ### T8 — No results (7d-4) and drop a pin
 - Files: `apps/mobile/src/features/explore/search/{no-results,drop-pin-sheet}.tsx`, guide mounts (prefill)
 - Steps: 1. Ways out from `relax`. 2. Pin-drop sheet → `save_idea{pin}`. 3. ASK → guide chat with the question in the composer (guide route gains `q`).
 - Tests: none beyond typecheck (layout); the flow covers it
 - Done when: each way out returns what its row promised.
-- Status: todo
+- Status: done — 0bf09a50d
 
 ### T9 — Offline search and the queued question (7i-2)
 - Files: `apps/mobile/src/features/explore/search/{offline-banner,offline-results,works-offline-chips,use-queued-plain-question}.ts(x)`, `features/guide/chat/data/use-guide-turn.ts` (mount)
 - Steps: 1. Offline results with counts, date, walking minutes, "open, as of". 2. Durable guide question queue (MMKV) used by search and chat. 3. First bar → send; answer → banner flip + ping.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/search/use-queued-plain-question` (survives an app kill; sends once)
 - Done when: in airplane mode the render's search returns saved coffee places; reconnecting answers within 2 min.
-- Status: todo
+- Status: done — 84975696d
 
 ### T10 — Device flows and undesigned states
 - Files: `e2e/explore/{search,plain-words,link-import,no-results,offline-search}.yaml`, `docs/undesigned-states.md`
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/explore/search.yaml,e2e/explore/plain-words.yaml,e2e/explore/link-import.yaml,e2e/explore/no-results.yaml" -f mode=compare -f pr=<n> -f shards=1`; second dispatch for `offline-search.yaml`; iOS once for `search.yaml` and `link-import.yaml` (keyboard, paste control)
 - Done when: sheets reviewed; `ui-reviewed` applied.
-- Status: todo
+- Status: done — 15a2950a1 (sheets on #618; waits for ui-reviewed)
 
 ## Device flows
 
