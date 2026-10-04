@@ -28,7 +28,8 @@ const useStyles = makeStyles((t) => ({
     paddingVertical: t.space['4'],
     borderRadius: t.radius.md,
   },
-  add: { alignSelf: 'flex-start', marginStart: -t.space['8'], marginBottom: -t.space['8'] },
+  // The + keeps its full touch target inside the card; the disc lines up with the card's text.
+  add: { alignSelf: 'flex-start', marginStart: -t.space['4'] },
 }));
 
 export function PickStateChip({ state, placeName, onSave, testID }: PickStateChipProps) {
@@ -41,7 +42,6 @@ export function PickStateChip({ state, placeName, onSave, testID }: PickStateChi
         <AddButton
           accessibilityLabel={copy.pickAddLabel(placeName)}
           onPress={onSave}
-          size={28}
           testID={testID}
         />
       </View>

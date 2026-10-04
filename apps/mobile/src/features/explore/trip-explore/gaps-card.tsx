@@ -9,7 +9,6 @@ import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
-import { PlaceThumb } from '@/ui/planning/place-thumb';
 import { PressScale } from '@/ui/press/PressScale';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
@@ -65,6 +64,7 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.md,
     backgroundColor: t.semantic.bg.control,
   },
+  thumb: { width: 28, height: 28, borderRadius: t.radius.sm },
   tileText: { flex: 1, minWidth: 0 },
 }));
 
@@ -83,7 +83,7 @@ function Tile({ tile, index }: { readonly tile: GapTile; readonly index: number 
       testID={`explore-trip-gap-idea-${String(index)}`}
     >
       <View style={styles.tile}>
-        <PlaceThumb size={28} tint={`${tint}66`} />
+        <View style={[styles.thumb, { backgroundColor: `${tint}66` }]} />
         <View style={styles.tileText}>
           <Text variant="label" numberOfLines={1}>
             {upper(tile.label, i18n.locale)}
