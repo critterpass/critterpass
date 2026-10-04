@@ -10,12 +10,14 @@ import { useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Stack, useTheme } from '@/ui';
+import { useRegionTiles } from '@/ui/map/region-pack';
+import { NOTICE_ROOM, RegionPackNotice } from '@/ui/map/RegionPackNotice';
 
 import { clock, pinLabel, statusLine } from './copy';
 import { LiveMapServicesProvider, type LiveMapServices } from './data/services';
 import { lockScreenStarter } from './gate-slot';
 import { HeaderPill } from './map/header-pill';
-import { boundsOf, LiveMapCanvas, regionTilesUrl } from './map/live-map-canvas';
+import { boundsOf, LiveMapCanvas } from './map/live-map-canvas';
 import { MeetupPin } from './map/meetup-pin';
 import { canvasPins, layoutPins, MEETUP_KEY } from './map/pin-layout';
 import type { LiveMapModel } from './model';
@@ -63,9 +65,13 @@ export function LiveMapView({
   const you =
     m.ownFix === null || meSharing === 'off' ? null : ([m.ownFix.lng, m.ownFix.lat] as const);
   const [panelHeight, setPanelHeight] = useState(Math.round(height * 0.42));
+  // A destination without a region pack says so in a line above the panel; the framed pins stay
+  // clear of it while it shows.
+  const tiles = useRegionTiles(m.destinationSlug, null);
+  const packAwaited = tiles.awaited && m.destinationName !== null;
   const padding = {
     top: insets.top + 110,
-    bottom: panelHeight + 16,
+    bottom: panelHeight + 16 + (packAwaited ? NOTICE_ROOM : 0),
     left: 24,
     // Labels near the right edge flip leftwards, so the framed strip can run close to it.
     right: 40,
@@ -98,7 +104,7 @@ export function LiveMapView({
         center={center}
         bounds={boundsOf(framed)}
         padding={padding}
-        regionSourceUrl={m.destinationSlug === null ? undefined : regionTilesUrl(m.destinationSlug)}
+        regionSource={tiles.sourceUrl}
         pins={pins}
         trails={m.trails}
         joinIndexOf={(uid) => view?.people.find((person) => person.uid === uid)?.joinIndex ?? 0}
@@ -125,6 +131,9 @@ export function LiveMapView({
         onMeetupDragStart={m.dragTick}
         onMeetupDragged={(point) => m.setOverlay({ kind: 'editor', mode: 'move', dropped: point })}
       />
+      {packAwaited && m.destinationName !== null ? (
+        <RegionPackNotice place={m.destinationName} bottom={panelHeight + 12} />
+      ) : null}
       <Stack
         gap="8"
         style={{ paddingTop: insets.top + theme.space['8'], paddingHorizontal: theme.space['12'] }}

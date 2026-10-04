@@ -29,6 +29,7 @@ export function NearMap({ watching }: { readonly watching: boolean }) {
         spots={spots.map((spot) => ({ ...spot, tier: spot.unfound }))}
         position={position}
         slug={trip.slug}
+        placeName={trip.name}
         foundLabel={allFound()}
         height={HEIGHT}
       />

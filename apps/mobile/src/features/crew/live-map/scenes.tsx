@@ -29,6 +29,7 @@ export const LIVE_MAP_SCENES = [
   'paused',
   'no-meetup',
   'arrived',
+  'no-pack',
 ] as const;
 export type LiveMapSceneName = (typeof LIVE_MAP_SCENES)[number];
 
@@ -40,6 +41,7 @@ const crew: TripCrew = {
   crewName: 'The Bali Six',
   destinationId: null,
   destinationSlug: 'bali',
+  destinationName: 'Bali',
   status: 'in_trip',
   startDate: '2026-10-15',
   endDate: '2026-10-19',
@@ -141,7 +143,9 @@ function sceneModel(
     me: ME,
     crewName: crew.crewName,
     destinationId: null,
-    destinationSlug: crew.destinationSlug,
+    // A slug the tiles host has never heard of: the destination has no region pack.
+    destinationSlug: scene === 'no-pack' ? 'lab-no-region-pack' : crew.destinationSlug,
+    destinationName: crew.destinationName,
     gate,
     offline: scene === 'offline',
     updatedAt: NOW - 4 * 60_000,
