@@ -111,10 +111,26 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     [data.places, filter, joinIndex],
   );
   const counts = useMemo(() => placeCounts(data.places), [data.places]);
-  const view = usePlacesInView({ places: data.places, filter, bounds, anchorId: label.anchorId });
+  const view = usePlacesInView({ places: data.places, filter, bounds, anchorId: null });
+  // The cards are the places in view when the dot was tapped: the camera easing to each card
+  // afterwards never changes the set or its order under a finger.
+  const [frozen, setFrozen] = useState<{
+    anchorId: string | null;
+    bounds: LngLatBounds | null;
+  }>({ anchorId: null, bounds: null });
+  // Opened on a place, the first settled camera (already on it) sets the set.
+  if (frozen.anchorId !== label.anchorId || (frozen.bounds === null && bounds !== null)) {
+    setFrozen({ anchorId: label.anchorId, bounds });
+  }
+  const picked = usePlacesInView({
+    places: data.places,
+    filter,
+    bounds: frozen.bounds,
+    anchorId: frozen.anchorId,
+  });
   const askIds = useMemo(
-    () => view.carousel.flatMap((place) => (place.poiId === null ? [] : [place.poiId])),
-    [view.carousel],
+    () => picked.carousel.flatMap((place) => (place.poiId === null ? [] : [place.poiId])),
+    [picked.carousel],
   );
   const fits = usePlaceFits({
     tripId,
@@ -124,7 +140,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     ideas: data.ideas,
   });
   const entries = useCarouselEntries({
-    carousel: view.carousel,
+    carousel: picked.carousel,
     stay: data.stay,
     tz: data.tz,
     fits,
