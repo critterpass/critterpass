@@ -1,0 +1,28 @@
+{
+  "source": "model 2026-10-04",
+  "request": null,
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4e22c1f8-20df-425d-99e5-eca0493dcceb",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"shows\":\"building_front\",\"fills_frame\":true,\"well_lit\":true,\"sharp\":true,\"names\":\"none\",\"kind_fits\":true,\"sure\":true,\"reason\":\"Large church facade fills frame; no readable name sign visible.\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 139,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 52,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

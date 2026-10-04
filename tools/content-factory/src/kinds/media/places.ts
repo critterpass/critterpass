@@ -7,6 +7,7 @@
  * a place only as a labelled generic one (generic.ts), never as the place itself.
  */
 import { poiRefSubject, type ContentItem, mediaItemSchema } from '@cp/content';
+import { STOCK_MEDIA_SOURCES } from '@cp/domain';
 
 import { isGenericTitle } from './generic';
 import { getJson, type SourceHttp } from './http';
@@ -33,11 +34,12 @@ export const PLACE_RULES: CommonsRules = {
 };
 
 /**
- * Whether an item may show `subject`: a place shows a photo of itself (Commons), or a stock photo
- * only when the item is marked generic, which the app labels as not this place.
+ * Whether an item may show `subject`: a place shows a photo of itself (Commons, or a street-level
+ * photo that passed the checks), or a stock photo only when the item is marked generic, which the
+ * app labels as not this place.
  */
 export function sourceAllowedFor(source: string, subject: string, title: string | null): boolean {
-  if (!subject.startsWith('poi:') || source === 'wikimedia') return true;
+  if (!subject.startsWith('poi:') || !STOCK_MEDIA_SOURCES.includes(source)) return true;
   return isGenericTitle(title);
 }
 

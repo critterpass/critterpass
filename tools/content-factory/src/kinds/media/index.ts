@@ -5,14 +5,16 @@
  * ops console (rejecting the rest); approval publishes them and the worker's ingest job stores the
  * files. `--opt subjects=da-nang,bali` limits the batch; `--opt lead=<id>,<id>` ranks those
  * candidates first, so a subject's hero is the first kept photo. `--opt places=da-nang` instead
- * proposes each curated place's own photo from Wikimedia Commons, else a labelled generic one
- * (see place-batch.ts), and renders a review page per destination (review-page.ts).
+ * proposes each curated place's own photo from Wikimedia Commons, else a labelled generic one,
+ * else with `--opt street=on` a checked street-level photo from Mapillary (see place-batch.ts),
+ * and renders a review page per destination (review-page.ts).
  */
 import path from 'node:path';
 
+import { createGateway, loadGatewayEnv } from '@cp/ai';
 import { mediaItemSchema, type ContentItem } from '@cp/content';
 
-import { batchPaths, writeJson } from '../../work';
+import { batchPaths, FACTORY_DIR, writeJson } from '../../work';
 import { registerKind } from '../registry';
 import type { GenerationUnit, KindContext, KindModule } from '../types';
 import { PROPOSALS_FILE, renderMediaSheets } from './contact-sheet';
@@ -21,6 +23,7 @@ import { pexelsPhotos, pexelsVideos, type SourceCandidate } from './pexels';
 import { pixabayPhotos, pixabayVideos } from './pixabay';
 import { placeBatch } from './place-batch';
 import { sourceAllowedFor } from './places';
+import type { StreetDeps } from './street-batch';
 import { subjectsFor, type MediaSubject } from './subjects';
 import { wikimediaPhotos } from './wikimedia';
 
@@ -104,6 +107,27 @@ function depsFromEnv(): MediaSearchDeps {
   };
 }
 
+/** The street-level source and its vision check, from the environment (`--opt street=on`). */
+function streetFromEnv(ctx: KindContext, dir: string): Omit<StreetDeps, 'http'> {
+  const token = process.env['MAPILLARY_TOKEN'];
+  if (!token) throw new Error('street=on needs MAPILLARY_TOKEN');
+  if (!process.env['ANTHROPIC_API_KEY']) {
+    throw new Error('street=on needs the model gateway (ANTHROPIC_API_KEY) for its photo check');
+  }
+  return {
+    token,
+    check: {
+      gateway: createGateway(loadGatewayEnv()),
+      cacheDir: path.join(FACTORY_DIR, 'work', 'media', 'street-checks'),
+    },
+    filesDir: dir,
+    maxChecks: Number(ctx.options['street-checks'] ?? DEFAULT_STREET_CHECKS),
+  };
+}
+
+/** The most vision checks one batch makes unless `--opt street-checks=<n>` says otherwise. */
+const DEFAULT_STREET_CHECKS = 6000;
+
 const listOption = (ctx: KindContext, name: string) =>
   (ctx.options[name] ?? '')
     .split(',')
@@ -120,11 +144,20 @@ export const mediaKind: KindModule<'media'> = {
   async brief(ctx) {
     const deps = depsFromEnv();
     if (ctx.options['places'] !== undefined) {
-      const batch = await placeBatch(deps.http, deps, ctx.options, (name) => listOption(ctx, name));
-      writeJson(path.join(batchPaths('media', ctx.batchKey).dir, PROPOSALS_FILE), {
+      const dir = batchPaths('media', ctx.batchKey).dir;
+      const batch = await placeBatch(
+        deps.http,
+        deps,
+        ctx.options,
+        (name) => listOption(ctx, name),
+        ctx.options['street'] === 'on' ? streetFromEnv(ctx, dir) : null,
+      );
+      writeJson(path.join(dir, PROPOSALS_FILE), {
         proposals: batch.proposals,
         unanswered: batch.unanswered,
         suggestedDrops: batch.suggestedDrops,
+        street: batch.street,
+        streetCostMicros: batch.streetCostMicros,
       });
       const units = batch.items.map((item) => ({ id: item.id, input: item }));
       return { units, carried: batch.carried, options: ctx.options };
@@ -156,6 +189,14 @@ export const mediaKind: KindModule<'media'> = {
             .map(
               (subject) => `${item.source} is stock: only a labelled generic photo of ${subject}`,
             ),
+      },
+      {
+        id: 'street-photos-show-places',
+        severity: 'fail',
+        check: (item) =>
+          item.source === 'mapillary' && !item.subjects.every((s) => s.startsWith('poi:'))
+            ? ['a street-level photo stands for a place only, never for a destination']
+            : [],
       },
       {
         id: 'resolution',

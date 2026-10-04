@@ -2,7 +2,8 @@
  * A place-photo batch: `--opt places=da-nang,bali` proposes a photo for each curated place of
  * those destinations, the `first` refs (a live swipe deck's places) ahead of the rest: its own
  * photo from Wikimedia Commons, else a labelled generic stock photo of what its name says it
- * serves (see generic.ts), else nothing (the app draws the category's doodle). The curated places
+ * serves (see generic.ts), else with `--opt street=on` a street-level photo that passes the checks
+ * (street-batch.ts), else nothing (the app draws the category's doodle). The curated places
  * are the committed places batches', or with `--opt curated=live` (or `curated=<file>`) the live
  * places release's, which holds every destination. Publishing a media release replaces every
  * asset, so the batch carries the live release's other items unchanged: `--opt carry=live` reads
@@ -14,28 +15,15 @@ import { loadRelease, mediaItemSchema, poiRefSubject, type ContentItem } from '@
 
 import { committedItems } from '../../committed';
 import { liveArtifact, openPool } from '../../db';
-import { GENERIC_TITLE, genericSubjectFor } from './generic';
+import { genericPhotos, type StockKeys } from './generic-batch';
 import type { SourceHttp } from './http';
-import type { SourceCandidate } from './pexels';
-import { pexelsPhotos } from './pexels';
-import { pixabayPhotos } from './pixabay';
 import type { PlaceMatch } from './place-match';
 import { placePhotos, type MediaPlace } from './places';
-import { LIVE_SUGGESTED_TO_DROP, turnedDown } from './rejected';
+import { LIVE_SUGGESTED_TO_DROP } from './rejected';
+import { streetPhotos, type StreetDeps, type StreetPick, type StreetTally } from './street-batch';
 
-export interface StockKeys {
-  readonly pexelsKey: string | undefined;
-  readonly pixabayKey: string | undefined;
-}
-
-/** Results asked of each stock source for one generic subject, at least and at most. */
-const GENERIC_PER_QUERY = 6;
-const MAX_PER_QUERY = 40;
-/** The places one generic photo is spread over, so a deck does not repeat one picture. */
-const PLACES_PER_PHOTO = 8;
 /** The most subjects a media item holds. */
 const MAX_SUBJECTS = 20;
-const MIN_PX = 1200;
 
 /** The media subject of a place ref, or null for a ref publishing cannot resolve to a place. */
 function subjectOf(ref: string): string | null {
@@ -108,83 +96,7 @@ export function carriedItems(
     .filter((item) => item.subjects.length > 0);
 }
 
-/**
- * Labelled generic stock for `places` (those without a photo of their own): one search per generic
- * subject, asking for more results the more places need it, shared out among them at about eight
- * places per photo and never more than 20.
- */
-export async function genericPhotos(
-  http: SourceHttp,
-  keys: StockKeys,
-  places: readonly MediaPlace[],
-  /** Ids already in the release for another subject: a generic photo never doubles as one. */
-  taken: ReadonlySet<string> = new Set(),
-  /** Filled with the searches a source did not answer (`pixabay: tacos`). */
-  unanswered: string[] = [],
-): Promise<Map<string, ContentItem<'media'>>> {
-  const groups = new Map<string, { query: string; places: MediaPlace[] }>();
-  for (const place of places) {
-    const subject = genericSubjectFor(place);
-    if (subject === null) continue;
-    const group = groups.get(subject.key) ?? { query: subject.query, places: [] };
-    group.places.push(place);
-    groups.set(subject.key, group);
-  }
-  const byId = new Map<string, ContentItem<'media'>>();
-  for (const { query, places: needing } of groups.values()) {
-    const lists: SourceCandidate[][] = [];
-    const perQuery = Math.min(
-      MAX_PER_QUERY,
-      Math.max(GENERIC_PER_QUERY, Math.ceil(needing.length / PLACES_PER_PHOTO)),
-    );
-    // A source that stays busy for one search is left out of it; the other still answers.
-    const from = async (source: string, search: Promise<SourceCandidate[]>) => {
-      try {
-        lists.push(await search);
-      } catch {
-        unanswered.push(`${source}: ${query}`);
-      }
-    };
-    if (keys.pexelsKey) await from('pexels', pexelsPhotos(http, keys.pexelsKey, query, perQuery));
-    if (keys.pixabayKey) {
-      await from('pixabay', pixabayPhotos(http, keys.pixabayKey, query, perQuery));
-    }
-    const found: SourceCandidate[] = [];
-    for (let i = 0; lists.some((list) => i < list.length); i += 1) {
-      for (const list of lists) {
-        const candidate = list[i];
-        if (
-          candidate !== undefined &&
-          !taken.has(candidate.id) &&
-          !turnedDown(candidate.id) &&
-          Math.max(candidate.width, candidate.height) >= MIN_PX
-        ) {
-          found.push(candidate);
-        }
-      }
-    }
-    if (found.length === 0) continue;
-    needing.slice(0, found.length * MAX_SUBJECTS).forEach((place, index) => {
-      const candidate = found[index % found.length];
-      if (candidate === undefined) return;
-      const existing = byId.get(candidate.id);
-      const subjects = [...new Set([...(existing?.subjects ?? []), poiRefSubject(place.ref)])];
-      if (subjects.length > MAX_SUBJECTS) return;
-      byId.set(
-        candidate.id,
-        mediaItemSchema.parse({
-          ...candidate,
-          title: `${GENERIC_TITLE}${query}`,
-          subjects,
-          rank: 0,
-        }),
-      );
-    });
-  }
-  return byId;
-}
-
-export type PlaceOutcome = 'own' | 'generic' | 'none';
+export type PlaceOutcome = 'own' | 'generic' | 'street' | 'none';
 
 /** What the batch proposes for one place, for the review pages. */
 export interface PlaceProposal {
@@ -192,6 +104,8 @@ export interface PlaceProposal {
   readonly outcome: PlaceOutcome;
   /** The Wikidata item the place was matched to, for a photo of its own. */
   readonly match: Pick<PlaceMatch, 'label' | 'score' | 'distanceM'> | null;
+  /** The street-level photo a place with nothing else was given, and why the check kept it. */
+  readonly street?: StreetPick;
 }
 
 export interface PlaceBatch {
@@ -204,6 +118,10 @@ export interface PlaceBatch {
   readonly unanswered: readonly string[];
   /** Live photos suggested to drop, with the destinations whose places show them today. */
   readonly suggestedDrops: readonly SuggestedDrop[];
+  /** How the places without a photo fared with street-level photos, by destination. */
+  readonly street: Readonly<Record<string, StreetTally>> | null;
+  /** What the vision checks of this run cost, in millionths of a dollar. */
+  readonly streetCostMicros: number;
 }
 
 export interface SuggestedDrop {
@@ -235,6 +153,8 @@ export async function placeBatch(
   keys: StockKeys,
   options: Readonly<Record<string, string>>,
   list: (name: string) => string[],
+  /** Street-level photos for the places left with nothing; null leaves them with nothing. */
+  street: Omit<StreetDeps, 'http'> | null = null,
 ): Promise<PlaceBatch> {
   const curated = await curatedItems(options['curated']);
   const places = curatedPlaces(list('places'), list('first'), curated);
@@ -269,12 +189,19 @@ export async function placeBatch(
   );
   for (const [id, item] of generic) if (!byId.has(id)) byId.set(id, item);
   const genericSubjects = new Set([...generic.values()].flatMap((item) => item.subjects));
+  const bare = places.filter(
+    (place) => !owned.has(subject(place)) && !genericSubjects.has(subject(place)),
+  );
+  const streets = street === null ? null : await streetPhotos({ ...street, http }, bare);
+  for (const item of streets?.items ?? []) if (!byId.has(item.id)) byId.set(item.id, item);
   const outcomeOf = (place: MediaPlace): PlaceOutcome => {
     if (owned.has(subject(place))) return 'own';
-    return genericSubjects.has(subject(place)) ? 'generic' : 'none';
+    if (genericSubjects.has(subject(place))) return 'generic';
+    return streets?.picks.has(place.ref) === true ? 'street' : 'none';
   };
   const proposals = places.map((place) => {
     const outcome = outcomeOf(place);
+    const pick = streets?.picks.get(place.ref);
     const match = outcome === 'own' ? (matches.get(place.ref) ?? null) : null;
     return {
       place,
@@ -283,6 +210,7 @@ export async function placeBatch(
         match === null
           ? null
           : { label: match.label, score: match.score, distanceM: match.distanceM },
+      ...(pick === undefined ? {} : { street: pick }),
     };
   });
   return {
@@ -292,5 +220,7 @@ export async function placeBatch(
     proposals,
     unanswered,
     suggestedDrops: suggestedDrops(live, places),
+    street: streets?.tallies ?? null,
+    streetCostMicros: streets?.costMicros ?? 0,
   };
 }

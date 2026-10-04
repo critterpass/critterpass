@@ -13,12 +13,8 @@ import { describe, expect, it } from 'vitest';
 import { committedItems } from '../src/committed';
 import { GENERIC_TITLE } from '../src/kinds/media/generic';
 import { getJson } from '../src/kinds/media/http';
-import {
-  curatedPlaces,
-  genericPhotos,
-  suggestedDrops,
-  type PlaceProposal,
-} from '../src/kinds/media/place-batch';
+import { genericPhotos } from '../src/kinds/media/generic-batch';
+import { curatedPlaces, suggestedDrops, type PlaceProposal } from '../src/kinds/media/place-batch';
 import { wikidataOwn, type MediaPlace } from '../src/kinds/media/places';
 import { needsALook, renderPlacePages } from '../src/kinds/media/review-page';
 

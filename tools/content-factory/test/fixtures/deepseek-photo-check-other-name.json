@@ -1,0 +1,28 @@
+{
+  "source": "model 2026-10-04",
+  "request": null,
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "54fcdb98-ffe1-4d3e-95d1-3e153caff67a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"shows\":\"building_front\",\"fills_frame\":true,\"well_lit\":true,\"sharp\":true,\"names\":\"another\",\"kind_fits\":true,\"sure\":true,\"reason\":\"Restaurant front with sign 'PONTO FINAL', not the named place; sun glare but clear.\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 136,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 62,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

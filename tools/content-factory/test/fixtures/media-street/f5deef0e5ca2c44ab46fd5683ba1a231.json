@@ -1,0 +1,536 @@
+{
+  "at": 1791118800000,
+  "url": "https://graph.mapillary.com/images?bbox=-9.140764%2C38.711005%2C-9.140028%2C38.711579&fields=id%2Ccaptured_at%2Ccompass_angle%2Ccomputed_compass_angle%2Ccomputed_geometry%2Cgeometry%2Cis_pano%2Cthumb_2048_url%2Cthumb_1024_url%2Ccreator%2Csequence%2Cwidth%2Cheight&limit=1999",
+  "body": {
+    "data": [
+      {
+        "id": "1148178018998640",
+        "captured_at": 1626275013610,
+        "compass_angle": 331.86318969727,
+        "computed_compass_angle": 0,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402490610242, 38.711302259175]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402490610242, 38.711302259175]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "100147179017474",
+        "captured_at": 1626274968991,
+        "compass_angle": 46.251861572266,
+        "computed_compass_angle": 317.50579118049,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400662356258, 38.711144807791]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401364519573, 38.711093111032]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "100580538963809",
+        "captured_at": 1626275100537,
+        "compass_angle": 120.11972045898,
+        "computed_compass_angle": 0,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401765120792, 38.711186178218]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401765120792, 38.711186178218]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "101669512180086",
+        "captured_at": 1626275000782,
+        "compass_angle": 333.33190917969,
+        "computed_compass_angle": 308.72246559438,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402143302929, 38.711319376317]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402283109785, 38.711262413126]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1018975135577358",
+        "captured_at": 1626274978314,
+        "compass_angle": 336.55221557617,
+        "computed_compass_angle": 288.71127911994,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401149992488, 38.71121477433]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401473683311, 38.711131333114]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1028377947567091",
+        "captured_at": 1626274989213,
+        "compass_angle": 261.62246704102,
+        "computed_compass_angle": 253.09297628082,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401466130337, 38.711263384768]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.140215776749, 38.711216021914]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "103869818589348",
+        "captured_at": 1626274967635,
+        "compass_angle": 72.303344726562,
+        "computed_compass_angle": 338.79916040731,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400626055646, 38.71113816178]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401440684411, 38.71109073289]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1039171300235394",
+        "captured_at": 1626275098182,
+        "compass_angle": 72.575744628906,
+        "computed_compass_angle": 128.63135407195,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.140214493093, 38.711154966732]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401938708767, 38.711187597325]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "104182751880146",
+        "captured_at": 1626274976052,
+        "compass_angle": 347.24615478516,
+        "computed_compass_angle": 281.98682034981,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400947924306, 38.711200875102]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401402971014, 38.711120713043]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1065314677336709",
+        "captured_at": 1626274971191,
+        "compass_angle": 342.40432739258,
+        "computed_compass_angle": 280.48542220839,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400741712969, 38.711161793728]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401339739712, 38.711099370988]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1062647240806364",
+        "captured_at": 1626275091010,
+        "compass_angle": 124.89053344727,
+        "computed_compass_angle": 152.39530552018,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402876381293, 38.71116872501]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402574100109, 38.711222296192]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1044530809416093",
+        "captured_at": 1626274977391,
+        "compass_angle": 333.01107788086,
+        "computed_compass_angle": 283.29762507943,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401068788474, 38.711207932458]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401443870707, 38.711126326263]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1133098190433257",
+        "captured_at": 1626274958198,
+        "compass_angle": 334.00991821289,
+        "computed_compass_angle": 304.89564731154,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400552695137, 38.711122289847]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401264457014, 38.711066059163]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "1167668670377699",
+        "captured_at": 1626274954662,
+        "compass_angle": 298.57080078125,
+        "computed_compass_angle": 334.95308218061,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400319696591, 38.711082676118]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400971130435, 38.711048569565]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "120094896991472",
+        "captured_at": 1626275066390,
+        "compass_angle": 26.090698242188,
+        "computed_compass_angle": 295.44140028241,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402992052027, 38.71120317675]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.140316761, 38.7112605824]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "132167245730330",
+        "captured_at": 1626274979913,
+        "compass_angle": 327.78024291992,
+        "computed_compass_angle": 298.40276995899,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401198639218, 38.711227714497]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401564665865, 38.711145234135]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "172419014873249",
+        "captured_at": 1626275067315,
+        "compass_angle": 355.51995849609,
+        "computed_compass_angle": 302.31326847352,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402968663373, 38.711205856538]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1403165400596, 38.711261400596]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "149858567235388",
+        "captured_at": 1626275070163,
+        "compass_angle": 38.079040527344,
+        "computed_compass_angle": 275.78433917153,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.140313380349, 38.711240567149]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1403137225166, 38.711264677483]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "234853175122399",
+        "captured_at": 1626274976713,
+        "compass_angle": 313.33047485352,
+        "computed_compass_angle": 280.14766597508,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1400991732746, 38.71120509393]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401422832452, 38.711123822399]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "359209072305480",
+        "captured_at": 1626275068286,
+        "compass_angle": 51.853179931641,
+        "computed_compass_angle": 318.79789146631,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1402997673564, 38.711217624337]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1403161206413, 38.71126229499]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "902649963619849",
+        "captured_at": 1626275069191,
+        "compass_angle": 31.077362060547,
+        "computed_compass_angle": 298.82592670615,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1403046440266, 38.711229421417]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1403149609125, 38.711263240814]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "pLuDEhIKvM7NscejTfdHig",
+        "width": 4000,
+        "height": 3000
+      },
+      {
+        "id": "983641022476502",
+        "captured_at": 1626274978984,
+        "compass_angle": 334.93133544922,
+        "computed_compass_angle": 292.8071535674,
+        "computed_geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401177799871, 38.71121816355]
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-9.1401503306569, 38.71113649635]
+        },
+        "is_pano": false,
+        "thumb_2048_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "thumb_1024_url": "https://scontent.example.fbcdn.net/m1/v/t6/expired.jpg",
+        "creator": {
+          "username": "sttujames",
+          "id": "100112478905589"
+        },
+        "sequence": "iwDU7Qhs4WqlVOdugEGZot",
+        "width": 4000,
+        "height": 3000
+      }
+    ]
+  }
+}
