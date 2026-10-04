@@ -17,7 +17,6 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { TextField } from '@/ui/inputs/TextField';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -179,11 +178,6 @@ export function ChangeDayView(props: ChangeDayViewProps) {
               message: `${destination} · ${guideName}’s draft`,
             })}
           </Text>
-          <HeaderPill
-            tone="private"
-            label={t({ id: 'planDraft.onlyYou', message: 'Only you see this' })}
-            icon={<Icon name="lock" size={14} decorative color={theme.semantic.text.secondary} />}
-          />
         </View>
       }
       accessibilityLabel={t({ id: 'planDraft.change.title', message: 'Change a day' })}

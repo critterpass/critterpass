@@ -140,7 +140,7 @@ export interface NearHomePlace {
 }
 
 /** How many places near home the first run offers before the guides. */
-const NEAR_HOME_MAX = 6;
+const NEAR_HOME_MAX = 12;
 
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 const NEAR_HOME_SQL = `SELECT d.id, d.name, d.country, d.coverage,
