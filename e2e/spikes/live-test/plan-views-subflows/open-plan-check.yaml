@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# Opens the plan check from the trip map: the CHECK line on the sheet when it shows, else the whole
+# trip (sheet up, ALL DAYS) and SEE on its check card. Ends on the check when the app offers a way.
+- runFlow:
+    when:
+      visible: '(?i)^check$'
+    commands:
+      - tapOn: '(?i)^check$'
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-check'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-all-days'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-map-all-days'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-full'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: ${SHOT}
+      - tapOn:
+          text: '(?i)^see$'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000

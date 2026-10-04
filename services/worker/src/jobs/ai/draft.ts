@@ -54,7 +54,7 @@ import {
   staysLabel,
 } from './draft/steps';
 import { stayRows, type SlotCheck, noSlotCheck } from './draft/suppliers';
-import { checkStage } from './draft/validate-repair';
+import { checkStage, keptWithJob } from './draft/validate-repair';
 import { redraftJob } from './redraft';
 
 export interface DraftJobDeps {
@@ -170,15 +170,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
           );
           const label = foodLabel(trip);
           await hint(ctx, 'validate', 'done', label);
-          return {
-            label,
-            itinerary: outcome.itinerary,
-            first_ok: outcome.first.ok,
-            first: { ok: outcome.first.ok, violations: [], costPpMinor: outcome.first.costPpMinor },
-            loops: outcome.loops,
-            dropped: outcome.dropped,
-            left: outcome.final.violations.map((v) => v.code),
-          };
+          return { label, itinerary: outcome.itinerary, ...keptWithJob(outcome) };
         },
       },
       {

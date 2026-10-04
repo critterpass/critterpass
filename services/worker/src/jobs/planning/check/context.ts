@@ -202,7 +202,11 @@ export async function loadCheck(
       ? []
       : (
           await tx.query<FitItemRow>(
-            `SELECT i.stable_id, i.day_id, i.poi_id, coalesce(p.category, i.category) AS category,
+            // The item's own kind decides whether it is the stay: a visit to a place filed as a
+            // stay is a stop.
+            `SELECT i.stable_id, i.day_id, i.poi_id,
+                    CASE WHEN p.category = 'stay' AND i.category IS NOT NULL THEN i.category
+                         ELSE coalesce(p.category, i.category) END AS category,
                     i.starts_at, i.ends_at, i.attendee_ids,
                     (i.booking_id IS NOT NULL OR i.locked_reason IS NOT NULL) AS locked, i.is_outdoor,
                     coalesce(p.lat, (i.custom_place->>'lat')::float8) AS lat,

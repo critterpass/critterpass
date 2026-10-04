@@ -26,12 +26,19 @@ const addDays = (date: string, days: number) => {
   return at.toISOString().slice(0, 10);
 };
 
-export function reorderWire(day: FitDay, tz: string, reorder: DayReorder | null) {
+/** `checked`: every leg of the new order is a routed one; false = some are estimates. */
+export function reorderWire(
+  day: FitDay,
+  tz: string,
+  reorder: DayReorder | null,
+  checked: boolean = true,
+) {
   const iso = (minute: number) => instantAt(day.date, minute, tz).toISOString();
   if (reorder === null) return { day_id: day.dayId, found: false as const };
   return {
     day_id: day.dayId,
     found: true as const,
+    checked,
     before: { order: reorder.before.order, drive_min: reorder.before.driveMin },
     after: {
       order: reorder.after.order,
@@ -98,10 +105,12 @@ export function swapsWire(day: FitDay, tz: string, swaps: DaySwaps, weather: Wea
 export function tooFarWire(
   alternative: TooFarAlternative | null,
   names: ReadonlyMap<string, string>,
+  checked: boolean = true,
 ) {
   if (alternative === null) return { found: false as const };
   return {
     found: true as const,
+    checked,
     day_id: alternative.dayId,
     stable_id: alternative.stableId,
     from_poi_id: alternative.fromPoiId,

@@ -20,3 +20,21 @@ export function checkStage(
 ): Promise<RepairOutcome> {
   return validateAndRepair(model, input, skeleton, drafted);
 }
+
+/**
+ * What the check stage leaves on the job row beside the draft itself: whether the first check was
+ * clean, what each pass found (code, day and place of every broken rule), how many stops the
+ * planner dropped or added itself, and what still breaks a rule. It explains a draft afterwards.
+ */
+export function keptWithJob(outcome: RepairOutcome) {
+  return {
+    first_ok: outcome.first.ok,
+    first: { ok: outcome.first.ok, violations: [], costPpMinor: outcome.first.costPpMinor },
+    loops: outcome.loops,
+    dropped: outcome.dropped,
+    left: outcome.final.violations.map((v) => v.code),
+    passes: outcome.passes,
+    filled: outcome.filled,
+    notes_removed: outcome.notesRemoved,
+  };
+}
