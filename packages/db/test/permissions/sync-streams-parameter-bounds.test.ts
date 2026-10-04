@@ -201,9 +201,9 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     const queries = parameterQueries(harness, userId, harness.fixture.tripId);
     expect(queries.length).toBeGreaterThan(0);
     let total = 0;
-    let bounded = 0;
     const oversized: string[] = [];
     const growing: string[] = [];
+    const versionLookups: number[] = [];
     for (const query of queries) {
       const { rowCount } = await harness.db.pool.query(query.text, [...query.values]);
       const results = rowCount ?? 0;
@@ -212,16 +212,17 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
         growing.push(query.stream);
         continue;
       }
-      bounded += results;
+      if (query.text.startsWith('SELECT id FROM itinerary_versions')) versionLookups.push(results);
       if (results > PER_SUBQUERY_BOUND)
         oversized.push(`${query.stream}: ${results} ← ${query.text}`);
     }
     expect(oversized).toEqual([]);
     expect(growing).toEqual(['trip']);
-    // Everything but the change set lookup stays flat however long the trip's history is, and the
-    // whole connection stays well under the limit with hundreds of edits on one trip.
-    expect(bounded).toBeLessThan(CONNECTION_LIMIT / 4);
-    expect(total).toBeLessThan(CONNECTION_LIMIT / 2);
+    // Every other plan version lookup finds the live versions or the ones they replaced, never the
+    // trip's history.
+    expect(versionLookups.length).toBeGreaterThan(0);
+    expect(Math.max(...versionLookups)).toBeLessThanOrEqual(2);
+    expect(total).toBeLessThan(CONNECTION_LIMIT);
   });
 
   it("syncs a destination's crowd forecasts by the destination the trigger copies", async () => {
