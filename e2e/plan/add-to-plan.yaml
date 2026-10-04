@@ -44,7 +44,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-add-to-plan
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan$'
@@ -66,7 +66,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-member
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-member$'
@@ -88,7 +88,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-who
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-who$'
@@ -110,7 +110,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-already
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-already$'
@@ -132,7 +132,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-nowhere
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-nowhere$'
@@ -154,7 +154,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7f-1-offline
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-offline$'
@@ -222,7 +222,7 @@ appId: app.critterpass.dev
 - takeScreenshot: vi-7f-1-add-to-plan
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan$'
@@ -244,7 +244,7 @@ appId: app.critterpass.dev
 - takeScreenshot: vi-7f-1-member
 # A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    point: '50%,6%'
+    point: '50%,10%'
 - extendedWaitUntil:
     visible:
       text: '^add-to-plan-member$'

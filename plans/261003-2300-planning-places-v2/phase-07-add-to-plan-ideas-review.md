@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: Add to plan, Ideas, placing them and the review
-status: pending
+status: done
 depends_on: [1, 3, 4, 5]
 wave: 3
 screens: [7f-1, 7f-2, 7h-6, 7h-7]
@@ -165,7 +165,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Flows with shots named `7f-1-*`, `7f-2-*`, `7h-6-*`, `7h-7-*` (EN + VI). 2. Rename the old review flow's shots to `7h-7`. 3. Log the states below.
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/plan/add-to-plan.yaml,e2e/plan/ideas.yaml,e2e/plan/placing.yaml,e2e/plan/review.yaml" -f mode=compare -f pr=<n> -f shards=1`; iOS once for `add-to-plan.yaml` (sheet presentation)
 - Done when: sheets reviewed, `ui-reviewed` label applied by the controller.
-- Status: done — 5186afb5f (sheets on #622 await ui-reviewed)
+- Status: done — 5186afb5f (#622, b643446bb)
 
 ## Device flows
 
