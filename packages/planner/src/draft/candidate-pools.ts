@@ -23,12 +23,15 @@
  * seats to them unless somebody typed their names.
  */
 import { foodRole } from './food-role';
+import { nearHome } from './home';
+import { hopCapMin } from './hops';
 import { mealSlots, mealsInWindow } from './meal-slots';
 import { placeWindow } from './place-time';
 import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
 import { spansOn } from './sequence';
+import { straightLineMatrix } from './travel';
 import type { DraftPoi, TripFrame } from './types';
 
 /** Taste tag → place categories and tags it points at. */
@@ -65,6 +68,8 @@ export interface CandidatePools {
     readonly reason: 'unknown_place' | 'closed';
   }[];
   readonly activities: readonly DraftPoi[];
+  /** Every sight we may plan with, one row per place: what a hole is filled from after the pool. */
+  readonly sights: readonly DraftPoi[];
   /** The best meal places across the destination. */
   readonly meals: readonly DraftPoi[];
   /** Every meal place that suits the crew, best first: each day's own list is cut from these. */
@@ -220,6 +225,18 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     const open = days.length === 0 && mustDoPlaces.has(poi.id) ? daysOpen(poi, false) : days;
     if (open.length > 0) openDays.set(poi.id, open);
   }
+  // The day the crew leaves stays near where it sleeps: nothing a long ride out is open then.
+  const lastDay = frame.dates.length;
+  const travel = straightLineMatrix(byId);
+  const home = lastDay < 2 ? null : nearHome(input.pois, travel, hopCapMin(input.pois, travel));
+  if (home !== null) {
+    for (const [poiId, days] of openDays) {
+      if (home.has(poiId) || mustDoPlaces.has(poiId) || !days.includes(lastDay)) continue;
+      const rest = days.filter((day) => day !== lastDay);
+      if (rest.length > 0) openDays.set(poiId, rest);
+      else openDays.delete(poiId);
+    }
+  }
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();
@@ -279,5 +296,5 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   );
   // The head of the meal list keeps its spread across kinds and across the city.
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
-  return { mustDos, unplaceable, activities, meals, eateries, openDays };
+  return { mustDos, unplaceable, activities, sights, meals, eateries, openDays };
 }

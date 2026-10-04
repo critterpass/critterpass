@@ -87,6 +87,7 @@ export {
   withAssumedTravelNotes,
   withHonestNotes,
   type HonestNotes,
+  withNoteLine,
 } from './note-sense';
 export {
   MORNING_ENDS_MIN,
@@ -98,6 +99,8 @@ export {
   type PlaceWindow,
 } from './place-time';
 export { straightLineMatrix } from './travel';
+export { homeBase, nearHome } from './home';
+export { choicesOfDay, isKept } from './types';
 export type {
   Chronotype,
   CostBands,

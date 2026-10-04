@@ -23,6 +23,7 @@ import {
 } from '@cp/planner';
 
 import { hopCap } from './areas';
+import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
 import { whenOf } from './wish-answers';
@@ -152,7 +153,18 @@ export function keepWhatFits(
   for (const day of days) {
     const keep: string[] = [];
     for (const id of day.poiIds) {
-      if (fits(input, day, [...keep, id])) keep.push(id);
+      const poi = input.pois.get(id);
+      // One of a kind too many gives its seat to another kind, when one is still on the list.
+      const same =
+        poi !== undefined &&
+        oneTooMany(input, [...mustDoChoices(input, day).map((c) => c.poiId), ...keep], poi) &&
+        input.pools.activities.some(
+          (other) =>
+            !taken.has(other.id) &&
+            kindOf(other) !== kindOf(poi) &&
+            (input.pools.openDays.get(other.id) ?? []).includes(day.dayNo),
+        );
+      if (!same && fits(input, day, [...keep, id])) keep.push(id);
       else taken.delete(id);
     }
     day.poiIds.splice(0, day.poiIds.length, ...keep);
@@ -175,13 +187,18 @@ export function topUpDays(
     const tried = new Set<string>();
     while (load(day) < target) {
       const anchors = anchorsOf(input, day);
-      const next = input.pools.activities.find(
-        (poi) =>
-          !taken.has(poi.id) &&
-          !tried.has(poi.id) &&
-          (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
-          withinReach(poi.id, anchors, input.travel, cap),
-      );
+      const next = byVariety(
+        input,
+        input.pools.activities.filter(
+          (poi) =>
+            !taken.has(poi.id) &&
+            !tried.has(poi.id) &&
+            (input.pools.openDays.get(poi.id) ?? []).includes(day.dayNo) &&
+            withinReach(poi.id, anchors, input.travel, cap),
+        ),
+        anchors,
+        [...taken],
+      )[0];
       if (next === undefined) break;
       tried.add(next.id);
       if (!fits(input, day, [...day.poiIds, next.id])) continue;

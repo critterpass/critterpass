@@ -21,7 +21,12 @@ import { templateSummary, writeDraftSummary } from '../../src/prompts/draft/summ
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
 import { jsonResponse } from '../lib/transports';
-import { gradeFullDays, gradeMustDos, gradeRedraftReasons } from './asserts/day-shape-asserts';
+import {
+  gradeDayFinish,
+  gradeFullDays,
+  gradeMustDos,
+  gradeRedraftReasons,
+} from './asserts/day-shape-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import {
   baselineItinerary,
@@ -170,6 +175,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
             mustDoId(crew, i),
           ),
           ...(crew.expect_full_days ? gradeFullDays(result.input, result) : []),
+          ...gradeDayFinish(result.input, result.itinerary),
         ],
         `${output} || ${text}`,
       ),

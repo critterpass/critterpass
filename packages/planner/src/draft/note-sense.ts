@@ -81,7 +81,8 @@ export const ASSUMED_DEPARTURE_NOTE =
 /** A stop's line is at most this long (what the prose check allows a note). */
 const NOTE_MAX = 200;
 
-function withLine(note: string | null, line: string): string {
+/** `note` with `line` after it (once); the line alone when both would run too long. */
+export function withNoteLine(note: string | null, line: string): string {
   if (note === null || note.includes(line)) return line;
   const joined = `${note} ${line}`;
   return joined.length <= NOTE_MAX ? joined : line;
@@ -104,9 +105,9 @@ export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): 
       ...day,
       items: day.items.map((item, index) =>
         index === at.arrival
-          ? { ...item, note: withLine(item.note, ASSUMED_ARRIVAL_NOTE) }
+          ? { ...item, note: withNoteLine(item.note, ASSUMED_ARRIVAL_NOTE) }
           : index === at.departure
-            ? { ...item, note: withLine(item.note, ASSUMED_DEPARTURE_NOTE) }
+            ? { ...item, note: withNoteLine(item.note, ASSUMED_DEPARTURE_NOTE) }
             : item,
       ),
     };

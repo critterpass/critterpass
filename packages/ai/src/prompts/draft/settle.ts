@@ -8,7 +8,13 @@
  * day is, not a rule the draft breaks, so it is not reported as one.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { dropViolations, type DropResult, type ValidationResult } from '@cp/planner';
+import {
+  choicesOfDay,
+  dropViolations,
+  isKept,
+  type DropResult,
+  type ValidationResult,
+} from '@cp/planner';
 
 import { fillMeals } from './complete-days';
 import { fillThinDays } from './fill-days';
@@ -41,12 +47,7 @@ function without(
       ...outline,
       mustDoIds: kept.flatMap((item) => (item.must_do_id === null ? [] : [item.must_do_id])),
     },
-    kept.map((item) => ({
-      poiId: item.poi_id ?? '',
-      kind: item.kind,
-      mustDoId: item.must_do_id,
-      note: item.note,
-    })),
+    choicesOfDay({ items: kept }),
     key,
   );
   return {
@@ -80,7 +81,7 @@ export function trimForMustDos(
     const whole = itinerary.days.find((d) => d.day_no === dayNo);
     if (outline === undefined || whole === undefined) continue;
     const others = new Set(
-      whole.items.filter((item) => item.must_do_id === null).map((item) => item.stable_id),
+      whole.items.filter((item) => !isKept(item)).map((item) => item.stable_id),
     );
     const bare = without(input, outline, itinerary, others, `trim-${dayNo}-bare`);
     const solvable = dayViolations(validate(input, bare), dayNo) === 0;
@@ -96,7 +97,7 @@ export function trimForMustDos(
         item.kind === 'meal' ? 0 : planned.has(item.poi_id ?? '') ? 2 : 1;
       const candidates = day.items
         .map((item, index) => ({ item, index }))
-        .filter(({ item }) => item.must_do_id === null)
+        .filter(({ item }) => !isKept(item))
         .sort((a, b) => rank(a.item) - rank(b.item) || b.index - a.index)
         .map(({ item }) => item);
       for (const drop of candidates) {
@@ -140,12 +141,7 @@ function rehome(
       const outline = outlines.find((d) => d.dayNo === day.day_no);
       if (outline === undefined) continue;
       const choices = [
-        ...day.items.map((item) => ({
-          poiId: item.poi_id ?? '',
-          kind: item.kind,
-          mustDoId: item.must_do_id,
-          note: item.note,
-        })),
+        ...choicesOfDay(day),
         { poiId: slot.poiId, kind: 'activity' as const, mustDoId, note: null },
       ];
       const next = scheduleChoices(

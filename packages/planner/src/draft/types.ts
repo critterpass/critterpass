@@ -5,7 +5,7 @@
  * `DayChoice`s: which places, in which order, with a line of prose; the planner turns them into
  * timed, priced items and checks them.
  */
-import type { ClosureRecord, Hours } from '@cp/domain';
+import type { ClosureRecord, DraftDay, DraftItem, Hours, LockedReason } from '@cp/domain';
 
 import type { WishTime } from './wish-time';
 
@@ -82,6 +82,28 @@ export interface DayChoice {
   readonly note: string | null;
   /** A must-do held to its time of day (see ./wish-time). */
   readonly when?: WishTime | null;
+  /** Why the stop may not be taken off the day (a booking, a stop the organiser placed by hand). */
+  readonly lockedReason?: LockedReason | null;
+}
+
+/**
+ * Whether a stop is the crew's own: a must-do, a booking, or one the organiser placed by hand.
+ * The planner plans around such a stop: it never trims it, lets it give way or blames it; the
+ * stop beside it is the one out of place.
+ */
+export function isKept(item: Pick<DraftItem, 'must_do_id' | 'locked_reason'>): boolean {
+  return item.must_do_id !== null || item.locked_reason !== null;
+}
+
+/** A day's stops as choices, in their order, each keeping why it is locked. */
+export function choicesOfDay(day: Pick<DraftDay, 'items'>): DayChoice[] {
+  return day.items.map((item) => ({
+    poiId: item.poi_id ?? '',
+    kind: item.kind,
+    mustDoId: item.must_do_id,
+    note: item.note,
+    lockedReason: item.locked_reason,
+  }));
 }
 
 /** The destination's cost bands (`destination_cost_indices`) in the trip currency. */

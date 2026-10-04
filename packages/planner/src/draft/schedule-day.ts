@@ -265,7 +265,7 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       tz,
       must_do_id: choice.mustDoId,
       booking_id: null,
-      locked_reason: choice.mustDoId === null ? null : 'must_do',
+      locked_reason: choice.mustDoId === null ? (choice.lockedReason ?? null) : 'must_do',
       cost_model: 'per_person',
       amount_minor: poi === undefined ? 0 : stopPriceMinor(poi, choice.kind, start, input.bands),
       currency: input.currency,

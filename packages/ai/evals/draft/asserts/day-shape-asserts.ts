@@ -6,9 +6,10 @@
  * opens the day later, and a slower or lighter day still eats when a place is free to feed it.
  */
 import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
-import { dayWindow, mealAt, mealSlots, mealsInWindow, minuteOfDate } from '@cp/planner';
+import { dayWindow, isKept, mealAt, mealSlots, mealsInWindow, minuteOfDate } from '@cp/planner';
 
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
+import { titleFits } from '../../../src/prompts/draft/day-titles';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
 import { plannedRedraft, type RedraftOutcome } from '../../../src/prompts/draft/redraft';
 import type { CrewCase } from '../cases';
@@ -107,6 +108,26 @@ export function gradeRedraftReasons(
           mealSlots(poi, before.date).includes(slot),
       );
       if (free.length > 0) failures.push(`slower: the day lost its ${slot}`);
+    }
+  }
+  return failures;
+}
+
+/** Every day's title still matches its stops, and the last day stays where the crew leaves from. */
+export function gradeDayFinish(input: DraftPlanInput, itinerary: Itinerary): string[] {
+  const failures: string[] = [];
+  const last = itinerary.days[itinerary.days.length - 1];
+  for (const day of itinerary.days) {
+    if (!titleFits(input, day))
+      failures.push(`day ${day.day_no}: title "${day.theme}" names what the day lacks`);
+  }
+  if (last !== undefined && itinerary.days.length > 1) {
+    for (const item of last.items) {
+      const open = item.poi_id === null ? undefined : input.pools.openDays.get(item.poi_id);
+      if (isKept(item) || open === undefined || open.includes(last.day_no)) continue;
+      failures.push(
+        `last day: ${input.pois.get(item.poi_id ?? '')?.name ?? 'a stop'} is far from home`,
+      );
     }
   }
   return failures;

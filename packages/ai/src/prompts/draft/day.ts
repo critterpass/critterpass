@@ -93,7 +93,11 @@ function ownStops(
   return picked.filter((choice) => {
     if (seen.has(choice.poiId)) return false;
     seen.add(choice.poiId);
-    return choice.mustDoId === null || day.mustDoIds.includes(choice.mustDoId);
+    if (choice.mustDoId !== null) return day.mustDoIds.includes(choice.mustDoId);
+    // A place the guide named outside its lists still goes only on a day it is open (on the
+    // last day: near where the crew leaves from). A stop placed by hand is the organiser's call.
+    const open = input.pools.openDays.get(choice.poiId);
+    return (choice.lockedReason ?? null) !== null || open === undefined || open.includes(day.dayNo);
   });
 }
 

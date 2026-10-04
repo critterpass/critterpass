@@ -13,7 +13,7 @@ import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
-import type { DraftPoi, TravelMatrix, TripFrame } from './types';
+import { isKept, type DraftPoi, type TravelMatrix, type TripFrame } from './types';
 import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
@@ -131,7 +131,7 @@ function dayChecks(
   if (closedOn(input.frame, poi, date) === 'poi') out.push(at('CLOSED_ON_DATE'));
   if (
     item.kind === 'meal' &&
-    item.must_do_id === null &&
+    !isKept(item) &&
     !input.frame.diets.every((diet) => suitsDiet(poi.tags, diet))
   ) {
     out.push(at('DIETARY'));

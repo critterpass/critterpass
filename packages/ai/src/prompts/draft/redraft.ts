@@ -6,7 +6,15 @@
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { alignStableIds, dayWindow, redraftDiff, type ValidationResult } from '@cp/planner';
+import {
+  alignStableIds,
+  choicesOfDay,
+  dayWindow,
+  isKept,
+  redraftDiff,
+  type DayChoice,
+  type ValidationResult,
+} from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -33,6 +41,7 @@ import {
 } from './redraft-input';
 import { REASON_TEXT, reasonTarget } from './redraft-reasons';
 import { validate } from './repair';
+import { withFinalNotes } from './final-notes';
 import { settle } from './settle';
 import { proseProblem, REDRAFT_FORMAT, redraftReplySchema } from './schema';
 
@@ -168,6 +177,27 @@ export function buildRedraftRequest(
   };
 }
 
+/**
+ * The reply's stops with the day's locked ones kept: a booking or a stop the organiser placed by
+ * hand stays locked when the guide names it, and goes back in when the guide left it out (a
+ * must-do is put back by the scheduler).
+ */
+function withKept(base: DraftDay, choices: readonly DayChoice[]): DayChoice[] {
+  const locked = choicesOfDay({
+    items: base.items.filter((item) => item.must_do_id === null && isKept(item)),
+  });
+  const lockOf = new Map(locked.map((choice) => [choice.poiId, choice.lockedReason ?? null]));
+  const named = new Set(choices.map((choice) => choice.poiId));
+  return [
+    ...choices.map((choice) =>
+      lockOf.has(choice.poiId)
+        ? { ...choice, lockedReason: lockOf.get(choice.poiId) ?? null }
+        : choice,
+    ),
+    ...locked.filter((choice) => !named.has(choice.poiId)),
+  ];
+}
+
 export interface RedraftOutcome {
   readonly day: DraftDay;
   readonly itinerary: Itinerary;
@@ -216,7 +246,7 @@ export async function runRedraft(
     const title = proseProblem(reply.title, 60, names) === null ? reply.title : null;
     const summary = proseProblem(reply.summary, 200, names) === null ? reply.summary : null;
     proseRejected += parsed.proseRejected + (title === null ? 1 : 0) + (summary === null ? 1 : 0);
-    const scheduled = scheduleChoices(input, skeleton, parsed.choices, key);
+    const scheduled = scheduleChoices(input, skeleton, withKept(base, parsed.choices), key);
     // A day the guide left without its lunch or dinner gets one from the places beside it.
     const fed = fillMeals(
       input,
@@ -248,13 +278,20 @@ export async function runRedraft(
     validate(input, withDay(input.base, outcome.day)),
     { dayNo: input.dayNo, fillThin: false },
   );
-  const itinerary = {
+  const settledDays = {
     ...settled.itinerary,
     days: settled.itinerary.days.map((d) =>
       d.day_no === input.dayNo ? alignStableIds(base, d) : d,
     ),
   };
+  // The day's notes and title are finished the way a draft's are; the other days stay as they were.
+  const finished = withFinalNotes(input, settledDays).itinerary.days.find(
+    (d) => d.day_no === input.dayNo,
+  );
+  const itinerary = finished === undefined ? settledDays : withDay(settledDays, finished);
   const final = settled.final;
   const day = itinerary.days.find((d) => d.day_no === input.dayNo) as DraftDay;
-  return { ...outcome, day, itinerary, final, unknownIds, proseRejected };
+  // A title the day no longer matched was written again from its stops.
+  const title = outcome.title === null ? null : day.theme;
+  return { ...outcome, title, day, itinerary, final, unknownIds, proseRejected };
 }

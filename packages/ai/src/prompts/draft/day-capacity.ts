@@ -28,7 +28,8 @@ export function withinCapacity(
   let breaks = choices.filter(isBreak).length;
   const order = choices
     .map((choice, index) => ({ choice, index }))
-    .filter(({ choice }) => choice.mustDoId === null)
+    // A must-do, a booking and a stop placed by hand are never cut for room.
+    .filter(({ choice }) => choice.mustDoId === null && (choice.lockedReason ?? null) === null)
     .sort(
       (a, b) =>
         Number(planned.has(a.choice.poiId)) - Number(planned.has(b.choice.poiId)) ||

@@ -22,7 +22,7 @@ import {
   type MealSlot,
 } from './meal-slots';
 import { placeWindow } from './place-time';
-import type { DayWindow, DraftPoi, TravelMatrix } from './types';
+import { isKept, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
 export type DaySenseCode =
   | 'DUPLICATE_PLACE'
@@ -81,7 +81,8 @@ const at = (
   ...extra,
 });
 
-const isMustDo = (stop: TimedStop) => stop.item.must_do_id !== null;
+/** A must-do, a booking or a stop placed by hand: never the stop out of place (see `isKept`). */
+const isMustDo = (stop: TimedStop) => isKept(stop.item);
 
 function mealChecks(day: TimedDay): { out: DaySenseViolation[]; had: Set<MealSlot> } {
   const out: DaySenseViolation[] = [];

@@ -84,7 +84,8 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
           }
           continue;
         }
-        if (taken.has(poiId)) continue;
+        // A place goes only on a day it is open (and, on the last day, near where the crew leaves).
+        if (taken.has(poiId) || !(pools.openDays.get(poiId) ?? []).includes(dayNo)) continue;
         taken.add(poiId);
         poiIds.push(poiId);
       }

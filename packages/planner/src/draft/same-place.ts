@@ -2,7 +2,8 @@
  * One place, several rows. The curated set lists some places more than once ("Chùa Linh Ứng (Linh
  * Ung Pagoda)" and "Linh Ứng Pagoda"; "Hải Vân Pass" four times), and the guide must not be
  * offered the same place twice. Two rows are the same place when they sit within about 150 m of
- * each other and their names overlap, or when they carry exactly the same name and are not food
+ * each other and their names overlap, or when they carry the same name (exactly, or once kind
+ * words and short forms are evened out, within a few kilometres) and are not food
  * (a chain has many branches; a mountain pass has one). The row kept is a must-do's own place,
  * else the must-see one, else the better described, else the plainest name ("Marble Mountains"
  * before "Marble Mountains Elevator"), else the one nearest the others (a stray pin is the
@@ -27,6 +28,29 @@ interface Named {
   /** Every name the row carries as its own, each as one string. */
   readonly names: readonly string[];
   readonly tokens: ReadonlySet<string>;
+  /** The leading name without kind words, short forms spelt out; null under two words. */
+  readonly core: string | null;
+}
+
+const LOOKALIKE_M = 8000;
+/** Words that say what kind of place a sight is, in the languages our rows use. */
+const KIND_WORDS: ReadonlySet<string> = new Set([
+  'the',
+  'pura',
+  'candi',
+  'temple',
+  'shrine',
+  'chua',
+  'pagoda',
+  'church',
+]);
+const SHORT_FORMS: Readonly<Record<string, string>> = { gn: 'gunung', mt: 'mount' };
+
+function coreName(alias: readonly string[] | undefined): string | null {
+  const words = (alias ?? [])
+    .map((word) => SHORT_FORMS[word] ?? word)
+    .filter((word) => !KIND_WORDS.has(word));
+  return words.length < 2 ? null : words.join(' ');
 }
 
 function overlap(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
@@ -39,6 +63,10 @@ function overlap(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
 function samePlace(a: Named, b: Named): boolean {
   if (a.poi.category !== 'food' && b.poi.category !== 'food') {
     if (a.names.some((name) => b.names.includes(name))) return true;
+    // "Gn Kawi Temple" and "Pura Gunung Kawi": one name once the word for the kind of place is
+    // off and the short forms are spelt out. Nobody visits both on one trip.
+    const near = metresBetween(a.poi, b.poi) <= LOOKALIKE_M;
+    if (near && a.core !== null && a.core === b.core) return true;
   }
   return metresBetween(a.poi, b.poi) <= SAME_PLACE_M && overlap(a.tokens, b.tokens) >= NAME_OVERLAP;
 }
@@ -67,6 +95,7 @@ export function collapseSamePlaces(
       poi,
       names: aliases.filter((alias) => alias.length >= 2).map((alias) => alias.join(' ')),
       tokens: new Set(aliases.flat()),
+      core: coreName(aliases[0]),
     };
   });
   const parent = named.map((_, index) => index);

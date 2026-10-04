@@ -6,12 +6,13 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
+  choicesOfDay,
+  isKept,
   longRideMin,
   mealSlots,
   RIDE_HOME_MAX_MIN,
   stopKind,
   withinReach,
-  type DayChoice,
   type DraftPoi,
 } from '@cp/planner';
 
@@ -41,15 +42,6 @@ export function nearFirst(
     .filter((entry) => entry.ring !== -1)
     .sort((a, b) => a.ring - b.ring || a.rank - b.rank)
     .map((entry) => entry.poi);
-}
-
-function choicesOf(day: DraftDay): DayChoice[] {
-  return day.items.map((item) => ({
-    poiId: item.poi_id ?? '',
-    kind: item.kind,
-    mustDoId: item.must_do_id,
-    note: item.note,
-  }));
 }
 
 function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
@@ -98,7 +90,7 @@ export function addOne(
   if (day === undefined) return null;
   const before = baseline ?? dayFaults(input, itinerary, outline.dayNo);
   for (const poi of candidates) {
-    const choices = choicesOf(day);
+    const choices = choicesOfDay(day);
     choices.splice(position ?? choices.length, 0, {
       poiId: poi.id,
       kind: stopKind(poi),
@@ -161,7 +153,14 @@ export function fillMeals(
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);
       const nearby = nearFirst(input, input.pools.eateries, here, slot === 'dinner');
-      const candidates = [...new Set([...listed, ...nearby])].filter(
+      // The nearest first, wherever they were listed: the day may have moved since the outline.
+      const ringed = nearFirst(
+        input,
+        [...new Set([...listed, ...nearby])],
+        here,
+        slot === 'dinner',
+      );
+      const candidates = [...new Set([...ringed, ...listed])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
       );
       // The meal lands and nothing else breaks for it.
@@ -172,7 +171,7 @@ export function fillMeals(
       if (next === null) {
         const baseline = dayFaults(input, itinerary, outline.dayNo);
         const giveWay = day.items
-          .filter((item) => item.must_do_id === null && item.kind === 'activity')
+          .filter((item) => !isKept(item) && item.kind === 'activity')
           .reverse();
         for (const item of giveWay) {
           const lighter = {
