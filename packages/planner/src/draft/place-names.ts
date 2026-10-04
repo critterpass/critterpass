@@ -80,7 +80,7 @@ export function destinationPhrases(destination: string): string[][] {
   return [...phrases, ...split];
 }
 
-function containsRun(haystack: readonly string[], needle: readonly string[]): boolean {
+export function containsRun(haystack: readonly string[], needle: readonly string[]): boolean {
   if (needle.length === 0 || needle.length > haystack.length) return false;
   for (let at = 0; at + needle.length <= haystack.length; at += 1) {
     if (needle.every((token, i) => haystack[at + i] === token)) return true;

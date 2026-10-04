@@ -1,14 +1,18 @@
 /**
  * The drafting pipeline's input from what `load.ts` read: the trip frame (dates, zone, crew,
  * chronotypes from the early-start and late-start taste tags, diets, the budget left for the days
- * once flights and stay nights are paid), the planner's candidate pools, the travel matrix, and
- * stable ids derived from the job so a retried step writes the same rows.
+ * once flights and stay nights are paid, when the crew's shared flights or trains land on the
+ * first day and leave on the last), the planner's candidate pools, the travel matrix, and stable
+ * ids derived from the job so a retried step writes the same rows. A must-do picked from search is
+ * planned at the recommended row of its spot when search handed back a stay or shop beside it.
  */
 import { derivedUuid, personaIdSchema, type DraftPlanInput, type PersonaId } from '@cp/ai';
 import type { ClosureRecord } from '@cp/domain';
 import {
   candidatePools,
   datesOf,
+  knownPlaceFor,
+  minuteOfDate,
   straightLineMatrix,
   timeWords,
   type Chronotype,
@@ -46,6 +50,35 @@ function chronotypeOf(tastes: readonly string[]): Chronotype | null {
   return null;
 }
 
+/**
+ * When the crew is there to plan for: the last shared flight or train to land on the first day,
+ * and the first to leave on the last day (after that landing on a one-day trip). Null where no
+ * booking says; the planner then assumes a midday landing and an early-evening departure.
+ */
+export function transportTimes(
+  trip: Pick<DraftTripData, 'startDate' | 'endDate' | 'tz' | 'transport'>,
+): Pick<TripFrame, 'arrivalMin' | 'departureMin'> {
+  const dates = tripDates(trip);
+  const first = dates[0] as string;
+  const last = dates[dates.length - 1] as string;
+  const minutesOn = (date: string, instants: readonly (string | null)[]): number[] =>
+    instants.flatMap((instant) => {
+      if (instant === null) return [];
+      const minute = minuteOfDate(new Date(instant), date, trip.tz);
+      return minute >= 0 && minute < 24 * 60 ? [minute] : [];
+    });
+  const landings = minutesOn(
+    first,
+    trip.transport.map((leg) => leg.endsAt),
+  );
+  const arrivalMin = landings.length === 0 ? null : Math.max(...landings);
+  const leavings = minutesOn(
+    last,
+    trip.transport.map((leg) => leg.startsAt),
+  ).filter((minute) => first !== last || arrivalMin === null || minute > arrivalMin);
+  return { arrivalMin, departureMin: leavings.length === 0 ? null : Math.min(...leavings) };
+}
+
 export function guideOf(trip: DraftTripData): PersonaId {
   const parsed = personaIdSchema.safeParse(trip.guideSlug);
   return parsed.success ? parsed.data : 'guest';
@@ -64,6 +97,11 @@ export function buildPlanInput(
     if (kind !== null) chronotypes[member.uid] = kind;
     for (const tag of member.tastes) tastes[tag] = (tastes[tag] ?? 0) + 1;
   }
+  const ignore = options.ignoreNames ?? [];
+  const knownRow = (poiId: string): string => {
+    const own = pois.get(poiId);
+    return own === undefined ? poiId : knownPlaceFor(own, places, ignore).id;
+  };
   const frame: TripFrame = {
     tz: trip.tz,
     currency: trip.currency,
@@ -71,8 +109,7 @@ export function buildPlanInput(
     members: trip.members.map((m) => m.uid),
     chronotypes,
     diets: trip.diets,
-    arrivalMin: null,
-    departureMin: null,
+    ...transportTimes(trip),
     budgetPpMinor:
       trip.budget === null
         ? null
@@ -80,7 +117,7 @@ export function buildPlanInput(
     mustDos: trip.mustDos.map((m) => ({
       id: m.id,
       ownerId: m.ownerId,
-      poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
+      poiId: m.poiId === null ? (options.wished?.places.get(m.id) ?? null) : knownRow(m.poiId),
       title: m.title,
       // The member's own words for when ("at sunrise"), read only from a must-do they typed: a
       // place picked from search has its name as its title ("Morning Glory"), which says nothing
@@ -99,7 +136,7 @@ export function buildPlanInput(
       frame,
       tastes,
       include: options.wished?.offered ?? [],
-      ignoreNames: options.ignoreNames ?? [],
+      ignoreNames: ignore,
     }),
     tastes,
     bands: trip.bands,

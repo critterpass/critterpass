@@ -5,7 +5,8 @@ import { runSuite } from '../evals/lib/runner';
 import { caseVarsSchema, loadSuite } from '../evals/lib/suite';
 import { SUITES, suitesForChanges } from '../evals/suites';
 
-describe('eval suites in replay', { timeout: 60_000 }, () => {
+// The draft suite runs the whole drafting pipeline for every golden crew: allow for a slow runner.
+describe('eval suites in replay', { timeout: 180_000 }, () => {
   it.each(SUITES)('%s meets its replay threshold', async (suite) => {
     const report = await runSuite(suite, { mode: 'replay' });
     const failures = report.cases.filter((c) => c.outcome === 'fail');

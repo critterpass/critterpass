@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5a299240-b47e-41e4-bbc4-f4cdeb2c82a5",
+        "id": "c9794167-e34e-4d55-bfe5-c7761ae91c04",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow, Sunny Ubud Reset\",\n  \"summary\": \"A gentle day of free beauty and easy wandering, with plenty of time to breathe and a cheap, cheerful bite.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in a free lotus pond temple so the wallet can stay asleep and the morning stays soft.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at a low-key warung because relaxing should not cost a fortune.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long stretch of free beach time for doing absolutely nothing, which is the whole point.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower, softer Bali day\",\n  \"summary\": \"One gentle temple visit, a free wander, and two easy meals around the same leafy corner of Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free lotus-pond temple to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, cheap local lunch so the budget can breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan dinner to wind down, terima kasih (thank you) to a gentle day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 85,
+          "input_tokens": 75,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 237,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 227,
           "service_tier": "standard"
         }
       }
