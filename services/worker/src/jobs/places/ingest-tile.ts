@@ -239,9 +239,11 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
         ...result,
       };
       logger.info(summary, 'places ingest finished');
-      // A destination without a curated set gets its picks from the rows that just landed (the
-      // job skips a curated or already picked one). The ingest is done either way.
-      await queuePlacePick(boss, slug).catch((error: unknown) =>
+      // The catalogue just changed: a destination without a curated set has its picks made again
+      // from the full set, also when a draft made them inline from the rows that had landed by
+      // then (a re-run replaces ranks without rewriting unchanged rows; the job skips a curated
+      // destination). The ingest is done either way.
+      await queuePlacePick(boss, slug, true).catch((error: unknown) =>
         logger.warn({ err: error, slug }, 'places pick not queued after the ingest'),
       );
       return summary;

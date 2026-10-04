@@ -7,10 +7,12 @@
  */
 import { createGateway, type AiUsageRecord } from '@cp/ai';
 import { fixtureTransport } from '@cp/ai/testing';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
+import { ensurePlacePicks } from '../../../src/jobs/ai/draft/place-picks';
+import { placesPickJob } from '../../../src/jobs/places/pick';
 import { runPlacePick } from '../../../src/places/pick/run';
-import { silent, startJobsHarness, type JobsHarness } from '../../helpers/jobs-harness';
+import { silent, startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
 import {
   FILL,
   NAMED_IN_ORDER,
@@ -27,6 +29,10 @@ beforeAll(async () => {
   harness = await startJobsHarness();
   daLat = await seedDaLat(harness.pool, 'picks');
 }, 240_000);
+
+afterEach(async () => {
+  await harness.stopAll();
+});
 
 afterAll(async () => {
   await harness?.close();
@@ -191,5 +197,38 @@ describe('places.pick for a destination without a curated set', () => {
       status: 'skipped',
       reason: 'unknown_destination',
     });
+  });
+});
+
+describe('a draft that starts before a destination has picks', () => {
+  it('fills from open data when its naming call fails, and has the job ask again', async () => {
+    const other = await seedDaLat(harness.pool, 'inline');
+    const boss = await harness.startRuntime([placesPickJob({ gateway: recorded() })]);
+    const report = await ensurePlacePicks(
+      harness.pool,
+      { gateway: overloaded() },
+      other.destinationId,
+      silent,
+      boss,
+    );
+    // The draft goes on with the fill: nothing named, so no stand-in must-sees yet.
+    expect(report).toMatchObject({ status: 'picked', names: 'failed', matched: 0 });
+    expect(report?.filled).toBeGreaterThan(0);
+
+    // The forced job names the well-known places and replaces the ranks.
+    await until(
+      async () =>
+        (await picksOf(harness.pool, other.destinationId)).some((pick) => pick.source === 'named'),
+      60_000,
+    );
+    const picks = await picksOf(harness.pool, other.destinationId);
+    expect(picks.filter((pick) => pick.source === 'named').map((pick) => pick.name)).toEqual([
+      ...NAMED_IN_ORDER,
+    ]);
+    expect(picks.map((pick) => pick.rank)).toEqual(picks.map((_, index) => index + 1));
+    const { rows } = await harness.pool.query<{ data: unknown }>(
+      "SELECT data FROM pgboss.job WHERE name = 'places.pick' ORDER BY created_on",
+    );
+    expect(rows.map((row) => row.data)).toEqual([{ destination: other.slug, force: true }]);
   });
 });

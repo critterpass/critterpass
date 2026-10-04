@@ -12,6 +12,7 @@ import { fixtureTransport } from '@cp/ai/testing';
 import { withSystem } from '@cp/db';
 import type { Itinerary } from '@cp/domain';
 import { dayWindow, scheduleDay } from '@cp/planner';
+import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AgentStepContext } from '../../../../src/ai/job-runner';
@@ -56,6 +57,11 @@ function stepContext(input: unknown): AgentStepContext {
   } as unknown as AgentStepContext;
 }
 
+/** A named answer never asks the job to pick again. */
+const noQueue = {
+  send: () => Promise.reject(new Error('no pick should be queued')),
+} as unknown as Pick<PgBoss, 'send'>;
+
 const recorded = () =>
   createGateway({ apiKey: 'fixture-key', fetch: fixtureTransport(['place-picks-da-lat']).fetch });
 
@@ -99,10 +105,13 @@ describe('a draft in a destination without a curated set', () => {
       { gateway: recorded() },
       daLat.destinationId,
       silent,
+      noQueue,
     );
     expect(report).toMatchObject({ status: 'picked', matched: NAMED_IN_ORDER.length });
     // Once picked there is nothing to make.
-    expect(await ensurePlacePicks(harness.pool, {}, daLat.destinationId, silent)).toBeNull();
+    expect(
+      await ensurePlacePicks(harness.pool, {}, daLat.destinationId, silent, noQueue),
+    ).toBeNull();
 
     const places = await loadDraftPlaces(harness.pool, daLat.destinationId, []);
     const names = places.map((poi) => poi.name);
