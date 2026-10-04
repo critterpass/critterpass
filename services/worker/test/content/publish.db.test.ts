@@ -305,6 +305,75 @@ describe('content.publish', () => {
     ]);
   });
 
+  it('sets and clears the must-see flag and leaves the other editorial fields alone', async () => {
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, editorial)
+       SELECT d.id, seed.name, 'nature', -8.4312, 115.2793, jsonb_build_object('fsq_os', seed.ref),
+         seed.editorial::jsonb
+       FROM destinations d, (VALUES
+         ('Tegallalang Rice Terrace', 'terrace', '{"entry_short": "Ticket", "must_see": true}'),
+         ('Campuhan Ridge Walk', 'ridge', '{"entry_short": "Free"}'),
+         ('Tegenungan Waterfall', 'falls', '{"must_see": true}')
+       ) AS seed(name, ref, editorial) WHERE d.slug = 'bali'`,
+    );
+    const item = (
+      id: string,
+      name: string,
+      mustSee: boolean | undefined,
+    ): ContentItem<'places'> => ({
+      ref: `fsq_os:${id}`,
+      destination: 'bali',
+      name,
+      name_local: null,
+      category: 'nature',
+      lat: -8.4312,
+      lng: 115.2793,
+      address: null,
+      tz: 'Asia/Makassar',
+      tags: ['nature'],
+      hours: null,
+      licence: {
+        source: 'fsq_os',
+        source_id: id,
+        licence: 'Apache-2.0',
+        attribution: 'Foursquare Open Source Places',
+      },
+      editorial: {
+        why_go: 'Green terraces north of Ubud.',
+        best_time: 'Early morning',
+        time_needed_min: 60,
+        crowd_hint: 'Busy by ten',
+        etiquette: null,
+        ...(mustSee === undefined ? {} : { must_see: mustSee }),
+      },
+      merge_into: null,
+      possible_duplicate_of: null,
+    });
+    await publish(
+      await approved('places', 3, [
+        item('terrace', 'Tegallalang Rice Terrace', false),
+        item('ridge', 'Campuhan Ridge Walk', true),
+        item('falls', 'Tegenungan Waterfall', undefined),
+      ]),
+    );
+    const { rows } = await harness.pool.query<{
+      name: string;
+      must_see: boolean | null;
+      entry: string | null;
+      why: string;
+    }>(
+      `SELECT name, (editorial ->> 'must_see')::boolean AS must_see, editorial ->> 'entry_short' AS entry,
+         editorial ->> 'why_go' AS why
+       FROM pois WHERE category = 'nature' ORDER BY name`,
+    );
+    const why = 'Green terraces north of Ubud.';
+    expect(rows).toEqual([
+      { name: 'Campuhan Ridge Walk', must_see: true, entry: 'Free', why },
+      { name: 'Tegallalang Rice Terrace', must_see: false, entry: 'Ticket', why },
+      { name: 'Tegenungan Waterfall', must_see: true, entry: null, why },
+    ]);
+  });
+
   it('has the picks of every destination a places release wrote to made again', async () => {
     // An open-data warung the pick job chose before Bali had any curated place.
     await harness.pool.query(

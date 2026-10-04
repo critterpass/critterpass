@@ -102,6 +102,11 @@ export const poiEditorialSchema = z
       .max(24 * 60),
     crowd_hint: z.string().min(1).max(80),
     etiquette: z.string().min(1).max(160).nullable(),
+    /**
+     * A sight the destination is known for (a pinned place or a landmark). Publishing writes it to
+     * `pois.editorial.must_see`; an item without it leaves the place's flag as it is.
+     */
+    must_see: z.boolean().optional(),
   })
   .strict();
 

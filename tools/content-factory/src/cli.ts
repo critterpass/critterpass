@@ -5,6 +5,7 @@
  *   pnpm content forms resume               finish the latest batch (generation resumes from cache)
  *   pnpm content forms validate --all       re-check every committed batch of the kind
  *   pnpm content forms pull                 copy the live release into packages/content
+ *   pnpm content places page --batch <key>  write the batch's one-page review (--opt left_out=<file>)
  *
  * Flags: --batch <key>, --max-usd <n>, --concurrency <n>, --opt key=value (kind options).
  * Reads DATABASE_URL, ANTHROPIC_API_KEY and TAVILY_API_KEY from the environment or `.env`
@@ -17,6 +18,7 @@ import path from 'node:path';
 import { createGateway, loadGatewayEnv, type Gateway } from '@cp/ai';
 import { contentKindSchema, type ContentKind } from '@cp/content';
 
+import { curatedDestinations } from './data/place-facts';
 import { openPool, liveArtifact } from './db';
 import './kinds/index';
 import {
@@ -36,6 +38,7 @@ import {
 import { readCrowdReview, renderCrowdReview } from './kinds/places/crowds-review';
 import { placeFactsCommand } from './kinds/places/facts';
 import { poisWithoutHours, researchHours, storeProposals } from './kinds/places/hours';
+import { writePlacesReview } from './kinds/places/review-page';
 import { recordingFetch } from './record';
 import { searchFromEnv } from './search';
 import { writeCurrentRelease } from './stages/pull';
@@ -53,11 +56,12 @@ const COMMANDS = [
   'hours',
   'crowds',
   'facts',
+  'page',
 ] as const;
 type Command = (typeof COMMANDS)[number];
 
 const STAGES_FOR: Record<
-  Exclude<Command, 'pull' | 'hours' | 'crowds' | 'facts'>,
+  Exclude<Command, 'pull' | 'hours' | 'crowds' | 'facts' | 'page'>,
   readonly Stage[]
 > = {
   brief: ['brief'],
@@ -128,7 +132,9 @@ function gatewayFromEnv(): Gateway | null {
   });
 }
 
-const PLACES_DESTINATIONS = 'bali,kyoto,iceland,mexico-city,lisbon,cusco,da-nang';
+const PLACES_DESTINATIONS = curatedDestinations()
+  .map((d) => d.slug)
+  .join(',');
 
 /**
  * Proposes editorial crowd curves and writes the one-page review; `--opt approve=<batch>` approves
@@ -180,6 +186,13 @@ export async function main(argv: readonly string[], log = console.log): Promise<
       if (pool === null) throw new Error('pull reads the live release: set DATABASE_URL');
       const version = writeCurrentRelease(args.kind, await liveArtifact(pool, args.kind));
       log(`pull: packages/content/releases/${args.kind}/current.json is v${version}`);
+      return 0;
+    }
+    if (args.command === 'page') {
+      const batch = args.batch ?? latestBatchKey(args.kind);
+      if (args.kind !== 'places' || batch === undefined)
+        throw new Error('page writes the review of a places batch');
+      log(`page: ${writePlacesReview(batch, args.options['left_out'])}`);
       return 0;
     }
     if (args.command === 'hours') {

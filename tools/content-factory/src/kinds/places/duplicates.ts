@@ -3,6 +3,10 @@
  * barely overlap (trigram similarity under 0.6, e.g. "Chùa Cầu" and "Japanese Covered Bridge") are
  * put to the `poi.duplicate_tiebreak` decision, many pairs per call. A sure yes merges them on
  * publish; the gray band goes to the reviewer; a no leaves both. Answers are cached per pair.
+ * The sources also list one business twice under nearly the same name, a street or more apart
+ * ("Nem Nướng Bà Hùng", "Nem Nuong Ba Hung"): pairs within 400 m whose unaccented names are alike,
+ * and within 1.5 km when they are nearly the same, go to the same decision, as does every record
+ * near a landmark that carries its name.
  *
  * Long features (beaches, mountains, parks) run for a kilometre or more, and each source drops its
  * point somewhere along them: Mỹ Khê's three records lie up to 1.4 km apart. Within 1.5 km, two
@@ -23,6 +27,10 @@ import { distanceM, matchPlace, tellingWords, type WikidataPoint } from '../medi
 
 export const DUPLICATE_DISTANCE_M = 60;
 export const DUPLICATE_MAX_NAME_SIMILARITY = 0.6;
+export const SAME_NAME_DISTANCE_M = 400;
+export const SAME_NAME_MIN_SIMILARITY = 0.5;
+export const NEAR_IDENTICAL_DISTANCE_M = 1500;
+export const NEAR_IDENTICAL_MIN_SIMILARITY = 0.75;
 const PAIRS_PER_CALL = 20;
 
 export interface PoiPairSide {
@@ -110,7 +118,7 @@ const refOf = (sourceIds: Record<string, string>): string => {
   return '';
 };
 
-export async function nearbyDifferentNames(
+export async function nearbyPairs(
   pool: pg.Pool,
   destinationId: string,
   /** Only pairs where both places are among these (the curated set). */
@@ -131,13 +139,24 @@ export async function nearbyDifferentNames(
        b.source_ids AS b_ids, b.name AS b_name, b.name_local AS b_local, b.category AS b_category,
        ST_Distance(a.location, b.location) AS distance
      FROM pois a JOIN pois b ON a.id < b.id AND b.destination_id = a.destination_id
-       AND ST_DWithin(a.location, b.location, $2)
+       AND ST_DWithin(a.location, b.location, $7)
      WHERE a.destination_id = $1 AND a.status = 'active' AND b.status = 'active'
        AND a.merged_into_id IS NULL AND b.merged_into_id IS NULL
        AND a.id = ANY($4::uuid[]) AND b.id = ANY($4::uuid[])
-       AND similarity(a.name, b.name) < $3
+       AND ((ST_DWithin(a.location, b.location, $2) AND similarity(a.name, b.name) < $3)
+         OR similarity(app.unaccent_immutable(lower(a.name)), app.unaccent_immutable(lower(b.name)))
+           >= CASE WHEN ST_DWithin(a.location, b.location, $5) THEN $6::real ELSE $8::real END)
      ORDER BY distance`,
-    [destinationId, DUPLICATE_DISTANCE_M, DUPLICATE_MAX_NAME_SIMILARITY, poiIds],
+    [
+      destinationId,
+      DUPLICATE_DISTANCE_M,
+      DUPLICATE_MAX_NAME_SIMILARITY,
+      poiIds,
+      SAME_NAME_DISTANCE_M,
+      SAME_NAME_MIN_SIMILARITY,
+      NEAR_IDENTICAL_DISTANCE_M,
+      NEAR_IDENTICAL_MIN_SIMILARITY,
+    ],
   );
   return rows
     .map((row) => ({
@@ -240,5 +259,31 @@ export function farNamesakes(
         matchPlace({ ...place, lat: item.lat, lng: item.lng }, [item], true) !== null,
     );
     return landmark === undefined ? [] : [{ from: place.ref, into: landmark.ref }];
+  });
+}
+
+/**
+ * Records that carry a landmark's name on its ground (the lake's park, its viewpoint, the same
+ * sight under another category), each paired with the landmark's place for the decision. Pinned
+ * places and other landmarks' places are left alone.
+ */
+export function landmarkNamesakes(
+  places: readonly DuplicatePlace[],
+  landmarks: readonly { readonly item: WikidataPoint; readonly ref: string }[],
+  pinned: ReadonlySet<string>,
+): DuplicatePair[] {
+  const side = ({ ref, name, nameLocal, category }: DuplicatePlace): PoiPairSide => ({
+    ref,
+    name,
+    nameLocal,
+    category,
+  });
+  const taken = new Set(landmarks.map((l) => l.ref));
+  return landmarks.flatMap(({ item, ref }) => {
+    const own = places.find((place) => place.ref === ref);
+    if (own === undefined) return [];
+    return places
+      .filter((p) => !taken.has(p.ref) && !pinned.has(p.ref) && matchPlace(p, [item]) !== null)
+      .map((p) => ({ a: side(own), b: side(p), distanceM: Math.round(distanceM(own, p)) }));
   });
 }
