@@ -5,7 +5,7 @@
  * action pinned at the bottom beside the guide chat.
  */
 import { tokens } from '@cp/design-tokens';
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
@@ -50,7 +50,7 @@ export interface PlaceViewProps {
   readonly name: string;
   readonly category: string;
   readonly guide: GuideFacts;
-  readonly photo: MediaAsset | null;
+  readonly photo: PlaceMediaAsset | null;
   /** A live photo for the hero when the place has none of its own; loaded, never saved. */
   readonly heroUrl?: string | null | undefined;
   /** Foursquare's rating, photos, tips, call, website and attribution, when it has any. */

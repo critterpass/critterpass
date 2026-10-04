@@ -5,7 +5,7 @@
  * the button that always says where the place would go, beside the guide chat.
  */
 import { upper } from '@cp/i18n';
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { I18nManager, Pressable, View } from 'react-native';
@@ -42,7 +42,7 @@ export interface PlaceDetailViewProps {
   readonly name: string;
   readonly category: string;
   readonly guide: GuideFacts;
-  readonly photo: MediaAsset | null;
+  readonly photo: PlaceMediaAsset | null;
   readonly heroUrl: string | null;
   readonly saved: boolean;
   readonly offline: boolean;
