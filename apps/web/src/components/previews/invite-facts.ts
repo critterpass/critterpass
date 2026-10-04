@@ -4,21 +4,40 @@
  * trip's dates and per-person estimate as chips, and the live countdown to the code's expiry.
  * Pure functions over the public preview, so the page and its tests agree.
  */
+import { canonicalSeed, critters, isGuideSpec } from '@cp/critter-art';
+import { guideSlug } from '@cp/critter-art/guides';
 import { parseMemberColour, type LinkPreview } from '@cp/domain';
 
-const GUIDE_KINDS: Readonly<Record<string, string>> = {
-  tokek: 'gecko',
-  pon: 'tanuki',
-  lundi: 'puffin',
-  ajo: 'axolotl',
-  sardi: 'sardine',
-  paco: 'alpaca',
-  chava: 'langur',
-};
+const DEFAULT_KIND = 'gecko';
+// Every critter is the guide of its own city, known by its name folded to a slug.
+const CRITTERS_BY_SLUG = new Map(critters.map((critter) => [guideSlug(critter.name), critter]));
 
-/** The sticker for the trip's guide; Tokek (the brand default) when the trip has none. */
+function critterOf(slug: string | null | undefined) {
+  return slug === null || slug === undefined ? undefined : CRITTERS_BY_SLUG.get(slug);
+}
+
+/**
+ * The sticker of the trip's guide where it is drawn on a canvas: the guide's own critter, with the
+ * seed the dex draws it in. Tokek (the brand default) when the trip has no guide or one the dex
+ * does not know.
+ */
+export function guideSticker(slug: string | null | undefined): {
+  readonly kind: string;
+  readonly seed: number | undefined;
+} {
+  const critter = critterOf(slug);
+  return critter === undefined
+    ? { kind: DEFAULT_KIND, seed: undefined }
+    : { kind: critter.kind, seed: canonicalSeed(critter) };
+}
+
+/**
+ * The guide's sticker where only a baked image can show (share cards): baked art exists for the
+ * hand-drawn critters, so a guide drawn from the dex's parts shows Tokek there.
+ */
 export function guideKind(slug: string | null | undefined): string {
-  return (slug !== null && slug !== undefined ? GUIDE_KINDS[slug] : undefined) ?? 'gecko';
+  const critter = critterOf(slug);
+  return critter !== undefined && isGuideSpec(critter.spec) ? critter.kind : DEFAULT_KIND;
 }
 
 export interface MemberStub {
