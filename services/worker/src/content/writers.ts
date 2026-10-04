@@ -12,6 +12,7 @@ import {
   type ContentItem,
   type ContentKind,
 } from '@cp/content';
+import { syncCritterGuides } from '@cp/db';
 import type pg from 'pg';
 
 import {
@@ -21,6 +22,7 @@ import {
   PublishRefusedError,
   replaceRows,
 } from './writers-core';
+import { critterGuideLook } from '../guides/look';
 import { writeHelp, writeInsurance } from './writers-help';
 
 export { PublishRefusedError } from './writers-core';
@@ -81,6 +83,8 @@ const writeCritters: Writer<'critters'> = async (tx, items, releaseId) => {
     releaseId,
     'form_id IS NULL',
   );
+  // Every released critter is the guide of its city.
+  await syncCritterGuides(tx, critterGuideLook);
 };
 
 const writeForms: Writer<'forms'> = async (tx, items, releaseId) => {
