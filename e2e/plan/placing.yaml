@@ -24,16 +24,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-placing'
+      text: '^placing$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-placing'
+    text: '^placing$'
 - extendedWaitUntil:
     visible:
       id: 'plan-placing-step-routing-running'
@@ -55,16 +55,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-placing'
+      text: '^placing$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-placing-nothing'
+      text: '^placing-nothing$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-placing-nothing'
+    text: '^placing-nothing$'
 - extendedWaitUntil:
     visible:
       id: 'plan-placing-action'
@@ -86,16 +86,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-placing-nothing'
+      text: '^placing-nothing$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-placing-failed'
+      text: '^placing-failed$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-placing-failed'
+    text: '^placing-failed$'
 - extendedWaitUntil:
     visible:
       id: 'plan-placing-action'
@@ -117,7 +117,7 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-placing-failed'
+      text: '^placing-failed$'
     timeout: 10000
 - launchApp:
     clearState: true
@@ -163,16 +163,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-placing'
+      text: '^placing$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-placing'
+    text: '^placing$'
 - extendedWaitUntil:
     visible:
       id: 'plan-placing-step-routing-running'
@@ -194,5 +194,5 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-placing'
+      text: '^placing$'
     timeout: 10000

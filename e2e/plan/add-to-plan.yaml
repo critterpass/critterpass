@@ -25,16 +25,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: '^add-to-plan$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan'
+    text: '^add-to-plan$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-why'
@@ -47,16 +47,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: '^add-to-plan$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-member'
+      text: '^add-to-plan-member$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-member'
+    text: '^add-to-plan-member$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-why'
@@ -69,16 +69,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-member'
+      text: '^add-to-plan-member$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-who'
+      text: '^add-to-plan-who$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-who'
+    text: '^add-to-plan-who$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-who'
@@ -91,16 +91,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-who'
+      text: '^add-to-plan-who$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-already'
+      text: '^add-to-plan-already$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-already'
+    text: '^add-to-plan-already$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-note'
@@ -113,16 +113,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-already'
+      text: '^add-to-plan-already$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-nowhere'
+      text: '^add-to-plan-nowhere$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-nowhere'
+    text: '^add-to-plan-nowhere$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-note'
@@ -135,16 +135,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-nowhere'
+      text: '^add-to-plan-nowhere$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-offline'
+      text: '^add-to-plan-offline$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-offline'
+    text: '^add-to-plan-offline$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-note'
@@ -157,7 +157,7 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-offline'
+      text: '^add-to-plan-offline$'
     timeout: 10000
 - launchApp:
     clearState: true
@@ -203,16 +203,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: '^add-to-plan$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan'
+    text: '^add-to-plan$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-why'
@@ -225,16 +225,16 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: '^add-to-plan$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-add-to-plan-member'
+      text: '^add-to-plan-member$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-add-to-plan-member'
+    text: '^add-to-plan-member$'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-why'
@@ -247,5 +247,5 @@ appId: app.critterpass.dev
     point: '50%,6%'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan-member'
+      text: '^add-to-plan-member$'
     timeout: 10000

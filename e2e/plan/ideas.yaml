@@ -24,16 +24,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-ideas'
+      text: '^ideas$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-ideas'
+    text: '^ideas$'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-list'
@@ -55,16 +55,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-ideas'
+      text: '^ideas$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-ideas-dragging'
+      text: '^ideas-dragging$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-ideas-dragging'
+    text: '^ideas-dragging$'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-list'
@@ -86,7 +86,7 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-ideas-dragging'
+      text: '^ideas-dragging$'
     timeout: 10000
 - launchApp:
     clearState: true
@@ -132,16 +132,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-ideas'
+      text: '^ideas$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-ideas'
+    text: '^ideas$'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-list'
@@ -163,16 +163,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-ideas'
+      text: '^ideas$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-ideas-dragging'
+      text: '^ideas-dragging$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-ideas-dragging'
+    text: '^ideas-dragging$'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-list'
@@ -194,5 +194,5 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-ideas-dragging'
+      text: '^ideas-dragging$'
     timeout: 10000

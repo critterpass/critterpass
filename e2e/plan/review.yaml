@@ -772,16 +772,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review'
+      text: '^review$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review'
+    text: '^review$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -803,16 +803,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review'
+      text: '^review$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-unticked'
+      text: '^review-unticked$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-unticked'
+    text: '^review-unticked$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -834,16 +834,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-unticked'
+      text: '^review-unticked$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-explained'
+      text: '^review-explained$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-explained'
+    text: '^review-explained$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -865,16 +865,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-explained'
+      text: '^review-explained$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-fixes'
+      text: '^review-fixes$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-fixes'
+    text: '^review-fixes$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -896,16 +896,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-fixes'
+      text: '^review-fixes$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-voting'
+      text: '^review-voting$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-voting'
+    text: '^review-voting$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-rows'
@@ -927,16 +927,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-voting'
+      text: '^review-voting$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-approved'
+      text: '^review-approved$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-approved'
+    text: '^review-approved$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -958,7 +958,7 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-approved'
+      text: '^review-approved$'
     timeout: 10000
 - launchApp:
     clearState: true
@@ -1004,16 +1004,16 @@ appId: app.critterpass.dev
     text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-add-to-plan'
+      text: 'Plan ideas lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review'
+      text: '^review$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review'
+    text: '^review$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -1035,16 +1035,16 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review'
+      text: '^review$'
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'plan-ideas-lab-review-unticked'
+      text: '^review-unticked$'
     direction: DOWN
     centerElement: true
     timeout: 20000
 - tapOn:
-    id: 'plan-ideas-lab-review-unticked'
+    text: '^review-unticked$'
 - extendedWaitUntil:
     visible:
       id: 'plan-review-title'
@@ -1066,5 +1066,5 @@ appId: app.critterpass.dev
           end: 90%, 50%
 - extendedWaitUntil:
     visible:
-      id: 'plan-ideas-lab-review-unticked'
+      text: '^review-unticked$'
     timeout: 10000
