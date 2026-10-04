@@ -16,6 +16,9 @@ appId: app.critterpass.dev
       id: 'dev-nav-plan-ideas-lab'
     direction: DOWN
     timeout: 20000
+    # Slow, or iOS flings past it.
+    speed: 20
+    centerElement: true
 - tapOn:
     id: 'dev-nav-plan-ideas-lab'
 - extendedWaitUntil:
@@ -151,6 +154,9 @@ appId: app.critterpass.dev
       id: 'dev-nav-plan-ideas-lab'
     direction: DOWN
     timeout: 20000
+    # Slow, or iOS flings past it.
+    speed: 20
+    centerElement: true
 - tapOn:
     id: 'dev-nav-plan-ideas-lab'
 - extendedWaitUntil:
