@@ -163,7 +163,8 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
   });
 
   it('never offers a landmark a generic photo, and only what the name says', () => {
-    const at = (name: string, category: string) => genericSubjectFor({ name, category });
+    const at = (name: string, category: string) =>
+      genericSubjectFor({ name, category, destination: 'da-nang' });
     expect(at('Chùa Mỹ Khê', 'temple_shrine')).toBeNull();
     expect(at('Bảo Tàng Hội An', 'museum')).toBeNull();
     expect(at('Marble Mountains', 'nature')).toBeNull();
@@ -196,6 +197,14 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
     });
     const carried = carriedItems(live, FIXTURE_PLACES);
     expect(carried.map((c) => c.id)).toEqual(['pexels-photo-26550067']);
+    // A photo the destination shares with a researched place stays, for the destination alone.
+    const shared = buildRelease({
+      ...live,
+      items: [stock(['destination:da-nang', poiRefSubject(MY_KHE.ref)])],
+    });
+    expect(carriedItems(shared, FIXTURE_PLACES).map((c) => c.subjects)).toEqual([
+      ['destination:da-nang'],
+    ]);
     const whole = runValidators('media', [...photos, ...carried], mediaKind.validators);
     expect(whole.severity).not.toBe('fail');
   });
