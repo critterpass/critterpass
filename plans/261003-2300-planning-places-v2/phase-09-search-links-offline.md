@@ -1,7 +1,7 @@
 ---
 phase: 9
 title: Search, plain words, add from a link, and offline search
-status: in review
+status: done
 depends_on: [1, 3, 4, 5, 6]
 wave: 3
 screens: [7d-1, 7d-2, 7d-3, 7d-4, 7i-2]
