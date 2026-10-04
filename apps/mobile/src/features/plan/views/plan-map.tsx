@@ -16,6 +16,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
+import type { LegPaths } from '@/data/legs/version-leg-paths';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { FilterChip } from '@/ui/chips/FilterChip';
 import { RouteLine } from '@/ui/map/RouteLine';
@@ -79,6 +80,8 @@ export interface PlanMapProps {
   readonly offlineUnavailable: boolean;
   readonly onDownload: (() => void) | null;
   readonly onOpenItem: (pin: MapPin) => void;
+  /** The roads of the version's synced legs, item to item; a pair without one draws straight. */
+  readonly legPaths?: LegPaths;
 }
 
 function NumberPin({ pin, onPress }: { readonly pin: MapPin; readonly onPress: () => void }) {
@@ -108,7 +111,10 @@ export function PlanMap(props: PlanMapProps) {
   const styles = useStyles();
   const theme = useTheme();
   const [day, setDay] = useState<number | null>(null);
-  const model = useMemo(() => planMapModel(props.items, day), [props.items, day]);
+  const model = useMemo(
+    () => planMapModel(props.items, day, props.legPaths),
+    [props.items, day, props.legPaths],
+  );
   const style = useMemo((): StyleSpecification => {
     const region =
       props.localRegionUri !== null
@@ -156,7 +162,7 @@ export function PlanMap(props: PlanMapProps) {
             </Text>
           </View>
         ) : (
-          <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style}>
+          <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style} logo={false}>
             <Camera
               key={day ?? 'all'}
               initialViewState={

@@ -87,3 +87,24 @@ export function spreadAlongEdges<T extends { readonly placement: EdgePlacement }
   }
   return spread;
 }
+
+/**
+ * Side pills kept out of the rows the top and bottom pills fill, so two pills meeting at a corner
+ * (one beyond the top, one beyond the left) never overlap: while the top edge has a pill, left and
+ * right pills sit at `rows.top` or lower, and above `rows.bottom` while the bottom edge has one.
+ */
+export function clearOfEdgeRows<T extends { readonly placement: EdgePlacement }>(
+  pills: readonly T[],
+  rows: { readonly top: number; readonly bottom: number },
+): T[] {
+  const top = pills.some((pill) => pill.placement.side === 'top');
+  const bottom = pills.some((pill) => pill.placement.side === 'bottom');
+  return pills.map((pill) => {
+    const { side } = pill.placement;
+    if (side !== 'left' && side !== 'right') return pill;
+    let along = pill.placement.along;
+    if (top) along = Math.max(along, rows.top);
+    if (bottom) along = Math.min(along, rows.bottom);
+    return along === pill.placement.along ? pill : { ...pill, placement: { side, along } };
+  });
+}

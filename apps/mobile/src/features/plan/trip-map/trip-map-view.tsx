@@ -87,7 +87,7 @@ export function TripMapView(props: TripMapViewProps) {
     [model.ideas, model.curated, model.planned, model.members, filter, snap],
   );
   const places = snap === 'full' ? [] : allPlaces;
-  const days = useMemo(() => routeDays(model.days), [model.days]);
+  const days = useMemo(() => routeDays(model.days, model.legPaths), [model.days, model.legPaths]);
   const chosenDayNo = snap === 'full' || !traced ? null : (day?.dayNo ?? null);
   const stay = day?.stay ?? null;
 

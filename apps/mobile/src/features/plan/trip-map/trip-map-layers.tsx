@@ -48,6 +48,8 @@ export interface TripMapLayersProps {
   readonly onRegion: (region: MapRegion) => void;
   /** Anything else drawn on the map (a preview route). */
   readonly children?: ReactNode;
+  /** The MapLibre mark; the attribution "i" stays either way. */
+  readonly logo?: boolean;
 }
 
 export function TripMapLayers(props: TripMapLayersProps) {
@@ -64,6 +66,7 @@ export function TripMapLayers(props: TripMapLayersProps) {
       cameraRef={camera.cameraRef}
       onRegionChange={props.onRegion}
       onPressMap={() => props.onPick(null)}
+      {...(props.logo === undefined ? {} : { logo: props.logo })}
     >
       <PlaceDotsLayer
         places={props.places}

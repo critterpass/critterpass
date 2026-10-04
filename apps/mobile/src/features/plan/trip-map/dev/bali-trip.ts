@@ -2,7 +2,8 @@
  * The Bali Six's trip as the section 7 plan screens show it in the lab (7a-1…7a-3, 7b-1…7b-3):
  * eight days from Monday 12 October with the design's stops, bookings, votes and the plan check's
  * findings, the crew's saved places and the guide's picks around Ubud, built through the same
- * model the app reads (`buildTripDays`), so the lab draws what the screens draw.
+ * model the app reads (`buildTripDays`), so the lab draws what the screens draw, its routes along
+ * recorded roads (bali-leg-shapes.ts).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { PlanCheckIssue, PlanState, PlanStateItem } from '@cp/domain';
@@ -13,6 +14,7 @@ import { instantOnDay, type ItemDisplay } from '@/data/plan/plan-model';
 import { baliPlaces } from '../../../../ui/map/planning/dev/bali-fixture';
 import type { TripMapModel } from '../sheet-props';
 import { buildTripDays } from '../trip-days';
+import { LAB_LEG_PATHS } from './bali-leg-shapes';
 import { LAB_CREW, SEEDS, type Seed } from './bali-seeds';
 
 const TZ = 'Asia/Makassar';
@@ -182,6 +184,7 @@ export function labTripModel(overrides: Partial<TripMapModel> = {}): TripMapMode
     endDate: dateOf(8),
     countdownTo: new Date(Date.now() + 17 * 86_400_000 - 3_600_000),
     days,
+    legPaths: LAB_LEG_PATHS,
     members: LAB_CREW,
     me: ME.uid,
     organiser: true,

@@ -48,6 +48,8 @@ export interface PlanningMapCanvasProps {
   readonly testID?: string | undefined;
   /** A small inset map (the day plan's mini-map): no logo, the attribution "i" at the bottom right. */
   readonly compact?: boolean | undefined;
+  /** The MapLibre mark; off on a compact map, and where the screen's own chrome fills the foot. */
+  readonly logo?: boolean | undefined;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -69,6 +71,7 @@ export function PlanningMapCanvas({
   onFrame,
   testID = 'planning-map',
   compact = false,
+  logo = !compact,
 }: PlanningMapCanvasProps) {
   const styles = useStyles();
   const style = useMemo(
@@ -86,7 +89,7 @@ export function PlanningMapCanvas({
         mapStyle={style}
         // Drawn inside the view tree, so a pushed screen never leaves a band of map behind it.
         androidView="texture"
-        logo={!compact}
+        logo={logo}
         logoPosition={{ bottom: ornamentBottom, left: ORNAMENT_SIDE }}
         attributionPosition={
           compact ? { bottom: 4, right: 4 } : { bottom: ornamentBottom, right: ORNAMENT_SIDE }
