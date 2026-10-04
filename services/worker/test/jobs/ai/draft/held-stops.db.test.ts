@@ -4,18 +4,29 @@
  * pins, nothing of the guide's overlaps them, a stop she has not timed yet is still there, her
  * plan stays in the history behind the guide's draft, and the places the crew saved to Ideas are
  * offered to the guide. A place she already put on a day is not offered again and a must-do she
- * placed herself counts as made.
+ * placed herself counts as made. A one-day redraft holds the stops she added by hand, and every
+ * stop it keeps is the same row it was.
  */
 import { randomUUID } from 'node:crypto';
 
 import { startAgentJob } from '@cp/ai';
 import { sendInTx, withSystem } from '@cp/db';
-import { DRAFT_QUEUES, DRAFT_STEP_IDS, draftCoverageSchema } from '@cp/domain';
+import {
+  DRAFT_QUEUES,
+  DRAFT_STEP_IDS,
+  draftCoverageSchema,
+  type DraftDay,
+  type DraftItem,
+  type Itinerary,
+} from '@cp/domain';
+import { itineraryMetrics } from '@cp/planner';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AgentStepContext } from '../../../../src/ai/job-runner';
 import { draftJob } from '../../../../src/jobs/ai/draft';
+import { holdDay, loadHeldStops } from '../../../../src/jobs/ai/draft/held-stops';
 import { load } from '../../../../src/jobs/ai/draft/job-context';
+import { loadBaseDraft, saveCandidate } from '../../../../src/jobs/ai/draft/redraft-store';
 import { startJobsHarness, until, type JobsHarness } from '../../../helpers/jobs-harness';
 import { RECORDING, replay, seedTrip } from './kyoto-trip';
 
@@ -91,8 +102,7 @@ beforeAll(async () => {
     tripId,
     handPlan,
   ]);
-  // Lunch with an aunt across the middle of day 2 (two of the crew), a walk on day 3, and a
-  // stop she has not given a time yet.
+  // Lunch across the middle of day 2, a walk on day 3, and a stop with no time yet.
   await addStop(stops.lunch, 2, [11, 14], { pin: { name: 'Aunt Mai', lat: 35.01, lng: 135.76 } }, [
     organiser,
   ]);
@@ -145,33 +155,26 @@ describe('a draft over a plan she started by hand', () => {
         stepIds: DRAFT_STEP_IDS,
       }),
     );
+    type Job = { status: string };
     const status = async () =>
-      (
-        await harness.pool.query<{ status: string }>(
-          'SELECT status FROM agent_jobs WHERE id = $1',
-          [started.id],
-        )
-      ).rows[0]?.status;
+      (await harness.pool.query<Job>('SELECT status FROM agent_jobs WHERE id = $1', [started.id]))
+        .rows[0]?.status;
     await until(async () => ['succeeded', 'failed'].includes((await status()) ?? ''), 60_000);
     expect(await status()).toBe('succeeded');
 
-    const { rows: versions } = await harness.pool.query<{
-      id: string;
-      parent_id: string;
-      origin: string;
-      coverage: unknown;
-    }>(
-      'SELECT id, parent_id, origin, coverage FROM itinerary_versions WHERE created_by_job_id = $1',
+    const { rows: versions } = await harness.pool.query<{ id: string; coverage: unknown }>(
+      `SELECT v.id, v.parent_id, v.origin, v.coverage, b.status AS base_status
+         FROM itinerary_versions v JOIN itinerary_versions b ON b.id = v.parent_id
+        WHERE v.created_by_job_id = $1`,
       [started.id],
     );
     const draft = versions[0];
     // Her plan stays in the history, behind the guide's draft.
-    expect(draft).toMatchObject({ parent_id: handPlan, origin: 'guide' });
-    const { rows: base } = await harness.pool.query<{ status: string }>(
-      'SELECT status FROM itinerary_versions WHERE id = $1',
-      [handPlan],
-    );
-    expect(base[0]?.status).toBe('superseded');
+    expect(draft).toMatchObject({
+      parent_id: handPlan,
+      origin: 'guide',
+      base_status: 'superseded',
+    });
 
     const { rows: items } = await harness.pool.query<{
       stable_id: string;
@@ -181,9 +184,7 @@ describe('a draft over a plan she started by hand', () => {
       created_by_kind: string;
       custom_place: { name: string } | null;
       attendee_ids: string[] | null;
-      category: string;
       locked_reason: string | null;
-      notes: string | null;
     }>(
       `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.created_by_kind, i.custom_place,
               i.attendee_ids, i.category, i.locked_reason, i.notes
@@ -209,7 +210,7 @@ describe('a draft over a plan she started by hand', () => {
       custom_place: { name: 'Tea with Aki' },
     });
 
-    // The guide planned the rest: its stops are there, and none of them runs into hers.
+    // The guide planned the rest, and none of its stops runs into hers.
     const guides = items.filter((item) => item.created_by_kind === 'guide');
     expect(guides.length).toBeGreaterThan(6);
     for (const id of [stops.lunch, stops.walk]) {
@@ -227,5 +228,73 @@ describe('a draft over a plan she started by hand', () => {
     }
     const coverage = draftCoverageSchema.parse(draft?.coverage);
     expect(coverage.must_dos.total).toBe(mustDos.length);
+  });
+
+  it('holds her stops through a one-day redraft and keeps every other row whole', async () => {
+    const { rows } = await harness.pool.query<{ draft: string; crew_id: string }>(
+      'SELECT draft_version_id AS draft, crew_id FROM trips WHERE id = $1',
+      [tripId],
+    );
+    const draft = rows[0]?.draft as string;
+    const travel = () => 10;
+    const held = await withSystem(harness.pool, (tx) =>
+      loadHeldStops(tx, draft, { tz: 'Asia/Tokyo', currency: 'JPY' }),
+    );
+    const base = await loadBaseDraft(
+      harness.pool,
+      organiser,
+      tripId,
+      rows[0]?.crew_id as string,
+      draft,
+      travel,
+      new Set(held.map((stop) => stop.item.stable_id)),
+    );
+    const day2 = base?.itinerary.days.find((d) => d.day_no === 2);
+    // The guide is told to keep her stop.
+    expect(day2?.items.find((item) => item.stable_id === stops.lunch)?.locked_reason).toBe('user');
+    // A reply that dropped her lunch and put a stop of its own across it.
+    const across = {
+      ...(base?.itinerary.days[0]?.items[0] as DraftItem),
+      stable_id: randomUUID(),
+      starts_at: kyoto(2, 12).toISOString(),
+      ends_at: kyoto(2, 13).toISOString(),
+    };
+    const redone = holdDay({ ...(day2 as DraftDay), items: [across] }, held, travel).day;
+    expect(redone.items.map((item) => item.stable_id)).toEqual([stops.lunch]);
+    const itinerary = {
+      ...(base?.itinerary as Itinerary),
+      days: (base?.itinerary.days ?? []).map((d) => (d.day_no === 2 ? redone : d)),
+    };
+    const candidate = await withSystem(harness.pool, (tx) =>
+      saveCandidate(tx, {
+        jobId: randomUUID(),
+        tripId,
+        baseVersionId: draft,
+        itinerary,
+        metrics: itineraryMetrics({
+          itinerary,
+          crewSize: 4,
+          staysPpMinor: 0,
+          targetPpMinor: null,
+          validation: { first_pass_clean: true, repair_loops: 0, dropped: 0 },
+        }),
+        coverage: null,
+      }),
+    );
+    const whole = `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.created_by_kind,
+        i.custom_place, i.attendee_ids, i.category, i.locked_reason, i.notes, i.poi_id, i.status
+      FROM plan_items i JOIN plan_days d ON d.id = i.day_id
+      WHERE i.version_id = $1 AND ($2::int IS NULL OR d.day_no <> $2) ORDER BY i.stable_id`;
+    const kept = await harness.pool.query(whole, [candidate, 2]);
+    const before = await harness.pool.query(whole, [draft, 2]);
+    // Every other day, her untimed stop included, is row for row what it was.
+    expect(kept.rows).toEqual(before.rows);
+    const { rows: lunch } = await harness.pool.query(
+      `SELECT created_by_kind, custom_place->>'name' AS place, attendee_ids, starts_at
+         FROM plan_items WHERE version_id = $1 AND stable_id = $2`,
+      [candidate, stops.lunch],
+    );
+    const hers = { created_by_kind: 'user', place: 'Aunt Mai', attendee_ids: [organiser] };
+    expect(lunch).toEqual([{ ...hers, starts_at: kyoto(2, 11) }]);
   });
 });
