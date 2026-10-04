@@ -1,0 +1,113 @@
+appId: app.critterpass.dev
+---
+# A destination with no region pack (the planning map lab's "no-pack" scene): the map still draws,
+# on the world tiles alone, and says a detailed map is on its way, in English and in Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-planning-map-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-planning-map-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-map-lab-no-pack'
+    timeout: 15000
+- tapOn:
+    id: 'planning-map-lab-no-pack'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-map-lab-no-pack-scene'
+    timeout: 15000
+# The tiles host is asked once whether the pack exists; the line shows on its "not there".
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- assertVisible: 'A detailed map of Đà Lạt is on its way.'
+# The world tiles and the style's sprites arrive over the network.
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-map-without-region-pack
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-planning-map-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-planning-map-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-map-lab-no-pack'
+    timeout: 15000
+- tapOn:
+    id: 'planning-map-lab-no-pack'
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- assertVisible: 'Bản đồ chi tiết của Đà Lạt sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-map-without-region-pack

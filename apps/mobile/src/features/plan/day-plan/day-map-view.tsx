@@ -138,6 +138,7 @@ export function DayMapView({
           center={day.stay === null ? (model.center ?? [0, 0]) : [day.stay.lng, day.stay.lat]}
           zoom={13}
           destinationSlug={model.destinationSlug}
+          placeName={model.destination}
           regionUri={model.regionUri}
           stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}
           places={places}

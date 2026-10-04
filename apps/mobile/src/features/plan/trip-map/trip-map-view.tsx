@@ -147,6 +147,7 @@ export function TripMapView(props: TripMapViewProps) {
           center={day?.stay ? [day.stay.lng, day.stay.lat] : centre}
           zoom={model.empty ? 12 : 13}
           destinationSlug={model.destinationSlug}
+          placeName={model.destination}
           regionUri={model.regionUri}
           stay={stay === null ? null : [stay.lng, stay.lat]}
           places={places}
