@@ -10,7 +10,7 @@
  * still points at the version (a proposal built from it, a redraft of it). The history keeps the
  * guide's drafts, kept redrafts, restored drafts and her latest edit of each.
  */
-import { emitEvent } from '@cp/db';
+import { dropReplacedDraft, emitEvent } from '@cp/db';
 import { DomainError, type PlanState } from '@cp/domain';
 import type pg from 'pg';
 
@@ -69,35 +69,6 @@ export async function createEmptyDraft(
   return id;
 }
 
-/**
- * Deletes a replaced draft with its days, stops, legs and check issues when nothing else points
- * at it; a version something still needs stays, superseded. Returns whether it was deleted.
- */
-export async function dropReplacedDraft(tx: pg.PoolClient, versionId: string): Promise<boolean> {
-  await tx.query('SAVEPOINT drop_replaced_draft');
-  try {
-    await tx.query('DELETE FROM plan_check_issues WHERE version_id = $1', [versionId]);
-    await tx.query('DELETE FROM plan_legs WHERE version_id = $1', [versionId]);
-    await tx.query('DELETE FROM plan_items WHERE version_id = $1', [versionId]);
-    await tx.query('DELETE FROM plan_days WHERE version_id = $1', [versionId]);
-    // A fit worked out on the deleted draft is worked out again by the next plan check.
-    await tx.query(
-      'UPDATE trip_ideas SET fit = NULL, fit_version_id = NULL WHERE fit_version_id = $1',
-      [versionId],
-    );
-    await tx.query("DELETE FROM itinerary_versions WHERE id = $1 AND visibility = 'organiser'", [
-      versionId,
-    ]);
-    await tx.query('RELEASE SAVEPOINT drop_replaced_draft');
-    return true;
-  } catch (error) {
-    await tx.query('ROLLBACK TO SAVEPOINT drop_replaced_draft');
-    // Foreign key violation: a proposal, a job or a later version still refers to it.
-    if ((error as { code?: string }).code === '23503') return false;
-    throw error;
-  }
-}
-
 export interface DraftCommit {
   readonly head: DraftHead;
   readonly baseVersionId: string;
@@ -113,7 +84,8 @@ export async function writeDraftVersion(tx: pg.PoolClient, input: DraftCommit): 
   const { head, baseVersionId, next } = input;
   const { rows } = await tx.query<{ id: string; base_origin: string | null; items: number }>(
     `WITH base AS (
-       SELECT b.*, (SELECT count(*)::int FROM plan_items i WHERE i.version_id = b.id) AS items
+       SELECT b.*, (SELECT count(*)::int FROM plan_items i
+                      WHERE i.version_id = b.id AND i.booking_id IS NULL) AS items
          FROM itinerary_versions b WHERE b.id = $1 AND b.trip_id = $2
      ), made AS (
        INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor,

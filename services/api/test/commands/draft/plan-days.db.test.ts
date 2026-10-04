@@ -11,6 +11,7 @@ import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerDraftCommands } from '../../../src/commands/draft';
+import { registerProposalCommands } from '../../../src/commands/proposal';
 import {
   buildSetupCrew,
   errorOf,
@@ -62,7 +63,10 @@ async function draftOf(tripId: string) {
 }
 
 beforeAll(async () => {
-  harness = await startSetupHarness(registerDraftCommands);
+  harness = await startSetupHarness((registry) => {
+    registerDraftCommands(registry);
+    registerProposalCommands(registry);
+  });
 }, 240_000);
 
 afterAll(async () => {
@@ -104,6 +108,31 @@ describe('the trip has its days before any draft', () => {
       [crew.tripId],
     );
     expect(rows[0]?.status).toBe('setup');
+
+    // The empty plan is not a draft the guide made: nothing that needs one answers differently.
+    expect(
+      errorOf(
+        await harness.run(crew.organiser, 'create_proposal', { trip_id: crew.tripId, config: {} }),
+      ),
+    ).toMatchObject({ code: 'STATE_INVALID', detail: { state: 'setup' } });
+    expect(
+      errorOf(
+        await harness.run(crew.organiser, 'request_redraft', {
+          trip_id: crew.tripId,
+          day: 1,
+          reasons: ['slower'],
+          base_version: draft.id,
+        }),
+      ),
+    ).toMatchObject({ code: 'STATE_INVALID', detail: { state: 'setup' } });
+    expect(
+      errorOf(
+        await harness.run(crew.organiser, 'restore_draft_version', {
+          trip_id: crew.tripId,
+          version_id: draft.id,
+        }),
+      ),
+    ).toMatchObject({ code: 'STATE_INVALID', detail: { state: 'setup' } });
   });
 
   it('leaves a trip with open dates without a plan', async () => {

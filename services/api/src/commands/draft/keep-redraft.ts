@@ -131,7 +131,10 @@ export const keepRedraftCommand = defineCommand({
           candidate,
         ]);
       } else {
-        await tx.query("UPDATE itinerary_versions SET status = 'draft' WHERE id = $1", [candidate]);
+        await tx.query(
+          "UPDATE itinerary_versions SET status = 'draft', origin = 'guide' WHERE id = $1",
+          [candidate],
+        );
       }
       await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
         result.base_version_id,

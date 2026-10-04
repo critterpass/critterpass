@@ -7,7 +7,7 @@
  * place of ours, and otherwise moves to the last day; the caller is told which stops moved and
  * where. Booked stops follow their bookings, not this rule.
  */
-import { writeBookedPlanItems } from '@cp/db';
+import { dropReplacedDraft, writeBookedPlanItems } from '@cp/db';
 import type { MovedStop, PlanState, PlanStateItem } from '@cp/domain';
 import type pg from 'pg';
 
@@ -15,7 +15,6 @@ import { backIdea, type IdeaPlace } from '../commands/ideas';
 import {
   createEmptyDraft,
   draftChanged,
-  dropReplacedDraft,
   writeDraftVersion,
   type DraftHead,
 } from './draft-versioning';

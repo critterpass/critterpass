@@ -27,14 +27,15 @@ export async function copyVersion(
   source: string,
   parent: string | null,
   skip: readonly string[] = [],
+  origin: 'guide' | 'restore' = 'guide',
 ): Promise<string> {
   const { rows } = await tx.query<{ id: string }>(
     `INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor, currency,
-       metrics, coverage)
-     SELECT trip_id, $2, 'organiser', 'draft', cost_pp_minor, currency, metrics, coverage
+       metrics, coverage, origin)
+     SELECT trip_id, $2, 'organiser', 'draft', cost_pp_minor, currency, metrics, coverage, $3
        FROM itinerary_versions WHERE id = $1
      RETURNING id`,
-    [source, parent],
+    [source, parent, origin],
   );
   const id = rows[0]?.id;
   if (id === undefined) throw new Error(`no version ${source} to copy`);
