@@ -47,7 +47,13 @@ export interface HubViewProps {
   readonly guide: GuideId;
   readonly guideName: string;
   readonly guestGuide: boolean;
-  readonly planning: { readonly label: string; readonly onPress: () => void } | null;
+  readonly planning: {
+    readonly note?: string | undefined;
+    readonly label?: string | undefined;
+    readonly onPress?: (() => void) | undefined;
+  } | null;
+  /** Active crew members, counted in the header while the trip is still being planned. */
+  readonly crewSize?: number | undefined;
   /** What comes next in this phase, one compact row each. */
   readonly entries: readonly HubNext[];
   readonly briefing: BriefingState;
@@ -124,6 +130,7 @@ export function HubView(props: HubViewProps) {
             media={props.heroMedia ?? null}
             mediaLowData={props.mediaLowData ?? false}
             planning={props.planning}
+            crewSize={props.crewSize}
             onSwitch={props.onSwitch}
             guestGuideName={props.guestGuide ? guideName : null}
           />

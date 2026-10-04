@@ -3,7 +3,10 @@
  * nothing, with the four ways to start. LET THE GUIDE DRAFT IT fills the days (the organiser's;
  * members are asked to nudge the organiser instead, undesigned); PASTE WHAT YOU SAVED, SWIPE
  * TOGETHER and COPY A CREW'S PLAN fill Ideas, each shown once its screen is registered. The guide
- * floats over the map where the stay will be.
+ * floats over the map where the stay will be. A member whose organiser is already drafting or
+ * reviewing reads one true message instead ("Linh is still working on the plan. You'll get it
+ * here."), with no card asking for a draft that exists (undesigned, logged), and the head counts
+ * the crew, not people "going", until a plan has gone out.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -11,6 +14,7 @@ import { router } from 'expo-router';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { useTripTurnView } from '@/features/home';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { useLoop } from '@/motion/use-loop';
@@ -89,10 +93,16 @@ export function EmptyTripSheet({ model }: { readonly model: TripMapModel }) {
   const copy = opener(useScreenHref('3o-1', { tripId, destination: model.destinationSlug ?? '' }));
   const going = model.members.length;
   const dates = tripDates(locale, model.startDate, model.endDate);
+  // The organiser is drafting or reviewing: the member waits, and nobody is "going" yet.
+  const turn = useTripTurnView(tripId, { locale, guide: model.guide.name });
+  const planComing = turn?.kind === 'plan_coming' ? turn : null;
+  const crew = planComing?.crewSize ?? 0;
   const head = [
     model.destination ?? '',
     dates,
-    t({ id: 'plan.tripMap.going', message: `${going} going` }),
+    planComing === null
+      ? t({ id: 'plan.tripMap.going', message: `${going} going` })
+      : t({ id: 'plan.tripMap.inCrew', message: `${crew} in the crew` }),
   ]
     .filter((part) => part !== '')
     .join(' · ');
@@ -103,39 +113,53 @@ export function EmptyTripSheet({ model }: { readonly model: TripMapModel }) {
       <Text variant="eyebrow" color={theme.semantic.text.secondary}>
         {head}
       </Text>
-      <Text variant="h1">
-        {t({ id: 'plan.tripMap.empty.title', message: 'Nothing saved yet' })}
+      <Text variant="h1" singleLine={false} testID="trip-map-empty-title">
+        {planComing === null
+          ? t({ id: 'plan.tripMap.empty.title', message: 'Nothing saved yet' })
+          : t({ id: 'plan.tripMap.empty.comingTitle', message: 'The plan is on its way' })}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
-        {t({ id: 'plan.tripMap.empty.line', message: 'Four ways to start. Most crews mix two.' })}
+        {planComing === null
+          ? t({ id: 'plan.tripMap.empty.line', message: 'Four ways to start. Most crews mix two.' })
+          : planComing.line}
       </Text>
-      <Card
-        tone="yellow"
-        {...(organiser ? { onPress: () => router.push(planRoutes.setup(tripId)) } : {})}
-        testID="trip-map-empty-draft"
-      >
-        <View style={styles.draftCard}>
-          <View style={styles.draftText}>
-            <Text variant="title" color={theme.color.paper.ink}>
-              {organiser
-                ? t({ id: 'plan.tripMap.empty.draft', message: `Let ${guide} draft it` })
-                : t({
-                    id: 'plan.tripMap.empty.askDraft',
-                    message: `Ask your organiser to let ${guide} draft it`,
-                  })}
-            </Text>
-            <Text variant="bodySm" color={theme.color.paper.ink}>
-              {t({
-                id: 'plan.tripMap.empty.draftLine',
-                message: 'A day-by-day plan from your must-dos, in about a minute.',
-              })}
-            </Text>
+      {planComing === null ? null : (
+        <Text variant="bodySm" color={theme.semantic.text.secondary}>
+          {t({
+            id: 'plan.tripMap.empty.comingMeanwhile',
+            message: 'Meanwhile, save the places you want. They wait in Ideas.',
+          })}
+        </Text>
+      )}
+      {planComing !== null ? null : (
+        <Card
+          tone="yellow"
+          {...(organiser ? { onPress: () => router.push(planRoutes.setup(tripId)) } : {})}
+          testID="trip-map-empty-draft"
+        >
+          <View style={styles.draftCard}>
+            <View style={styles.draftText}>
+              <Text variant="title" color={theme.color.paper.ink}>
+                {organiser
+                  ? t({ id: 'plan.tripMap.empty.draft', message: `Let ${guide} draft it` })
+                  : t({
+                      id: 'plan.tripMap.empty.askDraft',
+                      message: `Ask your organiser to let ${guide} draft it`,
+                    })}
+              </Text>
+              <Text variant="bodySm" color={theme.color.paper.ink}>
+                {t({
+                  id: 'plan.tripMap.empty.draftLine',
+                  message: 'A day-by-day plan from your must-dos, in about a minute.',
+                })}
+              </Text>
+            </View>
+            {organiser ? (
+              <Icon name="arrow" size={24} color={theme.color.paper.ink} decorative />
+            ) : null}
           </View>
-          {organiser ? (
-            <Icon name="arrow" size={24} color={theme.color.paper.ink} decorative />
-          ) : null}
-        </View>
-      </Card>
+        </Card>
+      )}
       <View style={styles.ways}>
         {paste === null ? null : (
           <Way

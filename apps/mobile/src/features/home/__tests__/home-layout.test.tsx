@@ -19,6 +19,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import type { HomeTripInput } from '@cp/domain';
 
 import { NextUpCard } from '../next-up-card';
+import { registerTripTurn, type TripTurnView } from '../slots';
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -91,8 +92,43 @@ describe('next-up card', () => {
         now={() => NOW}
       />,
     );
-    expect(screen.getByText('YOUR NEXT TRIP')).toBeTruthy();
+    // The title sets each word in its own box, so a name wraps between words, never inside one.
+    expect(screen.getByLabelText(/^NEXT UP, YOUR NEXT TRIP/u)).toBeTruthy();
+    expect(screen.getByText('YOUR')).toBeTruthy();
     expect(screen.queryByTestId('home-countdown')).toBeNull();
     expect(screen.getByText('NEXT UP')).toBeTruthy();
+  });
+
+  it('starts the countdown at the lock, not while the crew is still answering', async () => {
+    await show(<NextUpCard trip={{ ...BALI, status: 'proposed' }} now={() => NOW} />);
+    expect(screen.queryByTestId('home-countdown')).toBeNull();
+    await show(<NextUpCard trip={{ ...BALI, status: 'pre_trip' }} now={() => NOW} />);
+    expect(screen.getByTestId('home-countdown')).toBeTruthy();
+  });
+
+  it('says whose turn it is under the card: a line, and a button only for a step to take', async () => {
+    const waiting: TripTurnView = {
+      kind: 'plan_coming',
+      mine: false,
+      line: "Linh is still working on the plan. You'll get it here.",
+      button: null,
+      href: undefined,
+      organiser: 'Linh',
+      crewSize: 2,
+    };
+    let turn = waiting;
+    const unregister = registerTripTurn(() => turn);
+    try {
+      await show(<NextUpCard trip={{ ...BALI, status: 'draft_review' }} now={() => NOW} />);
+      expect(screen.getByTestId('home-turn-plan_coming')).toBeTruthy();
+      expect(screen.getByText(waiting.line)).toBeTruthy();
+      expect(screen.queryByTestId('home-turn-button')).toBeNull();
+      turn = { ...waiting, kind: 'answer', mine: true, button: 'Read it and answer', href: '/p' };
+      await show(<NextUpCard trip={{ ...BALI, status: 'proposed' }} now={() => NOW} />);
+      expect(screen.getByTestId('home-turn-button')).toBeTruthy();
+      expect(screen.getByText('READ IT AND ANSWER')).toBeTruthy();
+    } finally {
+      unregister();
+    }
   });
 });

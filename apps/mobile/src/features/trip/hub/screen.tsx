@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { VisitConsentRow } from '@/ui/permission-primer';
+import { useTripTurnView } from '@/features/home';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { briefingClock, briefingState } from '../briefing/briefing-model';
@@ -28,6 +29,7 @@ import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney 
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
 import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
+import { hubPlanning, planTileBeforeSend } from './hub-turn';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
@@ -161,8 +163,11 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     locale,
   });
 
+  const turn = useTripTurnView(trip === null ? null : tripId, { locale, guide: name });
+  const draftHref = useScreenHref('3c-9', { tripId });
+  const planBeforeSend = planTileBeforeSend(turn, draftHref);
   const net = me === null ? null : viewerNet(rows.ledger, me, trip?.local_currency ?? null);
-  const plan = planTile(rows.days, rows.openVotes.length);
+  const plan = planBeforeSend ?? planTile(rows.days, rows.openVotes.length);
   const saved = bookingsTile(rows.bookings, bookingsOffline);
   const money = moneyTile(
     net === null ? null : wholeMoney(locale, net.amountMinor, net.currency),
@@ -173,10 +178,11 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     {
       key: 'plan',
       title: titles.plan,
-      ...plan,
+      value: plan.value,
+      caption: plan.caption,
       icon: 'cal' as const,
       tone: 'pink' as const,
-      href: hrefFor('3e-1', { tripId }),
+      href: planBeforeSend === null ? hrefFor('3e-1', { tripId }) : planBeforeSend.href,
     },
     {
       key: 'bookings',
@@ -220,7 +226,10 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   // The crew's swipe, once its screen is registered.
   const swipeAction = trip === null ? undefined : go(swipeHref);
   const swipe = swipeAction === undefined ? null : swipeEntry(swipeAction);
-  const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
+  const planning = hubPlanning(
+    turn,
+    trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]),
+  );
   const planningAction = planning === null ? undefined : go(planning.href);
 
   return (
@@ -242,10 +251,11 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       guideName={name}
       guestGuide={trip?.is_guest_guide === 1}
       planning={
-        planning === null || planningAction === undefined
+        planning === null || (planning.note === undefined && planningAction === undefined)
           ? null
-          : { label: planning.label, onPress: planningAction }
+          : { note: planning.note, label: planning.label, onPress: planningAction }
       }
+      crewSize={rows.members.length}
       entries={entries}
       briefing={briefing}
       onAct={onAct}
@@ -253,10 +263,12 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       explore={explore}
       swipe={swipe}
       visitConsent={<VisitConsentRow />}
-      ticker={tickerLines(rows.activity, trip?.status ?? null).map(({ row, text }) => {
-        const open = go(activityHref(row, tripId));
-        return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };
-      })}
+      ticker={tickerLines(rows.activity, trip?.status ?? null, trip?.role === 'organiser').map(
+        ({ row, text }) => {
+          const open = go(activityHref(row, tripId));
+          return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };
+        },
+      )}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
     />
