@@ -26,36 +26,11 @@ export function viewPoints(
   );
   const stay = day?.stay ?? null;
   const points: Coord[] = stay === null ? stops : [...stops, [stay.lng, stay.lat]];
-  // One day frames its nearby stops; a far one (a day trip's first stop) is an edge pill.
-  if (stops.length > 0) return day === null ? points : nearby(points);
+  // A day frames every one of its stops: an edge pill is for after she pans, not the first view.
+  if (stops.length > 0) return points;
   const saved = model.ideas.map((idea) => [idea.lng, idea.lat] as const);
   if (saved.length > 0) return saved;
   return model.center === null ? [] : [model.center];
-}
-
-/** Kilometres between two `[lng, lat]` points (equirectangular: plenty for framing). */
-function km(a: Coord, b: Coord): number {
-  const k = Math.cos((((a[1] + b[1]) / 2) * Math.PI) / 180);
-  return Math.hypot((b[0] - a[0]) * k, b[1] - a[1]) * 111.32;
-}
-
-/** Points far from where the day mostly is (over 3× the middle distance, and over 6 km) drop out. */
-const FAR_KM = 6;
-
-export function nearby(points: readonly Coord[]): Coord[] {
-  if (points.length < 3) return [...points];
-  const median = (values: number[]) => {
-    const sorted = [...values].sort((a, b) => a - b);
-    return sorted[Math.floor(sorted.length / 2)] ?? 0;
-  };
-  const centre: Coord = [median(points.map((p) => p[0])), median(points.map((p) => p[1]))];
-  const distances = points.map((point) => km(point, centre));
-  const typical = median(distances);
-  const kept = points.filter((_, index) => {
-    const d = distances[index] ?? 0;
-    return d <= FAR_KM || d <= typical * 3;
-  });
-  return kept.length >= 2 ? kept : [...points];
 }
 
 /**

@@ -149,11 +149,27 @@ describe('the timeline as the day plan reads the day', () => {
       ]),
     );
     expect(entry).toMatchObject({
+      skipped: true,
       dimmed: true,
       detail: 'You’re skipping this',
       bookingId: null,
       moment: null,
     });
+  });
+
+  it('leads the day with the first stop I am going to, never one I skip', () => {
+    const skipFirst = withPlanRows(
+      DAY,
+      reading([['Han Market', row({ personal: 'You’re skipping this', skipping: true })]]),
+    );
+    expect(dayLead(skipFirst, true, at('09:00'))).toMatchObject({
+      kind: 'first',
+      time: '18:00',
+      title: 'Che bo',
+    });
+    expect(dayLead(skipFirst, false, at('09:00'))).toMatchObject({ title: 'Che bo' });
+    const skipAll = DAY.map((entry) => ({ ...entry, skipped: true }));
+    expect(dayLead(skipAll, true, at('09:00'))).toBeNull();
   });
 
   it('puts the stops only I have in their place by time', () => {

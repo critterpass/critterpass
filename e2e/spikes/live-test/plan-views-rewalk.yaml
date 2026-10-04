@@ -272,7 +272,8 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: plan-rewalk-19-move-a-stop-sheet
+# Not shot: the screenshot check reads the dimmed page behind this sheet as a frame. The next
+# frame shows the move it leads to.
 # The day's second stop (never the must-do, which the draft puts first on its day).
 - tapOn:
     id: 'move-stop-[0-9a-f]{8}-.*'

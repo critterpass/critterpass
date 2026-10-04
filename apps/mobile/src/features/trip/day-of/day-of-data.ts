@@ -64,6 +64,8 @@ export interface TimelineEntryData extends DayTimelineEntry {
   readonly bookingId: string | null;
   readonly startsAt: Date;
   readonly poiId?: string | null | undefined;
+  /** A stop I skip for myself ("just me"): shown standing back, never what the day leads with. */
+  readonly skipped?: boolean | undefined;
 }
 
 /** What leads a day with no leave-by: its first stop, today's next stop, or nothing left today. */
@@ -80,17 +82,19 @@ export type DayLead =
 /**
  * The stop the quiet hero shows. Another day leads with its first stop. Today leads with the next
  * stop still ahead, and says the day is done once the last one has started; a day with no stops is
- * a free day (null).
+ * a free day (null). A stop I skip for myself never leads: the hero, its time and its GO are the
+ * first stop I am going to.
  */
 export function dayLead(
   timeline: readonly TimelineEntryData[],
   isToday: boolean,
   now: Date,
 ): DayLead | null {
-  const first = timeline[0];
+  const going = timeline.filter((entry) => entry.skipped !== true);
+  const first = going[0];
   if (first === undefined) return null;
   if (!isToday) return { kind: 'first', time: first.time, title: first.title, poiId: first.poiId };
-  const next = timeline.find((entry) => entry.startsAt.getTime() > now.getTime());
+  const next = going.find((entry) => entry.startsAt.getTime() > now.getTime());
   if (next === undefined) return { kind: 'done' };
   return {
     kind: next === first ? 'first' : 'next',
@@ -190,6 +194,7 @@ export function withPlanRows(
       ...entry,
       ...(stop.personal === null ? {} : { detail: stop.personal }),
       dimmed: entry.dimmed || stop.skipping,
+      skipped: stop.skipping,
       // What I skip is not mine to open in Bookings.
       bookingId: stop.skipping ? null : entry.bookingId,
       length: stop.length,

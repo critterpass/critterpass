@@ -8,7 +8,7 @@ import { describe, expect, it } from '@jest/globals';
 import type { DayItem } from '@/data/plan/plan-model';
 
 import type { TripDay } from '../trip-days';
-import { fitSignature, nearby, openingCamera, pointsInView } from '../trip-map-camera';
+import { fitSignature, openingCamera, pointsInView, viewPoints } from '../trip-map-camera';
 
 const UBUD: readonly [number, number] = [115.2625, -8.5069];
 const CANGGU: readonly [number, number] = [115.1385, -8.6478];
@@ -90,13 +90,16 @@ describe('when the camera fits again', () => {
     expect(pointsInView([UBUD], [-0.1, -0.1, 0.1, 0.1])).toBe(false);
   });
 
-  it('frames where the day mostly is and leaves a far stop to its edge pill', () => {
-    const close: [number, number][] = [
-      [115.26, -8.5],
-      [115.265, -8.505],
-      [115.27, -8.51],
-      [115.262, -8.508],
-    ];
-    expect(nearby([...close, [115.594, -8.277]])).toEqual(close);
+  it('frames every stop of the day and its stay, a far one included', () => {
+    const far = stop('far', { lat: -8.277, lng: 115.594 });
+    const stops = [stop('a', { lat: -8.5, lng: 115.26 }), stop('b', { lat: -8.505, lng: 115.265 })];
+    const of = day([...stops, stop('c', { lat: -8.51, lng: 115.27 }), far], {
+      lat: -8.6,
+      lng: 115.2,
+    });
+    const points = viewPoints({ days: [of], ideas: [], center: null }, of);
+    expect(points).toHaveLength(5);
+    expect(points).toContainEqual([115.594, -8.277]);
+    expect(points).toContainEqual([115.2, -8.6]);
   });
 });
