@@ -1,0 +1,102 @@
+appId: app.critterpass.dev
+---
+# The trip's places as rows (7c-3) for a fresh account with the demo's Bali trip and the planning
+# redesign on: grouped by where each place stands, Tokek's picks sorted by fit with their fit lines.
+# Swiping a suggestion right saves it to Ideas (it moves to SAVED, NOT IN A DAY) and UNDO puts it
+# back; swiping left hides it and UNDO brings it back. The sort menu lists the orders and the hidden
+# places. MAP goes back with the same chip on.
+# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub → Explore Bali.
+- runFlow: ../home/subflows/fresh-install.yaml
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- runFlow: ../_shared/planning-redesign-on.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-explore'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'trip-hub-explore'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-(picks|months|writing)'
+    timeout: 45000
+- scrollUntilVisible:
+    element:
+      id: 'explore-open-map'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'explore-open-map'
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek-list'
+    timeout: 60000
+- tapOn:
+    id: 'places-peek-list'
+- extendedWaitUntil:
+    visible:
+      id: 'places-suggests-0'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7c-3-places-list
+# Right: saved to Ideas, then undone.
+- swipe:
+    from:
+      id: 'places-suggests-0'
+    direction: RIGHT
+- extendedWaitUntil:
+    visible:
+      id: 'places-group-saved'
+    timeout: 10000
+- takeScreenshot: en-7c-3-swiped-saved
+- tapOn:
+    id: 'island-toast-open'
+- waitForAnimationToEnd:
+    timeout: 4000
+# Left: hidden, then undone.
+- swipe:
+    from:
+      id: 'places-suggests-0'
+    direction: LEFT
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-open'
+    timeout: 10000
+- takeScreenshot: en-7c-3-swiped-hidden
+- tapOn:
+    id: 'island-toast-open'
+- waitForAnimationToEnd:
+    timeout: 4000
+# The sort menu with the hidden places at its foot.
+- tapOn:
+    id: 'places-sort'
+- extendedWaitUntil:
+    visible:
+      id: 'places-sort-menu'
+    timeout: 5000
+- takeScreenshot: en-7c-3-sort-menu
+- tapOn:
+    id: 'places-sort-az'
+# MAP keeps the chip.
+- tapOn:
+    id: 'chip-saved'
+- tapOn:
+    id: 'places-to-map'
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek'
+    timeout: 20000
+- assertVisible:
+    id: 'chip-saved'
+- takeScreenshot: en-7c-3-back-to-map-filtered

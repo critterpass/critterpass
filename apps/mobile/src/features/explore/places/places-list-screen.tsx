@@ -166,7 +166,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     if (href !== undefined) router.push(href);
   };
 
-  const renderItem = ({ item, index }: { item: ListItem; index: number }) => {
+  const renderItem = ({ item }: { item: ListItem }) => {
     if (item.kind === 'title') {
       const title =
         item.group === 'saved'
@@ -220,7 +220,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
                 }
               : undefined
           }
-          testID={`places-row-${String(index)}`}
+          testID={item.testID}
         />
         <RowGap />
       </>

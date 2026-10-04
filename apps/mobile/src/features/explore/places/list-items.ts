@@ -12,6 +12,8 @@ export type ListItem =
   | {
       readonly kind: 'place';
       readonly key: string;
+      /** The row's group and place in it, for its test id (`places-suggests-0`). */
+      readonly testID: string;
       readonly place: HubPlace;
       readonly sponsored: boolean;
     }
@@ -22,21 +24,25 @@ export const SPONSORED_AT = 2;
 
 export function listItems(groups: PlaceGroups, sponsoredPoiId: string | null): ListItem[] {
   const items: ListItem[] = [];
-  const rows = (places: readonly HubPlace[], prefix: string) =>
-    places.map((place): ListItem => ({
+  const rows = (places: readonly HubPlace[], group: 'saved' | 'suggests') =>
+    places.map((place, index): ListItem => ({
       kind: 'place',
-      key: `${prefix}:${place.id}`,
+      key: `${group}:${place.id}`,
+      testID: `places-${group}-${String(index)}`,
       place,
       sponsored: false,
     }));
   if (groups.saved.length > 0) {
-    items.push({ kind: 'title', key: 'title:saved', group: 'saved' }, ...rows(groups.saved, 's'));
+    items.push(
+      { kind: 'title', key: 'title:saved', group: 'saved' },
+      ...rows(groups.saved, 'saved'),
+    );
   }
   if (groups.plan.length > 0) {
     items.push({ kind: 'title', key: 'title:plan', group: 'plan' }, { kind: 'plan', key: 'plan' });
   }
   if (groups.suggests.length > 0) {
-    let suggests = rows(groups.suggests, 't');
+    let suggests = rows(groups.suggests, 'suggests');
     const paid =
       sponsoredPoiId === null
         ? -1

@@ -1,16 +1,19 @@
 appId: app.critterpass.dev
 ---
-# A destination's map and search for a brand-new account, online and then in airplane mode. A
-# fresh install onboards (no crew, no trip), taps a guide on Home's first-run grid, and opens the
-# destination's map from its page (never by link). Online, the cards are on the map and the list
-# view shows the destination's places. With airplane mode on, search still answers from the places
-# already on this phone, and the map says the region needs downloading to draw offline. Airplane
-# mode is switched by Maestro on Android only, so the offline half runs there.
+# A destination's places map (7c-1, outside a trip) and its search for a brand-new account, online
+# and then in airplane mode. A fresh install onboards (no crew, no trip), turns the planning
+# redesign on for this phone, taps a guide on Home's first-run grid, and opens the destination's
+# map from its page (never by link). Online, the peek counts the places and offers the region for
+# offline; the list shows the destination's places. With airplane mode on, the map's own field
+# still answers from the places already on this phone, and the map says the region needs
+# downloading to draw offline. Airplane mode is switched by Maestro on Android only, so the offline
+# half runs there.
 - runFlow:
     file: ../screens/sweep/subflows/start.yaml
     env:
       LANG: en
 - runFlow: ../home/subflows/onboard.yaml
+- runFlow: ../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-guide-pon'
@@ -31,39 +34,39 @@ appId: app.critterpass.dev
     id: 'explore-open-map'
 - extendedWaitUntil:
     visible:
-      id: 'explore-map-carousel'
+      id: 'places-peek'
     timeout: 60000
-# No screenshot of the map itself: the CI emulator draws neither the tiles nor the pins reliably
-# (they are GL symbols), so the map canvas is judged on a real phone. The cards prove the places
-# are here.
+# The CI emulator draws neither the tiles nor the dots reliably (they are GL layers), so the map
+# canvas itself is judged on a real phone; the peek's count proves the places are here.
 - waitForAnimationToEnd:
     timeout: 8000
+- takeScreenshot: en-7c-1-offline-fresh-account-map
 - tapOn:
-    id: 'explore-map-mode'
+    id: 'places-peek-list'
 - extendedWaitUntil:
     visible:
-      id: 'explore-map-row-0'
+      id: 'places-suggests-0'
     timeout: 15000
-- takeScreenshot: en-3d-4-fresh-account-list
+- takeScreenshot: en-7c-1-offline-fresh-account-list
 - runFlow:
     when:
       platform: Android
     commands:
       - setAirplaneMode: enabled
       - tapOn:
-          id: 'explore-map-search'
+          id: 'places-search-field'
       - inputText: 'kyoto'
       - hideKeyboard
       - extendedWaitUntil:
           visible:
-            id: 'explore-map-row-0'
+            id: 'places-suggests-0'
           timeout: 15000
-      - takeScreenshot: en-3d-4-fresh-account-offline-search
+      - takeScreenshot: en-7c-1-offline-search
       - tapOn:
-          id: 'explore-map-mode'
+          id: 'places-to-map'
       - extendedWaitUntil:
           visible:
-            id: 'explore-map-unavailable'
+            id: 'places-map-unavailable'
           timeout: 30000
-      - takeScreenshot: en-3d-4-fresh-account-offline-no-region
+      - takeScreenshot: en-7c-1-offline-no-region
       - setAirplaneMode: disabled
