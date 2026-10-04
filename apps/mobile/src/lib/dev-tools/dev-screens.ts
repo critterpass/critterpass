@@ -94,6 +94,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/planning-map-lab',
         label: 'Planning kit (7a, 7c map, sheet and components)',
       },
+      {
+        testId: 'dev-nav-plan-ideas-lab',
+        href: '/(dev)/plan-ideas-lab',
+        label: 'Plan ideas (7f-1, 7f-2, 7h-6, 7h-7 scenes)',
+      },
     ],
   },
   {

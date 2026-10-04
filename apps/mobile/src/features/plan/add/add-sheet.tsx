@@ -33,7 +33,11 @@ import {
   leaveLine,
   lengthLabel,
   nearbyLine,
+  nowhereNote,
+  offlineNote,
+  pickedLine,
   reasonTiles,
+  whyTitle,
 } from './add-copy';
 import {
   addOps,
@@ -161,15 +165,9 @@ export function AddSheet({ tripId, placeId, preset: given, afterStableId }: AddS
     existingLabel !== null
       ? alreadyLine(existingLabel)
       : server.status === 'offline' && server.fit === null
-        ? t({
-            id: 'plan.add.offline',
-            message: 'No signal: Tokek works out the reasons once you’re back.',
-          })
+        ? offlineNote()
         : nothingFits
-          ? t({
-              id: 'plan.add.nowhere',
-              message: 'Nowhere fits yet. Pick a day, or save it for later.',
-            })
+          ? nowhereNote()
           : null;
   const guide = plan.trip?.guide_name ?? t({ id: 'plan.add.guide', message: 'Tokek' });
 
@@ -222,10 +220,7 @@ export function AddSheet({ tripId, placeId, preset: given, afterStableId }: AddS
   return (
     <AddSheetView
       name={(subject?.name ?? '').toUpperCase()}
-      line={t({
-        id: 'plan.add.line',
-        message: `${guide} picked the day and time. Change anything.`,
-      })}
+      line={pickedLine(guide)}
       days={chips}
       dayNo={choice?.dayNo ?? null}
       onDay={(dayNo) => {
@@ -263,7 +258,7 @@ export function AddSheet({ tripId, placeId, preset: given, afterStableId }: AddS
           }
         />
       }
-      whyTitle={t({ id: 'plan.add.why.title', message: `WHY ${time}` })}
+      whyTitle={whyTitle(time)}
       reasons={reasonTiles(shown, month)}
       note={note}
       who={

@@ -15,7 +15,7 @@ msgstr "{count} going ›"
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · FREE DAY"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
 msgstr "{guide} picked the day and time. Change anything."
 
@@ -127,11 +127,11 @@ msgstr "New · quiet till about {hour}"
 msgid "plan.add.why.noWindow"
 msgstr "No free time that day"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
 msgstr "No signal: Tokek works out the reasons once you’re back."
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nowhere"
 msgstr "Nowhere fits yet. Pick a day, or save it for later."
 
@@ -175,6 +175,6 @@ msgstr "Tokek"
 msgid "plan.add.who.title"
 msgstr "WHO’S GOING"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
 msgstr "WHY {time}"

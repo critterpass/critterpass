@@ -4,7 +4,7 @@
  * that day; PLACE THEM FOR ME has Tokek place them in the background (7h-6). Synced rows only, so
  * the list reads the same offline; fit lines then wait for signal.
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -26,6 +26,7 @@ import { gradesByDay, ideasSummary } from './ideas-model';
 import { IdeasView } from './ideas-view';
 import { placingRoute } from './routes';
 import { startIdeaPlacementOnline } from './commands';
+import { bodyText, emptyBody, emptyLine, placeLine } from './ideas-copy';
 import { useDragToDay } from './use-drag-to-day';
 
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params below, never copy. */
@@ -34,44 +35,6 @@ const PLACE_IDS = ['7e-1', '3d-3'] as const;
 const SPLIT_IDS = ['7e-3', '7e-1', '3d-3'] as const;
 const IDEAS_FILTER = { filter: 'ideas' } as const;
 /* eslint-enable lingui/no-unlocalized-strings */
-
-function bodyText(count: number): string {
-  return t({
-    id: 'plan.ideas.body',
-    message: plural(count, {
-      one: "One saved place that isn't in a day yet. Drag it onto a day, or let Tokek place it.",
-      other:
-        "# saved places that aren't in a day yet. Drag one onto a day, or let Tokek place them.",
-    }),
-  });
-}
-
-function placeLine(fitting: number, needCrew: number): string {
-  if (needCrew === 0) {
-    return t({
-      id: 'plan.ideas.placeAll',
-      message: plural(fitting, {
-        one: 'It fits without moving anything booked.',
-        other: 'All # fit without moving anything booked.',
-      }),
-    });
-  }
-  const fit =
-    fitting === 0
-      ? t({ id: 'plan.ideas.placeNone', message: 'None fit as things are.' })
-      : t({
-          id: 'plan.ideas.placeSome',
-          message: plural(fitting, {
-            one: 'One fits without moving anything booked.',
-            other: '# fit without moving anything booked.',
-          }),
-        });
-  const crew = t({
-    id: 'plan.ideas.placeCrew',
-    message: plural(needCrew, { one: 'One needs the crew.', other: '# need the crew.' }),
-  });
-  return `${fit} ${crew}`;
-}
 
 export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
@@ -183,11 +146,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <IdeasView
-      body={
-        ideas.length === 0
-          ? t({ id: 'plan.ideas.bodyEmpty', message: 'Nothing saved for this trip yet.' })
-          : bodyText(ideas.length)
-      }
+      body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length)}
       days={chips}
       dropTarget={drag.dragging === null ? undefined : { overDayNo: drag.overDayNo }}
       chipsRef={drag.chipsRef}
@@ -204,11 +163,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         loaded && ideas.length === 0
           ? {
               guide: plan.trip?.guide_name ?? t({ id: 'plan.ideas.guide', message: 'Tokek' }),
-              line: t({
-                id: 'plan.ideas.emptyLine',
-                message:
-                  'Save places from search, paste a link from TikTok or Maps, or swipe together, and they land here.',
-              }),
+              line: emptyLine(),
             }
           : null
       }

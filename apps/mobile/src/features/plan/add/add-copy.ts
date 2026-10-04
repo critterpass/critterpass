@@ -244,3 +244,25 @@ export function alreadyLine(dayLabel: string): string {
 export function moveLabel(dayLabel: string, time: string): string {
   return t({ id: 'plan.add.cta.move', message: `MOVE IT TO ${dayLabel} · ${time}` });
 }
+
+export function offlineNote(): string {
+  return t({
+    id: 'plan.add.offline',
+    message: 'No signal: Tokek works out the reasons once you’re back.',
+  });
+}
+
+export function nowhereNote(): string {
+  return t({
+    id: 'plan.add.nowhere',
+    message: 'Nowhere fits yet. Pick a day, or save it for later.',
+  });
+}
+
+export function pickedLine(guide: string): string {
+  return t({ id: 'plan.add.line', message: `${guide} picked the day and time. Change anything.` });
+}
+
+export function whyTitle(time: string): string {
+  return t({ id: 'plan.add.why.title', message: `WHY ${time}` });
+}

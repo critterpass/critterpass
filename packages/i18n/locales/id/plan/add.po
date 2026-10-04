@@ -15,7 +15,7 @@ msgstr ""
 msgid "plan.add.dayHeader.free"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
 msgstr ""
 
@@ -127,11 +127,11 @@ msgstr ""
 msgid "plan.add.why.noWindow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nowhere"
 msgstr ""
 
@@ -175,6 +175,6 @@ msgstr ""
 msgid "plan.add.who.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
 msgstr ""

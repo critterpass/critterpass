@@ -7,35 +7,35 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: es\n"
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.and"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeAll"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeSome"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSome"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeCrew"
 msgstr ""
 
@@ -55,7 +55,7 @@ msgstr ""
 msgid "plan.ideas.queued.remove"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.foot"
 msgstr ""
 
@@ -63,7 +63,7 @@ msgstr ""
 msgid "plan.ideas.addToDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.placing.backToIdeas"
 msgstr ""
 
@@ -95,31 +95,31 @@ msgstr ""
 msgid "plan.placing.leave"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSplit"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouPending"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeNone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.locks"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.nothing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouNone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.bodyEmpty"
 msgstr ""
 
@@ -131,15 +131,15 @@ msgstr ""
 msgid "plan.ideas.placeThem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.routing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.routingDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.emptyLine"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgstr ""
 msgid "plan.ideas.guide"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.failed"
 msgstr ""
 

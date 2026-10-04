@@ -56,8 +56,7 @@ msgstr "{count, plural, other {# CHO KHOẢNG TRỐNG}}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.placedForYou"
-msgstr ""
-"{first},\n"
+msgstr "{first},\n"
 "{second}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts

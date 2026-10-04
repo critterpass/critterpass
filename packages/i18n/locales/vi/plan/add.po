@@ -15,7 +15,7 @@ msgstr "{count} người đi ›"
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · NGÀY TRỐNG"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
 msgstr "{guide} đã chọn ngày và giờ. Đổi gì cũng được."
 
@@ -127,11 +127,11 @@ msgstr "Mới · vắng đến khoảng {hour} giờ"
 msgid "plan.add.why.noWindow"
 msgstr "Hôm đó không còn giờ trống"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
 msgstr "Không có sóng: Tokek sẽ tính lý do khi bạn có mạng lại."
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nowhere"
 msgstr "Chưa có ngày nào hợp. Chọn một ngày, hoặc để dành sau."
 
@@ -175,6 +175,6 @@ msgstr "Tokek"
 msgid "plan.add.who.title"
 msgstr "AI ĐI"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.title"
 msgstr "VÌ SAO {time}"
