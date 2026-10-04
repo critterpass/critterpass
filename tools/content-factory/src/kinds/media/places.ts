@@ -2,7 +2,8 @@
  * Place photos: for every curated place of a destination (the places swipe decks and Explore's
  * picks are drawn from), the image Wikidata gives the place, from Wikimedia Commons under a free
  * licence with its credit. Wikidata gives the items with an image around a destination's places;
- * `matchPlace` decides which item, if any, a place is. A stock photo stands for
+ * `matchPlace` decides which item, if any, a place is; a place made from a Wikidata item is that
+ * item, by its id. A stock photo stands for
  * a place only as a labelled generic one (generic.ts), never as the place itself.
  */
 import { poiRefSubject, type ContentItem, mediaItemSchema } from '@cp/content';
@@ -15,7 +16,7 @@ import { commonsCandidate, commonsFiles, type CommonsRules } from './wikimedia';
 
 /** A curated place as the committed places batches carry it. */
 export interface MediaPlace {
-  /** `fsq_os:<id>` or `overture:<id>` */
+  /** `fsq_os:<id>`, `overture:<id>`, or `editorial:wikidata-<Q id>` for a place made from an item */
   readonly ref: string;
   readonly destination: string;
   readonly name: string;
@@ -137,6 +138,48 @@ export async function wikidataAround(
   return items;
 }
 
+/** The Wikidata id an editorial place was made from (`editorial:wikidata-Q391406`), or null. */
+export function wikidataIdOf(ref: string): string | null {
+  return /^editorial:wikidata-(Q\d+)$/u.exec(ref)?.[1] ?? null;
+}
+
+/**
+ * The items the places made from a Wikidata item are, with their image: such a place is its item,
+ * so no name or distance decides it (and the item may lie outside the circle, or be an area).
+ */
+export async function wikidataOwn(
+  http: SourceHttp,
+  places: readonly MediaPlace[],
+): Promise<Map<string, PlaceMatch>> {
+  const ids = new Map<string, MediaPlace>();
+  for (const place of places) {
+    const id = wikidataIdOf(place.ref);
+    if (id !== null) ids.set(id, place);
+  }
+  if (ids.size === 0) return new Map();
+  const rows = await sparql<{ item: Value; image: Value }>(
+    http,
+    `SELECT ?item ?image WHERE { VALUES ?item { ${[...ids.keys()]
+      .sort()
+      .map((id) => `wd:${id}`)
+      .join(' ')} } ?item wdt:P18 ?image }`,
+  );
+  const matches = new Map<string, PlaceMatch>();
+  for (const row of rows) {
+    const id = idOf(row.item.value);
+    const place = ids.get(id);
+    if (place === undefined || matches.has(place.ref)) continue;
+    const item = { id, labels: [place.name], lat: place.lat, lng: place.lng };
+    matches.set(place.ref, {
+      item: { ...item, file: fileTitle(row.image.value) },
+      label: place.name,
+      score: 1,
+      distanceM: 0,
+    });
+  }
+  return matches;
+}
+
 export interface PlacePhoto {
   readonly place: MediaPlace;
   readonly match: PlaceMatch;
@@ -155,10 +198,17 @@ export async function placePhotos(
   rejected: Readonly<Record<string, readonly string[]>> = REJECTED_MATCHES,
 ): Promise<PlacePhoto[]> {
   const matched: { place: MediaPlace; match: PlaceMatch }[] = [];
+  const known = await wikidataOwn(http, places);
   for (const destination of [...new Set(places.map((p) => p.destination))]) {
     const own = places.filter((p) => p.destination === destination);
-    const items = await wikidataAround(http, own);
+    const items = await wikidataAround(
+      http,
+      own.filter((p) => wikidataIdOf(p.ref) === null),
+    );
     for (const place of own) {
+      const itself = known.get(place.ref);
+      if (itself !== undefined) matched.push({ place, match: itself });
+      if (wikidataIdOf(place.ref) !== null) continue;
       const not = rejected[place.ref] ?? [];
       const match = matchPlace(
         place,

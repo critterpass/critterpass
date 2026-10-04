@@ -3,12 +3,7 @@
   "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Flat+%3Flng+%3Fimage+WHERE+%7B%0A++SERVICE+wikibase%3Aaround+%7B+%3Fitem+wdt%3AP625+%3Floc+.%0A++++bd%3AserviceParam+wikibase%3Acenter+%22Point%28108.2613+16.0233%29%22%5E%5Egeo%3AwktLiteral+.%0A++++bd%3AserviceParam+wikibase%3Aradius+%2220%22+.+%7D%0A++%3Fitem+wdt%3AP18+%3Fimage+.%0A++BIND%28geof%3Alatitude%28%3Floc%29+AS+%3Flat%29+BIND%28geof%3Alongitude%28%3Floc%29+AS+%3Flng%29%0A%7D",
   "body": {
     "head": {
-      "vars": [
-        "item",
-        "lat",
-        "lng",
-        "image"
-      ]
+      "vars": ["item", "lat", "lng", "image"]
     },
     "results": {
       "bindings": [

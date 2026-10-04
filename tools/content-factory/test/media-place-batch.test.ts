@@ -19,7 +19,7 @@ import {
   suggestedDrops,
   type PlaceProposal,
 } from '../src/kinds/media/place-batch';
-import type { MediaPlace } from '../src/kinds/media/places';
+import { wikidataOwn, type MediaPlace } from '../src/kinds/media/places';
 import { needsALook, renderPlacePages } from '../src/kinds/media/review-page';
 
 const place = (name: string, category: string, lat: number, lng: number, ref = 'fsq_os:a1') => ({
@@ -32,14 +32,57 @@ const place = (name: string, category: string, lat: number, lng: number, ref = '
 });
 
 describe('the curated places of a batch', () => {
-  it('come from the release given, without the places a media subject cannot name', () => {
+  it('come from the release given, without merged places or refs no subject can name', () => {
     const [first] = committedItems('places');
     if (first === undefined) throw new Error('no committed places');
     const made = { ...first, ref: 'editorial:wikidata-Q391406', name: 'Mỹ Sơn' };
+    const unnamed = { ...first, ref: 'osm:node/1', name: 'A mapped stone' };
     const merged = { ...first, ref: 'fsq_os:ffff', merge_into: first.ref };
-    const places = curatedPlaces([first.destination], [], [first, made, merged]);
-    expect(places.map((p) => p.ref)).toEqual([first.ref]);
+    const places = curatedPlaces([first.destination], [], [first, made, unnamed, merged]);
+    expect(places.map((p) => p.ref)).toEqual([first.ref, made.ref]);
     expect(curatedPlaces(['kyoto'], [], [first])).toEqual([]);
+  });
+
+  it("gives a place made from a Wikidata item that item's image, whatever its name", async () => {
+    const asked: string[] = [];
+    const http = {
+      fetch: ((input: URL) => {
+        asked.push(input.searchParams.get('query') ?? '');
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              results: {
+                bindings: [
+                  {
+                    item: { value: 'http://www.wikidata.org/entity/Q391406' },
+                    image: {
+                      value: 'http://commons.wikimedia.org/wiki/Special:FilePath/My%20Son%20B5.jpg',
+                    },
+                  },
+                ],
+              },
+            }),
+            { status: 200 },
+          ),
+        );
+      }) as unknown as typeof fetch,
+      cacheDir: mkdtempSync(path.join(os.tmpdir(), 'media-own-')),
+      now: () => 1,
+    };
+    const mySon: MediaPlace = {
+      ...place('Thánh địa Mỹ Sơn', 'museum', 15.7641, 108.1241, 'editorial:wikidata-Q391406'),
+      destination: 'da-nang',
+    };
+    const temple = place('高台寺', 'temple_shrine', 35, 135.78);
+    const matches = await wikidataOwn(http, [mySon, temple]);
+    expect(asked).toHaveLength(1);
+    expect(asked[0]).toContain('wd:Q391406');
+    expect([...matches.keys()]).toEqual([mySon.ref]);
+    expect(matches.get(mySon.ref)?.item).toMatchObject({
+      id: 'Q391406',
+      file: 'File:My Son B5.jpg',
+    });
+    expect(await wikidataOwn(http, [temple])).toEqual(new Map());
   });
 });
 
