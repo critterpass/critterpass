@@ -39,7 +39,7 @@ const useStyles = makeStyles((t) => ({
     paddingVertical: t.space['8'],
     gap: t.space['12'],
   },
-  label: { flexShrink: 1 },
+  label: { flexShrink: 1, justifyContent: 'center' },
   menu: {
     marginHorizontal: t.size.gutter,
     marginBottom: t.space['8'],

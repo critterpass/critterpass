@@ -15,6 +15,10 @@ msgstr "{bestTime} · hợp {weekday}"
 msgid "places.inView"
 msgstr "{count, plural, other {# địa điểm trong khung nhìn}}"
 
+#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
+msgid "places.cluster"
+msgstr "{count} địa điểm ở đây. Chạm để tách ra."
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.names.two"
 msgstr "{first} + {second}"

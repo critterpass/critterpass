@@ -21,7 +21,7 @@ export function iconKeyOf(category: string): string {
 export function relevanceOf(place: HubPlace): number {
   if (place.standing === 'plan') return 3;
   if (place.standing === 'saved') return Math.min(3, 1 + place.backerIds.length);
-  return place.mustSee ? 1 : 0;
+  return place.mustSee ? 2 : 1;
 }
 
 /**

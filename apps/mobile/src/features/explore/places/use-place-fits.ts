@@ -9,13 +9,12 @@ import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 
 import { useFit, FIT_BATCH } from '@/data/fit/use-fit';
-import { fitLine, type FitLine } from '@/data/fit/fit-line';
+import { fitLine, type FitLine, type FitLineContext } from '@/data/fit/fit-line';
 import type { TripIdeaView } from '@/data/ideas/use-trip-ideas';
-import type { TripPlan } from '@/data/plan/use-trip-plan';
 
 /** Each day's short weekday ("Sat") by day number, read on the trip's dates. */
 export function weekdaysOf(
-  days: readonly { readonly day_no: number; readonly date: string | null }[],
+  days: readonly { readonly dayNo: number; readonly date: string | null }[],
   locale: string,
 ): Map<number, string> {
   const names = new Map<number, string>();
@@ -23,14 +22,16 @@ export function weekdaysOf(
     if (day.date === null) continue;
     // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time, never copy.
     const noon = new Date(`${day.date}T12:00:00Z`);
-    names.set(day.day_no, format.date(locale, noon, { weekday: 'short', timeZone: 'UTC' }));
+    names.set(day.dayNo, format.date(locale, noon, { weekday: 'short', timeZone: 'UTC' }));
   }
   return names;
 }
 
 export interface PlaceFitsInput {
   readonly tripId: string | null;
-  readonly plan: TripPlan;
+  readonly versionId: string | null;
+  readonly days: readonly { readonly dayNo: number; readonly date: string | null }[];
+  readonly stopName: (stableId: string) => string | null;
   readonly tz: string | null;
   /** The places to ask the fit route for (the cards on show); at most one batch is asked. */
   readonly ask: readonly string[];
@@ -39,38 +40,37 @@ export interface PlaceFitsInput {
   readonly known?: ReadonlyMap<string, PlaceFit> | undefined;
 }
 
+/** Fit lines for every place a fit is known for: an idea's current fit, else live, else known. */
+export function fitLines(
+  fits: readonly (ReadonlyMap<string, PlaceFit> | undefined)[],
+  context: FitLineContext,
+): Map<string, FitLine> {
+  const lines = new Map<string, FitLine>();
+  const ids = new Set(fits.flatMap((map) => (map === undefined ? [] : [...map.keys()])));
+  for (const id of ids) {
+    const fit = fits.map((map) => map?.get(id)).find((entry) => entry !== undefined) ?? null;
+    const line = fitLine(fit, context);
+    if (line !== null) lines.set(id, line);
+  }
+  return lines;
+}
+
 export function usePlaceFits(input: PlaceFitsInput): ReadonlyMap<string, FitLine> {
   const { i18n } = useLingui();
-  const { tripId, plan, tz, ask, ideas, known } = input;
-  const versionId = plan.versionId;
+  const { tripId, versionId, days, stopName, tz, ask, ideas, known } = input;
   const asked = useMemo(() => ask.slice(0, FIT_BATCH), [ask]);
   const live = useFit(tripId, asked, versionId);
-  const weekdays = useMemo(
-    () => weekdaysOf(plan.dayRows, i18n.locale),
-    [plan.dayRows, i18n.locale],
-  );
+  const weekdays = useMemo(() => weekdaysOf(days, i18n.locale), [days, i18n.locale]);
   return useMemo(() => {
-    const lines = new Map<string, FitLine>();
-    if (tripId === null || tz === null) return lines;
-    const context = {
-      weekdays,
-      tz,
-      stopName: (stableId: string) => plan.display.get(stableId)?.title ?? null,
-    };
+    if (tripId === null || tz === null) return new Map<string, FitLine>();
     const stored = new Map<string, PlaceFit>();
     for (const idea of ideas) {
       if (idea.poiId !== null && idea.fit !== null && idea.fit.version_id === versionId) {
         stored.set(idea.poiId, idea.fit);
       }
     }
-    const ids = new Set([...stored.keys(), ...live.fits.keys(), ...(known?.keys() ?? [])]);
-    for (const id of ids) {
-      const fit = stored.get(id) ?? live.fits.get(id) ?? known?.get(id) ?? null;
-      const line = fitLine(fit, context);
-      if (line !== null) lines.set(id, line);
-    }
-    return lines;
+    return fitLines([stored, live.fits, known], { weekdays, tz, stopName });
     // `i18n.locale` re-words the lines when the language changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tripId, tz, weekdays, plan.display, ideas, versionId, live.fits, known, i18n.locale]);
+  }, [tripId, tz, weekdays, stopName, ideas, versionId, live.fits, known, i18n.locale]);
 }

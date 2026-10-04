@@ -3,7 +3,6 @@
  * the crew can't agree), the one collapsed IN THE PLAN row with its day dots, and the labelled
  * sponsored row.
  */
-import { resolveMemberStyle } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
@@ -17,6 +16,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon } from '../category';
 import { SponsoredTag, WhySponsoredLink } from '../components/sponsored-card';
+import { dayColor } from './plan-routes';
 import { addLabel, planSummary, splitLabel } from './places-copy';
 import type { HubPlace } from './places-model';
 import type { SwipeAction } from './swipe-actions';
@@ -180,10 +180,7 @@ export function PlanSummaryRow({ places, onPress }: PlanSummaryRowProps) {
     >
       <View style={styles.dots}>
         {days.map((day) => (
-          <View
-            key={day}
-            style={[styles.dot, { backgroundColor: resolveMemberStyle(day - 1).color }]}
-          >
+          <View key={day} style={[styles.dot, { backgroundColor: dayColor(day) }]}>
             <Text variant="label" color={theme.semantic.text.onAccent}>
               {String(day)}
             </Text>

@@ -15,6 +15,10 @@ msgstr ""
 msgid "places.inView"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
+msgid "places.cluster"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.names.two"
 msgstr ""

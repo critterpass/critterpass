@@ -4,7 +4,7 @@
  * the places I hid. Outside a trip the same map reads the destination and my own saved places.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useTripIdeas, type TripIdeaView } from '@/data/ideas/use-trip-ideas';
 import { useLiveRows } from '@/data/plan/live-rows';
@@ -16,16 +16,34 @@ import { useDestinationPois } from '../map-queries';
 import { fold, type Point } from '../map-model';
 import { useDestinationRow } from '../queries';
 import { useSaved } from '../saved-queries';
+import { routeDays, type PlanRouteDay, type RouteItem } from './plan-routes';
 import { hubPlaces, type HubPlace, type IdeaPlace, type PlanStop } from './places-model';
 
 const HIDDEN_SQL = `SELECT poi_id FROM place_hides
   WHERE user_id = (SELECT value FROM local_state WHERE id = ?)`;
 const HIDDEN_TABLES = ['place_hides', 'local_state'];
 
+/** A crewmate as the map and list name and colour them. */
+export interface CrewMember {
+  readonly uid: string;
+  readonly name: string;
+  readonly joinIndex: number;
+}
+
 export interface PlacesData {
   readonly loaded: boolean;
   readonly places: readonly HubPlace[];
-  readonly plan: TripPlan;
+  /** Every crew row in join order (colours follow the whole crew's join order). */
+  readonly crew: readonly CrewMember[];
+  readonly uid: string | null;
+  /** The plan version fits answer for. */
+  readonly versionId: string | null;
+  /** The plan's days with their local dates. */
+  readonly days: readonly { readonly dayNo: number; readonly date: string | null }[];
+  /** The plan's days as numbered routes. */
+  readonly routes: readonly PlanRouteDay[];
+  /** A plan stop's short name by stable id (fit lines: "after lunch"). */
+  readonly stopName: (stableId: string) => string | null;
   /** The trip's ideas with their synced fits (none outside a trip). */
   readonly ideas: readonly TripIdeaView[];
   readonly destinationId: string | null;
@@ -40,9 +58,14 @@ export interface PlacesData {
   readonly stay: { readonly name: string; readonly at: Point } | null;
 }
 
-/** The plan's stops at a curated place, with where they are. */
-function planStops(plan: TripPlan): { stops: PlanStop[]; stay: PlacesData['stay'] } {
+/** The plan's stops at a curated place, its route items and its stay. */
+function planStops(plan: TripPlan): {
+  stops: PlanStop[];
+  items: RouteItem[];
+  stay: PlacesData['stay'];
+} {
   const stops: PlanStop[] = [];
+  const items: RouteItem[] = [];
   let stay: PlacesData['stay'] = null;
   for (const row of plan.itemRows) {
     if (row.status === 'cancelled') continue;
@@ -52,7 +75,16 @@ function planStops(plan: TripPlan): { stops: PlanStop[]; stay: PlacesData['stay'
       if (stay === null && at !== null) stay = { name, at };
       continue;
     }
-    if (row.poi_id === null || at === null) continue;
+    if (at === null) continue;
+    items.push({
+      id: row.poi_id ?? row.stable_id,
+      dayNo: row.day_no,
+      startsAt: row.starts_at,
+      name,
+      lat: at.lat,
+      lng: at.lng,
+    });
+    if (row.poi_id === null) continue;
     stops.push({
       poiId: row.poi_id,
       name,
@@ -62,7 +94,7 @@ function planStops(plan: TripPlan): { stops: PlanStop[]; stay: PlacesData['stay'
       dayNo: row.day_no,
     });
   }
-  return { stops, stay };
+  return { stops, items, stay };
 }
 
 export interface PlacesDataInput {
@@ -91,7 +123,26 @@ export function usePlacesData({
   const saved = useSaved();
   const hiddenRows = useLiveRows<{ poi_id: string }>(HIDDEN_SQL, [OWNER_UID_KEY], HIDDEN_TABLES);
 
-  const { stops, stay } = useMemo(() => planStops(plan), [plan]);
+  const { stops, items, stay } = useMemo(() => planStops(plan), [plan]);
+  const days = useMemo(
+    () => plan.dayRows.map((day) => ({ dayNo: day.day_no, date: day.date })),
+    [plan.dayRows],
+  );
+  const routes = useMemo(() => routeDays(items, days), [items, days]);
+  const crew = useMemo(
+    () =>
+      plan.crew.map((member, index) => ({
+        uid: member.user_id,
+        name: member.display_name ?? '',
+        joinIndex: index,
+      })),
+    [plan.crew],
+  );
+  const { display } = plan;
+  const stopName = useCallback(
+    (stableId: string) => display.get(stableId)?.title ?? null,
+    [display],
+  );
   const ideas = useMemo((): IdeaPlace[] => {
     if (tripId !== null) return [...tripIdeas.ideas];
     // Outside a trip, my own saved places are the saved ones.
@@ -140,7 +191,12 @@ export function usePlacesData({
   return {
     loaded: curated.loaded && (tripId === null || (plan.loaded && tripIdeas.loaded)),
     places,
-    plan,
+    crew,
+    uid: plan.uid,
+    versionId: plan.versionId,
+    days,
+    routes,
+    stopName,
     ideas: tripIdeas.ideas,
     destinationId,
     destinationSlug: row?.slug ?? null,

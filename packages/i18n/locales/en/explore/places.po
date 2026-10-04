@@ -15,6 +15,10 @@ msgstr "{bestTime} · fits {weekday}"
 msgid "places.inView"
 msgstr "{count, plural, one {# place in view} other {# places in view}}"
 
+#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
+msgid "places.cluster"
+msgstr "{count} places here. Tap to spread them out."
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.names.two"
 msgstr "{first} + {second}"
