@@ -6,9 +6,11 @@
  * rows that did not change. A curated destination is left alone.
  */
 import { createGateway, type AiUsageRecord } from '@cp/ai';
+import { recommendedSql } from '@cp/db';
 import { fixtureTransport } from '@cp/ai/testing';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
+import { loadDraftPlaces } from '../../../src/jobs/ai/draft/load-places';
 import { ensurePlacePicks } from '../../../src/jobs/ai/draft/place-picks';
 import { placesPickJob } from '../../../src/jobs/places/pick';
 import { runPlacePick } from '../../../src/places/pick/run';
@@ -197,6 +199,54 @@ describe('places.pick for a destination without a curated set', () => {
       status: 'skipped',
       reason: 'unknown_destination',
     });
+  });
+});
+
+describe('a picked destination that gains a curated set', () => {
+  it('loses every pick, so its recommended places are the editors’ alone', async () => {
+    const late = await seedDaLat(harness.pool, 'curated-later');
+    const picked = await runPlacePick(harness.pool, {}, { slug: late.slug }, silent);
+    expect(picked.total).toBeGreaterThan(0);
+    expect(await picksOf(harness.pool, late.destinationId)).toHaveLength(picked.total);
+
+    // The places release lands: fifty curated places, two of them rows that were picked.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, curation, editorial)
+       SELECT $1, 'Curated place ' || n, 'nature', 12.2 + n * 0.004, 108.44, 'editorial',
+              jsonb_build_object('must_see', n <= 3)
+         FROM generate_series(1, 48) AS n`,
+      [late.destinationId],
+    );
+    await harness.pool.query(
+      `UPDATE pois SET curation = 'editorial'
+        WHERE destination_id = $1 AND name IN ('Hồ Xuân Hương', 'Chợ Đà Lạt')`,
+      [late.destinationId],
+    );
+
+    const report = await runPlacePick(harness.pool, {}, { slug: late.slug }, silent);
+    expect(report).toMatchObject({ status: 'skipped', reason: 'curated', cleared: picked.total });
+    expect(await picksOf(harness.pool, late.destinationId)).toEqual([]);
+    // A second run has nothing left to clear.
+    expect(
+      await runPlacePick(harness.pool, {}, { slug: late.slug, force: true }, silent),
+    ).toMatchObject({ status: 'skipped', reason: 'curated', cleared: 0 });
+
+    // What a draft reads is the curated set only: no stand-in must-sees beside the editors' own.
+    const places = await loadDraftPlaces(harness.pool, late.destinationId, []);
+    expect(places).toHaveLength(50);
+    expect(places.every((poi) => poi.editorial)).toBe(true);
+    expect(
+      places
+        .filter((poi) => poi.mustSee)
+        .map((poi) => poi.name)
+        .sort(),
+    ).toEqual(['Curated place 1', 'Curated place 2', 'Curated place 3']);
+    const { rows } = await harness.pool.query<{ n: number }>(
+      `SELECT count(*)::int AS n FROM pois p
+        WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}`,
+      [late.destinationId],
+    );
+    expect(rows[0]?.n).toBe(50);
   });
 });
 
