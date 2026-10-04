@@ -5,15 +5,20 @@
  * no server cache and answers `Cache-Control: no-store`. The place screen loads our own detail from
  * `GET /v1/places/{id}` and asks this route in parallel; it always answers, with `available: false`
  * when the POI has no Foursquare id, the monthly call cap is reached, or Foursquare errs or is slow.
+ *
+ * The one thing kept from an answer is its photos' ids and image addresses, which Foursquare allows
+ * (`poi_foursquare_photos`): they are replaced as a set in the same request, and a failure to keep
+ * them never changes the live answer.
  */
 import {
   DomainError,
   FOURSQUARE_DETAIL_FIELDS,
+  foursquareStoredPhotos,
   mapFoursquareDetails,
   UNAVAILABLE_PLACE_LIVE,
   type PlaceLive,
 } from '@cp/domain';
-import { withSystem } from '@cp/db';
+import { replacePoiFoursquarePhotos, withSystem } from '@cp/db';
 import type pg from 'pg';
 
 export interface FoursquareLiveConfig {
@@ -58,6 +63,13 @@ async function reserveCall(pool: pg.Pool, cap: number): Promise<boolean> {
   });
 }
 
+/** Keeps the photo ids and addresses of an answer, and nothing else of it. */
+async function keepPhotos(pool: pg.Pool, poiId: string, body: unknown): Promise<void> {
+  const photos = foursquareStoredPhotos(body);
+  if (photos === null) return;
+  await withSystem(pool, (tx) => replacePoiFoursquarePhotos(tx, poiId, photos));
+}
+
 export async function getPlaceLive(
   pool: pg.Pool,
   poiId: string,
@@ -85,7 +97,14 @@ export async function getPlaceLive(
       config.onError?.(poiId, new Error(`foursquare place details ${response.status}`));
       return UNAVAILABLE_PLACE_LIVE;
     }
-    return mapFoursquareDetails(await response.json());
+    const body: unknown = await response.json();
+    const live = mapFoursquareDetails(body);
+    if (live.available) {
+      await keepPhotos(pool, poiId, body).catch((error: unknown) => {
+        config.onError?.(poiId, new Error('keeping foursquare photos failed', { cause: error }));
+      });
+    }
+    return live;
   } catch (error) {
     config.onError?.(poiId, error);
     return UNAVAILABLE_PLACE_LIVE;

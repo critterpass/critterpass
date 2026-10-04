@@ -157,6 +157,7 @@ export { DEFAULT_VISIT_MIN, visitMinutes } from './places/visit-minutes';
 export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
+export * from './places/foursquare-photos';
 export * from './places/queues';
 export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
 export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';

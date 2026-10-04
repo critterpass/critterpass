@@ -23,6 +23,7 @@ import {
   pgTable,
   primaryKey,
   real,
+  smallint,
   text,
   timestamp,
   uuid,
@@ -202,6 +203,30 @@ export const foursquareApiUsage = pgTable('foursquare_api_usage', {
 
 registerTablePrivacy('poi_foursquare_ids', { class: 'C0' });
 registerTablePrivacy('foursquare_api_usage', { class: 'C0' });
+
+/**
+ * A place's Foursquare photos (migration 20261004094500_poi_foursquare_photos.sql): the photo id
+ * and its image address parts (`prefix` + size + `suffix`), which Foursquare lets us keep, and
+ * nothing else from a Place Details answer. Up to five per place, replaced as a set on each read.
+ */
+export const poiFoursquarePhotos = pgTable('poi_foursquare_photos', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  poiId: uuid('poi_id')
+    .notNull()
+    .references(() => pois.id, { onDelete: 'cascade' }),
+  fsqPhotoId: text('fsq_photo_id').notNull(),
+  prefix: text('prefix').notNull(),
+  suffix: text('suffix').notNull(),
+  width: integer('width').notNull(),
+  height: integer('height').notNull(),
+  fsqCreatedAt: timestamp('fsq_created_at', { withTimezone: true, mode: 'date' }),
+  rank: smallint('rank').notNull(),
+  fetchedAt: timestamp('fetched_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+registerTablePrivacy('poi_foursquare_photos', { class: 'C0' });
 
 /**
  * FSQ OS Places export runs for the multi-destination ingest (migration

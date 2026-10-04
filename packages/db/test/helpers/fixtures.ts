@@ -192,6 +192,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       matrixProbePoiId,
     ]);
     await tx.query(
+      `INSERT INTO poi_foursquare_photos (poi_id, fsq_photo_id, prefix, suffix, width, height, rank)
+       VALUES ($1, 'matrix-probe', 'https://fastly.4sqi.net/img/general/', '/probe.jpg', 800, 600, 0)`,
+      [matrixProbePoiId],
+    );
+    await tx.query(
       `INSERT INTO map_regions (destination_id, pmtiles_key, bytes, version)
        VALUES ($1, 'matrix-probe.pmtiles', 1, 'matrix-probe')`,
       [matrixProbeDestinationId],
