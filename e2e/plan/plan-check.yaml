@@ -1,0 +1,422 @@
+appId: app.critterpass.dev
+---
+# The plan check (7h-1) from the plan ideas lab, in English then Vietnamese: three to fix and two
+# to know for an organiser, a member's SUGGEST with an organiser's private ask on top, a too-far
+# card opened on its nearer place, the check running, and all clear. Then the real screen on a
+# fresh account's own synced data (the staging demo crew's Bali week, the redesign on for this
+# phone). Shots are named `<lang>-7h-1-<state>`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-1-check
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-member$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-member$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-ask'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-1-member
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-member$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-too-far$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-too-far$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-1-too-far
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-too-far$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-running$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-running$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-1-running
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-running$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-clear$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-clear$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-1-clear
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-clear$'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-1-check
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-member$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-member$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-ask'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-1-member
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-member$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-too-far$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-too-far$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-1-too-far
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-too-far$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-running$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-running$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-1-running
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-running$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-1-clear$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-1-clear$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-1-clear
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-1-clear$'
+    timeout: 10000
+# The real screen: a fresh account with the demo crew's Bali trip, the redesign on for this phone.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- runFlow: ../_shared/planning-redesign-on.yaml
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^check-live$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-live$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7h-1-live

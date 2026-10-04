@@ -1312,3 +1312,20 @@ if they were verified design values.
 | 7e-3 Crew can't agree | Saying where you stand | A card under the notes: WANT IT and RATHER NOT choice chips, an optional "In your own words" field (140 characters) with "The crew sees this with your name." under it, SAY IT (UPDATE once said) and "Take it back" to clear. |
 | 7e-3 Crew can't agree | No ways yet | Under "Two ways nobody loses:" the guide says "No way out yet. Say where you stand and I'll look again."; neither button shows. While the ways load it says "{guide} is working out a way." |
 | 7e-3 Crew can't agree | After posting | A toast says "It's in crew chat as a vote."; a refusal says "That didn't go through" and nothing is posted. |
+| 7h-1 Plan check | Check running | The chip says "CHECKING…"; with no issues yet a plain card says "Tokek is checking the plan. It takes a moment after each change." |
+| 7h-1 Plan check | Check failed | A plain card: "The check didn't finish this time. It runs again after the next change." The last cards stay hidden until a check finishes. |
+| 7h-1 Plan check | Nothing to fix | The title reads "NOTHING TO FIX" and a plain card says "All good. Hours, drives and bookings line up. Tokek checks again whenever the plan changes."; no FIX ALL. |
+| 7h-1 Plan check | Stale issue | A FIX on an issue from an older plan leaves the card and toasts "The plan changed since this check / Tokek is checking it again." (the job reruns on the new version by itself). |
+| 7h-1 Plan check | Member FIX | A member's button reads SUGGEST; the fix goes to the crew as a change set and the toast says "Sent to the crew / It changes once they say yes." |
+| 7h-1 Plan check | Too-far detail | No render: FIX on a too-far card opens the card in place with the nearer place, its drive from the stop before and what it saves ("Jimbaran instead, 20 min from the stop before: 1h35 less in the car."), USE IT and "Keep it as it is"; with no nearer place of the same kind open then, it says so and offers only "Keep it as it is". |
+| 7h-1 Plan check | Balance entry | Organisers get a row "Whose picks made it ›" under TO KNOW, a list row in the card style. |
+| 7h-1 Plan check | The private ask, for the asked member | A yellow-bordered card on top: Tokek says "{asker} asked if {places} should go in." with "Only you two see this. Nothing moves to make room." and ADD THEM / NOT NOW. The inbox row reads "{asker} asked you about your saves" with the same two answers and opens this screen. |
+| 7h-3 Less driving | No better order | "This order is already the shortest Tokek can find without moving anything booked." in a plain card; the button stays off. A member's button reads "Suggest this order" and there is no second link. |
+| 7h-4 Rain and crowds | No swaps | "Nothing to swap. Every block is dry and quiet enough where it is." under the chart; the button stays off. |
+| 7h-4 Rain and crowds | Forecast unavailable | With only the month's usual rain the chip reads "RECHECKS {day − 3}" and the line says "Rain is {month}'s usual shower; Tokek checks the real forecast three days out."; inside the forecast the chip reads "FROM THE FORECAST". The crowd half of the line says "how busy it usually gets" for an editorial curve and "what crews saw" only for visit counts. |
+| 7h-4 Rain and crowds | Headline words | The render's "BUSES AT 10" is worded "CROWDS AT 10" (the curve does not know why it is busy). |
+| 7h-2 Fill a gap | No ideas | "Nothing nearby fits this window. Try Something else, or keep it free." in a plain card; the button stays off. |
+| 7h-2 Fill a gap | Back to the stay | Picking it turns the button into KEEP IT FREE, which closes the sheet and adds nothing. |
+| 7h-5 Balance the crew | Ask already sent | The ask button reads ASKED and is off; a line says "Tokek asked {name}. Waiting for an answer." |
+| 7h-5 Balance the crew | Member declines the ask | "{name} said not now. Their saves stay in Ideas."; after a yes, "{name} said yes. Their saves are in." |
+| 7h-5 Balance the crew | Nobody at zero | No Tokek card; only the rows and the line about the crew. |
