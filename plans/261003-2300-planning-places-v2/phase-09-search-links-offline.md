@@ -111,7 +111,7 @@ Reuse / extend / new: reuse accent folding (`foldPlaceText`), the phone/server m
 - Steps: 1. Filters (attrs from editorial tags and categories; `open_past` via `openSpans`; `max_minutes` via planning travel on the top 50). 2. `fit=1` via the fit service. 3. Relax: next time tier with count and area names; related-category map with counts; pin always. 4. Soft misses.
 - Tests: `pnpm test:remote @cp/api -- places/search.db`
 - Done when: the 7d-2 and 7d-4 fixtures return the render's counts on the Bali seed.
-- Status: todo
+- Status: done — f6f930542
 
 ### T3 — Parse route
 - Goal: plain words → chips with plan context.
@@ -119,7 +119,7 @@ Reuse / extend / new: reuse accent folding (`foldPlaceText`), the phone/server m
 - Steps: 1. Digest (days, booked meals, stay). 2. Call `search.parse` (phase 6); validate; fair use; kill switch. 3. Exclude-reason codes.
 - Tests: `pnpm test:remote @cp/api -- planning/search/parse` (recorded model fixture; busy → name search)
 - Done when: "quiet dinner near the villa, open late" yields the five chips of 7d-2 on the Bali seed.
-- Status: todo
+- Status: done — 4be07d005
 
 ### T4 — Link import pipeline
 - Goal: a link or screenshot text → matched places, streamed.
@@ -127,7 +127,7 @@ Reuse / extend / new: reuse accent folding (`foldPlaceText`), the phone/server m
 - Steps: 1. URL classifier + readers per the decision (recorded fixtures, timeouts, per-user rate limit). 2. `links.extract_places` (phase 6) on post text or OCR lines; Maps links skip the model. 3. Matcher + D25 fallback. 4. SSE events; nothing written.
 - Tests: `pnpm --filter @cp/suppliers test -- social`; `pnpm test:remote @cp/api -- planning/imports` (event order, ambiguous swing case, a post about another city, no table writes during an import)
 - Done when: the balibites fixture yields Tukad Cepung and Tibumana sure and the swing ambiguous with 3 candidates.
-- Status: todo
+- Status: done — 607b785ec
 
 ### T5 — Search sheet (7d-1)
 - Goal: the scoped field with clipboard, examples and browse.

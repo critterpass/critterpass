@@ -11,6 +11,11 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AppEnv } from '../app';
+import { tripStaySource } from '../planning/stay';
+import { filterOf, TRIP_SEARCH_PARAMS, tripSearchQuerySchema } from '../planning/search/filters';
+import { tripSearch, type TripSearchDeps } from '../planning/search/run';
+import { createPlanningProvider } from '../routing/planning-provider';
+import { planningFitTravel } from '../routing/travel-modes';
 
 import { getPlaceDetail } from './detail';
 import { getPlaceLive, type FoursquareLiveConfig } from './live';
@@ -28,6 +33,9 @@ export interface PlacesRouteDeps {
   /** Foursquare Places API for `/v1/places/{id}/live`; absent = that route always answers
    *  `available: false`. */
   readonly foursquare?: FoursquareLiveConfig;
+  /** `VALHALLA_URL` for plain-words search minutes; read from the process env when not given,
+   *  straight-line "about" minutes when unset. */
+  readonly valhallaUrl?: string | undefined;
 }
 
 const DEFAULT_TILES_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev';
@@ -60,7 +68,14 @@ const searchQuerySchema = z.object({
   limit: z.coerce.number().int().positive().max(50).optional(),
 });
 
+function tripSearchDeps(deps: PlacesRouteDeps): TripSearchDeps {
+  const valhallaUrl = 'valhallaUrl' in deps ? deps.valhallaUrl : process.env['VALHALLA_URL'];
+  const travel = planningFitTravel(createPlanningProvider({ valhallaUrl, pool: deps.pool }));
+  return { travel, fit: { stays: tripStaySource, travel, now: () => new Date() } };
+}
+
 export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRouteDeps): void {
+  const planned = tripSearchDeps(deps);
   // First: `/v1/places/:id/live` would otherwise take `/v1/places/search/live` for a place id.
   registerLiveSearchRoutes(app, deps);
   app.get('/v1/places/search', async (c) => {
@@ -78,6 +93,30 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
       ...(query.open_at !== undefined ? { openAt: new Date(query.open_at) } : {}),
       ...(query.limit !== undefined ? { limit: query.limit } : {}),
     };
+
+    // Any plain-words parameter switches to trip search; without one the answer is unchanged.
+    const raw = c.req.query();
+    if (TRIP_SEARCH_PARAMS.some((key) => raw[key] !== undefined)) {
+      const trip = tripSearchQuerySchema.parse(raw);
+      const response = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
+        tripSearch(
+          tx,
+          {
+            filter: filterOf(trip, query.q),
+            ...(trip.trip_id === undefined ? {} : { tripId: trip.trip_id }),
+            ...(query.destination_id === undefined ? {} : { destinationId: query.destination_id }),
+            ...(near === undefined ? {} : { near }),
+            ...(category === undefined ? {} : { category }),
+            limit: query.limit ?? 20,
+            fit: trip.fit === '1',
+            relax: trip.relax === '1',
+          },
+          planned,
+        ),
+      );
+      c.header('Cache-Control', 'private, no-store');
+      return c.json(response);
+    }
 
     const results = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
       searchPlaces(tx, filters),
