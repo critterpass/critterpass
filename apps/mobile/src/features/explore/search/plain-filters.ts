@@ -4,7 +4,13 @@
  * again: it only drops that chip's filter.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- query keys and wire values, never copy. */
-import { placeFitSchema, type PlaceFit, type SearchChip, type SearchFilter } from '@cp/domain';
+import {
+  placeFitSchema,
+  poiCategorySchema,
+  type PlaceFit,
+  type SearchChip,
+  type SearchFilter,
+} from '@cp/domain';
 
 /** A chip's stable key, for removal and React keys. */
 export function chipKey(chip: SearchChip): string {
@@ -63,6 +69,23 @@ export function filtersWithout(filters: SearchFilter, chip: SearchChip): SearchF
     case 'price_max':
       return set(filters, 'price_max', undefined);
   }
+}
+
+/** The filters a way out reruns with: the wider time, or the related word or kind of place. */
+export function filtersFor(filters: SearchFilter, way: WayOut): SearchFilter | null {
+  if (way.kind === 'widen') {
+    const minutes = way.params['minutes'];
+    const max = filters.max_minutes;
+    if (typeof minutes !== 'number' || max === undefined) return null;
+    return { ...filters, max_minutes: { ...max, minutes } };
+  }
+  if (way.kind === 'related') {
+    const term = way.params['term'];
+    if (typeof term === 'string') return { ...filters, text: term };
+    const category = poiCategorySchema.safeParse(way.params['category']);
+    return category.success ? { ...filters, categories: [category.data] } : null;
+  }
+  return null;
 }
 
 /** The search route's query for `filters` on this trip, with fit lines and ways out. */

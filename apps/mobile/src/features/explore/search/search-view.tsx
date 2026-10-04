@@ -27,9 +27,11 @@ export interface SearchViewProps {
   readonly scope: string | null;
   readonly banner?: ReactNode;
   readonly children: ReactNode;
+  /** A sheet over the screen (drop a pin). */
+  readonly overlay?: ReactNode;
 }
 
-export function SearchView({ header, scope, banner, children }: SearchViewProps) {
+export function SearchView({ header, scope, banner, children, overlay }: SearchViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
@@ -44,6 +46,7 @@ export function SearchView({ header, scope, banner, children }: SearchViewProps)
         )}
       </View>
       <KeyboardScrollView contentContainerStyle={styles.body}>{children}</KeyboardScrollView>
+      {overlay}
     </Scaffold>
   );
 }

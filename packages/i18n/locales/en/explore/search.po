@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.or"
+msgstr " or "
+
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.count"
 msgstr "{count, plural, one {# place} other {# places}}"
@@ -14,6 +18,22 @@ msgstr "{count, plural, one {# place} other {# places}}"
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.softMisses"
 msgstr "{count} more, louder or further"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenCount"
+msgstr "{count} places"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedCount"
+msgstr "{count} places in {area}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedLate"
+msgstr "{count} places in {area}, {late} open late"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenAreas"
+msgstr "{count} places, all in {areas}"
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.savedToast"
@@ -43,6 +63,10 @@ msgstr "{0} found"
 msgid "search.chips.eyebrow"
 msgstr "{guideName} read it as"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.minutes"
+msgstr "{m} min"
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.drive"
 msgstr "{minutes} min"
@@ -50,6 +74,10 @@ msgstr "{minutes} min"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} min walk"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.pin.saved"
+msgstr "{name} is in Ideas"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.ask"
@@ -96,6 +124,10 @@ msgstr "a waterfall without the crowds, {day}"
 msgid "search.row.add"
 msgstr "Add {0}"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pinLine"
+msgstr "Add a place {guideName} doesn’t know yet"
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.screenshot"
 msgstr "Add a screenshot instead"
@@ -104,9 +136,17 @@ msgstr "Add a screenshot instead"
 msgid "search.clipboard.add"
 msgstr "Add from it"
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.add"
+msgstr "Add to Ideas"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.addedToast"
 msgstr "Added to {0}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.ask"
+msgstr "Ask"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.eyebrow"
@@ -167,6 +207,14 @@ msgstr "Dinner"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.drinks"
 msgstr "Drinks"
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.title"
+msgstr "Drop a pin"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pin"
+msgstr "Drop a pin"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
@@ -312,6 +360,22 @@ msgstr "Nightlife"
 msgid "search.chip.notDays"
 msgstr "Not {days}"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadPlain"
+msgstr "Nothing here matches all of that yet."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadMinutes"
+msgstr "Nothing like it within {limit} minutes."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleHere"
+msgstr "Nothing like that here"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.title"
+msgstr "Nothing like that near {area}"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr "Open"
@@ -323,6 +387,10 @@ msgstr "Open past {time}"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
 msgstr "Open till {time}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.askLine"
+msgstr "Or ask me. I’ll dig into it with you."
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.eyebrow"
@@ -436,9 +504,21 @@ msgstr "Temples"
 msgid "search.link.error.limit"
 msgstr "That’s a lot of links today. Try again tomorrow."
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearest"
+msgstr "The closest is {name} in {area}, {away} away."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearestPlace"
+msgstr "The closest is {name}, {away} away."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "This post is private or gone."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.related"
+msgstr "Try {term} instead"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.retry"
@@ -456,6 +536,10 @@ msgstr "Vegetarian"
 msgid "search.browse.waterfalls"
 msgstr "Waterfalls"
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.name"
+msgstr "What is it called?"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.rain"
 msgstr "what to do in {0} when it rains"
@@ -463,6 +547,10 @@ msgstr "what to do in {0} when it rains"
 #: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
 msgid "search.link.pickTitle"
 msgstr "Which is “{label}”?"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widen"
+msgstr "Widen to {span}"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.worksWith"

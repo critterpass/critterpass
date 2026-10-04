@@ -7,12 +7,32 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-Hans\n"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.or"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.count"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.softMisses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedLate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenAreas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
@@ -43,12 +63,20 @@ msgstr ""
 msgid "search.chips.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.minutes"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.drive"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.pin.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
@@ -96,6 +124,10 @@ msgstr ""
 msgid "search.row.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pinLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.screenshot"
 msgstr ""
@@ -104,8 +136,16 @@ msgstr ""
 msgid "search.clipboard.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.add"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.addedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.ask"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
@@ -166,6 +206,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.drinks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pin"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
@@ -312,6 +360,22 @@ msgstr ""
 msgid "search.chip.notDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr ""
@@ -322,6 +386,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.askLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
@@ -436,8 +504,20 @@ msgstr ""
 msgid "search.link.error.limit"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearestPlace"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.related"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
@@ -456,12 +536,20 @@ msgstr ""
 msgid "search.browse.waterfalls"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.name"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.rain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
 msgid "search.link.pickTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx

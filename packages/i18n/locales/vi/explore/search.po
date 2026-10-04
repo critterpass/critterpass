@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.or"
+msgstr " hoặc "
+
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.count"
 msgstr "{count, plural, other {# địa điểm}}"
@@ -14,6 +18,22 @@ msgstr "{count, plural, other {# địa điểm}}"
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.plain.softMisses"
 msgstr "Thêm {count} chỗ, ồn hơn hoặc xa hơn"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenCount"
+msgstr "{count} chỗ"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedCount"
+msgstr "{count} chỗ ở {area}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedLate"
+msgstr "{count} chỗ ở {area}, {late} chỗ mở khuya"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenAreas"
+msgstr "{count} chỗ, đều ở {areas}"
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.savedToast"
@@ -43,6 +63,10 @@ msgstr "{guideName} tìm thấy"
 msgid "search.chips.eyebrow"
 msgstr "{guideName} hiểu là"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.minutes"
+msgstr "{m} phút"
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.drive"
 msgstr "{minutes} phút"
@@ -50,6 +74,10 @@ msgstr "{minutes} phút"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} phút đi bộ"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.pin.saved"
+msgstr "{name} đã vào Ý tưởng"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.ask"
@@ -96,6 +124,10 @@ msgstr "một thác nước vắng người, {day}"
 msgid "search.row.add"
 msgstr "Thêm {name}"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pinLine"
+msgstr "Thêm một chỗ {guideName} chưa biết"
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.screenshot"
 msgstr "Dùng ảnh chụp màn hình"
@@ -104,9 +136,17 @@ msgstr "Dùng ảnh chụp màn hình"
 msgid "search.clipboard.add"
 msgstr "Thêm từ đây"
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.add"
+msgstr "Thêm vào Ý tưởng"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.addedToast"
 msgstr "Đã thêm vào {shown}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.ask"
+msgstr "Hỏi"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.eyebrow"
@@ -167,6 +207,14 @@ msgstr "Bữa tối"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.drinks"
 msgstr "Đồ uống"
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.title"
+msgstr "Thả ghim"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pin"
+msgstr "Thả ghim"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
@@ -312,6 +360,22 @@ msgstr "Về đêm"
 msgid "search.chip.notDays"
 msgstr "Trừ {days}"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadPlain"
+msgstr "Chưa có chỗ nào khớp hết những điều đó."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadMinutes"
+msgstr "Không có chỗ nào như vậy trong vòng {limit} phút."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleHere"
+msgstr "Không có gì như vậy ở đây"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.title"
+msgstr "Không có gì như vậy gần {area}"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr "Mở"
@@ -323,6 +387,10 @@ msgstr "Mở sau {time}"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
 msgstr "Mở đến {time}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.askLine"
+msgstr "Hoặc hỏi mình. Mình cùng tìm với bạn."
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.eyebrow"
@@ -436,9 +504,21 @@ msgstr "Đền chùa"
 msgid "search.link.error.limit"
 msgstr "Hôm nay bạn gửi nhiều liên kết quá. Mai thử lại nhé."
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearest"
+msgstr "Gần nhất là {name} ở {area}, cách {away}."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearestPlace"
+msgstr "Gần nhất là {name}, cách {away}."
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "Bài này đã ẩn hoặc bị xoá."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.related"
+msgstr "Thử {term} xem"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.retry"
@@ -456,6 +536,10 @@ msgstr "Chay"
 msgid "search.browse.waterfalls"
 msgstr "Thác nước"
 
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.name"
+msgstr "Chỗ này tên gì?"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.rain"
 msgstr "làm gì ở {destination} khi trời mưa"
@@ -463,6 +547,10 @@ msgstr "làm gì ở {destination} khi trời mưa"
 #: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
 msgid "search.link.pickTitle"
 msgstr "“{label}” là chỗ nào?"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widen"
+msgstr "Nới ra {span}"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.worksWith"

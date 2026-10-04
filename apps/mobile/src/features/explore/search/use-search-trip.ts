@@ -25,6 +25,7 @@ export interface SearchTrip {
   readonly loaded: boolean;
   readonly destinationId: string | null;
   readonly destination: string;
+  readonly destinationSlug: string | null;
   readonly guide: GuideId;
   readonly guideName: string;
   readonly days: readonly SearchDay[];
@@ -82,6 +83,7 @@ export function useSearchTrip(tripId: string): SearchTrip {
     loaded: plan.loaded,
     destinationId: plan.trip?.destination_id ?? null,
     destination: plan.trip?.destination_name ?? '',
+    destinationSlug: plan.trip?.destination_slug ?? null,
     guide,
     guideName: GUIDE_STICKERS[guide].name,
     days,

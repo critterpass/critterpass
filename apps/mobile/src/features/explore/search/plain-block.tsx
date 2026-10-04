@@ -4,11 +4,11 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids and param keys, never copy. */
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
-import type { PlainAnswer } from './plain-filters';
+import { NoResults } from './no-results';
+import { filtersFor } from './plain-filters';
 import { PlainSection } from './plain-section';
 import { usePlainSearch } from './use-plain-search';
 import type { SearchTrip } from './use-search-trip';
@@ -17,13 +17,21 @@ export interface PlainBlockProps {
   readonly question: string;
   readonly tripId: string;
   readonly trip: SearchTrip;
+  /** "Ubud": where the search looked, for "NOTHING LIKE THAT NEAR UBUD". */
+  readonly area: string;
   readonly onOpen: (poiId: string) => void;
   readonly onAdd: (poiId: string) => void;
-  readonly empty?: (answer: PlainAnswer, question: string) => ReactNode;
+  readonly onDropPin: () => void;
+  readonly onAsk: () => void;
 }
 
-export function PlainBlock({ question, tripId, trip, onOpen, onAdd, empty }: PlainBlockProps) {
-  const { state, remove } = usePlainSearch({ tripId, destinationId: trip.destinationId, question });
+export function PlainBlock(props: PlainBlockProps) {
+  const { question, tripId, trip } = props;
+  const { state, remove, relax } = usePlainSearch({
+    tripId,
+    destinationId: trip.destinationId,
+    question,
+  });
   const map = useScreenHref('7c-1', { tripId, mode: 'results', q: question });
   return (
     <PlainSection
@@ -31,10 +39,27 @@ export function PlainBlock({ question, tripId, trip, onOpen, onAdd, empty }: Pla
       trip={trip}
       words={{ days: trip.days, placeName: (poiId) => trip.placeNames.get(poiId) ?? null }}
       onRemove={remove}
-      onOpen={onOpen}
-      onAdd={onAdd}
+      onOpen={props.onOpen}
+      onAdd={props.onAdd}
       onMap={map === undefined ? undefined : () => router.push(map)}
-      empty={(answer) => (empty === undefined ? null : empty(answer, question))}
+      empty={(answer) => (
+        <NoResults
+          answer={answer}
+          area={props.area}
+          limitMinutes={state.filters.max_minutes?.minutes ?? null}
+          guide={trip.guide}
+          guideName={trip.guideName}
+          onWayOut={(way) => {
+            if (way.kind === 'pin') {
+              props.onDropPin();
+              return;
+            }
+            const filters = filtersFor(state.filters, way);
+            if (filters !== null) relax(filters);
+          }}
+          onAsk={props.onAsk}
+        />
+      )}
     />
   );
 }

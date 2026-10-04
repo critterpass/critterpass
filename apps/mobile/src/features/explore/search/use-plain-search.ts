@@ -45,6 +45,8 @@ export type PlainAction =
       readonly excludeReason: ExcludeReason | null;
     }
   | { readonly type: 'remove'; readonly key: string }
+  /** A way out (7d-4): its filters, rerun without the model. */
+  | { readonly type: 'relax'; readonly filters: SearchFilter }
   | { readonly type: 'answered'; readonly round: number; readonly answer: PlainAnswer }
   | { readonly type: 'failed'; readonly round: number; readonly offline: boolean };
 
@@ -89,6 +91,19 @@ export function plainReducer(state: PlainState, action: PlainAction): PlainState
         search: 'loading',
       };
     }
+    case 'relax':
+      return {
+        ...state,
+        filters: action.filters,
+        chips: state.chips.flatMap((chip): SearchChip[] => {
+          if (chip.code !== 'max_minutes') return [chip];
+          const max = action.filters.max_minutes;
+          return max === undefined ? [] : [{ code: 'max_minutes', params: max }];
+        }),
+        round: state.round + 1,
+        search: 'loading',
+        answer: null,
+      };
     case 'answered':
       if (action.round !== state.round) return state;
       return { ...state, search: 'ready', answer: action.answer };
@@ -150,5 +165,9 @@ export function usePlainSearch(input: {
     });
   }, [services, tripId, destinationId, round, filters, parse]);
 
-  return { state, remove: (key: string) => dispatch({ type: 'remove', key }) };
+  return {
+    state,
+    remove: (key: string) => dispatch({ type: 'remove', key }),
+    relax: (filters: SearchFilter) => dispatch({ type: 'relax', filters }),
+  };
 }

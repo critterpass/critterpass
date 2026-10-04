@@ -18,8 +18,10 @@ import {
 import type { PlaceCandidate } from '@/data/places/match-places';
 import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
 import { hrefFor } from '@/lib/navigation/screen-registry';
+import { toast } from '@/motion/island-toast';
 
 import { BrowseGrid, type BrowseTile } from './browse-grid';
+import { DropPinSheet } from './drop-pin-sheet';
 import { ClipboardCard } from './clipboard-card';
 import type { ClipboardLink } from './clipboard';
 import { useSearchServices } from './data/search-services';
@@ -90,6 +92,7 @@ export function SearchScreen(props: SearchScreenProps) {
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');
   const [asked, setAsked] = useState<string | null>(props.q ?? null);
+  const [pinning, setPinning] = useState(false);
   const type = (text: string) => {
     setQuery(text);
     setAsked(null);
@@ -158,6 +161,25 @@ export function SearchScreen(props: SearchScreenProps) {
         guideName: trip.guideName,
       }}
       scope={scopeLabel(props, trip, place?.name ?? null)}
+      overlay={
+        pinning ? (
+          <DropPinSheet
+            tripId={tripId}
+            destinationId={trip.destinationId}
+            destinationSlug={trip.destinationSlug}
+            start={near}
+            name=""
+            onSaved={(name) => {
+              setPinning(false);
+              toast.show({
+                id: 'search-pin-saved',
+                title: t({ id: 'search.pin.saved', message: `${name} is in Ideas` }),
+              });
+            }}
+            onClose={() => setPinning(false)}
+          />
+        ) : null
+      }
     >
       {asked !== null ? (
         <PlainBlock
@@ -165,8 +187,11 @@ export function SearchScreen(props: SearchScreenProps) {
           question={asked}
           tripId={tripId}
           trip={trip}
+          area={place?.name ?? trip.destination}
           onOpen={(poiId) => openPlace(poiRef(poiId))}
           onAdd={(poiId) => addPlace(poiRef(poiId))}
+          onDropPin={() => setPinning(true)}
+          onAsk={() => go(hrefFor('3j-1', { tripId, q: asked }))}
         />
       ) : typed === '' ? (
         <>
