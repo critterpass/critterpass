@@ -11,6 +11,7 @@ import { planLegsJobs } from './legs';
 import { planCheckJobs } from './check';
 import { climateJobs } from './climate';
 import { splitDecisionJobs } from './split';
+import { ideasJobs } from './ideas';
 
 /** One planning module's jobs, built from the registry's dependencies. */
 export type PlanningJobFamily = (deps: JobRegistryDeps) => readonly AnyJobDefinition[];
@@ -21,6 +22,7 @@ const PLANNING_JOB_FAMILIES: readonly PlanningJobFamily[] = [
   climateJobs,
   planCheckJobs,
   splitDecisionJobs,
+  ideasJobs,
 ];
 
 export function planningJobs(deps: JobRegistryDeps): AnyJobDefinition[] {

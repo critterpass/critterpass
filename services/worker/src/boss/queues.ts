@@ -41,13 +41,47 @@ function queueOptions(name: string, entry: QueueSpec): Omit<Queue, 'name' | 'pol
 }
 
 /**
- * Policy changes the catalogue made to queues that already exist, by queue: the policies a live
- * queue may still have. Only these are migrated; any other drift is left alone and reported.
- * Both planning queues recompute from state, so a job lost in the swap costs one late refresh.
+ * Policy changes to queues that already exist, by queue: the policies a live queue may still have.
+ * Only these are migrated; any other drift is left alone and reported at boot.
+ *
+ * - The planning queues moved from `singleton` to `stately` so bursts fold.
+ * - The others were created `exclusive` by the api's producer before it read the catalogue.
+ *   `exclusive` allows one waiting-or-running job per key, and one per queue for jobs sent without a key
+ *   (crons, `disruption.react`), so sends were being dropped. Every job listed here
+ *   recomputes from state, sweeps, or handles one event behind row locks.
  */
+const FROM_EXCLUSIVE = [
+  'account.purge',
+  'ai.curate_album',
+  'ai.fit_check',
+  'ai.queued_answer',
+  'anniversary.scan',
+  'billing.reconcile',
+  'boost.trip_changed',
+  'calendar.stale_nudge',
+  'critter.retention',
+  'disruption.react',
+  'export.build',
+  'flight.watch_sweep',
+  'followup.deliver',
+  'guide_text.translate',
+  'money.autoconfirm',
+  'money.rerate',
+  'og.render',
+  'proposal.reply_by',
+  'quests.sweep',
+  'recap.build',
+  'recap.narrate',
+  'reminders.reschedule',
+  'safety.retention',
+  'setup.budget_recompute',
+  'setup.window_recompute',
+] as const;
+
 export const POLICY_MIGRATIONS: Readonly<Record<string, readonly QueuePolicy[]>> = {
   'plan.legs': ['singleton', 'exclusive'],
   'plan.check': ['singleton', 'exclusive'],
+  ...Object.fromEntries(FROM_EXCLUSIVE.map((queue) => [queue, ['exclusive'] as const])),
 };
 
 /**

@@ -41,6 +41,8 @@ import {
   QUEST_QUEUES,
   RECAP_QUEUES,
   ALBUM_QUEUES,
+  PLANNING_QUEUES,
+  queueSpec,
 } from '@cp/domain';
 import type pg from 'pg';
 import { PgBoss } from 'pg-boss';
@@ -52,6 +54,57 @@ import { enqueueGuideMention } from '../commands/guide/mention';
 import { enqueueInboxFanout } from '../commands/inbox';
 import { queueSetupRecomputes } from '../commands/setup/membership-hook';
 import { onDemandIngestHook, PLACES_INGEST_QUEUE } from '../places/on-demand-ingest';
+
+/** Queues api commands send to: created here if the worker hasn't yet, so any deploy order works. */
+export const PRODUCER_QUEUES: readonly string[] = [
+  NOTIFY_ROUTE_QUEUE,
+  CONTENT_PUBLISH_QUEUE,
+  AVATAR_MODERATE_QUEUE,
+  AVATAR_RENDER_QUEUE,
+  CHAT_PHOTO_THUMBNAIL_QUEUE,
+  CHAT_VOICE_TRANSCODE_QUEUE,
+  OG_RENDER_QUEUE,
+  INBOX_FANOUT_QUEUE,
+  COUNTDOWN_RECOMPUTE_QUEUE,
+  ...Object.values(SETUP_QUEUES),
+  ...Object.values(DRAFT_QUEUES),
+  ...Object.values(MONEY_QUEUES),
+  ...Object.values(BOOKINGS_QUEUES),
+  ...Object.values(BILLING_QUEUES),
+  ...Object.values(PLAN_QUEUES),
+  ...Object.values(GUIDE_QUEUES),
+  ...Object.values(TRIP_DAY_QUEUES),
+  ...Object.values(EXPLORE_QUEUES),
+  ...Object.values(PROPOSAL_QUEUES),
+  ...Object.values(CRITTER_QUEUES),
+  ...Object.values(QUEST_QUEUES),
+  ...Object.values(RECAP_QUEUES),
+  ...Object.values(ALBUM_QUEUES),
+  LA_QUEUES.orchestrate,
+  WIDGET_QUEUES.refresh,
+  ...Object.values(SAFETY_QUEUES),
+  ACCOUNT_QUEUES.purge,
+  ACCOUNT_QUEUES.exportBuild,
+  'cost.recompute',
+  SUPPLIER_QUEUES.replyParse,
+  DISRUPTION_QUEUES.react,
+  PLACES_INGEST_QUEUE,
+  PLANNING_QUEUES.legs,
+  PLANNING_QUEUES.check,
+];
+
+/**
+ * Creates each missing producer queue with its catalogue policy (pg-boss fixes a policy at
+ * creation, so a wrong one here outlives every later boot); the worker's boot brings the rest of
+ * its options in line.
+ */
+export async function createProducerQueues(boss: Pick<PgBoss, 'getQueue' | 'createQueue'>) {
+  for (const queue of PRODUCER_QUEUES) {
+    if ((await boss.getQueue(queue)) === null) {
+      await boss.createQueue(queue, { policy: queueSpec(queue).policy });
+    }
+  }
+}
 
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
@@ -93,45 +146,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       await new Promise((resolve) => setTimeout(resolve, START_RETRY_MS));
       continue;
     }
-    // Queues api commands send to; the worker's queue catalogue sets their full policy at its boot.
-    for (const queue of [
-      NOTIFY_ROUTE_QUEUE,
-      CONTENT_PUBLISH_QUEUE,
-      AVATAR_MODERATE_QUEUE,
-      AVATAR_RENDER_QUEUE,
-      CHAT_PHOTO_THUMBNAIL_QUEUE,
-      CHAT_VOICE_TRANSCODE_QUEUE,
-      OG_RENDER_QUEUE,
-      INBOX_FANOUT_QUEUE,
-      COUNTDOWN_RECOMPUTE_QUEUE,
-      ...Object.values(SETUP_QUEUES),
-      ...Object.values(DRAFT_QUEUES),
-      ...Object.values(MONEY_QUEUES),
-      ...Object.values(BOOKINGS_QUEUES),
-      ...Object.values(BILLING_QUEUES),
-      ...Object.values(PLAN_QUEUES),
-      ...Object.values(GUIDE_QUEUES),
-      ...Object.values(TRIP_DAY_QUEUES),
-      ...Object.values(EXPLORE_QUEUES),
-      ...Object.values(PROPOSAL_QUEUES),
-      ...Object.values(CRITTER_QUEUES),
-      ...Object.values(QUEST_QUEUES),
-      ...Object.values(RECAP_QUEUES),
-      ...Object.values(ALBUM_QUEUES),
-      LA_QUEUES.orchestrate,
-      WIDGET_QUEUES.refresh,
-      ...Object.values(SAFETY_QUEUES),
-      ACCOUNT_QUEUES.purge,
-      ACCOUNT_QUEUES.exportBuild,
-      'cost.recompute',
-      SUPPLIER_QUEUES.replyParse,
-      DISRUPTION_QUEUES.react,
-      PLACES_INGEST_QUEUE,
-    ]) {
-      if ((await boss.getQueue(queue)) === null) {
-        await boss.createQueue(queue, { policy: 'exclusive' });
-      }
-    }
+    await createProducerQueues(boss);
     registerJobProducer(boss);
     return boss;
   }

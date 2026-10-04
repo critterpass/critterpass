@@ -2,7 +2,9 @@
  * The planning queues' `stately` policy on a real pg-boss: a burst of plan events for one trip
  * folds into at most one waiting and one running `plan.legs` run, and a worker boot moves a live
  * queue created under the old policy onto the new one, keeping its waiting runs (duplicates
- * folded) and their start times. Policy drift the catalogue doesn't list is reported, not touched.
+ * folded) and their start times. A keyless queue the api once created `exclusive` stops dropping
+ * sends once it is on its catalogue policy. Policy drift the list doesn't name is reported, not
+ * touched.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -12,10 +14,13 @@ import {
   planLegsJobSchema,
   PLANNING_QUEUES,
   planningQueueSpecs,
+  QUEUES,
+  queueSpec,
 } from '@cp/domain';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { defineJob, ensureQueues } from '../../src/boss';
+import { POLICY_MIGRATIONS } from '../../src/boss/queues';
 import { legsEventHook } from '../../src/jobs/planning/legs';
 import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
 
@@ -150,5 +155,32 @@ describe('planning queue policy', () => {
     const drifted = await ensureQueues(boss, [[queue, { ...DEFAULT_QUEUE_SPEC }]]);
     expect(drifted).toEqual([queue]);
     expect((await boss.getQueue(queue))?.policy).toBe('exclusive');
+  });
+
+  it('only migrates catalogue queues, onto a policy different from the ones it leaves', () => {
+    const entries = Object.entries(POLICY_MIGRATIONS);
+    expect(entries.length).toBe(27);
+    for (const [queue, from] of entries) {
+      expect(Object.keys(QUEUES), queue).toContain(queue);
+      expect(from, queue).not.toContain(queueSpec(queue).policy);
+    }
+  });
+
+  it('stops a keyless queue created exclusive from dropping sends', async () => {
+    const boss = await harness.startRuntime([]);
+    const queue = 'disruption.react';
+    await boss.createQueue(queue, { policy: 'exclusive' });
+    const first = await boss.send(queue, { event_id: randomUUID() });
+    expect(first).not.toBeNull();
+    expect(await boss.send(queue, { event_id: randomUUID() })).toBeNull();
+
+    expect(await ensureQueues(boss, [[queue, queueSpec(queue)]])).toEqual([]);
+    expect((await boss.getQueue(queue))?.policy).toBe('standard');
+    expect(await boss.send(queue, { event_id: randomUUID() })).not.toBeNull();
+    const { rows } = await harness.pool.query<{ n: number }>(
+      "SELECT count(*)::int AS n FROM pgboss.job WHERE name = $1 AND state = 'created'",
+      [queue],
+    );
+    expect(rows[0]?.n).toBe(2);
   });
 });

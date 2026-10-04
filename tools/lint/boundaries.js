@@ -173,6 +173,20 @@ export const boundaryPolicies = [
       },
     },
   },
+  // The planning register imports each planning screen's own register module (and nothing else of
+  // a feature), last, so its registrations replace the earlier ids they re-point.
+  {
+    from: {
+      element: { type: 'mobile-feature' },
+      file: { path: '**/src/features/planning-register.ts' },
+    },
+    allow: {
+      to: {
+        element: { type: 'mobile-feature' },
+        file: { path: '**/src/features/**/register.ts' },
+      },
+    },
+  },
 ];
 
 const serverOnlyPatterns = serverOnlyPackages.flatMap((pkg) => [`@cp/${pkg}`, `@cp/${pkg}/*`]);
