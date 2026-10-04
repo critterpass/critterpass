@@ -126,16 +126,16 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/open-lab-scene.yaml
     env:
-      LAB: dev-nav-planning-map-lab
-      SCENE: planning-map-lab-no-pack-long
+      LAB: dev-nav-plan-views-lab
+      SCENE: plan-views-lab-trip-map-no-pack
 - extendedWaitUntil:
     visible:
       id: 'map-region-pack-notice'
-    timeout: 20000
-- assertVisible: 'Bản đồ chi tiết của Thành phố Phan Rang – Tháp Chàm sắp có.'
+    timeout: 30000
+- assertVisible: 'Bản đồ chi tiết của Bali sắp có.'
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: vi-map-without-region-pack-longest-name
+- takeScreenshot: vi-trip-map-without-region-pack
 - runFlow:
     when:
       platform: Android
@@ -157,12 +157,13 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/open-lab-scene.yaml
     env:
-      LAB: dev-nav-plan-views-lab
-      SCENE: plan-views-lab-trip-map-no-pack
+      LAB: dev-nav-planning-map-lab
+      SCENE: planning-map-lab-no-pack-long
 - extendedWaitUntil:
     visible:
       id: 'map-region-pack-notice'
-    timeout: 30000
+    timeout: 20000
+- assertVisible: 'Bản đồ chi tiết của Thành phố Phan Rang – Tháp Chàm sắp có.'
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: vi-trip-map-without-region-pack
+- takeScreenshot: vi-map-without-region-pack-longest-name

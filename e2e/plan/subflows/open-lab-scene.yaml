@@ -9,6 +9,12 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
+# The list keeps its place between visits: back to its head, then down to the lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
 - scrollUntilVisible:
     element:
       id: ${LAB}
