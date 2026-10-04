@@ -50,6 +50,8 @@ export const exploreRoutes = {
     pathname: '/explore/map',
     params: { destination, ...defined({ tripId: params.tripId, placeId: params.placeId }) },
   }),
+  /** Explore inside a trip (7g-1): the trip's destination, its gaps, picks and the swipe. */
+  tripExplore: (tripId: string): Href => `/${tripId}/explore` as Href,
   /** Swipe together for a trip: a session by id, or `new` to join the open one or start one. */
   swipe: (tripId: string, sessionId = 'new'): Href => ({
     pathname: '/[tripId]/swipe/[sessionId]',
