@@ -51,7 +51,10 @@ export const workerEnvSchema = z.object({
   /** Public base URL of the `cp-tiles` bucket, the same value the api reads: region packs found
    *  there (`<slug>/tiles-v<n>.pmtiles`) get their `map_regions` row from
    *  src/places/map-region-register.ts. */
-  TILES_BASE_URL: z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
+  TILES_BASE_URL: z.preprocess(
+    emptyAsUndefined,
+    z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
+  ),
   /** Overrides the Overture release path in src/places/source-readers.ts. */
   OVERTURE_RELEASE: optionalString,
   /** Foursquare Places Portal token: the POI ingest reads FSQ OS Places from its Iceberg catalog. */
