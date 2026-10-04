@@ -53,6 +53,11 @@ async function suggestion(): Promise<{ changeSetId: string; pollId: string }> {
        now() + interval '1 day') RETURNING id`,
     [crewId, tripId, minh, [linh, minh]],
   );
+  await harness.pool.query(
+    `INSERT INTO poll_options (poll_id, crew_id, kind, ref_id, label, position)
+     VALUES ($1, $2, 'changeset', $3, 'yes', 0), ($1, $2, 'text', NULL, 'no', 1)`,
+    [poll.id, crewId, id],
+  );
   await harness.pool.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [id]);
   await harness.pool.query("UPDATE change_sets SET status = 'voting', poll_id = $2 WHERE id = $1", [
     id,
@@ -215,7 +220,12 @@ describe('a plan change put to a vote', () => {
 
   it('is not also reported as a bare vote result', async () => {
     const { pollId } = await suggestion();
-    await harness.pool.query("UPDATE polls SET status = 'closed' WHERE id = $1", [pollId]);
+    // Closed with "yes" the winner: the bare result would otherwise be filed for both voters.
+    await harness.pool.query(
+      `UPDATE polls SET status = 'closed', closed_at = now(), winner_option_id =
+         (SELECT id FROM poll_options WHERE poll_id = $1 AND label = 'yes') WHERE id = $1`,
+      [pollId],
+    );
     const closed = await insertEvent(
       harness.pool,
       'poll.closed',
