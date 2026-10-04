@@ -138,6 +138,7 @@ export function SwipeView(props: SwipeViewProps) {
             yesCount={stage.yesCount}
             matches={stage.matches}
             guideName={guide.name}
+            onIdeas={stage.onIdeas}
             onDone={props.onBack}
           />
         ) : (
