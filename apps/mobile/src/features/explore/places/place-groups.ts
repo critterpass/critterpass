@@ -8,6 +8,7 @@
 import type { PlaceFit } from '@cp/domain';
 
 import { distanceMeters, fold, type Point } from '../map-model';
+import { kindRank } from '../category';
 import { passesFilter, type HubPlace, type PlacesFilter } from './places-model';
 
 export type SortMode = 'fit' | 'nearest' | 'az';
@@ -91,10 +92,16 @@ function sorted(
   const fit = (place: HubPlace) => fitRankOf(place.poiId === null ? null : fits.get(place.poiId));
   const pick = (place: HubPlace) => ranks?.get(place.poiId ?? place.id) ?? UNRANKED;
   // A fit that is known still leads (the crew's ideas carry theirs); the recommended order
-  // settles the rest, and the name only a tie.
+  // settles the rest; where that ranks nothing, sights lead, and a tie keeps the catalogue's own
+  // order (its ids), never the alphabet.
+  const key = (place: HubPlace) => place.poiId ?? place.id;
   return [...places].sort(
     (a, b) =>
-      fit(a) - fit(b) || Number(b.mustSee) - Number(a.mustSee) || pick(a) - pick(b) || byName(a, b),
+      fit(a) - fit(b) ||
+      Number(b.mustSee) - Number(a.mustSee) ||
+      pick(a) - pick(b) ||
+      kindRank(a.category) - kindRank(b.category) ||
+      (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0),
   );
 }
 

@@ -7,6 +7,7 @@
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { PICK_KIND_ORDER } from './category';
 import { useLiveRows } from './data/live-rows';
 
 export interface DestinationRow {
@@ -45,16 +46,30 @@ export function useDestinationRow(ref: string | null): {
   return { row: live.rows[0] ?? null, loaded: live.loaded };
 }
 
+/** How many of one kind lead before the next kind has its turn (as the api's picks read). */
+const PICKS_PER_KIND = 3;
+const KIND_RANK_SQL = `(CASE category ${PICK_KIND_ORDER.map(
+  (kind, index) => `WHEN '${kind}' THEN ${String(index)}`,
+).join(' ')} ELSE ${String(PICK_KIND_ORDER.length)} END)`;
+
 /**
- * The recommended places this phone holds for a destination, in the order every reader shares: the
- * editors' must-sees, the rest of the curated set, then the automatic picks by rank. Stays are
- * never picks.
+ * The recommended places this phone holds for a destination, in the order the api's picks read
+ * uses: the editors' must-sees, then the automatic picks by rank; where neither ranks a place,
+ * sights lead, three of a kind at a time. Never by name. Stays are never picks.
  */
-const LOCAL_PICKS_SQL = `SELECT id AS poiId, name, category FROM pois
-  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL AND category <> 'stay'
-    AND (curation = 'editorial' OR pick_rank IS NOT NULL)
-  ORDER BY (curation = 'editorial' AND json_extract(editorial, '$.must_see') = 1) DESC,
-    (curation = 'editorial') DESC, pick_rank IS NULL, pick_rank, name, id
+const LOCAL_PICKS_SQL = `WITH ranked AS (
+    SELECT id, name, category, pick_rank,
+      (curation = 'editorial' AND json_extract(editorial, '$.must_see') = 1) AS must_see,
+      ${KIND_RANK_SQL} AS kind_rank
+    FROM pois
+    WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL
+      AND category <> 'stay' AND (curation = 'editorial' OR pick_rank IS NOT NULL)),
+  turns AS (
+    SELECT *, row_number() OVER (PARTITION BY must_see, kind_rank ORDER BY id) AS in_kind
+    FROM ranked)
+  SELECT id AS poiId, name, category FROM turns
+  ORDER BY must_see DESC, pick_rank IS NULL, pick_rank,
+    (in_kind - 1) / ${String(PICKS_PER_KIND)}, kind_rank, in_kind
   LIMIT ?`;
 
 export interface LocalPick {
