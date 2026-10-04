@@ -1,0 +1,918 @@
+appId: app.critterpass.dev
+---
+# Live walk, plan views: a first-time traveller with a locked five-day Bali plan looks at it every
+# way the app offers, then changes it. Real staging, a fresh account, no demo seed; the planning
+# screens are turned on for this phone only. Every screen and every change is shot as
+# `plan-views-<nn>-<what>`; a step the app refuses is optional, so the walk goes on and the frames
+# still come out.
+#   1. Home → TRIPS → the hub → PLAN: what she lands on.
+#   2. The trip map's sheet at each height, a day, all days, the day plan, its map open, the
+#      places list and map, and back from each.
+#   3. A time changed, a stop moved to another day, a stop removed, a stop moved from all days:
+#      each followed by a look at the other views.
+- runFlow:
+    file: plan-views-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-views-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- waitForAnimationToEnd
+- takeScreenshot: plan-views-01-home-after-lock
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- waitForAnimationToEnd
+# 1. From Home: the trip's card is the first thing that looks like the plan.
+- tapOn:
+    id: 'home-next-up'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: plan-views-02-home-card-tapped
+- runFlow:
+    when:
+      notVisible:
+        id: 'tab-trips'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan|visit-consent-decline|trip-hub-header-.*'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: plan-views-03-trip-hub
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: plan-views-04-trip-hub-tiles
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+# The map's tiles and routes draw after the screen (a fixed wait on an id that never shows).
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 8000
+    optional: true
+- takeScreenshot: plan-views-05-plan-lands-on-trip-map
+# 2. The trip map. Another day from the chips on the sheet.
+- tapOn:
+    id: 'trip-map-day-chips-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-06-trip-map-day-2
+# The chips over the map: the day chip, saved, the guide's picks.
+- tapOn:
+    id: 'chip-day'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-07-trip-map-day-chip-off
+- tapOn:
+    id: 'chip-day'
+    optional: true
+- tapOn:
+    id: 'chip-saved'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-08-trip-map-chip-saved
+- tapOn:
+    id: 'chip-saved'
+    optional: true
+- tapOn:
+    id: 'chip-guide'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-09-trip-map-chip-guide
+- tapOn:
+    id: 'chip-guide'
+    optional: true
+# The sheet pulled up to the day.
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-10-trip-map-half-day-2
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-11-trip-map-half-stop-2-tapped
+# A stray item sheet, if the stop opened one here.
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd
+# The rest of the day, lower in the sheet.
+- swipe:
+    start: 50%, 85%
+    end: 50%, 60%
+    duration: 600
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-12-trip-map-half-swiped-up-again
+# Up to the whole trip.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-all-days'
+    commands:
+      - tapOn:
+          id: 'trip-map-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-13-trip-map-full
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-5'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-14-trip-map-full-lower
+# A day's row brings the sheet back to that day.
+- tapOn:
+    id: 'trip-day-3'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-15-trip-map-half-day-3
+# The system back: the sheet lowers a step, or the map closes.
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true
+- takeScreenshot: plan-views-16-back-from-half
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 30000
+          optional: true
+      - takeScreenshot: plan-views-16b-trip-map-reopened
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-peek'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-half'
+          timeout: 10000
+          optional: true
+# The day's title opens the day plan.
+- takeScreenshot: plan-views-17-before-opening-day
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: plan-views-18-day-plan
+- scrollUntilVisible:
+    element:
+      id: 'stop-4'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-19-day-plan-lower
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-20-day-plan-end
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-day-chips'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-day-chips-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-21-day-plan-day-2
+# The mini-map opens the day's map.
+- tapOn:
+    id: 'day-plan-mini-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-map'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-22-day-map-open
+- runFlow:
+    when:
+      visible:
+        id: 'day-map-strip'
+    commands:
+      - swipe:
+          from:
+            id: 'day-map-strip'
+          direction: LEFT
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-23-day-map-next-stop
+      - tapOn:
+          id: 'day-map-card-.*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-24-day-map-card-tapped
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'day-map-day-pill'
+    commands:
+      - tapOn:
+          id: 'day-map-day-pill'
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-25-day-map-day-picker
+      - tapOn:
+          text: '(?i).*day 4.*|^4$'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 4000
+          optional: true
+      - takeScreenshot: plan-views-26-day-map-day-4
+      - tapOn:
+          id: 'chip-other-days'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - tapOn:
+          id: 'chip-guide'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-27-day-map-chips
+      - tapOn:
+          id: 'day-map-back'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+# Is the day the map was left on the day the plan shows?
+- takeScreenshot: plan-views-28-back-on-day-plan
+# All days.
+- tapOn:
+    id: 'day-plan-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-29-all-days
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-30-all-days-lower
+- tapOn:
+    id: 'all-days-card-4'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: plan-views-31-day-4-from-all-days
+- tapOn:
+    id: 'day-plan-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: plan-views-32-back-from-day-4
+- runFlow:
+    when:
+      visible:
+        id: 'all-days'
+    commands:
+      - tapOn:
+          id: 'all-days-back'
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-33-back-from-all-days
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    commands:
+      - tapOn:
+          id: 'day-plan-back'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 4000
+          optional: true
+      - takeScreenshot: plan-views-34-back-on-trip-map
+# The places: the list from the map's top bar, then its map.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-full'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'trip-map-list'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: plan-views-35-places-list
+- runFlow:
+    when:
+      visible:
+        id: 'places-list'
+    commands:
+      - scroll
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: plan-views-36-places-list-lower
+      - tapOn:
+          id: 'places-plan-row'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-37-places-in-the-plan-row
+      - runFlow:
+          when:
+            notVisible:
+              id: 'places-list'
+          commands:
+            - back
+            - waitForAnimationToEnd
+      - scrollUntilVisible:
+          element:
+            id: 'places-sort'
+          direction: UP
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'places-sort'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: plan-views-38-places-sort-menu
+      - tapOn:
+          id: 'places-sort-az'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - tapOn:
+          id: 'chip-saved'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: plan-views-39-places-list-saved-az
+      - tapOn:
+          id: 'places-to-map'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'places-peek-count'
+          timeout: 45000
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 8000
+          optional: true
+      # Did the filter come along?
+      - takeScreenshot: plan-views-40-places-map-same-filter
+      - tapOn:
+          id: 'chip-saved'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 4000
+          optional: true
+      - takeScreenshot: plan-views-41-places-map-all
+      # A tap in the middle of the map: a dot, a cluster, or nothing.
+      - tapOn:
+          point: 50%, 45%
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 4000
+          optional: true
+      - takeScreenshot: plan-views-42-places-map-tapped
+      - back
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-43-back-from-places-map
+      - runFlow:
+          when:
+            notVisible:
+              id: 'trip-map'
+          commands:
+            - back
+            - waitForAnimationToEnd:
+                timeout: 4000
+            - takeScreenshot: plan-views-44-back-again
+# 3. The edits, from day 2's plan. Reach it the way she now knows: the map, day 2, up, the title.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - back
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - tapOn:
+          id: 'tab-trips'
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map'
+          timeout: 30000
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-peek'
+    commands:
+      - tapOn:
+          id: 'trip-map-day-chips-2'
+          optional: true
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-half'
+          timeout: 10000
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-45-edit-trip-map-day-2-before
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-46-edit-day-2-before
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-47-edit-day-2-before-lower
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+# Reorder: hold the second stop and drag it above the first, slowly.
+- swipe:
+    from:
+      id: 'stop-2'
+    direction: UP
+    duration: 9000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: plan-views-48-edit-reorder-drag
+# A time: the second stop, an hour later.
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: UP
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'stop-2'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-move-.*'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-49-edit-item-sheet
+- repeat:
+    times: 4
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-50-edit-time-an-hour-later
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 10000
+- takeScreenshot: plan-views-51-edit-item-sheet-lower
+- tapOn:
+    id: 'plan-item-save'
+- takeScreenshot: plan-views-52-edit-time-saved-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-53-edit-time-saved-settled
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-54-edit-time-saved-lower
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-mini-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-map'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: plan-views-55-edit-time-day-map
+- runFlow:
+    when:
+      visible:
+        id: 'day-map'
+    commands:
+      - tapOn:
+          id: 'day-map-back'
+      - waitForAnimationToEnd
+# A stop to another day: the first stop of day 2 to day 3.
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'stop-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-move-.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-3'
+    direction: DOWN
+    timeout: 10000
+- takeScreenshot: plan-views-56-edit-move-to-chips
+- tapOn:
+    id: 'plan-item-move-3'
+- takeScreenshot: plan-views-57-edit-moved-at-once
+# A must-do or a booked stop asks first.
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn: '(?i)change it anyway'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-58-edit-moved-day-2-after
+- tapOn:
+    id: 'day-plan-day-chips-3'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-59-edit-moved-day-3-after
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-60-edit-moved-day-3-lower
+# The same two days on all days and on the trip map.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-all-days'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-61-edit-moved-all-days
+# Hold a day's card: the move menu (the way to move a stop without dragging a dot).
+- longPressOn:
+    id: 'all-days-card-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: plan-views-62-edit-all-days-card-held
+- runFlow:
+    when:
+      visible:
+        id: 'move-stop-days'
+    commands:
+      - tapOn:
+          id: 'move-stop-[0-9a-f].*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - tapOn:
+          id: 'move-stop-days-4'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-63-edit-move-preview
+      - runFlow:
+          when:
+            visible:
+              id: 'move-preview-confirm'
+          commands:
+            - tapOn:
+                id: 'move-preview-confirm'
+      - runFlow:
+          when:
+            visible:
+              id: 'move-preview-ok'
+          commands:
+            - tapOn:
+                id: 'move-preview-ok'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-views-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: plan-views-64-edit-all-days-after-move
+- runFlow:
+    when:
+      visible:
+        id: 'move-stop-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd
+# Remove a stop: day 4's first, then look for a way to undo.
+- tapOn:
+    id: 'all-days-card-4'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-65-edit-day-4-before-remove
+- tapOn:
+    id: 'stop-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-move-.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-remove'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: plan-views-66-edit-remove-confirm
+- tapOn: '(?i)^remove$|change it anyway'
+- takeScreenshot: plan-views-67-edit-removed-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-68-edit-removed-settled
+# Back out to the trip map: the day sheet and the whole trip after the edits.
+- tapOn:
+    id: 'day-plan-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'all-days'
+    commands:
+      - takeScreenshot: plan-views-69-edit-all-days-after-remove
+      - tapOn:
+          id: 'all-days-back'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    commands:
+      - tapOn:
+          id: 'day-plan-back'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: plan-views-70-edit-trip-map-after
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-peek'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-all-days'
+    commands:
+      - takeScreenshot: plan-views-71-edit-trip-map-half-after
+      - tapOn:
+          id: 'trip-map-all-days'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-full'
+          timeout: 10000
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: plan-views-72-edit-trip-map-full-after
+# The check runs by itself after an edit: a minute on, what does the whole trip say?
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 60000
+    optional: true
+- takeScreenshot: plan-views-73-edit-trip-map-full-a-minute-on
