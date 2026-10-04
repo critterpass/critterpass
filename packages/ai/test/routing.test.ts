@@ -75,6 +75,7 @@ describe('routing table', () => {
     }
     expect(AI_ROUTES.filter((route) => resolveRoute(route).vision).sort()).toEqual([
       'avatar.moderate',
+      'content.photo_check',
       'menu.parse',
       'photo.picks',
       'receipt.parse',

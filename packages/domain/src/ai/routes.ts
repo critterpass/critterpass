@@ -42,6 +42,8 @@ export const AI_ROUTES = [
   'avatar.moderate',
   'notification.templates',
   'content.factory',
+  // The content factory's look at a candidate place photo: does it show the place well.
+  'content.photo_check',
   'receipt.parse',
   'menu.parse',
   'email.parse_fallback',

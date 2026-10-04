@@ -219,6 +219,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'explore.swipe_notes': pro(null, 4096, 'low', { output: 'structured', cacheLayers: JOB_LAYERS }),
   'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
   'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
+  // Factory work, never on a user's meter: the same photo gets the same verdict on a re-run.
+  'content.photo_check': fast(null, 512, { output: 'structured', vision: true, temperature: 0 }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
   'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
   'guide.chat_escalation': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
