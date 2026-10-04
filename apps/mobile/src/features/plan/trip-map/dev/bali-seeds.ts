@@ -100,7 +100,7 @@ export const SEEDS: readonly Seed[] = [
     lng: 115.2642,
     lat: -8.5072,
     category: 'food',
-    price: 60_000,
+    price: 6_000_000,
   },
   {
     n: 303,

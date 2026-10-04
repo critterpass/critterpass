@@ -88,9 +88,10 @@ export function TripMapView(props: TripMapViewProps) {
   const stay = day?.stay ?? null;
 
   // The camera follows the sheet and the chosen day once the screen has a size.
-  const fitKey = `${snap}|${String(day?.dayNo)}|${String(size.height)}`;
+  // The map answers its first region once it can move, so the first fit waits for it.
+  const fitKey = `${snap}|${String(day?.dayNo)}|${String(size.height)}|${String(bounds !== null)}`;
   useEffect(() => {
-    if (size.height === 0) return;
+    if (size.height === 0 || bounds === null) return;
     const points = viewPoints(model, snap === 'full' ? null : day);
     if (points.length === 0) return;
     camera.fitPoints(

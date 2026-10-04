@@ -49,20 +49,16 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-7b-1-day-plan-day-2
-- runFlow:
-    when:
-      platform: Android
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'day-plan'
+    times: 4
     commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-day-plan-map-open'
@@ -86,39 +82,25 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-7b-2-day-plan-map-next-stop
-- runFlow:
-    when:
-      platform: Android
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'day-map'
+    times: 4
     commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-build-marker'
+    times: 4
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
-- scrollUntilVisible:
-    element:
-      id: 'dev-build-marker'
-    direction: UP
-    timeout: 20000
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:
@@ -166,20 +148,16 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: vi-7b-1-day-plan
-- runFlow:
-    when:
-      platform: Android
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'day-plan'
+    times: 4
     commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-day-plan-map-open'
@@ -195,17 +173,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: vi-7b-2-day-plan-map-open
-- runFlow:
-    when:
-      platform: Android
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'day-map'
+    times: 4
     commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000

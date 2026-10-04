@@ -36,7 +36,7 @@ const PINCH_OUT = 0.8;
 const useStyles = makeStyles((t) => ({
   scroll: { paddingHorizontal: t.size.gutter, gap: t.space['14'] },
   head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
-  headStart: { flex: 1 },
+  headStart: { flex: 1, alignItems: 'flex-start' },
   titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: t.space['12'] },
   title: { flex: 1, minWidth: 0 },
   dateCol: { alignItems: 'flex-end', gap: t.space['4'] },

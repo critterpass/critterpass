@@ -15,6 +15,7 @@ import { MapLabel, usePlanningCamera } from '@/ui/map/planning';
 import { DayChips, FilterChipRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import { freeGaps } from '../trip-map/day-gaps';
@@ -76,6 +77,7 @@ export function DayMapView({
   const [current, setCurrent] = useState(0);
   const [picking, setPicking] = useState(false);
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const [ready, setReady] = useState(false);
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const rows = useMemo(
     () =>
@@ -110,11 +112,11 @@ export function DayMapView({
   );
   const covered = { top: insets.top + 110, bottom: STRIP + insets.bottom + 24 };
   useEffect(() => {
-    if (size.height === 0 || day === null) return;
+    if (size.height === 0 || day === null || !ready) return;
     camera.fitPoints(viewPoints(model, day), covered);
     // A new day or size moves the camera, not a re-read of the plan.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day?.dayNo, size.height]);
+  }, [day?.dayNo, size.height, ready]);
   if (day === null) return null;
 
   const stop = rows[current]?.stop ?? null;
@@ -151,7 +153,7 @@ export function DayMapView({
             const index = rows.findIndex((row) => row.stop.stableId === picked?.id);
             if (index >= 0) settle(index);
           }}
-          onRegion={() => undefined}
+          onRegion={() => setReady(true)}
         >
           {onTheWay(model.ideas, day.dayNo, versionId).map((idea) => (
             <MapLabel
@@ -170,7 +172,7 @@ export function DayMapView({
           <View style={styles.bar}>
             <IconButton
               label={t({ id: 'plan.dayPlan.backToDay', message: 'Back to the day' })}
-              glyph="←"
+              glyph={<Text variant="h3">←</Text>}
               onPress={onBack}
               testID="day-map-back"
             />

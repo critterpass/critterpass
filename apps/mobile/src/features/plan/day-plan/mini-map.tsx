@@ -63,9 +63,9 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
     });
     return { ...base, stops: stops.map((stop, index) => ({ ...stop, n: index + 1 })) };
   }, [day, order]);
-  const fitKey = `${String(day.dayNo)}|${String(size.width)}`;
+  const fitKey = `${String(day.dayNo)}|${String(size.width)}|${String(bounds !== null)}`;
   useEffect(() => {
-    if (size.width === 0) return;
+    if (size.width === 0 || bounds === null) return;
     camera.fitPoints(viewPoints({ ...model, days: [day] }, day));
     // Fit once per day and size: a drag redraws the line, never the camera.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +86,7 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
           <PlanningMapCanvas
             initialCenter={[centre[0], centre[1]]}
             initialZoom={12}
+            ornamentBottom={34}
             destinationSlug={model.destinationSlug}
             localRegionUri={model.regionUri}
             stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}

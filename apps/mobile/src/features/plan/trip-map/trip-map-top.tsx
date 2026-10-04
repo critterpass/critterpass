@@ -34,7 +34,7 @@ const useStyles = makeStyles((t) => ({
     paddingStart: t.space['12'],
     paddingEnd: t.space['6'],
     minHeight: 52,
-    borderRadius: t.radius.pill,
+    borderRadius: 26,
     backgroundColor: t.semantic.bg.raised,
   },
   search: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: t.space['10'] },

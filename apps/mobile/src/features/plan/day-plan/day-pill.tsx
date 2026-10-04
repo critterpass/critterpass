@@ -16,7 +16,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['8'],
     minHeight: 48,
     paddingHorizontal: t.space['16'],
-    borderRadius: t.radius.pill,
+    borderRadius: 24,
   },
   label: { flex: 1, minWidth: 0 },
 }));

@@ -23,7 +23,7 @@ const useStyles = makeStyles((t) => ({
     minHeight: 56,
     paddingStart: t.space['8'],
     paddingEnd: t.space['12'],
-    borderRadius: t.radius.pill,
+    borderRadius: 28,
     backgroundColor: t.semantic.bg.raised,
   },
   plus: {

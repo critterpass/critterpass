@@ -6,13 +6,12 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import type { DayItem } from '@/data/plan/plan-model';
 import { MiniRouteSketch, PaceBars, PlanningTag, sketchLayout } from '@/ui/planning';
-import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -37,6 +36,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['6'],
   },
   over: { borderColor: t.semantic.action.primary },
+  pressed: { opacity: 0.85 },
   sketch: { height: SKETCH_HEIGHT },
   dot: { position: 'absolute', width: DOT_HIT, height: DOT_HIT },
   row: {
@@ -127,83 +127,72 @@ export function AllDaysCard(props: DayCardProps) {
   const name = props.weekday;
   const title = day.theme ?? t({ id: 'plan.allDays.dayTitle', message: `Day ${n}` });
   const moveLabel = t({ id: 'plan.allDays.moveStop', message: 'Move a stop to another day' });
-  const openMenu = props.onMoveMenu;
-  const menu = Gesture.LongPress()
-    .enabled(props.canMove)
-    .minDuration(MENU_MS)
-    .onStart(() => {
-      'worklet';
-      scheduleOnRN(openMenu);
-    });
   return (
     <View ref={ref} onLayout={measure} testID={`all-days-card-${String(n)}`}>
-      <GestureDetector gesture={menu}>
-        <View
-          accessibilityActions={props.canMove ? [{ name: 'moveStop', label: moveLabel }] : []}
-          onAccessibilityAction={(event) => {
-            if (event.nativeEvent.actionName === 'moveStop') props.onMoveMenu();
-          }}
-        >
-          <PressScale
-            onPress={props.onOpen}
-            accessibilityRole="button"
-            accessibilityLabel={`${String(n)} ${name}, ${title}, ${props.summary}`}
+      <Pressable
+        onPress={props.onOpen}
+        {...(props.canMove ? { onLongPress: props.onMoveMenu, delayLongPress: MENU_MS } : {})}
+        accessibilityRole="button"
+        accessibilityLabel={`${String(n)} ${name}, ${title}, ${props.summary}`}
+        accessibilityActions={props.canMove ? [{ name: 'moveStop', label: moveLabel }] : []}
+        onAccessibilityAction={(event) => {
+          if (event.nativeEvent.actionName === 'moveStop') props.onMoveMenu();
+        }}
+        style={({ pressed }) => (pressed ? styles.pressed : null)}
+      >
+        <View style={[styles.card, props.over ? styles.over : null]}>
+          <View
+            style={styles.sketch}
+            onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
           >
-            <View style={[styles.card, props.over ? styles.over : null]}>
-              <View
-                style={styles.sketch}
-                onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
-              >
-                {placed.length === 0 ? (
-                  <Text variant="monoData" color={theme.semantic.text.secondary}>
-                    {t({ id: 'plan.allDays.nothingYet', message: 'nothing yet' })}
-                  </Text>
-                ) : width === 0 ? null : (
-                  <>
-                    <MiniRouteSketch
-                      points={points}
-                      color={day.color}
-                      width={width}
-                      height={SKETCH_HEIGHT}
-                    />
-                    {placed.map((stop, index) => (
-                      <HeldDot
-                        key={stop.stableId}
-                        stop={stop}
-                        x={layout[index]?.x ?? 0}
-                        y={layout[index]?.y ?? 0}
-                        props={props}
-                      />
-                    ))}
-                  </>
-                )}
-              </View>
-              <View style={styles.row}>
-                <Text variant="label" color={day.color}>
-                  {name === '' ? String(n) : `${String(n)} · ${name}`}
-                </Text>
-                <PaceBars level={day.pace} color={day.color} accessibilityLabel={paceWords(day)} />
-              </View>
-              <Text variant="title" numberOfLines={1}>
-                {title}
+            {placed.length === 0 ? (
+              <Text variant="monoData" color={theme.semantic.text.secondary}>
+                {t({ id: 'plan.allDays.nothingYet', message: 'nothing yet' })}
               </Text>
-              <View style={styles.row}>
-                <Text
-                  variant="bodySm"
-                  color={theme.semantic.text.secondary}
-                  numberOfLines={1}
-                  style={styles.summary}
-                >
-                  {props.summary}
-                </Text>
-                {day.tag === null ? null : (
-                  <PlanningTag label={tagLabel(day.tag, true)} color={tagColor(day.tag)} />
-                )}
-              </View>
-            </View>
-          </PressScale>
+            ) : width === 0 ? null : (
+              <>
+                <MiniRouteSketch
+                  points={points}
+                  color={day.color}
+                  width={width}
+                  height={SKETCH_HEIGHT}
+                />
+                {placed.map((stop, index) => (
+                  <HeldDot
+                    key={stop.stableId}
+                    stop={stop}
+                    x={layout[index]?.x ?? 0}
+                    y={layout[index]?.y ?? 0}
+                    props={props}
+                  />
+                ))}
+              </>
+            )}
+          </View>
+          <View style={styles.row}>
+            <Text variant="label" color={day.color}>
+              {name === '' ? String(n) : `${String(n)} · ${name}`}
+            </Text>
+            <PaceBars level={day.pace} color={day.color} accessibilityLabel={paceWords(day)} />
+          </View>
+          <Text variant="title" numberOfLines={1}>
+            {title}
+          </Text>
+          <View style={styles.row}>
+            <Text
+              variant="bodySm"
+              color={theme.semantic.text.secondary}
+              numberOfLines={1}
+              style={styles.summary}
+            >
+              {props.summary}
+            </Text>
+            {day.tag === null ? null : (
+              <PlanningTag label={tagLabel(day.tag, true)} color={tagColor(day.tag)} />
+            )}
+          </View>
         </View>
-      </GestureDetector>
+      </Pressable>
     </View>
   );
 }

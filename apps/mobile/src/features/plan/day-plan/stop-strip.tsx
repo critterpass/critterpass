@@ -32,7 +32,7 @@ const useStyles = makeStyles((t) => ({
   legPill: {
     paddingHorizontal: t.space['8'],
     paddingVertical: t.space['2'],
-    borderRadius: t.radius.pill,
+    borderRadius: t.radius.md,
     backgroundColor: t.semantic.bg.sunken,
   },
 }));

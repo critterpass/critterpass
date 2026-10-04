@@ -54,6 +54,7 @@ function Way({
   return (
     <View style={styles.way}>
       <Card
+        tone="sunken"
         onPress={onPress}
         accessibilityLabel={`${title}, ${caption}`}
         testID={testID}
