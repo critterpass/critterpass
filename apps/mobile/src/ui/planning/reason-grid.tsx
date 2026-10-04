@@ -33,9 +33,12 @@ const useStyles = makeStyles((t) => ({
 
 export function ReasonGrid({
   reasons,
+  onSheet = false,
   testID,
 }: {
   readonly reasons: readonly Reason[];
+  /** On a sheet, whose panel is already raised: the tiles take the darker control fill. */
+  readonly onSheet?: boolean;
   readonly testID?: string;
 }) {
   const styles = useStyles();
@@ -43,7 +46,12 @@ export function ReasonGrid({
   return (
     <View style={styles.grid} testID={testID}>
       {reasons.map((reason) => (
-        <View key={reason.key} style={styles.tile} accessible accessibilityLabel={reason.text}>
+        <View
+          key={reason.key}
+          style={[styles.tile, onSheet ? { backgroundColor: theme.semantic.bg.control } : null]}
+          accessible
+          accessibilityLabel={reason.text}
+        >
           <Icon name={reason.icon} size={18} color={theme.semantic.action.primary} decorative />
           <View style={styles.text}>
             <Text variant="bodySm">{reason.text}</Text>

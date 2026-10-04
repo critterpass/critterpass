@@ -62,6 +62,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     '3k-9-loading',
     'the standard loading skeleton (ui/states/Skeleton card preset) under the back control while the running-late row syncs',
   ],
+  [
+    '3e-3-loading',
+    'the standard list skeleton (ui/states/Skeleton list preset) under the back control while the change set syncs',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {

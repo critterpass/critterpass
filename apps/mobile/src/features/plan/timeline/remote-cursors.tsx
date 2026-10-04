@@ -51,7 +51,7 @@ const useStyles = makeStyles((th) => ({
   },
   tag: {
     marginTop: th.space['8'],
-    borderRadius: th.radius.pill,
+    borderRadius: th.radius.xl,
     paddingHorizontal: th.space['8'],
     paddingVertical: th.space['2'],
   },

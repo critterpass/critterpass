@@ -1,5 +1,5 @@
 /**
- * Review changes (3e-3) over one synced change set: the author keeps or drops changes and sends
+ * Review changes (3e-3, and 7h-7 with the planning redesign on) over one synced change set: the author keeps or drops changes and sends
  * them (or puts them in their own plan only); once it is a vote, the people it touches say yes or
  * no here, and an organiser can put it in at once. Outcomes come back as the rows sync.
  */
@@ -8,12 +8,14 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 
 import type { SendResult } from '@/data/commands/client';
 
 import { weekdayOf } from '../overview/day-card';
 import { guideOf } from '../overview/plan-overview-screen';
 import { planRoutes } from '../overview/routes';
+import { ChangesReviewScreen } from './changes-review-screen';
 import { useChangeset, useChangesetActions } from './data/use-changeset';
 import { sideText } from './model/review-model';
 import {
@@ -36,7 +38,13 @@ function failure(result: SendResult | null): ReviewNotice | null {
   return 'failed';
 }
 
-export function ReviewScreen({
+/** With the planning redesign on, the same route shows the section 7 review (7h-7). */
+export function ReviewScreen(props: { readonly tripId: string; readonly changesetId: string }) {
+  const { redesign } = usePlanningSwitch();
+  return redesign ? <ChangesReviewScreen {...props} /> : <ClassicReviewScreen {...props} />;
+}
+
+function ClassicReviewScreen({
   tripId,
   changesetId,
 }: {

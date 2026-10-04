@@ -6,3 +6,155 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: nl\n"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.and"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.placeAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.placeSome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.needsYouSome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.placeCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/commands.ts
+msgid "plan.ideas.queued.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/commands.ts
+msgid "plan.ideas.queued.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.foot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.addToDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.placing.backToIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.dropOnADay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.fitPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.leave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.needsYouSplit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.needsYouPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.placeNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.locks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.needsYouNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodyEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.routing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.routingDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailedLine"
+msgstr ""
