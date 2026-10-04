@@ -1,7 +1,7 @@
 /**
  * Lab scenes for the section 7 plan screens over the Bali Six's trip: the trip map at peek, half
  * and full, the empty trip, the day plan, its map open and all days. Built through the same views
- * as the app with the legs estimated; the sheets, chips and the day chips work, links go nowhere.
+ * as the app with the leg minutes estimated and the lines along recorded roads; the sheets, chips and the day chips work, links go nowhere.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- scene names, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
