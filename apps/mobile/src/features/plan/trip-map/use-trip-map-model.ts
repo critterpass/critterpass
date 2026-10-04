@@ -26,6 +26,22 @@ interface AroundRow {
   readonly countdown_target_at: string | null;
 }
 
+/** The roads seen so far for each trip's legs, by pair. */
+type LegRoad = NonNullable<ReturnType<LegPaths['get']>>;
+const knownPaths = new Map<string, Map<string, LegRoad>>();
+
+/**
+ * The version's leg roads with the last road seen for every pair it has not routed yet: an edit
+ * makes a new version whose legs arrive a little later, and until then the pairs that did not
+ * change keep their road instead of a straight line across the map.
+ */
+export function withKnownPaths(tripId: string, paths: LegPaths): LegPaths {
+  const seen = knownPaths.get(tripId) ?? new Map<string, LegRoad>();
+  knownPaths.set(tripId, seen);
+  for (const [pair, path] of paths) seen.set(pair, path);
+  return seen.size === paths.size ? paths : new Map(seen);
+}
+
 /** The trip's start at 00:00 in its zone, near enough for a count of days. */
 function startOf(date: string | null): Date | null {
   return date === null ? null : new Date(`${date}T00:00:00`);
@@ -90,7 +106,8 @@ export function useTripMapModel(tripId: string): {
 } {
   const data = useTripMapData(tripId);
   const around = useLiveRows<AroundRow>(AROUND_SQL, [OWNER_UID_KEY, tripId], AROUND_TABLES);
-  const legPaths = useVersionLegPaths(data.plan.versionId);
+  const versionPaths = useVersionLegPaths(data.plan.versionId);
+  const legPaths = useMemo(() => withKnownPaths(tripId, versionPaths), [tripId, versionPaths]);
   const model = useMemo(
     () => tripMapModel(data, around.rows[0], legPaths),
     [data, around.rows, legPaths],

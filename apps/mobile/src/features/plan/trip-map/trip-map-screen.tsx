@@ -1,15 +1,21 @@
+/* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
 /**
  * The trip map route's screen over the synced plan (7a-1…7a-3, 7i-1): reads the plan I see and
- * everything around it, keeps the chosen day (the `day` the link names, else today during the
- * trip, else the first day with stops), reads that day's legs and opens SHARE over it.
+ * everything around it, keeps the chosen day (the `day` the link names, else the day last looked
+ * at in any of the plan's views, else today during the trip, else the first day with stops), reads
+ * that day's legs, opens a tapped stop's sheet over the map and SHARE over it.
  */
 import { router } from 'expo-router';
 import { useState } from 'react';
 
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import type { MapSheetSnap } from '@/ui/sheet/map-sheet-snap';
 
+import { ItemSheetHost } from '../day/item-sheet-host';
+import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { hubDay } from '../hub/plan-hub';
 import { tripPlanRoutes } from '../hub/routes';
+import { useChosenDay } from './chosen-day';
 import { useDayRoute } from './day-route';
 import { ShareSheet } from './share-sheet';
 import { TripMapView } from './trip-map-view';
@@ -25,10 +31,13 @@ export function TripMapScreen({
   readonly sheet?: MapSheetSnap | undefined;
 }) {
   const { data, model } = useTripMapModel(tripId);
-  const [chosen, setChosen] = useState<number | null>(day ?? null);
+  const [chosen, setChosen] = useChosenDay(tripId, day);
   const [sharing, setSharing] = useState(false);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const editor = useDayEditing(data.plan);
+  const known = model.days.some((entry) => entry.dayNo === chosen) ? chosen : null;
   const dayNo =
-    chosen ??
+    known ??
     hubDay(
       model.days.map((entry) => ({
         dayNo: entry.dayNo,
@@ -40,6 +49,7 @@ export function TripMapScreen({
   const selected = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(data.plan.versionId, selected);
   if (!data.loaded) return null;
+  const open = selected?.items.find((entry) => entry.stableId === openId) ?? null;
   return (
     <>
       <TripMapView
@@ -49,9 +59,35 @@ export function TripMapScreen({
         route={route}
         initialSnap={sheet}
         onShare={() => setSharing(true)}
-        onOpenDay={(n) => router.push(tripPlanRoutes.day(tripId, n))}
+        onOpenDay={(n) => {
+          setChosen(n);
+          router.push(tripPlanRoutes.day(tripId, n));
+        }}
+        onBack={() => {
+          if (router.canGoBack()) router.back();
+          else router.replace(hrefFor('3k-1', { tripId }) ?? '/');
+        }}
+        onOpenStop={setOpenId}
+        onOpenPlace={(placeId) => {
+          const place = hrefFor('7e-1', { placeId, tripId });
+          if (place !== undefined) router.push(place);
+        }}
+        onMoveStops={() => router.push(tripPlanRoutes.days(tripId))}
       />
-      {sharing ? <ShareSheet plan={data.plan} onClose={() => setSharing(false)} /> : null}
+      {open === null || selected === null ? null : (
+        <ItemSheetHost
+          key={open.stableId}
+          plan={data.plan}
+          item={open}
+          slot={{ dayNo: selected.dayNo, date: selected.date ?? '' }}
+          editor={editor}
+          announce={announceEdit}
+          onClose={() => setOpenId(null)}
+        />
+      )}
+      {sharing ? (
+        <ShareSheet plan={data.plan} days={model.days} onClose={() => setSharing(false)} />
+      ) : null}
     </>
   );
 }

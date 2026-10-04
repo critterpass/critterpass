@@ -1,9 +1,12 @@
 /**
- * All days (7b-3) as drawn: ← back to the day it came from with SHARE, the trip's name and length,
- * the plan check's card with SEE, and the days as a two-column grid of cards. A held stop glides
- * under the finger while it is dragged to another card.
+ * All days (7b-3) as drawn: ← back to the day it came from (named by its date; the trip when it
+ * was opened from the trip map) with SHARE, the trip's name and length, the plan check's card with
+ * SEE, the days as a two-column grid of cards, each named by its date with MOVE A STOP on it, and
+ * the saved places not in a day yet with IDEAS. A held stop glides under the finger while it is
+ * dragged to another card.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
@@ -17,7 +20,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import { clock } from '../day/format';
-import { dateLine, weekday } from '../trip-map/format';
+import { dateLine } from '../trip-map/format';
 import { daySummary, tripCheckLine } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
 import type { TripDay } from '../trip-map/trip-days';
@@ -31,6 +34,13 @@ const useStyles = makeStyles((t) => ({
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: t.space['10'] },
   cell: { width: '48.5%' },
+  foot: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: t.space['12'],
+  },
+  footText: { flex: 1, minWidth: 0 },
 }));
 
 export interface AllDaysViewProps {
@@ -65,14 +75,18 @@ export function AllDaysView(props: AllDaysViewProps) {
   const styles = useStyles();
   const { model } = props;
   const see = useWayOut('7h-1', { tripId: model.tripId });
+  const openIdeas = useWayOut('7f-2', { tripId: model.tripId });
+  const ideas = model.ideas.length;
   const line = tripCheckLine(model.check);
   const place = model.destination ?? '';
   const count = model.days.length;
   const fits = ideaDays(model);
   const back =
-    props.from?.date == null
-      ? t({ id: 'plan.allDays.back', message: 'Back' })
-      : dateLine(locale, props.from.date);
+    props.from === null
+      ? t({ id: 'plan.allDays.backTrip', message: 'Trip' })
+      : props.from.date === null
+        ? t({ id: 'plan.allDays.back', message: 'Back' })
+        : dateLine(locale, props.from.date);
   return (
     <Scaffold variant="dark" testID="all-days">
       <ScrollView scrollEnabled={!props.dragging} contentContainerStyle={styles.scroll}>
@@ -112,7 +126,7 @@ export function AllDaysView(props: AllDaysViewProps) {
             <View key={day.dayNo} style={styles.cell}>
               <AllDaysCard
                 day={day}
-                weekday={weekday(locale, day.date)}
+                name={day.date === null ? '' : dateLine(locale, day.date)}
                 summary={
                   day.stops.length === 0 && fits.has(day.dayNo)
                     ? t({ id: 'plan.allDays.ideasFit', message: 'Ideas fit here' })
@@ -131,6 +145,27 @@ export function AllDaysView(props: AllDaysViewProps) {
             </View>
           ))}
         </View>
+        {ideas === 0 ? null : (
+          <View style={styles.foot}>
+            <Text variant="body" style={styles.footText}>
+              {t({
+                id: 'plan.allDays.ideasWaiting',
+                message: plural(ideas, {
+                  one: '# saved place isn’t in a day yet',
+                  other: '# saved places aren’t in a day yet',
+                }),
+              })}
+            </Text>
+            {openIdeas === null ? null : (
+              <PillButton
+                size="sm"
+                label={t({ id: 'plan.allDays.ideas', message: 'Ideas ›' })}
+                onPress={openIdeas}
+                testID="all-days-ideas"
+              />
+            )}
+          </View>
+        )}
       </ScrollView>
     </Scaffold>
   );

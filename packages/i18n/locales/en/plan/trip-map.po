@@ -29,10 +29,6 @@ msgstr "{count} · about {length} in the car"
 msgid "plan.tripMap.gap.some"
 msgstr "{count} of you are free · {who}, till {until}"
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
-msgid "plan.tripMap.dateDayOf"
-msgstr "{date} · Day {n} of {of}"
-
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.countdown"
 msgstr "{days, plural, one {Tomorrow} other {# days to go}}"
@@ -145,6 +141,7 @@ msgstr "A booking needs a look soon."
 msgid "plan.tripMap.empty.draftLine"
 msgstr "A day-by-day plan from your must-dos, in about a minute."
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.pick"
 msgstr "A pick for this trip"
@@ -161,6 +158,10 @@ msgstr "All days"
 msgid "plan.tripMap.empty.askDraft"
 msgstr "Ask your organiser to let {guide} draft it"
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.backAtStay"
+msgstr "Back at the stay · {leg}"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.beaches"
 msgstr "Beaches"
@@ -168,6 +169,10 @@ msgstr "Beaches"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.booked"
 msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.crowds"
+msgstr "Busy · swap"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
@@ -186,8 +191,16 @@ msgid "plan.tripMap.tag.clash"
 msgstr "Clash"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.clash"
+msgstr "Clash · fix"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.closed"
 msgstr "Closed"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.closed"
+msgstr "Closed · fix"
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.copy"
@@ -199,6 +212,7 @@ msgstr "Crew picks"
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.dayTitle"
 msgstr "Day {n}"
@@ -207,11 +221,7 @@ msgstr "Day {n}"
 msgid "plan.tripMap.chip.day"
 msgstr "Day {n}"
 
-#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
-msgid "plan.tripMap.chip.dayWeekday"
-msgstr "Day {n} · {name}"
-
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.dayOf"
 msgstr "Day {n} of {of}"
 
@@ -235,6 +245,10 @@ msgstr "Far"
 msgid "plan.tripMap.gap.fill"
 msgstr "Fill it"
 
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.other"
+msgstr "Fix"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
 msgstr "Food"
@@ -251,6 +265,10 @@ msgstr "I placed your ideas. Have a look before the crew does."
 msgid "plan.tripMap.ideas"
 msgstr "Ideas ›"
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.leaveStay"
+msgstr "Leave the stay · {leg}"
+
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.draft"
 msgstr "Let {guide} draft it"
@@ -262,6 +280,10 @@ msgstr "Markets"
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipeLine"
 msgstr "Matches stay"
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.moveStops"
+msgstr "Move a stop to another day"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.museums"
@@ -276,6 +298,7 @@ msgid "plan.tripMap.cat.nightlife"
 msgstr "Nightlife"
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.nothingYet"
 msgstr "Nothing planned yet"
@@ -288,7 +311,26 @@ msgstr "Nothing saved yet"
 msgid "plan.tripMap.check.clear"
 msgstr "Nothing to fix. The plan holds up."
 
+#. placeholder {0}: row.nowLine
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.now"
+msgstr "Now · {0}"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.onlyYou"
+msgstr "Only you"
+
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openStop"
+msgstr "Open"
+
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.openDay"
+msgstr "Open day"
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.openDayHint"
 msgstr "Opens the day plan"
 
@@ -311,6 +353,10 @@ msgstr "Plans other crews made"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.rain"
 msgstr "Rain"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.rain"
+msgstr "Rain · swap"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.issue.rain"
@@ -340,6 +386,7 @@ msgstr "Ride"
 msgid "plan.tripMap.chip.saved"
 msgstr "Saved"
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.saved"
 msgstr "Saved by the crew"
@@ -357,6 +404,14 @@ msgstr "Search, or ask {guide}"
 msgid "plan.tripMap.see"
 msgstr "See"
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openPlace"
+msgstr "See place"
+
+#: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
+msgid "plan.tripMap.sendPlan"
+msgstr "Send the plan"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.share"
 msgstr "Share"
@@ -372,10 +427,6 @@ msgstr "Shopping"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-camera.ts
 msgid "plan.tripMap.label.stop"
 msgstr "Stop {n}"
-
-#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
-msgid "plan.tripMap.swap"
-msgstr "Swap?"
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipe"
@@ -402,6 +453,10 @@ msgid "plan.tripMap.tag.tooFar"
 msgstr "Too far"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.fix.tooFar"
+msgstr "Too far · fix"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"
 msgstr "Vote"
 
@@ -420,3 +475,7 @@ msgstr "Wellness"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"
 msgstr "you"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.skipping"
+msgstr "You’re skipping this"

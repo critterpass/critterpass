@@ -7,7 +7,7 @@ import { plural, t } from '@lingui/core/macro';
 
 import type { DayChip } from '@/ui/planning';
 
-import { shortDate, weekday } from './format';
+import { chipWeekday, dateLine, dayOfMonth, shortDate } from './format';
 import type { TripDay } from './trip-days';
 
 export interface CheckCounts {
@@ -82,13 +82,23 @@ export function countdownLine(target: Date | null, now: Date = new Date()): stri
   });
 }
 
-export function dayChips(days: readonly TripDay[], locale: string): DayChip[] {
+/**
+ * The days as chips, named by date: the weekday over the day of the month ("T7" over "17"), with
+ * today marked while the trip runs. A day with no date yet keeps its number.
+ */
+export function dayChips(
+  days: readonly TripDay[],
+  locale: string,
+  today: string | null = null,
+): DayChip[] {
   return days.map((day) => {
     const n = day.dayNo;
-    const name = weekday(locale, day.date);
+    const name = day.date === null ? '' : dateLine(locale, day.date);
     return {
       dayNo: n,
-      weekday: name,
+      weekday: chipWeekday(locale, day.date),
+      ...(day.date === null ? {} : { dateLabel: dayOfMonth(day.date) }),
+      ...(today !== null && day.date === today ? { today: true } : {}),
       color: day.color,
       accessibilityLabel: t({ id: 'plan.tripMap.dayChip', message: `Day ${n}, ${name}` }),
     };

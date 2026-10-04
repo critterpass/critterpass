@@ -1,7 +1,8 @@
 /**
  * The trip map's sheet at full (7a-3): the crew and dates with SHARE, THE WHOLE TRIP and the
  * countdown, the plan check's card with SEE, every day as a row (its tag and how full it is; a row
- * opens that day at half), and the saved places not in a day yet with IDEAS.
+ * opens that day at half), MOVE STOPS (all days as a grid, where a stop moves to another day), and
+ * the saved places not in a day yet with IDEAS.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
 import { plural } from '@lingui/core/macro';
@@ -15,7 +16,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock } from '../day/format';
-import { tagColor, tagLabel, tripDates, weekday } from './format';
+import { chipWeekday, dateLine, dayOfMonth, tagColor, tagLabel, tripDates } from './format';
 import { countdownLine, daySummary, paceWords, tripCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
@@ -41,7 +42,9 @@ const useStyles = makeStyles((t) => ({
   footText: { flex: 1, minWidth: 0 },
 }));
 
-export function TripSheet(props: TripMapSheetProps) {
+export function TripSheet(
+  props: TripMapSheetProps & { readonly onMoveStops?: (() => void) | undefined },
+) {
   const { t } = useLingui();
   const locale = useLocale();
   const styles = useStyles();
@@ -99,7 +102,8 @@ export function TripSheet(props: TripMapSheetProps) {
       )}
       <View style={styles.rows}>
         {model.days.map((day) => {
-          const name = weekday(locale, day.date);
+          const name = chipWeekday(locale, day.date);
+          const spoken = day.date === null ? String(day.dayNo) : dateLine(locale, day.date);
           const n = day.dayNo;
           const title = day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` });
           return (
@@ -107,6 +111,7 @@ export function TripSheet(props: TripMapSheetProps) {
               key={day.dayNo}
               dayNo={day.dayNo}
               weekday={name}
+              {...(day.date === null ? {} : { dateLabel: dayOfMonth(day.date) })}
               color={day.color}
               title={title}
               summary={daySummary(day, (minutes) => clock(locale, minutes))}
@@ -126,12 +131,21 @@ export function TripSheet(props: TripMapSheetProps) {
                 props.onSelectDay(day.dayNo);
                 props.onSnap('half');
               }}
-              accessibilityLabel={`${String(day.dayNo)} ${name}, ${title}`}
+              accessibilityLabel={`${spoken}, ${title}`}
               testID={`trip-day-${String(day.dayNo)}`}
             />
           );
         })}
       </View>
+      {props.onMoveStops === undefined || model.readOnly ? null : (
+        <PillButton
+          size="sm"
+          variant="secondary"
+          label={t({ id: 'plan.tripMap.moveStops', message: 'Move a stop to another day' })}
+          onPress={props.onMoveStops}
+          testID="trip-map-move-stops"
+        />
+      )}
       {ideas === 0 ? null : (
         <View style={styles.foot}>
           <Text variant="body" style={styles.footText}>

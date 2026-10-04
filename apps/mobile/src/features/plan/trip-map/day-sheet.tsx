@@ -1,9 +1,10 @@
 /**
- * The trip map's sheet at half (7a-2): one day as a timeline under its date, stop count and time
- * in the car, with ALL DAYS to pull the sheet up to the whole trip. A stop tap opens its marker on
- * the map (the only label) and eases the camera to it; VOTE opens the decision, SWAP? the rain
- * swap and FILL IT the ideas for a free slot once those screens are registered; GO, on the next
- * stop while that day is today, the route from here.
+ * The trip map's sheet at half (7a-2), and at full when it was pulled up to read the day to its
+ * end: one day as a timeline under its date and place in the trip, with OPEN DAY (the day plan,
+ * where stops are added, moved and edited) and ALL DAYS (the whole trip). A stop tap opens its
+ * marker on the map (the only label) and eases the camera to it, a second tap opens the stop; VOTE
+ * opens the decision, the check's fix its fixer and FILL IT the ideas for a free slot once those
+ * screens are registered; GO, on the next stop while that day is today, the route from here.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -16,20 +17,23 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { freeGaps } from './day-gaps';
-import { nextGoStop } from './next-stop';
-import { dateLine, stopsLine } from './format';
+import { dayProgress, nextGoStop, usePlanClock } from './next-stop';
+import { dateLine, dayOfTrip, stopsLine } from './format';
 import type { TripMapSheetProps } from './sheet-props';
 import { StopList } from './stop-list';
-import { buildStopRows } from './stop-rows';
+import { buildStopRows, mineRows, stayRows } from './stop-rows';
 
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
-  head: { flexDirection: 'row', alignItems: 'center', gap: t.space['12'] },
+  head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
   headText: { flex: 1, minWidth: 0, gap: t.space['2'] },
 }));
 
 export function DaySheet(
-  props: TripMapSheetProps & { readonly onOpenDay: (dayNo: number) => void },
+  props: TripMapSheetProps & {
+    readonly onOpenDay: (dayNo: number) => void;
+    readonly onMoveStops?: (() => void) | undefined;
+  },
 ) {
   const { t } = useLingui();
   const locale = useLocale();
@@ -37,6 +41,7 @@ export function DaySheet(
   const theme = useTheme();
   const { model, day, route } = props;
   const tz = model.tz;
+  const now = usePlanClock(model.now);
   const rows = useMemo(() => {
     if (day === null) return [];
     const crew = model.members.map((member) => member.uid);
@@ -47,16 +52,14 @@ export function DaySheet(
       gaps: freeGaps(day, crew, tz),
       members: model.members,
       me: model.me,
+      progress: dayProgress(day, now, tz),
     });
-  }, [day, locale, model.members, model.me, route, tz]);
-  const goStop = useMemo(
-    () => (day === null ? null : nextGoStop(day, model.now ?? new Date(), tz)),
-    [day, model.now, tz],
-  );
+  }, [day, locale, model.members, model.me, now, route, tz]);
+  const goStop = useMemo(() => (day === null ? null : nextGoStop(day, now, tz)), [day, now, tz]);
   if (day === null) return null;
   const n = day.dayNo;
-  const stops = stopsLine(day.stops.length, route.legs);
-  const head = day.date === null ? stops : `${dateLine(locale, day.date)} · ${stops}`;
+  const of = dayOfTrip(n, model.days.length);
+  const head = day.date === null ? of : `${dateLine(locale, day.date)} · ${of}`;
   const title = day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` });
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   return (
@@ -74,7 +77,16 @@ export function DaySheet(
             {head}
           </Text>
           <Text variant="h1">{title}</Text>
+          <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            {stopsLine(day.stops.length, route.legs)}
+          </Text>
         </PressScale>
+        <PillButton
+          size="sm"
+          label={t({ id: 'plan.tripMap.openDay', message: 'Open day' })}
+          onPress={() => props.onOpenDay(n)}
+          testID="trip-map-open-day-pill"
+        />
         <PillButton
           size="sm"
           variant="secondary"
@@ -83,13 +95,15 @@ export function DaySheet(
           testID="trip-map-all-days"
         />
       </View>
-      {rows.length === 0 ? (
+      {rows.length === 0 && (day.mine ?? []).length === 0 ? (
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.tripMap.nothingYet', message: 'Nothing planned yet' })}
         </Text>
       ) : (
         <StopList
           rows={rows}
+          stay={stayRows(locale, day, route)}
+          mine={mineRows(locale, day)}
           context={{
             tripId: model.tripId,
             dayNo: n,
