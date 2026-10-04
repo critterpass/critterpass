@@ -202,6 +202,10 @@ msgstr "Hỏi {guideName}"
 msgid "search.examples.eyebrow"
 msgstr "Hỏi bằng lời thường"
 
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
 msgid "search.offline.back"
 msgstr "Có sóng lại · {guideName} đã trả lời"
@@ -229,10 +233,6 @@ msgstr "Bữa sáng"
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.term.cafe"
 msgstr "quán cà phê"
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.cancel"
-msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.cheap"

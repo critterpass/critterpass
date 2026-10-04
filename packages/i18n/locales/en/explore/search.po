@@ -202,6 +202,10 @@ msgstr "Ask {guideName}"
 msgid "search.examples.eyebrow"
 msgstr "Ask in plain words"
 
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
 msgid "search.offline.back"
 msgstr "Back online · {guideName} answered"
@@ -229,10 +233,6 @@ msgstr "Breakfast"
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.term.cafe"
 msgstr "cafes"
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.cancel"
-msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.cheap"

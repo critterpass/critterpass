@@ -1,15 +1,17 @@
 /**
  * The search field (7d-1…7d-4, 7i-2): the guide beside the input, "Search Bali, or ask Tokek",
- * a clear × while there is text, and Cancel. Return asks the text in plain words.
+ * a back arrow before it and a clear × while there is text. Return asks the text in plain words.
  */
 import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
 import { Keyboard, TextInput, View } from 'react-native';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { TextLink } from '@/ui/buttons/TextLink';
+import { IconButton } from '@/ui/buttons/IconButton';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { makeStyles, MIN_TOUCH_TARGET, Text, useTheme } from '@/ui';
 
@@ -18,7 +20,7 @@ import { useFieldFont } from './use-field-font';
 const CROSS = '×';
 
 const useStyles = makeStyles((th) => ({
-  row: { flexDirection: 'row', alignItems: 'center', gap: th.space['12'] },
+  row: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
   field: {
     flex: 1,
     flexDirection: 'row',
@@ -65,6 +67,7 @@ export function SearchHeader(props: SearchHeaderProps) {
   });
   const focused = value === '';
   const font = useFieldFont();
+  useBackAffordance();
   const [editing, setEditing] = useState(props.autoFocus ?? true);
   // Not being edited, the query shows from its start with a tail ellipsis (7d-2, 7d-4), drawn over
   // the input, which stays underneath for the tap.
@@ -76,6 +79,12 @@ export function SearchHeader(props: SearchHeaderProps) {
   }, [asked, value]);
   return (
     <View style={styles.row}>
+      <IconButton
+        label={t({ id: 'search.field.back', message: 'Back' })}
+        glyph={<StraightArrow direction="back" color={theme.semantic.text.primary} />}
+        onPress={props.onCancel}
+        testID="search-back"
+      />
       <View
         style={[
           styles.field,
@@ -145,11 +154,6 @@ export function SearchHeader(props: SearchHeaderProps) {
           </PressScale>
         )}
       </View>
-      <TextLink
-        label={t({ id: 'search.field.cancel', message: 'Cancel' })}
-        onPress={props.onCancel}
-        testID="search-cancel"
-      />
     </View>
   );
 }

@@ -202,6 +202,10 @@ msgstr ""
 msgid "search.examples.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
 msgid "search.offline.back"
 msgstr ""
@@ -228,10 +232,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.term.cafe"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts

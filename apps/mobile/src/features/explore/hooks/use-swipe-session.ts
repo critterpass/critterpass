@@ -1,8 +1,8 @@
 /**
  * A trip's swipe session on this phone: the session row with its deck, the places behind the
  * cards, everyone's yes votes and the matches from the synced trip rows, who is swiping right now
- * from the session's presence channel, and what this phone has swiped (kept on the device, since
- * a "no" is never synced back). Swipes queue offline; a match they make shows when it syncs. Each
+ * from the session's presence channel, and what the signed-in person has swiped (kept on the device
+ * per person, since a "no" is never synced back). Swipes queue offline; a match they make shows when it syncs. Each
  * match says where it went: the trip's Ideas (its idea, once synced) or an earlier change set.
  * With `saveYes` (the planning screens on), every yes also saves the place to the trip's Ideas under
  * the swiper's name at once, whoever else has swiped; undoing that yes takes them back out.
@@ -42,9 +42,14 @@ import {
 // createMMKV() is in-memory under Jest.
 const storage = createMMKV({ id: 'cp-explore-swipes' });
 
-function readSwiped(sessionId: string): Swiped {
+/** What one person has swiped in one session: two people sharing a phone each get the whole deck. */
+export function swipedKey(uid: string | null, sessionId: string | null): string | null {
+  return uid === null || sessionId === null ? null : `${uid}:${sessionId}`;
+}
+
+function readSwiped(key: string): Swiped {
   try {
-    const parsed: unknown = JSON.parse(storage.getString(sessionId) ?? '{}');
+    const parsed: unknown = JSON.parse(storage.getString(key) ?? '{}');
     return typeof parsed === 'object' && parsed !== null ? (parsed as Swiped) : {};
   } catch {
     return {};
@@ -67,7 +72,7 @@ const MATCH_SQL = `SELECT m.id, m.poi_id, m.day_no, m.change_set_id, m.user_ids,
   FROM swipe_matches m WHERE m.session_id = ? ORDER BY m.created_at, m.id`;
 const IDEAS_SQL = `SELECT id, poi_id, backer_ids FROM trip_ideas
   WHERE trip_id = ? AND deleted_at IS NULL AND poi_id IS NOT NULL`;
-const PLACES_SQL = `SELECT id, name, category, price_level FROM pois
+const PLACES_SQL = `SELECT id, name, category, price_level, address FROM pois
   WHERE id IN (SELECT value FROM json_each(?))`;
 
 export interface SessionRow {
@@ -104,6 +109,7 @@ export interface DeckPlace {
   readonly name: string;
   readonly category: string;
   readonly price_level: number | null;
+  readonly address: string | null;
 }
 
 export function useSwipeSession(
@@ -170,16 +176,17 @@ export function useSwipeSession(
     id: null,
     map: {},
   });
-  if (swiped.id !== sessionId) {
-    setSwiped({ id: sessionId, map: sessionId === null ? {} : readSwiped(sessionId) });
+  const key = swipedKey(me, sessionId);
+  if (swiped.id !== key) {
+    setSwiped({ id: key, map: key === null ? {} : readSwiped(key) });
   }
   const keep = useCallback(
     (next: Swiped) => {
-      if (sessionId === null) return;
-      storage.set(sessionId, JSON.stringify(next));
-      setSwiped({ id: sessionId, map: next });
+      if (key === null) return;
+      storage.set(key, JSON.stringify(next));
+      setSwiped({ id: key, map: next });
     },
-    [sessionId],
+    [key],
   );
 
   const voteSend = vote.send;

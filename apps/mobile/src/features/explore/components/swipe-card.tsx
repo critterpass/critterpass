@@ -25,6 +25,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { categoryIcon } from '../category';
 import { guideWritten } from '../data/guide-text';
 import type { GuideFacts } from '../format';
+import { CATEGORY_ACCENT } from '../place-detail/category-accent';
 import type { Verdict } from '../swipe-model';
 import { GenericPhotoLabel } from './generic-photo-label';
 
@@ -53,6 +54,15 @@ const useStyles = makeStyles((t) => ({
     backgroundColor: t.color.ink[600],
   },
   photo: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  tile: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    start: 0,
+    end: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   social: {
     position: 'absolute',
     top: t.space['16'],
@@ -89,6 +99,8 @@ function Face({ face, guide }: { readonly face: SwipeCardFace; readonly guide: G
   const styles = useStyles();
   const theme = useTheme();
   const { i18n } = useLingui();
+  const swatch = theme.color[CATEGORY_ACCENT[face.category] ?? 'blue'];
+  const tile = typeof swatch === 'string' ? swatch : swatch.base;
   return (
     <View style={styles.card}>
       <View style={styles.photo}>
@@ -102,12 +114,15 @@ function Face({ face, guide }: { readonly face: SwipeCardFace; readonly guide: G
           testID="explore-swipe-photo"
         />
         {face.photo === null ? (
-          <Icon
-            name={categoryIcon(face.category)}
-            size={84}
-            color={theme.semantic.text.secondary}
-            decorative
-          />
+          // No photo of its own: the kind's tile in the kind's colour, never a grey blank.
+          <View style={[styles.tile, { backgroundColor: tile }]} testID="explore-swipe-tile">
+            <Icon
+              name={categoryIcon(face.category)}
+              size={84}
+              color={theme.semantic.text.onAccent}
+              decorative
+            />
+          </View>
         ) : null}
         <GenericPhotoLabel photo={face.photo} />
         {face.social === null ? null : (

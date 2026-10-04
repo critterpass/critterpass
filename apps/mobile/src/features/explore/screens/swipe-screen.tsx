@@ -19,6 +19,7 @@ import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor, noonUtc } from '../format';
 import { usePlacePhotos } from '../hooks/use-place-photos';
 import { useSwipeSession } from '../hooks/use-swipe-session';
+import { areaFromAddress } from '../place-detail/place-facts';
 import { usePlannedPlaces } from '../map-queries';
 import { useTripCrew } from '../place-queries';
 import { socialPill, swipeMeta } from '../swipe-copy';
@@ -107,7 +108,12 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
       poiId: card.poi_id,
       name: place.name,
       category: place.category,
-      meta: swipeMeta(place.category, place.price_level, card.reasons),
+      meta: swipeMeta(
+        place.category,
+        place.price_level,
+        card.reasons,
+        areaFromAddress(place.address, session.row?.destination_name ?? null),
+      ),
       note: card.note,
       social: socialPill(yesNames.filter((name) => name !== '')),
       photo: photos.get(card.poi_id) ?? null,
