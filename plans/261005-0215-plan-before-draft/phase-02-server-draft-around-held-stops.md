@@ -47,12 +47,17 @@ What the planner needs: `TripFrame.held: readonly HeldStop[]` (`stableId`, `dayN
 
 ### T4. A one-day redraft holds them too
 - Files: `services/worker/src/jobs/ai/redraft.ts`, `services/worker/src/jobs/ai/draft/redraft-store.ts`, `packages/ai/src/prompts/draft/redraft.ts`, `services/worker/test/jobs/ai/redraft.db.test.ts`.
-- Rule: stops she added by hand on the day stay (product call 3); a guide stop she only retimed is the guide's to change, and the diff shows it so she can turn that change off.
+- Rule: stops she added by hand on the day stay; a guide stop she only retimed is the guide's to change, and the diff shows it so she can turn that change off.
 - Status: pending
 
-### T5. Saved Ideas are offered to the guide (if the controller says yes, product call 2)
+### T5. Saved Ideas are offered to the guide as preferred candidates
 - Files: `services/worker/src/jobs/ai/draft/{load,job-context}.ts` (idea places join the `include` list `candidatePools` already takes), test beside T3.
 - Status: pending
+
+## Coordination
+
+- This lane owns `packages/planner/src/draft/**` and `packages/ai/src/prompts/draft/**`. The server rules lane adds redraft reasons first: merge main before touching `prompts/draft/redraft.ts`.
+- Prompts find a persona through the one resolver; no direct pack lookup.
 
 ## Risks
 

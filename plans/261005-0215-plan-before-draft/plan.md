@@ -1,7 +1,7 @@
 ---
 title: "A plan before the draft"
 description: "A trip has its days when its dates lock, the organiser's draft is hers to edit by hand, the guide drafts around what she placed, and the plan check runs on her draft."
-status: awaiting approval
+status: in progress
 priority: P1
 branch: feat/plan-days-before-draft
 created: 2026-10-05
@@ -14,11 +14,14 @@ Source: the live test's desk audit (`plans/reports/live-test/designer-261005-des
 
 ## The one idea
 
-The empty plan **is** the organiser's private draft with no stops in it. `lock_trip_dates` creates it (`itinerary_versions` row, `visibility = 'organiser'`, `status = 'draft'`, one `plan_days` row per date, `trips.draft_version_id` pointing at it) while the trip stays in `setup`. Everything else follows from treating that version like any draft:
+The empty plan **is** the organiser's private draft with no stops in it. `lock_trip_dates` creates it when the shared `planning.redesign` config is on, and `ensure_plan_days` creates it for a phone that has the new screens through its own override (`itinerary_versions` row, `visibility = 'organiser'`, `status = 'draft'`, one `plan_days` row per date, `trips.draft_version_id` pointing at it) while the trip stays in `setup`. Everything else follows from treating that version like any draft:
 
 | Rule | How |
 |---|---|
-| Days exist when dates lock | `lock_trip_dates` writes the empty draft; a migration backfills trips already in `setup` with dates |
+| Days exist when dates lock | `lock_trip_dates` writes the empty draft while `planning.redesign` is on; the new screens send the idempotent `ensure_plan_days` when an organiser opens a trip with dates and no plan. No backfill: with the switch off nothing new exists for anyone |
+| A plan built by hand can be sent | new command `review_hand_plan`: from `setup`, with dates locked, a destination and at least one stop, the trip moves to `draft_review` with the hand-built draft (numbers and coverage worked out), where the proposal is built as today |
+| Hand edits stay small on the phone | a hand edit on a hand-edited draft replaces it (the older one is deleted when nothing else refers to it); an untouched empty plan is deleted when replaced. Organiser versions grow only with guide drafts, redrafts and restores |
+| A dates change never loses a stop | a stop keeps its day number and local time; on a day that no longer exists a place goes back to Ideas and a custom stop moves to the last day; the command's result lists what moved |
 | The draft is hers to edit | new command `apply_draft_ops`: the same ops as `apply_plan_ops`, committed as a new organiser draft version |
 | The guide drafts around her stops | stops she placed (`created_by_kind = 'user'`) are held: the planner schedules around them and the new draft carries their rows over unchanged |
 | The check runs on the draft | the check reads the draft while there is no crew plan; its issues ride the organisers' stream |
@@ -41,7 +44,7 @@ The app rule is the existing `draft-or-current` choice in `useTripPlan`: the cre
 
 | # | Phase | PR can merge and deploy alone because | Status |
 |---|---|---|---|
-| 1 | [Server: days on dates lock, draft edits, the check on a draft, the put-back](./phase-01-server-plan-before-draft.md) | additive: one new command, one new event, two nullable columns, one more stream query; no installed build sends or reads any of it | pending |
+| 1 | [Server: days on dates lock, draft edits, the check on a draft, the put-back](./phase-01-server-plan-before-draft.md) | additive: three new commands, one new event, two nullable columns, one more stream query; with the switch off no trip gains a draft pointer | in progress |
 | 2 | [Server: the guide drafts around held stops](./phase-02-server-draft-around-held-stops.md) | with no held stops every prompt and schedule is byte-identical to today's; held stops only exist once phase 3 ships | pending |
 | 3 | [App: the empty plan, the editable draft, the check's tags, members before the plan](./phase-03-app-plan-before-draft.md) | behind `planning.redesign`; needs phases 1 and 2 deployed | pending |
 
@@ -52,7 +55,9 @@ The app rule is the existing `draft-or-current` choice in `useTripPlan`: the cre
 3. Draft after placing two stops by hand: both are in the new draft at the day and time she set, the guide's stops sit around them, no place appears twice.
 4. Forty-five seconds after a draft or a hand edit the organiser's days carry the check's tags; members receive no issue of an organiser version.
 5. Put a redraft back: the trip's redraft count is what it was before she asked.
-6. `planning.redesign` off: every existing command, route and screen answers as today (the tests named in each phase).
+6. In `setup` with a stop placed and no guide draft, "Send it as it is" takes her to review and the proposal.
+7. Two hundred hand edits on one draft leave one hand-edited version on the organisers' stream.
+8. `planning.redesign` off: no trip gains a draft pointer; every existing command, route and screen answers as today (the tests named in each phase).
 
 ## Risks
 
@@ -65,6 +70,6 @@ The app rule is the existing `draft-or-current` choice in `useTripPlan`: the cre
 | The plan check leaks a private draft | issues stay version-scoped (RLS and stream); the trip-wide `plan_checks` row is not written for a draft run except its daily counter |
 | Other lanes edit the same app files | narrow edits, merge main before each push, no reformatting |
 
-## Product calls for the controller
+## Decided by the controller (5 Oct)
 
-Listed with a recommendation in the phase files and in the lane's report: put-back refunds and the fair-use cap; whether saved Ideas are offered to the guide when it drafts; what a one-day redraft holds; what a dates change does to stops already placed; PLACE THEM FOR ME before the crew plan exists.
+Put-back: the visible unit comes back, delivered redrafts still count against the fair-use cap, and the earlier diff screen's line is corrected in the app PR. Saved Ideas are offered to the guide as preferred candidates. A one-day redraft holds stops added by hand; a guide stop only retimed is the guide's to change and shows in the diff. PLACE THEM FOR ME is hidden before the crew plan (the placement job on a draft is a queued follow-up, not this lane).

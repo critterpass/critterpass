@@ -28,7 +28,7 @@ All of it behind `planning.redesign`. Renders: 3c-9, 7i-1, 7f-1, 7f-2, 7a-1…7a
 
 ### T2. The trip map and day plan on a draft
 - Files: `features/plan/trip-map/{use-trip-map-data,use-trip-map-model,peek-sheet,empty-trip-sheet}.tsx`, `features/plan/day-plan/{day-plan-screen,day-plan-view}.tsx`, `features/plan/day/item-sheet-host.tsx`, `features/plan/all-days/all-days-screen.tsx`, copy files beside them, EN + VI catalogs.
-- Rules: a draft is read-only only while the guide is drafting (with a line that says so); the stop sheet on a draft shows When, Move to and Remove, not "just me"; the peek carries "Let {guide} draft the rest" while the trip is in `setup` and "Only you see this" on a draft; LET {GUIDE} DRAFT IT goes to the draft route when setup is finished.
+- Rules: a draft is read-only only while the guide is drafting (with a line that says so); the stop sheet on a draft shows When, Move to and Remove, not "just me"; the peek carries "Let {guide} draft the rest" while the trip is in `setup` and "Only you see this" on a draft; LET {GUIDE} DRAFT IT goes to the draft route when setup is finished; with a stop placed in `setup` the peek offers "Let {guide} draft the rest" and "Send it as it is" (`review_hand_plan`) side by side; opening the plan of a trip with dates and no plan sends `ensure_plan_days`; a dates change says which stops moved and where.
 - Tests: `isReadOnly` per status and role; the stop sheet's actions per mode.
 - Status: pending
 
@@ -50,10 +50,15 @@ All of it behind `planning.redesign`. Renders: 3c-9, 7i-1, 7f-1, 7f-2, 7a-1…7a
 - Status: pending
 
 ### T6. The put-back and the history
-- Files: `features/plan/draft/data/quota.ts`, `features/plan/draft/redraft/redraft-diff-screen.tsx` (copy: putting it back gives the redraft back), `features/plan/draft/data/use-draft-version.ts` (a run of hand edits is one history row), tests beside.
+- Files: `features/plan/draft/data/quota.ts`, `features/plan/draft/redraft/redraft-diff-screen.tsx` (copy: putting it back gives the redraft back, on the earlier diff screen too), `features/plan/draft/data/use-draft-version.ts` (a run of hand edits is one history row), tests beside.
 - Status: pending
 
-### T7. Device sheets
+### T7. Earlier screens key on the trip's status, not the draft pointer
+- Files: `features/plan/draft/review/draft-review-screen.tsx`, `features/plan/draft/drafting/drafting-screen.tsx`, `features/trip/hub/data/{queries,use-hub}.ts`, Home's trip card data, `features/plan/draft/data/{draft-trip,use-draft-version}.ts`; change only a reader that assumes "pointer set = the guide drafted".
+- Test: a set-up trip with an empty draft, switch off: Home, the hub tile, the earlier draft screens and the earlier plan screens show what they show today for a trip with no draft.
+- Status: pending
+
+### T8. Device sheets
 - `device.yml`, Android, `shards=1`, EN + VI, `mode=compare` on the PR: the empty plan with days (map sheet, Ideas, Add to plan, place page), the draft being edited (day plan, stop sheet, all days), the check's tags on a draft, the member's states. New flows under `e2e/plan-before-draft/`, seeds in the existing dev scenes.
 - Status: pending
 
