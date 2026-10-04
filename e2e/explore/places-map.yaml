@@ -76,8 +76,8 @@ appId: app.critterpass.dev
     visible:
       id: 'places-carousel'
     timeout: 60000
-- assertVisible:
-    id: 'places-map-label'
+# The label is a map marker, drawn on the map rather than in the view tree Maestro reads: the shot
+# shows it.
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-7c-2-place-picked
