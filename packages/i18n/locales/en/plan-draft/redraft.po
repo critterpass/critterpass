@@ -41,11 +41,11 @@ msgstr "{kept} of {total} must-dos kept"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitLess"
-msgstr "{minutes} min less on trains"
+msgstr "{minutes} min less travelling"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitMore"
-msgstr "{minutes} min more on trains"
+msgstr "{minutes} min more travelling"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.pips"
@@ -208,7 +208,7 @@ msgstr "Same pace"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitSame"
-msgstr "Same time on trains"
+msgstr "Same time travelling"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
 msgid "planDraft.reason.slower"
