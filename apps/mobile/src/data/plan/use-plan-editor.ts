@@ -7,6 +7,9 @@
  * onto the latest version once it has synced and sent again, once; an edit that really collides
  * with someone else's is surfaced ("Maya moved this too"). An organiser who lost the role gets
  * `FORBIDDEN{use_changeset}` and their edit is proposed instead.
+ *
+ * An applied edit answers with the id it was sent under, which `undo` takes back: the server puts
+ * the plan back as it was before that edit, as long as nobody has changed the plan since.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes and SQL, never copy. */
 import { generateUuidV7, planOpsToEdits, type PlanOp, type PlanState } from '@cp/domain';
@@ -22,6 +25,7 @@ import {
   applyPlanOpsCommand,
   createChangesetCommand,
   sendChangesetCommand,
+  undoPlanEditOnline,
 } from './commands';
 import type { DayItem } from './plan-model';
 import { opTargets, removeOp, toChangeSetOps, type ChangeReasons } from './plan-ops';
@@ -38,10 +42,25 @@ interface InFlightEdit {
 /** Queued organiser edits by op id, so a conflict can be rebased while the app runs. */
 const inFlight = new Map<string, InFlightEdit>();
 
+/** An edit sent again after a rebase goes out under a new id: the id an undo has to name. */
+const sentAgainAs = new Map<string, string>();
+
+function latestOpId(opId: string): string {
+  let id = opId;
+  for (let next = sentAgainAs.get(id); next !== undefined; next = sentAgainAs.get(id)) id = next;
+  return id;
+}
+
+const UNDO_ATTEMPTS = 4;
+const UNDO_RETRY_MS = 1200;
+
 export type EditOutcome =
-  | { readonly kind: 'applied' }
+  | { readonly kind: 'applied'; readonly opId: string }
   | { readonly kind: 'proposed'; readonly changesetId: string }
   | { readonly kind: 'unavailable' };
+
+/** `moved_on`: the plan changed since the edit, so there is nothing safe to put back. */
+export type UndoOutcome = 'undone' | 'moved_on' | 'unavailable';
 
 export interface PlanEditorEvents {
   /** Someone else changed the same items first; `by` is their name when known. */
@@ -59,6 +78,7 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
   const create = useCommand(createChangesetCommand);
   const send = useCommand(sendChangesetCommand);
   const applySet = useCommand(applyChangesetCommand);
+  const takeBack = useCommand(undoPlanEditOnline);
   const rejected = useRejectedCommands();
   const latest = useRef({ plan, reasons, events });
   useLayoutEffect(() => {
@@ -137,9 +157,26 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
         confirmLocked,
         retried: false,
       });
-      return { kind: 'applied' };
+      return { kind: 'applied', opId: result.opId };
     },
     [apply, propose],
+  );
+
+  /** Takes back an applied edit of mine; an edit still on its way up is waited for briefly. */
+  const undo = useCallback(
+    async (opId: string): Promise<UndoOutcome> => {
+      const tripId = latest.current.plan.trip?.id ?? null;
+      if (tripId === null) return 'unavailable';
+      for (let attempt = 0; attempt < UNDO_ATTEMPTS; attempt += 1) {
+        const result = await takeBack.send({ trip_id: tripId, op_id: latestOpId(opId) });
+        if (result.kind === 'applied') return 'undone';
+        if (result.kind === 'unavailable') return 'unavailable';
+        if (result.kind !== 'rejected' || result.code !== 'NOT_FOUND') return 'moved_on';
+        await new Promise((resolve) => setTimeout(resolve, UNDO_RETRY_MS));
+      }
+      return 'unavailable';
+    },
+    [takeBack],
   );
 
   const whoChanged = useCallback(
@@ -183,9 +220,10 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
               ops: [...rebased.ops],
               confirm_locked: edit.confirmLocked,
             })
-            .then((result) =>
-              inFlight.set(result.opId, { ...edit, baseState: current.synced, retried: true }),
-            );
+            .then((result) => {
+              sentAgainAs.set(rejection.opId, result.opId);
+              inFlight.set(result.opId, { ...edit, baseState: current.synced, retried: true });
+            });
         } else {
           const ids = rebased !== null && !rebased.ok ? rebased.conflicts : opTargets(edit.ops);
           void whoChanged(edit.tripId, ids).then((by) => on.onConflict(ids, by));
@@ -203,5 +241,5 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
     }
   }, [rejected, version, loaded, apply, propose, whoChanged]);
 
-  return { submit, propose, skipForMe, pending: apply.pending || create.pending };
+  return { submit, propose, skipForMe, undo, pending: apply.pending || create.pending };
 }
