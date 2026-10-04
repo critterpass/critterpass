@@ -106,6 +106,8 @@ export function reasonLine(
 }
 
 export function allSwapsLabel(count: number, organiser: boolean): string {
+  // Every swap unticked: the button keeps the day, it does not "use all 0".
+  if (count === 0) return t({ id: 'plan.check.rain.keepDay', message: 'KEEP THE DAY AS IT IS' });
   return organiser
     ? t({
         id: 'plan.check.rain.useAll',

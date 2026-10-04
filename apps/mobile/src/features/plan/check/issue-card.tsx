@@ -27,7 +27,8 @@ export interface IssueCardProps {
     readonly line: string;
     readonly useLabel: string;
     readonly onUse: (() => void) | null;
-    readonly onClose: () => void;
+    /** "Keep it as it is": the card leaves the list. */
+    readonly onKeep: () => void;
   } | null;
 }
 
@@ -100,7 +101,7 @@ export function IssueCard(props: IssueCardProps) {
             )}
             <TextLink
               label={t({ id: 'plan.check.keep', message: 'Keep it as it is' })}
-              onPress={detail.onClose}
+              onPress={detail.onKeep}
               testID={`plan-check-keep-${props.id}`}
             />
           </View>

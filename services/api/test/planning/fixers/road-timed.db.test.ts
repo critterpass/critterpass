@@ -197,24 +197,27 @@ async function reorder(): Promise<ReorderBody> {
   return (await response.json()) as ReorderBody;
 }
 
+/** The new order's stops with a place (the booked dinner has none). */
+const visits = (body: ReorderBody) =>
+  (body.after?.order ?? []).filter((id) => Object.values(stops).includes(id));
+
 describe('fixes timed on real travel', () => {
   it('routes the pair the new order makes and offers the order on the routed minutes', async () => {
     router = travelOn(replay);
     const body = await reorder();
-    expect(body).toMatchObject({
-      found: true,
-      checked: true,
-      before: { drive_min: 50 },
-      // 17 routed minutes temple to terraces, then the stored 14 on to the spring.
-      after: { order: [stops.temple, stops.terraces, stops.spring], drive_min: 31 },
-    });
+    expect(body.found).toBe(true);
+    expect(body.checked).toBe(true);
+    expect(visits(body)).toEqual([stops.temple, stops.terraces, stops.spring]);
+    expect(body.before?.drive_min).toBe(50);
+    // 17 routed minutes temple to terraces, then the stored 14 on to the spring.
+    expect(body.after?.drive_min).toBe(31);
   });
 
   it('offers the order as an estimate when the router does not answer in time', async () => {
     router = travelOn(silent);
     const body = await reorder();
     expect(body).toMatchObject({ found: true, checked: false });
-    expect(body.after?.order).toEqual([stops.temple, stops.terraces, stops.spring]);
+    expect(visits(body)).toEqual([stops.temple, stops.terraces, stops.spring]);
   }, 30_000);
 
   it('refuses a one-tap fix that leaves less time than the routed drive', async () => {

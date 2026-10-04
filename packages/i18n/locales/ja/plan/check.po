@@ -69,11 +69,11 @@ msgid "plan.check.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
-msgid "plan.check.clash.body"
+msgid "plan.check.clash.noGap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
-msgid "plan.check.clash.title"
+msgid "plan.check.clash.tight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
@@ -184,15 +184,19 @@ msgstr ""
 msgid "plan.check.gap.busy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.nearer"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.moveTo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fix.moveToWas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorderMove"
 msgstr ""
 
@@ -264,8 +268,16 @@ msgstr ""
 msgid "plan.check.know.holdPlain"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.tooFar"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/data/use-check-context.ts
 msgid "plan.check.aStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.other"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
@@ -400,11 +412,15 @@ msgstr ""
 msgid "plan.check.balance.uneven"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.fill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.fillGap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix"
 msgstr ""
 
@@ -432,12 +448,16 @@ msgstr ""
 msgid "plan.check.tag.pace"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.goAt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.inCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.indoors"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
@@ -468,23 +488,39 @@ msgstr ""
 msgid "plan.check.gap.keepFree"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.keepDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/commands.ts
 msgid "plan.check.queued.dismissWeather"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.kept"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.mon"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.dryAt"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.swapPlain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.generic"
 msgstr ""
 
@@ -494,6 +530,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.mustDoIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.nearer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.reorder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
@@ -553,6 +597,10 @@ msgstr ""
 msgid "plan.check.ask.private"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.titleOverlap"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.why.quietAfter"
 msgstr ""
@@ -585,15 +633,23 @@ msgstr ""
 msgid "plan.check.rain.recheck"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.reorder"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorder"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fix.reorderAbout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorderPlain"
 msgstr ""
 
@@ -618,15 +674,23 @@ msgstr ""
 msgid "plan.check.toast.sent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.clash"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.estimate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.else"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.nearerPlain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.suggest"
 msgstr ""
 
@@ -638,7 +702,11 @@ msgstr ""
 msgid "plan.check.weekday.sun"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.swapWith"
 msgstr ""
 
@@ -651,7 +719,15 @@ msgid "plan.check.toast.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.unfit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.unfitLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
@@ -670,12 +746,24 @@ msgstr ""
 msgid "plan.check.toast.stale"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.plain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.overlap"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.titleTight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-view.tsx
@@ -698,12 +786,20 @@ msgstr ""
 msgid "plan.check.running"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.keptLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.tag.tooFar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.why.trade"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.trades"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
@@ -733,6 +829,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.wed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.dry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.quiet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
