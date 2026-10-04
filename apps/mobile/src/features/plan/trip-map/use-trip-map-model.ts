@@ -6,6 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
 
+import { useVersionLegPaths, type LegPaths } from '@/data/legs/version-leg-paths';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
@@ -30,7 +31,11 @@ function startOf(date: string | null): Date | null {
   return date === null ? null : new Date(`${date}T00:00:00`);
 }
 
-export function tripMapModel(data: TripMapData, around: AroundRow | undefined): TripMapModel {
+export function tripMapModel(
+  data: TripMapData,
+  around: AroundRow | undefined,
+  legPaths?: LegPaths,
+): TripMapModel {
   const { plan } = data;
   const trip = plan.trip;
   const curated = data.curated.flatMap((poi) =>
@@ -54,6 +59,7 @@ export function tripMapModel(data: TripMapData, around: AroundRow | undefined): 
     endDate: trip?.end_date ?? null,
     countdownTo: target === null ? startOf(trip?.start_date ?? null) : new Date(target),
     days: data.days,
+    ...(legPaths === undefined ? {} : { legPaths }),
     members: plan.members,
     me: plan.uid,
     organiser: plan.organiser,
@@ -84,6 +90,10 @@ export function useTripMapModel(tripId: string): {
 } {
   const data = useTripMapData(tripId);
   const around = useLiveRows<AroundRow>(AROUND_SQL, [OWNER_UID_KEY, tripId], AROUND_TABLES);
-  const model = useMemo(() => tripMapModel(data, around.rows[0]), [data, around.rows]);
+  const legPaths = useVersionLegPaths(data.plan.versionId);
+  const model = useMemo(
+    () => tripMapModel(data, around.rows[0], legPaths),
+    [data, around.rows, legPaths],
+  );
   return { data, model };
 }

@@ -129,7 +129,7 @@ export function DayMapView({
     if (leg === null) return null;
     return leg.mode === 'walk' ? modeLabel('walk') : lengthLabel(leg.minutes);
   });
-  const days = routeDays(otherDays ? model.days : [day]);
+  const days = routeDays(otherDays ? model.days : [day], model.legPaths);
   return (
     <Scaffold variant="map" edges={[]} testID="day-map">
       <View style={StyleSheet.absoluteFill} onLayout={(event) => setSize(event.nativeEvent.layout)}>

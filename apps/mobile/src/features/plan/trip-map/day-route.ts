@@ -16,6 +16,7 @@ import {
   type LegEnd,
   type StoredLeg,
 } from '@/data/legs/day-legs';
+import type { LegPaths } from '@/data/legs/version-leg-paths';
 import { LEGS_SQL } from '@/data/legs/use-day-legs';
 import { useLiveRows } from '@/data/plan/live-rows';
 import type { RouteDay } from '@/ui/map/planning';
@@ -94,11 +95,15 @@ export function estimatedRoute(day: TripDay, order?: readonly string[]): DayRout
   return routeOf(day, [], order);
 }
 
-/** The days as the map's route layer draws them, numbered as the day lists them. */
-export function routeDays(days: readonly TripDay[]): RouteDay[] {
+/**
+ * The days as the map's route layer draws them, numbered as the day lists them, along the roads
+ * of their synced legs where `legPaths` has them.
+ */
+export function routeDays(days: readonly TripDay[], legPaths?: LegPaths): RouteDay[] {
   return days.map((day) => ({
     dayNo: day.dayNo,
     color: day.color,
+    ...(legPaths === undefined ? {} : { legPaths }),
     stops: mappedStops(day).flatMap(({ n, stop }) =>
       stop.place === null ? [] : [{ id: stop.stableId, n, ...stop.place }],
     ),
