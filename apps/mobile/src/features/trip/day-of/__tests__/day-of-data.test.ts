@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { dayLead, dayRelation, type TimelineEntryData } from '../day-of-data';
+import { dayLead, dayOfGo, dayRelation, type TimelineEntryData } from '../day-of-data';
+import { baturLeaveBy } from '../dev/bali-day';
 
 function stop(time: string, title: string): TimelineEntryData {
   return {
@@ -45,5 +46,21 @@ describe('what leads the day-of screen', () => {
     expect(dayRelation('2026-10-01', '2026-10-01')).toBe('today');
     expect(dayRelation('2026-11-01', '2026-10-31')).toBe('tomorrow');
     expect(dayRelation('2026-10-03', '2026-10-01')).toBe('other');
+  });
+
+  it("sends GO to the leave-by's stop, else to today's next stop with a place", () => {
+    const TRIP = 'trip-1';
+    const leaveBy = baturLeaveBy();
+    expect(dayOfGo(leaveBy, null, TRIP, true)).toEqual({ kind: 'leave_by', leaveById: leaveBy.id });
+    const withPlace = [{ ...stop('18:00', 'Che bo'), poiId: 'poi-che' }];
+    const lead = dayLead(withPlace, true, at('15:00'));
+    expect(dayOfGo(null, lead, TRIP, true)).toEqual({
+      kind: 'place',
+      poiId: 'poi-che',
+      tripId: TRIP,
+    });
+    expect(dayOfGo(null, dayLead(DAY, true, at('15:00')), TRIP, true)).toBeNull();
+    expect(dayOfGo(null, dayLead(withPlace, true, at('21:00')), TRIP, true)).toBeNull();
+    expect(dayOfGo(leaveBy, lead, TRIP, false)).toBeNull();
   });
 });

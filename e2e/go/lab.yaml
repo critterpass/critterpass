@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# GO's route preview (apps/mobile/src/app/(dev)/go-lab.tsx) in every state, routed by car and on
+# foot, no location, no signal, the router's straight-line fallback and no Grab, plus the day-of
+# screen's GO button, in English then Vietnamese. Android only (the scenes are left with back).
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/scenes.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/scenes.yaml
+    env:
+      LANG: vi

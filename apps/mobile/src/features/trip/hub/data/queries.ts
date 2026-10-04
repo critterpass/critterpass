@@ -61,7 +61,7 @@ export const GOING_TABLES = ['trip_participants'];
 
 /** The day's plan, in time order, with each place's name (current version only). */
 export const DAY_ITEMS_SQL = `SELECT i.id, i.stable_id, i.starts_at, i.ends_at, i.tz, i.attendee_ids,
-    i.booking_id, i.category, i.notes, i.status, p.name AS poi_name, d.day_no
+    i.booking_id, i.category, i.notes, i.status, i.poi_id, p.name AS poi_name, d.day_no
   FROM plan_items i JOIN plan_days d ON d.id = i.day_id
   LEFT JOIN pois p ON p.id = i.poi_id
   WHERE i.version_id = ? AND d.date = ?
@@ -79,6 +79,7 @@ export interface DayItemRow {
   readonly category: string | null;
   readonly notes: string | null;
   readonly status: string | null;
+  readonly poi_id?: string | null;
   readonly poi_name: string | null;
   readonly day_no: number | null;
 }
