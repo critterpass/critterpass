@@ -5,6 +5,11 @@ import { GoScreen } from '@/features/go/go-screen';
 
 /** GO: the route from here to a place, then directions in the maps app. */
 export default function GoRoute() {
-  const params = useLocalSearchParams<{ poi?: string; trip?: string; leaveBy?: string }>();
+  const params = useLocalSearchParams<{
+    poi?: string;
+    trip?: string;
+    leaveBy?: string;
+    fallback?: string;
+  }>();
   return <GoScreen target={targetFromParams(params)} />;
 }

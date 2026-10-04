@@ -4,6 +4,8 @@
  * app speaks the directions.
  */
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { Linking, Platform, View } from 'react-native';
 
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -57,7 +59,13 @@ export function GoScreen({ target }: { readonly target: GoTarget | null }) {
   const [chosen] = useChosenMapsApp();
   const app = mapsAppFor(PLATFORM, chosen);
   const { place, state, mode } = data;
-  if (!place) return <Missing loading={place === undefined} />;
+  // A leave-by GO can't place opens what its push opened before GO: the day.
+  const fallback = target?.kind === 'next_leave_by' ? target.fallback : null;
+  const leave = place === null && fallback !== null;
+  useEffect(() => {
+    if (leave && fallback !== null) router.replace(fallback);
+  }, [leave, fallback]);
+  if (!place) return <Missing loading={place === undefined || leave} />;
   return (
     <GoPreviewView
       place={place}

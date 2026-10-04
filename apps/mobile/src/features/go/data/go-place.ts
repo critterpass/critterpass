@@ -1,7 +1,10 @@
 /**
  * The place a GO opens on, read from the phone's synced rows: a place by id, the stop a leave-by
- * is for, or the trip's next leave-by (what its push is about). Also the place's destination for
- * the region tiles, and the trip whose drive factor the api applies.
+ * is for, or the trip's next leave-by (what its push is about). A flight's leave-by has no place
+ * of its own: it goes to the departure airport of the flight leg it is for (the leg the leave-by
+ * recompute and its push name), placed from the bundled airport list. Also the region tiles'
+ * destination and the trip whose drive factor the api applies. Null when nothing can be placed:
+ * the caller then opens what it would have without GO, never an empty GO.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route params, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
@@ -9,10 +12,16 @@ import type { AbstractPowerSyncDatabase } from '@powersync/common';
 export type GoTarget =
   | { readonly kind: 'place'; readonly poiId: string; readonly tripId: string | null }
   | { readonly kind: 'leave_by'; readonly leaveById: string }
-  | { readonly kind: 'next_leave_by'; readonly tripId: string };
+  | {
+      readonly kind: 'next_leave_by';
+      readonly tripId: string;
+      /** The in-app path opened instead when the leave-by can't be placed (its push's day). */
+      readonly fallback: string | null;
+    };
 
 export interface GoPlace {
-  readonly poiId: string;
+  /** Null for an airport: it has no place row (and no ride quote). */
+  readonly poiId: string | null;
   readonly name: string;
   readonly lat: number;
   readonly lng: number;
@@ -20,40 +29,64 @@ export interface GoPlace {
   readonly destinationSlug: string | null;
 }
 
-/** A leave-by that went off this long ago still counts as the one its push was about. */
-const NEXT_LEAVE_BY_GRACE_MS = 2 * 60 * 60_000;
-
-const PLACE_COLUMNS = 'p.id AS poi_id, p.name, p.lat, p.lng';
-const PLACE_SQL = `SELECT ${PLACE_COLUMNS} FROM pois p WHERE p.id = ? AND p.lat IS NOT NULL`;
-const LEAVE_BY_PLACE_SQL = `SELECT ${PLACE_COLUMNS}, l.trip_id FROM leave_bys l
-  JOIN plan_items i ON i.id = l.plan_item_id
-  JOIN pois p ON p.id = i.poi_id
-  WHERE l.id = ? AND p.lat IS NOT NULL`;
-const NEXT_LEAVE_BY_PLACE_SQL = `SELECT ${PLACE_COLUMNS}, l.trip_id FROM leave_bys l
-  JOIN plan_items i ON i.id = l.plan_item_id
-  JOIN pois p ON p.id = i.poi_id
-  WHERE l.trip_id = ? AND l.state NOT IN ('cancelled', 'departed')
-    AND julianday(l.leave_at) > julianday(?) AND p.lat IS NOT NULL
-  ORDER BY l.leave_at LIMIT 1`;
-const DESTINATION_SQL = `SELECT d.slug FROM pois p JOIN destinations d ON d.id = p.destination_id
-  WHERE p.id = ?`;
-
-interface PlaceRow {
-  readonly poi_id: string;
+export interface AirportPoint {
   readonly name: string;
   readonly lat: number;
   readonly lng: number;
-  readonly trip_id?: string | null;
 }
+
+/** The airport `iata` is, from the bundled airport list; null when unknown. */
+export type AirportLookup = (iata: string) => AirportPoint | null;
+
+/** A leave-by that went off this long ago still counts as the one its push was about. */
+const NEXT_LEAVE_BY_GRACE_MS = 2 * 60 * 60_000;
+
+const PLACE_SQL = `SELECT p.id AS poi_id, p.name, p.lat, p.lng, d.slug
+  FROM pois p LEFT JOIN destinations d ON d.id = p.destination_id
+  WHERE p.id = ? AND p.lat IS NOT NULL`;
+/** The leave-by's stop and, for a flight leg, its departure airport (as the push names it). */
+const LEAVE_BY_COLUMNS = `l.trip_id, p.id AS poi_id, p.name, p.lat, p.lng,
+  (SELECT s.dep_airport FROM flight_segments s
+    WHERE s.booking_id = i.booking_id AND julianday(s.sched_dep_at) = julianday(l.starts_at)
+    ORDER BY s.segment_no LIMIT 1) AS dep_airport,
+  (SELECT d.slug FROM trips t JOIN destinations d ON d.id = t.destination_id
+    WHERE t.id = l.trip_id) AS trip_slug,
+  (SELECT d.slug FROM destinations d WHERE d.id = p.destination_id) AS slug
+  FROM leave_bys l
+  LEFT JOIN plan_items i ON i.id = l.plan_item_id
+  LEFT JOIN pois p ON p.id = i.poi_id`;
+const LEAVE_BY_SQL = `SELECT ${LEAVE_BY_COLUMNS} WHERE l.id = ?`;
+const NEXT_LEAVE_BY_SQL = `SELECT ${LEAVE_BY_COLUMNS}
+  WHERE l.trip_id = ? AND l.state NOT IN ('cancelled', 'departed')
+    AND julianday(l.leave_at) > julianday(?)
+  ORDER BY l.leave_at LIMIT 1`;
+
+interface PlaceRow {
+  readonly poi_id: string | null;
+  readonly name: string | null;
+  readonly lat: number | null;
+  readonly lng: number | null;
+  readonly slug: string | null;
+  readonly trip_id?: string | null;
+  readonly trip_slug?: string | null;
+  readonly dep_airport?: string | null;
+}
+
+/** Only an in-app path may be a fallback, so a crafted link can't send GO anywhere else. */
+const inAppPath = (value: string | undefined): string | null =>
+  value !== undefined && value.startsWith('/') && !value.startsWith('//') ? value : null;
 
 /** Route params → target; null when they name nothing GO can open. */
 export function targetFromParams(params: {
   readonly poi?: string | undefined;
   readonly trip?: string | undefined;
   readonly leaveBy?: string | undefined;
+  readonly fallback?: string | undefined;
 }): GoTarget | null {
   if (params.leaveBy === 'next') {
-    return params.trip ? { kind: 'next_leave_by', tripId: params.trip } : null;
+    return params.trip
+      ? { kind: 'next_leave_by', tripId: params.trip, fallback: inAppPath(params.fallback) }
+      : null;
   }
   if (params.leaveBy) return { kind: 'leave_by', leaveById: params.leaveBy };
   if (params.poi) return { kind: 'place', poiId: params.poi, tripId: params.trip ?? null };
@@ -61,37 +94,50 @@ export function targetFromParams(params: {
 }
 
 export function paramsForTarget(target: GoTarget): Record<string, string> {
-  if (target.kind === 'next_leave_by') return { trip: target.tripId, leaveBy: 'next' };
+  if (target.kind === 'next_leave_by') {
+    return target.fallback === null
+      ? { trip: target.tripId, leaveBy: 'next' }
+      : { trip: target.tripId, leaveBy: 'next', fallback: target.fallback };
+  }
   if (target.kind === 'leave_by') return { leaveBy: target.leaveById };
   return target.tripId === null
     ? { poi: target.poiId }
     : { poi: target.poiId, trip: target.tripId };
 }
 
+function placeOf(row: PlaceRow, tripId: string | null, airportAt: AirportLookup): GoPlace | null {
+  if (row.poi_id !== null && row.lat !== null && row.lng !== null) {
+    return {
+      poiId: row.poi_id,
+      name: row.name ?? '',
+      lat: row.lat,
+      lng: row.lng,
+      tripId,
+      destinationSlug: row.slug ?? row.trip_slug ?? null,
+    };
+  }
+  const airport = row.dep_airport ? airportAt(row.dep_airport) : null;
+  if (airport === null) return null;
+  return { poiId: null, ...airport, tripId, destinationSlug: row.trip_slug ?? null };
+}
+
 export async function loadGoPlace(
   db: Pick<AbstractPowerSyncDatabase, 'getAll'>,
   target: GoTarget,
   now: Date,
+  airportAt: AirportLookup,
 ): Promise<GoPlace | null> {
   const rows =
     target.kind === 'place'
       ? await db.getAll<PlaceRow>(PLACE_SQL, [target.poiId])
       : target.kind === 'leave_by'
-        ? await db.getAll<PlaceRow>(LEAVE_BY_PLACE_SQL, [target.leaveById])
-        : await db.getAll<PlaceRow>(NEXT_LEAVE_BY_PLACE_SQL, [
+        ? await db.getAll<PlaceRow>(LEAVE_BY_SQL, [target.leaveById])
+        : await db.getAll<PlaceRow>(NEXT_LEAVE_BY_SQL, [
             target.tripId,
             new Date(now.getTime() - NEXT_LEAVE_BY_GRACE_MS).toISOString(),
           ]);
   const row = rows[0];
   if (row === undefined) return null;
   const tripId = target.kind === 'place' ? target.tripId : (row.trip_id ?? null);
-  const destination = await db.getAll<{ slug: string | null }>(DESTINATION_SQL, [row.poi_id]);
-  return {
-    poiId: row.poi_id,
-    name: row.name,
-    lat: row.lat,
-    lng: row.lng,
-    tripId,
-    destinationSlug: destination[0]?.slug ?? null,
-  };
+  return placeOf(row, tripId, airportAt);
 }

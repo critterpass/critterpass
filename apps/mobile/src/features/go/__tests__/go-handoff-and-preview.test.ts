@@ -190,7 +190,8 @@ describe('the GO route', () => {
       { kind: 'place', poiId: 'poi-1', tripId: null },
       { kind: 'place', poiId: 'poi-1', tripId: TRIP },
       { kind: 'leave_by', leaveById: 'lb-1' },
-      { kind: 'next_leave_by', tripId: TRIP },
+      { kind: 'next_leave_by', tripId: TRIP, fallback: null },
+      { kind: 'next_leave_by', tripId: TRIP, fallback: `/hub/${TRIP}/day/2026-10-05` },
     ];
     for (const target of targets) expect(targetFromParams(paramsForTarget(target))).toEqual(target);
     expect(targetFromParams({})).toBeNull();
@@ -204,11 +205,16 @@ describe('the GO route', () => {
       type: 'leave_by_alarm',
       crewId: null,
     };
-    const href = await routeForTap(tap, () => Promise.reject(new Error('not used')));
-    expect(href).toBe(`/go?trip=${TRIP}&leaveBy=next`);
+    const day = `/hub/${TRIP}/day/2026-10-05`;
+    const href = await routeForTap(tap, () => Promise.resolve(day));
     const params = Object.fromEntries(new URLSearchParams(href.split('?')[1]));
-    expect(targetFromParams(params)).toEqual({ kind: 'next_leave_by', tripId: TRIP });
-    expect(leaveByGoRoute({ ...tap, type: 'crew_knock' })).toBeNull();
-    expect(leaveByGoRoute({ ...tap, deeplink: '/inbox' })).toBeNull();
+    expect(href.startsWith('/go?')).toBe(true);
+    expect(targetFromParams(params)).toEqual({
+      kind: 'next_leave_by',
+      tripId: TRIP,
+      fallback: day,
+    });
+    expect(leaveByGoRoute({ ...tap, type: 'crew_knock' }, day)).toBeNull();
+    expect(leaveByGoRoute({ ...tap, deeplink: '/inbox' }, day)).toBeNull();
   });
 });

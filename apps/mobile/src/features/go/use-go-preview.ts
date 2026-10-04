@@ -11,7 +11,8 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 
 import { deviceGoApi, type GoApi } from './data/api';
 import { locateForGo } from './data/locate';
-import { loadGoPlace, type GoPlace, type GoTarget } from './data/go-place';
+import { bundledAirportAt } from './data/airport';
+import { loadGoPlace, type AirportLookup, type GoPlace, type GoTarget } from './data/go-place';
 import type { GoMode } from './maps-handoff';
 import {
   firstMode,
@@ -30,7 +31,11 @@ export interface GoPreviewData {
   readonly setMode: (mode: GoMode) => void;
 }
 
-export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi): GoPreviewData {
+export function useGoPreview(
+  target: GoTarget | null,
+  api: GoApi = deviceGoApi,
+  airportAt: AirportLookup = bundledAirportAt,
+): GoPreviewData {
   const { db } = useLocalFirst();
   const online = useSyncStatus().phase !== 'offline';
   const [loaded, setLoaded] = useState<{ key: string; place: GoPlace | null } | null>(null);
@@ -46,7 +51,7 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
   useEffect(() => {
     if (target === null || targetKey === null) return undefined;
     let live = true;
-    void loadGoPlace(db, target, new Date())
+    void loadGoPlace(db, target, new Date(), airportAt)
       .catch(() => null)
       .then((next) => {
         if (live) setLoaded({ key: targetKey, place: next });
@@ -72,7 +77,7 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
   const here = locate.kind === 'here' ? locate.at : null;
   // One ask per place and position; a new key reads as loading until its answers land.
   const askKey =
-    here === null || !place || !online ? null : `${place.poiId}|${here.lat},${here.lng}`;
+    here === null || !place || !online ? null : `${place.lat},${place.lng}|${here.lat},${here.lng}`;
   useEffect(() => {
     if (askKey === null || here === null || !place) return undefined;
     let live = true;
@@ -80,7 +85,10 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
       setAnswers((was) => ({
         key: askKey,
         route: was?.key === askKey ? was.route : { kind: 'loading' },
-        ride: was?.key === askKey ? was.ride : { kind: place.tripId === null ? 'none' : 'loading' },
+        ride:
+          was?.key === askKey
+            ? was.ride
+            : { kind: place.tripId === null || place.poiId === null ? 'none' : 'loading' },
         ...next,
       }));
     void api.routePreview({ from: here, to: place, tripId: place.tripId }).then((outcome) => {
@@ -92,16 +100,14 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
             : { kind: outcome.kind === 'offline' ? 'offline' : 'error' },
       });
     });
-    if (place.tripId !== null) {
-      void api
-        .rideQuote({ tripId: place.tripId, toPoi: place.poiId, from: here })
-        .then((outcome) => {
-          if (!live) return;
-          merge({
-            ride:
-              outcome.kind === 'ok' ? { kind: 'ready', quote: outcome.value } : { kind: 'none' },
-          });
+    const { tripId, poiId } = place;
+    if (tripId !== null && poiId !== null) {
+      void api.rideQuote({ tripId, toPoi: poiId, from: here }).then((outcome) => {
+        if (!live) return;
+        merge({
+          ride: outcome.kind === 'ok' ? { kind: 'ready', quote: outcome.value } : { kind: 'none' },
         });
+      });
     }
     return () => {
       live = false;

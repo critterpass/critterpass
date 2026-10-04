@@ -13,7 +13,7 @@ import {
   Marker,
   type StyleSpecification,
 } from '@maplibre/maplibre-react-native';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
@@ -40,6 +40,7 @@ export interface GoMapProps {
 
 const useStyles = makeStyles((t) => ({
   map: { flex: 1, backgroundColor: tokens.color.map.base },
+  ready: { position: 'absolute', top: 0, start: 0, width: 1, height: 1 },
   pin: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -84,11 +85,15 @@ export function GoMap({
     Math.max(...lats),
   ];
   const framed = points.length > 1;
+  const mapKey = `${you === null ? 'place' : 'you'}:${String(line?.length ?? 0)}`;
+  // The map as now framed has drawn every tile: screenshot flows wait for the marker below.
+  const [renderedKey, setRenderedKey] = useState<string | null>(null);
   return (
     <View style={styles.map} testID="go-map">
       {/* Re-framed when the first position or the route arrives. */}
       <MapLibreMap
-        key={`${you === null ? 'place' : 'you'}:${line?.length ?? 0}`}
+        key={mapKey}
+        onDidFinishRenderingMapFully={() => setRenderedKey(mapKey)}
         style={StyleSheet.absoluteFill}
         mapStyle={style}
         androidView="texture"
@@ -126,6 +131,9 @@ export function GoMap({
           </View>
         </Marker>
       </MapLibreMap>
+      {renderedKey === mapKey ? (
+        <View style={styles.ready} collapsable={false} testID="go-map-ready" />
+      ) : null}
     </View>
   );
 }
