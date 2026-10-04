@@ -5,7 +5,7 @@
  * that failed; while a draft is still being made it goes to the drafting screen.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -43,9 +43,11 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
     trip.draftVersionId === null &&
     (draft.lastDraftJob?.status === 'queued' || draft.lastDraftJob?.status === 'running');
 
+  // Only while this is the screen on top: one underneath never navigates.
+  const focused = useIsFocused();
   useEffect(() => {
-    if (drafting) router.replace(draftRoutes.drafting(tripId));
-  }, [drafting, tripId]);
+    if (drafting && focused) router.replace(draftRoutes.drafting(tripId));
+  }, [drafting, focused, tripId]);
 
   const back = () =>
     router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/');

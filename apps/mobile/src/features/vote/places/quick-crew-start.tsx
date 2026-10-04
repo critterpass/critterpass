@@ -6,6 +6,7 @@
  */
 import { CREW_NAME_MAX, crewNameSchema, generateUuidV7, normaliseCrewName } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
+import { useIsFocused } from 'expo-router';
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -66,12 +67,14 @@ export function QuickCrewStart(props: QuickCrewStartProps) {
   // caller has moved on).
   const arrived = pending !== null && crewIds.includes(pending) ? pending : null;
   const handed = useRef<string | null>(null);
+  // Only while this page is on top: if she has gone elsewhere, the pitch does not open over it.
+  const focused = useIsFocused();
   useEffect(() => {
-    if (arrived === null || handed.current === arrived) return;
+    if (arrived === null || !focused || handed.current === arrived) return;
     handed.current = arrived;
     onReady(arrived);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per crew, whatever the caller's closure.
-  }, [arrived]);
+  }, [arrived, focused]);
 
   const start = () => {
     if (localFirst === null || !valid || pending !== null) return;
