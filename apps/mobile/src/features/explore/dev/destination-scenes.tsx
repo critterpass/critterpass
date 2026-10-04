@@ -13,75 +13,22 @@ import { DestinationView } from '../components/destination-view';
 import type { MonthPrices } from '../components/month-panel';
 import type { PickCard } from '../components/picks-row';
 import { WhySponsoredSheet } from '../components/why-sponsored-sheet';
-import { crowdBand, legendChips, monthBars, type PriceRow } from '../destination-model';
+import { crowdBand, legendChips, monthBars } from '../destination-model';
 import { guideFor } from '../format';
 import { guideTagline, heroChips, type HeroFacts } from '../guide-copy';
 import type { CrewChoice } from '../queries';
 
-const NOW = new Date('2026-10-01T09:00:00Z');
-const SEEN = '2026-10-01T06:00:00Z';
-
-const curve = (crowds: readonly number[], roles: Readonly<Record<number, [string, string?]>>) =>
-  crowds.map((crowd_index, index) => ({
-    month: index + 1,
-    crowd_index,
-    colour_role: roles[index + 1]?.[0] ?? 'normal',
-    highlight_tag: roles[index + 1]?.[1] ?? null,
-  }));
-
-const KYOTO_CURVE = curve([28, 30, 52, 88, 62, 42, 50, 54, 44, 58, 86, 36], {
-  1: ['cheapest'],
-  2: ['cheapest'],
-  4: ['peak', 'blossoms'],
-  11: ['peak', 'leaves'],
-});
-const DA_NANG_CURVE = curve([40, 62, 58, 70, 82, 95, 100, 88, 46, 30, 26, 38], {
-  6: ['peak', 'fireworks festival'],
-  10: ['cheapest'],
-  11: ['cheapest'],
-});
-
-const pick = (id: string, name: string, category: string): PickCard => ({
-  id,
-  name,
-  category,
-  photo: null,
-});
-const KYOTO_PICKS = [
-  pick('kyoto-1', 'Fushimi Inari', 'temple_shrine'),
-  pick('kyoto-2', 'Nishiki Market', 'market'),
-  pick('kyoto-3', 'Arashiyama', 'nature'),
-  pick('kyoto-4', 'Kiyomizu-dera', 'temple_shrine'),
-];
-const DA_NANG_PICKS = [
-  pick('da-nang-1', 'Bán đảo Sơn Trà', 'nature'),
-  pick('da-nang-2', 'Ngũ Hành Sơn (Marble Mountains)', 'nature'),
-  pick('da-nang-3', 'Chợ Cồn', 'market'),
-  pick('da-nang-4', 'Bãi biển Mỹ Khê', 'beach'),
-];
-
-const row = (over: Partial<PriceRow> & Pick<PriceRow, 'origin'>): PriceRow => ({
-  mine: false,
-  names: [],
-  others: 0,
-  price: null,
-  seenAt: SEEN,
-  ...over,
-});
-const USD_ROWS: readonly PriceRow[] = [
-  row({ origin: 'SIN', mine: true, names: ['Jordan'], price: { minor: 41_200, currency: 'USD' } }),
-  row({ origin: 'KUL', names: ['Rin', 'Alex'], price: { minor: 36_800, currency: 'USD' } }),
-  row({ origin: 'MNL', names: [], others: 2, seenAt: null }),
-];
-const VND_ROWS: readonly PriceRow[] = [
-  row({
-    origin: 'SGN',
-    mine: true,
-    names: ['Nguyễn Thị Thanh Hương'],
-    price: { minor: 12_500_000, currency: 'VND' },
-  }),
-  row({ origin: 'HAN', names: ['Khánh'], price: { minor: 2_350_000, currency: 'VND' } }),
-];
+import {
+  type curve,
+  DA_NANG_CURVE,
+  DA_NANG_PICKS,
+  KYOTO_CURVE,
+  KYOTO_PICKS,
+  NOW,
+  pick,
+  USD_ROWS,
+  VND_ROWS,
+} from './destination-scene-fixtures';
 
 interface SceneSpec {
   readonly name: string;
