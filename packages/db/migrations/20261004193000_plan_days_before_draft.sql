@@ -28,3 +28,28 @@ $$;
 -- already grants this; `app_user` still has no write path to any of the three.
 GRANT DELETE ON itinerary_versions TO app_system;
 GRANT DELETE ON plan_days TO app_system;
+
+-- The organiser's own edit of her private draft appends `draft.ops_applied`
+-- (packages/domain/src/itinerary/events.ts): ids and a count only, never an activity or a push.
+CREATE OR REPLACE FUNCTION pg_temp.widen_in_check(tbl regclass, con text, col text, extra text[])
+RETURNS void LANGUAGE plpgsql AS $$
+DECLARE
+  current_values text[];
+  merged text;
+BEGIN
+  SELECT array_agg(m[1]) INTO current_values
+    FROM pg_constraint c,
+         regexp_matches(pg_get_constraintdef(c.oid), '''([^'']+)''::text', 'g') AS m
+   WHERE c.conname = con AND c.conrelid = tbl;
+  IF current_values IS NULL THEN
+    RAISE EXCEPTION 'constraint % on % not found', con, tbl;
+  END IF;
+  SELECT string_agg(DISTINCT quote_literal(t), ', ') INTO merged
+    FROM unnest(current_values || extra) AS t;
+  EXECUTE format('ALTER TABLE %s DROP CONSTRAINT %I', tbl, con);
+  EXECUTE format('ALTER TABLE %s ADD CONSTRAINT %I CHECK (%I IN (%s))', tbl, con, col, merged);
+END
+$$;
+
+SELECT pg_temp.widen_in_check('domain_events', 'domain_events_type_check', 'type',
+  ARRAY['draft.ops_applied']);
