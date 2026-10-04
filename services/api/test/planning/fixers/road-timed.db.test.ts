@@ -199,7 +199,7 @@ async function reorder(): Promise<ReorderBody> {
 
 /** The new order's stops with a place (the booked dinner has none). */
 const visits = (body: ReorderBody) =>
-  (body.after?.order ?? []).filter((id) => Object.values(stops).includes(id));
+  (body.after?.order ?? []).filter((id) => (Object.values(stops) as string[]).includes(id));
 
 describe('fixes timed on real travel', () => {
   it('routes the pair the new order makes and offers the order on the routed minutes', async () => {
