@@ -1,7 +1,7 @@
 ---
 phase: 12
 title: Explore in a trip, swipe together and the destination guide
-status: pending
+status: in-review
 depends_on: [1, 4, 5, 7]
 wave: 4
 screens: [7g-1, 7g-2, 7g-3]
@@ -75,27 +75,27 @@ Reuse / extend / new: reuse the destination screen and its server route, month b
 - Steps: 1. Trip mode of the destination screen (shared hero). 2. Docked search. 3. Gaps card with idea chips. 4. Pick states + one-tap save. 5. Swipe card with live count. 6. Register `7g-1`; `3d-1` with trip → here.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/trip-explore` (pick state from ideas and plan; gap chosen = next upcoming gap)
 - Done when: the trip hub's Explore entry opens 7g-1 on the Bali seed with Wed 16:00–19:00 and three ideas.
-- Status: todo
+- Status: done — d9cda6ea4
 
 ### T2 — Swipe together, matches to Ideas (7g-2)
 - Files: `apps/mobile/src/features/explore/{screens/swipe-screen.tsx,components/{match-stamp,deck-summary}.tsx,hooks/use-swipe-session.ts}`, `packages/i18n/locales/{en,vi}/explore/swipe.*`
 - Steps: 1. Match → idea toast and fly-to-Ideas motion. 2. Summary as Ideas. 3. Register `7g-2`.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/swipe` (match payload with `idea_id` handled; older payload with `change_set_id` still handled)
 - Done when: a match made on two devices shows in Ideas on both with both faces.
-- Status: todo
+- Status: done — 5a51f2693
 
 ### T3 — Destination guide (7g-3) and entry ids
 - Files: `apps/mobile/src/features/explore/{screens/destination-screen.tsx,components/dest-hero.tsx}`, `apps/mobile/src/app/explore/[destination].tsx`
 - Steps: 1. Sticker sits on the hero. 2. Register `7g-3`; `3d-1` without a trip → here.
 - Tests: none beyond typecheck
 - Done when: matches 7g-3 on device (EN, VI).
-- Status: todo
+- Status: done — 3ee4324db
 
 ### T4 — Device flows and undesigned states
 - Files: `e2e/explore/{trip-explore,destination,destination-vi,fresh-destination,swipe,swipe-vi}.yaml`, `e2e/explore/subflows/{destination-scenes,swipe-scenes}.yaml`, `docs/undesigned-states.md`
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/explore/trip-explore.yaml,e2e/explore/swipe.yaml,e2e/explore/destination.yaml" -f mode=compare -f pr=<n> -f shards=1`
 - Done when: sheets reviewed; `ui-reviewed` applied.
-- Status: todo
+- Status: done — add9ecb26 (flows and sheets posted; `ui-reviewed` is the controller's)
 
 ## Device flows
 
