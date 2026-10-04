@@ -92,9 +92,7 @@ describe('next-up card', () => {
         now={() => NOW}
       />,
     );
-    // The title sets each word in its own box, so a name wraps between words, never inside one.
     expect(screen.getByLabelText(/^NEXT UP, YOUR NEXT TRIP/u)).toBeTruthy();
-    expect(screen.getByText('YOUR')).toBeTruthy();
     expect(screen.queryByTestId('home-countdown')).toBeNull();
     expect(screen.getByText('NEXT UP')).toBeTruthy();
   });

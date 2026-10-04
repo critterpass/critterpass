@@ -14,10 +14,6 @@ appId: app.critterpass.dev
       HOME_QUERY: 'Ho Chi'
 - runFlow: ../../../../_shared/planning-redesign-on.yaml
 - runFlow:
-    file: locale.yaml
-    env:
-      LANDS: 'dev-tools-entry'
-- runFlow:
     file: ../../../../screens/sweep/subflows/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
@@ -154,8 +150,13 @@ appId: app.critterpass.dev
     visible:
       id: 'drafting-screen'
     timeout: 30000
-# She leaves the wait: Home says the guide is drafting, with the wait one tap away.
+# She leaves the wait: Home says the guide is drafting, with the wait one tap away. The set-up
+# steps above check English labels, so the walk's language starts here.
 - runFlow: home.yaml
+- runFlow:
+    file: locale.yaml
+    env:
+      LANDS: 'home-header-chat'
 - extendedWaitUntil:
     visible:
       id: 'home-turn-guide_drafting|home-turn-finish_draft'
@@ -166,6 +167,8 @@ appId: app.critterpass.dev
     visible:
       id: 'home-turn-finish_draft'
     timeout: 600000
+# The finished draft may rise over Home by itself: the frame is Home, as she finds it later.
+- runFlow: home.yaml
 - waitForAnimationToEnd
 - takeScreenshot: crew-home-${LOCALE}-02-linh-home-draft-ready-alone
 - assertNotVisible:

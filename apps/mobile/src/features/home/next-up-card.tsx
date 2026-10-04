@@ -4,8 +4,8 @@
  * once the trip has progress to report: a plan at 0% says nothing true about a trip just locked.
  * Tapping it grows into the trip hub once that screen is registered. A trip still choosing its place reads "Your next
  * trip". The countdown starts when the trip is locked in: until then the card says whose turn it
- * is, with the one button for the viewer's next step, in a strip under it (./trip-turn-row.tsx). The title sets
- * each word as its own line box, so a long name wraps between words and never inside one. The
+ * is, with the one button for the viewer's next step, in a strip under it (./trip-turn-row.tsx). The title is
+ * one line under the sticker, shrunk to fit, so a name never breaks inside a word. The
  * destination's photo sits under it as a duotone of the card's colour when one exists.
  */
 import { upper } from '@cp/i18n';
@@ -39,10 +39,13 @@ import { TripTurnRow } from './trip-turn-row';
 export const NEXT_UP_STICKER = 124;
 /** The sticker beside a title that shares the card with a state line and a button. */
 const CARD_STICKER = 96;
+/** A long destination name shrinks to this before it would be cut. */
+const TITLE_MIN_SIZE = 32;
 
 const useStyles = makeStyles((t) => ({
   sticker: { position: 'absolute', top: t.space['8'], end: t.space['8'] },
-  title: { paddingEnd: CARD_STICKER, columnGap: t.space['12'] },
+  // The title starts below the sticker, so it has the card's whole width.
+  title: { marginTop: CARD_STICKER - t.space['32'] },
 }));
 
 /** The shared-element id the card grows from into the trip hub. */
@@ -114,13 +117,17 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
       </View>
       <Stack gap="8">
         <Text variant="eyebrow">{eyebrow}</Text>
-        <Row wrap style={styles.title}>
-          {title.split(/\s+/u).map((word, index) => (
-            <Text key={`${word}-${String(index)}`} variant="displayMega" numberOfLines={1}>
-              {word}
-            </Text>
-          ))}
-        </Row>
+        {/* One line across the card's full width, under the sticker: the words stay whole and the
+            name shrinks to fit rather than breaking inside a word. */}
+        <Text
+          variant="displayMega"
+          autoFit
+          autoFitMinSize={TITLE_MIN_SIZE}
+          numberOfLines={1}
+          style={styles.title}
+        >
+          {title.replaceAll(' ', '\u00a0')}
+        </Text>
         {target === null && progress <= 0 ? null : (
           <Row gap="8" wrap>
             {target === null ? null : (
