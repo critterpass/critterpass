@@ -1,0 +1,109 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 10:01+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.minutes"
+msgstr "{count} phút"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEta"
+msgstr "Xe cách khoảng {eta} phút"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutMinutes"
+msgstr "khoảng {count} phút"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.appleMaps"
+msgstr "Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.mapsApp"
+msgstr "Chỉ đường bằng"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.drive"
+msgstr "Lái xe"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.locating"
+msgstr "Đang tìm vị trí của bạn…"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.routing"
+msgstr "Đang lấy tuyến đường…"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.label"
+msgstr "Đi"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.eyebrow"
+msgstr "ĐI"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.googleMaps"
+msgstr "Google Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabFare"
+msgstr "Grab {low}–{high}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabHere"
+msgstr "Có Grab ở đây"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.modeLabel"
+msgstr "Cách bạn đi"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noLocation"
+msgstr "Vị trí đang tắt nên không có đường từ chỗ bạn. Nút Bắt đầu vẫn chỉ đường."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.straight"
+msgstr "Hiện chưa có tuyến đường bộ. Thời gian là ước tính theo đường thẳng."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.offline"
+msgstr "Không có sóng nên không có đường đi. Nút Bắt đầu vẫn chỉ đường."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabLink"
+msgstr "Mở Grab với điểm đến đã điền sẵn"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.ride"
+msgstr "Gọi xe"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.hint"
+msgstr "Hiện tuyến đường từ chỗ bạn, rồi chỉ đường trong ứng dụng bản đồ"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startApple"
+msgstr "Bắt đầu trong Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startGoogle"
+msgstr "Bắt đầu trong Google Maps"
+
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.missing"
+msgstr "Địa điểm này chưa có trên điện thoại. Hãy thử lại sau khi đồng bộ xong."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.walk"
+msgstr "Đi bộ"

@@ -60,6 +60,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/trip-day-lab',
         label: 'Trip day (3k scenes)',
       },
+      { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
       {
         testId: 'dev-nav-disruption-lab',
         href: '/(dev)/disruption-lab',
