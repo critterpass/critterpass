@@ -6,6 +6,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
+import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { makeStyles, Text, useTheme } from '@/ui';
@@ -101,6 +102,8 @@ export interface NoResultsProps {
   readonly guideName: string;
   readonly onWayOut: (way: WayOut) => void;
   readonly onAsk: () => void;
+  /** Street addresses for what was asked, above the ways out. */
+  readonly addresses?: ReactNode;
 }
 
 export function NoResults(props: NoResultsProps) {
@@ -137,6 +140,7 @@ export function NoResults(props: NoResultsProps) {
       <Text variant="body" color={theme.semantic.text.secondary}>
         {closest === '' ? lead : `${lead} ${closest}`}
       </Text>
+      {props.addresses}
       <View style={styles.card}>
         {ways.map((way, index) => {
           const words = wayOutWords(way, props.guideName);

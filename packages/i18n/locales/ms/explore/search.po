@@ -160,6 +160,10 @@ msgstr ""
 msgid "search.link.addedToast"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.ask"
 msgstr ""
@@ -462,6 +466,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.pickOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.hint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx

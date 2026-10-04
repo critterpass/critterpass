@@ -160,6 +160,10 @@ msgstr "Add to Ideas"
 msgid "search.link.addedToast"
 msgstr "Added to {shown}"
 
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.eyebrow"
+msgstr "Addresses"
+
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.ask"
 msgstr "Ask"
@@ -463,6 +467,10 @@ msgstr "Paste the link to add its places."
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.pickOne"
 msgstr "Pick one"
+
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.hint"
+msgstr "Pick one, then move the pin to the exact spot."
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.other"

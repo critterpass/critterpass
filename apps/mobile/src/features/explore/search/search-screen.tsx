@@ -21,6 +21,8 @@ import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
 
+import { wantsAddresses } from './address-rule';
+import { AddressSection } from './address-section';
 import { BrowseGrid, type BrowseTile } from './browse-grid';
 import { DropPinSheet } from './drop-pin-sheet';
 import { ClipboardCard } from './clipboard-card';
@@ -33,6 +35,7 @@ import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
 import { SearchView } from './search-view';
 import { plainExamples, TypedExamples } from './typed-examples';
+import { useAddresses, useDestinationCentre, type AddressPoint } from './use-addresses';
 import { useClipboardLink } from './use-clipboard-link';
 import { useQueuedPlainQuestion } from './use-queued-plain-question';
 import { useScopePlace, useSearchTrip, type SearchTrip } from './use-search-trip';
@@ -96,7 +99,11 @@ export function SearchScreen(props: SearchScreenProps) {
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');
   const [asked, setAsked] = useState<string | null>(props.q ?? null);
-  const [pinning, setPinning] = useState(false);
+  // DROP A PIN, opened bare or on a picked address (its spot and its line as the name).
+  const [pinning, setPinning] = useState<{
+    readonly start: AddressPoint | null;
+    readonly name: string;
+  } | null>(null);
   const type = (text: string) => {
     setQuery(text);
     setAsked(null);
@@ -121,18 +128,30 @@ export function SearchScreen(props: SearchScreenProps) {
     near,
   });
   const typed = query.trim();
+  const found = search.state === 'searching' || search.more ? null : search.rows.length;
   const live = useLivePlaces({
     getJson: services.getJson,
     destinationId: trip.destinationId,
     query: typed,
-    wanted: wantsLivePlaces(
-      typed,
-      search.state === 'searching' || search.more ? null : search.rows.length,
-      search.offline,
-    ),
+    wanted: wantsLivePlaces(typed, found, search.offline),
   });
   const clipboard = useClipboardLink(typed === '');
   const online = useOnline();
+  const centre = useDestinationCentre(trip.destinationId);
+  const addressState = useAddresses({
+    getJson: services.getJson,
+    query: typed,
+    near: near ?? centre,
+    wanted: wantsAddresses(typed, found, !online || search.offline),
+  });
+  const addresses = (
+    <AddressSection
+      state={addressState}
+      onPick={(address) =>
+        setPinning({ start: { lat: address.lat, lng: address.lng }, name: address.line })
+      }
+    />
+  );
   const question = useQueuedPlainQuestion({ tripId, online, guideName: trip.guideName });
 
   const go = (href: Href | undefined) => {
@@ -176,21 +195,21 @@ export function SearchScreen(props: SearchScreenProps) {
         ) : null
       }
       overlay={
-        pinning ? (
+        pinning !== null ? (
           <DropPinSheet
             tripId={tripId}
             destinationId={trip.destinationId}
             destinationSlug={trip.destinationSlug}
-            start={near}
-            name=""
+            start={pinning.start ?? near}
+            name={pinning.name}
             onSaved={(name) => {
-              setPinning(false);
+              setPinning(null);
               toast.show({
                 id: 'search-pin-saved',
                 title: t({ id: 'search.pin.saved', message: `${name} is in Ideas` }),
               });
             }}
-            onClose={() => setPinning(false)}
+            onClose={() => setPinning(null)}
           />
         ) : null
       }
@@ -213,7 +232,8 @@ export function SearchScreen(props: SearchScreenProps) {
           area={place?.name ?? trip.destination}
           onOpen={(poiId) => openPlace(poiRef(poiId))}
           onAdd={(poiId) => addPlace(poiRef(poiId))}
-          onDropPin={() => setPinning(true)}
+          onDropPin={() => setPinning({ start: null, name: '' })}
+          addresses={addresses}
           onAsk={() => go(hrefFor('3j-1', { tripId, q: asked }))}
         />
       ) : typed === '' ? (
@@ -230,14 +250,17 @@ export function SearchScreen(props: SearchScreenProps) {
           <BrowseGrid onBrowse={browse} />
         </>
       ) : (
-        <NameResults
-          rows={search.rows}
-          state={search.state}
-          live={live}
-          onOpen={openPlace}
-          onAdd={addPlace}
-          onPickLive={pickLive}
-        />
+        <>
+          <NameResults
+            rows={search.rows}
+            state={search.state}
+            live={live}
+            onOpen={openPlace}
+            onAdd={addPlace}
+            onPickLive={pickLive}
+          />
+          {addresses}
+        </>
       )}
     </SearchView>
   );

@@ -4,6 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids and param keys, never copy. */
 import { router } from 'expo-router';
+import type { ReactNode } from 'react';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
@@ -23,6 +24,8 @@ export interface PlainBlockProps {
   readonly onAdd: (poiId: string) => void;
   readonly onDropPin: () => void;
   readonly onAsk: () => void;
+  /** Street addresses for the question, shown under the places or above the ways out. */
+  readonly addresses?: ReactNode;
 }
 
 export function PlainBlock(props: PlainBlockProps) {
@@ -42,6 +45,7 @@ export function PlainBlock(props: PlainBlockProps) {
       onOpen={props.onOpen}
       onAdd={props.onAdd}
       onMap={map === undefined ? undefined : () => router.push(map)}
+      after={props.addresses}
       empty={(answer) => (
         <NoResults
           answer={answer}
@@ -58,6 +62,7 @@ export function PlainBlock(props: PlainBlockProps) {
             if (filters !== null) relax(filters);
           }}
           onAsk={props.onAsk}
+          addresses={props.addresses}
         />
       )}
     />

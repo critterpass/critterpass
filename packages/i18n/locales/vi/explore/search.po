@@ -160,6 +160,10 @@ msgstr "Thêm vào Ý tưởng"
 msgid "search.link.addedToast"
 msgstr "Đã thêm vào {shown}"
 
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.eyebrow"
+msgstr "Địa chỉ"
+
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.ask"
 msgstr "Hỏi"
@@ -463,6 +467,10 @@ msgstr "Dán liên kết để thêm các địa điểm trong đó."
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.pickOne"
 msgstr "Chọn một"
+
+#: ../../apps/mobile/src/features/explore/search/address-section.tsx
+msgid "search.address.hint"
+msgstr "Chọn một địa chỉ rồi kéo ghim đến đúng chỗ."
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.other"
