@@ -9,8 +9,9 @@ import { FlatList, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { FitLine } from '@/data/fit/fit-line';
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
+import { PhotoCredit } from '@/ui/planning/photo-credit';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { useTheme } from '@/ui/theme';
 
@@ -173,6 +174,7 @@ export function PlacesListView(props: PlacesListViewProps) {
     );
   };
 
+  const credits = screenCredits(props.photos?.values() ?? []);
   return (
     <Scaffold variant="dark" edges={[]} testID="places-list">
       <View style={{ paddingTop: insets.top + theme.space['8'] }}>
@@ -201,6 +203,12 @@ export function PlacesListView(props: PlacesListViewProps) {
           onUnhide={props.onUnhide}
         />
       </View>
+      {credits.length === 0 ? null : (
+        // Above the rows, so it is on screen with every photo however far the list scrolls.
+        <View style={{ paddingHorizontal: theme.size.gutter, paddingBottom: theme.space['6'] }}>
+          <PhotoCredit credits={credits} />
+        </View>
+      )}
       <FlatList
         data={items}
         keyExtractor={(item) => item.key}

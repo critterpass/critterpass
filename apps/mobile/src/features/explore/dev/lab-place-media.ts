@@ -1,10 +1,12 @@
 /**
  * Place photos for the lab's swipe scenes, as `GET /v1/media` returns them: My Khe Beach's own
  * Commons photo (CC BY, so its credit shows), served from Commons' thumbnail host, and a staging
- * stock photo of a Đà Nẵng beach standing in as a generic one (labelled not this place).
+ * stock photo of a Đà Nẵng beach standing in as a generic one (labelled not this place). The same
+ * file also stands in for a place's kept Foursquare photo (`BEACH_FOURSQUARE`): the lab cannot load
+ * Foursquare's image host, so only the asset's source and credit are Foursquare's.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { MediaAsset } from '@cp/domain';
+import type { MediaAsset, PlaceMediaAsset } from '@cp/domain';
 
 const COMMONS =
   'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/My_Khe_Beach%2C_Da_Nang%2C_Vietnam.jpg';
@@ -59,4 +61,17 @@ export const BEACH_GENERIC: MediaAsset = {
   source_url: 'https://www.pexels.com/photo/da-nang-city-name-at-beach-26550067/',
   licence: 'pexels',
   licence_url: 'https://www.pexels.com/license/',
+};
+
+export const BEACH_FOURSQUARE: PlaceMediaAsset = {
+  ...BEACH_GENERIC,
+  id: '01a0f4a2-0000-7000-8000-0000000f5c0e',
+  blurhash: '',
+  credit: 'Powered by Foursquare',
+  attribution_required: true,
+  author: 'Foursquare',
+  source: 'foursquare',
+  source_url: 'https://foursquare.com',
+  licence: 'foursquare-places-api',
+  licence_url: 'https://foursquare.com/legal/terms/apilicenseagreement/',
 };

@@ -13,6 +13,7 @@ export {
 } from './mini-route-sketch';
 export { OptionRadioCard, type OptionRadioCardProps } from './option-radio-card';
 export { PACE_STEPS, PaceBars, type PaceBarsProps } from './pace-bars';
+export { PhotoCredit, type PhotoCreditProps } from './photo-credit';
 export { PlaceCard, type PlaceCardProps } from './place-card';
 export { PlaceRow, type PlaceRowProps } from './place-row';
 export { PlaceThumb, type PlaceThumbProps } from './place-thumb';

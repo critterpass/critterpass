@@ -4,12 +4,21 @@
  * photo without a connection.
  * With `prefetch`, the subject's first stills (and a video's poster) are saved to the device in the
  * background, so a trip's heroes draw offline before they were ever shown.
+ * A read of places also asks for their kept Foursquare photos (`include=foursquare`); those arrive
+ * as addresses only and their files are never saved on the device (`isSavableMediaUrl`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer; route paths and wire values. */
-import { destinationSubject, mediaListResponseSchema, type MediaAsset } from '@cp/domain';
+import {
+  destinationSubject,
+  MEDIA_INCLUDE_FOURSQUARE,
+  MEDIA_SOURCES,
+  placeMediaListResponseSchema,
+  type MediaAsset,
+  type PlaceMediaAsset,
+} from '@cp/domain';
 import { useEffect, useMemo, useState } from 'react';
 
-import { saveMediaFile } from '@/lib/media/media-files';
+import { isSavableMediaUrl, saveMediaFile } from '@/lib/media/media-files';
 import { pickBySize } from '@/lib/media/variants';
 
 import {
@@ -28,27 +37,39 @@ const PREFETCH_COUNT = 3;
 
 export interface SubjectMedia {
   /** Ready assets, hero first. Empty while loading, offline without a copy, or when none exist. */
-  readonly items: readonly MediaAsset[];
+  readonly items: readonly PlaceMediaAsset[];
 }
 
 const classify = (): Classification => ({ status: 'ok', seenAt: null });
 
+/**
+ * A read that names a place asks for the Foursquare photos kept for it too; a read of destinations
+ * alone keeps its path (and its saved last good copy).
+ */
 export function mediaPath(subject: string): string {
-  return `/v1/media${query({ subjects: subject })}`;
+  const places = subject.split(',').some((key) => key.startsWith('poi:'));
+  return `/v1/media${query({
+    subjects: subject,
+    ...(places ? { include: MEDIA_INCLUDE_FOURSQUARE } : {}),
+  })}`;
 }
 
 /**
  * The photo for a hero slot: the subject's `index`-th asset (wrapping), photos and videos alike
  * (a video shows its poster where it cannot play).
  */
-export function heroAt(items: readonly MediaAsset[], index = 0): MediaAsset | null {
+export function heroAt<T>(items: readonly T[], index = 0): T | null {
   if (items.length === 0) return null;
   const at = ((index % items.length) + items.length) % items.length;
   return items[at] ?? null;
 }
 
-export async function prefetchMedia(items: readonly MediaAsset[]): Promise<void> {
-  for (const media of items.slice(0, PREFETCH_COUNT)) {
+/** Saves the first stills that may be kept on the device: our own files, never another host's. */
+export async function prefetchMedia(items: readonly PlaceMediaAsset[]): Promise<void> {
+  const savable = items.filter((media) =>
+    media.images.every((image) => isSavableMediaUrl(image.url)),
+  );
+  for (const media of savable.slice(0, PREFETCH_COUNT)) {
     const still = pickBySize(media.images, PREFETCH_WIDTH_PX);
     if (still !== undefined) await saveMediaFile(media.id, still.url);
   }
@@ -70,7 +91,10 @@ export function useSubjectMedia(
   options: { readonly prefetch?: boolean } = {},
 ): SubjectMedia {
   const provided = useTravelDataReader();
-  const [answer, setAnswer] = useState<{ path: string; items: readonly MediaAsset[] } | null>(null);
+  const [answer, setAnswer] = useState<{
+    path: string;
+    items: readonly PlaceMediaAsset[];
+  } | null>(null);
   const path = subject === null ? null : mediaPath(subject);
   const prefetch = options.prefetch === true;
   useEffect(() => {
@@ -81,7 +105,7 @@ export function useSubjectMedia(
         reader: provided ?? mediaReader(),
         cache: lastGoodCache(),
         path,
-        schema: mediaListResponseSchema,
+        schema: placeMediaListResponseSchema,
         classify,
         signal: controller.signal,
       });
@@ -95,7 +119,14 @@ export function useSubjectMedia(
   return { items: answer !== null && answer.path === path ? answer.items : NONE };
 }
 
-const NONE: readonly MediaAsset[] = [];
+const NONE: readonly PlaceMediaAsset[] = [];
+
+const EDITORIAL: ReadonlySet<string> = new Set(MEDIA_SOURCES);
+
+/** A destination's media is editorial only. */
+function isEditorial(item: PlaceMediaAsset): item is MediaAsset {
+  return EDITORIAL.has(item.source);
+}
 
 /**
  * Several destinations' media in one read, by slug (each slug's assets hero first). An empty list
@@ -108,7 +139,7 @@ export function useDestinationsMedia(
   const { items } = useSubjectMedia(subjects.length === 0 ? null : subjects.join(','));
   return useMemo(() => {
     const bySlug = new Map<string, MediaAsset[]>();
-    for (const item of items) {
+    for (const item of items.filter(isEditorial)) {
       for (const subject of item.subjects) {
         const slug = subject.slice('destination:'.length);
         bySlug.set(slug, [...(bySlug.get(slug) ?? []), item]);
@@ -122,6 +153,7 @@ export function useDestinationsMedia(
 export function useDestinationMedia(
   slug: string | null,
   options: { readonly prefetch?: boolean } = {},
-): SubjectMedia {
-  return useSubjectMedia(slug === null ? null : destinationSubject(slug), options);
+): { readonly items: readonly MediaAsset[] } {
+  const { items } = useSubjectMedia(slug === null ? null : destinationSubject(slug), options);
+  return useMemo(() => ({ items: items.filter(isEditorial) }), [items]);
 }

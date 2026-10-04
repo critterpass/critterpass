@@ -7,9 +7,10 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
-import type { PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
+import { PhotoCredit } from '@/ui/planning/photo-credit';
 import { PlaceThumb } from '@/ui/planning/place-thumb';
 import { PressScale } from '@/ui/press/PressScale';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -141,6 +142,7 @@ export function GapsCard({ guideName, state }: GapsCardProps) {
                 ))}
               </View>
             )}
+            <PhotoCredit credits={screenCredits(state.tiles.map((tile) => tile.photo))} />
           </>
         ) : (
           <View style={{ gap: theme.space['4'] }} testID={`explore-trip-gaps-${state.kind}`}>

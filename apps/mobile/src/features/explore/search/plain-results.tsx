@@ -6,11 +6,11 @@
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles, Text, useTheme } from '@/ui';
 import type { DoodleName } from '@/ui/icons/generated';
 import { Segmented } from '@/ui/inputs/Segmented';
-import { AddButton, PlaceRow, type FitTone } from '@/ui/planning';
+import { AddButton, PhotoCredit, PlaceRow, type FitTone } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
 import { Skeleton } from '@/ui/states/Skeleton';
 
@@ -127,6 +127,7 @@ export function PlainResults(props: PlainResultsProps) {
           </View>
         </PressScale>
       )}
+      <PhotoCredit credits={screenCredits(props.photos?.values() ?? [])} />
     </View>
   );
 }

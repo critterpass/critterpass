@@ -14,9 +14,9 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
-import { PlaceCard, PlanningTag, type FitTone } from '@/ui/planning';
+import { PhotoCredit, PlaceCard, PlanningTag, type FitTone } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -156,6 +156,12 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
           </View>
         )}
       />
+      <View style={{ paddingHorizontal: theme.size.gutter, paddingTop: theme.space['6'] }}>
+        <PhotoCredit
+          plate
+          credits={screenCredits(props.entries.map((entry) => props.photos?.get(entry.id)))}
+        />
+      </View>
     </View>
   );
 }

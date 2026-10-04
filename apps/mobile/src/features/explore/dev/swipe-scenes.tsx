@@ -6,7 +6,7 @@
  * work over the fixtures; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { DeckReason, MediaAsset } from '@cp/domain';
+import type { DeckReason, PlaceMediaAsset } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -24,7 +24,7 @@ interface Fixture {
   readonly reasons: readonly DeckReason[];
   readonly note: string | null;
   readonly yes: readonly string[];
-  readonly photo?: MediaAsset;
+  readonly photo?: PlaceMediaAsset;
 }
 
 const BALI: readonly Fixture[] = [
