@@ -92,7 +92,12 @@ describe('GO from a flight leave-by', () => {
       NOW,
       bundledAirportAt,
     );
-    expect(place).toMatchObject({ poiId: null, tripId: TRIP, destinationSlug: 'da-nang' });
+    expect(place).toMatchObject({
+      poiId: null,
+      tripId: TRIP,
+      destinationSlug: 'da-nang',
+      airport: { iata: 'DAD', city: 'Da Nang' },
+    });
     expect(place?.name).toMatch(/Da Nang/u);
     expect(place?.lat).toBeCloseTo(16.04, 1);
     expect(place?.lng).toBeCloseTo(108.2, 1);

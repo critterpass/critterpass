@@ -9,7 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { goHref } from '@/features/go';
+import { goHref, useGoOffer } from '@/features/go';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
@@ -137,7 +137,15 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const port = alarmPort();
   const note = alarmNoteFor(leaveBy, alarm.status, port?.authorizationStatus() ?? null, locale);
   const lead = dayLead(timeline, relation === 'today', now);
-  const go = dayOfGo(leaveBy, lead, tripId, relation === 'today');
+  // GO is offered only for a place it can open on: the leave-by's first, else the next stop's.
+  const goTargets = dayOfGo(leaveBy, lead, tripId, relation === 'today');
+  const leaveByOffer = useGoOffer(goTargets.leaveBy);
+  const stopOffer = useGoOffer(goTargets.stop);
+  const go = leaveByOffer.placed
+    ? { target: goTargets.leaveBy, detail: leaveByOffer.detail }
+    : stopOffer.placed
+      ? { target: goTargets.stop, detail: stopOffer.detail }
+      : null;
 
   const onSheetPrimary = async () => {
     const kind = sheet;
@@ -178,7 +186,14 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
       now={now}
       guideName={guideName}
       firstUp={lead}
-      onGo={go === null ? undefined : () => router.push(goHref(go))}
+      onGo={
+        go?.target == null
+          ? undefined
+          : () => {
+              if (go.target !== null) router.push(goHref(go.target));
+            }
+      }
+      goDetail={go?.detail ?? null}
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,

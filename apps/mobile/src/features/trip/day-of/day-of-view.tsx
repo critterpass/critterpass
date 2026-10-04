@@ -62,6 +62,8 @@ export interface DayOfViewProps {
   readonly onImUp: () => void;
   /** GO to the next stop: the route from here, then directions in the maps app. */
   readonly onGo?: (() => void) | undefined;
+  /** Where GO goes when the screen names no place for it (a flight's airport). */
+  readonly goDetail?: string | null | undefined;
   readonly onTogglePack: (id: string, packed: boolean) => void;
   readonly onAddPack: (label: string) => void;
   readonly onRemovePack: (id: string) => void;
@@ -231,7 +233,7 @@ export function DayOfView(props: DayOfViewProps) {
             </Text>
           ) : null}
           {props.onGo === undefined ? null : (
-            <GoButton block onPress={props.onGo} testID="trip-day-go" />
+            <GoButton block onPress={props.onGo} detail={props.goDetail} testID="trip-day-go" />
           )}
           {canWake ? (
             <PillButton

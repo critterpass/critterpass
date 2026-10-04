@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/go/use-go-offer.ts
+msgid "go.button.airport"
+msgstr "{city} airport ({iata})"
+
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.minutes"
 msgstr "{count} min"
@@ -63,6 +67,10 @@ msgstr "Go"
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.eyebrow"
 msgstr "GO"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.labelTo"
+msgstr "Go · {detail}"
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.googleMaps"
