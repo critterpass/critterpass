@@ -5,7 +5,7 @@
  */
 import { randomUUID } from 'node:crypto';
 
-import { buildRelease, type ContentItem } from '@cp/content';
+import { buildRelease, poiRefSubject, type ContentItem } from '@cp/content';
 import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -18,8 +18,11 @@ import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
 let harness: JobsHarness;
 let linhUng: string;
 let myKhe: string;
+let mySon: string;
 const FSQ = randomUUID().replace(/-/gu, '').slice(0, 24);
 const OVERTURE = randomUUID();
+/** An editorial place's id is a Wikidata one, with its capital Q. */
+const EDITORIAL = `wikidata-Q${String(Math.floor(Math.random() * 1e9))}`;
 
 beforeAll(async () => {
   harness = await startJobsHarness();
@@ -36,11 +39,13 @@ beforeAll(async () => {
      SELECT id, v.name, v.category, v.lat, v.lng, v.source_ids::jsonb, 'editorial'
        FROM d, (VALUES
          ('Chùa Linh Ứng', 'temple_shrine', 16.0998, 108.2777, json_build_object('fsq_os', $1::text)::text),
-         ('My Khe Beach', 'beach', 16.0631, 108.2459, json_build_object('overture', $2::text)::text)
+         ('My Khe Beach', 'beach', 16.0631, 108.2459, json_build_object('overture', $2::text)::text),
+         ('Mỹ Sơn', 'museum', 15.7641, 108.1241, json_build_object('editorial', $3::text)::text)
        ) AS v(name, category, lat, lng, source_ids)
      RETURNING id, name`,
-    [FSQ, OVERTURE],
+    [FSQ, OVERTURE, EDITORIAL],
   );
+  mySon = rows.find((r) => r.name === 'Mỹ Sơn')!.id;
   linhUng = rows.find((r) => r.name === 'Chùa Linh Ứng')!.id;
   myKhe = rows.find((r) => r.name === 'My Khe Beach')!.id;
 }, 120_000);
@@ -111,6 +116,7 @@ describe('publishing place photos', { timeout: 120_000 }, () => {
       photo('102', [`poi:fsq-os-${FSQ}`], 'Linh Ứng'),
       photo('103', [`poi:overture-${OVERTURE}`, `poi:fsq-os-${'0'.repeat(24)}`], 'My Khe'),
       photo('104', [`poi:overture-${randomUUID()}`], 'A place this environment lacks'),
+      photo('105', [poiRefSubject(`editorial:${EDITORIAL}`)], 'Mỹ Sơn'),
     ]);
     const { rows } = await harness.pool.query<{ source_id: string; subject_keys: string[] }>(
       "SELECT source_id, subject_keys FROM media_assets WHERE source = 'wikimedia' ORDER BY source_id",
@@ -119,6 +125,29 @@ describe('publishing place photos', { timeout: 120_000 }, () => {
       { source_id: '101', subject_keys: ['destination:da-nang'] },
       { source_id: '102', subject_keys: [`poi:${linhUng}`] },
       { source_id: '103', subject_keys: [`poi:${myKhe}`] },
+      { source_id: '105', subject_keys: [`poi:${mySon}`] },
     ]);
+  });
+
+  it('finds the places through the source id indexes, never by reading every place', async () => {
+    const plans = await withSystem(harness.pool, async (tx) => {
+      // The test table is small, so a sequential scan would win on cost alone; with it off, the
+      // plan shows whether the query can use the index at all.
+      await tx.query('SET LOCAL enable_seqscan = off');
+      const lines: string[] = [];
+      for (const source of ['fsq_os', 'overture', 'editorial']) {
+        const { rows } = await tx.query<{ 'QUERY PLAN': string }>(
+          `EXPLAIN SELECT id, source_ids ->> '${source}' AS ref FROM pois
+            WHERE source_ids ? '${source}' AND source_ids ->> '${source}' = ANY($1::text[])
+              AND status = 'active' AND merged_into_id IS NULL`,
+          [['a', 'b']],
+        );
+        lines.push(rows.map((row) => row['QUERY PLAN']).join(' '));
+      }
+      return lines;
+    });
+    expect(plans[0]).toContain('pois_source_fsq_os_uidx');
+    expect(plans[1]).toContain('pois_source_overture_uidx');
+    expect(plans[2]).toContain('pois_source_editorial_uidx');
   });
 });

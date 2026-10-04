@@ -8,11 +8,13 @@ export const mediaItemSchema = mediaCandidateSchema;
 export type MediaItem = MediaCandidate;
 
 /**
- * A place's photos are proposed against its source ref (`fsq_os:<id>`, `overture:<id>`), the same
- * in every environment, as `poi:<source>-<id>` (`poi:fsq-os-4b0588…`). Publishing resolves the ref
- * to that environment's POI id, the `poi:<uuid>` subject the app reads.
+ * A place's photos are proposed against its source ref (`fsq_os:<id>`, `overture:<id>`, or
+ * `editorial:<id>` for a place made from a Wikidata item), the same in every environment, as
+ * `poi:<source>-<id>` (`poi:fsq-os-4b0588…`). Publishing resolves the ref to that environment's
+ * POI id, the `poi:<uuid>` subject the app reads. A subject is lower case, so a ref's id is
+ * matched without regard to case.
  */
-const POI_REF_SOURCES = { fsq_os: 'fsq-os', overture: 'overture' } as const;
+const POI_REF_SOURCES = { fsq_os: 'fsq-os', overture: 'overture', editorial: 'editorial' } as const;
 export type PoiRefSource = keyof typeof POI_REF_SOURCES;
 
 export function poiRefSubject(ref: string): string {

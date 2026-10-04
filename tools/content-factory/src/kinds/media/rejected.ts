@@ -51,4 +51,153 @@ export const REJECTED_GENERIC: Readonly<Record<string, 'brand' | 'off-subject'>>
   'pexels-photo-31412386': 'brand', // a shop's printed card beside the bowl
   'pexels-photo-36156594': 'brand', // a sandwich shop's printed paper
   'pixabay-photo-3286574': 'off-subject', // a Korean hot pot, not bún bò
+  'pexels-photo-37106679': 'off-subject', // satay skewers, not babi guling
+  'pexels-photo-8629084': 'off-subject', // raw salmon on a board, not bacalhau
+  'pexels-photo-8351639': 'off-subject', // market fish, not bacalhau
+  'pexels-photo-6426146': 'off-subject', // a leaf-wrapped cake, not bánh bèo
+  'pexels-photo-36459924': 'brand', // spirit labels
+  'pexels-photo-29548583': 'brand', // a brand's bar mat
+  'pixabay-photo-4614215': 'brand', // a stout's tap badge
+  'pixabay-photo-1064663': 'off-subject', // a portrait at a bar
+  'pexels-photo-8794060': 'off-subject', // brown strips on white, not chocolate
+  'pexels-photo-5865683': 'off-subject', // a street through a window, a hotel's sign
+  'pexels-photo-1383787': 'off-subject', // a waffle counter, not gelato
+  'pexels-photo-15271732': 'off-subject', // a shop with a statue, not a hot dog
+  'pexels-photo-31930768': 'brand', // sake barrels with their brewers' names
+  'pexels-photo-22891891': 'brand', // mezcal labels
+  'pexels-photo-28490834': 'brand', // soda and beer bottles
+  'pixabay-photo-7479798': 'off-subject', // a lemon in a glass, not a pisco sour
+  'pexels-photo-34418036': 'off-subject', // a portrait of a bartender
+  'pexels-photo-14471525': 'off-subject', // a dark building, not a rooftop bar
+  'pexels-photo-7767659': 'off-subject', // studio props, not sushi
+  'pexels-photo-6310256': 'off-subject', // a waiter with a plate, not tacos
+  'pixabay-photo-7249273': 'off-subject', // a chicken noodle bowl, not betutu
+  'pixabay-photo-4483833': 'off-subject', // roast pork with bread dumplings, not babi guling
+  'pixabay-photo-2315552': 'off-subject', // an empty mug, not a café
+  'pixabay-photo-2315562': 'off-subject', // an empty mug, not a café
+  'pixabay-photo-2315554': 'off-subject', // a mug on a garden table, no coffee in sight
+  'pixabay-photo-2315555': 'off-subject', // an empty mug, not a café
+  'pixabay-photo-2318315': 'off-subject', // a mug on a garden table, no coffee in sight
+  'pixabay-photo-4022016': 'off-subject', // a plate of snacks, not coffee
+  'pixabay-photo-8113165': 'off-subject', // sushi rolls, not a grilled seafood platter
+  'pixabay-photo-5262458': 'off-subject', // a blurred leaf and tomato, no dish
+  'pixabay-photo-1618638': 'brand', // sake bottles with their labels
+  'pixabay-photo-6990535': 'brand', // a tea shop's printed cup
+  'pixabay-photo-5567269': 'off-subject', // layered coffee by a pond, not mezcal
+  'pixabay-photo-7890204': 'off-subject', // rice terraces, not a plate of nasi campur
+  'pixabay-photo-3898440': 'off-subject', // ballet dancers' legs, not a nightclub
+  'pixabay-photo-2561506': 'off-subject', // a portrait of a DJ
+  'pixabay-photo-4779953': 'off-subject', // a panelled hall, not a nightclub
+  'pixabay-photo-7286902': 'off-subject', // a bowl of peppers by a lake, not a Peruvian dish
+  'pixabay-photo-1077117': 'off-subject', // a cream dessert, not a Peruvian dish
+  'pixabay-photo-2587577': 'off-subject', // a portrait of a diner
+  'pixabay-photo-8257030': 'off-subject', // a glass on a magazine, not a restaurant table
+  'pixabay-photo-9826328': 'off-subject', // an alley bar and its signs, not a rooftop
+  'pixabay-photo-4806610': 'brand', // shop signs at night
+  'pixabay-photo-1525755': 'off-subject', // a child in the surf
+  'pixabay-photo-5388580': 'off-subject', // shredded meat, not tacos
+  'pixabay-photo-109345': 'off-subject', // a pool table, not tacos
+  'pixabay-photo-2060499': 'brand', // a whisky bottle and its label
+  'pexels-photo-29841944': 'off-subject', // a yard with a spit and its cooks, not a plate of babi guling
+  'pixabay-photo-7219969': 'off-subject', // curry pots from above, not betutu
+  'pexels-photo-34523696': 'off-subject', // a bánh mì cart at night, not bánh xèo
+  'pexels-photo-2563203': 'off-subject', // a street cook and her stoves, not bánh xèo
+  'pixabay-photo-7006591': 'off-subject', // canapés, not a seafood platter
+  'pixabay-photo-5412527': 'brand', // sake bottles with their labels
+  'pexels-photo-23985881': 'brand', // sake bottles with their labels
+  'pixabay-photo-7953714': 'off-subject', // eel on rice, not yakiniku
+  'pixabay-photo-1868386': 'off-subject', // a glass tower, not mezcal
+  'pixabay-photo-527286': 'off-subject', // pasta on forks, not mì Quảng
+  'pixabay-photo-658569': 'off-subject', // a walnut, not a nightclub
+  'pixabay-photo-1522080': 'off-subject', // a dessert, not a Peruvian dish
+  'pixabay-photo-4499023': 'off-subject', // a rocky shore, not a pisco sour
+  'pexels-photo-11309986': 'off-subject', // a wall of shelves and a music stand, not a pub
+  'pixabay-photo-1951386': 'off-subject', // a plate that says "love"
+  'pixabay-photo-5475283': 'brand', // shop signs in a street
+  'pixabay-photo-5580792': 'off-subject', // cheese and dips, not tacos
+  'pixabay-photo-6906620': 'off-subject', // a bowl of chilli sauce, not tapas
+  'pixabay-photo-5250765': 'off-subject', // beef phở, not chicken rice
+  'pixabay-photo-7597586': 'off-subject', // lettuce rolls, not bún mắm
+  'pexels-photo-11434408': 'off-subject', // a salad, not bún mắm
+  'pixabay-photo-5118010': 'off-subject', // a library, not a dish
+  'pixabay-photo-1252651': 'off-subject', // dumplings in sauce, not seafood
+  'pexels-photo-8351647': 'off-subject', // market fish, not a dish
+  'pixabay-photo-2315564': 'off-subject', // an empty mug, not a café
+  'pexels-photo-27573831': 'brand', // sake barrels with their brewers' names
+  'pixabay-photo-7953712': 'off-subject', // eel on rice, not yakiniku
+  'pexels-photo-22891865': 'brand', // mezcal bottles and their labels
+  'pixabay-photo-4252014': 'off-subject', // rice terraces, not rice paper rolls
+  'pexels-photo-34202549': 'off-subject', // fish sauce jars from the air, not a bowl of bún mắm
+  'pixabay-photo-1040653': 'off-subject', // a teacup, not sake
+  'pixabay-photo-7597587': 'off-subject', // lettuce rolls, not bún mắm
+  'pixabay-photo-8270209': 'off-subject', // a fishing net from the air, not bún mắm
+  'pixabay-photo-712665': 'off-subject', // grilled salmon, not bún mắm
+};
+
+/**
+ * Generic photos that are live today and a later look would turn down, for the same two reasons.
+ * They were kept when their release was approved, so dropping them is the owner's call:
+ * `DROP_LIVE_SUGGESTED` is the one switch (on since the owner's yes of 4 Oct 2026). While it is
+ * off, the review page of each destination that shows them lists them first, under "Live today,
+ * suggested to drop".
+ */
+export const LIVE_SUGGESTED_TO_DROP: Readonly<Record<string, 'brand' | 'off-subject'>> = {
+  'pexels-photo-33062502': 'off-subject', // bánh căn in a clay mould, not bánh xèo
+  'pexels-photo-31563462': 'off-subject', // bánh khọt, not bánh xèo
+  'pexels-photo-1263870': 'off-subject', // bánh căn, not bánh xèo
+  'pexels-photo-14786461': 'off-subject', // a cook in the dark, not a seafood platter
+  'pexels-photo-34418030': 'off-subject', // a portrait of two guests
+  'pexels-photo-30453417': 'off-subject', // an offering table, not chicken rice
+  'pexels-photo-6646031': 'off-subject', // rice paper rolls, not bún mắm
+  'pixabay-photo-8026582': 'off-subject', // a burger, not bánh mì
+  'pixabay-photo-7021030': 'off-subject', // leaf-wrapped rice cakes, not bánh mì
+  'pixabay-photo-5116219': 'off-subject', // a monkey beside a beer
+  'pixabay-photo-1155132': 'off-subject', // grilled chops, not seafood
+  'pixabay-photo-4773380': 'off-subject', // a prawn salad, not mì Quảng
+  'pixabay-photo-1845295': 'brand', // spirit labels fill the frame
+  'pixabay-photo-9317184': 'off-subject', // cakes on a tray, not chicken rice
+  'pixabay-photo-6729006': 'off-subject', // chicken phở, not fish cake noodle soup
+  'pixabay-photo-6729005': 'off-subject', // chicken phở, not fish cake noodle soup
+  'pixabay-photo-8478515': 'off-subject', // a fermenting jar, not a bowl of bún mắm
+  'pixabay-photo-4973365': 'off-subject', // a "home sweet home" sign beside the board
+  'pixabay-photo-1064664': 'off-subject', // a portrait at a bar
+  'pixabay-photo-6876592': 'off-subject', // two people under a street lamp, not a rooftop bar
+};
+
+export const DROP_LIVE_SUGGESTED = true;
+
+/** Whether a batch leaves this stock photo out. */
+export function turnedDown(id: string): boolean {
+  return (
+    REJECTED_GENERIC[id] !== undefined ||
+    (DROP_LIVE_SUGGESTED && LIVE_SUGGESTED_TO_DROP[id] !== undefined)
+  );
+}
+
+/**
+ * Wikidata items a reviewer found a place is not, by place ref: the matcher never offers them to
+ * that place again (the next best item, if any, takes its turn).
+ */
+export const REJECTED_MATCHES: Readonly<Record<string, readonly string[]>> = {
+  // Centro De Coyoacán is the old town centre, not the Centro Coyoacán mall 1.6 km away.
+  'fsq_os:667f8f35183b0b5bdd9770db': ['Q431083'],
+  // The anthropology museum, not the Museo Nacional de Historia in Chapultepec castle.
+  'overture:a540cac8-0732-4d91-8a14-b1a87f0c3b9c': ['Q1072510'],
+  // The square in front of the Palacio de Bellas Artes, 164 m from it, is not the palace.
+  'fsq_os:56910dfd498eef4845c9639a': ['Q1139081'],
+  // Two points 1.4 km from the Pena Palace: too far to be sure they are the palace.
+  'overture:d2587e06-21b6-4997-ac66-5fceac1a0959': ['Q69513'],
+  'fsq_os:617a61aa6d1f8d4eed1766e6': ['Q69513'],
+  // A point 2.3 km from the Tegenungan waterfall.
+  'overture:a16bbe60-a224-4ac9-b629-f3a2000e8884': ['Q25462922'],
+  // The purification rite at Tirta Empul, 170 m from the temple's point.
+  'fsq_os:5261dd7811d25d345157cfe2': ['Q7809287'],
+  // A point 1 km from Pura Lempuyang Luhur.
+  'fsq_os:4d002f6ec00a59418fee9087': ['Q48728528'],
+  // A point 1.2 km from the Blanco Renaissance Museum.
+  'fsq_os:53d8af1b498eee66fa9c7fe6': ['Q108940701', 'Q4924960'],
+  // A point 1.4 km from Hjálparfoss.
+  'overture:a67401c3-b12b-4240-b178-e11c0c233e60': ['Q1621383'],
+  // Non Nước beach is not Mỹ Khê beach, 1.2 km north.
+  'overture:d5430a10-fe44-4c3e-bc0b-352f30a66646': ['Q10796763'],
 };

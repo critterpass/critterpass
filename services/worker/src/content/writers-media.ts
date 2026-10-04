@@ -3,11 +3,12 @@
  * Metadata (subjects, rank, credit, licence) updates in place; a row whose download URL changed
  * goes back to pending. Rows the release no longer has are removed (their stored files are never
  * read again). Every row that is not ready gets a `media.ingest` job in the same transaction.
- * A place's photo names the place by its source ref (`poi:fsq-os-<id>`); it is stored under this
+ * A place's photo names the place by its source ref (`poi:fsq-os-<id>`, `poi:overture-<id>`,
+ * `poi:editorial-<id>`); it is stored under this
  * environment's POI id (`poi:<uuid>`), the subject the app reads. A ref with no active POI here is
  * dropped, and an item left with no subject is not stored.
  */
-import { poiRefOfSubject, type ContentItem } from '@cp/content';
+import { poiRefOfSubject, type ContentItem, type PoiRefSource } from '@cp/content';
 import { sendInTx } from '@cp/db';
 import { MEDIA_INGEST_QUEUE } from '@cp/domain';
 import type pg from 'pg';
@@ -66,29 +67,41 @@ export async function writeMedia(
   }
 }
 
-/** Maps each `poi:<source>-<id>` subject to `poi:<uuid>` of the active POI it names. */
+const REF_SOURCES: readonly PoiRefSource[] = ['fsq_os', 'overture', 'editorial'];
+
+/**
+ * The id as the source wrote it. A subject is lower case; Foursquare and Overture ids are too, and
+ * an editorial place's id is a Wikidata one with its capital Q (`wikidata-Q391406`).
+ */
+function storedId(source: PoiRefSource, id: string): string {
+  return source === 'editorial' ? id.replace(/^wikidata-q/u, 'wikidata-Q') : id;
+}
+
+/**
+ * Maps each `poi:<source>-<id>` subject to `poi:<uuid>` of the active POI it names. One query per
+ * source, each written so that source's partial unique index serves it (the key is a literal and
+ * the `?` guard repeats the index's predicate): matching every source in one condition, or folding
+ * the stored id's case, reads every POI of every destination and runs past the statement timeout.
+ */
 async function placeSubjects(
   tx: pg.PoolClient,
   items: readonly ContentItem<'media'>[],
 ): Promise<(subjects: readonly string[]) => string[]> {
   const refs = items.flatMap((item) => item.subjects.flatMap((s) => poiRefOfSubject(s) ?? []));
   const ids = new Map<string, string>();
-  if (refs.length > 0) {
-    const { rows } = await tx.query<{ id: string; fsq_os: string | null; overture: string | null }>(
-      `SELECT id, lower(source_ids ->> 'fsq_os') AS fsq_os, lower(source_ids ->> 'overture') AS overture
+  for (const source of REF_SOURCES) {
+    const wanted = [
+      ...new Set(refs.filter((r) => r.source === source).map((r) => storedId(source, r.id))),
+    ];
+    if (wanted.length === 0) continue;
+    const { rows } = await tx.query<{ id: string; ref: string }>(
+      `SELECT id, source_ids ->> '${source}' AS ref
          FROM pois
-        WHERE status = 'active' AND merged_into_id IS NULL
-          AND (lower(source_ids ->> 'fsq_os') = ANY($1::text[])
-            OR lower(source_ids ->> 'overture') = ANY($2::text[]))`,
-      [
-        refs.filter((r) => r.source === 'fsq_os').map((r) => r.id),
-        refs.filter((r) => r.source === 'overture').map((r) => r.id),
-      ],
+        WHERE source_ids ? '${source}' AND source_ids ->> '${source}' = ANY($1::text[])
+          AND status = 'active' AND merged_into_id IS NULL`,
+      [wanted],
     );
-    for (const row of rows) {
-      if (row.fsq_os !== null) ids.set(`fsq_os:${row.fsq_os}`, row.id);
-      if (row.overture !== null) ids.set(`overture:${row.overture}`, row.id);
-    }
+    for (const row of rows) ids.set(`${source}:${row.ref.toLowerCase()}`, row.id);
   }
   return (subjects) => [
     ...new Set(

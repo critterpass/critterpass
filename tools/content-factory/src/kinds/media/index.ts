@@ -5,13 +5,17 @@
  * ops console (rejecting the rest); approval publishes them and the worker's ingest job stores the
  * files. `--opt subjects=da-nang,bali` limits the batch; `--opt lead=<id>,<id>` ranks those
  * candidates first, so a subject's hero is the first kept photo. `--opt places=da-nang` instead
- * proposes each curated place's own photo from Wikimedia Commons (see place-batch.ts).
+ * proposes each curated place's own photo from Wikimedia Commons, else a labelled generic one
+ * (see place-batch.ts), and renders a review page per destination (review-page.ts).
  */
+import path from 'node:path';
+
 import { mediaItemSchema, type ContentItem } from '@cp/content';
 
+import { batchPaths, writeJson } from '../../work';
 import { registerKind } from '../registry';
 import type { GenerationUnit, KindContext, KindModule } from '../types';
-import { renderMediaSheets } from './contact-sheet';
+import { PROPOSALS_FILE, renderMediaSheets } from './contact-sheet';
 import { defaultHttp, type SourceHttp } from './http';
 import { pexelsPhotos, pexelsVideos, type SourceCandidate } from './pexels';
 import { pixabayPhotos, pixabayVideos } from './pixabay';
@@ -117,6 +121,11 @@ export const mediaKind: KindModule<'media'> = {
     const deps = depsFromEnv();
     if (ctx.options['places'] !== undefined) {
       const batch = await placeBatch(deps.http, deps, ctx.options, (name) => listOption(ctx, name));
+      writeJson(path.join(batchPaths('media', ctx.batchKey).dir, PROPOSALS_FILE), {
+        proposals: batch.proposals,
+        unanswered: batch.unanswered,
+        suggestedDrops: batch.suggestedDrops,
+      });
       const units = batch.items.map((item) => ({ id: item.id, input: item }));
       return { units, carried: batch.carried, options: ctx.options };
     }
@@ -202,7 +211,7 @@ export const mediaKind: KindModule<'media'> = {
       },
     ],
   },
-  render: (_ctx, items, outDir) => renderMediaSheets(items, outDir),
+  render: (ctx, items, outDir) => renderMediaSheets(items, outDir, fetch, ctx.batchKey),
 };
 
 registerKind(mediaKind);
