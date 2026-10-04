@@ -9,7 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 
 import { patterns } from '@/motion';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { TypingDots } from '@/ui/chat/TypingDots';
 import { Sticker } from '@/ui/sticker/Sticker';
 
@@ -45,7 +45,7 @@ function ReplyLine({
 }) {
   const styles = useStyles();
   const typed = patterns.useTypewriter({ text: reply?.text ?? '' });
-  const sticker = GUIDE_STICKERS[guideAvatarId(slug)];
+  const sticker = guideSticker(guideAvatarId(slug));
   return (
     <Row style={styles.row} testID={reply === null ? 'guide-crew-typing' : 'guide-crew-reply'}>
       <Sticker kind={sticker.kind} name={sticker.name} size={28} />
@@ -74,7 +74,7 @@ export interface GuideChatHintViewProps {
 export function GuideChatHintView(props: GuideChatHintViewProps) {
   const theme = useTheme();
   const { t } = useLingui();
-  const color = theme.guide[guideAvatarId(props.slug)];
+  const color = guideColour(guideAvatarId(props.slug));
   const left = props.spentResetAt ? untilReset(props.spentResetAt, props.now) : null;
   return (
     <Stack gap="8" testID="guide-crew-hint">

@@ -10,7 +10,7 @@ import { Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { patterns } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -86,7 +86,7 @@ export function HubView(props: HubViewProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
-  const guide = GUIDE_STICKERS[props.guide];
+  const guide = guideSticker(props.guide);
   const line = t({
     id: 'help.hub.guideLine',
     message: 'Something broke, or something’s missing? Tell me. I pass it straight to the humans.',

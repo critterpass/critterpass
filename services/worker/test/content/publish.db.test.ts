@@ -400,6 +400,44 @@ describe('content.publish', () => {
     expect(rows).toEqual([{ name: 'Warung Bu Made', pick_rank: 1 }]);
   });
 
+  it('leaves a place alone when a later release says the same and rewrites one that changed', async () => {
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+       SELECT d.id, seed.name, 'museum', -8.5069, 115.2625, jsonb_build_object('fsq_os', seed.ref)
+       FROM destinations d, (VALUES ('Museum Puri Lukisan', 'lukisan'), ('Neka Art Museum', 'neka'))
+         AS seed(name, ref) WHERE d.slug = 'bali'`,
+    );
+    const museum = (id: string, name: string): ContentItem<'places'> => ({
+      ...poi(`fsq_os:${id}`, name, null),
+      category: 'museum',
+    });
+    // The row's transaction id changes whenever the row is written again.
+    const written = async () => {
+      const { rows } = await harness.pool.query<{ name: string; xmin: string }>(
+        `SELECT name, xmin::text AS xmin FROM pois WHERE category = 'museum'
+         ORDER BY source_ids ->> 'fsq_os'`,
+      );
+      return rows;
+    };
+    await publish(
+      await approved('places', 20, [
+        museum('lukisan', 'Museum Puri Lukisan'),
+        museum('neka', 'Neka Art Museum'),
+      ]),
+    );
+    const before = await written();
+    await publish(
+      await approved('places', 21, [
+        museum('lukisan', 'Museum Puri Lukisan'),
+        museum('neka', 'Neka Art Museum Ubud'),
+      ]),
+    );
+    const after = await written();
+    expect(after.map((row) => row.name)).toEqual(['Museum Puri Lukisan', 'Neka Art Museum Ubud']);
+    expect(after[0]!.xmin).toBe(before[0]!.xmin);
+    expect(after[1]!.xmin).not.toBe(before[1]!.xmin);
+  });
+
   it('publishes persona packs for live guides, read back through the persona loader shape', async () => {
     await harness.pool.query(
       "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow') ON CONFLICT (slug) DO NOTHING",

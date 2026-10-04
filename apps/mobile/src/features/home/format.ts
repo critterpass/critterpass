@@ -5,10 +5,10 @@
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values and token names, never copy. */
 import { t } from '@lingui/core/macro';
 
-import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
-import type { CardTone } from '@/ui/cards/tone';
+import { guideColour, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideCardTone, type CardTone } from '@/ui/cards/tone';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 /** "Oct 12" for a `YYYY-MM-DD` calendar date, in the reader's language. */
@@ -38,18 +38,8 @@ export function shortAge(at: Date, now: Date): string {
   return t({ id: 'home.age.days', message: `${count}d` });
 }
 
-const GUIDE_TONES: Readonly<Record<GuideId, CardTone>> = {
-  tokek: 'yellow',
-  pon: 'orange',
-  lundi: 'blue',
-  ajo: 'pink',
-  sardi: 'green',
-  paco: 'cream',
-  chava: 'red',
-};
-
 export function isGuideId(value: string | null | undefined): value is GuideId {
-  return value !== null && value !== undefined && value in GUIDE_TONES;
+  return isGuideStickerId(value);
 }
 
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
@@ -57,9 +47,7 @@ export function guideOr(value: string | null | undefined, fallback: GuideId = 't
 }
 
 export function guideTone(guide: GuideId): CardTone {
-  return GUIDE_TONES[guide];
+  return guideCardTone(guide);
 }
 
-export function guideColour(guide: GuideId): string {
-  return tokens.guide[guide];
-}
+export { guideColour };

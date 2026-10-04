@@ -1,9 +1,30 @@
+import type { GuideId } from '@/lib/navigation/active-guide';
+
+import { guideSticker } from '../avatar/guides';
 import type { SurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 
-/** Surface fills a card can take: dark raised/sunken, paper, or one of the guide accents. */
+/** An accent of its own: the colour of a guide (`#rrggbb`), dark text on top. */
+export type AccentTone = `#${string}`;
+
+/** Surface fills a card can take: dark raised/sunken, paper, a named accent, or a guide's own. */
 export type CardTone =
-  'raised' | 'sunken' | 'paper' | 'yellow' | 'orange' | 'pink' | 'blue' | 'green' | 'cream' | 'red';
+  | 'raised'
+  | 'sunken'
+  | 'paper'
+  | 'yellow'
+  | 'orange'
+  | 'pink'
+  | 'blue'
+  | 'green'
+  | 'cream'
+  | 'red'
+  | AccentTone;
+
+/** The card tone of a guide: its accent. */
+export function guideCardTone(guide: GuideId): CardTone {
+  return guideSticker(guide).accent as AccentTone;
+}
 
 export function cardBackground(theme: Theme, tone: CardTone): string {
   switch (tone) {
@@ -27,6 +48,8 @@ export function cardBackground(theme: Theme, tone: CardTone): string {
       return theme.color.paper.warm;
     case 'red':
       return theme.color.red;
+    default:
+      return tone;
   }
 }
 

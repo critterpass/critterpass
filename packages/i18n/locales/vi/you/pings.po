@@ -52,7 +52,7 @@ msgstr "Mọi tin nhắn"
 
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.guideTipsLine"
-msgstr "Từ Tokek, Pon và các bạn khác"
+msgstr "Từ hướng dẫn viên của từng chuyến đi"
 
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.guideTips"

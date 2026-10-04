@@ -7,7 +7,7 @@ import type { PriceDisplayMode } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { I18nManager, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Row } from '@/ui/layout/Row';
@@ -31,7 +31,7 @@ export interface CurrencySectionProps {
   readonly ratesLine: string | null;
 }
 
-const TOKEK = GUIDE_STICKERS.tokek;
+const TOKEK = guideSticker('tokek');
 
 const useStyles = makeStyles((t) => ({
   group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },

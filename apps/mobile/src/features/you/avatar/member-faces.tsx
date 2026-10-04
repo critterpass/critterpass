@@ -12,7 +12,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { FormSticker } from '@/features/critters';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { AvatarSize } from '@/ui/people/Avatar';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { sizeToken, useTheme } from '@/ui/theme';
@@ -157,7 +157,7 @@ export function facePropsOf(face: MemberFace, url: string | null, diameter: numb
     case 'photo':
       return url === null ? {} : { photo: { uri: url } };
     case 'guide': {
-      const guide = GUIDE_STICKERS[face.guide];
+      const guide = guideSticker(face.guide);
       return {
         critter: (
           <Sticker kind={guide.kind} name={guide.name} size={Math.round(diameter * STICKER_FILL)} />

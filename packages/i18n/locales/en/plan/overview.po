@@ -14,11 +14,11 @@ msgstr "{0}, day by day"
 
 #: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
 msgid "plan.overview.chip.votes"
-msgstr "{ballots} vote"
+msgstr "{ballots, plural, one {# vote} other {# votes}}"
 
 #: ../../apps/mobile/src/features/plan/overview/day-list.tsx
 msgid "plan.overview.showPast"
-msgstr "{pastCount} past days"
+msgstr "{pastCount, plural, one {# past day} other {# past days}}"
 
 #: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
 msgid "plan.overview.weather.wave"

@@ -9,7 +9,7 @@ import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -69,7 +69,7 @@ export function BriefingCard({ state, guide, guideName, onAct }: BriefingCardPro
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const ink = theme.semantic.text.onAccent;
   const nothing = useNothingToday(state.kind === 'none' ? state.next : null);
   const stale =

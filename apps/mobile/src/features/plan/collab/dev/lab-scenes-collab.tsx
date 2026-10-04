@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Composer } from '@/ui/chat/Composer';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 
@@ -94,7 +94,7 @@ function thread(
       members={LAB_MEMBERS}
       uid={ME}
       typing={typing}
-      guide={GUIDE_STICKERS.tokek}
+      guide={guideSticker('tokek')}
       kept={new Set()}
       now={NOW}
       onPlusOne={noop}

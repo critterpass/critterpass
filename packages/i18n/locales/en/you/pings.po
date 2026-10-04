@@ -52,7 +52,7 @@ msgstr "Every message"
 
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.guideTipsLine"
-msgstr "From Tokek, Pon and the rest"
+msgstr "From the guide of each trip"
 
 #: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
 msgid "you.pings.guideTips"

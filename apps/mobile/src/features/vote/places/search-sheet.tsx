@@ -13,7 +13,8 @@ import { Keyboard, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { useGuidesPerCity } from '@/data/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { Row } from '@/ui/layout/Row';
@@ -31,7 +32,7 @@ import { voteRoutes } from '../routes';
 import { ResultRow } from './result-row';
 
 /** The guest guide who covers places without a live guide. */
-const GUEST = GUIDE_STICKERS.tokek;
+const GUEST = guideSticker('tokek');
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['12'] },
@@ -62,7 +63,9 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
   const [query, setQuery] = useState('');
   const search = useDestinationSearch(query);
   const request = useCommand(requestPlaceCommand);
-  const country = unguidedCountry(search.results);
+  const perCity = useGuidesPerCity();
+  // While guides go by city every place has its own guide, so nobody covers a country as a guest.
+  const country = perCity ? null : unguidedCountry(search.results);
   // The keyboard goes down with the sheet's job done, so the place page opens uncovered.
   const open = (result: PlaceResult) => {
     Keyboard.dismiss();
@@ -142,10 +145,16 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
           )}
           {search.status === 'idle' ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary} testID="place-search-idle">
-              {t({
-                id: 'vote.search.idle',
-                message: 'Any city in the world. Guides cover some; a guest covers the rest.',
-              })}
+              {perCity
+                ? t({
+                    id: 'vote.search.idleOwnGuides',
+                    message:
+                      'Any city in the world. Each has a guide of its own; some are still learning their place.',
+                  })
+                : t({
+                    id: 'vote.search.idle',
+                    message: 'Any city in the world. Guides cover some; a guest covers the rest.',
+                  })}
             </Text>
           ) : null}
           {search.status === 'offline' ? (
