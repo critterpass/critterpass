@@ -12,16 +12,17 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
 - scrollUntilVisible:
     element:
-      id: 'dev-nav-plan-ideas-lab'
+      text: 'Plan ideas.*'
     direction: DOWN
     timeout: 20000
     # Slow, or iOS flings past it.
     speed: 20
     centerElement: true
 - tapOn:
-    id: 'dev-nav-plan-ideas-lab'
+    text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan'
@@ -189,16 +190,17 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
 - scrollUntilVisible:
     element:
-      id: 'dev-nav-plan-ideas-lab'
+      text: 'Plan ideas.*'
     direction: DOWN
     timeout: 20000
     # Slow, or iOS flings past it.
     speed: 20
     centerElement: true
 - tapOn:
-    id: 'dev-nav-plan-ideas-lab'
+    text: 'Plan ideas.*'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan'
