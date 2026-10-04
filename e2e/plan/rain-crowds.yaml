@@ -1,0 +1,146 @@
+appId: app.critterpass.dev
+---
+# Rain and crowds (7h-4) from the plan ideas lab, in English then Vietnamese: Wednesday's three
+# swaps with the rain band, the crowd bars and both lanes, then Jatiluwih unticked (it stays put
+# and USE ALL counts down). Shots are named `<lang>-7h-4-<state>`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-4$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-4$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-rain-swaps'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-4-swaps
+- tapOn:
+    id: 'plan-rain-swap-jatiluwih'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7h-4-unticked
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-4$'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^check-7h-4$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^check-7h-4$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-rain-swaps'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-4-swaps
+- tapOn:
+    id: 'plan-rain-swap-jatiluwih'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-7h-4-unticked
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^check-7h-4$'
+    timeout: 10000

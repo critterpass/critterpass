@@ -26,14 +26,15 @@ export function fixerId(issue: PlanCheckIssue): string {
       case 'rain_crowds':
         return '7h-4';
       case 'less_driving':
-      case 'too_far':
         return '7h-3';
+      // A too-far day's nearer swap is on its card in the plan check.
+      case 'too_far':
+        return '7h-1';
       case 'fill_gap':
         return '7h-2';
     }
   }
   if (issue.kind === 'rain' || issue.kind === 'crowds') return '7h-4';
-  if (issue.kind === 'too_far') return '7h-3';
   return '7h-1';
 }
 

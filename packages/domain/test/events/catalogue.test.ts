@@ -598,6 +598,18 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: IDEA.user_id,
     change_set_id: null,
   },
+  'check.member_asked': {
+    trip_id: IDEA.trip_id,
+    ask_id: crypto.randomUUID(),
+    asker_id: crypto.randomUUID(),
+    member_id: IDEA.user_id,
+  },
+  'check.member_ask_answered': {
+    trip_id: IDEA.trip_id,
+    ask_id: crypto.randomUUID(),
+    member_id: IDEA.user_id,
+    status: 'declined',
+  },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

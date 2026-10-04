@@ -6,3 +6,747 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#. placeholder {0}: issue.params.stops
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.pace"
+msgstr ""
+
+#. placeholder {0}: word(saved)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.missed"
+msgstr ""
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.ideas"
+msgstr ""
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.free"
+msgstr ""
+
+#. placeholder {0}: word(fit)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.fit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.linePlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fixAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.suggestAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.useAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.window"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.both"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.pairTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.fix"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.swapped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.and"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleWhole"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHoursMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.know"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.normals"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.detail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.plain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busyOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.declined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.accepted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.saveOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.moveTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderMove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.next"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.closes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.savesIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.plain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.thousand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.million"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.dayTag"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancelPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.holdPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/data/use-check-context.ts
+msgid "plan.check.aStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addTwo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addBoth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+msgid "plan.check.lab.museum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.before"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.booking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietBefore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.clash"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.visits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.crowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneCrowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceEditorial"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceVisits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleCrowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryBefore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryAfter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.allIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.uneven"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.fillGap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fix"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.freeChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayVoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.fri"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.forecastChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.pace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.goAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.inCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.indoors"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sentLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.allDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.editorial"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-card.tsx
+msgid "plan.check.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.keepFree"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.dismissWeather"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.mon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.dryAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.generic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.applied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToastLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoMissing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.noFix"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.noneBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.onlyYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietAfter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneRain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleRain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleBoth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceNormals"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.recheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.sendFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.sendFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.toast.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.else"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearerPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapWith"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneSwapped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.forecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.dark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-view.tsx
+msgid "plan.check.toKnow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.tooFar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.trade"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.backTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.tue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.use"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.use"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.wed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.balanceRow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askYes"
+msgstr ""

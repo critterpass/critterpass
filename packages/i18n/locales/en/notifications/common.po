@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.body"
+msgstr "{asker} asked you something about the plan"
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.needed.body"
 msgstr "{asker} asked: {question} Tap an answer, I will count."
@@ -30,6 +34,10 @@ msgstr "{count, plural, one {# stop is} other {# stops are}} ready to review. On
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
+msgstr "{crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"

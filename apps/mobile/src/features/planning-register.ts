@@ -10,6 +10,7 @@ import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
 import '@/features/plan/add/register';
 import '@/features/plan/ideas/register';
 import '@/features/plan/review/register';
+import '@/features/plan/check/register';
 
 import './plan/hub/register';
 import './explore/place-detail/register';

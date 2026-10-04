@@ -30,6 +30,9 @@ export default function TripIdLayout() {
       <Stack.Screen name="add/[placeId]" options={modalGroupOptions()} />
       {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
       <Stack.Screen name="search/link" options={modalGroupOptions()} />
+      {/* Fill a gap rises as a sheet over the trip map. */}
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
+      <Stack.Screen name="check/gap" options={modalGroupOptions()} />
     </Stack>
   );
 }
