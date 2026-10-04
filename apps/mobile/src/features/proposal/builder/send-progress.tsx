@@ -94,10 +94,13 @@ export function SendProgress(props: SendProgressProps) {
                   <Text variant="caption" color={theme.semantic.text.secondary}>
                     {version?.fallbackNote ??
                       (ready
-                        ? t({ id: 'proposal.sent.ready', message: 'Their version is ready' })
+                        ? t({
+                            id: 'proposal.sent.readyFor',
+                            message: `${person.name}'s version is ready`,
+                          })
                         : t({
-                            id: 'proposal.sent.pending',
-                            message: `${props.guideName} is writing theirs`,
+                            id: 'proposal.sent.pendingFor',
+                            message: `${props.guideName} is writing ${person.name}'s version`,
                           }))}
                   </Text>
                 </View>
