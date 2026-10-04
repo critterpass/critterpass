@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# Swipe together in Vietnamese, from the Explore lab's scenes.
+# Swipe together (7g-2) in Vietnamese, from the Explore lab's scenes.
 - runFlow: subflows/lab-vi.yaml
 - runFlow:
     file: subflows/swipe-scenes.yaml

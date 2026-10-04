@@ -1,0 +1,118 @@
+appId: app.critterpass.dev
+---
+# Explore in a trip (7g-1). From the Explore lab, in English then Vietnamese: Bali as designed (the
+# Wednesday window with three ideas, a saved pick, one in day 3 and one to add, four swiping), the
+# days full, nothing planned yet, the window offline and Đà Nẵng with long names. Then the real
+# page: a fresh account takes the staging demo seed (a confirmed Bali trip with a started plan),
+# turns the planning screens on for this phone, and opens Explore from the trip hub; the + on a pick
+# saves it to Ideas, and SWIPE TOGETHER opens the crew's swipe.
+- runFlow: subflows/lab-en.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore, READY: explore-trip-gap-when, SHOT: 'en-7g-1-destination' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore-full, READY: explore-trip-gaps-full, SHOT: 'en-7g-1-days-full' }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      { SCENE: trip-explore-empty, READY: explore-trip-gaps-empty, SHOT: 'en-7g-1-nothing-planned' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore-offline, READY: explore-trip-offline, SHOT: 'en-7g-1-gap-offline' }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: trip-explore-da-nang,
+        READY: explore-trip-gap-when,
+        SHOT: 'en-7g-1-da-nang-long-names',
+      }
+- runFlow: subflows/lab-vi.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore, READY: explore-trip-gap-when, SHOT: 'vi-7g-1-destination' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore-full, READY: explore-trip-gaps-full, SHOT: 'vi-7g-1-days-full' }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      { SCENE: trip-explore-empty, READY: explore-trip-gaps-empty, SHOT: 'vi-7g-1-nothing-planned' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: trip-explore-offline, READY: explore-trip-offline, SHOT: 'vi-7g-1-gap-offline' }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: trip-explore-da-nang,
+        READY: explore-trip-gap-when,
+        SHOT: 'vi-7g-1-da-nang-long-names',
+      }
+# The real page on staging.
+- runFlow: ../home/subflows/fresh-install.yaml
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- runFlow: ../_shared/planning-redesign-on.yaml
+- tapOn:
+    id: 'tab-trips'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-explore'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-explore'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip'
+    timeout: 20000
+# The gaps card has read the plan once it shows a window, says the days are full, or that nothing
+# is planned yet.
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip-(gap-when|gaps-full|gaps-empty)'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7g-1-real-bali
+# One tap on a pick's + saves it to Ideas; its card then reads SAVED.
+- runFlow:
+    when:
+      visible:
+        id: 'explore-trip-pick-add-.*'
+    commands:
+      - tapOn:
+          id: 'explore-trip-pick-add-.*'
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-trip-pick-saved-.*'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: en-7g-1-real-saved-pick
+- scrollUntilVisible:
+    element:
+      id: 'explore-trip-swipe'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7g-1-real-scrolled
+- tapOn:
+    id: 'explore-trip-swipe'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-swipe'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'explore-swipe-(card|building|summary)'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7g-2-real-swipe
