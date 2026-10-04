@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: short(major / 1e3)
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.money.thousands"
+msgstr "{0} N"
+
+#. placeholder {0}: short(major / 1e6)
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.money.millions"
+msgstr "{0} tr"
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.inTheCar"
 msgstr "{count} · {length} trên xe"

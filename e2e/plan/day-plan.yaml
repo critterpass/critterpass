@@ -108,123 +108,127 @@ appId: app.critterpass.dev
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 2000
-- repeat:
-    while:
-      notVisible:
-        id: 'dev-nav-plan-views-lab'
-    times: 2
-    commands:
-      - runFlow: ../onboarding/subflows/back.yaml
-      - waitForAnimationToEnd:
-          timeout: 2000
-# An iOS edge swipe can carry past the tools list to Home: back into the tools from there.
-- runFlow:
-    when:
-      visible:
-        id: 'dev-tools-entry'
-    commands:
-      - tapOn:
-          id: 'dev-tools-entry'
-- scrollUntilVisible:
-    element:
-      id: 'dev-build-marker'
-    direction: UP
-    timeout: 20000
-- runFlow:
-    file: ../home/subflows/pick-gallery-locale.yaml
-    env:
-      LOCALE: vi
 - runFlow:
     when:
       platform: Android
     commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- waitForAnimationToEnd:
-    timeout: 3000
-- runFlow:
-    when:
-      visible:
-        id: 'dev-tools-entry'
-    commands:
-      - tapOn:
-          id: 'dev-tools-entry'
-- scrollUntilVisible:
-    element:
-      id: 'dev-nav-plan-views-lab'
-    direction: DOWN
-    timeout: 20000
-- tapOn:
-    id: 'dev-nav-plan-views-lab'
-# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
-- runFlow:
-    when:
-      visible:
-        id: 'dev-nav-plan-views-lab'
-    commands:
+      - repeat:
+          while:
+            notVisible:
+              id: 'dev-nav-plan-views-lab'
+          times: 2
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # An iOS edge swipe can carry past the tools list to Home: back into the tools from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-build-marker'
+          direction: UP
+          timeout: 20000
+      - runFlow:
+          file: ../home/subflows/pick-gallery-locale.yaml
+          env:
+            LOCALE: vi
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-plan-views-lab'
+          direction: DOWN
+          timeout: 20000
       - tapOn:
           id: 'dev-nav-plan-views-lab'
-- scrollUntilVisible:
-    element:
-      id: 'plan-views-lab-day-plan'
-    direction: DOWN
-    centerElement: true
-    timeout: 30000
-- tapOn:
-    id: 'plan-views-lab-day-plan'
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: vi-7b-1-day-plan
-# Android back lowers a raised map sheet one snap before it leaves the screen.
-- repeat:
-    while:
-      visible:
-        id: 'day-plan'
-    times: 4
-    commands:
-      - runFlow: ../onboarding/subflows/back.yaml
-      - waitForAnimationToEnd:
-          timeout: 2000
-# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
-- runFlow:
-    when:
-      visible:
-        id: 'dev-nav-plan-views-lab'
-    commands:
+      # An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-nav-plan-views-lab'
+          commands:
+            - tapOn:
+                id: 'dev-nav-plan-views-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-views-lab-day-plan'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
       - tapOn:
-          id: 'dev-nav-plan-views-lab'
-- scrollUntilVisible:
-    element:
-      id: 'plan-views-lab-day-plan-map-open'
-    direction: DOWN
-    centerElement: true
-    timeout: 30000
-- tapOn:
-    id: 'plan-views-lab-day-plan-map-open'
-- extendedWaitUntil:
-    visible:
-      id: 'day-map'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: vi-7b-2-day-plan-map-open
-# Android back lowers a raised map sheet one snap before it leaves the screen.
-- repeat:
-    while:
-      visible:
-        id: 'day-map'
-    times: 4
-    commands:
-      - runFlow: ../onboarding/subflows/back.yaml
+          id: 'plan-views-lab-day-plan'
+      - extendedWaitUntil:
+          visible:
+            id: 'day-plan'
+          timeout: 20000
       - waitForAnimationToEnd:
-          timeout: 2000
+          timeout: 8000
+      - takeScreenshot: vi-7b-1-day-plan
+      # Android back lowers a raised map sheet one snap before it leaves the screen.
+      - repeat:
+          while:
+            visible:
+              id: 'day-plan'
+          times: 4
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-nav-plan-views-lab'
+          commands:
+            - tapOn:
+                id: 'dev-nav-plan-views-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-views-lab-day-plan-map-open'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
+      - tapOn:
+          id: 'plan-views-lab-day-plan-map-open'
+      - extendedWaitUntil:
+          visible:
+            id: 'day-map'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: vi-7b-2-day-plan-map-open
+      # Android back lowers a raised map sheet one snap before it leaves the screen.
+      - repeat:
+          while:
+            visible:
+              id: 'day-map'
+          times: 4
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000

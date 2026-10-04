@@ -62,7 +62,10 @@ function Way({
       >
         <View style={styles.wayBody}>
           <Icon name={icon} size={24} decorative />
-          <Text variant="label">{title}</Text>
+          {/* The design sets these on two lines ("PASTE WHAT / YOU SAVED"). */}
+          <Text variant="label" singleLine={false}>
+            {title}
+          </Text>
           <Text variant="caption" color={theme.semantic.text.secondary}>
             {caption}
           </Text>

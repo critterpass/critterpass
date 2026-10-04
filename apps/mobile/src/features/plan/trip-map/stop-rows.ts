@@ -11,9 +11,9 @@ import type { DayLeg } from '@/data/legs/day-legs';
 import type { DayItem } from '@/data/plan/plan-model';
 import type { PlanMember } from '@/data/plan/use-trip-plan';
 
-import { clock, money } from '../day/format';
+import { clock } from '../day/format';
 import type { FreeGap } from './day-gaps';
-import { legLabel, lengthLabel } from './format';
+import { compactMoney, legLabel, lengthLabel } from './format';
 import { issueFor, type TripDay } from './trip-days';
 
 export interface StopRow {
@@ -57,7 +57,7 @@ function detailOf(
     const crew = members.length;
     const line = t({ id: 'plan.tripMap.voted', message: `${voted} of ${crew} voted` });
     if (stop.amountMinor === null || stop.currency === null) return line;
-    const each = money(locale, stop.amountMinor, stop.currency);
+    const each = compactMoney(locale, stop.amountMinor, stop.currency);
     return t({ id: 'plan.tripMap.votedEach', message: `${line} · ${each} each` });
   }
   if (issue?.kind === 'rain') {

@@ -6,6 +6,7 @@
 import { plural, t } from '@lingui/core/macro';
 import { tokens } from '@cp/design-tokens';
 import type { PlanCheckIssue } from '@cp/domain';
+import { currencyExponent, currencySymbol, isKnownCurrency } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 
 import type { DayLeg } from '@/data/legs/day-legs';
@@ -177,4 +178,23 @@ export function issueLine(issue: PlanCheckIssue, nameOf: (stableId: string) => s
     case 'booking_note':
       return t({ id: 'plan.tripMap.issue.booking', message: 'A booking needs a look soon.' });
   }
+}
+
+/** "Rp 60k", "$38", "€1.2k": an amount in minor units, short, with the currency's own symbol. */
+export function compactMoney(locale: string, amountMinor: number, currency: string): string {
+  // The stored amount's exponent (ISO: IDR has two) and the app's own symbol for the currency.
+  const known = isKnownCurrency(currency);
+  const digits = known ? currencyExponent(currency) : 2;
+  const major = Math.abs(amountMinor) / 10 ** digits;
+  const symbol = known ? currencySymbol(currency, 'narrow') : currency;
+  const short = (value: number) =>
+    format.number(locale, value, { maximumFractionDigits: value < 10 ? 1 : 0 });
+  const amount =
+    major >= 1e6
+      ? t({ id: 'plan.tripMap.money.millions', message: `${short(major / 1e6)}M` })
+      : major >= 1e3
+        ? t({ id: 'plan.tripMap.money.thousands', message: `${short(major / 1e3)}k` })
+        : short(major);
+  // A letter symbol (Rp) takes a space; a sign ($, €) sits on the number.
+  return /\p{L}$/u.test(symbol) ? `${symbol} ${amount}` : `${symbol}${amount}`;
 }

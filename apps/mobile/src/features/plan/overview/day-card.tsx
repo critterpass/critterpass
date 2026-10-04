@@ -23,6 +23,8 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { DayChip, dayChipLabel } from './day-chip';
 import { dayTileColour } from './model/day-colour';
+
+export { dayTileColour };
 import type { DayCard as DayCardModel } from './model/plan-model';
 
 export const DAY_CARD_HEIGHT = 68;

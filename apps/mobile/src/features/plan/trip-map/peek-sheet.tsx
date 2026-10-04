@@ -53,6 +53,7 @@ export function PeekSheet(props: TripMapSheetProps) {
       <DayChips
         days={dayChips(model.days, locale)}
         selectedDayNo={n}
+        tile="control"
         onSelect={props.onSelectDay}
         testID="trip-map-day-chips"
       />
