@@ -51,6 +51,8 @@ export interface MediaLayerProps {
   readonly tone?: 'duotone' | 'colour';
   /** The corner the licence credit sits in. @default 'bottom' */
   readonly creditAt?: 'top' | 'bottom';
+  /** How far the credit sits from that edge (more where something overlaps the edge). @default 6 */
+  readonly creditInset?: number;
   /** The side the credit starts from; a small card's reads from the start. @default 'end' */
   readonly creditAlign?: 'start' | 'end';
   readonly testID?: string;
@@ -194,6 +196,7 @@ export function MediaLayer({
   dots = true,
   tone = 'duotone',
   creditAt = 'bottom',
+  creditInset = 6,
   creditAlign = 'end',
   testID,
 }: MediaLayerProps) {
@@ -264,7 +267,7 @@ export function MediaLayer({
           style={[
             styles.creditLine,
             { justifyContent: creditAlign === 'start' ? 'flex-start' : 'flex-end' },
-            creditAt === 'top' ? { top: 6 } : { bottom: 6 },
+            creditAt === 'top' ? { top: creditInset } : { bottom: creditInset },
           ]}
         >
           <Text

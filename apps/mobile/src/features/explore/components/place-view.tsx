@@ -105,13 +105,17 @@ const useStyles = makeStyles((t) => ({
   footer: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'] },
 }));
 
-/** The place photo, pushing in slowly as the page opens; the category doodle without one. */
+/** The place photo, pushing in as the page opens; `caption` keeps its credit off covered edges. */
 export function PlacePhoto({
   photo,
   heroUrl,
   category,
   accent,
-}: Pick<PlaceViewProps, 'photo' | 'heroUrl' | 'category'> & { readonly accent: string }) {
+  caption = { at: 'top', inset: 6 },
+}: Pick<PlaceViewProps, 'photo' | 'heroUrl' | 'category'> & {
+  readonly accent: string;
+  readonly caption?: { readonly at: 'top' | 'bottom'; readonly inset: number };
+}) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
@@ -132,9 +136,10 @@ export function PlacePhoto({
         accent={accent}
         tone="colour"
         dots={false}
-        creditAt="top"
+        creditAt={caption.at}
+        creditInset={caption.inset}
       />
-      <GenericPhotoLabel photo={photo} at="top" />
+      <GenericPhotoLabel photo={photo} at={caption.at} inset={caption.inset} />
       {photo === null && heroUrl ? (
         <Image
           source={{ uri: heroUrl }}

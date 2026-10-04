@@ -189,6 +189,8 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
             heroUrl={props.heroUrl}
             category={props.category}
             accent={props.guide.colour}
+            // The status bar and the buttons cover the top, the sheet the last 32 pt.
+            caption={{ at: 'bottom', inset: theme.space['32'] + theme.space['6'] }}
           />
           <Row
             justify="space-between"
