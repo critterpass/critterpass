@@ -151,7 +151,7 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
       name="heart"
       size={22}
       color={props.saved ? theme.color.pink : theme.semantic.text.primary}
-      {...(props.saved ? {} : { accent: theme.color.ink[850] })}
+      accent={props.saved ? theme.color.pink : theme.color.ink[850]}
       decorative
     />
   );

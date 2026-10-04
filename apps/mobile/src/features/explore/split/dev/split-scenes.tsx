@@ -32,7 +32,7 @@ const OPTIONS: readonly SplitOptionView[] = [
     body: 'Maya and Jordan leave Sat at 04:30 with Made and are back by 13:00. Everyone else sleeps in.',
     attendeeIds: ['m', 'j'],
     goingCount: 2,
-    cost: { minor: 450000, currency: 'IDR', per: 'car' },
+    cost: { minor: 45_000_000, currency: 'IDR', per: 'car' },
   },
   {
     optionId: 'alt1',

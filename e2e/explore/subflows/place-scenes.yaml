@@ -79,7 +79,7 @@ appId: app.critterpass.dev
     timeout: 20000
 - scrollUntilVisible:
     element:
-      id: 'place-detail-similar'
+      id: 'place-detail-similar-0192f000-0000-7000-8000-000000000022'
     direction: DOWN
     timeout: 20000
 - waitForAnimationToEnd:
