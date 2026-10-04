@@ -21,12 +21,15 @@ import { deviceGuideServices } from './data/guide-stream';
 export const guideRoutes = {
   /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
   dietary: (): Href => '/guide/dietary',
-  sheet: (params: { threadId?: string; tripId?: string; mode?: string } = {}): Href => ({
+  sheet: (
+    params: { threadId?: string; tripId?: string; mode?: string; q?: string } = {},
+  ): Href => ({
     pathname: '/guide/[threadId]',
     params: {
       threadId: params.threadId ?? 'new',
       ...(params.tripId === undefined ? {} : { tripId: params.tripId }),
       ...(params.mode === undefined ? {} : { mode: params.mode }),
+      ...(params.q === undefined ? {} : { q: params.q }),
     },
   }),
 };
@@ -37,6 +40,8 @@ registerScreens({
       ...(params['threadId'] === undefined ? {} : { threadId: params['threadId'] }),
       ...(params['tripId'] === undefined ? {} : { tripId: params['tripId'] }),
       ...(params['mode'] === undefined ? {} : { mode: params['mode'] }),
+      // A question to start from (search's ASK): it waits in the composer, not sent.
+      ...(params['q'] === undefined ? {} : { q: params['q'] }),
     }),
 });
 

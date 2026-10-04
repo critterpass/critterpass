@@ -28,6 +28,8 @@ export default function TripIdLayout() {
       {/* Add to plan rises as a sheet over the screen that opened it. */}
       {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
       <Stack.Screen name="add/[placeId]" options={modalGroupOptions()} />
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
+      <Stack.Screen name="search/link" options={modalGroupOptions()} />
     </Stack>
   );
 }

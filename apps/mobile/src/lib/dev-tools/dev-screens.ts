@@ -99,6 +99,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/plan-ideas-lab',
         label: 'Plan ideas (7f-1, 7f-2, 7h-6, 7h-7 scenes)',
       },
+      {
+        testId: 'dev-nav-search-lab',
+        href: '/(dev)/search-lab',
+        label: 'Search (7d, 7i-2 scenes)',
+      },
     ],
   },
   {

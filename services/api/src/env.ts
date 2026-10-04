@@ -201,6 +201,12 @@ export const apiEnvSchema = z.object({
   ANTHROPIC_BASE_URL: optionalUrl,
   /** TypeSafe Jev key for the input compliance check; unset = it answers from the fast-tier twin. */
   TYPESAFE_API_KEY: optionalString,
+  /** Gemini key for the vision fallback of Add from a link (a public YouTube video), used only
+   *  while `ai.gemini_vision` is on; unset = no request ever reaches Gemini. */
+  GEMINI_API_KEY: optionalString,
+  /** YouTube Data API key: Add from a link reads a video's description (`videos.list`); unset =
+   *  only its oEmbed title is read. */
+  YOUTUBE_API_KEY: optionalString,
 
   // --- Links (docs/api-contracts.md §5.6) ---
   /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =

@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 928,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "e64de6c8-f716-4ac6-8d2b-d39e33e2fb31",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Tukad Cepung\",\"kind_hint\":\"nature\",\"area_hint\":null,\"quote\":\"Tukad Cepung at 9am for the light beams 🌞 then Tibumana before the crowds.\"},{\"label\":\"Tibumana\",\"kind_hint\":\"nature\",\"area_hint\":null,\"quote\":\"Tukad Cepung at 9am for the light beams 🌞 then Tibumana before the crowds.\"},{\"label\":\"the swing with the view\",\"kind_hint\":\"other\",\"area_hint\":\"Tegallalang\",\"quote\":\"And the swing with the view near Tegallalang 😍\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 758,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 145,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -6,3 +6,652 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.or"
+msgstr " hoặc "
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.count"
+msgstr "{count, plural, other {# địa điểm}}"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.softMisses"
+msgstr "Thêm {count} chỗ, ồn hơn hoặc xa hơn"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenCount"
+msgstr "{count} chỗ"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedCount"
+msgstr "{count} chỗ ở {area}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedLate"
+msgstr "{count} chỗ ở {area}, {late} chỗ mở khuya"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenAreas"
+msgstr "{count} chỗ, đều ở {areas}"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.savedToast"
+msgstr "Đã lưu {count} chỗ vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.mealNoTitle"
+msgstr "{day} đã có bữa đó rồi, nên mình xem các ngày khác của bạn."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.travel"
+msgstr "{day} là ngày di chuyển, nên mình xem các ngày khác của bạn."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.meal"
+msgstr "{day} đã có {title} rồi, nên mình xem các tối khác của bạn."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.full"
+msgstr "{day} kín lịch rồi, nên mình xem các ngày khác của bạn."
+
+#: ../../apps/mobile/src/features/explore/search/use-queued-plain-question.ts
+msgid "search.queued.pingTitle"
+msgstr "{guideName} đã trả lời"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.found"
+msgstr "{guideName} tìm thấy"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chips.eyebrow"
+msgstr "{guideName} hiểu là"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.waits"
+msgstr "Thay đổi của {guideName} chờ có sóng"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.minutes"
+msgstr "{m} phút"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.drive"
+msgstr "{minutes} phút"
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.walk"
+msgstr "{minutes} phút đi bộ"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.walk"
+msgstr "{minutes} phút đi bộ"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.pin.saved"
+msgstr "{name} đã vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.places"
+msgstr "{places} địa điểm"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.ask"
+msgstr "{read} {asks, plural, other {# chỗ cần bạn chọn giúp.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sure"
+msgstr "{read} {sure, plural, other {# chỗ mình chắc chắn.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sureAndAsk"
+msgstr "{read} {sure, plural, other {# chỗ mình chắc chắn}}, {asks, plural, other {# chỗ cần bạn chọn giúp.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.nothing"
+msgstr "{read} Mình chưa xác định được chỗ nào từ đó."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromPlace"
+msgstr "≤ {minutes} phút từ {place}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromStay"
+msgstr "≤ {minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromRoute"
+msgstr "≤ {minutes} phút lệch khỏi lộ trình ngày"
+
+#: ../../apps/mobile/src/features/explore/search/commands.ts
+msgid "search.queued.idea"
+msgstr "Một địa điểm lưu vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.view"
+msgstr "Có view"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.crowds"
+msgstr "một thác nước vắng người, {day}"
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.row.add"
+msgstr "Thêm {name}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pinLine"
+msgstr "Thêm một chỗ {guideName} chưa biết"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.screenshot"
+msgstr "Dùng ảnh chụp màn hình"
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.add"
+msgstr "Thêm từ đây"
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.add"
+msgstr "Thêm vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.addedToast"
+msgstr "Đã thêm vào {shown}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.ask"
+msgstr "Hỏi"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.eyebrow"
+msgstr "Hỏi bằng lời thường"
+
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.back"
+msgstr "Có sóng lại · {guideName} đã trả lời"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.beaches"
+msgstr "Biển"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.beach"
+msgstr "Biển"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.bookings"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.breakfast"
+msgstr "Bữa sáng"
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.cancel"
+msgstr "Huỷ"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.cheap"
+msgstr "Rẻ"
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.clear"
+msgstr "Xoá"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.coffee"
+msgstr "Cà phê"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.coffee"
+msgstr "Cà phê"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBe"
+msgstr "Có thể là một trong {count} chỗ"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBeNear"
+msgstr "Có thể là một trong {count} chỗ gần {area}"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.notFound"
+msgstr "Chưa tìm thấy"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.busy"
+msgstr "Lúc này chưa đọc được."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.dinner"
+msgstr "Bữa tối"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.drinks"
+msgstr "Đồ uống"
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.title"
+msgstr "Thả ghim"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pin"
+msgstr "Thả ghim"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.dayNo"
+msgstr "Cho ngày {no}"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.day"
+msgstr "Cho ngày {no} · {weekday}"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.fri"
+msgstr "T6"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.link"
+msgstr "Từ một liên kết"
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.added"
+msgstr "Từ một liên kết"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.screenshot"
+msgstr "Từ ảnh chụp màn hình"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.tiktok"
+msgstr "Từ một TikTok"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.youtube"
+msgstr "Từ một video YouTube"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.instagram"
+msgstr "Từ một bài Instagram"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.appleMaps"
+msgstr "Từ Apple Maps"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.googleMaps"
+msgstr "Từ Google Maps"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.from"
+msgstr "Từ {saved} chỗ nhóm đã lưu và {curated} chỗ {guideName} lưu cho {destination} ngày {date}."
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.fromNoDate"
+msgstr "Từ {saved} chỗ nhóm đã lưu và {curated} chỗ {guideName} lưu cho {destination}."
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.eyebrow"
+msgstr "Từ bộ nhớ tạm"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.kids"
+msgstr "Hợp với trẻ em"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.unsupported"
+msgstr "Mình không đọc được liên kết này. Gửi ảnh chụp màn hình bài đăng nhé."
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noText"
+msgstr "Mình không đọc được chữ nào trong ảnh chụp đó."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.map"
+msgstr "Mình đã đọc liên kết bản đồ."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.post"
+msgstr "Mình đã đọc bài đăng."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.screenshot"
+msgstr "Mình đã đọc ảnh chụp của bạn."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.video"
+msgstr "Mình đã xem video."
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.map"
+msgstr "Trong khu này"
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.row.saved"
+msgstr "Trong Ý tưởng của nhóm"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.indoor"
+msgstr "Trong nhà"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.late"
+msgstr "Mở khuya"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.list"
+msgstr "Danh sách"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.local"
+msgstr "Kiểu địa phương"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.lunch"
+msgstr "Bữa trưa"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.map"
+msgstr "Bản đồ"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.market"
+msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.mon"
+msgstr "T2"
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.eyebrow"
+msgstr "Thêm địa điểm"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.museum"
+msgstr "Bảo tàng"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nature"
+msgstr "Thiên nhiên"
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.place"
+msgstr "Gần {place}"
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.moved"
+msgstr "Giờ mới"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nightlife"
+msgstr "Về đêm"
+
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.banner"
+msgstr "Mất sóng · dùng những gì đã lưu"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.notDays"
+msgstr "Trừ {days}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadPlain"
+msgstr "Chưa có chỗ nào khớp hết những điều đó."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadMinutes"
+msgstr "Không có chỗ nào như vậy trong vòng {limit} phút."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleHere"
+msgstr "Không có gì như vậy ở đây"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.title"
+msgstr "Không có gì như vậy gần {area}"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.count"
+msgstr "Kết quả ngoại tuyến · {count}"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.openIdeas"
+msgstr "Mở"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.openPast"
+msgstr "Còn mở sau {time}"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.openTill"
+msgstr "Mở đến {time}"
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.openAsOf"
+msgstr "đang mở, tính đến {syncedOn}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.askLine"
+msgstr "Hoặc hỏi mình. Mình cùng tìm với bạn."
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.eyebrow"
+msgstr "Hoặc xem theo loại"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.putOnDay"
+msgstr "Hoặc xếp vào {day}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.outdoor"
+msgstr "Ngoài trời"
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.pasteLine"
+msgstr "Dán liên kết để thêm các địa điểm trong đó."
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.pickOne"
+msgstr "Chọn một"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.other"
+msgstr "Địa điểm"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queuedLine"
+msgstr "Hỏi bằng lời cần có sóng. {guideName} giữ câu hỏi của bạn và trả lời khi có sóng."
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.attribution"
+msgstr "Powered by Foursquare"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queued"
+msgstr "Đang chờ · {queued}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.quiet"
+msgstr "Yên tĩnh"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.reading"
+msgstr "Đang đọc…"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.remove"
+msgstr "Bỏ {label}"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sat"
+msgstr "T7"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.saturday"
+msgstr "thứ Bảy"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saveToggle"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.saveToIdeas"
+msgstr "Lưu {chosen} chỗ vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saved"
+msgstr "Lưu ✓"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noPicker"
+msgstr "Điện thoại này chưa đọc được ảnh chụp màn hình."
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.search"
+msgstr "Tìm"
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.placeholder"
+msgstr "Tìm ở {destination}, hoặc hỏi {guideName}"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.proposedToast"
+msgstr "Đã gửi cả nhóm duyệt"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.shopping"
+msgstr "Mua sắm"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.view"
+msgstr "Xem dạng"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinner"
+msgstr "chỗ ăn tối yên tĩnh gần chỗ ở, mở khuya"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.spa"
+msgstr "Spa"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.health"
+msgstr "Spa và thư giãn"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sun"
+msgstr "CN"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.sunset"
+msgstr "Hoàng hôn"
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.removed"
+msgstr "Bỏ khỏi ngày"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.temples"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.temple"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.limit"
+msgstr "Hôm nay bạn gửi nhiều liên kết quá. Mai thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearest"
+msgstr "Gần nhất là {name} ở {area}, cách {away}."
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearestPlace"
+msgstr "Gần nhất là {name}, cách {away}."
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.plan"
+msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.private"
+msgstr "Bài này đã ẩn hoặc bị xoá."
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.thu"
+msgstr "T5"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.related"
+msgstr "Thử {term} xem"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.tue"
+msgstr "T3"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.price"
+msgstr "Tối đa {level}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.vegetarian"
+msgstr "Chay"
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.waterfalls"
+msgstr "Thác nước"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.wed"
+msgstr "T4"
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.name"
+msgstr "Chỗ này tên gì?"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.rain"
+msgstr "làm gì ở {destination} khi trời mưa"
+
+#: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
+msgid "search.link.pickTitle"
+msgstr "“{label}” là chỗ nào?"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widen"
+msgstr "Nới ra {span}"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works"
+msgstr "Vẫn dùng được khi mất sóng"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.worksWith"
+msgstr "Dùng được với Instagram, Maps, YouTube và ảnh chụp màn hình"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.tip"
+msgstr "{weekday} của bạn hợp với mấy chỗ này."
