@@ -47,7 +47,7 @@ export function withKnownPaths(tripId: string, paths: LegPaths): LegPaths {
 const lastCounts = new Map<string, CheckCounts>();
 
 function currentCheck(tripId: string, data: TripMapData, versionId: string | null): CheckCounts {
-  const view = data.check as TripMapData['check'] & { readonly checking?: boolean };
+  const view = data.check;
   const counts = checkCounts(
     {
       check: view.check,

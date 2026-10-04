@@ -25,7 +25,8 @@ import type { PlanMember } from '@/data/plan/use-trip-plan';
 import { decideRoute } from '../day/routes';
 import { clock } from '../day/format';
 import type { FreeGap } from './day-gaps';
-import { fixLabel, issueLine } from './format';
+import { fixKindLabel } from '../check';
+import { issueLine } from './format';
 import type { StayRows, StopRow } from './stop-rows';
 import { onlyYouDetail, whoFree } from './stop-rows';
 import type { DayItem } from '@/data/plan/plan-model';
@@ -73,6 +74,8 @@ export interface StopListContext {
   readonly picked?: string | null | undefined;
   /** The stops that offer GO where VOTE or the fix isn't (today's next stop), by stable id. */
   readonly go?: readonly string[] | undefined;
+  /** I apply fixes myself (an organiser); a member's pill says "Suggest". */
+  readonly organiser?: boolean | undefined;
   /** The stops can be held and dragged (the day plan): a grip at the end of each says so. */
   readonly handle?: boolean | undefined;
 }
@@ -136,7 +139,7 @@ export function StopBlock({
     ) : row.issue !== null && fixer !== null && !context.notes ? (
       <PillButton
         size="sm"
-        label={fixLabel(row.issue)}
+        label={fixKindLabel(row.issue, context.organiser === true)}
         onPress={fixer}
         testID={`stop-${String(row.n)}-swap`}
       />

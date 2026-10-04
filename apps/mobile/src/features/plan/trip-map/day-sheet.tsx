@@ -114,6 +114,7 @@ export function DaySheet(
             members: model.members,
             me: model.me,
             guide: model.guide,
+            organiser: model.organiser,
             notes: false,
             go: goStop === null ? [] : [goStop],
             picked: props.picked,

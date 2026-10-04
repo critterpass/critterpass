@@ -164,28 +164,6 @@ export function tagLabel(tag: DayTag, short = false): string {
   }
 }
 
-/**
- * The pill on a stop the check found something about, named for what it does (a bare "Swap?" on a
- * clash read as a question with no answer offered).
- */
-export function fixLabel(issue: PlanCheckIssue): string {
-  switch (issue.kind) {
-    case 'clash':
-      return t({ id: 'plan.tripMap.fix.clash', message: 'Clash · fix' });
-    case 'too_far':
-      return t({ id: 'plan.tripMap.fix.tooFar', message: 'Too far · fix' });
-    case 'closed':
-      return t({ id: 'plan.tripMap.fix.closed', message: 'Closed · fix' });
-    case 'rain':
-      return t({ id: 'plan.tripMap.fix.rain', message: 'Rain · swap' });
-    case 'crowds':
-      return t({ id: 'plan.tripMap.fix.crowds', message: 'Busy · swap' });
-    case 'pace':
-    case 'booking_note':
-      return t({ id: 'plan.tripMap.fix.other', message: 'Fix' });
-  }
-}
-
 /** The tag's fill; a vote waits quietly on the row. */
 export function tagColor(tag: DayTag): string | undefined {
   switch (tag.kind) {

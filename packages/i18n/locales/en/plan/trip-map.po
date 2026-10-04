@@ -171,10 +171,6 @@ msgid "plan.tripMap.tag.booked"
 msgstr "Booked"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.crowds"
-msgstr "Busy · swap"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
 msgstr "Car"
 
@@ -199,16 +195,8 @@ msgid "plan.tripMap.tag.clash"
 msgstr "Clash"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.clash"
-msgstr "Clash · fix"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.closed"
 msgstr "Closed"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.closed"
-msgstr "Closed · fix"
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.copy"
@@ -252,10 +240,6 @@ msgstr "Far"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.fill"
 msgstr "Fill it"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.other"
-msgstr "Fix"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
@@ -363,10 +347,6 @@ msgid "plan.tripMap.tag.rain"
 msgstr "Rain"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.rain"
-msgstr "Rain · swap"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.issue.rain"
 msgstr "Rain from {from} to {to}, right on {stop}."
 
@@ -459,10 +439,6 @@ msgstr "TikToks, posts, screenshots"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.tooFar"
 msgstr "Too far"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.tooFar"
-msgstr "Too far · fix"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"

@@ -204,6 +204,7 @@ export function DayPlanView(props: DayPlanViewProps) {
                 members: model.members,
                 me: model.me,
                 guide: model.guide,
+                organiser: model.organiser,
                 notes: true,
                 go: goStop === null ? [] : [goStop],
                 handle: props.drag !== null,

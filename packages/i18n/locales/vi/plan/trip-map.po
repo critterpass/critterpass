@@ -171,10 +171,6 @@ msgid "plan.tripMap.tag.booked"
 msgstr "Đã đặt"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.crowds"
-msgstr "Đông · đổi"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.car"
 msgstr "Xe"
 
@@ -199,16 +195,8 @@ msgid "plan.tripMap.tag.clash"
 msgstr "Trùng"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.clash"
-msgstr "Trùng giờ · sửa"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.closed"
 msgstr "Đóng cửa"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.closed"
-msgstr "Đóng cửa · sửa"
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.copy"
@@ -252,10 +240,6 @@ msgstr "Xa"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.fill"
 msgstr "Lấp chỗ trống"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.other"
-msgstr "Sửa"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.food"
@@ -363,10 +347,6 @@ msgid "plan.tripMap.tag.rain"
 msgstr "Mưa"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.rain"
-msgstr "Mưa · đổi"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.issue.rain"
 msgstr "Mưa từ {from} đến {to}, đúng lúc ở {stop}."
 
@@ -459,10 +439,6 @@ msgstr "TikTok, bài đăng, ảnh chụp màn hình"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.tooFar"
 msgstr "Quá xa"
-
-#: ../../apps/mobile/src/features/plan/trip-map/format.ts
-msgid "plan.tripMap.fix.tooFar"
-msgstr "Quá xa · sửa"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.vote"

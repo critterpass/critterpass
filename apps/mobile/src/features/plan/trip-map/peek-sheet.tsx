@@ -119,7 +119,7 @@ export function PeekSheet(
           name={model.guide.name}
           line={line}
           {...(checking === null || checking === line ? {} : { detail: checking })}
-          {...(check === null || model.check.fixes + model.check.know === 0
+          {...(check === null || (model.check.fixes + model.check.know === 0 && checking === null)
             ? {}
             : {
                 action: {
