@@ -6,7 +6,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import { isValidLine } from '../../prompts/invite-tags/schema';
 import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { Gateway } from '../../client';
@@ -48,7 +48,7 @@ export function buildObjectionRequest(input: ObjectionInput): GatewayInput {
   const language = replyLanguage(input.locale);
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[input.guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(input.guide)) },
       { type: 'text', text: language === '' ? TASK : `${TASK}\n${READER_LANGUAGE_RULES}` },
     ],
     messages: [

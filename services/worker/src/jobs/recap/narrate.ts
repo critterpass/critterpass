@@ -14,7 +14,7 @@
  */
 import { createHash } from 'node:crypto';
 
-import { personaIdSchema, REPO_PACKS } from '@cp/ai';
+import { personaIdSchema, resolvePersonaPack } from '@cp/ai';
 import { withSystem } from '@cp/db';
 import {
   generateUuidV7,
@@ -103,7 +103,7 @@ async function loadSource(
   return {
     tripId: row.trip_id,
     copyVersion: row.copy_version,
-    voiceId: (persona.success ? REPO_PACKS[persona.data].voice_id : null) ?? defaultVoiceId,
+    voiceId: (persona.success ? resolvePersonaPack(persona.data).voice_id : null) ?? defaultVoiceId,
     cards: recapGuideTextSource(row.cards),
     i18n: row.i18n,
     locales: row.locales ?? [SOURCE_APP_LOCALE],

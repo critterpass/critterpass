@@ -92,10 +92,9 @@ async function createSoloTrip(
   await tx.query(
     `INSERT INTO trips (id, crew_id, status, destination_id, is_solo, seat_cap, guide_id,
        is_guest_guide, tz, local_currency)
-     SELECT $1, $2, 'setup', d.id, true, 1,
-            (SELECT g.id FROM guides g WHERE g.slug = coalesce(s.guide_slug, 'tokek')),
+     SELECT $1, $2, 'setup', d.id, true, 1, app.destination_guide_id(d.id),
             d.coverage = 'guest', d.tz, d.currency
-       FROM destinations d LEFT JOIN critter_sets s ON s.id = d.critter_set_id
+       FROM destinations d
       WHERE d.id = $3`,
     [tripId, crewId, place.id],
   );

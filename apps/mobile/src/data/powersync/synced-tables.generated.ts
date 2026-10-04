@@ -84,7 +84,7 @@ export const SYNCED_TABLE_COLUMNS = {
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
-    'slug name country coverage colour currency best_months tz geofence critter_set_id drive_factor:real created_at updated_at',
+    'slug name country coverage colour currency best_months tz geofence critter_set_id critter_key drive_factor:real created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   disruptions:
@@ -117,7 +117,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
   guide_skins: 'user_id guide_id form_id created_at updated_at',
   guide_threads: 'user_id trip_id crew_id guide_id mode last_message_at created_at updated_at',
-  guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
+  guides:
+    'slug name colour persona_pack_version voice_id local_words critter_key accent created_at updated_at',
   hazard_alerts:
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
   help_articles:

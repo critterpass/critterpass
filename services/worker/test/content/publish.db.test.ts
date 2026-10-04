@@ -157,6 +157,14 @@ describe('content.publish', () => {
       'Temple Tokek',
       'Tokek',
     ]);
+    // A released critter is the guide of its city: its guide row comes with the release.
+    const guides = await harness.pool.query(
+      'SELECT slug, name, colour, accent FROM guides WHERE critter_key = $1',
+      ['cp-112'],
+    );
+    expect(guides.rows).toEqual([
+      { slug: 'tokek', name: 'Tokek', colour: 'yellow', accent: '#ffd84a' },
+    ]);
     const window = await harness.pool.query<{ months: number[] }>(
       "SELECT months FROM legendary_windows WHERE key = 'golden-tokek'",
     );
@@ -325,7 +333,7 @@ describe('content.publish', () => {
 
   it('publishes persona packs for live guides, read back through the persona loader shape', async () => {
     await harness.pool.query(
-      "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow')",
+      "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow') ON CONFLICT (slug) DO NOTHING",
     );
     const pack = { ...REPO_PACKS.tokek, version: 'content-test', status: 'draft' };
     const item: ContentItem<'personas'> = {

@@ -64,39 +64,7 @@ export {
   type SqlClient,
   type UsageContext,
 } from './usage';
-export { applyTurnDirectives, turnInstruction, type TurnDirectives } from './persona/chattiness';
-export {
-  buildSystemBlocks,
-  globalRulesText,
-  renderPersonaBlock,
-  writtenGloss,
-  type PersonaBlockOptions,
-  type PromptLayers,
-} from './persona/layering';
-export {
-  LATEST_APPROVED_PERSONA_SQL,
-  loadPersonaPack,
-  parseRepoPacks,
-  personaFromRelease,
-  REPO_PACKS,
-  type ApprovedPersonaRow,
-  type LoadedPersona,
-  type PersonaReleaseSource,
-} from './persona/loader';
-export {
-  CHATTINESS_LEVELS,
-  chattinessLevelSchema,
-  GUIDE_SLUGS,
-  localWordSchema,
-  PERSONA_IDS,
-  personaIdSchema,
-  personaPackSchema,
-  type ChattinessLevel,
-  type ChattinessSetting,
-  type LocalWord,
-  type PersonaId,
-  type PersonaPack,
-} from './persona/schema';
+export * from './persona';
 export {
   buildContext,
   CONTEXT_QUERIES,
