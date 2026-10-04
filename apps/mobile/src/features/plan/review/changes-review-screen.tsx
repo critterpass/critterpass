@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 
 import type { SendResult } from '@/data/commands/client';
 
+import { usePlanGuide } from '../plan-guide';
 import { dayTileColour, weekdayOf } from '../overview/day-card';
 import { planRoutes } from '../overview/routes';
 import {
@@ -54,6 +55,7 @@ export function ChangesReviewScreen({
   readonly tripId: string;
   readonly changesetId: string;
 }) {
+  const guideName = usePlanGuide().name;
   const locale = useLocale();
   const view = useChangeset(tripId, changesetId);
   const actions = useChangesetActions(changesetId);
@@ -102,7 +104,7 @@ export function ChangesReviewScreen({
       key: idea.ideaId,
       name: idea.name.toUpperCase(),
       line: leftLine(idea, stopName),
-      explainer: explained.has(idea.ideaId) ? needsMoveExplainer(stop) : null,
+      explainer: explained.has(idea.ideaId) ? needsMoveExplainer(stop, guideName) : null,
       onSee: () => {
         if (idea.reason === 'needs_move') {
           setExplained((current) => new Set([...current, idea.ideaId]));

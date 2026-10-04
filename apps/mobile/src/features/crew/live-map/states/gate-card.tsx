@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { makeStyles } from '@/ui/theme';
@@ -35,7 +35,7 @@ export function GateCard({
   readonly ended: boolean;
 }) {
   const styles = useStyles();
-  const guide = GUIDE_STICKERS.tokek;
+  const guide = guideSticker('tokek');
   const paywall = liveMapPaywall();
   const sticker = <Sticker kind={guide.kind} name={guide.name} size={72} />;
   let title: string;

@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { StatusChip } from '@/ui/chips/StatusChip';
 import { Row } from '@/ui/layout/Row';
@@ -110,7 +110,7 @@ export function ProfileView(props: ProfileViewProps) {
   const handle = [model.username === null ? null : `@${model.username}`, model.homeCity]
     .filter((part): part is string => part !== null && part.length > 0)
     .join(' · ');
-  const guideName = model.avatar.kind === 'guide' ? GUIDE_STICKERS[model.avatar.guide].name : null;
+  const guideName = model.avatar.kind === 'guide' ? guideSticker(model.avatar.guide).name : null;
   const onlyHome = model.stamps.every((stamp) => stamp.kind === 'home');
 
   return (

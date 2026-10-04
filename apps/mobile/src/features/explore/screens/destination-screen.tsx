@@ -75,7 +75,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const name = row?.name ?? data?.destination.name ?? '';
   useExploreStream(id);
 
-  const guide = guideFor(row?.guide_slug);
+  const guide = guideFor(row?.guide_slug, row?.coverage !== 'guest');
   const season = useSeasonMonths(id);
   const bars = useMemo(
     () => monthBars(data?.curve ?? (season.length > 0 ? season : null)),
@@ -182,7 +182,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const notice =
     base.status === 'loading' || bars.length > 0 || organic.length > 0
       ? null
-      : guide.guest
+      : guide.guest || guide.learning
         ? ('limited' as const)
         : data === undefined
           ? ('unavailable' as const)

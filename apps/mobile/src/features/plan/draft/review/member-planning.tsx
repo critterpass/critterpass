@@ -8,7 +8,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { format } from '@cp/i18n';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -26,7 +26,7 @@ export function MemberPlanning({
   readonly onBack: () => void;
 }) {
   const locale = useLocale();
-  const info = GUIDE_STICKERS[trip.guide];
+  const info = guideSticker(trip.guide);
   const names = format.list(
     locale,
     trip.organisers.map((p) => p.name),

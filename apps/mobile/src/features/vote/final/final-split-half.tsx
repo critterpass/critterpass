@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
@@ -62,7 +62,7 @@ export function FinalSplitHalf({
   const theme = useTheme();
   const { i18n } = useLingui();
   const wiggle = useLoop('wiggle', { offset: wiggleOffset });
-  const guide = GUIDE_STICKERS[place?.guide ?? 'tokek'];
+  const guide = guideSticker(place?.guide ?? 'tokek');
   const ink = theme.semantic.text.onAccent;
   const name = (
     <Wordmark

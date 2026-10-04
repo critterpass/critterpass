@@ -32,9 +32,10 @@ export interface DestinationViewProps {
   readonly loading: boolean;
   readonly offline: boolean;
   /**
-   * Only when the page has neither a month curve nor picks to draw. `limited`: a guest-guide
-   * place; `writing`: a guide's own place whose curve is not written yet; `unavailable`: the
-   * guide's read did not load and the phone holds no places for it.
+   * Only when the page has neither a month curve nor picks to draw. `limited`: a place nobody has
+   * checked (the guest guide's, or its own guide still learning it); `writing`: a guide's own place
+   * whose curve is not written yet; `unavailable`: the guide's read did not load and the phone
+   * holds no places for it.
    */
   readonly notice: 'limited' | 'writing' | 'unavailable' | null;
   readonly months: {
@@ -186,10 +187,15 @@ export function DestinationView(props: DestinationViewProps) {
                 )}
               </Text>
               <Text variant="body">
-                {t({
-                  id: 'explore.limited.body',
-                  message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
-                })}
+                {guide.learning
+                  ? t({
+                      id: 'explore.learning.body',
+                      message: `${guide.name} is still learning ${hero.name}, and nobody has checked the picks here yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                    })
+                  : t({
+                      id: 'explore.limited.body',
+                      message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                    })}
               </Text>
             </View>
           ) : null}

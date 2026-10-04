@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: The app draws and names any guide from its row
-status: pending
+status: in_progress
 depends_on: [1]
 tasks: 4
 owns:
@@ -41,20 +41,20 @@ mount_points:
 ### T1 Guide data module and the id type
 - `data/guides`: row → what screens draw; the three `GuideId` types become the slug string; `GUIDE_DEX_IDS` and the token lookups go behind the module.
 - Tests: a city guide (Ngựa) and each of the seven resolve to the right kind, seed and colours; an unknown slug with no row is Tokek.
-- Status: pending
+- Status: done — 3d758d022
 
 ### T2 Screens, copy and music
 - The fallbacks and per-guide records of the scout report; messages with a hard-coded name; the guest wording; the theme rule.
 - Tests only where a branch decides something (theme choice, guest wording by coverage, the fallback rule).
-- Status: pending
+- Status: done — 751f9b436
 
 ### T3 Web invite preview
-- Status: pending
+- Status: blocked — `invite-facts.ts` gives any guide's sticker (6dfa564f7); `InviteCard.astro`, outside this phase's owns list, still has to call it
 
 ### T4 Device proof
 - Lab scenes with a city guide for the screens that draw one, and a fresh-user flow on staging: a new Đà Lạt trip, then home, trip hub, guide chat, draft review, Explore and a place page.
 - Android, EN + VI, `mode=compare`, one dispatch, sheets on the PR.
-- Status: pending
+- Status: blocked — lab scenes and capture flows are in (7c3196bd5); the device run needs the PR's sheets, and the staging fresh-user flow needs `guides.per_city` on in staging
 
 ## Done when
 

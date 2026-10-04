@@ -9,6 +9,13 @@ msgstr ""
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
+#. placeholder {2}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.learning.body"
+msgstr "{0} vẫn đang tìm hiểu {1} và chưa ai kiểm tra các gợi ý ở đây, nên phần đông vắng theo từng tháng và các gợi ý chưa được viết. Chuyến bay, tiền tệ và những tháng đẹp nhất thì đã có, và {2} vẫn lên kế hoạch chuyến đi như thường."
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.writing"
 msgstr "{0} vẫn đang viết về {1}: độ đông theo từng tháng sẽ hiện ở đây. Các địa điểm đã có trên bản đồ."
@@ -125,6 +132,10 @@ msgstr "Hướng dẫn viên khách mời: {0}"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineLine"
 msgstr "Lần đầu mình cần có mạng. Sau đó mình ở đây cả khi không có mạng."
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.learningLine"
+msgstr "Mình vẫn đang tìm hiểu {place}. Chưa ai kiểm tra các gợi ý của mình ở đây."
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.title"

@@ -20,7 +20,7 @@ import { format, upper } from '@cp/i18n';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { UserAvatar, type AvatarView } from '@/ui/avatar';
 import { PassCard } from '@/ui/pass-card';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 
@@ -60,7 +60,7 @@ export function PassPhoto({
   const view = avatarViewOf(draft.avatar, draft.photo_uri);
   if (view === null) return null;
   if (view.kind === 'guide') {
-    const guide = GUIDE_STICKERS[view.guide];
+    const guide = guideSticker(view.guide);
     return <Sticker kind={guide.kind} name={guide.name} size={size} />;
   }
   return <UserAvatar name={draft.given_name} avatar={view} viewer="self" size="xl" />;

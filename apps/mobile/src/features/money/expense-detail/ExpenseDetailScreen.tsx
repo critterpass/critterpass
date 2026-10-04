@@ -11,7 +11,7 @@ import { View } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
@@ -53,7 +53,7 @@ function ExpenseGone() {
         <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
         <EmptyState
           guide="tokek"
-          guideName={GUIDE_STICKERS.tokek.name}
+          guideName={guideSticker('tokek').name}
           title={t({ id: 'money.detail.goneTitle', message: 'This expense is gone' })}
           line={t({
             id: 'money.detail.goneLine',

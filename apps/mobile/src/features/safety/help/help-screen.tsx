@@ -16,7 +16,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { usePermission } from '@/lib/permissions';
 import { toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { BOOKINGS_ROUTES, pickPolicy, useInsurancePolicies } from '@/features/bookings';
 
@@ -40,8 +40,6 @@ import { onOpen, pendingShare, shareView, type PendingShare } from './share-poli
 import { useHelpHub } from './use-help-hub';
 import { useNow } from './use-now';
 import { useFormats } from '@/lib/i18n/formats';
-
-const GUIDE_IDS = Object.keys(GUIDE_STICKERS);
 
 export function HelpScreen() {
   const { t } = useLingui();
@@ -70,9 +68,7 @@ export function HelpScreen() {
     !answered && hub.consentLoaded && hub.tripId !== null && onOpen(hub.consent) === 'ask';
   const crewName = hub.trip?.crew_name ?? '';
   const guideSlug = hub.trip?.guide_slug ?? 'tokek';
-  const guide = GUIDE_IDS.includes(guideSlug)
-    ? GUIDE_STICKERS[guideSlug as keyof typeof GUIDE_STICKERS]
-    : GUIDE_STICKERS.tokek;
+  const guide = guideSticker(guideSlug);
   const guideName = hub.trip?.guide_name ?? guide.name;
   const locale = useLocale();
   useFormats();

@@ -129,7 +129,7 @@ msgstr "No free time that day"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
-msgstr "No signal: Tokek works out the reasons once you’re back."
+msgstr "No signal: {guideName} works out the reasons once you’re back."
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nowhere"
@@ -166,10 +166,6 @@ msgstr "Starts {time}. Change the time"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
 msgstr "SUGGEST FOR {dayLabel} · {time}"
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
-msgid "plan.add.guide"
-msgstr "Tokek"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

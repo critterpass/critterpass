@@ -3,7 +3,7 @@
 import { critters } from '@cp/critter-art';
 import type { ReactNode } from 'react';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { AvatarView, type AvatarTab } from '../avatar/avatar-view';
@@ -11,7 +11,7 @@ import { EditProfileView } from '../edit-profile/edit-profile-view';
 import { ProfileFace } from '../profile/profile-parts';
 
 const noop = () => undefined;
-const TOKEK = GUIDE_STICKERS.tokek;
+const TOKEK = guideSticker('tokek');
 
 /** Ten found forms, two of them rare, one epic and one legendary, as the render lists them. */
 const DEX = critters.slice(0, 10).map((critter, index) => ({

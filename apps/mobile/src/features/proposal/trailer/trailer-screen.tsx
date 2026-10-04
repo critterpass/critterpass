@@ -15,7 +15,7 @@ import { View } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ReactionFloats } from '@/ui/chat/ReactionFloats';
@@ -77,7 +77,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   if (proposal == null || trip == null || version === null || version.slides.length === 0) {
     return <ProposalLoading testID="trailer-loading" />;
   }
-  const info = GUIDE_STICKERS[trip.guide];
+  const info = guideSticker(trip.guide);
   /** "Day 2 · 06:00" for a slide about a plan stop; the progress segments already say which slide. */
   const stopLine = (itemId: string | null): string | null => {
     const stop = itemId === null ? undefined : stops.get(itemId);
