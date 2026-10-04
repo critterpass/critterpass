@@ -11,6 +11,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -112,6 +113,9 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     else router.push(href);
   };
 
+  const photos = usePlaceTilePhotos(
+    ideas.flatMap((idea) => (idea.poiId === null ? [] : [idea.poiId])),
+  );
   const rows = ideas.map((idea) => {
     const line = fitLine(idea.fit, { weekdays, tz, stopName });
     return (
@@ -120,6 +124,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         ideaId={idea.id}
         name={idea.name.toUpperCase()}
         icon={ideaIcon(idea.category)}
+        photo={idea.poiId === null ? undefined : photos.get(idea.poiId)}
         fitLine={
           line ?? {
             text: t({ id: 'plan.ideas.fitPending', message: 'Fits will update with signal' }),

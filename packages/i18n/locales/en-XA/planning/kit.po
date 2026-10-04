@@ -21,6 +21,10 @@ msgstr ""
 msgid "kit.mapSheet.expand"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/planning/place-thumb.tsx
+msgid "kit.placeThumb.notThisPlace"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/planning/stance-bar.tsx
 msgid "kit.stanceBar.ratherNot"
 msgstr ""

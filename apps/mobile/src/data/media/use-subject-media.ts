@@ -57,7 +57,7 @@ export async function prefetchMedia(items: readonly MediaAsset[]): Promise<void>
 let sessionReader: TravelDataReader | undefined;
 
 /** The api with this device's session; a provided travel-data reader (tests) wins. */
-function mediaReader(): TravelDataReader {
+export function mediaReader(): TravelDataReader {
   sessionReader ??= createTravelDataReader({
     // Loaded on first use: the auth client's native half is not needed until a hero reads.
     sessionHeaders: async () => (await import('../app-session/device-session')).sessionHeaders(),

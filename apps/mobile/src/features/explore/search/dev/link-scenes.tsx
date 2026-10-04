@@ -7,6 +7,8 @@ import type { ImportCandidate, ImportEvent } from '@cp/domain';
 import { router } from 'expo-router';
 import { useReducer, useState, type ReactNode } from 'react';
 
+import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
+
 import { categoryWord } from '../chip-row';
 import {
   LINK_IMPORT_START,
@@ -109,6 +111,12 @@ function LinkScene({
             <PickOneSheet
               label="the swing with the view"
               candidates={SWINGS}
+              photos={
+                new Map([
+                  [SWINGS[0]?.poi_id ?? '', LAB_PHOTOS.terraces],
+                  [SWINGS[1]?.poi_id ?? '', LAB_PHOTOS.generic],
+                ])
+              }
               onPick={(poiId) => {
                 dispatch({ type: 'pick', label: 'the swing with the view', poiId });
                 setPick(false);

@@ -7,6 +7,7 @@ import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { TripPlaceSearch } from '@/data/places/use-trip-place-search';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useTheme } from '@/ui';
@@ -38,6 +39,9 @@ export function OfflineSection({ search, trip, area, from, queued, onOpen }: Off
       ? null
       : sync.lastSyncedAt.toLocaleDateString(i18n.locale, { month: 'short', day: 'numeric' });
   const now = new Date();
+  const photos = usePlaceTilePhotos(
+    search.rows.flatMap((place) => (place.poiId === null ? [] : [place.poiId])),
+  );
   const rows: OfflineRow[] = search.rows.map((place) => {
     const parts: string[] = [];
     const minutes = walkMinutes(here, {
@@ -62,6 +66,7 @@ export function OfflineSection({ search, trip, area, from, queued, onOpen }: Off
     <View style={{ gap: theme.space['20'] }}>
       <OfflineResults
         rows={rows}
+        photos={photos}
         area={area}
         saved={search.counts.saved}
         curated={search.counts.curated}

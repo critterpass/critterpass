@@ -6,6 +6,7 @@ import type { ImportCandidate } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles } from '@/ui';
 import { PlaceRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -20,11 +21,13 @@ const useStyles = makeStyles((th) => ({
 export interface PickOneSheetProps {
   readonly label: string;
   readonly candidates: readonly ImportCandidate[];
+  /** The candidates' photos by POI id, as they arrive. */
+  readonly photos?: PlaceTilePhotos | undefined;
   readonly onPick: (poiId: string) => void;
   readonly onClose: () => void;
 }
 
-export function PickOneSheet({ label, candidates, onPick, onClose }: PickOneSheetProps) {
+export function PickOneSheet({ label, candidates, photos, onPick, onClose }: PickOneSheetProps) {
   const styles = useStyles();
   const title = t({ id: 'search.link.pickTitle', message: `Which is “${label}”?` });
   return (
@@ -43,6 +46,7 @@ export function PickOneSheet({ label, candidates, onPick, onClose }: PickOneShee
               title={candidate.name}
               meta={candidate.meta ?? undefined}
               icon={placeIcon(candidate.category)}
+              {...photos?.get(candidate.poi_id)?.tile}
               onPress={() => onPick(candidate.poi_id)}
               testID={`search-pick-${String(index)}`}
             />

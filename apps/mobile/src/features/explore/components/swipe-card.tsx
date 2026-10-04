@@ -97,6 +97,7 @@ function Face({ face, guide }: { readonly face: SwipeCardFace; readonly guide: G
           media={face.photo}
           surface="dark"
           accent={guide.colour}
+          tone="colour"
           dots={false}
           testID="explore-swipe-photo"
         />

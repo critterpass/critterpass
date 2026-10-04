@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import type { FitLine } from '@/data/fit/fit-line';
+import type { PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
 import type { StackMember } from '@/ui/people/AvatarStack';
 import { AddButton, PlaceRow, PlanningTag } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
@@ -74,6 +75,8 @@ export function GroupTitle({
 export interface PlaceListRowProps {
   readonly place: HubPlace;
   readonly meta: string;
+  /** The place's photo, when it has one. */
+  readonly photo?: PlaceTilePhoto | undefined;
   readonly savers: readonly StackMember[];
   readonly fit: FitLine | undefined;
   readonly onOpen: () => void;
@@ -110,6 +113,7 @@ export function PlaceListRow(props: PlaceListRowProps) {
       title={upper(props.place.name, i18n.locale)}
       meta={props.meta}
       icon={categoryIcon(props.place.category)}
+      {...props.photo?.tile}
       savers={props.savers}
       fitLine={props.fit}
       trailing={

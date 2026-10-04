@@ -16,6 +16,7 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon, categoryLabel } from '../category';
+import { isGenericPhoto } from '../place-photo';
 import { GenericPhotoLabel } from './generic-photo-label';
 import { SponsoredTag, WhySponsoredLink } from './sponsored-card';
 
@@ -81,7 +82,15 @@ export function PicksRow({ picks, onOpen, accent, footer }: PicksRowProps) {
             >
               <View style={styles.photo}>
                 <Hatch />
-                <MediaLayer media={pick.photo} surface="dark" accent={accent} dots={false} />
+                <MediaLayer
+                  media={pick.photo}
+                  surface="dark"
+                  accent={accent}
+                  tone="colour"
+                  dots={false}
+                  creditAlign="start"
+                  creditAt={isGenericPhoto(pick.photo) ? 'top' : 'bottom'}
+                />
                 <GenericPhotoLabel photo={pick.photo} />
                 {pick.photo === null ? (
                   <Icon

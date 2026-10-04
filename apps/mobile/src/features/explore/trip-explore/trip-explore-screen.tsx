@@ -11,6 +11,7 @@ import { router } from 'expo-router';
 import { useMemo } from 'react';
 
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { dataOf } from '@/data/travel-data/freshness';
@@ -88,6 +89,9 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
   const pickMedia = useSubjectMedia(
     organic.length === 0 ? null : organic.map((pick) => poiSubject(pick.poiId)).join(','),
   ).items;
+  const gapPhotos = usePlaceTilePhotos(
+    gapIdeas.flatMap((idea) => idea.places.slice(0, 1).map((place) => place.id)),
+  );
   const placeHref = (id: string) =>
     exploreRoutes.place(id, { destinationId: destinationId ?? undefined, tripId });
 
@@ -122,6 +126,7 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
                   : second === undefined
                     ? first.name
                     : copy.pairIdea(first.name, second.name),
+              photo: first === undefined ? undefined : gapPhotos.get(first.id),
               onPress: first === undefined ? undefined : () => router.push(placeHref(first.id)),
             };
           }),

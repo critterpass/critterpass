@@ -7,6 +7,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { useMemo, useState, type ReactNode } from 'react';
 
+import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { guideFor } from '../../format';
 import type { HubPlace, PlacesFilter } from '../places-model';
 import { PlacesListView } from '../places-list-view';
@@ -24,6 +26,19 @@ import {
 } from './bali-places-fixture';
 
 const noop = () => undefined;
+
+/** Sample photos for the seeded places: their own, a generic stand-in, and none for the rest. */
+const PHOTOS: PlaceTilePhotos = new Map([
+  ['tirta', LAB_PHOTOS.temple],
+  ['seniman', LAB_PHOTOS.food],
+  ['lempuyang', LAB_PHOTOS.temple],
+  ['cepung', LAB_PHOTOS.generic],
+  ['murni', LAB_PHOTOS.food],
+  ['kawi', LAB_PHOTOS.temple],
+  ['tegallalang', LAB_PHOTOS.terraces],
+  ['tibumana', LAB_PHOTOS.generic],
+  ['locavore', LAB_PHOTOS.food],
+]);
 
 function useLabLines() {
   const { i18n } = useLingui();
@@ -60,6 +75,7 @@ function MapScene({ placeId }: { readonly placeId?: string }) {
       onFilter={setFilter}
       onLeaveResults={noop}
       fitLines={lines}
+      photos={PHOTOS}
       onAsk={noop}
       onOpen={noop}
       onAdd={noop}
@@ -95,6 +111,7 @@ function ListScene() {
       onLeaveResults={noop}
       fits={LAB_FITS}
       lines={lines}
+      photos={PHOTOS}
       weekdays={weekdays}
       suggestOrder={null}
       suggestTotal={null}

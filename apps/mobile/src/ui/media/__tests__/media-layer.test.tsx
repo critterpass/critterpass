@@ -12,7 +12,7 @@ import type { MediaView } from '@/lib/media/variants';
 
 import { renderUi } from '../../test-support/render';
 import { duotoneMatrix, treatmentFor } from '../duotone';
-import { MediaLayer } from '../MediaLayer';
+import { creditFor, MediaLayer } from '../MediaLayer';
 import { downloads, reset, seed } from '../test-support/memory-file-system';
 
 const PINK = tokens.color.pink;
@@ -123,6 +123,40 @@ describe('MediaLayer', () => {
     expect(screen.getByTestId('hero-media-credit')).toHaveTextContent(
       'Someone · CC BY-SA 4.0 · Wikimedia Commons',
     );
+  });
+  it("draws a small card's photo in its own colours, with no duotone", async () => {
+    await renderUi(
+      <MediaLayer media={photo} surface="dark" accent={YELLOW} tone="colour" testID="hero-media" />,
+    );
+    await layout(136, 76);
+    expect(images()).toHaveLength(2);
+    expect(
+      screen.queryAllByTestId('skia-color-matrix', { includeHiddenElements: true }),
+    ).toHaveLength(0);
+  });
+
+  it('shows the author alone where the whole credit does not fit the line', async () => {
+    const commons: MediaView = {
+      ...photo,
+      attribution_required: true,
+      credit: 'Chainwit. · CC BY 4.0 · Wikimedia Commons',
+    };
+    await renderUi(
+      <MediaLayer
+        media={commons}
+        surface="dark"
+        accent={YELLOW}
+        tone="colour"
+        testID="hero-media"
+      />,
+    );
+    await layout(136, 76);
+    expect(screen.getByTestId('hero-media-credit')).toHaveTextContent('Chainwit.', { exact: true });
+    await layout(390, 180);
+    expect(screen.getByTestId('hero-media-credit')).toHaveTextContent(
+      'Chainwit. · CC BY 4.0 · Wikimedia Commons',
+    );
+    expect(creditFor('Photo: Someone · Pexels', 60)).toBe('Photo: Someone');
   });
 });
 
