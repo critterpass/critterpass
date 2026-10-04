@@ -4,12 +4,11 @@
  * one decision poll whose card lands in crew chat. When the crew has voted, the winning way
  * applies to the plan and the other is rejected.
  */
-import { onEventAppended, withSystem } from '@cp/db';
+import { onEventAppended, splitDecisionEventHook, withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { castBallotCommand } from '../../../src/commands/polls/cast-ballot';
 import { postPlaceDecisionCommand } from '../../../src/commands/stances/post-place-decision';
-import { settleSplitDecision } from '../../../src/planning/split/decision-close';
 import { registerSplitRoute, type SplitView } from '../../../src/planning/split/route';
 import { seedCurrentPlan } from '../../plan/plan-fixture';
 import {
@@ -33,7 +32,7 @@ const OPEN = {
 };
 
 beforeAll(async () => {
-  onEventAppended(settleSplitDecision);
+  onEventAppended(splitDecisionEventHook);
   harness = await startSetupHarness(undefined, (app, deps) => {
     deps.registry.register(postPlaceDecisionCommand({ redis: deps.redis }));
     deps.registry.register(castBallotCommand);
