@@ -1,8 +1,9 @@
 /**
  * Writes a version's legs: upserts the pairs it has now, removes the pairs it no longer has, and
- * leaves unchanged rows untouched so a replay syncs nothing. A version that stopped being live
- * while its legs were routed gets none; legs of versions no longer live are dropped (the stream
- * only shows live versions).
+ * leaves unchanged rows untouched so a replay syncs nothing. A change to minutes, mode or the
+ * pairs appends `plan.legs_updated`; any change, a new road shape included, hints open screens.
+ * A version that stopped being live while its legs were routed gets none; legs of versions no
+ * longer live are dropped (the stream only shows live versions).
  */
 import { appendDomainEvent, outbox } from '@cp/db';
 import { channelName, PLANNING_RT } from '@cp/domain';
@@ -17,15 +18,27 @@ export async function writeVersionLegs(
   versionId: string,
   legs: readonly ComputedLeg[],
 ): Promise<{ readonly changed: number }> {
-  const { rows } = await tx.query<{ removed: number; written: number; live: boolean }>(
+  const { rows } = await tx.query<{
+    removed: number;
+    written: number;
+    moved: number;
+    live: boolean;
+  }>(
     `WITH live AS (
        SELECT EXISTS (SELECT 1 FROM itinerary_versions
                        WHERE id = $2 AND trip_id = $1 AND status = ANY($11::text[])) AS ok
      ), fresh AS (
        SELECT * FROM unnest($3::uuid[], $4::text[], $5::text[], $6::text[], $7::int[], $8::int[],
-                            $9::text[], $10::bool[])
-                AS f(day_id, from_key, to_key, mode, minutes, meters, source, approx)
+                            $9::text[], $10::bool[], $12::text[])
+                AS f(day_id, from_key, to_key, mode, minutes, meters, source, approx, shape)
         WHERE (SELECT ok FROM live)
+     ), moved AS (
+       SELECT count(*)::int AS n FROM fresh f
+         LEFT JOIN plan_legs l ON l.version_id = $2 AND l.from_key = f.from_key
+                              AND l.to_key = f.to_key
+        WHERE l.id IS NULL
+           OR (l.day_id, l.mode, l.minutes, l.meters, l.source, l.approx)
+              IS DISTINCT FROM (f.day_id, f.mode, f.minutes, f.meters, f.source, f.approx)
      ), removed AS (
        DELETE FROM plan_legs l
         WHERE l.version_id = $2
@@ -33,20 +46,23 @@ export async function writeVersionLegs(
        RETURNING 1
      ), written AS (
        INSERT INTO plan_legs (trip_id, version_id, day_id, from_key, to_key, mode, minutes, meters,
-                              source, approx)
-       SELECT $1, $2, day_id, from_key, to_key, mode, minutes, meters, source, approx FROM fresh
+                              source, approx, shape)
+       SELECT $1, $2, day_id, from_key, to_key, mode, minutes, meters, source, approx, shape
+         FROM fresh
        ON CONFLICT (version_id, from_key, to_key) DO UPDATE
          SET day_id = EXCLUDED.day_id, mode = EXCLUDED.mode, minutes = EXCLUDED.minutes,
              meters = EXCLUDED.meters, source = EXCLUDED.source, approx = EXCLUDED.approx,
-             computed_at = now(), updated_at = now()
+             shape = EXCLUDED.shape, computed_at = now(), updated_at = now()
          WHERE (plan_legs.day_id, plan_legs.mode, plan_legs.minutes, plan_legs.meters,
-                plan_legs.source, plan_legs.approx)
+                plan_legs.source, plan_legs.approx, plan_legs.shape)
                IS DISTINCT FROM (EXCLUDED.day_id, EXCLUDED.mode, EXCLUDED.minutes,
-                                 EXCLUDED.meters, EXCLUDED.source, EXCLUDED.approx)
+                                 EXCLUDED.meters, EXCLUDED.source, EXCLUDED.approx,
+                                 EXCLUDED.shape)
        RETURNING 1
      )
      SELECT (SELECT count(*) FROM removed)::int AS removed,
             (SELECT count(*) FROM written)::int AS written,
+            (SELECT n FROM moved) AS moved,
             (SELECT ok FROM live) AS live`,
     [
       tripId,
@@ -60,11 +76,14 @@ export async function writeVersionLegs(
       legs.map((leg) => leg.source),
       legs.map((leg) => leg.approx),
       LIVE_VERSION_STATUSES,
+      legs.map((leg) => leg.shape),
     ],
   );
   const row = rows[0];
   const changed = row === undefined ? 0 : row.removed + row.written;
-  if (changed > 0 && row?.live === true) {
+  if (changed === 0 || row?.live !== true) return { changed };
+  // A new road shape alone is only drawn: the plan check reads minutes, so it is not asked again.
+  if (row.removed + row.moved > 0) {
     await appendDomainEvent(tx, {
       type: 'plan.legs_updated',
       aggregateKind: 'trip',
@@ -74,10 +93,10 @@ export async function writeVersionLegs(
       tripId,
       payload: { trip_id: tripId, version_id: versionId },
     });
-    await outbox(tx, channelName('trip_plan', tripId), PLANNING_RT.legsUpdated, {
-      version: versionId,
-    });
   }
+  await outbox(tx, channelName('trip_plan', tripId), PLANNING_RT.legsUpdated, {
+    version: versionId,
+  });
   return { changed };
 }
 
