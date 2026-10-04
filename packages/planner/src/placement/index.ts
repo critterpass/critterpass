@@ -196,3 +196,5 @@ export function placeIdeas(
   }
   return { placed: numberStops(current, placed), left: left.sort(byId), context: current };
 }
+
+export { drivingDeltaMinutes, type DriveStop, type DrivingDeltaInput } from './driving-delta';

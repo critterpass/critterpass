@@ -271,6 +271,7 @@ describe('POST /v1/trips/{id}/costs/preview', () => {
       each_minor: 2_200,
       bookings_moved: 1,
       must_dos_touched: 0,
+      driving_delta_min: 0,
     });
   });
 });

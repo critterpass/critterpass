@@ -1,12 +1,19 @@
 /**
- * Cost previews for plan changes (3e-3, the guide's `cost_quote`): loads the trip's priced plan
- * items as the caller sees them (RLS), applies ChangeSet ops, and prices before and after with the
- * same engine the recompute job uses. Only the caller's own delta and the crew-wide "each" label
- * leave this module.
+ * Cost previews for plan changes (3e-3, 7h-7, the guide's `cost_quote`): loads the trip's priced
+ * plan items as the caller sees them (RLS), applies ChangeSet ops, and prices before and after with
+ * the same engine the recompute job uses, plus the drive minutes the kept ops add on the days they
+ * touch. Only the caller's own delta and the crew-wide "each" label leave this module.
  */
 import { assertCurrencyCode, type CurrencyCode, type FxContext } from '@cp/cost-engine';
 import { DomainError, generateUuidV7, type ChangeSetOp } from '@cp/domain';
-import { changeSetReview, type PlanItemState } from '@cp/planner';
+import {
+  changeSetReview,
+  drivingDeltaMinutes,
+  type DriveStop,
+  type FitLeg,
+  type FitPoint,
+  type PlanItemState,
+} from '@cp/planner';
 import type pg from 'pg';
 
 /** Currency a trip is priced in when its crew has not picked a settlement currency yet. */
@@ -18,6 +25,74 @@ export interface PlanCostContext {
   readonly members: readonly { readonly uid: string; readonly origin: string | null }[];
   readonly items: readonly PlanItemState[];
   readonly fx?: FxContext;
+  /** What the driving chip reads: each stop's spot, stored legs, and the ideas' spots for adds. */
+  readonly drive?: DriveContext;
+}
+
+export interface DriveContext {
+  readonly stops: readonly DriveStop[];
+  readonly legs: ReadonlyMap<string, FitLeg>;
+  readonly points: ReadonlyMap<string, FitPoint>;
+  readonly driveFactor: number;
+  readonly walkMaxM: number;
+}
+
+const WALK_MAX_M = 1200;
+
+/** The version's stops with their spots, its stored legs, and where the trip's ideas are. */
+async function loadDriveContext(
+  tx: pg.PoolClient,
+  tripId: string,
+  versionId: string | null,
+): Promise<DriveContext> {
+  const [stops, legs, points, trip] = await Promise.all([
+    tx.query<{
+      stable_id: string;
+      day_no: number;
+      starts_at: Date | null;
+      lat: number | null;
+      lng: number | null;
+    }>(
+      `SELECT i.stable_id, d.day_no, i.starts_at,
+              coalesce(p.lat, (i.custom_place->>'lat')::float8) AS lat,
+              coalesce(p.lng, (i.custom_place->>'lng')::float8) AS lng
+         FROM plan_items i JOIN plan_days d ON d.id = i.day_id
+         LEFT JOIN pois p ON p.id = i.poi_id
+        WHERE i.version_id = $1`,
+      [versionId],
+    ),
+    tx.query<{ from_key: string; to_key: string; minutes: number; mode: string; approx: boolean }>(
+      'SELECT from_key, to_key, minutes, mode, approx FROM plan_legs WHERE version_id = $1',
+      [versionId],
+    ),
+    tx.query<{ poi_id: string; lat: number; lng: number }>(
+      `SELECT poi_id, lat, lng FROM trip_ideas
+        WHERE trip_id = $1 AND poi_id IS NOT NULL AND deleted_at IS NULL`,
+      [tripId],
+    ),
+    tx.query<{ drive_factor: number | null }>(
+      `SELECT d.drive_factor FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
+        WHERE t.id = $1`,
+      [tripId],
+    ),
+  ]);
+  return {
+    stops: stops.rows.map((row) => ({
+      stableId: row.stable_id,
+      dayNo: row.day_no,
+      startsAt: row.starts_at?.toISOString() ?? null,
+      point: row.lat === null || row.lng === null ? null : { lat: row.lat, lng: row.lng },
+    })),
+    legs: new Map(
+      legs.rows.map((leg) => [
+        `${leg.from_key}>${leg.to_key}`,
+        { minutes: leg.minutes, mode: leg.mode === 'walk' ? 'walk' : 'drive', approx: leg.approx },
+      ]),
+    ),
+    points: new Map(points.rows.map((row) => [row.poi_id, { lat: row.lat, lng: row.lng }])),
+    driveFactor: Number(trip.rows[0]?.drive_factor ?? 1),
+    walkMaxM: WALK_MAX_M,
+  };
 }
 
 async function loadFx(tx: pg.PoolClient): Promise<FxContext | undefined> {
@@ -106,6 +181,7 @@ export async function loadPlanCostContext(
     members: members.rows.map((m) => ({ uid: m.user_id, origin: null })),
     items: planItems,
     ...(fx ? { fx } : {}),
+    drive: await loadDriveContext(tx, tripId, row.version_id),
   };
 }
 
@@ -117,6 +193,8 @@ export interface CostPreview {
   readonly each_minor: number | null;
   readonly bookings_moved: number;
   readonly must_dos_touched: number;
+  /** Drive minutes the kept ops add (negative: fewer), on the days they touch. */
+  readonly driving_delta_min: number;
 }
 
 export function previewCostOps(
@@ -144,6 +222,10 @@ export function previewCostOps(
     each_minor: review.each ? Number(review.each.amountMinor) : null,
     bookings_moved: review.bookingsMoved,
     must_dos_touched: review.mustDosTouched,
+    driving_delta_min:
+      context.drive === undefined
+        ? 0
+        : drivingDeltaMinutes({ ...context.drive, items: context.drive.stops, ops }),
   };
 }
 
