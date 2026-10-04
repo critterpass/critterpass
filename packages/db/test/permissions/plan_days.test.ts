@@ -89,4 +89,34 @@ describe("plan_days RLS: follows the version's visibility", () => {
       ),
     ).rejects.toThrow(/duplicate key/i);
   });
+
+  it('lets only the server delete a replaced draft and its days, never the organiser', async () => {
+    const replaced = await withSystem(db.pool, async (tx) => {
+      const id = await insertItineraryVersion(tx, {
+        tripId: fixture.tripId,
+        visibility: 'organiser',
+        status: 'superseded',
+      });
+      await insertPlanDay(tx, { versionId: id, tripId: fixture.tripId, dayNo: 1 });
+      return id;
+    });
+    for (const sql of [
+      'DELETE FROM plan_days WHERE version_id = $1',
+      'DELETE FROM itinerary_versions WHERE id = $1',
+    ]) {
+      await expect(
+        withUser(db.pool, fixture.organiserId, anonymousActor().device, (tx) =>
+          tx.query(sql, [replaced]),
+        ),
+      ).rejects.toThrow(/permission denied/);
+    }
+    await withSystem(db.pool, async (tx) => {
+      await tx.query('DELETE FROM plan_days WHERE version_id = $1', [replaced]);
+      await tx.query('DELETE FROM itinerary_versions WHERE id = $1', [replaced]);
+    });
+    const { rows } = await db.pool.query('SELECT 1 FROM itinerary_versions WHERE id = $1', [
+      replaced,
+    ]);
+    expect(rows).toHaveLength(0);
+  });
 });

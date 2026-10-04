@@ -1,6 +1,7 @@
 /**
  * Fit over HTTP on the real stack: a participant gets each place's grade per day, an outsider gets
- * NOT_FOUND, an organiser's draft day is theirs alone, fifty places answer in one request, an
+ * NOT_FOUND, an organiser's draft day is theirs alone, before the crew has a plan an organiser's fit
+ * reads her own draft while a member has no days, fifty places answer in one request, an
  * unapproved editorial crowd curve never shapes a fit, and nearby places and gap ideas read the
  * same plan.
  */
@@ -145,6 +146,35 @@ describe('POST /v1/trips/{id}/fit', () => {
     const own = await post(a.organiser, a.tripId, { poi_ids: [places[1]], day_id: draftDay });
     expect(own.status).toBe(200);
     expect((own.body as unknown as Fits).fits[0]?.days).toHaveLength(1);
+  });
+
+  it('reads the organiser draft before the crew has a plan, and gives a member no days', async () => {
+    const c = await buildSetupCrew(harness, 2);
+    await withSystem(harness.pool, async (tx) => {
+      await tx.query(
+        'UPDATE trips SET destination_id = (SELECT destination_id FROM trips WHERE id = $2), tz = $3 WHERE id = $1',
+        [c.tripId, a.tripId, 'Asia/Tokyo'],
+      );
+      const version = await tx.query<{ id: string }>(
+        `INSERT INTO itinerary_versions (trip_id, visibility, status, origin)
+         VALUES ($1, 'organiser', 'draft', 'dates') RETURNING id`,
+        [c.tripId],
+      );
+      await tx.query(
+        'INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, 1, $3), ($1, $2, 2, $4)',
+        [version.rows[0]!.id, c.tripId, plan.dates[0], plan.dates[1]],
+      );
+      await tx.query('UPDATE trips SET draft_version_id = $2 WHERE id = $1', [
+        c.tripId,
+        version.rows[0]!.id,
+      ]);
+    });
+    const own = await post(c.organiser, c.tripId, { poi_ids: [places[1]] });
+    expect(own.status).toBe(200);
+    expect((own.body as unknown as Fits).fits[0]?.days.map((day) => day.day_no)).toEqual([1, 2]);
+    const member = await post(c.members[1]!, c.tripId, { poi_ids: [places[1]] });
+    expect(member.status).toBe(200);
+    expect((member.body as unknown as Fits).fits[0]?.days).toEqual([]);
   });
 
   it('answers fifty places in one request', async () => {

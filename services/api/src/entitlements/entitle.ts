@@ -241,11 +241,14 @@ export interface RedraftRequirement {
   readonly tripId: string;
 }
 
-/** Silent daily redraft cap on trips without a visible limit (docs/product-decisions.md §3). */
+/**
+ * Silent daily redraft cap (docs/product-decisions.md §3): the only cap on trips without a visible
+ * limit, and the bound on redrafts put back (which return their visible unit) on the others.
+ */
 export const REDRAFT_FAIR_USE_CAP = 20;
 
 /**
- * Counts one redraft against the requester's silent daily cap on an unlimited trip: past the cap
+ * Counts one redraft against the requester's silent daily cap: past the cap
  * the redraft is refused as busy until the next UTC day (never a paywall, never shown as a limit).
  */
 async function redraftFairUse(tx: pg.PoolClient, ctx: EntitleContext): Promise<void> {
@@ -302,6 +305,9 @@ async function reserveRedraft(
     throw new DomainError('REDRAFT_LIMIT', decision.detail);
   }
 
+  // A redraft she puts back gives its unit back, so the visible limit alone no longer bounds how
+  // many the guide writes: every redraft asked for also counts against the silent daily cap.
+  await redraftFairUse(tx, ctx);
   return {
     subjectKind: 'trip',
     subjectId: req.tripId,
