@@ -64,11 +64,31 @@ appId: app.critterpass.dev
     id: 'island-toast-open'
 - waitForAnimationToEnd:
     timeout: 4000
-# Left: hidden, then undone.
+# Left: hidden, then undone. The undo settles first (the row back among the suggestions); a
+# swipe the list's re-render swallowed is tried once more.
+- extendedWaitUntil:
+    notVisible:
+      id: 'places-group-saved'
+    timeout: 15000
+- extendedWaitUntil:
+    notVisible:
+      id: 'island-toast-open'
+    timeout: 15000
 - swipe:
     from:
       id: 'places-suggests-0'
     direction: LEFT
+- runFlow:
+    when:
+      notVisible:
+        id: 'island-toast-open'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - swipe:
+          from:
+            id: 'places-suggests-0'
+          direction: LEFT
 - extendedWaitUntil:
     visible:
       id: 'island-toast-open'
