@@ -31,7 +31,7 @@ const useStyles = makeStyles((th) => ({
   body: { flex: 1, minWidth: 0 },
   explain: { paddingHorizontal: th.space['14'], paddingBottom: th.space['10'] },
   see: {
-    borderRadius: th.radius.pill,
+    borderRadius: th.radius.xl,
     paddingHorizontal: th.space['14'],
     paddingVertical: th.space['6'],
     backgroundColor: th.semantic.bg.control,

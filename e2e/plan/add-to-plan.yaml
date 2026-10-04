@@ -38,8 +38,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-add-to-plan
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan'
@@ -59,8 +60,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-member
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-member'
@@ -80,8 +82,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-who
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-who'
@@ -101,8 +104,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-already
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-already'
@@ -122,8 +126,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-nowhere
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-nowhere'
@@ -143,32 +148,21 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-7f-1-offline
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-offline'
     timeout: 10000
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-# Back lands on the developer tools list or, on some runs, on the splash.
-- runFlow:
-    when:
-      visible:
-        id: 'dev-tools-entry'
-    commands:
-      - tapOn:
-          id: 'dev-tools-entry'
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:
@@ -218,8 +212,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-7f-1-add-to-plan
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan'
@@ -239,8 +234,9 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-7f-1-member
+# A tap on the scrim above the sheet closes it and goes back to the list.
 - tapOn:
-    id: 'sheet-close'
+    point: '50%,6%'
 - extendedWaitUntil:
     visible:
       id: 'plan-ideas-lab-add-to-plan-member'

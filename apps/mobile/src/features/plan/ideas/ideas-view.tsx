@@ -28,7 +28,7 @@ const useStyles = makeStyles((t) => ({
   map: {
     paddingHorizontal: t.space['16'],
     paddingVertical: t.space['8'],
-    borderRadius: t.radius.pill,
+    borderRadius: t.radius.xl,
     backgroundColor: t.semantic.bg.raised,
   },
   head: { gap: t.space['8'] },
