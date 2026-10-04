@@ -12,6 +12,7 @@ import { CpMap, type MapPlace } from '@/ui/map/CpMap';
 
 import { mapFraming } from './where-model';
 import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
+import { RegionPackNotice } from '@/ui/map/RegionPackNotice';
 
 /** A phone-wide map inside the page gutters, for framing (the narrowest phones are about this). */
 const MAP_WIDTH = 340;
@@ -66,26 +67,28 @@ export function SpotMap({
     lng: spot.lng,
   }));
   return (
-    <View style={[styles.frame, { height }]} testID={testID}>
-      {settled ? (
-        <CpMap
-          places={places}
-          zoom={framing.zoom}
-          initialCenter={[framing.center.lng, framing.center.lat]}
-          androidTexture
-          onSelectPlace={setSelected}
-          {...(selected === null ? {} : { selectedPlaceId: selected })}
-          regionSourceUrl={plainTilesUrl(tiles)}
-          regionPackAwaited={tiles.awaited}
-          {...(placeName ? { destinationName: placeName } : {})}
-          {...(position === null
-            ? {}
-            : {
-                youLocation: [position.lng, position.lat] as [number, number],
-                locationStatus: 'granted-in-destination' as const,
-              })}
-        />
-      ) : null}
+    <View>
+      <View style={[styles.frame, { height }]} testID={testID}>
+        {settled ? (
+          <CpMap
+            places={places}
+            zoom={framing.zoom}
+            initialCenter={[framing.center.lng, framing.center.lat]}
+            androidTexture
+            onSelectPlace={setSelected}
+            {...(selected === null ? {} : { selectedPlaceId: selected })}
+            regionSourceUrl={plainTilesUrl(tiles)}
+            {...(position === null
+              ? {}
+              : {
+                  youLocation: [position.lng, position.lat] as [number, number],
+                  locationStatus: 'granted-in-destination' as const,
+                })}
+          />
+        ) : null}
+      </View>
+      {/* The framed map is too small to carry the line over its pins: it goes underneath. */}
+      {tiles.awaited && placeName ? <RegionPackNotice place={placeName} /> : null}
     </View>
   );
 }
