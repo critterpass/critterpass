@@ -132,6 +132,7 @@ function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[])
       window,
       travel: input.travel,
       hopCapMin: hopCap(input),
+      mealPlaces: input.pools.eateries,
     }).broken === 0
   );
 }

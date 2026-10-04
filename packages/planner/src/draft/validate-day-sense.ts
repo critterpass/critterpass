@@ -9,7 +9,7 @@
 import type { DraftItem } from '@cp/domain';
 
 import { foodRole, sameDish } from './food-role';
-import { longHops, longRideMin, withinReach } from './hops';
+import { dinnerIsRideHome, longHops, longRideMin, RIDE_HOME_MAX_MIN, withinReach } from './hops';
 import {
   DINNER,
   DINNER_LAST_START_MIN,
@@ -17,6 +17,7 @@ import {
   LUNCH_LAST_START_MIN,
   mealAt,
   mealSlots,
+  servingOn,
   mealsInWindow,
   type MealSlot,
 } from './meal-slots';
@@ -112,15 +113,24 @@ function missingMeals(
   used: ReadonlySet<string>,
 ): DaySenseViolation[] {
   if (input.mealPlaces === undefined || day.stops.length === 0) return [];
-  const here = day.stops.map((stop) => stop.poi.id);
+  const all = day.stops.map((stop) => stop.poi.id);
+  // A lunch is near where the day is spent, not near the dinner the crew rides home to.
+  const daytime = day.stops.filter((stop) => stop.startMin < DINNER.startMin - 30);
   return mealsInWindow(day.window).flatMap((slot): DaySenseViolation[] => {
     if (had.has(slot) || covered(day, slot)) return [];
+    const here = slot === 'lunch' ? daytime.map((stop) => stop.poi.id) : all;
+    if (here.length === 0) return [];
     const possible = (input.mealPlaces ?? []).some(
       (place) =>
         !used.has(place.id) &&
         mealSlots(place, day.date).includes(slot) &&
         (input.hopCapMin === undefined ||
-          withinReach(place.id, here, input.travel, longRideMin(input.hopCapMin))),
+          withinReach(
+            place.id,
+            here,
+            input.travel,
+            slot === 'dinner' ? RIDE_HOME_MAX_MIN : longRideMin(input.hopCapMin),
+          )),
     );
     return possible ? [{ code: 'MEAL_MISSING', dayNo: day.dayNo, stableId: null, slot }] : [];
   });
@@ -138,11 +148,21 @@ function placeTimeChecks(day: TimedDay): DaySenseViolation[] {
 
 function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
   if (input.hopCapMin === undefined) return [];
-  const hops = longHops(
-    day.stops.map((stop) => stop.poi.id),
-    input.travel,
-    input.hopCapMin,
+  const ids = day.stops.map((stop) => stop.poi.id);
+  const dinnerAt = day.stops.findIndex(
+    (stop) => stop.item.kind === 'meal' && mealAt(stop.startMin) === 'dinner',
   );
+  // A dinner far from the day is the ride home only when no dinner place was near the day.
+  const rideHome =
+    dinnerAt > 0 &&
+    input.mealPlaces !== undefined &&
+    dinnerIsRideHome(
+      ids.slice(0, dinnerAt),
+      servingOn(input.mealPlaces, day.date, 'dinner'),
+      input.travel,
+      input.hopCapMin,
+    );
+  const hops = longHops(ids, input.travel, input.hopCapMin, rideHome ? dinnerAt : undefined);
   return hops.flatMap((hop) => {
     const far = day.stops[hop.index];
     const before = day.stops[hop.index - 1];

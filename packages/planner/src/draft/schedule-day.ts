@@ -14,7 +14,7 @@ import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '
 import { localMinute } from '../feasibility/grid';
 import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
-import { mealAt, mealShare, mealSlotAt } from './meal-slots';
+import { DINNER, mealAt, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import type {
@@ -60,19 +60,42 @@ function addDays(date: string, days: number): string {
   return at.toISOString().slice(0, 10);
 }
 
+/**
+ * Zone arithmetic is the slow part of timing a day, and a draft is timed and checked thousands of
+ * times over the same few dates and quarter hours: both conversions keep what they worked out.
+ */
+const INSTANTS = new Map<string, number>();
+const MINUTES = new Map<string, number>();
+const KEPT_MAX = 50_000;
+
+function kept(cache: Map<string, number>, key: string, work: () => number): number {
+  const known = cache.get(key);
+  if (known !== undefined) return known;
+  if (cache.size >= KEPT_MAX) cache.clear();
+  const value = work();
+  cache.set(key, value);
+  return value;
+}
+
 /** The instant of local minute `minute` (may pass midnight) on `date` in `tz`. */
 export function instantAt(date: string, minute: number, tz: string): Date {
-  const day = Math.floor(minute / 1440);
-  const rest = minute - day * 1440;
-  const time = `${String(Math.floor(rest / 60)).padStart(2, '0')}:${String(rest % 60).padStart(2, '0')}`;
-  return localSchedule({ date: addDays(date, day), time, tz });
+  return new Date(
+    kept(INSTANTS, `${date}|${minute}|${tz}`, () => {
+      const day = Math.floor(minute / 1440);
+      const rest = minute - day * 1440;
+      const time = `${String(Math.floor(rest / 60)).padStart(2, '0')}:${String(rest % 60).padStart(2, '0')}`;
+      return localSchedule({ date: addDays(date, day), time, tz }).getTime();
+    }),
+  );
 }
 
 /** Local minute of `at` counted from the start of `date` (so 00:30 the next day is 1470). */
 export function minuteOfDate(at: Date, date: string, tz: string): number {
-  const midnight = instantAt(date, 0, tz).getTime();
-  const days = Math.floor((at.getTime() - midnight) / 86_400_000);
-  return days * 1440 + localMinute(at, tz);
+  return kept(MINUTES, `${at.getTime()}|${date}|${tz}`, () => {
+    const midnight = instantAt(date, 0, tz).getTime();
+    const days = Math.floor((at.getTime() - midnight) / 86_400_000);
+    return days * 1440 + localMinute(at, tz);
+  });
 }
 
 function majority(frame: TripFrame, kind: Chronotype): boolean {
@@ -218,6 +241,12 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     // Hours that are only a guess never move a held stop.
     if (poi !== undefined && !(held !== null && poi.hoursGuessed === true)) {
       start = openFrom(poi, input.date, start);
+    }
+    // A meal its place's opening pushed past lunch waits for dinner: nobody eats at four.
+    if (choice.kind === 'meal' && held === null && mealAt(start) === null) {
+      if (start < DINNER.startMin) {
+        start = poi === undefined ? DINNER.startMin : openFrom(poi, input.date, DINNER.startMin);
+      }
     }
     if (choice.kind === 'meal' && mealAt(start) === 'lunch') lunched = true;
     const duration = ceilGrid(

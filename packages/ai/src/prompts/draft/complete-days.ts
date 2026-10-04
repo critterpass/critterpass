@@ -15,6 +15,7 @@ import {
   mealSlots,
   mealsInWindow,
   minuteOfDate,
+  RIDE_HOME_MAX_MIN,
   stopKind,
   withinReach,
   type DayChoice,
@@ -51,18 +52,25 @@ function longestHole(input: DraftPlanInput, day: DraftDay, window: DayWindow): n
   return Math.max(longest, Math.min(window.endMin, DINNER.startMin) - at);
 }
 
-/** Of `places`, those beside the day's stops, then those the day's one longer ride can reach. */
+/**
+ * Of `places`, those beside the day's stops, then those the day's one longer ride can reach, then
+ * (for a dinner) those a ride home can.
+ */
 function nearFirst(
   input: DraftPlanInput,
   places: readonly DraftPoi[],
   here: readonly string[],
+  dinner = false,
 ): DraftPoi[] {
   const cap = hopCap(input);
-  const beside = places.filter((poi) => withinReach(poi.id, here, input.travel, cap));
-  const further = places.filter(
-    (poi) => !beside.includes(poi) && withinReach(poi.id, here, input.travel, longRideMin(cap)),
-  );
-  return [...beside, ...further];
+  const reaches = [cap, longRideMin(cap), ...(dinner ? [RIDE_HOME_MAX_MIN] : [])];
+  const ring = (poi: DraftPoi) =>
+    reaches.findIndex((reach) => withinReach(poi.id, here, input.travel, reach));
+  return places
+    .map((poi, rank) => ({ poi, rank, ring: ring(poi) }))
+    .filter((entry) => entry.ring !== -1)
+    .sort((a, b) => a.ring - b.ring || a.rank - b.rank)
+    .map((entry) => entry.poi);
 }
 
 function choicesOf(day: DraftDay): DayChoice[] {
@@ -177,7 +185,7 @@ export function fillMeals(
       const listed = outline.mealIds
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);
-      const nearby = nearFirst(input, input.pools.eateries, here);
+      const nearby = nearFirst(input, input.pools.eateries, here, slot === 'dinner');
       const candidates = [...new Set([...listed, ...nearby])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
       );

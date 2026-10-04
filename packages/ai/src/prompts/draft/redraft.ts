@@ -6,7 +6,7 @@
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { alignStableIds, dayWindow, type ValidationResult } from '@cp/planner';
+import { alignStableIds, dayWindow, redraftDiff, type ValidationResult } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -226,7 +226,13 @@ export async function runRedraft(
     const day = alignStableIds(base, fed ?? { ...scheduled, theme: title ?? base.theme });
     outcome = { day, title, summary };
     const own = ownViolations(validate(input, withDay(input.base, day)), base);
-    if (own.length === 0) break;
+    // The same day back answers nothing: the guide is asked once more, told so.
+    const same = own.length === 0 && redraftDiff(base, day).length === 0;
+    if (own.length === 0 && !same) break;
+    if (same) {
+      fix = ['the day is the same as before: change at least one stop that is not marked KEEP'];
+      continue;
+    }
     fix = own.map((v) => {
       const poi = v.poiId === undefined ? undefined : input.pois.get(v.poiId);
       return `${v.code.toLowerCase().replaceAll('_', ' ')}${poi === undefined ? '' : `: ${poi.name} (${aliases(input).place(poi.id)})`}`;

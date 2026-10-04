@@ -77,3 +77,21 @@ export function mealShare(startMin: number): number {
   const slot = mealAt(ceilGrid(startMin));
   return slot === 'breakfast' ? 0.2 : slot === 'dinner' ? 0.45 : 0.35;
 }
+
+const SERVING = new WeakMap<readonly DraftPoi[], Map<string, readonly DraftPoi[]>>();
+
+/** Of `places`, those that serve `slot` on `date` (kept per list: orders are tried by the thousand). */
+export function servingOn(
+  places: readonly DraftPoi[],
+  date: string,
+  slot: 'lunch' | 'dinner',
+): readonly DraftPoi[] {
+  const byKey = SERVING.get(places) ?? new Map<string, readonly DraftPoi[]>();
+  SERVING.set(places, byKey);
+  const key = `${date}:${slot}`;
+  const known = byKey.get(key);
+  if (known !== undefined) return known;
+  const serving = places.filter((place) => mealSlots(place, date).includes(slot));
+  byKey.set(key, serving);
+  return serving;
+}

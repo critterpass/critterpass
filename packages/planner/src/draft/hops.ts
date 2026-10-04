@@ -6,15 +6,18 @@
  * plan with, never under forty minutes. One longer ride a day is fine (a morning out at the
  * peninsula, then back to town for lunch and the afternoon), up to half as long again; a second
  * one makes a day of zigzags. The ride to the day's first stop is not a hop: a day trip is where
- * the day is spent, not a detour from it. And the rides of a day together stay under a road
- * budget (twice the cap, never under two hours): a day of rides that each pass is still a day
- * spent on the road.
+ * the day is spent, not a detour from it. Nor is the ride home to dinner at the end of a day out
+ * where no dinner place is near (up to two hours): the crew goes back to town to eat. And the rides of a day
+ * together, those two aside, stay under a road budget (twice the cap, never under two hours): a
+ * day of rides that each pass is still a day spent on the road.
  */
 import type { DraftPoi, TravelMatrix } from './types';
 
 const MIN_HOP_CAP_MIN = 40;
 const MAX_HOP_CAP_MIN = 120;
 const MIN_ROAD_BUDGET_MIN = 120;
+/** The longest ride home to dinner. */
+export const RIDE_HOME_MAX_MIN = 120;
 /** The one longer ride a day may have, as a share of the cap. */
 const LONG_RIDE_SHARE = 1.5;
 
@@ -69,20 +72,30 @@ export interface Hop {
  * between two stops that are closer to each other, a ride longer than the day's one long ride may
  * be, or a second ride over the cap. When the rides left still add up to more than the road
  * budget, the stops that cost the most riding are too far as well, until the rest fits.
+ * `dinnerAt` is the index of a dinner that is a ride home (`dinnerIsRideHome`): the ride to it
+ * is held only to `RIDE_HOME_MAX_MIN`.
  */
 export function longHops(
   poiIds: readonly (string | null)[],
   travel: TravelMatrix,
   capMin: number,
+  dinnerAt?: number,
 ): Hop[] {
-  const ride = (a: number, b: number): number => {
+  const between = (a: number, b: number): number => {
     const from = poiIds[a];
     const to = poiIds[b];
     return from == null || to == null ? 0 : (travel(from, to) ?? 0);
   };
+  // The ride home is no part of the day's riding about.
+  const ride = (a: number, b: number): number => (b === dinnerAt ? 0 : between(a, b));
   const found: Hop[] = [];
   let longRides = 0;
   for (let i = 1; i < poiIds.length; i += 1) {
+    if (i === dinnerAt) {
+      const home = between(i - 1, i);
+      if (home > RIDE_HOME_MAX_MIN) found.push({ index: i, over: Math.round(home - capMin) });
+      continue;
+    }
     const leg = ride(i - 1, i);
     const detour = i + 1 < poiIds.length ? leg + ride(i, i + 1) - ride(i - 1, i + 1) : 0;
     if (detour > capMin) {
@@ -141,4 +154,21 @@ export function withinReach(
   const rest = others.filter((other) => other !== poiId);
   if (rest.length === 0) return true;
   return rest.some((other) => (travel(other, poiId) ?? 0) <= capMin);
+}
+
+/**
+ * Whether the day's dinner is a ride home: no place that serves dinner is within the day's one
+ * longer ride of the stops before it, so the crew eats where it rides back to.
+ */
+export function dinnerIsRideHome(
+  before: readonly string[],
+  dinnerPlaces: readonly DraftPoi[],
+  travel: TravelMatrix,
+  capMin: number,
+): boolean {
+  if (before.length === 0) return false;
+  const reach = longRideMin(capMin);
+  return !dinnerPlaces.some((place) =>
+    before.some((stop) => stop !== place.id && (travel(stop, place.id) ?? 0) <= reach),
+  );
 }

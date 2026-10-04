@@ -6,7 +6,8 @@
  * ./wish-time), so a draft never sends a crew to a bar at ten in the morning or to the lit-up
  * bridge in daylight. The morning is a preference, not a rule: where most places are "best early",
  * holding each to the morning would leave every afternoon empty, so the planner only puts morning
- * places first when it orders a day (./sequence).
+ * places first when it orders a day (./sequence). And a place seen by daylight (a temple, a
+ * waterfall, a beach) with no time of its own is never started after sunset.
  *
  * Evening times follow the sun at the place on the date (`solarDay`), within clock bounds so a
  * far-north summer does not push the evening to midnight. A line that names two times of day
@@ -122,15 +123,27 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
 /** A stop at a morning place that starts after this local minute is later than the place is best. */
 export const MORNING_ENDS_MIN = 11 * 60;
 
+/** Places seen by daylight: nobody is sent to a temple, a waterfall or a beach after dark. */
+const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach']);
+
 /**
  * The minutes a stop at `poi` may start between on `date` because of the time of day the place is
- * for; null when it has none or is only better in the morning, or when its own opening hours leave
- * no start inside that time (the hours win, and the stop is planned like any other).
+ * for. A place for the sunset, the evening or after dark has that time; a daylight place with no
+ * time of its own, and any place that is better in the morning, starts by sunset; anything else
+ * has none (null). When the place's own opening hours leave no start inside that time, the hours win and
+ * the stop is planned like any other (null).
  */
 export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
   const time = placeTime(poi);
-  if (time === null || time === 'morning') return null;
-  const window = timeOfDayWindow(time, poi, date);
+  if (time === null || time === 'morning') {
+    const byDay = time === 'morning' || DAYLIGHT.has(poi.category);
+    if (!byDay || poi.category === 'nightlife' || poi.tags.includes('nightlife')) return null;
+    return withinHours(poi, date, { fromMin: 0, toMin: floorGrid(sunsetMin(poi, date)) });
+  }
+  return withinHours(poi, date, timeOfDayWindow(time, poi, date));
+}
+
+function withinHours(poi: DraftPoi, date: string, window: PlaceWindow): PlaceWindow | null {
   if (poi.hours === null || poi.hoursGuessed === true) return window;
   const visit = ceilGrid(poi.durationMin);
   for (const span of spansOn(poi.hours, date)) {

@@ -2,8 +2,8 @@
  * What a draft is built from. The trip and its crew come through the guide's own view
  * (`llm.trip_context`, read as `guide_reader` for the organiser): names, taste tags, the budget
  * band. The crew-visible setup rows (must-dos, consented dietary flags, the locked budget plan, the
- * room plan, and when the flights and trains the crew shares leave and land) are read as the
- * system; nothing here is C3, and no supplier content exists to read. The places themselves are read in `./load-places`.
+ * room plan, and when the flights and trains the crew can see leave and land: a personal flight
+ * shows its times unless its owner opted out) are read as the system; nothing here is C3, and no supplier content exists to read. The places themselves are read in `./load-places`.
  */
 import { withGuideReader, withSystem } from '@cp/db';
 import { budgetEstimates, type BudgetEstimateSource } from '@cp/cost-engine';
@@ -164,8 +164,9 @@ export async function loadDraftTrip(
     );
     const transport = await tx.query<{ starts_at: Date | null; ends_at: Date | null }>(
       `SELECT starts_at, ends_at FROM bookings
-        WHERE trip_id = $1 AND deleted_at IS NULL AND status = 'booked' AND visibility = 'crew'
-          AND (type = 'rail' OR (type = 'flight' AND flight_crew_visible))
+        WHERE trip_id = $1 AND deleted_at IS NULL AND status = 'booked'
+          AND ((type = 'rail' AND visibility = 'crew')
+            OR (type = 'flight' AND (visibility = 'crew' OR flight_crew_visible)))
         ORDER BY starts_at, id`,
       [tripId],
     );

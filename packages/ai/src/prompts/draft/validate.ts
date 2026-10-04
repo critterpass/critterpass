@@ -13,8 +13,15 @@ export function requiredMustDoIds(input: DraftPlanInput): string[] {
   return input.pools.mustDos.map((slot) => slot.mustDoId);
 }
 
+/** Checks already made, per input and draft: the planner's own passes ask about the same draft often. */
+const CHECKED = new WeakMap<DraftPlanInput, WeakMap<Itinerary, ValidationResult>>();
+
 export function validate(input: DraftPlanInput, itinerary: Itinerary): ValidationResult {
-  return validateItinerary({
+  const known = CHECKED.get(input) ?? new WeakMap<Itinerary, ValidationResult>();
+  CHECKED.set(input, known);
+  const before = known.get(itinerary);
+  if (before !== undefined) return before;
+  const result = validateItinerary({
     itinerary,
     pois: input.pois,
     frame: input.frame,
@@ -23,4 +30,6 @@ export function validate(input: DraftPlanInput, itinerary: Itinerary): Validatio
     mealPlaces: input.pools.eateries,
     hopCapMin: hopCap(input),
   });
+  known.set(itinerary, result);
+  return result;
 }

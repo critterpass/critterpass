@@ -58,7 +58,16 @@ export {
   type SequenceInput,
 } from './sequence';
 export { dishOf, foodRole, sameDish, stopKind, type FoodRole } from './food-role';
-export { hopCapMin, longHops, longRideMin, roadBudgetMin, withinReach, type Hop } from './hops';
+export {
+  dinnerIsRideHome,
+  hopCapMin,
+  longHops,
+  longRideMin,
+  RIDE_HOME_MAX_MIN,
+  roadBudgetMin,
+  withinReach,
+  type Hop,
+} from './hops';
 export {
   BREAKFAST,
   DINNER,

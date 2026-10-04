@@ -11,6 +11,7 @@ import { describe, expect, it } from 'vitest';
 import {
   bestOrder,
   dayWindow,
+  dinnerIsRideHome,
   hopCapMin,
   longHops,
   longRideMin,
@@ -71,14 +72,32 @@ const FRAME: TripFrame = {
   closures: [],
 };
 
+const EVENINGS = {
+  weekly: Object.fromEntries(
+    ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map((day) => [
+      day,
+      [{ start: '17:00', end: '22:00' }],
+    ]),
+  ),
+} as DraftPoi['hours'];
+
+const MIDDAYS = {
+  weekly: Object.fromEntries(
+    ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map((day) => [
+      day,
+      [{ start: '10:30', end: '15:00' }],
+    ]),
+  ),
+} as DraftPoi['hours'];
+
 const P = {
   museum: place(1, 'City Museum', 'museum'),
   pagoda: place(2, 'Old Pagoda', 'temple_shrine'),
   park: place(3, 'River Park', 'nature'),
   falls: place(4, 'Far Falls', 'nature'),
   lunch: place(5, 'Cơm Gà Bà Buội', 'food'),
-  dinner: place(6, 'Bánh Xèo Bà Dưỡng', 'food'),
-  farLunch: place(7, 'Quán Bên Kia Đảo', 'food'),
+  dinner: place(6, 'Bánh Xèo Bà Dưỡng', 'food', { hours: EVENINGS }),
+  farLunch: place(7, 'Quán Bên Kia Đảo', 'food', { hours: MIDDAYS }),
   bar: place(8, 'Sky Bar', 'nightlife'),
   terraces: place(9, 'Rice Terraces', 'nature', { bestTime: 'Early morning to beat the heat' }),
   beach: place(10, 'West Beach', 'beach', { bestTime: 'At sunset' }),
@@ -96,6 +115,8 @@ const NEAR = line({
   [P.falls.id]: 95,
   [P.farLunch.id]: 60,
 });
+
+const MEAL_PLACES = [P.lunch, P.dinner, P.farLunch];
 
 const stop = (poi: DraftPoi, kind: DayChoice['kind'] = 'activity'): DayChoice => ({
   poiId: poi.id,
@@ -121,7 +142,7 @@ function drafted(
   };
   const order = asGiven
     ? choices.map((_, index) => index)
-    : bestOrder({ ...input, hopCapMin: 40 }).order;
+    : bestOrder({ ...input, hopCapMin: 40, mealPlaces: MEAL_PLACES }).order;
   let next = 0;
   const day = scheduleDay({
     ...input,
@@ -143,7 +164,7 @@ function codes(plan: Itinerary, frame = FRAME): DraftViolationCode[] {
     frame,
     travel: NEAR,
     requiredMustDoIds: [],
-    mealPlaces: [P.lunch, P.dinner, P.farLunch],
+    mealPlaces: MEAL_PLACES,
     hopCapMin: 40,
   }).violations.map((v) => v.code);
 }
@@ -179,6 +200,19 @@ describe('the hop cap', { timeout: 60_000 }, () => {
     expect(
       longHops(['peninsula', 'lunch', 'lookout', 'dinner'], twice, 40).map((hop) => hop.index),
     ).toEqual([2]);
+  });
+
+  it('takes the ride to dinner as the ride home, whatever the day was', () => {
+    // A day out at the falls, then ninety minutes back to town for dinner and a bar beside it.
+    const travel = line({ falls: 0, lookout: 12, dinner: 102, bar: 108, moon: 240 });
+    const day = ['falls', 'lookout', 'dinner', 'bar'];
+    expect(longHops(day, travel, 40).map((hop) => hop.index)).toEqual([2]);
+    expect(longHops(day, travel, 40, 2)).toEqual([]);
+    // Home is not the other end of the country.
+    expect(longHops(['falls', 'moon'], travel, 40, 1).map((hop) => hop.index)).toEqual([1]);
+    // And the ride home does not use up the day's road budget.
+    const busy = line({ a: 0, b: 35, c: 70, d: 105, dinner: 195 });
+    expect(longHops(['a', 'b', 'c', 'd', 'dinner'], busy, 40, 4)).toEqual([]);
   });
 
   it('flags the stop that sends the crew out and back between two stops that sit together', () => {
@@ -257,6 +291,26 @@ describe('a drafted day', () => {
     expect(codes(reordered)).toEqual([]);
   });
 
+  it('eats dinner back in town after a day out, and is told when it has none', () => {
+    const out = [stop(P.falls), stop(P.dinner, 'meal')];
+    const plan = drafted(1, out);
+    expect(names(plan)).toEqual([P.falls.name, P.dinner.name]);
+    expect(codes(plan)).not.toContain('LONG_HOP');
+    // With a dinner place beside the falls, the ride to town would be a hop like any other.
+    const beside = place(11, 'Quán Bên Thác', 'food', { hours: EVENINGS });
+    expect(dinnerIsRideHome([P.falls.id], [P.dinner], NEAR, 40)).toBe(true);
+    expect(
+      dinnerIsRideHome(
+        [P.falls.id],
+        [P.dinner, beside],
+        (from, to) => ([from, to].includes(beside.id) ? 6 : NEAR(from, to)),
+        40,
+      ),
+    ).toBe(false);
+    // Dinner is a ride home away, so a day out without one is still missing it.
+    expect(codes(drafted(1, [stop(P.falls)]))).toContain('MEAL_MISSING');
+  });
+
   it('is told when a place comes twice', () => {
     const plan = drafted(1, [
       stop(P.museum),
@@ -287,9 +341,35 @@ describe('the time of day a place is for', () => {
     expect(sunset?.toMin).toBeLessThanOrEqual(19 * 60);
   });
 
-  it('keeps the morning a preference: no window, but first in the order of the day', () => {
+  it('keeps daylight places out of the night, and leaves a museum or a square alone', () => {
+    const sunset = placeWindow(P.pagoda, date);
+    expect(sunset?.fromMin).toBe(0);
+    expect(sunset?.toMin).toBeGreaterThanOrEqual(16 * 60);
+    expect(sunset?.toMin).toBeLessThanOrEqual(19 * 60);
+    expect(placeWindow(P.museum, date)).toBeNull();
+    // The guide put the pagoda after dinner; the planner brings it back into the day.
+    const plan = drafted(1, [
+      stop(P.museum),
+      stop(P.lunch, 'meal'),
+      stop(P.dinner, 'meal'),
+      stop(P.pagoda),
+    ]);
+    expect(names(plan)).toEqual([P.museum.name, P.lunch.name, P.pagoda.name, P.dinner.name]);
+    // Left after dinner, it is a place at the wrong time of day.
+    const asGiven = drafted(
+      1,
+      [stop(P.museum), stop(P.lunch, 'meal'), stop(P.dinner, 'meal'), stop(P.pagoda)],
+      FRAME,
+      true,
+    );
+    expect(codes(asGiven)).toContain('WRONG_TIME_OF_DAY');
+  });
+
+  it('keeps the morning a preference: no morning window, but first in the order of the day', () => {
     expect(placeTime(P.terraces)).toBe('morning');
-    expect(placeWindow(P.terraces, date)).toBeNull();
+    expect(placeWindow(P.terraces, date)?.fromMin).toBe(0);
+    // Better in the morning is at least by daylight, whatever the place is filed as.
+    expect(placeWindow({ ...P.terraces, category: 'museum' }, date)?.toMin).toBeLessThan(19 * 60);
     // The guide put the terraces after lunch; the planner moves them into the morning.
     const plan = drafted(1, [
       stop(P.museum),

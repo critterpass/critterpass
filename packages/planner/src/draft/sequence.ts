@@ -9,8 +9,8 @@
  * never change here: dropping or swapping a place is the guide's call, in the repair pass.
  */
 import { ceilGrid, spansOn } from './day-minutes';
-import { longHops } from './hops';
-import { DINNER, LUNCH, mealAt, mealSlotAt } from './meal-slots';
+import { dinnerIsRideHome, longHops } from './hops';
+import { DINNER, LUNCH, mealAt, mealSlotAt, servingOn } from './meal-slots';
 import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
 import { defaultDurationMin } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
@@ -34,6 +34,8 @@ export interface SequenceInput {
   readonly travel: TravelMatrix;
   /** The longest ride between two stops that is still one part of the map (./hops). */
   readonly hopCapMin?: number;
+  /** Meal places that suit the crew: with none near the day, its dinner is a ride home (./hops). */
+  readonly mealPlaces?: readonly DraftPoi[];
 }
 
 interface Timeline {
@@ -53,7 +55,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let idle = 0;
   let late = 0;
   const meals = new Set<string>();
-  for (const choice of order) {
+  let dinnerAt: number | undefined;
+  for (const [index, choice] of order.entries()) {
     const poi = input.pois.get(choice.poiId);
     if (poi === undefined) {
       broken += 1;
@@ -79,6 +82,13 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     );
     if (span === undefined) broken += 1;
     else start = Math.max(start, ceilGrid(span.start));
+    // A meal its place's opening pushed past lunch waits for dinner (as `scheduleDay` times it).
+    if (untimedMeal && mealAt(start) === null && start < DINNER.startMin) {
+      const evening = spansOn(hours, input.date).find(
+        (s) => Math.max(DINNER.startMin, ceilGrid(s.start)) + duration <= s.end,
+      );
+      if (evening !== undefined) start = Math.max(DINNER.startMin, ceilGrid(evening.start));
+    }
     // Held to its time of day: too late for it is broken; running past the usual end is not.
     if (held !== null && start > held.toMin) broken += 1;
     if (own !== null && start > own.toMin) broken += 1;
@@ -90,6 +100,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       // An untimed meal outside every stretch, or a second one in the same stretch.
       if (slot === null ? untimedMeal : meals.has(slot)) broken += 1;
       if (slot !== null) meals.add(slot);
+      if (slot === 'dinner') dinnerAt ??= index;
     }
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
     if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
@@ -101,11 +112,17 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     previous = poi.id;
   }
   if (input.hopCapMin !== undefined) {
-    broken += longHops(
-      order.map((choice) => choice.poiId),
-      input.travel,
-      input.hopCapMin,
-    ).length;
+    const ids = order.map((choice) => choice.poiId);
+    const rideHome =
+      dinnerAt !== undefined &&
+      input.mealPlaces !== undefined &&
+      dinnerIsRideHome(
+        ids.slice(0, dinnerAt),
+        servingOn(input.mealPlaces, input.date, 'dinner'),
+        input.travel,
+        input.hopCapMin,
+      );
+    broken += longHops(ids, input.travel, input.hopCapMin, rideHome ? dinnerAt : undefined).length;
   }
   return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), late, end: at };
 }

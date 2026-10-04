@@ -118,6 +118,7 @@ export function scheduleChoices(
     window,
     travel: input.travel,
     hopCapMin: hopCap(input),
+    mealPlaces: input.pools.eateries,
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({
