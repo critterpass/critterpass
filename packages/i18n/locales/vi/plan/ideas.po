@@ -11,6 +11,19 @@ msgstr ""
 msgid "plan.ideas.body"
 msgstr "{count, plural, other {# nơi đã lưu mà chưa có trong ngày nào. Kéo một nơi vào một ngày, hoặc để Tokek xếp giúp.}}"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.hours"
+msgstr "{count, plural, other {Giờ mở cửa của cả #}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.title"
+msgstr "{count, plural, other {ĐANG XẾP\n"
+"# Ý TƯỞNG}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.and"
+msgstr "{first} và {last}"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeAll"
 msgstr "{fitting, plural, other {Cả # nơi đều vừa mà không phải dời gì đã đặt.}}"
@@ -18,6 +31,10 @@ msgstr "{fitting, plural, other {Cả # nơi đều vừa mà không phải dờ
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeSome"
 msgstr "{fitting, plural, other {# nơi vừa mà không phải dời gì đã đặt.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouSome"
+msgstr "{leftCount, plural, other {Để lại # nơi cho bạn}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeCrew"
@@ -39,9 +56,17 @@ msgstr "Một nơi đã lưu vào Ý tưởng"
 msgid "plan.ideas.queued.remove"
 msgstr "Một nơi đã bỏ khỏi Ý tưởng"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.foot"
+msgstr "Khoảng mười giây. Cứ đi nếu muốn, Tokek sẽ báo bạn."
+
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
 msgstr "Thêm vào một ngày…"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.backToIdeas"
+msgstr "Quay lại Ý tưởng"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.back.a11y"
@@ -59,13 +84,41 @@ msgstr "Sẽ cập nhật khi có sóng"
 msgid "plan.ideas.title"
 msgstr "Ý TƯỞNG"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.eyebrow"
+msgstr "Ý TƯỞNG"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.map.a11y"
 msgstr "Ý tưởng trên bản đồ"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.leave"
+msgstr "Xem tiếp"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouSplit"
+msgstr "Để lại nơi cả nhóm chưa thống nhất cho bạn"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouPending"
+msgstr "Để lại những gì cần bạn"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeNone"
 msgstr "Chưa nơi nào vừa như hiện tại."
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.locks"
+msgstr "Không dời gì đã đặt"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.nothing"
+msgstr "Không có gì vừa mà không phải dời. Những gì cần bạn nằm trong Ý tưởng."
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouNone"
+msgstr "Không còn gì dư"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.bodyEmpty"
@@ -79,6 +132,14 @@ msgstr "Xếp giúp tôi"
 msgid "plan.ideas.placeThem"
 msgstr "XẾP GIÚP TÔI"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.routing"
+msgstr "Đang xếp đường cho {days}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.routingDays"
+msgstr "Đang xếp đường các ngày"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.emptyLine"
 msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cùng nhau, chúng sẽ hiện ở đây."
@@ -86,6 +147,10 @@ msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cù
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.guide"
 msgstr "Tokek"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.failed"
+msgstr "Lần này Tokek chưa xếp được."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailed"

@@ -11,6 +11,20 @@ msgstr ""
 msgid "plan.ideas.body"
 msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day, or let Tokek place it.} other {# saved places that aren't in a day yet. Drag one onto a day, or let Tokek place them.}}"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.hours"
+msgstr "{count, plural, one {Opening hours for it} other {Opening hours for all #}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.title"
+msgstr "{count, plural, one {PLACING\n"
+"1 IDEA} other {PLACING\n"
+"# IDEAS}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.and"
+msgstr "{first} and {last}"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeAll"
 msgstr "{fitting, plural, one {It fits without moving anything booked.} other {All # fit without moving anything booked.}}"
@@ -18,6 +32,10 @@ msgstr "{fitting, plural, one {It fits without moving anything booked.} other {A
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeSome"
 msgstr "{fitting, plural, one {One fits without moving anything booked.} other {# fit without moving anything booked.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouSome"
+msgstr "{0, plural, one {Leaving one for you} other {Leaving # for you}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeCrew"
@@ -39,9 +57,17 @@ msgstr "A place saved to Ideas"
 msgid "plan.ideas.queued.remove"
 msgstr "A place taken off Ideas"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.foot"
+msgstr "About ten seconds. Leave if you like, Tokek will ping you."
+
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
 msgstr "Add to a day…"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.backToIdeas"
+msgstr "Back to Ideas"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.back.a11y"
@@ -59,13 +85,41 @@ msgstr "Fits will update with signal"
 msgid "plan.ideas.title"
 msgstr "IDEAS"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.eyebrow"
+msgstr "IDEAS"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.map.a11y"
 msgstr "Ideas on the map"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-view.tsx
+msgid "plan.placing.leave"
+msgstr "Keep browsing"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouSplit"
+msgstr "Leaving the split one for you"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouPending"
+msgstr "Leaving what needs you for you"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeNone"
 msgstr "None fit as things are."
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.locks"
+msgstr "Nothing booked moves"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.nothing"
+msgstr "Nothing fits without moving something. What needs you is in Ideas."
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.needsYouNone"
+msgstr "Nothing left over"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.bodyEmpty"
@@ -79,6 +133,14 @@ msgstr "Place them for me"
 msgid "plan.ideas.placeThem"
 msgstr "PLACE THEM FOR ME"
 
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.routing"
+msgstr "Routing {days}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.routingDays"
+msgstr "Routing the days"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.emptyLine"
 msgstr "Save places from search, paste a link from TikTok or Maps, or swipe together, and they land here."
@@ -86,6 +148,10 @@ msgstr "Save places from search, paste a link from TikTok or Maps, or swipe toge
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.guide"
 msgstr "Tokek"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-screen.tsx
+msgid "plan.placing.failed"
+msgstr "Tokek couldn’t place them this time."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailed"
