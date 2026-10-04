@@ -6,3 +6,175 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.dayHeader.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hoursMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.drive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveRide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearby"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.travelDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveAbout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.already"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dryMornings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.saveLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.drop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.new"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.newQuiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.noWindow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.nowhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.needsMove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.hoursUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.opens"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.savedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.time.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.why.title"
+msgstr ""

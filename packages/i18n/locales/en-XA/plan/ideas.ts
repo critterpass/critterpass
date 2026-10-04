@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"plan.ideas.queued.remove\":[\"    À ƥĺàćē ţàķēń ōƒƒ Ĩďēàś    \"],\"plan.ideas.queued.save\":[\"    À ƥĺàćē śàvēď ţō Ĩďēàś    \"]}")as Messages;

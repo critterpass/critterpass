@@ -6,3 +6,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/plan/ideas/commands.ts
+msgid "plan.ideas.queued.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/commands.ts
+msgid "plan.ideas.queued.remove"
+msgstr ""

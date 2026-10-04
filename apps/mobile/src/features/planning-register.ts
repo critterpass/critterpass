@@ -7,5 +7,6 @@
  * an edit to the earlier registration.
  */
 import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
+import '@/features/plan/add/register';
 
 startPlanningSwitchFeed();

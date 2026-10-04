@@ -6,3 +6,175 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.some"
+msgstr "{count} going ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.dayHeader.free"
+msgstr "{dayLabel} · FREE DAY"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.line"
+msgstr "{guide} picked the day and time. Change anything."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hours"
+msgstr "{hours}H"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hoursMinutes"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.drive"
+msgstr "{minutes} min by car"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.walk"
+msgstr "{minutes} min walk"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveRide"
+msgstr "{minutes} min, a ride works"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearby"
+msgstr "{name} is {count} min on. Add it too?"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.minutes"
+msgstr "{only} MIN"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.car"
+msgstr "{time} · LEAVE THE STAY · CAR {minutes} MIN"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.walk"
+msgstr "{time} · LEAVE THE STAY · WALK {minutes} MIN"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.travelDay"
+msgstr "A travel day"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveAbout"
+msgstr "About {minutes} min by car"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.add"
+msgstr "Add it too"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.add"
+msgstr "ADD TO {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.eyebrow"
+msgstr "ADD TO THE PLAN"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.already"
+msgstr "Already in the plan on {dayLabel}. Pick where it moves."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.busy"
+msgstr "Busy from {hour}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closed"
+msgstr "Closed that day"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closes"
+msgstr "Closes at {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dry"
+msgstr "Dry {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dryMornings"
+msgstr "Dry mornings in {month}"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.everyone"
+msgstr "Everyone ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.saveLater"
+msgstr "Just save it for later"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.drop"
+msgstr "Leave it out"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.move"
+msgstr "MOVE IT TO {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.new"
+msgstr "New"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.newQuiet"
+msgstr "New · quiet till about {hour}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.noWindow"
+msgstr "No free time that day"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.offline"
+msgstr "No signal: Tokek works out the reasons once you’re back."
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.nowhere"
+msgstr "Nowhere fits yet. Pick a day, or save it for later."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.needsMove"
+msgstr "Only fits if a stop moves"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.hoursUnknown"
+msgstr "Opening hours not known yet"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.opens"
+msgstr "Opens at {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.quiet"
+msgstr "Quiet till about {hour}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.rain"
+msgstr "Rain likely {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.savedToast"
+msgstr "Saved to Ideas"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.time.a11y"
+msgstr "Starts {time}. Change the time"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.suggest"
+msgstr "SUGGEST FOR {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.guide"
+msgstr "Tokek"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.title"
+msgstr "WHO’S GOING"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.why.title"
+msgstr "WHY {time}"

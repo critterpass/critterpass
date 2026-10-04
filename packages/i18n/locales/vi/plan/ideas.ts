@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"plan.ideas.queued.remove\":[\"Một nơi đã bỏ khỏi Ý tưởng\"],\"plan.ideas.queued.save\":[\"Một nơi đã lưu vào Ý tưởng\"]}")as Messages;
