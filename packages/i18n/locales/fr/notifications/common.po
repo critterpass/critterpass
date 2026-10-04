@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.body"
+msgstr ""
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.needed.body"
 msgstr ""
@@ -29,6 +33,10 @@ msgstr ""
 
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
+msgstr ""
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
