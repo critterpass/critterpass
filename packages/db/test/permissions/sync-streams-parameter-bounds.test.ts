@@ -6,6 +6,8 @@
  * filtered by a catalogue-wide key (other trips' plan versions, group guide threads and boosted
  * entitlements; one destination's POIs and their crowd forecasts), then runs each subquery of
  * every stream on its own, as PowerSync does, for each actor and the fixture trip's subscription.
+ * The fixture trip also carries hundreds of superseded plan versions, one per group edit: a trip's
+ * plan lookups must not grow with its own history either.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -22,6 +24,15 @@ const CANDIDATES = 1_100;
 /** Well under the service's limit of 1,000 for one connection with a few trips subscribed. */
 const PER_SUBQUERY_BOUND = 20;
 const CONNECTION_LIMIT = 1_000;
+/** Group edits on the fixture trip; each one superseded the version before it. */
+const SUPERSEDED = 300;
+/**
+ * The one lookup that still grows by one result per edit: the trip stream's change sets. Phones keep
+ * every change set (chat cards and the review read applied ones, whose base is superseded), and only
+ * the base version's visibility tells a crew change set from an organiser draft's.
+ */
+const CHANGE_SET_BASES =
+  "SELECT id FROM itinerary_versions WHERE trip_id = $1 AND visibility = 'crew'";
 
 interface ParameterQuery {
   readonly stream: string;
@@ -119,6 +130,40 @@ beforeAll(async () => {
        SELECT id, 0, array_fill(10::smallint, ARRAY[24]), 'besttime', now() FROM made`,
       [dest, CANDIDATES],
     );
+    // The fixture trip's history: a chain of superseded crew versions ending at its current one,
+    // each with a day, a stop, a leg, a plan check issue and the change set that replaced it.
+    await tx.query(
+      `WITH RECURSIVE chain AS (
+         SELECT 1 AS n, uuidv7() AS id
+         UNION ALL SELECT n + 1, uuidv7() FROM chain WHERE n < $2),
+       versions AS (
+         INSERT INTO itinerary_versions (id, trip_id, visibility, status, parent_id)
+         SELECT c.id, $1, 'crew', 'superseded', p.id FROM chain c LEFT JOIN chain p ON p.n = c.n - 1
+         RETURNING id),
+       days AS (
+         INSERT INTO plan_days (version_id, trip_id, day_no) SELECT id, $1, 1 FROM versions
+         RETURNING id, version_id),
+       items AS (
+         INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, category)
+         SELECT version_id, id, $1, uuidv7(), 'sightseeing' FROM days RETURNING version_id, day_id, stable_id),
+       legs AS (
+         INSERT INTO plan_legs (trip_id, version_id, day_id, from_key, to_key, mode, minutes, meters, source, approx)
+         SELECT $1, version_id, day_id, 'stay', stable_id::text, 'walk', 5, 400, 'straight_line', true FROM items),
+       issues AS (
+         INSERT INTO plan_check_issues (trip_id, version_id, kind, severity, day_id, stable_ids, params, rank, fingerprint)
+         SELECT $1, version_id, 'pace', 'know', day_id, ARRAY[stable_id], '{}', 0, 'pace:1' FROM items)
+       INSERT INTO change_sets (trip_id, base_version_id, author_kind, author_id, status, ops)
+       SELECT $1, id, 'user', $3, 'draft', '[]' FROM versions`,
+      [fixture.tripId, SUPERSEDED, fixture.actors.member],
+    );
+    await tx.query(
+      `UPDATE itinerary_versions SET parent_id = (
+         SELECT id FROM itinerary_versions
+          WHERE trip_id = $1 AND status = 'superseded' AND visibility = 'crew'
+          ORDER BY id DESC LIMIT 1)
+        WHERE id = $2`,
+      [fixture.tripId, fixture.versionId],
+    );
     return dest;
   });
 }, 240_000);
@@ -142,6 +187,13 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     expect(
       await count(pool, `SELECT count(*) AS n FROM pois WHERE destination_id = '${destinationId}'`),
     ).toBeGreaterThan(CONNECTION_LIMIT);
+    expect(
+      await count(
+        pool,
+        `SELECT count(*) AS n FROM itinerary_versions
+          WHERE trip_id = '${harness.fixture.tripId}' AND status = 'superseded'`,
+      ),
+    ).toBeGreaterThanOrEqual(SUPERSEDED);
   });
 
   it.each(STREAM_ACTORS)('no subquery of any stream grows with other data (%s)', async (actor) => {
@@ -149,16 +201,27 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     const queries = parameterQueries(harness, userId, harness.fixture.tripId);
     expect(queries.length).toBeGreaterThan(0);
     let total = 0;
+    let bounded = 0;
     const oversized: string[] = [];
+    const growing: string[] = [];
     for (const query of queries) {
       const { rowCount } = await harness.db.pool.query(query.text, [...query.values]);
       const results = rowCount ?? 0;
       total += results;
+      if (query.text === CHANGE_SET_BASES) {
+        growing.push(query.stream);
+        continue;
+      }
+      bounded += results;
       if (results > PER_SUBQUERY_BOUND)
         oversized.push(`${query.stream}: ${results} ← ${query.text}`);
     }
     expect(oversized).toEqual([]);
-    expect(total).toBeLessThan(CONNECTION_LIMIT);
+    expect(growing).toEqual(['trip']);
+    // Everything but the change set lookup stays flat however long the trip's history is, and the
+    // whole connection stays well under the limit with hundreds of edits on one trip.
+    expect(bounded).toBeLessThan(CONNECTION_LIMIT / 4);
+    expect(total).toBeLessThan(CONNECTION_LIMIT / 2);
   });
 
   it("syncs a destination's crowd forecasts by the destination the trigger copies", async () => {
