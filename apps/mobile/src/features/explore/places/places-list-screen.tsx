@@ -8,6 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
 
+import { useInViewPlacePhotos } from '@/data/media/use-place-tile-photos';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import { useSponsoredSlot } from '../data/use-sponsored-slot';
@@ -99,9 +100,12 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
   const go = (href: ReturnType<typeof searchHref>) => {
     if (href !== undefined) router.push(href);
   };
+  const tiles = useInViewPlacePhotos();
 
   return (
     <PlacesListView
+      photos={tiles.photos}
+      onInView={tiles.show}
       inTrip={tripId !== null}
       places={swipe.places}
       crew={data.crew}

@@ -5,7 +5,7 @@
  * no asset, or no answer offline, is simply missing: its tile keeps the category's doodle.
  */
 import type { MediaAsset } from '@cp/domain';
-import { useEffect, useMemo, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { PixelRatio, type ImageSourcePropType } from 'react-native';
 
 import { savedStillUri } from '@/lib/media/media-files';
@@ -93,4 +93,22 @@ export function usePlaceTilePhotos(poiIds: readonly string[]): PlaceTilePhotos {
     }
     return tiles;
   }, [assets]);
+}
+
+/**
+ * For a virtualised list: the list says which places' rows are on screen (`show`), and the photos
+ * of every place shown so far come back, read as their rows first come into view.
+ */
+export function useInViewPlacePhotos(): {
+  readonly photos: PlaceTilePhotos;
+  readonly show: (poiIds: readonly string[]) => void;
+} {
+  const [seen, setSeen] = useState<readonly string[]>([]);
+  const show = useCallback((poiIds: readonly string[]) => {
+    setSeen((before) => {
+      const fresh = poiIds.filter((id) => !before.includes(id));
+      return fresh.length === 0 ? before : [...before, ...fresh];
+    });
+  }, []);
+  return { photos: usePlaceTilePhotos(seen), show };
 }

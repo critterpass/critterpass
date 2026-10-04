@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { FitLine } from '@/data/fit/fit-line';
 import { EdgeIndicator, PlanningMapCanvas, usePlanningCamera } from '@/ui/map/planning';
 import type { StackMember } from '@/ui/people/AvatarStack';
@@ -62,6 +63,7 @@ export interface PlacesMapViewProps {
   readonly query?: string | undefined;
   readonly onQuery?: ((text: string) => void) | undefined;
   readonly fitLines: ReadonlyMap<string, FitLine>;
+  readonly photos?: PlaceTilePhotos | undefined;
   /** The places on the cards, for the screen to ask their fits. */
   readonly onAsk: (poiIds: readonly string[]) => void;
   readonly onOpen: (id: string) => void;
@@ -276,6 +278,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
         {carousel ? (
           <PlacesCarousel
             entries={entries}
+            photos={props.photos}
             focusedId={label.focusedId}
             onSettle={label.settle}
             onOpen={props.onOpen}

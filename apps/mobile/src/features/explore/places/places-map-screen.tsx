@@ -7,6 +7,7 @@ import { toLocalWallTime } from '@cp/domain';
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 
 import { RegionPackCardView } from '../components/region-pack-card';
@@ -61,6 +62,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
   const today = useMemo(() => toLocalWallTime(new Date(), data.tz ?? 'UTC').date, [data.tz]);
   const poiOf = (id: string) => data.places.find((entry) => entry.id === id)?.poiId ?? id;
   const downloaded = pack.status === 'downloaded' || pack.status === 'checking';
+  const photos = usePlaceTilePhotos(asked);
   return (
     <PlacesMapView
       inTrip={tripId !== null}
@@ -96,6 +98,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
       query={props.query}
       onQuery={props.onQuery}
       fitLines={fitLines}
+      photos={photos}
       onAsk={onAsk}
       onOpen={(id) => router.push(placeHref(poiOf(id), tripId, data.destinationId))}
       onAdd={

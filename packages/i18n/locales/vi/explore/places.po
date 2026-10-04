@@ -13,7 +13,7 @@ msgstr "{bestTime} · hợp {weekday}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.inView"
-msgstr "{count, plural, other {# địa điểm trong khung nhìn}}"
+msgstr "{count, plural, other {# địa điểm trên bản đồ}}"
 
 #: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
 msgid "places.cluster"
@@ -179,7 +179,7 @@ msgstr "Về đêm"
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.none"
-msgstr "Không có địa điểm trong khung nhìn"
+msgstr "Không có địa điểm ở đây"
 
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
 msgid "places.card.openToday"
