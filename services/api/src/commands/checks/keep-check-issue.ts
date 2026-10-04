@@ -3,7 +3,8 @@
  * organiser turns a plan check fix down ("Keep it as it is"). The issue leaves the list and the
  * counts at once and a quiet mark is kept on the trip's check, so the job leaves that issue on
  * those stops out until the stops around them change. A member's "keep" is theirs alone and never
- * reaches here; an issue from an older plan is stale.
+ * reaches here; an issue from an older plan is stale, and an issue of an organiser's private draft
+ * is refused (`private_draft`): the mark lives on the row the whole crew syncs.
  */
 import { outbox } from '@cp/db';
 import {
@@ -45,6 +46,16 @@ export const keepCheckIssueCommand = defineCommand({
   handle: async (tx, payload, ctx): Promise<KeepCheckIssueResult> => {
     const issue = await readIssue(tx, payload.issue_id);
     const head = await lockTripPlan(tx, issue.trip_id);
+    // The mark is kept on the trip-wide check row every member syncs: one made on an organiser's
+    // private draft would carry the draft's stops to the crew.
+    const { rows: versions } = await asSystemRole(tx, () =>
+      tx.query<{ visibility: string }>('SELECT visibility FROM itinerary_versions WHERE id = $1', [
+        issue.version_id,
+      ]),
+    );
+    if (versions[0]?.visibility !== 'crew') {
+      throw new DomainError('STATE_INVALID', { reason: 'private_draft' });
+    }
     if (head.currentVersionId !== issue.version_id || payload.base_version !== issue.version_id) {
       throw new DomainError('STATE_INVALID', { reason: 'stale_issue' });
     }

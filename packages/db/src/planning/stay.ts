@@ -4,8 +4,9 @@
  *
  * 1. a booked crew stay covering that night, placed on a curated place: the place its plan item
  *    points at, else the destination's stay place whose name is the booking's title or location;
- * 2. a stay in the current plan (an item on a stay place): the latest one on or before that day,
- *    else the first one after it;
+ * 2. a stay in the current plan (an item on a stay place that is itself the stay, or has no kind
+ *    of its own; a visit to a villa the catalogue files as a stay is a stop): the latest one on or
+ *    before that day, else the first one after it;
  * 3. any booked crew stay with a place, earliest first.
  *
  * `null` means the trip has no anchor yet (callers say "from the centre" or leave the leg out).
@@ -103,7 +104,8 @@ async function plannedStays(
        JOIN plan_items i ON i.version_id = coalesce($2::uuid, t.current_version_id)
        JOIN plan_days d ON d.id = i.day_id
        JOIN pois p ON p.id = i.poi_id
-      WHERE t.id = $1 AND p.category = 'stay' AND i.status IS DISTINCT FROM 'cancelled'
+      WHERE t.id = $1 AND p.category = 'stay' AND coalesce(i.category, 'stay') = 'stay'
+        AND i.status IS DISTINCT FROM 'cancelled'
       ORDER BY d.day_no, i.starts_at NULLS LAST, i.stable_id`,
     [tripId, versionId],
   );

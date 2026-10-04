@@ -1,7 +1,7 @@
 /**
- * The plan check screen's own words (7h-1): the headline, the line under it, FIX ALL, the FIX
- * label for organisers and members, the toasts after a FIX, and the undesigned states (running,
- * failed, nothing to fix, an issue the plan moved past).
+ * The plan check screen's own words (7h-1): the headline, the line under it, FIX ALL, the toasts
+ * after a FIX or a keep, and the undesigned states (running, failed, nothing to fix, an issue the
+ * plan moved past, a move the real drive does not leave room for).
  */
 import { plural, t } from '@lingui/core/macro';
 
@@ -42,12 +42,6 @@ export function checkingLabel(): string {
 
 export function backTripLabel(): string {
   return t({ id: 'plan.check.backTrip', message: 'Trip' });
-}
-
-export function fixLabel(organiser: boolean): string {
-  return organiser
-    ? t({ id: 'plan.check.fix', message: 'Fix' })
-    : t({ id: 'plan.check.suggest', message: 'Suggest' });
 }
 
 export function fixAllLabel(count: number): string {
@@ -112,6 +106,26 @@ export function failedToast(): { title: string; subtitle: string } {
     subtitle: t({
       id: 'plan.check.toast.failedLine',
       message: 'Nothing changed. Try again in a moment.',
+    }),
+  };
+}
+
+export function unfitToast(): { title: string; subtitle: string } {
+  return {
+    title: t({ id: 'plan.check.toast.unfit', message: 'That move doesn’t fit after all' }),
+    subtitle: t({
+      id: 'plan.check.toast.unfitLine',
+      message: 'The drive is longer than the time it leaves. Nothing changed.',
+    }),
+  };
+}
+
+export function keptToast(guideName: string): { title: string; subtitle: string } {
+  return {
+    title: t({ id: 'plan.check.toast.kept', message: 'Kept as it is' }),
+    subtitle: t({
+      id: 'plan.check.toast.keptLine',
+      message: `${guideName} won’t bring it up again unless the stops around it change.`,
     }),
   };
 }

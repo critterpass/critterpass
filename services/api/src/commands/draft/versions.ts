@@ -14,7 +14,7 @@ import {
 import { itineraryMetrics, straightLineMatrix, type DraftPoi } from '@cp/planner';
 import type pg from 'pg';
 
-const ITEM_COLUMNS = `stable_id, starts_at, ends_at, tz, lane, attendee_ids, poi_id, provider_id, booking_id,
+const ITEM_COLUMNS = `stable_id, starts_at, ends_at, tz, lane, attendee_ids, poi_id, custom_place, provider_id, booking_id,
   must_do_id, category, cost_model, amount_minor, currency, status, flexibility, is_outdoor,
   created_by_kind, notes, locked_reason, i18n`;
 
