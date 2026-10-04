@@ -1,6 +1,15 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { dayLead, dayOfGo, dayRelation, type TimelineEntryData } from '../day-of-data';
+import type { DayStopReading } from '@/features/plan';
+
+import {
+  dayLead,
+  dayOfGo,
+  dayRelation,
+  dayTimeline,
+  withPlanRows,
+  type TimelineEntryData,
+} from '../day-of-data';
 import { baturLeaveBy } from '../dev/bali-day';
 
 function stop(time: string, title: string): TimelineEntryData {
@@ -63,5 +72,97 @@ describe('what leads the day-of screen', () => {
     });
     expect(dayOfGo(null, dayLead(withPlace, true, at('21:00')), TRIP, true).stop).toBeNull();
     expect(dayOfGo(leaveBy, lead, TRIP, false)).toEqual({ leaveBy: null, stop: null });
+  });
+});
+
+describe('the timeline as the day plan reads the day', () => {
+  const row = (extra: Partial<DayStopReading>): DayStopReading => ({
+    length: '1h',
+    legAfter: null,
+    personal: null,
+    skipping: false,
+    moment: null,
+    ...extra,
+  });
+  const reading = (stops: [string, DayStopReading][], mine: TimelineEntryData[] = []) => ({
+    stops: new Map(stops),
+    mine: mine.map((entry) => ({
+      id: entry.id,
+      time: entry.time,
+      title: entry.title,
+      detail: entry.detail ?? '',
+      startsAt: entry.startsAt,
+      poiId: null,
+    })),
+  });
+
+  it('reads a note in the reader’s language, falling back to the note as written', () => {
+    const rows = [
+      {
+        id: 'i1',
+        stable_id: 'market',
+        starts_at: '2026-10-01T07:00:00Z',
+        ends_at: null,
+        tz: 'Asia/Ho_Chi_Minh',
+        attendee_ids: null,
+        booking_id: null,
+        category: 'market',
+        notes: 'Go early for the fabric stalls.',
+        status: 'planned',
+        poi_id: 'poi-market',
+        poi_name: 'Chợ Hàn',
+        day_no: 1,
+      },
+    ];
+    const read = (id: string) => (id === 'market' ? 'Đi sớm để xem hàng vải.' : undefined);
+    expect(dayTimeline(rows, null, [], 'vi', 'Asia/Ho_Chi_Minh', read)[0]?.detail).toBe(
+      'Đi sớm để xem hàng vải.',
+    );
+    expect(dayTimeline(rows, null, [], 'vi', 'Asia/Ho_Chi_Minh')[0]?.detail).toBe(
+      'Go early for the fabric stalls.',
+    );
+  });
+
+  it('lays lengths, travel and today’s marks on each stop', () => {
+    const laid = withPlanRows(
+      DAY,
+      reading([
+        ['Han Market', row({ legAfter: 'Car · 12 min', moment: 'done' })],
+        ['Che bo', row({ length: '45 min', moment: 'next' })],
+      ]),
+    );
+    expect(
+      laid.map((entry) => [entry.length ?? null, entry.legAfter ?? null, entry.moment]),
+    ).toEqual([
+      ['1h', 'Car · 12 min', 'done'],
+      ['45 min', null, 'next'],
+      [null, null, undefined],
+    ]);
+  });
+
+  it('stands a stop I skip back, says so, and keeps its ticket out of reach', () => {
+    const booked = [{ ...stop('14:00', 'Han Market'), bookingId: 'b1' }];
+    const [entry] = withPlanRows(
+      booked,
+      reading([
+        ['Han Market', row({ personal: 'You’re skipping this', skipping: true, moment: 'next' })],
+      ]),
+    );
+    expect(entry).toMatchObject({
+      dimmed: true,
+      detail: 'You’re skipping this',
+      bookingId: null,
+      moment: null,
+    });
+  });
+
+  it('puts the stops only I have in their place by time', () => {
+    const mine = { ...stop('16:00', 'Cong Ca Phe'), detail: 'Only you' };
+    expect(withPlanRows(DAY, reading([], [mine])).map((entry) => entry.title)).toEqual([
+      'Han Market',
+      'Cong Ca Phe',
+      'Che bo',
+      'Dragon Bridge',
+    ]);
   });
 });

@@ -6,6 +6,7 @@ import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
 import type { GoTarget } from '@/features/go';
+import type { DayReading } from '@/features/plan';
 
 import type { AlarmAuthorization } from '../alarm/alarm-port';
 import type { AlarmSheetKind } from '../alarm/alarm-permission-sheet';
@@ -139,6 +140,8 @@ export function dayTimeline(
   members: readonly CrewMember[],
   locale: string,
   tripTz: string,
+  /** A stop's note as this person reads it (the guide writes in English; the plan translates). */
+  notesOf: (stableId: string) => string | null | undefined = () => undefined,
 ): TimelineEntryData[] {
   const names = new Map(members.map((member) => [member.id, member.name]));
   return rows
@@ -155,7 +158,7 @@ export function dayTimeline(
         : row.booking_id !== null
           ? t({ id: 'trip.dayOf.ticketsInBookings', message: 'Tickets in Bookings' })
           : row.poi_name !== null && row.notes !== null
-            ? row.notes
+            ? (notesOf(row.stable_id) ?? row.notes)
             : null;
       return {
         id: row.stable_id,
@@ -168,6 +171,37 @@ export function dayTimeline(
         poiId: row.poi_id ?? null,
       };
     });
+}
+
+/**
+ * The timeline with what the day plan knows about each stop laid on: how long it takes, the
+ * travel to the next one, whether it is over, on now or next, and what is mine alone (a stop I
+ * skip stands back and says so; the stops only I have join in time order). An entry the plan has
+ * no row for (the stay, a cancelled stop) is left as it was.
+ */
+export function withPlanRows(
+  entries: readonly TimelineEntryData[],
+  reading: Pick<DayReading, 'stops' | 'mine'>,
+): TimelineEntryData[] {
+  const laid = entries.map((entry): TimelineEntryData => {
+    const stop = reading.stops.get(entry.id);
+    if (stop === undefined) return entry;
+    return {
+      ...entry,
+      ...(stop.personal === null ? {} : { detail: stop.personal }),
+      dimmed: entry.dimmed || stop.skipping,
+      // What I skip is not mine to open in Bookings.
+      bookingId: stop.skipping ? null : entry.bookingId,
+      length: stop.length,
+      legAfter: stop.legAfter,
+      moment: stop.skipping ? null : stop.moment,
+    };
+  });
+  const known = new Set(laid.map((entry) => entry.id));
+  const mine = reading.mine
+    .filter((entry) => !known.has(entry.id))
+    .map((entry): TimelineEntryData => ({ ...entry, dimmed: false, bookingId: null }));
+  return [...laid, ...mine].sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
 }
 
 export interface AlarmNoteData {
