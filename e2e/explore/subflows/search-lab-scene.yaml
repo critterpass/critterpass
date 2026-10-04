@@ -42,6 +42,27 @@ appId: app.critterpass.dev
           duration: 800
       - waitForAnimationToEnd:
           timeout: 3000
+# iOS: when the scene keeps the edge drag (a focused field, a sheet), the lab is reopened from Home.
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'search-lab-${SCENE}'
+    commands:
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-search-lab'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+      - tapOn:
+          id: 'dev-nav-search-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'search-lab-${SCENE}'
+          direction: DOWN
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'search-lab-${SCENE}'
