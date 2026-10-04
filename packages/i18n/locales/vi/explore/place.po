@@ -331,6 +331,7 @@ msgstr "đang mở cửa"
 msgid "explore.detail.fits.other"
 msgstr "Ngày khác ›"
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.planTrip"
 msgstr "Lên chuyến đi ở đây"

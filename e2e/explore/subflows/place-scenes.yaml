@@ -1,7 +1,9 @@
 appId: app.critterpass.dev
 ---
 # The place page (3d-3) inside a trip, as a member, in the plan, with no trip, closed on the day,
-# with no crowd data, offline and with a long Vietnamese name, prefixed `${PREFIX}`.
+# with no crowd data, offline and with a long Vietnamese name; then the planning place page (7e-1)
+# as designed, as a member, in the plan, split in the crew, with no trip and with hours not known,
+# and further down (7e-2), prefixed `${PREFIX}`.
 - runFlow:
     file: scene.yaml
     env: { SCENE: place, READY: explore-place-add, SHOT: '${PREFIX}-3d-3-place' }
@@ -30,3 +32,63 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       { SCENE: place-da-nang, READY: explore-place-add, SHOT: '${PREFIX}-3d-3-da-nang-long-name' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: place-detail, READY: place-detail-cta, SHOT: '${PREFIX}-7e-1-place' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: place-detail-member,
+        READY: place-detail-cta,
+        SHOT: '${PREFIX}-7e-1-member-suggests',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: place-detail-in-plan, READY: place-detail-cta, SHOT: '${PREFIX}-7e-1-in-plan' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: place-detail-split,
+        READY: place-detail-split,
+        SHOT: '${PREFIX}-7e-1-crew-split-chip',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: place-detail-no-trip, READY: place-detail-cta, SHOT: '${PREFIX}-7e-1-no-trip' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: place-detail-hours-unknown,
+        READY: place-detail-fit-note,
+        SHOT: '${PREFIX}-7e-1-hours-unknown',
+      }
+# Further down (7e-2): the photo collapses into the slim header with the name.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-place-detail'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'explore-lab-place-detail'
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-cta'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'place-detail-similar'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- assertVisible:
+    id: 'place-detail-header'
+- takeScreenshot: ${PREFIX}-7e-2-further-down
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back

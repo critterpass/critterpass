@@ -331,6 +331,7 @@ msgstr "open now"
 msgid "explore.detail.fits.other"
 msgstr "Other days ›"
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.planTrip"
 msgstr "Plan a trip here"

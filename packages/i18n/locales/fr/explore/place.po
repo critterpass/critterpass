@@ -331,6 +331,7 @@ msgstr ""
 msgid "explore.detail.fits.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.planTrip"
 msgstr ""
