@@ -46,7 +46,7 @@ export function PickOneSheet({ label, candidates, photos, onPick, onClose }: Pic
               title={candidate.name}
               meta={candidate.meta ?? undefined}
               icon={placeIcon(candidate.category)}
-              {...photos?.get(candidate.poi_id)}
+              {...photos?.get(candidate.poi_id)?.tile}
               onPress={() => onPick(candidate.poi_id)}
               testID={`search-pick-${String(index)}`}
             />

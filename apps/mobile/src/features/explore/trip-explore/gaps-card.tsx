@@ -86,7 +86,7 @@ function Tile({ tile, index }: { readonly tile: GapTile; readonly index: number 
       testID={`explore-trip-gap-idea-${String(index)}`}
     >
       <View style={styles.tile}>
-        <PlaceThumb {...tile.photo} size={28} tint={`${tint}66`} />
+        <PlaceThumb {...tile.photo?.tile} size={28} tint={`${tint}66`} />
         <View style={styles.tileText}>
           <Text variant="label" numberOfLines={1}>
             {upper(tile.label, i18n.locale)}

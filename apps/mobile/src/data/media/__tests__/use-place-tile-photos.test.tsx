@@ -145,8 +145,11 @@ describe('a tile photo', () => {
       wrapper: withReader(api),
     });
     await waitFor(() => expect(view.result.current.size).toBe(2));
-    expect(view.result.current.get(poi(1))?.genericPhoto).toBe(true);
-    expect(view.result.current.get(poi(2))?.genericPhoto).toBe(false);
+    expect(view.result.current.get(poi(1))?.tile.genericPhoto).toBe(true);
+    expect(view.result.current.get(poi(2))?.tile.genericPhoto).toBe(false);
+    // The credit travels with the photo, for the surfaces with room to draw it.
+    expect(view.result.current.get(poi(1))?.credit).toBe(STOCK?.credit);
+    expect(view.result.current.get(poi(1))?.link).toBeNull();
     expect(view.result.current.has(poi(3))).toBe(false);
   });
 
@@ -159,7 +162,7 @@ describe('a tile photo', () => {
         h: w,
       })),
     };
-    expect(tilePhoto(asset, 56)?.photo).toEqual({ uri: 'https://media.test/480.webp' });
+    expect(tilePhoto(asset, 56)?.tile.photo).toEqual({ uri: 'https://media.test/480.webp' });
     expect(tilePhoto({ ...asset, images: [] }, 56)).toBeNull();
   });
 });

@@ -13,7 +13,7 @@ import { pickBySize } from '@/lib/media/variants';
 
 import { useTravelDataReader } from '../travel-data/client';
 import {
-  isStockPhoto,
+  isGenericPlacePhoto,
   placePhoto,
   placePhotosVersion,
   requestPlacePhotos,
@@ -21,11 +21,23 @@ import {
 } from './place-photo-store';
 import { mediaReader } from './use-subject-media';
 
-/** What a place tile (`PlaceThumb`, `PlaceRow`, `PlaceCard`) takes: spread it onto the tile. */
+/**
+ * A place's photo as a tile shows it, whatever its source (Commons, stock, a partner): the image,
+ * whether it is the place itself or a generic stand-in, its credit line and where it leads.
+ */
 export interface PlaceTilePhoto {
-  readonly photo: ImageSourcePropType;
-  /** A stock photo standing in for the place: the tile marks it as not this place. */
-  readonly genericPhoto: boolean;
+  /** What `PlaceThumb`, `PlaceRow` and `PlaceCard` take: spread it onto the tile. */
+  readonly tile: {
+    readonly photo: ImageSourcePropType;
+    /** A photo standing in for the place: the tile marks it as not this place. */
+    readonly genericPhoto: boolean;
+  };
+  /** "Ray in Manila · CC BY 2.0 · Wikimedia Commons": drawn where the surface has room for it. */
+  readonly credit: string;
+  /** Whether the licence asks for the credit to be shown with the photo. */
+  readonly creditRequired: boolean;
+  /** Where the photo leads when its source offers something (a partner's offer); none otherwise. */
+  readonly link: string | null;
 }
 
 export type PlaceTilePhotos = ReadonlyMap<string, PlaceTilePhoto>;
@@ -38,8 +50,14 @@ export function tilePhoto(asset: MediaAsset, sizePt = TILE_PT): PlaceTilePhoto |
   const still = pickBySize(asset.images, sizePt * PixelRatio.get());
   if (still === undefined) return null;
   return {
-    photo: { uri: savedStillUri(asset, still.url) ?? still.url },
-    genericPhoto: isStockPhoto(asset),
+    tile: {
+      photo: { uri: savedStillUri(asset, still.url) ?? still.url },
+      genericPhoto: isGenericPlacePhoto(asset),
+    },
+    credit: asset.credit,
+    creditRequired: asset.attribution_required,
+    // Editorial media (Commons, stock) leads nowhere; a partner's photo carries its offer here.
+    link: null,
   };
 }
 

@@ -64,7 +64,7 @@ export function NameResults({
               title={place.name}
               meta={sourceLine(place) ?? place.nameLocal ?? undefined}
               icon={placeIcon(place.category)}
-              {...(place.poiId === null ? undefined : photos?.get(place.poiId))}
+              {...(place.poiId === null ? undefined : photos?.get(place.poiId)?.tile)}
               onPress={() => onOpen(place)}
               trailing={
                 place.poiId === null ? undefined : (

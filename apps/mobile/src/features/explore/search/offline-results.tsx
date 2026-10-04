@@ -97,7 +97,7 @@ export function OfflineResults(props: OfflineResultsProps) {
               title={row.title}
               meta={row.meta}
               icon={placeIcon(row.category)}
-              {...props.photos?.get(row.key)}
+              {...props.photos?.get(row.key)?.tile}
               onPress={() => props.onOpen(row.key)}
               trailing={
                 row.saved ? (

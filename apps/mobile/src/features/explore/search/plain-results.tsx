@@ -96,7 +96,7 @@ export function PlainResults(props: PlainResultsProps) {
             title={row.title}
             meta={row.meta}
             icon={row.icon}
-            {...props.photos?.get(row.key)}
+            {...props.photos?.get(row.key)?.tile}
             fitLine={row.fitLine}
             onPress={() => props.onOpen(row.key)}
             trailing={

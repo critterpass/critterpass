@@ -28,9 +28,22 @@ const TERRACES = jpeg('/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpA
 
 type LabPhoto = 'temple' | 'food' | 'terraces' | 'generic';
 
+function commons(
+  photo: PlaceTilePhoto['tile']['photo'],
+  author: string,
+  genericPhoto = false,
+): PlaceTilePhoto {
+  return {
+    tile: { photo, genericPhoto },
+    credit: `${author} · CC BY 4.0 · Wikimedia Commons`,
+    creditRequired: true,
+    link: null,
+  };
+}
+
 export const LAB_PHOTOS: Readonly<Record<LabPhoto, PlaceTilePhoto>> = {
-  temple: { photo: TEMPLE, genericPhoto: false },
-  food: { photo: FOOD, genericPhoto: false },
-  terraces: { photo: TERRACES, genericPhoto: false },
-  generic: { photo: TERRACES, genericPhoto: true },
+  temple: commons(TEMPLE, 'Chainwit.'),
+  food: commons(FOOD, 'Vyacheslav Argenberg'),
+  terraces: commons(TERRACES, 'Philip Nalangan'),
+  generic: commons(TERRACES, 'Philip Nalangan', true),
 };

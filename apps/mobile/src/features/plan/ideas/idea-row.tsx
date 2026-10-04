@@ -142,7 +142,7 @@ export function IdeaRow(props: IdeaRowProps) {
             <PlaceRow
               title={props.name}
               icon={props.icon}
-              {...props.photo}
+              {...props.photo?.tile}
               fitLine={props.fitLine}
               savers={props.savers}
               saversAtEnd

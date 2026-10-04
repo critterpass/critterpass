@@ -22,12 +22,18 @@ export function poiSubject(poiId: string): string {
 }
 
 /**
- * A stock photo filed under a place stands for it only as a generic one (a similar dish, a beach
- * like it): the content factory files the place's own photos from Wikimedia Commons, and stock
- * under a place only as "not this place".
+ * The sources whose photos, filed under a place, show the place itself: the content factory files
+ * a place's own photos from Wikimedia Commons. A source that supplies photos of the place itself
+ * (a partner's listing photos) joins this set.
  */
-export function isStockPhoto(photo: MediaAsset): boolean {
-  return photo.source !== 'wikimedia';
+const OWN_PHOTO_SOURCES: ReadonlySet<MediaAsset['source']> = new Set(['wikimedia']);
+
+/**
+ * A photo from any other source (stock) stands for the place only as a generic one (a similar
+ * dish, a beach like it), shown as "not this place".
+ */
+export function isGenericPlacePhoto(photo: MediaAsset): boolean {
+  return !OWN_PHOTO_SOURCES.has(photo.source);
 }
 
 /** A place's hero, or null once the api has said it has none. Absent while not yet read. */
