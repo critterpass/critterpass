@@ -4,6 +4,37 @@ import { plural, t } from '@lingui/core/macro';
 import { categoryLabel } from '../category';
 import type { CategoryGroup, HubPlace } from './places-model';
 
+/** "45 min", "2h", "2h20": an hour or more reads in hours, as on the trip map. */
+export function lengthLabel(minutes: number): string {
+  const whole = Math.max(0, Math.round(minutes));
+  if (whole < 60) return t({ id: 'places.length.minutes', message: `${whole} min` });
+  const hours = Math.floor(whole / 60);
+  const rest = whole % 60;
+  if (rest === 0) return t({ id: 'places.length.hours', message: `${hours}h` });
+  const mm = String(rest).padStart(2, '0');
+  return t({ id: 'places.length.hoursMinutes', message: `${hours}h${mm}` });
+}
+
+/** A day's short weekday from the app's own words ("Sat"; "T7" in Vietnamese), 0 = Sunday. */
+export function weekdayShort(day: number): string {
+  switch (((day % 7) + 7) % 7) {
+    case 0:
+      return t({ id: 'places.weekday.sun', message: 'Sun' });
+    case 1:
+      return t({ id: 'places.weekday.mon', message: 'Mon' });
+    case 2:
+      return t({ id: 'places.weekday.tue', message: 'Tue' });
+    case 3:
+      return t({ id: 'places.weekday.wed', message: 'Wed' });
+    case 4:
+      return t({ id: 'places.weekday.thu', message: 'Thu' });
+    case 5:
+      return t({ id: 'places.weekday.fri', message: 'Fri' });
+    default:
+      return t({ id: 'places.weekday.sat', message: 'Sat' });
+  }
+}
+
 export function groupLabel(group: CategoryGroup): string {
   switch (group) {
     case 'food':
@@ -62,15 +93,15 @@ export function cardDescription(
 ): string {
   const kind = categoryLabel(category);
   if (minutesFromStay === null || stayName === null) return kind;
-  const minutes = minutesFromStay;
-  return t({ id: 'places.card.fromStay', message: `${kind} · ${minutes} min from ${stayName}` });
+  const length = lengthLabel(minutesFromStay);
+  return t({ id: 'places.card.fromStay', message: `${kind} · ${length} from ${stayName}` });
 }
 
 /** "Tombs cut into a ravine · 10 min on" for the cards after the first. */
 export function cardDescriptionOn(category: string, minutesOn: number): string {
   const kind = categoryLabel(category);
-  const minutes = minutesOn;
-  return t({ id: 'places.card.minutesOn', message: `${kind} · ${minutes} min on` });
+  const length = lengthLabel(minutesOn);
+  return t({ id: 'places.card.minutesOn', message: `${kind} · ${length} on` });
 }
 
 /** The + button's words for a screen reader. */
@@ -133,8 +164,7 @@ export function bestTimeLine(bestTime: string, weekday: string | null): string {
 export function rowMeta(category: string, minutesFromStay: number | null): string {
   const kind = categoryLabel(category);
   if (minutesFromStay === null) return kind;
-  const minutes = minutesFromStay;
-  return t({ id: 'places.row.meta', message: `${kind} · ${minutes} min` });
+  return `${kind} · ${lengthLabel(minutesFromStay)}`;
 }
 
 export function splitLabel(): string {

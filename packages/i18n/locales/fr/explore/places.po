@@ -36,7 +36,11 @@ msgid "places.label.suggested"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
-msgid "places.row.meta"
+msgid "places.length.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hoursMinutes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -61,6 +65,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.carousel.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.minutes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
@@ -125,6 +133,10 @@ msgstr ""
 msgid "places.group.food"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.fri"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
 msgid "places.hidden.title"
 msgstr ""
@@ -143,6 +155,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.inPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.mon"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -167,6 +183,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
 msgid "places.card.openToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
@@ -236,11 +256,27 @@ msgid "places.row.split"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.tue"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
 msgid "places.toast.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.wed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts

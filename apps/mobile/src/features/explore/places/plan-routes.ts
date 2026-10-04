@@ -88,26 +88,42 @@ export function leadDay(
   return (days.find((day) => day.date === today) ?? days[0])?.dayNo ?? null;
 }
 
+type LngLatPoint = readonly [number, number];
+
+/** Kilometres between two `[lng, lat]` points (equirectangular: plenty for framing). */
+function km(a: LngLatPoint, b: LngLatPoint): number {
+  const k = Math.cos((((a[1] + b[1]) / 2) * Math.PI) / 180);
+  return Math.hypot((b[0] - a[0]) * k, b[1] - a[1]) * 111.32;
+}
+
+/** A place this far from where the places mostly are (and over 3× the middle distance) is "far". */
+const FAR_KM = 6;
+
 /**
  * Where the map opens without a picked place: the crew's own places (the stay, the plan's stops,
- * the saved places) when there are a few, else every place, without the outliers (the middle 70 %
- * on each axis), so a day trip far away doesn't shrink the town the crew spends its days in.
+ * the saved places) when there are a few, else every place, without the far ones (a day trip's
+ * stop, a temple across the island), as the trip map frames a day. The far ones stay reachable
+ * by the edge chips and by zooming out.
  */
 export function openingFrame(
   core: readonly { readonly lat: number; readonly lng: number }[],
   all: readonly { readonly lat: number; readonly lng: number }[],
-): [readonly [number, number], readonly [number, number]] | null {
-  const points = core.length >= 3 ? core : all;
-  if (points.length === 0) return null;
-  const cut = (values: number[]) => {
+): LngLatPoint[] {
+  const points = (core.length >= 3 ? core : all).map((point): LngLatPoint => [
+    point.lng,
+    point.lat,
+  ]);
+  if (points.length < 3) return points;
+  const median = (values: number[]) => {
     const sorted = [...values].sort((a, b) => a - b);
-    const at = (share: number) => sorted[Math.floor(share * (sorted.length - 1))] ?? 0;
-    return [at(0.15), at(0.85)] as const;
+    return sorted[Math.floor(sorted.length / 2)] ?? 0;
   };
-  const [south, north] = cut(points.map((point) => point.lat));
-  const [west, east] = cut(points.map((point) => point.lng));
-  return [
-    [west, south],
-    [east, north],
-  ];
+  const centre: LngLatPoint = [median(points.map((p) => p[0])), median(points.map((p) => p[1]))];
+  const distances = points.map((point) => km(point, centre));
+  const typical = median(distances);
+  const kept = points.filter((_, index) => {
+    const d = distances[index] ?? 0;
+    return d <= FAR_KM || d <= typical * 3;
+  });
+  return kept.length >= 2 ? kept : points;
 }

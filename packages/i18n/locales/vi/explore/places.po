@@ -36,16 +36,20 @@ msgid "places.label.suggested"
 msgstr "{guide} gợi ý"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
-msgid "places.row.meta"
-msgstr "{kind} · {minutes} phút"
+msgid "places.length.hours"
+msgstr "{hours}h"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hoursMinutes"
+msgstr "{hours}h{mm}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.fromStay"
-msgstr "{kind} · cách {stayName} {minutes} phút"
+msgstr "{kind} · cách {stayName} {length}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.minutesOn"
-msgstr "{kind} · thêm {minutes} phút"
+msgstr "{kind} · thêm {length}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.plan.summaryMore"
@@ -62,6 +66,10 @@ msgstr "{name} đã vào Ý tưởng."
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.carousel.count"
 msgstr "{position} / {count} trong khung nhìn · gần nhất trước"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.minutes"
+msgstr "{whole} phút"
 
 #: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
@@ -125,6 +133,10 @@ msgstr "Đang tải địa điểm"
 msgid "places.group.food"
 msgstr "Ăn uống"
 
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.fri"
+msgstr "T6"
+
 #: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
 msgid "places.hidden.title"
 msgstr "Địa điểm đã ẩn"
@@ -144,6 +156,10 @@ msgstr "Trong lịch trình · {count}"
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.inPlan"
 msgstr "Trong lịch trình · ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.mon"
+msgstr "T2"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.museums"
@@ -168,6 +184,10 @@ msgstr "Không có địa điểm trong khung nhìn"
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
 msgid "places.card.openToday"
 msgstr "Mở cửa {from}–{to}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sat"
+msgstr "T7"
 
 #: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
 msgid "places.swipe.save"
@@ -236,12 +256,28 @@ msgid "places.row.split"
 msgstr "Chia phe"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sun"
+msgstr "CN"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.temples"
 msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.thu"
+msgstr "T5"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.tue"
+msgstr "T3"
 
 #: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
 msgid "places.toast.undo"
 msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.wed"
+msgstr "T4"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.wellness"

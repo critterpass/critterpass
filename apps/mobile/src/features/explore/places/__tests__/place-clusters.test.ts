@@ -104,15 +104,20 @@ describe('the plan as routes', () => {
 });
 
 describe('where the map opens', () => {
-  it('frames the crew places without a far outlier, else every place', () => {
-    const ubud = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
-      lat: -8.5 + i * 0.001,
-      lng: 115.26 + i * 0.001,
-    }));
-    const far = { lat: -8.24, lng: 115.37 };
+  const ubud = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
+    lat: -8.5 + i * 0.001,
+    lng: 115.26 + i * 0.001,
+  }));
+  const far = { lat: -8.24, lng: 115.37 };
+
+  it('frames where the crew places mostly are and leaves a far one out', () => {
     const frame = openingFrame([...ubud, far], []);
-    expect(frame?.[1][1]).toBeLessThan(-8.49);
-    expect(openingFrame([far], ubud)?.[0][0]).toBeGreaterThan(115.26);
-    expect(openingFrame([], [])).toBeNull();
+    expect(frame).toHaveLength(ubud.length);
+    expect(Math.max(...frame.map((point) => point[1]))).toBeLessThan(-8.49);
+  });
+
+  it('frames every place while the crew has fewer than three of its own', () => {
+    expect(openingFrame([far], ubud)).toHaveLength(ubud.length);
+    expect(openingFrame([], [])).toEqual([]);
   });
 });

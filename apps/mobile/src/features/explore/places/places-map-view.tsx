@@ -145,7 +145,8 @@ export function PlacesMapView(props: PlacesMapViewProps) {
 
   const focused = places.find((place) => place.id === label.focusedId) ?? null;
   const { flyToPlace, fitPoints } = camera;
-  // Opened without a place, the map frames the crew's own places once they are here.
+  // Opened without a place, the map frames where the crew's places mostly are, once they are
+  // here; the far ones are reached by the edge chips.
   const framed = useRef(props.placeId !== undefined && props.placeId !== null);
   const stay = props.stay;
   useEffect(() => {
@@ -155,10 +156,11 @@ export function PlacesMapView(props: PlacesMapViewProps) {
       ...places.filter((place) => place.standing !== 'suggested'),
     ];
     const frame = openingFrame(core, places);
-    if (frame === null) return;
+    if (frame.length === 0) return;
     framed.current = true;
     fitPoints(frame, { top: insets.top + HEADER_PT, bottom: insets.bottom + PEEK_PT });
   }, [places, stay, region.bounds, fitPoints, insets.top, insets.bottom]);
+
   useEffect(() => {
     if (focused === null) return;
     flyToPlace([focused.lng, focused.lat], {
@@ -187,6 +189,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             stay={props.stay === null ? null : [props.stay.at.lng, props.stay.at.lat]}
             cameraRef={camera.cameraRef}
             ornamentBottom={coveredBottom}
+            logo={false}
             onRegionChange={(next) => setRegion({ bounds: next.bounds, zoom: next.zoom })}
             onPressMap={label.clear}
             testID="places-map-canvas"

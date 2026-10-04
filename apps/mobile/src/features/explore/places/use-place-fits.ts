@@ -4,25 +4,27 @@
  * else Tokek's ranked fit from the suggestions. Worded on the phone in the app's language.
  */
 import type { PlaceFit } from '@cp/domain';
-import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 
+import { weekdayShort } from './places-copy';
 import { useFit, FIT_BATCH } from '@/data/fit/use-fit';
 import { fitLine, type FitLine, type FitLineContext } from '@/data/fit/fit-line';
 import type { TripIdeaView } from '@/data/ideas/use-trip-ideas';
 
-/** Each day's short weekday ("Sat") by day number, read on the trip's dates. */
+/**
+ * Each day's short weekday ("Sat", "T7") by day number, read on the trip's dates and worded from
+ * the app's catalogue; `_locale` is what callers recompute on when the language changes.
+ */
 export function weekdaysOf(
   days: readonly { readonly dayNo: number; readonly date: string | null }[],
-  locale: string,
+  _locale: string,
 ): Map<number, string> {
   const names = new Map<number, string>();
   for (const day of days) {
     if (day.date === null) continue;
     // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time, never copy.
-    const noon = new Date(`${day.date}T12:00:00Z`);
-    names.set(day.dayNo, format.date(locale, noon, { weekday: 'short', timeZone: 'UTC' }));
+    names.set(day.dayNo, weekdayShort(new Date(`${day.date}T12:00:00Z`).getUTCDay()));
   }
   return names;
 }
