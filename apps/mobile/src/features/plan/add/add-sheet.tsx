@@ -54,6 +54,7 @@ import {
 } from './add-model';
 import { AddSheetView } from './add-sheet-view';
 import { useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
+import { resolvePreset, type RoutePreset } from './routes';
 import { useAddSubject } from './use-add-subject';
 import { WhoGoing } from './who-going';
 
@@ -61,14 +62,14 @@ export interface AddSheetProps {
   readonly tripId: string;
   /** A place id, or a dropped pin's idea id. */
   readonly placeId: string;
-  readonly preset: Omit<AddPreset, 'after'>;
+  readonly preset: RoutePreset;
   /** "+ right after this stop": the stop's stable id. */
   readonly afterStableId?: string | undefined;
 }
 
 const close = () => (router.canGoBack() ? router.back() : undefined);
 
-export function AddSheet({ tripId, placeId, preset: given, afterStableId }: AddSheetProps) {
+export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
@@ -96,6 +97,7 @@ export function AddSheet({ tripId, placeId, preset: given, afterStableId }: AddS
       ),
     [plan.dayRows],
   );
+  const given = resolvePreset(route, plan.dayRows, tz);
   const afterRow = plan.itemRows.find((row) => row.stable_id === afterStableId);
   const afterDate = days.find((entry) => entry.dayNo === afterRow?.day_no)?.date ?? null;
   // A place already in the plan opens on its own stop, and ADD becomes "Move it".

@@ -1,6 +1,6 @@
 /**
  * Add to plan joins the screen registry as `7f-1` (params: `tripId`, `placeId`, and optionally
- * `day`, `start`, `after`, `source`), so the map, a card, search, a place and Ideas open the same
+ * `day` or `dayId`, `start` (`HH:MM` or an instant), `after`, `pick`, `source`), so the map, a card, search, a place and Ideas open the same
  * sheet. Only section 7 screens link to it, and they show only with `planning.redesign` on.
  */
 import { registerScreens, type ScreenParams } from '@/lib/navigation/screen-registry';
@@ -16,6 +16,8 @@ registerScreens({
   '7f-1': (params: ScreenParams) =>
     addRoute(params['tripId'] ?? '', params['placeId'] ?? '', {
       day: day(params),
+      dayId: params['dayId'],
+      pick: params['pick'],
       start: params['start'],
       after: params['after'],
       source: params['source'],
