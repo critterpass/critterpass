@@ -6,6 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { LivePlace, MorePlacesState } from '@/data/places/more-places';
 import type { PlaceCandidate } from '@/data/places/match-places';
 import type { SearchState } from '@/data/places/server-name-search';
@@ -24,6 +25,8 @@ export interface NameResultsProps {
   readonly rows: readonly PlaceCandidate[];
   readonly state: SearchState;
   readonly live: MorePlacesState;
+  /** The places' photos by POI id, as they arrive. */
+  readonly photos?: PlaceTilePhotos | undefined;
   readonly onOpen: (place: PlaceCandidate) => void;
   readonly onAdd: (place: PlaceCandidate) => void;
   readonly onPickLive: (place: LivePlace) => void;
@@ -39,7 +42,15 @@ function sourceLine(place: PlaceCandidate): string | undefined {
   return undefined;
 }
 
-export function NameResults({ rows, state, live, onOpen, onAdd, onPickLive }: NameResultsProps) {
+export function NameResults({
+  rows,
+  state,
+  live,
+  photos,
+  onOpen,
+  onAdd,
+  onPickLive,
+}: NameResultsProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
@@ -53,6 +64,7 @@ export function NameResults({ rows, state, live, onOpen, onAdd, onPickLive }: Na
               title={place.name}
               meta={sourceLine(place) ?? place.nameLocal ?? undefined}
               icon={placeIcon(place.category)}
+              {...(place.poiId === null ? undefined : photos?.get(place.poiId))}
               onPress={() => onOpen(place)}
               trailing={
                 place.poiId === null ? undefined : (

@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import type { PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
 import { isPhysicalSpring, springConfig } from '@/motion';
 import { impact } from '@/motion/feedback';
 import { LONG_PRESS_DURATION_MS } from '@/motion/gestures';
@@ -40,6 +41,8 @@ export interface IdeaRowProps {
   readonly ideaId: string;
   readonly name: string;
   readonly icon: DoodleName;
+  /** The place's photo, when it has one. */
+  readonly photo?: PlaceTilePhoto | undefined;
   readonly fitLine: { readonly text: string; readonly tone: FitTone } | undefined;
   readonly savers: readonly StackMember[];
   readonly frame: SharedValue<ChipRowFrame>;
@@ -139,6 +142,7 @@ export function IdeaRow(props: IdeaRowProps) {
             <PlaceRow
               title={props.name}
               icon={props.icon}
+              {...props.photo}
               fitLine={props.fitLine}
               savers={props.savers}
               saversAtEnd

@@ -15,6 +15,7 @@ import {
   resolveLivePlace,
   type LivePlace,
 } from '@/data/places/more-places';
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { PlaceCandidate } from '@/data/places/match-places';
 import { useOnline } from '@/data/places/server-name-search';
 import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
@@ -120,6 +121,9 @@ export function SearchScreen(props: SearchScreenProps) {
     query,
     near,
   });
+  const photos = usePlaceTilePhotos(
+    search.rows.flatMap((row) => (row.poiId === null ? [] : [row.poiId])),
+  );
   const typed = query.trim();
   const live = useLivePlaces({
     getJson: services.getJson,
@@ -234,6 +238,7 @@ export function SearchScreen(props: SearchScreenProps) {
           rows={search.rows}
           state={search.state}
           live={live}
+          photos={photos}
           onOpen={openPlace}
           onAdd={addPlace}
           onPickLive={pickLive}

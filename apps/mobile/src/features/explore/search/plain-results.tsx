@@ -6,6 +6,7 @@
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles, Text, useTheme } from '@/ui';
 import type { DoodleName } from '@/ui/icons/generated';
 import { Segmented } from '@/ui/inputs/Segmented';
@@ -23,6 +24,8 @@ export interface PlainRow {
 
 export interface PlainResultsProps {
   readonly rows: readonly PlainRow[];
+  /** The places' photos by row key (the POI id), as they arrive. */
+  readonly photos?: PlaceTilePhotos | undefined;
   readonly loading: boolean;
   readonly softMisses: number;
   readonly showingSoftMisses: boolean;
@@ -93,6 +96,7 @@ export function PlainResults(props: PlainResultsProps) {
             title={row.title}
             meta={row.meta}
             icon={row.icon}
+            {...props.photos?.get(row.key)}
             fitLine={row.fitLine}
             onPress={() => props.onOpen(row.key)}
             trailing={

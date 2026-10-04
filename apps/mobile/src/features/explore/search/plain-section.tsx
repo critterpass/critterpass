@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { fitLine } from '@/data/fit/fit-line';
+import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useTheme } from '@/ui';
 
 import { ChipBlock, excludeLine, type ChipWords } from './chip-row';
@@ -77,6 +78,7 @@ export function PlainSection(props: PlainSectionProps) {
         : plainRows(softShown ? [...answer.places, ...answer.softMisses] : answer.places, trip),
     [answer, softShown, trip],
   );
+  const photos = usePlaceTilePhotos(rows.map((row) => row.key));
   const note =
     state.excludeReason === null
       ? null
@@ -97,6 +99,7 @@ export function PlainSection(props: PlainSectionProps) {
       ) : (
         <PlainResults
           rows={rows}
+          photos={photos}
           loading={state.search === 'loading' || state.parse === 'parsing'}
           softMisses={answer?.softMisses.length ?? 0}
           showingSoftMisses={softShown}

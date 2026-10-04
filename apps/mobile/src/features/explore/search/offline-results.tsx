@@ -7,6 +7,7 @@ import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
+import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles, Text, useTheme } from '@/ui';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -26,6 +27,8 @@ export interface OfflineRow {
 
 export interface OfflineResultsProps {
   readonly rows: readonly OfflineRow[];
+  /** Photos this session already has, by row key; without one the row keeps its category tile. */
+  readonly photos?: PlaceTilePhotos | undefined;
   readonly area: string;
   readonly saved: number;
   readonly curated: number;
@@ -94,6 +97,7 @@ export function OfflineResults(props: OfflineResultsProps) {
               title={row.title}
               meta={row.meta}
               icon={placeIcon(row.category)}
+              {...props.photos?.get(row.key)}
               onPress={() => props.onOpen(row.key)}
               trailing={
                 row.saved ? (
