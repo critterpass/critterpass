@@ -88,19 +88,21 @@ function vietnameseWeekday(at: Date): string {
 }
 
 /**
- * A day by its date, the one way every plan screen names it: "Sat, 10/17" in US English,
- * "Th 7, 17/10" in Vietnamese (the weekday and the numeric date, in the reader's own order).
+ * A day by its date, the one way every plan screen names it: "Tue 20 Oct" in English (the month
+ * by name: "10/20" reads as the 10th of the 20th month to most of the world), "Th 3, 20/10" in
+ * Vietnamese, and the locale's own short date with its weekday in any other language.
  */
 export function dateLine(locale: string, date: string): string {
+  const at = localDate(date);
   if (isVietnamese(locale)) {
-    const at = localDate(date);
     return `${vietnameseWeekday(at)}, ${String(at.getDate())}/${String(at.getMonth() + 1)}`;
   }
-  return format.date(locale, localDate(date), {
-    weekday: 'short',
-    month: 'numeric',
-    day: 'numeric',
-  });
+  if (locale.toLowerCase().startsWith('en')) {
+    const name = format.date(locale, at, { weekday: 'short' });
+    const month = format.date(locale, at, { month: 'short' });
+    return `${name} ${String(at.getDate())} ${month}`;
+  }
+  return format.date(locale, at, { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
 /** "17": the day of the month, for a chip's second line. */

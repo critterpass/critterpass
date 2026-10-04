@@ -19,10 +19,11 @@ const day = (dayNo: number, date: string | null) =>
   ({ dayNo, date, color: 'pink', stops: [] }) as unknown as TripDay;
 
 describe('a day by its date', () => {
-  it('writes the weekday and the numeric date in the reader’s own order', () => {
+  it('names the month in English and keeps the numeric date in Vietnamese', () => {
     // 17 October 2026 is a Saturday.
     expect(dateLine('vi', '2026-10-17')).toBe('Th 7, 17/10');
-    expect(dateLine('en-US', '2026-10-17')).toBe('Sat, 10/17');
+    expect(dateLine('en-US', '2026-10-17')).toBe('Sat 17 Oct');
+    expect(dateLine('en-GB', '2026-10-17')).toBe('Sat 17 Oct');
   });
 
   it('closes up the Vietnamese weekday on a chip and leaves Sunday and English alone', () => {
@@ -64,7 +65,7 @@ describe('the map’s filter chips', () => {
   const input = {
     day: day(2, '2026-10-18'),
     dayChosen: true,
-    weekday: 'Sun, 10/18',
+    weekday: 'Sun 18 Oct',
     categories: ['food'],
     filter: NO_FILTER,
   };
@@ -77,7 +78,7 @@ describe('the map’s filter chips', () => {
   it('shows them once there is something behind them, the day named by its date', () => {
     const chips = filterChips({ ...input, saved: 3, crewPicks: 1 });
     expect(chips.map((chip) => chip.key)).toEqual(['day', 'saved', 'crew', 'cat:food']);
-    expect(chips[0]?.label).toBe('Sun, 10/18');
+    expect(chips[0]?.label).toBe('Sun 18 Oct');
   });
 });
 
