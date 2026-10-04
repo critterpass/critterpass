@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import type { WikidataPoint } from '../src/kinds/media/place-match';
 import {
   farNamesakes,
+  landmarkNamesakes,
   longFeatureDuplicates,
   type DuplicatePlace,
 } from '../src/kinds/places/duplicates';
@@ -107,5 +108,34 @@ describe('a curated place named after a landmark but far from it', () => {
       new Set(['overture:pinned-pass']),
     );
     expect(merges).toEqual([{ from: 'fsq_os:city-pass', into: 'overture:top' }]);
+  });
+});
+
+describe("records carrying a landmark's name on its ground", () => {
+  const lake: WikidataPoint = {
+    id: 'Q10772055',
+    labels: ['Xuan Huong Lake', 'Hồ Xuân Hương'],
+    lat: 11.9418,
+    lng: 108.4468,
+  };
+  const own = place('overture:lake', 'Hồ Xuân Hương Đà Lạt', 11.943, 108.448, 'nature');
+
+  it("pairs each with the landmark's place, leaving pinned places and businesses alone", () => {
+    const pairs = landmarkNamesakes(
+      [
+        own,
+        place('overture:tour', 'Du lịch Hồ Xuân Hương - Đà Lạt', 11.944, 108.45, 'museum'),
+        place('fsq_os:lake-en', 'Hồ Xuân Hương (Xuan Huong Lake)', 11.941, 108.439, 'nature'),
+        place('overture:pinned', 'Xuan Huong Lake', 11.942, 108.447, 'nature'),
+        place('overture:cafe', 'Cafe Thanh Thuỷ Lake Xuân Hương', 11.942, 108.439, 'food'),
+        place('overture:park', 'Công Viên Xuân Hương', 11.94, 108.439, 'nature'),
+      ],
+      [{ item: lake, ref: own.ref }],
+      new Set(['overture:pinned']),
+    );
+    expect(pairs.map((pair) => [pair.a.ref, pair.b.ref])).toEqual([
+      ['overture:lake', 'overture:tour'],
+      ['overture:lake', 'fsq_os:lake-en'],
+    ]);
   });
 });

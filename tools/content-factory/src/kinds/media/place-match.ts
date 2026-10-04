@@ -4,7 +4,8 @@
  * this one, so the rules lean towards no match: the item lies within 1.5 km (3 km for beaches and
  * nature), one of the place's names (the parts around brackets, dashes and commas) and one of the
  * item's labels share most of the words that set the name apart (not a place type, not the city),
- * and every place type in the place's name (pagoda, museum, beach) is in the item's labels too.
+ * every place type in the place's name (pagoda, museum, beach) is in the item's labels too, and a
+ * type all of the item's labels carry is in the place's name.
  * Food, nightlife, health and stays match only on an identical whole name. Administrative areas
  * are left out of the items (see places.ts).
  */
@@ -56,6 +57,8 @@ const TYPES: Readonly<Record<string, readonly string[]>> = {
   cave: ['cave', 'caves', 'grotto'],
   market: ['cho', 'market'],
   park: ['cong vien', 'park'],
+  lake: ['ho', 'lake'],
+  waterfall: ['thac', 'waterfall', 'waterfalls', 'falls'],
   river: ['song', 'river'],
   restaurant: ['nha hang', 'restaurant', 'quan an'],
   hospital: ['benh vien', 'hospital'],
@@ -71,6 +74,12 @@ const PLAIN = new Set([
   'hoi',
   'an',
   'hoian',
+  'lat',
+  // "Khu du lịch": tourist area.
+  'khu',
+  'du',
+  'lich',
+  'kdl',
   'quang',
   'nam',
   'viet',
@@ -100,6 +109,7 @@ export function words(text: string): string[] {
     .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/gu, ' ')
+    .replace(/\bdalat\b/gu, 'da lat')
     .trim()
     .split(' ')
     .filter(Boolean);
@@ -158,6 +168,10 @@ export function nameScore(
   const placeTypes = typesOf(words(name));
   const labelTypes = typesOf(labels.flatMap((text) => [...words(text), '|']));
   if (![...placeTypes].every((type) => labelTypes.has(type))) return 0;
+  // An item every label calls a church is not a ward or a waterfall that shares its name.
+  const always = labels.map((text) => typesOf(words(text)));
+  const needed = [...(always[0] ?? [])].filter((type) => always.every((types) => types.has(type)));
+  if (!needed.every((type) => placeTypes.has(type))) return 0;
   if (identical) return [...a].some((word) => !PLAIN.has(word)) ? 1 : 0;
   if (exactOnly) return 0;
   const telling = (word: string) => !PLAIN.has(word) && !TYPE_WORDS.has(word);

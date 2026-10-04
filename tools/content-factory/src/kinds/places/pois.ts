@@ -1,5 +1,5 @@
 /**
- * Curated POIs for the six guide destinations. The brief (./brief) picks the curated few hundred of
+ * Curated POIs for the guide destinations and the other curated cities. The brief (./brief) picks the curated few hundred of
  * each destination's active POIs as the importer left them (FSQ OS Places and Overture open data only: names, categories, addresses,
  * coordinates) and runs the duplicate sweep; the model writes the editorial overlay and taste tags
  * from those fields alone. Supplier content never enters: the only sources a POI can carry are
@@ -10,7 +10,7 @@ import { hoursSchema } from '@cp/domain';
 import { z } from 'zod';
 
 import { insidePlace } from '../../data/country-bounds';
-import { PLACE_FACTS } from '../../data/place-facts';
+import { curatedDestinations } from '../../data/place-facts';
 import { suppliersNamed } from '../../suppliers';
 import { registerKind } from '../registry';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
@@ -42,6 +42,26 @@ export interface PoiSource {
   readonly tz: string;
   readonly hours: unknown;
   readonly duplicate: { readonly of: string; readonly verdict: DuplicateVerdict } | null;
+  /** A pinned place or a landmark: in the set whatever its score, and first on the review page. */
+  readonly mustSee?: boolean;
+}
+
+/**
+ * A note that leans on the other places of its list ("another palace", "quieter than Palace II"):
+ * the writer sees fifteen places at once and nothing in the open data backs the comparison, so
+ * the unit is written again.
+ */
+const COMPARES = /\b(another|a second|alternative)\b/iu;
+const COMPARES_WITH = /\bthan (?:(?:the )?other|nearby|most|many|\p{Lu})/u;
+const standsAlone = (text: string) => !COMPARES.test(text) && !COMPARES_WITH.test(text);
+const ALONE = 'the note compares the place with another';
+/** Superlatives and dates: claims the name, category and address cannot support. */
+const CLAIMS =
+  /\bone of [^.;]*\b(largest|biggest|oldest|tallest|highest|best|finest)\b|\b(the|'s) (largest|biggest|oldest|tallest|highest|first)\b|\b(1[5-9]|20)\d{2}s?\b|\b\d{1,2}(st|nd|rd|th)[- ]century\b|\bnamed (for|after)\b/iu;
+
+export function unsupportedClaim(poi: ContentItem<'places'>): string | null {
+  const { why_go, best_time, crowd_hint } = poi.editorial;
+  return CLAIMS.exec(`${why_go} ${best_time} ${crowd_hint}`)?.[0] ?? null;
 }
 
 const editorialSchema = z.object({
@@ -51,11 +71,11 @@ const editorialSchema = z.object({
     .array(
       z.object({
         ref: z.string(),
-        why_go: z.string().min(1).max(200),
+        why_go: z.string().min(1).max(200).refine(standsAlone, ALONE),
         best_time: z.string().min(1).max(80),
         // Model replies occasionally overshoot these bounds; clamp rather than regenerate the unit.
         time_needed_min: z.number().transform((n) => Math.min(1440, Math.max(10, Math.round(n)))),
-        crowd_hint: z.string().min(1).max(80),
+        crowd_hint: z.string().min(1).max(80).refine(standsAlone, ALONE),
         etiquette: z.string().min(1).max(160).nullable(),
         tags: z.array(z.enum(TASTE_TAGS)).transform((tags) => tags.slice(0, 4)),
       }),
@@ -66,7 +86,9 @@ type Editorial = z.infer<typeof editorialSchema>['pois'][number];
 
 const SYSTEM = `You write short, honest editorial notes for places in a travel app, from the place's name, category and address only.
 For each place: why_go (one sentence, at most 160 characters), best_time (e.g. "Early morning before tour buses"), time_needed_min (typical visit, minutes), crowd_hint (at most 60 characters), etiquette (dress or behaviour guidance for temples, shrines and similar, otherwise null) and 1-4 taste tags from the allowed list.
-Never mention prices, booking sites, tour operators, hotels or reviews. If you do not know a place, keep the notes generic to its category rather than inventing specifics. Reply with JSON only.`;
+Never mention prices, booking sites, tour operators, hotels or reviews. If you do not know a place, keep the notes generic to its category rather than inventing specifics.
+State only what the name, category and address support, or what is widely documented about a famous landmark: no dates, founders, dishes, decor, views, facilities, activities or opening times you are not sure of.
+The category comes from open data and can be wrong: when the name plainly says what the place is (a waterfall filed as a museum), write for what the name says. Write each place on its own: never compare it with other places, and never call it another, a second or an alternative one. Reply with JSON only.`;
 
 function poisPrompt(unit: GenerationUnit, brief: Brief): Prompt {
   const pois = unit.input as PoiSource[];
@@ -168,9 +190,7 @@ export const placesKind: KindModule<'places'> = {
         id: 'inside-destination',
         severity: 'fail',
         check: (poi) => {
-          const code =
-            Object.entries(PLACE_FACTS).find(([, f]) => f.destination === poi.destination)?.[0] ??
-            '';
+          const code = curatedDestinations().find((d) => d.slug === poi.destination)?.code ?? '';
           return insidePlace(code, poi.lat, poi.lng)
             ? []
             : [`${poi.name} is outside ${poi.destination}'s country`];
@@ -183,6 +203,14 @@ export const placesKind: KindModule<'places'> = {
           return suppliersNamed(Object.values(poi.editorial).join(' ')).map(
             (word) => `editorial names a supplier (${word})`,
           );
+        },
+      },
+      {
+        id: 'unsupported-claim',
+        severity: 'warn',
+        check: (poi) => {
+          const claim = unsupportedClaim(poi);
+          return claim === null ? [] : [`check the claim "${claim}" against a source`];
         },
       },
       {

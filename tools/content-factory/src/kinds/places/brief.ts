@@ -7,16 +7,17 @@
 import { createDecisionClient, createGateway, loadDecisionEnv, loadGatewayEnv } from '@cp/ai';
 
 import { openPool } from '../../db';
-import { PINNED_PLACES } from '../../data/pinned-places';
-import { PLACE_FACTS } from '../../data/place-facts';
+import { LEFT_OUT_PLACES, PINNED_PLACES } from '../../data/pinned-places';
+import { curatedDestinations, placeFacts } from '../../data/place-facts';
 import { recordingFetch } from '../../record';
 import type { Brief, GenerationUnit } from '../types';
 import { defaultHttp } from '../media/http';
 import {
   decideDuplicates,
   farNamesakes,
+  landmarkNamesakes,
   longFeatureDuplicates,
-  nearbyDifferentNames,
+  nearbyPairs,
   type DuplicatePair,
   type DuplicateVerdict,
 } from './duplicates';
@@ -27,18 +28,10 @@ import { DEFAULT_POIS_PER_CITY, selectCurated } from './select';
 
 const POIS_PER_CALL = 15;
 
-const GUIDE_DESTINATIONS = Object.entries(PLACE_FACTS).flatMap(([code, facts]) =>
-  facts.destination === null
-    ? []
-    : [
-        {
-          code,
-          slug: facts.destination,
-          tz: facts.tz,
-          language: (facts.languages[0] ?? 'en').split('-')[0] ?? 'en',
-        },
-      ],
-);
+const GUIDE_DESTINATIONS = curatedDestinations().map(({ code, slug }) => {
+  const facts = placeFacts(code);
+  return { code, slug, tz: facts.tz, language: (facts.languages[0] ?? 'en').split('-')[0] ?? 'en' };
+});
 
 /** A landmark the import never reached, as an editorial place (Wikidata is CC0). */
 function landmarkSource(
@@ -58,6 +51,7 @@ function landmarkSource(
     tz: destination.tz,
     hours: null,
     duplicate: null,
+    mustSee: true,
   };
 }
 
@@ -88,6 +82,22 @@ function decisionClient(gateway: ReturnType<typeof briefGateway>) {
 }
 
 type Duplicate = { readonly of: string; readonly verdict: DuplicateVerdict };
+
+/** Same-named records merge into the group's must-see where it holds one, not its shortest name. */
+function intoKept(
+  merges: readonly { from: string; into: string }[],
+  kept: ReadonlySet<string>,
+): { from: string; into: string }[] {
+  const root = new Map<string, string>();
+  for (const { from, into } of merges) {
+    if (kept.has(from) && !kept.has(root.get(into) ?? into)) root.set(into, from);
+  }
+  return merges.flatMap(({ from, into }) => {
+    const target = root.get(into);
+    if (target === undefined) return [{ from, into }];
+    return from === target ? [{ from: into, into: target }] : [{ from, into: target }];
+  });
+}
 
 /**
  * Each place's duplicate: a same-named long feature merges into its group's place; otherwise the
@@ -144,6 +154,11 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
         PINNED_PLACES[destination.slug] ?? [],
         console.log,
       );
+      const leftOut = new Set(
+        await pinnedPoiIds(pool, destinationId, LEFT_OUT_PLACES[destination.slug] ?? [], (line) =>
+          console.log(line.replace('pinned', 'left-out')),
+        ),
+      );
       const { landmarks, matched, outside } = await destinationLandmarks(
         pool,
         destinationId,
@@ -155,6 +170,13 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
       );
       console.log(
         `landmarks ${destination.slug}: ${landmarks.length}, ${matched.length} matched; beyond the import: ${outside.map((l) => l.name).join(', ') || 'none'}; no place: ${unmatched.map((l) => l.name).join(', ') || 'none'}`,
+      );
+      const localNames = new Map(
+        matched.flatMap((m) =>
+          m.wholeName && m.landmark.nameLocal !== null
+            ? [[m.poiId, m.landmark.nameLocal] as const]
+            : [],
+        ),
       );
       const recategorised = new Map(
         matched.flatMap((m) =>
@@ -173,7 +195,9 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
           log: console.log,
         },
         [...pinned, ...matched.map((m) => m.poiId)],
+        leftOut,
       );
+      const mustSee = new Set([...pinned, ...matched.map((m) => m.poiId)]);
       const curated = [...new Set([...pinned, ...selected])];
       const { rows } = await pool.query<{
         id: string;
@@ -209,7 +233,11 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
             destination: destination.slug,
             code: destination.code,
             name: row.name,
-            nameLocal: row.name_local,
+            // Open data often holds only the English name of a landmark.
+            nameLocal:
+              row.name_local ??
+              [localNames.get(row.id)].find((n) => n?.toLowerCase() !== row.name.toLowerCase()) ??
+              null,
             category: recategorised.get(row.id) ?? row.category,
             lat: row.lat,
             lng: row.lng,
@@ -217,13 +245,12 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
             tz: row.timezone ?? destination.tz,
             hours: row.hours_verified_at === null ? null : row.hours,
             duplicate: null,
+            ...(mustSee.has(row.id) ? { mustSee: true } : {}),
           },
         ];
       });
       open.push(...outside.map((landmark) => landmarkSource(landmark, destination)));
       const long = longFeatureDuplicates(open, landmarks);
-      const pairs = [...(await nearbyDifferentNames(pool, destinationId, curated)), ...long.pairs];
-      const verdicts = await decideDuplicates(client, pairs);
       const landmarkRefs = [
         ...matched.flatMap((m) => {
           const ref = refOf.get(m.poiId);
@@ -232,8 +259,18 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
         ...outside.map((l) => ({ item: l, ref: landmarkSource(l, destination).ref })),
       ];
       const pinnedRefs = new Set(pinned.flatMap((id) => refOf.get(id) ?? []));
+      const kept = new Set([...pinnedRefs, ...landmarkRefs.map((l) => l.ref)]);
+      const pairs = [
+        // A must-see is the record that stays when the two are one place.
+        ...(await nearbyPairs(pool, destinationId, curated)).map((pair) =>
+          kept.has(pair.b.ref) && !kept.has(pair.a.ref) ? { ...pair, a: pair.b, b: pair.a } : pair,
+        ),
+        ...long.pairs,
+        ...landmarkNamesakes(open, landmarkRefs, pinnedRefs),
+      ].filter((pair) => !pinnedRefs.has(pair.b.ref));
+      const verdicts = await decideDuplicates(client, pairs);
       const far = farNamesakes(open, landmarkRefs, pinnedRefs);
-      const duplicateOf = duplicatesOf([...long.merges, ...far], pairs, verdicts);
+      const duplicateOf = duplicatesOf([...intoKept(long.merges, kept), ...far], pairs, verdicts);
       const sources = open.map((source) => ({
         ...source,
         duplicate: duplicateOf.get(source.ref) ?? null,

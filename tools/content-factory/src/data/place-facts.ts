@@ -87,6 +87,22 @@ export function placeFacts(code: string): PlaceFacts {
   return facts;
 }
 
+/**
+ * Destinations with a curated places set of their own besides their place's guide city
+ * (`destinations.slug` → place code); they share the place's country, time zone and language.
+ */
+export const MORE_CURATED_DESTINATIONS: Readonly<Record<string, string>> = { 'vn-da-lat': 'vn' };
+
+/** Every destination the places kind curates: each place's guide city, then the others. */
+export function curatedDestinations(): { readonly code: string; readonly slug: string }[] {
+  return [
+    ...Object.entries(PLACE_FACTS).flatMap(([code, facts]) =>
+      facts.destination === null ? [] : [{ code, slug: facts.destination }],
+    ),
+    ...Object.entries(MORE_CURATED_DESTINATIONS).map(([slug, code]) => ({ code, slug })),
+  ];
+}
+
 /** Places whose names are written in a non-Latin script (critters get a native-script name there). */
 export function writesInLatin(code: string): boolean {
   return placeFacts(code).script === 'Latn';
