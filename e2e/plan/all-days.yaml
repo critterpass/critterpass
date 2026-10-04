@@ -44,32 +44,43 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 10000
 - takeScreenshot: en-7b-3-all-days-end
-# Move a stop without dragging: hold a day, pick a stop, pick the day it goes to.
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'all-days'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+# Move a stop without dragging: the lab opens on Tuesday held (its "Move a stop"), a stop, then the day it goes to.
 - scrollUntilVisible:
     element:
-      id: 'all-days-card-2'
-    direction: UP
-    timeout: 10000
-- longPressOn:
-    id: 'all-days-card-2'
+      id: 'plan-views-lab-all-days-move'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-move'
 - extendedWaitUntil:
     visible:
-      id: 'move-stop-sheet'
-    timeout: 10000
+      id: 'move-stop-0199c000-0000-7000-8000-000000000204'
+    timeout: 20000
 - waitForAnimationToEnd:
-    timeout: 2000
+    timeout: 3000
 - takeScreenshot: en-7b-3-move-stop
 - tapOn:
     id: 'move-stop-0199c000-0000-7000-8000-000000000204'
 - extendedWaitUntil:
     visible:
-      id: 'move-stop-days'
+      id: 'move-stop-days-6'
     timeout: 10000
 - tapOn:
     id: 'move-stop-days-6'
 - extendedWaitUntil:
     visible:
-      id: 'move-preview'
+      id: 'move-preview-confirm'
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 2000
@@ -98,27 +109,21 @@ appId: app.critterpass.dev
     id: 'plan-views-lab-all-days-member'
 - extendedWaitUntil:
     visible:
-      id: 'all-days'
+      id: 'move-stop-0199c000-0000-7000-8000-000000000204'
     timeout: 20000
 - waitForAnimationToEnd:
-    timeout: 8000
-- longPressOn:
-    id: 'all-days-card-2'
-- extendedWaitUntil:
-    visible:
-      id: 'move-stop-sheet'
-    timeout: 10000
+    timeout: 3000
 - tapOn:
     id: 'move-stop-0199c000-0000-7000-8000-000000000204'
 - extendedWaitUntil:
     visible:
-      id: 'move-stop-days'
+      id: 'move-stop-days-6'
     timeout: 10000
 - tapOn:
     id: 'move-stop-days-6'
 - extendedWaitUntil:
     visible:
-      id: 'move-preview'
+      id: 'move-preview-confirm'
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 2000
@@ -140,12 +145,17 @@ appId: app.critterpass.dev
 - repeat:
     while:
       notVisible:
-        id: 'dev-build-marker'
+        id: 'dev-nav-plan-views-lab'
     times: 4
     commands:
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 2000
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:

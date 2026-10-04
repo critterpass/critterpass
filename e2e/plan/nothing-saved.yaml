@@ -50,12 +50,17 @@ appId: app.critterpass.dev
 - repeat:
     while:
       notVisible:
-        id: 'dev-build-marker'
+        id: 'dev-nav-plan-views-lab'
     times: 4
     commands:
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 2000
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:

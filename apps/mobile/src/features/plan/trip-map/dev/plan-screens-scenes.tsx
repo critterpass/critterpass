@@ -25,7 +25,7 @@ const noop = () => undefined;
 function useLabDay(model: TripMapModel) {
   const [dayNo, setDayNo] = useState(3);
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
-  const route = day === null ? { legs: [], startsAtStay: false } : estimatedRoute(day);
+  const route = day === null ? { legs: [], after: [] } : estimatedRoute(day);
   return { dayNo, setDayNo, day, route };
 }
 
@@ -92,9 +92,16 @@ function DayMapScene() {
 }
 
 /** All days with "Move a stop" and the move's preview working (nothing is sent). */
-function AllDaysScene({ member = false }: { readonly member?: boolean }) {
+function AllDaysScene({
+  member = false,
+  menuOpen = false,
+}: {
+  readonly member?: boolean;
+  /** Opens on "Move a stop" for Tuesday, as a hold on its card does. */
+  readonly menuOpen?: boolean;
+}) {
   const [model] = useState(() => labTripModel({ organiser: !member }));
-  const [menuDay, setMenuDay] = useState<number | null>(null);
+  const [menuDay, setMenuDay] = useState<number | null>(menuOpen ? 2 : null);
   const [preview, setPreview] = useState<{ stop: DayItem; plan: MovePlan } | null>(null);
   const menu = model.days.find((day) => day.dayNo === menuDay);
   return (
@@ -149,5 +156,6 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'day-plan': () => <DayPlanScene />,
   'day-plan-map-open': () => <DayMapScene />,
   'all-days': () => <AllDaysScene />,
-  'all-days-member': () => <AllDaysScene member />,
+  'all-days-move': () => <AllDaysScene menuOpen />,
+  'all-days-member': () => <AllDaysScene member menuOpen />,
 };

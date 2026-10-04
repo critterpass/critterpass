@@ -41,8 +41,7 @@ export function DaySheet(
     return buildStopRows({
       locale,
       day,
-      legs: route.legs,
-      startsAtStay: route.startsAtStay,
+      after: route.after,
       gaps: freeGaps(day, crew, tz),
       members: model.members,
       me: model.me,

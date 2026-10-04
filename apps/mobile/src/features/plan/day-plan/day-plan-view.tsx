@@ -74,8 +74,7 @@ export function DayPlanView(props: DayPlanViewProps) {
       buildStopRows({
         locale,
         day,
-        legs: route.legs,
-        startsAtStay: route.startsAtStay,
+        after: route.after,
         gaps: freeGaps(
           day,
           model.members.map((member) => member.uid),

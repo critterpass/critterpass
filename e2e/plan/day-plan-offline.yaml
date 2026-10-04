@@ -85,20 +85,35 @@ onFlowComplete:
 - setAirplaneMode: enabled
 - stopApp
 - launchApp
+# A cold start may reopen the screen it left (the day plan) or start at Home.
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'day-plan|trip-map|home-header-chat'
     timeout: 60000
-- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
-- tapOn:
-    id: 'tab-trips'
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-tile-plan'
-    direction: DOWN
-    timeout: 30000
-- tapOn:
-    id: 'trip-hub-tile-plan'
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: en-7b-1-day-plan-offline
+      - runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'home-header-chat'
+    commands:
+      - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+      - tapOn:
+          id: 'tab-trips'
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 30000
+      - tapOn:
+          id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'trip-map-peek'
@@ -122,7 +137,7 @@ onFlowComplete:
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 4000
-- takeScreenshot: en-7b-1-day-plan-offline
+- takeScreenshot: en-7b-1-day-plan-offline-again
 - assertVisible:
     id: 'stop-1'
 - setAirplaneMode: disabled

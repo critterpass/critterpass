@@ -86,8 +86,7 @@ export function DayMapView({
         : buildStopRows({
             locale,
             day,
-            legs: route.legs,
-            startsAtStay: route.startsAtStay,
+            after: route.after,
             gaps: freeGaps(
               day,
               model.members.map((member) => member.uid),

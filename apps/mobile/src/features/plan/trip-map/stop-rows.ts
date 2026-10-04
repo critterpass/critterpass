@@ -84,25 +84,17 @@ export function whoFree(
 export function buildStopRows(input: {
   readonly locale: string;
   readonly day: TripDay;
-  /** Legs for the day's ends: the stay first when there is one, then the stops in order. */
-  readonly legs: readonly DayLeg[];
-  readonly startsAtStay: boolean;
+  /** The leg after each stop, in the day's order (`DayRoute.after`). */
+  readonly after: readonly (DayLeg | null)[];
   readonly gaps: readonly FreeGap[];
   readonly members: readonly PlanMember[];
   readonly me: string | null;
 }): StopRow[] {
   const { locale, day } = input;
-  const mapped = day.stops.filter((stop) => stop.place !== null).map((stop) => stop.stableId);
   return day.stops.map((stop, index) => {
     const issue = issueFor(day, stop.stableId);
     const vote = day.vote?.stableId === stop.stableId ? day.vote : null;
-    const placed = mapped.indexOf(stop.stableId);
-    const next = day.stops[index + 1];
-    const nextPlaced = next === undefined ? -1 : mapped.indexOf(next.stableId);
-    // Legs join stops with a place: the leg after this stop is the one into the next mapped stop.
-    const legIndex =
-      placed < 0 || nextPlaced !== placed + 1 ? -1 : placed + (input.startsAtStay ? 1 : 0);
-    const leg = legIndex < 0 ? undefined : input.legs[legIndex];
+    const leg = input.after[index] ?? undefined;
     return {
       stop,
       n: index + 1,
