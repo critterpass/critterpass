@@ -1,15 +1,16 @@
 /**
- * The guide destinations (product-decisions.md §6), each with a real Geofabrik regional extract
+ * The destinations with a region pack: the guide destinations (product-decisions.md §6) and the
+ * guest places built so far, each with a real Geofabrik regional extract
  * to build a full-detail PMTiles region pack from and a bounding box tight enough to keep
  * planetiler's output inside the ≤80 MB per-destination budget (still an open question). Slugs
  * match the real `destinations.slug` rows already seeded on staging (verified via
  * `railway run --service api --environment staging`, not assumed).
  *
  * The other 55 (of 61) places are guest-guide, city-bbox packs built from the same pipeline
- * (`build-pmtiles.ts --destination <slug> --bbox <minLon,minLat,maxLon,maxLat> --geofabrik-region
- * <region>`); this file only carries the registry for the guide destinations. Add a
- * guest place by reading its `destinations` row (slug, and a bbox from its seeded geofence/city
- * data) rather than hard-coding it here.
+ * (`build-pmtiles.ts --destination <slug> --bounds <minLon,minLat,maxLon,maxLat> --geofabrik-region
+ * <region>`). A guest place gets an entry here once its pack is built, so the box it was built
+ * from is on record; start from its `destinations.place_bounds` and widen it to the day trips
+ * (`missing-regions.ts` lists the places that still need one).
  */
 export interface DestinationExtract {
   /** Must match a real `destinations.slug` row. */
@@ -62,6 +63,19 @@ export const GUIDE_DESTINATION_EXTRACTS: readonly DestinationExtract[] = [
     // Bà Nà hills in the west.
     geofabrikRegion: 'asia/vietnam',
     bounds: '107.95,15.84,108.36,16.21',
+  },
+  {
+    slug: 'vn-da-lat',
+    // Wider than the town's place box, which stops short of the day trips: Lang Biang in the
+    // north, Liên Khương airport, Elephant and Pongour falls in the south-west.
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '108.25,11.65,108.62,12.12',
+  },
+  {
+    slug: 'vn-hoi-an',
+    // The old town and its beaches, Mỹ Sơn in the west and Cù Lao Chàm offshore.
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '108.10,15.72,108.56,16.00',
   },
 ];
 

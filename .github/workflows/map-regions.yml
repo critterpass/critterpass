@@ -1,0 +1,74 @@
+name: map regions
+
+# Builds one destination's region pack (the detailed PMTiles a map draws over the world tiles) with
+# planetiler on this runner instead of any laptop: the Geofabrik extract and planetiler's own
+# sources are well over a gigabyte. The pack is kept as a workflow artifact and nothing is
+# published from here: download it into tools/maps/.output/ and run tools/maps/upload-r2.ts, which
+# puts it on the cp-tiles bucket and writes the destination's `map_regions` row
+# (docs/runbooks/add-a-destination.md). Pull requests that touch the build make the two smallest
+# packs as a check.
+
+on:
+  workflow_dispatch:
+    inputs:
+      destination:
+        description: destination slug (destinations.slug)
+        required: true
+      bounds:
+        description: minLon,minLat,maxLon,maxLat (empty = the box in tools/maps/destinations.ts)
+        default: ''
+      geofabrik_region:
+        description: Geofabrik path such as asia/vietnam (empty = the one in tools/maps/destinations.ts)
+        default: ''
+  pull_request:
+    paths:
+      - tools/maps/build-pmtiles.ts
+      - tools/maps/destinations.ts
+      - .github/workflows/map-regions.yml
+
+concurrency:
+  group: map-regions-${{ github.event_name == 'pull_request' && github.head_ref || inputs.destination }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        destination: ${{ github.event_name == 'pull_request' && fromJSON('["vn-da-lat","vn-hoi-an"]') || fromJSON(format('["{0}"]', inputs.destination)) }}
+    env:
+      DESTINATION: ${{ matrix.destination }}
+      BOUNDS: ${{ inputs.bounds }}
+      GEOFABRIK_REGION: ${{ inputs.geofabrik_region }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 21 }
+      - run: pnpm install --frozen-lockfile --filter @cp/maps...
+      - name: Build the pack
+        run: |
+          case "$DESTINATION" in *[!a-z0-9-]* | '') echo "not a destination slug: $DESTINATION" >&2; exit 1 ;; esac
+          args=(--destination "$DESTINATION" --out "$RUNNER_TEMP/pack/$DESTINATION.pmtiles")
+          if [ -n "$BOUNDS" ] && [ -n "$GEOFABRIK_REGION" ]; then
+            args+=(--bounds "$BOUNDS" --geofabrik-region "$GEOFABRIK_REGION")
+          fi
+          pnpm --filter @cp/maps build:pmtiles "${args[@]}"
+          test -s "$RUNNER_TEMP/pack/$DESTINATION.pmtiles"
+          {
+            echo "$DESTINATION: $(stat -c %s "$RUNNER_TEMP/pack/$DESTINATION.pmtiles") bytes"
+            echo "sha256: $(sha256sum "$RUNNER_TEMP/pack/$DESTINATION.pmtiles" | cut -d' ' -f1)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: region-pack-${{ matrix.destination }}
+          path: ${{ runner.temp }}/pack/${{ matrix.destination }}.pmtiles
+          compression-level: 0
+          retention-days: 14
