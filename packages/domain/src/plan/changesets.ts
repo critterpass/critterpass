@@ -59,5 +59,7 @@ export interface ChangesetOutcome {
   readonly no: number;
   readonly needed: number;
   readonly eligible: number;
+  /** When the approval vote closes (ISO); null before it is sent. Absent from older servers. */
+  readonly closes_at?: string | null;
   readonly result_version_id: string | null;
 }
