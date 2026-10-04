@@ -7,10 +7,90 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeSome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/ideas/commands.ts
 msgid "plan.ideas.queued.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/commands.ts
 msgid "plan.ideas.queued.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.addToDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.dropOnADay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.fitPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.bodyEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailedLine"
 msgstr ""

@@ -7,6 +7,30 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.body"
+msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day, or let Tokek place it.} other {# saved places that aren't in a day yet. Drag one onto a day, or let Tokek place them.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeAll"
+msgstr "{fitting, plural, one {It fits without moving anything booked.} other {All # fit without moving anything booked.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeSome"
+msgstr "{fitting, plural, one {One fits without moving anything booked.} other {# fit without moving anything booked.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeCrew"
+msgstr "{needCrew, plural, one {One needs the crew.} other {# need the crew.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back"
+msgstr "← TRIP"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map"
+msgstr "◎ MAP"
+
 #: ../../apps/mobile/src/features/plan/ideas/commands.ts
 msgid "plan.ideas.queued.save"
 msgstr "A place saved to Ideas"
@@ -14,3 +38,59 @@ msgstr "A place saved to Ideas"
 #: ../../apps/mobile/src/features/plan/ideas/commands.ts
 msgid "plan.ideas.queued.remove"
 msgstr "A place taken off Ideas"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.addToDay"
+msgstr "Add to a day…"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.back.a11y"
+msgstr "Back to the trip"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.dropOnADay"
+msgstr "DROP ON A DAY"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.fitPending"
+msgstr "Fits will update with signal"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.title"
+msgstr "IDEAS"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.map.a11y"
+msgstr "Ideas on the map"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeNone"
+msgstr "None fit as things are."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.bodyEmpty"
+msgstr "Nothing saved for this trip yet."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem.a11y"
+msgstr "Place them for me"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
+msgid "plan.ideas.placeThem"
+msgstr "PLACE THEM FOR ME"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.emptyLine"
+msgstr "Save places from search, paste a link from TikTok or Maps, or swipe together, and they land here."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.guide"
+msgstr "Tokek"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr "Tokek couldn’t start placing them"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailedLine"
+msgstr "Try again with signal."

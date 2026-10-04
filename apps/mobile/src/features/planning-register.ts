@@ -8,5 +8,6 @@
  */
 import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
 import '@/features/plan/add/register';
+import '@/features/plan/ideas/register';
 
 startPlanningSwitchFeed();
