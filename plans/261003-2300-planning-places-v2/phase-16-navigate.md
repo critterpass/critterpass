@@ -1,7 +1,7 @@
 ---
 phase: 16
 title: GO — the route from here, then directions in the maps app
-status: in progress
+status: done
 depends_on: [3, 15]
 wave: 3
 screens: [7e-1, 7b-1, 7a-2, day-of next stop, leave-by push]
@@ -52,7 +52,7 @@ Founder, 2026-10-04 09:20: "would we able to have Navigate feature with the rout
 - After phase 8's PR (#620) merges: the place page's GO.
 - After phase 10's PR (#617) merges: the day plan stops and the trip map's day sheet.
 - Explore's place card comes with phase 12.
-- Status: in progress — 70f4f139f (day-of, leave-by push), d16dbe352 (place page); the day plan and trip map wait for #617
+- Status: done — 07bab90f1 (day-of airport GO), 9227f5c92 (day plan and trip map, today only); earlier entry points shipped in the first GO pull request
 
 ### T4 Device check
 - Android `mode=compare` for the preview lab scenes (EN, VI), and one real-data flow: Home → a trip's day-of → GO → preview, with the redesign override on where needed.
