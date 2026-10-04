@@ -1,9 +1,10 @@
 /**
  * `keep_redraft` and `revert_redraft` (docs/api-contracts.md §4.6; `redraft_id` is the redraft's
  * agent job). Keeping adopts the redrafted day as the new private draft (with any changes the
- * organiser toggled off put back as they were); reverting drops it. Both settle the reservation as
- * used: a delivered result counts either way. Nobody else has seen either version, and nothing was
- * held or booked, so nothing else needs undoing.
+ * organiser toggled off put back as they were) and counts it against the trip's redrafts; putting it
+ * back drops it and gives the redraft back (it still counted against the silent daily cap when it
+ * was asked for). Nobody else has seen either version, and nothing was held or booked, so nothing
+ * else needs undoing.
  */
 import { emitEvent } from '@cp/db';
 import {
@@ -77,6 +78,20 @@ async function settle(tx: pg.PoolClient, redraftId: string, tripId: string): Pro
     "UPDATE redraft_reservations SET status = 'committed', settled_at = now() WHERE agent_job_id = $1",
     [redraftId],
   );
+  await tx.query("UPDATE trips SET status = 'draft_review' WHERE id = $1", [tripId]);
+}
+
+/** A redraft put back: its reservation is released and the trip's visible unit comes back. */
+async function giveBack(tx: pg.PoolClient, redraftId: string, tripId: string): Promise<void> {
+  const { rows } = await tx.query<{ quota_period_key: string | null }>(
+    `UPDATE redraft_reservations SET status = 'released', settled_at = now()
+      WHERE agent_job_id = $1 AND status = 'reserved' RETURNING quota_period_key`,
+    [redraftId],
+  );
+  const key = rows[0]?.quota_period_key ?? null;
+  if (key !== null) {
+    await tx.query("SELECT app.release_quota('trip', $1, 'redrafts', $2)", [tripId, key]);
+  }
   await tx.query("UPDATE trips SET status = 'draft_review' WHERE id = $1", [tripId]);
 }
 
@@ -155,7 +170,7 @@ export const revertRedraftCommand = defineCommand({
       await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
         candidate,
       ]);
-      await settle(tx, redraft.id, trip.id);
+      await giveBack(tx, redraft.id, trip.id);
       await emitEvent(tx, {
         type: 'redraft.reverted',
         aggregateKind: 'trip',
