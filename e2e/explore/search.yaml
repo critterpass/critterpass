@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Search (7d-1) from the search lab, in English then Vietnamese: the empty field with a copied
+# TikTok, the three typed-out examples and the kinds to browse; the iOS paste control variant; and
+# the phone's places while typing. The keyboard is up on the empty field, as in the render.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1, READY: search-clipboard-card, SHOT: en-7d-1-search }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1-paste, READY: search-clipboard-paste, SHOT: en-7d-1-clipboard-paste }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1-typing, READY: search-name-results, SHOT: en-7d-1-typing }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1, READY: search-clipboard-card, SHOT: vi-7d-1-search }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1-typing, READY: search-name-results, SHOT: vi-7d-1-typing }

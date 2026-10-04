@@ -4,7 +4,7 @@ import { Stack } from 'expo-router/js-stack';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { isTripId } from '@/features/trip/access/trip-access';
 import { useTripAccess } from '@/features/trip/access/use-trip-access';
-import { pushTransition } from '@/lib/navigation/transitions';
+import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { useMotionMode } from '@/motion/motion-mode';
 import { useTheme } from '@/ui';
 
@@ -23,5 +23,13 @@ export default function TripIdLayout() {
   useTripStreams(trip);
   const access = useTripAccess(trip);
   if (trip === null || access === 'missing') return <NotFoundScreen />;
-  return <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />;
+  return (
+    <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+      {/* Add to plan rises as a sheet over the screen that opened it. */}
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
+      <Stack.Screen name="add/[placeId]" options={modalGroupOptions()} />
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, never copy. */}
+      <Stack.Screen name="search/link" options={modalGroupOptions()} />
+    </Stack>
+  );
 }

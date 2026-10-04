@@ -1,0 +1,198 @@
+appId: app.critterpass.dev
+---
+# Tokek is placing them (7h-6) from the plan ideas lab, in English then Vietnamese: the run
+# with the first stop popped and Saturday being routed, a run with nothing to place, and a failed
+# run. Shots are named `<lang>-7h-6-<state>`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^placing$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^placing$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-placing-step-routing-running'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-6-placing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^placing$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^placing-nothing$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^placing-nothing$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-placing-action'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-6-nothing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^placing-nothing$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^placing-failed$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^placing-failed$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-placing-action'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-6-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^placing-failed$'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^placing$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^placing$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-placing-step-routing-running'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-6-placing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^placing$'
+    timeout: 10000

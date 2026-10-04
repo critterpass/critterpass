@@ -56,7 +56,7 @@ const useStyles = makeStyles((th) => ({
     position: 'absolute',
     top: th.space['32'] * 3 + th.space['4'],
     end: th.space['12'],
-    borderRadius: th.radius.pill,
+    borderRadius: th.radius.xl,
     paddingHorizontal: th.space['8'],
     paddingVertical: th.space['2'],
   },

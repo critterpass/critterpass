@@ -747,3 +747,324 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-views-lab-review-chat-cards'
     timeout: 10000
+# Review changes in the section 7 layout (7h-7) from the plan ideas lab, in English then
+# Vietnamese: six placed and two for you on Tokek's private draft, a row unticked with the totals
+# recounted, the SEE explainer, a fix set, the crew's vote, and approved. Shots are named
+# `<lang>-7h-7-<state>`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^review$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-review
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-unticked$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-unticked$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-unticked
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-unticked$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-explained$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-explained$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-explained
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-explained$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-fixes$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-fixes$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-fixes
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-fixes$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-voting$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-voting$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-rows'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-voting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-voting$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-approved$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-approved$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7h-7-approved
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-approved$'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: '^review$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-7-review
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review$'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: '^review-unticked$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^review-unticked$'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7h-7-unticked
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      text: '^review-unticked$'
+    timeout: 10000

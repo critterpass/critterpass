@@ -66,6 +66,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
   { id: 'cp-permissions-mirror', cleared: true, why: 'what was last reported to the server' },
   { id: 'cp-realtime', cleared: true, why: 'chat channel positions of the old account' },
   {
+    id: 'cp-search',
+    cleared: true,
+    why: 'imported link hashes and plain-words questions asked offline',
+  },
+  {
     id: 'cp-server-flags',
     cleared: true,
     why: 'the flag values the api last gave the old account',

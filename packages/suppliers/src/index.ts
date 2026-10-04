@@ -115,3 +115,4 @@ export {
   type MapboxHttpClient,
 } from './mapbox/geocode';
 export * from './valhalla';
+export * from './social';
