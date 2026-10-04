@@ -93,7 +93,9 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
       ]) {
         const slot = pools.mustDos.find((s) => s.mustDoId === mustDoId);
         if (slot === undefined) {
-          if (!answeredDay.has(mustDoId)) unknownIds += 1;
+          // A wish named by its handle is no invention: its answer places it.
+          const wish = /^w\d+$/u.test(mustDoId.trim().toLowerCase());
+          if (!answeredDay.has(mustDoId) && !wish) unknownIds += 1;
           continue;
         }
         if (placed.has(mustDoId) || !slot.openDays.includes(dayNo)) continue;

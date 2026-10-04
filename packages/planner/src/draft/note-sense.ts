@@ -74,11 +74,12 @@ export function withHonestNotes(
 }
 
 export const ASSUMED_ARRIVAL_NOTE =
-  'I assumed you arrive around midday. Add your flight or bus, ask me to redo this day, and I will time it to fit.';
+  'I assumed you land around midday. Add your flight or bus and ask me to redo this day.';
 export const ASSUMED_DEPARTURE_NOTE =
-  'I assumed you leave in the late afternoon. Add your flight or bus, ask me to redo this day, and I will time it to fit.';
+  'I assumed you leave in the late afternoon. Add your flight or bus and ask me to redo this day.';
 
-const NOTE_MAX = 240;
+/** A stop's line is at most this long (what the prose check allows a note). */
+const NOTE_MAX = 200;
 
 function withLine(note: string | null, line: string): string {
   if (note === null || note.includes(line)) return line;

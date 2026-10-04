@@ -1542,5 +1542,116 @@
         "weekdays": ["sa", "su"]
       }
     ]
+  },
+  {
+    "id": "dalat-real-1",
+    "city": "da-lat",
+    "start": "2026-10-19",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Linh",
+        "tastes": ["street_food", "coffee", "nature"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "01a1053c-2fce-7e83-ace1-d98d1e317b51",
+        "owner": 0
+      }
+    ],
+    "wishes": ["An banh can buoi sang"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": ["01a1053c-2fdf-7989-9b02-532fa7679af6"],
+        "start_by": "10:30"
+      }
+    ],
+    "expect_must_dos": [
+      {
+        "must_do": 0,
+        "place_ids": ["01a1053c-38c1-7f29-ae9a-963cb786e38b"]
+      }
+    ]
+  },
+  {
+    "id": "danang-real-1",
+    "city": "da-nang-curated",
+    "start": "2026-10-19",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Linh",
+        "tastes": ["street_food", "beach", "local_life"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [],
+    "wishes": ["Mi Quang for breakfast"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "01a0f2fd-62c6-7c34-9fe1-8063ff94b35c",
+          "01a0f2fd-6c36-7fd5-82f5-bc65053873e9",
+          "01a0f2fd-6c99-7660-8da3-5a511e906958",
+          "01a0f2fd-7576-7426-8de0-abd73483e3e0",
+          "01a0f301-d8de-7a7b-a52b-9ea3b16bda0a"
+        ],
+        "start_by": "10:30"
+      }
+    ]
+  },
+  {
+    "id": "bali-real-1",
+    "city": "bali-curated",
+    "start": "2026-10-19",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Maya",
+        "tastes": ["temples", "culture", "nature"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["street_food", "nightlife"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [],
+    "wishes": ["Tirta Empul"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "01a0edd6-8e8c-741d-8092-70191ed916e5",
+          "01a0edd6-8e8c-7702-9c65-dd6009295bc9",
+          "01a10368-5d42-7a89-9f8f-f3b034896f39",
+          "01a10368-7e30-7db3-8cc6-68bfbe87c0b9",
+          "01a10368-9d9b-77b7-bdc4-679eded1cda8",
+          "01a0edd4-48b3-78d3-8597-ced4713fd4bb",
+          "01a0edd4-48b3-75dc-afe8-090e673b3272",
+          "01a0edd4-48b4-782f-a7a6-452fc1161539"
+        ]
+      }
+    ]
   }
 ]

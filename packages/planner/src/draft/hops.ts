@@ -11,8 +11,8 @@ import type { DraftPoi, TravelMatrix } from './types';
 
 const MIN_HOP_CAP_MIN = 40;
 const MAX_HOP_CAP_MIN = 120;
-/** Places sampled for the usual spacing (the head of the list: the ones a draft plans with). */
-const SPACING_SAMPLE = 120;
+/** Places sampled for the usual spacing, taken evenly across the list. */
+const SPACING_SAMPLE = 150;
 
 /**
  * The longest ride between two stops that still reads as the same part of the map: four times the
@@ -20,7 +20,11 @@ const SPACING_SAMPLE = 120;
  * hours.
  */
 export function hopCapMin(places: readonly DraftPoi[], travel: TravelMatrix): number {
-  const sample = places.slice(0, SPACING_SAMPLE);
+  const step = Math.max(1, places.length / SPACING_SAMPLE);
+  const sample = Array.from(
+    { length: Math.min(places.length, SPACING_SAMPLE) },
+    (_, index) => places[Math.floor(index * step)] as DraftPoi,
+  );
   if (sample.length < 4) return MAX_HOP_CAP_MIN;
   const thirds = sample
     .map((place) => {

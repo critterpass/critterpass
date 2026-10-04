@@ -9,7 +9,7 @@
  */
 import { ceilGrid, spansOn } from './day-minutes';
 import { longHops } from './hops';
-import { mealAt, mealSlotAt } from './meal-slots';
+import { DINNER, LUNCH, mealAt, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { defaultDurationMin } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
@@ -22,6 +22,8 @@ export const MAX_SEARCHED_STOPS = 7;
 
 /** Waiting counts in steps of this many minutes: a shorter wait never reorders a day. */
 const IDLE_STEP_MIN = 45;
+/** A meal this long after its stretch opens is a late one, and counts like waiting. */
+const LATE_MEAL_MIN = 60;
 
 export interface SequenceInput {
   readonly date: string;
@@ -83,6 +85,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       if (slot !== null) meals.add(slot);
     }
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
+    if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
     at = start + duration;
     if (
       at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
@@ -98,6 +101,18 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     ).length;
   }
   return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), end: at };
+}
+
+/**
+ * How late a meal is: a lunch or dinner more than an hour into its stretch, or a breakfast a
+ * must-do asked for that does not open the day.
+ */
+function mealLateness(start: number, heldFrom: number | null): number {
+  const slot = mealAt(start);
+  if (heldFrom !== null) return slot === 'breakfast' || slot === null ? start - heldFrom : 0;
+  if (slot === 'lunch') return Math.max(0, start - LUNCH.startMin - LATE_MEAL_MIN);
+  if (slot === 'dinner') return Math.max(0, start - DINNER.startMin - LATE_MEAL_MIN);
+  return 0;
 }
 
 function inversions(order: readonly number[]): number {

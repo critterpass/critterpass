@@ -8,7 +8,12 @@
  * Open data pins one name in many places: a lone "Tirta Empul" a valley away from the temple, and
  * half a dozen rows around the temple itself. When the rows that carry a wished name crowd one
  * spot, that spot is the place the wish means, whatever row happens to match the words exactly.
+ *
+ * A wish may also name a dish, not a place ("mì Quảng for breakfast"). Where no curated place
+ * carries the words as its own name, the curated eateries whose name leads with that dish are
+ * what the wish may mean, and the guide picks one.
  */
+import { dishOf, foodRole } from './food-role';
 import { containsRun, matchWish, nameAliases, nameTokens } from './place-names';
 import { collapseSamePlaces, metresBetween } from './same-place';
 import type { DraftPoi } from './types';
@@ -71,14 +76,28 @@ function crowdPlace(
     return null;
   }
   const apart = (poi: DraftPoi) => top.reduce((sum, other) => sum + metresBetween(poi, other), 0);
+  // The sight itself before the market or the car park that borrows its name.
+  const beside = (poi: DraftPoi) =>
+    Number(['market', 'shopping', 'stay', 'transit'].includes(poi.category));
   return (
     [...top].sort(
       (a, b) =>
+        beside(a) - beside(b) ||
         nameTokens(a.name).length - nameTokens(b.name).length ||
         apart(a) - apart(b) ||
         (a.id < b.id ? -1 : 1),
     )[0] ?? null
   );
+}
+
+/** Curated meal places whose name leads with a dish the wish names, in the order given. */
+function dishPlaces(wish: string, candidates: readonly DraftPoi[]): DraftPoi[] {
+  const words = nameTokens(wish).map((word) => word.replaceAll('y', 'i'));
+  const pairs = new Set(words.slice(1).map((word, index) => `${words[index] as string} ${word}`));
+  return candidates.filter((poi) => {
+    const dish = poi.editorial && foodRole(poi) === 'meal' ? dishOf(poi) : null;
+    return dish !== null && pairs.has(dish);
+  });
 }
 
 export function resolveWishes(
@@ -92,7 +111,15 @@ export function resolveWishes(
   for (const wish of wishes) {
     const match = matchWish(wish.text, candidates, ignore);
     const crowd = crowdPlace(wish.text, match.named, candidates, ignore);
-    const named = crowd === null ? collapseSamePlaces(match.named, { ignore }).kept : [crowd];
+    const dishes = match.named.some((poi) => poi.editorial)
+      ? []
+      : dishPlaces(wish.text, candidates);
+    const named =
+      crowd !== null
+        ? [crowd]
+        : dishes.length > 0
+          ? dishes
+          : collapseSamePlaces(match.named, { ignore }).kept;
     const only = named.length === 1 ? named[0] : undefined;
     if (only !== undefined) places.set(wish.id, only.id);
     else offered.push(...named.slice(0, MAX_OFFERED).map((poi) => poi.id));

@@ -55,7 +55,8 @@ const TASK = [
   '- Each note is one short line in your voice about the place itself: what to see, eat or do there.',
   '  Words only: no numbers, times, prices, digits or links. Do not name a meal or a time of day in a',
   '  note (breakfast, lunch, dinner, morning, tonight, after dark) unless the list marks the stop for',
-  '  exactly that: the planner sets the times after you answer.',
+  '  exactly that: the planner sets the times after you answer. Never mention these lists, the planner,',
+  '  must-dos or that hours are a guess: write to the crew, about the place.',
   '- A must-do marked with a time of day (sunrise, night, full day) is held to it by the planner:',
   '  put a sunrise one first, a night one last, and plan the rest of the day around it.',
 ].join('\n');

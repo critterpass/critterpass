@@ -1,8 +1,8 @@
 /**
  * What the planner finishes by itself, without another model call. A day that runs through lunch
  * or dinner and has no place for it gets the best one near its stops from its own meal list; and
- * once the repairs are done, a full day left with too few stops gets the planned or spare
- * activities it can still take. A stop added here carries our editors' line about the place when
+ * once the repairs are done, a day left with too few stops, or with hours of nothing between two
+ * stops, gets the planned, spare or nearby activities it can still take. A stop added here carries our editors' line about the place when
  * there is one, else none. A stop is added only when the day stays as clean as it was.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
@@ -11,6 +11,7 @@ import {
   foodRole,
   mealSlots,
   mealsInWindow,
+  minuteOfDate,
   stopKind,
   withinReach,
   type DayChoice,
@@ -27,6 +28,21 @@ import { validate } from './validate';
 
 /** Stops a full day should have at least, meals included, when there are places for them. */
 const MIN_DAY_STOPS = 4;
+/** Minutes with nothing planned between two stops (travel aside) that make a hole in a day. */
+const HOLE_MIN = 150;
+const NEARBY_TRIED = 10;
+
+/** The longest stretch of a day with nothing planned: before its first stop, or between two. */
+function longestHole(input: DraftPlanInput, day: DraftDay, startMin: number): number {
+  let at = startMin;
+  let longest = 0;
+  for (const item of day.items) {
+    const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
+    longest = Math.max(longest, start - at - item.travel_min);
+    at = minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz);
+  }
+  return longest;
+}
 
 function choicesOf(day: DraftDay): DayChoice[] {
   return day.items.map((item) => ({
@@ -57,7 +73,7 @@ function addOne(
   outline: SkeletonDay,
   itinerary: Itinerary,
   candidates: readonly DraftPoi[],
-  accept: (before: number, after: number) => boolean,
+  accept: (before: number, after: number, next: DraftDay) => boolean,
   key: string,
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
@@ -86,7 +102,7 @@ function addOne(
         d.day_no === outline.dayNo ? { ...next, theme: day.theme } : d,
       ),
     };
-    if (accept(before, dayFaults(input, candidate, outline.dayNo))) return candidate;
+    if (accept(before, dayFaults(input, candidate, outline.dayNo), next)) return candidate;
   }
   return null;
 }
@@ -134,7 +150,11 @@ export function fillMeals(
   return { itinerary, added };
 }
 
-/** Gives a day left with too few stops the planned or spare activities it can still take. */
+/**
+ * Gives a day left with too few stops, or with a hole in it, the planned, spare or nearby
+ * activities it can still take: each must leave the day as clean as it was, and when the day
+ * already has its stops, make its longest hole shorter.
+ */
 export function fillThinDays(
   input: DraftPlanInput,
   outlines: readonly SkeletonDay[],
@@ -148,13 +168,25 @@ export function fillThinDays(
     const target = Math.min(MIN_DAY_STOPS, room, 1 + mealsInWindow(window).length * 2);
     for (let round = 0; round < MIN_DAY_STOPS; round += 1) {
       const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
-      if (day === undefined || day.items.length >= target) break;
+      if (day === undefined || day.items.length >= room) break;
+      const hole = longestHole(input, day, window.startMin);
+      const thin = day.items.length < target;
+      if (!thin && hole < HOLE_MIN) break;
+      const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
+      const nearby = input.pools.activities
+        .filter(
+          (poi) =>
+            (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo) &&
+            withinReach(poi.id, here, input.travel, hopCap(input)),
+        )
+        .slice(0, NEARBY_TRIED)
+        .map((poi) => poi.id);
       const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
       const hasBreak = day.items.some((item) => {
         const poi = input.pois.get(item.poi_id ?? '');
         return poi !== undefined && foodRole(poi) === 'light';
       });
-      const candidates = [...outline.poiIds, ...outline.spareIds]
+      const candidates = [...new Set([...outline.poiIds, ...outline.spareIds, ...nearby])]
         .map((id) => input.pois.get(id))
         .filter(
           (poi): poi is DraftPoi =>
@@ -165,7 +197,8 @@ export function fillThinDays(
         outline,
         itinerary,
         candidates,
-        (before, after) => after <= before,
+        (before, after, filled) =>
+          after <= before && (thin || longestHole(input, filled, window.startMin) < hole),
         `fill-${outline.dayNo}-${round}`,
       );
       if (next === null) break;

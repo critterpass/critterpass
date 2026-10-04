@@ -58,6 +58,8 @@ const citySchema = z.object({
       editorial: z.boolean(),
       why_go: z.string().optional(),
       best_time: z.string().optional(),
+      /** A row the draft job would read only when a must-do or a typed wish names it. */
+      wish_only: z.boolean().optional(),
     }),
   ),
 });
@@ -174,6 +176,20 @@ export function planInput(
   const ignore = destinationPhrases(city.destination);
   const wishes = crew.wishes.map((text, i) => ({ id: wishId(crew, i), text }));
   const wished = resolveWishes(wishes, [...pois.values()], ignore);
+  const knownRow = (poiId: string) => {
+    const own = pois.get(poiId);
+    return own === undefined ? poiId : knownPlaceFor(own, [...pois.values()], ignore).id;
+  };
+  // Rows the job reads only for a must-do or a wish are dropped unless one names them.
+  const named = new Set([
+    ...crew.must_dos.map((m) => m.poi_id),
+    ...wished.places.values(),
+    ...wished.offered,
+    ...[...wished.options.values()].flat(),
+  ]);
+  const wishOnly = new Set(city.pois.filter((p) => p.wish_only === true).map((p) => p.id));
+  const mustDoRows = new Map(crew.must_dos.map((m) => [m.poi_id, knownRow(m.poi_id)]));
+  for (const id of wishOnly) if (!named.has(id)) pois.delete(id);
   const frame: TripFrame = {
     tz: city.tz,
     currency: 'USD',
@@ -189,16 +205,13 @@ export function planInput(
     departureMin: crew.departure_min,
     budgetPpMinor: crew.budget_days_pp_minor,
     mustDos: [
-      ...crew.must_dos.map((m, i) => {
-        const own = pois.get(m.poi_id);
-        return {
-          id: derivedUuid(`${crew.id}:must_do:${i}`),
-          ownerId: members[m.owner] ?? (members[0] as string),
-          // Planned at the well-known row of the same spot, the way the draft job does.
-          poiId: own === undefined ? m.poi_id : knownPlaceFor(own, [...pois.values()], ignore).id,
-          title: own?.name ?? 'must-do',
-        };
-      }),
+      ...crew.must_dos.map((m, i) => ({
+        id: derivedUuid(`${crew.id}:must_do:${i}`),
+        ownerId: members[m.owner] ?? (members[0] as string),
+        // Planned at the well-known row of the same spot, the way the draft job does.
+        poiId: mustDoRows.get(m.poi_id) ?? m.poi_id,
+        title: pois.get(m.poi_id)?.name ?? 'must-do',
+      })),
       // Typed must-dos, matched to places the way the draft job does.
       ...wishes.map((wish) => ({
         id: wish.id,

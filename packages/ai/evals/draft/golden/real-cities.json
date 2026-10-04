@@ -2047,7 +2047,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       }
     ]
   },
@@ -2069,11 +2070,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Historic French-built church on Ba Na Hills with mountain views.",
@@ -2088,10 +2085,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nightlife",
-          "splurge"
-        ],
+        "tags": ["nightlife", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy a drink in a unique cave-like wine cellar setting.",
@@ -2106,12 +2100,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nature",
-          "adventure",
-          "hiking",
-          "photo_spots"
-        ],
+        "tags": ["nature", "adventure", "hiking", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore waterfalls and natural pools in a lush forest setting.",
@@ -2126,11 +2115,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A crunchy, chewy snack of grilled rice paper topped with soft rice sheets and dipping sauce.",
@@ -2145,10 +2130,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Taste traditional Vietnamese dishes in a friendly setting.",
@@ -2163,11 +2145,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "history"
-        ],
+        "tags": ["museums", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "See traditional costumes and portraits of Vietnam's ethnic groups.",
@@ -2182,11 +2160,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "sit_down_dining",
-          "coffee",
-          "easy_pace"
-        ],
+        "tags": ["sit_down_dining", "coffee", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual deli with sandwiches, salads and Western comfort food in a quiet garden setting.",
@@ -2201,12 +2175,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "beach",
-          "easy_pace",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["beach", "easy_pace", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "A laid-back stretch of sand with gentle waves and local seafood shacks.",
@@ -2221,11 +2190,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "culture",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "culture", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Modern Vietnamese dishes served in a stylish setting.",
@@ -2240,11 +2205,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "A small introduction to Hội An's revolutionary and cultural history inside a well-preserved old house.",
@@ -2259,11 +2220,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "See prehistoric Sa Huynh artefacts and burial jars from central Vietnam.",
@@ -2278,10 +2235,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "culture",
-          "museums"
-        ],
+        "tags": ["culture", "museums"],
         "must_see": false,
         "editorial": true,
         "why_go": "See displays on Japanese culture and its historical connections with Da Nang.",
@@ -2296,11 +2250,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "A long-standing local eatery for chicken rice.",
@@ -2315,12 +2265,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["temples", "culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire intricate Chinese architecture and ornate altars.",
@@ -2335,10 +2280,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Traditional Hoi An specialties in a historic-style setting.",
@@ -2353,11 +2295,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "nature",
-          "easy_pace",
-          "local_life"
-        ],
+        "tags": ["nature", "easy_pace", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Stroll through a green local park ideal for a break from sightseeing.",
@@ -2372,11 +2310,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge",
-          "quiet_evenings"
-        ],
+        "tags": ["sit_down_dining", "splurge", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "High-end omakase and sushi dining with a focus on fresh seafood and precision.",
@@ -2391,12 +2325,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "temples",
-          "culture",
-          "history",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "history", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Traditional Vietnamese communal house with historic architecture and local rituals.",
@@ -2411,11 +2340,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try authentic bánh bèo, a steamed rice cake topped with shrimp and crispy bits.",
@@ -2430,9 +2355,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Elegant Vietnamese dishes in a charming colonial setting.",
@@ -2447,11 +2370,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "See traditional Fujianese craftsmanship and peaceful courtyards.",
@@ -2466,10 +2385,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Classic Vietnamese dishes in a garden-like setting.",
@@ -2484,11 +2400,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Tuck into a generously filled bánh mì that has made this spot a must-stop for sandwich lovers.",
@@ -2503,12 +2415,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life",
-          "history"
-        ],
+        "tags": ["museums", "culture", "local_life", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about rural Vietnamese life, customs and folk art in a historic house.",
@@ -2523,11 +2430,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 35,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Atmospheric cave shrine with spiritual significance for local Buddhists.",
@@ -2542,11 +2445,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Historic hillside pagoda with serene shrines and sweeping views of the surrounding area.",
@@ -2561,11 +2460,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "nature",
-          "temples",
-          "adventure"
-        ],
+        "tags": ["nature", "temples", "adventure"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore a cave with eerie rock formations and religious statues.",
@@ -2580,11 +2475,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Religious stupa and shrine complex set among marble hills with spiritual significance.",
@@ -2599,11 +2490,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "local_life", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "International dishes in a relaxed setting popular with expats and travelers.",
@@ -2618,11 +2505,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "coffee",
-          "street_food",
-          "thrifty"
-        ],
+        "tags": ["coffee", "street_food", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Satisfy a bagel craving with authentic New York-style options.",
@@ -2637,11 +2520,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "beach",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "beach", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront party spot with music and cocktails.",
@@ -2656,11 +2535,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "beach",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "beach", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront dining with international menu at a luxury resort.",
@@ -2675,11 +2550,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "beach",
-          "nature",
-          "photo_spots"
-        ],
+        "tags": ["beach", "nature", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Long sandy stretch with surf and seafood shacks.",
@@ -2694,10 +2565,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "temples",
-          "local_life"
-        ],
+        "tags": ["temples", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A small neighborhood temple with a peaceful courtyard, good for a quick rest.",
@@ -2712,10 +2580,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "photo_spots",
-          "nightlife"
-        ],
+        "tags": ["photo_spots", "nightlife"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the iconic beach monument, especially atmospheric after dark.",
@@ -2730,12 +2595,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 50,
-        "tags": [
-          "nature",
-          "beach",
-          "easy_pace",
-          "photo_spots"
-        ],
+        "tags": ["nature", "beach", "easy_pace", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront park with walking paths, sea breezes and sunrise views.",
@@ -2750,9 +2610,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "International restaurant and bar offering wood-fired pizzas, pastas, and a relaxed garden setting.",
@@ -2767,10 +2625,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Savor fresh seafood near the beach.",
@@ -2785,11 +2640,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the statue of Avalokitesvara in a peaceful temple setting.",
@@ -2804,10 +2655,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "museums",
-          "photo_spots"
-        ],
+        "tags": ["museums", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Interactive 3D paintings make for playful photo opportunities.",
@@ -2822,12 +2670,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "photo_spots",
-          "packed_days",
-          "local_life"
-        ],
+        "tags": ["nightlife", "photo_spots", "packed_days", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "See teams from around the world light up the Han River with themed fireworks displays.",
@@ -2887,11 +2730,7 @@
         },
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try authentic Mỳ Quảng, Da Nang's signature turmeric noodle dish, in a casual local setting.",
@@ -2906,12 +2745,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "history",
-          "culture",
-          "easy_pace"
-        ],
+        "tags": ["museums", "history", "culture", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Compact city museum covering local history and wartime exhibits, good for a quick introduction.",
@@ -2926,11 +2760,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "coffee",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["coffee", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Waterfront branch of the Vietnamese coffee chain with river views.",
@@ -2945,12 +2775,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "history",
-          "photo_spots",
-          "culture"
-        ],
+        "tags": ["temples", "history", "photo_spots", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the pink Gothic church and its rooster weathervane.",
@@ -2965,11 +2790,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Taste Da Nang's signature turmeric noodles in a no-frills local setting.",
@@ -3029,11 +2850,7 @@
         },
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try central Vietnam's pungent fermented fish noodle soup at a no-frills local favourite.",
@@ -3048,10 +2865,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Chic lounge with cocktails and a relaxed vibe.",
@@ -3111,11 +2925,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "street_food"
-        ],
+        "tags": ["sit_down_dining", "local_life", "street_food"],
         "must_see": false,
         "editorial": true,
         "why_go": "A popular Vietnamese restaurant serving traditional dishes in a lively setting.",
@@ -3130,11 +2940,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "A local favourite for generous bowls of mì quảng near the waterfront.",
@@ -3149,11 +2955,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sizzling Vietnamese pancakes at a straightforward local eatery with a loyal following.",
@@ -3168,11 +2970,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Savour homestyle mì quảng in a simple, welcoming setting.",
@@ -3187,11 +2985,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Popular snail and seafood eatery serving fresh shellfish with zesty dipping sauces.",
@@ -3206,11 +3000,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "quiet_evenings"
-        ],
+        "tags": ["temples", "culture", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "A large Buddhist temple complex with ornate halls and a serene garden.",
@@ -3225,10 +3015,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A casual dining spot in central Da Nang for a break from Vietnamese street food.",
@@ -3243,10 +3030,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A casual dining spot offering international fare with a local twist in central Da Nang.",
@@ -3261,12 +3045,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "beach",
-          "easy_pace",
-          "local_life",
-          "nature"
-        ],
+        "tags": ["beach", "easy_pace", "local_life", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relax on a crescent bay with calm water and mountain views.",
@@ -3281,10 +3060,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture"
-        ],
+        "tags": ["temples", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "A quiet Buddhist temple in the city with peaceful grounds.",
@@ -3299,11 +3075,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "photo_spots",
-          "local_life",
-          "culture"
-        ],
+        "tags": ["photo_spots", "local_life", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the iconic carp-dragon statue symbolizing effort and transformation.",
@@ -3391,11 +3163,7 @@
         },
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge",
-          "quiet_evenings"
-        ],
+        "tags": ["sit_down_dining", "splurge", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Upscale Vietnamese and international dishes in a refined hotel setting.",
@@ -3410,12 +3178,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "local_life",
-          "easy_pace"
-        ],
+        "tags": ["nature", "photo_spots", "local_life", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Riverside square with open space and views of the Han River and bridges.",
@@ -3430,10 +3193,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "culture",
-          "local_life"
-        ],
+        "tags": ["culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Traditional Vietnamese music and dance performance showcasing local culture.",
@@ -3448,10 +3208,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "photo_spots",
-          "nature"
-        ],
+        "tags": ["photo_spots", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "A solitary pine tree on Hai Van Pass makes a striking photo stop.",
@@ -3466,11 +3223,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge",
-          "photo_spots"
-        ],
+        "tags": ["sit_down_dining", "splurge", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Upscale Vietnamese dining with panoramic bay views at the InterContinental resort.",
@@ -3485,12 +3238,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 240,
-        "tags": [
-          "nature",
-          "beach",
-          "hiking",
-          "photo_spots"
-        ],
+        "tags": ["nature", "beach", "hiking", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dramatic coastline and forest trails on the peninsula.",
@@ -3505,12 +3253,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "nature",
-          "history",
-          "photo_spots",
-          "early_starts"
-        ],
+        "tags": ["nature", "history", "photo_spots", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Scenic overlook atop the Hai Van Pass with sea, mountains and the historic gate.",
@@ -3525,10 +3268,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "temples",
-          "local_life"
-        ],
+        "tags": ["temples", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A small roadside pagoda at the foot of Hai Van Pass, often visited for blessings before journeys.",
@@ -3543,12 +3283,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "photo_spots", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "A Buddhist stupa on Ba Na Hill's summit with panoramic views and spiritual significance.",
@@ -3563,11 +3298,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "museums",
-          "photo_spots",
-          "nature"
-        ],
+        "tags": ["museums", "photo_spots", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "The famous Golden Bridge held by giant stone hands above Bà Nà Hills.",
@@ -3582,12 +3313,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 240,
-        "tags": [
-          "adventure",
-          "photo_spots",
-          "nature",
-          "packed_days"
-        ],
+        "tags": ["adventure", "photo_spots", "nature", "packed_days"],
         "must_see": false,
         "editorial": true,
         "why_go": "A mountain resort with cool air, gardens, and the famous Golden Bridge.",
@@ -3602,11 +3328,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "wellness",
-          "photo_spots",
-          "nature"
-        ],
+        "tags": ["wellness", "photo_spots", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "A pool area within Ba Na Hills offering mountain views and a chance to cool off between sights.",
@@ -3621,11 +3343,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Grab a bánh mì from this popular spot.",
@@ -3640,12 +3358,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "nature",
-          "culture",
-          "hiking"
-        ],
+        "tags": ["temples", "nature", "culture", "hiking"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore an atmospheric hillside pagoda within the Marble Mountains' cave and temple complex.",
@@ -3660,11 +3373,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Cao Dai temple with symbolic architecture and a serene setting for quiet reflection.",
@@ -3679,11 +3388,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try banh beo, steamed rice cakes with savory toppings.",
@@ -3698,10 +3403,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Simple eatery known for grilled chicken with fermented fish sauce.",
@@ -3716,11 +3418,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Crispy Vietnamese pancakes filled with shrimp and bean sprouts.",
@@ -3735,11 +3433,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try central Vietnamese bánh xèo, crispy turmeric pancakes with shrimp, pork and herbs.",
@@ -3754,11 +3448,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["museums", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "See modern and contemporary Vietnamese art in a central city gallery.",
@@ -3773,11 +3463,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["nightlife", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual local beer garden for chilling out.",
@@ -3792,11 +3478,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy fresh coconut ice cream served in a coconut shell.",
@@ -3811,11 +3493,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "beach",
-          "quiet_evenings",
-          "local_life"
-        ],
+        "tags": ["beach", "quiet_evenings", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A handy stretch of sand for a quick dip or sunset stroll.",
@@ -3830,12 +3508,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "packed_days",
-          "adventure",
-          "photo_spots",
-          "late_starts"
-        ],
+        "tags": ["packed_days", "adventure", "photo_spots", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "A riverside amusement park with cultural zones and a giant Ferris wheel.",
@@ -3850,11 +3523,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fish cake noodle soup served in a no-frills setting.",
@@ -3869,10 +3538,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "local_life"
-        ],
+        "tags": ["nightlife", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Lively bar for drinks and socialising near the An Thuong area.",
@@ -3887,10 +3553,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Polished beachfront dining with Vietnamese and international dishes.",
@@ -3905,12 +3568,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 240,
-        "tags": [
-          "beach",
-          "wellness",
-          "splurge",
-          "easy_pace"
-        ],
+        "tags": ["beach", "wellness", "splurge", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "A large resort complex with golf, spa, and private beach access.",
@@ -3925,12 +3583,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "temples",
-          "nature",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "nature", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Pagoda within the Non Nuoc tourist area, surrounded by natural scenery.",
@@ -3945,11 +3598,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nightlife",
-          "photo_spots",
-          "quiet_evenings"
-        ],
+        "tags": ["nightlife", "photo_spots", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxed rooftop drinks with sea and mountain views.",
@@ -3964,11 +3613,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "museums",
-          "culture",
-          "history"
-        ],
+        "tags": ["museums", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "See intricate stone carvings and learn about the Marble Mountains' artistic traditions.",
@@ -3983,12 +3628,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "culture",
-          "museums",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["culture", "museums", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire intricate marble carvings and learn about the local stone-carving craft.",
@@ -4003,12 +3643,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "local_life",
-          "easy_pace"
-        ],
+        "tags": ["temples", "culture", "local_life", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "A peaceful local pagoda with ornate carvings and a calm atmosphere.",
@@ -4023,11 +3658,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["nature", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Outdoor garden filled with terracotta sculptures and pottery inspired by local crafts.",
@@ -4042,10 +3673,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture"
-        ],
+        "tags": ["temples", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "A colorful Cao Dai temple with ornate decorations.",
@@ -4060,11 +3688,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A quiet neighborhood pagoda with traditional Vietnamese Buddhist design.",
@@ -4079,11 +3703,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "temples",
-          "local_life",
-          "quiet_evenings"
-        ],
+        "tags": ["temples", "local_life", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "A low-key local pagoda where you can observe daily Buddhist rituals.",
@@ -4098,11 +3718,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Visit a historic temple with colorful deity statues.",
@@ -4117,12 +3733,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "culture",
-          "history",
-          "photo_spots",
-          "local_life"
-        ],
+        "tags": ["culture", "history", "photo_spots", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Wander lantern-lit lanes of this UNESCO-listed old town with historic houses, shops, and riverside charm.",
@@ -4137,11 +3748,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "nature",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["nature", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Scenic riverbank for boat rides and local life.",
@@ -4156,11 +3763,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 20,
-        "tags": [
-          "temples",
-          "history",
-          "culture"
-        ],
+        "tags": ["temples", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "A traditional Vietnamese family chapel with ancestral altar.",
@@ -4175,11 +3778,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about Hội An's trading port past and architectural heritage in a compact town-centre museum.",
@@ -4194,11 +3793,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy flavorful Vietnamese dishes in a relaxed setting.",
@@ -4213,11 +3808,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "quiet_evenings"
-        ],
+        "tags": ["sit_down_dining", "local_life", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Riverside dining with Vietnamese home-style dishes and views of the Han River.",
@@ -4232,10 +3823,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 50,
-        "tags": [
-          "street_food",
-          "local_life"
-        ],
+        "tags": ["street_food", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Taste two regional noodle specialties: mì quảng and cao lầu.",
@@ -4250,11 +3838,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Another spot for authentic chicken rice, a Da Nang specialty.",
@@ -4269,12 +3853,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "local_life",
-          "culture",
-          "easy_pace"
-        ],
+        "tags": ["nature", "local_life", "culture", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Tour an organic herb and vegetable farm to learn about local farming traditions.",
@@ -4289,11 +3868,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 1440,
-        "tags": [
-          "beach",
-          "easy_pace",
-          "quiet_evenings"
-        ],
+        "tags": ["beach", "easy_pace", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxing villa and apartment option near An Bang Beach.",
@@ -4308,11 +3883,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "culture",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["culture", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "An outdoor cultural park that recreates Hoi An's heritage with performances and atmospheric evening shows.",
@@ -4327,11 +3898,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 240,
-        "tags": [
-          "adventure",
-          "nature",
-          "early_starts"
-        ],
+        "tags": ["adventure", "nature", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Base for guided motorbike or bicycle adventures exploring Da Nang's countryside and coast.",
@@ -4346,11 +3913,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about Ho Chi Minh's life and Vietnam's revolutionary history.",
@@ -4365,11 +3928,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fermented fish noodle soup with bold, distinctive flavors.",
@@ -4384,11 +3943,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try Central Vietnam's savory bánh ít filled with shrimp and pork at a no-frills local favorite.",
@@ -4403,10 +3958,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sample a wide range of freshly steamed dim sum in a casual, local favorite setting.",
@@ -4421,11 +3973,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try the sizzling Vietnamese pancake in its home region.",
@@ -4440,11 +3988,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "coffee",
-          "easy_pace",
-          "local_life"
-        ],
+        "tags": ["coffee", "easy_pace", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sip specialty Vietnamese coffee in a calm, design-led space near the Han River.",
@@ -4459,11 +4003,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "photo_spots",
-          "local_life",
-          "culture"
-        ],
+        "tags": ["photo_spots", "local_life", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the iconic carp-dragon statue symbolizing effort and transformation.",
@@ -4478,12 +4018,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "history",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "history", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "A pink cathedral known as the Rooster Church.",
@@ -4498,11 +4033,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Distinctive pink cathedral topped with a rooster weathercock.",
@@ -4517,10 +4048,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy drinks and city views from a lively nightlife spot near the Han River.",
@@ -4535,11 +4063,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "photo_spots",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["photo_spots", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Walk the riverside to see Da Nang's iconic bridges, including dragon-shaped Cầu Rồng.",
@@ -4554,12 +4078,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "nature",
-          "easy_pace",
-          "photo_spots",
-          "local_life"
-        ],
+        "tags": ["nature", "easy_pace", "photo_spots", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Riverside green space with views of Dragon Bridge and the Han River.",
@@ -4574,11 +4093,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "culture",
-          "nature"
-        ],
+        "tags": ["temples", "culture", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Peaceful hillside pagoda with ocean views and giant Buddha.",
@@ -4593,11 +4108,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "local_life"
-        ],
+        "tags": ["nightlife", "late_starts", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A chill spot for drinks and live music near the beach.",
@@ -4612,11 +4123,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Peaceful village shrine where locals come to pray and pay respects.",
@@ -4631,11 +4138,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual spot for nem nướng, grilled pork skewers with herbs and rice paper.",
@@ -4650,10 +4153,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual pub for live music and late-night drinks.",
@@ -4713,11 +4213,7 @@
         },
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "local_life",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "local_life", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Craft cocktail bar known for inventive drinks and a stylish, intimate setting.",
@@ -4732,11 +4228,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "photo_spots",
-          "splurge"
-        ],
+        "tags": ["nightlife", "photo_spots", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Unwind with cocktails and sea views from a rooftop bar in Đà Nẵng.",
@@ -4751,9 +4243,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Hearty American-style barbecue in a casual setting.",
@@ -4768,11 +4258,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "sit_down_dining",
-          "beach"
-        ],
+        "tags": ["nightlife", "sit_down_dining", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront spot for food, drinks and sunset views near My Khe.",
@@ -4787,11 +4273,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "quiet_evenings"
-        ],
+        "tags": ["nightlife", "late_starts", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Poolside evening cocktails with ocean views.",
@@ -4806,10 +4288,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fresh seafood with beachside setting.",
@@ -4824,11 +4303,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "local_life"
-        ],
+        "tags": ["nightlife", "late_starts", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Chill by the pool with drinks and music at this social club.",
@@ -4843,11 +4318,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "local_life"
-        ],
+        "tags": ["nightlife", "late_starts", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Laid-back bar with drinks and occasional live music near the beach.",
@@ -4862,10 +4333,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nightlife",
-          "photo_spots"
-        ],
+        "tags": ["nightlife", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Panoramic city and beach views with drinks.",
@@ -4880,11 +4348,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "adventure",
-          "nature",
-          "beach"
-        ],
+        "tags": ["adventure", "nature", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Paddleboarding along Da Nang's coastline with views of the city.",
@@ -4899,11 +4363,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "culture",
-          "history",
-          "museums"
-        ],
+        "tags": ["culture", "history", "museums"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about Vietnam's claims and history regarding the Hoang Sa (Paracel) islands through maps and documents.",
@@ -4918,11 +4378,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "wellness",
-          "nature",
-          "easy_pace"
-        ],
+        "tags": ["wellness", "nature", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Soak in natural hot mineral springs in a forested hill setting.",
@@ -4937,11 +4393,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "wellness",
-          "splurge",
-          "photo_spots"
-        ],
+        "tags": ["wellness", "splurge", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Rooftop pool with sweeping views over the coast and city, ideal for a refreshing break.",
@@ -4956,10 +4408,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "A welcoming LGBTQ-friendly lounge with a lively, inclusive atmosphere for drinks and socializing.",
@@ -4974,11 +4423,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 50,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Historical site explaining Da Nang's military past and the old citadel.",
@@ -4993,11 +4438,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual spot known for grilled dishes with rich butter sauce, a local favorite since 1986.",
@@ -5012,11 +4453,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Taste homestyle Hoi An dishes like cao lầu and white rose dumplings.",
@@ -5031,11 +4468,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "photo_spots"
-        ],
+        "tags": ["nightlife", "late_starts", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Rooftop bar with panoramic city views and cocktails.",
@@ -5050,11 +4483,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Get an overview of Đà Nẵng's history, culture and wartime resilience in a convenient riverside building.",
@@ -5069,11 +4498,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "museums",
-          "culture",
-          "nature"
-        ],
+        "tags": ["museums", "culture", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Small museum at the Son Tra Lookout with exhibits on local heritage.",
@@ -5088,12 +4513,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "hiking",
-          "temples",
-          "photo_spots"
-        ],
+        "tags": ["nature", "hiking", "temples", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "A forested peninsula with viewpoints, wildlife, and the Linh Ung Pagoda.",
@@ -5108,10 +4528,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nightlife",
-          "local_life"
-        ],
+        "tags": ["nightlife", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Craft beer brewed locally with a rooftop view.",
@@ -5126,12 +4543,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "easy_pace",
-          "adventure"
-        ],
+        "tags": ["nature", "photo_spots", "easy_pace", "adventure"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sweeping coastal views, winding roads and a chance to see native macaques on the Son Tra Peninsula.",
@@ -5146,12 +4558,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "nature",
-          "hiking",
-          "photo_spots",
-          "adventure"
-        ],
+        "tags": ["nature", "hiking", "photo_spots", "adventure"],
         "must_see": false,
         "editorial": true,
         "why_go": "Giant ancient banyan tree tucked in the forested Son Tra Peninsula.",
@@ -5177,11 +4584,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "A local favorite for authentic babi guling with spicy sambal.",
@@ -5196,11 +4599,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "photo_spots",
-          "nature",
-          "easy_pace"
-        ],
+        "tags": ["photo_spots", "nature", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Snap the iconic Balinese gate photo surrounded by lush greenery.",
@@ -5215,11 +4614,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try fresh laklak, a traditional Balinese sweet snack, at a local favorite.",
@@ -5234,11 +4629,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "street_food",
-          "local_life",
-          "beach"
-        ],
+        "tags": ["street_food", "local_life", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual warung in Lovina serving fresh seafood and Indonesian plates.",
@@ -5253,12 +4644,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "nature",
-          "photo_spots",
-          "history"
-        ],
+        "tags": ["temples", "nature", "photo_spots", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the mountain temple overlooking Lake Batur with dramatic volcano views.",
@@ -5273,10 +4659,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "photo_spots"
-        ],
+        "tags": ["sit_down_dining", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dine with panoramic views of Mount Batur and Lake Batur.",
@@ -5291,11 +4674,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "early_starts"
-        ],
+        "tags": ["nature", "photo_spots", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Panoramic views of the volcanic caldera and lake.",
@@ -5310,12 +4689,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "culture",
-          "history"
-        ],
+        "tags": ["temples", "photo_spots", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire the split gate framing Mount Agung, one of Bali's most photographed temple entrances.",
@@ -5330,12 +4704,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "nature",
-          "hiking"
-        ],
+        "tags": ["temples", "culture", "nature", "hiking"],
         "must_see": false,
         "editorial": true,
         "why_go": "Less crowded stop on the Lempuyang pilgrimage route with valley views.",
@@ -5350,11 +4719,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "history",
-          "easy_pace"
-        ],
+        "tags": ["nature", "history", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Historic water palace with tiered gardens and panoramic views.",
@@ -5414,12 +4779,7 @@
         },
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "nature",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "nature", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See thousands of bats and a seaside temple at Goa Lawah.",
@@ -5434,11 +4794,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["nature", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Drive-through safari park with exotic animals and live shows.",
@@ -5453,12 +4809,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "adventure",
-          "photo_spots",
-          "easy_pace"
-        ],
+        "tags": ["nature", "adventure", "photo_spots", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Drive through open enclosures to see Balinese and exotic wildlife.",
@@ -5473,11 +4824,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "history",
-          "culture"
-        ],
+        "tags": ["temples", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "See one of Bali's most sacred temple compounds with ancient artifacts.",
@@ -5492,12 +4839,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "history",
-          "photo_spots",
-          "adventure"
-        ],
+        "tags": ["temples", "history", "photo_spots", "adventure"],
         "must_see": false,
         "editorial": true,
         "why_go": "Walk down to see 10th-century rock-cut shrines in a lush valley.",
@@ -5512,12 +4854,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "history",
-          "culture",
-          "nature"
-        ],
+        "tags": ["temples", "history", "culture", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Ancient rock-cut shrines in a lush river valley.",
@@ -5532,12 +4869,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 105,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["nature", "hiking", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Hike to a hidden waterfall framed by sunbeams in a canyon.",
@@ -5552,12 +4884,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["nature", "hiking", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dramatic 50-meter waterfall reached by a steep jungle path, less touristy than others.",
@@ -5572,11 +4899,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "nature",
-          "culture"
-        ],
+        "tags": ["temples", "nature", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Serene mountain temple on the slopes of Mount Batukaru, often misty.",
@@ -5591,12 +4914,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "beach",
-          "sit_down_dining",
-          "photo_spots",
-          "nightlife"
-        ],
+        "tags": ["beach", "sit_down_dining", "photo_spots", "nightlife"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relax by the beach with food and drinks in a stylish setting.",
@@ -5611,11 +4929,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sample authentic Balinese lawar and other local dishes at a no-frills warung.",
@@ -5630,11 +4944,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "coffee",
-          "nightlife",
-          "local_life"
-        ],
+        "tags": ["coffee", "nightlife", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Scandi-style coffee by day and craft cocktails by night in a laid-back coastal area.",
@@ -5649,9 +4959,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Modern wood-fired dishes in a warm, contemporary setting.",
@@ -5666,11 +4974,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Famous for Balinese pork satay with sweet-spicy glaze near Batu Bolong Beach.",
@@ -5685,11 +4989,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try nasi campur Bali, a mixed rice dish with various Balinese side dishes, at a local warung.",
@@ -5704,11 +5004,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "coffee",
-          "wellness",
-          "local_life"
-        ],
+        "tags": ["coffee", "wellness", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fresh and colorful smoothie bowls, perfect for a healthy breakfast or post-surf snack.",
@@ -5723,11 +5019,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "museums",
-          "culture",
-          "history"
-        ],
+        "tags": ["museums", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore the meaning and variety of Balinese ceremonies and offerings in a dedicated museum.",
@@ -5787,11 +5079,7 @@
         },
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["museums", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "See contemporary and traditional Balinese art in a family-run museum setting.",
@@ -5806,12 +5094,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "nature",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["temples", "nature", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Visit the main temple inside Ubud's Monkey Forest sanctuary.",
@@ -5826,12 +5109,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nature",
-          "adventure",
-          "photo_spots",
-          "early_starts"
-        ],
+        "tags": ["nature", "adventure", "photo_spots", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Walk among long-tailed macaques and ancient temples in a lush jungle sanctuary.",
@@ -5846,11 +5124,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["museums", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Showcases works by up-and-coming Balinese artists in a creative village.",
@@ -5865,11 +5139,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Art museum showcasing works of Antonio Blanco in a lush setting.",
@@ -5884,11 +5154,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "coffee",
-          "quiet_evenings"
-        ],
+        "tags": ["sit_down_dining", "coffee", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual Italian dining near the Campuhan Ridge with wood-fired dishes.",
@@ -5903,10 +5169,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "culture"
-        ],
+        "tags": ["museums", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Contemporary art gallery showcasing local artists.",
@@ -5921,12 +5184,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 25,
-        "tags": [
-          "temples",
-          "nature",
-          "local_life",
-          "quiet_evenings"
-        ],
+        "tags": ["temples", "nature", "local_life", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Tranquil temple at the confluence of rivers, start of Campuhan ridge walk.",
@@ -5941,11 +5199,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "A historic village temple with ornate carvings near Ubud's main streets.",
@@ -5960,10 +5214,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Contemporary Balinese tasting menu in a stylish setting.",
@@ -5978,10 +5229,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Savor modern Indonesian cuisine with a focus on local ingredients in a stylish space.",
@@ -6041,11 +5289,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Appreciate the development of modern Balinese art in Ubud's pioneering museum.",
@@ -6060,11 +5304,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "culture",
-          "history",
-          "local_life"
-        ],
+        "tags": ["culture", "history", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire traditional Balinese palace architecture and occasional dance performances.",
@@ -6079,11 +5319,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "coffee",
-          "easy_pace"
-        ],
+        "tags": ["sit_down_dining", "coffee", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxed cafe with a menu blending Indonesian and Western dishes.",
@@ -6137,11 +5373,7 @@
         },
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Homestyle Indonesian and Asian dishes in a cozy Ubud warung.",
@@ -6156,11 +5388,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "wellness",
-          "sit_down_dining",
-          "easy_pace"
-        ],
+        "tags": ["wellness", "sit_down_dining", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxing garden setting for spa treatments and healthy meals.",
@@ -6175,12 +5403,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "photo_spots",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "photo_spots", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Small water temple with peaceful lotus ponds in central Ubud.",
@@ -6195,11 +5418,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "photo_spots",
-          "local_life",
-          "easy_pace"
-        ],
+        "tags": ["photo_spots", "local_life", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "A quick photo stop marking the entrance to the famous Monkey Forest area.",
@@ -6214,11 +5433,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "museums",
-          "culture",
-          "easy_pace"
-        ],
+        "tags": ["museums", "culture", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Entrance to the Agung Rai Museum of Art complex via the south gate.",
@@ -6233,11 +5448,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["museums", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "View a fine selection of contemporary Balinese paintings and sculptures in a serene space.",
@@ -6252,11 +5463,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "coffee",
-          "nature",
-          "local_life"
-        ],
+        "tags": ["coffee", "nature", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about local coffee and spice production with tastings.",
@@ -6271,12 +5478,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["temples", "culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Study dense sandstone carvings on a classic Balinese village temple.",
@@ -6291,12 +5493,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "beach",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "beach", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Historic beach temple surrounded by Seminyak's cafes and hotels.",
@@ -6311,11 +5508,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["temples", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "See traditional Balinese temple architecture and daily offerings away from tourist crowds.",
@@ -6330,12 +5523,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "adventure",
-          "photo_spots",
-          "early_starts"
-        ],
+        "tags": ["nature", "adventure", "photo_spots", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Drive-through safari where you can see animals close up.",
@@ -6389,11 +5577,7 @@
         },
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "museums",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the romantic paintings and former home of Belgian artist Le Mayeur, set right on Sanur beach.",
@@ -6441,11 +5625,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "history"
-        ],
+        "tags": ["museums", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore Bali's history, culture, and traditional architecture in the island's main museum.",
@@ -6460,11 +5640,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try authentic Balinese nasi campur with succulent pork and spicy lawar.",
@@ -6479,11 +5655,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "thrifty",
-          "local_life"
-        ],
+        "tags": ["street_food", "thrifty", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Tender roasted pork with rice and Balinese spices in a no-frills setting.",
@@ -6498,11 +5670,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "nature",
-          "local_life",
-          "easy_pace"
-        ],
+        "tags": ["nature", "local_life", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relax on the spacious green field with views of Bajra Sandhi monument.",
@@ -6517,11 +5685,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about Balinese history and the struggle for independence through detailed dioramas.",
@@ -6536,11 +5700,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sample traditional betutu dishes made with rich Balinese spices in a laid-back eatery.",
@@ -6555,11 +5715,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 15,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try the island's iconic milk pie snack, a beloved Balinese treat.",
@@ -6574,10 +5730,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "coffee",
-          "local_life"
-        ],
+        "tags": ["coffee", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Try locally sourced Balinese coffee in a warm, inviting setting.",
@@ -6592,11 +5745,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Discover a wide range of art from Bali, Indonesia, and the Asia-Pacific region in one elegant space.",
@@ -6611,12 +5760,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "sit_down_dining",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "sit_down_dining", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Taste authentic Balinese nasi ayam (chicken rice) at a beloved local warung.",
@@ -6631,10 +5775,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "beach"
-        ],
+        "tags": ["nightlife", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront nightlife with ocean views and cocktails.",
@@ -6649,11 +5790,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "beach",
-          "easy_pace"
-        ],
+        "tags": ["sit_down_dining", "beach", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual beachfront dining with local flavours.",
@@ -6668,10 +5805,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "beach"
-        ],
+        "tags": ["sit_down_dining", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Grilled seafood by the beach, a Jimbaran-style experience.",
@@ -6686,12 +5820,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "museums",
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Cultural park and museum with Balinese history, art, and the iconic statue.",
@@ -6706,10 +5835,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Huge Garuda Wisnu statue and cultural performances.",
@@ -6724,10 +5850,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "A lively venue for late-night drinks and music.",
@@ -6742,12 +5865,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "nature",
-          "culture"
-        ],
+        "tags": ["temples", "photo_spots", "nature", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire the iconic lakeside temple that seems to float on the water.",
@@ -6762,11 +5880,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "quiet_evenings",
-          "splurge"
-        ],
+        "tags": ["nightlife", "quiet_evenings", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Rooftop bar with ocean views and cocktails inside the RIMBA resort.",
@@ -6781,10 +5895,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Known for late-night parties and beachside clubbing in Uluwatu.",
@@ -6799,10 +5910,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 10,
-        "tags": [
-          "photo_spots",
-          "culture"
-        ],
+        "tags": ["photo_spots", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Iconic statue representing a Balinese mythological hero, often seen when entering Kuta.",
@@ -6817,10 +5925,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Lively multi-floor nightclub with themed rooms and DJs.",
@@ -6835,10 +5940,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "coffee",
-          "sit_down_dining"
-        ],
+        "tags": ["coffee", "sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Artisan breads, pastries and coffee in a stylish bakery.",
@@ -6853,11 +5955,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "street_food",
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["street_food", "local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Hearty bowls of pork porridge and bakmi that draw a loyal local crowd.",
@@ -6872,11 +5970,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "beach",
-          "photo_spots"
-        ],
+        "tags": ["sit_down_dining", "beach", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy beachfront dining with ocean views and a relaxed atmosphere in Legian.",
@@ -6891,10 +5985,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Elevated Indonesian dishes celebrating regional flavors.",
@@ -6909,11 +6000,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "splurge"
-        ],
+        "tags": ["nightlife", "late_starts", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Stylish beachfront lounge with sunset cocktails and a relaxed vibe.",
@@ -6928,11 +6015,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "splurge"
-        ],
+        "tags": ["nightlife", "late_starts", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dance in a stylish club with quirky decor and top DJs.",
@@ -6947,11 +6030,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "coffee",
-          "wellness",
-          "easy_pace"
-        ],
+        "tags": ["coffee", "wellness", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fresh smoothie bowls and healthy breakfast options.",
@@ -6966,10 +6045,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enjoy a garden-side dining experience with a diverse menu in bustling Seminyak.",
@@ -6984,11 +6060,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "coffee",
-          "easy_pace"
-        ],
+        "tags": ["sit_down_dining", "coffee", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual spot for breakfast and brunch with hearty plates.",
@@ -7003,10 +6075,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "High-energy club with bold design and international DJs.",
@@ -7021,9 +6090,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual spot for Italian dishes and gelato after exploring Petitenget.",
@@ -7038,10 +6105,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "local_life",
-          "thrifty"
-        ],
+        "tags": ["local_life", "thrifty"],
         "must_see": false,
         "editorial": true,
         "why_go": "Local favorite for rich fish head soup served with rice.",
@@ -7056,10 +6120,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Late-night tequila bar and club with lively music.",
@@ -7119,10 +6180,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Casual dining spot on Seminyak's main street offering a mix of local and international dishes.",
@@ -7137,11 +6195,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "local_life",
-          "culture"
-        ],
+        "tags": ["sit_down_dining", "local_life", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Long-standing eatery serving traditional Balinese and Indonesian dishes.",
@@ -7156,10 +6210,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "sit_down_dining",
-          "coffee"
-        ],
+        "tags": ["sit_down_dining", "coffee"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxed spot for hearty meals and good coffee in Canggu.",
@@ -7174,10 +6225,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "splurge"
-        ],
+        "tags": ["sit_down_dining", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Hearty grilled dishes in a stylish setting.",
@@ -7192,11 +6240,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "coffee",
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["coffee", "sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Stylish all-day cafe for specialty coffee and brunch favorites.",
@@ -7211,11 +6255,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "coffee",
-          "easy_pace",
-          "local_life"
-        ],
+        "tags": ["coffee", "easy_pace", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Fuel up with specialty coffee and light bites near Berawa Beach.",
@@ -7230,9 +6270,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining"
-        ],
+        "tags": ["sit_down_dining"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sleek dining spot known for creative cuisine and cocktails.",
@@ -7247,12 +6285,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "beach",
-          "photo_spots",
-          "late_starts"
-        ],
+        "tags": ["nightlife", "beach", "photo_spots", "late_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront lounge with daybeds and sunset views.",
@@ -7267,11 +6300,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "culture"
-        ],
+        "tags": ["temples", "photo_spots", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dramatic clifftop temple with sunset kecak dance performances.",
@@ -7286,11 +6315,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "photo_spots",
-          "local_life"
-        ],
+        "tags": ["nightlife", "photo_spots", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Beachfront spot for sunset drinks and a lively atmosphere.",
@@ -7305,12 +6330,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "beach",
-          "splurge"
-        ],
+        "tags": ["nightlife", "late_starts", "beach", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dance and lounge at a glamorous clifftop day-to-night venue.",
@@ -7325,11 +6345,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "sit_down_dining",
-          "splurge",
-          "photo_spots"
-        ],
+        "tags": ["sit_down_dining", "splurge", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Elevated dining with panoramic ocean views at a luxury resort.",
@@ -7344,12 +6360,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "temples",
-          "beach",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "beach", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Small sea temple above a calm Nusa Dua beach.",
@@ -7364,11 +6375,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "sit_down_dining",
-          "nightlife",
-          "beach"
-        ],
+        "tags": ["sit_down_dining", "nightlife", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Relaxed spot for food and drinks with a social vibe.",
@@ -7383,11 +6390,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "hiking",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["hiking", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Steep path down to a secluded beach below towering cliffs.",
@@ -7402,12 +6405,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "beach",
-          "photo_spots"
-        ],
+        "tags": ["nightlife", "late_starts", "beach", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Cliff-top nightlife venue with ocean views and lively parties.",
@@ -7422,11 +6420,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "culture",
-          "photo_spots",
-          "nature"
-        ],
+        "tags": ["culture", "photo_spots", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Massive Garuda Wisnu Kencana statue set in a sprawling cultural park with performances.",
@@ -7441,11 +6435,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "photo_spots",
-          "splurge"
-        ],
+        "tags": ["nightlife", "photo_spots", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Panoramic rooftop setting for sunset cocktails and city views.",
@@ -7460,10 +6450,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "photo_spots"
-        ],
+        "tags": ["nightlife", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Stunning cliff-top bar with sunset views and live music overlooking the ocean.",
@@ -7478,12 +6465,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 600,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "early_starts"
-        ],
+        "tags": ["nature", "hiking", "adventure", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Trek to the summit of Bali's highest volcano for a challenging adventure.",
@@ -7498,11 +6480,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "easy_pace",
-          "photo_spots"
-        ],
+        "tags": ["nature", "easy_pace", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Scenic highland lake with calm water and cool air.",
@@ -7517,10 +6495,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 30,
-        "tags": [
-          "culture",
-          "quiet_evenings"
-        ],
+        "tags": ["culture", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "A beautiful Catholic church known for its serene garden and peaceful atmosphere.",
@@ -7535,11 +6510,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "history",
-          "culture"
-        ],
+        "tags": ["temples", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "A historically significant temple where different sects once met.",
@@ -7554,11 +6525,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "beach",
-          "splurge"
-        ],
+        "tags": ["nightlife", "beach", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Chill at a bohemian beach club with ocean views and sustainable design.",
@@ -7573,11 +6540,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nightlife",
-          "late_starts",
-          "splurge"
-        ],
+        "tags": ["nightlife", "late_starts", "splurge"],
         "must_see": false,
         "editorial": true,
         "why_go": "Chic bar inside W Bali with DJ sets and ocean views.",
@@ -7592,11 +6555,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Peaceful Buddhist temple with colorful statues and serene gardens.",
@@ -7611,12 +6570,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 600,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "early_starts"
-        ],
+        "tags": ["nature", "hiking", "adventure", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Climb Mount Agung for a strenuous but unforgettable sunrise experience.",
@@ -7631,11 +6585,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "splurge",
-          "photo_spots"
-        ],
+        "tags": ["nightlife", "splurge", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Elegant rooftop bar with ocean views and premium cocktails.",
@@ -7650,11 +6600,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Peaceful island temple with coastal views and traditional ceremonies.",
@@ -7669,11 +6615,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "history",
-          "culture",
-          "museums"
-        ],
+        "tags": ["history", "culture", "museums"],
         "must_see": false,
         "editorial": true,
         "why_go": "Monument and museum showcasing Bali's struggle for independence.",
@@ -7688,12 +6630,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "shopping",
-          "local_life",
-          "culture"
-        ],
+        "tags": ["museums", "shopping", "local_life", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Watch artisans craft silver jewelry and browse intricate local designs.",
@@ -7708,10 +6645,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 40,
-        "tags": [
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See lotus ponds and traditional Balinese water garden architecture.",
@@ -7726,11 +6660,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "nature",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["nature", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Walk among playful macaques in a sacred forest sanctuary.",
@@ -7745,11 +6675,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "history"
-        ],
+        "tags": ["museums", "culture", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Explore Gianyar's royal heritage and ornate palace architecture.",
@@ -7764,11 +6690,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "history",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["history", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Ancient rock carvings depicting daily life, set in a quiet rice field.",
@@ -7783,10 +6705,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 50,
-        "tags": [
-          "museums",
-          "culture"
-        ],
+        "tags": ["museums", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "View contemporary and traditional Balinese art in a gallery setting.",
@@ -7801,12 +6720,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See a private collection of Balinese art and antiques in a relaxed Ubud setting.",
@@ -7821,12 +6735,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "temples",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["nature", "temples", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Walk among monkeys and flying foxes at a forest temple.",
@@ -7886,12 +6795,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "history",
-          "beach"
-        ],
+        "tags": ["temples", "photo_spots", "history", "beach"],
         "must_see": false,
         "editorial": true,
         "why_go": "Dramatic offshore temple on a rocky islet, stunning at sunset.",
@@ -7906,11 +6810,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 75,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "easy_pace"
-        ],
+        "tags": ["nature", "photo_spots", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "Visit serene twin volcanic lakes surrounded by jungle.",
@@ -7925,11 +6825,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "adventure"
-        ],
+        "tags": ["nature", "photo_spots", "adventure"],
         "must_see": false,
         "editorial": true,
         "why_go": "Admire the 'most beautiful waterfall in Bali' with multiple cascades.",
@@ -7944,11 +6840,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "history",
-          "culture",
-          "museums"
-        ],
+        "tags": ["history", "culture", "museums"],
         "must_see": false,
         "editorial": true,
         "why_go": "Museum and monument commemorating a historic Balinese resistance battle.",
@@ -7963,11 +6855,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 180,
-        "tags": [
-          "nature",
-          "hiking",
-          "local_life"
-        ],
+        "tags": ["nature", "hiking", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Visit iconic twin waterfalls with local guides from the village.",
@@ -7982,11 +6870,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "nature"
-        ],
+        "tags": ["museums", "culture", "nature"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about the volcanic lake's geology and local culture.",
@@ -8001,11 +6885,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "quiet_evenings"
-        ],
+        "tags": ["nature", "photo_spots", "quiet_evenings"],
         "must_see": false,
         "editorial": true,
         "why_go": "Soak in views of Bali's largest volcanic crater lake with Mount Batur backdrop.",
@@ -8020,12 +6900,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nature",
-          "hiking",
-          "photo_spots",
-          "culture"
-        ],
+        "tags": ["nature", "hiking", "photo_spots", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Expansive terraced rice fields recognized by UNESCO for their subak irrigation system.",
@@ -8040,12 +6915,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "culture",
-          "photo_spots",
-          "history"
-        ],
+        "tags": ["temples", "culture", "photo_spots", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Iconic lakeside temple with mountain backdrop, one of Bali's most photogenic sites.",
@@ -8060,11 +6930,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "nature",
-          "easy_pace",
-          "photo_spots"
-        ],
+        "tags": ["nature", "easy_pace", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Extensive gardens and forest trails near Lake Bratan.",
@@ -8079,11 +6945,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "easy_pace"
-        ],
+        "tags": ["nature", "photo_spots", "easy_pace"],
         "must_see": false,
         "editorial": true,
         "why_go": "See colourful tropical butterflies up close in a lush garden setting.",
@@ -8098,12 +6960,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 600,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "early_starts"
-        ],
+        "tags": ["nature", "hiking", "adventure", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Conquer Bali's highest peak for rewarding views and a sense of achievement.",
@@ -8118,11 +6975,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "nature",
-          "photo_spots",
-          "culture"
-        ],
+        "tags": ["nature", "photo_spots", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sculpted rice terraces offering classic Ubud landscape views.",
@@ -8137,12 +6990,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "temples",
-          "wellness",
-          "local_life",
-          "photo_spots"
-        ],
+        "tags": ["temples", "wellness", "local_life", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Sacred water purification site with tranquil pools surrounded by jungle.",
@@ -8157,11 +7005,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about ancient Balinese history and the rock-cut shrines at Mount Kawi.",
@@ -8176,11 +7020,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "museums",
-          "history",
-          "culture"
-        ],
+        "tags": ["museums", "history", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Learn about Indonesia's first president Sukarno through photos, documents, and personal items.",
@@ -8195,12 +7035,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 240,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "early_starts"
-        ],
+        "tags": ["nature", "hiking", "adventure", "early_starts"],
         "must_see": false,
         "editorial": true,
         "why_go": "Experience a sunrise trek on an active volcano with crater views.",
@@ -8260,11 +7095,7 @@
         },
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "local_life"
-        ],
+        "tags": ["museums", "culture", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "View a comprehensive collection of works by celebrated Balinese painter Nyoman Gunarsa.",
@@ -8279,12 +7110,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 60,
-        "tags": [
-          "museums",
-          "culture",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["museums", "culture", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "See the famous Kerta Gosa ceiling paintings and royal court history.",
@@ -8299,11 +7125,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "culture",
-          "temples",
-          "history"
-        ],
+        "tags": ["culture", "temples", "history"],
         "must_see": false,
         "editorial": true,
         "why_go": "Visit the most important temple in Bali, offering panoramic views and deep spiritual significance.",
@@ -8318,12 +7140,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 120,
-        "tags": [
-          "culture",
-          "temples",
-          "history",
-          "photo_spots"
-        ],
+        "tags": ["culture", "temples", "history", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Experience Bali's mother temple, a sprawling complex of shrines on the slopes of Mount Agung.",
@@ -8338,12 +7155,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 150,
-        "tags": [
-          "nature",
-          "hiking",
-          "adventure",
-          "photo_spots"
-        ],
+        "tags": ["nature", "hiking", "adventure", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Hike down to a dramatic waterfall in a rugged coastal landscape.",
@@ -8358,12 +7170,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 45,
-        "tags": [
-          "temples",
-          "adventure",
-          "culture",
-          "photo_spots"
-        ],
+        "tags": ["temples", "adventure", "culture", "photo_spots"],
         "must_see": false,
         "editorial": true,
         "why_go": "Enter a limestone cave to reach a unique underground shrine.",
@@ -8378,11 +7185,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "nightlife",
-          "sit_down_dining",
-          "local_life"
-        ],
+        "tags": ["nightlife", "sit_down_dining", "local_life"],
         "must_see": false,
         "editorial": true,
         "why_go": "Legendary grilled pork ribs and strong martinis in a lively, no-frills setting.",
@@ -8397,12 +7200,7 @@
         "hours": null,
         "price_level": null,
         "duration_min": 90,
-        "tags": [
-          "temples",
-          "photo_spots",
-          "early_starts",
-          "culture"
-        ],
+        "tags": ["temples", "photo_spots", "early_starts", "culture"],
         "must_see": false,
         "editorial": true,
         "why_go": "Capture the famous reflection photo framed by the temple gates with Mount Agung behind.",
@@ -8419,7 +7217,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd6-8e8c-741d-8092-70191ed916e5",
@@ -8432,7 +7231,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd6-8e8c-7702-9c65-dd6009295bc9",
@@ -8445,7 +7245,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a10368-5d42-7a89-9f8f-f3b034896f39",
@@ -8458,7 +7259,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a10368-7e30-7db3-8cc6-68bfbe87c0b9",
@@ -8516,7 +7318,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a10368-9d9b-77b7-bdc4-679eded1cda8",
@@ -8574,7 +7377,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-488f-7279-8ca9-ad589897e823",
@@ -8587,7 +7391,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-48b3-78d3-8597-ced4713fd4bb",
@@ -8600,7 +7405,8 @@
         "duration_min": 150,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-7255-788c-a237-64e4bdead226",
@@ -8613,7 +7419,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-48b3-75dc-afe8-090e673b3272",
@@ -8626,7 +7433,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-48b4-782f-a7a6-452fc1161539",
@@ -8639,7 +7447,8 @@
         "duration_min": 150,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-489e-79a1-9891-4a3fa876a312",
@@ -8652,7 +7461,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-81e3-737f-a0f8-24c27e2f7d29",
@@ -8665,7 +7475,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-487c-7169-8cd4-947b24f50878",
@@ -8678,7 +7489,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-4895-7f46-93bb-b4c0d3341517",
@@ -8691,7 +7503,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-7f73-72fc-a956-4365688b0108",
@@ -8704,7 +7517,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-447d-7327-8555-1d797e43ceb9",
@@ -8717,7 +7531,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd4-4891-7c74-9d20-f3920a2adba1",
@@ -8730,7 +7545,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd5-5b35-7e3a-89d9-96b1c48226fd",
@@ -8743,7 +7559,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd5-856b-75f1-a7cb-48fa63e32600",
@@ -8756,7 +7573,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd5-9420-76bb-af0b-a24a5da954e3",
@@ -8769,7 +7587,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       },
       {
         "id": "01a0edd6-13d8-79cc-95a3-f886f4a41a9d",
@@ -8782,7 +7601,8 @@
         "duration_min": 90,
         "tags": [],
         "must_see": false,
-        "editorial": false
+        "editorial": false,
+        "wish_only": true
       }
     ]
   }

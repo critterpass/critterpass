@@ -41,11 +41,14 @@ function planned(input: Pick<DraftPlanInput, 'pools' | 'pois'>): DraftPoi[] {
   return [...mustDos, ...input.pools.activities];
 }
 
-/** The planner's hop cap for this draft's places (see `hopCapMin`). */
+/**
+ * The planner's hop cap for this draft (see `hopCapMin`), from every place we know in the
+ * destination: the short lists are spread across it on purpose and would overstate its spacing.
+ */
 export function hopCap(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>): number {
   const known = CAPS.get(input.pools);
   if (known !== undefined) return known;
-  const cap = hopCapMin(planned(input), input.travel);
+  const cap = hopCapMin([...input.pois.values()], input.travel);
   CAPS.set(input.pools, cap);
   return cap;
 }
