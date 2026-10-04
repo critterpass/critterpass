@@ -43,10 +43,10 @@ export function gapWho(count: number, everyone: boolean, busy: string | null): s
     return t({
       id: 'explore.trip.gapFree',
       message: plural(count, {
-        '=2': 'Two of you are free',
-        '=3': 'Three of you are free',
-        '=4': 'Four of you are free',
-        '=5': 'Five of you are free',
+        2: 'Two of you are free',
+        3: 'Three of you are free',
+        4: 'Four of you are free',
+        5: 'Five of you are free',
         other: '# of you are free',
       }),
     });
@@ -54,10 +54,10 @@ export function gapWho(count: number, everyone: boolean, busy: string | null): s
   return t({
     id: 'explore.trip.gapFreeWhile',
     message: plural(count, {
-      '=2': `Two of you are free while ${busy} runs`,
-      '=3': `Three of you are free while ${busy} runs`,
-      '=4': `Four of you are free while ${busy} runs`,
-      '=5': `Five of you are free while ${busy} runs`,
+      2: `Two of you are free while ${busy} runs`,
+      3: `Three of you are free while ${busy} runs`,
+      4: `Four of you are free while ${busy} runs`,
+      5: `Five of you are free while ${busy} runs`,
       other: `# of you are free while ${busy} runs`,
     }),
   });

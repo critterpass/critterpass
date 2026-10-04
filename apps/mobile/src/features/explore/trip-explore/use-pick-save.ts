@@ -6,9 +6,9 @@ import { generateUuidV7 } from '@cp/domain';
 import { useCallback } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { saveIdeaCommand } from '@/features/plan/ideas/commands';
 import { toast } from '@/motion';
 
+import { saveIdeaCommand } from '../place-detail/commands';
 import * as copy from './copy';
 
 export function usePickSave(tripId: string): (place: { id: string; name: string }) => void {
