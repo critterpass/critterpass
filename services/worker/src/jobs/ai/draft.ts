@@ -84,7 +84,13 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
           await hint(ctx, 'read_profiles', 'running');
           const { trip } = await load(ctx);
           // A destination without a curated set is drafted from its picks: make them first.
-          await ensurePlacePicks(ctx.pool, deps.placePicks, trip.destinationId, ctx.logger);
+          await ensurePlacePicks(
+            ctx.pool,
+            deps.placePicks,
+            trip.destinationId,
+            ctx.logger,
+            ctx.boss,
+          );
           const label = readProfilesLabel(trip);
           await hint(ctx, 'read_profiles', 'done', label);
           return { label, crew_id: trip.crewId, members: trip.members.length };

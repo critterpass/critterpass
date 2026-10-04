@@ -19,7 +19,7 @@ import { describe, expect, it } from 'vitest';
 import { mediaKind } from '../src/kinds/media';
 import type { SourceHttp } from '../src/kinds/media/http';
 import { GENERIC_TITLE, genericSubjectFor } from '../src/kinds/media/generic';
-import { carriedItems, curatedPlaces } from '../src/kinds/media/place-batch';
+import { curatedPlaces, liveHeld, restateLive } from '../src/kinds/media/place-batch';
 import { matchPlace, nameScore, type WikidataPlace } from '../src/kinds/media/place-match';
 import { placePhotos, sourceAllowedFor } from '../src/kinds/media/places';
 import { REJECTED_MATCHES, turnedDown } from '../src/kinds/media/rejected';
@@ -192,14 +192,23 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
     expect(at('Cáliz', 'nightlife')).toBeNull();
   });
 
-  it('fails a place batch that would drop the destination media', async () => {
+  it('states only the live items that show its places, and takes down what shows nothing', async () => {
     const photos = (await placePhotos(http, FIXTURE_PLACES)).map((p) => p.item);
-    const alone = runValidators('media', photos, mediaKind.validators);
-    expect(alone.batch.map((b) => b.id)).toContain('keeps-the-destination-media');
+    const elsewhere = 'poi:fsq-os-00000000000000000000aaaa';
+    const beach = poiRefSubject(MY_KHE.ref);
+    const hero = stock(['destination:da-nang']);
+    const shared = {
+      ...stock(['destination:da-nang', beach]),
+      id: 'pexels-photo-2',
+      source_id: '2',
+    };
+    const dropped = { ...stock([beach]), id: 'pexels-photo-3', source_id: '3' };
+    const other = { ...stock([elsewhere]), id: 'pexels-photo-4', source_id: '4' };
+    const kept = { ...photos[0]!, subjects: [...photos[0]!.subjects, elsewhere] };
     const live = buildRelease({
       kind: 'media',
       version: 3,
-      items: [stock(['destination:da-nang']), { ...photos[0]!, id: photos[0]!.id }],
+      items: [hero, shared, dropped, other, kept],
       generated_by: {
         batch_key: 'live',
         route: null,
@@ -208,23 +217,35 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
       },
       approved_by: null,
     });
-    const carried = carriedItems(live, FIXTURE_PLACES);
-    expect(carried.map((c) => c.id)).toEqual(['pexels-photo-26550067']);
-    // A photo the destination shares with a researched place stays, for the destination alone.
-    const shared = buildRelease({
-      ...live,
-      items: [stock(['destination:da-nang', poiRefSubject(MY_KHE.ref)])],
-    });
-    expect(carriedItems(shared, FIXTURE_PLACES).map((c) => c.subjects)).toEqual([
-      ['destination:da-nang'],
+    const held = liveHeld(live, FIXTURE_PLACES);
+    expect(held.get(hero.id)).toMatchObject({ touched: false });
+    expect(held.get(other.id)).toMatchObject({ touched: false });
+    expect(held.get(shared.id)).toMatchObject({ touched: true, rest: ['destination:da-nang'] });
+    // The batch proposes the Commons photo again, for its place and the one it keeps elsewhere.
+    const stated = new Map([[kept.id, kept]]);
+    const { removed, changed } = restateLive(held, stated);
+    expect([...stated.keys()].sort()).toEqual([kept.id, shared.id, dropped.id].sort());
+    expect(stated.get(shared.id)?.subjects).toEqual(['destination:da-nang']);
+    expect(stated.get(dropped.id)?.subjects).toEqual([]);
+    expect(removed.map((change) => change.id)).toEqual([dropped.id]);
+    expect(changed.map((change) => [change.id, change.now])).toEqual([
+      [shared.id, ['destination:da-nang']],
     ]);
-    const whole = runValidators('media', [...photos, ...carried], mediaKind.validators);
+    // The destination's hero and the other city's photo are not in the batch at all.
+    expect(stated.has(hero.id)).toBe(false);
+    expect(stated.has(other.id)).toBe(false);
+    const whole = runValidators(
+      'media',
+      [...photos.slice(1), ...stated.values()],
+      mediaKind.validators,
+    );
+    expect(whole.items.filter((item) => item.severity === 'fail')).toEqual([]);
     expect(whole.severity).not.toBe('fail');
   });
 });
 
-describe('the committed place media batch awaiting review', () => {
-  it('holds no generic photo a reviewer turned down, and carries the destination media', () => {
+describe('the latest committed place media batch', () => {
+  it('holds no generic photo or match a reviewer turned down', () => {
     const dir = path.join(FACTORY_DIR, 'batches', 'media');
     const latest = readdirSync(dir)
       .filter((file) => file.endsWith('.json'))
@@ -238,9 +259,6 @@ describe('the committed place media batch awaiting review', () => {
     expect(items.filter((item) => turnedDown(item.id))).toEqual([]);
     const report = runValidators('media', items, mediaKind.validators);
     expect(report.severity).not.toBe('fail');
-    expect(items.some((item) => item.subjects.some((s) => s.startsWith('destination:')))).toBe(
-      true,
-    );
     // The matches a reviewer turned down are not in it.
     for (const [ref, ids] of Object.entries(REJECTED_MATCHES)) {
       const photos = items.filter((item) => item.subjects.includes(poiRefSubject(ref)));

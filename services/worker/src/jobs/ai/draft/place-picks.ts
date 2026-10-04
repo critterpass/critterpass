@@ -8,9 +8,11 @@
 import { writeDraftSummary, type DraftModel, type DraftPlanInput } from '@cp/ai';
 import { pickCoverage, withSystem } from '@cp/db';
 import type pg from 'pg';
+import type { PgBoss } from 'pg-boss';
 
 import type { JobLogger } from '../../../boss/define-job';
 import { runPlacePick, type PlacePickDeps, type PlacePickReport } from '../../../places/pick/run';
+import { queuePlacePick } from '../../places/pick';
 import { allMustDosMade, type DraftToSave } from './persist';
 
 /** How long a draft waits for the model to name the destination's well-known places. */
@@ -19,22 +21,35 @@ export const PICK_WAIT_MS = 45_000;
 /** Candidates a day needs before a draft counts as more than a must-do list. */
 export const MIN_CANDIDATES_PER_DAY = 2;
 
-/** Makes the destination's picks when it has neither a curated set nor picks; null when not needed. */
+/**
+ * Makes the destination's picks when it has neither a curated set nor picks; null when not needed.
+ * When the naming call fails or runs out of time the draft goes on with the open-data fill, and
+ * one forced `places.pick` is queued so the well-known places are asked for again (the job
+ * retries, and only its last attempt goes without names).
+ */
 export async function ensurePlacePicks(
   pool: pg.Pool,
   deps: PlacePickDeps | undefined,
   destinationId: string,
   logger: JobLogger,
+  boss: Pick<PgBoss, 'send'>,
 ): Promise<PlacePickReport | null> {
   const coverage = await withSystem(pool, (tx) => pickCoverage(tx, destinationId));
   if (!coverage.needsPicks) return null;
   try {
-    return await runPlacePick(
+    const report = await runPlacePick(
       pool,
       deps ?? {},
       { destinationId, signal: AbortSignal.timeout(PICK_WAIT_MS) },
       logger,
     );
+    if (report.names === 'failed' && report.destination !== null) {
+      const slug = report.destination;
+      await queuePlacePick(boss, slug, true).catch((error: unknown) =>
+        logger.warn({ err: error, slug }, 'draft: forced place pick not queued'),
+      );
+    }
+    return report;
   } catch (error) {
     logger.warn({ err: error, destinationId }, 'draft: place picks failed, drafting without');
     return null;

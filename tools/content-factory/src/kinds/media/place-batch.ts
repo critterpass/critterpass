@@ -4,9 +4,14 @@
  * photo from Wikimedia Commons, else a labelled generic stock photo of what its name says it
  * serves (see generic.ts), else nothing (the app draws the category's doodle). The curated places
  * are the committed places batches', or with `--opt curated=live` (or `curated=<file>`) the live
- * places release's, which holds every destination. Publishing a media release replaces every
- * asset, so the batch carries the live release's other items unchanged: `--opt carry=live` reads
- * it from DATABASE_URL, `--opt carry=<file>` from an exported release artifact.
+ * places release's, which holds every destination.
+ *
+ * A media batch changes only the items it states: approval lays it over the live release and
+ * leaves everything else as it is. So the batch reads the live release (`--opt live=live` from
+ * DATABASE_URL, `--opt live=<file>` from an exported artifact) and states, beside its new photos,
+ * each live item that shows one of these places: with the subjects it keeps, or with none when it
+ * shows nothing any more, which takes it down. The other destinations' photos and the destination
+ * media are not in the batch at all.
  */
 import { readFileSync } from 'node:fs';
 
@@ -14,28 +19,14 @@ import { loadRelease, mediaItemSchema, poiRefSubject, type ContentItem } from '@
 
 import { committedItems } from '../../committed';
 import { liveArtifact, openPool } from '../../db';
-import { GENERIC_TITLE, genericSubjectFor } from './generic';
+import { genericPhotos, type StockKeys } from './generic-batch';
 import type { SourceHttp } from './http';
-import type { SourceCandidate } from './pexels';
-import { pexelsPhotos } from './pexels';
-import { pixabayPhotos } from './pixabay';
 import type { PlaceMatch } from './place-match';
 import { placePhotos, type MediaPlace } from './places';
-import { LIVE_SUGGESTED_TO_DROP, turnedDown } from './rejected';
+import { LIVE_SUGGESTED_TO_DROP, REJECTED_GENERIC } from './rejected';
 
-export interface StockKeys {
-  readonly pexelsKey: string | undefined;
-  readonly pixabayKey: string | undefined;
-}
-
-/** Results asked of each stock source for one generic subject, at least and at most. */
-const GENERIC_PER_QUERY = 6;
-const MAX_PER_QUERY = 40;
-/** The places one generic photo is spread over, so a deck does not repeat one picture. */
-const PLACES_PER_PHOTO = 8;
 /** The most subjects a media item holds. */
 const MAX_SUBJECTS = 20;
-const MIN_PX = 1200;
 
 /** The media subject of a place ref, or null for a ref publishing cannot resolve to a place. */
 function subjectOf(ref: string): string | null {
@@ -92,96 +83,67 @@ async function liveItems(source: string, kind: 'media' | 'places'): Promise<unkn
   }
 }
 
-/**
- * The live release's items this batch keeps: everything except the photos of the places being
- * researched (their new candidates replace them). An item other subjects share stays for those.
- */
-export function carriedItems(
-  artifact: unknown,
-  places: readonly MediaPlace[],
-): ContentItem<'media'>[] {
-  if (artifact === undefined || artifact === null) return [];
+/** A live item beside the places a batch researches. */
+export interface Held {
+  readonly item: ContentItem<'media'>;
+  /** The subjects it keeps whatever the batch finds: destinations, and places not researched. */
+  readonly rest: readonly string[];
+  /** It shows one of the researched places today, so the batch has to state it. */
+  readonly touched: boolean;
+}
+
+/** The live release's items by id, each split into what the batch may change and what it may not. */
+export function liveHeld(artifact: unknown, places: readonly MediaPlace[]): Map<string, Held> {
+  if (artifact === undefined || artifact === null) return new Map();
   const researched = new Set(places.map((place) => poiRefSubject(place.ref)));
-  return loadRelease(artifact, 'media')
-    .items.map((item) => mediaItemSchema.parse(item))
-    .map((item) => ({ ...item, subjects: item.subjects.filter((s) => !researched.has(s)) }))
-    .filter((item) => item.subjects.length > 0);
+  return new Map(
+    loadRelease(artifact, 'media').items.map((raw) => {
+      const item = mediaItemSchema.parse(raw);
+      const rest = item.subjects.filter((subject) => !researched.has(subject));
+      return [item.id, { item, rest, touched: rest.length < item.subjects.length }];
+    }),
+  );
+}
+
+/** A live item the batch takes down or gives other subjects, for the review pages. */
+export interface LiveChange {
+  readonly id: string;
+  readonly reason: string;
+  readonly was: readonly string[];
+  readonly now: readonly string[];
+}
+
+function whyGone(item: ContentItem<'media'>): string {
+  const turned = REJECTED_GENERIC[item.id] ?? LIVE_SUGGESTED_TO_DROP[item.id];
+  if (turned !== undefined) return `turned down (${turned})`;
+  return item.source === 'wikimedia'
+    ? 'no longer the photo of its places (a better file, or the match was turned down)'
+    : 'no longer among the photos proposed for its places';
 }
 
 /**
- * Labelled generic stock for `places` (those without a photo of their own): one search per generic
- * subject, asking for more results the more places need it, shared out among them at about eight
- * places per photo and never more than 20.
+ * States in `stated` every live item that shows a researched place and that the batch did not
+ * propose again: with the subjects it keeps, or with none (a removal). Returns what leaves live and
+ * what changes subjects, counting the items the batch proposed again with other subjects.
  */
-export async function genericPhotos(
-  http: SourceHttp,
-  keys: StockKeys,
-  places: readonly MediaPlace[],
-  /** Ids already in the release for another subject: a generic photo never doubles as one. */
-  taken: ReadonlySet<string> = new Set(),
-  /** Filled with the searches a source did not answer (`pixabay: tacos`). */
-  unanswered: string[] = [],
-): Promise<Map<string, ContentItem<'media'>>> {
-  const groups = new Map<string, { query: string; places: MediaPlace[] }>();
-  for (const place of places) {
-    const subject = genericSubjectFor(place);
-    if (subject === null) continue;
-    const group = groups.get(subject.key) ?? { query: subject.query, places: [] };
-    group.places.push(place);
-    groups.set(subject.key, group);
-  }
-  const byId = new Map<string, ContentItem<'media'>>();
-  for (const { query, places: needing } of groups.values()) {
-    const lists: SourceCandidate[][] = [];
-    const perQuery = Math.min(
-      MAX_PER_QUERY,
-      Math.max(GENERIC_PER_QUERY, Math.ceil(needing.length / PLACES_PER_PHOTO)),
-    );
-    // A source that stays busy for one search is left out of it; the other still answers.
-    const from = async (source: string, search: Promise<SourceCandidate[]>) => {
-      try {
-        lists.push(await search);
-      } catch {
-        unanswered.push(`${source}: ${query}`);
-      }
-    };
-    if (keys.pexelsKey) await from('pexels', pexelsPhotos(http, keys.pexelsKey, query, perQuery));
-    if (keys.pixabayKey) {
-      await from('pixabay', pixabayPhotos(http, keys.pixabayKey, query, perQuery));
+export function restateLive(
+  held: ReadonlyMap<string, Held>,
+  stated: Map<string, ContentItem<'media'>>,
+): { removed: LiveChange[]; changed: LiveChange[] } {
+  const removed: LiveChange[] = [];
+  const changed: LiveChange[] = [];
+  for (const [id, { item, rest, touched }] of held) {
+    if (!touched) continue;
+    const again = stated.get(id);
+    if (again === undefined) stated.set(id, { ...item, subjects: [...rest] });
+    const now = again?.subjects ?? rest;
+    const change = { id, reason: whyGone(item), was: item.subjects, now };
+    if (now.length === 0) removed.push(change);
+    else if (now.length !== item.subjects.length || now.some((s) => !item.subjects.includes(s))) {
+      changed.push({ ...change, reason: 'shows other places than before' });
     }
-    const found: SourceCandidate[] = [];
-    for (let i = 0; lists.some((list) => i < list.length); i += 1) {
-      for (const list of lists) {
-        const candidate = list[i];
-        if (
-          candidate !== undefined &&
-          !taken.has(candidate.id) &&
-          !turnedDown(candidate.id) &&
-          Math.max(candidate.width, candidate.height) >= MIN_PX
-        ) {
-          found.push(candidate);
-        }
-      }
-    }
-    if (found.length === 0) continue;
-    needing.slice(0, found.length * MAX_SUBJECTS).forEach((place, index) => {
-      const candidate = found[index % found.length];
-      if (candidate === undefined) return;
-      const existing = byId.get(candidate.id);
-      const subjects = [...new Set([...(existing?.subjects ?? []), poiRefSubject(place.ref)])];
-      if (subjects.length > MAX_SUBJECTS) return;
-      byId.set(
-        candidate.id,
-        mediaItemSchema.parse({
-          ...candidate,
-          title: `${GENERIC_TITLE}${query}`,
-          subjects,
-          rank: 0,
-        }),
-      );
-    });
   }
-  return byId;
+  return { removed, changed };
 }
 
 export type PlaceOutcome = 'own' | 'generic' | 'none';
@@ -195,8 +157,11 @@ export interface PlaceProposal {
 }
 
 export interface PlaceBatch {
+  /** Everything the batch states: new photos, and live items re-stated (with no subjects, removed). */
   readonly items: readonly ContentItem<'media'>[];
-  readonly carried: readonly ContentItem<'media'>[];
+  /** The live photos the batch takes down, and the ones it gives other places. */
+  readonly removed: readonly LiveChange[];
+  readonly changed: readonly LiveChange[];
   /** What each place (by ref, in batch order) gets. */
   readonly outcomes: ReadonlyMap<string, PlaceOutcome>;
   readonly proposals: readonly PlaceProposal[];
@@ -239,36 +204,46 @@ export async function placeBatch(
   const curated = await curatedItems(options['curated']);
   const places = curatedPlaces(list('places'), list('first'), curated);
   if (places.length === 0) throw new Error(`no curated places in ${options['places'] ?? ''}`);
-  const carrySource = options['carry'];
-  if (carrySource === undefined) {
-    throw new Error('a place batch replaces the live media: pass --opt carry=live or carry=<file>');
+  const liveSource = options['live'];
+  if (liveSource === undefined) {
+    throw new Error(
+      'a place batch states what it changes in the live media: pass --opt live=live or live=<file>',
+    );
   }
-  const live = await liveItems(carrySource, 'media');
-  const carried = new Map(carriedItems(live, places).map((item) => [item.id, item]));
+  const live = await liveItems(liveSource, 'media');
+  const held = liveHeld(live, places);
   const byId = new Map<string, ContentItem<'media'>>();
   const matches = new Map<string, PlaceMatch>();
+  const owned = new Set<string>();
   for (const { place, match, item } of await placePhotos(http, places)) {
     matches.set(place.ref, match);
-    const live = carried.get(item.id);
-    // A Commons file the release already has (a destination's landmark) keeps its rank and
-    // gains the place.
-    if (live !== undefined) {
-      const subjects = [...new Set([...live.subjects, ...item.subjects])].slice(0, MAX_SUBJECTS);
-      carried.set(item.id, { ...live, subjects });
-    } else if (!byId.has(item.id)) byId.set(item.id, item);
+    for (const s of item.subjects) owned.add(s);
+    if (byId.has(item.id)) continue;
+    const before = held.get(item.id);
+    // A Commons file the release already has (a destination's landmark) keeps its rank and what
+    // else it shows, and gains the place.
+    byId.set(
+      item.id,
+      before === undefined
+        ? item
+        : {
+            ...before.item,
+            subjects: [...new Set([...before.rest, ...item.subjects])].slice(0, MAX_SUBJECTS),
+          },
+    );
   }
   const subject = (place: MediaPlace) => poiRefSubject(place.ref);
-  const owned = new Set([...byId.values(), ...carried.values()].flatMap((item) => item.subjects));
   const unanswered: string[] = [];
   const generic = await genericPhotos(
     http,
     keys,
     places.filter((place) => !owned.has(subject(place))),
-    new Set(carried.keys()),
+    new Map([...held].map(([id, { rest }]) => [id, rest])),
     unanswered,
   );
   for (const [id, item] of generic) if (!byId.has(id)) byId.set(id, item);
   const genericSubjects = new Set([...generic.values()].flatMap((item) => item.subjects));
+  const { removed, changed } = restateLive(held, byId);
   const outcomeOf = (place: MediaPlace): PlaceOutcome => {
     if (owned.has(subject(place))) return 'own';
     return genericSubjects.has(subject(place)) ? 'generic' : 'none';
@@ -287,7 +262,8 @@ export async function placeBatch(
   });
   return {
     items: [...byId.values()],
-    carried: [...carried.values()],
+    removed,
+    changed,
     outcomes: new Map(proposals.map((p) => [p.place.ref, p.outcome])),
     proposals,
     unanswered,

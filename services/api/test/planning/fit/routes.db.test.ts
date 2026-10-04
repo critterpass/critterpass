@@ -206,4 +206,49 @@ describe('nearby places and gap ideas', () => {
     expect(result.ideas.length).toBeLessThanOrEqual(3);
     expect(result.who_free).toEqual(expect.arrayContaining([a.organiser.uid]));
   });
+
+  it('draws both from the machine picks where nothing is curated', async () => {
+    const nearby = async () =>
+      (
+        (await get(a.organiser, `/v1/trips/${a.tripId}/places/${places[0]}/nearby?limit=5`)).body[
+          'places'
+        ] as { poi_id: string }[]
+      ).map((place) => place.poi_id);
+    const curated = await nearby();
+    // The same places as open data the pick job chose, and one beside the first nobody picked.
+    await harness.pool.query(
+      `UPDATE pois p SET curation = 'auto', pick_rank = r.n, pick_source = 'fill'
+         FROM (SELECT id, (row_number() OVER (ORDER BY name, id))::int AS n FROM pois
+                WHERE destination_id = (SELECT destination_id FROM pois WHERE id = $1)
+                  AND curation = 'editorial') r
+        WHERE p.id = r.id`,
+      [places[0]],
+    );
+    const { rows } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng)
+       SELECT destination_id, 'Unpicked temple', category, lat + 0.00001, lng FROM pois WHERE id = $1
+       RETURNING id`,
+      [places[0]],
+    );
+    const picked = await nearby();
+    expect(picked).toEqual(curated);
+    expect(picked).not.toContain(rows[0]!.id);
+
+    const dayId = (
+      await harness.pool.query<{ id: string }>(
+        'SELECT id FROM plan_days WHERE version_id = $1 AND day_no = 3',
+        [plan.versionId],
+      )
+    ).rows[0]!.id;
+    const ideas = gapIdeasResultSchema.parse(
+      (
+        await get(
+          a.organiser,
+          `/v1/trips/${a.tripId}/gaps/ideas?day_id=${dayId}&start=07:00&end=22:00`,
+        )
+      ).body,
+    );
+    expect(ideas.ideas.length).toBeGreaterThan(0);
+    expect(JSON.stringify(ideas)).not.toContain(rows[0]!.id);
+  });
 });

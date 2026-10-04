@@ -12,6 +12,7 @@ import { fixtureTransport } from '@cp/ai/testing';
 import { withSystem } from '@cp/db';
 import type { Itinerary } from '@cp/domain';
 import { dayWindow, scheduleDay } from '@cp/planner';
+import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AgentStepContext } from '../../../../src/ai/job-runner';
@@ -20,6 +21,7 @@ import { loadDraftPlaces } from '../../../../src/jobs/ai/draft/load-places';
 import { persistDraft } from '../../../../src/jobs/ai/draft/persist';
 import { ensurePlacePicks, tooFewCandidates } from '../../../../src/jobs/ai/draft/place-picks';
 import { loadBaseDraft } from '../../../../src/jobs/ai/draft/redraft-store';
+import { deckCandidates } from '../../../../src/jobs/ai/swipe-deck';
 import { silent, startJobsHarness, type JobsHarness } from '../../../helpers/jobs-harness';
 import { FILL, NAMED_IN_ORDER, seedDaLat, type DaLat } from '../../../places/pick/da-lat-places';
 import { seedTrip } from './kyoto-trip';
@@ -54,6 +56,11 @@ function stepContext(input: unknown): AgentStepContext {
     usage: {},
   } as unknown as AgentStepContext;
 }
+
+/** A named answer never asks the job to pick again. */
+const noQueue = {
+  send: () => Promise.reject(new Error('no pick should be queued')),
+} as unknown as Pick<PgBoss, 'send'>;
 
 const recorded = () =>
   createGateway({ apiKey: 'fixture-key', fetch: fixtureTransport(['place-picks-da-lat']).fetch });
@@ -98,10 +105,13 @@ describe('a draft in a destination without a curated set', () => {
       { gateway: recorded() },
       daLat.destinationId,
       silent,
+      noQueue,
     );
     expect(report).toMatchObject({ status: 'picked', matched: NAMED_IN_ORDER.length });
     // Once picked there is nothing to make.
-    expect(await ensurePlacePicks(harness.pool, {}, daLat.destinationId, silent)).toBeNull();
+    expect(
+      await ensurePlacePicks(harness.pool, {}, daLat.destinationId, silent, noQueue),
+    ).toBeNull();
 
     const places = await loadDraftPlaces(harness.pool, daLat.destinationId, []);
     const names = places.map((poi) => poi.name);
@@ -135,6 +145,23 @@ describe('a draft in a destination without a curated set', () => {
     expect(input.pools.meals.map((poi) => poi.name)).toEqual(
       expect.arrayContaining(['Phở Hiếu', 'Nem Nướng Bà Hùng']),
     );
+  });
+
+  it('deals the swipe deck from the picks', async () => {
+    const cards = await withSystem(harness.pool, (tx) =>
+      deckCandidates(tx, {
+        destination_id: daLat.destinationId,
+        version_id: null,
+        trip_id: tripId,
+      }),
+    );
+    const names = cards.map((card) => card.name);
+    expect(names).toEqual(expect.arrayContaining(['Hồ Xuân Hương', 'Phở Hiếu', 'Langbiang']));
+    // Never a stay, a station or a row nobody picked.
+    expect(names).not.toContain('Khách Sạn Sương Mai');
+    expect(names).not.toContain('Ga Đà Lạt');
+    expect(names).not.toContain('Văn Phòng Công Chứng');
+    expect(names).toHaveLength(NAMED_IN_ORDER.length + Object.values(FILL).flat().length);
   });
 
   it('redrafts a day the draft left empty', { timeout: 120_000 }, async () => {

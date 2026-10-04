@@ -1,8 +1,9 @@
 /**
  * `places.pick` (docs/api-contracts-async.md §2.3; docs/product-decisions.md D25): the machine
  * picks of one destination without a curated set (`src/places/pick/run.ts`). Queued when a trip
- * or a pitch names such a destination with no picks yet, when its place ingest finishes, and by an
- * operator (`src/places/pick/cli.ts`). One run at a time per destination (the job is keyed by its
+ * or a pitch names such a destination with no picks yet, forced when its place ingest finishes
+ * (the catalogue changed) or a draft's own naming call failed, and by an operator
+ * (`src/places/pick/cli.ts`). One run at a time per destination (the job is keyed by its
  * slug). The model call is system usage; while it fails the job retries, and the last attempt
  * fills from open data alone so the destination is never left with nothing to suggest.
  */
