@@ -1,7 +1,7 @@
 /**
  * A day's stops as the timeline both the trip map's day sheet (7a-2) and the day plan (7b-1) show:
  * time over length, the numbered stop (outlined when the check found something), VOTE or SWAP?
- * at its end, the leg to the next stop and the free time after it. The day plan adds the guide's
+ * at its end (else GO where the list offers it), the leg to the next stop and the free time after it. The day plan adds the guide's
  * note under the stop an issue names.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -10,6 +10,8 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { goHref } from '@/features/go';
+import { GoButton } from '@/ui/buttons/GoButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GapSlot, LegConnector, TimedStop, TokekNote } from '@/ui/planning';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -45,6 +47,17 @@ export interface StopListContext {
   readonly titleOf: (stableId: string) => string;
   /** The picked stop is outlined too (its marker is open on the map). */
   readonly picked?: string | null | undefined;
+  /** Which stops offer GO when VOTE or SWAP? isn't there: every stop with a place, or one. */
+  readonly go?: 'all' | { readonly only: string | null } | undefined;
+}
+
+/** GO on a stop: its place and the trip, when the stop has a place and the list offers it. */
+function goFor(row: StopRow, context: StopListContext): (() => void) | null {
+  const { go } = context;
+  const poiId = row.stop.poiId;
+  if (go === undefined || poiId === null || row.stop.place === null) return null;
+  if (go !== 'all' && go.only !== row.stop.stableId) return null;
+  return () => router.push(goHref({ kind: 'place', poiId, tripId: context.tripId }));
 }
 
 function Gap({ gap, context }: { readonly gap: FreeGap; readonly context: StopListContext }) {
@@ -103,6 +116,7 @@ export function StopBlock({
         testID={`stop-${String(row.n)}-swap`}
       />
     ) : null;
+  const go = action === null ? goFor(row, context) : null;
   return (
     <View>
       <TimedStop
@@ -113,7 +127,11 @@ export function StopBlock({
         detail={row.detail}
         color={context.color}
         outlined={row.issue !== null || context.picked === row.stop.stableId}
-        trailing={trailing ?? action}
+        trailing={
+          trailing ??
+          action ??
+          (go === null ? null : <GoButton onPress={go} testID={`stop-${String(row.n)}-go`} />)
+        }
         onPress={() => context.onOpenStop(row)}
         testID={`stop-${String(row.n)}`}
       />
