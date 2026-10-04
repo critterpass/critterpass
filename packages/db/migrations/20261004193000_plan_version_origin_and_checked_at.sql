@@ -21,3 +21,10 @@ BEGIN
   END IF;
 END
 $$;
+
+-- A private draft the organiser replaced by her next edit, and an empty plan nobody touched, are
+-- deleted rather than kept as history (the server does it, never a user): edits by hand would
+-- otherwise add a version, and its days, to every organiser's phone each time. `plan_items`
+-- already grants this; `app_user` still has no write path to any of the three.
+GRANT DELETE ON itinerary_versions TO app_system;
+GRANT DELETE ON plan_days TO app_system;
