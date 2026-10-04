@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePlanningMapPreview } from '@/data/plan/map-preview';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { EdgeIndicator, StopRouteLayer, usePlanningCamera } from '@/ui/map/planning';
 import { MapSheet, MapSheetScrollView, type MapSheetSnap } from '@/ui/sheet/map-sheet';
 import { mapSheetHeights } from '@/ui/sheet/map-sheet-snap';
@@ -56,6 +57,9 @@ export function TripMapView(props: TripMapViewProps) {
   const insets = useSafeAreaInsets();
   const camera = usePlanningCamera();
   const preview = usePlanningMapPreview();
+  // The design draws the trip map without a back control: system back lowers the sheet, then
+  // leaves; an edge swipe leaves on iOS.
+  useNoBackByDesign();
   const { model, route } = props;
   const [snap, setSnap] = useState<MapSheetSnap>(
     model.empty ? 'half' : (props.initialSnap ?? 'peek'),

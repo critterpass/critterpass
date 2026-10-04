@@ -15,14 +15,9 @@ msgstr "{count} days"
 msgid "plan.allDays.title"
 msgstr "{place}, {count} days"
 
-#. placeholder {0}: dateLine(locale, props.from.date)
-#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
-msgid "plan.allDays.backTo"
-msgstr "← {0}"
-
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.back"
-msgstr "← Back"
+msgstr "Back"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.checkDetail"

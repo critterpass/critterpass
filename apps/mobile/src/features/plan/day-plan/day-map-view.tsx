@@ -10,12 +10,11 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { IconButton } from '@/ui/buttons/IconButton';
 import { MapLabel, usePlanningCamera } from '@/ui/map/planning';
 import { DayChips, FilterChipRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { BackButton } from '@/ui/shell/BackButton';
 import { Scaffold } from '@/ui/surface/Scaffold';
-import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import { freeGaps } from '../trip-map/day-gaps';
@@ -169,12 +168,7 @@ export function DayMapView({
         </TripMapLayers>
         <View style={[styles.top, { top: insets.top + 8 }]} pointerEvents="box-none">
           <View style={styles.bar}>
-            <IconButton
-              label={t({ id: 'plan.dayPlan.backToDay', message: 'Back to the day' })}
-              glyph={<Text variant="h3">←</Text>}
-              onPress={onBack}
-              testID="day-map-back"
-            />
+            <BackButton onPress={onBack} testID="day-map-back" />
             <DayPill day={day} locale={locale} onPress={() => setPicking(true)} />
           </View>
           <View style={styles.chips}>

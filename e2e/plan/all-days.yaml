@@ -69,7 +69,6 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: en-7b-3-move-stop
 - tapOn:
     id: 'move-stop-0199c000-0000-7000-8000-000000000204'
 - extendedWaitUntil:
@@ -146,11 +145,19 @@ appId: app.critterpass.dev
     while:
       notVisible:
         id: 'dev-nav-plan-views-lab'
-    times: 4
+    times: 2
     commands:
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 2000
+# An iOS edge swipe can carry past the tools list to Home: back into the tools from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
 - scrollUntilVisible:
     element:
       id: 'dev-build-marker'

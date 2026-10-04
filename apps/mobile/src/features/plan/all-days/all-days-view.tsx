@@ -10,8 +10,8 @@ import { ScrollView, View } from 'react-native';
 import type { DayItem } from '@/data/plan/plan-model';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { TokekNote } from '@/ui/planning';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
@@ -70,13 +70,13 @@ export function AllDaysView(props: AllDaysViewProps) {
   const fits = ideaDays(model);
   const back =
     props.from?.date == null
-      ? t({ id: 'plan.allDays.back', message: '← Back' })
-      : t({ id: 'plan.allDays.backTo', message: `← ${dateLine(locale, props.from.date)}` });
+      ? t({ id: 'plan.allDays.back', message: 'Back' })
+      : dateLine(locale, props.from.date);
   return (
     <Scaffold variant="dark" testID="all-days">
       <ScrollView scrollEnabled={!props.dragging} contentContainerStyle={styles.scroll}>
         <View style={styles.head}>
-          <TextLink label={back} onPress={props.onBack} testID="all-days-back" />
+          <BackEyebrow label={back} onPress={props.onBack} testID="all-days-back" />
           <PillButton
             size="sm"
             variant="secondary"

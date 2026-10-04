@@ -15,11 +15,6 @@ msgstr ""
 msgid "plan.allDays.title"
 msgstr ""
 
-#. placeholder {0}: dateLine(locale, props.from.date)
-#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
-msgid "plan.allDays.backTo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.back"
 msgstr ""

@@ -11,9 +11,9 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import { DayChips, PlanningTag } from '@/ui/planning';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -102,8 +102,8 @@ export function DayPlanView(props: DayPlanViewProps) {
         >
           <View style={styles.head}>
             <View style={styles.headStart}>
-              <TextLink
-                label={t({ id: 'plan.dayPlan.back', message: '← Trip' })}
+              <BackEyebrow
+                label={t({ id: 'plan.dayPlan.back', message: 'Trip' })}
                 onPress={props.onBack}
                 testID="day-plan-back"
               />

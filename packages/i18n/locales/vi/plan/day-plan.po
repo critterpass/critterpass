@@ -19,10 +19,6 @@ msgstr "{stop} đã được ghim giờ."
 msgid "plan.dayPlan.refused.untimed"
 msgstr "{stop} cần có giờ trước."
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.back"
-msgstr "← Chuyến đi"
-
 #: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
 msgid "plan.dayPlan.add"
 msgstr "Thêm địa điểm, hoặc dán liên kết"
@@ -30,10 +26,6 @@ msgstr "Thêm địa điểm, hoặc dán liên kết"
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.allDays"
 msgstr "Tất cả ngày"
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
-msgid "plan.dayPlan.backToDay"
-msgstr "Quay lại ngày"
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
@@ -53,7 +45,7 @@ msgid "plan.dayPlan.empty"
 msgstr "Chưa có gì. Thêm điểm dừng đầu tiên."
 
 #. placeholder {0}: idea.minutes
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.onTheWay"
 msgstr "Tiện đường · +{0} phút"
 
@@ -61,7 +53,7 @@ msgstr "Tiện đường · +{0} phút"
 msgid "plan.dayPlan.openMap"
 msgstr "Mở bản đồ của ngày"
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.pickDay"
 msgstr "Chọn ngày"
 
@@ -96,6 +88,10 @@ msgstr "Thứ tự đó kéo qua nửa đêm."
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "Không thể đổi kế hoạch này ở đây."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
+msgstr "Chuyến đi"
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.draft"

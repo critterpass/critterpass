@@ -19,10 +19,6 @@ msgstr "{stop} is pinned to its time."
 msgid "plan.dayPlan.refused.untimed"
 msgstr "{stop} needs a time first."
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.back"
-msgstr "← Trip"
-
 #: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
 msgid "plan.dayPlan.add"
 msgstr "Add a place, or paste a link"
@@ -30,10 +26,6 @@ msgstr "Add a place, or paste a link"
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.allDays"
 msgstr "All days"
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
-msgid "plan.dayPlan.backToDay"
-msgstr "Back to the day"
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
@@ -53,7 +45,7 @@ msgid "plan.dayPlan.empty"
 msgstr "Nothing planned yet. Add the first stop."
 
 #. placeholder {0}: idea.minutes
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.onTheWay"
 msgstr "On the way · +{0} min"
 
@@ -61,7 +53,7 @@ msgstr "On the way · +{0} min"
 msgid "plan.dayPlan.openMap"
 msgstr "Open the day’s map"
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.pickDay"
 msgstr "Pick a day"
 
@@ -96,6 +88,10 @@ msgstr "That order runs past midnight."
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "This plan can’t be changed here."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
+msgstr "Trip"
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.draft"

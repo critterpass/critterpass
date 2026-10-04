@@ -19,20 +19,12 @@ msgstr ""
 msgid "plan.dayPlan.refused.untimed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
-msgid "plan.dayPlan.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
 msgid "plan.dayPlan.add"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.allDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
-msgid "plan.dayPlan.backToDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
@@ -53,7 +45,7 @@ msgid "plan.dayPlan.empty"
 msgstr ""
 
 #. placeholder {0}: idea.minutes
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.onTheWay"
 msgstr ""
 
@@ -61,7 +53,7 @@ msgstr ""
 msgid "plan.dayPlan.openMap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-map-screen.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
 msgid "plan.dayPlan.pickDay"
 msgstr ""
 
@@ -95,6 +87,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
