@@ -3,6 +3,7 @@
  * maybe, out, waitlisted) to the trip's organisers, and "it's on" to everyone on the trip when it
  * is confirmed (the organiser locked it in, or enough were in when reply-by passed).
  */
+import { tripHubPath } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type NotificationSender } from '../notify/register';
@@ -160,7 +161,7 @@ export function registerTripNewsNotifications(): void {
         sender: { kind: 'member', id: member, name },
         crewId: trip.crew_id,
         tripId,
-        deepLink: `/hub/${tripId ?? ''}`,
+        deepLink: tripHubPath(tripId ?? ''),
         collapseVars: { trip_id: tripId ?? '' },
       };
     },
@@ -197,7 +198,7 @@ export function registerTripNewsNotifications(): void {
         sender: trip.guide,
         crewId: trip.crew_id,
         tripId,
-        deepLink: `/hub/${tripId ?? ''}`,
+        deepLink: tripHubPath(tripId ?? ''),
         collapseVars: { trip_id: tripId ?? '' },
       };
     },

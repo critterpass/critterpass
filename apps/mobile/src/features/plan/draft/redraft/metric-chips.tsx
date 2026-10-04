@@ -1,5 +1,5 @@
 /**
- * The redraft's measured effect under its changes, all computed by the planner: time on trains,
+ * The redraft's measured effect under its changes, all computed by the planner: time travelling,
  * pace, must-dos kept and, when it moved, the cost each.
  */
 import { plural, t } from '@lingui/core/macro';
@@ -25,12 +25,12 @@ function words(chip: MetricChip, locale: string): string {
     case 'transit': {
       const minutes = Math.abs(chip.deltaMin);
       if (chip.deltaMin < 0) {
-        return t({ id: 'planDraft.metric.transitLess', message: `${minutes} min less on trains` });
+        return t({ id: 'planDraft.metric.transitLess', message: `${minutes} min less travelling` });
       }
       if (chip.deltaMin > 0) {
-        return t({ id: 'planDraft.metric.transitMore', message: `${minutes} min more on trains` });
+        return t({ id: 'planDraft.metric.transitMore', message: `${minutes} min more travelling` });
       }
-      return t({ id: 'planDraft.metric.transitSame', message: 'Same time on trains' });
+      return t({ id: 'planDraft.metric.transitSame', message: 'Same time travelling' });
     }
     case 'pace':
       return chip.pace === 'slower'

@@ -40,6 +40,15 @@ export function checkPlan(input: CheckInput): RankedIssue[] {
 
 export { fingerprintOf } from './fingerprint';
 export {
+  aroundOf,
+  quietKey,
+  splitQuiet,
+  type QuietDay,
+  type QuietMark,
+  type QuietSplit,
+  type QuietSubject,
+} from './quiet';
+export {
   MIN_SAVING_MIN,
   PLAN_CHECK_FIXERS,
   tooFarAlternative,

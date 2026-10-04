@@ -5,7 +5,7 @@
  * bookings). It answers with the new day's stops, a title, a summary and a reason per stop; the
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
-import type { DraftDay, Itinerary, RedraftReason } from '@cp/domain';
+import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
 import { alignStableIds, dayWindow, dropViolations, type ValidationResult } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
@@ -30,17 +30,20 @@ import type { SkeletonDay } from './skeleton';
 
 export const REDRAFT_PROMPT_VERSION = 'redraft-day@1';
 
-const REASON_TEXT: Readonly<Record<RedraftReason, string>> = {
+const REASON_TEXT: Readonly<Record<RedraftReasonKey, string>> = {
   slower: 'slower: fewer stops and more time at each',
   cheaper: 'cheaper: free and lower-priced places',
   less_train: 'less travel: stops close together, no long rides',
   more_food: 'more food: markets, snacks and a proper meal',
   swap_it_out: 'swap it out: mostly different places',
   surprise_me: 'surprise me: something the crew would not expect',
+  later_start: 'later start: a slow morning, nothing early',
+  lighter_day: 'lighter day: less packed in, with time left free',
+  less_travel: 'less travel: stops close together, no long rides',
 };
 
 /** What each reason asks of the new day, measured against the day as it stands. */
-function reasonTarget(reason: RedraftReason, day: DraftDay): string {
+function reasonTarget(reason: RedraftReasonKey, day: DraftDay): string {
   const stops = day.items.length;
   const food = day.items.filter((item) => item.kind === 'meal').length;
   switch (reason) {
@@ -49,6 +52,7 @@ function reasonTarget(reason: RedraftReason, day: DraftDay): string {
     case 'cheaper':
       return 'Cheaper means swapping at least one priced stop for a free or lower-priced one.';
     case 'less_train':
+    case 'less_travel':
       return 'Less travel means stops closer together than now: drop or swap the one furthest away.';
     case 'more_food':
       return `More food means more than ${food} food stops: add a market or a meal place.`;
@@ -56,6 +60,10 @@ function reasonTarget(reason: RedraftReason, day: DraftDay): string {
       return 'Swap it out means most stops not marked KEEP become different places.';
     case 'surprise_me':
       return 'Surprise me means at least one place of a kind this day does not have yet.';
+    case 'later_start':
+      return 'Later start means no stop that is best early in the morning, and a first stop that suits a late morning.';
+    case 'lighter_day':
+      return `Lighter day means at most ${Math.max(1, stops - 1)} stops (the day has ${stops} now), dropping the most tiring one.`;
   }
 }
 
@@ -69,7 +77,7 @@ export interface ChatLine {
 export interface RedraftPlanInput extends DraftPlanInput {
   readonly base: Itinerary;
   readonly dayNo: number;
-  readonly reasons: readonly RedraftReason[];
+  readonly reasons: readonly RedraftReasonKey[];
   readonly note: string | null;
   readonly chat: readonly ChatLine[];
 }

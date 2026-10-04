@@ -2,7 +2,8 @@
  * A plan check FIX on the real stack: an organiser's one-tap fix applies at once with a
  * `check_fix` guide action, and undoing it from the trip feed puts the plan's items back; a
  * member's fix goes to the crew as a change set; an issue from an older plan is stale; FIX ALL
- * drafts one change set that only its author can see.
+ * drafts one change set that only its author can see. An organiser who keeps the plan as it is
+ * takes the issue off the list and leaves a quiet mark for the check job; a member cannot.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -162,6 +163,65 @@ describe('apply_check_fix', () => {
       base_version: versionId,
     });
     expect(errorOf(none)).toMatchObject({ code: 'STATE_INVALID', detail: { reason: 'no_fix' } });
+  });
+});
+
+describe('keep_check_issue', () => {
+  it('takes the issue off the list and the count, and marks it quiet for the check job', async () => {
+    const { versionId } = await current();
+    const kept = await issue(12);
+    await withSystem(harness.pool, (tx) =>
+      tx.query(
+        `INSERT INTO plan_checks (trip_id, version_id, status, fix_count, know_count)
+         VALUES ($1, $2, 'done', 2, 1)
+         ON CONFLICT (trip_id) DO UPDATE SET fix_count = 2, know_count = 1, quiet = '[]'::jsonb`,
+        [crew.tripId, versionId],
+      ),
+    );
+    const payload = { issue_id: kept, base_version: versionId };
+    const denied = await harness.run(crew.members[1]!, 'keep_check_issue', payload);
+    expect(errorOf(denied)).toMatchObject({
+      code: 'FORBIDDEN',
+      detail: { reason: 'organiser_only' },
+    });
+    const done = await harness.run(crew.organiser, 'keep_check_issue', payload);
+    expect(resultOf(done)).toEqual({ issue_id: kept, fix_count: 1, know_count: 1 });
+    const { rows } = await harness.pool.query<{ quiet: unknown[]; issues: number }>(
+      `SELECT c.quiet, (SELECT count(*)::int FROM plan_check_issues i WHERE i.id = $2) AS issues
+         FROM plan_checks c WHERE c.trip_id = $1`,
+      [crew.tripId, kept],
+    );
+    expect(rows[0]?.issues).toBe(0);
+    expect(rows[0]?.quiet).toEqual([
+      expect.objectContaining({
+        kind: 'clash',
+        stable_ids: [plan.walk, plan.dinner],
+        day_no: null,
+        booking_id: null,
+        around: null,
+        by: crew.organiser.uid,
+      }),
+    ]);
+    expect(errorOf(await harness.run(crew.organiser, 'keep_check_issue', payload)).code).toBe(
+      'NOT_FOUND',
+    );
+  });
+
+  it('refuses an issue from an older plan', async () => {
+    const stale = await issue(14);
+    const { versionId } = await current();
+    await harness.pool.query(
+      'UPDATE plan_check_issues SET version_id = (SELECT id FROM itinerary_versions WHERE trip_id = $1 AND id <> $2 LIMIT 1) WHERE id = $3',
+      [crew.tripId, versionId, stale],
+    );
+    const refused = await harness.run(crew.organiser, 'keep_check_issue', {
+      issue_id: stale,
+      base_version: versionId,
+    });
+    expect(errorOf(refused)).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { reason: 'stale_issue' },
+    });
   });
 });
 

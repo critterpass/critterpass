@@ -5,7 +5,7 @@
  */
 import { z } from 'zod';
 
-/** The reason chips on the change-a-day sheet. */
+/** The first reason chips; apps built around them send and render exactly these. */
 export const REDRAFT_REASONS = [
   'slower',
   'cheaper',
@@ -16,6 +16,34 @@ export const REDRAFT_REASONS = [
 ] as const;
 export const redraftReasonSchema = z.enum(REDRAFT_REASONS);
 export type RedraftReason = z.infer<typeof redraftReasonSchema>;
+
+/**
+ * Every reason a redraft accepts: the first chips, plus a later start, a lighter day and less time
+ * travelling (which says nothing about trains; `less_train` is read the same way).
+ */
+export const REDRAFT_REASON_KEYS = [
+  ...REDRAFT_REASONS,
+  'later_start',
+  'lighter_day',
+  'less_travel',
+] as const;
+export const redraftReasonKeySchema = z.enum(REDRAFT_REASON_KEYS);
+export type RedraftReasonKey = z.infer<typeof redraftReasonKeySchema>;
+
+/**
+ * The reason chips on the change-a-day sheet, in the order they show, each with the catalogue key
+ * of its label. `less_train` is no longer offered; a build that still sends it is still accepted.
+ */
+export const REDRAFT_REASON_CHIPS = [
+  { key: 'slower', labelKey: 'planDraft.reason.slower' },
+  { key: 'lighter_day', labelKey: 'planDraft.reason.lighterDay' },
+  { key: 'later_start', labelKey: 'planDraft.reason.laterStart' },
+  { key: 'less_travel', labelKey: 'planDraft.reason.lessTravel' },
+  { key: 'cheaper', labelKey: 'planDraft.reason.cheaper' },
+  { key: 'more_food', labelKey: 'planDraft.reason.moreFood' },
+  { key: 'swap_it_out', labelKey: 'planDraft.reason.swap' },
+  { key: 'surprise_me', labelKey: 'planDraft.reason.surprise' },
+] as const satisfies readonly { readonly key: RedraftReasonKey; readonly labelKey: string }[];
 
 export const REDRAFT_NOTE_MAX = 280;
 
@@ -29,7 +57,7 @@ export const requestRedraftPayloadSchema = z
   .strictObject({
     trip_id: z.uuid(),
     day: z.number().int().positive(),
-    reasons: z.array(redraftReasonSchema).max(REDRAFT_REASONS.length),
+    reasons: z.array(redraftReasonKeySchema).max(REDRAFT_REASON_KEYS.length),
     note: z.string().trim().max(REDRAFT_NOTE_MAX).optional(),
     base_version: z.uuid(),
     /** A free redraft that fits in a must-do added after the draft was made. */

@@ -6,7 +6,13 @@
  * app_system and select crew-visible or the member's own rows only; nothing C3 is read.
  */
 import { formatMoney, money } from '@cp/cost-engine';
-import { localSchedule, toLocalWallTime, type BriefingCandidate } from '@cp/domain';
+import {
+  localSchedule,
+  toLocalWallTime,
+  tripDayPath,
+  tripHubPath,
+  type BriefingCandidate,
+} from '@cp/domain';
 import { joinNames } from '@cp/planner';
 import type pg from 'pg';
 
@@ -81,7 +87,7 @@ async function leaveBys(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
         facts: line.facts,
         template: line.template,
         target_user_ids: [],
-        deep_link: `/hub/${scope.tripId}/day/${scope.localDate}`,
+        deep_link: tripDayPath(scope.tripId, scope.localDate),
         dedupe_key: `leave_by:${row.id}`,
       },
     ];
@@ -132,7 +138,7 @@ async function dayFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
       facts: { time, title: item.title },
       template: `First up: ${item.title} at ${time}.`.slice(0, 140),
       target_user_ids: [],
-      deep_link: `/hub/${scope.tripId}`,
+      deep_link: tripHubPath(scope.tripId),
       dedupe_key: `first:${scope.localDate}`,
     });
   }

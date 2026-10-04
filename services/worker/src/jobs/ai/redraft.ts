@@ -14,7 +14,7 @@ import {
   DRAFT_QUEUES,
   DRAFT_RT,
   REDRAFT_COUNTER_RT,
-  REDRAFT_REASONS,
+  REDRAFT_REASON_KEYS,
   type RedraftResult,
 } from '@cp/domain';
 import { itineraryMetrics, redraftDiff, redraftMetrics } from '@cp/planner';
@@ -34,7 +34,7 @@ import { draftChannel } from './draft/steps';
 const redraftInputSchema = z.object({
   trip_id: z.uuid(),
   day: z.number().int().positive(),
-  reasons: z.array(z.enum(REDRAFT_REASONS)),
+  reasons: z.array(z.enum(REDRAFT_REASON_KEYS)),
   note: z.string().nullable(),
   base_version: z.uuid(),
 });

@@ -1,7 +1,8 @@
 /**
  * `apply_changeset` (docs/api-contracts.md §4.6). `group`: an organiser applies a change set to
- * the crew's plan, whether its vote has passed or not (an open vote closes as approved), and
- * confirms one whose booking impact waited for them. A stale set never applies; an applied one
+ * the crew's plan, whether it was sent to the crew or not and whether its vote has passed or not
+ * (an open vote closes as approved), and confirms one whose booking impact waited for them. Their
+ * own unsent draft goes straight in, as a direct edit of theirs would. A stale set never applies; an applied one
  * answers as it stands. `personal`: any member applies the accepted changes to their own plan only
  * (../../plan/personal-apply.ts).
  */
@@ -45,6 +46,9 @@ export const applyChangesetCommand = defineCommand({
     if (row.status === 'applied') return outcomeOf(tx, row.id);
     if (!OPEN_STATUSES.has(row.status)) {
       throw new DomainError('STATE_INVALID', { state: row.status });
+    }
+    if (!row.ops.some((op) => op.accepted !== false)) {
+      throw new DomainError('STATE_INVALID', { reason: 'nothing_accepted' });
     }
     if (row.status === 'voting') await closeVote(tx, row, 'approve', 'manual', ctx.uid);
     row = await advance(tx, row, ['proposed', 'approved'], { kind: 'organiser', uid: ctx.uid });
