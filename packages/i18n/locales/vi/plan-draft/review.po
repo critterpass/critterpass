@@ -15,6 +15,10 @@ msgstr "{count, plural, other {{names} đang lên kế hoạch}}"
 msgid "planDraft.review.sub"
 msgstr "{dates}, mỗi người {cost}. Sửa gì thì sửa trước khi cả nhóm thấy."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.subNoCost"
+msgstr "{dates}. Chưa có ước tính chi phí. Sửa gì thì sửa trước khi cả nhóm thấy."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.days"
 msgstr "{days} ngày"
@@ -40,10 +44,6 @@ msgstr "{guideName} đang soạn lại một ngày."
 msgid "planDraft.review.title"
 msgstr "Bản nháp của {guideName}"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.some"
-msgstr "{made}/{total} việc phải làm có mặt"
-
 #: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
 msgid "planDraft.stay.line"
 msgstr "{nights, plural, other {# đêm · {kind} · khoảng {price} mỗi người một đêm}}"
@@ -51,6 +51,14 @@ msgstr "{nights, plural, other {# đêm · {kind} · khoảng {price} mỗi ngư
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.coverage.missing"
 msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr "{total, plural, other {{made}/# việc phải làm có mặt}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
+msgstr "{total, plural, other {Đủ cả # việc phải làm}}"
 
 #: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
 msgid "planDraft.counter"
@@ -72,10 +80,6 @@ msgstr "{wd} · {name} lúc {at}, {next}"
 msgid "planDraft.day.free"
 msgstr "{wd} · Không xếp gì, cố ý đấy"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.all"
-msgstr "Đủ cả {total} việc phải làm"
-
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
@@ -95,6 +99,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
 msgstr "Lập đề xuất"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.fitIn"
+msgstr "Đổi một ngày để xếp vào"
 
 #: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
 msgid "planDraft.closure.line"
@@ -144,6 +152,10 @@ msgstr "Giá ước tính. Chưa giữ chỗ nào."
 msgid "planDraft.empty.line"
 msgstr "Xong phần chuẩn bị là {guideName} lên nháp cả chuyến cho bạn."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.change.fitIn"
+msgstr "Xếp thêm: {what}"
+
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.unknown"
 msgstr "mình không tìm ra chỗ đó"
@@ -188,13 +200,13 @@ msgstr "Chỉ bạn thấy"
 msgid "planDraft.review.redraftOpen"
 msgstr "Mở"
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
-msgid "planDraft.day.optional"
-msgstr "Tùy chọn"
-
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.overBudget"
 msgstr "Vượt ngân sách {amount} mỗi người. Nhờ mình tìm ngày rẻ hơn nhé."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.pickPlace"
+msgstr "Chọn địa điểm"
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.revert"

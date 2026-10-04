@@ -112,6 +112,10 @@ msgstr "Day {n} is already the best I can do. That one didn’t count."
 msgid "planDraft.diff.revertedToast"
 msgstr "Day {n} is back as it was."
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.keptToastPlain"
+msgstr "Day {n} is redrafted."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.dayChip"
 msgstr "Day {n}, {wd}"
@@ -123,6 +127,10 @@ msgstr "Day {n}, redrafted"
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.fuller"
 msgstr "Fuller pace"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.summaryPlain"
+msgstr "Here’s what {guideName} would change."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.busy"
@@ -144,13 +152,25 @@ msgstr "Keep this change"
 msgid "planDraft.last.title"
 msgstr "Last free redraft"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.laterStart"
+msgstr "Later start"
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.skip"
 msgstr "Leave this one as it was"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.clash"
+msgstr "Leaving that one out would put two stops at the same time. Tick it again, or put the whole day back and ask differently."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
-msgid "planDraft.reason.lessTrain"
-msgstr "Less train"
+msgid "planDraft.reason.lessTravel"
+msgstr "Less travel"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.lighterDay"
+msgstr "Lighter day"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.line"
@@ -180,6 +200,10 @@ msgstr "Only you see this"
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.optional"
 msgstr "Optional"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.hint"
+msgstr "Pick a reason or write a few words."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.putBack"
@@ -245,6 +269,10 @@ msgstr "That redraft didn’t work"
 #: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
 msgid "planDraft.spent.line"
 msgstr "That’s every free redraft on this trip."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.howTo"
+msgstr "Untick a change to leave that stop as it was."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.use"

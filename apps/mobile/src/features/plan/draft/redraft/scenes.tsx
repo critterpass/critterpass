@@ -1,6 +1,6 @@
 /** Change a day (3c-11), the last free redraft (4f-3) and the redraft diff (3c-12), for the scenes. */
 /* eslint-disable lingui/no-unlocalized-strings -- scene names and fixture text, never copy. */
-import type { RedraftReason } from '@cp/domain';
+import type { RedraftReasonKey } from '@cp/domain';
 
 import { counterLine } from '../data/quota-copy';
 import { changeCards, metricChips } from '../data/redraft';
@@ -18,7 +18,7 @@ const noop = () => undefined;
 const NOTE = 'Nara on a Monday sounds packed. Something near the ryokan?';
 
 function changeDay(props: Partial<ChangeDayViewProps>) {
-  const reasons = new Set<RedraftReason>(['less_train', 'swap_it_out']);
+  const reasons = new Set<RedraftReasonKey>(['less_travel', 'swap_it_out']);
   return () => (
     <InLocale
       render={(locale) => (

@@ -17,9 +17,11 @@ import { toast } from '@/motion';
 
 import { restoreDraftVersionCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
+import { roomiestDay } from '../data/fit-day';
 import { dayRange } from '../data/format';
 import { useDraftVersion, type HistoryEntry } from '../data/use-draft-version';
 import { draftRoutes } from '../routes';
+import { missAction, type MissedMustDo } from './coverage-strip';
 import { DraftLoading } from './draft-loading';
 import { DraftReviewView } from './draft-review-view';
 import { MemberPlanning } from './member-planning';
@@ -34,6 +36,8 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   const sync = useSyncStatus();
   const restore = useCommand(restoreDraftVersionCommand);
   const [history, setHistory] = useState(false);
+  // The day she last opened: Change a day starts there, not on day 1.
+  const [lastDay, setLastDay] = useState<number | null>(null);
   const drafting =
     trip?.isOrganiser === true &&
     trip.draftVersionId === null &&
@@ -88,6 +92,37 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   const propose = hrefFor('3f-1', { tripId });
   const day = draftRoutes.day(tripId, 1);
   const open = draft.openRedraft;
+  const review = draft.review;
+  const fitIn = (titles: readonly string[]) => {
+    const what = titles.join(', ');
+    return what === ''
+      ? undefined
+      : t({ id: 'planDraft.change.fitIn', message: `Fit in: ${what}` });
+  };
+  const onChangeDay = (free: boolean) => {
+    // A must-do added after the draft: the roomiest day, with what to fit in already written.
+    if (free) {
+      router.push(
+        draftRoutes.changeDay(
+          tripId,
+          roomiestDay(review.days),
+          true,
+          fitIn(review.lateMustDoTitles),
+        ),
+      );
+    } else router.push(draftRoutes.changeDay(tripId, lastDay ?? undefined));
+  };
+  const onFixMiss = (miss: MissedMustDo) => {
+    if (missAction(miss.reason) === 'pick_place') {
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+      const add = hrefFor('3c-10', { tripId });
+      if (add !== undefined) router.push(add);
+    } else {
+      router.push(
+        draftRoutes.changeDay(tripId, roomiestDay(review.days), false, fitIn([miss.title])),
+      );
+    }
+  };
   return (
     <>
       <DraftReviewView
@@ -110,11 +145,13 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
         hasHistory={draft.history.length > 1}
         onBack={back}
         onPropose={propose === undefined ? undefined : () => router.push(propose)}
-        onChangeDay={(free) => router.push(draftRoutes.changeDay(tripId, undefined, free))}
+        onChangeDay={onChangeDay}
+        onFixMiss={onFixMiss}
         onOpenDay={
           day === undefined
             ? undefined
             : (dayNo) => {
+                setLastDay(dayNo);
                 const href = draftRoutes.day(tripId, dayNo);
                 if (href !== undefined) router.push(href);
               }

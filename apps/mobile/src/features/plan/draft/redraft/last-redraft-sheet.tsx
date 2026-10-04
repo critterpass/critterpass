@@ -1,5 +1,5 @@
 /** The last-free-redraft interstitial wired to the phone: the redraft it holds, the quota, the boost. */
-import type { RedraftReason } from '@cp/domain';
+import type { RedraftReasonKey } from '@cp/domain';
 
 import { useDraftTrip } from '../data/draft-trip';
 import { redraftBoost } from '../boost-slot';
@@ -10,7 +10,7 @@ import { useSendRedraft } from './use-send-redraft';
 export interface LastRedraftSheetProps {
   readonly tripId: string;
   readonly day: number;
-  readonly reasons: readonly RedraftReason[];
+  readonly reasons: readonly RedraftReasonKey[];
   readonly note: string;
   readonly free: boolean;
 }

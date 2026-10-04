@@ -1,10 +1,11 @@
 /**
- * Change a day wired to the phone: the organiser's current draft days, the reason chips and note,
+ * Change a day wired to the phone: the organiser's current draft days (opening on the day the
+ * caller names, with a note it may carry), the reason chips and note,
  * and the trip's redraft quota. REDRAFT goes straight ahead, raises the last-free-redraft
  * interstitial first when one is left, or offers the boost when none are.
  */
-import type { RedraftReason } from '@cp/domain';
-import { router } from 'expo-router';
+import { REDRAFT_NOTE_MAX, type RedraftReasonKey } from '@cp/domain';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -26,13 +27,19 @@ export interface ChangeDaySheetProps {
   readonly free: boolean;
 }
 
+/** The note the sheet opens with (`?note=`): what the caller already knows should change. */
+function useInitialNote(): string {
+  const { note } = useLocalSearchParams<{ note?: string }>();
+  return typeof note === 'string' ? note.slice(0, REDRAFT_NOTE_MAX) : '';
+}
+
 export function ChangeDaySheet({ tripId, initialDay, free }: ChangeDaySheetProps) {
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
   const locale = useLocale();
   const [day, setDay] = useState(initialDay ?? 1);
-  const [reasons, setReasons] = useState<ReadonlySet<RedraftReason>>(new Set());
-  const [note, setNote] = useState('');
+  const [reasons, setReasons] = useState<ReadonlySet<RedraftReasonKey>>(new Set());
+  const [note, setNote] = useState(useInitialNote());
   const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null);
   if (trip === undefined || trip === null || draft.review === null) return null;
 

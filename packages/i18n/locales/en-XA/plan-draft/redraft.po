@@ -112,6 +112,10 @@ msgstr ""
 msgid "planDraft.diff.revertedToast"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.keptToastPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.dayChip"
 msgstr ""
@@ -122,6 +126,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.fuller"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.summaryPlain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
@@ -144,12 +152,24 @@ msgstr ""
 msgid "planDraft.last.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.laterStart"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.skip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.clash"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
-msgid "planDraft.reason.lessTrain"
+msgid "planDraft.reason.lessTravel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.lighterDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
@@ -179,6 +199,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.optional"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.hint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
@@ -244,6 +268,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
 msgid "planDraft.spent.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.howTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx

@@ -15,6 +15,10 @@ msgstr ""
 msgid "planDraft.review.sub"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.subNoCost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.days"
 msgstr ""
@@ -40,16 +44,20 @@ msgstr ""
 msgid "planDraft.review.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.some"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
 msgid "planDraft.stay.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.coverage.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
@@ -72,10 +80,6 @@ msgstr ""
 msgid "planDraft.day.free"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.all"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr ""
@@ -94,6 +98,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.fitIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
@@ -144,6 +152,10 @@ msgstr ""
 msgid "planDraft.empty.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.change.fitIn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.unknown"
 msgstr ""
@@ -188,12 +200,12 @@ msgstr ""
 msgid "planDraft.review.redraftOpen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
-msgid "planDraft.day.optional"
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.overBudget"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.overBudget"
+msgid "planDraft.coverage.pickPlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts

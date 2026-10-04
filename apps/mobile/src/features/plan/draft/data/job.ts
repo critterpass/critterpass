@@ -48,8 +48,11 @@ export interface JobSnapshot {
 /** The steps the drafting screen lists: saving the draft is the fold itself, not a row. */
 export const VISIBLE_STEP_IDS = DRAFT_STEP_IDS.filter((id) => id !== 'persist');
 
-/** Past this the screen says it is taking a while and that a push will follow. */
-export const SLOW_AFTER_MS = 45_000;
+/**
+ * Past this the screen says it is taking longer than usual. A draft takes one to four minutes, so
+ * anything sooner would call the usual wait slow.
+ */
+export const SLOW_AFTER_MS = 300_000;
 
 const STATUS_RANK: Record<StepStatus, number> = { pending: 0, running: 1, done: 2, failed: 2 };
 const TERMINAL: ReadonlySet<JobStatus> = new Set(['succeeded', 'failed', 'cancelled']);

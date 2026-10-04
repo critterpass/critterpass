@@ -6,7 +6,7 @@
  * in draft mode (3e-2) once that area has registered it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
-import type { RedraftReason } from '@cp/domain';
+import type { RedraftReasonKey } from '@cp/domain';
 import type { Href } from 'expo-router';
 
 import { hrefFor, registerScreens } from '@/lib/navigation/screen-registry';
@@ -14,7 +14,7 @@ import { hrefFor, registerScreens } from '@/lib/navigation/screen-registry';
 /** A redraft asked for on the change-a-day sheet, carried to the last-redraft interstitial. */
 export interface RedraftAsk {
   readonly day: number;
-  readonly reasons: readonly RedraftReason[];
+  readonly reasons: readonly RedraftReasonKey[];
   readonly note: string;
   readonly free: boolean;
 }
@@ -25,13 +25,17 @@ export const draftRoutes = {
     pathname: '/[tripId]/draft/drafting',
     params: { tripId },
   }),
-  /** `free`: the sheet asks for the free fit-in redraft a must-do added after the draft gets. */
-  changeDay: (tripId: string, day?: number, free = false): Href => ({
+  /**
+   * `free`: the sheet asks for the free fit-in redraft a must-do added after the draft gets.
+   * `note`: words the sheet opens with ("Fit in: the night market").
+   */
+  changeDay: (tripId: string, day?: number, free = false, note?: string): Href => ({
     pathname: '/[tripId]/draft/change-day',
     params: {
       tripId,
       ...(day === undefined ? {} : { day: String(day) }),
       ...(free ? { free: '1' } : {}),
+      ...(note === undefined || note === '' ? {} : { note }),
     },
   }),
   lastRedraft: (tripId: string, ask: RedraftAsk): Href => ({

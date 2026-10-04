@@ -15,6 +15,10 @@ msgstr "{count, plural, one {{names} is planning} other {{names} are planning}}"
 msgid "planDraft.review.sub"
 msgstr "{dates}, {cost} each. Fix anything before the crew sees it."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.subNoCost"
+msgstr "{dates}. No cost estimate yet. Fix anything before the crew sees it."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.days"
 msgstr "{days} days"
@@ -40,10 +44,6 @@ msgstr "{guideName} is redrafting a day."
 msgid "planDraft.review.title"
 msgstr "{guideName}’s draft"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.some"
-msgstr "{made} of {total} must-dos made it"
-
 #: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
 msgid "planDraft.stay.line"
 msgstr "{nights, plural, one {One night · {kind} · about {price} a night each} other {# nights · {kind} · about {price} a night each}}"
@@ -51,6 +51,14 @@ msgstr "{nights, plural, one {One night · {kind} · about {price} a night each}
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.coverage.missing"
 msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr "{total, plural, one {{made} of # must-do made it} other {{made} of # must-dos made it}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
+msgstr "{total, plural, one {Your must-do made it} other {All # must-dos made it}}"
 
 #: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
 msgid "planDraft.counter"
@@ -72,10 +80,6 @@ msgstr "{wd} · {name} at {at}, {next}"
 msgid "planDraft.day.free"
 msgstr "{wd} · Nothing booked, on purpose"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
-msgid "planDraft.coverage.all"
-msgstr "All {total} must-dos made it"
-
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Ask {guideName} to change a day"
@@ -95,6 +99,10 @@ msgstr "Booked"
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
 msgstr "Build the proposal"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.fitIn"
+msgstr "Change a day to fit it"
 
 #: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
 msgid "planDraft.closure.line"
@@ -144,6 +152,10 @@ msgstr "Estimate. Nothing is held yet."
 msgid "planDraft.empty.line"
 msgstr "Finish setup and {guideName} drafts the whole trip for you."
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.change.fitIn"
+msgstr "Fit in: {what}"
+
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.unknown"
 msgstr "I couldn’t find the place"
@@ -188,13 +200,13 @@ msgstr "Only you see this"
 msgid "planDraft.review.redraftOpen"
 msgstr "Open"
 
-#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
-msgid "planDraft.day.optional"
-msgstr "Optional"
-
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.overBudget"
 msgstr "Over the budget by {amount} each. Ask me for a cheaper day."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.pickPlace"
+msgstr "Pick the place"
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.revert"

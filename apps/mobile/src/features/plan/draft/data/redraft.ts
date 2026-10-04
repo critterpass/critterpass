@@ -66,7 +66,17 @@ export function truthfulReason(text: string | null): string | null {
   return joined === '' ? null : joined;
 }
 
-export function changeCards(changes: readonly RedraftChange[], places: Places): ChangeCard[] {
+/**
+ * `reasons`: the guide's reason per stable id as the organiser reads it (a translation that has
+ * synced); a change without one keeps the reason as the guide wrote it.
+ */
+export function changeCards(
+  changes: readonly RedraftChange[],
+  places: Places,
+  reasons: ReadonlyMap<string, string> = new Map(),
+): ChangeCard[] {
+  const reasonOf = (change: RedraftChange | undefined): string | null =>
+    change === undefined ? null : (reasons.get(change.stable_id) ?? change.reason);
   const removes = changes.filter((c) => c.op === 'remove').sort(byStart);
   const adds = changes.filter((c) => c.op === 'add').sort(byStart);
   const edits = changes.filter((c) => c.op === 'swap' || c.op === 'retime');
@@ -94,7 +104,7 @@ export function changeCards(changes: readonly RedraftChange[], places: Places): 
         stableIds: ids,
         before,
         after,
-        reason: truthfulReason(into?.reason ?? out?.reason ?? null),
+        reason: truthfulReason(reasonOf(into) ?? reasonOf(out)),
       },
     });
   }
@@ -110,7 +120,7 @@ export function changeCards(changes: readonly RedraftChange[], places: Places): 
         stableIds: [edit.stable_id],
         before,
         after,
-        reason: truthfulReason(edit.reason),
+        reason: truthfulReason(reasonOf(edit)),
       },
     });
   }
@@ -133,6 +143,26 @@ export function changeCards(changes: readonly RedraftChange[], places: Places): 
 /** The stable ids to leave as they were when keeping, from the cards toggled off. */
 export function excludedIds(cards: readonly ChangeCard[], off: ReadonlySet<string>): string[] {
   return cards.filter((card) => off.has(card.key)).flatMap((card) => [...card.stableIds]);
+}
+
+/**
+ * Whether keeping the redraft with `excluded` changes left as they were would put two stops at
+ * the same time. A change left out keeps its old slot while the rest take their new ones, and the
+ * redraft was only checked as a whole: the stops that did not change cannot clash with either
+ * side, so the changed ones are checked against each other.
+ */
+export function partialKeepClashes(
+  changes: readonly RedraftChange[],
+  excluded: readonly string[],
+): boolean {
+  if (excluded.length === 0) return false;
+  const out = new Set(excluded);
+  const spans = changes.flatMap((change) => {
+    const slot = out.has(change.stable_id) ? change.before : change.after;
+    if (slot === null) return [];
+    return [{ start: Date.parse(slot.starts_at), end: Date.parse(slot.ends_at) }];
+  });
+  return spans.some((a, i) => spans.some((b, j) => j > i && a.start < b.end && b.start < a.end));
 }
 
 export type MetricChip =

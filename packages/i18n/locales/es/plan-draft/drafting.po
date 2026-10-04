@@ -31,8 +31,8 @@ msgstr ""
 msgid "planDraft.step.readProfiles"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.line"
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.stops"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
@@ -67,8 +67,16 @@ msgstr ""
 msgid "planDraft.working.season"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.leave"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.outlined"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
@@ -141,6 +149,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.fail.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx

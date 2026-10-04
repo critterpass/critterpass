@@ -4,7 +4,7 @@
  * underneath, with what stays put), the reason chips, "Anything else?" and REDRAFT DAY {n}, which
  * waits for a chip or a note. With no free redrafts left the button gives way to the boost offer.
  */
-import type { RedraftReason } from '@cp/domain';
+import type { RedraftReasonKey } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ReactNode } from 'react';
@@ -142,8 +142,8 @@ export interface ChangeDayViewProps {
   readonly days: readonly ReviewDay[];
   readonly day: number;
   readonly onDay: (day: number) => void;
-  readonly reasons: ReadonlySet<RedraftReason>;
-  readonly onReason: (reason: RedraftReason) => void;
+  readonly reasons: ReadonlySet<RedraftReasonKey>;
+  readonly onReason: (reason: RedraftReasonKey) => void;
   readonly note: string;
   readonly onNote: (note: string) => void;
   /** Why the last try did not go, in words. */
@@ -186,7 +186,6 @@ export function ChangeDayView(props: ChangeDayViewProps) {
           />
         </View>
       }
-      closable={false}
       accessibilityLabel={t({ id: 'planDraft.change.title', message: 'Change a day' })}
       {...(props.onClose === undefined ? {} : { onDismiss: props.onClose })}
       testID="change-day"
@@ -275,6 +274,11 @@ export function ChangeDayView(props: ChangeDayViewProps) {
             testID="change-day-submit"
           />
         )}
+        {props.spent === null && !ready ? (
+          <Text variant="caption" color={theme.semantic.text.secondary} testID="change-day-hint">
+            {t({ id: 'planDraft.change.hint', message: 'Pick a reason or write a few words.' })}
+          </Text>
+        ) : null}
         {props.counter === null ? null : (
           <Text variant="caption" color={theme.semantic.text.tertiary}>
             {props.counter}
