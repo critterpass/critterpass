@@ -9,7 +9,7 @@ import type { Logger } from 'pino';
 import { ZodError } from 'zod';
 
 import type { SessionResolver } from './commands/_framework/session';
-import { registerGeocodingRoutes } from './geocoding/routes';
+import { registerGeocodingRoutes, type GeocodingRouteDeps } from './geocoding/routes';
 import { NOOP_ERROR_REPORTER, type ErrorReporter } from './obs/sentry';
 import { redactLinkPath } from './links/redact';
 import type { FoursquareLiveConfig } from './places/live';
@@ -31,6 +31,12 @@ export interface AppDeps {
   pool?: pg.Pool;
   /** Server key for Mapbox Geocoding v6 (forward/reverse fallback); geocoding degrades without it. */
   mapboxToken?: string;
+  /** The geocoding routes' per-user limit (Redis) and monthly Mapbox call cap; absent = the
+   *  routes are not mounted. */
+  geocoding?: Pick<
+    GeocodingRouteDeps,
+    'redis' | 'mapboxMonthlyCap' | 'onMapboxCapReached' | 'onMapboxError'
+  >;
   /** Routing for `/v1/routes/*` and place-detail ETAs (Mapbox when a token is configured);
    *  defaults to flagged straight-line estimates. */
   routing?: RoutingProvider;
@@ -144,10 +150,13 @@ export function createApp(deps: AppDeps) {
       tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
       ...(deps.foursquare !== undefined ? { foursquare: deps.foursquare } : {}),
     });
-    registerGeocodingRoutes(app, {
-      pool,
-      ...(deps.mapboxToken !== undefined ? { mapboxToken: deps.mapboxToken } : {}),
-    });
+    if (deps.geocoding !== undefined) {
+      registerGeocodingRoutes(app, {
+        pool,
+        ...deps.geocoding,
+        ...(deps.mapboxToken !== undefined ? { mapboxToken: deps.mapboxToken } : {}),
+      });
+    }
   }
 
   app.doc31('/openapi.json', {

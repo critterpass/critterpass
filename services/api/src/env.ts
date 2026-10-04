@@ -152,6 +152,8 @@ export const apiEnvSchema = z.object({
   /** Mapbox Geocoding v6 server key (`@cp/suppliers` geocode client); omitted = forward geocoding stays
    *  local-only (our pois + cities), no Mapbox fallback for addresses. */
   MAPBOX_TOKEN: optionalString,
+  /** Address lookups `/v1/geocode` may send to Mapbox per UTC month; past it, our own places only. */
+  MAPBOX_GEOCODE_MONTHLY_CAP: z.coerce.number().int().positive().default(2000),
   /** Self-hosted Valhalla on the private network (planning travel); unset = straight-line. */
   VALHALLA_URL: optionalUrl,
   /** Public base URL the `cp-tiles` R2 bucket (or its `tiles.critterpass.app` custom domain, once

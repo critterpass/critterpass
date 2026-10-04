@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Street addresses in search, from the search lab: the Addresses section under the places while
+# typing an address (7d-1), and above the ways out when nothing was found (7d-4), each with the map
+# data's credits. English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1-addresses, READY: search-addresses, SHOT: en-7d-1-addresses }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-4-addresses, READY: search-addresses, SHOT: en-7d-4-addresses }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-1-addresses, READY: search-addresses, SHOT: vi-7d-1-addresses }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-4-addresses, READY: search-addresses, SHOT: vi-7d-4-addresses }

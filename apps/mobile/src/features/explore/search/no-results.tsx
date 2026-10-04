@@ -5,7 +5,9 @@
  * to the guide's chat.
  */
 import { tokens } from '@cp/design-tokens';
+import { poiCategorySchema } from '@cp/domain';
 import { t } from '@lingui/core/macro';
+import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { makeStyles, Text, useTheme } from '@/ui';
@@ -15,6 +17,7 @@ import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 
+import { categoryWord } from './chip-row';
 import { GuideSticker } from './guide-sticker';
 import type { PlainAnswer, WayOut } from './plain-filters';
 
@@ -55,6 +58,33 @@ function areasLine(areas: readonly string[]): string {
   return areas.join(t({ id: 'search.none.or', message: ' or ' }));
 }
 
+/** The broader word a related way out searches with, in the app's language. */
+function relatedWord(way: WayOut): string {
+  const term = way.params['term'];
+  if (typeof term !== 'string') {
+    const category = poiCategorySchema.safeParse(way.params['category']);
+    return category.success ? categoryWord(category.data) : '';
+  }
+  switch (term.toLowerCase()) {
+    case 'japanese':
+      return t({ id: 'search.none.term.japanese', message: 'Japanese' });
+    case 'vietnamese':
+      return t({ id: 'search.none.term.vietnamese', message: 'Vietnamese' });
+    case 'italian':
+      return t({ id: 'search.none.term.italian', message: 'Italian' });
+    case 'mexican':
+      return t({ id: 'search.none.term.mexican', message: 'Mexican' });
+    case 'chinese':
+      return t({ id: 'search.none.term.chinese', message: 'Chinese' });
+    case 'bar':
+      return t({ id: 'search.none.term.bar', message: 'bars' });
+    case 'cafe':
+      return t({ id: 'search.none.term.cafe', message: 'cafes' });
+    default:
+      return term;
+  }
+}
+
 /** The way out's two lines: what it is, and what it gives. */
 export function wayOutWords(way: WayOut, guideName: string): { title: string; line: string } {
   const count = way.count;
@@ -72,7 +102,7 @@ export function wayOutWords(way: WayOut, guideName: string): { title: string; li
     };
   }
   if (way.kind === 'related') {
-    const term = typeof way.params['term'] === 'string' ? way.params['term'] : '';
+    const term = relatedWord(way);
     const area = way.areas[0] ?? '';
     const late = way.openLate ?? 0;
     return {
@@ -101,6 +131,8 @@ export interface NoResultsProps {
   readonly guideName: string;
   readonly onWayOut: (way: WayOut) => void;
   readonly onAsk: () => void;
+  /** Street addresses for what was asked, above the ways out. */
+  readonly addresses?: ReactNode;
 }
 
 export function NoResults(props: NoResultsProps) {
@@ -137,6 +169,7 @@ export function NoResults(props: NoResultsProps) {
       <Text variant="body" color={theme.semantic.text.secondary}>
         {closest === '' ? lead : `${lead} ${closest}`}
       </Text>
+      {props.addresses}
       <View style={styles.card}>
         {ways.map((way, index) => {
           const words = wayOutWords(way, props.guideName);
