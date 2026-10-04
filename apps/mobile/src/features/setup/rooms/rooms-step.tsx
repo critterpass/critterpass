@@ -70,6 +70,8 @@ export function RoomsStep({ trip, shell }: StepProps) {
   const crewMoney = useCrewMoney(trip.tripId);
   // A stay picked while the answer was still on its way, and then refused by the server.
   const stayRefusal = useRefusedCommand('set_stay_choice');
+  // A step move the server refused: setup was brought back here and must stay.
+  const stepRefusal = useRefusedCommand('set_setup_step');
   const assign = useCommand(setRoomAssignmentCommand);
   const lock = useCommand(lockRoomsCommand);
   const step = useCommand(setSetupStepCommand);
@@ -142,7 +144,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
   });
   // Decided once per mount: whether this visit passes straight through.
   const [passing] = useState(() => !passedEmpty.has(trip.tripId));
-  const pass = passing && empty;
+  const pass = passing && empty && stepRefusal.loaded && !stepRefusal.refused;
   useEffect(() => {
     if (!pass) return;
     passedEmpty.add(trip.tripId);

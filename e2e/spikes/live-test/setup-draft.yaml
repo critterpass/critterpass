@@ -680,6 +680,11 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-65-change-day-2-picked
 - tapOn:
     id: 'redraft-reason-slower'
+- scrollUntilVisible:
+    element:
+      id: 'change-day-note'
+    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: 'change-day-note'
 - inputText: 'Them mot quan ca phe view dep, bot di bo'
@@ -800,6 +805,11 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'change-day-3'
+- scrollUntilVisible:
+    element:
+      id: 'change-day-note'
+    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: 'change-day-note'
 - inputText: 'Hom do troi hay mua, cho minh cho trong nha'
