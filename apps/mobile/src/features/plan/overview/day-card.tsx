@@ -22,23 +22,11 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { DayChip, dayChipLabel } from './day-chip';
+import { dayTileColour } from './model/day-colour';
 import type { DayCard as DayCardModel } from './model/plan-model';
 
 export const DAY_CARD_HEIGHT = 68;
 export const DAY_CARD_GAP = 10;
-
-const TILE_COLOURS = [
-  tokens.color.yellow,
-  tokens.color.pink,
-  tokens.color.blue,
-  tokens.color.orange,
-  tokens.color.green.base,
-  tokens.color.paper.base,
-];
-
-export function dayTileColour(dayNo: number): string {
-  return TILE_COLOURS[(dayNo - 1) % TILE_COLOURS.length] ?? tokens.color.yellow;
-}
 
 /** "Mon" for a local date, in the reader's language; empty while the date is open. */
 export function weekdayOf(date: string | null, locale: string): string {
