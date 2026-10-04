@@ -16,6 +16,7 @@ import { calendarMonths } from '../model/views-model';
 import { PlanCalendar } from '../plan-calendar';
 import { ExportSheetView, type ExportStatus } from '../export-sheet';
 import { PlanMap } from '../plan-map';
+import { BALI_MAP_LEG_PATHS } from './bali-map-leg-shapes';
 
 const noop = () => undefined;
 
@@ -24,6 +25,7 @@ function mapView(offline: boolean): ReactNode {
     <PlanMap
       days={BALI_DAYS}
       items={BALI_ITEMS}
+      legPaths={BALI_MAP_LEG_PATHS}
       destinationSlug="bali"
       localRegionUri={null}
       offlineUnavailable={offline}
