@@ -116,6 +116,16 @@ describe('everyone', () => {
     expect(tripTurn({ ...base, status: 'voting' }).turn.kind).toBe('vote');
   });
 
+  it('is asked for a yes when a crewmate’s plan change waits on a locked trip', () => {
+    expect(tripTurn({ ...base, status: 'pre_trip', planVote: { by: 'Minh' } })).toEqual({
+      turn: { kind: 'plan_vote', by: 'Minh' },
+      mine: true,
+      target: 'review',
+    });
+    // Before the lock the trip's own step comes first.
+    expect(tripTurn({ ...base, planVote: { by: 'Minh' } }).turn.kind).toBe('finish_draft');
+  });
+
   it('reads locked once the trip is confirmed, and only then', () => {
     expect(tripTurn({ ...base, status: 'confirmed' }).turn.kind).toBe('locked');
     expect(tripTurn({ ...base, status: 'cancelled' }).turn.kind).toBe('none');

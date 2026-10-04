@@ -2,7 +2,8 @@
  * Whose turn it is on a trip the crew is still agreeing on, by the trip's status and the viewer's
  * role: one state and at most one next step. Home's trip card and the hub's main button both read
  * it, so the two never disagree. The organiser drafts, sends and locks; a member waits for the
- * plan, answers it, then waits for the lock.
+ * plan, answers it, then waits for the lock. After the lock the one step left on this card is a
+ * crewmate's plan change waiting for the viewer's yes.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- statuses and wire values, never copy. */
 import type { CrewPerson, RsvpStatus } from '../data/trip';
@@ -10,7 +11,8 @@ import type { CrewPerson, RsvpStatus } from '../data/trip';
 export type TurnRole = 'organiser' | 'member';
 
 /** Where the step's one button leads. */
-export type TurnTarget = 'setup' | 'drafting' | 'draft' | 'builder' | 'proposal' | 'tracker';
+export type TurnTarget =
+  'setup' | 'drafting' | 'draft' | 'builder' | 'proposal' | 'tracker' | 'review';
 
 export type Answer = 'in' | 'maybe' | 'out' | 'waitlisted';
 
@@ -36,6 +38,8 @@ export type Turn =
   /** Everyone has answered (or everyone is out): the organiser can lock. */
   | { readonly kind: 'lock'; readonly going: number; readonly crew: number }
   | { readonly kind: 'locked' }
+  /** After the lock: a crewmate's change to the plan waits for the viewer's yes. */
+  | { readonly kind: 'plan_vote'; readonly by: string }
   | { readonly kind: 'none' };
 
 export interface TripTurn {
@@ -55,6 +59,8 @@ export interface TurnInput {
   readonly myRsvp: RsvpStatus | null;
   /** Everyone the proposal went to (the crew other than the viewer). */
   readonly recipients: readonly Pick<CrewPerson, 'rsvp'>[];
+  /** A plan change open for a vote the viewer has not cast, by its author's first name. */
+  readonly planVote?: { readonly by: string } | null;
 }
 
 const LOCKED = new Set(['confirmed', 'pre_trip', 'in_trip', 'post_trip', 'archived']);
@@ -121,8 +127,9 @@ export function tripTurn(input: TurnInput): TripTurn {
     case 'proposed':
       return proposed(input);
     default:
-      return isLockedIn(input.status)
+      if (!isLockedIn(input.status)) return step({ kind: 'none' }, false, null);
+      return input.planVote == null
         ? step({ kind: 'locked' }, false, null)
-        : step({ kind: 'none' }, false, null);
+        : step({ kind: 'plan_vote', by: input.planVote.by }, true, 'review');
   }
 }

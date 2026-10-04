@@ -1,6 +1,7 @@
 /**
  * An island toast for something that starts needing the user while the app is open: the guide
- * finished placing their ideas, a plan arrived for their answer, a crewmate answered. The push for
+ * finished placing their ideas, a plan arrived for their answer, a crewmate answered, a plan
+ * change waits for their yes. The push for
  * these may be held back or silent, and the bell alone is easy to miss; the toast says it once,
  * with the item's own action. Items that were already waiting when the app opened stay quiet.
  */
@@ -9,7 +10,12 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useRef } from 'react';
 
-import { currentAppPath, IDEAS_INBOX_KIND, PROPOSAL_INBOX_KIND } from '@cp/domain';
+import {
+  currentAppPath,
+  IDEAS_INBOX_KIND,
+  PLAN_CHANGE_INBOX_KIND,
+  PROPOSAL_INBOX_KIND,
+} from '@cp/domain';
 
 import { toast } from '@/motion/island-toast';
 
@@ -20,6 +26,7 @@ const TOASTED: ReadonlySet<string> = new Set([
   IDEAS_INBOX_KIND.placed,
   PROPOSAL_INBOX_KIND.received,
   PROPOSAL_INBOX_KIND.answered,
+  PLAN_CHANGE_INBOX_KIND.voteNeeded,
 ]);
 
 /** How many of the newest items are watched: an arrival is always among them. */

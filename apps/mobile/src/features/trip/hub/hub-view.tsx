@@ -97,6 +97,7 @@ export function HubView(props: HubViewProps) {
   const locale = useLocale();
   const [scrollY] = useState(() => new Animated.Value(0));
   const { guideName } = props;
+  const swipeFirst = props.header.phase === 'pre' && props.offlineCard === undefined;
   if (props.state === 'loading') {
     return (
       <Scaffold variant="dark" edges={['top']} testID="trip-hub-loading">
@@ -154,6 +155,9 @@ export function HubView(props: HubViewProps) {
           {props.offlineCard !== undefined
             ? null
             : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}
+          {/* Before the trip the crew is still adding to the plan: swiping together stays right
+              under the first row, where it was before the lock, not below the briefing and tiles. */}
+          {swipeFirst && props.swipe !== null ? <NextRow next={props.swipe} /> : null}
           {props.offlineCard === undefined ? props.visitConsent : null}
           <BriefingCard
             state={props.briefing}
@@ -163,7 +167,7 @@ export function HubView(props: HubViewProps) {
           />
           {props.tiles.length === 0 ? null : <HubTiles tiles={props.tiles} />}
           {props.explore === null ? null : <NextRow next={props.explore} />}
-          {props.swipe === null ? null : <NextRow next={props.swipe} />}
+          {swipeFirst || props.swipe === null ? null : <NextRow next={props.swipe} />}
         </View>
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />

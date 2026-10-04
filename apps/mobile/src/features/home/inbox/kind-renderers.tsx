@@ -15,6 +15,7 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 
 import { guideOr } from '../format';
 import type { InboxItem } from './inbox-data';
+import { PLAN_CHANGE_RENDERERS } from './plan-change-renderers';
 
 export interface InboxRenderContext {
   readonly i18n: I18n;
@@ -115,7 +116,7 @@ let registered = false;
 
 /**
  * Home's own kinds: crewmates joining, invite opens, nudges, the guide's changes and placed
- * ideas, fare drops.
+ * ideas, plan changes put to a vote, fare drops.
  */
 export function registerHomeInboxRenderers(): void {
   if (registered) return;
@@ -189,6 +190,8 @@ export function registerHomeInboxRenderers(): void {
     actionLabel: (_action, _item, ctx) =>
       say(ctx, msg({ id: 'home.inbox.ideasPlaced.open', message: 'Review' })),
   });
+
+  for (const [kind, renderer] of PLAN_CHANGE_RENDERERS) registerInboxRenderer(kind, renderer);
 
   registerInboxRenderer(INBOX_KIND.tipPriceDrop, {
     line: (item, ctx) => {

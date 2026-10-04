@@ -29,7 +29,7 @@ import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney 
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
 import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
-import { hubPlanning, planTileBeforeSend } from './hub-turn';
+import { hubPlanning, planTileBeforeSend, planVoteEntry } from './hub-turn';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
@@ -256,7 +256,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           : { note: planning.note, label: planning.label, onPress: planningAction }
       }
       crewSize={rows.members.length}
-      entries={entries}
+      entries={[...planVoteEntry(turn, go(turn?.href)), ...entries]}
       briefing={briefing}
       onAct={onAct}
       tiles={tiles}

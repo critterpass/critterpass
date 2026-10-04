@@ -1,15 +1,37 @@
 /**
  * Copy for `system` rows, by the member's first name: joins, departures and renames, each member's
- * own answer to a proposal, and the lock (by the organiser, or by itself at reply-by).
+ * own answer to a proposal, the lock (by the organiser, or by itself at reply-by), and how a vote
+ * on a plan change ended, naming what changed.
  */
+import { parsePlanChangeLineBody, PLAN_CHANGE_CHAT_LINE } from '@cp/domain';
+import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
 import { firstName } from '../data/use-typing';
+
+/** "Bà Nà Hills, Wed 21 Oct, 07:00" from a plan change line's body; '' when it names nothing. */
+function planChange(body: string, locale: string): string {
+  const parsed = parsePlanChangeLineBody(body);
+  if (parsed === null) return '';
+  const day =
+    parsed.date === null
+      ? null
+      : // Midday UTC keeps the calendar date in every zone.
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a date literal and Intl options.
+        format.date(locale, new Date(`${parsed.date}T12:00:00Z`), {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          timeZone: 'UTC',
+        });
+  return [parsed.title, day, parsed.time].filter((part) => part !== null && part !== '').join(', ');
+}
 
 export function systemLine(
   refKind: string | null,
   who: string | null | undefined,
   body: string,
+  locale = 'en',
 ): string {
   const name = firstName(who) ?? t({ id: 'chat.system.someone', message: 'Someone' });
   switch (refKind) {
@@ -31,6 +53,38 @@ export function systemLine(
       return firstName(who) === null
         ? t({ id: 'chat.system.tripLockedAuto', message: 'The trip is locked in' })
         : t({ id: 'chat.system.tripLocked', message: `${name} locked the trip in` });
+    case PLAN_CHANGE_CHAT_LINE.added: {
+      const change = planChange(body, locale);
+      return change === ''
+        ? t({ id: 'chat.system.planChanged', message: 'The crew said yes. The plan changed.' })
+        : t({
+            id: 'chat.system.planAdded',
+            message: `The crew said yes: ${change} is in the plan`,
+          });
+    }
+    case PLAN_CHANGE_CHAT_LINE.changed: {
+      const change = planChange(body, locale);
+      return change === ''
+        ? t({ id: 'chat.system.planChanged', message: 'The crew said yes. The plan changed.' })
+        : t({
+            id: 'chat.system.planChangedTo',
+            message: `The crew said yes: the plan now has ${change}`,
+          });
+    }
+    case PLAN_CHANGE_CHAT_LINE.kept: {
+      const change = planChange(body, locale);
+      return change === ''
+        ? t({ id: 'chat.system.planKept', message: 'The crew said no. The plan stays as it was.' })
+        : t({
+            id: 'chat.system.planKeptOne',
+            message: `The crew said no to ${change}. The plan stays as it was.`,
+          });
+    }
+    case PLAN_CHANGE_CHAT_LINE.ranOut:
+      return t({
+        id: 'chat.system.planVoteRanOut',
+        message: 'The vote ran out. The plan stays as it was.',
+      });
     case null:
     default:
       return body;

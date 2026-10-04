@@ -10,6 +10,7 @@ import type { Href } from 'expo-router';
 import type { TripTurnView } from '@/features/home';
 
 import type { PlanningLink } from './hub-links';
+import type { HubNext } from './next-row';
 
 export interface HubPlanning {
   /** Where the trip stands for the viewer. */
@@ -77,4 +78,27 @@ export function planTileBeforeSend(
     default:
       return null;
   }
+}
+
+/**
+ * After the lock, a crewmate's plan change waiting for the viewer's yes is the hub's first row,
+ * above the pack list: the header has no planning block by then, and the PLAN tile's "1 vote open"
+ * does not say whose turn it is.
+ */
+export function planVoteEntry(
+  turn: TripTurnView | null,
+  open: (() => void) | undefined,
+): HubNext[] {
+  if (turn?.kind !== 'plan_vote' || open === undefined) return [];
+  return [
+    {
+      icon: 'ticket',
+      label: null,
+      title: turn.line,
+      detail: turn.button,
+      tone: 'pink',
+      testID: 'trip-hub-plan-vote',
+      onPress: open,
+    },
+  ];
 }

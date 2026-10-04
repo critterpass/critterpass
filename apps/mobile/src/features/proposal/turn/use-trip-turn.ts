@@ -9,7 +9,9 @@ import type { Href } from 'expo-router';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { firstName } from '../data/format';
 import { useCurrentProposal, type Proposal } from '../data/proposal';
+import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { proposalRoutes } from '../routes';
 import { turnCopy } from './copy';
@@ -25,14 +27,30 @@ export interface TripTurnView extends TripTurn {
   readonly href: Href | undefined;
 }
 
-/* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and design screen ids, never copy. */
+/** The oldest plan change open for a vote the viewer may cast and has not. */
+const PLAN_VOTE_SQL = `SELECT cs.id, u.display_name AS author_name
+  FROM change_sets cs
+  JOIN polls p ON p.id = cs.poll_id
+  LEFT JOIN users u ON u.id = cs.author_id
+  WHERE cs.trip_id = ?1 AND p.status = 'open' AND cs.author_id <> ?2
+    AND p.eligible_voter_ids LIKE '%' || ?2 || '%'
+    AND NOT EXISTS (SELECT 1 FROM ballots b WHERE b.poll_id = p.id AND b.user_id = ?2)
+  ORDER BY cs.created_at LIMIT 1`;
+const PLAN_VOTE_TABLES = ['change_sets', 'polls', 'ballots', 'users'];
+
 export function turnHref(
   target: TurnTarget | null,
   tripId: string,
   proposal: Pick<Proposal, 'id' | 'format'> | null,
   answered: boolean,
+  changeSetId: string | null = null,
 ): Href | undefined {
   switch (target) {
+    case 'review':
+      return changeSetId === null
+        ? undefined
+        : hrefFor('3e-3', { tripId, changesetId: changeSetId });
     case 'setup':
       return hrefFor('3c-3', { tripId });
     case 'drafting':
@@ -59,7 +77,13 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
   useTripStreams(tripId);
   const trip = useProposalTrip(tripId);
   const proposal = useCurrentProposal(tripId);
+  const votes = useLiveRows<{ id: string; author_name: string | null }>(
+    PLAN_VOTE_SQL,
+    tripId === null || trip == null ? null : [tripId, trip.me],
+    PLAN_VOTE_TABLES,
+  );
   if (tripId === null || trip == null || proposal === undefined) return null;
+  const vote = votes.rows[0] ?? null;
   const me = trip.people.find((person) => person.uid === trip.me);
   const step = tripTurn({
     status: trip.status,
@@ -69,6 +93,7 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     myRsvp: me?.rsvp ?? null,
     // Everyone else in the crew, those who said out included: their answer counts as one.
     recipients: trip.people.filter((person) => person.uid !== trip.me),
+    planVote: vote === null ? null : { by: firstName(vote.author_name) },
   });
   const organiser = trip.isOrganiser ? '' : (trip.people.find((p) => p.organiser)?.name ?? '');
   return {
@@ -76,7 +101,7 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     organiser,
     isOrganiser: trip.isOrganiser,
     crewSize: trip.people.length,
-    href: turnHref(step.target, tripId, proposal, step.turn.kind === 'answered'),
+    href: turnHref(step.target, tripId, proposal, step.turn.kind === 'answered', vote?.id ?? null),
   };
 }
 

@@ -174,6 +174,22 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
         line: t({ id: 'proposal.turn.locked', message: 'Locked in. The trip is on.' }),
         button: null,
       };
+    case 'plan_vote': {
+      const { by } = turn;
+      return {
+        line:
+          by === ''
+            ? t({
+                id: 'proposal.turn.planVote.plain',
+                message: 'A change to the plan is waiting for your yes.',
+              })
+            : t({
+                id: 'proposal.turn.planVote',
+                message: `${by} wants to change the plan. It waits for your yes.`,
+              }),
+        button: t({ id: 'proposal.turn.planVote.button', message: 'See the change' }),
+      };
+    }
     case 'none':
       return { line: '', button: null };
   }
