@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -50,7 +50,7 @@ export function AddBar({
   const styles = useStyles();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const page = useSurfaceBackground() ?? theme.semantic.bg.base;
   const label = t({ id: 'plan.dayPlan.add', message: 'Add a place, or paste a link' });
   return (

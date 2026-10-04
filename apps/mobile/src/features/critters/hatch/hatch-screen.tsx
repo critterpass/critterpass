@@ -14,9 +14,9 @@ import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
-import { GUIDE_IDS, type GuideId } from '@/motion/music';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { guidesOfSameCountry } from '@/ui/avatar/guides';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
@@ -104,8 +104,10 @@ function daysLeft(endDate: string | null, now: Date, tz: string | null): number 
   return days > 0 ? days : null;
 }
 
-function isGuideTheme(slug: string | null): slug is GuideId {
-  return slug !== null && (GUIDE_IDS as readonly string[]).includes(slug);
+/** The guide whose theme greets the hatch: the trip guide's own, else its country's, else none. */
+function hatchTheme(slug: string | null): string | null {
+  if (slug === null) return null;
+  return music.themedGuideFor(slug, guidesOfSameCountry(slug)) ?? null;
 }
 
 export function HatchScreen({ tripId }: { readonly tripId: string }) {
@@ -178,7 +180,8 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
       onLater={() => router.back()}
       onRevealed={() => {
         if (row.egg_id !== null) markHatchSeen(row.egg_id);
-        if (isGuideTheme(row.guide_slug)) music.crossfadeTo(row.guide_slug);
+        const themed = hatchTheme(row.guide_slug);
+        if (themed !== null) music.crossfadeTo(themed);
       }}
     />
   );

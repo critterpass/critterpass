@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { PressScale } from '@/ui/press/PressScale';
@@ -83,7 +83,7 @@ export function ImportBanner({ count, member, onReview }: ImportBannerProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   const line =
     member === null
       ? t({

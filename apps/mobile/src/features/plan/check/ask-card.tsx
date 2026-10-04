@@ -7,9 +7,10 @@ import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { PlanGuideSticker } from '../plan-guide';
 
 export interface AskCardProps {
   readonly asker: string;
@@ -45,7 +46,7 @@ export function AskCard(props: AskCardProps) {
   return (
     <View style={styles.card} testID="plan-check-ask">
       <View style={styles.row}>
-        <Sticker kind="gecko" name="Tokek" size={40} />
+        <PlanGuideSticker size={40} />
         <View style={styles.text}>
           <Text variant="voice" singleLine={false}>
             {askLine(props.asker, props.places)}

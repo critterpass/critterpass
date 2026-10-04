@@ -3,19 +3,16 @@
  * the tools ("$412"), flight hours, month names, and guide identities for places.
  */
 import { formatNarrowCurrency } from '@cp/cost-engine';
-import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { guideColour, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
   return isGuideStickerId(value) ? value : fallback;
 }
 
-export function guideColour(guide: GuideId): string {
-  return tokens.guide[guide];
-}
+export { guideColour };
 
 /** Uppercases in the reader's language (Vietnamese keeps its diacritics). */
 export function upper(text: string, locale: string): string {

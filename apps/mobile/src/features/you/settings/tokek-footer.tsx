@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { tapTokek } from './tokek-taps';
@@ -25,7 +25,7 @@ export function TokekFooter({ onFiveTaps }: { readonly onFiveTaps?: () => void }
   const rotate = useSharedValue(0);
   const taps = useRef<number[]>([]);
   const style = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotate.value}deg` }] }));
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
 
   const onPress = () => {
     if (!reduced) {

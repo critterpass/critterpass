@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
@@ -136,7 +136,7 @@ function Body(props: PlanOverviewViewProps & { readonly onDragging: (on: boolean
         sticker={
           isGuideStickerId(props.guide.id) ? (
             <Sticker
-              kind={GUIDE_STICKERS[props.guide.id].kind}
+              kind={guideSticker(props.guide.id).kind}
               name={props.guide.name}
               pose="sleep"
               size={EMPTY_GUIDE_PT}

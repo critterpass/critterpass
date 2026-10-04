@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 
 import { impact } from '@/motion/feedback';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Receipt, type ReceiptLine } from '@/ui/documents/Receipt';
 import { Stamp } from '@/ui/documents/Stamp';
@@ -40,7 +40,7 @@ export interface ReceiptCardProps {
 
 export function ReceiptCard(props: ReceiptCardProps) {
   const theme = useTheme();
-  const art = GUIDE_STICKERS[props.guide];
+  const art = guideSticker(props.guide);
   const count = props.sections.reduce((n, lines) => n + lines.length, 0);
   const steps = Array.from({ length: count + 1 }, (_, index) => 500 + index * LINE_GAP_MS);
   const printed = useCardTimeline(steps);

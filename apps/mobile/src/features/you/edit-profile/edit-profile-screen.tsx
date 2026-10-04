@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { useMemberFaces } from '../avatar/member-faces';
@@ -157,7 +157,7 @@ export function EditProfileScreen() {
           photoUri !== null
             ? t({ id: 'you.edit.avatarPhoto', message: 'Photo' })
             : avatar.kind === 'guide'
-              ? GUIDE_STICKERS[avatar.guide].name
+              ? guideSticker(avatar.guide).name
               : avatar.kind === 'form'
                 ? (worn?.form_name ??
                   worn?.critter_name ??

@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -85,7 +85,7 @@ export function ScanView(props: ScanViewProps) {
   const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   const { scene } = props;
   // The camera's ✕ is drawn in every scene, so the screen always has its way back.
   useBackAffordance();

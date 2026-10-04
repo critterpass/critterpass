@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -57,7 +57,7 @@ export function MustDosView({
   const styles = useStyles();
   // Rows already listed when the step opened don't pop; rows that arrive later do.
   const [firstIds] = useState(() => new Set(model.items.map((item) => item.id)));
-  const guide = GUIDE_STICKERS[trip.guide];
+  const guide = guideSticker(trip.guide);
   const done = trip.step === 'done';
   const guideName = guide.name;
   const hasMine = model.mine.length > 0;

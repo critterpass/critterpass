@@ -11,7 +11,7 @@ import { router } from 'expo-router';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { CountdownCard } from '@/ui/cards/CountdownCard';
@@ -38,7 +38,7 @@ export function NoTripCard({
 }) {
   const { t } = useLingui();
   const locale = useLocale();
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   const pitch = go(homeRoutes.pitch(crewId));
   const last =
     lastTrip?.destinationName == null
@@ -79,7 +79,7 @@ export function InTripCard({ trip, now }: { readonly trip: HomeTripInput; readon
   const locale = useLocale();
   const bob = useLoop('bob');
   const guide = guideOr(trip.guideId);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const start = trip.countdownTargetAt === null ? now : new Date(trip.countdownTargetAt);
   const display = formatCountdown(now, start, { startDate: trip.startDate, tz: trip.tz });
   const day = display.kind === 'day' ? display.day : 1;
@@ -112,7 +112,7 @@ export function PostTripCard({ trip }: { readonly trip: HomeTripInput }) {
   const { t } = useLingui();
   const locale = useLocale();
   const guide = guideOr(trip.guideId);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const place = trip.destinationName ?? t({ id: 'home.postTrip.fallback', message: 'Trip' });
   const open = go(homeRoutes.recap(trip.id));
   return (

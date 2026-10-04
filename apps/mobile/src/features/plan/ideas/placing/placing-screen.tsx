@@ -13,6 +13,7 @@ import { dayTileColour } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
+import { usePlanGuide } from '../../plan-guide';
 import { ideaIcon } from '../idea-icon';
 import { backToIdeas } from '../ideas-copy';
 import { ideasRoute } from '../routes';
@@ -42,6 +43,7 @@ export function PlacingScreen({
   const locale = useLocale();
   const state = usePlacingJob(jobId);
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const { ideas } = useTripIdeas(tripId);
   const dates = new Map(
     plan.dayRows.flatMap((row) => (row.date === null ? [] : [[row.day_no, row.date] as const])),
@@ -83,7 +85,7 @@ export function PlacingScreen({
       title={placingTitle(count)}
       pins={pins}
       lines={lines}
-      foot={failed ? failedFoot() : nothing ? nothingFoot() : placingFoot()}
+      foot={failed ? failedFoot(guideName) : nothing ? nothingFoot() : placingFoot(guideName)}
       outcome={
         failed || nothing
           ? {

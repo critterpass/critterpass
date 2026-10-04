@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { EncounterCard } from '@/ui/critters/EncounterCard';
@@ -98,7 +98,7 @@ export function EncounterView(props: EncounterViewProps) {
         <View style={styles.empty}>
           <EmptyState
             guide="tokek"
-            guideName={GUIDE_STICKERS.tokek.name}
+            guideName={guideSticker('tokek').name}
             title={copy.title}
             line={copy.body}
             action={{ label: backToDay(), onPress: props.onBack }}

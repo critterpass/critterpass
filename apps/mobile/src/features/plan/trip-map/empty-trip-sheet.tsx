@@ -14,7 +14,7 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -175,7 +175,7 @@ export function EmptyTripSheet({ model }: { readonly model: TripMapModel }) {
 /** The guide floating over the empty map, where the stay will go. */
 export function FloatingGuide({ model }: { readonly model: TripMapModel }) {
   const float = useLoop('float');
-  const sticker = GUIDE_STICKERS[model.guide.id];
+  const sticker = guideSticker(model.guide.id);
   return (
     <Animated.View style={[{ opacity: 0.55 }, float]} pointerEvents="none" testID="trip-map-guide">
       <Sticker kind={sticker.kind} name={sticker.name} size={120} />
