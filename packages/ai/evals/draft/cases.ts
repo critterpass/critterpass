@@ -13,8 +13,10 @@ import {
   candidatePools,
   dayWindow,
   destinationPhrases,
+  knownPlaceFor,
   resolveWishes,
   scheduleDay,
+  stopKind,
   straightLineMatrix,
   timeWords,
   withOpenDataDefaults,
@@ -95,6 +97,10 @@ export const crewCaseSchema = z.object({
       }),
     )
     .default([]),
+  /** The row a picked must-do must be planned at (by its index in `must_dos`). */
+  expect_must_dos: z
+    .array(z.object({ must_do: z.int().min(0), place_ids: z.array(z.uuid()).min(1) }))
+    .default([]),
 });
 export type CrewCase = z.infer<typeof crewCaseSchema>;
 
@@ -114,7 +120,11 @@ function load<T>(file: string, schema: z.ZodType<T>): T {
   return schema.parse(JSON.parse(readFileSync(resolve(GOLDEN, file), 'utf8')));
 }
 
-export const CITIES = load('cities.json', z.record(z.string(), citySchema));
+/** The hand-made guide cities, and real place sets read from staging (curated, automatic picks). */
+export const CITIES = {
+  ...load('cities.json', z.record(z.string(), citySchema)),
+  ...load('real-cities.json', z.record(z.string(), citySchema)),
+};
 export const CREWS = load('crews.json', z.array(crewCaseSchema));
 export const INJECTION_DRAFTS = load('injection-drafts.json', z.array(crewCaseSchema));
 export const REDRAFTS = load('redrafts.json', z.array(redraftCaseSchema));
@@ -179,12 +189,16 @@ export function planInput(
     departureMin: crew.departure_min,
     budgetPpMinor: crew.budget_days_pp_minor,
     mustDos: [
-      ...crew.must_dos.map((m, i) => ({
-        id: derivedUuid(`${crew.id}:must_do:${i}`),
-        ownerId: members[m.owner] ?? (members[0] as string),
-        poiId: m.poi_id,
-        title: pois.get(m.poi_id)?.name ?? 'must-do',
-      })),
+      ...crew.must_dos.map((m, i) => {
+        const own = pois.get(m.poi_id);
+        return {
+          id: derivedUuid(`${crew.id}:must_do:${i}`),
+          ownerId: members[m.owner] ?? (members[0] as string),
+          // Planned at the well-known row of the same spot, the way the draft job does.
+          poiId: own === undefined ? m.poi_id : knownPlaceFor(own, [...pois.values()], ignore).id,
+          title: own?.name ?? 'must-do',
+        };
+      }),
       // Typed must-dos, matched to places the way the draft job does.
       ...wishes.map((wish) => ({
         id: wish.id,
@@ -244,7 +258,7 @@ export function baselineItinerary(input: DraftPlanInput): Itinerary {
     const poi = input.pois.get(slot.poiId);
     byDay[day - 1]?.push({
       poiId: slot.poiId,
-      kind: poi?.category === 'food' ? 'meal' : 'activity',
+      kind: stopKind(poi),
       mustDoId: slot.mustDoId,
       note: null,
     });

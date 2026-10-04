@@ -23,7 +23,7 @@ export {
   type WishMatches,
 } from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
-export { collapseSamePlaces, type Collapsed } from './same-place';
+export { collapseSamePlaces, knownPlaceFor, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
