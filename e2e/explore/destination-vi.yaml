@@ -1,7 +1,30 @@
 appId: app.critterpass.dev
 ---
-# The destination guide's screenshots in Vietnamese, from the Explore lab's scenes.
-- runFlow: subflows/lab-vi.yaml
+# The destination guide (7g-3) in Vietnamese, from the Explore lab's scenes with the planning
+# screens turned on for this phone.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow: ../_shared/planning-redesign-on.yaml
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../screens/sweep/subflows/back.yaml
+# The step back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
 - runFlow:
     file: subflows/destination-scenes.yaml
-    env: { PREFIX: vi }
+    env: { PREFIX: vi, SCREEN: 7g-3 }

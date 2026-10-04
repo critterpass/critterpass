@@ -8,7 +8,7 @@ onFlowComplete:
 # (../happy/subflows/trip-under-way.yaml) and turns the section 7 plan screens on for this phone
 # (../_shared/planning-redesign-on.yaml). Online, PLAN opens the trip map, its day at half and the
 # day plan; then in airplane mode, after a cold start, the same trip map and day plan draw from
-# what the phone holds, legs included.
+# what the phone holds, the routed legs and their road lines included.
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
@@ -57,9 +57,34 @@ onFlowComplete:
     visible:
       id: 'trip-map-peek'
     timeout: 60000
-# Tiles arrive over the network, and the stored legs a little after the plan was locked in.
-- waitForAnimationToEnd:
+# Tiles arrive over the network, and the stored legs a little after the plan was locked in: the
+# day's leg rows read "ABOUT" (the phone's own straight-line estimate) until the routed legs sync,
+# and the lines follow the roads from then on. The shots wait for them.
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
     timeout: 10000
+- extendedWaitUntil:
+    notVisible: '.*ABOUT.*'
+    timeout: 90000
+    label: 'the new trip''s routed legs reach the phone within 90 s (no leg still reads "ABOUT")'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7a-2-trip-map-fresh
+- swipe:
+    start: 50%, 48%
+    end: 50%, 76%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
 - takeScreenshot: en-7a-1-trip-map-fresh
 - swipe:
     start: 50%, 70%
@@ -69,9 +94,6 @@ onFlowComplete:
     visible:
       id: 'trip-map-half'
     timeout: 10000
-- waitForAnimationToEnd:
-    timeout: 4000
-- takeScreenshot: en-7a-2-trip-map-fresh
 - tapOn:
     id: 'trip-map-open-day'
 - extendedWaitUntil:
@@ -135,6 +157,10 @@ onFlowComplete:
     visible:
       id: 'day-plan'
     timeout: 20000
+- extendedWaitUntil:
+    notVisible: '.*ABOUT.*'
+    timeout: 10000
+    label: 'with no network the day still reads its routed legs (no leg reads "ABOUT")'
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: en-7b-1-day-plan-offline-again

@@ -86,7 +86,7 @@ Increase-contrast variants (auto when OS Increase Contrast is on): `border.contr
 
 ### 1.3 Typography
 
-Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Borel 400 (guide voice; Latin and full Vietnamese), Noto Sans Thai 400/900. Instrument Serif is web-only. Caveat 600 is used only for map place-name labels. Fonts prewarmed before first hero paint.
+Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Borel 400 (guide voice; Latin and full Vietnamese), Noto Sans Thai 400/900. Instrument Serif is web-only. Hand-drawn map place-name labels use Borel 400 too, served as SDF glyph ranges (`fonts/Borel-400 Regular/` on the tiles bucket), so Vietnamese names such as Đà Nẵng draw in full; the Caveat 600 ranges stay on the bucket only for installed builds with the older style. Fonts prewarmed before first hero paint.
 
 **Archivo width steps (only these):** `w62` hero/mega, `w66` hero, `w70` h1/h2, `w78` titles, `w100` buttons. Design values 58/60/64/68/72/74/76/80/84 snap to the nearest step.
 

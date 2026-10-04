@@ -63,7 +63,7 @@ Follow-ups queued, not in a phase yet:
 | 12 | [Explore in a trip, swipe together and the destination guide](./phase-12-explore-swipe-destination.md) | 7g-1…7g-3 | 4 | 1, 4, 5, 7 | 4 | in progress |
 | 13 | [Plan check and its fixers](./phase-13-plan-check-fixers.md) | 7h-1…7h-5 | 8 | 1, 3, 4, 5, 7 | 4 | in review (#630) |
 | 14 | [Retire the replaced screens and finish the migration](./phase-14-retire-replaced-screens.md) | – | 6 | 1–13 | 5 | pending |
-| 15 | [Plan routes drawn along the roads](./phase-15-road-routes.md) | route lines of 7a-1…7a-3, 7b-1, 7b-3 and the old MAP tab | 3 | 3, 5, 10 | 3 | in progress |
+| 15 | [Plan routes drawn along the roads](./phase-15-road-routes.md) | route lines of 7a-1…7a-3, 7b-1, 7b-3 and the old MAP tab | 3 | 3, 5, 10 | 3 | done |
 | 16 | [GO: the route from here, then directions in the maps app](./phase-16-navigate.md) | GO on 7e-1, 7b-1, 7a-2, day-of and the leave-by push | 4 | 3, 15 | 3 | in progress |
 
 Merged and split where the code says so: "states and offline" is not a phase of its own: 7i-2 lives with search (its fallback is the search code) and 7i-1 with the trip map (it is the map's empty state); the three new model calls are one wave-2 phase so two wave-3 phases never edit the AI routing table; the fit engine and the plan check job share one phase because the job is the engine run over the whole trip; a data phase and a UI kit phase land first so wave 3 runs five lanes without touching migrations, streams, the generated mobile schema or each other's components.

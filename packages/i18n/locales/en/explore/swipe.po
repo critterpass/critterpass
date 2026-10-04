@@ -42,12 +42,20 @@ msgid "explore.swipe.toastMatch"
 msgstr "{place} is a match"
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastIdea"
+msgstr "{place} is in Ideas. {guideName} will find it a day."
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
 msgid "explore.swipe.toastSuggested"
 msgstr "{place} suggested for Day {day}"
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
 msgstr "{placeName} is a match. The plan has no free slot for it yet."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchIdea"
+msgstr "{placeName} is in Ideas, with everyone who said yes."
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchSuggested"
@@ -69,6 +77,10 @@ msgstr "Back to the plan"
 msgid "explore.place.free"
 msgstr "free"
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdeaVoters"
+msgstr "In Ideas · {voters} said yes"
+
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchDismiss"
 msgstr "Keep swiping"
@@ -76,6 +88,10 @@ msgstr "Keep swiping"
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.match"
 msgstr "Match"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdea"
+msgstr "Match · in Ideas"
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.matchRowUnslotted"
@@ -92,6 +108,10 @@ msgstr "No matches yet. They land here as the rest of the crew swipes."
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
 msgid "explore.swipe.no"
 msgstr "No to this one"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.seeIdeas"
+msgstr "See them in Ideas"
 
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
 msgid "explore.swipe.cardActions"

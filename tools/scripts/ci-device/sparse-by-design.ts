@@ -47,6 +47,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
   ],
   [
+    'plan-calendar-no-dates',
+    'undesigned plan CALENDAR tab before the dates are set: the header, the tabs and one line saying there is no calendar to show yet',
+  ],
+  [
     '3k-9-on-time',
     'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
   ],

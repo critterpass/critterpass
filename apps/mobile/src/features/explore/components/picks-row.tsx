@@ -6,6 +6,7 @@
 import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
@@ -31,6 +32,8 @@ const useStyles = makeStyles((t) => ({
   },
   photo: { height: PHOTO_HEIGHT, alignItems: 'center', justifyContent: 'center' },
   name: { padding: t.space['10'], paddingBottom: t.space['14'] },
+  open: { flex: 1 },
+  footer: { paddingHorizontal: t.space['10'], paddingBottom: t.space['12'] },
 }));
 
 export interface PickCard {
@@ -48,9 +51,11 @@ export interface PicksRowProps {
   readonly onOpen?: ((pick: PickCard) => void) | undefined;
   /** The colour a pick's photo is tinted with (the guide's). */
   readonly accent: string;
+  /** Drawn at the foot of each card (inside a trip: where the pick stands, or its +). */
+  readonly footer?: ((pick: PickCard) => ReactNode) | undefined;
 }
 
-export function PicksRow({ picks, onOpen, accent }: PicksRowProps) {
+export function PicksRow({ picks, onOpen, accent, footer }: PicksRowProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
@@ -70,6 +75,7 @@ export function PicksRow({ picks, onOpen, accent }: PicksRowProps) {
                     })
               }
               disabled={onOpen === undefined}
+              style={styles.open}
               onPress={() => onOpen?.(pick)}
               testID={`explore-pick-${String(index)}`}
             >
@@ -93,6 +99,7 @@ export function PicksRow({ picks, onOpen, accent }: PicksRowProps) {
                 </Text>
               </View>
             </Pressable>
+            {footer === undefined ? null : <View style={styles.footer}>{footer(pick)}</View>}
             {pick.sponsored === undefined ? null : (
               <WhySponsoredLink onPress={pick.sponsored.onWhy} />
             )}

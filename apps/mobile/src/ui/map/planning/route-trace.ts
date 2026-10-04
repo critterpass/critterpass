@@ -1,7 +1,8 @@
 /**
- * The day routes `StopRouteLayer` draws: numbered stops in the day's colour joined by straight
- * segments from the stay and back, the chosen day at full strength and the others at half (7a-1).
- * Picking a day traces its route out from the stay (`traceLine`).
+ * The day routes `StopRouteLayer` draws: numbered stops in the day's colour joined from the stay
+ * and back, along the road each leg follows where its synced leg has one and a straight segment
+ * where it does not, the chosen day at full strength and the others at half (7a-1). Picking a day
+ * traces its route out from the stay (`traceLine`).
  */
 import type { Feature, FeatureCollection, LineString, Point } from 'geojson';
 
@@ -13,13 +14,20 @@ export interface RouteStop {
   readonly n: number;
   readonly lat: number;
   readonly lng: number;
+  /** The stop's key in its legs (the plan item's stable id) when it is not `id`. */
+  readonly legKey?: string;
 }
 
 export interface RouteDay {
   readonly dayNo: number;
   readonly color: string;
   readonly stops: readonly RouteStop[];
+  /** Road paths of the day's legs, `[lng, lat]`, keyed `from>to` (`stay` or a stop's leg key). */
+  readonly legPaths?: ReadonlyMap<string, readonly Coord[]>;
 }
+
+/** The leg key of the night's stay, as stored legs write it. */
+const STAY_KEY = 'stay';
 
 /** Strength of the days that are not the chosen one (7a-1). */
 export const OTHER_DAY_OPACITY = 0.5;
@@ -75,10 +83,40 @@ export interface RouteStopProperties {
   readonly chosen: boolean;
 }
 
-/** A day's path: the stay, its stops in order, back to the stay. */
+const samePoint = (a: Coord | undefined, b: Coord) =>
+  a !== undefined && a[0] === b[0] && a[1] === b[1];
+
+/**
+ * A day's path: the stay, its stops in order, back to the stay. Each leg follows its road path
+ * when the day has one (the joint point shared with the previous leg is not repeated) and is a
+ * straight segment to the next stop when it has none.
+ */
 export function dayPath(day: RouteDay, stay: Coord | null): Coord[] {
-  const stops = day.stops.map((stop): Coord => [stop.lng, stop.lat]);
-  return stay === null || stops.length === 0 ? stops : [stay, ...stops, stay];
+  const stops = day.stops.map((stop) => ({
+    key: stop.legKey ?? stop.id,
+    at: [stop.lng, stop.lat] as Coord,
+  }));
+  const ends =
+    stay === null || stops.length === 0
+      ? stops
+      : [{ key: STAY_KEY, at: stay }, ...stops, { key: STAY_KEY, at: stay }];
+  const first = ends[0];
+  if (first === undefined) return [];
+  const path: Coord[] = [first.at];
+  for (let index = 1; index < ends.length; index += 1) {
+    const from = ends[index - 1] ?? first;
+    const to = ends[index] ?? from;
+    const road = day.legPaths?.get(`${from.key}>${to.key}`);
+    if (road === undefined || road.length < 2) {
+      path.push(to.at);
+      continue;
+    }
+    // A road path starts where the router met the street, usually a few metres from the pin.
+    road.forEach((point, i) => {
+      if (i > 0 || !samePoint(path.at(-1), point)) path.push(point);
+    });
+  }
+  return path;
 }
 
 /**

@@ -197,6 +197,10 @@ msgstr "Set home airport"
 msgid "explore.guide.ponLine"
 msgstr "Shoes off, phone down, eyes up."
 
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.tokekLine"
+msgstr "Slow mornings, early temples, late dinners."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.solo"
 msgstr "Solo trip"

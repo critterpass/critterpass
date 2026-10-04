@@ -5,6 +5,9 @@
  * how many items it holds.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- ISO date pieces, never copy. */
+import type { LegPaths } from '@/data/legs/version-leg-paths';
+import { dayPath } from '@/ui/map/planning/route-trace';
+
 import type { PlanDay, PlanItem } from '../../overview/model/plan-model';
 
 export interface MapPin {
@@ -32,7 +35,12 @@ export interface PlanMapModel {
   readonly center: readonly [number, number] | null;
 }
 
-export function planMapModel(items: readonly PlanItem[], dayFilter: number | null): PlanMapModel {
+/** `legPaths`: the roads of the version's synced legs; a pair without one is drawn straight. */
+export function planMapModel(
+  items: readonly PlanItem[],
+  dayFilter: number | null,
+  legPaths?: LegPaths,
+): PlanMapModel {
   const placed = items
     .filter((item) => item.lat !== null && item.lng !== null)
     .filter((item) => dayFilter === null || item.dayNo === dayFilter)
@@ -53,10 +61,12 @@ export function planMapModel(items: readonly PlanItem[], dayFilter: number | nul
     };
   });
   const routes = [...counters.keys()].flatMap((dayNo): DayRoute[] => {
-    const coordinates = pins
+    const stops = pins
       .filter((pin) => pin.dayNo === dayNo)
-      .map((pin) => [pin.lng, pin.lat] as const);
-    return coordinates.length < 2 ? [] : [{ dayNo, coordinates }];
+      .map((pin) => ({ id: pin.stableId, n: pin.number, lat: pin.lat, lng: pin.lng }));
+    if (stops.length < 2) return [];
+    const day = { dayNo, color: '', stops, ...(legPaths === undefined ? {} : { legPaths }) };
+    return [{ dayNo, coordinates: dayPath(day, null) }];
   });
   const lngs = pins.map((pin) => pin.lng);
   const lats = pins.map((pin) => pin.lat);

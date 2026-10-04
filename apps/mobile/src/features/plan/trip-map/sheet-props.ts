@@ -3,6 +3,7 @@
  * fixture) and handed to the map and each of its sheets.
  */
 import type { TripIdeaView } from '@/data/ideas/use-trip-ideas';
+import type { LegPaths } from '@/data/legs/version-leg-paths';
 import type { PendingReview } from '@/data/plan/use-pending-reviews';
 import type { PlanMember } from '@/data/plan/use-trip-plan';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -25,6 +26,8 @@ export interface TripMapModel {
   /** When the countdown ends: my first departure, else the trip's start. */
   readonly countdownTo: Date | null;
   readonly days: readonly TripDay[];
+  /** The road each synced leg of the version follows, keyed `from>to`; absent draws straight. */
+  readonly legPaths?: LegPaths;
   readonly members: readonly PlanMember[];
   readonly me: string | null;
   readonly organiser: boolean;
@@ -46,6 +49,8 @@ export interface TripMapModel {
   readonly empty: boolean;
   /** The map's opening centre `[lng, lat]` when there is nothing to fit. */
   readonly center: readonly [number, number] | null;
+  /** The clock the plan is read against (which day is today); the phone's when absent. */
+  readonly now?: Date | undefined;
 }
 
 export interface TripMapSheetProps {

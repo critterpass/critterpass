@@ -42,12 +42,20 @@ msgid "explore.swipe.toastMatch"
 msgstr "{place} đã trùng"
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastIdea"
+msgstr "{place} đã vào Ý tưởng. {guideName} sẽ tìm cho nó một ngày."
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
 msgid "explore.swipe.toastSuggested"
 msgstr "Đã đề xuất {place} cho Ngày {day}"
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
 msgstr "{placeName} đã trùng. Kế hoạch chưa có chỗ trống cho nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchIdea"
+msgstr "{placeName} đã vào Ý tưởng, cùng mọi người đã chọn."
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchSuggested"
@@ -69,6 +77,10 @@ msgstr "Về kế hoạch"
 msgid "explore.place.free"
 msgstr "miễn phí"
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdeaVoters"
+msgstr "Trong Ý tưởng · {voters} đã chọn"
+
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchDismiss"
 msgstr "Quẹt tiếp"
@@ -76,6 +88,10 @@ msgstr "Quẹt tiếp"
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.match"
 msgstr "Trùng"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdea"
+msgstr "Trùng · trong Ý tưởng"
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.matchRowUnslotted"
@@ -92,6 +108,10 @@ msgstr "Chưa có lượt trùng nào. Chúng sẽ hiện ở đây khi cả nh�
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
 msgid "explore.swipe.no"
 msgstr "Không chọn nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.seeIdeas"
+msgstr "Xem trong Ý tưởng"
 
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
 msgid "explore.swipe.cardActions"

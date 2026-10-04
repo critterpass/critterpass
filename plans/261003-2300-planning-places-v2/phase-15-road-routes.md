@@ -1,7 +1,7 @@
 ---
 phase: 15
 title: Plan routes drawn along the roads
-status: pending
+status: done
 depends_on: [3, 5, 10]
 wave: 3
 screens: [7a-1, 7a-2, 7a-3, 7b-1, 7b-3]
@@ -49,15 +49,18 @@ Founder, 2026-10-04 07:38: "instead of straight lines between places, is it poss
 - The legs job fetches the road shape for each leg's chosen mode and stores the simplified, encoded shape with the leg. Prefer one multi-point `/route` call per day per mode used; when it fails (one point off the graph fails the whole call), fall back to per-leg calls, and a leg that still fails keeps `shape` null. Minutes and metres keep their source and meaning (matrix, cache and the drive factor). Shapes are not put in the route cache.
 - Migration `<UTC timestamp>_plan_legs_shape.sql` adds the column; the Drizzle schema matches; regenerate the mobile synced schema (CLAUDE.md command); add the column to the plan_legs row of the data model doc. The privacy class stays C1 (the shape only joins places already in the plan).
 - Tests: polyline round trip and the simplify budget; the legs db test stores a shape for a routed leg and null for a straight-line leg.
+- Status: done — a77683eda
 
 ### T2 App: read the shape and draw it
 - `data/legs`: `LEGS_SQL` reads `shape`; `DayLeg` gets `path` (decoded `[lng, lat]` points, or null). A hook or helper that reads every leg of a version for the maps that draw all days at once.
 - `ui/map/planning/route-trace.ts`: a `RouteDay` may carry its leg paths keyed by `from>to`; `dayPath` stitches them (dropping the repeated joint point) and falls back to the straight segment per missing leg. `RouteStop` gains the stop key when it does not already carry it. `StopRouteLayer` needs no other change.
 - Tests: stitching with a mix of shaped and missing legs, with and without a stay.
+- Status: done — 7044e1ddb
 
 ### T3 Wire the maps (after phase 10's PR merges)
 - Trip map (all days, the chosen day traced), day plan mini-map, day map open, and the old MAP tab (`plan-map.tsx`, item to item, no stay legs).
 - Device check on Android: `mode=compare` for the trip map and the old MAP tab flows; the PR shows the lines following the streets.
+- Status: done — a6b53a6f3
 
 ## Done when
 

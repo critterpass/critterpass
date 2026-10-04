@@ -100,22 +100,25 @@ export function dayLead(
 }
 
 /**
- * What GO opens from today's day-of screen: the leave-by's stop while there is one, else the next
- * stop with a place. Null on another day, when the day is done, or when the stop has no place.
+ * What GO may open from today's day-of screen, first choice first: the leave-by's stop (a flight's
+ * is its departure airport), then the next stop with a place. The screen offers the first one GO
+ * can place. Nothing on another day or once the day is done.
  */
 export function dayOfGo(
   leaveBy: LeaveByView | null,
   lead: DayLead | null,
   tripId: string,
   isToday: boolean,
-): GoTarget | null {
-  if (!isToday) return null;
-  if (leaveBy !== null && leaveBy.placeName !== null) {
+): { readonly leaveBy: GoTarget | null; readonly stop: GoTarget | null } {
+  if (!isToday) return { leaveBy: null, stop: null };
+  return {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a target kind, never copy.
-    return { kind: 'leave_by', leaveById: leaveBy.id };
-  }
-  if (lead === null || lead.kind === 'done' || !lead.poiId) return null;
-  return { kind: 'place', poiId: lead.poiId, tripId };
+    leaveBy: leaveBy === null ? null : { kind: 'leave_by', leaveById: leaveBy.id },
+    stop:
+      lead === null || lead.kind === 'done' || !lead.poiId
+        ? null
+        : { kind: 'place', poiId: lead.poiId, tripId },
+  };
 }
 
 /** How the day shown sits against the trip's own today. */

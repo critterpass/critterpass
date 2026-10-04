@@ -9,7 +9,7 @@ import { useLiveRows } from '@/data/plan/live-rows';
 
 import { dayLegs, type DayLeg, type LegEnd, type StoredLeg } from './day-legs';
 
-export const LEGS_SQL = `SELECT from_key, to_key, mode, minutes, meters, source, approx
+export const LEGS_SQL = `SELECT from_key, to_key, mode, minutes, meters, source, approx, shape
   FROM plan_legs WHERE version_id = ? AND day_id = ?`;
 const LEGS_TABLES = ['plan_legs'];
 

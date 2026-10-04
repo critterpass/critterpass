@@ -2,7 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 
 import { DestinationScreen, LocalFirstGate } from '@/features/explore';
 
-/** A destination's guide page (3d-1; the guest guide's variant is 3b-8). */
+/** A destination's guide page (7g-3, earlier 3d-1; the guest guide's variant is 3b-8). */
 export default function ExploreDestinationRoute() {
   const { destination, tripId, crewId } = useLocalSearchParams<{
     destination: string;

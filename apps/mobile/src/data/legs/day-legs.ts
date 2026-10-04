@@ -1,10 +1,19 @@
 /**
  * The legs between a day's stops (7a-2 "CAR · 1H10", 7b-1, 7i-2): the stored leg for each pair
  * when the plan has one (worked out by the router and synced, so it reads offline), else an
- * "about" straight-line estimate, walking when the stops are close and driving otherwise.
+ * "about" straight-line estimate, walking when the stops are close and driving otherwise. A stored
+ * leg may carry the road it follows (`path`), which the maps draw instead of a straight segment.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- leg modes and sources, never copy. */
-import { estimateStraightLineEta, STAY_LEG_KEY, type LegMode, type LegSource } from '@cp/domain';
+import {
+  decodePolyline,
+  estimateStraightLineEta,
+  PLAN_LEG_SHAPE_PRECISION,
+  STAY_LEG_KEY,
+  type LegMode,
+  type LegSource,
+  type LngLat,
+} from '@cp/domain';
 
 /** The longest leg the plan suggests walking (`routing.walk_max_m`). */
 export const WALK_MAX_M = 1200;
@@ -24,6 +33,8 @@ export interface StoredLeg {
   readonly meters: number;
   readonly source: string;
   readonly approx: number | boolean;
+  /** Encoded road shape; absent from reads that do not select it. */
+  readonly shape?: string | null;
 }
 
 export interface DayLeg {
@@ -35,6 +46,15 @@ export interface DayLeg {
   readonly source: LegSource;
   /** Shown as "about": a straight-line estimate, or a router leg with no live traffic. */
   readonly approx: boolean;
+  /** The road the leg follows, `[lng, lat]`, or null where the map draws it straight. */
+  readonly path: readonly LngLat[] | null;
+}
+
+/** Decodes a stored leg shape; null when there is none or it is too short to draw. */
+export function legPath(shape: string | null | undefined): LngLat[] | null {
+  if (shape == null || shape === '') return null;
+  const points = decodePolyline(shape, PLAN_LEG_SHAPE_PRECISION);
+  return points.length < 2 ? null : points;
 }
 
 const MODES: readonly LegMode[] = ['walk', 'drive', 'ride', 'driver'];
@@ -52,6 +72,7 @@ function fromStored(leg: StoredLeg): DayLeg | null {
     meters: leg.meters,
     source,
     approx: leg.approx === true || leg.approx === 1,
+    path: legPath(leg.shape),
   };
 }
 
@@ -68,6 +89,7 @@ export function estimateLeg(from: LegEnd, to: LegEnd): DayLeg {
     meters: eta.distanceM,
     source: 'straight_line',
     approx: true,
+    path: null,
   };
 }
 

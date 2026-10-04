@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { edgePlacement, spreadAlongEdges } from '../edge-position';
+import { clearOfEdgeRows, edgePlacement, spreadAlongEdges } from '../edge-position';
 import { placeDotFeatures, pressedPlaceId, type PlaceDot } from '../place-dots';
 import { routeFeatures, traceLine, type Coord, type RouteDay } from '../route-trace';
 import { boundsOf } from '../use-planning-camera';
@@ -165,5 +165,22 @@ describe('spreadAlongEdges', () => {
       ['a', 528],
       ['c', 100],
     ]);
+  });
+});
+
+describe('clearOfEdgeRows', () => {
+  it('drops a side pill below the top row when a top pill shares the corner', () => {
+    const pills = [
+      { id: 'jatiluwih', placement: { side: 'left' as const, along: 40 } },
+      { id: 'karsa', placement: { side: 'top' as const, along: 80 } },
+      { id: 'low', placement: { side: 'right' as const, along: 300 } },
+    ];
+    expect(
+      clearOfEdgeRows(pills, { top: 86, bottom: 600 }).map((pill) => pill.placement.along),
+    ).toEqual([86, 80, 300]);
+    // Without a top pill the side pill keeps its place.
+    expect(clearOfEdgeRows(pills.slice(0, 1), { top: 86, bottom: 600 })[0]?.placement.along).toBe(
+      40,
+    );
   });
 });
