@@ -20,6 +20,7 @@ import { loadDraftPlaces } from '../../../../src/jobs/ai/draft/load-places';
 import { persistDraft } from '../../../../src/jobs/ai/draft/persist';
 import { ensurePlacePicks, tooFewCandidates } from '../../../../src/jobs/ai/draft/place-picks';
 import { loadBaseDraft } from '../../../../src/jobs/ai/draft/redraft-store';
+import { deckCandidates } from '../../../../src/jobs/ai/swipe-deck';
 import { silent, startJobsHarness, type JobsHarness } from '../../../helpers/jobs-harness';
 import { FILL, NAMED_IN_ORDER, seedDaLat, type DaLat } from '../../../places/pick/da-lat-places';
 import { seedTrip } from './kyoto-trip';
@@ -135,6 +136,23 @@ describe('a draft in a destination without a curated set', () => {
     expect(input.pools.meals.map((poi) => poi.name)).toEqual(
       expect.arrayContaining(['Phở Hiếu', 'Nem Nướng Bà Hùng']),
     );
+  });
+
+  it('deals the swipe deck from the picks', async () => {
+    const cards = await withSystem(harness.pool, (tx) =>
+      deckCandidates(tx, {
+        destination_id: daLat.destinationId,
+        version_id: null,
+        trip_id: tripId,
+      }),
+    );
+    const names = cards.map((card) => card.name);
+    expect(names).toEqual(expect.arrayContaining(['Hồ Xuân Hương', 'Phở Hiếu', 'Langbiang']));
+    // Never a stay, a station or a row nobody picked.
+    expect(names).not.toContain('Khách Sạn Sương Mai');
+    expect(names).not.toContain('Ga Đà Lạt');
+    expect(names).not.toContain('Văn Phòng Công Chứng');
+    expect(names).toHaveLength(NAMED_IN_ORDER.length + Object.values(FILL).flat().length);
   });
 
   it('redrafts a day the draft left empty', { timeout: 120_000 }, async () => {
