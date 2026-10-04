@@ -39,7 +39,10 @@ export interface TripPick extends PickCard {
 }
 
 export interface TripExploreViewProps {
-  readonly hero: Omit<DestHeroProps, 'trailing' | 'saved' | 'onToggleSave' | 'chips'>;
+  readonly hero: Omit<
+    DestHeroProps,
+    'trailing' | 'saved' | 'onToggleSave' | 'chips' | 'guideArt' | 'bottomRoom'
+  >;
   readonly savedCount: number;
   readonly onSaved?: (() => void) | undefined;
   readonly searchPlaceholder: string;
@@ -118,6 +121,8 @@ export function TripExploreView(props: TripExploreViewProps) {
           {...props.hero}
           chips={[]}
           guideArt="ghost"
+          // The search bar overlaps the hero by half its height: the tagline ends clear above it.
+          bottomRoom={DOCKED_SEARCH_HEIGHT / 2 + theme.space['12']}
           trailing={
             <InlineAction
               kind="choice"

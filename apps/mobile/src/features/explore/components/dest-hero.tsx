@@ -83,6 +83,8 @@ export interface DestHeroProps {
    * switch: seated on the destination guide (7g-3) while `planning.redesign` is on.
    */
   readonly guideArt?: 'ghost' | 'seated' | undefined;
+  /** Space under the last line, in place of the hero's own (a bar that overlaps its bottom edge). */
+  readonly bottomRoom?: number | undefined;
 }
 
 function WalkingGuide({ guide, seated }: { readonly guide: GuideFacts; readonly seated: boolean }) {
@@ -133,6 +135,7 @@ export function DestHero(props: DestHeroProps) {
       style={[
         styles.hero,
         { backgroundColor: guide.colour, paddingTop: insets.top + theme.space['8'] },
+        props.bottomRoom === undefined ? null : { paddingBottom: props.bottomRoom },
       ]}
       testID="explore-hero"
     >
