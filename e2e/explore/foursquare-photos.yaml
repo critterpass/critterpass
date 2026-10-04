@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # A place's kept Foursquare photo, credited, in English then Vietnamese: on a search result's tile
 # (the screen draws "Powered by Foursquare" once under the results) and as the place page's hero
-# (the credit sits on the photo). Both from lab scenes, so no Foursquare call is made.
+# (the credit sits on its own line above the chips), then the planning place page with a credited
+# photo and both chips. All from lab scenes, so no Foursquare call is made.
 - runFlow:
     file: subflows/search-lab-open.yaml
     env: { LOCALE: en }
@@ -20,6 +21,9 @@ appId: app.critterpass.dev
         SHOT: en-3d-3-foursquare-photo,
       }
 - runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: place-detail, READY: place-detail-cta, SHOT: en-7e-1-place-credit }
+- runFlow:
     file: subflows/search-lab-open.yaml
     env: { LOCALE: vi }
 - runFlow:
@@ -35,3 +39,6 @@ appId: app.critterpass.dev
         READY: explore-place-save-cta,
         SHOT: vi-3d-3-foursquare-photo,
       }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: place-detail, READY: place-detail-cta, SHOT: vi-7e-1-place-credit }

@@ -4,47 +4,40 @@
  * of facts; crowds by the hour; the guide's tip; the crew's line; tickets and tours; and the main
  * action pinned at the bottom beside the guide chat.
  */
-import { tokens } from '@cp/design-tokens';
 import type { PlaceMediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
-import { Image, ScrollView, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { bezierEasing } from '@/motion';
-import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { SplitCtaRow } from '@/ui/buttons/SplitCtaRow';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
-import { MediaLayer } from '@/ui/media/MediaLayer';
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { categoryIcon } from '../category';
 import type { LiveDetails } from '../place-live';
 import type { GuideFacts } from '../format';
 import { AddToDayButton, type AddToDayButtonProps } from './add-to-day-button';
 import { CrewRow, type CrewRowProps } from './crew-row';
 import { CrowdChart, type CrowdChartProps } from './crowd-chart';
-import { GenericPhotoLabel } from './generic-photo-label';
+import { heroCaptionInset, HERO_SHEET_OVERLAP, PlacePhoto } from './place-hero-photo';
 import { PlaceLiveDetails } from './place-live-details';
 import { SupplierCard, type SupplierCardProps } from './supplier-card';
 
 const PHOTO_HEIGHT = 320;
-const PUSH_IN = 1.08;
 const TIP_STICKER = 44;
-const pushEasing = bezierEasing(tokens.motion.easing.standard);
+/** One row of chips: the label's line and the chip's padding. */
+const HERO_CHIP_ROW = 24;
 
 export interface PlaceViewProps {
   readonly name: string;
@@ -78,15 +71,13 @@ export interface PlaceViewProps {
 
 const useStyles = makeStyles((t) => ({
   photo: { height: PHOTO_HEIGHT, overflow: 'hidden', justifyContent: 'flex-end' },
-  fill: { position: 'absolute', top: 0, bottom: 0, start: 0, end: 0 },
-  doodle: { alignItems: 'center', justifyContent: 'center' },
   controls: { position: 'absolute', start: t.space['16'], end: t.space['16'] },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: t.space['6'],
     paddingHorizontal: t.size.gutter,
-    paddingBottom: t.space['32'] + t.space['12'],
+    paddingBottom: HERO_SHEET_OVERLAP + t.space['12'],
   },
   tag: {
     borderRadius: t.radius.sm,
@@ -94,7 +85,7 @@ const useStyles = makeStyles((t) => ({
     paddingVertical: t.space['4'],
   },
   sheet: {
-    marginTop: -t.space['32'],
+    marginTop: -HERO_SHEET_OVERLAP,
     borderTopLeftRadius: t.radius.sheetTop,
     borderTopRightRadius: t.radius.sheetTop,
     backgroundColor: t.semantic.bg.base,
@@ -105,69 +96,14 @@ const useStyles = makeStyles((t) => ({
   footer: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'] },
 }));
 
-/** The place photo, pushing in as the page opens; `caption` keeps its credit off covered edges. */
-export function PlacePhoto({
-  photo,
-  heroUrl,
-  category,
-  accent,
-  caption = { at: 'top', inset: 6 },
-}: Pick<PlaceViewProps, 'photo' | 'heroUrl' | 'category'> & {
-  readonly accent: string;
-  readonly caption?: { readonly at: 'top' | 'bottom'; readonly inset: number };
-}) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const reduced = useReducedImpactMotion();
-  const scale = useSharedValue(1);
-  useEffect(() => {
-    scale.value = reduced
-      ? 1
-      : withTiming(PUSH_IN, { duration: tokens.motion.duration.story, easing: pushEasing });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable shared value ref.
-  }, [reduced]);
-  const push = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
-  return (
-    <Animated.View style={[styles.fill, push]}>
-      <Hatch />
-      <MediaLayer
-        media={photo}
-        surface="dark"
-        accent={accent}
-        tone="colour"
-        dots={false}
-        creditAt={caption.at}
-        creditInset={caption.inset}
-      />
-      <GenericPhotoLabel photo={photo} at={caption.at} inset={caption.inset} />
-      {photo === null && heroUrl ? (
-        <Image
-          source={{ uri: heroUrl }}
-          style={styles.fill}
-          resizeMode="cover"
-          accessibilityIgnoresInvertColors
-          testID="explore-place-hero-live"
-        />
-      ) : photo === null ? (
-        <View style={[styles.fill, styles.doodle]}>
-          <Icon
-            name={categoryIcon(category)}
-            size={72}
-            color={theme.semantic.text.secondary}
-            decorative
-          />
-        </View>
-      ) : null}
-    </Animated.View>
-  );
-}
-
 export function PlaceView(props: PlaceViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
+  // The chip block on the photo, above the sheet's overlap: one row of chips until measured.
+  const [chipsHeight, setChipsHeight] = useState(HERO_CHIP_ROW + theme.space['12']);
   const { guide } = props;
   // The round back control on the photo is this page's way back.
   useBackAffordance();
@@ -191,8 +127,16 @@ export function PlaceView(props: PlaceViewProps) {
             heroUrl={props.heroUrl}
             category={props.category}
             accent={guide.colour}
+            // On its own line above the chips, however many rows they take.
+            captionInset={heroCaptionInset(props.tags.length === 0 ? 0 : chipsHeight)}
           />
-          <View style={styles.tags} testID="explore-place-tags">
+          <View
+            style={styles.tags}
+            onLayout={(event) =>
+              setChipsHeight(event.nativeEvent.layout.height - HERO_SHEET_OVERLAP)
+            }
+            testID="explore-place-tags"
+          >
             {props.tags.map((tag, index) => (
               <View
                 key={tag}

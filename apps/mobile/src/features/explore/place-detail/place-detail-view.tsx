@@ -28,7 +28,7 @@ import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryLabel } from '../category';
 import { CrewRow, type CrewRowProps } from '../components/crew-row';
-import { PlacePhoto } from '../components/place-view';
+import { heroCaptionInset, HERO_SHEET_OVERLAP, PlacePhoto } from '../components/place-hero-photo';
 import type { GuideFacts } from '../format';
 import { CATEGORY_ACCENT } from './category-accent';
 import { CollapsingHeader } from './collapsing-header';
@@ -77,7 +77,7 @@ const useStyles = makeStyles((t) => ({
   photo: { height: DETAIL_PHOTO_HEIGHT, overflow: 'hidden' },
   controls: { position: 'absolute', start: t.space['16'], end: t.space['16'] },
   sheet: {
-    marginTop: -t.space['32'],
+    marginTop: -HERO_SHEET_OVERLAP,
     borderTopLeftRadius: t.radius.sheetTop,
     borderTopRightRadius: t.radius.sheetTop,
     backgroundColor: t.semantic.bg.base,
@@ -189,8 +189,8 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
             heroUrl={props.heroUrl}
             category={props.category}
             accent={props.guide.colour}
-            // The status bar and the buttons cover the top, the sheet the last 32 pt.
-            caption={{ at: 'bottom', inset: theme.space['32'] + theme.space['6'] }}
+            // Above the sheet's overlap; this page's chips are in the sheet, not on the photo.
+            captionInset={heroCaptionInset()}
           />
           <Row
             justify="space-between"
@@ -282,7 +282,7 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
       </Animated.ScrollView>
       <CollapsingHeader
         scrollY={scrollY}
-        threshold={DETAIL_PHOTO_HEIGHT - theme.space['32']}
+        threshold={DETAIL_PHOTO_HEIGHT - HERO_SHEET_OVERLAP}
         title={props.name}
         onBack={props.onBack}
         saveLabel={saveLabel}

@@ -198,6 +198,7 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     guide: 'chava',
     category: 'beach',
     guidePick: true,
+    mustDoOwner: 'Rin',
     meta: { priceLevel: null, open: 'unknown', stayMinutes: 12 },
     crowd: { kind: 'none', date: DATE },
     tip: null,
