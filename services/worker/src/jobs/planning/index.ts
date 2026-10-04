@@ -12,6 +12,7 @@ import { planCheckJobs } from './check';
 import { climateJobs } from './climate';
 import { splitDecisionJobs } from './split';
 import { ideasJobs } from './ideas';
+import { memberAskJobs } from './asks';
 
 /** One planning module's jobs, built from the registry's dependencies. */
 export type PlanningJobFamily = (deps: JobRegistryDeps) => readonly AnyJobDefinition[];
@@ -23,6 +24,7 @@ const PLANNING_JOB_FAMILIES: readonly PlanningJobFamily[] = [
   planCheckJobs,
   splitDecisionJobs,
   ideasJobs,
+  memberAskJobs,
 ];
 
 export function planningJobs(deps: JobRegistryDeps): AnyJobDefinition[] {

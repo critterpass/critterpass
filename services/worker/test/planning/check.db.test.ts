@@ -159,6 +159,19 @@ describe('plan check job', () => {
     );
     expect(rows[0]).toEqual({ n: 1, later: true });
   });
+
+  it('locking a plan in queues one run for its trip', async () => {
+    const locked = randomUUID();
+    await withSystem(db.pool, async (tx) => {
+      await planCheckEventHook(tx, { id: randomUUID(), type: 'proposal.sent', tripId: locked });
+      await planCheckEventHook(tx, { id: randomUUID(), type: 'proposal.locked', tripId: locked });
+    });
+    const { rows } = await db.pool.query<{ data: unknown }>(
+      "SELECT data FROM pgboss.job WHERE name = 'plan.check' AND data->>'trip_id' = $1",
+      [locked],
+    );
+    expect(rows).toEqual([{ data: { trip_id: locked, trigger: 'plan' } }]);
+  });
 });
 
 describe('plan check stays deterministic', () => {

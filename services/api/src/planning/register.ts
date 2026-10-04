@@ -21,6 +21,7 @@ import { ideasModule } from './ideas/register';
 import { searchModule } from './search';
 import { importsModule } from './imports';
 import { placesHubModule } from './hub';
+import { fixersModule } from './fixers';
 
 export interface PlanningDeps {
   readonly app: OpenAPIHono<AppEnv>;
@@ -44,6 +45,7 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   searchModule,
   importsModule,
   placesHubModule,
+  fixersModule,
 ];
 
 export function registerPlanning(

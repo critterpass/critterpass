@@ -6,6 +6,7 @@ export * from './fit';
 export * from './gaps';
 export * from './ideas';
 export * from './imports';
+export * from './inbox-kinds';
 export * from './legs';
 export * from './queues';
 export * from './rt';

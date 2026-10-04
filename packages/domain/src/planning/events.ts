@@ -1,7 +1,8 @@
 /**
  * Planning domain events (docs/api-contracts.md §2.4). Payloads carry ids and enum values only: a
  * stance event names the stance but never its note, and hiding a place appends no event at all
- * (hides are private to their owner).
+ * (hides are private to their owner). An organiser's private ask names the two people and nothing
+ * else.
  */
 import { z } from 'zod';
 
@@ -14,6 +15,8 @@ export const PLANNING_EVENT_TYPES = [
   'place.stance_cleared',
   'plan.legs_updated',
   'ideas.placed',
+  'check.member_asked',
+  'check.member_ask_answered',
 ] as const;
 export type PlanningEventType = (typeof PLANNING_EVENT_TYPES)[number];
 
@@ -32,5 +35,18 @@ export const PLANNING_EVENT_PAYLOADS = {
     job_id: z.uuid(),
     user_id: z.uuid(),
     change_set_id: z.uuid().nullable(),
+  }),
+  /** An organiser asked one member about their saves: ids only, never the places or the balance. */
+  'check.member_asked': z.object({
+    trip_id: z.uuid(),
+    ask_id: z.uuid(),
+    asker_id: z.uuid(),
+    member_id: z.uuid(),
+  }),
+  'check.member_ask_answered': z.object({
+    trip_id: z.uuid(),
+    ask_id: z.uuid(),
+    member_id: z.uuid(),
+    status: z.enum(['accepted', 'declined']),
   }),
 } as const satisfies Record<PlanningEventType, z.ZodType>;

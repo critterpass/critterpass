@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.body"
+msgstr "{asker} hỏi bạn một chuyện về kế hoạch"
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.needed.body"
 msgstr "{asker} hỏi: {question} Chạm để trả lời, mình sẽ đếm phiếu."
@@ -30,6 +34,10 @@ msgstr "{count, plural, other {# điểm dừng đã sẵn sàng để bạn xem
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "Có {count} nhiệm vụ cho {place}."
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
+msgstr "{crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
