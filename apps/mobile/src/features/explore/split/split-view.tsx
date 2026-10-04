@@ -157,7 +157,6 @@ export function SplitView(props: SplitViewProps) {
               <Notes notes={props.ratherNotNotes} />
             </View>
           )}
-          {props.picker}
           <Row gap="8" align="center">
             <Sticker kind={props.guide.kind} name={props.guide.name} size={32} />
             <Text variant="voice" color={props.guide.colour}>
@@ -184,6 +183,7 @@ export function SplitView(props: SplitViewProps) {
               testID={`split-option-${String(index)}`}
             />
           ))}
+          {props.picker}
         </View>
       </ScrollView>
       <FooterFade />

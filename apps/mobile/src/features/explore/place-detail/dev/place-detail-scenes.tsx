@@ -171,7 +171,7 @@ function Scene({
           live={null}
           offers={null}
           onPlace={() => undefined}
-          addAfter={() => undefined}
+          addAfter={() => '/explore'}
         />
       }
       cta={{

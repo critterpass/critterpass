@@ -68,7 +68,7 @@ export function WhenItFits({ guide, best, sentence, bars, onOtherDays }: WhenItF
             style={styles.other}
             testID="place-detail-other-days"
           >
-            <Text variant="buttonSm" color={guide.colour}>
+            <Text variant="bodySm" color={guide.colour}>
               {t({ id: 'explore.detail.fits.other', message: 'Other days ›' })}
             </Text>
           </Pressable>

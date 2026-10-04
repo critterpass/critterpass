@@ -5,12 +5,13 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
+import { Pressable } from 'react-native';
 
-import { AddButton, PlaceRow } from '@/ui/planning';
+import { AddButton } from '@/ui/planning';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { categoryIcon, categoryLabel } from '../category';
+import { categoryLabel } from '../category';
 import type { PlaceRef } from './context';
 
 const useStyles = makeStyles((t) => ({
@@ -20,6 +21,14 @@ const useStyles = makeStyles((t) => ({
     paddingHorizontal: t.space['14'],
   },
   divider: { borderTopWidth: 1, borderTopColor: t.color.divider },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: t.space['12'],
+    paddingVertical: t.space['12'],
+    minHeight: 56,
+  },
+  text: { flex: 1, minWidth: 0, gap: t.space['2'] },
 }));
 
 export function IfYouLike({
@@ -47,25 +56,29 @@ export function IfYouLike({
           const minutes = String(place.minutes);
           return (
             <View key={place.poi_id} style={index === 0 ? null : styles.divider}>
-              <PlaceRow
-                title={upper(place.name, i18n.locale)}
-                meta={t({ id: 'explore.detail.similarMeta', message: `${kind} · ${minutes} min` })}
-                icon={categoryIcon(place.category)}
-                onPress={() => onPlace(place.poi_id)}
-                trailing={
-                  onAdd === undefined ? undefined : (
-                    <AddButton
-                      accessibilityLabel={t({
-                        id: 'explore.detail.similarAdd',
-                        message: `Add ${place.name} to the plan`,
-                      })}
-                      onPress={() => onAdd(place.poi_id)}
-                      testID={`place-detail-similar-add-${place.poi_id}`}
-                    />
-                  )
-                }
-                testID={`place-detail-similar-${place.poi_id}`}
-              />
+              <View style={styles.row}>
+                <Pressable
+                  style={styles.text}
+                  onPress={() => onPlace(place.poi_id)}
+                  accessibilityRole="button"
+                  testID={`place-detail-similar-${place.poi_id}`}
+                >
+                  <Text variant="rowTitle">{upper(place.name, i18n.locale)}</Text>
+                  <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                    {t({ id: 'explore.detail.similarMeta', message: `${kind} · ${minutes} min` })}
+                  </Text>
+                </Pressable>
+                {onAdd === undefined ? null : (
+                  <AddButton
+                    accessibilityLabel={t({
+                      id: 'explore.detail.similarAdd',
+                      message: `Add ${place.name} to the plan`,
+                    })}
+                    onPress={() => onAdd(place.poi_id)}
+                    testID={`place-detail-similar-add-${place.poi_id}`}
+                  />
+                )}
+              </View>
             </View>
           );
         })}
