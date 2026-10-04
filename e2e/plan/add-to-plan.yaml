@@ -103,7 +103,7 @@ appId: app.critterpass.dev
     text: '^add-to-plan-already$'
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-note'
+      id: 'plan-add-confirm'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -125,7 +125,7 @@ appId: app.critterpass.dev
     text: '^add-to-plan-nowhere$'
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-note'
+      id: 'plan-add-confirm'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000

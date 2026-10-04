@@ -15,9 +15,17 @@ msgstr "{count} người đi ›"
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · NGÀY TRỐNG"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.waiting"
+msgstr "{guide} đang tìm ngày và giờ hợp nhất."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
 msgstr "{guide} đã chọn ngày và giờ. Đổi gì cũng được."
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.guidePick"
+msgstr "{guide} sẽ chọn {dayLabel}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.length.hours"
@@ -42,6 +50,10 @@ msgstr "{minutes} phút, gọi xe được"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearby"
 msgstr "{name} cách {count} phút nữa. Thêm luôn nhé?"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearbyNextDoor"
+msgstr "{name} ở ngay bên cạnh. Thêm luôn nhé?"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.length.minutes"
@@ -71,13 +83,26 @@ msgstr "Thêm luôn"
 msgid "plan.add.cta.add"
 msgstr "THÊM VÀO {dayLabel} · {time}"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.addAnyway"
+msgstr "VẪN THÊM VÀO {dayLabel}"
+
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.eyebrow"
 msgstr "THÊM VÀO LỊCH TRÌNH"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.inPlan"
+msgstr "Đã có trong lịch trình: {dayLabel} lúc {time}. Chọn nơi muốn dời đến."
+
+#. placeholder {0}: b ?? ''
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.already"
-msgstr "Đã có trong lịch trình vào {dayLabel}. Chọn chỗ để dời."
+msgid "plan.add.why.before"
+msgstr "Trước {0}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.between"
+msgstr "Giữa {a} và {b}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.busy"
@@ -102,6 +127,10 @@ msgstr "Buổi sáng khô ráo vào {month}"
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.everyone"
 msgstr "Mọi người ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.waiting"
+msgstr "ĐANG TÌM GIỜ HỢP NHẤT…"
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.saveLater"
@@ -131,9 +160,13 @@ msgstr "Hôm đó không còn giờ trống"
 msgid "plan.add.offline"
 msgstr "Không có sóng: Tokek sẽ tính lý do khi bạn có mạng lại."
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.nowhere"
+msgstr "Chưa có ngày nào vừa. Chọn một ngày để vẫn thêm, hoặc giữ trong Ý tưởng."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.nowhere"
-msgstr "Chưa có ngày nào hợp. Chọn một ngày, hoặc để dành sau."
+msgid "plan.add.why.needsMoveNamed"
+msgstr "Chỉ vừa nếu dời {stop}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.needsMove"
@@ -147,6 +180,10 @@ msgstr "Chưa biết giờ mở cửa"
 msgid "plan.add.why.opens"
 msgstr "Mở cửa lúc {time}"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.pickElsewhere"
+msgstr "CHỌN NGÀY HOẶC GIỜ KHÁC"
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
 msgstr "Vắng đến khoảng {hour} giờ"
@@ -155,9 +192,21 @@ msgstr "Vắng đến khoảng {hour} giờ"
 msgid "plan.add.why.rain"
 msgstr "Dễ mưa {from}–{to}"
 
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.after"
+msgstr "Ngay sau {a}"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.ideas"
+msgstr "LƯU VÀO Ý TƯỞNG"
+
 #: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
 msgid "plan.add.savedToast"
 msgstr "Đã lưu vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.seeIdeas"
+msgstr "XEM Ý TƯỞNG"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.time.a11y"
@@ -166,6 +215,14 @@ msgstr "Bắt đầu {time}. Đổi giờ"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
 msgstr "ĐỀ XUẤT CHO {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.suggestAnyway"
+msgstr "VẪN ĐỀ XUẤT CHO {dayLabel}"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.voteNote"
+msgstr "Cả nhóm sẽ bỏ phiếu trước khi thêm vào. Bạn sẽ được báo kết quả."
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
 msgid "plan.add.guide"

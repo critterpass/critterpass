@@ -13,6 +13,14 @@ msgstr ""
 msgid "plan.review.tally"
 msgstr "{0} of {1} yeses"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.collision.travel"
+msgstr "{a} leaves about {minutes} min too little to get to or from {b}."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.collision.overlap"
+msgstr "{a} would run into {b}. Untick it, or move one of them on the day first."
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.memberDays"
 msgstr "{author} suggested changes to {days}."
@@ -42,6 +50,10 @@ msgstr "{count, plural, one {# change for the rain} other {# changes for the rai
 msgid "plan.review.title.swap"
 msgstr "{count, plural, one {# CHANGE FOR THE SWAP} other {# CHANGES FOR THE SWAP}}"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.applied"
+msgstr "{count, plural, one {# change is in the plan} other {# changes are in the plan}}"
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.title.plan"
 msgstr "{count, plural, one {# change to the plan} other {# changes to the plan}}"
@@ -53,6 +65,10 @@ msgstr "{count, plural, one {# FIX} other {# FIXES}}"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.title.gap"
 msgstr "{count, plural, one {# FOR THE FREE TIME} other {# FOR THE FREE TIME}}"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.placed"
+msgstr "{count, plural, one {# place added to the plan} other {# places added to the plan}}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.placedForYou"
@@ -95,9 +111,21 @@ msgstr "{sign}{hours}H{rest} DRIVING"
 msgid "plan.review.driving.minutes"
 msgstr "{sign}{mins} MIN DRIVING"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.suggestedBy"
+msgstr "{who} suggested this."
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.tally"
 msgstr "{yes} of {needed} yeses so far"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.aStop"
+msgstr "a stop"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.addNow"
+msgstr "ADD THEM NOW"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.after"
@@ -128,13 +156,29 @@ msgstr "Approved. Putting it into the plan now."
 msgid "plan.review.why.opens"
 msgstr "as it opens"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.askCrew"
+msgstr "Ask the crew first"
+
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.money.billion"
 msgstr "B"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.crowds"
 msgstr "before the crowds"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.closesHours"
+msgstr "closes in {hours} h"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.closesMinutes"
+msgstr "closes in {mins} min"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backDay"
@@ -148,9 +192,14 @@ msgstr "Day {first}–{last}"
 msgid "plan.review.tag.delay"
 msgstr "Delay"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.approved"
 msgstr "Done. It’s in everyone’s plan."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.notice.approvedSolo"
+msgstr "Done. It’s in your plan."
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.dropout"
@@ -165,7 +214,7 @@ msgstr "Dropped"
 msgid "plan.review.each"
 msgstr "each"
 
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calm"
 msgstr "Everything lands in a gap. Nothing booked and nobody’s must-do moved."
 
@@ -205,6 +254,30 @@ msgstr "Loading the plan change"
 msgid "plan.review.money.million"
 msgstr "M"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.reorder"
+msgstr "moved for a shorter drive"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.rain"
+msgstr "moved out of the rain"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.clash"
+msgstr "moved so it no longer runs into the stop before"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.fix"
+msgstr "moved so the day works"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.crowds"
+msgstr "moved to a quieter hour"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.closed"
+msgstr "moved to when it’s open"
+
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
 msgid "plan.review.needsYou"
 msgstr "NEEDS YOU"
@@ -241,6 +314,10 @@ msgstr "Not this"
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.noMustDo"
 msgstr "Nothing anyone marked as a must-do was touched."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.summary.calmFixes"
+msgstr "Nothing booked and nobody’s must-do moves. Untick anything you’d rather keep."
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.freeDay"
@@ -282,6 +359,10 @@ msgstr "Plan change"
 msgid "plan.card.label"
 msgstr "Plan change"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.backCheck"
+msgstr "Plan check"
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.sendSelf"
 msgstr "Put it in my plan"
@@ -289,6 +370,10 @@ msgstr "Put it in my plan"
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.applyNow"
 msgstr "Put it in now"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.putInNow"
+msgstr "PUT IT IN THE PLAN NOW"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.weather"
@@ -310,6 +395,10 @@ msgstr "Removed"
 msgid "plan.review.see"
 msgstr "SEE"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.seeDay"
+msgstr "See {day}"
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.open"
 msgstr "See the changes"
@@ -318,13 +407,21 @@ msgstr "See the changes"
 msgid "plan.review.notice.needsSignal"
 msgstr "Sending needs signal. Try again once you’re back online."
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.sent"
+msgstr "Sent to the crew"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.touches"
 msgstr "Some of this moves a booking or a must-do. Look before you send."
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.swap"
 msgstr "Swap"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.tooFar"
+msgstr "swapped for somewhere closer"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.failed"
@@ -379,9 +476,17 @@ msgstr "Tokek never moves a stop for an idea. Move {stop} on the day plan, then 
 msgid "plan.review.left.explainPlain"
 msgstr "Tokek never moves a stop for an idea. Move one on the day plan, then add it."
 
+#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+msgid "plan.edit.undo"
+msgstr "UNDO"
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.voting"
 msgstr "Voting"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.was"
+msgstr "was {time}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.dry"
@@ -396,10 +501,26 @@ msgstr "Yes"
 msgid "plan.card.yes"
 msgstr "Yes"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.youSaidNo"
+msgstr "You said not this"
+
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedNo"
 msgstr "You said not this."
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.youSaidYes"
+msgstr "You said yes"
+
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
 msgstr "You said yes."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.yourYes"
+msgstr "Your yes is counted"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.sentLine"
+msgstr "Your yes is counted. It goes in once enough of them say yes."

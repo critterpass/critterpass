@@ -61,9 +61,25 @@ msgstr "A place taken off Ideas"
 msgid "plan.placing.foot"
 msgstr "About ten seconds. Leave if you like, Tokek will ping you."
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.add"
+msgstr "Add to a day"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.more"
+msgstr "Add to a day, or remove"
+
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
 msgstr "Add to a day…"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.inPlan"
+msgstr "Already in the plan · {dayLabel}"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.inPlanLine"
+msgstr "Already in the plan on {day}."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.placing.backToIdeas"
@@ -76,6 +92,10 @@ msgstr "Back to the trip"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.dropOnADay"
 msgstr "DROP ON A DAY"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.findPlaces"
+msgstr "Find places to save"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.fitPending"
@@ -105,6 +125,10 @@ msgstr "Leaving the split one for you"
 msgid "plan.placing.needsYouPending"
 msgstr "Leaving what needs you for you"
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.move"
+msgstr "Move it to another day"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeNone"
 msgstr "None fit as things are."
@@ -133,6 +157,22 @@ msgstr "Place them for me"
 msgid "plan.ideas.placeThem"
 msgstr "PLACE THEM FOR ME"
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.removeAll"
+msgstr "Remove for everyone"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.remove"
+msgstr "Remove from my saved"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedAll"
+msgstr "Removed from Ideas for everyone"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedMine"
+msgstr "Removed from your saved places"
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.routing"
 msgstr "Routing {days}"
@@ -160,3 +200,7 @@ msgstr "Tokek couldn’t start placing them"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"
 msgstr "Try again with signal."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.undo"
+msgstr "UNDO"

@@ -54,3 +54,22 @@ export function emptyBody(): string {
 export function backToIdeas(): string {
   return t({ id: 'plan.placing.backToIdeas', message: 'Back to Ideas' });
 }
+
+/** A saved place that is already a stop: the row says where instead of where it would fit. */
+export function inPlanFitLine(dayLabel: string): string {
+  return t({ id: 'plan.ideas.inPlan', message: `Already in the plan · ${dayLabel}` });
+}
+
+export function removedToast(forEveryone: boolean): string {
+  return forEveryone
+    ? t({ id: 'plan.ideas.removedAll', message: 'Removed from Ideas for everyone' })
+    : t({ id: 'plan.ideas.removedMine', message: 'Removed from your saved places' });
+}
+
+export function undoLabel(): string {
+  return t({ id: 'plan.ideas.undo', message: 'UNDO' });
+}
+
+export function findPlacesLabel(): string {
+  return t({ id: 'plan.ideas.findPlaces', message: 'Find places to save' });
+}

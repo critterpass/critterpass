@@ -161,7 +161,8 @@ export interface EditFollowUps {
   readonly see: (changesetId: string) => void;
 }
 
-function announceUndo(result: UndoOutcome): void {
+/** Says how an undo went: the plan is back, or why it isn't. */
+export function announceUndo(result: UndoOutcome): void {
   if (result === 'undone') {
     impact('success');
     toast.show({

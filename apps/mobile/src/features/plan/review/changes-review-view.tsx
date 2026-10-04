@@ -2,8 +2,9 @@
  * Review changes in the section 7 layout (7h-7), from props only: back to where it came from and
  * ONLY YOU SEE THIS while the set is my unsent draft; Tokek with the headline and summary; the
  * rows (the day's tag in its colour, "+ PLACE", the time and why, a tick that strikes the row
- * through when unticked); NEEDS YOU with SEE; the totals as chips that recount; and SEND TO CREW ·
- * NEEDS {k} YESES with "Apply to my plan only" (yes / no once it is a vote).
+ * through when unticked); NEEDS YOU with SEE; the totals as chips that recount; and the main
+ * button (an organiser's ADD THEM NOW with "Ask the crew first" beside it, a member's SEND TO CREW
+ * · NEEDS {k} YESES) with "Apply to my plan only" (yes / no once it is a vote).
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
@@ -11,7 +12,6 @@ import { ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -21,8 +21,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { NeedsYouList, type NeedsYouRow } from './needs-you-list';
-
-const TICK = 26;
+import { Tick } from './tick';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -55,14 +54,6 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['2'],
   },
   rowBody: { flex: 1, minWidth: 0 },
-  tick: {
-    width: TICK,
-    height: TICK,
-    borderRadius: TICK / 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-  },
   scroll: { flex: 1 },
   // Pinned under the list, as the design draws it: the list scrolls above the actions.
   footer: {
@@ -108,6 +99,12 @@ export interface ChangesReviewViewProps {
     readonly busy: boolean;
     readonly onPress: () => void;
   } | null;
+  /** An organiser's other way: send it to the crew as a vote instead of putting it straight in. */
+  readonly ask?: {
+    readonly label: string;
+    readonly disabled: boolean;
+    readonly onPress: () => void;
+  } | null;
   readonly personal: { readonly busy: boolean; readonly onPress: () => void } | null;
   readonly vote: {
     readonly line: string;
@@ -116,22 +113,8 @@ export interface ChangesReviewViewProps {
     readonly onNo: () => void;
   } | null;
   readonly notice: string | null;
-}
-
-function Tick({ accepted }: { readonly accepted: boolean }) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const fill = accepted ? theme.semantic.state.success : 'transparent';
-  return (
-    <View
-      style={[
-        styles.tick,
-        { backgroundColor: fill, borderColor: accepted ? fill : theme.semantic.border.decorative },
-      ]}
-    >
-      {accepted ? <Icon name="check" size={14} color={theme.color.paper.ink} decorative /> : null}
-    </View>
-  );
+  /** Once the set is in: the way to the day it changed. */
+  readonly seeDay?: { readonly label: string; readonly onPress: () => void } | null;
 }
 
 export function ChangesReviewView(props: ChangesReviewViewProps) {
@@ -230,6 +213,13 @@ export function ChangesReviewView(props: ChangesReviewViewProps) {
         {props.notice === null ? null : (
           <View style={styles.notice} testID="plan-review-notice">
             <Text variant="bodySm">{props.notice}</Text>
+            {props.seeDay == null ? null : (
+              <TextLink
+                label={props.seeDay.label}
+                onPress={props.seeDay.onPress}
+                testID="plan-review-see-day"
+              />
+            )}
           </View>
         )}
       </ScrollView>
@@ -242,6 +232,14 @@ export function ChangesReviewView(props: ChangesReviewViewProps) {
             loading={props.send.busy}
             block
             testID="plan-review-send"
+          />
+        )}
+        {props.ask == null ? null : (
+          <TextLink
+            label={props.ask.label}
+            onPress={props.ask.onPress}
+            disabled={props.ask.disabled}
+            testID="plan-review-ask"
           />
         )}
         {props.vote === null ? null : (

@@ -12,7 +12,6 @@ import { dayTileColour } from '@/features/plan/overview/day-card';
 
 import {
   backIdeasLabel,
-  calmSummary,
   changesHeadline,
   leftLine,
   needsMoveExplainer,
@@ -21,6 +20,7 @@ import {
   placedReason,
   tallyLine,
 } from '../changes-copy';
+import { calmSummary } from '../changes-state-copy';
 import { ChangesReviewView, type ChangeRow } from '../changes-review-view';
 import { ChangesTotals } from '../changes-totals';
 import type { LeftForYou } from '../data/use-review-extras';

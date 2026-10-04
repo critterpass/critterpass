@@ -15,8 +15,16 @@ msgstr ""
 msgid "plan.add.dayHeader.free"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.waiting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.guidePick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -41,6 +49,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearby"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearbyNextDoor"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -71,12 +83,25 @@ msgstr ""
 msgid "plan.add.cta.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.addAnyway"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.inPlan"
+msgstr ""
+
+#. placeholder {0}: b ?? ''
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.already"
+msgid "plan.add.why.before"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.between"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -101,6 +126,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
@@ -131,8 +160,12 @@ msgstr ""
 msgid "plan.add.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.nowhere"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.nowhere"
+msgid "plan.add.why.needsMoveNamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -147,6 +180,10 @@ msgstr ""
 msgid "plan.add.why.opens"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.pickElsewhere"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
 msgstr ""
@@ -155,8 +192,20 @@ msgstr ""
 msgid "plan.add.why.rain"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.ideas"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
 msgid "plan.add.savedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.seeIdeas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
@@ -165,6 +214,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.suggestAnyway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.voteNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet.tsx

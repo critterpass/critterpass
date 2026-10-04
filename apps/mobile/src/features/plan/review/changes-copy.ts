@@ -47,11 +47,80 @@ export function changesHeadline(trigger: string | null, count: number): string {
   return reviewTitle(trigger, count).toUpperCase();
 }
 
-export function calmSummary(): string {
-  return t({
-    id: 'plan.review.summary.calm',
-    message: 'Everything lands in a gap. Nothing booked and nobody’s must-do moved.',
-  });
+const REASON_KEY = /^[a-z0-9]+(?:_[a-z0-9]+)+$/u;
+
+/**
+ * Why a change is in the set, in words: the guide's fixes arrive as keys (`check_fix_clash`) and
+ * are worded here; what a person wrote is shown as written.
+ */
+export function changeReason(reason: string): string {
+  const key = reason.replace(/^undo: /u, '');
+  switch (key) {
+    case 'check_fix_reorder':
+      return t({ id: 'plan.review.reason.reorder', message: 'moved for a shorter drive' });
+    case 'check_fix_clash':
+      return t({
+        id: 'plan.review.reason.clash',
+        message: 'moved so it no longer runs into the stop before',
+      });
+    case 'check_fix_closed':
+    case 'closed':
+      return t({ id: 'plan.review.reason.closed', message: 'moved to when it’s open' });
+    case 'check_fix_too_far':
+      return t({ id: 'plan.review.reason.tooFar', message: 'swapped for somewhere closer' });
+    case 'rain':
+      return t({ id: 'plan.review.reason.rain', message: 'moved out of the rain' });
+    case 'crowds':
+      return t({ id: 'plan.review.reason.crowds', message: 'moved to a quieter hour' });
+    default:
+      return REASON_KEY.test(key)
+        ? t({ id: 'plan.review.reason.fix', message: 'moved so the day works' })
+        : reason;
+  }
+}
+
+/** "was 15:00" beside a new time. */
+export function wasLine(time: string): string {
+  return t({ id: 'plan.review.was', message: `was ${time}` });
+}
+
+/** The organiser's own way in: straight into the plan, no vote. */
+export function addNowLabel(ideas: boolean): string {
+  return ideas
+    ? t({ id: 'plan.review.addNow', message: 'ADD THEM NOW' })
+    : t({ id: 'plan.review.putInNow', message: 'PUT IT IN THE PLAN NOW' });
+}
+
+export function askCrewLabel(): string {
+  return t({ id: 'plan.review.askCrew', message: 'Ask the crew first' });
+}
+
+export function appliedToast(count: number, ideas: boolean): string {
+  return ideas
+    ? t({
+        id: 'plan.review.toast.placed',
+        message: plural(count, {
+          one: '# place added to the plan',
+          other: '# places added to the plan',
+        }),
+      })
+    : t({
+        id: 'plan.review.toast.applied',
+        message: plural(count, {
+          one: '# change is in the plan',
+          other: '# changes are in the plan',
+        }),
+      });
+}
+
+export function sentToast(): { readonly title: string; readonly subtitle: string } {
+  return {
+    title: t({ id: 'plan.review.toast.sent', message: 'Sent to the crew' }),
+    subtitle: t({
+      id: 'plan.review.toast.sentLine',
+      message: 'Your yes is counted. It goes in once enough of them say yes.',
+    }),
+  };
 }
 
 function has(reasons: readonly FitReason[], code: FitReason['code']): boolean {
