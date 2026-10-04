@@ -10,8 +10,9 @@ import { t } from '@lingui/core/macro';
 
 import { checkedAgo, dayTag, weekdayName } from '../format';
 import type { IssueCardProps } from '../issue-card';
-import { fixSummary, issueWords, kindTag, knowLine, type IssueContext } from '../issue-copy';
-import { fixLabel, nearerDetail, nearerUseLabel } from '../check-copy';
+import { fixKindLabel, fixSummary } from '../fix-copy';
+import { issueWords, kindTag, knowLine, type IssueContext } from '../issue-copy';
+import { nearerDetail, nearerUseLabel } from '../check-copy';
 import { driveLine } from '../format';
 import type { SwapChartProps } from '../rain-crowds/swap-chart';
 
@@ -140,7 +141,7 @@ export function issues(locale: string) {
           title: w.title,
           body: w.body,
           summary: fixSummary(issue, ctx, previews[index] ?? {}),
-          fixLabel: fixLabel(!member),
+          fixLabel: fixKindLabel(issue, !member),
           busy: false,
           onFix: () => undefined,
           detail:
@@ -149,7 +150,7 @@ export function issues(locale: string) {
                   line: nearerDetail('Jimbaran', 20, driveLine(95), driveLine(20)),
                   useLabel: nearerUseLabel(),
                   onUse: () => undefined,
-                  onClose: () => undefined,
+                  onKeep: () => undefined,
                 }
               : null,
         };

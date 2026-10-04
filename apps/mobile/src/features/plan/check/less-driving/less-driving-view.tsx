@@ -42,6 +42,8 @@ export interface LessDrivingViewProps {
   readonly afterStops: readonly SketchPoint[];
   readonly stay: SketchPoint | null;
   readonly rows: readonly OrderRow[];
+  /** Some of the new order's drives could not be routed in time: say they are estimates. */
+  readonly estimate?: boolean;
   readonly primary: {
     readonly label: string;
     readonly busy: boolean;
@@ -173,6 +175,19 @@ export function LessDrivingView(props: LessDrivingViewProps) {
                 {t({ id: 'plan.check.lessDriving.inCar', message: 'in the car' })}
               </Text>
             </View>
+            {props.estimate === true ? (
+              <Text
+                variant="bodySm"
+                color={theme.semantic.text.secondary}
+                singleLine={false}
+                testID="plan-less-driving-estimate"
+              >
+                {t({
+                  id: 'plan.check.lessDriving.estimate',
+                  message: `Some of these drives are estimates. ${guideName} checks the day again once the order is in.`,
+                })}
+              </Text>
+            ) : null}
             <View style={styles.sketches}>
               <View style={styles.sketch}>
                 <Text variant="eyebrow" color={theme.semantic.text.secondary}>

@@ -1,6 +1,6 @@
 /**
  * The plan check's words (7h-1), from each issue's numbers and ids: the kind's tag, the card's
- * title and explanation, the line under it that says what FIX does, and the TO KNOW lines. The
+ * title and explanation, and the TO KNOW lines (what FIX does is worded in `fix-copy.ts`). The
  * server sends codes only; every word is here, in the reader's language. Crowd copy names its
  * source: an editorial curve is "usually busy", only visit counts say what crews saw.
  */
@@ -29,6 +29,8 @@ export interface IssueContext {
 export interface FixPreview {
   /** The day's best order cuts this much driving. */
   readonly savedMin?: number | null;
+  /** Some of the new order's drives could not be routed in time: its numbers are estimates. */
+  readonly estimated?: boolean;
   /** The clash's later stop lands here in the best order. */
   readonly movedTo?: { readonly stableId: string; readonly time: string } | null;
   /** The rain or crowds block's own swap. */
@@ -86,21 +88,68 @@ export interface IssueWords {
   readonly body: string;
 }
 
+const minuteOfClock = (clock: string): number =>
+  Number(clock.slice(0, 2)) * 60 + Number(clock.slice(3, 5));
+
+/**
+ * A clash in words that give the reason: how long the drive between the two is and how much time
+ * the plan leaves for it, or by how much they overlap. `end` and `start` are the plan's own
+ * `HH:MM`; without them (a stop that is gone) the card says only that the time is short.
+ */
+export function clashWords(
+  first: string,
+  second: string,
+  end: string | null,
+  start: string | null,
+  shortMinutes: number,
+): IssueWords {
+  if (end === null || start === null) {
+    return {
+      title: t({ id: 'plan.check.clash.titleTight', message: `Tight: ${first} → ${second}` }),
+      body: t({
+        id: 'plan.check.clash.plain',
+        message: `There isn’t enough time to get from ${first} to ${second}.`,
+      }),
+    };
+  }
+  const gap = minuteOfClock(start) - minuteOfClock(end);
+  if (gap < 0) {
+    const over = driveLine(-gap);
+    return {
+      title: t({ id: 'plan.check.clash.titleOverlap', message: `Overlap: ${first} and ${second}` }),
+      body: t({
+        id: 'plan.check.clash.overlap',
+        message: `They overlap by ${over}. ${first} ends at ${end}, ${second} starts at ${start}.`,
+      }),
+    };
+  }
+  const drive = driveLine(gap + shortMinutes);
+  const free = driveLine(gap);
+  return {
+    title: t({ id: 'plan.check.clash.titleTight', message: `Tight: ${first} → ${second}` }),
+    body:
+      gap === 0
+        ? t({
+            id: 'plan.check.clash.noGap',
+            message: `${drive} drive and no time between them. ${first} ends at ${end}, ${second} starts at ${start}.`,
+          })
+        : t({
+            id: 'plan.check.clash.tight',
+            message: `${drive} drive, ${free} free. ${first} ends at ${end}, ${second} starts at ${start}.`,
+          }),
+  };
+}
+
 export function issueWords(issue: PlanCheckIssue, ctx: IssueContext): IssueWords {
   switch (issue.kind) {
-    case 'clash': {
-      const first = ctx.name(issue.params.first);
-      const second = ctx.name(issue.params.second);
-      const end = ctx.endOf(issue.params.first) ?? '';
-      const start = ctx.startOf(issue.params.second) ?? '';
-      return {
-        title: t({ id: 'plan.check.clash.title', message: `${first} runs into ${second}` }),
-        body: t({
-          id: 'plan.check.clash.body',
-          message: `${first} ends at ${end}. ${second} starts at ${start}.`,
-        }),
-      };
-    }
+    case 'clash':
+      return clashWords(
+        ctx.name(issue.params.first),
+        ctx.name(issue.params.second),
+        ctx.endOf(issue.params.first),
+        ctx.startOf(issue.params.second),
+        issue.params.short_minutes,
+      );
     case 'closed': {
       const place = ctx.name(issue.params.stable_id);
       const opens = issue.params.opens_at ?? '';
@@ -194,66 +243,4 @@ export function knowLine(issue: PlanCheckIssue, ctx: IssueContext): string {
       : t({ id: 'plan.check.know.cancel', message: `${title} cancels for free until ${date}.` });
   }
   return issueWords(issue, ctx).body;
-}
-
-/** The "→ …" line: what FIX does. Null when there is nothing to do. */
-export function fixSummary(
-  issue: PlanCheckIssue,
-  ctx: IssueContext,
-  preview: FixPreview,
-): string | null {
-  const fix = issue.fix;
-  if (fix === null || fix.kind === 'none') return null;
-  if (fix.kind === 'apply') {
-    const op = fix.ops[0];
-    const at = op?.after?.starts_at;
-    if (op === undefined || typeof at !== 'string') {
-      return t({ id: 'plan.check.fix.generic', message: 'Move it to a time that works' });
-    }
-    const place = ctx.name(op.target);
-    const time = ctx.clock(at, issue.day_id);
-    return t({ id: 'plan.check.fix.moveTo', message: `${place} at ${time}` });
-  }
-  switch (fix.screen) {
-    case 'less_driving': {
-      const saved = preview.savedMin ?? null;
-      const moved = preview.movedTo ?? null;
-      if (moved !== null && saved !== null) {
-        const place = ctx.name(moved.stableId);
-        const time = moved.time;
-        const less = driveLine(saved);
-        return t({
-          id: 'plan.check.fix.reorderMove',
-          message: `${place} at ${time}, and ${less} less driving`,
-        });
-      }
-      if (saved !== null) {
-        const less = driveLine(saved);
-        return t({ id: 'plan.check.fix.reorder', message: `Same day, ${less} less driving` });
-      }
-      return t({ id: 'plan.check.fix.reorderPlain', message: 'Same day, less driving' });
-    }
-    case 'rain_crowds': {
-      const swap = preview.swap ?? null;
-      if (swap?.withName != null) {
-        const other = swap.withName;
-        return t({ id: 'plan.check.fix.swapWith', message: `Swap it with ${other}` });
-      }
-      if (swap !== null) {
-        const to = swap.to;
-        return issue.kind === 'crowds'
-          ? t({ id: 'plan.check.fix.goAt', message: `Go at ${to}, before it fills up` })
-          : t({ id: 'plan.check.fix.dryAt', message: `Move it to ${to}, when it’s dry` });
-      }
-      return t({ id: 'plan.check.fix.swapPlain', message: 'Move it to a better time' });
-    }
-    case 'too_far': {
-      const nearer = preview.nearer ?? null;
-      return nearer === null
-        ? t({ id: 'plan.check.fix.nearerPlain', message: 'Something nearer instead' })
-        : t({ id: 'plan.check.fix.nearer', message: `${nearer} instead, on the way back` });
-    }
-    case 'fill_gap':
-      return t({ id: 'plan.check.fix.fillGap', message: 'Fill the free time' });
-  }
 }

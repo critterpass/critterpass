@@ -3,14 +3,17 @@
  * from the plan check. The fix's ops are worked out on the current plan (a one-tap fix carries
  * them; Too far swaps a stop for a nearer place of its kind). An organiser's fix applies at once
  * with an undo from the trip feed; a member's goes to the crew as a change set, trigger `check`.
- * An issue checked on an older plan than the one now (or than the caller saw) is stale.
+ * An issue checked on an older plan than the one now (or than the caller saw) is stale. The fix is
+ * timed on real travel before it is applied: one that would leave the stop it moves in a clash is
+ * refused (`fix_would_clash`), so a fix never ships a new clash.
  */
 import { applyCheckFixPayloadSchema, DomainError, type ApplyCheckFixResult } from '@cp/domain';
 
 import { tripAccess } from '../../plan/access';
 import { lockTripPlan } from '../../plan/versioning';
 import { loadCheckInput, type FixerDeps } from '../../planning/fixers/check-input';
-import { opsForIssue, readIssue } from '../../planning/fixers/fix-ops';
+import { fixForIssue, readIssue } from '../../planning/fixers/fix-ops';
+import { roadsOf } from '../../planning/fixers/road-timed';
 import { defineCommand } from '../_framework/define-command';
 import { createChangesetCommand } from '../changesets/create';
 import { sendChangesetCommand } from '../changesets/send';
@@ -36,8 +39,16 @@ export function applyCheckFixCommand(deps: FixerDeps) {
         throw new DomainError('STATE_INVALID', { reason: 'stale_issue' });
       }
       const check = await loadCheckInput(tx, issue.trip_id, undefined, deps);
-      const ops = await opsForIssue(tx, issue, check, { screens: false });
-      if (ops === null) throw new DomainError('STATE_INVALID', { reason: 'no_fix' });
+      if (issue.fix === null || issue.fix.kind === 'none') {
+        throw new DomainError('STATE_INVALID', { reason: 'no_fix' });
+      }
+      // Timed on real travel first: a fix that would leave the stop it moves in a clash is refused.
+      const fix = await fixForIssue(tx, issue, check, roadsOf(check, deps), { screens: false });
+      if (fix === null) {
+        const reason = issue.fix.kind === 'apply' ? 'fix_would_clash' : 'no_fix';
+        throw new DomainError('STATE_INVALID', { reason });
+      }
+      const { ops } = fix;
       const created = await createChangesetCommand.handle(
         tx,
         {
