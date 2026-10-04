@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "f65172a4-ce55-40b8-9723-d7f978dcb623",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Slow Đà Lạt Day\",\n  \"summary\": \"A gentler day with one long garden visit, a kept bánh căn lunch, and a relaxed dinner nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden stays as the single activity, so there is time to wander without rushing.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the bánh căn lunch is kept because a slower day still eats well.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to Bicycle Up in the same nearby area, keeping the evening easy.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 61,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 235,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

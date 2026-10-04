@@ -1,7 +1,7 @@
 /**
  * The draft's travel matrix between places: the quicker of walking and transit, each the routing
  * fallback's straight-line estimate (distance x detour at a per-mode speed plus a buffer), so the
- * scheduler, the validator and the redraft's "less on trains" number all read the same minutes.
+ * scheduler, the validator and the redraft's "less travel" number all read the same minutes.
  * Past a city's reach (a day trip) the leg is a road or rail ride at regional speed instead.
  */
 import { estimateStraightLineEta } from '@cp/domain';

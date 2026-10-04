@@ -90,7 +90,7 @@ describe('redraftDiff', () => {
       currency: 'USD',
     });
     expect(metricChipLabels(metrics).join(' · ')).toBe(
-      '90 MIN LESS ON TRAINS · SAME PACE · ALL 5 MUST-DOS KEPT',
+      '90 MIN LESS TRAVEL · SAME PACE · ALL 5 MUST-DOS KEPT',
     );
   });
 

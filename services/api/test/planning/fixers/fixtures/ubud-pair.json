@@ -1,0 +1,102 @@
+[
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": -8.5064,
+          "lon": 115.2617
+        }
+      ],
+      "targets": [
+        {
+          "lat": -8.4338,
+          "lon": 115.2789
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 1044,
+            "distance": 9.8,
+            "cost": 1084.415,
+            "begin_heading": 199,
+            "end_heading": 341,
+            "begin_lat": -8.506362,
+            "begin_lon": 115.261591,
+            "end_lat": -8.433898,
+            "end_lon": 115.278608
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": -8.506362,
+          "lon": 115.261591
+        }
+      ],
+      "targets": [
+        {
+          "lat": -8.433898,
+          "lon": 115.278608
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "costmatrix"
+    }
+  },
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": -8.5064,
+          "lon": 115.2617
+        }
+      ],
+      "targets": [
+        {
+          "lat": -8.4338,
+          "lon": 115.2789
+        }
+      ],
+      "costing": "pedestrian",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 7357,
+            "distance": 9.19,
+            "cost": 7646.996
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": -8.506362,
+          "lon": 115.261591
+        }
+      ],
+      "targets": [
+        {
+          "lat": -8.433898,
+          "lon": 115.278608
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "timedistancematrix"
+    }
+  }
+]

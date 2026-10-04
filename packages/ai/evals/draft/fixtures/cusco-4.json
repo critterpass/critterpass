@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "ae0ce5a0-003c-4f60-b2c7-9a0d6cf0cae9",
+        "id": "308612b3-1fcb-46cd-9852-9f446afb74cb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Centro Histórico\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden hour and first flavours\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and artisan lanes\",\n      \"area\": \"San Blas\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p6\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Market morning and farewell\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p8\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p3\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"museums and a last viewpoint\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 120,
+          "input_tokens": 84,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
+          "cache_read_input_tokens": 1792,
           "output_tokens": 197,
           "service_tier": "standard"
         }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "c6b76ece-eb39-4d60-a0cb-9e67ca00855b",
+        "id": "3a30ecfe-f53b-4a53-a97b-4a23f5c5a2ff",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper market wander to say goodbye to Cusco, with all its colours and chatter.\"\n    }\n  ]\n}"
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the Inca halls and let the old stones whisper their history.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stand by the white Christ and drink in the whole bowl of Cusco below.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 336,
+          "input_tokens": 342,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 64,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 79,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "03af2327-34d2-4e11-b547-854bfa086b2e",
+        "id": "09fcb2c4-1069-4411-8a76-c5067cde083e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A golden peek at Inca stonework before the light goes soft.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Gastón Acurio's table, where Cusco's first flavours do the talking.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle dinner with halal-friendly plates and a warm room.\"\n    }\n  ]\n}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little stop to learn how cacao becomes chocolate, with plenty of samples to keep the crew smiling.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"A splash of modern Peruvian flavour from Gastón Acurio, where the plates are as colourful as Cusco itself.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 423,
+          "input_tokens": 417,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 163,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 96,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "6a524b2d-904a-44c6-ad45-9a8c1bf1925a",
+        "id": "ed03a07c-ba0d-4ed1-b9e0-2b8d26132a79",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Big stones, bigger stories—Sacsayhuamán wakes you up better than any coffee.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The Cathedral holds its breath in gold and cedar; even the silence feels historic.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down with halal comfort—Morena knows how to refuel a curious crew.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Blas lanes lean in close, full of workshops and the smell of fresh sawdust.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"ChocoMuseo turns cacao into theatre; you may leave humming and lightly dusted.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Plaza de Armas in the evening is where Cusco lets its shoulders drop.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Back to Morena for dinner—because one good meal here is never quite enough.\"\n    }\n  ]\n}"
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Inca stonework so precise even a blade won't slip between the joins, with colonial arches resting on top.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"A weighty silver altar and a painting of the Last Supper with a very Andean guest on the plate.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Baskets of giant maize, pyramids of fruit and the hum of Quechua bargaining under one roof.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cyclopean stones fitted like a puzzle by hands that left no mortar and no easy answers.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cobbled lanes, tiny workshops and balconies painted the colour of a good sunset.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 482,
+          "input_tokens": 490,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 387,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 218,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "dea0eda7-c047-4984-a4fe-0bc2bd31bc97",
+        "id": "906fbcd0-8a3d-417f-b3bd-24d63fabe580",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Golden light, old stones, and a market goodbye — every must-do tucked in, your guide in Cusco approves."
+            "text": "A gentle Cusco wander, from Inca stones to market colours and one last view — every must-do snug inside."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 267,
+          "input_tokens": 264,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 25,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

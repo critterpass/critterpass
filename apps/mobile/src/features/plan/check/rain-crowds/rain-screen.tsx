@@ -20,6 +20,7 @@ import { usePlanGuide } from '../../plan-guide';
 import { sentToast } from '../check-copy';
 import { dismissWeatherOnline } from '../commands';
 import { useCheckContext } from '../data/use-check-context';
+import { noteDayFixed } from '../fixed-days';
 import { dayTag } from '../format';
 import { planOpsOf } from '../plan-ops';
 import type { ChartBlock } from './swap-chart';
@@ -111,6 +112,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
   const finish = (outcome: { kind: string }) => {
     setBusy(false);
     if (outcome.kind === 'unavailable') return;
+    if (outcome.kind === 'applied') noteDayFixed(dayId);
     if (outcome.kind === 'proposed') toast.show({ id: 'plan-rain-sent', ...sentToast() });
     router.back();
   };

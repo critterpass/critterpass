@@ -23,8 +23,11 @@ export {
   requiredMustDoIds,
   validate,
   validateAndRepair,
+  withFinalNotes,
   type RepairOutcome,
+  type RepairPass,
 } from './repair';
+export { areasOf, hopCap } from './areas';
 export { proseProblem } from './schema';
 export {
   buildSkeletonRequest,
