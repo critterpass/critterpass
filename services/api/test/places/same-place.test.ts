@@ -49,6 +49,14 @@ describe('one row per place in a search answer', () => {
     );
   });
 
+  it('keeps a business named after the place beside it', () => {
+    const river = at('Kamo River', 'nature', 35.0, 135.76);
+    const guesthouse = at('Kamo River Guesthouse', 'stay', 35.0, 135.76);
+    const cafe = at('Crazy House Coffee', 'food', 11.9347, 108.4307);
+    expect(onePerPlace([river, guesthouse], 'Kyoto')).toEqual([river, guesthouse]);
+    expect(onePerPlace([pick, cafe], 'Đà Lạt')).toEqual([pick, cafe]);
+  });
+
   it('keeps neighbours with different names', () => {
     const a = at('Tanah Lot Sunset Terrace', 'food', -8.6212, 115.0868);
     const b = at('Tanah Lot Art Market', 'market', -8.6213, 115.0869);

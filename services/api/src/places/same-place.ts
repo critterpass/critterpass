@@ -3,7 +3,8 @@
  * as a sight, as a hotel and as a museum, a temple under five spellings. Two rows are the same
  * place when their names say the same thing once accents and generic words are dropped and they
  * lie within 300 m (2 km for beaches and nature, which run long), or when one name's words are all
- * in the other's (at least two words) and they are within 75 m of each other. The first row in
+ * in the other's (at least two words), they are within 75 m of each other and the longer name adds
+ * no word for another business ("Kamo River Guesthouse" is not the Kamo River). The first row in
  * search order answers for the place; a hotel listing gives way to a row of the same name that is
  * not one (the sight, not its guest rooms).
  */
@@ -29,8 +30,23 @@ function metres(a: PlaceRowIdentity, b: PlaceRowIdentity): number {
   return 2 * 6_371_000 * Math.asin(Math.sqrt(h));
 }
 
-function within(smaller: readonly string[], larger: ReadonlySet<string>): boolean {
-  return smaller.length >= 2 && smaller.every((word) => larger.has(word));
+/** Words that make a longer name another business at the same spot, not the place again. */
+const BUSINESS_WORDS = new Set(
+  (
+    'guesthouse guest hotel hostel homestay resort inn lodge rooms suites apartment apartments ' +
+    'cafe coffee restaurant resto warung bar pub bistro kitchen grill bakery ' +
+    'spa massage salon shop store market mart boutique gallery studio tour tours travel ' +
+    'parking ticket tickets office rental atm terrace club school'
+  ).split(' '),
+);
+
+/** Every word of `smaller` is in `larger`, and what `larger` adds names no other business. */
+function within(smaller: readonly string[], larger: readonly string[]): boolean {
+  if (smaller.length < 2) return false;
+  const has = new Set(larger);
+  if (!smaller.every((word) => has.has(word))) return false;
+  const own = new Set(smaller);
+  return !larger.some((word) => !own.has(word) && BUSINESS_WORDS.has(word));
 }
 
 /** Whether two search rows are one place. */
@@ -50,9 +66,7 @@ export function sameSearchPlace(
   if (apart > PART_NAME_M) return false;
   const wordsA = keyA.split(' ');
   const wordsB = keyB.split(' ');
-  return wordsA.length <= wordsB.length
-    ? within(wordsA, new Set(wordsB))
-    : within(wordsB, new Set(wordsA));
+  return wordsA.length <= wordsB.length ? within(wordsA, wordsB) : within(wordsB, wordsA);
 }
 
 /**
