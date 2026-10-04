@@ -1,13 +1,12 @@
 /**
- * Approving a media batch in the ops console. A batch with place photos carries every place photo
- * it keeps, so approval drops the live place photos it lacks; a batch of destination media alone
- * lays over the live release, as every other kind does.
+ * Approving a media batch in the ops console: it changes only the items it states. Everything
+ * else that is live stays exactly as it was; a live item re-stated with no subjects is taken
+ * down, whatever its other fields say, unless a reviewer rejected that removal.
  */
 import { buildRelease, loadRelease, type ContentItem } from '@cp/content';
 import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { liveMediaKept } from '../../src/admin/content/commands';
 import { startJobProducer } from '../../src/jobs/producer';
 import { startAdminHarness, type AdminHarness, type TestApp } from './harness';
 
@@ -85,7 +84,14 @@ async function insertRelease(
       live ? new Date() : null,
     ],
   );
-  return rows[0]!.id;
+  const id = rows[0]!.id;
+  for (const item of items) {
+    await harness.pool.query(
+      "INSERT INTO ops.content_reviews (release_id, item_ref, severity, report) VALUES ($1, $2, 'pass', '[]')",
+      [id, item.id],
+    );
+  }
+  return id;
 }
 
 async function approved(batchId: string): Promise<Record<string, string[]>> {
@@ -96,7 +102,9 @@ async function approved(batchId: string): Promise<Record<string, string[]>> {
     [batchId],
   );
   const merged = loadRelease(rows[0]!.artifact, 'media');
-  return Object.fromEntries(merged.items.map((item) => [item.source_id, [...item.subjects]]));
+  return Object.fromEntries(
+    merged.items.map((item) => [item.source_id, [item.title ?? '', ...item.subjects]]),
+  );
 }
 
 beforeAll(async () => {
@@ -119,46 +127,67 @@ afterAll(async () => {
   await harness?.stop();
 });
 
-describe('which live media a batch leaves standing', () => {
-  it('is all of it under a batch of destination media', () => {
-    expect(liveMediaKept(LIVE, [photo('9', ['destination:bali'], 'Bali')])).toEqual(LIVE);
-  });
-
-  it('is what a place batch carries, and what is not a place photo', () => {
-    const tacos = photo('8', [CAFE], `${GENERIC}tacos`);
-    const kept = liveMediaKept(LIVE, [hero, tacos, coffee]);
-    expect(kept.map((item) => [item.source_id, item.subjects])).toEqual([
-      ['1', ['destination:da-nang']],
-      ['2', ['destination:kyoto']],
-      ['3', [CAFE]],
-      // The bar's old photo is gone; the bridge keeps its destination and loses the bar.
-      ['5', ['destination:da-nang']],
-    ]);
-  });
-});
+const AS_LIVE = {
+  '1': ['Da Nang', 'destination:da-nang'],
+  '2': ['Kyoto', 'destination:kyoto'],
+  '3': [`${GENERIC}coffee`, CAFE],
+  '4': [`${GENERIC}bar counter drinks`, BAR],
+  '5': ['Dragon Bridge', 'destination:da-nang', BAR],
+};
 
 describe('approving a media batch', () => {
-  it('lays a batch of destination media over the live release', async () => {
-    const batch = await insertRelease(2, 'review', [photo('9', ['destination:bali'], 'Bali')]);
+  it("leaves every other destination's place photos and all destination media as they were", async () => {
+    const TEMPLE = 'poi:fsq-os-5a5a5a5a5a5a5a5a5a5a5a5a';
+    const batch = await insertRelease(2, 'review', [
+      photo('8', [TEMPLE], `${GENERIC}matcha green tea`),
+      photo('9', [TEMPLE], 'A temple in another city'),
+    ]);
     expect(await approved(batch)).toEqual({
-      '1': ['destination:da-nang'],
-      '2': ['destination:kyoto'],
-      '3': [CAFE],
-      '4': [BAR],
-      '5': ['destination:da-nang', BAR],
-      '9': ['destination:bali'],
+      ...AS_LIVE,
+      '8': [`${GENERIC}matcha green tea`, TEMPLE],
+      '9': ['A temple in another city', TEMPLE],
     });
   });
 
-  it('drops the live place photos a place batch does not carry', async () => {
-    const cocktails = photo('7', [BAR], `${GENERIC}cocktail bar drinks`);
-    const batch = await insertRelease(3, 'review', [hero, kyoto, coffee, cocktails]);
+  it('changes what a live photo shows when the batch re-states it', async () => {
+    const batch = await insertRelease(3, 'review', [
+      { ...shared, subjects: ['destination:da-nang'] },
+    ]);
     expect(await approved(batch)).toEqual({
-      '1': ['destination:da-nang'],
-      '2': ['destination:kyoto'],
-      '3': [CAFE],
-      '5': ['destination:da-nang'],
-      '7': [BAR],
+      ...AS_LIVE,
+      '5': ['Dragon Bridge', 'destination:da-nang'],
     });
+  });
+
+  it('takes down a live photo re-stated with no subjects, whatever else the item says', async () => {
+    const batch = await insertRelease(4, 'review', [
+      { ...monkey, subjects: [], title: 'A changed title', credit: 'A changed credit' },
+      photo('7', [BAR], `${GENERIC}cocktail bar drinks`),
+      // Not live: there is nothing to take down, and nothing is added.
+      photo('6', [], 'Never published'),
+    ]);
+    const { '4': gone, ...rest } = AS_LIVE;
+    expect(gone).toBeDefined();
+    expect(await approved(batch)).toEqual({
+      ...rest,
+      '7': [`${GENERIC}cocktail bar drinks`, BAR],
+    });
+  });
+
+  it('keeps the live photo when a reviewer rejects its removal', async () => {
+    const batch = await insertRelease(5, 'review', [
+      { ...monkey, subjects: [] },
+      { ...coffee, subjects: [] },
+    ]);
+    const reject = await app.command(owner, 'review_content_item', {
+      batch_id: batch,
+      item_ref: monkey.id,
+      verdict: 'reject',
+      notes: 'Keep this one.',
+    });
+    expect(reject.status).toBe(200);
+    const { '3': gone, ...rest } = AS_LIVE;
+    expect(gone).toBeDefined();
+    expect(await approved(batch)).toEqual(rest);
   });
 });

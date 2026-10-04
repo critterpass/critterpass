@@ -54,6 +54,8 @@ describe('media items', () => {
 
   it('refuses a free-text subject', () => {
     expect(mediaItemSchema.safeParse({ ...photo, subjects: ['Da Nang'] }).success).toBe(false);
+    // Re-stated with no subjects, a live item is taken down when its batch is approved.
+    expect(mediaItemSchema.safeParse({ ...photo, subjects: [] }).success).toBe(true);
   });
 });
 

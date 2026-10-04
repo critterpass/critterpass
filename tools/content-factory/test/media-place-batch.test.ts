@@ -3,24 +3,19 @@
  * given, a busy source is asked again and then left out of one search, and the review page of a
  * destination lists every proposed photo with its place, kind, licence and credit.
  */
-import { mkdtempSync, readFileSync } from 'node:fs';
+import { mkdtempSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { buildRelease, poiRefSubject, type ContentItem } from '@cp/content';
+import { poiRefSubject } from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
 import { committedItems } from '../src/committed';
 import { GENERIC_TITLE } from '../src/kinds/media/generic';
 import { getJson } from '../src/kinds/media/http';
-import {
-  curatedPlaces,
-  genericPhotos,
-  suggestedDrops,
-  type PlaceProposal,
-} from '../src/kinds/media/place-batch';
+import { genericPhotos } from '../src/kinds/media/generic-batch';
+import { curatedPlaces } from '../src/kinds/media/place-batch';
 import { wikidataOwn, type MediaPlace } from '../src/kinds/media/places';
-import { needsALook, renderPlacePages } from '../src/kinds/media/review-page';
 
 const place = (name: string, category: string, lat: number, lng: number, ref = 'fsq_os:a1') => ({
   ref,
@@ -153,133 +148,39 @@ describe('generic stock when one source stays busy', () => {
       http,
       { pexelsKey: 'k', pixabayKey: 'k' },
       [taqueria],
-      new Set(),
+      new Map(),
       unanswered,
     );
     expect([...photos.values()].map((p) => [p.id, p.title, p.subjects])).toEqual([
       ['pexels-photo-77', `${GENERIC_TITLE}tacos`, [poiRefSubject(taqueria.ref)]],
     ]);
     expect(unanswered).toEqual(['pixabay: tacos']);
-  });
-});
-
-describe('the review page of a destination', () => {
-  const photo = (id: string, subjects: string[], title: string): ContentItem<'media'> => ({
-    id: `wikimedia-photo-${id}`,
-    kind: 'photo',
-    source: 'wikimedia',
-    source_id: id,
-    source_url: 'https://commons.wikimedia.org/wiki/File:A.jpg',
-    download_url: 'https://upload.wikimedia.org/a.jpg',
-    preview_url: 'https://upload.wikimedia.org/a.jpg',
-    subjects,
-    rank: 0,
-    title,
-    author: 'A. Author',
-    author_url: null,
-    licence: 'cc-by-sa-4.0',
-    licence_url: 'https://creativecommons.org/licenses/by-sa/4.0',
-    attribution_required: true,
-    credit: 'A. Author · CC BY-SA 4.0 · Wikimedia Commons',
-    width: 1920,
-    height: 1280,
-    duration_ms: null,
-  });
-  const temple: MediaPlace = place('高台寺', 'temple_shrine', 35, 135.78, 'fsq_os:a1');
-  const cafe: MediaPlace = place('Kaikado Cafe', 'food', 35, 135.77, 'fsq_os:b2');
-  const bar: MediaPlace = place('Trench', 'nightlife', 35, 135.76, 'fsq_os:c3');
-  const proposals: PlaceProposal[] = [
-    { place: temple, outcome: 'own', match: { label: '高台寺', score: 1, distanceM: 1200 } },
-    { place: cafe, outcome: 'generic', match: null },
-    { place: bar, outcome: 'none', match: null },
-  ];
-
-  it('marks a far or loosely named match to look at twice', () => {
-    const [far, generic] = proposals;
-    expect(far !== undefined && needsALook(far)).toBe(true);
-    expect(generic !== undefined && needsALook(generic)).toBe(false);
-    expect(
-      needsALook({
-        place: temple,
-        outcome: 'own',
-        match: { label: 'x', score: 0.67, distanceM: 5 },
-      }),
-    ).toBe(true);
-    expect(
-      needsALook({ place: temple, outcome: 'own', match: { label: 'x', score: 1, distanceM: 5 } }),
-    ).toBe(false);
-  });
-
-  it('lists every proposed photo with its place, kind, licence and credit', async () => {
-    const dir = mkdtempSync(path.join(os.tmpdir(), 'media-pages-'));
-    const items = [
-      photo('1', [poiRefSubject(temple.ref)], 'x'),
-      {
-        ...photo('2', [poiRefSubject(cafe.ref)], `${GENERIC_TITLE}cup of coffee`),
-        credit: 'Photo: B · Pexels',
-      },
-      photo('3', ['destination:kyoto'], 'Kyoto'),
-    ];
-    const files = await renderPlacePages(
-      items,
-      { proposals, unanswered: ['pixabay: tacos'] },
-      new Map(),
-      dir,
-      '2026-10-04-media-01',
+    // A photo that is live for places of another city keeps them and gains this one; a photo
+    // that is a destination's hero never doubles as a generic one.
+    const elsewhere = ['poi:fsq-os-aaaa', 'poi:fsq-os-bbbb'];
+    const kept = await genericPhotos(
+      http,
+      { pexelsKey: 'k', pixabayKey: undefined },
+      [taqueria],
+      new Map([['pexels-photo-77', elsewhere]]),
     );
-    expect(files).toEqual(['places-kyoto.html']);
-    const html = readFileSync(path.join(dir, 'places-kyoto.html'), 'utf8');
-    const own = html.slice(html.indexOf('<h2>The place itself'), html.indexOf('<h2>Generic'));
-    const generic = html.slice(html.indexOf('<h2>Generic'), html.indexOf('<h2>No photo'));
-    expect(own).toContain('高台寺');
-    expect(own).toContain('A. Author · CC BY-SA 4.0 · Wikimedia Commons');
-    expect(own).toContain('cc-by-sa-4.0');
-    expect(own).toContain('Look twice');
-    expect(own).not.toContain('Kaikado');
-    expect(generic).toContain('Kaikado Cafe');
-    expect(generic).toContain('cup of coffee');
-    expect(generic).toContain('Photo: B · Pexels');
-    expect(html.slice(html.indexOf('<h2>No photo'))).toContain('Trench');
-    expect(html).not.toContain('wikimedia-photo-3');
-    expect(html).toContain('pixabay: tacos');
-    expect(html).not.toContain('suggested to drop');
-  });
-
-  it('leads with the live photos suggested to drop, where they are shown today', async () => {
-    const dir = mkdtempSync(path.join(os.tmpdir(), 'media-pages-'));
-    const generic = {
-      ...photo('2', [poiRefSubject(cafe.ref)], `${GENERIC_TITLE}cup of coffee`),
-      id: 'pixabay-photo-5116219',
-      source: 'pixabay' as const,
-      source_id: '5116219',
-    };
-    const live = buildRelease({
-      kind: 'media',
-      version: 4,
-      items: [generic, photo('3', ['destination:kyoto'], 'Kyoto')],
-      generated_by: {
-        batch_key: 'live',
-        route: null,
-        model: null,
-        generated_at: '2026-10-03T00:00:00Z',
-      },
-      approved_by: null,
-    });
-    const drops = suggestedDrops(live, [temple, cafe, bar]);
-    expect(drops).toEqual([
-      { id: 'pixabay-photo-5116219', reason: 'off-subject', destinations: ['kyoto'] },
+    expect([...kept.values()].map((p) => p.subjects)).toEqual([
+      [...elsewhere, poiRefSubject(taqueria.ref)],
     ]);
-    await renderPlacePages(
-      [generic],
-      { proposals, unanswered: [], suggestedDrops: drops },
-      new Map(),
-      dir,
-      '2026-10-04-media-01',
+    const hero = await genericPhotos(
+      http,
+      { pexelsKey: 'k', pixabayKey: undefined },
+      [taqueria],
+      new Map([['pexels-photo-77', ['destination:mexico-city']]]),
     );
-    const html = readFileSync(path.join(dir, 'places-kyoto.html'), 'utf8');
-    const first = html.slice(html.indexOf('<h2>Live today'), html.indexOf('<h2>The place itself'));
-    expect(first).toContain('pixabay-photo-5116219');
-    expect(first).toContain('Suggested to drop: off-subject');
-    expect(first).toContain('Kaikado Cafe');
+    expect(hero.size).toBe(0);
+    const full = Array.from({ length: 20 }, (_, i) => `poi:fsq-os-${String(i).padStart(4, '0')}`);
+    const none = await genericPhotos(
+      http,
+      { pexelsKey: 'k', pixabayKey: undefined },
+      [taqueria],
+      new Map([['pexels-photo-77', full]]),
+    );
+    expect(none.size).toBe(0);
   });
 });
