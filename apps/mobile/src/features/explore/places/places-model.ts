@@ -25,6 +25,8 @@ export interface HubPlace {
   readonly dayNo: number | null;
   readonly mustSee: boolean;
   readonly hours: unknown;
+  /** The editors' best-time line, for Tokek's suggestions. */
+  readonly bestTime: string | null;
 }
 
 export interface PlanStop {
@@ -76,6 +78,7 @@ export function hubPlaces(sources: HubSources): HubPlace[] {
       dayNo: stop.dayNo,
       mustSee: curated.get(stop.poiId)?.mustSee ?? false,
       hours: curated.get(stop.poiId)?.hours ?? null,
+      bestTime: curated.get(stop.poiId)?.bestTime ?? null,
     });
   }
   for (const idea of sources.ideas) {
@@ -93,6 +96,7 @@ export function hubPlaces(sources: HubSources): HubPlace[] {
       dayNo: null,
       mustSee: poi?.mustSee ?? false,
       hours: poi?.hours ?? null,
+      bestTime: poi?.bestTime ?? null,
     });
   }
   for (const poi of sources.curated) {
@@ -110,6 +114,7 @@ export function hubPlaces(sources: HubSources): HubPlace[] {
       dayNo: null,
       mustSee: poi.mustSee,
       hours: poi.hours,
+      bestTime: poi.bestTime ?? null,
     });
   }
   // The strongest standing first, so the later copies of a place drop out.

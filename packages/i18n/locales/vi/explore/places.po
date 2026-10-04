@@ -8,6 +8,10 @@ msgstr ""
 "Language: vi\n"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.bestTime"
+msgstr "{bestTime} · hợp {weekday}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.inView"
 msgstr "{count, plural, other {# địa điểm trong khung nhìn}}"
 
@@ -20,8 +24,16 @@ msgid "places.names.more"
 msgstr "{first}, {second} + {more}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.suggests"
+msgstr "{guide} gợi ý · {count}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.suggested"
 msgstr "{guide} gợi ý"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.meta"
+msgstr "{kind} · {minutes} phút"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.fromStay"
@@ -30,6 +42,18 @@ msgstr "{kind} · cách {stayName} {minutes} phút"
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.minutesOn"
 msgstr "{kind} · thêm {minutes} phút"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.plan.summaryMore"
+msgstr "{list} và {more} nơi khác"
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.hidden"
+msgstr "Đã ẩn {name}. Chỉ mình bạn thấy điều này."
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.saved"
+msgstr "{name} đã vào Ý tưởng."
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.carousel.count"
@@ -44,6 +68,22 @@ msgstr "≡ Danh sách"
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.map"
 msgstr "◎ Bản đồ"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.hide"
+msgstr "Một địa điểm bị ẩn"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.save"
+msgstr "Một địa điểm lưu vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.unhide"
+msgstr "Một địa điểm hiện lại"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.remove"
+msgstr "Một địa điểm bỏ khỏi Ý tưởng"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.add"
@@ -81,9 +121,21 @@ msgstr "Đang tải địa điểm"
 msgid "places.group.food"
 msgstr "Ăn uống"
 
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.title"
+msgstr "Địa điểm đã ẩn"
+
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.hide"
+msgstr "Ẩn"
+
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.chip.plan"
 msgstr "Trong lịch trình"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.plan"
+msgstr "Trong lịch trình · {count}"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.inPlan"
@@ -113,6 +165,10 @@ msgstr "Không có địa điểm trong khung nhìn"
 msgid "places.card.openToday"
 msgstr "Mở cửa {from}–{to}"
 
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.save"
+msgstr "Lưu"
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.label.saved"
 msgstr "Đã lưu"
@@ -125,6 +181,10 @@ msgstr "Đã lưu"
 msgid "places.label.savedBy"
 msgstr "{who} đã lưu"
 
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.saved"
+msgstr "Đã lưu, chưa xếp ngày · {count}"
+
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.search"
 msgstr "Tìm ở {place}, hoặc hỏi {guide}"
@@ -132,6 +192,14 @@ msgstr "Tìm ở {place}, hoặc hỏi {guide}"
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.shopping"
 msgstr "Mua sắm"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.show"
+msgstr "Hiện"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.hidden.showA11y"
+msgstr "Hiện lại {name}"
 
 #: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
@@ -143,13 +211,37 @@ msgstr "Xem dạng danh sách"
 msgid "places.showMap"
 msgstr "Xem bản đồ"
 
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.az"
+msgstr "Xếp A–Z"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.fit"
+msgstr "Xếp theo độ hợp với ngày của bạn"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.nearest"
+msgstr "Xếp theo gần nhất"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.split"
+msgstr "Chia phe"
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.temples"
 msgstr "Đền chùa"
 
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.undo"
+msgstr "Hoàn tác"
+
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.wellness"
 msgstr "Thư giãn"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.none"
+msgstr "Bạn chưa ẩn địa điểm nào."
 
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.noneHint"

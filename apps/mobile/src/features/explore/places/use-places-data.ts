@@ -34,6 +34,8 @@ export interface PlacesData {
   readonly guideSlug: string | null;
   readonly guideName: string | null;
   readonly tz: string | null;
+  /** The curated places I hid, for the list's "Hidden places". */
+  readonly hidden: readonly { readonly poiId: string; readonly name: string }[];
   /** The plan's stay: where "min from the villa" is measured from. */
   readonly stay: { readonly name: string; readonly at: Point } | null;
 }
@@ -80,7 +82,7 @@ export function usePlacesData({ tripId, destination, results }: PlacesDataInput)
   const curated = useDestinationPois(destinationId);
   const tripIdeas = useTripIdeas(tripId);
   const saved = useSaved();
-  const hidden = useLiveRows<{ poi_id: string }>(HIDDEN_SQL, [OWNER_UID_KEY], HIDDEN_TABLES);
+  const hiddenRows = useLiveRows<{ poi_id: string }>(HIDDEN_SQL, [OWNER_UID_KEY], HIDDEN_TABLES);
 
   const { stops, stay } = useMemo(() => planStops(plan), [plan]);
   const ideas = useMemo((): IdeaPlace[] => {
@@ -104,7 +106,17 @@ export function usePlacesData({ tripId, destination, results }: PlacesDataInput)
           ];
     });
   }, [tripId, tripIdeas.ideas, curated.places, saved.rows]);
-  const hiddenIds = useMemo(() => new Set(hidden.rows.map((entry) => entry.poi_id)), [hidden.rows]);
+  const hiddenIds = useMemo(
+    () => new Set(hiddenRows.rows.map((entry) => entry.poi_id)),
+    [hiddenRows.rows],
+  );
+  const hidden = useMemo(
+    () =>
+      curated.places
+        .filter((poi) => hiddenIds.has(poi.id))
+        .map((poi) => ({ poiId: poi.id, name: poi.name })),
+    [curated.places, hiddenIds],
+  );
   const destinationName = row?.name ?? plan.trip?.destination_name ?? '';
   const places = useMemo(
     () =>
@@ -129,6 +141,7 @@ export function usePlacesData({ tripId, destination, results }: PlacesDataInput)
     guideSlug: plan.trip?.guide_slug ?? row?.guide_slug ?? null,
     guideName: plan.trip?.guide_name ?? null,
     tz: plan.trip?.tz ?? row?.tz ?? null,
+    hidden,
     stay,
   };
 }

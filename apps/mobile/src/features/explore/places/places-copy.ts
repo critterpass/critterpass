@@ -97,3 +97,51 @@ export function inViewCount(count: number): string {
     message: plural(count, { one: '# place in view', other: '# places in view' }),
   });
 }
+
+/** "Saved, not in a day · 8". */
+export function savedGroupTitle(count: number): string {
+  return t({ id: 'places.group.saved', message: `Saved, not in a day · ${count}` });
+}
+
+/** "In the plan · 22". */
+export function planGroupTitle(count: number): string {
+  return t({ id: 'places.group.plan', message: `In the plan · ${count}` });
+}
+
+/** "Tokek suggests · 64". */
+export function suggestsGroupTitle(guide: string, count: number): string {
+  return t({ id: 'places.group.suggests', message: `${guide} suggests · ${count}` });
+}
+
+/** "Jatiluwih, Biah Biah, Karsa Spa and 19 more". */
+export function planSummary(names: readonly string[]): string {
+  const shown = names.slice(0, 3);
+  const more = names.length - shown.length;
+  const list = shown.join(', ');
+  return more > 0
+    ? t({ id: 'places.plan.summaryMore', message: `${list} and ${more} more` })
+    : list;
+}
+
+/** "Light beams 09–10 · fits Sat": the editors' best time with the day it fits. */
+export function bestTimeLine(bestTime: string, weekday: string | null): string {
+  if (weekday === null) return bestTime;
+  return t({ id: 'places.row.bestTime', message: `${bestTime} · fits ${weekday}` });
+}
+
+/** "Water temple · 45 min"; the category alone without a stay. */
+export function rowMeta(category: string, minutesFromStay: number | null): string {
+  const kind = categoryLabel(category);
+  if (minutesFromStay === null) return kind;
+  const minutes = minutesFromStay;
+  return t({ id: 'places.row.meta', message: `${kind} · ${minutes} min` });
+}
+
+export function splitLabel(): string {
+  return t({ id: 'places.row.split', message: 'Split' });
+}
+
+/** "Show Tirta Empul again", for a screen reader. */
+export function showAgainLabel(name: string): string {
+  return t({ id: 'places.hidden.showA11y', message: `Show ${name} again` });
+}
