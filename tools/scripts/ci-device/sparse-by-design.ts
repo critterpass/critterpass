@@ -66,6 +66,18 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     '3e-3-loading',
     'the standard list skeleton (ui/states/Skeleton list preset) under the back control while the change set syncs',
   ],
+  [
+    '7h-1-running',
+    'undesigned-states 7h-1 "Check running": the headline and one card saying Tokek is checking the plan',
+  ],
+  [
+    '7h-1-clear',
+    'undesigned-states 7h-1 "Nothing to fix": the headline and one card saying all is good, no FIX ALL',
+  ],
+  [
+    '7h-3-none',
+    'undesigned-states 7h-3 "No better order": the headline and one card saying the order is already the shortest',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {

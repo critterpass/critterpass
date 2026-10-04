@@ -16,6 +16,7 @@ import { fixerPaths, readReorder, useFixerRead } from '../data/fixer-api';
 import { useCheckContext } from '../data/use-check-context';
 import { dayTag, driveTitle } from '../format';
 import { planOpsOf } from '../plan-ops';
+import { checkRoutes } from '../routes';
 import { LessDrivingView, type OrderRow } from './less-driving-view';
 
 const COUNT_MS = 1200;
@@ -137,6 +138,7 @@ export function LessDrivingScreen({
         },
       }}
       send={plan.canApply ? () => void editor.propose(ops, plan.state).then(done) : null}
+      onOpenCheck={() => router.replace(checkRoutes.check(tripId))}
       reducedMotion={reduced}
     />
   );

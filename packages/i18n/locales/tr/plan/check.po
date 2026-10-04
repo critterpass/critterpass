@@ -602,6 +602,10 @@ msgid "plan.check.weekday.sat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.sendFirst"
 msgstr ""
 

@@ -8,7 +8,7 @@
 import { generateStableId, visitMinutes, type GapIdea, type PlanOp } from '@cp/domain';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { tokens } from '@cp/design-tokens';
+import { resolveMemberStyle, tokens } from '@cp/design-tokens';
 
 import { clearMapPreview, showMapPreview } from '@/data/plan/map-preview';
 import { instantOnDay } from '@/data/plan/plan-model';
@@ -44,17 +44,21 @@ const ceil15 = (minute: number) => Math.ceil(minute / 15) * 15;
 export interface GapSheetProps {
   readonly tripId: string;
   readonly dayId: string;
+  /** The day's number, for a caller that had no day id. */
+  readonly dayNo?: number | null;
   readonly start: string;
   readonly end: string;
 }
 
-export function GapSheet({ tripId, dayId, start, end }: GapSheetProps) {
+export function GapSheet({ tripId, dayId: givenDayId, dayNo, start, end }: GapSheetProps) {
   const plan = useTripPlan(tripId);
+  const dayId =
+    givenDayId !== '' ? givenDayId : (plan.dayRows.find((row) => row.day_no === dayNo)?.id ?? '');
   const editor = useDayEditing(plan);
   const ctx = useCheckContext(plan);
   const locale = useLocale();
   const path = useMemo(
-    () => fixerPaths.gapIdeas(tripId, { dayId, start, end }),
+    () => (dayId === '' ? null : fixerPaths.gapIdeas(tripId, { dayId, start, end })),
     [tripId, dayId, start, end],
   );
   const read = useFixerRead(path, plan.trip?.current_version_id ?? null, readGapIdeas);
@@ -100,9 +104,20 @@ export function GapSheet({ tripId, dayId, start, end }: GapSheetProps) {
       title,
       body: idea.kind === 'stay' ? copy.stayBody(voter) : lines.join(' '),
       tags: [
-        ...(idea.kind === 'stay' ? [] : [copy.minutesChip(idea.minutes)]),
-        ...(money === null ? (idea.kind === 'stay' ? [copy.freeChip()] : []) : [money]),
-        ...(saver === null ? [] : [copy.saveOf(saver).toUpperCase()]),
+        ...(idea.kind === 'stay' ? [] : [{ label: copy.minutesChip(idea.minutes) }]),
+        ...(money === null
+          ? idea.kind === 'stay'
+            ? [{ label: copy.freeChip() }]
+            : []
+          : [{ label: money }]),
+        ...(saver === null
+          ? []
+          : [
+              {
+                label: copy.saveOf(saver),
+                color: resolveMemberStyle(member(idea.saver_id ?? '')?.joinIndex ?? 0).color,
+              },
+            ]),
       ],
     };
   };

@@ -47,6 +47,8 @@ export interface LessDrivingViewProps {
     readonly onPress: () => void;
   } | null;
   readonly send: (() => void) | null;
+  /** From the no-shorter-order state: the plan check, where a too-far day has its nearer swap. */
+  readonly onOpenCheck?: (() => void) | undefined;
   readonly reducedMotion: boolean;
 }
 
@@ -68,6 +70,7 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.semantic.bg.control,
   },
   drive: { flexDirection: 'row', alignItems: 'baseline', gap: th.space['10'], flexWrap: 'wrap' },
+  strike: { position: 'absolute', left: -2, right: -2, top: '50%', height: 3, borderRadius: 2 },
   sketches: { flexDirection: 'row', justifyContent: 'space-between' },
   sketch: { gap: th.space['8'] },
   list: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised },
@@ -98,6 +101,7 @@ const useStyles = makeStyles((th) => ({
   },
   booked: { backgroundColor: tokens.color.green.base },
   notice: {
+    gap: th.space['10'],
     padding: th.space['14'],
     borderRadius: th.radius.lg,
     backgroundColor: th.semantic.bg.raised,
@@ -142,18 +146,24 @@ export function LessDrivingView(props: LessDrivingViewProps) {
                   'This order is already the shortest Tokek can find without moving anything booked.',
               })}
             </Text>
+            {props.onOpenCheck === undefined ? null : (
+              <TextLink
+                label={t({ id: 'plan.check.lessDriving.openCheck', message: 'See the plan check' })}
+                onPress={props.onOpenCheck}
+                testID="plan-less-driving-open-check"
+              />
+            )}
           </View>
         ) : null}
         {props.state === 'ready' ? (
           <>
             <View style={styles.drive} testID="plan-less-driving-drive">
-              <Text
-                variant="h2"
-                color={theme.semantic.text.secondary}
-                style={{ textDecorationLine: 'line-through' }}
-              >
-                {props.before}
-              </Text>
+              <View>
+                <Text variant="h2" color={theme.semantic.text.secondary}>
+                  {props.before}
+                </Text>
+                <View style={[styles.strike, { backgroundColor: theme.semantic.text.secondary }]} />
+              </View>
               <Text variant="h2">→</Text>
               <Text variant="h2" color={tokens.color.green.base}>
                 {props.after}

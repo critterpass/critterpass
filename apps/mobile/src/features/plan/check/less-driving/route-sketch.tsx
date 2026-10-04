@@ -23,6 +23,7 @@ export interface RouteSketchProps {
 const DOT = 22;
 const LINE = 2.5;
 const DIAMOND = 18;
+const MIN_GAP = DOT + 4;
 
 const useStyles = makeStyles(() => ({
   box: { overflow: 'visible' },
@@ -53,12 +54,56 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+interface Spot {
+  readonly x: number;
+  readonly y: number;
+}
+
+/**
+ * Markers pushed apart until every number reads: the sketch shows the order, not the distances,
+ * so two stops on the same street sit side by side instead of on top of each other.
+ */
+export function spreadApart(spots: readonly Spot[], width: number, height: number): Spot[] {
+  const out = spots.map((spot) => ({ ...spot }));
+  const clamp = (value: number, max: number) => Math.min(max - DOT / 2, Math.max(DOT / 2, value));
+  for (let round = 0; round < 40; round += 1) {
+    let moved = false;
+    for (let i = 0; i < out.length; i += 1) {
+      for (let j = i + 1; j < out.length; j += 1) {
+        const a = out[i];
+        const b = out[j];
+        if (a === undefined || b === undefined) continue;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const gap = Math.hypot(dx, dy);
+        if (gap >= MIN_GAP) continue;
+        // Two markers on the same spot part along a fixed diagonal, by their order.
+        const ux = gap === 0 ? Math.cos(i + j) : dx / gap;
+        const uy = gap === 0 ? Math.sin(i + j) : dy / gap;
+        const push = (MIN_GAP - gap) / 2 + 0.5;
+        a.x = clamp(a.x - ux * push, width);
+        a.y = clamp(a.y - uy * push, height);
+        b.x = clamp(b.x + ux * push, width);
+        b.y = clamp(b.y + uy * push, height);
+        moved = true;
+      }
+    }
+    if (!moved) break;
+  }
+  return out;
+}
+
 export function RouteSketch({ stops, stay, width, height, testID }: RouteSketchProps) {
   const styles = useStyles();
-  const all = stay === null ? stops : [stay, ...stops, stay];
-  const laid = sketchLayout(all, width, height);
-  const points = stay === null ? laid : laid.slice(1, -1);
-  const home = stay === null ? null : (laid[0] ?? null);
+  // The stay once (the route leaves it and comes back), then the stops, all kept apart.
+  const spread = spreadApart(
+    sketchLayout(stay === null ? stops : [stay, ...stops], width, height),
+    width,
+    height,
+  );
+  const home = stay === null ? null : (spread[0] ?? null);
+  const points = stay === null ? spread : spread.slice(1);
+  const laid = home === null ? points : [home, ...points, home];
   return (
     <View
       style={[styles.box, { width, height }]}

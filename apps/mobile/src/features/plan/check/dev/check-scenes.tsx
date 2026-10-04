@@ -5,7 +5,7 @@
  * shorter order, rain and crowds, fill a gap, and balance the crew before and after the ask.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import { tokens } from '@cp/design-tokens';
+import { resolveMemberStyle, tokens } from '@cp/design-tokens';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
@@ -31,7 +31,6 @@ import {
 import * as balance from '../balance/balance-copy';
 import { BalanceView } from '../balance/balance-view';
 import * as lab from './check-lab-copy';
-import { CheckLive } from './check-live';
 
 const noop = () => undefined;
 
@@ -218,9 +217,13 @@ function Gap() {
           title: gap.pairTitle('Seniman Coffee', 'Art market'),
           body: `Seniman Coffee, ${gap.saveOf('Dev')}. ${gap.closesLine('Art market', '18:00')}`,
           tags: [
-            gap.minutesChip(12),
-            gap.eachChip(compactMoney(60_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale)),
-            gap.saveOf('Dev').toUpperCase(),
+            { label: gap.minutesChip(12) },
+            {
+              label: gap.eachChip(
+                compactMoney(60_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale),
+              ),
+            },
+            { label: gap.saveOf('Dev'), color: resolveMemberStyle(5).color },
           ],
         },
         {
@@ -228,11 +231,16 @@ function Gap() {
           title: 'Arma Museum',
           body: lab.museumLine(),
           tags: [
-            gap.minutesChip(15),
-            compactMoney(100_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale),
+            { label: gap.minutesChip(15) },
+            { label: compactMoney(100_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale) },
           ],
         },
-        { key: '2', title: gap.stayTitle(), body: gap.stayBody('Jordan'), tags: [gap.freeChip()] },
+        {
+          key: '2',
+          title: gap.stayTitle(),
+          body: gap.stayBody('Jordan'),
+          tags: [{ label: gap.freeChip() }],
+        },
       ]}
       picked={picked}
       onPick={setPicked}
@@ -293,5 +301,4 @@ export const CHECK_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'check-7h-4': () => <Rain />,
   'check-7h-5': () => <Balance />,
   'check-7h-5-asked': () => <Balance asked />,
-  'check-live': () => <CheckLive />,
 };

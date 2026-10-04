@@ -619,6 +619,10 @@ msgid "plan.check.weekday.sat"
 msgstr "T7"
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr "Xem phần kiểm tra kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.sendFirst"
 msgstr "Gửi cả nhóm xem trước"
 

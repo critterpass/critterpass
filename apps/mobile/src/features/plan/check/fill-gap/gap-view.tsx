@@ -1,7 +1,7 @@
 /**
  * Fill a gap (7h-2), from props only: a sheet over the trip map with the window and ✕, "FOUR OF
  * YOU ARE FREE" with their faces and where the others are, Tokek's ideas as radio cards with their
- * chips (minutes, cost each, whose save), and the button that follows the pick with "Something
+ * chips (minutes, cost each, whose save in that member's colour), and the button that follows the pick with "Something
  * else" under it. Undesigned: loading, and no ideas.
  */
 import { View } from 'react-native';
@@ -9,18 +9,19 @@ import { View } from 'react-native';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
-import { OptionRadioCard } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { IdeaCard, type IdeaTag } from './idea-card';
+
 export interface GapIdeaView {
   readonly key: string;
   readonly title: string;
   readonly body: string;
-  readonly tags: readonly string[];
+  readonly tags: readonly IdeaTag[];
 }
 
 export interface GapViewProps {
@@ -100,7 +101,7 @@ export function GapView(props: GapViewProps) {
           </View>
         ) : null}
         {props.ideas.map((idea) => (
-          <OptionRadioCard
+          <IdeaCard
             key={idea.key}
             title={idea.title}
             body={idea.body}
