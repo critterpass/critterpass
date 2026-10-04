@@ -1,8 +1,9 @@
 /**
  * Same-transaction hooks that queue the plan check when the plan or what it reads changes: a new
- * crew version, a draft sent or locked in, applied ops or change set, new legs, an idea saved or removed, a stance, a forecast.
+ * crew version, a draft delivered, edited, sent or locked in, applied ops or change set, new legs, an idea saved or removed, a stance, a forecast.
  * Every trigger waits 45 seconds and one run per trip folds a burst of edits (the api registers
- * the same hook for the events it appends). An organiser's private draft is never checked.
+ * the same hook for the events it appends). An organiser's private draft is checked while the crew has no plan yet; a
+ * `plan.version_created` for a private version queues nothing (the draft's own events do).
  */
 import { sendInTx } from '@cp/db';
 import { PLAN_CHECK_DEBOUNCE_SECONDS, PLANNING_QUEUES, type PlanCheckJob } from '@cp/domain';
@@ -15,6 +16,12 @@ const TRIGGERS: Readonly<Record<string, PlanCheckJob['trigger']>> = {
   // A draft becomes the crew's plan without a new version: sending it and locking it in.
   'proposal.sent': 'plan',
   'proposal.locked': 'plan',
+  // The organiser's private draft is checked before the crew sees it: when the guide delivers it,
+  // when she keeps a redraft or brings an earlier draft back, and when she edits it by hand.
+  'draft.ready': 'plan',
+  'redraft.kept': 'plan',
+  'draft.version_restored': 'plan',
+  'draft.ops_applied': 'plan',
   'plan.legs_updated': 'legs',
   'trip_idea.saved': 'ideas',
   'trip_idea.removed': 'ideas',
