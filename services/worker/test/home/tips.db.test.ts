@@ -174,6 +174,51 @@ describe('generateTips', () => {
     );
   });
 
+  it("speaks as the destination's own critter only while guides go by city", async () => {
+    await db.pool.query(
+      `INSERT INTO guides (slug, name, colour, accent, critter_key)
+       VALUES ('ngua', 'Ngựa', 'pink', '#ff8fbf', 'cp-006')`,
+    );
+    await db.pool.query("UPDATE destinations SET critter_key = 'cp-006' WHERE id = $1", [bali]);
+    const event = (key: string, starts: string) =>
+      db.pool.query(
+        `INSERT INTO season_events (destination_id, key, kind, name, starts_on, ends_on, source,
+           sourced_on, reviewed_at)
+         VALUES ($1, $2, 'festival', $2, $3, $3, 'editorial', '2026-09-01', now())`,
+        [bali, key, starts],
+      );
+    const guideOfLatestTip = async () =>
+      (
+        await db.pool.query<{ slug: string | null }>(
+          `SELECT g.slug FROM home_tips t LEFT JOIN guides g ON g.id = t.guide_id
+            WHERE t.crew_id = $1 ORDER BY t.created_at DESC LIMIT 1`,
+          [crewId],
+        )
+      ).rows[0]?.slug;
+    const setPerCity = (on: boolean) =>
+      db.pool.query(
+        `INSERT INTO ops.ops_config (key, value) VALUES ('guides.per_city', $1::jsonb)
+         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+        [JSON.stringify(on)],
+      );
+
+    await setPerCity(false);
+    await event('Kuningan', '2026-12-05');
+    expect(
+      await generateTips(db.pool, crewId, { now: new Date(NOW.getTime() + 72 * 3_600_000) }),
+    ).toBe(1);
+    // As before the switch existed: this destination is no place's home, so no guide signs the tip.
+    expect(await guideOfLatestTip()).toBeNull();
+
+    await setPerCity(true);
+    await event('Pagerwesi', '2026-12-16');
+    expect(
+      await generateTips(db.pool, crewId, { now: new Date(NOW.getTime() + 96 * 3_600_000) }),
+    ).toBe(1);
+    expect(await guideOfLatestTip()).toBe('ngua');
+    await setPerCity(false);
+  });
+
   it('does nothing while the kill switch is off', async () => {
     await db.pool.query(
       `INSERT INTO ops.ops_config (key, value) VALUES ('home.tips.enabled', 'false')
