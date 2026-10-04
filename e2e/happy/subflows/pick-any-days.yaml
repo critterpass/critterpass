@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# In the open day picker, when any days will do: the first best-window chip (`picker-best-0`, the
+# window most of the crew can make), or, with no chip (nobody has shared a day), a first and a last
+# day of the month showing, tapped by position among the days that can be picked. Waits for the
+# lock; the caller taps it.
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'picker-best-0'
+    commands:
+      - tapOn:
+          id: 'picker-best-0'
+- runFlow:
+    when:
+      notVisible:
+        id: 'picker-lock'
+    commands:
+      - tapOn:
+          id: 'heat-pick-.*'
+          index: 2
+      - tapOn:
+          id: 'heat-pick-.*'
+          index: 4
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000

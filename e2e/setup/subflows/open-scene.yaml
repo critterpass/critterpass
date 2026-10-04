@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Opens one trip setup scene from the dev list to use it (scene.yaml opens one for its screenshot).
+# Slow: a fast swipe on iOS flings the list past the row before it is read.
+- scrollUntilVisible:
+    element:
+      id: 'setup-scene-${SCENE}'
+    direction: DOWN
+    timeout: 60000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'setup-scene-${SCENE}'
+# A tap while the list is still settling only stops it: tap again when the row is still there.
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-scene-${SCENE}'
+    commands:
+      - tapOn:
+          id: 'setup-scene-${SCENE}'
+          optional: true
+- waitForAnimationToEnd:
+    timeout: 8000

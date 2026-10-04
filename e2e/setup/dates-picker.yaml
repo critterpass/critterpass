@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# The dates step's picking in English, for review against 3c-3 and 3c-4: the chosen week as a band,
+# the day picker's states and the by-hand grid on each tool, from fixed scenes (developer tools,
+# no backend), then the picker and the grid used by hand (subflows/dates-picker.yaml).
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: setup
+      READY: setup-scene-3c-3-when
+- runFlow:
+    file: subflows/dates-picker.yaml
+    env:
+      PREFIX: en
