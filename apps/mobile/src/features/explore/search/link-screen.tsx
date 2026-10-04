@@ -15,6 +15,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { categoryWord } from './chip-row';
 import { useSearchServices, type ImportBody } from './data/search-services';
 import { chosenPlaces, sharedBestDay } from './link-import-model';
+import { tipLine } from './link-copy';
 import { LinkSheet } from './link-sheet';
 import { PickOneSheet } from './pick-one-sheet';
 import { searchRoutes } from './routes';
@@ -71,10 +72,7 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
   const day = trip.days.find((entry) => entry.dayNo === bestDay) ?? null;
   const dayLabel = day === null ? null : `${day.weekday ?? ''} ${day.date?.slice(8) ?? ''}`.trim();
   const weekday = day?.weekday ?? '';
-  const tip =
-    day === null || state.status !== 'done'
-      ? problem
-      : t({ id: 'search.link.tip', message: `Your ${weekday} works for these.` });
+  const tip = day === null || state.status !== 'done' ? problem : tipLine(weekday);
   const pickingMatch = state.matches.find((match) => match.label === picking);
 
   const saveToIdeas = () => {

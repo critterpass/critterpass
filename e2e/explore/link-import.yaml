@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# Add from a link (7d-3) from the search lab: the @balibites TikTok with two places sure and the
+# swing to pick, unticking one, the pick-one chooser, still reading, and a link that can't be read.
+# English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- scrollUntilVisible:
+    element:
+      id: 'search-lab-7d-3'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'search-lab-7d-3'
+- extendedWaitUntil:
+    visible:
+      id: 'search-link-save-ideas'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7d-3-add-from-link
+- tapOn:
+    id: 'search-link-save-1'
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: en-7d-3-one-unticked
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'search-lab-7d-3'
+    commands:
+      - runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-pick-one, READY: search-pick-0, SHOT: en-7d-3-pick-one }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-reading, READY: search-link-sheet-panel, SHOT: en-7d-3-reading }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-unsupported, READY: search-link-stopped, SHOT: en-7d-3-unsupported-link }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3, READY: search-link-save-ideas, SHOT: vi-7d-3-add-from-link }

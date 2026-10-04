@@ -108,3 +108,8 @@ export function stopLine(error: LinkImportState['error']): { text: string; retry
       };
   }
 }
+
+/** The guide's tip for the day the chosen places share. */
+export function tipLine(weekday: string): string {
+  return t({ id: 'search.link.tip', message: `Your ${weekday} works for these.` });
+}

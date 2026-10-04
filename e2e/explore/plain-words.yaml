@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Ask in plain words (7d-2) from the search lab: the chips the guide read with the plan's note and
+# the places with their fit lines; then NOT WED comes off, the note goes and the list reshuffles
+# in place. English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- scrollUntilVisible:
+    element:
+      id: 'search-lab-7d-2'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'search-lab-7d-2'
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7d-2-plain-words
+- tapOn:
+    id: 'chip-exclude_days-remove'
+- extendedWaitUntil:
+    notVisible:
+      id: 'chip-exclude_days'
+    timeout: 5000
+- takeScreenshot: en-7d-2-chip-removed
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-2, READY: search-plain-results, SHOT: vi-7d-2-plain-words }

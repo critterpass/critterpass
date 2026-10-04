@@ -1,0 +1,47 @@
+appId: app.critterpass.dev
+---
+# Opens one search lab scene, waits for `${READY}`, takes `${SHOT}` and goes back to the list
+# (Android back, twice for a sheet scene; iOS drags back from the edge).
+- scrollUntilVisible:
+    element:
+      id: 'search-lab-${SCENE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'search-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'search-lab-${SCENE}'
+          commands:
+            - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+      - swipe:
+          start: 0%, 50%
+          end: 85%, 50%
+          duration: 800
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'search-lab-${SCENE}'
+    timeout: 10000

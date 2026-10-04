@@ -6,7 +6,7 @@
 import type { SearchChip, SearchParseResult } from '@cp/domain';
 import { describe, expect, it } from '@jest/globals';
 
-import { chipKey, plainSearchQuery, type PlainAnswer } from '../plain-filters';
+import { chipKey, filtersFor, plainSearchQuery, type PlainAnswer } from '../plain-filters';
 import { initialPlain, parsedOrName, plainReducer, type PlainState } from '../use-plain-search';
 
 const WED = '0199a3f0-0000-7000-8000-00000000da03';
@@ -117,5 +117,37 @@ describe('plain-words search', () => {
       excludeReason: null,
     });
     expect(parsedOrName(QUESTION, { filters: { text: QUESTION }, chips: [] }).chips).toEqual([]);
+  });
+
+  it('a way out reruns with what it promised: a wider time, or the related word', () => {
+    const state = plainReducer(initialPlain('omakase sushi in ubud'), {
+      type: 'parsed',
+      question: 'omakase sushi in ubud',
+      filters: { text: 'omakase sushi', max_minutes: { from: 'stay', minutes: 30 } },
+      chips: [{ code: 'max_minutes', params: { from: 'stay', minutes: 30 } }],
+      excludeReason: null,
+    });
+    const widen = filtersFor(state.filters, {
+      kind: 'widen',
+      params: { minutes: 90 },
+      count: 3,
+      areas: ['Seminyak'],
+      openLate: null,
+    });
+    expect(widen?.max_minutes).toEqual({ from: 'stay', minutes: 90 });
+    const widened = plainReducer(state, { type: 'relax', filters: widen ?? state.filters });
+    expect(widened.chips).toEqual([{ code: 'max_minutes', params: { from: 'stay', minutes: 90 } }]);
+    expect([widened.search, widened.round]).toEqual(['loading', state.round + 1]);
+    const related = filtersFor(state.filters, {
+      kind: 'related',
+      params: { term: 'japanese' },
+      count: 4,
+      areas: ['Ubud'],
+      openLate: 2,
+    });
+    expect(related).toMatchObject({ text: 'japanese', max_minutes: { minutes: 30 } });
+    expect(
+      filtersFor(state.filters, { kind: 'pin', params: {}, count: 0, areas: [], openLate: null }),
+    ).toBeNull();
   });
 });
