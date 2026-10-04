@@ -41,6 +41,7 @@ import { PlaceDetailView } from './place-detail-view';
 import { areaFromAddress, sellsTickets } from './place-facts';
 import { RemoveForEveryone } from './remove-for-everyone';
 import { useIdeaSave } from './use-idea-save';
+import { usePlaceOnPhone } from './use-place-on-phone';
 
 export interface PlaceDetailScreenProps {
   readonly placeId: string;
@@ -149,11 +150,12 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   const pick = (params: Record<string, string>) =>
     tripId === null ? undefined : hrefFor('7f-1', { tripId, placeId, ...params });
   const otherDays = pick({ pick: 'day' });
+  const onPhone = usePlaceOnPhone(tripId, placeId, row.name);
 
   const press = () => {
     if (cta.kind === 'add') {
       const href = pick({ dayId: cta.day.day_id, start: cta.day.start });
-      if (href !== undefined) return router.push(href);
+      if (href !== undefined) return onPhone(() => router.push(href));
       return adding.add();
     }
     if (cta.kind === 'inPlan' && tripId !== null) {
@@ -162,7 +164,9 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
       if (href !== undefined) router.push(href);
       return undefined;
     }
-    if (cta.kind === 'noFit' && otherDays !== undefined) return router.push(otherDays);
+    if (cta.kind === 'noFit' && otherDays !== undefined) {
+      return onPhone(() => router.push(otherDays));
+    }
     if (tripId === null && row.destination_slug !== null) {
       router.push(exploreRoutes.destination(row.destination_slug));
     }
@@ -213,7 +217,8 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
               best,
               sentence: fitSentence(context?.fits ?? null, { locale, stopName }),
               bars: context?.fits?.bars ?? null,
-              onOtherDays: otherDays === undefined ? undefined : () => router.push(otherDays),
+              onOtherDays:
+                otherDays === undefined ? undefined : () => onPhone(() => router.push(otherDays)),
             }
       }
       fitNote={fitNote}

@@ -190,6 +190,10 @@ msgstr "đang đóng cửa"
 msgid "explore.place.closedForGood"
 msgstr "đã đóng cửa vĩnh viễn"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.detail.addFailed"
+msgstr "Chưa thêm được {name}. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.split"
 msgstr "Cả nhóm chia {w}–{r}"

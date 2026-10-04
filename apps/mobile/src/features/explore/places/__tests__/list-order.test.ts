@@ -36,7 +36,7 @@ const fit = (grade: 'good' | 'possible' | 'no'): PlaceFit =>
   ({
     poi_id: 'x',
     version_id: 'v',
-    best: grade === 'no' ? null : { day_id: 'd1', day_no: 1, grade, slot: null },
+    best: grade === 'no' ? null : { day_id: 'day-1', day_no: 1, grade, slot: null },
     days: [],
   }) as unknown as PlaceFit;
 

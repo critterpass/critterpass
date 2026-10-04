@@ -42,7 +42,7 @@ describe('sellsTickets', () => {
 
 describe('a place read from the api', () => {
   const destination = {
-    id: 'd1',
+    id: 'dest-1',
     tz: 'Asia/Makassar',
     name: 'Bali',
     slug: 'bali',
@@ -67,7 +67,7 @@ describe('a place read from the api', () => {
     );
     expect(row).toMatchObject({
       id: 'p1',
-      destination_id: 'd1',
+      destination_id: 'dest-1',
       category: 'nightlife',
       address: 'Jl. Petitenget, Seminyak, Bali',
       destination_tz: 'Asia/Makassar',
