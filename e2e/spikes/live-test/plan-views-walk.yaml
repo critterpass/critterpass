@@ -139,6 +139,7 @@ appId: app.critterpass.dev
     optional: true
 - takeScreenshot: plan-views-11-trip-map-half-stop-2-tapped
 # A stray item sheet, if the stop opened one here.
+# The card opened the stop's sheet on a day plan: close it, then the way back to the map.
 - runFlow:
     when:
       visible:
@@ -146,6 +147,17 @@ appId: app.critterpass.dev
     commands:
       - back
       - waitForAnimationToEnd
+      - takeScreenshot: plan-views-24b-day-map-card-sheet-closed
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    commands:
+      - tapOn:
+          id: 'day-plan-back'
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: plan-views-24c-trip-link-from-that-day-plan
 # The rest of the day, lower in the sheet.
 - swipe:
     start: 50%, 85%
@@ -420,13 +432,7 @@ appId: app.critterpass.dev
           optional: true
       - takeScreenshot: plan-views-34-back-on-trip-map
 # The places: the list from the map's top bar, then its map.
-- runFlow:
-    when:
-      visible:
-        id: 'trip-map-full'
-    commands:
-      - back
-      - waitForAnimationToEnd
+- runFlow: plan-views-subflows/back-to-trip-map.yaml
 - tapOn:
     id: 'trip-map-list'
     optional: true
@@ -618,6 +624,35 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: plan-views-48-edit-reorder-drag
+# The same drag on a stop nobody asked for: the fifth below the sixth.
+- scrollUntilVisible:
+    element:
+      id: 'stop-5'
+    direction: DOWN
+    timeout: 8000
+    centerElement: true
+    optional: true
+- takeScreenshot: plan-views-48b-edit-before-second-drag
+- swipe:
+    from:
+      id: 'stop-5'
+    direction: DOWN
+    duration: 9000
+    optional: true
+- takeScreenshot: plan-views-48c-edit-second-drag-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: plan-views-48d-edit-second-drag-settled
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: plan-views-48e-edit-second-drag-top
 # A time: the second stop, an hour later.
 - scrollUntilVisible:
     element:
@@ -768,7 +803,7 @@ appId: app.critterpass.dev
 - runFlow:
     when:
       visible:
-        id: 'move-stop-days'
+        id: 'move-stop-sheet'
     commands:
       - tapOn:
           id: 'move-stop-[0-9a-f].*'
@@ -776,6 +811,7 @@ appId: app.critterpass.dev
           optional: true
       - waitForAnimationToEnd:
           timeout: 3000
+      - takeScreenshot: plan-views-62b-edit-move-stop-picked
       - tapOn:
           id: 'move-stop-days-4'
           optional: true

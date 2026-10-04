@@ -41,7 +41,8 @@ appId: app.critterpass.dev
 - takeScreenshot: plan-views-adds-02-search-empty
 # By name.
 - tapOn:
-    id: 'search-field-query'
+    id: 'search-field'
+    optional: true
 - inputText: 'Tanah Lot'
 - extendedWaitUntil:
     visible:
