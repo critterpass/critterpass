@@ -12,10 +12,11 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Avatar } from '@/ui/people/Avatar';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { PlanGuideSticker } from '../../plan-guide';
 
 export interface BalanceRowView {
   readonly key: string;
@@ -175,7 +176,7 @@ export function BalanceView(props: BalanceViewProps) {
         {offer === null ? null : (
           <View style={styles.offer} testID="plan-balance-offer">
             <View style={styles.offerHead}>
-              <Sticker kind="gecko" name="Tokek" size={40} />
+              <PlanGuideSticker size={40} />
               <Text variant="voice" style={styles.offerLine} singleLine={false}>
                 {offer.line}
               </Text>

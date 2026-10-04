@@ -9,14 +9,14 @@ import { msg } from '@lingui/core/macro';
 import { POLL_INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import { registerInboxRenderer, type InboxItem } from '@/features/home';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { guideOr } from './format';
 
 const text = (value: unknown): string => (typeof value === 'string' ? value : '');
 
 function guideName(item: InboxItem): string {
-  return GUIDE_STICKERS[guideOr(text(item.data['guide']))].name;
+  return guideSticker(guideOr(text(item.data['guide']))).name;
 }
 
 function optionLabels(item: InboxItem): Map<string, string> {

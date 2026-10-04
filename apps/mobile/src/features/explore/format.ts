@@ -3,10 +3,14 @@
  * formatter (never a bare `Intl` call), and the guide each destination belongs to.
  */
 import { formatMoney, money, roundEstimate } from '@cp/cost-engine';
-import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
-import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
+import {
+  guideColour,
+  guideSticker,
+  type GuideStickerId,
+  isGuideStickerId,
+} from '@/ui/avatar/guides';
 
 /** "Apr" (short), "April" (long) or "A" (narrow) for month 1–12. */
 export function monthName(
@@ -48,12 +52,12 @@ export interface GuideFacts {
 /** The guide of a destination from its catalogue slug; the guest guide when it has none. */
 export function guideFor(slug: string | null | undefined): GuideFacts {
   const id: GuideStickerId = isGuideStickerId(slug) ? slug : GUEST_GUIDE;
-  const sticker = GUIDE_STICKERS[id];
+  const sticker = guideSticker(id);
   return {
     id,
     name: sticker.name,
     kind: sticker.kind,
-    colour: tokens.guide[id],
+    colour: guideColour(id),
     guest: id !== slug,
   };
 }

@@ -19,7 +19,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -67,7 +67,7 @@ export function AllCaughtUp({ watching = null }: AllCaughtUpProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awake]);
   const jumpStyle = useAnimatedStyle(() => ({ transform: [{ translateY: jump.value }] }));
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
 
   const wake = () => {
     setAwake(true);

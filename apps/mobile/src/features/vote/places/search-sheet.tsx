@@ -13,7 +13,7 @@ import { Keyboard, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { Row } from '@/ui/layout/Row';
@@ -31,7 +31,7 @@ import { voteRoutes } from '../routes';
 import { ResultRow } from './result-row';
 
 /** The guest guide who covers places without a live guide. */
-const GUEST = GUIDE_STICKERS.tokek;
+const GUEST = guideSticker('tokek');
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['12'] },

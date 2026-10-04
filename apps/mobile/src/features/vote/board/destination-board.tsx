@@ -16,7 +16,7 @@ import Animated from 'react-native-reanimated';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast, useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
@@ -175,7 +175,7 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
   };
 
   if (options.length === 0) {
-    const guide = GUIDE_STICKERS.tokek;
+    const guide = guideSticker('tokek');
     return (
       <Stack gap="12" testID="board-empty">
         <Text variant="h2" accessibilityRole="header">

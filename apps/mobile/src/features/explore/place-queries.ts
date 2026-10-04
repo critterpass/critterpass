@@ -4,6 +4,8 @@
  * avatars and the crewmate whose must-do the place is.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
+
 import { useLiveRows } from './data/live-rows';
 
 export interface PoiRow {
@@ -26,19 +28,23 @@ export interface PoiRow {
   readonly guide_slug: string | null;
 }
 
-const POI_SQL = `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng,
+const PLACE_GUIDE_SQL = `(SELECT s.guide_slug FROM critter_sets s
+      WHERE s.destination_id = p.destination_id AND s.guide_slug IS NOT NULL LIMIT 1)`;
+const poiSql = (
+  perCity: boolean,
+) => `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng,
     p.hours, p.price_level, p.editorial, p.timezone,
     d.tz AS destination_tz, d.name AS destination_name, d.slug AS destination_slug,
-    (SELECT s.guide_slug FROM critter_sets s
-      WHERE s.destination_id = p.destination_id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug
+    ${destinationGuideSql(perCity, 'd.critter_key', PLACE_GUIDE_SQL)} AS guide_slug
   FROM pois p LEFT JOIN destinations d ON d.id = p.destination_id WHERE p.id = ?`;
-const POI_TABLES = ['pois', 'destinations', 'critter_sets'];
+const POI_TABLES = ['pois', 'destinations', 'critter_sets', ...DESTINATION_GUIDE_TABLES];
 
 export function usePoi(poiId: string | null): {
   readonly row: PoiRow | null;
   readonly loaded: boolean;
 } {
-  const live = useLiveRows<PoiRow>(POI_SQL, poiId === null ? null : [poiId], POI_TABLES);
+  const perCity = useGuidesPerCity();
+  const live = useLiveRows<PoiRow>(poiSql(perCity), poiId === null ? null : [poiId], POI_TABLES);
   return { row: live.rows[0] ?? null, loaded: live.loaded };
 }
 

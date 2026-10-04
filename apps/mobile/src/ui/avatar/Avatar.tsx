@@ -6,7 +6,7 @@ import { CritterAvatar } from '../people/CritterAvatar';
 import { Sticker } from '../sticker/Sticker';
 import { Text } from '../text/Text';
 import { makeStyles, sizeToken, useTheme } from '../theme';
-import { GUIDE_STICKERS, type GuideAvatarId } from './guides';
+import { guideSticker, type GuideAvatarId } from './guides';
 import { PhotoAvatar } from './PhotoAvatar';
 
 /** Moderation of a photo avatar; critter and initials avatars are always `approved`. */
@@ -86,7 +86,7 @@ export function UserAvatar({
 
   let body;
   if (shown.kind === 'guide') {
-    const guide = GUIDE_STICKERS[shown.guide];
+    const guide = guideSticker(shown.guide);
     body = (
       <MemberAvatar
         name={name}

@@ -14,7 +14,7 @@ import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { QuickActionChip } from '@/ui/chips/QuickActionChip';
 import { SearchField } from '@/ui/inputs/SearchField';
@@ -108,7 +108,7 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
       place_id: picked.id,
       ...(state.pitchId === null ? {} : { pitch_id: state.pitchId }),
     });
-    const guide = GUIDE_STICKERS[guideOr(state.sticker?.guide)];
+    const guide = guideSticker(guideOr(state.sticker?.guide));
     const sticker = <Sticker kind={guide.kind} name={guide.name} size={72} />;
     if (poll?.stage === 'final') {
       toast.show({

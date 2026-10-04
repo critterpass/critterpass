@@ -4,9 +4,16 @@ import { getFeedbackPrefsSnapshot } from '../feedback/prefs';
 import { playCue } from '../feedback/sfx-pool';
 import { crossfadeFraction, DEFAULT_CROSSFADE_MS, musicEngine } from './crossfade';
 import { musicLevel } from './levels';
-import { availableThemes, GUIDE_IDS, themeFor, type GuideId, type ThemeInfo } from './themes';
+import {
+  availableThemes,
+  GUIDE_IDS,
+  themedGuideFor,
+  themeFor,
+  type GuideId,
+  type ThemeInfo,
+} from './themes';
 
-const DEFAULT_PREVIEW_GUIDE: GuideId = GUIDE_IDS[0];
+const DEFAULT_PREVIEW_GUIDE: GuideId = GUIDE_IDS[0] ?? 'tokek';
 
 function effectiveMusicVolume(): number {
   const prefs = getFeedbackPrefsSnapshot();
@@ -47,7 +54,7 @@ export const music = {
       playCue('slap', clampedLevel);
       return;
     }
-    const guideId = (musicEngine.playingGuideId as GuideId | null) ?? DEFAULT_PREVIEW_GUIDE;
+    const guideId = musicEngine.playingGuideId ?? DEFAULT_PREVIEW_GUIDE;
     const sampleAsset = themeFor(guideId)?.sampleAsset;
     if (!sampleAsset) return;
     const player = createAudioPlayer(sampleAsset);
@@ -58,6 +65,7 @@ export const music = {
   level: musicLevel,
   availableThemes,
   themeFor,
+  themedGuideFor,
 };
 
 export { crossfadeFraction, DEFAULT_CROSSFADE_MS, GUIDE_IDS, musicEngine };

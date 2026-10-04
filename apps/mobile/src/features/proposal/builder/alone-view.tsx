@@ -6,7 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
@@ -40,7 +40,7 @@ export interface AloneViewProps {
 export function AloneView(props: AloneViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const destination = props.destination;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-alone">

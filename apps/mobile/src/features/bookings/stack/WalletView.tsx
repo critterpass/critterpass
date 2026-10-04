@@ -12,7 +12,7 @@ import type { ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { Row } from '@/ui/layout/Row';
@@ -80,7 +80,7 @@ export function WalletView(props: WalletViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   return (
     <Scaffold variant="dark" testID={`bookings-wallet-${props.state}`}>
       <ScrollView

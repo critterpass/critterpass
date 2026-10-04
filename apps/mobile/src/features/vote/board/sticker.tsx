@@ -17,7 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { bezierEasing, useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
@@ -83,7 +83,7 @@ export function BoardSticker({
     votes.current = option.votes;
   }, [option.votes, drop]);
   const dropStyle = useAnimatedStyle(() => ({ transform: [{ scale: drop.value }] }));
-  const guide = GUIDE_STICKERS[place?.guide ?? 'tokek'];
+  const guide = guideSticker(place?.guide ?? 'tokek');
   const name = place?.name ?? option.label;
   const colour = place?.colour ?? theme.color.yellow;
   const label = [

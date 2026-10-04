@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { Fragment, type ReactNode } from 'react';
 import { I18nManager, ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar';
+import { guideSticker } from '@/ui/avatar';
 import { Card } from '@/ui/cards/Card';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -163,7 +163,7 @@ export function PingSettingsView(props: PingSettingsViewProps) {
   const { prefs } = props;
   const ink = theme.color.paper.ink;
   const doodle = (name: DoodleName) => <Icon name={name} size={22} color={ink} decorative />;
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
 
   const chatLine: Record<CrewChatMode, string> = {
     all: t({ id: 'you.pings.crewChat.all', message: 'Every message' }),

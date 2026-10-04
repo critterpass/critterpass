@@ -5,8 +5,8 @@ import { Pressable, View } from 'react-native';
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { makeStyles, Scaffold, sizeToken, Stack, Text, useTheme } from '@/ui';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
-import { guideCritter } from '@/ui/shell/GuideFab';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { guideSticker } from '@/ui/avatar/guides';
 
 const HOME_HREF = '/';
 
@@ -36,7 +36,7 @@ export default function NotFoundScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const { guideId } = useActiveGuide();
-  const critter = guideCritter(guideId);
+  const critter = guideSticker(guideId);
   const guide = critter.name;
 
   return (
@@ -44,12 +44,18 @@ export default function NotFoundScreen() {
       <View style={styles.body}>
         <Stack gap="16">
           <View style={styles.art}>
-            <Sticker kind={critter.kind} name={guide} pose="tilt" size={GUIDE_ART_SIZE} />
+            <Sticker
+              kind={critter.kind}
+              name={guide}
+              seed={critter.seed}
+              pose="tilt"
+              size={GUIDE_ART_SIZE}
+            />
           </View>
           <Text variant="h2" accessibilityRole="header">
             {t({ id: 'common.notFound.title', message: 'This page wandered off' })}
           </Text>
-          <Text variant="voice" color={theme.guide[guideId]}>
+          <Text variant="voice" color={critter.accent}>
             {t({
               id: 'common.notFound.guideLine',
               message: `${guide} looked everywhere. Let’s head home.`,

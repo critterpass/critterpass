@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -95,7 +95,7 @@ export function RoomsView({
   readonly initialReject?: { readonly stayKey: string; readonly roomKey: string } | undefined;
 }) {
   const theme = useTheme();
-  const guide = GUIDE_STICKERS[trip.guide].name;
+  const guide = guideSticker(trip.guide).name;
   const organiser: SetupMember | undefined = trip.members.find((member) => member.organiser);
   const people = new Map(trip.members.map((member) => [member.uid, member]));
   const plan = model.plan;
@@ -160,7 +160,7 @@ export function RoomsView({
       id: 'setup.rooms.evenSplit',
       message: 'One room for everyone, so the stay splits evenly. You can skip this step.',
     });
-    const sticker = GUIDE_STICKERS[trip.guide];
+    const sticker = guideSticker(trip.guide);
     body = (
       <EmptyState
         guide={trip.guide}

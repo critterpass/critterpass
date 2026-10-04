@@ -15,7 +15,7 @@ import type { HomeTripInput } from '@cp/domain';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { CountdownCard } from '@/ui/cards/CountdownCard';
 import { cardBackground } from '@/ui/cards/tone';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -48,7 +48,7 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
   const locale = useLocale();
   const bob = useLoop('bob');
   const guide = guideOr(trip.guideId);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const place =
     trip.destinationName ?? t({ id: 'home.nextUp.untitled', message: 'Your next trip' });
   const day = trip.startDate === null ? null : tripDay(locale, trip.startDate);

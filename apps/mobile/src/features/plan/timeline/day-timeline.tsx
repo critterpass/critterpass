@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 
 import type { PlanOp } from '@cp/domain';
 import { useMotionMode } from '@/motion/motion-mode';
-import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 
 import { itemAnchor, type PlanPresence } from '../collab/use-presence';
 import { RainBand } from './rain-band';
@@ -21,7 +21,7 @@ import { type DaySlot } from '@/data/plan/plan-ops';
 import { type TripPlan } from '@/data/plan/use-trip-plan';
 
 export function guideOf(slug: string | null) {
-  return GUIDE_STICKERS[isGuideStickerId(slug) ? slug : 'tokek'];
+  return guideSticker(isGuideStickerId(slug) ? slug : 'tokek');
 }
 
 /** Rain, the guide's suggestion and its banner for a day. */

@@ -14,7 +14,7 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { patterns, useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
@@ -38,7 +38,7 @@ import { CrewPicker } from './crew-picker';
 import { LocalsStrip } from './locals-strip';
 import { SoloConfirm } from './solo-confirm';
 
-const GUEST = GUIDE_STICKERS.tokek;
+const GUEST = guideSticker('tokek');
 
 /** Smallest size the hero name shrinks to (a 13-letter city on a 360 pt phone). */
 const HERO_NAME_FLOOR = 40;

@@ -12,7 +12,7 @@ import { Linking } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { feedback, toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
 import { telUrl } from '../format';
@@ -25,8 +25,6 @@ import { SosView } from './sos-view';
 import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
 import { useFormats } from '@/lib/i18n/formats';
-
-const GUIDE_IDS = Object.keys(GUIDE_STICKERS);
 
 function dial(number: string) {
   void Linking.openURL(telUrl(number));
@@ -80,9 +78,7 @@ export function SosScreen() {
     );
   }
   const guideSlug = hub.trip?.guide_slug ?? 'tokek';
-  const guide = GUIDE_IDS.includes(guideSlug)
-    ? GUIDE_STICKERS[guideSlug as keyof typeof GUIDE_STICKERS]
-    : GUIDE_STICKERS.tokek;
+  const guide = guideSticker(guideSlug);
   const guideName = hub.trip?.guide_name ?? guide.name;
   const general = hub.model.general.number;
   const fromSender = sos.messages.filter((m) => m.sender_id === sos.row?.user_id);

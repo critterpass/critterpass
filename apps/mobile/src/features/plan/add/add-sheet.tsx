@@ -22,6 +22,7 @@ import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 import type { DayChip } from '@/ui/planning';
 
+import { usePlanGuide } from '../plan-guide';
 import { saveIdeaCommand } from '../ideas/commands';
 import { AddBlock } from './add-block';
 import {
@@ -73,6 +74,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
+  const guide = usePlanGuide().name;
   const editor = useDayEditing(plan);
   const saveIdea = useCommand(saveIdeaCommand);
   const { subject } = useAddSubject(tripId, placeId);
@@ -167,11 +169,10 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     existingLabel !== null
       ? alreadyLine(existingLabel)
       : server.status === 'offline' && server.fit === null
-        ? offlineNote()
+        ? offlineNote(guide)
         : nothingFits
           ? nowhereNote()
           : null;
-  const guide = plan.trip?.guide_name ?? t({ id: 'plan.add.guide', message: 'Tokek' });
 
   const onAdd = async () => {
     if (choice === null || day === null || subject === null) return;
