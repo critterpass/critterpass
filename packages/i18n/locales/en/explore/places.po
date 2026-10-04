@@ -186,6 +186,10 @@ msgid "places.group.saved"
 msgstr "Saved, not in a day · {count}"
 
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.searchHere"
+msgstr "Search {place}"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.search"
 msgstr "Search {place}, or ask {guide}"
 

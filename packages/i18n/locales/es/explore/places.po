@@ -186,6 +186,10 @@ msgid "places.group.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.searchHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.search"
 msgstr ""
 

@@ -41,6 +41,9 @@ const CARDS_PT = 196;
 const HEADER_PT = 124;
 
 export interface PlacesMapScreenProps {
+  /** Outside a trip: the map's own field over the places on this phone. */
+  readonly query?: string | undefined;
+  readonly onQuery?: ((text: string) => void) | undefined;
   readonly tripId: string | null;
   /** Outside a trip: the destination's id or slug. */
   readonly destination?: string | null | undefined;
@@ -69,6 +72,7 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     tripId,
     destination: props.destination,
     results: props.results?.ids ?? null,
+    query: props.query,
   });
   const guide = guideFor(data.guideSlug);
   const sync = useSyncStatus();
@@ -233,6 +237,8 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
           inTrip={tripId !== null}
           resultChips={props.results?.chips}
           onLeaveResults={props.onLeaveResults}
+          query={props.query}
+          onQuery={props.onQuery}
         />
       </View>
       <View

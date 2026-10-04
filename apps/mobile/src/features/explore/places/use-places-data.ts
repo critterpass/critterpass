@@ -13,7 +13,7 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { useExploreStream } from '../data/use-explore-stream';
 import { useDestinationPois } from '../map-queries';
-import type { Point } from '../map-model';
+import { fold, type Point } from '../map-model';
 import { useDestinationRow } from '../queries';
 import { useSaved } from '../saved-queries';
 import { hubPlaces, type HubPlace, type IdeaPlace, type PlanStop } from './places-model';
@@ -71,9 +71,16 @@ export interface PlacesDataInput {
   readonly destination?: string | null | undefined;
   /** Results mode: only these places. */
   readonly results?: ReadonlySet<string> | null | undefined;
+  /** Typed into the map's own field (outside a trip): places whose name holds it. */
+  readonly query?: string | undefined;
 }
 
-export function usePlacesData({ tripId, destination, results }: PlacesDataInput): PlacesData {
+export function usePlacesData({
+  tripId,
+  destination,
+  results,
+  query = '',
+}: PlacesDataInput): PlacesData {
   const plan = useTripPlan(tripId);
   const ref = tripId === null ? (destination ?? null) : (plan.trip?.destination_id ?? null);
   const { row } = useDestinationRow(ref);
@@ -118,18 +125,18 @@ export function usePlacesData({ tripId, destination, results }: PlacesDataInput)
     [curated.places, hiddenIds],
   );
   const destinationName = row?.name ?? plan.trip?.destination_name ?? '';
-  const places = useMemo(
-    () =>
-      hubPlaces({
-        curated: curated.places,
-        ideas,
-        stops,
-        hiddenIds,
-        results,
-        destination: destinationName,
-      }),
-    [curated.places, ideas, stops, hiddenIds, results, destinationName],
-  );
+  const places = useMemo(() => {
+    const all = hubPlaces({
+      curated: curated.places,
+      ideas,
+      stops,
+      hiddenIds,
+      results,
+      destination: destinationName,
+    });
+    const needle = fold(query.trim());
+    return needle === '' ? all : all.filter((place) => fold(place.name).includes(needle));
+  }, [curated.places, ideas, stops, hiddenIds, results, destinationName, query]);
   return {
     loaded: curated.loaded && (tripId === null || (plan.loaded && tripIdeas.loaded)),
     places,

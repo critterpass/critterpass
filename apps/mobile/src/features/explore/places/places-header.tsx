@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { IconButton } from '@/ui/buttons/IconButton';
+import { TextField } from '@/ui/inputs/TextField';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { PressScale } from '@/ui/press/PressScale';
 import { useBackAffordance } from '@/ui/qa/back-affordance';
@@ -30,6 +31,12 @@ export interface PlacesHeaderProps {
   readonly mode: 'map' | 'list';
   readonly onBack: () => void;
   readonly onSearch: () => void;
+  /**
+   * Outside a trip the pill is a field that searches the places on this phone (it works in
+   * airplane mode) instead of opening the search.
+   */
+  readonly query?: string | undefined;
+  readonly onQuery?: ((text: string) => void) | undefined;
   readonly onToggleMode: () => void;
   readonly counts: PlaceCounts;
   readonly filter: PlacesFilter;
@@ -77,6 +84,7 @@ export function PlacesHeader(props: PlacesHeaderProps) {
   const place = props.destinationName;
   const guide = props.guide.name;
   const prompt = t({ id: 'places.search', message: `Search ${place}, or ask ${guide}` });
+  const localPrompt = t({ id: 'places.searchHere', message: `Search ${place}` });
   const toList = props.mode === 'map';
   const chips: PlanningChip[] = [
     ...(props.resultChips ?? []).map((label, index) => ({
@@ -132,17 +140,32 @@ export function PlacesHeader(props: PlacesHeaderProps) {
         />
         <View style={styles.pill}>
           <Sticker kind={props.guide.kind} name={guide} size={GUIDE} />
-          <PressScale
-            style={styles.placeholder}
-            accessibilityRole="search"
-            accessibilityLabel={prompt}
-            onPress={props.onSearch}
-            testID="places-search"
-          >
-            <Text variant="body" color={theme.semantic.text.secondary} numberOfLines={1}>
-              {prompt}
-            </Text>
-          </PressScale>
+          {props.onQuery === undefined ? (
+            <PressScale
+              style={styles.placeholder}
+              accessibilityRole="search"
+              accessibilityLabel={prompt}
+              onPress={props.onSearch}
+              testID="places-search"
+            >
+              <Text variant="body" color={theme.semantic.text.secondary} numberOfLines={1}>
+                {prompt}
+              </Text>
+            </PressScale>
+          ) : (
+            <View style={styles.placeholder}>
+              <TextField
+                label={localPrompt}
+                labelHidden
+                placeholder={localPrompt}
+                value={props.query ?? ''}
+                onChangeText={props.onQuery}
+                autoCorrect={false}
+                returnKeyType="search"
+                testID="places-search-field"
+              />
+            </View>
+          )}
           <PressScale
             style={styles.mode}
             widthClass="narrow"

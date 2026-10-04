@@ -186,6 +186,10 @@ msgid "places.group.saved"
 msgstr "Đã lưu, chưa xếp ngày · {count}"
 
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.searchHere"
+msgstr "Tìm ở {place}"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.search"
 msgstr "Tìm ở {place}, hoặc hỏi {guide}"
 

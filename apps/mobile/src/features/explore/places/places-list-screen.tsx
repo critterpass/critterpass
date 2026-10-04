@@ -61,6 +61,9 @@ import { useSwipeActions } from './use-swipe-actions';
 const SEARCH: ListKind = 'search';
 
 export interface PlacesListScreenProps {
+  /** Outside a trip: the map's own field over the places on this phone. */
+  readonly query?: string | undefined;
+  readonly onQuery?: ((text: string) => void) | undefined;
   readonly tripId: string | null;
   readonly destination?: string | null | undefined;
   readonly filter: PlacesFilter;
@@ -81,6 +84,7 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     tripId,
     destination: props.destination,
     results: props.results?.ids ?? null,
+    query: props.query,
   });
   const guide = guideFor(data.guideSlug);
   const swipe = useSwipeActions(tripId, data.places, data.plan.uid);
@@ -239,6 +243,8 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
           inTrip={tripId !== null}
           resultChips={props.results?.chips}
           onLeaveResults={props.onLeaveResults}
+          query={props.query}
+          onQuery={props.onQuery}
         />
         <SortMenu
           sort={sort}
