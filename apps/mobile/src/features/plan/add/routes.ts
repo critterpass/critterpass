@@ -102,9 +102,10 @@ export function originDayId(state: NavState | undefined): string | undefined {
   for (const route of [...(state?.routes ?? [])].reverse()) {
     const inner = originDayId(route.state);
     if (inner !== undefined) return inner;
-    const params = (route.params ?? {}) as { scope?: unknown; dayId?: unknown };
-    if (params.scope === 'day' && typeof params.dayId === 'string' && params.dayId !== '') {
-      return params.dayId;
+    // The search route carries its day as `day_id`.
+    const params = (route.params ?? {}) as { scope?: unknown; day_id?: unknown };
+    if (params.scope === 'day' && typeof params.day_id === 'string' && params.day_id !== '') {
+      return params.day_id;
     }
   }
   return undefined;

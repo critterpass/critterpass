@@ -38,8 +38,8 @@ describe('the day the sheet was opened from', () => {
         {
           state: {
             routes: [
-              search({ scope: 'day', dayId: DAYS[0]!.id }),
-              search({ scope: 'day', dayId: DAYS[1]!.id }),
+              search({ scope: 'day', day_id: DAYS[0]!.id }),
+              search({ scope: 'day', day_id: DAYS[1]!.id }),
               { params: { placeId: 'p' } },
             ],
           },
