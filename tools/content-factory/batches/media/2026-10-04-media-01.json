@@ -9445,6 +9445,29 @@
       "duration_ms": null
     },
     {
+      "id": "wikimedia-photo-159818751",
+      "kind": "photo",
+      "source": "wikimedia",
+      "source_id": "159818751",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2024_-_M%E1%BB%B9_S%C6%A1n_Sanctuary_Temple_E7_-_img_01.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/2024_-_M%E1%BB%B9_S%C6%A1n_Sanctuary_Temple_E7_-_img_01.jpg/1920px-2024_-_M%E1%BB%B9_S%C6%A1n_Sanctuary_Temple_E7_-_img_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "preview_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/2024_-_M%E1%BB%B9_S%C6%A1n_Sanctuary_Temple_E7_-_img_01.jpg/960px-2024_-_M%E1%BB%B9_S%C6%A1n_Sanctuary_Temple_E7_-_img_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+      "subjects": [
+        "poi:editorial-wikidata-q391406"
+      ],
+      "rank": 0,
+      "title": "Mỹ Sơn · Wikidata Q391406 (Mỹ Sơn)",
+      "author": "Chainwit.",
+      "author_url": null,
+      "licence": "cc-by-4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0",
+      "attribution_required": true,
+      "credit": "Chainwit. · CC BY 4.0 · Wikimedia Commons",
+      "width": 1920,
+      "height": 1440,
+      "duration_ms": null
+    },
+    {
       "id": "pexels-photo-18823960",
       "kind": "photo",
       "source": "pexels",
@@ -17774,8 +17797,8 @@
     "batch_key": "2026-10-04-media-01",
     "route": null,
     "model": null,
-    "generated_at": "2026-10-04T11:45:13.489Z"
+    "generated_at": "2026-10-04T12:06:38.950Z"
   },
   "approved_by": null,
-  "checksum": "fe9a4d7ad125cd9f312f48493828f00012e4fb5c39b03dee3805a6dcda7a57bb"
+  "checksum": "4a152d2691ec0fd9db32f2c41de42a7627b172b186be5c24a3859d464dc20fcf"
 }
