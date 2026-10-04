@@ -70,17 +70,23 @@ export function itemFace(kind: string, ref: string, item: Item): ItemFace {
       return { title: ref, subtitle: text(item['source_url']) };
     case 'facilities':
       return { title: text(item['name']), subtitle: text(item['kind']) };
-    case 'media':
+    case 'media': {
+      const subjects = (item['subjects'] as string[] | undefined) ?? [];
       return {
         title:
           `${item['kind'] === 'video' ? 'Video' : 'Photo'} · ${text(item['title']) || ref}`.slice(
             0,
             80,
           ),
-        subtitle: `${text(item['credit'])} · #${String(item['rank'])} · ${(item['subjects'] as string[] | undefined)?.join(', ') ?? ''}`,
+        // An item re-stated with no subjects takes the live photo down.
+        subtitle:
+          subjects.length === 0
+            ? `${text(item['credit'])} · Removes this photo from live`
+            : `${text(item['credit'])} · #${String(item['rank'])} · ${subjects.join(', ')}`,
         imageUrl: text(item['preview_url']),
         linkUrl: text(item['source_url']),
       };
+    }
     case 'taste_quiz':
       return { title: text(item['chip']), subtitle: ref };
     default:

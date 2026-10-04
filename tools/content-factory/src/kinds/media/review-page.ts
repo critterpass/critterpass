@@ -4,7 +4,8 @@
  * with the places it stands for, whether it is the place itself or a labelled generic picture, and
  * its source, licence and credit. Photos of the place itself come first, the ones to look at
  * twice (a loose name match, or an item far from the place) marked; the places left without a
- * photo are counted by category at the end. Live photos a later look would drop lead the page of
+ * photo are counted by category, and the live photos the batch removes or gives other places are
+ * listed at the end. Live photos a later look would drop lead the page of
  * the destination that shows them, so the owner can judge them.
  */
 import { writeFileSync } from 'node:fs';
@@ -14,13 +15,16 @@ import { poiRefSubject, type ContentItem } from '@cp/content';
 import { createCanvas, loadImage } from '@napi-rs/canvas';
 
 import { GENERIC_TITLE, isGenericTitle } from './generic';
-import type { PlaceProposal, SuggestedDrop } from './place-batch';
+import type { LiveChange, PlaceProposal, SuggestedDrop } from './place-batch';
 
 /** What a place batch's brief leaves for its review pages. */
 export interface PlaceReview {
   readonly proposals: readonly PlaceProposal[];
   readonly unanswered: readonly string[];
   readonly suggestedDrops?: readonly SuggestedDrop[];
+  /** The live photos the batch takes down, and the ones it gives other places. */
+  readonly removed?: readonly LiveChange[];
+  readonly changed?: readonly LiveChange[];
 }
 
 const THUMB_W = 400;
@@ -90,10 +94,31 @@ ${kind}${check}${why}${places}
 <div class="meta">${escape(item.id)}</div></div></div>`;
 }
 
+/** One live photo the batch takes down or moves, with the places of this page it concerns. */
+function changeCard(
+  change: LiveChange,
+  item: ContentItem<'media'> | undefined,
+  nameOf: ReadonlyMap<string, string>,
+  image: string | null,
+): string {
+  const names = (subjects: readonly string[]) =>
+    subjects.flatMap((subject) => nameOf.get(subject) ?? []).map(escape);
+  const lost = names(change.was.filter((subject) => !change.now.includes(subject)));
+  const gained = names(change.now.filter((subject) => !change.was.includes(subject)));
+  const gone = change.now.length === 0;
+  return `<div class="card">${image === null ? '' : `<img loading="lazy" alt="" src="${image}">`}<div>
+<span class="tag check">${gone ? 'Removed from live' : 'Changed'}</span>
+${lost.length === 0 ? '' : `<div class="name">No longer for: ${lost.join(' · ')}</div>`}
+${gained.length === 0 ? '' : `<div class="name">Now also for: ${gained.join(' · ')}</div>`}
+<div class="meta">Why: ${escape(change.reason)}</div>
+${item === undefined ? '' : `<div class="meta">Credit: ${escape(item.credit)}</div>`}
+<div class="meta">${escape(change.id)}</div></div></div>`;
+}
+
 /** Writes `places-<destination>.html` into `outDir` and returns the file names. */
 export async function renderPlacePages(
   items: readonly ContentItem<'media'>[],
-  { proposals, unanswered, suggestedDrops = [] }: PlaceReview,
+  { proposals, unanswered, suggestedDrops = [], removed = [], changed = [] }: PlaceReview,
   previews: ReadonlyMap<string, Buffer>,
   outDir: string,
   batchKey: string,
@@ -128,6 +153,21 @@ export async function renderPlacePages(
       const drop = drops.get(item.id);
       if (drop !== undefined) cards.drop.push(card(item, places, image, drop));
     }
+    const nameOf = new Map(local.map((p) => [poiRefSubject(p.place.ref), p.place.name]));
+    const byId = new Map(items.map((item) => [item.id, item]));
+    const concerns = (change: LiveChange) =>
+      [...change.was, ...change.now].some((subject) => nameOf.has(subject));
+    const liveSection = async (title: string, changes: readonly LiveChange[]) => {
+      const here = changes.filter(concerns);
+      const cardsOf: string[] = [];
+      for (const change of here) {
+        const bytes = previews.get(change.id);
+        const image = bytes === undefined ? null : await thumbnail(bytes);
+        cardsOf.push(changeCard(change, byId.get(change.id), nameOf, image));
+      }
+      return `<h2>${String(here.length)} live photos ${title}</h2><div class="grid">${cardsOf.join('\n')}</div>`;
+    };
+    const liveChanges = `${await liveSection('removed', removed)}\n${await liveSection('changed', changed)}`;
     const none = new Map<string, string[]>();
     for (const p of local.filter((l) => l.outcome === 'none')) {
       none.set(p.place.category, [...(none.get(p.place.category) ?? []), p.place.name]);
@@ -146,7 +186,8 @@ export async function renderPlacePages(
 <div class="sum">Batch ${escape(batchKey)} · ${String(local.length)} curated places<table>
 <tr><td>The place itself (Wikimedia Commons)</td><td>${String(count('own'))} places, ${String(cards.own.length)} photos</td></tr>
 <tr><td>Generic, labelled “Not this place” (Pexels, Pixabay)</td><td>${String(count('generic'))} places, ${String(cards.generic.length)} photos</td></tr>
-<tr><td>No photo (the category doodle)</td><td>${String(count('none'))} places</td></tr></table></div>
+<tr><td>No photo (the category doodle)</td><td>${String(count('none'))} places</td></tr>
+<tr><td>Live photos removed / changed</td><td>${String(removed.filter(concerns).length)} / ${String(changed.filter(concerns).length)}</td></tr></table></div>
 ${thinner}${
       cards.drop.length === 0
         ? ''
@@ -155,6 +196,7 @@ ${thinner}${
 <h2>The place itself</h2><div class="grid">${cards.own.join('\n')}</div>
 <h2>Generic, labelled “Not this place”</h2><div class="grid">${cards.generic.join('\n')}</div>
 <h2>No photo</h2><div class="sum">${noneRows}</div>
+${liveChanges}
 </body></html>`;
     const file = `places-${destination}.html`;
     writeFileSync(path.join(outDir, file), html);

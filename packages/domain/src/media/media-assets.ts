@@ -35,7 +35,11 @@ export const mediaCandidateSchema = z
     download_url: httpsUrl,
     /** What the reviewer looks at: a small still (a video's thumbnail). */
     preview_url: httpsUrl,
-    subjects: z.array(mediaSubjectKeySchema).min(1).max(20),
+    /**
+     * What the asset shows. Empty only in a batch, on an item that is live: re-stated with no
+     * subjects, it takes the live asset down when the batch is approved.
+     */
+    subjects: z.array(mediaSubjectKeySchema).max(20),
     rank: z.number().int().min(0).max(99),
     title: z.string().max(300).nullable(),
     author: z.string().min(1).max(200),
