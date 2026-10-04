@@ -268,7 +268,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-23-crew-new
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Hoi Da Lat 2'
+- inputText: 'Hoi Da Lat 3'
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-24-crew-name-typed
 - tapOn:
@@ -674,7 +674,9 @@ appId: app.critterpass.dev
               id: 'draft-review'
           commands:
             - tapOn:
-                point: 50%,45%
+                id: 'plan-day-row-.*'
+                index: 0
+                optional: true
             - waitForAnimationToEnd:
                 timeout: 5000
             - takeScreenshot: setup-draft-63-day-${output.day}-e-stop-tapped
@@ -923,14 +925,15 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-88-last-free-redraft-question
-- repeat:
-    while:
-      notVisible:
-        id: 'draft-review'
-    times: 4
-    commands:
-      - back
-      - waitForAnimationToEnd
+- tapOn:
+    id: 'last-redraft-close'
+    optional: true
+- extendedWaitUntil:
+    notVisible:
+      id: 'last-redraft-use'
+    timeout: 8000
+    optional: true
+- waitForAnimationToEnd
 - takeScreenshot: setup-draft-89-draft-after-backing-out
 
 # Earlier drafts, and the way back to Home with the plan still private.
