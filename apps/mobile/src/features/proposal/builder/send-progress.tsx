@@ -7,7 +7,7 @@ import type { ProposalFormat } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
@@ -55,7 +55,7 @@ export interface SendProgressProps {
 export function SendProgress(props: SendProgressProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const byUid = new Map(props.versions.map((v) => [v.recipientId, v]));
   const done = props.versions.filter((v) => v.status !== 'pending').length;
   return (

@@ -11,7 +11,7 @@ import { tagWords } from '@/features/onboarding';
 import { FormSticker } from '@/features/critters';
 import { regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { CountUp } from '@/ui/data/CountUp';
 import { Stamp } from '@/ui/documents/Stamp';
 import { Row } from '@/ui/layout/Row';
@@ -100,7 +100,7 @@ export function ProfileFace({
     );
   }
   if (avatar.kind === 'guide') {
-    const guide = GUIDE_STICKERS[avatar.guide];
+    const guide = guideSticker(avatar.guide);
     return (
       <View
         style={[

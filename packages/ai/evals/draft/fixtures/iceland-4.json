@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "656538e1-b166-491b-9361-0a486c2595b1",
+        "id": "d2793953-bee5-418c-a92e-933f36e01731",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Miðborg and Vesturbær, Reykjavik\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Harbour light and local colour\",\n      \"area\": \"Miðborg and harbour\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p2\", \"p12\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"History, whales and a viewpoint\",\n      \"area\": \"Háaleiti and Grandi\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"A quiet Reykjavik farewell\",\n      \"area\": \"Miðborg\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p14\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Harbour light and local life\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p2\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Museums and city views\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p13\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Easy morning by the sea\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 75,
+          "input_tokens": 84,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 211,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 192,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "7174c450-55e3-44e6-ac2b-b1f703bee6ca",
+        "id": "85a78baa-d2fc-421f-94be-c1dc546a04da",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander down Laugavegur to say your goodbyes to the city.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down the main shopping street, full of local colour and window displays.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The glass dome over the city, with a sweeping view from the viewing deck.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 405,
+          "input_tokens": 305,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 68,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 116,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "3d5ce898-0b6c-4908-b289-353d03d635e1",
+        "id": "f03ee219-4514-4ad5-86fe-ca63590e72f9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Harpa's glass honeycomb catches the harbour light beautifully, and it's free to wander.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Sun Voyager dreams of distant shores, a perfect photo stop by the water.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kolaportið is where locals rummage for treasures and a true taste of weekend life.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Glo keeps things fresh and green, a thrifty and tasty way to end the day.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The glass honeycomb glows with harbour light, and the views from the upper floors are pure Reykjavik.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"A steel boat dreaming of flight by the water, best seen with the low sun on its back.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that make vegetables feel like a celebration, not a compromise.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper rummage through Icelandic oddities, woolly jumpers and old vinyl, all under one roof.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 74,
+          "input_tokens": 485,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 230,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 234,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "3de23880-b0bd-45b6-a9af-2cb4378790f3",
+        "id": "7fa01c4b-daa1-47ec-9c09-bbfe512b1ad2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"A deep dive into Iceland's story, from sagas to modern times.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Life-size whales indoors, perfect for a close look at the giants.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A hearty lunch stop with local flavours to keep the crew going.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big church with a view that makes Reykjavik feel like a toy town.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A glass dome with a sweeping view and a bit of ice-age wonder inside.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A fancy dinner to end the day, with plenty for the vegetarians too.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Wander through Iceland's story, from settlement sagas to modern times.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a pastry and a warm drink in this bustling bakery.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Stand beneath life-sized whales and feel wonderfully small.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stroll out to the little lighthouse where the shore meets the sea.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Try the rye bread ice cream; it is oddly brilliant.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 512,
+          "input_tokens": 502,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 320,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 306,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "8dfadd76-09e3-4719-83a4-27905bdeaa81",
+        "id": "99c52934-eafa-4dfe-87f0-caecde4d593c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Harbour glow, whale tales and a gentle goodbye — every must-do snug in the bag, my friend."
+            "text": "A gentle harbour-to-hillside wander, with a lazy sea-morning to finish — all your must-dos tucked in, bless them."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 228,
+          "input_tokens": 224,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 23,
+          "output_tokens": 29,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "913775bf-e69f-4740-9727-481b3fbbe048",
+        "id": "fae39b91-b1e0-4850-8c99-ac5aaa1fee5a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Cheaper Day in Bali\",\n  \"summary\": \"We keep the rice terraces, then mix free stops and a low-priced warung so the day is gentler on the wallet while still feeling like Bali.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces stay, of course. The sun won’t wait, and neither should we.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free slice of Ubud history, and it fits neatly before lunch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at a warung that keeps vegetarians happy and prices low. Terima kasih (thank you (Indonesian)) for that.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander for local colour and photo spots, without the monkey business price tag.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free beach time to stretch the afternoon and let the night owls ease into the evening.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at the warung because it is cheap, cheerful, and everyone can eat well.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter, Cheaper Ubud Day\",\n  \"summary\": \"We keep the rice terraces, then spend a free and easy day around Ubud with a vegan lunch and a relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces, the one must-do we keep.\",\n      \"note\": \"Rise and shine for the terraces, the one must-do we keep.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays vegan-friendly at Alchemy, terima kasih (thank you) for making it easy.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free ridge walk keeps the wallet happy and the legs moving.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ubud Palace costs nothing and gives us a little history before dinner.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays vegetarian-friendly, a calm end to a cheaper day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 683,
+          "input_tokens": 86,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 446,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 333,
           "service_tier": "standard"
         }
       }

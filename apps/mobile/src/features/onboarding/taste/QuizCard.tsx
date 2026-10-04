@@ -13,7 +13,7 @@ import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useMotionMode } from '@/motion/motion-mode';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -128,7 +128,7 @@ export function QuizCard({
   });
 
   const colour = top ? theme.color.yellow : theme.color.blue;
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   const label = upper(content.label, locale);
   const art = cardArt(question.id, side);
   const sticker = (

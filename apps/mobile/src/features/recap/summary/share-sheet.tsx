@@ -5,7 +5,7 @@
 import type { DistanceUnit } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
 
@@ -33,7 +33,7 @@ export function RecapShareSheet({ model, guide, unit, onClose }: RecapShareSheet
       render={(format) =>
         renderRecapCard(
           {
-            guideKind: GUIDE_STICKERS[guide].kind,
+            guideKind: guideSticker(guide).kind,
             title,
             eyebrow,
             tiles: model.tiles.map((tile) => tileCopy(tile, locale, unit)),

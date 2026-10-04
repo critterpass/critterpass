@@ -14,7 +14,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';
@@ -86,7 +86,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   if (trip === undefined || proposal === undefined || config === null || !stays.loaded) {
     return <ProposalLoading testID="build-loading" />;
   }
-  const guideName = trip === null ? '' : GUIDE_STICKERS[trip.guide].name;
+  const guideName = trip === null ? '' : guideSticker(trip.guide).name;
   const outId =
     sentId ?? (proposal !== null && proposal.status !== 'building' ? proposal.id : null);
   if (trip !== null && outId !== null) {

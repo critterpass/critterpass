@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -35,7 +35,7 @@ export function ChatStart({
 }) {
   const styles = useStyles();
   const theme = useTheme();
-  const sticker = GUIDE_STICKERS[guideIdOf(guideSlug)];
+  const sticker = guideSticker(guideIdOf(guideSlug));
   const crew = crewName ?? '';
   return (
     <View style={styles.start} testID="chat-start">

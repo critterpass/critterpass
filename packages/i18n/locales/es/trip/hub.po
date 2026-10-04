@@ -29,7 +29,7 @@ msgid "trip.hub.tile.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.guestGuide"
+msgid "trip.hub.learningGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx

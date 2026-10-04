@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "6b58586b-90c7-433d-a4a7-b30a43af912f",
+        "id": "00adc19a-36f9-4c8d-af09-7cccc5ce660b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty, Easy Mexico City Day\",\n  \"summary\": \"We trade the old stones for market snacks, a leafy stroll, and a proper vegan feast, all at a gentler pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the castle for its sweeping views and history, but now we have room to breathe before lunch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop adds the street-food soul Tom asked for, with plenty of vegetarian bites to graze on.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is a proper vegan taquería, because every meal must suit the crew and this one does it with flavour.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow Roma Norte walk lets the food settle and gives the photo lovers their quiet street scenes.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Market bites and castle views\",\n  \"summary\": \"A slower, food-filled day wandering from the San Juan market to Chapultepec, with a proper vegetarian lunch and an easy evening.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start by grazing the market stalls, because the crew asked for more food and this is the tastiest way to wake up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle climb to the castle for history and a view, kept because it feeds both the culture lovers and the photographers.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Lalo! gives everyone a proper vegetarian meal without the fuss of a long tasting menu.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy stroll through the park after lunch keeps the day slow and lets the food settle.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 726,
+          "input_tokens": 2,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
+          "cache_read_input_tokens": 1408,
           "output_tokens": 318,
           "service_tier": "standard"
         }

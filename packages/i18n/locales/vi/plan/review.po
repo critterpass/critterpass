@@ -63,6 +63,14 @@ msgstr "{first},\n"
 msgid "plan.review.forYou"
 msgstr "{forYou, plural, other {# CHO BẠN}}"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explain"
+msgstr "{guideName} không bao giờ dời điểm dừng vì một ý tưởng. Dời {stop} trong lịch ngày, rồi thêm vào."
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explainPlain"
+msgstr "{guideName} không bao giờ dời điểm dừng vì một ý tưởng. Dời một điểm trong lịch ngày, rồi thêm vào."
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.guideDays"
 msgstr "{guideName} đã sắp xếp lại {days}."
@@ -386,14 +394,6 @@ msgstr "Thay đổi này dời một chỗ đặt, nên người tổ chức s�
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.warn.mustDo"
 msgstr "Thay đổi này đụng tới điểm nhất định ghé của một người. Hỏi họ trước khi áp dụng nhé."
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explain"
-msgstr "Tokek không bao giờ dời điểm dừng vì một ý tưởng. Dời {stop} trong lịch ngày, rồi thêm vào."
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explainPlain"
-msgstr "Tokek không bao giờ dời điểm dừng vì một ý tưởng. Dời một điểm trong lịch ngày, rồi thêm vào."
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.voting"

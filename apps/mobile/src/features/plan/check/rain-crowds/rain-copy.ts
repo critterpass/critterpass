@@ -32,8 +32,9 @@ export function sourceLine(input: {
   readonly month: string;
   readonly rain: 'forecast' | 'normals' | null;
   readonly crowds: 'visits' | 'editorial' | null;
+  readonly guideName: string;
 }): string {
-  const { month } = input;
+  const { month, guideName } = input;
   const crowds =
     input.crowds === 'visits'
       ? t({
@@ -52,7 +53,7 @@ export function sourceLine(input: {
       : input.rain === 'normals'
         ? t({
             id: 'plan.check.rain.sourceNormals',
-            message: `Rain is ${month}’s usual shower; Tokek checks the real forecast three days out.`,
+            message: `Rain is ${month}’s usual shower; ${guideName} checks the real forecast three days out.`,
           })
         : '';
   return [crowds, rain].filter((part) => part !== '').join(' ');
@@ -106,6 +107,8 @@ export function reasonLine(
 }
 
 export function allSwapsLabel(count: number, organiser: boolean): string {
+  // Every swap unticked: the button keeps the day, it does not "use all 0".
+  if (count === 0) return t({ id: 'plan.check.rain.keepDay', message: 'KEEP THE DAY AS IT IS' });
   return organiser
     ? t({
         id: 'plan.check.rain.useAll',

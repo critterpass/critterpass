@@ -19,9 +19,10 @@ import Animated, {
 import { useMotionMode } from '@/motion/motion-mode';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { PlanGuideSticker } from '../../plan-guide';
 
 export const MAP_HEIGHT = 340;
 const PIN = 28;
@@ -98,7 +99,7 @@ function HoppingGuide({ reduced }: { readonly reduced: boolean }) {
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: hop.value }] }));
   return (
     <Animated.View style={style}>
-      <Sticker kind="gecko" name="Tokek" size={72} />
+      <PlanGuideSticker size={72} />
     </Animated.View>
   );
 }

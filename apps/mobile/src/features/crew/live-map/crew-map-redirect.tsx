@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -37,7 +37,7 @@ export function CrewMapRedirect() {
   if (trip === undefined)
     return <View style={{ flex: 1, backgroundColor: theme.color.map.base }} />;
   if (trip !== null) return <Redirect href={`/map/${trip}?from=chat`} />;
-  const guide = GUIDE_STICKERS.tokek;
+  const guide = guideSticker('tokek');
   return (
     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.semantic.bg.base }}>
       <EmptyState

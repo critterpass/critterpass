@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -104,7 +104,7 @@ export function VendorThreadsEmpty({
   readonly guide: { readonly id: GuideId; readonly name: string };
 }) {
   const { t } = useLingui();
-  const sticker = GUIDE_STICKERS[guide.id];
+  const sticker = guideSticker(guide.id);
   return (
     <View testID="vendor-threads-empty">
       <EmptyState

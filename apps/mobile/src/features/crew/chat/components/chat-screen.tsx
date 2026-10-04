@@ -10,10 +10,11 @@ import { View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { KeyboardFooter, useTheme } from '@/ui';
+import { KeyboardFooter } from '@/ui';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
+import { guideColour } from '@/ui/avatar/guides';
 
 import type { ChatMessage } from '../data/rows';
 import { useChatInfo } from '../data/use-chat-info';
@@ -59,7 +60,6 @@ export function ChatScreen() {
 
 export function CrewChat({ crewId }: { readonly crewId: string }) {
   const styles = useStyles();
-  const theme = useTheme();
   const me = useMyUid();
   const info = useChatInfo(crewId, me);
   const timeline = useMessages(crewId, me);
@@ -91,7 +91,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const typing = useChatTyping(crewId, namesByUid);
   const former = info.myStatus === 'former';
   const guideName = info.guide?.name ?? null;
-  const guideColor = info.guide?.colour ?? theme.guide[guideIdOf(info.guide?.slug)];
+  const guideColor = info.guide?.colour ?? guideColour(guideIdOf(info.guide?.slug));
   const candidates = useMemo<MentionCandidate[]>(
     () => [
       ...(info.guide === null

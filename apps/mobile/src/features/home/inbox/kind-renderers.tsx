@@ -11,7 +11,7 @@ import { IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import type { CardTone } from '@/ui/cards/tone';
 import type { DoodleName } from '@/ui/icons/generated';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { guideOr } from '../format';
 import type { InboxItem } from './inbox-data';
@@ -51,7 +51,7 @@ const say = (ctx: InboxRenderContext, descriptor: MessageDescriptor): string =>
   ctx.i18n._(descriptor);
 
 function guideName(item: InboxItem): string {
-  return GUIDE_STICKERS[guideOr(text(item.data['guide']))].name;
+  return guideSticker(guideOr(text(item.data['guide']))).name;
 }
 
 const FALLBACK: InboxRenderer = {

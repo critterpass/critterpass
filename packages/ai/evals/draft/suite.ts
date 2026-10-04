@@ -1,8 +1,8 @@
 /**
- * The `draft` eval suite (`pnpm --filter @cp/ai eval draft`): 30 golden crews across the six guide
- * cities, 20 redraft requests and 10 injection cases (planted instructions in must-do wishes,
- * redraft notes and crew chat) run through the real drafting pipeline and graded by
- * ./asserts/draft-asserts.ts. The pass rate must meet the threshold (every case, after repair),
+ * The `draft` eval suite (`pnpm --filter @cp/ai eval draft`): the golden crews (the six guide
+ * cities, and real place sets of Đà Lạt, Đà Nẵng and Bali), the redraft requests and the injection
+ * cases (planted instructions in must-do wishes, redraft notes and crew chat) run through the real
+ * drafting pipeline and graded by ./asserts/draft-asserts.ts and ./asserts/day-shape-asserts.ts. The pass rate must meet the threshold (every case, after repair),
  * and the share of drafts the validator passes on the first try must reach `first_pass_min`.
  *
  * Replay serves each case's recorded DeepSeek responses (`fixtures/<case>.json`, one per call key)
@@ -21,6 +21,7 @@ import { templateSummary, writeDraftSummary } from '../../src/prompts/draft/summ
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
 import { jsonResponse } from '../lib/transports';
+import { gradeFullDays, gradeMustDos, gradeRedraftReasons } from './asserts/day-shape-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import {
   baselineItinerary,
@@ -28,6 +29,7 @@ import {
   INJECTION_DRAFTS,
   planInput,
   REDRAFTS,
+  mustDoId,
   wishId,
   type CrewCase,
   type RedraftCase,
@@ -164,6 +166,10 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           // Graded on the input the days were planned on (the guide's wish answers applied).
           ...gradeDraft(result.input, result, { text, fromModel }),
           ...gradeWishes(result.input, result, crew.expect_wishes, (i) => wishId(crew, i)),
+          ...gradeMustDos(result.input, result.itinerary, crew.expect_must_dos, (i) =>
+            mustDoId(crew, i),
+          ),
+          ...(crew.expect_full_days ? gradeFullDays(result.input, result) : []),
         ],
         `${output} || ${text}`,
       ),
@@ -204,7 +210,14 @@ async function redraftCase(
     save();
     const output = `${outcome.title ?? '?'}: ${outcome.day.items.map((i) => input.pois.get(i.poi_id ?? '')?.name ?? i.poi_id).join(' → ')} | ${outcome.summary ?? ''}`;
     return {
-      report: report(redraft.id, gradeRedraft(input, base, redraft.day, outcome), output),
+      report: report(
+        redraft.id,
+        [
+          ...gradeRedraft(input, base, redraft.day, outcome),
+          ...gradeRedraftReasons(input, base, redraft.day, redraft.reasons, outcome),
+        ],
+        output,
+      ),
       firstPassClean: null,
     };
   } catch (error) {

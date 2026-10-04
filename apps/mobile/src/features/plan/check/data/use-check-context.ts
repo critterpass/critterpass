@@ -17,6 +17,20 @@ import type { IssueContext } from '../issue-copy';
 const BOOKINGS_SQL = `SELECT id, title FROM bookings WHERE trip_id = ? AND deleted_at IS NULL`;
 const BOOKINGS_TABLES = ['bookings'];
 
+/** The local `YYYY-MM-DD` of an instant in the trip's zone; null when the instant is not one. */
+export function localDate(instant: string, tz: string): string | null {
+  const at = new Date(instant);
+  if (Number.isNaN(at.getTime())) return null;
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: tz,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(at);
+  const part = (type: string) => parts.find((entry) => entry.type === type)?.value ?? '';
+  return `${part('year')}-${part('month')}-${part('day')}`;
+}
+
 export function useCheckContext(plan: TripPlan): IssueContext {
   const locale = useLocale();
   const tripId = plan.trip?.id ?? null;
@@ -65,7 +79,8 @@ export function useCheckContext(plan: TripPlan): IssueContext {
         ),
       weekday: weekdayName,
       clock: (instant, dayId) => {
-        const date = dayDate(dayId);
+        // A day this plan no longer has (an issue from the version before): the instant's own day.
+        const date = dayDate(dayId) ?? localDate(instant, tz);
         return date === null ? '' : clockAt(instant, tz, date);
       },
     }),

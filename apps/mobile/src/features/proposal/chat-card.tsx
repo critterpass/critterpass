@@ -17,7 +17,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { ActionCard } from '@/ui/cards/ActionCard';
 import { Skeleton } from '@/ui/states/Skeleton';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { useProposal } from './data/proposal';
@@ -66,7 +66,7 @@ export function ProposalMessageCard({ message }: ChatCardProps) {
         : answered !== null
           ? turnCopy(answered, {
               locale,
-              guide: GUIDE_STICKERS[trip.guide].name,
+              guide: guideSticker(trip.guide).name,
               organiser: trip.people.find((person) => person.organiser)?.name ?? '',
             }).line
           : t({ id: 'proposal.card.memberReady', message: 'Your version is ready. Are you in?' }),

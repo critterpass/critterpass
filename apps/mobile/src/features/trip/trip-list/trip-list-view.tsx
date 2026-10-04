@@ -4,7 +4,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
@@ -18,7 +18,7 @@ import { useTheme } from '@/ui/theme';
 
 import { TripRow, type TripListRow } from './trip-row';
 
-const TOKEK = GUIDE_STICKERS.tokek;
+const TOKEK = guideSticker('tokek');
 const EMPTY_STICKER = 180;
 
 export interface TripListViewProps {

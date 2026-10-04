@@ -169,10 +169,6 @@ msgid "setup.rooms.noStaysLine"
 msgstr "Đặt chỗ ở xong, {guide} sẽ chia phòng. Tạm thời mọi người chia đều."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.noStaysTitle"
-msgstr "Phòng đi kèm chỗ ở"
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.evenSplit"
 msgstr "Cả nhóm một phòng nên chia đều. Bạn có thể bỏ qua bước này."
 
@@ -191,6 +187,10 @@ msgstr "Phòng {n}"
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.noDates"
 msgstr "Chốt ngày xong mới chia phòng, để số đêm khớp."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysTitle"
+msgstr "Phòng đi kèm chỗ ở"
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.ryokan"

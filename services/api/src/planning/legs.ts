@@ -1,12 +1,15 @@
 /**
  * Stored legs on the api: plan edits, change sets and stay bookings are written in api
  * transactions, so the api queues `plan.legs` for the trip in the same transaction (the worker
- * runs it and registers the same hook for its own writes). One debounced run per trip.
+ * runs it and registers the same hook for its own writes). One debounced run per trip. In the same
+ * transaction the legs of unchanged pairs and the check's findings on untouched days are carried
+ * to the new version, so only what the edit changed waits for the jobs.
  */
 import { onEventAppended, sendInTx } from '@cp/db';
 import { legsJobFor } from '@cp/domain';
 import type pg from 'pg';
 
+import { carryPlanForward } from '../commands/checks/carry-forward';
 import type { PlanningModule } from './register';
 
 /** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
@@ -15,7 +18,9 @@ export async function legsEventHook(
   event: { readonly type: string; readonly tripId: string | null },
 ): Promise<void> {
   const request = legsJobFor(event);
-  if (request === null) return;
+  if (request === null || event.tripId === null) return;
+  // Before the job is queued: what the plan already knew moves to the version it has now.
+  await carryPlanForward(tx, event.tripId);
   const { rows } = await tx.query<{ version_id: string | null }>(
     `SELECT coalesce(t.current_version_id,
                      (SELECT v.id FROM itinerary_versions v

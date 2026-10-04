@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cbf07d85-cbe2-49ee-841c-8e3de9e5f2dc",
+        "id": "dd40df50-5b5f-4533-81db-166bf5fa34b7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stay_area\":\"Ubud\",\"days\":[{\"day_no\":1,\"theme\":\"Ubud culture and market\",\"area\":\"Ubud\",\"must_do_ids\":[\"m1\",\"m2\"],\"poi_ids\":[\"p9\",\"p6\",\"p12\",\"p7\"]},{\"day_no\":2,\"theme\":\"Morning rice terrace farewell\",\"area\":\"Tegallalang\",\"must_do_ids\":[],\"poi_ids\":[\"p3\",\"p10\"]}]}"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Culture and Market\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud Nature and Temples\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p10\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 74,
+          "input_tokens": 27,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 99,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 144,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d7f7ca84-1024-4b5e-a1f9-d59d9f18576d",
+        "id": "22665fc1-a1f6-4863-87e0-73b69e6f17a5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The sun won’t wait, and neither should you — one last wander through those green steps before the airport calls.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys with more swagger than a temple guard, so hold onto your shades.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A cave carved with old stories and a bath that has seen centuries of secrets.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long way for lunch, but the crew flies home full and happy.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 708,
+          "input_tokens": 424,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 73,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 117,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4aee740c-8263-41e8-8630-a7b9fa347489",
+        "id": "ebced7ce-e9c6-4043-ad18-6cc6c8fba280",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine, the market's calling.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Palace first, then we hunt for treasures.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A green stop to keep the crew glowing.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Haggle for batik, carvings and a little chaos under one roof.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Royal courtyards with carved doors and a very relaxed guard gecko.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus pond out front, water temple calm behind the cafe buzz.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny plates, big flavours, and nasi campur worth fighting over.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 731,
+          "input_tokens": 556,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 152,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 219,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "193f6626-2628-4793-bb5b-cfd7ba3cdb22",
+        "id": "3703d27f-ccb3-4957-a176-bf37cc5c8995",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Culture, market, and a rice-terrace goodbye — every must-do's in, so the sun won't wait."
+            "text": "Culture first, then nature and temples — every must-do made it in, terima kasih (thank you)!"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 185,
+          "input_tokens": 184,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 23,
           "service_tier": "standard"
         }
       }

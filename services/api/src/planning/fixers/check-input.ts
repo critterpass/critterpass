@@ -20,6 +20,7 @@ import {
   tripFitFacts,
   type LoadedContext,
   type StaySource,
+  type TravelSource,
   type TripFitFacts,
 } from '../fit/context';
 import { readFitPlaces } from '../fit/signals/visit';
@@ -27,6 +28,8 @@ import { readFitPlaces } from '../fit/signals/visit';
 export interface FixerDeps {
   readonly stays: StaySource;
   readonly now: () => Date;
+  /** Planning travel for the pairs a fix creates (`road-timed.ts`); absent = guesses only. */
+  readonly travel?: (driveFactor: number, walkMaxM: number) => TravelSource;
 }
 
 export interface LoadedCheckInput {

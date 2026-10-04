@@ -21,7 +21,7 @@ import { feedback } from '@/motion/feedback';
 import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useMotionMode } from '@/motion/motion-mode';
 import { sheenCycle } from '@/motion/patterns/sheen';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -87,7 +87,7 @@ export function SplashScreen() {
   }, [focused]);
   const [stage, setStage] = useState<Frame | null>(null);
   const [bodyWidth, setBodyWidth] = useState(0);
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   // The first launch opens on the hatch; the floaters slap on as it fades.
   const [hatching, setHatching] = useState(firstHatchPending);
 

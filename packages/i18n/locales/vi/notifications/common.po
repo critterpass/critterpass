@@ -35,12 +35,12 @@ msgstr "{count, plural, other {# điểm dừng đã sẵn sàng để bạn xem
 msgid "notifications.quests.ready.body"
 msgstr "Có {count} nhiệm vụ cho {place}."
 
-#: ../domain/src/planning/templates.ts
-msgid "notifications.check.ask_member.title"
-msgstr "{crew}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
+msgstr "{crew}"
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
 msgstr "{crew}"
 
 #: ../domain/src/money/templates.ts

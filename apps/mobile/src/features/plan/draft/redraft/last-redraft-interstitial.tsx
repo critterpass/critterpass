@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -61,7 +61,7 @@ export function LastRedraftView(props: LastRedraftViewProps) {
   const theme = useTheme();
   const wiggle = useLoop('wiggle');
   const pulse = useLoop('pulse');
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const destination = props.destination;
   const n = props.n;
   const limit = props.limit;
@@ -122,7 +122,7 @@ export function LastRedraftView(props: LastRedraftViewProps) {
           )}
         </View>
         <View style={styles.voice}>
-          <Text variant="voice" color={theme.guide[props.guide]}>
+          <Text variant="voice" color={guideColour(props.guide)}>
             {props.onBoost === undefined
               ? t({
                   id: 'planDraft.last.lineNoBoost',

@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import { Pressable, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -51,7 +51,7 @@ export function SuggestionsView(props: {
   const theme = useTheme();
   const { rows, guide } = props;
   if (rows.length === 0) return null;
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const ink = theme.semantic.text.onAccent;
   return (
     <View style={styles.card} testID="tracker-suggestions">

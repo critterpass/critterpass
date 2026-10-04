@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { BAR_GROW_STAGGER_MS } from '@/motion/patterns/bar-grow';
 import { staggerDelayMs, useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Toggle } from '@/ui/inputs/Toggle';
@@ -94,7 +94,7 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
   const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   const count = props.rows.length;
   const payer = props.payerName;
   // A long bill scrolls its lines; who pays and SPLIT IT stay on screen under them.

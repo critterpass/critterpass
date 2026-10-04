@@ -11,7 +11,7 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
@@ -105,7 +105,7 @@ function answeredLine(answer: 'in' | 'out' | 'waitlisted'): string {
 export function YourVersionView(props: YourVersionViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const name = props.name;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-version">

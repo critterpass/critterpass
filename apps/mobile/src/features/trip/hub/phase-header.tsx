@@ -63,7 +63,7 @@ export interface PhaseHeaderProps {
   readonly crewSize?: number | undefined;
   /** Another trip to go to: the SWITCH TRIP pill. */
   readonly onSwitch: (() => void) | null;
-  /** The guide is a guest at this destination: says so under the destination. */
+  /** The destination has no checked picks yet: the guide says so under the destination. */
   readonly guestGuideName: string | null;
 }
 
@@ -265,7 +265,10 @@ export function PhaseHeader(props: PhaseHeaderProps) {
       {guideName === null ? null : (
         <View style={styles.below}>
           <InfoPill>
-            {t({ id: 'trip.hub.guestGuide', message: `${guideName} is a guest here` })}
+            {t({
+              id: 'trip.hub.learningGuide',
+              message: `${guideName} is still learning · picks unchecked`,
+            })}
           </InfoPill>
         </View>
       )}

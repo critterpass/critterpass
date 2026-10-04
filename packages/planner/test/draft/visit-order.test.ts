@@ -27,9 +27,10 @@ describe('visitOrder', () => {
   });
 
   it('moves a place that would close before its visit ends, changing as little as it can', () => {
-    // Pontocho opens at 17:00 and Kinkaku-ji shuts then: one swap puts the temple first.
+    // Pontocho opens at 17:00 and Kinkaku-ji shuts then: the temple goes first, and the alley
+    // last, so nobody waits for it to open with the walk still to do.
     const choices = [pick(P.pontocho.id), pick(P.kinkakuji.id), pick(P.gion.id)];
-    expect(order(choices)).toEqual([1, 0, 2]);
+    expect(order(choices)).toEqual([1, 2, 0]);
   });
 
   it('puts a lunch-only meal at lunch and the dinner place in the evening', () => {

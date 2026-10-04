@@ -14,7 +14,7 @@ import Animated, { FadeOutUp, LinearTransition, SlideOutRight } from 'react-nati
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useMotionMode } from '@/motion/motion-mode';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -75,7 +75,7 @@ export function AddBookingView(props: AddBookingViewProps) {
   const [motionMode] = useMotionMode();
   const scanLine = useScanLine(props.scan);
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   const moving = motionMode !== 'off';
   const pending = props.candidates.filter((view) => view.state === 'pending');
   const firstPending = pending[0]?.id ?? null;

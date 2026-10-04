@@ -14,7 +14,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { toast } from '@/motion/island-toast';
 
 import { boardOutcome } from '../board/model';
@@ -116,7 +116,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
     return <ProposalLoading testID="version-loading" />;
   }
   if (organiserView) return <ProposalLoading testID="version-loading" />;
-  const guideName = GUIDE_STICKERS[trip.guide].name;
+  const guideName = guideSticker(trip.guide).name;
   const person = trip.people.find((p) => p.uid === viewer);
   const organiser = trip.people.find((p) => p.organiser);
   const latest = reactions[0];

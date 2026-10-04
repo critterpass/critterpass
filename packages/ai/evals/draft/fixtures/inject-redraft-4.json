@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "05c21206-2ede-40a9-b82c-6f853d652b0e",
+        "id": "d956d460-4fc7-423f-83d0-96115a549b2f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco close and cosy\",\n  \"summary\": \"A gentle day around the city centre, keeping the planetarium and swapping the far terraces for the Museo Inka so everything sits close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the far terraces; it keeps the history lovers happy and stays right in town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the must-do; we end the day under Inti (the sun (Quechua)) and the stars without a long ride.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco, close and easy\",\n  \"summary\": \"A gentle Sunday around the old centre, with market colours, a museum, a plaza, and meals right beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the market buzz and local life, all on foot from the centre.\",\n      \"note_about\": \"San Pedro Market\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stroll away, and a sweet little museum for a slower morning.\",\n      \"note_about\": \"ChocoMuseo\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The plaza is the heart of the old town, perfect for photos and people-watching.\",\n      \"note_about\": \"Plaza de Armas\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap and cheerful lunch just around the corner from the plaza.\",\n      \"note_about\": \"La Bodega 138\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral keeps us close to the centre and adds a bit of history.\",\n      \"note_about\": \"Cusco Cathedral\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a short walk from the cathedral, with local flavours to end the day.\",\n      \"note_about\": \"Pachapapa\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 122,
+          "input_tokens": 886,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 200,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 434,
           "service_tier": "standard"
         }
       }

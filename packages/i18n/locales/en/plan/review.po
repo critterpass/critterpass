@@ -63,6 +63,14 @@ msgstr "{first},\n"
 msgid "plan.review.forYou"
 msgstr "{forYou, plural, one {# FOR YOU} other {# FOR YOU}}"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explain"
+msgstr "{guideName} never moves a stop for an idea. Move {stop} on the day plan, then add it."
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explainPlain"
+msgstr "{guideName} never moves a stop for an idea. Move one on the day plan, then add it."
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.guideDays"
 msgstr "{guideName} rearranged {days}."
@@ -386,14 +394,6 @@ msgstr "This moves a booking, so the organiser confirms it with the supplier."
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.warn.mustDo"
 msgstr "This touches someone’s must-do. Check it with them before it goes in."
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explain"
-msgstr "Tokek never moves a stop for an idea. Move {stop} on the day plan, then add it."
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explainPlain"
-msgstr "Tokek never moves a stop for an idea. Move one on the day plan, then add it."
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.voting"

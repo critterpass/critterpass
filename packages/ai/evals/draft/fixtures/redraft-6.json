@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "bdea7a86-5f7f-403a-83f2-94ccfc193e5f",
+        "id": "1444189a-9267-4061-ac2d-dacdf8c74afe",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Surprising Ubud\",\n  \"summary\": \"Monkeys, markets, and a palace twist with a proper feed in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-do, and the monkeys always bring the unexpected. Rise and shine, early birds.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little local life and shopping to keep things lively before lunch.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a free palace stop nobody saw coming. I know a guy.\",\n      \"start\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple to wind down after the palace. The sun won't wait.\",\n      \"start\": \"15:00\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Ubud Day With a Hidden Temple\",\n  \"summary\": \"A gentle Ubud day that keeps the monkey forest and market, then slips in a lotus temple the crew would not expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Rise and shine, the monkeys are already awake and they do not care about your coffee.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slower browse after the forest, with plenty of shade and a little local life.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus pond temple tucked behind the main street. I know a guy who swears it is the quietest corner in Ubud.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 109,
+          "input_tokens": 59,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 288,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 238,
           "service_tier": "standard"
         }
       }

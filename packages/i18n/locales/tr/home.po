@@ -77,6 +77,10 @@ msgstr ""
 msgid "home.inbox.tip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr ""
@@ -147,6 +151,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereOwnGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/explore-row.tsx
@@ -383,10 +391,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.inTrip.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
