@@ -4,7 +4,8 @@
  * messaging service (modules/cp-notifications) already decoded. Either way the push's `deeplink`
  * (`/crew/<id>/chat`, or a full `critterpass://` / https link) goes through the deep-link router,
  * so gating (onboarding, membership) is the same as for any other link. A push without a link
- * opens the inbox.
+ * opens the inbox. The leave-by alarm is the one exception: its tap opens GO, the route from here
+ * to that trip's next stop.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: routes and URL schemes. */
 import { routeIncomingUrl } from '@/lib/links/router';
@@ -95,11 +96,24 @@ export function tapUrl(deeplink: string | null): string | null {
 
 export type RouteUrl = (url: string) => Promise<string>;
 
+const LEAVE_BY_ALARM = 'leave_by_alarm';
+/** The leave-by push links the day it is on: `/hub/<trip id>/day/<date>`. */
+const DAY_LINK = /^\/hub\/([0-9a-f-]{36})\/day\/\d{4}-\d{2}-\d{2}$/iu;
+
+/** GO for the trip's next leave-by (the `/go` route's `trip` + `leaveBy=next`), from its push. */
+export function leaveByGoRoute(tap: PushTap): string | null {
+  if (tap.type !== LEAVE_BY_ALARM) return null;
+  const tripId = DAY_LINK.exec(tap.deeplink?.trim() ?? '')?.[1];
+  return tripId === undefined ? null : `/go?trip=${tripId}&leaveBy=next`;
+}
+
 /** The in-app href a tap opens. */
 export async function routeForTap(
   tap: PushTap,
   route: RouteUrl = routeIncomingUrl,
 ): Promise<string> {
+  const go = leaveByGoRoute(tap);
+  if (go !== null) return go;
   const url = tapUrl(tap.deeplink);
   if (url === null) return TAP_FALLBACK_ROUTE;
   try {

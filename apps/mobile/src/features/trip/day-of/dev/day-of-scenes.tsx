@@ -33,7 +33,7 @@ const noop = () => undefined;
 const ALL = [WINSTON, MAYA, JORDAN, RIN, ALEX, DEV];
 
 function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
-  return {
+  const merged: DayOfViewProps = {
     state: 'ready',
     eyebrow: '',
     forecast: null,
@@ -51,6 +51,10 @@ function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
     onRemovePack: noop,
     ...overrides,
   };
+  // GO shows where the screen has a next stop to go to, as `dayOfGo` decides on the real screen.
+  const hasStop =
+    merged.leaveBy !== null || (merged.firstUp !== null && merged.firstUp.kind !== 'done');
+  return { ...merged, onGo: hasStop ? noop : undefined };
 }
 
 /** Day 1 of a Đà Nẵng trip: the flight in, then the afternoon. */
