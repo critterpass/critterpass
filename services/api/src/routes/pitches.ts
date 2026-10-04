@@ -4,7 +4,9 @@
  * and the chips come from the pitch tools straight away; the model's lines follow as each one
  * validates. A pitch is cached per (crew, place, month) until its fares change, so asking again
  * replays it without the model. Unmetered (system guide work); a switched-off route or a failed
- * model call answers the numbers-free template, never a made-up line.
+ * model call answers the numbers-free template, never a made-up line. A month is the guide's to
+ * name only when the asker chose one (before dates exist the fares' month is not "when you go"),
+ * and an asker whose app is in another language reads the lines in it (./pitch-reader-language).
  */
 import {
   createGateway,
@@ -15,7 +17,14 @@ import {
   type Gateway,
   type PitchModelSection,
 } from '@cp/ai';
-import { findCachedPitch, loadPitchFacts, storePitch, withSystem, withUser } from '@cp/db';
+import {
+  findCachedPitch,
+  loadPitchFacts,
+  pitchCacheKeyFor,
+  storePitch,
+  withSystem,
+  withUser,
+} from '@cp/db';
 import {
   buildPitchSections,
   DomainError,
@@ -38,6 +47,12 @@ import {
 } from '../commands/_framework/session';
 import type { ApiEnv } from '../env';
 import { createKillSwitches } from '../ops/kill-switches';
+import {
+  linesInReaderLanguage,
+  readsSourceLanguage,
+  sectionsFor,
+  storePitchTranslation,
+} from './pitch-reader-language';
 import { SSE_RESPONSE_HEADERS, sseBody } from './sse';
 
 export interface PitchRouteDeps {
@@ -76,14 +91,15 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
     const parsed = pitchRequestSchema.safeParse(await readBody(c.req.raw));
     validationHook(parsed);
     const body = parsed.data as { crew_id: string; place_id: string; month?: number };
-    const member = await withUser(deps.pool, uid, 'unknown', async (tx) => {
-      const { rows } = await tx.query<{ member: boolean }>(
-        'SELECT app.is_crew_member($1) AS member',
-        [body.crew_id],
+    const asker = await withUser(deps.pool, uid, 'unknown', async (tx) => {
+      const { rows } = await tx.query<{ member: boolean; locale: string }>(
+        'SELECT app.is_crew_member($1) AS member, app.user_locale($2) AS locale',
+        [body.crew_id, uid],
       );
-      return rows[0]?.member === true;
+      return { member: rows[0]?.member === true, locale: rows[0]?.locale ?? 'en' };
     });
-    if (!member) throw new DomainError('NOT_FOUND', { reason: 'crew' });
+    if (!asker.member) throw new DomainError('NOT_FOUND', { reason: 'crew' });
+    const translated = !readsSourceLanguage(asker.locale);
     const now = deps.now?.() ?? new Date();
     const loaded = await withSystem(deps.pool, (tx) =>
       loadPitchFacts(tx, {
@@ -95,7 +111,10 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
     );
     if (loaded === undefined) throw new DomainError('NOT_FOUND', { reason: 'place' });
     const { facts, fareSnapshotId } = loaded;
-    const cacheKey = `${body.place_id}:${facts.month}`;
+    // What the guide may say: the month only when the asker chose it.
+    const said: PitchFacts = body.month === undefined ? { ...facts, month: null } : facts;
+    // A pitch with no chosen month is cached apart from the month-by-month ones.
+    const cacheKey = pitchCacheKeyFor(body.place_id, said.month);
     const cached = await withSystem(deps.pool, (tx) =>
       findCachedPitch(tx, {
         crewId: body.crew_id,
@@ -106,7 +125,7 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
 
     async function* frames(signal: AbortSignal): AsyncGenerator<PitchStreamEvent> {
       if (cached !== undefined) {
-        yield* replay(cached.sections);
+        yield* replay(sectionsFor(cached.sections, cached.i18n, asker.locale));
         yield {
           type: 'done',
           pitch_id: cached.id,
@@ -124,19 +143,32 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
         if (deps.gateway === undefined) throw new Error('no model configured');
         for await (const line of streamPitch(
           deps.gateway,
-          facts,
+          said,
           { userId: uid, crewId: body.crew_id },
           signal,
         )) {
           lines.push(line);
-          const [section] = [...replaySection(facts, line)];
-          if (section !== undefined) yield section;
+          // A reader of another language gets the lines once they are in it, below.
+          if (!translated) yield* replaySection(facts, line);
         }
       } catch {
         if (signal.aborted) return;
         fromModel = false;
       }
+      let translation: Readonly<Record<string, string>> | null = null;
+      if (translated && fromModel && deps.gateway !== undefined) {
+        const reader = await linesInReaderLanguage(deps.gateway, said, lines, asker.locale, {
+          userId: uid,
+          crewId: body.crew_id,
+        });
+        if (signal.aborted) return;
+        translation = reader.translation;
+        for (const line of reader.shown) yield* replaySection(facts, line);
+      } else if (translated) {
+        for (const line of lines) yield* replaySection(facts, line);
+      }
       if (!lines.some((line) => line.s === 'headline')) {
+        translation = null;
         for (const line of templatePitch(facts)) {
           lines.push(line);
           if (line.s === 'headline') yield { type: 'headline', text: line.text };
@@ -148,13 +180,16 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
         const id = await storePitch(tx, {
           crewId: body.crew_id,
           placeId: body.place_id,
-          month: facts.month,
+          month: said.month,
           pitchedBy: uid,
           sections: fromModel ? sections : { ...sections, headline: null },
           model: fromModel ? 'pitch.place' : null,
           promptVersion: PITCH_PROMPT_VERSION,
           fareSnapshotId,
         });
+        if (translation !== null) {
+          await storePitchTranslation(tx, id, sections, asker.locale, translation);
+        }
         // Crewmates whose apps are in another language read the pitch in theirs.
         await enqueueCrewGuideTextIfRead(tx, body.crew_id);
         return id;
