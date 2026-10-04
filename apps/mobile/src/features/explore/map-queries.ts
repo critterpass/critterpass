@@ -46,7 +46,11 @@ export function useDestinationPois(destinationId: string | null): {
   const places = useMemo(
     () =>
       live.rows.map((row): MapPoi => {
-        const editorial = parse(row.editorial) as { must_see?: unknown; why_go?: unknown } | null;
+        const editorial = parse(row.editorial) as {
+          must_see?: unknown;
+          why_go?: unknown;
+          best_time?: unknown;
+        } | null;
         return {
           id: row.id,
           name: row.name,
@@ -57,6 +61,10 @@ export function useDestinationPois(destinationId: string | null): {
           hours: parse(row.hours),
           mustSee: editorial?.must_see === true,
           written: typeof editorial?.why_go === 'string' && editorial.why_go !== '',
+          bestTime:
+            typeof editorial?.best_time === 'string' && editorial.best_time !== ''
+              ? editorial.best_time
+              : null,
         };
       }),
     [live.rows],

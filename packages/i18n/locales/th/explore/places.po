@@ -6,3 +6,287 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.bestTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.inView"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
+msgid "places.cluster"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.two"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.suggests"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.suggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hoursMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.minutesOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.plan.summaryMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.hidden"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.carousel.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.hide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.unhide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.beaches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.destination"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.closedToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.fri"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.hide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.inPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.mon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.museums"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.nextDoor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.openToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.savedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.searchHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.show"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.hidden.showA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.showList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.showMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.az"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.fit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.nearest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.tue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.wed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.wellness"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.noneHint"
+msgstr ""

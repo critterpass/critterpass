@@ -107,7 +107,13 @@ export function PlaceCard({
           <View style={styles.foot}>
             {fit === undefined ? null : (
               <View style={styles.pill}>
-                <Text variant="label" color={fitToneColor(theme, fit.tone)} numberOfLines={1}>
+                {/* A longer line (other languages) wraps inside the pill instead of being cut. */}
+                <Text
+                  variant="label"
+                  color={fitToneColor(theme, fit.tone)}
+                  numberOfLines={2}
+                  singleLine={false}
+                >
                   {fit.text}
                 </Text>
               </View>

@@ -1,17 +1,55 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
 
 import { ExploreMapScreen, LocalFirstGate } from '@/features/explore';
+import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 
-/** A destination's map with its places, filters and cards (3d-4), and the list view of the same. */
+/**
+ * A destination's map with its places, filters and cards, and the list view of the same: the
+ * places map (7c-1…7c-3) while `planning.redesign` is on, the earlier map (3d-4) while it is off.
+ */
 export default function ExploreMapRoute() {
   const { destination, tripId, placeId } = useLocalSearchParams<{
     destination?: string;
     tripId?: string;
     placeId?: string;
   }>();
+  const { redesign } = usePlanningSwitch();
   return (
     <LocalFirstGate>
-      <ExploreMapScreen destination={destination ?? ''} tripId={tripId} placeId={placeId} />
+      {redesign ? (
+        <DestinationPlaces destination={destination ?? ''} tripId={tripId} placeId={placeId} />
+      ) : (
+        <ExploreMapScreen destination={destination ?? ''} tripId={tripId} placeId={placeId} />
+      )}
     </LocalFirstGate>
+  );
+}
+
+/** The places map for a destination, with its list in place and a field that works offline. */
+function DestinationPlaces(props: {
+  readonly destination: string;
+  readonly tripId: string | undefined;
+  readonly placeId: string | undefined;
+}) {
+  const [mode, setMode] = useState<'map' | 'list'>('map');
+  const [filter, setFilter] = useState<PlacesFilter>('all');
+  const [query, setQuery] = useState('');
+  const shared = {
+    tripId: props.tripId ?? null,
+    destination: props.destination,
+    filter,
+    onFilter: setFilter,
+    results: null,
+    onLeaveResults: () => undefined,
+    // Inside a trip the pill opens the trip's search; outside one it searches this phone.
+    ...(props.tripId === undefined ? { query, onQuery: setQuery } : {}),
+    onBack: () => (router.canGoBack() ? router.back() : router.replace('/')),
+  };
+  return mode === 'map' ? (
+    <PlacesMapScreen {...shared} placeId={props.placeId} onList={() => setMode('list')} />
+  ) : (
+    <PlacesListScreen {...shared} onMap={() => setMode('map')} />
   );
 }
