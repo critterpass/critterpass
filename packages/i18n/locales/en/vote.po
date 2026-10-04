@@ -164,6 +164,14 @@ msgstr "{name} started a vote"
 msgid "vote.pitch.addedToast"
 msgstr "{name}'s on the board. {count} of {total} have voted."
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedBy"
+msgstr "{organiserName} picked it"
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.defaultName"
+msgstr "{placeName} crew"
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr "{winner} won {score}"
@@ -207,6 +215,10 @@ msgstr "A city or a country"
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.localHint"
 msgstr "A local. Hint: {hint}"
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.body"
+msgstr "A pitch goes to a crew. Name yours now and invite people after."
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.pickTitle"
@@ -311,6 +323,10 @@ msgstr "Closes in {0}h"
 msgid "vote.guest.briefError"
 msgstr "Couldn't finish reading up just now."
 
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.name"
+msgstr "Crew name"
+
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.direct"
 msgstr "Direct from home"
@@ -371,6 +387,15 @@ msgstr "Loading the poll"
 msgid "vote.board.lockIn"
 msgstr "Lock in {only}"
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedIn"
+msgstr "Locked in"
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "crew.queued.create"
+msgstr "New crew: {0}"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr "New poll"
@@ -386,6 +411,14 @@ msgstr "No live guide yet"
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.refusedBody"
 msgstr "No trip was started. Try again."
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedNoteYou"
+msgstr "No vote needed: you locked {winnerName} in. Next, the dates."
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedNote"
+msgstr "No vote this time: {winnerName} was locked in for the crew."
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
@@ -452,10 +485,6 @@ msgstr "Pitch a place"
 msgid "vote.guest.pitch"
 msgstr "Pitch to the crew"
 
-#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
-msgid "vote.guest.noCrew"
-msgstr "Pitching needs a crew. Start one from Crew, or take this one solo."
-
 #: ../../apps/mobile/src/features/vote/register-chat-cards.ts
 msgid "vote.chat.attach"
 msgstr "Poll"
@@ -509,6 +538,10 @@ msgstr "Solo trip to {placeName} started."
 msgid "vote.solo.start"
 msgstr "Start solo trip"
 
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.start"
+msgstr "Start the crew and pitch"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.removeTitle"
 msgstr "Take {name} off the board?"
@@ -524,6 +557,10 @@ msgstr "Taking your vote back"
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.refused"
 msgstr "That didn't go through"
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.failed"
+msgstr "That didn’t go through. Try again?"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockInFailed"
@@ -548,6 +585,10 @@ msgstr "The guide is on it"
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.locals"
 msgstr "The locals"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedByOrganiser"
+msgstr "The organiser picked it"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.setupWithOrganiser"
@@ -608,6 +649,10 @@ msgid "vote.board.title"
 msgstr "Where next?"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.headerLocked"
+msgstr "Where next? · Decided"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.header"
 msgstr "Where next? · Final"
 
@@ -644,6 +689,10 @@ msgstr "You haven't voted yet. Tap a side."
 msgid "vote.reveal.missed"
 msgstr "You missed this vote. The crew picked {winnerName}."
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedByYou"
+msgstr "You picked it"
+
 #. placeholder {0}: nameOf(poll, places, poll.myOptionId)
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.youVoted"
@@ -656,6 +705,10 @@ msgstr "You're offline. Search comes back with the connection."
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 msgid "vote.pitch.offline"
 msgstr "You're offline. Search comes back with the connection."
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.offline"
+msgstr "You’re offline. The crew is saved; the pitch opens once you’re back online."
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.trip"

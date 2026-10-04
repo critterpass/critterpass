@@ -25,6 +25,8 @@ export interface MustDoItem {
   readonly sub: string | null;
   readonly owners: readonly SetupMember[];
   readonly fit: MustDoFitStatus;
+  /** The guide has looked at it against the dates (an `unknown` fit can be a finished check). */
+  readonly checked: boolean;
   readonly pill: FitPill | null;
   readonly poiId: string | null;
   /** Waiting in this phone's queue (dashed until the server has it). */
@@ -54,6 +56,7 @@ export interface MustDoRow {
   readonly target_day: number | null;
   readonly external_action: string | null;
   readonly external_deadline: string | null;
+  readonly fit_checked_at?: string | null;
   readonly place_address: string | null;
 }
 
@@ -104,6 +107,7 @@ export function buildMustDos(
     sub: row.fit_note ?? row.place_address,
     owners: people([row.owner_id, ...parseIdList(row.co_owner_ids)]),
     fit: fitOf(row.fit_status),
+    checked: fitOf(row.fit_status) !== 'unknown' || (row.fit_checked_at ?? null) !== null,
     pill: pillOf(row),
     poiId: row.poi_id,
     pending,
@@ -131,6 +135,7 @@ export function buildMustDos(
               sub: null,
               owners: people([me]),
               fit: 'unknown',
+              checked: false,
               pill: null,
               poiId: item.poi_id ?? null,
               pending: true,

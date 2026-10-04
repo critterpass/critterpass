@@ -68,8 +68,9 @@ describe('the step in a crew settling in won', () => {
     const stepMinor = stepOf({ ...unknown, estimates, bandAnswered: true });
     // Fifty of the rates' base (€50 = ₩74,000), until the server says its own step.
     expect(stepMinor).toBe(74_000);
+    // Nothing priced: the track is sized in that step (six a day, three days before dates).
     const track = trackOf({ kind: 'waiting', set: 0, of: 2 }, estimates, stepMinor ?? 0);
-    expect(track.maxMinor).toBeGreaterThan(2_000_000);
+    expect(track.maxMinor).toBe(74_000 * 18);
     expect(stepOf({ ...unknown, estimates: wonCrew([]), bandAnswered: true })).toBeNull();
   });
 

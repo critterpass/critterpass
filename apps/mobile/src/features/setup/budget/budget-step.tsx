@@ -33,8 +33,8 @@ import {
   estimatesOf,
   fractionDigits,
   initialTarget,
+  isUnpriced,
   rowFromBandWire,
-  snap,
   trackOf,
   type AggregateRow,
 } from './model';
@@ -42,6 +42,13 @@ import { OwnMaxRow } from './own-max-row';
 import { PrivateMaxView } from './private-max-view';
 
 const HOME_SQL = 'SELECT home_currency FROM users WHERE id = ?';
+
+/** The trip's days, first and last included; null before the dates are locked. */
+export function tripDayCount(start: string | null, end: string | null): number | null {
+  if (start === null || end === null) return null;
+  const days = Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000) + 1;
+  return Number.isFinite(days) && days > 0 ? days : null;
+}
 
 export function lockOutcome(
   sent: Awaited<ReturnType<ReturnType<typeof useCommand>['send']>>,
@@ -107,7 +114,9 @@ export function BudgetStep({ trip, shell }: StepProps) {
         estimates,
         bandAnswered,
       });
-  const track = stepMinor === null ? null : trackOf(band, estimates, stepMinor);
+  const days = tripDayCount(trip.startDate, trip.endDate) ?? trip.lengthDays;
+  const track = stepMinor === null ? null : trackOf(band, estimates, stepMinor, days);
+  const unpriced = isUnpriced(band, estimates);
   const dates = datesLabel(locale, trip.startDate, trip.endDate);
   const counts = { set: band.set, of: band.of };
 
@@ -168,7 +177,11 @@ export function BudgetStep({ trip, shell }: StepProps) {
       currency={currency}
       estimates={estimates}
       estimatesLoading={!inputs.loaded}
-      initialTarget={track === null ? 0 : initialTarget(band, track, inputs.lockedTargetMinor)}
+      initialTarget={
+        track === null
+          ? 0
+          : initialTarget(band, track, inputs.lockedTargetMinor, unpriced ? days : undefined)
+      }
       lock={lock}
       ownMax={<OwnMaxRow set={own.set} onChange={() => setEditing(true)} />}
       onLock={(target) => {
@@ -182,7 +195,11 @@ export function BudgetStep({ trip, shell }: StepProps) {
             // The server's step differs from this device's: take it, move the knob onto it and
             // send that once. A second refusal is shown as it is.
             setAdopted(serverStep);
-            return send(snap(targetMinor, trackOf(band, estimates, serverStep)), true);
+            // Only the step changes: the amount (typed ones included) keeps its place.
+            return send(
+              Math.max(serverStep, Math.round(targetMinor / serverStep) * serverStep),
+              true,
+            );
           }
           const outcome = lockOutcome(sent, attempt);
           if (outcome === 'done') {

@@ -177,10 +177,6 @@ msgstr ""
 msgid "explore.cta.pitch"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
-msgid "explore.pitch.noCrew"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
 msgstr ""

@@ -177,10 +177,6 @@ msgstr "One of the quieter months."
 msgid "explore.cta.pitch"
 msgstr "Pitch to the crew"
 
-#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
-msgid "explore.pitch.noCrew"
-msgstr "Pitching needs a crew. Start one from Home, or take this one solo."
-
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
 msgstr "Places, search and what is open now"

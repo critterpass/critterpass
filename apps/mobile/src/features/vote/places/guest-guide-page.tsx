@@ -248,7 +248,9 @@ export function GuestGuidePage({
               />
             ) : (
               <Stack gap="10">
-                {mode === 'crews' ? <CrewPicker crews={crews} onPick={pitchTo} /> : null}
+                {mode === 'crews' ? (
+                  <CrewPicker crews={crews} placeName={place.name} onPick={pitchTo} />
+                ) : null}
                 <PillButton
                   label={t({ id: 'vote.guest.pitch', message: 'Pitch to the crew' })}
                   onPress={pitch}

@@ -1,20 +1,24 @@
 /**
- * 3b-1 "Where to first?": the six live guides as silhouettes idling in their cells (float loops of
- * 3800–5300 ms, staggered 300 ms), each with its city chip in the guide's colour, then the dashed
- * SOMEWHERE ELSE row. Tapping a guide hops it out of its cell and grows it into the destination
- * page (once that page is registered); SOMEWHERE ELSE opens the place search the same way.
+ * 3b-1 "Where to first?": the place search first (most first trips are to a place the six guides
+ * don't live in), then the places in the traveller's own country, then the six live guides as
+ * silhouettes idling in their cells (float loops of 3800–5300 ms, staggered 300 ms), each with its
+ * city chip in the guide's colour. Tapping a guide hops it out of its cell and grows it into the
+ * destination page (once that page is registered); a place near home opens the same page.
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import { useContext, useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { impact } from '@/motion/feedback';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -129,13 +133,83 @@ function Cell({ cell, index, width }: { cell: GuideCell; index: number; width: n
   );
 }
 
+export interface NearHomePlace {
+  readonly id: string;
+  readonly name: string;
+}
+
+/** How many places near home the first run offers before the guides. */
+const NEAR_HOME_MAX = 6;
+
+/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+const NEAR_HOME_SQL = `SELECT d.id, d.name FROM destinations d
+  JOIN users u ON upper(u.home_country) = upper(d.country)
+  WHERE u.id = ?
+  ORDER BY CASE d.coverage WHEN 'live' THEN 0 ELSE 1 END, d.name LIMIT ${NEAR_HOME_MAX}`;
+const NEAR_HOME_TABLES = ['destinations', 'users'];
+/* eslint-enable lingui/no-unlocalized-strings */
+
+/** The destinations in the traveller's home country, from the synced catalogue. */
+export function useNearHomePlaces(uid: string | null): readonly NearHomePlace[] {
+  const db = useContext(LocalFirstContext)?.db ?? null;
+  const [places, setPlaces] = useState<readonly NearHomePlace[]>([]);
+  useEffect(() => {
+    if (db === null || uid === null) return undefined;
+    const controller = new AbortController();
+    const load = () =>
+      db.getAll<NearHomePlace>(NEAR_HOME_SQL, [uid]).then(
+        (rows) => {
+          if (!controller.signal.aborted) setPlaces(rows);
+        },
+        () => undefined,
+      );
+    void load();
+    db.onChange(
+      { onChange: () => load() },
+      { tables: NEAR_HOME_TABLES, throttleMs: 30, signal: controller.signal },
+    );
+    return () => controller.abort();
+  }, [db, uid]);
+  return places;
+}
+
+function NearHome({ places }: { readonly places: readonly NearHomePlace[] }) {
+  const { t } = useLingui();
+  const locale = useLocale();
+  const theme = useTheme();
+  if (places.length === 0) return null;
+  return (
+    <View style={{ gap: theme.space['8'] }} testID="home-near-home">
+      <Text variant="eyebrow">
+        {upper(t({ id: 'home.firstRun.nearHome', message: 'Close to home' }), locale)}
+      </Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: theme.space['8'] }}>
+        {places.map((place) => (
+          <InlineAction
+            key={place.id}
+            kind="choice"
+            label={upper(place.name, locale)}
+            onPress={() => {
+              const href = homeRoutes.destination(place.id);
+              if (href !== undefined) router.push(href);
+            }}
+            testID={`home-near-${place.id}`}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
 export interface FirstRunGridProps {
   readonly cells: readonly GuideCell[];
   /** Content width (screen width minus gutters). */
   readonly width: number;
+  /** The signed-in user, whose home country picks the places offered first. */
+  readonly uid?: string | null;
 }
 
-export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
+export function FirstRunGrid({ cells, width, uid = null }: FirstRunGridProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
@@ -146,23 +220,25 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
     const href = homeRoutes.placeSearch();
     if (href !== undefined) router.push(href);
   };
+  const nearHome = useNearHomePlaces(uid);
   return (
     <View style={{ gap: theme.space['16'] }}>
+      <DashedRow
+        testID="home-somewhere-else"
+        title={upper(t({ id: 'home.firstRun.search', message: 'Search a place' }), locale)}
+        body={t({
+          id: 'home.firstRun.searchBody',
+          message: 'Any city or region. A guide comes along wherever you go.',
+        })}
+        mark={<Text variant="h3">+</Text>}
+        onPress={openSearch}
+      />
+      <NearHome places={nearHome} />
       <View style={styles.grid}>
         {cells.map((cell, index) => (
           <Cell key={cell.guide} cell={cell} index={index} width={cellWidth} />
         ))}
       </View>
-      <DashedRow
-        testID="home-somewhere-else"
-        title={upper(t({ id: 'home.firstRun.elsewhere', message: 'Somewhere else' }), locale)}
-        body={t({
-          id: 'home.firstRun.elsewhereBody',
-          message: 'No guide there yet. Tokek will cover until one moves in.',
-        })}
-        mark={<Text variant="h3">+</Text>}
-        onPress={openSearch}
-      />
     </View>
   );
 }

@@ -2,7 +2,8 @@
  * The must-dos step (3c-7), as a pure view: every member's must-do with its fit, who is typing one
  * now, the guide's summary under the list, and the step's actions. The organiser drafts the trip
  * once at least one is in; everyone adds their own (the add sheet). Once setup is done the chips
- * all show a check and the guide says the draft starts from here.
+ * all show a check and the organiser keeps one button: the way to the drafting wait while the
+ * draft is being written, and to the draft once it is ready.
  */
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
@@ -32,6 +33,12 @@ export interface MustDosViewProps {
   /** The member may add another (under the per-member cap). */
   readonly canAdd: boolean;
   readonly drafting?: boolean;
+  /**
+   * Where the organiser's draft stands once setup is done: still being written, or ready to read.
+   * Null when there is nothing to open (a member, or a trip already past its draft).
+   */
+  readonly draft?: 'writing' | 'ready' | null;
+  readonly onOpenDraft?: () => void;
   readonly onAdd: () => void;
   readonly onDraft: () => void;
   readonly onRemove: (item: MustDoItem) => void;
@@ -49,6 +56,8 @@ export function MustDosView({
   model,
   canAdd,
   drafting = false,
+  draft = null,
+  onOpenDraft,
   onAdd,
   onDraft,
   onRemove,
@@ -67,39 +76,68 @@ export function MustDosView({
           id: 'setup.mustDos.line.empty',
           message: 'Nobody’s added one yet. Start with yours.',
         })
-      : summaryLine(model.items, model.waiting.length);
+      : summaryLine(model.items, model.waiting.length, done);
   const addLabel = hasMine
     ? t({ id: 'setup.mustDos.addAnother', message: 'Add another' })
     : t({ id: 'setup.mustDos.addYours', message: 'Add your must-do' });
-  const footer = done ? undefined : trip.isOrganiser ? (
-    <>
+  const footer = done ? (
+    draft === null || onOpenDraft === undefined ? undefined : (
       <PillButton
-        label={t({ id: 'setup.mustDos.draft', message: 'Draft my trip' })}
-        onPress={onDraft}
-        disabled={model.items.length === 0}
-        loading={drafting}
-        testID="must-dos-draft"
+        label={
+          draft === 'ready'
+            ? t({ id: 'setup.mustDos.seeDraft', message: 'See the draft' })
+            : t({
+                id: 'setup.mustDos.draftWriting',
+                message: `${guideName} is drafting. See how far`,
+              })
+        }
+        onPress={onOpenDraft}
+        testID={draft === 'ready' ? 'must-dos-see-draft' : 'must-dos-drafting'}
       />
-      {canAdd ? <TextLink label={addLabel} onPress={onAdd} testID="must-dos-add" /> : null}
-    </>
+    )
+  ) : trip.isOrganiser ? (
+    model.items.length === 0 && canAdd ? (
+      // Nothing to draft from yet: adding one is the next thing to do, so it is the button.
+      <PillButton label={addLabel} onPress={onAdd} testID="must-dos-add" />
+    ) : (
+      <>
+        <PillButton
+          label={t({ id: 'setup.mustDos.draft', message: 'Draft my trip' })}
+          onPress={onDraft}
+          disabled={model.items.length === 0}
+          loading={drafting}
+          testID="must-dos-draft"
+        />
+        {canAdd ? <TextLink label={addLabel} onPress={onAdd} testID="must-dos-add" /> : null}
+      </>
+    )
   ) : canAdd ? (
     <PillButton label={addLabel} onPress={onAdd} testID="must-dos-add" />
   ) : undefined;
+  const doneLine =
+    draft === 'ready'
+      ? t({ id: 'setup.mustDos.readyLine', message: `${guideName}’s draft is ready for you.` })
+      : draft === 'writing'
+        ? t({
+            id: 'setup.mustDos.writingLine',
+            message: `${guideName} is writing the draft. It takes a few minutes; you can leave and come back.`,
+          })
+        : t({
+            id: 'setup.mustDos.doneLine',
+            message: `Setup’s done. ${guideName} starts the draft from here.`,
+          });
   return (
     <SetupShell
       {...shell}
       testID="must-dos-screen"
       tag={<DoneTag label={stepTitle('rooms')} />}
-      title={t({ id: 'setup.mustDos.title', message: 'One must-do each' })}
+      title={t({ id: 'setup.mustDos.title', message: 'Must-dos' })}
       line={
         done
-          ? t({
-              id: 'setup.mustDos.doneLine',
-              message: `Setup’s done. ${guideName} starts the draft from here.`,
-            })
+          ? doneLine
           : t({
               id: 'setup.mustDos.line',
-              message: 'Everyone adds the one thing the trip isn’t complete without.',
+              message: 'What the trip isn’t complete without. Up to five each.',
             })
       }
       footer={footer}

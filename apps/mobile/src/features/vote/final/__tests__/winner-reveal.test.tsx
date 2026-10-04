@@ -125,6 +125,16 @@ describe('winner reveal', () => {
     expect(screen.queryByTestId('reveal-set-up')).toBeNull();
   });
 
+  it('shows a place the organiser locked in before anyone voted as locked in, not as a vote', async () => {
+    const s = await open();
+    await seedClosed(s, [], s.uid);
+    await renderVote(<Reveal me={s.uid} />, s);
+    await until(() => screen.queryByTestId('reveal-set-up') !== null);
+    expect(screen.getByTestId('reveal-locked-in')).toBeTruthy();
+    expect(screen.getByTestId('reveal-score')).toHaveTextContent('LOCKED IN');
+    expect(screen.queryByTestId('reveal-missed')).toBeNull();
+  });
+
   it('tells someone who missed the vote what the crew picked', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);

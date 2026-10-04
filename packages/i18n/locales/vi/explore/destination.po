@@ -177,10 +177,6 @@ msgstr "Một trong những tháng vắng hơn."
 msgid "explore.cta.pitch"
 msgstr "Giới thiệu cho nhóm"
 
-#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
-msgid "explore.pitch.noCrew"
-msgstr "Muốn giới thiệu thì cần có nhóm. Tạo nhóm từ Trang chủ, hoặc đi chuyến này một mình."
-
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
 msgstr "Địa điểm, tìm kiếm và nơi đang mở cửa"

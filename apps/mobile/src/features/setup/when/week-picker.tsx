@@ -1,11 +1,12 @@
 /**
- * Picking the trip's days by hand (undesigned; "Pick another week" / "Pick a week anyway"): up to
- * three best windows as chips, the same heatmap to tap a first and last day on (or hold and drag),
+ * Picking the trip's days by hand (undesigned; "Pick the dates" / "Pick other days"): "How many
+ * days?" as one-tap choices (the ghost and the suggested windows follow it), up to three best
+ * windows as chips (none starting within the next few days), the same heatmap to tap a first and last day on (or hold and drag),
  * a ghost of the planned length after the first tap that Lock takes as it stands (another tap
  * re-picks its last day), and the length, who can make every day of it and Lock, live under the
  * calendar. Only counts, never anyone's days.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { useMemo, useRef, useState } from 'react';
 
 import { TRIP_LENGTH_MAX_DAYS } from '@cp/domain';
@@ -27,15 +28,19 @@ import { Heatmap } from './heatmap';
 import type { HeatMonth } from './model';
 import {
   bestWindows,
+  clampLength,
   dragGrip,
   dragTo,
   EMPTY_PICK,
   freeAllDays,
   freeByDate,
   ghostRange,
+  LENGTH_CHOICES,
   rangeLength,
   rangeProblem,
+  resizePick,
   shownRange,
+  suggestFrom,
   tapDay,
   type DayRange,
   type DragGrip,
@@ -88,15 +93,17 @@ export function WeekPicker({
   const free = useMemo(() => freeByDate(months), [months]);
   const firstDate = months[0]?.days[0]?.date ?? '';
   const lastDate = months.at(-1)?.days.at(-1)?.date ?? null;
+  // How many days the organiser says the trip is; it starts at the planned length.
+  const [length, setLength] = useState(() => clampLength(lengthDays));
   const chips = useMemo(
-    () => bestWindows(free, lengthDays, today ?? firstDate, total),
-    [free, lengthDays, today, firstDate, total],
+    () => bestWindows(free, length, today === undefined ? firstDate : suggestFrom(today), total),
+    [free, length, today, firstDate, total],
   );
   const [pick, setPick] = useState<RangePick>(initialPick ?? EMPTY_PICK);
   // A chip turns the calendar to its month; the key remounts the grid on that page.
   const [focus, setFocus] = useState({ month: startMonth, key: 0 });
   const drag = useRef<Drag | null>(null);
-  const ghost = pick.anchor === null ? null : ghostRange(free, pick.anchor, lengthDays, lastDate);
+  const ghost = pick.anchor === null ? null : ghostRange(free, pick.anchor, length, lastDate);
   const shown = shownRange(pick, ghost);
   // The ghost locks as it stands; another tap still re-picks its last day.
   const picked = shown;
@@ -119,6 +126,10 @@ export function WeekPicker({
       drag.current = null;
     },
   };
+  const sayLength = (days: number) => {
+    setLength(days);
+    setPick((current) => resizePick(current, days, lastDate));
+  };
   const choose = (window: DayRange) => {
     setPick({ anchor: null, range: window });
     const month = months.findIndex((m) => m.key === window.start.slice(0, 7));
@@ -140,9 +151,27 @@ export function WeekPicker({
           <Text variant="body" color={theme.semantic.text.secondary}>
             {t({
               id: 'setup.when.picker.howTo',
-              message: 'Tap the first day and the last, or hold a day and drag.',
+              message: 'Say how many days, then tap the first day. Or tap a first and a last day.',
             })}
           </Text>
+          <Text variant="eyebrow">
+            {t({ id: 'setup.when.picker.howLong', message: 'How many days?' })}
+          </Text>
+          <Row style={styles.chips} testID="picker-lengths">
+            {LENGTH_CHOICES.map((days) => (
+              <ChoiceChip
+                key={days}
+                label={t({
+                  id: 'setup.when.picker.length',
+                  message: plural(days, { one: '# day', other: '# days' }),
+                })}
+                selected={(picked === null ? length : rangeLength(picked)) === days}
+                tilt={0}
+                onPress={() => sayLength(days)}
+                testID={`picker-length-${days}`}
+              />
+            ))}
+          </Row>
           {chips.length === 0 ? null : (
             <Row style={styles.chips}>
               {chips.map((chip, index) => (
