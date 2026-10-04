@@ -67,7 +67,7 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.lg,
     backgroundColor: t.semantic.bg.raised,
   },
-  placeholder: { flex: 1, minWidth: 0 },
+  placeholder: { flex: 1, minWidth: 0, alignSelf: 'stretch', justifyContent: 'center' },
   mode: {
     paddingHorizontal: t.space['14'],
     paddingVertical: t.space['10'],

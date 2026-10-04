@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # The trip's places map (7c-1) and a picked place (7c-2) for a fresh account with the demo's Bali
 # trip and the planning redesign on. The peek counts the places in view; a chip leaves every place
-# on the map (the others fade) and its count in the chip row. Opened on a place from its page, the
+# on the map (the others fade) and its count in the chip row. Opened on a place from its page (reached
+# from its row in the list), the
 # label and the cards come up together, nearest first; swiping the cards moves the label, a card
 # opens the place, and ≡ LIST shows the same places as rows.
 # The CI emulator draws neither the tiles nor the dots reliably (GL layers), so the canvas is judged
@@ -55,14 +56,15 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7c-1-filter-saved
 - tapOn:
     id: 'chip-saved'
-# A place's own page opens the map on it: label and cards.
-- runFlow: ../onboarding/subflows/back.yaml
+# A place's own page (opened from its row) opens the map on it: label and cards.
+- tapOn:
+    id: 'places-peek-list'
 - extendedWaitUntil:
     visible:
-      id: 'explore-pick-0'
-    timeout: 20000
+      id: 'places-suggests-0'
+    timeout: 30000
 - tapOn:
-    id: 'explore-pick-0'
+    id: 'places-suggests-0'
 - scrollUntilVisible:
     element:
       id: 'explore-place-map'

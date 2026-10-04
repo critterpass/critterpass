@@ -37,7 +37,9 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'space-between',
     paddingHorizontal: t.size.gutter,
     paddingVertical: t.space['8'],
+    gap: t.space['12'],
   },
+  label: { flexShrink: 1 },
   menu: {
     marginHorizontal: t.size.gutter,
     marginBottom: t.space['8'],
@@ -76,9 +78,13 @@ export function SortMenu(props: SortMenuProps) {
           accessibilityLabel={labels[props.sort]}
           accessibilityState={{ expanded: open }}
           onPress={() => setOpen((now) => !now)}
+          style={styles.label}
           testID="places-sort"
         >
-          <Text variant="eyebrow">{`${upper(labels[props.sort], i18n.locale)} ▾`}</Text>
+          <Text
+            variant="eyebrow"
+            numberOfLines={1}
+          >{`${upper(labels[props.sort], i18n.locale)} ▾`}</Text>
         </PressScale>
         <Text variant="eyebrow" color={theme.semantic.text.secondary} testID="places-list-count">
           {String(props.count)}
