@@ -18,7 +18,7 @@ Status: contracts for the section 7 screens (7a-1 … 7i-2). Each phase refines 
 | Command | Payload → result | Authz | Ent | Events | Surfaces |
 |---|---|---|---|---|---|
 | `save_idea` | `{idea_id?, trip_id, poi_id? \| pin{name, lat, lng}, source: save\|link\|swipe\|search\|map\|pin\|guide, source_url?}` → `{idea_id, backer_ids}`. Exactly one of `poi_id` or `pin` (`VALIDATION{reason: pin_or_poi}`). Saving a place already in Ideas adds the caller as a backer. Also saves the POI to the caller's `saved_items`. A place outside the trip's destination → `VALIDATION{reason: outside_destination}` | participant | – | `trip_idea.saved` | A, O |
-| `remove_idea` | `{idea_id}` → `{idea_id, removed, backer_ids}`. The caller leaves the backers; the last backer or an organiser removes the idea (`deleted_at`), which leaves every phone | participant | – | `trip_idea.removed` | A, O |
+| `remove_idea` | `{idea_id, for_everyone?}` → `{idea_id, removed, backer_ids}`. The caller leaves the backers, organiser or not (`FORBIDDEN{not_backer}` for someone who never backed it); the last backer leaving removes the idea (`deleted_at`), which leaves every phone. `for_everyone: true` removes it for every backer and is an organiser's only (`FORBIDDEN{organiser_only}`) | participant | – | `trip_idea.removed` | A, O |
 | `hide_place` / `unhide_place` | `{poi_id}` → `{poi_id, hidden}` | self | – | – | A, O |
 | `set_place_stance` | `{trip_id, poi_id, stance: want\|rather_not, note? (≤ 140)}` → `{poi_id, stance}` | participant | – | `place.stance_set` | A, O |
 | `clear_place_stance` | `{trip_id, poi_id}` → `{poi_id, stance: null}` | participant | – | `place.stance_cleared` | A, O |

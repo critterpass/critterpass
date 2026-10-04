@@ -28,10 +28,14 @@ export const saveIdeaResultSchema = z.object({
 });
 export type SaveIdeaResult = z.infer<typeof saveIdeaResultSchema>;
 
-export const removeIdeaPayloadSchema = z.strictObject({ idea_id: z.uuid() });
+export const removeIdeaPayloadSchema = z.strictObject({
+  idea_id: z.uuid(),
+  /** An organiser removes the idea for every backer; without it the caller only leaves. */
+  for_everyone: z.boolean().optional(),
+});
 export const removeIdeaResultSchema = z.object({
   idea_id: z.uuid(),
-  /** True when the idea itself went (last backer, or an organiser removed it). */
+  /** True when the idea itself went (last backer, or an organiser removed it for everyone). */
   removed: z.boolean(),
   backer_ids: z.array(z.uuid()),
 });
