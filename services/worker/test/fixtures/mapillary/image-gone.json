@@ -1,0 +1,12 @@
+{
+  "status": 400,
+  "body": {
+    "error": {
+      "message": "Unsupported get request. Object with ID '1' does not exist, cannot be loaded due to missing permissions, or does not support this operation",
+      "type": "MLYApiException",
+      "code": 100,
+      "error_subcode": 33,
+      "fbtrace_id": "AeO6B8hXZ4--WoOtuWkKUGu"
+    }
+  }
+}

@@ -102,6 +102,9 @@ export const workerEnvSchema = z.object({
   R2_BUCKET: optionalString,
   R2_ACCESS_KEY_ID: optionalString,
   R2_SECRET_ACCESS_KEY: optionalString,
+  /** Mapillary client token: the media ingest asks for a street-level image's current file link
+   *  by its id (the links expire). Unset = Mapillary assets stay pending. */
+  MAPILLARY_TOKEN: optionalString,
   /** PhotoDNA Cloud Service key: known-image hash matching for photo avatars once ops switches
    *  `moderation.hash_match` on; unset = photos wait for ops review. */
   PHOTODNA_API_KEY: optionalString,

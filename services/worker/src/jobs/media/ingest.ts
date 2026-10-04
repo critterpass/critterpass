@@ -1,6 +1,7 @@
 /**
  * `media.ingest`: stores one published stock asset in the media bucket. It downloads the file the
- * content batch named (sources forbid permanent hotlinking, and the app caches these offline),
+ * content batch named, or for a Mapillary image the file its id names today (source-url.ts)
+ * (sources forbid permanent hotlinking, and the app caches these offline),
  * writes the stills (and a video's loops) under the public `c/media/<id>/` prefix, and marks the
  * row ready with its blurhash, colour and variant list. A file that cannot be decoded is marked
  * failed and not retried; a network or bucket error is retried.
@@ -17,6 +18,9 @@ import {
   type ProcessedStill,
   type ProcessedVideo,
 } from './process';
+import { downloadUrl, UnusableMediaError } from './source-url';
+
+export { UnusableMediaError };
 
 export const MAX_DOWNLOAD_BYTES = 120 * 1024 * 1024;
 const USER_AGENT = 'CritterPass-media-ingest/1.0 (https://critterpass.app)';
@@ -24,6 +28,8 @@ const USER_AGENT = 'CritterPass-media-ingest/1.0 (https://critterpass.app)';
 export interface MediaIngestOptions {
   readonly store: AvatarMediaStore;
   readonly fetch?: typeof fetch;
+  /** Asks Mapillary for an image's current file link (its links expire). */
+  readonly mapillaryToken?: string | undefined;
   readonly ffmpeg?: string;
   readonly ffprobe?: string;
 }
@@ -31,11 +37,11 @@ export interface MediaIngestOptions {
 interface AssetRow {
   id: string;
   kind: 'photo' | 'video';
+  source: string;
+  source_id: string;
   download_url: string;
   status: string;
 }
-
-export class UnusableMediaError extends Error {}
 
 async function download(fetchImpl: typeof fetch, url: string): Promise<Uint8Array> {
   const response = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT } });
@@ -78,7 +84,7 @@ export async function ingestAsset(
 ): Promise<{ status: string; variants?: number }> {
   const asset = await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<AssetRow>(
-      'SELECT id, kind, download_url, status FROM media_assets WHERE id = $1',
+      'SELECT id, kind, source, source_id, download_url, status FROM media_assets WHERE id = $1',
       [assetId],
     );
     return rows[0];
@@ -86,7 +92,11 @@ export async function ingestAsset(
   if (asset === undefined) return { status: 'gone' };
   if (asset.status === 'ready') return { status: 'ready' };
   try {
-    const bytes = await download(options.fetch ?? fetch, asset.download_url);
+    const fetchImpl = options.fetch ?? fetch;
+    const bytes = await download(
+      fetchImpl,
+      await downloadUrl(fetchImpl, asset, options.mapillaryToken),
+    );
     let processed: ProcessedStill;
     let loops: readonly EncodedFile[] = [];
     let durationMs: number | null = null;

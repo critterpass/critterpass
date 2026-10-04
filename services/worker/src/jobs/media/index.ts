@@ -11,6 +11,7 @@ export interface MediaJobsEnv {
   readonly R2_BUCKET?: string | undefined;
   readonly R2_ACCESS_KEY_ID?: string | undefined;
   readonly R2_SECRET_ACCESS_KEY?: string | undefined;
+  readonly MAPILLARY_TOKEN?: string | undefined;
 }
 
 export function mediaJobs(env: MediaJobsEnv): AnyJobDefinition[] {
@@ -23,5 +24,5 @@ export function mediaJobs(env: MediaJobsEnv): AnyJobDefinition[] {
     accessKeyId: env.R2_ACCESS_KEY_ID,
     secretAccessKey: env.R2_SECRET_ACCESS_KEY,
   });
-  return [mediaIngestJob({ store })];
+  return [mediaIngestJob({ store, mapillaryToken: env.MAPILLARY_TOKEN })];
 }

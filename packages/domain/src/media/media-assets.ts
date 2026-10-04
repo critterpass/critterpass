@@ -6,7 +6,13 @@
 import { z } from 'zod';
 
 export const MEDIA_KINDS = ['photo', 'video'] as const;
-export const MEDIA_SOURCES = ['pexels', 'pixabay', 'wikimedia'] as const;
+/**
+ * Where a proposed asset comes from: the stock libraries, Wikimedia Commons, and Mapillary's
+ * street-level photos (a place's last resort before its category tile).
+ */
+export const MEDIA_SOURCES = ['pexels', 'pixabay', 'wikimedia', 'mapillary'] as const;
+/** Sources whose photo of a place is a picture of the kind of thing, never of the place itself. */
+export const STOCK_MEDIA_SOURCES: readonly string[] = ['pexels', 'pixabay'];
 export const mediaKindSchema = z.enum(MEDIA_KINDS);
 export const mediaSourceSchema = z.enum(MEDIA_SOURCES);
 export type MediaKind = z.infer<typeof mediaKindSchema>;
@@ -27,7 +33,9 @@ const httpsUrl = z.url().regex(/^https:\/\//u, 'must be https');
 export const mediaCandidateSchema = z
   .object({
     /** `<source>-<kind>-<source id>`, stable across batches. */
-    id: z.string().regex(/^(pexels|pixabay|wikimedia)-(photo|video)-[A-Za-z0-9._-]{1,160}$/u),
+    id: z
+      .string()
+      .regex(/^(pexels|pixabay|wikimedia|mapillary)-(photo|video)-[A-Za-z0-9._-]{1,160}$/u),
     kind: mediaKindSchema,
     source: mediaSourceSchema,
     source_id: z.string().min(1).max(200),
@@ -87,7 +95,11 @@ export const mediaAssetSchema = z.object({
   credit: z.string(),
   attribution_required: z.boolean(),
   author: z.string(),
-  source: mediaSourceSchema,
+  /**
+   * Any source the server names: an installed build reads sources added after it shipped and
+   * shows them with their credit, instead of failing the whole list on one unknown value.
+   */
+  source: z.string().min(1),
   source_url: z.url(),
   licence: z.string(),
   licence_url: z.url(),
