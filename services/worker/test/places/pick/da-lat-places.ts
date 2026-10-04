@@ -5,8 +5,6 @@
  */
 import type pg from 'pg';
 
-const BOTH = { fsq_os: 'fsq', overture: 'ovt' };
-
 interface Seed {
   readonly name: string;
   readonly category: string;
@@ -110,7 +108,12 @@ const JUNK: readonly Seed[] = [
   { name: 'Văn Phòng Công Chứng', category: 'other' },
   { name: 'Highlands Coffee', category: 'food', brand: 'Highlands Coffee' },
   // Overture alone with a low existence score: an online-only seller.
-  { name: 'Shop Online Giá Rẻ', category: 'shopping', sources: { overture: 'x' }, confidence: 0.3 },
+  {
+    name: 'Shop Online Giá Rẻ',
+    category: 'shopping',
+    sources: { overture: 'ovt-online-seller' },
+    confidence: 0.3,
+  },
   { name: 'Bếp Mộc Ẩn', category: 'food', status: 'hidden' },
 ];
 
@@ -129,8 +132,10 @@ export async function seedDaLat(pool: pg.Pool, suffix: string): Promise<DaLat> {
   );
   const destinationId = rows[0]?.id as string;
   let step = 0;
+  let row = 0;
   const add = async (seed: Seed, mergedInto: string | null = null): Promise<string> => {
     if (seed.besidePrevious !== true) step += 1;
+    row += 1;
     const inserted = await pool.query<{ id: string }>(
       `INSERT INTO pois (destination_id, name, category, lat, lng, address, source_ids, confidence,
          brand, status, merged_into_id)
@@ -142,7 +147,10 @@ export async function seedDaLat(pool: pg.Pool, suffix: string): Promise<DaLat> {
         11.9 + step * 0.004 + (seed.besidePrevious === true ? 0.0003 : 0),
         108.44,
         seed.address ?? null,
-        JSON.stringify(seed.sources ?? BOTH),
+        // Both sources list it; a source id belongs to one row.
+        JSON.stringify(
+          seed.sources ?? { fsq_os: `fsq-${slug}-${row}`, overture: `ovt-${slug}-${row}` },
+        ),
         seed.confidence ?? 0.9,
         seed.brand ?? null,
         seed.status ?? 'active',
