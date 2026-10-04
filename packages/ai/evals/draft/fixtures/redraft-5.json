@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "da846bbd-d3c8-42ed-83d4-399a99da32cf",
+        "id": "4c91feab-0897-4740-973e-481b0b5c88aa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud, but not the usual Ubud\",\n  \"summary\": \"A slower day around Ubud with a kept rice terrace, then a market, a palace and proper meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we keep, because that green view never gets old.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander instead of more temples, Leo will be pleased.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegan choices, terima kasih (thank you) to Alchemy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace visit, history without the temple fatigue.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options for the whole crew.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Ubud Sunday\",\n  \"summary\": \"We ease off the temple trail and spend the day wandering Ubud's green edges, market lanes and a long, lazy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper on the list, and worth it: those green steps wake you up better than coffee.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"No temples, Leo, I heard you. Just a busy little market full of colour, chatter and things you didn't know you needed.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan lunch stop, because everyone at the table should leave happy and full.\",\n      \"kind\": \"meal\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk with no roofs, no carvings, just sky and green. The sun won’t wait, but this path doesn’t rush either.\",\n      \"kind\": \"activity\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner to end the day properly. Terima kasih (thank you) to whoever suggested we linger.\",\n      \"kind\": \"meal\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 37,
+          "input_tokens": 713,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 308,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 389,
           "service_tier": "standard"
         }
       }

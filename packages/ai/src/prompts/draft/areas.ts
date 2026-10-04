@@ -15,6 +15,8 @@ export interface Areas {
   readonly of: (poiId: string) => string | undefined;
   /** One line per area: its label, a few of its places, and the areas near it. */
   readonly lines: readonly string[];
+  /** The same without place names, for a request that must not name places it does not offer. */
+  readonly links: readonly string[];
   /** The longest ride between two stops of one day (the planner's hop cap). */
   readonly capMin: number;
 }
@@ -83,7 +85,11 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
       .slice(0, 3)
       .map(({ other, ride }) => `${other.label} (${ride} min)`);
     const names = area.places.slice(0, 2).map((poi) => poi.name);
-    return `- Area ${area.label}: ${area.places.length} places, e.g. ${names.join('; ')} | near: ${near.length > 0 ? near.join(', ') : 'no other area'}`;
+    const nearby = near.length > 0 ? near.join(', ') : 'no other area';
+    return {
+      line: `- Area ${area.label}: ${area.places.length} places, e.g. ${names.join('; ')} | near: ${nearby}`,
+      link: `- Area ${area.label} | near: ${nearby}`,
+    };
   });
   const made: Areas = {
     of: (poiId) => {
@@ -92,7 +98,8 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
       const poi = input.pois.get(poiId);
       return poi === undefined ? undefined : nearest(poi)?.label;
     },
-    lines,
+    lines: lines.map((entry) => entry.line),
+    links: lines.map((entry) => entry.link),
     capMin,
   };
   AREAS.set(input.pools, made);

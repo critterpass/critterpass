@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "49983cdd-25da-48bc-b16e-fdfcfab70451",
+        "id": "1bc96a12-8081-42f1-a6cf-202834f80743",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Ubud surprises, no fuss\",\n  \"summary\": \"A slower Ubud day that keeps the monkey forest, then adds a hidden water temple and the art market for a gentle local rhythm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew must-do stays put. Monkeys, mossy stone, and just enough chaos to wake everyone up.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lotus pond temple tucked behind a cafe, the kind of quiet surprise nobody sees coming in Ubud.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Local life and a little haggling, kept light and easy after the temple calm.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Ubud's quieter corners\",\n  \"summary\": \"A slower day around Ubud with the monkey forest, a hidden water temple and the art market, leaving the evening free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-do, and the monkeys are always a surprise, especially before the crowds wake up.\",\n      \"note\": \"The crew's must-do, and the monkeys are always a surprise, especially before the crowds wake up.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple the crew would not expect, tucked behind a lotus pond in the middle of Ubud.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the market for a taste of local life, with no rush to be anywhere else.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 23,
+          "input_tokens": 571,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 256,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 249,
           "service_tier": "standard"
         }
       }

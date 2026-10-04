@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9fcbd8f1-9736-4565-9940-8b24d551e112",
+        "id": "2cc924a3-4878-4b76-a4a8-effff6bdef81",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Market, shrines and a proper feed\",\n  \"summary\": \"A slower, food-led day around the eastern and central stops, with a market snack run, two temples and a proper evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the anchor stop, and the early bird gets the quiet halls.\",\n      \"note\": \"Kept as the crew's must-do; arrive early and let the morning light do the talking.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's wish, granted: a graze-along market with skewers and pickles between the stalls.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch nearby, a warm bowl that keeps the budget happy without skimping on flavour.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The viewpoint earns its keep after lunch, and the walk up works off the market snacks.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre, and a proper sit-down meal to close the food tour.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A hungrier day in Kyoto\",\n  \"summary\": \"Rin gets her wish: a market wander, a proper lunch, and an evening of snacks and yakitori, with the temple kept front and centre.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the anchor. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin wanted to eat her way through the day, so we start with the market’s street food.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, proper bowl for lunch. Budget-friendly and very Kyoto.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow walk through Gion to settle lunch before the evening snacks.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with sticks and smoke. Splurge taste, street-level price.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 19,
+          "input_tokens": 968,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 351,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 318,
           "service_tier": "standard"
         }
       }

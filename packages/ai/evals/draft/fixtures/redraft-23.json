@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a4b850b8-b97f-43a8-9c82-cf1cec6b1754",
+        "id": "32a6e1c5-b494-446f-8745-f323bc069e2b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A gentle Ubud wander\",\n  \"summary\": \"A slower day close to Ubud, with one temple, a long easy pause, and two meals tucked beside the same lanes.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p35\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The one temple stop, small and calm, so the morning stays soft and close by.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch kept simple and local, right where the wander already is.\"\n    },\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow rice-terrace pause instead of the long ride, with room left to breathe.\"\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays easy and nearby, because a lighter day still eats well.\"\n    }\n  ]\n}"
+            "text": "{\"title\":\"Ubud easy day, close and calm\",\"summary\":\"A slower day around one temple and two easy meals, with the afternoon left free to wander.\",\"stops\":[{\"poi_id\":\"p15\",\"kind\":\"activity\",\"must_do_id\":\"p15\",\"note\":\"One proper temple stop, close to the meal spots and gentle on the legs.\",\"must_do_id\":\"p15\"},{\"poi_id\":\"p25\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Lunch right by the temple area, no long ride needed.\",\"must_do_id\":null},{\"poi_id\":\"p55\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Dinner stays local and easy, then the evening is yours.\",\"must_do_id\":null}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 21,
+          "input_tokens": 1470,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2432,
-          "output_tokens": 257,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 168,
           "service_tier": "standard"
         }
       }

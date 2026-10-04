@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "820d4db1-4a13-433c-b4af-e1ef4624e80f",
+        "id": "309c418c-8ac0-4b0b-b703-0cf0658e74c8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow morning, sea breeze afternoon\",\n  \"summary\": \"A gentle day that starts late, lingers by the water, and ends with a quiet evening in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late breakfast of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"East Sea Park gives us an easy stroll by the water, perfect for a slow morning with no early alarm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p81\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A coconut cream break, because a lazy day still deserves a sweet little pause.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We time this beach stop for the sunset, when the sky does all the work and we just watch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Ốc Cười, a street-food spot that keeps the evening local and unhurried.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Apocalyse Now beach club for a soft after-dark finish, still by the sea and still very much on our own clock.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Slow morning, sea breeze afternoon\",\n  \"summary\": \"A lazy start, a beach wander, a proper bowl of noodles, then a gentle evening by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With a slow morning, East Sea Park is the right first breath: easy walking, sea air, no rush.\",\n      \"note\": \"With a slow morning, East Sea Park is the right first breath: easy walking, sea air, no rush.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) at Mì Quảng Nhung, because a slow day still needs a proper bowl.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bãi Biển Phạm Văn Đồng is the sunset spot, quiet and close, so the day ends where the sky does the work.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is Ốc Cười, street food and local life in one, because one person at a snail table is never lonely.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 107,
+          "input_tokens": 1610,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2560,
-          "output_tokens": 456,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 342,
           "service_tier": "standard"
         }
       }

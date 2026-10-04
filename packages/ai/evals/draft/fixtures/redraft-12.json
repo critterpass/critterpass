@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "97e34cd1-2659-480b-bb0b-82aca5af99b3",
+        "id": "d1fe8aa1-2ae2-420c-94d5-f8be21a39da4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Reykjavik on a shoestring\",\n  \"summary\": \"A gentler, wallet-friendly wander through Reykjavik's free sights, local flavour, and a proper meal without the splurge.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do stays put; those whale models are worth every minute, even if the entry fee makes my feathers twitch.\",\n      \"poi_id\": \"p11\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, this market is the thrifty heart of the day.\",\n      \"poi_id\": \"p12\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride for open air and a lighthouse photo, no króna required.\",\n      \"poi_id\": \"p13\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki keeps the budget happy and the rye bread warm.\",\n      \"poi_id\": \"p17\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A stroll down Laugavegur for window-shopping and people-watching; cheaper than the old plan.\",\n      \"poi_id\": \"p14\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll, where the options are plenty and the prices are kind.\",\n      \"poi_id\": \"p20\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Cheaper Day in Reykjavik\",\n  \"summary\": \"A lighter, thriftier Sunday around Reykjavik with a must-see whale museum, free local stops and budget-friendly meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big-ticket treat you asked to keep, so we start with the whales before the crowds.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the pricey Perlan: a free flea market full of local life and photo-worthy clutter.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki keeps the budget happy and the rye bread ice cream is a quiet legend.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down Laugavegur for window-shopping and street snaps, cheaper than any museum.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll gives everyone a cheap, cheerful choice under one roof.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 70,
+          "input_tokens": 1018,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 455,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 343,
           "service_tier": "standard"
         }
       }

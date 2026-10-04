@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "343de9da-f0ef-45ad-852a-f20bcafca700",
+        "id": "acdc1935-1ae1-4e55-83c5-1973b996dd70",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"We wander through Alfama and the Feira da Ladra, then settle in for a proper meal and a gentle museum afternoon.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free morning wander through Alfama to work up an appetite for the market snacks ahead.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the star today — browse the stalls, graze on little bites, and soak up the local life.\",\n      \"start\": \"10:45\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal with plenty of vegetables to balance all those market snacks. Grilled sardines can wait until dinner.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:45\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-do of the day, kept safe and sound. We roll in after lunch, full and happy, for a slow wander through the galleries.\",\n      \"start\": \"14:15\",\n      \"end\": \"16:15\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Tasty Wander Through Lisbon\",\n  \"summary\": \"A slower day built around grazing, a proper sit-down meal, and the one museum we cannot skip, all in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start here because Ana asked for pastries and this market is the closest thing to a treasure hunt for snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle Alfama wander to walk off the first round of treats, with no rush and plenty of photo corners.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with vegetarian options, because a food day still needs a real meal and this one is easier on the budget.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we must keep, and it fits perfectly after lunch when the museum is still wide open.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A casual, cheaper dinner to end the food crawl without emptying anyone's pockets.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 92,
+          "input_tokens": 684,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 370,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 395,
           "service_tier": "standard"
         }
       }

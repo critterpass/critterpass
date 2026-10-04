@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "57449c58-ab7b-4a66-b96d-d6e24ad0ffcf",
+        "id": "6f658c61-84be-4036-a636-010a69bbc564",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, artier Mexico City day\",\n  \"summary\": \"A gentler Thursday swapping grand palaces for markets, green walks and quieter corners, with Templo Mayor kept as our anchor.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one we keep, because some stones deserve a second look.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market wander instead of a palace, all bustle and local chatter.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates and a calm, friendly room.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy Roma Norte stroll to stretch the afternoon at our own pace.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed early dinner with good veggie options before we call it a day.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower, different Mexico City day\",\n  \"summary\": \"We keep the Templo Mayor, then wander to a market, a leafy park, and two easy vegetarian meals in the same part of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper of the day, and rightly so: old stones with very good stories.\",\n      \"start_by\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market swap for the palace, all bustle and local life without the grand staircase.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch nearby in the same area, with proper vegetarian plates and no fuss.\",\n      \"start_by\": \"16:45\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle Roma Norte wander replaces the castle climb, easy on the legs and lovely on the eyes.\",\n      \"start_by\": \"open_all_day\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Lalo!, a bright spot that keeps the vegetarians very happy.\",\n      \"start_by\": \"16:45\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 85,
+          "input_tokens": 766,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 313,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 374,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "9952d1b1-e94e-49e6-8b89-73a41d1f7c94",
+        "id": "ada01936-b9ee-4221-99d9-91ac3ed9f6b6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A slower, sunnier Mexico City\",\n  \"summary\": \"A gentler Thursday that swaps the grand halls for market chatter, a leafy stroll and a proper long lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper on the list, and rightly so — old stones tell the best stories.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market wander for the street-food lover, with vegetarian bites hiding in every corner.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a gentle halal twist, and plenty of green things for the non-meat crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A Roma Norte ramble for the photo-happy and the culture-curious, no ticket required.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower, different Mexico City day\",\n  \"summary\": \"A gentler Thursday that keeps the must-see Templo Mayor, swaps in market life and Chapultepec greenery, and stays in one corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper: Templo Mayor still earns its place, and we start early before the crowds and the heat.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A swap-in for the palace: Mercado de San Juan gives us street-food energy and local life without the grand staircase.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays vegetarian and easy, close to the market so nobody gets hangry on a long ride.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle Roma Norte wander replaces the castle, with photo spots and coffee-shop pauses built in.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bosque de Chapultepec closes the day with green air and an easy pace, no timed entry to chase.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 108,
+          "input_tokens": 149,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 310,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 361,
           "service_tier": "standard"
         }
       }

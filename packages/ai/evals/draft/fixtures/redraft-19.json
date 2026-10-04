@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "05c08770-969d-4a50-abc1-df1b384cebe1",
+        "id": "3c68d2e9-c372-46dc-888d-0b5a045010c2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in the City\",\n  \"summary\": \"A gentle day with a long neighbourhood wander and a deep dive into Aztec history, leaving plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept for you, and now you can truly linger over the street art and quiet corners without rushing off.\",\n      \"note\": \"Kept for you, and now you can truly linger over the street art and quiet corners without rushing off.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Slower day means one proper history stop, so we stay in the same area and let Templo Mayor take its time with us.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Saturday in Roma Norte\",\n  \"summary\": \"A gentle day with a long neighbourhood walk and a deep dive into Aztec history, leaving plenty of room to linger.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the heart of the day, with extra time to wander side streets and soak up local life.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the trajineras so we stay in one area and take history at a slower pace.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 16,
+          "input_tokens": 698,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 199,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 168,
           "service_tier": "standard"
         }
       }

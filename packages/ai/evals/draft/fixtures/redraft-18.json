@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5a4dbdd4-a3f5-44c2-a711-de90c78e0910",
+        "id": "0f11014a-f548-4791-bb1a-cd918e6ad554",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday in the City's Heart\",\n  \"summary\": \"A relaxed day around the historic centre and Chapultepec, with no long rides and plenty of time to soak it all in.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the Templo Mayor ruins, a deep dive into the city's Aztec roots before the crowds gather.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stroll to the Zócalo, the grand plaza where the city's history and daily life meet.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Al-Andalus, right in the same area, with hearty halal and vegetarian options to keep everyone happy.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle afternoon in Bosque de Chapultepec, a green escape that's just a short ride from the centre.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Por Siempre Vegana Taquería, a relaxed vegan spot beside the park to end the day without rushing.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Close-Knit Sunday\",\n  \"summary\": \"A gentle day in the city centre, keeping the walks short and the meals beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one big must-do stays, so we start early and let the pyramids set the pace.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch lands close to the afternoon stroll, with room for everyone to sit and refuel.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy wander replaces the far-flung market, keeping the whole crew in one calm pocket.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a short hop from the park, easy on tired legs and full of flavour.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 950,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 351,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 273,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "90da4792-03ae-41cb-8456-134de699d12a",
+        "id": "af2769c5-c89e-4104-942a-a4db9b844b47",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday Close to Home\",\n  \"summary\": \"A relaxed day around Chapultepec and the Zócalo, with history, a market, and meals right beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one big journey of the day, kept for the crew's history buffs.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause after the pyramids, close to our lunch spot.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the park, easy on the wallet and the stomach.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop to the old heart of the city for a free wander.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner near the Zócalo, with halal and veggie choices for the crew.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A calmer Sunday in the centre\",\n  \"summary\": \"A gentle day around the Zócalo and Templo Mayor, with a short hop to Chapultepec and meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A soft start in the old heart of the city, before the crowds thicken.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"History right next door, and a must for the museum lover in the crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the Templo Mayor, no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop to Chapultepec for the nature lover, with room to wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back near Chapultepec, easy and relaxed.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 139,
+          "input_tokens": 105,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 309,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 350,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4c4fc7f4-6419-4ad1-9338-fa08274f8976",
+        "id": "d3a426c7-085e-4e77-bc42-0761a95b2965",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Morning After Pontocho\",\n  \"summary\": \"We trade the early rush for two unhurried stops, a long vegan lunch, and an evening wander where the lanterns do the talking.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand faces, taken slowly. No sprinting, just looking.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do stays, but later and lighter. The deer will cope without you. The lanterns won't wait.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Day in Kyoto\",\n  \"summary\": \"A slower day with one temple, one evening stroll, and two proper vegan meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here because the crew needs vegan and this kitchen does it without a fuss.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Sanjusangen-do gives you stillness without a sprint.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept for the night owls. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at Ain Soph because it is the only vegan meal place on the list and the day still needs two meals.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 120,
+          "input_tokens": 693,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 252,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 261,
           "service_tier": "standard"
         }
       }

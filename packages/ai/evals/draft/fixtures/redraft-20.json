@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f2a1ca03-b509-41db-8ac0-5b23d6f59fd3",
+        "id": "4bc314d0-f475-4ea8-b835-c2253b695fd3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Eats and Surprises\",\n  \"summary\": \"A slower Ubud day built around markets, snacks, a proper sit-down dinner, and one unexpected temple stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with history and courtyards before the sun gets bossy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"First food stop: bright vegan plates to keep the crew fuelled.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise second food stop for ribs and market-style snacking energy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The unexpected pick: lotus ponds and carved stone, very easy on the eyes.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Proper sit-down dinner kept as the anchor of the evening.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasty, Twisty Ubud Sunday\",\n  \"summary\": \"A slow, food-first day around Ubud with a proper feast, a market-style bite, and one little surprise the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle palace wander to ease five night owls into the day. The sun won’t wait, but we won’t rush either.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate for lunch, the kind of stop that feels like a market find without the haggling. Terima kasih (thank you) to whoever suggested more food.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys, mischief, and a little chaos. A surprise twist for a crew that thought they were only here to eat.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, breezy vegan stop for a snack-style refuel before the evening proper. I know a guy who swears by the smoothie bowls.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays put. A long, sit-down feast for a crew that loves proper meals and late nights.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, the beach club lights up. A nightlife finish for the night owls, with the sea close enough to hear.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 14,
+          "input_tokens": 946,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 346,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 454,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "12b1f33c-faef-4e9a-8fab-d4719648af06",
+        "id": "29257a2d-aa7f-4cc3-bcd4-110b49447738",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Eats and Surprises\",\n  \"summary\": \"A slower Ubud day built around markets, snacks, a proper meal, and one unexpected twist the crew will not see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to wake up slowly, because the sun won’t wait but we can.\",\n      \"note\": \"A gentle ridge walk to wake up slowly, because the sun won’t wait but we can.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"First food stop of the day: Alchemy for fresh vegan bites and a proper sit-down start.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick temple stop with lotus ponds, the kind of calm surprise that fits between meals.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Naughty Nuris for ribs and market-style energy, because more food means more than two stops.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The proper meal: Locavore NXT stays, as it should. Terima kasih to whoever booked this.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise nightcap at Potato Head after dark, because the crew are night owls and I know a guy.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Ubud Eats and Unexpected Treats\",\n  \"summary\": \"A lazy Ubud day built around markets, snacks and one very special dinner, with a surprise stop the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"First food stop of the day, a proper local plate to line the stomach. Terima kasih (thank you) to whoever invented chicken rice.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: cheeky monkeys and jungle paths. Nobody asked for it, but everybody needs it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A market-style vegan pit stop for snacks and smoothies. Keeps the food count climbing without slowing the day.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace wander before dinner. History with a side of golden light, and it is free.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The kept splurge. A long, slow, unforgettable dinner for a crew of night owls. The sun won't wait, but this table will.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 38,
+          "input_tokens": 114,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 415,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 404,
           "service_tier": "standard"
         }
       }

@@ -114,7 +114,7 @@ export function buildRedraftRequest(
     ),
     '',
     '## Areas (places with the same letter are a short ride apart)',
-    ...areas.lines,
+    ...areas.links,
     '',
     '## The day now',
     ...(current.length > 0 ? current : ['- no stops']),

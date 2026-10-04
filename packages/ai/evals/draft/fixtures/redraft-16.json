@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b3170065-2a9f-440f-bea2-5c8b4c63b02d",
+        "id": "52f5fb23-0dc6-44a1-9cd1-73d6efcdc2e5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco Market Day\",\n  \"summary\": \"A gentle day in central Cusco tasting market life, a proper lunch and the Inka museum.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for market lunch, so we start with the real thing: San Pedro's stalls and street snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal after the market, still in the same part of town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"We keep the Inka museum as the one must-do, with time to wander slowly.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Market Day in Cusco\",\n  \"summary\": \"A slower food-loving day around central Cusco, with a market wander, a proper lunch, and the crew's must-see museum.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for market lunch, so we start at San Pedro to graze the stalls and soak up the local life before the real meal.\",\n      \"order\": 1\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch close by, with good vegetarian options for the crew.\",\n      \"order\": 2\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we must keep, and a gentle museum finish after all that food.\",\n      \"order\": 3\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 948,
+          "input_tokens": 896,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 640,
-          "output_tokens": 240,
+          "output_tokens": 245,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3fd7195c-20d5-41b2-9e55-539d9185aaed",
+        "id": "78e34861-247d-47a6-8899-84e982e408b5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Unexpected Cusco\",\n  \"summary\": \"A day of hidden corners and quiet wonders, with one stop the crew would never see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do temple still leads the morning, its stonework catching the early light.\",\n      \"note\": \"The must-do temple still leads the morning, its stonework catching the early light.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through San Blas, where the crew can lose themselves among workshops and tiny plazas.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Morena keeps everyone happy with proper vegetarian plates and a warm room.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral in the afternoon, when the crowds thin and the gold glows a little softer.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise dash to the salt mines, a strange white staircase the crew did not expect today.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Quirky Cusco Day\",\n  \"summary\": \"A gentle day in Cusco that swaps the usual ruins for a wander through San Blas, a sunlit temple, and a long lazy lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the day, Qorikancha stays because some history is too good to skip.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: instead of another grand stone wall, we wander the little lanes and workshops of San Blas.\",\n      \"start\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates, and a long table for four to rest our feet.\",\n      \"start\": \"12:00\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral stays as the afternoon anchor, but now it feels like a bonus after the quiet morning.\",\n      \"start\": \"14:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 6,
+          "input_tokens": 593,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 337,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 320,
           "service_tier": "standard"
         }
       }

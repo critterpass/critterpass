@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "668f42e9-1a0a-4535-ad77-da0698677377",
+        "id": "cc411706-c279-46df-9c40-3c9f2a01b873",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Tuesday in Đà Lạt\",\n  \"summary\": \"A gentler day with one long garden visit, a kept Bánh Căn lunch, and a relaxed dinner in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the slower pace means we keep just this one activity and let the flowers take their time.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this keep is the street-food anchor, so lunch stays right here in the same area.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to this nearby spot so the evening stays easy and close to the garden.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Day in Đà Lạt\",\n  \"summary\": \"One unhurried garden visit, a kept lunch, and a long evening meal with the night owl in mind.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, this is the one activity left, so we can wander the flower beds without watching the clock. The hours are a guess, so I’d still start well before the last entry.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, lunch stays here because it is the one stop the crew asked to keep. Same area as the garden, so no rush between them.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to this area for a long, warm evening meal. The night owl gets a late, slow table instead of a second activity.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 1853,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2304,
-          "output_tokens": 276,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 280,
           "service_tier": "standard"
         }
       }
