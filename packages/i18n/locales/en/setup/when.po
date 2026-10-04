@@ -27,6 +27,10 @@ msgstr "{calendars, plural, one {From {synced} synced calendar. {only} hasn’t 
 msgid "setup.when.line.all"
 msgstr "{calendars, plural, one {From {synced} synced calendar. Everyone’s in.} other {From {synced} synced calendars. Everyone’s in.}}"
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.length"
+msgstr "{days, plural, one {# day} other {# days}}"
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
 msgstr "{first} Flights cost {delta} more."
@@ -39,9 +43,9 @@ msgstr "{first} Flights drop {delta}."
 msgid "setup.when.option.pick"
 msgstr "{guide}'s pick"
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.days"
-msgstr "{length} days"
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.lengthRange"
+msgstr "{length} · {range}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.countWord"
@@ -71,6 +75,10 @@ msgstr "{names} can’t make all of it."
 msgid "setup.ask.privacy"
 msgstr "{organiser} only hears whether the week works. Never what the block is."
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipSome"
+msgstr "{range} · {free} of {total}"
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.partTitle"
 msgstr "{range} · {free} of {total}"
@@ -78,6 +86,10 @@ msgstr "{range} · {free} of {total}"
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.windowPill"
 msgstr "{range} · all {everyone} free"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipAll"
+msgstr "{range} · all {total}"
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.allTitle"
@@ -87,13 +99,29 @@ msgstr "{range} · all {total}"
 msgid "setup.when.windowPillSolo"
 msgstr "{range} · you're free"
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11y"
 msgstr "{when}, {free} of {total} free"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnly"
+msgstr "{when}, first and last day, {free} of {total} free"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirst"
+msgstr "{when}, first day, {free} of {total} free"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLast"
+msgstr "{when}, last day, {free} of {total} free"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.free"
 msgstr "{who} of {all} can make every day of it."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.tooLong"
+msgstr "A trip can be {max} days at most. Pick fewer days to lock it."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.title"
@@ -118,6 +146,10 @@ msgstr "Can’t move it"
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.change"
 msgstr "Change"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.clear"
+msgstr "Clear"
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.connect"
@@ -176,10 +208,6 @@ msgstr "Mark the days you can’t go instead."
 msgid "setup.when.pick.partial"
 msgstr "Most of you, at the best time. The rest can join for part of it."
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.nextMonth"
-msgstr "Next month"
-
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.timedOut"
 msgstr "No answer from {name} in two days, so I set this one aside."
@@ -196,14 +224,6 @@ msgstr "No week fits all {total}"
 msgid "setup.when.line.none"
 msgstr "Nobody has shared their days yet. Connect a calendar or mark days by hand."
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.longer"
-msgstr "One day longer"
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.shorter"
-msgstr "One day shorter"
-
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncedLine"
 msgstr "Only free or busy per day is shared."
@@ -216,10 +236,6 @@ msgstr "Only free or busy per day leaves your phone."
 msgid "setup.ask.words"
 msgstr "Or tell {name} in your words"
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.title"
-msgstr "Pick a week"
-
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.pickAnyway"
 msgstr "Pick a week anyway"
@@ -228,9 +244,9 @@ msgstr "Pick a week anyway"
 msgid "setup.when.pickOther"
 msgstr "Pick another week"
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.prevMonth"
-msgstr "Previous month"
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.titleDays"
+msgstr "Pick your days"
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.line"
@@ -239,6 +255,10 @@ msgstr "Quick one: your maybe block is the only thing between the crew and {plac
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.send"
 msgstr "Send"
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.monthHint"
+msgstr "Swipe up or down for another month."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.staleLine"
@@ -249,8 +269,12 @@ msgid "setup.when.own.syncing"
 msgstr "Syncing your calendar"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.line"
-msgstr "Tap the first day. Set how long below."
+msgid "setup.when.picker.howTo"
+msgstr "Tap the first day and the last, or hold a day and drag."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghost"
+msgstr "Tap the outlined last day to take it, or tap another day."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"
@@ -275,6 +299,10 @@ msgstr "This week sits in {place}'s best season, and everyone's free. It gets yo
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.seasonPeak"
 msgstr "This week sits in {place}'s best season, and you're free. It gets you both."
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.today"
+msgstr "Today"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.rate"

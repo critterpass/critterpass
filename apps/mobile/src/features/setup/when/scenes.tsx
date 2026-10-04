@@ -1,6 +1,8 @@
 /**
  * Fixed dates-step scenes over the Kyoto six: the designed best week (3c-3) and no-fit options
- * (3c-4), and every state around them. April 2027 counts are the render's.
+ * (3c-4), every state around them, and the day picker (empty with its best-window chips, a picked
+ * range, the ghost after a first tap, and a range too long to lock). April 2027 counts are the
+ * render's.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture data and scene ids, never copy. */
 import { useState } from 'react';
@@ -10,6 +12,7 @@ import { DEV, kyotoTrip, MAYA, SCENE_NOW, sceneFrame, WINSTON } from '../scenes/
 import { ASK, FULL, option, PARTIAL, summaries, whenModel } from './fixtures';
 import { heatMonths, type WindowOption } from './model';
 import { AskSheetView } from './ask-sheet';
+import type { RangePick } from './range';
 import { WeekPicker } from './week-picker';
 import { WhenView, type WhenModel } from './when-view';
 
@@ -31,6 +34,25 @@ function When({ m, me, offline }: { m: WhenModel; me?: string; offline?: boolean
       model={{ ...m, selectedId: selected }}
       actions={{ ...NOOP, onSelect: setSelected }}
     />
+  );
+}
+
+/** The day picker over the 3c-3 screen, opened on a fixed pick (a trip planned for 8 days). */
+function Picker({ pick, months }: { pick?: RangePick; months?: readonly number[] }) {
+  return (
+    <>
+      <When m={whenModel({})} />
+      <WeekPicker
+        months={heatMonths(summaries(months ?? [4]))}
+        startMonth={0}
+        total={6}
+        lengthDays={8}
+        busy={false}
+        onLock={() => undefined}
+        onDismiss={exitScene}
+        initialPick={pick}
+      />
+    </>
   );
 }
 
@@ -171,25 +193,25 @@ export const WHEN_SCENES: readonly SetupScene[] = [
     name: 'when-lock-failed',
     render: () => <When m={whenModel({ failure: 'offline' })} />,
   },
+  { name: 'when-week-picker', render: () => <Picker /> },
   {
-    name: 'when-week-picker',
-    render: () => {
-      const months = heatMonths(summaries([4]));
-      return (
-        <>
-          <When m={whenModel({})} />
-          <WeekPicker
-            months={months}
-            startMonth={0}
-            total={6}
-            lengthDays={8}
-            busy={false}
-            onLock={() => undefined}
-            onDismiss={exitScene}
-          />
-        </>
-      );
-    },
+    name: 'when-picker-range',
+    render: () => (
+      <Picker pick={{ anchor: null, range: { start: '2027-04-02', end: '2027-04-09' } }} />
+    ),
+  },
+  {
+    name: 'when-picker-ghost',
+    render: () => <Picker pick={{ anchor: '2027-04-16', range: null }} />,
+  },
+  {
+    name: 'when-picker-too-long',
+    render: () => (
+      <Picker
+        months={[4, 5]}
+        pick={{ anchor: null, range: { start: '2027-04-12', end: '2027-05-16' } }}
+      />
+    ),
   },
   {
     name: 'when-ask-sheet',

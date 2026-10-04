@@ -1,10 +1,10 @@
 /**
  * The dates step (3c-3, 3c-4) as a pure view. With a week the whole crew can make: the heatmap
- * with that week outlined, the guide's reason and "Lock {range}". Without one: "No week fits all
- * {n}" and the options, the guide's pick, a CTA that follows the selection and "Pick a week
- * anyway". Before anyone has shared a day, or while the options are being worked out, the heatmap
- * (or its empty state) with the way forward. Everyone sees their own calendar's row; only the
- * organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
+ * with that week as a yellow band, the guide's reason and "Lock {range}". Without one: "No week
+ * fits all {n}" and the options, the guide's pick, a CTA that follows the selection and "Pick a
+ * week anyway". Before anyone has shared a day, or while the options are being worked out, the
+ * heatmap (or its empty state) with the way forward. Everyone sees their own calendar's row; only
+ * the organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
  */
 import { t } from '@lingui/core/macro';
 
@@ -50,6 +50,8 @@ export interface WhenModel {
   readonly mustDoTitles: ReadonlyMap<string, string>;
   readonly calendar: OwnCalendar;
   readonly now: Date;
+  /** Today on this phone (`YYYY-MM-DD`), for the calendar's "Today" link. */
+  readonly today?: string | undefined;
   /** A lock or ask in flight, and the last one's failure line. */
   readonly busy: boolean;
   readonly failure: WhenFailure | null;
@@ -220,6 +222,7 @@ export function WhenView({
           startIndex={model.startMonth}
           total={model.total}
           window={best === null ? null : { start: best.start, end: best.end }}
+          today={model.today}
           windowLabel={
             range === null
               ? undefined

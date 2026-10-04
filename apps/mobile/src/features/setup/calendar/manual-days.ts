@@ -1,6 +1,7 @@
 /**
  * Marking days by hand (the fallback without calendar access): a Monday-first month grid over the
- * setup horizon, a tap cycling a day free → busy → maybe → unmarked, and the `set_availability`
+ * setup horizon painted with a Free / Maybe / Busy tool (a tap or a drag; painting a day already
+ * in the tool's state clears it), and the `set_availability`
  * payload a save sends (marked days as `manual`, days taken back as `clear`). The member's own
  * marks are kept on this device in the encrypted `local_private` table so the grid reopens as left.
  */
@@ -11,19 +12,38 @@ import type { AbstractPowerSyncDatabase } from '@powersync/common';
 export type ManualMark = 'free' | 'busy' | 'maybe';
 export type ManualMarks = Readonly<Record<string, ManualMark>>;
 
-const CYCLE: readonly (ManualMark | null)[] = ['free', 'busy', 'maybe', null];
+/** Whether a stroke of `tool` that starts on `date` paints days or clears them. */
+export type PaintMode = 'set' | 'clear';
 
-export function nextMark(current: ManualMark | undefined): ManualMark | null {
-  const index = CYCLE.indexOf(current ?? null);
-  return CYCLE[(index + 1) % CYCLE.length] ?? null;
+/** Painting a day already in the tool's state clears it; anything else takes the tool's state. */
+export function paintMode(marks: ManualMarks, date: string, tool: ManualMark): PaintMode {
+  return marks[date] === tool ? 'clear' : 'set';
 }
 
-export function toggled(marks: ManualMarks, date: string): ManualMarks {
-  const next = nextMark(marks[date]);
+/** `marks` with `dates` painted in `tool` (or cleared). */
+export function painted(
+  marks: ManualMarks,
+  dates: readonly string[],
+  tool: ManualMark,
+  mode: PaintMode,
+): ManualMarks {
   const copy: Record<string, ManualMark> = { ...marks };
-  if (next === null) delete copy[date];
-  else copy[date] = next;
+  for (const date of dates) {
+    if (mode === 'clear') delete copy[date];
+    else copy[date] = tool;
+  }
   return copy;
+}
+
+/** Every date from `a` to `b` inclusive, in calendar order whichever comes first. */
+export function datesBetween(a: string, b: string): string[] {
+  const [from, to] = a <= b ? [a, b] : [b, a];
+  const dates: string[] = [];
+  for (let at = Date.parse(`${from}T12:00:00Z`); ; at += 86_400_000) {
+    const date = new Date(at).toISOString().slice(0, 10);
+    if (date > to) return dates;
+    dates.push(date);
+  }
 }
 
 export interface MonthGrid {

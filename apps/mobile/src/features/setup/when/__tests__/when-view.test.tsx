@@ -1,5 +1,5 @@
 /**
- * The dates step's view: the best week with its outline, pill, spoken cells and lock; no week
+ * The dates step's view: the best week as a band, its pill, spoken cells and lock; no week
  * fitting everyone with the options, the guide's pick and a CTA that follows the selection; the
  * ask's progress on its card; a member's view without organiser actions; and the own-calendar row
  * through each of its states.
@@ -56,8 +56,15 @@ describe('dates step view', () => {
     const handlers = await show(whenModel({}));
     expect(screen.getByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
     expect(screen.getByText('From five synced calendars. Dev hasn’t connected yet.')).toBeTruthy();
-    expect(screen.getByLabelText('April 2, 6 of 6 free')).toBeTruthy();
-    expect(screen.getByLabelText('April 27, 1 of 6 free')).toBeTruthy();
+    // The best week's ends say so; every day in it is selected, the rest are not.
+    expect(screen.getByLabelText('April 2, first day, 6 of 6 free')).toBeTruthy();
+    expect(screen.getByLabelText('April 9, last day, 6 of 6 free')).toBeTruthy();
+    expect(screen.getByLabelText('April 5, 6 of 6 free').props.accessibilityState).toEqual({
+      selected: true,
+    });
+    expect(screen.getByLabelText('April 27, 1 of 6 free').props.accessibilityState).toEqual({
+      selected: false,
+    });
     expect(screen.getByTestId('heatmap-window')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('when-cta'));
     expect(handlers.onLock).toHaveBeenCalledWith('2027-04-02', '2027-04-09');
