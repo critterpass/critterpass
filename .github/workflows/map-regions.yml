@@ -10,6 +10,14 @@ name: map regions
 # credential lives here. Without the two R2_TILES_* secrets the publish step is skipped and says
 # so; the pack can still be put up from a laptop (docs/runbooks/add-a-destination.md). Pull
 # requests that touch the build make the two smallest packs as a check and publish nothing.
+#
+# Every hour it also builds what people are waiting for, so nobody has to dispatch anything: the
+# plan job asks the api (repository variable MAP_REGIONS_API_URL, the api's base address) for the
+# destinations with recent trips or pitches and no pack (`GET /v1/map/regions/wanted`: slugs and
+# boxes only), and builds and publishes at most six of them, two at a time. A destination whose
+# pack already answers at its public address is never built again, and a box over the size cap or
+# with no Geofabrik extract on record is skipped and named in the summary
+# (tools/maps/plan-wanted.ts). Without the variable the scheduled run does nothing and says so.
 
 on:
   workflow_dispatch:
@@ -27,34 +35,89 @@ on:
         description: publish the pack on the cp-tiles bucket
         type: boolean
         default: true
+  schedule:
+    - cron: '23 * * * *'
   pull_request:
     paths:
       - tools/maps/build-pmtiles.ts
       - tools/maps/destinations.ts
+      - tools/maps/plan-wanted.ts
       - .github/workflows/map-regions.yml
 
 concurrency:
-  group: map-regions-${{ github.event_name == 'pull_request' && github.head_ref || inputs.destination }}
+  group: map-regions-${{ github.event_name == 'pull_request' && github.head_ref || inputs.destination || 'wanted' }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
 
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      packs: ${{ steps.plan.outputs.packs }}
+      count: ${{ steps.plan.outputs.count }}
+    env:
+      API_URL: ${{ vars.MAP_REGIONS_API_URL }}
+      DESTINATION: ${{ inputs.destination }}
+      BOUNDS: ${{ inputs.bounds }}
+      GEOFABRIK_REGION: ${{ inputs.geofabrik_region }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        if: github.event_name == 'schedule' && vars.MAP_REGIONS_API_URL != ''
+      - uses: actions/setup-node@v7
+        if: github.event_name == 'schedule' && vars.MAP_REGIONS_API_URL != ''
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile --filter @cp/maps...
+        if: github.event_name == 'schedule' && vars.MAP_REGIONS_API_URL != ''
+      - name: Plan the packs
+        id: plan
+        run: |
+          case "$GITHUB_EVENT_NAME" in
+            pull_request)
+              packs='[{"slug":"vn-da-lat","bounds":"","geofabrikRegion":""},{"slug":"vn-hoi-an","bounds":"","geofabrikRegion":""}]'
+              ;;
+            workflow_dispatch)
+              packs=$(jq -cn --arg slug "$DESTINATION" --arg bounds "$BOUNDS" --arg region "$GEOFABRIK_REGION" \
+                '[{slug: $slug, bounds: $bounds, geofabrikRegion: $region}]')
+              ;;
+            *)
+              if [ -z "$API_URL" ]; then
+                echo "Nothing built: the MAP_REGIONS_API_URL repository variable is not set." | tee -a "$GITHUB_STEP_SUMMARY"
+                packs='[]'
+              else
+                pnpm --silent --filter @cp/maps plan:wanted --api "$API_URL" --limit 6 --out "$RUNNER_TEMP/plan.json" > /dev/null
+                packs=$(jq -c '.build' "$RUNNER_TEMP/plan.json")
+                {
+                  echo "Building: $(jq -r '[.build[].slug] | join(", ") | if . == "" then "nothing is waiting" else . end' "$RUNNER_TEMP/plan.json")"
+                  jq -r '.skipped[] | "Skipped \(.slug): \(.reason)"' "$RUNNER_TEMP/plan.json"
+                } | tee -a "$GITHUB_STEP_SUMMARY"
+              fi
+              ;;
+          esac
+          echo "packs=$packs" >> "$GITHUB_OUTPUT"
+          echo "count=$(jq -n --argjson packs "$packs" '$packs | length')" >> "$GITHUB_OUTPUT"
+
   pack:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
-        destination: ${{ github.event_name == 'pull_request' && fromJSON('["vn-da-lat","vn-hoi-an"]') || fromJSON(format('["{0}"]', inputs.destination)) }}
+        pack: ${{ fromJSON(needs.plan.outputs.packs) }}
+    name: pack (${{ matrix.pack.slug }})
     env:
-      DESTINATION: ${{ matrix.destination }}
-      BOUNDS: ${{ inputs.bounds }}
-      GEOFABRIK_REGION: ${{ inputs.geofabrik_region }}
+      DESTINATION: ${{ matrix.pack.slug }}
+      BOUNDS: ${{ matrix.pack.bounds }}
+      GEOFABRIK_REGION: ${{ matrix.pack.geofabrikRegion }}
       TILES_BUCKET: cp-tiles
       TILES_PUBLIC_BASE_URL: https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev
-      PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.publish }}
+      PUBLISH: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish) }}
       HAS_R2_TOKEN: ${{ secrets.R2_TILES_ACCESS_KEY_ID != '' && secrets.R2_TILES_SECRET_ACCESS_KEY != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
     steps:
       - uses: actions/checkout@v7
@@ -79,8 +142,8 @@ jobs:
           } | tee -a "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v7
         with:
-          name: region-pack-${{ matrix.destination }}
-          path: ${{ runner.temp }}/pack/${{ matrix.destination }}.pmtiles
+          name: region-pack-${{ matrix.pack.slug }}
+          path: ${{ runner.temp }}/pack/${{ matrix.pack.slug }}.pmtiles
           compression-level: 0
           retention-days: 14
       - name: Publishing is off
@@ -109,6 +172,11 @@ jobs:
             if [ "$code" != 200 ]; then echo "cannot tell whether $candidate exists (HTTP $code)" >&2; exit 1; fi
           done
           if [ -z "$key" ]; then echo "no free version for $DESTINATION" >&2; exit 1; fi
+          # A scheduled run only ever adds a destination's first pack; a rebuild is a person's call.
+          if [ "$GITHUB_EVENT_NAME" = schedule ] && [ "$key" != "$DESTINATION/tiles-v1.pmtiles" ]; then
+            echo "Not published: $DESTINATION already has a pack." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           # If-None-Match makes the bucket itself refuse to replace an object that is there.
           aws s3api put-object --bucket "$TILES_BUCKET" --key "$key" --body "$pack" \
             --content-type application/octet-stream --if-none-match '*' > /dev/null

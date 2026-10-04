@@ -214,6 +214,14 @@ railway run --service api --environment staging -- pnpm --dir <worktree>/tools/m
   missing:regions
 ```
 
+Most packs need nobody: every hour the `map regions` workflow asks the api for the destinations
+with a trip or a pitch in the last 30 days and no pack (`GET /v1/map/regions/wanted`, the address
+in the `MAP_REGIONS_API_URL` repository variable), builds at most six with the place's box widened
+by 30 km, and publishes them; the worker registers each within 20 minutes. Its run summary names
+what it skipped and why: a box over the size cap, or a destination with no Geofabrik extract in
+`tools/routing-tiles/src/regions.ts`. The steps below are for those, for a box chosen by hand, and
+for a rebuild.
+
 1. Choose the box. Start from the place's own box (`destinations.place_bounds`, printed by
    `missing:regions`) and widen it to the day trips people make from the town: Đà Lạt's pack
    reaches Lang Biang, Liên Khương airport and the falls. Record it in
