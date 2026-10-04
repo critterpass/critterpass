@@ -73,7 +73,8 @@ export const planStaySource: StaySource = {
     const { rows } = await tx.query<{ lat: number; lng: number }>(
       `SELECT p.lat, p.lng FROM plan_items i
          JOIN plan_days d ON d.id = i.day_id JOIN pois p ON p.id = i.poi_id
-        WHERE i.version_id = $1 AND p.category = 'stay' AND i.status IS DISTINCT FROM 'cancelled'
+        WHERE i.version_id = $1 AND p.category = 'stay' AND coalesce(i.category, 'stay') = 'stay'
+          AND i.status IS DISTINCT FROM 'cancelled'
         ORDER BY (d.date <= $2::date) DESC,
                  CASE WHEN d.date <= $2::date THEN -d.day_no ELSE d.day_no END
         LIMIT 1`,
