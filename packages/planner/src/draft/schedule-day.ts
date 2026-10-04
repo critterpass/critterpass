@@ -94,7 +94,14 @@ export function baseWindow(frame: TripFrame): DayWindow {
 const EARLIEST_TIMED_MIN = 4 * 60 + 30;
 const LATEST_TIMED_MIN = 24 * 60;
 
-/** The usable part of day `dayIndex` (0-based): the base day, cut by arrival and departure. */
+/** A day the crew asked to start later opens this much later, and never before half past ten. */
+const LATER_START_BY_MIN = 90;
+const LATER_START_FLOOR_MIN = 10 * 60 + 30;
+
+/**
+ * The usable part of day `dayIndex` (0-based): the base day, cut by arrival and departure, and
+ * opened later when the crew asked for a later start (a stop held to its own time keeps it).
+ */
 export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   const base = baseWindow(frame);
   let { startMin, endMin } = base;
@@ -109,6 +116,11 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
     const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
     latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
+  }
+  if (frame.laterStartDays?.includes(dayIndex + 1) === true) {
+    const later = Math.max(startMin + LATER_START_BY_MIN, LATER_START_FLOOR_MIN);
+    // A short last day keeps at least a lunch-length stretch.
+    startMin = Math.max(startMin, Math.min(later, endMin - LATER_START_BY_MIN));
   }
   return { startMin, endMin: Math.max(startMin, endMin), earliestMin, latestMin };
 }
