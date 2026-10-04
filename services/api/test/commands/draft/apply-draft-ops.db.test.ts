@@ -176,6 +176,8 @@ describe('apply_draft_ops', () => {
     ]);
     base = resultOf<{ version_id: string }>(added).version_id;
     for (let i = 0; i < 200; i += 1) {
+      // The command door's per-person rate limit is not what this proves.
+      if (i % 20 === 0) await harness.redis.flushAll();
       const next = await edit(crew.organiser, base, [moveTo(9 + (i % 8))]);
       if (next.status !== 200) throw new Error(JSON.stringify(next.body));
       base = resultOf<{ version_id: string }>(next).version_id;
@@ -189,6 +191,7 @@ describe('apply_draft_ops', () => {
   });
 
   it('keeps a draft the guide made when she edits it, and waits while the guide drafts', async () => {
+    await harness.redis.flushAll();
     const guideDraft = (await trip()).draft;
     await harness.pool.query("UPDATE itinerary_versions SET origin = 'guide' WHERE id = $1", [
       guideDraft,
