@@ -1,6 +1,7 @@
 /**
  * The GO preview's map: you as the blue dot, the place as a labelled pin, and the route between
- * them along the roads (yellow) or as a straight stand-in (thin and pale). The camera frames both ends,
+ * them along the roads (a wide yellow line) or as a
+ * straight stand-in (a thin one). The camera frames both ends,
  * or the place alone before a position is known. The destination's region tiles draw it offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
@@ -105,7 +106,7 @@ export function GoMap({
           <RouteLine
             id="go-route"
             coordinates={line}
-            color={lineStraight ? tokens.semantic.text.secondary : tokens.color.yellow}
+            color={tokens.color.yellow}
             width={lineStraight ? 2 : 5}
           />
         )}
