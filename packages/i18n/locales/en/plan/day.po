@@ -24,7 +24,7 @@ msgstr "{0} here"
 
 #. placeholder {0}: warning.minutes ?? 0
 #. placeholder {1}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.travel"
 msgstr "{0} min short to get here from {1}"
 
@@ -120,7 +120,7 @@ msgstr "Free day"
 msgid "plan.day.item.placeDetail"
 msgstr "Hours, photos and how to get there"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
 msgstr "It changes once they say yes."
 
@@ -181,7 +181,7 @@ msgid "plan.day.lockedLine"
 msgstr "Open it to change it anyway."
 
 #. placeholder {0}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.overlap"
 msgstr "Overlaps {0}"
 
@@ -231,7 +231,7 @@ msgstr "Searching more places…"
 msgid "plan.day.queued"
 msgstr "Sends when you’re back"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedToast"
 msgstr "Sent to the crew"
 
@@ -239,7 +239,7 @@ msgstr "Sent to the crew"
 msgid "plan.day.item.skip"
 msgstr "Skip it, just me"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Skipped, just for you"
 
