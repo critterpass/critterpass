@@ -38,6 +38,7 @@ function recorded(usage: AiUsageRecord[] = []) {
     fetch: fixtureTransport(['place-picks-da-lat']).fetch,
     onUsage: (record) => {
       usage.push(record);
+      return Promise.resolve();
     },
   });
 }
