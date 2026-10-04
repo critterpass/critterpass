@@ -42,14 +42,23 @@ export const planLegSchema = z.object({
 export type PlanLeg = z.infer<typeof planLegSchema>;
 
 /**
- * Events after which a trip's legs may be stale: a new or edited plan version moves stops, and a
- * stay booking added, edited, removed or shared moves the night's anchor. Bursts of edits fold
- * into one run per trip after `PLAN_LEGS_DEBOUNCE_SECONDS`.
+ * Events after which a trip's legs may be missing or stale. A plan is born from the guide's draft
+ * (`draft.ready`), replaced by a kept redraft or a restored earlier draft, sent to the crew and
+ * locked in: each of those is a version the day plan reads, so each asks for its legs. After that
+ * an edited plan version moves stops, and a stay booking added, edited, removed or shared moves
+ * the night's anchor. Bursts of events fold into one run per trip after
+ * `PLAN_LEGS_DEBOUNCE_SECONDS`, and the run routes every live version of the trip.
  */
 export const LEGS_TRIGGER_EVENTS: ReadonlySet<string> = new Set([
+  'draft.ready',
+  'draft.version_restored',
+  'redraft.kept',
+  'proposal.sent',
+  'proposal.locked',
   'plan.version_created',
   'plan.ops_applied',
   'change_set.applied',
+  'change_set.reverted',
   'booking.added',
   'booking.edited',
   'booking.deleted',
