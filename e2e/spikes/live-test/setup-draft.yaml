@@ -1,0 +1,9 @@
+appId: app.critterpass.dev
+---
+# A first-time traveller's walk on staging, read in Vietnamese from the splash: onboarding, a crew
+# of one, Đà Lạt pitched and locked in, the trip set up two weeks out for four days, the guide's
+# draft read day by day, then CHANGE A DAY twice. It stops before the plan goes to the crew.
+# Every screen and every action that changes it leaves a frame (setup-draft-<nn>-<what>).
+- runFlow: ../../happy/subflows/fresh-install.yaml
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-01-splash
