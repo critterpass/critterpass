@@ -4,7 +4,8 @@
  * Foursquare's usage guidelines allow a Pay as You Go account to keep only `fsq_place_id` and photo
  * ids; every other attribute may not be cached at all. So nothing in this module is ever stored: the
  * api fetches one Place Details call per place-detail open and maps it into `PlaceLive`, which is
- * served with `Cache-Control: no-store`. `popularity` is a calculated score that the EULA keeps
+ * served with `Cache-Control: no-store`. The one thing kept from a call is its photos' ids and image
+ * addresses (foursquare-photos.ts). `popularity` is a calculated score that the EULA keeps
  * internal, so it is never filled. Every response that carries Foursquare data carries the
  * attribution the EULA requires ("Powered by Foursquare").
  */
@@ -20,7 +21,9 @@ export const FOURSQUARE_ATTRIBUTION = {
   url: 'https://foursquare.com',
 } as const;
 
-const MAX_PHOTOS = 5;
+/** The most photos read, shown and kept per place. */
+export const FOURSQUARE_MAX_PHOTOS = 5;
+const MAX_PHOTOS = FOURSQUARE_MAX_PHOTOS;
 const MAX_TIPS = 3;
 /** Longest edge we ask Foursquare's image service for; phones never need more. */
 const PHOTO_MAX_EDGE = 1080;
@@ -140,14 +143,36 @@ export function foursquareHoursToHours(
   return parsed.data;
 }
 
-function sizedPhoto(raw: unknown): PlaceLivePhoto | null {
-  const parsed = fsqPhotoSchema.safeParse(raw);
-  if (!parsed.success) return null;
-  const { prefix, suffix, width, height } = parsed.data;
-  const scale = Math.min(1, PHOTO_MAX_EDGE / Math.max(width, height));
+/** A Foursquare photo as the api gives it: the image address is `prefix + size + suffix`. */
+export interface FoursquarePhotoParts {
+  readonly prefix: string;
+  readonly suffix: string;
+  readonly width: number;
+  readonly height: number;
+}
+
+/**
+ * The image address of a photo at a size: never larger than the original, the long edge at most
+ * `PHOTO_MAX_EDGE`, the width at most `maxWidth` when one is given, and the aspect ratio kept.
+ */
+export function sizeFoursquarePhoto(
+  photo: FoursquarePhotoParts,
+  maxWidth?: number,
+): PlaceLivePhoto {
+  const { prefix, suffix, width, height } = photo;
+  const scale = Math.min(
+    1,
+    PHOTO_MAX_EDGE / Math.max(width, height),
+    maxWidth === undefined ? 1 : maxWidth / width,
+  );
   const w = Math.max(1, Math.round(width * scale));
   const h = Math.max(1, Math.round(height * scale));
   return { url: `${prefix}${w}x${h}${suffix}`, width: w, height: h };
+}
+
+function sizedPhoto(raw: unknown): PlaceLivePhoto | null {
+  const parsed = fsqPhotoSchema.safeParse(raw);
+  return parsed.success ? sizeFoursquarePhoto(parsed.data) : null;
 }
 
 function tip(raw: unknown): PlaceLiveTip | null {

@@ -2,6 +2,7 @@
  * `GET /v1/places/{id}/live` against real Postgres (Testcontainers). Foursquare itself is the one
  * network boundary: it is replaced by a recorded Place Details response (Fushimi Inari Taisha,
  * recorded 2026-10-03), and the monthly cap runs through the real `app.reserve_foursquare_call`.
+ * Of an answer only the photos' ids and addresses are kept (`poi_foursquare_photos`).
  */
 import { readFileSync } from 'node:fs';
 
@@ -106,6 +107,8 @@ beforeEach(async () => {
   capped = [];
   errors = [];
   await pool.query('DELETE FROM foursquare_api_usage');
+  await pool.query('DELETE FROM poi_foursquare_photos');
+  await pool.query('DELETE FROM poi_foursquare_photo_reads');
 });
 
 afterAll(async () => {
@@ -157,6 +160,89 @@ describe('GET /v1/places/{id}/live', () => {
     });
     expect(await live(buildTestApp(slow), linkedPoiId)).toEqual(UNAVAILABLE_PLACE_LIVE);
     expect(errors).toEqual([linkedPoiId, linkedPoiId]);
+  });
+
+  it('keeps the photo ids and addresses of an answer, and nothing else of it', async () => {
+    const { rows: tables } = await pool.query<{ name: string }>(
+      `SELECT c.relname AS name FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE n.nspname = 'public' AND c.relkind = 'r' AND c.relname NOT LIKE '\\_%'`,
+    );
+    const dump = async (): Promise<Map<string, string>> => {
+      const state = new Map<string, string>();
+      for (const { name } of tables) {
+        const { rows } = await pool.query<{ rows: string }>(
+          `SELECT coalesce(json_agg(t ORDER BY t::text), '[]')::text AS rows FROM "${name}" t`,
+        );
+        state.set(name, rows[0]!.rows);
+      }
+      return state;
+    };
+    const before = await dump();
+    const body = await live(buildTestApp(config()), linkedPoiId);
+    const after = await dump();
+
+    // The only tables an answer writes: the kept photos, the note of the read, and the call count.
+    const changed = [...after].filter(([name, rows]) => before.get(name) !== rows).map(([n]) => n);
+    expect(changed.sort()).toEqual([
+      'foursquare_api_usage',
+      'poi_foursquare_photo_reads',
+      'poi_foursquare_photos',
+    ]);
+
+    const { rows: photos } = await pool.query(
+      `SELECT poi_id, fsq_photo_id, prefix, suffix, width, height, fsq_created_at, rank
+         FROM poi_foursquare_photos ORDER BY rank`,
+    );
+    const answered = (recorded as { photos: Record<string, unknown>[] }).photos.slice(0, 5);
+    expect(photos).toEqual(
+      answered.map((photo, rank) => ({
+        poi_id: linkedPoiId,
+        fsq_photo_id: photo['fsq_photo_id'],
+        prefix: photo['prefix'],
+        suffix: photo['suffix'],
+        width: photo['width'],
+        height: photo['height'],
+        fsq_created_at: new Date(photo['created_at'] as string),
+        rank,
+      })),
+    );
+    expect(body.photos).toHaveLength(photos.length);
+
+    // Hours, rating, tips, website and phone are in the answer and in no table.
+    const everything = [...after.values()].join('\n');
+    const details = recorded as { tel: string; website: string; tips: { text: string }[] };
+    for (const liveOnly of [details.tel, details.website, details.tips[0]!.text]) {
+      expect(JSON.stringify(body)).toContain(JSON.stringify(liveOnly).slice(1, -1));
+      expect(everything).not.toContain(JSON.stringify(liveOnly).slice(1, -1));
+    }
+  });
+
+  it('replaces the kept photos on the next answer and empties them when the place has none', async () => {
+    await live(buildTestApp(config()), linkedPoiId);
+    const none = config({
+      fetch: () => Promise.resolve(Response.json({ ...(recorded as object), photos: [] })),
+    });
+    expect((await live(buildTestApp(none), linkedPoiId)).available).toBe(true);
+    const { rows } = await pool.query('SELECT 1 FROM poi_foursquare_photos');
+    expect(rows).toEqual([]);
+  });
+
+  it('keeps nothing when Foursquare errs, and still answers when the photos cannot be kept', async () => {
+    const failing = config({ fetch: () => Promise.resolve(new Response('nope', { status: 500 })) });
+    await live(buildTestApp(failing), linkedPoiId);
+    expect((await pool.query('SELECT 1 FROM poi_foursquare_photo_reads')).rows).toEqual([]);
+
+    errors = [];
+    await pool.query('ALTER TABLE poi_foursquare_photos RENAME TO poi_foursquare_photos_away');
+    try {
+      const body = await live(buildTestApp(config()), linkedPoiId);
+      expect(body.available).toBe(true);
+      expect(body.rating).toBe(9.5);
+      expect(body.photos.length).toBeGreaterThan(0);
+      expect(errors).toEqual([linkedPoiId]);
+    } finally {
+      await pool.query('ALTER TABLE poi_foursquare_photos_away RENAME TO poi_foursquare_photos');
+    }
   });
 
   it('is 404 for a POI that does not exist', async () => {
