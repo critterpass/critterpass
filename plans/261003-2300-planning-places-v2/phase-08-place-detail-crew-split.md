@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: Place detail and crew can't agree
-status: pending
+status: in review
 depends_on: [1, 3, 4, 5, 6]
 wave: 3
 screens: [7e-1, 7e-2, 7e-3]
@@ -105,7 +105,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Fit service for `when_it_fits` + bars. 2. Facts from spans/editorial. 3. Nearby (phase 4), similar (category + tags, ≥ 20 min). 4. Split summary. 5. Keep `suggested_slot` for installed builds.
 - Tests: `pnpm test:remote @cp/api -- explore/place-context.db` (participant vs outsider; no Foursquare attribute or supplier text in the payload; tiles omitted when data is missing)
 - Done when: Tirta Empul in the Bali fixture returns SAT 17 08:00 with bars lit 08–09.
-- Status: todo
+- Status: done — 1690e96dc (+ 81be66d09)
 
 ### T2 — Stances
 - Goal: where each person stands, in their words.
@@ -113,7 +113,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Handlers (one row per person per place per trip; note trimmed and length-checked). 2. Split rule (≥ 1 each side) shared from `packages/domain/src/planning/stances.ts`. 3. Events for the plan check (crew_split reason).
 - Tests: `pnpm test:remote @cp/api -- commands/stances` (happy + outsider deny + replay)
 - Done when: two devices' stances show on each other within 1 s.
-- Status: todo
+- Status: done — 9f5eaddd2 (+ b77cf847a)
 
 ### T3 — Two ways nobody loses
 - Goal: compromise options from code-built candidates, worded by the guide.
@@ -121,7 +121,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Candidate builder (fit for subsets, similar places, quiet slots; costs from cost-engine and the ride tariff estimate). 2. Call `places.compromise` (phase 6) with the candidates; template fallback. 3. Redis cache per stances hash and plan version. 4. Fair-use check.
 - Tests: `pnpm test:remote @cp/api -- planning/split.db` (candidates feasible for their attendees; fallback when the model declines; cache key changes with a new stance)
 - Done when: Pura Lempuyang in the Bali fixture yields "keen ones go early" and "Tirta Gangga instead" with car cost and going counts.
-- Status: todo
+- Status: done — fdb12a8a8 (+ a8c4c1ca4)
 
 ### T4 — Post a two-option vote
 - Goal: the chosen way goes to the crew as a decision.
@@ -129,7 +129,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Change sets per option (trigger `split`). 2. Poll(kind=decision) through the poll engine with the C41 default policy and `closes_at`. 3. Chat card + push through the existing poll paths.
 - Tests: `pnpm test:remote @cp/api -- commands/stances/post-place-decision` (suggest vs vote option sets; winner applies through `apply_changeset`)
 - Done when: the winning option applies to the plan when the poll closes.
-- Status: todo
+- Status: done — 45ed445e6 (+ ab930eadb, deadline close in the worker)
 
 ### T5 — Place detail (7e-1)
 - Goal: the top of the page.
@@ -137,7 +137,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Tags, meta, fact tiles, When-it-fits card + bars, crew row. 2. CTA → 7f-1 via `useScreenHref('7f-1')` (until phase 7 registers it, the existing add path stays). 3. ♡ in trip → `save_idea`. 4. `place-detail/register.ts` registers `7e-1` and re-registers `3d-3` as a function route reading `planning.redesign` (the old `explore/routes.ts` entry stays until phase 14).
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/place` (CTA label from fit; in-plan variant)
 - Done when: the page matches the render on device in EN and VI.
-- Status: todo
+- Status: done — e4135f3fa
 
 ### T6 — Further down (7e-2)
 - Goal: what to know, what's next door, what's similar, and the kept 3d-3 parts.
@@ -145,7 +145,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Collapsing header. 2. Sections hidden when empty. 3. + on nearby → 7f-1 `after` preset. 4. Live details + supplier cards below with disclosure.
 - Tests: none beyond typecheck (layout; device sheets are the check)
 - Done when: scroll matches 7e-2; supplier data never written locally (existing test kept).
-- Status: todo
+- Status: done — e4135f3fa (one commit with the page top)
 
 ### T7 — Crew can't agree (7e-3)
 - Goal: the split screen end to end.
@@ -153,14 +153,14 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Stance bar, silent line, notes. 2. Stance picker + note composer. 3. Options + CTAs → `post_place_decision` → crew chat. 4. Register `7e-3`.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/split` (option selection drives the CTA and the posted mode)
 - Done when: a suggestion appears in crew chat on a second device as a vote.
-- Status: todo
+- Status: done — c803e9af2
 
 ### T8 — Device flows and undesigned states
 - Files: `e2e/explore/{place,place-vi,place-live,crew-split}.yaml`, `e2e/explore/subflows/place-scenes.yaml`, `docs/undesigned-states.md`
 - Steps: 1. Rename shots to `7e-1-*`/`7e-2-*`; add `crew-split.yaml` (two accounts). 2. Log states below.
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/explore/place.yaml,e2e/explore/crew-split.yaml" -f mode=compare -f pr=<n> -f shards=1`
 - Done when: sheets reviewed; `ui-reviewed` applied.
-- Status: todo
+- Status: done — 6d2db2568 (sheets on #620; `ui-reviewed` pending)
 
 ### T9 — Place facts producer (after the founder decision "Place facts")
 - Goal: the fact tiles and KNOW BEFORE YOU GO filled for curated places, never invented.
@@ -168,7 +168,7 @@ Reuse / extend / new: reuse the place screen's photo, live details, crew row, Q&
 - Steps: 1. Kind mirrors `kinds/places/hours.ts`: with web research (phase 6 T6) or from open data only (OSM `fee`/`charge`, existing editorial) per the decision. 2. Proposals into `ops.content_reviews`; approval writes the editorial overlay fields. 3. No `da-nang` writes before 2026-10-05 00:00 +07.
 - Tests: `pnpm --filter @cp/content-factory test -- places/facts` (validator cases: no value without a source, short labels ≤ 12 characters)
 - Done when: Bali's curated places show approved ENTRY/WEAR/KNOW tiles on staging; unapproved values never reach the API.
-- Status: todo
+- Status: done — 11cca714a (approval on staging waits for the merge and the founder)
 
 ## Device flows
 

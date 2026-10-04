@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# Crew can't agree (7e-3) from the Explore lab, in English then Vietnamese: the split 2–2 with
+# each person's words and the guide's two ways; choosing the second way turns the button to
+# "Suggest the second one"; and the split before the guide has any way to offer.
+- runFlow: subflows/lab-en.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: split, READY: split-suggest, SHOT: en-7e-3-crew-split }
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-split'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'explore-lab-split'
+- extendedWaitUntil:
+    visible:
+      id: 'split-suggest'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'split-option-1'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'split-option-1'
+- assertVisible:
+    text: '(?i)suggest the second one'
+- takeScreenshot: en-7e-3-second-way-chosen
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: split-no-ways, READY: split-options-note, SHOT: en-7e-3-no-ways }
+- runFlow: subflows/lab-vi.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: split, READY: split-suggest, SHOT: vi-7e-3-crew-split }

@@ -28,6 +28,7 @@ export const exploreSubAreas = {
     `${exploreRoot}/hooks/{use-add-to-day,use-place-photos,use-saved-place}.ts`,
     `${exploreRoot}/dev/{place-scenes.tsx,lab-place-media.ts}`,
     `${exploreApp}/place/**`,
+    `${exploreRoot}/place-detail/**`,
   ],
   map: [
     `${exploreRoot}/map-*.ts`,

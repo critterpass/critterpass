@@ -9,5 +9,7 @@
 import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
 
 import './plan/hub/register';
+import './explore/place-detail/register';
+import './explore/split/register';
 
 startPlanningSwitchFeed();

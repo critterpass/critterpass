@@ -1282,3 +1282,16 @@ if they were verified design values.
 | 7b-3 All days | The move preview | A sheet "Move Night market?" with both days after the move (their stops, and "In the car: about 25 min → 40 min"), then MOVE IT (organiser) or SUGGEST IT TO THE CREW (member); a move the day can't take shows the reason and OK. |
 | 7b-2 Day map | The day picker | The day pill opens a sheet "Pick a day" with the day chips. |
 | 7b-1 Day plan | Stays | A stay (the villa) is the route's start and end on the map, not a numbered stop, as on the trip map. |
+| 7e-1 Place detail | No trip | No WHEN IT FITS card: the place's editorial best time shows as one secondary line under the tiles, ♡ saves it to the person's own saved places, and the button reads "Plan a trip here" (it opens the destination's guide). |
+| 7e-1 Place detail | Already in the plan | The button turns green and names where it sits ("IN DAY 3 · 08:00"); it opens that day. The WHEN IT FITS card is not shown. |
+| 7e-1 Place detail | Member, not organiser | The button reads "SUGGEST FOR SAT · 08:00" (the organiser's path is ADD), like Add to plan's member path. |
+| 7e-1 Place detail | Hours not known | The OPEN tile is left out; with no fit, a secondary line says "Its hours aren't known, so I can't fit it yet." and the button reads "Doesn't fit your days yet", disabled. |
+| 7e-1 Place detail | No crowd curve | The hour bars keep the open span, all at one low height, with the slot still lit; the screen-reader summary gives the open hours instead of the quiet and busy hours. |
+| 7e-1 Place detail | Crew split chip | When the crew has said WANT IT and RATHER NOT, a pink "CREW SPLIT 2–2" tag follows SAVED BY and opens Crew can't agree. In a crew of two the tag shows but does not open (one person each side is a disagreement, not a split). |
+| 7e-1 Place detail | Before Add to plan exists | ADD adds the place directly at the slot the button names (a member's goes to the crew to okay), as the earlier page did; "Other days ›" and the + buttons are hidden until Add to plan is in the app. |
+| 7e-1 Place detail | Live hours disagree | Fit uses only our own hours; Foursquare's live block further down still shows its own hours with attribution. |
+| 7e-2 Place detail, further down | Crew quote | Hidden: no published crew plans exist yet, so the quote card never shows. |
+| 7e-2 Place detail, further down | Foursquare details and partner offers | Kept from the earlier page, below IF YOU LIKE THIS: the live rating, photos, tips, call and website with "Powered by Foursquare", then the partner offers card with its disclosure. |
+| 7e-3 Crew can't agree | Saying where you stand | A card under the notes: WANT IT and RATHER NOT choice chips, an optional "In your own words" field (140 characters) with "The crew sees this with your name." under it, SAY IT (UPDATE once said) and "Take it back" to clear. |
+| 7e-3 Crew can't agree | No ways yet | Under "Two ways nobody loses:" the guide says "No way out yet. Say where you stand and I'll look again."; neither button shows. While the ways load it says "{guide} is working out a way." |
+| 7e-3 Crew can't agree | After posting | A toast says "It's in crew chat as a vote."; a refusal says "That didn't go through" and nothing is posted. |

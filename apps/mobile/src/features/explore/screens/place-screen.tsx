@@ -16,6 +16,7 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useCrowds } from '@/data/travel-data/useCrowds';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Scaffold } from '@/ui/surface/Scaffold';
 
@@ -41,6 +42,7 @@ import {
 } from '../place-model';
 import { liveFacts } from '../place-live';
 import { usePlaceTip, usePoi, useTripCrew, useTripFacts } from '../place-queries';
+import { PlaceDetailScreen } from '../place-detail/place-detail-screen';
 import { exploreRoutes } from '../routes';
 
 export interface PlaceScreenProps {
@@ -59,7 +61,33 @@ function parseJson(text: string | null | undefined): unknown {
   }
 }
 
-export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps) {
+/**
+ * With `planning.redesign` on, the planning place page (7e-1) once the place is on the device; the
+ * earlier page otherwise, and for the waiting and missing states either way.
+ */
+export function PlaceScreen(props: PlaceScreenProps) {
+  const { redesign } = usePlanningSwitch();
+  return redesign ? <PlanningPlace {...props} /> : <ClassicPlaceScreen {...props} />;
+}
+
+function PlanningPlace(props: PlaceScreenProps) {
+  const { row } = usePoi(props.placeId);
+  if (row === null) return <ClassicPlaceScreen {...props} />;
+  const back = () => {
+    if (router.canGoBack()) router.back();
+    else router.replace('/');
+  };
+  return (
+    <PlaceDetailScreen
+      placeId={props.placeId}
+      row={row}
+      tripId={props.tripId ?? null}
+      onBack={back}
+    />
+  );
+}
+
+function ClassicPlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const trip = tripId ?? null;

@@ -232,6 +232,7 @@ export {
   type TablePrivacy,
 } from './privacy';
 export * from './routing/eta-provider';
+export * from './routing/polyline';
 export { estimateStraightLineEta, straightLineEtaProvider } from './routing/straight-line-eta';
 export {
   assertApprovedByKindAllowed,

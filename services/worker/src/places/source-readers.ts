@@ -25,6 +25,8 @@ import { fileURLToPath } from 'node:url';
 
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 
+import { withStepTimeout } from './step-timeout';
+
 export interface BoundingBox {
   readonly minLat: number;
   readonly maxLat: number;
@@ -72,18 +74,34 @@ export function sqlString(value: string): string {
   return `'${value.replaceAll("'", "''")}'`;
 }
 
-export async function withDuckDb<T>(run: (connection: DuckDBConnection) => Promise<T>): Promise<T> {
+/**
+ * Longest a single DuckDB read may take: a London tile's Overture read takes about a minute and an
+ * FSQ export chunk at most a little over two.
+ */
+export const DUCKDB_STEP_TIMEOUT_MS = 8 * 60_000;
+
+export async function withDuckDb<T>(
+  run: (connection: DuckDBConnection) => Promise<T>,
+  timeoutMs: number = DUCKDB_STEP_TIMEOUT_MS,
+): Promise<T> {
   await mkdir(DUCKDB_TEMP_DIR, { recursive: true });
   const instance = await DuckDBInstance.create(':memory:');
   const connection = await instance.connect();
   try {
-    // Shared host budget: one ingest read never takes more than this.
-    await connection.run("SET memory_limit='1GB'");
-    await connection.run('SET threads=2');
-    await connection.run(`SET temp_directory=${sqlString(DUCKDB_TEMP_DIR)}`);
-    await connection.run('INSTALL httpfs');
-    await connection.run('LOAD httpfs');
-    return await run(connection);
+    return await withStepTimeout(
+      'duckdb read',
+      timeoutMs,
+      async () => {
+        // Shared host budget: one ingest read never takes more than this.
+        await connection.run("SET memory_limit='1GB'");
+        await connection.run('SET threads=2');
+        await connection.run(`SET temp_directory=${sqlString(DUCKDB_TEMP_DIR)}`);
+        await connection.run('INSTALL httpfs');
+        await connection.run('LOAD httpfs');
+        return run(connection);
+      },
+      () => connection.interrupt(),
+    );
   } finally {
     connection.closeSync();
   }
