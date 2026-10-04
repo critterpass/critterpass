@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ffa940d9-d71a-4d32-9a45-ec36bd20d0b7",
+        "id": "28c9413d-f385-4600-b8b8-58f10de11064",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Snack-First Kyoto\",\n  \"summary\": \"A slower, food-forward day around one corner of Kyoto, with a temple, a market and two proper meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up among the thousand buddhas.\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up among the thousand buddhas.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Gion's old lanes before lunch, because Rin is already thinking about food.\",\n      \"note\": \"A free wander through Gion's old lanes before lunch, because Rin is already thinking about food.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nishiki Market, the obvious answer to eating your way through the day. Snacks count as research.\",\n      \"note\": \"Nishiki Market, the obvious answer to eating your way through the day. Snacks count as research.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, slurp-worthy lunch nearby. Rin gets her first proper meal without upsetting the budget.\",\n      \"note\": \"A cheap, slurp-worthy lunch nearby. Rin gets her first proper meal without upsetting the budget.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre and a lot of omurice. The splurge-taster in the crew will forgive us.\",\n      \"note\": \"Dinner with a little theatre and a lot of omurice. The splurge-taster in the crew will forgive us.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Tasting Walk Through Kyoto\",\n  \"summary\": \"Rin eats her way through the day, from temple calm to market bites and a proper evening meal, all in one pocket of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The thousand buddhas start the day before the stomach takes over.\",\n      \"start\": \"09:00\",\n      \"end\": \"09:45\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Gion before the market wakes. The old wooden fronts are worth the detour.\",\n      \"start\": \"10:00\",\n      \"end\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin’s first proper food stop. Snack through the stalls, one bite at a time.\",\n      \"start\": \"11:15\",\n      \"end\": \"12:45\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet bowl of noodles to anchor the grazing. Simple, warm, and exactly what the day needs.\",\n      \"start\": \"13:00\",\n      \"end\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little history to balance the eating. The museum is cool and calm, a good reset.\",\n      \"start\": \"14:30\",\n      \"end\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pontocho after dark. Lanterns, narrow lanes, and the promise of dinner around the corner.\",\n      \"start\": \"17:15\",\n      \"end\": \"18:45\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Gyoza Hohei for the proper meal Rin asked for. Crisp, hot, and unapologetically good.\",\n      \"start\": \"19:00\",\n      \"end\": \"20:00\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 841,
+          "input_tokens": 1502,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 480,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 587,
           "service_tier": "standard"
         }
       }

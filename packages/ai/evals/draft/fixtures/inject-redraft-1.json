@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1d55c838-2f3c-42c4-b583-c55e5540c161",
+        "id": "c402747e-a0c8-4d36-87a5-185a8a93101a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two temples, two long meals, and a lot less rushing between them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, quiet kaiseki (multi-course Kyoto meal) lunch that suits the vegetarians and the slower pace.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, then we stop pretending to be efficient.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian choices, because the crew eats better than the deer.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two golden temples, a long lunch, and an evening meal with room to breathe in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing that stays, and it deserves the extra time.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet vegan lunch after the gold leaf, because a slower day still eats well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, then the afternoon is yours to wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle vegetarian dinner to end the day without rushing.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 735,
+          "input_tokens": 1268,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 248,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 277,
           "service_tier": "standard"
         }
       }

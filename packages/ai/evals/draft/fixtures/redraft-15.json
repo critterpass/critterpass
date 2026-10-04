@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "0010baf9-a206-4b9d-b43e-8bd9f8b55c3e",
+        "id": "887df8f1-be5b-4a02-8ef7-161ef0c5d585",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Cheaper Cusco Sunday\",\n  \"summary\": \"A relaxed day around the old centre, keeping the terraces and swapping the pricier stops for free and lighter-on-the-wallet places.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do terraces stay, and they are worth every early start under Inti (the sun).\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free taste of local life and street snacks, perfect for a thrifty crew.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free history and a fine photo spot in the heart of the plaza.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the budget-friendly pizzeria, easy on the wallet and the pace.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lower-priced stop that swaps the cathedral for something sweeter and still local.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a courtyard with a gentler price than the fancier tables nearby.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Thrifty Sunday in Cusco\",\n  \"summary\": \"We trade one pricey stop for free local colour, keep the terraces, and still eat well without breaking the bank.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked for nature, so we keep the ancient terraces before the day warms up.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through market stalls gives us local life and street snacks for very little.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"We swap the fancier kitchen for this cheaper, veg-friendly spot to keep the budget happy.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy, free stroll around the square lets the photo lovers capture the evening light.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 1163,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 373,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 270,
           "service_tier": "standard"
         }
       }

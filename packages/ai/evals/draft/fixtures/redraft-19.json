@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "457afd3c-b2a3-49b6-9f1d-0ba553375a44",
+        "id": "ec1e8149-c900-46a8-a4ca-33b1a8eff158",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in Mexico City\",\n  \"summary\": \"A gentle day with just two unhurried stops, leaving plenty of room to breathe and wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the crew's must-do, now with extra time to soak in the Roma Norte streets without rushing.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slower day still leaves space for a bit of history, and Templo Mayor is right nearby in the same area.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Saturday in Mexico City\",\n  \"summary\": \"A gentle day with two unhurried stops, letting the city breathe around you.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Roma Norte walk stays, now with room to linger over every mural and courtyard.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor keeps its place so history gets the slow, respectful visit it deserves.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 58,
+          "input_tokens": 975,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 166,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 150,
           "service_tier": "standard"
         }
       }

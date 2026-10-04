@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9ed8f468-5acd-4bf5-8d55-b9b9db13fa25",
+        "id": "cae664d6-8d6a-4af7-bdba-bf28d59435d2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Market Day in Cusco\",\n  \"summary\": \"A slower, food-first day around the old town, with a proper market lunch and a gentle wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Still the one must-see, so we start here while the galleries are quiet.\",\n      \"note\": \"Still the one must-see, so we start here while the galleries are quiet.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom gets his wish: lunch among the market stalls, with street snacks all around.\",\n      \"note\": \"Tom gets his wish: lunch among the market stalls, with street snacks all around.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A soft finish on the square, where the city hums and the coffee is close by.\",\n      \"note\": \"A soft finish on the square, where the city hums and the coffee is close by.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasty Cusco Afternoon\",\n  \"summary\": \"We wander from the stones of Sacsayhuamán to the sweet smells of ChocoMuseo, then settle in for a long, proper meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A good stretch of history to open the afternoon, with room to roam before the day warms up.\",\n      \"start\": \"14:00\",\n      \"end\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, because no food day is complete without a little sweetness and a lot of cocoa.\",\n      \"start\": \"16:15\",\n      \"end\": \"17:15\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal with vegetarian options, just as Tom hoped for lunch, but at a civilised dinner hour.\",\n      \"start\": \"17:45\",\n      \"end\": \"19:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 10,
+          "input_tokens": 1010,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 276,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 288,
           "service_tier": "standard"
         }
       }

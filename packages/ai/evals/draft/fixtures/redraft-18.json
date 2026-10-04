@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8af1d16f-3e1c-4ef7-a41d-1427d01bbec0",
+        "id": "a564bb19-070d-4087-8216-ecf0b8417f7a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday Close to the Heart\",\n  \"summary\": \"A slower day around the Zócalo and Chapultepec, with history, green space and easy meals nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor anchors the morning with history right in the centre, no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Zócalo is a short stroll away, so we soak up the square before lunch without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays beside the morning stops, with room for every taste in the crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bosque de Chapultepec gives the nature lover a gentle green pause in the same loose orbit.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a short hop from the park, casual and easy for a Sunday evening.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A compact Sunday in the city\",\n  \"summary\": \"We stay close to the historic centre, mixing pyramids, plazas and a proper meal without long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one big journey of the day, so we start early and let the pyramids set the pace.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander around the Zócalo keeps us in the same historic pocket after the ride back.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor sits right beside the plaza, so we stay on foot and soak up more history.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is steps from the ruins, with room for everyone's tastes and no extra travel.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 54,
+          "input_tokens": 1227,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 365,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 282,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "1ce75321-6453-446a-9e43-4a65f0967dc0",
+        "id": "02bbdc20-c81d-45f9-ac36-d715064e7d41",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Sunday Around the Zócalo\",\n  \"summary\": \"A gentle day close to the historic heart, with the Templo Mayor, the Zócalo, and a quiet meal nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the history close and calm, no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short wander beside the Templo Mayor, all in the same old quarter.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right where we are, no detour and plenty of time to sit.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one long ride we keep, because it is the must-do of the day.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Sunday Close to the Old Heart\",\n  \"summary\": \"A gentle day around the old centre, with pyramids in the morning and the Zócalo and Templo Mayor in the afternoon, all within easy reach.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one long ride of the day, but worth every minute for the history lover.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through the Zócalo to feel the city's pulse before the museum.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Right beside the square, so no extra travel, just layers of history.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm lunch with halal and vegetarian choices, steps from the ruins.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 103,
+          "input_tokens": 152,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 300,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 268,
           "service_tier": "standard"
         }
       }

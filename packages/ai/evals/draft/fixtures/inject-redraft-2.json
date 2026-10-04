@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "24708082-3266-4d50-bcc3-320e72763145",
+        "id": "4b6aa833-7d37-47b7-b3ed-f3af910c21ce",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Lighter, Cheaper Ubud Day\",\n  \"summary\": \"We keep the rice terrace, swap the paid monkey forest for free Ubud gems, and still eat well without blowing Mai's budget.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The sun won’t wait, so we start here with those green terraces before the heat gets clever.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free ridge walk keeps the day light on the wallet and heavy on the views.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ubud Palace costs nothing and gives us a dose of history without the monkey business.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Alchemy keeps everyone happy with vegan plates and a calm corner to rest.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander for local life and photo spots, and it’s only a small spend if anything catches an eye.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Locavore NXT is the one splurge, but it suits the vegetarians and ends the day on a high note.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter, Cheaper Ubud Day\",\n  \"summary\": \"We slow the pace around Ubud, keeping the rice terraces and swapping pricey stops for free palace and ridge time, with a vegan lunch and a special dinner to close the day.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do rice terraces stay, and the morning light makes them glow for the photo lovers.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Alchemy keeps everyone happy with vegan plates, and it is easier on the wallet than the old plan.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ubud Palace is free and full of history, a calm swap for the pricier monkey forest.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The ridge walk stays free and open all day, perfect for a slower afternoon breeze.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Locavore NXT is the one splurge, with vegetarian options for the crew.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 86,
+          "input_tokens": 875,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 398,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 396,
           "service_tier": "standard"
         }
       }

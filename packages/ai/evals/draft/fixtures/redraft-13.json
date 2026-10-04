@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4000bd0b-de2a-4462-8608-c5edc306be58",
+        "id": "3cf60fb7-a715-4969-8946-6af3b3e17a1c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower soak and a skyline\",\n  \"summary\": \"We trade bus time for breathing room, keeping the Blue Lagoon and one Reykjavik viewpoint with no meal stops planned.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that stays, and rightly so: a long, warm float with nowhere else to be.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the concert hall so we stay close and keep the day unhurried, with a view worth lingering over.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Day in Reykjavik\",\n  \"summary\": \"We trade bus rides for breathing room, keeping the Blue Lagoon and letting the city's rhythm slow us down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that stays, because some waters are worth the journey all on their own.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 91,
+          "input_tokens": 1008,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 173,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "6f2100ad-7ee2-4307-8223-2725b751a981",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A Slower Reykjavik Day\",\n  \"summary\": \"A gentle day close to home, with time to soak in the Blue Lagoon and let the city breathe around you.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop worth the ride, and we linger here properly.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free wander by the harbour to round off the day without rushing.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 112,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 154,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 108,
           "service_tier": "standard"
         }
       }

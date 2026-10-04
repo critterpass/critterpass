@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "570af66c-5035-43b1-87d7-ea9c73333eb5",
+        "id": "939ba706-ccb2-4f11-b99d-f23a2eba4e92",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer, Tastier Mexico City\",\n  \"summary\": \"A gentler Thursday swapping grand halls for green walks, with one unmissable temple and two easy vegetarian meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper of the day, because some stones simply refuse to be skipped.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch nearby with plenty of vegetarian plates, because a temple visit works up an appetite.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow green wander to replace the castle, letting the crew breathe instead of queue.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in the same leafy corner, casual and kind to vegetarians.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower spin through the city\",\n  \"summary\": \"A gentle day of history, open air and a couple of good meals, keeping Templo Mayor and swapping the rest for fresh corners of the same neighbourhoods.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one fixed star of the day, kept for its deep history and that quiet power only old stones carry.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A new stop to stretch the legs and catch the everyday rhythm of Roma Norte, camera in hand.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates, bright and easy, before the afternoon slows down.\",\n      \"start\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green pause in Bosque de Chapultepec, swapping the castle for open air and a slower wander.\",\n      \"start\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in the same part of town as the morning, with halal and vegetarian choices to end the day gently.\",\n      \"start\": \"18:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 33,
+          "input_tokens": 1046,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 262,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 386,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "9f531927-de42-47e0-93b9-d2b76d1615f3",
+        "id": "ac531177-1ac0-465c-a4da-acbd144d7c10",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, fresher Mexico City day\",\n  \"summary\": \"A relaxed Thursday swapping most stops for Chapultepec greenery, Roma Norte wandering, and a long vegetarian lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with a gentle morning among the trees, far from yesterday's rush.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The castle adds a dose of history and a viewpoint for the photo lovers.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed vegetarian lunch before the kitchen closes for the afternoon.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte gives us local life, street food scents, and plenty of photo corners.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper: Templo Mayor still anchors the day in deep history.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in the same area keeps the evening simple and vegetarian-friendly.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day around the old centre\",\n  \"summary\": \"A gentler day of history and local flavour, keeping Templo Mayor and swapping the rest for nearby gems.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we keep, and rightly so: history with a capital H right in the old centre.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A museum of murals and marble, close by and easy on the feet after the ruins.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed halal lunch with proper vegetarian choices, and we arrive well before closing.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 280,
+          "input_tokens": 29,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 410,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 214,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d02ebac1-407b-4385-b847-dcae9ad89e5a",
+        "id": "c26b2693-0746-4c40-bf6a-1f64d0f3ef94",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sunday Stroll with a Side of Sardines\",\n  \"summary\": \"A slower Sunday swapping the usual stops for a market wander, a riverside history fix, and a long evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the market because Sunday mornings here are pure Lisbon theatre, and the crew loves a good wander.\",\n      \"note\": \"We keep the market because Sunday mornings here are pure Lisbon theatre, and the crew loves a good wander.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo spot that never disappoints.\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo spot that never disappoints.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end in Bairro Alto, because after dark this neighbourhood is the whole festa, minus the sardines.\",\n      \"note\": \"We end in Bairro Alto, because after dark this neighbourhood is the whole festa, minus the sardines.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Different Kind of Sunday\",\n  \"summary\": \"We skip the usual suspects and wander from a morning market to the river for a tower with history, then let the night find us in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market morning feels right for a crew that loves local life, and it is a fresh start to the day.\",\n      \"note\": \"We begin here because it is open all day and the early birds get first pick of the treasures.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays, of course. History and a photo spot in one, and the river air does everyone good.\",\n      \"note\": \"We keep this must-do and let the afternoon light do the talking.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end where the night owls feel at home, after dark and full of festa energy.\",\n      \"note\": \"Bairro Alto after sunset is the right kind of different for a Sunday.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 39,
+          "input_tokens": 956,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 316,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 299,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9653500a-c7d6-415f-bcee-e2be3b626b0e",
+        "id": "4102dbb8-89b8-4053-955f-fff333e15d53",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Stroll Through Mexico City\",\n  \"summary\": \"A relaxed day of art, castle views, and plenty of good eating, all in the same leafy corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the castle for those early-bird legs and the best morning views over the park.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through the Bosque to build an appetite, because today is really about the food.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Lalo! keeps our vegetarian crew happy and proves a proper meal can still feel like a market feast.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte gives us street-food energy, photo corners, and a slow local-life ramble before dinner.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Pujol is the big food moment, a long vegetarian-friendly send-off for the day.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slower, Tastier Day in Mexico City\",\n  \"summary\": \"We trade one museum for more time wandering, snacking and sitting down to a proper vegetarian meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with murals and marble, and it leaves the morning open for a market detour later.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed lunch with plenty of vegetarian plates, close to the morning stop.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Roma Norte to walk off lunch and catch the street life and photo corners.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early, easy dinner with bright vegetarian options before the evening winds down.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 645,
+          "input_tokens": 922,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 337,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 263,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "66826144-9820-4734-af1b-3cb8e8ce8f6d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Tasty, Unhurried Day\",\n  \"summary\": \"A slower day around Chapultepec and Roma Norte with a market-style lunch and a proper vegetarian dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the castle for the history lovers and that sweeping viewpoint.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through the park to stretch the legs and find a few photo spots.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, casual lunch with plenty of vegetarian plates to keep everyone happy.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy Roma Norte stroll for street life and a slower afternoon rhythm.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner to close the day with something special.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 49,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 298,
           "service_tier": "standard"
         }
       }

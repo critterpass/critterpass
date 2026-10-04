@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "35b3a414-ee6a-4c1e-8a9a-6dfadb271b4f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"A Slow Day in Đà Lạt\",\n  \"summary\": \"A gentle day with two long, lovely stops, a proper lunch, and an evening that ends with a full belly and a slow wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaic dragons is worth the ride, and we take it slow here. No rush, just looking.\",\n      \"area\": \"E\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch is the star today. Nem nướng, hot and smoky, and we sit until the plate is clean. Ngon quá (so tasty).\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, this is where the city hums. We drop in for the lights and the easy pace, no agenda.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a coffee and a slow chair. Sit-down, warm, and nobody is counting minutes.\",\n      \"area\": \"A\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1668,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 337,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

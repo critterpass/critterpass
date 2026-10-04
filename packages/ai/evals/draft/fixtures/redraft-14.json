@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9247c5ec-bc80-4bbf-84b6-d2d101943443",
+        "id": "b25759dc-e895-459f-863a-471ef6a28d66",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Hidden Corners and Quiet Wonders\",\n  \"summary\": \"A slower day in Cusco that swaps the busy salt flats for the unexpected calm of San Blas and a gentle walk through the Moray terraces, with time to linger over meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the Qorikancha, of course. The crew asked for history, and this temple holds more of it than most places in the city.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the market and photo lovers: San Blas is a little maze of workshops and balconies that most visitors rush past.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Morena Peruvian Kitchen, where the vegetarian options are as warm as the welcome.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Moray is the unexpected twist: a short ride to the terraces, where the afternoon light makes the rings look like a giant green amphitheatre.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at La Bodega 138, a simple place with honest vegetarian plates and a quiet corner to rest after the ride back.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Surprising Day in Cusco\",\n  \"summary\": \"A day of hidden corners and unexpected flavours, from the sacred to the salty, with a neighbourhood stroll that surprises.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see, so we start with the temple's golden history before the day warms up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: we skip the usual cathedral and wander the artisan lanes of San Blas instead.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper midday pause with plenty of vegetarian choices, right in the heart of the old town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The grand cathedral still fits, but now it comes after lunch when the light softens.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An unexpected finish: the blinding white salt terraces, a photo spot nobody saw coming.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy, budget-friendly dinner with a fully vegetarian menu to end the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 81,
+          "input_tokens": 998,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 427,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 435,
           "service_tier": "standard"
         }
       }

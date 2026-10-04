@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "373bda93-fb78-4126-b53f-56153176a98c",
+        "id": "038e651d-57d8-4dbf-a3df-13a26623fe7b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco at an easy trot\",\n  \"summary\": \"A gentle day around the old centre, with the terraces kept as the one longer outing and the rest close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the must-do, and it is the only ride out, so the rest of the day stays snug in the centre.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, easy wander in the heart of town, perfect for photo lovers and thrifty souls.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Local life and street food without spending much, and just a short stroll from the square.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the market, easy on the wallet and kind to vegetarians.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little museum stop nearby, so nobody has to rush or ride far.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner around the corner from the museum to keep the evening gentle and close.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco close to home\",\n  \"summary\": \"A gentle Sunday around the old town, with the market, the square and a couple of quiet stops all within a short stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start where Cusco wakes up, among the fruit stalls and morning chatter.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow turn around the square lets the early birds soak up the light before the crowds.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch sits right beside the square, so nobody has to wander far on a full stomach.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little chocolate stop keeps the afternoon sweet and the walking light.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a short amble away, easy on the wallet and kind to tired feet.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 907,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 378,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 359,
           "service_tier": "standard"
         }
       }

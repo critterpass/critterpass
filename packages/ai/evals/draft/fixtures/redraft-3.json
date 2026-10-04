@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "11cff9d7-71fd-4eab-859e-1cc703abb035",
+        "id": "83f28a94-68a2-4954-b549-9f36a5c350ff",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Lighter, Cheaper Kyoto Day\",\n  \"summary\": \"A slower day that keeps the railway museum must-do, swaps the castle for a free Gion wander, and skips meals since no halal spot is free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big must-do stays. Trains before temples today.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, open all day, and full of Gion’s quiet corners. Shoes off, phone down, eyes up.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Gion and steel, wallet intact\",\n  \"summary\": \"A quieter Kyoto day that keeps the railway museum but swaps the castle for a free Gion wander, with no meal stop planned.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so the early birds can drift through Gion before the crowds wake up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one paid stop, and worth every coin for the crew's museum itch.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 31,
+          "input_tokens": 1076,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 187,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 186,
           "service_tier": "standard"
         }
       }

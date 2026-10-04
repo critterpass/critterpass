@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "764e0920-bd1e-47d7-b18e-1f13aeddfe3f",
+        "id": "ab89fa80-ddb4-49cf-b116-52b98986e527",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A gentle Bali day\",\n  \"summary\": \"A slow morning at the temple, then easy local meals with plenty of free time in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one must-do stays, and the morning light makes it worth the short trip.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is a proper local bite, terima kasih (thank you), and it sits right beside the temple area.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays easy and close by, so the evening is for strolling, not rushing.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter Day In Bali\",\n  \"summary\": \"We slow right down and stay close to home base, keeping one gentle temple visit and both meals without any long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one activity we keep: a calm morning temple visit, close by and easy on the legs.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple area, so nobody is rushing off anywhere.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A local dinner nearby, with the evening left wide open for whatever feels right.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1338,
+          "input_tokens": 1615,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 223,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 220,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "b0a33bf9-7886-4b17-8367-e751c65673db",
+        "id": "95cd385a-1d68-462a-8326-da852c205ede",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Kintamani Morning\",\n  \"summary\": \"A slow, close-to-home day around Kintamani with one temple visit and two easy meals, leaving plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one temple we keep, and it is a beauty in the morning light. Terima kasih (thank you) to the mountain for the view.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, so no long ride. The sun won’t wait, but we can.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner a short hop away in the next area over, keeping the day light and local.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Lighter Day in Bali\",\n  \"summary\": \"A slower day with one temple, free time, and two local meals close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one temple worth the morning, and it is close to everything else today.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the temple area, so nobody is stuck in a long ride just to eat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and easy, terima kasih to a short hop from the temple.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 86,
+          "input_tokens": 107,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2176,
-          "output_tokens": 251,
+          "output_tokens": 234,
           "service_tier": "standard"
         }
       }

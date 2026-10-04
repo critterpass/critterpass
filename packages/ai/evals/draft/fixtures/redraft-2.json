@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e866b1d5-ae33-4a17-af1e-5ddb0e3344e0",
+        "id": "87e4b556-ec15-4330-b866-494b1e7c62c5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Kyoto Morning\",\n  \"summary\": \"A slower day after Pontocho, with one temple, a long lunch, and the night left to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm, unhurried temple stop to ease into the day.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long vegan lunch, because the crew needs to sit and breathe.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Pontocho after dark, as promised, with no rush before it.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Kyoto Day\",\n  \"summary\": \"A slower day with one temple, one long evening stroll, and two gentle vegan meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here because the crew needs vegan, and a slow start suits the morning after Pontocho.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet temple instead of two, with time to sit and look.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The kept must-do, after dark as it should be.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at the same vegan spot, because it is the only meal place that fits and the day stays gentle.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 53,
+          "input_tokens": 1226,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 199,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 295,
           "service_tier": "standard"
         }
       }

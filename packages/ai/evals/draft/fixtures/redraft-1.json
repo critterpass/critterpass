@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3850e33a-1b3b-440f-96a5-c1d82c3e1389",
+        "id": "238c75b5-8e19-492b-a35b-5bdf6d9aeacf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Kyoto day, close and calm\",\n  \"summary\": \"A tight little loop around Kinkaku-ji and the nearby streets, with lunch and dinner kept beside the activities so nobody spends the day in transit.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing that must stay, and it sets the whole day's radius.\",\n      \"note\": \"Kinkaku-ji stays, so the whole day shrinks around it.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, easy wander near the same side of town, good for the photo and street-food people.\",\n      \"note\": \"Swapped in for the far-flung temple; it keeps the day in one pocket of the map.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch sits beside the activities, and the vegetarian crew are covered without fuss.\",\n      \"note\": \"Lunch moved beside the activities, with vegetarian options for everyone.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A nightcap for the night owl, and it is only a short hop from dinner.\",\n      \"note\": \"Evening stop for the night owl, close to dinner.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the same area, with vegetarian options and no long ride after dark.\",\n      \"note\": \"Dinner kept close to the evening stop, with vegetarian options.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower Kyoto loop\",\n  \"summary\": \"A gentle day around Kinkaku-ji and the city's quieter corners, with meals close to the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden pavilion stays, and so does the early start. Shoes off, phone down, eyes up.\",\n      \"note\": \"The golden pavilion stays, and so does the early start. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan lunch near the next stop, easy on the wallet and the legs.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short temple visit close by, swapped in for the long ride to the silver pavilion.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Gion's old lanes, no train needed and plenty of photo spots.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options, right where the evening walk ends.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 638,
+          "input_tokens": 1299,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 429,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 342,
           "service_tier": "standard"
         }
       }

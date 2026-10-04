@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2c73c9c0-4db9-45e2-abf4-6c1b103009da",
+        "id": "f429461a-e2a5-43af-bf13-9c1f9028c51f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Belém and Bairro Alto, no long rides\",\n  \"summary\": \"A relaxed day split between Belém's riverside history and Bairro Alto's easygoing streets, with meals right beside the sights and no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-do of the day, and a proper riverside beauty. Grilled sardines can wait; history first.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop from Belém, with proper vegetarian choices so nobody goes hungry between towers and trams.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy viewpoint to stretch the legs and let the city do the talking. No long ride, just a little hill.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Street food, market buzz and photo corners all in one. We stay close, so the night owls can linger.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner right where the evening starts, vegan and welcoming. Come for the grilled sardines, stay for the grilled vegetables.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, a gentle festa of lights and chatter. Close to everything, so no one needs a long ride home.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Belém to Bairro Alto Day\",\n  \"summary\": \"A day that starts by the river in Belém, then eases into the city for a tram ride, a bite, and a night out, all without a long ride.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one and only Belém Tower, a must for the history buffs and photo hounds. Come for the grilled sardines, stay for the grilled sardines... and the tower.\",\n      \"note_clean\": \"The one and only Belém Tower, a must for the history buffs and photo hounds.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A classic Tram 28 ride to get us from the riverside into the heart of the city, no long rides needed.\",\n      \"note_clean\": \"A classic Tram 28 ride to get us from the riverside into the heart of the city.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Ao 26, a vegan spot that keeps everyone happy without a fuss. Grilled sardines? Not today, my friends.\",\n      \"note_clean\": \"Lunch at Ao 26, a vegan spot that keeps everyone happy without a fuss.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Miradouro da Senhora do Monte for a breath of fresh air and a view that makes you forget the climb.\",\n      \"note_clean\": \"Miradouro da Senhora do Monte for a breath of fresh air and a view that makes you forget the climb.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\",\n      \"note_clean\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 595,
+          "input_tokens": 1128,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 424,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 524,
           "service_tier": "standard"
         }
       }

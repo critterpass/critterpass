@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b91beedc-06d6-491f-bfe1-391025c86799",
+        "id": "911c5fcf-dbc1-4ebc-9253-f9422b01a861",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Stroll Through Lisbon\",\n  \"summary\": \"A slower day in one corner of the city, built around grazing at the market, a proper sit-down meal, and the one museum we simply cannot miss.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ana asked for pastries, so we start where the food is. The market is a feast for the eyes and the stomach, and it costs nothing to wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we are keeping, and rightly so. A proper dose of culture before lunch, with time to linger over the art.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper meal, not just a snack. This place has good vegetarian options and a lovely, unhurried feel for our midday break.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through Alfama after lunch. It is free, it is beautiful, and it gives us a taste of the old Lisbon without rushing.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"We wander Alfama's lanes, browse the flea market, keep the museum promise, and graze our way to a proper sit-down dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle morning wander to build an appetite, with photo corners around every bend.\",\n      \"note\": \"A gentle morning wander to build an appetite, with photo corners around every bend.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sniffing out market snacks and old treasures before the crowds get peckish.\",\n      \"note\": \"Sniffing out market snacks and old treasures before the crowds get peckish.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter, garden-minded lunch to keep everyone moving without a food coma.\",\n      \"note\": \"A lighter, garden-minded lunch to keep everyone moving without a food coma.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one promise we keep: a proper dose of art and calm in the afternoon.\",\n      \"note\": \"The one promise we keep: a proper dose of art and calm in the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner with small plates to share, because Ana said pastries but we all know dinner is the real festa.\",\n      \"note\": \"A proper sit-down dinner with small plates to share, because Ana said pastries but we all know dinner is the real festa.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 44,
+          "input_tokens": 1217,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 362,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 447,
           "service_tier": "standard"
         }
       }

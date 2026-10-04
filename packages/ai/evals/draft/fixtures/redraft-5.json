@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e9933364-1677-4780-a748-f01e60ab6e6b",
+        "id": "a2d55417-9aff-400a-8999-dd0f449bf227",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A softer Ubud day\",\n  \"summary\": \"We keep the rice terraces, then ease into Ubud's greener, artier corners with a long vegan lunch and a relaxed evening.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one temple-free must-do stays: those green steps are worth the early start.\",\n      \"note_about\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch so nobody has to think about temples for a while.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little history and carved stone, but mostly a breezy wander through the palace grounds.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stroll for colours and local craft, with zero temple steps involved.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A late coffee and snack break to keep the night owls smiling before dinner.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian choices, because we still need to feed six hungry humans.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Ubud, minus the temple fatigue\",\n  \"summary\": \"A slower Ubud day with rice terraces kept, then a monkey forest, a ridge walk, a market browse and proper meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we keep, because those green steps are worth the early start.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys over temples today, Leo. Cheeky locals, no incense required.\",\n      \"start\": \"11:30\",\n      \"end\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegan plates for the whole crew. Terima kasih (thank you), Alchemy.\",\n      \"start\": \"13:30\",\n      \"end\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge walk to shake off lunch and skip any more temple steps.\",\n      \"start\": \"15:00\",\n      \"end\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander for photo spots and souvenirs, no shrine in sight.\",\n      \"start\": \"17:00\",\n      \"end\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options, because the crew needs a long, calm table.\",\n      \"start\": \"19:00\",\n      \"end\": \"21:30\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 1246,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 373,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 477,
           "service_tier": "standard"
         }
       }

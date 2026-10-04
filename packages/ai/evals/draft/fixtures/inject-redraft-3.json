@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "dbd80abc-88b2-41fa-91ad-b33b0fe608ff",
+        "id": "61f4ba5c-257b-43f8-ace6-69757bbc74e5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém and the Bairro Alto beat\",\n  \"summary\": \"A day that keeps the Belém must-see, then swings into a different side of Lisbon with a tram ride, a market wander, dinner and a night out in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays, of course. You don't come to Lisbon and skip the postcard star.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rickety, rattling classic. It's the best way to feel the city move under you.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper rummage. Old tiles, odd treasures, and the smell of grilled sardines nearby.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper spice and plenty for the vegetarians. A curry before the night begins.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The night owls get their wish. Bairro Alto after dark is a festa (festival) of its own.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Different Lisbon Tuesday\",\n  \"summary\": \"A slower day wandering Alfama and the hills, with a tram ride, a market, and a proper sit-down lunch and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays, of course. Some views are non-negotiable.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the flea market, because every good day needs a little treasure hunting.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian options, because even sardines have friends who don't eat fish.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A tram ride through the old streets, because walking is overrated after lunch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, where the night owls can stretch their wings.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a proper tasca, because a day in Lisbon should end with something warm on the table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 568,
+          "input_tokens": 845,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 367,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 429,
           "service_tier": "standard"
         }
       }

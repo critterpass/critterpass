@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9ce2cbd8-6264-4584-ad1e-d228b76e28e2",
+        "id": "f05918d2-5852-4d20-9550-8c352d64bec9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow morning, sea breeze by noon\",\n  \"summary\": \"A lazy start rolls into beach time, a proper mì Quảng lunch and a sunset stroll before an easy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Late start means the sand is warm and the light is soft. Red socks off, toes in the water.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the classic spot, because a slow morning still deserves mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker).\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sunset by the water, no rush, just the sky doing its thing over Phạm Văn Đồng beach.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper local flavour before the evening winds down. Cảm ơn (thank you) to the cook.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\"title\":\"Slow Tuesday, Sea Breeze and Noodles\",\"summary\":\"A late, easy day around An Bang and the nearby lanes, with a beach stroll, a temple pause and two unhurried local meals.\",\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A slow morning deserves soft sand and a long look at the water. No rush, just the sea doing its thing.\"},{\"poi_id\":\"p92\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quiet temple stop to let the day settle in, close to the beach and easy on the legs.\"},{\"poi_id\":\"p13\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Lunch that tastes like a local kitchen, not a timetable. Chicken rice, warm and filling.\"},{\"poi_id\":\"p16\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A little green pause between meals, where the afternoon moves at walking speed.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Dinner of soft rice cakes, the kind of street food that makes you say ngon quá (so tasty) quietly to yourself.\"}]}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1174,
+          "input_tokens": 1707,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 334,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 267,
           "service_tier": "standard"
         }
       }
