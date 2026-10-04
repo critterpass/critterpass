@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "39d9a356-caa0-4256-b40f-68bbf9a4f1b5",
+        "id": "3e89c300-b328-40e1-8fb6-04df0f2ec2c3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cusco on a Soles Budget\",\n  \"summary\": \"A slower Sunday wandering free corners of Cusco with one gentle paid stop kept, plus thrifty meals that still taste like a fiesta.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as promised: those Inca rings are worth every sole, and the morning light makes them sing.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for a pricier bite: the market is free, loud, and full of local life for our thrifty crew.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Green Point because it is cheaper than the old spot and kind to every belly in the group.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so we can linger without watching the clock or the wallet.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Still here for the easy wander, the photo corners, and the quiet hum of local life.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at La Bodega 138: a lower-priced table that keeps the evening light and the budget friendly.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Cheaper Cusco Sunday\",\n  \"summary\": \"We keep the sacred terraces, then spend a relaxed, mostly free afternoon around the old town with a simple lunch and a sweet museum stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the star of the morning: those Inca rings are worth every sol, and the early start keeps us ahead of the crowds.\",\n      \"note\": \"Still the star of the morning: those Inca rings are worth every sol, and the early start keeps us ahead of the crowds.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, so we keep it for a proper taste of Cusco without touching the budget.\",\n      \"note\": \"Free and full of local life, so we keep it for a proper taste of Cusco without touching the budget.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here instead of the pricier kitchen: honest food, easy on the wallet, and handy for the old town.\",\n      \"note\": \"Lunch here instead of the pricier kitchen: honest food, easy on the wallet, and handy for the old town.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The classic free photo stop, kept because it costs nothing and gives everyone that postcard moment.\",\n      \"note\": \"The classic free photo spot, kept because it costs nothing and gives everyone that postcard moment.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small, lower-priced swap for the cathedral: chocolate history and a bit of fun for the sweet-toothed crew.\",\n      \"note\": \"A small, lower-priced swap for the cathedral: chocolate history and a bit of fun for the sweet-toothed crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 13,
+          "input_tokens": 40,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 407,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 499,
           "service_tier": "standard"
         }
       }

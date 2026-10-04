@@ -1,0 +1,173 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "3aeb1ab2-f14b-41f8-bc41-81a578157ab5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Ubud area\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Gentle Ubud welcome\",\n      \"area\": \"I\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p29\", \"p35\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Tirta Empul and ancient valleys\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p16\", \"p15\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Rice terraces and village temples\",\n      \"area\": \"O and Q\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p138\", \"p49\", \"p14\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Ubud temples and monkey forest\",\n      \"area\": \"I\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p30\", \"p36\", \"p44\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Easy morning close to home\",\n      \"area\": \"I\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p14\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p140\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 70,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 3712,
+          "output_tokens": 347,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-5": {
+      "status": 200,
+      "body": {
+        "id": "bd721071-1d57-47db-afbf-e80aa6092578",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The crater views up here are the kind that make you forget your own name.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple with a volcano for a neighbour, and the air feels ancient.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sit down, take in the view, and let the mountain do the talking.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 320,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 167,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "06d038d6-1ffb-49c9-af56-3fe409967ec9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p29\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys, mossy carvings and a temple courtyard that feels properly ancient.\"\n    },\n    {\n      \"poi_id\": \"p35\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A tucked-away temple by the river, all quiet stone and green shade.\"\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pull up a stool and let the babi guling do the talking.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 570,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 166,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "0682911c-e515-4c01-9736-64a899fcf6c9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The holy springs here are the real deal; join the line and let the cold water wake you up.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ancient royal tombs carved into a lush green valley, with a long stairway that earns the view.\"\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A tiny warung with big flavours; the coconut curry is the one to order.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cave temple full of bats, and the sound of them is half the experience.\"\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Smart Balinese cooking with a modern twist; save room for the slow-cooked duck.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 620,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 284,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "a91e9fc4-084f-4cbd-835f-9e1490053c9a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p30\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys with serious attitude and mossy temple gates in the morning light.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple corner where the carvings feel alive and the offerings smell like home.\"\n    },\n    {\n      \"poi_id\": \"p44\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and old stone, the kind of calm that sneaks up on you.\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crispy pork and spices that make you forget your own name for a minute.\"\n    },\n    {\n      \"poi_id\": \"p78\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Rich Indonesian plates in a room that feels like a well-kept secret.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 609,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 272,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "582f3583-ece0-466a-a715-b87242483478",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The terraces glow soft in the early light, and the walkways are quiet before the heat.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old stone carvings here tell stories of the island's earliest days.\"\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Balinese mixed plate, the kind that makes you want a nap after.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A mountain temple wrapped in mist and old trees, very peaceful.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The split gate and carved guardians here are a photographer's dream.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Smoky pork satay, simple and honest, the kind of dinner you remember.\"\n    },\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quieter village temple where locals still come to bathe and pray.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 772,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 368,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "1f8d9499-dddc-452e-869f-f746f9a351b1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "A gentle Ubud welcome, holy springs, green valleys and monkeys — every must-do tucked in, nice and easy."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 204,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 24,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

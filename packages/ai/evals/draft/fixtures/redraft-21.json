@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "820d4db1-4a13-433c-b4af-e1ef4624e80f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Slow morning, sea breeze afternoon\",\n  \"summary\": \"A gentle day that starts late, lingers by the water, and ends with a quiet evening in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late breakfast of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"East Sea Park gives us an easy stroll by the water, perfect for a slow morning with no early alarm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p81\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A coconut cream break, because a lazy day still deserves a sweet little pause.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We time this beach stop for the sunset, when the sky does all the work and we just watch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Ốc Cười, a street-food spot that keeps the evening local and unhurried.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Apocalyse Now beach club for a soft after-dark finish, still by the sea and still very much on our own clock.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 107,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 456,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

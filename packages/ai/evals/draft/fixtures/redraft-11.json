@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "57bea0c7-c985-461d-8441-6c5287690de0",
+        "id": "551743e9-b89a-40d5-984a-92e1bcb2199d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Gentle Reykjavik Sunday\",\n  \"summary\": \"A slower day with time to breathe at Geysir and Hallgrímskirkja, plus a cosy vegetarian lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the must-do: the steam and sudden bursts deserve a long, unhurried look.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The tower view is worth a slow climb, and it fits neatly before lunch.\",\n      \"poi_id\": \"p1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, vegetarian-friendly pause at Sandholt keeps the day gentle.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A gentler Reykjavik Sunday\",\n  \"summary\": \"A slower day with just two unhurried activities, a proper lunch, and an early dinner, all close to the city centre.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We begin with the big church and its sweeping view, giving everyone time to linger without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright little bakery lunch that keeps our vegetarians very happy and the coffee lover smiling.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy wander along the shopping street, with time to browse, warm up, and simply watch the city.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at the grill house, where the vegetarian options are thoughtful and the evening feels properly relaxed.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 91,
+          "input_tokens": 34,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 223,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 311,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "32e22335-b548-4274-b494-3e5c24b336e5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Slower Sunday in Reykjavik\",\n  \"summary\": \"A gentle day with two unhurried activities, a proper lunch and a relaxed dinner, all within easy reach.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Geysir stays as our must-do, and with a slower pace we can linger while the earth puts on its show.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free wander by the Sun Voyager keeps the day light and gives the early birds a fine photo stop.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sandholt is our lunch spot, handy and properly vegetarian, with time to savour rather than rush.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Grillmarkaðurinn keeps the evening relaxed and vegetarian-friendly, no long trek needed.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 69,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 325,
           "service_tier": "standard"
         }
       }

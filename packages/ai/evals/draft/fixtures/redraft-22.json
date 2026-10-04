@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "668f42e9-1a0a-4535-ad77-da0698677377",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Slow Tuesday in Đà Lạt\",\n  \"summary\": \"A gentler day with one long garden visit, a kept Bánh Căn lunch, and a relaxed dinner in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the slower pace means we keep just this one activity and let the flowers take their time.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this keep is the street-food anchor, so lunch stays right here in the same area.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to this nearby spot so the evening stays easy and close to the garden.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 72,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 276,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

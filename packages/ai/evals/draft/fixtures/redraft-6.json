@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "bdea7a86-5f7f-403a-83f2-94ccfc193e5f",
+        "id": "49983cdd-25da-48bc-b16e-fdfcfab70451",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Surprising Ubud\",\n  \"summary\": \"Monkeys, markets, and a palace twist with a proper feed in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-do, and the monkeys always bring the unexpected. Rise and shine, early birds.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little local life and shopping to keep things lively before lunch.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a free palace stop nobody saw coming. I know a guy.\",\n      \"start\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple to wind down after the palace. The sun won't wait.\",\n      \"start\": \"15:00\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Ubud surprises, no fuss\",\n  \"summary\": \"A slower Ubud day that keeps the monkey forest, then adds a hidden water temple and the art market for a gentle local rhythm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew must-do stays put. Monkeys, mossy stone, and just enough chaos to wake everyone up.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lotus pond temple tucked behind a cafe, the kind of quiet surprise nobody sees coming in Ubud.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Local life and a little haggling, kept light and easy after the temple calm.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 109,
+          "input_tokens": 23,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 288,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 256,
           "service_tier": "standard"
         }
       }

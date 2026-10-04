@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "a4b850b8-b97f-43a8-9c82-cf1cec6b1754",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A gentle Ubud wander\",\n  \"summary\": \"A slower day close to Ubud, with one temple, a long easy pause, and two meals tucked beside the same lanes.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p35\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The one temple stop, small and calm, so the morning stays soft and close by.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch kept simple and local, right where the wander already is.\"\n    },\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow rice-terrace pause instead of the long ride, with room left to breathe.\"\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays easy and nearby, because a lighter day still eats well.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 21,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2432,
+          "output_tokens": 257,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

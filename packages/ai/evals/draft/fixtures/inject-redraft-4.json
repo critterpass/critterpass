@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "05c21206-2ede-40a9-b82c-6f853d652b0e",
+        "id": "1fae6691-e549-45b7-ae98-d37b50e6151f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco close and cosy\",\n  \"summary\": \"A gentle day around the city centre, keeping the planetarium and swapping the far terraces for the Museo Inka so everything sits close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the far terraces; it keeps the history lovers happy and stays right in town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the must-do; we end the day under Inti (the sun (Quechua)) and the stars without a long ride.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A gentle day in Cusco\",\n  \"summary\": \"A relaxed day staying close to the heart of the city, with a market wander, a sweet museum stop, and an evening under the stars.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start here to soak up the local bustle and colours, with plenty of time to browse before the afternoon rush.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stroll away, this sweet stop keeps the day light and gives everyone a little taste of Cusco's chocolate story.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We end the day here as the sky darkens, keeping the must-do planetarium visit and letting Inti (the sun) bow out before the stars take over.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 122,
+          "input_tokens": 110,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 200,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 277,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "b445ef03-c7e3-46a7-9279-7e45377d1095",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Cosy Cusco Day\",\n  \"summary\": \"We keep things close and easy, wandering San Pedro's lively stalls before an evening under the stars at the planetarium.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle market wander to start, all within a short stroll and full of local colour.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We end the day with the stars, keeping the ride short and the wonder long.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 142,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 159,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "83106ab6-4290-479f-82a2-82e713c2f6d9",
+        "id": "1a44fa0f-d38c-49a8-b38c-2b7d0a676c5d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Higashiyama\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Museum calm and lantern-lit Gion\",\n      \"area\": \"Higashiyama\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p11\",\n        \"p12\",\n        \"p7\",\n        \"p13\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples, history and a bamboo hush\",\n      \"area\": \"Arashiyama\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p6\",\n        \"p5\",\n        \"p2\"\n      ]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A, near Kyoto Station and the museum quarter\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in old Kyoto\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"History, shrines and a bamboo hush\",\n      \"area\": \"Area A and Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p3\", \"p5\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 128,
+          "input_tokens": 9,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 166,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 156,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "70ad5fee-f314-4b83-bf04-d6b0026a475f",
+        "id": "94a628ba-5cf9-4e10-b5d8-49ba2e8ee1fe",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. The garden does the talking.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The deer will cope without you. The bamboo won't wait.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet tofu lunch before the airport. Gentle on the stomach, easy on the soul.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Start with the torii tunnels before the crowds find their selfie sticks.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp the broth like you mean it; the chef will notice.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The wooden stage leans over the maples like it's listening for the city.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 583,
+          "input_tokens": 443,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 167,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 115,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "c7e74556-efb2-4865-b6ec-992b3e51bd63",
+        "id": "526783a6-e15e-4e6f-9c5a-5d0012bb3bfd",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Shoes off, phone down, eyes up. History lives here, and it likes a quiet audience.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A thousand guardians, one very short walk. The deer will cope without you.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns wake up here before the night does. Stroll slow, like you already live there.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle dinner to end a gentle day. Even the vegetables look rested.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The national collection of old Kyoto, from scrolls to tea bowls. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A thousand wooden arms of Kannon, and the long hall that holds them. Worth one message.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old geisha lane, all tea-house fronts and evening lanterns. The deer will cope without you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done the Kyoto way, quiet and precise. A gentle first dinner.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 538,
+          "input_tokens": 574,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 230,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 238,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "bfa91f41-b786-4bb8-9e80-38e93cc7f434",
+        "id": "a9e3b273-fa0e-490d-8833-c9e85872ec9d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Museums, Gion lanterns, temples and bamboo — every must-do tucked in, shoes off, phone down, eyes up."
+            "text": "Soft landing in old Kyoto, then shrines, history and a bamboo hush — shoes off, phone down, eyes up."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 345,
+          "input_tokens": 215,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 28,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

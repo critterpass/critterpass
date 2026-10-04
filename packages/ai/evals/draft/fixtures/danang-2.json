@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "8e07737b-565a-4f86-9491-362e342b7a06",
+        "id": "ee9106d7-292a-49d5-ae95-d6cf9fdb3cac",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Hải Châu riverside, near Dragon Bridge\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing by the river\",\n      \"area\": \"Hải Châu riverside\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p11\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Markets, coffee and old stones\",\n      \"area\": \"Hải Châu and city centre\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula breeze and beach\",\n      \"area\": \"Sơn Trà and Mỹ Khê\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p5\", \"p13\", \"p8\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Dragon fire and rooftop lights\",\n      \"area\": \"Hải Châu riverside and An Thượng\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p16\", \"p28\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Marble heights before the flight\",\n      \"area\": \"Ngũ Hành Sơn\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 4,\n      \"when\": \"night\",\n      \"weekdays\": [\"sa\", \"su\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Riverside first bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Old stones and market lanes\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p11\", \"p14\", \"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula breeze and pagoda\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p5\", \"p13\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Dragon fire and sky lights\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p27\", \"p16\", \"p15\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Marble morning farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 4,\n      \"when\": \"night\",\n      \"weekdays\": [\"sa\"]\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1809,
+          "input_tokens": 104,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 389,
+          "cache_read_input_tokens": 3200,
+          "output_tokens": 349,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "6aeb4a87-9cf3-4700-8789-6d4be3bbb692",
+        "id": "56de480b-6ce0-498d-9028-cd2a5e0dd120",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Marble heights before the flight, temples and caves with a view. Red socks on, eyes on the sea.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Seafood by the shore, a proper send-off. Ngon quá (so tasty), I can already smell the garlic.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Climb the stone steps early, peek into the cave shrines, and let the marble views do the talking.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 467,
+          "input_tokens": 261,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 133,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 50,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "2d19d54c-4003-4c9e-8da9-7606044c7215",
+        "id": "08b10746-acee-4556-8930-0581a8d99e28",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Red socks on, eyes on the sea. Sơn Trà is my backyard.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up here the incense and the sea breeze argue about who gets to greet you first.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crackly, golden, gone in sixty seconds. I taste-test for the crew, obviously.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sky going grey over Sơn Trà? Not today. Sand, salt, and a long lazy afternoon.\"\n    },\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee by the river, sweet enough to make a langur forget his nap.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Red socks on, eyes on the sea. Sơn Trà is my backyard, so go slow and let the doucs show themselves.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Up here the breeze does the talking and the Lady of Mercy watches over the whole bay.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 505,
+          "input_tokens": 290,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 282,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 94,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "4dd5e377-d422-4548-97db-301416ef271f",
+        "id": "fdb002f4-7898-4d6d-9b3d-fc7a0c716531",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Start the day the proper Đà Nẵng way with mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker).\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A second bowl, because one noodle stop is never enough for this crew.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee break before the lights come on, rooftop views optional but recommended.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sky36 after dark, where the city sparkles like a dragon's hoard.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Cầu Rồng at night, fire and water and a bridge that breathes.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee with a dragon view — sweet, foamy and just cheeky enough to start the day.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Big wheel, bigger sky — ride it before the clouds start showing off.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up high with the city lights winking below — the night owls will feel right at home.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The dragon breathes fire and the bridges glow — Sơn Trà and I can see it all from the trees.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 497,
+          "input_tokens": 479,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 288,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 235,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "1ce27817-988d-46a5-92c0-8e73ac731c54",
+        "id": "9fe7c571-8698-4e70-91c4-e0e369443834",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Start at chợ Cồn before the heat and the crowds. Sniff out the sesame crackers.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quick quiet stop at the pink cathedral. Light through the windows is lovely.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch like a local. Mì Quảng, extra cracker, no sharing.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Old stones and older stories. The Chăm carvings will hold your gaze.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee break with a view of the street. Coconut coffee if you are feeling fancy.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Night owls get their turn. Neon, skewers, and a little chaos by the sea.\"\n    },\n    {\n      \"poi_id\": \"p24\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Late seafood dinner. Order the clams, thank the cook with a big smile.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Old Cham hands carved stories into stone here. Walk slow, the sandstone gods are watching.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ Hàn is a squeeze of silk, dried squid and bargaining grins. Sniff the spice corner first.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pink cathedral, quiet pews, a cool pause from the market heat. Look up at the arches.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"My Khe stretches long and lazy. Sand between the toes, waves doing their slow applause.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 537,
+          "input_tokens": 396,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 385,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 240,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "7b84e581-2f65-4059-8754-dd553e76cc7d",
+        "id": "ee089c2d-2896-433c-b400-e70445e9da25",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"First stop, chợ Hàn (Hàn market, the central market by the river) — squeeze the mangoes, sniff the fish sauce, buy nothing you can't carry.\"\n    },\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee by the Dragon Bridge — sweet, strong, and exactly what a landing day needs.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dragon Bridge at dusk — the crew can watch the lights wake up while I judge their photo angles from a tree.\"\n    },\n    {\n      \"poi_id\": \"p25\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Madame Lân for dinner — sit down, order too much, say ngon quá (so tasty) to the cook.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sun Wheel last — one slow spin above the river, then home before the night owls get any ideas.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dive into the stalls for a first taste of the city's market buzz and street snacks.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) to land on your feet.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a coconut coffee and watch the river traffic drift by from a window seat.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Evening street food and neon buzz for the night owl in the crew.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon breathes fire and colour after dark; a proper riverside finale.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 537,
+          "input_tokens": 639,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 318,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 284,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "80e759bd-2799-45eb-8b74-fb10a9cf0dee",
+        "id": "82440026-1e24-420b-b173-4a616dcfd800",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Riverside ease, market bites, Sơn Trà breeze and dragon fire — every must-do tucked in, ngon quá!"
+            "text": "Riverside bites to dragon fire, with Sơn Trà breeze and a marble goodbye — the whole tasty loop, nothing missed."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 252,
+          "input_tokens": 248,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 640,
-          "output_tokens": 28,
+          "output_tokens": 27,
           "service_tier": "standard"
         }
       }

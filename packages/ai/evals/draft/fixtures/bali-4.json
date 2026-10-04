@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cbf07d85-cbe2-49ee-841c-8e3de9e5f2dc",
+        "id": "12d6f92a-58cc-4441-88b6-0ae952e16ef4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stay_area\":\"Ubud\",\"days\":[{\"day_no\":1,\"theme\":\"Ubud culture and market\",\"area\":\"Ubud\",\"must_do_ids\":[\"m1\",\"m2\"],\"poi_ids\":[\"p9\",\"p6\",\"p12\",\"p7\"]},{\"day_no\":2,\"theme\":\"Morning rice terrace farewell\",\"area\":\"Tegallalang\",\"must_do_ids\":[],\"poi_ids\":[\"p3\",\"p10\"]}]}"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud first taste\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and calm\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p4\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 74,
+          "input_tokens": 27,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 99,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 142,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d7f7ca84-1024-4b5e-a1f9-d59d9f18576d",
+        "id": "0120be1d-68ac-4030-b093-8a9fd8f26763",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The sun won’t wait, and neither should you — one last wander through those green steps before the airport calls.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ancient carvings and a cave that feels older than the island itself.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys with big personalities, so keep your sunglasses close.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A breezy bite with plenty of green on the plate.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 708,
+          "input_tokens": 423,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 73,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 107,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4aee740c-8263-41e8-8630-a7b9fa347489",
+        "id": "cc573679-3072-4e6b-bb4f-e3bc0234bed9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine, the market's calling.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Palace first, then we hunt for treasures.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A green stop to keep the crew glowing.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin and leave with something you didn’t know you needed.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Peek at the carved doors and the royal courtyard, still very much alive.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus pond out front, quiet corners behind the temple walls.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny plates, big flavours, and the sambal means business.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 731,
+          "input_tokens": 555,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 152,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 154,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "193f6626-2628-4793-bb5b-cfd7ba3cdb22",
+        "id": "1ab10854-0bb1-4e03-baaf-66dc3d39ac34",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Culture, market, and a rice-terrace goodbye — every must-do's in, so the sun won't wait."
+            "text": "A gentle first taste of Ubud, then its culture and calm — every must-do tucked in, terima kasih (thank you)."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 185,
+          "input_tokens": 182,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

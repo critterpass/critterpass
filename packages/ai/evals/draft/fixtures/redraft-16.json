@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1153fcc8-b83e-4b63-b7cb-aaca2e32e908",
+        "id": "b3170065-2a9f-440f-bea2-5c8b4c63b02d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Market Bites and Starry Nights\",\n  \"summary\": \"A slower Cusco day built around grazing the market, a proper vegan meal, and ending under Inti's stars.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"History before hunger, and it opens early enough for our early birds.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through the terraces while the day is still bright.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the crew wished, and the evening sky here is pure Inti magic.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco Market Day\",\n  \"summary\": \"A gentle day in central Cusco tasting market life, a proper lunch and the Inka museum.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for market lunch, so we start with the real thing: San Pedro's stalls and street snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal after the market, still in the same part of town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"We keep the Inka museum as the one must-do, with time to wander slowly.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 122,
+          "input_tokens": 948,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 235,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 240,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "76f32be9-50ee-415c-88ac-4a4e012d2f9a",
+        "id": "091f21cc-009d-459e-ae8c-70552d4dfa87",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Reykjavik Day\",\n  \"summary\": \"A gentler Monday with fewer stops, more time to breathe, and no long bus rides to weigh the day down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The National Museum keeps us on our feet without a long ride, and the history here rewards a slow wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Blue Lagoon stays, of course — a long, warm soak is exactly what tired legs deserve after the bus-heavy days.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower soak and a city stroll\",\n  \"summary\": \"We trade the bus for a long Blue Lagoon morning, then ease into Reykjavik for one unhurried stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the must-do, and now it gets the whole morning to itself.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One gentle city stop after the lagoon, with no rush and no long ride.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 798,
+          "input_tokens": 45,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 197,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 159,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "a0338bfc-a4c3-49f2-a3d9-b0c966676e1f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A gentle soak and a slow wander\",\n  \"summary\": \"A slower Reykjavik day with one long, dreamy soak and a single city stroll, keeping every ride short and every moment unhurried.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do soak stays, and with fewer stops there is no rush to leave the warm blue water.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Perlan stays as the one city stop, close to the rest and easy to reach without a long bus ride.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 68,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 175,
           "service_tier": "standard"
         }
       }

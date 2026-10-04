@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "10a38c2f-92ac-41bd-a547-a5f6737f03ad",
+        "id": "57449c58-ab7b-4a66-b96d-d6e24ad0ffcf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, tastier Mexico City\",\n  \"summary\": \"Swap the grand halls for market bustle, a leafy wander, and a long canal ride, with vegan tacos to keep everyone smiling.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper, and rightly so: old stones, big stories, and a photo spot that earns its fame.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for a palace: market chatter, strange fruits, and the city's real pulse.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a clear conscience and a full belly: vegan tacos that even carnivores eye with envy.\",\n      \"start\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through Roma Norte instead of another museum: street art, coffee smells, and zero queues.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big swap: floating gardens and mariachi instead of castle steps. Slow water, loud colour.\",\n      \"start\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a place that treats vegetables like royalty; a long, unhurried end to the day.\",\n      \"start\": \"19:30\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower, artier Mexico City day\",\n  \"summary\": \"A gentler Thursday swapping grand palaces for markets, green walks and quieter corners, with Templo Mayor kept as our anchor.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one we keep, because some stones deserve a second look.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market wander instead of a palace, all bustle and local chatter.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates and a calm, friendly room.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy Roma Norte stroll to stretch the afternoon at our own pace.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed early dinner with good veggie options before we call it a day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 85,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 451,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 313,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "9952d1b1-e94e-49e6-8b89-73a41d1f7c94",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"A slower, sunnier Mexico City\",\n  \"summary\": \"A gentler Thursday that swaps the grand halls for market chatter, a leafy stroll and a proper long lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper on the list, and rightly so — old stones tell the best stories.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market wander for the street-food lover, with vegetarian bites hiding in every corner.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a gentle halal twist, and plenty of green things for the non-meat crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A Roma Norte ramble for the photo-happy and the culture-curious, no ticket required.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 108,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 310,
           "service_tier": "standard"
         }
       }

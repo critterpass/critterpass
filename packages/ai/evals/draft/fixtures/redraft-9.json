@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "264f5261-18be-4f6f-9a53-c7d844ab4f3a",
+        "id": "343de9da-f0ef-45ad-852a-f20bcafca700",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Lisbon Day\",\n  \"summary\": \"Museums, a proper market wander, and plenty of food stops to keep the whole crew smiling from morning to night.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we are keeping, and for good reason. A proper museum morning before the food parade begins.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, all-day market wander. This is the local life and the first food stop all in one, if you sniff out the snack stalls.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ana asked for pastries, so here is the custard tart pilgrimage. Cheap, cheerful, and very Lisbon.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quick, budget-friendly bite. The kind of no-fuss place that keeps a long day of walking from turning grumpy.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free viewpoint to let lunch settle and to remind everyone why we came to this city in the first place.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A second museum, but with a river view. Fits the culture taste without breaking the budget too badly.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal to end the day. Vegetarian friendly, so nobody is left picking at bread.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"We wander through Alfama and the Feira da Ladra, then settle in for a proper meal and a gentle museum afternoon.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free morning wander through Alfama to work up an appetite for the market snacks ahead.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the star today — browse the stalls, graze on little bites, and soak up the local life.\",\n      \"start\": \"10:45\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal with plenty of vegetables to balance all those market snacks. Grilled sardines can wait until dinner.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:45\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-do of the day, kept safe and sound. We roll in after lunch, full and happy, for a slow wander through the galleries.\",\n      \"start\": \"14:15\",\n      \"end\": \"16:15\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 841,
+          "input_tokens": 92,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 469,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 370,
           "service_tier": "standard"
         }
       }

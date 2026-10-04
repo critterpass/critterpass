@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "2d9f8792-6333-43ff-bb4b-aba29c2511cf",
+        "id": "fb422cee-0794-4062-898f-f451998451f0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Bairro Alto\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Nightlife and street food\",\n      \"area\": \"Bairro Alto and Cais do Sodré\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p11\", \"p13\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Morning views and local life\",\n      \"area\": \"Alfama and Graça\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p12\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama & Bairro Alto Evening\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p9\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Market & Castle Morning\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 30,
+          "input_tokens": 102,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 149,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 143,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "32f5a04d-a506-48bb-b55b-e79ff04b8a0c",
+        "id": "556d6bda-81bc-466b-9137-c76eb9e14794",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The best morning view in Lisbon, and it doesn't cost a single sardine.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Come for the grilled sardines. Stay for the grilled sardines. And maybe a pastel de nata.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A little tasca with big flavours, where the menu changes with the market's mood.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 548,
+          "input_tokens": 446,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 66,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 127,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "a6cf2a50-12b8-41d2-ab06-dddcbc45538d",
+        "id": "d050af68-f0d2-4f76-9455-d7be031e24c5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Street food heaven, even for a sardine with standards.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bairro Alto wakes up late, just like you two night owls.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper seafood feast to keep the night rolling.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the tangle of lanes and laundry lines, the true heart of the old town.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The best free view in the city, all terracotta rooftops and the river beyond.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bifana in a no-nonsense spot, quick and full of flavour.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The lanes turn into one big open-air party, a proper festa (festival) of noise and joy.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 93,
+          "input_tokens": 520,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 156,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 235,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "f34485a7-596a-4730-8a07-4fc4485c28af",
+        "id": "1d78467e-0e3d-4520-870e-1e2f1d00232d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Come for the grilled sardines, stay for the grilled sardines — then a sunrise over the hills and the real local buzz."
+            "text": "Alfama, Bairro Alto, a market, a castle — come for the grilled sardines, stay for the grilled sardines."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 292,
+          "input_tokens": 163,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 26,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 29,
           "service_tier": "standard"
         }
       }

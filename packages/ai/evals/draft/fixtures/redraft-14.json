@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9ed3a173-b6a3-4266-b566-df642e5509f6",
+        "id": "3fd7195c-20d5-41b2-9e55-539d9185aaed",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Sun, stars and a hidden courtyard\",\n  \"summary\": \"A day that starts with Inti (the sun (Quechua)) on ancient stone, then slips into a neighbourhood the crew has not yet met, with a planetarium after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the must-do anchor, so the crew still feels the old Inca pulse before the surprise begins.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The unexpected turn: a slow wander through San Blas, all workshops, blue doors and quiet corners no one asked for but everyone will photograph.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at a proper vegetarian table, easy on the wallet and kind to every belly in the crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kept as the after-dark surprise: Cusco’s sky told through Inca eyes, a fitting close for a day that began with Inti.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Unexpected Cusco\",\n  \"summary\": \"A day of hidden corners and quiet wonders, with one stop the crew would never see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do temple still leads the morning, its stonework catching the early light.\",\n      \"note\": \"The must-do temple still leads the morning, its stonework catching the early light.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through San Blas, where the crew can lose themselves among workshops and tiny plazas.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Morena keeps everyone happy with proper vegetarian plates and a warm room.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral in the afternoon, when the crowds thin and the gold glows a little softer.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise dash to the salt mines, a strange white staircase the crew did not expect today.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 6,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 322,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 337,
           "service_tier": "standard"
         }
       }

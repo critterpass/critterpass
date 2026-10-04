@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5388da0a-5bca-42ce-b8e8-7494b17808f6",
+        "id": "c91a8d23-f141-4813-a209-0e659edb35c5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Belém, Bairro Alto and a tram\",\n  \"summary\": \"A slower day that keeps Belém Tower, swaps the rest for local life, a tram ride and a night in Bairro Alto, with vegetarian-friendly meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we keep, because Belém Tower is history with a sea view and a photo begging to be taken.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right by the tower, because warm custard tarts count as vegetarian and as culture.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra for wandering and people-watching, the flea market way to see local life without rushing.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tram 28 rattles through the old streets, a rolling photo spot for the early bird and the night owl alike.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper Portuguese flavours and enough vegetarian options to keep the whole crew happy.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owl asked for a little festa energy and the streets deliver.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Belém, then a proper Alfama wander\",\n  \"summary\": \"We keep the tower and swap the rest for a slower, more local-feeling day around the old streets, with a proper vegetarian lunch and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we keep, because you asked nicely. Belém Tower, history and photo spots all in one.\",\n      \"note\": \"The one thing we keep, because you asked nicely. Belém Tower, history and photo spots all in one.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little wander around LX Factory after the tower, same side of town, no rush.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian options, and it won't scare the budget.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The classic tram ride, because you can't say you've seen Lisbon without hanging off the side of a tram.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra for a bit of local life and a rummage, if the mood takes you.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner somewhere with real vegetarian choices, not just a sad side salad.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 821,
+          "input_tokens": 6,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 408,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 475,
           "service_tier": "standard"
         }
       }

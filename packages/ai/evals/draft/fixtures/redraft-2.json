@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "165da3bc-2e29-47f3-a696-690dce55de3e",
+        "id": "4c4fc7f4-6419-4ad1-9338-fa08274f8976",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Kyoto\",\n  \"summary\": \"A slower day with room to breathe, from a quiet temple morning to a lantern-lit evening.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm start after Pontocho; the thousand statues do the talking.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle vegan lunch with no rush, the way a slow day should taste.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept for the crew, but now it is the whole evening rather than a sprint.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Morning After Pontocho\",\n  \"summary\": \"We trade the early rush for two unhurried stops, a long vegan lunch, and an evening wander where the lanterns do the talking.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand faces, taken slowly. No sprinting, just looking.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do stays, but later and lighter. The deer will cope without you. The lanterns won't wait.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 3,
+          "input_tokens": 120,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 200,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 252,
           "service_tier": "standard"
         }
       }

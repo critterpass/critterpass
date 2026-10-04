@@ -1,50 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "1e250780-6bbb-4d91-bd81-185ae7e2dfd7",
+        "id": "9cb6d0f4-bef0-4e10-ad71-5368bec180ce",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Centro Histórico\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Landing stroll and splurge dinner\",\n      \"area\": \"Polanco\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p13\",\n        \"p10\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Culture and museums before flight\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p4\",\n        \"p3\"\n      ]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro stroll and a splurge dinner\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p12\",\n        \"p10\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Art, history and a calm goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p4\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 86,
+          "input_tokens": 4,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 158,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "5f14dcd6-8bb3-487f-aab7-1503f97f5c76",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A marble palace of murals and song, the perfect farewell to the city.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 498,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 44,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 160,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "163c1501-5482-4cd5-b64c-04a547b90bbd",
+        "id": "eaaf6e52-3dd2-462e-8e30-499f9ae004e1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A leafy welcome to the city, perfect for shaking off the flight.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A quick, tasty bite that keeps the budget smiling.\"},{\"poi_id\":\"p17\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The big splurge, where every bite feels like a tiny celebration.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A splurge-worthy tasting menu where the mole and the tortillas are pure theatre.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A leafy wander through Roma's art deco corners and tiny galleries.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Crisp al pastor carved straight off the trompo, a proper Mexico City bite.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 535,
+          "input_tokens": 531,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 110,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 121,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "1f0bb0e0-c258-4da9-9d62-f24c6fc520eb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Aztec ruins right in the heart of the city, with a museum full of stone serpents and sun discs.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"That golden dome and the murals inside are the city showing off, and I am here for it.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual spot where the chilaquiles will send you off happy and full.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 520,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 184,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "52597520-2ea3-44cb-9921-8af56be2d539",
+        "id": "819ffb39-3822-4091-9822-62b909763df4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A gentle landing, a fancy bite, then culture before you fly — every must-do tucked in, nice and tight."
+            "text": "A gentle wander through the Centro, a fancy feast, then art and a soft farewell — your guide in Mexico City approves."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 222,
+          "input_tokens": 225,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 24,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }
