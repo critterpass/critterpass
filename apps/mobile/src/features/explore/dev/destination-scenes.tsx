@@ -86,6 +86,7 @@ const VND_ROWS: readonly PriceRow[] = [
 interface SceneSpec {
   readonly name: string;
   readonly guide: string | null;
+  readonly learning?: boolean;
   readonly country?: string;
   readonly facts: HeroFacts;
   readonly curve: ReturnType<typeof curve> | null;
@@ -187,6 +188,16 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
       { id: 'crew-saigon', name: 'Hội bạn thân Sài Gòn' },
     ],
   },
+  'destination-learning': {
+    ...DA_NANG,
+    name: 'Đà Lạt',
+    guide: 'ngua',
+    learning: true,
+    curve: null,
+    picks: [],
+    month: undefined,
+    notice: 'limited',
+  },
   'destination-pick-crew': {
     ...KYOTO,
     mode: 'crews',
@@ -207,7 +218,7 @@ function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
   const [mode, setMode] = useState<ActionsMode>(spec.mode ?? 'actions');
   const [saved, setSaved] = useState(spec.saved ?? false);
   const [why, setWhy] = useState(false);
-  const guide = guideFor(spec.guide);
+  const guide = guideFor(spec.guide, spec.learning !== true);
   const bars = monthBars(spec.curve);
   const bar = month === null ? undefined : bars[month - 1];
   const crews = spec.crews ?? [];

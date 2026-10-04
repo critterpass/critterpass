@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# A city's own guide (Ngựa of Đà Lạt), in English: the guide lab's city guide scenes over fixed data.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/city-guide-scenes.yaml
+    env: { PREFIX: en }
