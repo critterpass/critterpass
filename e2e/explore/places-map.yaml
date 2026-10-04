@@ -81,10 +81,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-7c-2-place-picked
+# A finger drag along the cards (start and end on the card row, near the screen's foot).
 - swipe:
-    from:
-      id: 'places-card-0'
-    direction: LEFT
+    start: 85%, 87%
+    end: 10%, 87%
+    duration: 600
 - waitForAnimationToEnd:
     timeout: 4000
 - assertVisible:
