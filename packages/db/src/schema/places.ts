@@ -204,6 +204,16 @@ export const foursquareApiUsage = pgTable('foursquare_api_usage', {
 registerTablePrivacy('poi_foursquare_ids', { class: 'C0' });
 registerTablePrivacy('foursquare_api_usage', { class: 'C0' });
 
+/** Mapbox Geocoding calls per UTC month (`YYYY-MM`), counted by `app.reserve_mapbox_geocode_call`. */
+export const mapboxGeocodeUsage = pgTable('mapbox_geocode_usage', {
+  month: text('month').primaryKey(),
+  calls: integer('calls').notNull().default(0),
+  refusedCalls: integer('refused_calls').notNull().default(0),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+registerTablePrivacy('mapbox_geocode_usage', { class: 'C0' });
+
 /**
  * A place's Foursquare photos (migration 20261004094500_poi_foursquare_photos.sql): the photo id
  * and its image address parts (`prefix` + size + `suffix`), which Foursquare lets us keep, and

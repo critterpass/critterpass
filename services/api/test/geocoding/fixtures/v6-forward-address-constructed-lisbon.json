@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "address.constructed.1",
+      "geometry": { "type": "Point", "coordinates": [-9.14273, 38.71028] },
+      "properties": {
+        "mapbox_id": "address.constructed.1",
+        "feature_type": "address",
+        "full_address": "Rua Augusta 24, 1100-053 Lisboa, Portugal",
+        "name": "Rua Augusta 24",
+        "place_formatted": "1100-053 Lisboa, Portugal",
+        "coordinates": { "longitude": -9.14273, "latitude": 38.71028, "accuracy": "rooftop" },
+        "context": { "country": { "name": "Portugal", "country_code": "PT" } },
+        "match_code": {
+          "address_number": "matched",
+          "street": "matched",
+          "postcode": "unmatched",
+          "place": "matched",
+          "region": "not_applicable",
+          "locality": "not_applicable",
+          "country": "inferred",
+          "confidence": "exact"
+        }
+      }
+    }
+  ],
+  "attribution": "© 2026 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service. (https://www.mapbox.com/about/maps/)"
+}
