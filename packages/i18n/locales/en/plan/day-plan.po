@@ -6,3 +6,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.booked"
+msgstr "{stop} is booked, so it keeps its time."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.pinned"
+msgstr "{stop} is pinned to its time."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.untimed"
+msgstr "{stop} needs a time first."
+
+#: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
+msgid "plan.dayPlan.add"
+msgstr "Add a place, or paste a link"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.allDays"
+msgstr "All days"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.dayTitle"
+msgstr "Day {n}"
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveDown"
+msgstr "Move down"
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveUp"
+msgstr "Move up"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.empty"
+msgstr "Nothing planned yet. Add the first stop."
+
+#. placeholder {0}: idea.minutes
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.onTheWay"
+msgstr "On the way · +{0} min"
+
+#: ../../apps/mobile/src/features/plan/day-plan/mini-map.tsx
+msgid "plan.dayPlan.openMap"
+msgstr "Open the day’s map"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.pickDay"
+msgstr "Pick a day"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+msgid "plan.dayPlan.pickDayHint"
+msgstr "Pick another day"
+
+#. placeholder {0}: rainIssue.params.from
+#. placeholder {1}: rainIssue.params.to
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rain"
+msgstr "Rain likely {0}–{1}"
+
+#. placeholder {0}: clock(locale, rainWindow.start)
+#. placeholder {1}: clock(locale, rainWindow.end)
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rainForecast"
+msgstr "Rain likely {0}–{1}"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.runsInto"
+msgstr "That order runs into {stop}, which keeps its time."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.late"
+msgstr "That order runs past midnight."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.readOnly"
+msgstr "This plan can’t be changed here."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.draft"
+msgstr "Your draft. Only you can see it."

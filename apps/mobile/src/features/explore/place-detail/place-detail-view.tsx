@@ -12,6 +12,7 @@ import { I18nManager, Pressable, View } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { GoButton } from '@/ui/buttons/GoButton';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SplitCtaRow } from '@/ui/buttons/SplitCtaRow';
@@ -29,6 +30,7 @@ import { categoryLabel } from '../category';
 import { CrewRow, type CrewRowProps } from '../components/crew-row';
 import { PlacePhoto } from '../components/place-view';
 import type { GuideFacts } from '../format';
+import { CATEGORY_ACCENT } from './category-accent';
 import { CollapsingHeader } from './collapsing-header';
 import type { FactTiles } from './context';
 import { FactTileRow } from './fact-tiles';
@@ -67,18 +69,9 @@ export interface PlaceDetailViewProps {
     readonly onPress: () => void;
   };
   readonly onChat?: (() => void) | undefined;
+  /** GO: the route from here, then directions in the maps app. */
+  readonly onGo?: (() => void) | undefined;
 }
-
-const CATEGORY_ACCENT: Readonly<Record<string, 'blue' | 'orange' | 'green' | 'pink' | 'yellow'>> = {
-  temple_shrine: 'blue',
-  museum: 'pink',
-  nightlife: 'pink',
-  food: 'orange',
-  market: 'orange',
-  nature: 'green',
-  beach: 'blue',
-  shopping: 'yellow',
-};
 
 const useStyles = makeStyles((t) => ({
   photo: { height: DETAIL_PHOTO_HEIGHT, overflow: 'hidden' },
@@ -266,6 +259,9 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
               </Text>
             )}
           </View>
+          {props.onGo === undefined ? null : (
+            <GoButton onPress={props.onGo} testID="place-detail-go" />
+          )}
           {props.offline ? <OfflinePill testID="place-detail-offline" /> : null}
           {props.facts === null ? null : <FactTileRow facts={props.facts} />}
           {props.fits === null ? null : <WhenItFits guide={props.guide} {...props.fits} />}

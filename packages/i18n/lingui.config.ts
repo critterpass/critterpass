@@ -31,6 +31,8 @@ const areas = [
   'community',
   'help',
   'monetize',
+  // GO: the route preview, its button and the maps-app handoff.
+  'go',
 ] as const;
 
 // `include`/`path` are resolved relative to this file's own directory (`rootDir` only feeds the
@@ -157,6 +159,9 @@ const pingSources = [
   `${repoRootPrefix}/apps/mobile/src/app/you/pings.tsx`,
 ];
 
+// The GO button lives in the UI kit but words GO, so its copy sits in the GO catalog.
+const goButtonSource = `${repoRootPrefix}/apps/mobile/src/ui/buttons/GoButton.tsx`;
+
 const notificationSources = [
   {
     name: 'common',
@@ -204,6 +209,7 @@ export default defineConfig({
       exclude: [
         ...testFileExcludes,
         `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`,
+        goButtonSource,
         ...planningCatalogs.kit,
       ],
     },
@@ -222,6 +228,7 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
         // The plan's shared reader, editor and commands word the outbox and stop names.
         ...(area === 'plan' ? [`${repoRootPrefix}/apps/mobile/src/data/plan/**`] : []),
+        ...(area === 'go' ? [goButtonSource] : []),
       ],
       exclude:
         area === 'crew'

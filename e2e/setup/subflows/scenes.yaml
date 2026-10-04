@@ -58,6 +58,15 @@ appId: app.critterpass.dev
     env: { SCENE: when-week-picker }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: when-picker-range }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-picker-ghost }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-picker-too-long }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: when-ask-sheet }
 - runFlow:
     file: scene.yaml
@@ -74,6 +83,12 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: calendar-manual-days }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: calendar-manual-days-maybe }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: calendar-manual-days-busy }
 - runFlow:
     file: scene.yaml
     env: { SCENE: 3c-5-budget }

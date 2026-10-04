@@ -5,6 +5,8 @@
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
+import type { GoTarget } from '@/features/go';
+
 import type { AlarmAuthorization } from '../alarm/alarm-port';
 import type { AlarmSheetKind } from '../alarm/alarm-permission-sheet';
 import type { AlarmStatus } from '../alarm/alarm-store';
@@ -60,11 +62,18 @@ export function forecastFor(
 export interface TimelineEntryData extends DayTimelineEntry {
   readonly bookingId: string | null;
   readonly startsAt: Date;
+  readonly poiId?: string | null | undefined;
 }
 
 /** What leads a day with no leave-by: its first stop, today's next stop, or nothing left today. */
 export type DayLead =
-  | { readonly kind: 'first' | 'next'; readonly time: string; readonly title: string }
+  | {
+      readonly kind: 'first' | 'next';
+      readonly time: string;
+      readonly title: string;
+      /** The stop's place, when it has one (GO opens on it). */
+      readonly poiId?: string | null | undefined;
+    }
   | { readonly kind: 'done' };
 
 /**
@@ -79,10 +88,34 @@ export function dayLead(
 ): DayLead | null {
   const first = timeline[0];
   if (first === undefined) return null;
-  if (!isToday) return { kind: 'first', time: first.time, title: first.title };
+  if (!isToday) return { kind: 'first', time: first.time, title: first.title, poiId: first.poiId };
   const next = timeline.find((entry) => entry.startsAt.getTime() > now.getTime());
   if (next === undefined) return { kind: 'done' };
-  return { kind: next === first ? 'first' : 'next', time: next.time, title: next.title };
+  return {
+    kind: next === first ? 'first' : 'next',
+    time: next.time,
+    title: next.title,
+    poiId: next.poiId,
+  };
+}
+
+/**
+ * What GO opens from today's day-of screen: the leave-by's stop while there is one, else the next
+ * stop with a place. Null on another day, when the day is done, or when the stop has no place.
+ */
+export function dayOfGo(
+  leaveBy: LeaveByView | null,
+  lead: DayLead | null,
+  tripId: string,
+  isToday: boolean,
+): GoTarget | null {
+  if (!isToday) return null;
+  if (leaveBy !== null && leaveBy.placeName !== null) {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a target kind, never copy.
+    return { kind: 'leave_by', leaveById: leaveBy.id };
+  }
+  if (lead === null || lead.kind === 'done' || !lead.poiId) return null;
+  return { kind: 'place', poiId: lead.poiId, tripId };
 }
 
 /** How the day shown sits against the trip's own today. */
@@ -129,6 +162,7 @@ export function dayTimeline(
         dimmed: !mine,
         bookingId: mine ? row.booking_id : null,
         startsAt: new Date(row.starts_at ?? ''),
+        poiId: row.poi_id ?? null,
       };
     });
 }

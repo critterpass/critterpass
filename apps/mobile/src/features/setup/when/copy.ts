@@ -136,3 +136,28 @@ export function pickReasonLine(pick: WindowOption | undefined): string {
     message: 'Most of you, at the best time. The rest can join for part of it.',
   });
 }
+
+/** "8 days · Apr 2 – 9": a picked range's length, live as it changes. */
+export function lengthAndRange(locale: string, start: string, end: string, days: number): string {
+  const range = rangeLabel(locale, start, end);
+  const length = t({
+    id: 'setup.when.picker.length',
+    message: plural(days, { one: '# day', other: '# days' }),
+  });
+  return t({ id: 'setup.when.picker.lengthRange', message: `${length} · ${range}` });
+}
+
+/** A best-window chip: "Apr 2 – 9 · all 6", "Apr 16 – 22 · 5 of 6", or just the range for one. */
+export function windowChipLabel(
+  locale: string,
+  start: string,
+  end: string,
+  free: number,
+  total: number,
+): string {
+  const range = rangeLabel(locale, start, end);
+  if (total <= 1) return range;
+  if (free >= total)
+    return t({ id: 'setup.when.picker.chipAll', message: `${range} · all ${total}` });
+  return t({ id: 'setup.when.picker.chipSome', message: `${range} · ${free} of ${total}` });
+}

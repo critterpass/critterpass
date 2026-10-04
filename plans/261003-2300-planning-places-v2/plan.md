@@ -1,7 +1,7 @@
 ---
 title: "Planning and places, section 7"
 description: "Rebuild the plan and places flows to the founder's section 7 design (30 screens replacing 3d and 3e) on a shared fit engine, stored legs and a background plan check."
-status: pending
+status: in progress
 priority: P1
 effort: 95 tasks
 branch: main
@@ -24,6 +24,27 @@ critical_path_tasks: 35
 | Rules | As `plans/260926-1718-critterpass-full-build/plan.md` §1 and `CLAUDE.md`: owns lists, one commit per task, one PR per phase, test ladder (database tests via `pnpm test:remote`), device runs on GitHub Actions (Android default; iOS where sheets, keyboard or the paste control matter), `ui-reviewed` gate, no plan/phase/task ids in code, undesigned states logged. Branch from `origin/main`: the main checkout at `/Users/quocs/Projects/critterpass` is stale (#236) |
 | Build | JS and server only: no native module, no EAS build. New infra: one private Valhalla service (founder decision 2) |
 
+## Status (2026-10-04 13:50)
+
+| | |
+|---|---|
+| Merged | Phases 1–10: the foundation (ids, data and contracts, stored legs on our own Valhalla, the fit engine and plan check job, the UI kit, the AI routes), then Add to plan, Ideas and the review (#613, #622), place detail and the crew split (#620), search, plain words and links (#618), and the trip map and day plan (#617). Phase 15's server half: every routed leg stores its road shape (#619; 3,399 legs backfilled on staging) |
+| In review | Phase 11, places map and list (#616); phase 15's app half, routes drawn along the roads (#631); phase 16, GO (#624) |
+| Being built | Phase 12 (Explore in a trip, swipe together, the destination guide) and phase 13 (the plan check and its fixers) |
+| Not started | Phase 14 (retire the replaced screens), after 12 and 13 merge and the founder approves the day plan on device (decision 7) |
+| Added by the founder on 4 Oct | Phase 15, plan routes drawn along the roads (07:38). Phase 16, GO: a route preview from where you are, then directions in Google or Apple Maps and a Grab ride (09:29, option 1). Outside this plan: the dates picker (`plans/261004-1030-dates-picker-polish/`, merged as #625) |
+| Fixed along the way | Phones now get every place a trip references, whatever its curation (#626). A trip's plan lookups no longer grow with its edit history (#629). The Android device runs draw map text (`-gpu swangle_indirect`, in #617). The iOS 26 keyboard strip no longer trips the screen check (#623) |
+| Switches | `planning.redesign` stays off on staging; Developer tools → "Planning redesign" turns the new screens on for one phone (#615) |
+| Decided since the plan | All nine founder decisions as recommended (4 Oct 00:32). Crowd curves approved (4 Oct 09:24). No trip hold (4 Oct 01:15) |
+| Estimate | Everything through phase 16 ready for the founder's device pass on Mon 5 Oct in the evening, give or take half a day. Then the switch goes on for everyone, phase 14 removes the old screens, and the full-build plan resumes |
+
+Follow-ups queued, not in a phase yet:
+- A trigger that rejects change sets on organiser-only versions, so the trip stream can drop its last per-edit lookup.
+- Whether a places merge repoints plan stops and ideas to the surviving place.
+- The duplicate-place cleanup for Bali and the other destinations (Đà Nẵng is done).
+- GO on Explore's place cards (with phase 12).
+- A real-data device flow for GO, once a seed has a trip in progress.
+
 ## Phases
 
 | # | Phase | Screens | Tasks | Depends on | Wave | Status |
@@ -34,15 +55,16 @@ critical_path_tasks: 35
 | 4 | [Fit engine, place signals and the plan check job](./phase-04-fit-engine-plan-analysis.md) | fit/gaps/check data | 7 | 2 | 2 | done |
 | 5 | [Planning UI kit, map layers and shared app data](./phase-05-planning-ui-kit-shared-data.md) | kit for all | 6 | 2 | 2 | done (#608) |
 | 6 | [Planning AI routes](./phase-06-planning-ai-routes.md) | 7d-2, 7d-3, 7e-1/7e-3 (routes) | 6 | 2 | 2 | done (#601, #606) |
-| 7 | [Add to plan, Ideas, placing them and the review](./phase-07-add-to-plan-ideas-review.md) | 7f-1, 7f-2, 7h-6, 7h-7 | 8 | 1, 3, 4, 5 | 3 | pending |
-| 8 | [Place detail and crew can't agree](./phase-08-place-detail-crew-split.md) | 7e-1, 7e-2, 7e-3 | 9 | 1, 3, 4, 5, 6 | 3 | in review (#620) |
-| 9 | [Search, plain words, add from a link, and offline search](./phase-09-search-links-offline.md) | 7d-1…7d-4, 7i-2 | 10 | 1, 3, 4, 5, 6 | 3 | pending |
-| 10 | [Trip map, day plan, all days and the empty trip](./phase-10-trip-map-day-plan.md) | 7a-1…7a-3, 7b-1…7b-3, 7i-1 | 9 | 1, 3, 4, 5 | 3 | pending |
-| 11 | [Places map and list](./phase-11-places-map-list.md) | 7c-1…7c-3 | 5 | 1, 3, 4, 5 | 3 | pending |
-| 12 | [Explore in a trip, swipe together and the destination guide](./phase-12-explore-swipe-destination.md) | 7g-1…7g-3 | 4 | 1, 4, 5, 7 | 4 | pending |
+| 7 | [Add to plan, Ideas, placing them and the review](./phase-07-add-to-plan-ideas-review.md) | 7f-1, 7f-2, 7h-6, 7h-7 | 8 | 1, 3, 4, 5 | 3 | done (#613, #622) |
+| 8 | [Place detail and crew can't agree](./phase-08-place-detail-crew-split.md) | 7e-1, 7e-2, 7e-3 | 9 | 1, 3, 4, 5, 6 | 3 | done (#620) |
+| 9 | [Search, plain words, add from a link, and offline search](./phase-09-search-links-offline.md) | 7d-1…7d-4, 7i-2 | 10 | 1, 3, 4, 5, 6 | 3 | done (#618) |
+| 10 | [Trip map, day plan, all days and the empty trip](./phase-10-trip-map-day-plan.md) | 7a-1…7a-3, 7b-1…7b-3, 7i-1 | 9 | 1, 3, 4, 5 | 3 | done (#617) |
+| 11 | [Places map and list](./phase-11-places-map-list.md) | 7c-1…7c-3 | 5 | 1, 3, 4, 5 | 3 | in review (#616) |
+| 12 | [Explore in a trip, swipe together and the destination guide](./phase-12-explore-swipe-destination.md) | 7g-1…7g-3 | 4 | 1, 4, 5, 7 | 4 | in progress |
 | 13 | [Plan check and its fixers](./phase-13-plan-check-fixers.md) | 7h-1…7h-5 | 8 | 1, 3, 4, 5, 7 | 4 | in review (#630) |
 | 14 | [Retire the replaced screens and finish the migration](./phase-14-retire-replaced-screens.md) | – | 6 | 1–13 | 5 | pending |
 | 15 | [Plan routes drawn along the roads](./phase-15-road-routes.md) | route lines of 7a-1…7a-3, 7b-1, 7b-3 and the old MAP tab | 3 | 3, 5, 10 | 3 | in progress |
+| 16 | [GO: the route from here, then directions in the maps app](./phase-16-navigate.md) | GO on 7e-1, 7b-1, 7a-2, day-of and the leave-by push | 4 | 3, 15 | 3 | in progress |
 
 Merged and split where the code says so: "states and offline" is not a phase of its own: 7i-2 lives with search (its fallback is the search code) and 7i-1 with the trip map (it is the map's empty state); the three new model calls are one wave-2 phase so two wave-3 phases never edit the AI routing table; the fit engine and the plan check job share one phase because the job is the engine run over the whole trip; a data phase and a UI kit phase land first so wave 3 runs five lanes without touching migrations, streams, the generated mobile schema or each other's components.
 
@@ -52,7 +74,7 @@ Merged and split where the code says so: "states and offline" is not a phase of 
 |---|---|---|---|
 | 1 | 1, 2 | 11 | 2 |
 | 2 | 3, 4, 5, 6 | 25 | 4 |
-| 3 | 7, 8, 9, 10, 11 | 41 | 5 |
+| 3 | 7, 8, 9, 10, 11, then 15 and 16 (added 4 Oct) | 48 | 7 |
 | 4 | 12, 13 | 12 | 2 |
 | 5 | 14 | 6 | 1 |
 

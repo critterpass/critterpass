@@ -24,7 +24,7 @@ msgstr "{0} đang ở đây"
 
 #. placeholder {0}: warning.minutes ?? 0
 #. placeholder {1}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.travel"
 msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 
@@ -120,7 +120,7 @@ msgstr "Ngày tự do"
 msgid "plan.day.item.placeDetail"
 msgstr "Giờ mở cửa, ảnh và cách đi tới"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
 msgstr "Sẽ đổi khi mọi người đồng ý."
 
@@ -181,7 +181,7 @@ msgid "plan.day.lockedLine"
 msgstr "Mở ra nếu vẫn muốn đổi."
 
 #. placeholder {0}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.overlap"
 msgstr "Trùng giờ với {0}"
 
@@ -231,7 +231,7 @@ msgstr "Đang tìm thêm địa điểm…"
 msgid "plan.day.queued"
 msgstr "Sẽ gửi khi có mạng"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedToast"
 msgstr "Đã gửi cho cả nhóm"
 
@@ -239,7 +239,7 @@ msgstr "Đã gửi cho cả nhóm"
 msgid "plan.day.item.skip"
 msgstr "Bỏ qua, chỉ mình tôi"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Đã bỏ qua, chỉ riêng bạn"
 

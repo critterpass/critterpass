@@ -6,3 +6,76 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.titleDays"
+msgstr "{count} days"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.title"
+msgstr "{place}, {count} days"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.checkDetail"
+msgstr "Checked against opening hours, drives and bookings."
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.dayTitle"
+msgstr "Day {n}"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasFit"
+msgstr "Ideas fit here"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.road"
+msgstr "In the car: about {before} → {after}"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.title"
+msgstr "Move {name}?"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStop"
+msgstr "Move a stop to another day"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.move"
+msgstr "Move it"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickDay"
+msgstr "Move to day…"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickStop"
+msgstr "Move which stop?"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.empty"
+msgstr "Nothing left on this day"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.nothingYet"
+msgstr "nothing yet"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.ok"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.see"
+msgstr "See"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.suggest"
+msgstr "Suggest it to the crew"

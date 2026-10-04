@@ -11,7 +11,7 @@ appId: app.critterpass.dev
 # the lock their Home has the JOIN THE TRIP card, and the tap puts them on the trip.
 # Today on the trip's clock (Da Nang, UTC+7): the id of its cell in the week picker and the lock
 # button that names it.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.joinPickDate = d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -122,38 +122,20 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 # The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
-# season, weeks away). The sheet opens on the month of that window, which can be a later one: it
-# is paged back until today's cell is there, and the cell is tapped by its date. The lock button
-# names the week, which proves the tap.
+# season, weeks away). The sheet opens on the month of that window, which can be a later one:
+# pick-days.yaml turns it to today's month and taps today and the day six after by their dates.
+# The lock button names the week, which proves the taps.
 - extendedWaitUntil:
     visible:
       id: 'when-pick-week'
     timeout: 30000
 - tapOn:
     id: 'when-pick-week'
-- extendedWaitUntil:
-    visible:
-      id: 'picker-shorter'
-    timeout: 10000
-- waitForAnimationToEnd
-# The dates step under the sheet has its own month arrows, so the sheet's are looked up inside it.
-- repeat:
-    while:
-      notVisible:
-        id: ${output.pickId}
-    times: 6
-    commands:
-      - tapOn:
-          id: 'heatmap-prev'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
-- tapOn:
-    id: ${output.pickId}
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
+- runFlow:
+    file: subflows/pick-days.yaml
+    env:
+      PICK_DATE: ${output.joinPickDate}
+      PICK_DAYS: 7
 - waitForAnimationToEnd
 - takeScreenshot: en-join-under-way-dates-from-today
 - assertVisible: ${output.lockToday}

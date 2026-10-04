@@ -15,7 +15,7 @@ msgstr ""
 msgid "setup.connected.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.busy"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "setup.calendar.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.free"
 msgstr ""
 
@@ -67,16 +67,12 @@ msgstr ""
 msgid "setup.manual.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.maybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.unavailable"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.next"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
@@ -87,7 +83,7 @@ msgstr ""
 msgid "setup.connected.deniedTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.unmarked"
 msgstr ""
 
@@ -100,7 +96,7 @@ msgid "setup.calendar.microsoft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.previous"
+msgid "setup.manual.paintLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
@@ -125,10 +121,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.synced"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
