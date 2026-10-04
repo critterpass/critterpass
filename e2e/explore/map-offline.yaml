@@ -40,6 +40,12 @@ appId: app.critterpass.dev
 # canvas itself is judged on a real phone; the peek's count proves the places are here.
 - waitForAnimationToEnd:
     timeout: 8000
+# The tiles and layers draw after the screen: a fixed wait for them (an id that never shows).
+- extendedWaitUntil:
+    visible:
+      id: 'places-tiles-wait'
+    timeout: 10000
+    optional: true
 - takeScreenshot: en-7c-1-offline-fresh-account-map
 - tapOn:
     id: 'places-peek-list'
