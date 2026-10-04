@@ -176,6 +176,10 @@ msgstr "Hỏi bằng lời thường"
 msgid "search.offline.back"
 msgstr "Có sóng lại · {guideName} đã trả lời"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.bar"
+msgstr "quán bar"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr "Biển"
@@ -192,6 +196,10 @@ msgstr "Đặt chỗ"
 msgid "search.chip.meal.breakfast"
 msgstr "Bữa sáng"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.cafe"
+msgstr "quán cà phê"
+
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.cancel"
 msgstr "Huỷ"
@@ -199,6 +207,10 @@ msgstr "Huỷ"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.cheap"
 msgstr "Rẻ"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.chinese"
+msgstr "món Hoa"
 
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.clear"
@@ -348,6 +360,14 @@ msgstr "Trong Ý tưởng của nhóm"
 msgid "search.chip.attr.indoor"
 msgstr "Trong nhà"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.italian"
+msgstr "món Ý"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.japanese"
+msgstr "món Nhật"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.late"
 msgstr "Mở khuya"
@@ -371,6 +391,10 @@ msgstr "Bản đồ"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.market"
 msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.mexican"
+msgstr "món Mexico"
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.mon"
@@ -627,6 +651,10 @@ msgstr "Tối đa {level}"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.vegetarian"
 msgstr "Chay"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.vietnamese"
+msgstr "món Việt"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.waterfalls"

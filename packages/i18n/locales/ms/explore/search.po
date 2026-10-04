@@ -176,6 +176,10 @@ msgstr ""
 msgid "search.offline.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.bar"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr ""
@@ -192,12 +196,20 @@ msgstr ""
 msgid "search.chip.meal.breakfast"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.cafe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.cheap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.chinese"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
@@ -348,6 +360,14 @@ msgstr ""
 msgid "search.chip.attr.indoor"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.italian"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.japanese"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.late"
 msgstr ""
@@ -370,6 +390,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.market"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.mexican"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
@@ -626,6 +650,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.vegetarian"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.vietnamese"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx

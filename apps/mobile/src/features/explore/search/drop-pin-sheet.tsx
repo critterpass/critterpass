@@ -12,7 +12,7 @@ import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLiveRows } from '@/data/plan/live-rows';
-import { makeStyles } from '@/ui';
+import { makeStyles, Text, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { TextField } from '@/ui/inputs/TextField';
@@ -44,12 +44,15 @@ export interface DropPinSheetProps {
   /** Where the pin starts (the search's scope), else the middle of the destination's places. */
   readonly start: { readonly lat: number; readonly lng: number } | null;
   readonly name: string;
+  /** The address the pin starts on, when it was opened from one: shown, never saved. */
+  readonly hint?: string | undefined;
   readonly onSaved: (name: string) => void;
   readonly onClose: () => void;
 }
 
 export function DropPinSheet(props: DropPinSheetProps) {
   const styles = useStyles();
+  const theme = useTheme();
   const save = useCommand(saveIdeaCommand);
   const cameraRef = useRef<CameraRef | null>(null);
   const centre = useLiveRows<{ lat: number | null; lng: number | null }>(
@@ -98,6 +101,15 @@ export function DropPinSheet(props: DropPinSheetProps) {
               <Icon name="pin" size={PIN_SIZE} decorative />
             </View>
           </View>
+        )}
+        {props.hint === undefined ? null : (
+          <Text
+            variant="bodySm"
+            color={theme.semantic.text.secondary}
+            testID="search-drop-pin-hint"
+          >
+            {props.hint}
+          </Text>
         )}
         <TextField
           label={t({ id: 'search.pin.name', message: 'What is it called?' })}

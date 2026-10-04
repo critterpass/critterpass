@@ -99,19 +99,25 @@ export function SearchScreen(props: SearchScreenProps) {
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');
   const [asked, setAsked] = useState<string | null>(props.q ?? null);
-  // DROP A PIN, opened bare or on a picked address (its spot and its line as the name).
+  // DROP A PIN, opened bare or on a picked address: its spot, the traveller's own words as the
+  // name, and the address found as the sheet's hint.
   const [pinning, setPinning] = useState<{
     readonly start: AddressPoint | null;
     readonly name: string;
+    readonly near?: string;
   } | null>(null);
+  // Chips a submitted question parsed into: null until it has been read.
+  const [chips, setChips] = useState<number | null>(null);
   const type = (text: string) => {
     setQuery(text);
     setAsked(null);
+    setChips(null);
   };
   const ask = (words: string) => {
     const trimmed = words.trim();
     if (trimmed === '') return;
     setQuery(trimmed);
+    if (trimmed !== asked) setChips(null);
     setAsked(trimmed);
     // Plain words need signal: with none, the guide keeps the question for the first bar.
     if (!online) question.ask(trimmed);
@@ -142,13 +148,22 @@ export function SearchScreen(props: SearchScreenProps) {
     getJson: services.getJson,
     query: typed,
     near: near ?? centre,
-    wanted: wantsAddresses(typed, found, !online || search.offline),
+    wanted: wantsAddresses({
+      query: typed,
+      results: found,
+      offline: !online || search.offline,
+      question: asked === null ? false : chips === null ? null : chips > 0,
+    }),
   });
   const addresses = (
     <AddressSection
       state={addressState}
       onPick={(address) =>
-        setPinning({ start: { lat: address.lat, lng: address.lng }, name: address.line })
+        setPinning({
+          start: { lat: address.lat, lng: address.lng },
+          name: typed,
+          near: address.rest === null ? address.line : `${address.line}, ${address.rest}`,
+        })
       }
     />
   );
@@ -202,6 +217,7 @@ export function SearchScreen(props: SearchScreenProps) {
             destinationSlug={trip.destinationSlug}
             start={pinning.start ?? near}
             name={pinning.name}
+            hint={pinning.near}
             onSaved={(name) => {
               setPinning(null);
               toast.show({
@@ -234,6 +250,7 @@ export function SearchScreen(props: SearchScreenProps) {
           onAdd={(poiId) => addPlace(poiRef(poiId))}
           onDropPin={() => setPinning({ start: null, name: '' })}
           addresses={addresses}
+          onChips={setChips}
           onAsk={() => go(hrefFor('3j-1', { tripId, q: asked }))}
         />
       ) : typed === '' ? (

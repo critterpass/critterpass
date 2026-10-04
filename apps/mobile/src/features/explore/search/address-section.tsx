@@ -1,6 +1,7 @@
 /**
  * "Addresses" under a search's places (7d-1 while typing, 7d-2, and above the ways out on 7d-4;
- * undesigned): street addresses for what was typed, each a pin row. A pick opens DROP A PIN on
+ * undesigned): street addresses for what was typed, each a compact row of its own (a small tile
+ * with the pin, no photo slot: an address is not a place with a missing picture). A pick opens DROP A PIN on
  * that spot with the address as its name. The map data's credits sit under the rows, as its terms
  * require. Nothing shows while it loads or when no address is found.
  */
@@ -8,14 +9,32 @@ import { t } from '@lingui/core/macro';
 import { Linking, View } from 'react-native';
 
 import { makeStyles, Text, useTheme } from '@/ui';
-import { PlaceRow } from '@/ui/planning';
+import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
 
 import type { AddressesState, FoundAddress } from './use-addresses';
 
+const TILE_SIZE = 38;
+
 const useStyles = makeStyles((th) => ({
   section: { gap: th.space['8'] },
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: th.space['12'],
+    paddingVertical: th.space['10'],
+    paddingHorizontal: th.space['14'],
+  },
+  tile: {
+    width: TILE_SIZE,
+    height: TILE_SIZE,
+    borderRadius: th.radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: th.color.ink[700],
+  },
+  body: { flex: 1, minWidth: 0, gap: th.space['2'] },
   credits: { flexDirection: 'row', flexWrap: 'wrap', columnGap: th.space['12'] },
   credit: { minHeight: 32, justifyContent: 'center' },
 }));
@@ -34,14 +53,31 @@ export function AddressSection({ state, onPick }: AddressSectionProps) {
       <Text variant="eyebrow">{t({ id: 'search.address.eyebrow', message: 'Addresses' })}</Text>
       <View style={styles.card}>
         {state.addresses.map((address, index) => (
-          <PlaceRow
+          <PressScale
             key={`${address.line}-${String(index)}`}
-            title={address.line}
-            meta={address.rest ?? undefined}
-            icon="pin"
+            accessibilityRole="button"
+            accessibilityLabel={
+              address.rest === null ? address.line : `${address.line}, ${address.rest}`
+            }
             onPress={() => onPick(address)}
             testID={`search-address-${String(index)}`}
-          />
+          >
+            <View style={styles.row}>
+              <View style={styles.tile}>
+                <Icon name="pin" size={20} decorative />
+              </View>
+              <View style={styles.body}>
+                <Text variant="title" numberOfLines={1}>
+                  {address.line}
+                </Text>
+                {address.rest === null ? null : (
+                  <Text variant="bodySm" color={theme.semantic.text.secondary} numberOfLines={1}>
+                    {address.rest}
+                  </Text>
+                )}
+              </View>
+            </View>
+          </PressScale>
         ))}
       </View>
       <Text variant="caption" color={theme.semantic.text.secondary}>

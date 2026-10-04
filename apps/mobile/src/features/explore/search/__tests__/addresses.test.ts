@@ -31,21 +31,40 @@ describe('looksLikeAddress', () => {
   );
 });
 
+const typing = { offline: false, question: false } as const;
+
 describe('wantsAddresses', () => {
   it('asks for text that reads like an address, however many places matched', () => {
-    expect(wantsAddresses('12 Trần Phú', 9, false)).toBe(true);
-    expect(wantsAddresses('12 Trần Phú', null, false)).toBe(true);
+    expect(wantsAddresses({ ...typing, query: '12 Trần Phú', results: 9 })).toBe(true);
+    expect(wantsAddresses({ ...typing, query: '12 Trần Phú', results: null })).toBe(true);
+    expect(
+      wantsAddresses({ query: 'dinner on Abbey Road', results: 3, offline: false, question: true }),
+    ).toBe(true);
   });
 
-  it('asks for a place name only once our own search finished with fewer than five', () => {
-    expect(wantsAddresses('Chợ Hàn', null, false)).toBe(false);
-    expect(wantsAddresses('Chợ Hàn', 4, false)).toBe(true);
-    expect(wantsAddresses('Chợ Hàn', 5, false)).toBe(false);
+  it('asks for a short name only once our own search finished with no place at all', () => {
+    expect(wantsAddresses({ ...typing, query: 'Villa Hoa Sua', results: null })).toBe(false);
+    expect(wantsAddresses({ ...typing, query: 'Villa Hoa Sua', results: 0 })).toBe(true);
+    expect(wantsAddresses({ ...typing, query: 'Villa Hoa Sua', results: 1 })).toBe(false);
+  });
+
+  it('spends nothing on a plain-words question, or while a submitted one is still being read', () => {
+    const question = { query: 'quiet rooftop bar', results: 0, offline: false };
+    expect(wantsAddresses({ ...question, question: true })).toBe(false);
+    expect(wantsAddresses({ ...question, question: null })).toBe(false);
+  });
+
+  it('takes more than six words for a question, not a name', () => {
+    const words = { ...typing, results: 0 };
+    expect(wantsAddresses({ ...words, query: 'the blue house by the old bridge' })).toBe(false);
+    expect(wantsAddresses({ ...words, query: 'blue house by the old bridge' })).toBe(true);
   });
 
   it('never asks offline or for a letter or two', () => {
-    expect(wantsAddresses('12 Trần Phú', 0, true)).toBe(false);
-    expect(wantsAddresses(' 12 ', 0, false)).toBe(false);
+    expect(
+      wantsAddresses({ query: '12 Trần Phú', results: 0, offline: true, question: false }),
+    ).toBe(false);
+    expect(wantsAddresses({ ...typing, query: ' 12 ', results: 0 })).toBe(false);
   });
 });
 

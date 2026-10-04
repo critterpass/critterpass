@@ -176,6 +176,10 @@ msgstr "Ask in plain words"
 msgid "search.offline.back"
 msgstr "Back online · {guideName} answered"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.bar"
+msgstr "bars"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr "Beaches"
@@ -192,6 +196,10 @@ msgstr "Bookings"
 msgid "search.chip.meal.breakfast"
 msgstr "Breakfast"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.cafe"
+msgstr "cafes"
+
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.cancel"
 msgstr "Cancel"
@@ -199,6 +207,10 @@ msgstr "Cancel"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.cheap"
 msgstr "Cheap"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.chinese"
+msgstr "Chinese"
 
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.clear"
@@ -348,6 +360,14 @@ msgstr "In your Ideas"
 msgid "search.chip.attr.indoor"
 msgstr "Indoors"
 
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.italian"
+msgstr "Italian"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.japanese"
+msgstr "Japanese"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.late"
 msgstr "Late"
@@ -371,6 +391,10 @@ msgstr "Map"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.market"
 msgstr "Markets"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.mexican"
+msgstr "Mexican"
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.mon"
@@ -627,6 +651,10 @@ msgstr "Up to {level}"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.vegetarian"
 msgstr "Vegetarian"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.term.vietnamese"
+msgstr "Vietnamese"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.waterfalls"

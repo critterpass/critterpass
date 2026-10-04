@@ -4,7 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids and param keys, never copy. */
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
@@ -26,6 +26,8 @@ export interface PlainBlockProps {
   readonly onAsk: () => void;
   /** Street addresses for the question, shown under the places or above the ways out. */
   readonly addresses?: ReactNode;
+  /** How many chips the question parsed into, once it has been read. */
+  readonly onChips?: (count: number) => void;
 }
 
 export function PlainBlock(props: PlainBlockProps) {
@@ -35,6 +37,11 @@ export function PlainBlock(props: PlainBlockProps) {
     destinationId: trip.destinationId,
     question,
   });
+  const { onChips } = props;
+  const chipCount = state.parse === 'done' ? state.chips.length : null;
+  useEffect(() => {
+    if (chipCount !== null) onChips?.(chipCount);
+  }, [chipCount, onChips]);
   const map = useScreenHref('7c-1', { tripId, mode: 'results', q: question });
   return (
     <PlainSection

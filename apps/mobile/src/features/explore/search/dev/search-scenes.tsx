@@ -193,7 +193,7 @@ const NOTHING: PlainAnswer = {
       areas: ['Seminyak', 'Canggu'],
       openLate: null,
     },
-    { kind: 'related', params: { term: 'Japanese' }, count: 4, areas: ['Ubud'], openLate: 2 },
+    { kind: 'related', params: { term: 'japanese' }, count: 4, areas: ['Ubud'], openLate: 2 },
     { kind: 'pin', params: {}, count: 0, areas: [], openLate: null },
   ],
   nearest: { name: 'Sushi Ko', area: 'Seminyak', minutes: 70 },
