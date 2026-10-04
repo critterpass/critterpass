@@ -17,12 +17,6 @@ msgstr "{0, plural, one {# of the crew saved it.} other {# of the crew saved it.
 msgid "explore.place.rating"
 msgstr "{0} / 10"
 
-#. placeholder {0}: String(stay.minutes)
-#. placeholder {1}: stay.name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
-msgid "explore.detail.fromStay"
-msgstr "{0} min from {1}"
-
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
@@ -39,21 +33,29 @@ msgstr "{0}, and {1}."
 msgid "explore.detail.fits.when"
 msgstr "{day} at {time}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.fromStay"
+msgstr "{duration} from {stayName}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr "{duration} on"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.guidePick"
 msgstr "{guideName}'s pick"
 
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
 msgid "explore.detail.similarMeta"
-msgstr "{kind} · {minutes} min"
+msgstr "{kind} · {duration}"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.fromStay"
 msgstr "{minutes} min from your stay"
 
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.minOn"
-msgstr "{minutes} min on"
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.minutes"
+msgstr "{n} min"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
@@ -114,11 +116,6 @@ msgstr "A place out of Ideas"
 #: ../../apps/mobile/src/features/explore/place-detail/commands.ts
 msgid "explore.detail.queued.idea"
 msgstr "A place saved to Ideas"
-
-#. placeholder {0}: place.name
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.nearbyAdd"
-msgstr "Add {0} after this stop"
 
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
@@ -189,11 +186,9 @@ msgstr "closed now"
 msgid "explore.place.closedForGood"
 msgstr "closed permanently"
 
-#. placeholder {0}: stances.want.length
-#. placeholder {1}: stances.ratherNot.length
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.split"
-msgstr "Crew split {0}–{1}"
+msgstr "Crew split {w}–{r}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.busySeen"
@@ -275,6 +270,7 @@ msgstr "it's quiet until {at}"
 msgid "explore.detail.why.hoursUnknown"
 msgstr "its hours aren't known"
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.hoursUnknown"
 msgstr "Its hours aren't known, so I can't fit it yet."
@@ -382,10 +378,9 @@ msgstr "Save to Ideas"
 msgid "explore.add.saved"
 msgstr "Saved"
 
-#. placeholder {0}: firstNames.join(' + ')
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.savedBy"
-msgstr "Saved by {0}"
+msgstr "Saved by {names}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.savedIdea"

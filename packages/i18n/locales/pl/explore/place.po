@@ -17,12 +17,6 @@ msgstr ""
 msgid "explore.place.rating"
 msgstr ""
 
-#. placeholder {0}: String(stay.minutes)
-#. placeholder {1}: stay.name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
-msgid "explore.detail.fromStay"
-msgstr ""
-
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
@@ -39,6 +33,14 @@ msgstr ""
 msgid "explore.detail.fits.when"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.guidePick"
 msgstr ""
@@ -51,8 +53,8 @@ msgstr ""
 msgid "explore.place.fromStay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.minOn"
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.minutes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
@@ -113,11 +115,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/commands.ts
 msgid "explore.detail.queued.idea"
-msgstr ""
-
-#. placeholder {0}: place.name
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.nearbyAdd"
 msgstr ""
 
 #. placeholder {0}: place.name
@@ -189,9 +186,7 @@ msgstr ""
 msgid "explore.place.closedForGood"
 msgstr ""
 
-#. placeholder {0}: stances.want.length
-#. placeholder {1}: stances.ratherNot.length
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.split"
 msgstr ""
 
@@ -275,6 +270,7 @@ msgstr ""
 msgid "explore.detail.why.hoursUnknown"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.hoursUnknown"
 msgstr ""
@@ -382,8 +378,7 @@ msgstr ""
 msgid "explore.add.saved"
 msgstr ""
 
-#. placeholder {0}: firstNames.join(' + ')
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.savedBy"
 msgstr ""
 

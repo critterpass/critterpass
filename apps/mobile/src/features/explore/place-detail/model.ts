@@ -191,9 +191,16 @@ export function fitSentence(
 /** The bars over the open span: the curve's levels, or a flat span when no curve is known. */
 export function hourLevels(bars: FitBars): HourLevel[] {
   const flat = 0.3;
-  return Array.from({ length: Math.max(0, bars.to - bars.from) }, (_, index) => ({
+  const closing = 0.15;
+  // One bar per open hour, then the closing hour as a low bar, so the axis ends on it (08 … 17).
+  return Array.from({ length: Math.max(0, bars.to - bars.from + 1) }, (_, index) => ({
     hour: bars.from + index,
-    level: bars.hourly === null ? flat : Math.min(1, (bars.hourly[index] ?? 0) / 100),
+    level:
+      bars.from + index === bars.to
+        ? closing
+        : bars.hourly === null
+          ? flat
+          : Math.min(1, (bars.hourly[index] ?? 0) / 100),
   }));
 }
 
@@ -216,4 +223,34 @@ export function barsLabel(bars: FitBars): string {
     id: 'explore.detail.bars.quiet',
     message: `Quiet until ${quiet}, busiest at ${busiest}`,
   });
+}
+
+/** A duration as the design writes it: "45 min" under an hour, then "2h" or "1h30". */
+export function durationText(minutes: number): string {
+  const whole = Math.max(0, Math.round(minutes));
+  if (whole < 60) {
+    const n = String(whole);
+    return t({ id: 'explore.detail.minutes', message: `${n} min` });
+  }
+  const hours = Math.floor(whole / 60);
+  const rest = whole % 60;
+  return rest === 0 ? `${String(hours)}h` : `${String(hours)}h${String(rest).padStart(2, '0')}`;
+}
+
+/** "45 min from the villa", "2h20 from Villa Sayan". */
+export function fromStayLabel(minutes: number, stayName: string): string {
+  const duration = durationText(minutes);
+  return t({ id: 'explore.detail.fromStay', message: `${duration} from ${stayName}` });
+}
+
+/** "Saved by Alex + Rin". */
+export function savedByLabel(firstNames: readonly string[]): string {
+  const names = firstNames.join(' + ');
+  return t({ id: 'explore.detail.savedBy', message: `Saved by ${names}` });
+}
+
+/** "Crew split 2–2". */
+export function splitCountLabel(want: number, ratherNot: number): string {
+  const [w, r] = [String(want), String(ratherNot)];
+  return t({ id: 'explore.detail.split', message: `Crew split ${w}–${r}` });
 }

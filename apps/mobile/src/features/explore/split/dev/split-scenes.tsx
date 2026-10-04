@@ -3,10 +3,19 @@
  * own words and the guide's two ways; the same with no ways yet. Choosing works; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { format } from '@cp/i18n';
+import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 
 import { guideFor } from '../../format';
-import { suggestPost, votePost, type SplitOptionView } from '../split-model';
+import { fromStayLabel, splitCountLabel } from '../../place-detail/model';
+import {
+  optionTags,
+  silentLine,
+  suggestPost,
+  votePost,
+  type SplitOptionView,
+} from '../split-model';
 import { SplitView } from '../split-view';
 import { StancePicker } from '../stance-picker';
 
@@ -37,18 +46,24 @@ const OPTIONS: readonly SplitOptionView[] = [
 ];
 
 function Scene({ options }: { readonly options: readonly SplitOptionView[] }) {
+  const { t, i18n } = useLingui();
   const [chosen, setChosen] = useState(0);
   const suggest = suggestPost(options, chosen);
   const vote = votePost(options);
   return (
     <SplitView
       name="Pura Lempuyang"
-      meta={['East Bali', '2h20 from the villa', 'photo queue up to 3 hours']}
-      splitLabel="Crew split 2–2"
+      meta={['East Bali', fromStayLabel(140, 'Villa Sayan')]}
+      splitLabel={splitCountLabel(2, 2)}
       guide={guideFor('tokek')}
       want={[M, J]}
       ratherNot={[A, D]}
-      silent="Rin and you haven't said"
+      silent={silentLine(
+        ['r', 'me'],
+        'me',
+        (uid) => (uid === 'r' ? 'Rin' : uid),
+        (names) => format.list(i18n.locale, [...names]),
+      )}
       wantNotes={[
         { member: M, note: 'It’s the one photo my mum asked for.' },
         { member: J, note: 'I’ll queue. I’m built for queues.' },
@@ -60,13 +75,18 @@ function Scene({ options }: { readonly options: readonly SplitOptionView[] }) {
       picker={
         <StancePicker mine={null} busy={false} onSay={() => undefined} onClear={() => undefined} />
       }
-      options={options.map((option, index) => ({
+      options={options.map((option) => ({
         title: option.title,
         body: option.body,
-        tags: index === 0 ? ['Rp 450k, the car', '2 going'] : ['All 6'],
+        tags: optionTags(option, 6, i18n.locale),
       }))}
       optionsNote={
-        options.length === 0 ? 'No way out yet. Say where you stand and I’ll look again.' : null
+        options.length === 0
+          ? t({
+              id: 'explore.split.noWays',
+              message: 'No way out yet. Say where you stand and I’ll look again.',
+            })
+          : null
       }
       chosen={chosen}
       onChoose={setChosen}

@@ -7,13 +7,13 @@ import { useLingui } from '@lingui/react/macro';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { Row } from '@/ui/layout/Row';
-import { AddButton } from '@/ui/planning';
 import { Text } from '@/ui/text/Text';
 import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { GuideFacts } from '../format';
 import type { PlaceRef } from './context';
+import { durationText } from './model';
 
 const CARD_WIDTH = 132;
 
@@ -25,7 +25,6 @@ const useStyles = makeStyles((t) => ({
     backgroundColor: t.semantic.bg.raised,
   },
   art: { height: 64, overflow: 'hidden' },
-  add: { position: 'absolute', top: t.space['4'], end: t.space['4'] },
   text: { padding: t.space['8'], gap: t.space['2'] },
   row: { gap: t.space['8'], paddingEnd: t.size.gutter },
 }));
@@ -34,13 +33,10 @@ export function NextNearby({
   guide,
   places,
   onPlace,
-  onAdd,
 }: {
   readonly guide: GuideFacts;
   readonly places: readonly PlaceRef[];
   readonly onPlace: (poiId: string) => void;
-  /** + adds it right after this stop; absent while Add to plan is not in the app. */
-  readonly onAdd?: ((poiId: string) => void) | undefined;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -63,8 +59,8 @@ export function NextNearby({
         contentContainerStyle={styles.row}
       >
         {places.map((place) => {
-          const minutes = String(place.minutes);
-          const on = t({ id: 'explore.detail.minOn', message: `${minutes} min on` });
+          const duration = durationText(place.minutes);
+          const on = t({ id: 'explore.detail.minOn', message: `${duration} on` });
           return (
             <Pressable
               key={place.poi_id}
@@ -76,19 +72,6 @@ export function NextNearby({
             >
               <View style={styles.art}>
                 <Hatch />
-                {onAdd === undefined ? null : (
-                  <View style={styles.add}>
-                    <AddButton
-                      size={32}
-                      accessibilityLabel={t({
-                        id: 'explore.detail.nearbyAdd',
-                        message: `Add ${place.name} after this stop`,
-                      })}
-                      onPress={() => onAdd(place.poi_id)}
-                      testID={`place-detail-nearby-add-${place.poi_id}`}
-                    />
-                  </View>
-                )}
               </View>
               <View style={styles.text}>
                 <Text variant="title">{upper(place.name, locale)}</Text>

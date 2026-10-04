@@ -28,7 +28,14 @@ import { useTripCrew, useTripFacts, type PoiRow } from '../place-queries';
 import { exploreRoutes } from '../routes';
 import { usePlaceDetailContext } from './context';
 import { PlaceFurther } from './further';
-import { ctaLabel, detailCta, fitSentence } from './model';
+import {
+  ctaLabel,
+  detailCta,
+  fitSentence,
+  fromStayLabel,
+  savedByLabel,
+  splitCountLabel,
+} from './model';
 import { PlaceDetailView } from './place-detail-view';
 import { useIdeaSave } from './use-idea-save';
 
@@ -108,10 +115,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
     stances === null || !stances.split
       ? null
       : {
-          label: t({
-            id: 'explore.detail.split',
-            message: `Crew split ${stances.want.length}–${stances.ratherNot.length}`,
-          }),
+          label: splitCountLabel(stances.want.length, stances.ratherNot.length),
           onPress: (() => {
             const href =
               tripId === null || crew.length < 3 ? undefined : hrefFor('7e-3', { tripId, placeId });
@@ -121,12 +125,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   const stay = context?.fromStay ?? null;
   const meta = [
     row.destination_name,
-    stay === null
-      ? null
-      : t({
-          id: 'explore.detail.fromStay',
-          message: `${String(stay.minutes)} min from ${stay.name}`,
-        }),
+    stay === null ? null : fromStayLabel(stay.minutes, stay.name),
   ].filter((part): part is string => part !== null && part !== '');
   const bestTime = typeof editorial?.['best_time'] === 'string' ? editorial['best_time'] : null;
   const fitNote =
@@ -197,11 +196,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
       onBack={onBack}
       onShare={share}
       onToggleSave={heart.toggle}
-      savedBy={
-        firstNames.length === 0
-          ? null
-          : t({ id: 'explore.detail.savedBy', message: `Saved by ${firstNames.join(' + ')}` })
-      }
+      savedBy={firstNames.length === 0 ? null : savedByLabel(firstNames)}
       split={split}
       meta={meta}
       facts={context?.facts ?? null}
@@ -238,7 +233,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
           onPlace={(poiId) =>
             router.push(exploreRoutes.place(poiId, { tripId: tripId ?? undefined }))
           }
-          addAfter={(poiId) => pick({ placeId: poiId, after: placeId })}
+          addPlace={(poiId) => pick({ placeId: poiId })}
         />
       }
       cta={{

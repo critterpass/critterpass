@@ -12,21 +12,15 @@ msgstr ""
 msgid "explore.split.thinking"
 msgstr "{0} is working out a way."
 
-#. placeholder {0}: String(stay.minutes)
-#. placeholder {1}: stay.name
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
-msgid "explore.split.fromStay"
-msgstr "{0} min from {1}"
-
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.going"
 msgstr "{going} going"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.costEach"
 msgstr "{money} each"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.costCar"
 msgstr "{money}, the car"
 
@@ -38,19 +32,13 @@ msgstr "{names} hasn't said"
 msgid "explore.split.silent"
 msgstr "{names} haven't said"
 
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.all"
 msgstr "All {going}"
 
 #: ../../apps/mobile/src/features/explore/split/split-view.tsx
 msgid "explore.split.back"
 msgstr "Back"
-
-#. placeholder {0}: String(want.length)
-#. placeholder {1}: String(ratherNot.length)
-#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
-msgid "explore.split.count"
-msgstr "Crew split {0}–{1}"
 
 #: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
 msgid "explore.split.noteLabel"
@@ -64,6 +52,7 @@ msgstr "It's in crew chat as a vote."
 msgid "explore.split.noteLong"
 msgstr "Keep it to 140 characters"
 
+#: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.noWays"
 msgstr "No way out yet. Say where you stand and I’ll look again."

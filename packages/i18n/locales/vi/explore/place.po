@@ -17,12 +17,6 @@ msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
 msgid "explore.place.rating"
 msgstr "{0} / 10"
 
-#. placeholder {0}: String(stay.minutes)
-#. placeholder {1}: stay.name
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
-msgid "explore.detail.fromStay"
-msgstr "{0} phút từ {1}"
-
 #. placeholder {0}: row.name
 #. placeholder {1}: row.destination_name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
@@ -39,21 +33,29 @@ msgstr "{0}, và {1}."
 msgid "explore.detail.fits.when"
 msgstr "{day} lúc {time}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.fromStay"
+msgstr "{duration} từ {stayName}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr "Thêm {duration}"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.guidePick"
 msgstr "{guideName} chọn"
 
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
 msgid "explore.detail.similarMeta"
-msgstr "{kind} · {minutes} phút"
+msgstr "{kind} · {duration}"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.fromStay"
 msgstr "{minutes} phút từ chỗ ở"
 
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.minOn"
-msgstr "Thêm {minutes} phút"
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.minutes"
+msgstr "{n} phút"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
@@ -114,11 +116,6 @@ msgstr "Bỏ một nơi khỏi Ý tưởng"
 #: ../../apps/mobile/src/features/explore/place-detail/commands.ts
 msgid "explore.detail.queued.idea"
 msgstr "Một nơi đã lưu vào Ý tưởng"
-
-#. placeholder {0}: place.name
-#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
-msgid "explore.detail.nearbyAdd"
-msgstr "Thêm {0} sau điểm này"
 
 #. placeholder {0}: place.name
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
@@ -189,11 +186,9 @@ msgstr "đang đóng cửa"
 msgid "explore.place.closedForGood"
 msgstr "đã đóng cửa vĩnh viễn"
 
-#. placeholder {0}: stances.want.length
-#. placeholder {1}: stances.ratherNot.length
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.split"
-msgstr "Cả nhóm chia {0}–{1}"
+msgstr "Cả nhóm chia {w}–{r}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.busySeen"
@@ -275,6 +270,7 @@ msgstr "vắng đến {at} giờ"
 msgid "explore.detail.why.hoursUnknown"
 msgstr "chưa rõ giờ mở cửa"
 
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
 msgid "explore.detail.hoursUnknown"
 msgstr "Chưa rõ giờ mở cửa nên mình chưa xếp được."
@@ -382,10 +378,9 @@ msgstr "Lưu vào Ý tưởng"
 msgid "explore.add.saved"
 msgstr "Đã lưu"
 
-#. placeholder {0}: firstNames.join(' + ')
-#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.savedBy"
-msgstr "{0} đã lưu"
+msgstr "{names} đã lưu"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.savedIdea"

@@ -10,7 +10,14 @@ import { useState, type ReactNode } from 'react';
 import { guideFor } from '../../format';
 import { readPlaceDetail } from '../context';
 import { PlaceFurther } from '../further';
-import { ctaLabel, detailCta, fitSentence } from '../model';
+import {
+  ctaLabel,
+  detailCta,
+  fitSentence,
+  fromStayLabel,
+  savedByLabel,
+  splitCountLabel,
+} from '../model';
 import { PlaceDetailView } from '../place-detail-view';
 
 const SAT = '0192f000-0000-7000-8000-0000000000d6';
@@ -33,7 +40,7 @@ const WIRE = {
   suggested_slot: null,
   add_mode: 'apply',
   base_version: id(3),
-  from_stay: { name: 'the villa', minutes: 45, mode: 'drive', approx: true },
+  from_stay: { name: 'Villa Sayan', minutes: 45, mode: 'drive', approx: true },
   when_it_fits: {
     best: {
       day_id: SAT,
@@ -101,12 +108,15 @@ const SAVERS = [
 function Scene({
   patch = {},
   trip = true,
+  savedAtStart = false,
 }: {
   readonly patch?: Record<string, unknown>;
   readonly trip?: boolean;
+  /** ♡ already on: the viewer saved it (the 7e-1 render). */
+  readonly savedAtStart?: boolean;
 }) {
   const { t, i18n } = useLingui();
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(savedAtStart);
   const [added, setAdded] = useState<number | null>(null);
   const context = trip ? readPlaceDetail({ ...WIRE, ...patch }) : null;
   const guide = guideFor('tokek');
@@ -131,16 +141,16 @@ function Scene({
       onBack={() => undefined}
       onShare={() => undefined}
       onToggleSave={() => setSaved((s) => !s)}
-      savedBy={trip ? 'Saved by Alex + Rin' : null}
+      savedBy={trip ? savedByLabel(['Alex', 'Rin']) : null}
       split={
         stances?.split === true
           ? {
-              label: `Crew split ${String(stances.want.length)}–${String(stances.ratherNot.length)}`,
+              label: splitCountLabel(stances.want.length, stances.ratherNot.length),
               onPress: () => undefined,
             }
           : null
       }
-      meta={['Tampaksiring', ...(trip ? ['45 min from the villa'] : [])]}
+      meta={['Tampaksiring', ...(trip ? [fromStayLabel(45, 'Villa Sayan')] : [])]}
       facts={context?.facts ?? null}
       fits={
         best === null
@@ -149,7 +159,7 @@ function Scene({
               best,
               sentence: fitSentence(context?.fits ?? null, {
                 locale: i18n.locale,
-                stopName: (stable) => (stable === SPRINGS ? 'the springs' : null),
+                stopName: (stable) => (stable === SPRINGS ? 'Sebatu' : null),
               }),
               bars: context?.fits?.bars ?? null,
               onOtherDays: () => undefined,
@@ -158,7 +168,10 @@ function Scene({
       fitNote={
         trip
           ? context?.facts?.hoursKnown === false
-            ? "Its hours aren't known, so I can't fit it yet."
+            ? t({
+                id: 'explore.detail.hoursUnknown',
+                message: "Its hours aren't known, so I can't fit it yet.",
+              })
             : null
           : 'Go at opening, before the tour buses.'
       }
@@ -171,7 +184,7 @@ function Scene({
           live={null}
           offers={null}
           onPlace={() => undefined}
-          addAfter={() => '/explore'}
+          addPlace={() => '/explore'}
         />
       }
       cta={{
@@ -189,7 +202,7 @@ function Scene({
 }
 
 export const PLACE_DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  'place-detail': () => <Scene />,
+  'place-detail': () => <Scene savedAtStart />,
   'place-detail-member': () => <Scene patch={{ add_mode: 'changeset' }} />,
   'place-detail-in-plan': () => (
     <Scene

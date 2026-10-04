@@ -8,7 +8,7 @@ import { upper } from '@cp/i18n';
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { I18nManager, Pressable, View } from 'react-native';
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -23,7 +23,7 @@ import { OfflinePill } from '@/ui/states/OfflinePill';
 import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryLabel } from '../category';
 import { CrewRow, type CrewRowProps } from '../components/crew-row';
@@ -214,7 +214,12 @@ export function PlaceDetailView(props: PlaceDetailViewProps) {
               <IconButton
                 label={t({ id: 'explore.detail.share', message: 'Share this place' })}
                 surface="onPhoto"
-                glyph={<StraightArrow direction="up" color={theme.semantic.text.primary} />}
+                glyph={
+                  // Up and out, as the design's share glyph: the plain arrow turned 45°.
+                  <View style={{ transform: [{ rotate: degrees(I18nManager.isRTL ? -45 : 45) }] }}>
+                    <StraightArrow direction="up" color={theme.semantic.text.primary} />
+                  </View>
+                }
                 onPress={props.onShare}
                 testID="place-detail-share"
               />

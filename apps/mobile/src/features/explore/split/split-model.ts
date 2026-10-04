@@ -7,6 +7,8 @@ import { t } from '@lingui/core/macro';
 
 import type { WireParser } from '@/data/travel-data/client';
 
+import { moneyText } from '../format';
+
 export interface SplitOptionView {
   readonly optionId: string;
   readonly kind: 'split_group' | 'alternative' | 'reschedule';
@@ -123,4 +125,21 @@ export function silentLine(
   return others.length + (youToo ? 1 : 0) === 1
     ? t({ id: 'explore.split.silentOne', message: `${names} hasn't said` })
     : t({ id: 'explore.split.silent', message: `${names} haven't said` });
+}
+
+/** The chips under an option: its cost ("Rp 450.000, the car") and who goes ("2 going", "All 6"). */
+export function optionTags(option: SplitOptionView, crewSize: number, locale: string): string[] {
+  const cost = option.cost;
+  const money = cost === null ? null : moneyText(locale, cost.minor, cost.currency);
+  const going = String(option.goingCount);
+  return [
+    money === null
+      ? null
+      : cost?.per === 'car'
+        ? t({ id: 'explore.split.costCar', message: `${money}, the car` })
+        : t({ id: 'explore.split.costEach', message: `${money} each` }),
+    option.goingCount >= crewSize && crewSize > 0
+      ? t({ id: 'explore.split.all', message: `All ${going}` })
+      : t({ id: 'explore.split.going', message: `${going} going` }),
+  ].filter((tag): tag is string => tag !== null);
 }

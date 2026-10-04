@@ -1,6 +1,6 @@
 /**
  * Further down the place page (7e-2): the guide's tip in its voice, KNOW BEFORE YOU GO, NEXT,
- * NEARBY by the drive, IF YOU LIKE THIS, and, kept from the earlier page below them, the live
+ * NEARBY by the drive (a card opens the place), IF YOU LIKE THIS, and, kept from the earlier page below them, the live
  * details with their attribution and the partner offers with the disclosure. Each section is left
  * out while it has nothing to show.
  */
@@ -31,21 +31,21 @@ export interface PlaceFurtherProps {
   readonly live: LiveDetails | null;
   readonly offers: SupplierCardProps | null;
   readonly onPlace: (poiId: string) => void;
-  /** Add to plan preset to go right after this place; undefined while that screen is not in. */
-  readonly addAfter: (poiId: string) => Href | undefined;
+  /** Add to plan for another place; undefined while that screen is not in the app. */
+  readonly addPlace: (poiId: string) => Href | undefined;
 }
 
 export function PlaceFurther(props: PlaceFurtherProps) {
   const theme = useTheme();
   const { guide, context } = props;
   const add = (poiId: string) => {
-    const href = props.addAfter(poiId);
+    const href = props.addPlace(poiId);
     if (href !== undefined) router.push(href);
   };
   const canAdd =
-    context?.nearby[0] === undefined
+    context?.similar[0] === undefined
       ? false
-      : props.addAfter(context.nearby[0].poi_id) !== undefined;
+      : props.addPlace(context.similar[0].poi_id) !== undefined;
   return (
     <View style={{ gap: theme.space['16'], marginTop: theme.space['8'] }}>
       {props.tip === null ? null : (
@@ -59,12 +59,7 @@ export function PlaceFurther(props: PlaceFurtherProps) {
         </Row>
       )}
       <KnowBefore lines={context?.know ?? []} />
-      <NextNearby
-        guide={guide}
-        places={context?.nearby ?? []}
-        onPlace={props.onPlace}
-        onAdd={canAdd ? add : undefined}
-      />
+      <NextNearby guide={guide} places={context?.nearby ?? []} onPlace={props.onPlace} />
       <IfYouLike
         places={context?.similar ?? []}
         onPlace={props.onPlace}

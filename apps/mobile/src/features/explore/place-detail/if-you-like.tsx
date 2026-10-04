@@ -13,6 +13,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryLabel } from '../category';
 import type { PlaceRef } from './context';
+import { durationText } from './model';
 
 const useStyles = makeStyles((t) => ({
   card: {
@@ -53,7 +54,7 @@ export function IfYouLike({
       <View style={styles.card}>
         {places.map((place, index) => {
           const kind = categoryLabel(place.category);
-          const minutes = String(place.minutes);
+          const duration = durationText(place.minutes);
           return (
             <View key={place.poi_id} style={index === 0 ? null : styles.divider}>
               <View style={styles.row}>
@@ -65,7 +66,7 @@ export function IfYouLike({
                 >
                   <Text variant="rowTitle">{upper(place.name, i18n.locale)}</Text>
                   <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                    {t({ id: 'explore.detail.similarMeta', message: `${kind} · ${minutes} min` })}
+                    {t({ id: 'explore.detail.similarMeta', message: `${kind} · ${duration}` })}
                   </Text>
                 </Pressable>
                 {onAdd === undefined ? null : (

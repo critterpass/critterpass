@@ -7,15 +7,16 @@
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useTravelRead } from '@/data/travel-data/use-travel-read';
 import { impact, toast } from '@/motion';
 
-import { guideFor, moneyText } from '../format';
+import { guideFor } from '../format';
 import { usePlaceDetailContext } from '../place-detail/context';
+import { fromStayLabel, splitCountLabel } from '../place-detail/model';
 import { usePoi, useTripCrew } from '../place-queries';
 import { useMyUid } from '../queries';
 import {
@@ -29,6 +30,7 @@ import {
   splitOptionsParser,
   suggestPost,
   votePost,
+  optionTags,
   type DecisionPost,
   type SplitOptionView,
 } from './split-model';
@@ -112,44 +114,17 @@ export function SplitScreen({
   };
   const suggest = suggestPost(options, chosen);
   const vote = votePost(options);
-  const tags = (option: SplitOptionView): string[] => {
-    const cost = option.cost;
-    const money = cost === null ? null : moneyText(locale, cost.minor, cost.currency);
-    const going = String(option.goingCount);
-    return [
-      money === null
-        ? null
-        : cost?.per === 'car'
-          ? t({ id: 'explore.split.costCar', message: `${money}, the car` })
-          : t({ id: 'explore.split.costEach', message: `${money} each` }),
-      option.goingCount >= crew.length && crew.length > 0
-        ? t({ id: 'explore.split.all', message: `All ${going}` })
-        : t({ id: 'explore.split.going', message: `${going} going` }),
-    ].filter((tag): tag is string => tag !== null);
-  };
   const stay = context?.fromStay ?? null;
-  const meta = useMemo(
-    () =>
-      [
-        row?.destination_name ?? null,
-        stay === null
-          ? null
-          : t({
-              id: 'explore.split.fromStay',
-              message: `${String(stay.minutes)} min from ${stay.name}`,
-            }),
-      ].filter((part): part is string => part !== null && part !== ''),
-    [row?.destination_name, stay, t],
-  );
+  const meta = [
+    row?.destination_name ?? null,
+    stay === null ? null : fromStayLabel(stay.minutes, stay.name),
+  ].filter((part): part is string => part !== null && part !== '');
 
   return (
     <SplitView
       name={row?.name ?? ''}
       meta={meta}
-      splitLabel={t({
-        id: 'explore.split.count',
-        message: `Crew split ${String(want.length)}–${String(ratherNot.length)}`,
-      })}
+      splitLabel={splitCountLabel(want.length, ratherNot.length)}
       guide={guide}
       want={want.map((s) => member(s.userId))}
       ratherNot={ratherNot.map((s) => member(s.userId))}
@@ -179,7 +154,7 @@ export function SplitScreen({
       options={options.map((option) => ({
         title: option.title,
         body: option.body,
-        tags: tags(option),
+        tags: optionTags(option, crew.length, locale),
       }))}
       optionsNote={
         read.status === 'loading'

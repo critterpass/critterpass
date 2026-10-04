@@ -1273,7 +1273,6 @@ if they were verified design values.
 | 7e-1 Place detail | Live hours disagree | Fit uses only our own hours; Foursquare's live block further down still shows its own hours with attribution. |
 | 7e-2 Place detail, further down | Crew quote | Hidden: no published crew plans exist yet, so the quote card never shows. |
 | 7e-2 Place detail, further down | Foursquare details and partner offers | Kept from the earlier page, below IF YOU LIKE THIS: the live rating, photos, tips, call and website with "Powered by Foursquare", then the partner offers card with its disclosure. |
-| 7e-2 Place detail, further down | + on NEXT, NEARBY | A small yellow + on each card's picture adds that place right after this stop (Add to plan, preset after this place). |
 | 7e-3 Crew can't agree | Saying where you stand | A card under the notes: WANT IT and RATHER NOT choice chips, an optional "In your own words" field (140 characters) with "The crew sees this with your name." under it, SAY IT (UPDATE once said) and "Take it back" to clear. |
 | 7e-3 Crew can't agree | No ways yet | Under "Two ways nobody loses:" the guide says "No way out yet. Say where you stand and I'll look again."; neither button shows. While the ways load it says "{guide} is working out a way." |
 | 7e-3 Crew can't agree | After posting | A toast says "It's in crew chat as a vote."; a refusal says "That didn't go through" and nothing is posted. |
