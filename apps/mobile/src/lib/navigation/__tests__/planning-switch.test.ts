@@ -9,8 +9,11 @@ import {
   applyPlanningSwitch,
   planHub,
   planningRedesign,
+  planningRedesignSource,
   readPlanningSwitch,
+  reloadPlanningSwitchForTests,
   resetPlanningSwitch,
+  setPlanningRedesignOverride,
   subscribePlanningSwitch,
 } from '../planning-switch';
 
@@ -55,5 +58,46 @@ describe('the switch read at navigation time', () => {
     resetPlanningSwitch();
     expect(planningRedesign()).toBe(false);
     stop();
+  });
+});
+
+describe('the developer override', () => {
+  it('wins over the synced config both ways, and clearing it follows the config again', () => {
+    resetPlanningSwitch();
+    setPlanningRedesignOverride(null);
+    expect(planningRedesignSource()).toBe('default');
+    applyPlanningSwitch({ redesign: false, hub: 'map' });
+    expect(planningRedesignSource()).toBe('config');
+
+    setPlanningRedesignOverride(true);
+    expect(planningRedesign()).toBe(true);
+    expect(planningRedesignSource()).toBe('override');
+    // A config change underneath leaves the override in force.
+    applyPlanningSwitch({ redesign: false, hub: 'day' });
+    expect(planningRedesign()).toBe(true);
+    expect(planHub()).toBe('day');
+
+    applyPlanningSwitch({ redesign: true, hub: 'day' });
+    setPlanningRedesignOverride(false);
+    expect(planningRedesign()).toBe(false);
+
+    setPlanningRedesignOverride(null);
+    expect(planningRedesign()).toBe(true);
+    expect(planningRedesignSource()).toBe('config');
+    resetPlanningSwitch();
+  });
+
+  it('is kept for the next launch and outlives a sign-out', () => {
+    resetPlanningSwitch();
+    setPlanningRedesignOverride(true);
+    reloadPlanningSwitchForTests();
+    expect(planningRedesign()).toBe(true);
+    expect(planningRedesignSource()).toBe('override');
+    resetPlanningSwitch();
+    expect(planningRedesign()).toBe(true);
+    setPlanningRedesignOverride(null);
+    reloadPlanningSwitchForTests();
+    expect(planningRedesign()).toBe(false);
+    expect(planningRedesignSource()).toBe('default');
   });
 });
