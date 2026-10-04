@@ -45,7 +45,7 @@ Founder, 2026-10-04 09:20: "would we able to have Navigate feature with the rout
 - `GoButton`, the preview screen (map, your dot, the place, route line for the selected mode, mode toggle with minutes, Grab row when available, Start and Ride), the maps app preference and its Settings row, and copy in EN and VI.
 - A lab scene per state: routed, no permission, offline, router fallback (straight, "about"), no Grab.
 - Tests: the handoff URL builder per platform and mode; the preview model's states.
-- Status: done — 7552b2d27 (+ 8f97a32a1, c1d9822d4)
+- Status: done — 7552b2d27 (+ 8f97a32a1, c1d9822d4 and later fixes)
 
 ### T3 Entry points
 - Do now: the day-of next-stop card, and the leave-by push (tapping it opens the preview for that stop).

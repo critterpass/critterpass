@@ -123,7 +123,7 @@ function straightMinutes(from: GoPoint, to: GoPoint, mode: GoMode): ModeMinutes 
   return { minutes: eta.minutes, approx: true };
 }
 
-/** Points along the straight stand-in: a two-point line source did not draw on Android. */
+/** Points along the straight stand-in, so it reads as a line across the map at any zoom. */
 const STRAIGHT_STEPS = 16;
 
 const straightLine = (from: GoPoint, to: GoPoint): LngLat[] =>
