@@ -4,7 +4,7 @@
  * scrolled into view later add their ids; ids already answered are never read again. A place with
  * no asset, or no answer offline, is simply missing: its tile keeps the category's doodle.
  */
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { PixelRatio, type ImageSourcePropType } from 'react-native';
 
@@ -22,8 +22,9 @@ import {
 import { mediaReader } from './use-subject-media';
 
 /**
- * A place's photo as a tile shows it, whatever its source (Commons, stock, a partner): the image,
- * whether it is the place itself or a generic stand-in, its credit line and where it leads.
+ * A place's photo as a tile shows it, whatever its source (Commons, Foursquare, stock, a partner):
+ * the image, whether it is the place itself or a generic stand-in, its credit line and where it
+ * leads.
  */
 export interface PlaceTilePhoto {
   /** What `PlaceThumb`, `PlaceRow` and `PlaceCard` take: spread it onto the tile. */
@@ -36,6 +37,11 @@ export interface PlaceTilePhoto {
   readonly credit: string;
   /** Whether the licence asks for the credit to be shown with the photo. */
   readonly creditRequired: boolean;
+  /**
+   * Whether the source asks for its credit on every screen its photo shows on (Foursquare), not
+   * only on the place page: such a screen draws `credit` once (`screenCredits`).
+   */
+  readonly creditOnScreen: boolean;
   /** Where the photo leads when its source offers something (a partner's offer); none otherwise. */
   readonly link: string | null;
 }
@@ -46,7 +52,7 @@ export type PlaceTilePhotos = ReadonlyMap<string, PlaceTilePhoto>;
 const TILE_PT = 92;
 
 /** The still a tile loads: the smallest that covers it, from the device when it was saved. */
-export function tilePhoto(asset: MediaAsset, sizePt = TILE_PT): PlaceTilePhoto | null {
+export function tilePhoto(asset: PlaceMediaAsset, sizePt = TILE_PT): PlaceTilePhoto | null {
   const still = pickBySize(asset.images, sizePt * PixelRatio.get());
   if (still === undefined) return null;
   return {
@@ -56,13 +62,16 @@ export function tilePhoto(asset: MediaAsset, sizePt = TILE_PT): PlaceTilePhoto |
     },
     credit: asset.credit,
     creditRequired: asset.attribution_required,
+    creditOnScreen: asset.source === 'foursquare',
     // Editorial media (Commons, stock) leads nowhere; a partner's photo carries its offer here.
     link: null,
   };
 }
 
 /** Each place's hero by POI id, for the ids given so far. */
-export function usePagedPlacePhotos(poiIds: readonly string[]): ReadonlyMap<string, MediaAsset> {
+export function usePagedPlacePhotos(
+  poiIds: readonly string[],
+): ReadonlyMap<string, PlaceMediaAsset> {
   const provided = useTravelDataReader();
   const key = [...new Set(poiIds)].sort().join(',');
   const ids = useMemo(() => (key === '' ? [] : key.split(',')), [key]);
@@ -71,7 +80,7 @@ export function usePagedPlacePhotos(poiIds: readonly string[]): ReadonlyMap<stri
   }, [ids, provided]);
   const version = useSyncExternalStore(subscribePlacePhotos, placePhotosVersion);
   return useMemo(() => {
-    const photos = new Map<string, MediaAsset>();
+    const photos = new Map<string, PlaceMediaAsset>();
     for (const id of ids) {
       const photo = placePhoto(id);
       if (photo !== null) photos.set(id, photo);
@@ -111,4 +120,16 @@ export function useInViewPlacePhotos(): {
     });
   }, []);
   return { photos: usePlaceTilePhotos(seen), show };
+}
+
+/**
+ * The credits a screen owes for the photos it shows: each distinct credit of a photo whose source
+ * asks for it on screen, so a list draws "Powered by Foursquare" once however many photos it has.
+ */
+export function screenCredits(photos: Iterable<PlaceTilePhoto | null | undefined>): string[] {
+  const credits = new Set<string>();
+  for (const photo of photos) {
+    if (photo?.creditOnScreen === true) credits.add(photo.credit);
+  }
+  return [...credits];
 }

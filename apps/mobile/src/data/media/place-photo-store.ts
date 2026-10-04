@@ -6,7 +6,11 @@
  * category tile and are asked for again the next time they come into view.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer; subject keys and wire values. */
-import { mediaListResponseSchema, type MediaAsset } from '@cp/domain';
+import {
+  isGenericPlacePhotoSource,
+  placeMediaListResponseSchema,
+  type PlaceMediaAsset,
+} from '@cp/domain';
 
 import type { TravelDataReader } from '../travel-data/client';
 import { mediaPath } from './use-subject-media';
@@ -22,22 +26,17 @@ export function poiSubject(poiId: string): string {
 }
 
 /**
- * The sources whose photos, filed under a place, show the place itself: the content factory files
- * a place's own photos from Wikimedia Commons. A source that supplies photos of the place itself
- * (a partner's listing photos) joins this set.
+ * Whether a photo filed under a place stands in for it rather than showing it. The place's own
+ * Commons photo, its Foursquare photos and a partner's photos of it are the place itself; a stock
+ * photo is generic (a similar dish, a beach like it) and shown as "not this place". The rule is
+ * the shared one (`placePhotoTier` in `@cp/domain`), the same the server orders a place's photos by.
  */
-const OWN_PHOTO_SOURCES: ReadonlySet<MediaAsset['source']> = new Set(['wikimedia']);
-
-/**
- * A photo from any other source (stock) stands for the place only as a generic one (a similar
- * dish, a beach like it), shown as "not this place".
- */
-export function isGenericPlacePhoto(photo: MediaAsset): boolean {
-  return !OWN_PHOTO_SOURCES.has(photo.source);
+export function isGenericPlacePhoto(photo: Pick<PlaceMediaAsset, 'source'>): boolean {
+  return isGenericPlacePhotoSource(photo.source);
 }
 
 /** A place's hero, or null once the api has said it has none. Absent while not yet read. */
-const answers = new Map<string, MediaAsset | null>();
+const answers = new Map<string, PlaceMediaAsset | null>();
 const asked = new Set<string>();
 const queue: string[] = [];
 const listeners = new Set<() => void>();
@@ -56,18 +55,18 @@ export function placePhotosVersion(): number {
   return version;
 }
 
-export function placePhoto(poiId: string): MediaAsset | null {
+export function placePhoto(poiId: string): PlaceMediaAsset | null {
   return answers.get(poiId) ?? null;
 }
 
 async function readChunk(
   reader: TravelDataReader,
   ids: readonly string[],
-): Promise<readonly MediaAsset[] | null> {
+): Promise<readonly PlaceMediaAsset[] | null> {
   try {
     const response = await reader.getJson(mediaPath(ids.map(poiSubject).join(',')));
     if (response.status < 200 || response.status >= 300) return null;
-    const parsed = mediaListResponseSchema.safeParse(response.body);
+    const parsed = placeMediaListResponseSchema.safeParse(response.body);
     return parsed.success ? parsed.data.items : null;
   } catch {
     return null;

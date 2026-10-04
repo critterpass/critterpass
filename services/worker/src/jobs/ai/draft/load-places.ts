@@ -1,17 +1,18 @@
 /**
- * The places a draft is built from: every curated place of the destination (never a cut by row
- * order: the planner narrows them), plus every must-do's own place. An open-data place joins only
- * as a must-do, picked from search or named by a hand-typed must-do (`loadWishCandidates`). Rows
+ * The places a draft is built from: every recommended place of the destination (the curated set,
+ * or the machine picks where our editors have curated nothing; never a cut by row order: the
+ * planner narrows them), plus every must-do's own place. Any other open-data place joins only as
+ * a must-do, picked from search or named by a hand-typed must-do (`loadWishCandidates`). Rows
  * merged into another are never read.
  */
-import { withSystem } from '@cp/db';
+import { recommendedOrderSql, recommendedSql, withSystem } from '@cp/db';
 import { hoursSchema } from '@cp/domain';
 import { defaultDurationMin, nameTokens, withOpenDataDefaults, type DraftPoi } from '@cp/planner';
 import type pg from 'pg';
 
 /**
- * Curated places read per destination before the planner narrows them into pools. Every curated
- * place of a city must be read: a cut-off here would decide the trip by row order.
+ * Recommended places read per destination before the planner narrows them into pools. Every one
+ * of a city must be read: a cut-off here would decide the trip by row order.
  */
 export const MAX_DRAFT_PLACES = 800;
 
@@ -30,9 +31,10 @@ interface PoiRow {
   readonly tags: string[] | null;
   readonly editorial: unknown;
   readonly curation: string;
+  readonly pick_source: string | null;
 }
 
-/** Our curated places for the destination (editorial first), plus every must-do's place. */
+/** The destination's recommended places (the editors' first), plus every must-do's place. */
 export async function loadDraftPlaces(
   pool: pg.Pool,
   destinationId: string,
@@ -41,16 +43,16 @@ export async function loadDraftPlaces(
   const { rows } = await withSystem(pool, (tx) =>
     tx.query<PoiRow>(
       `(SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation
+               p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
           FROM pois p JOIN destinations d ON d.id = p.destination_id
-         WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+         WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
            AND p.merged_into_id IS NULL
            AND p.category NOT IN ('transit', 'stay', 'health')
-         ORDER BY (p.editorial->>'must_see')::boolean IS TRUE DESC, p.id
+         ORDER BY ${recommendedOrderSql('p')}, p.id
          LIMIT $3)
        UNION
        (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation
+               p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
           FROM pois p JOIN destinations d ON d.id = p.destination_id
          WHERE p.id = ANY($2::uuid[]) AND p.status = 'active')`,
       [destinationId, mustDoPoiIds, MAX_DRAFT_PLACES],
@@ -89,7 +91,9 @@ function toDraftPoi(row: PoiRow): DraftPoi {
         ? Math.round(editorial.time_needed_min)
         : defaultDurationMin(row.category),
     editorial: row.curation === 'editorial',
-    mustSee: editorial.must_see === true,
+    // Where nothing is curated, the well-known places the model named stand in for must-sees, so
+    // the sights a town is known for take their seats before the open-data fill.
+    mustSee: editorial.must_see === true || row.pick_source === 'named',
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
@@ -125,7 +129,7 @@ export async function loadWishCandidates(
       tx.query<PoiRow>(
         `SELECT * FROM (
            (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-                   p.hours, p.price_level, p.tags, p.editorial, p.curation
+                   p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
               FROM pois p JOIN destinations d ON d.id = p.destination_id
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation = 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')
@@ -133,7 +137,7 @@ export async function loadWishCandidates(
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
            UNION ALL
            (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-                   p.hours, p.price_level, p.tags, p.editorial, p.curation
+                   p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
               FROM pois p JOIN destinations d ON d.id = p.destination_id
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
                AND p.curation <> 'editorial' AND p.category NOT IN ('transit', 'stay', 'health')

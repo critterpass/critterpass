@@ -71,6 +71,8 @@ export const AI_ROUTES = [
   'search.parse',
   'links.extract_places',
   'places.compromise',
+  // The well-known places of a destination without a curated set, by name (system usage).
+  'places.pick',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

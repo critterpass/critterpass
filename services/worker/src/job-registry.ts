@@ -37,7 +37,8 @@ import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
-import { placesJobs } from './jobs/places';
+import { mapRegionRegisterJob, placesJobs } from './jobs/places';
+import { placePickDeps, placesPickJob } from './jobs/places/pick';
 import { planningJobs } from './jobs/planning';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
@@ -67,12 +68,14 @@ export interface JobRegistryDeps {
 export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDefinition[]> {
   const { env, processEnv, pool, logger, aiSwitches, llmObservability, renderer } = deps;
   const assertRouteOn = aiSwitches.assertAiRoute;
+  const placePicks = placePickDeps(env, { pool, assertRouteOn, telemetry: llmObservability });
   const jobs: AnyJobDefinition[] = [
     enqueueDueJob(),
     purgeJob(),
     aiCostGuardJob(),
     anonGcJob(),
     ...placesJobs(),
+    mapRegionRegisterJob({ tilesBaseUrl: env.TILES_BASE_URL }),
     accountPurgeJob(),
     ...accountExportJobs(env),
     fixesTtlJob(),
@@ -102,7 +105,8 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...tipsJobs(env, assertRouteOn, llmObservability),
     ...pitchJobs(env, assertRouteOn, llmObservability),
     ...setupJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
-    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
+    placesPickJob(placePicks),
+    ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability, placePicks }),
     ...moneyJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...bookingsJobs(env, pool, assertRouteOn, llmObservability),
     ...billingJobs(processEnv, logger, deps.metrics),

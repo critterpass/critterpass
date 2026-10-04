@@ -5,6 +5,7 @@
  * the main action work; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import type { PlaceMediaAsset } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -15,6 +16,8 @@ import { guideFor } from '../format';
 import { placeMeta, placeTags, type PlaceMetaFacts } from '../place-copy';
 import { liveFacts, type PlaceLive } from '../place-live';
 import { crowdColumns, goAdvice, type AddState } from '../place-model';
+
+import { BEACH_FOURSQUARE } from './lab-place-media';
 
 const HOURLY = [
   5, 4, 3, 3, 4, 8, 14, 22, 44, 66, 82, 86, 80, 76, 72, 68, 60, 42, 30, 20, 14, 10, 8, 6,
@@ -53,6 +56,8 @@ interface SceneSpec {
   readonly offers?: boolean;
   /** Foursquare's live answer for the place. */
   readonly live?: PlaceLive;
+  /** The place's photo from the media read. */
+  readonly photo?: PlaceMediaAsset;
 }
 
 // Staging stock photos of Đà Nẵng, one per photo: Wikimedia refuses Android's image loader.
@@ -186,6 +191,20 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     add: null,
     live: MY_KHE_LIVE,
   },
+  // A place nobody has open live facts for: its hero is the Foursquare photo kept from an earlier
+  // open, with Foursquare's credit on it.
+  'place-foursquare-photo': {
+    name: 'Phạm Văn Đồng Beach',
+    guide: 'chava',
+    category: 'beach',
+    guidePick: true,
+    mustDoOwner: 'Rin',
+    meta: { priceLevel: null, open: 'unknown', stayMinutes: 12 },
+    crowd: { kind: 'none', date: DATE },
+    tip: null,
+    add: null,
+    photo: BEACH_FOURSQUARE,
+  },
 };
 
 function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
@@ -197,7 +216,7 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
   const live = liveFacts(spec.live, {
     hours: null,
     priceLevel: spec.meta.priceLevel,
-    hasPhoto: false,
+    hasPhoto: spec.photo !== undefined,
   });
   const state: AddState | null =
     spec.add === null ? null : added === null ? spec.add : { kind: 'planned', dayNo: added };
@@ -206,7 +225,7 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
       name={spec.name}
       category={spec.category}
       guide={guide}
-      photo={null}
+      photo={spec.photo ?? null}
       heroUrl={live.heroUrl}
       live={live.details}
       tags={placeTags({

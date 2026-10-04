@@ -3,7 +3,7 @@
  * it), so it never passes for the place itself. Sits in the photo's start corner, opposite the
  * licence credit; nothing for the place's own photo or no photo.
  */
-import type { MediaAsset } from '@cp/domain';
+import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 
 import { Text } from '@/ui/text/Text';
@@ -29,7 +29,7 @@ export function GenericPhotoLabel({
   at = 'bottom',
   inset = 6,
 }: {
-  readonly photo: MediaAsset | null | undefined;
+  readonly photo: PlaceMediaAsset | null | undefined;
   readonly at?: 'top' | 'bottom';
   /** How far from that edge. */
   readonly inset?: number;
