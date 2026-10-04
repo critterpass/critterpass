@@ -12,11 +12,20 @@ export interface IdeaFitView {
 const isSplit = (fit: StoredFit): boolean =>
   fit.days.some((day) => day.reasons.some((reason) => reason.code === 'crew_split'));
 
-/** It fits a day as it is: a best day that needs no stop moved, and the crew isn't split on it. */
+/**
+ * It fits a day as it is, the way Tokek places ideas: some day takes it for the whole crew with no
+ * stop moved, and the crew isn't split on it. A slot that only part of the crew is free for is no
+ * slot for an idea.
+ */
 export function fitsAsIs(fit: StoredFit | null): boolean {
-  if (fit?.best == null || isSplit(fit)) return false;
-  const best = fit.days.find((day) => day.day_id === fit.best?.day_id);
-  return best !== undefined && (best.needs_move ?? null) === null;
+  if (fit === null || isSplit(fit)) return false;
+  return fit.days.some(
+    (day) =>
+      day.grade !== 'no' &&
+      day.slot !== null &&
+      (day.needs_move ?? null) === null &&
+      !day.reasons.some((reason) => reason.code === 'who_free'),
+  );
 }
 
 export interface IdeasSummary {
