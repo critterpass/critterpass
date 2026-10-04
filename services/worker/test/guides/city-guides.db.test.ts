@@ -195,7 +195,7 @@ describe('guide rows from released critters', () => {
         WHERE critter_key IS NOT NULL ORDER BY critter_key`,
     );
     expect(rows).toEqual([
-      { slug: 'ngua', name: 'Ngựa', colour: 'cream', accent: '#fff1d6', critter_key: 'cp-006' },
+      { slug: 'ngua', name: 'Ngựa', colour: 'pink', accent: '#ff8fbf', critter_key: 'cp-006' },
       {
         slug: 'chava',
         name: 'Chà Vá',
