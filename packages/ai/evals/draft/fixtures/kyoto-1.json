@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "ddd8f2b0-4d56-444a-968c-73995f2dcd54",
+        "id": "005a0ad4-29ea-49eb-bfc5-81f81d0239e8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area C, near Nishiki Market\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lanterns and first bites\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden pavilions and bamboo air\",\n      \"area\": \"Area B and D\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Vermilion gates and old wood\",\n      \"area\": \"Area A and C\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "{\n  \"stay_area\": \"Area C\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lanterns and first bites\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden pavilion and old Gion\",\n      \"area\": \"Area B and C\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p10\", \"p12\", \"p3\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Vermilion gates and quiet paths\",\n      \"area\": \"Area A and E\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p9\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 13,
+          "input_tokens": 1845,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 210,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 205,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "0549e7a9-8582-4fa0-86fa-747adcf69552",
+        "id": "d1c1ab3f-7b4f-4e53-89c5-c24ef4bf5f78",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Start with the torii tunnel before the crowds turn it into a slow procession.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand wooden kannon, all watching you try to count them.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The stage hangs over the maples like a dare, and the view takes the bet.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Foxes watch from every gate; climb until the city goes quiet behind you.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A canal path made for slow walking, with leaves doing most of the talking.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The silver pavilion keeps its shine to itself; the sand garden does the showing off.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 375,
+          "input_tokens": 356,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 118,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "86d0799d-adac-49d7-bec4-68e3aa566b2c",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Graze the stalls, then find the knife shop and watch the chestnut roaster work.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tofu done properly, in more shapes than you thought a bean could manage.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk slowly here; the old wooden facades reward the unhurried eye.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lanterns, narrow lanes, and the sound of someone practising shamisen behind a screen.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A calm, plant-based table that will not make the vegetarian explain themselves.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 330,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 198,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "b39b7f1a-d520-407f-8203-931b3b391fa5",
+        "id": "d7a07c80-a34c-4e73-8b24-c09086e7c753",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden pavilion floats on its mirror pond. Go early, before the tour buses and the selfie sticks.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The bamboo air does something to your shoulders. Walk slowly and let it.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The garden here is older than most countries. Sit on the veranda and watch the pond do nothing, beautifully.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Temple food, but make it a kaiseki (multi-course Kyoto meal). The vegan set is quietly spectacular.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Gold leaf that makes even early birds go quiet. Shoes off, phone down, eyes up.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Nightingale floors squeak like gossip, and the gardens are the real throne room.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A kaiseki (multi-course Kyoto meal) that treats vegetables like royalty. Book ahead, then eat slowly.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand wooden guardians, each with a different face and a long memory.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The stage hangs over the maples like a dare. The view pays it off.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 439,
+          "input_tokens": 479,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 241,
+          "output_tokens": 204,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "19ed8c9a-2b4a-41ce-8f31-e2e21c347577",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Graze the stalls for yuba and pickles; the market hums before the crowds thin.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done Kyoto-style, quiet and clean, with a set that suits the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old wooden facades and the occasional maiko slipping past; walk it slowly.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns over the canal and tiny doorways; the alley wakes up properly once the light goes.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan comfort food near the river, easy on the budget and the stomach.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 38,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 284,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "12455db6-c077-49a4-beb8-a86d5661b721",
+        "id": "e203a379-57a2-4d2b-8336-a9f130f4bb03",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Lanterns, gold, and vermilion wood — all the must-dos tucked in, shoes off, phone down, eyes up."
+            "text": "Lanterns, temples and vermilion gates, all in — shoes off, phone down, eyes up."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 221,
+          "input_tokens": 226,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 28,
+          "output_tokens": 22,
           "service_tier": "standard"
         }
       }

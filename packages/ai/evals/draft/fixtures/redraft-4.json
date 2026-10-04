@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "91e18d99-3d34-48b0-a59a-7f4f66603285",
+        "id": "ffa940d9-d71a-4d32-9a45-ec36bd20d0b7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Eat Your Way Through Kyoto\",\n  \"summary\": \"A slower, tastier day built around Rin's appetite, with a market, a proper lunch, and an evening meal without leaving the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the one we keep. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's first excuse to graze. A market stop is a meal with extra steps, and these steps are delicious.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, cheap and cheerful. Lunch stays because even a food day needs a table to lean on.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander to settle the noodles. History and local life, no ticket required.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her second proper meal, and the rest of us get to watch an omelette show.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Snack-First Kyoto\",\n  \"summary\": \"A slower, food-forward day around one corner of Kyoto, with a temple, a market and two proper meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up among the thousand buddhas.\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up among the thousand buddhas.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Gion's old lanes before lunch, because Rin is already thinking about food.\",\n      \"note\": \"A free wander through Gion's old lanes before lunch, because Rin is already thinking about food.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nishiki Market, the obvious answer to eating your way through the day. Snacks count as research.\",\n      \"note\": \"Nishiki Market, the obvious answer to eating your way through the day. Snacks count as research.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, slurp-worthy lunch nearby. Rin gets her first proper meal without upsetting the budget.\",\n      \"note\": \"A cheap, slurp-worthy lunch nearby. Rin gets her first proper meal without upsetting the budget.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre and a lot of omurice. The splurge-taster in the crew will forgive us.\",\n      \"note\": \"Dinner with a little theatre and a lot of omurice. The splurge-taster in the crew will forgive us.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 841,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 347,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 480,
           "service_tier": "standard"
         }
       }

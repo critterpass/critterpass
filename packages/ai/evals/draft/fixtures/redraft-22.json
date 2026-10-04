@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f65172a4-ce55-40b8-9723-d7f978dcb623",
+        "id": "c44d0f95-7044-435b-8a5e-ae28f2d6487e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow Đà Lạt Day\",\n  \"summary\": \"A gentler day with one long garden visit, a kept bánh căn lunch, and a relaxed dinner nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden stays as the single activity, so there is time to wander without rushing.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the bánh căn lunch is kept because a slower day still eats well.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to Bicycle Up in the same nearby area, keeping the evening easy.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One unhurried nature stop, the must-do bánh căn lunch, and a long evening meal with room to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden is the one activity that survives the slower pace, and it deserves a long, lazy look.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the must-do bánh căn stays put for lunch, because a slower day still eats very well.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to the same side of town as lunch, so the evening stays short-ride simple.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 61,
+          "input_tokens": 1339,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 235,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 251,
           "service_tier": "standard"
         }
       }

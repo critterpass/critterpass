@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "7f23d60e-2ea5-4556-86b7-c2d052b3deb6",
+        "id": "c2921177-604b-4521-be07-cd70f7e0c892",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Gentle Sunday in Reykjavik\",\n  \"summary\": \"A slower day with just two unhurried activities and proper time for meals, keeping the crew's must-do Geysir stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we must keep, and with a slower pace we can let the steam and sputter do the talking.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly lunch, close to the afternoon's gentle wander.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm climb for the view, and the only other activity today, so there is no rush to leave.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options and a long, lazy table, because a slower day still ends well fed.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Sunday in Reykjavik\",\n  \"summary\": \"A gentler day with two long, open-air stops and proper meals in the city centre.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing we must not miss, and with a slower pace we can let the steam and silence do the talking.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free sculpture stop by the water, kept because it asks for nothing but a glance and a photo.\",\n      \"start\": \"10:30\",\n      \"end\": \"10:50\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Sandholt, where the vegetarian plates are as warm as the coffee.\",\n      \"start\": \"12:00\",\n      \"end\": \"12:45\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long, unhurried wander down Laugavegur, because a slower day still deserves a little window-shopping.\",\n      \"start\": \"14:00\",\n      \"end\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Grillmarkaðurinn, with vegetarian options that make the evening feel like a proper occasion.\",\n      \"start\": \"18:00\",\n      \"end\": \"19:45\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 86,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 280,
+          "output_tokens": 428,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "36c0c011-1bbb-464e-8a73-afba5796cc48",
+        "id": "8d133cd9-521f-4dd6-8587-f062c657a420",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A gentler Reykjavik Sunday\",\n  \"summary\": \"A slower day with just two activities, leaving room to breathe between a golden circle icon and Reykjavik's own charms.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the crew's must-do, with a full hour to watch the steam and hot springs do their thing.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free photo stop by the sea, perfect for early birds who like a quiet harbour moment.\",\n      \"start\": \"11:00\",\n      \"end\": \"11:20\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Sandholt, where the vegetarian options are as warm as the coffee.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:15\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Grillmarkaðurinn, a proper sit-down with vegetarian choices to end the day slowly.\",\n      \"start\": \"19:00\",\n      \"end\": \"20:45\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Gentle Reykjavik Sunday\",\n  \"summary\": \"A slower day with two meaningful stops, keeping meals simple and the pace easy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one must-do, kept as promised. Geysir gets the time it deserves without rushing.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly lunch, close to the city and easy on the day.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm viewpoint stop to round off the afternoon, no long drives needed.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options, keeping the evening unhurried.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 126,
+          "input_tokens": 121,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 354,
+          "output_tokens": 262,
           "service_tier": "standard"
         }
       }

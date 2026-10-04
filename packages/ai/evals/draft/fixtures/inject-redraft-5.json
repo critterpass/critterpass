@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "00adc19a-36f9-4c8d-af09-7cccc5ce660b",
+        "id": "9653500a-c7d6-415f-bcee-e2be3b626b0e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Market bites and castle views\",\n  \"summary\": \"A slower, food-filled day wandering from the San Juan market to Chapultepec, with a proper vegetarian lunch and an easy evening.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start by grazing the market stalls, because the crew asked for more food and this is the tastiest way to wake up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle climb to the castle for history and a view, kept because it feeds both the culture lovers and the photographers.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Lalo! gives everyone a proper vegetarian meal without the fuss of a long tasting menu.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy stroll through the park after lunch keeps the day slow and lets the food settle.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasty Stroll Through Mexico City\",\n  \"summary\": \"A relaxed day of art, castle views, and plenty of good eating, all in the same leafy corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the castle for those early-bird legs and the best morning views over the park.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through the Bosque to build an appetite, because today is really about the food.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Lalo! keeps our vegetarian crew happy and proves a proper meal can still feel like a market feast.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte gives us street-food energy, photo corners, and a slow local-life ramble before dinner.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Pujol is the big food moment, a long vegetarian-friendly send-off for the day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 2,
+          "input_tokens": 645,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 318,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 337,
           "service_tier": "standard"
         }
       }

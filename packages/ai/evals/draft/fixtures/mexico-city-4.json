@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "487cf7c0-e0e0-4ef5-b4c6-d40060f8ff94",
+        "id": "d7ee19f9-7976-44ec-b06e-d9d5ab367fb1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro stroll and a splurge dinner\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p10\",\n        \"p12\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Art, ruins and a leafy park\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p4\",\n        \"p1\",\n        \"p13\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Landing stroll and local flavours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Art, history and a green goodbye\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p4\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 4,
+          "input_tokens": 725,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 173,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 142,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "af5f8a54-882a-4e1c-8b37-dff09907052d",
+        "id": "d164575f-30e3-4e63-b4b3-a8d6d152fc94",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old Aztec heart of the city, right beside the cathedral, with stone serpents and a view over the ruins.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, lively plates and a long communal table; the chilaquiles wake you up gently.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A marble palace of murals and a stained-glass curtain that glows like a Tiffany lamp.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Murals and marble tell the city's dramatic art story under one glowing roof.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates with plenty of green things for a happy midday pause.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stone serpents and buried temples whisper the old Aztec heart of the city.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 523,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 135,
+          "output_tokens": 118,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "87d6e4a7-7149-4c63-8052-3c263e21a3f4",
+        "id": "bb2b6be1-65cc-42d9-a4ce-af2d9fc1a128",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A market hall where butchers, fishmongers and exotic produce stalls put on a proper show.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the leafy streets and admire the mix of old mansions and newer cafés.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A splurge tasting menu that turns Mexican ingredients into quiet theatre.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Classic al pastor carved straight off the trompo, smoky and unapologetic.\"}]}"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through Roma Norte's leafy streets and handsome facades.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A splurge of a tasting menu that turns Mexican ingredients into theatre.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy green lung for a post-meal stroll among lakes and old trees.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 19,
+          "input_tokens": 528,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 161,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 163,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "8d28dfae-0dfa-4f84-aa4c-797866712c61",
+        "id": "4f7bce43-725b-4943-9f54-b5b1020f8c76",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A slow wander through the Centro, a fancy feast, then art, old stones and green shade — every must-do tucked in, my friend."
+            "text": "A gentle wander through my city's flavours, then art, history and a fond green farewell — every must-do tucked in, amigo."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 225,
+          "input_tokens": 222,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 29,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

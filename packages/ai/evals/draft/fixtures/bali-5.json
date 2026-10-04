@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "613ffaa7-0cf8-46f3-98e1-56a1dfa99637",
+        "id": "d26b41eb-ffe4-48d9-9abc-c9c8d4591da0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A (Seminyak)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and green walks\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p7\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Temples and rice terraces\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset ease in Seminyak\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and green walks\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p9\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gentle Ubud farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 29,
+          "input_tokens": 956,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 196,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 192,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "8a52a8d6-6386-4f10-9322-c775eaf23b29",
+        "id": "f43d929b-c7b0-494e-a76a-e5b9a03507c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The terraces ripple like a green ocean, and the sun loves them.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys rule this green pocket of Ubud, so keep your shades close and your snacks hidden.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 317,
+          "input_tokens": 293,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 42,
+          "output_tokens": 47,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "b2c1779a-6ec5-4587-8fe6-76b5deeaa07b",
+        "id": "7e8529e3-cbca-4ce5-9870-01fd277fc37a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A green ridge walk with breezes and rice-field views, easy on late risers.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus ponds and carved stone at a temple that feels tucked away from the buzz.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you) for a long lunch of fresh, bright plates that please everyone.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A splurge-worthy tasting journey with clever vegetarian twists and serious flavour.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green ridge with a breeze, perfect for stretching those night-owl legs.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright spot for a proper sit-down bite before the afternoon rolls on.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A splurge-worthy feast with plenty of green on the menu for the herbivores among us.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 265,
+          "input_tokens": 99,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 163,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 173,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "8c337936-7666-42cd-9c98-ff5515cf42be",
+        "id": "83f2c628-8d4a-400c-9c57-2ee85a15b7ce",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Toes in the sand, sun on your face, and the whole evening ahead of you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Local flavours in a lively little spot, perfect for a proper sit-down feed.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy little pause with something fresh and green in your cup.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Sink your toes in and let the Indian Ocean do the talking.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A breezy little pause with smoothies and a menu that hugs everyone.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny plates, big flavour, and a warung buzz that feels like a local secret.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cocktails, beats and a pool that glows once the stars take over.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 403,
+          "input_tokens": 538,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 170,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 156,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "9cefabd9-3588-4b60-8c20-3fe7a5377ea7",
+        "id": "198e219e-7a8c-4536-916c-752e783e8004",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset ease, Ubud green, temples and terraces — every must-do made it, and the sun won't wait."
+            "text": "Sunset ease, green Ubud walks, monkeys and temples — every must-do made it, terima kasih (thank you)."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 191,
+          "input_tokens": 195,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 26,
+          "output_tokens": 27,
           "service_tier": "standard"
         }
       }

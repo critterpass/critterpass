@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "841c6e8c-4acd-4137-af05-5eb29a9b63ec",
+        "id": "457afd3c-b2a3-49b6-9f1d-0ba553375a44",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower day in Mexico City\",\n  \"summary\": \"A gentle day with a long morning walk and a museum visit, leaving room to wander and rest.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte stroll, now with extra time to dawdle and notice the little things.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor stays, but we arrive unrushed and let the old stones do the talking.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Saturday in Mexico City\",\n  \"summary\": \"A gentle day with just two unhurried stops, leaving plenty of room to breathe and wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the crew's must-do, now with extra time to soak in the Roma Norte streets without rushing.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slower day still leaves space for a bit of history, and Templo Mayor is right nearby in the same area.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 58,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 178,
+          "output_tokens": 166,
           "service_tier": "standard"
         }
       }

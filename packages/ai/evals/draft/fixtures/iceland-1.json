@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "e67d8fa9-2e80-46ba-a33e-e1c38b1a568e",
+        "id": "a69fcff2-c879-4ad5-975b-11e508432be6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Reykjavik centre, area B/F\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden Circle sampler\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"City sights and harbour\",\n      \"area\": \"Area B and F\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p4\", \"p6\", \"p2\", \"p11\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Local life and farewell soak\",\n      \"area\": \"Area F and B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Reykjavík\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden Circle and a warm welcome\",\n      \"area\": \"A, E, C\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p9\", \"p8\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"City sights and seaside calm\",\n      \"area\": \"B, F\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p6\", \"p2\", \"p13\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Local life and a last soak\",\n      \"area\": \"B, F\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 102,
+          "input_tokens": 1928,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 202,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 207,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "e3f9e657-21e4-4628-9ccd-50aa8df9ab99",
+        "id": "1ea76cda-4b0d-4a8a-a60b-db61bbd28068",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the rift valley where continents drift apart, with mossy lava and clear water all around.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Walk the rift valley where the earth is slowly pulling itself apart; the views are raw and wonderful.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 241,
+          "input_tokens": 247,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 70,
+          "output_tokens": 48,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "dd982344-1421-4152-9f83-563ab1cac1aa",
+        "id": "295911bf-4844-4f96-b4f8-374c8c63535d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper rummage through local life, from woolly jumpers to old vinyl.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fresh bread and warm pastries, the kind of fuel a puffin approves of.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A long soak with the ocean right there, the proper Icelandic goodbye.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A long, warm soak with the ocean right there—pure Icelandic bliss for tired wings.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fresh pastries and proper bread in a cosy bakery that locals swear by.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 366,
+          "input_tokens": 364,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 169,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "edc7c5c2-d6ac-4cbc-8843-c88ea08dc206",
+        "id": "4f3be845-25de-4f01-964c-04c9c877837c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Climb the tower for a view that puts the whole city in your pocket.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steel boat dreaming of the sea, perfect for a windswept photo.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A glass honeycomb by the harbour, humming with light and music.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright bowls and greens that make a puffin feel almost healthy.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Life-size whales indoors, so close you can count the barnacles.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A glass dome over hot water, with a view that stretches to the lava.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pan-fried fish in a warm room, the kind of meal that ends a day well.\"\n    }\n  ]\n}"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Climb the tower for a view that makes the whole city look like a toy town.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steel boat frozen mid-dream on the shore, perfect for a windswept photo.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The glass honeycomb facade catches the light like a shoal of herring.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that even a puffin would trade a sandeel for.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lonely lighthouse with a front-row seat to the sea's mood swings.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The arctic char here could make a grown puffin weep into its feathers.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 651,
+          "input_tokens": 654,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 365,
+          "output_tokens": 323,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "700da613-02a0-484d-8e30-94bef1ca36d5",
+        "id": "2aab5068-09be-4f49-8cb9-c82a477a5c79",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Golden Circle wonders, harbour wanderings, then a farewell soak — every must-do snug in the nest."
+            "text": "Golden Circle wonders, city calm, and one last soak — every must-do tucked in, bless."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 222,
+          "input_tokens": 228,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 21,
+          "output_tokens": 20,
           "service_tier": "standard"
         }
       }

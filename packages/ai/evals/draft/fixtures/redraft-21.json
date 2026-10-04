@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e560ecd5-45b6-4eb8-b7bf-92f8b56d4318",
+        "id": "9ce2cbd8-6264-4584-ad1e-d228b76e28e2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow Start, Sea Breeze\",\n  \"summary\": \"A gentle day that begins late, stays close to the water, and ends with a quiet sunset by the bay.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow morning still deserves sand between the toes. An Bang is my kind of welcome mat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crew of one, plate of chicken rice, zero rush. This is how you do a late lunch in area B.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little green pause after eating, close by and easy on the legs. Even a langur approves of shade.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We drift over to the bay for the golden hour. Phạm Văn Đồng beach knows how to end a day.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and noodle-warm. Mì Quảng Nhung keeps the evening simple and tasty.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Slow morning, sea breeze by noon\",\n  \"summary\": \"A lazy start rolls into beach time, a proper mì Quảng lunch and a sunset stroll before an easy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Late start means the sand is warm and the light is soft. Red socks off, toes in the water.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the classic spot, because a slow morning still deserves mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker).\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sunset by the water, no rush, just the sky doing its thing over Phạm Văn Đồng beach.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper local flavour before the evening winds down. Cảm ơn (thank you) to the cook.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1297,
+          "input_tokens": 1174,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 352,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 334,
           "service_tier": "standard"
         }
       }

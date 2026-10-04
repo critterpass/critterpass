@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "57893dc3-f2ca-403b-bdd6-0ab8325a0300",
+        "id": "3850e33a-1b3b-440f-96a5-c1d82c3e1389",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Kyoto, close and quiet\",\n  \"summary\": \"A slower day around one corner of Kyoto, with Kinkaku-ji kept and the rest gathered near it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing you asked to keep, so we start here before the buses and the selfie sticks wake up.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a long slow walk for the two early birds who hate being rushed.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian for all four of you, and close enough to the path that nobody has to watch a clock over lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, flat, and full of old shopfronts — the street-food and photo-spot people can wander while the temple people rest their feet.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening lanterns, because the night owl in your crew deserves one meal after dark.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Kyoto day, close and calm\",\n  \"summary\": \"A tight little loop around Kinkaku-ji and the nearby streets, with lunch and dinner kept beside the activities so nobody spends the day in transit.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing that must stay, and it sets the whole day's radius.\",\n      \"note\": \"Kinkaku-ji stays, so the whole day shrinks around it.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, easy wander near the same side of town, good for the photo and street-food people.\",\n      \"note\": \"Swapped in for the far-flung temple; it keeps the day in one pocket of the map.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch sits beside the activities, and the vegetarian crew are covered without fuss.\",\n      \"note\": \"Lunch moved beside the activities, with vegetarian options for everyone.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A nightcap for the night owl, and it is only a short hop from dinner.\",\n      \"note\": \"Evening stop for the night owl, close to dinner.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the same area, with vegetarian options and no long ride after dark.\",\n      \"note\": \"Dinner kept close to the evening stop, with vegetarian options.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 6,
+          "input_tokens": 638,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 354,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 429,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "04658bfe-ad4b-423d-af59-ebc300d99687",
+        "id": "63c478ba-ee6f-44db-8bd5-91216ce6deed",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, Bairro Alto\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama sunsets and Bairro Alto nights\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p9\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Market morning and a last bite\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p12\", \"p5\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama to Bairro Alto by dusk\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p3\", \"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Castle views and local lanes\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 102,
+          "input_tokens": 1422,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 150,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 147,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "8bf7cc5b-c6ab-47d5-bfac-6e0ca0ac8c3f",
+        "id": "60c789fa-5ea8-4aa9-b647-ecaeedfb2767",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A market feast for the eyes and the belly — try a little of everything.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tasca with big flavours, the kind of last bite you'll dream about on the plane.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb up for the best castle views in town, the lanes below look like a maze of white and yellow.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tasca with big flavours, the menu changes with whatever the market had that morning.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 447,
+          "input_tokens": 439,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 123,
+          "output_tokens": 126,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "ba9b6010-f2ad-49a3-8641-30099e65ff64",
+        "id": "ab2bd4b2-721e-451f-9b96-096b1b19313e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old lanes and catch that golden Alfama light on the tiles.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The city opens up below you — bring a jacket, the breeze is honest up there.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bifana in a no-fuss spot. Greasy fingers, happy heart.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bairro Alto wakes up late and laughs loudly. Follow the noise.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old lanes and laundry lines of Alfama, the city's most honest smile.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Grab a bite from the stalls and let the market's buzz set the pace.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bairro Alto wakes up late, so follow the noise and the cheap beer.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A classic bifana in a no-fuss spot, fuel for the night ahead.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 521,
+          "input_tokens": 549,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 223,
+          "output_tokens": 228,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "a24e1f73-7480-4e26-814a-7e0dc8afc50f",
+        "id": "72fb34bd-b3a1-43cd-b6c1-25147f012624",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Alfama sunsets, Bairro Alto nights, market mornings and one last bite — all the must-dos, all the sardines."
+            "text": "Come for the grilled sardines, stay for the grilled sardines — Alfama to Bairro Alto by dusk, castle views and local lanes, every must-do in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 167,
+          "input_tokens": 165,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 30,
+          "output_tokens": 35,
           "service_tier": "standard"
         }
       }

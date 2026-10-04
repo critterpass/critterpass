@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "dd40df50-5b5f-4533-81db-166bf5fa34b7",
+        "id": "058504e5-d57a-412e-85af-a61f4828c7a1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Culture and Market\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud Nature and Temples\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p10\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud First Impressions\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Monkeys and Morning Air\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 27,
+          "input_tokens": 823,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1920,
-          "output_tokens": 144,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 139,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "22665fc1-a1f6-4863-87e0-73b69e6f17a5",
+        "id": "3a07ce23-f750-4410-a1bb-71bf35392faa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys with more swagger than a temple guard, so hold onto your shades.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A cave carved with old stories and a bath that has seen centuries of secrets.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long way for lunch, but the crew flies home full and happy.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys with serious attitude and temple corners worth a slow wander.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Open ridge air, green on both sides, and the kind of walk that clears your head.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 424,
+          "input_tokens": 316,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 117,
+          "output_tokens": 80,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "ebced7ce-e9c6-4043-ad18-6cc6c8fba280",
+        "id": "b5063d9f-e5c6-4a56-899d-088ec9ca1ae8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Haggle for batik, carvings and a little chaos under one roof.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Royal courtyards with carved doors and a very relaxed guard gecko.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus pond out front, water temple calm behind the cafe buzz.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny plates, big flavours, and nasi campur worth fighting over.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin and leave with something you didn’t know you needed.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The palace doors are grand, but the carvings are the real show.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus pond out front, quiet corners inside — a lovely pause.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny plates, big flavours, and the sambal means business.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 556,
+          "input_tokens": 612,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 219,
+          "output_tokens": 154,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "3703d27f-ccb3-4957-a176-bf37cc5c8995",
+        "id": "f31bdaff-146a-47f8-9151-6041ff75b389",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Culture first, then nature and temples — every must-do made it in, terima kasih (thank you)!"
+            "text": "Ubud welcomes you, then the monkeys wake you — every must-do's in, so just pack your sense of wonder."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 184,
+          "input_tokens": 183,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 23,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }

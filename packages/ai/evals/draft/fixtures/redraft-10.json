@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "98751506-4e07-4adf-845a-5aec19e3db9e",
+        "id": "d02ebac1-407b-4385-b847-dcae9ad89e5a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Sunday Swap in Lisbon\",\n  \"summary\": \"We trade the usual sights for a slower wander through Belém and a lively evening in Bairro Alto, with no meal stop to pin us down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo for every angle.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end where the night begins, because a day without Bairro Alto is just a long lunch.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Sunday Stroll with a Side of Sardines\",\n  \"summary\": \"A slower Sunday swapping the usual stops for a market wander, a riverside history fix, and a long evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the market because Sunday mornings here are pure Lisbon theatre, and the crew loves a good wander.\",\n      \"note\": \"We keep the market because Sunday mornings here are pure Lisbon theatre, and the crew loves a good wander.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo spot that never disappoints.\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo spot that never disappoints.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end in Bairro Alto, because after dark this neighbourhood is the whole festa, minus the sardines.\",\n      \"note\": \"We end in Bairro Alto, because after dark this neighbourhood is the whole festa, minus the sardines.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 39,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 184,
+          "output_tokens": 316,
           "service_tier": "standard"
         }
       }

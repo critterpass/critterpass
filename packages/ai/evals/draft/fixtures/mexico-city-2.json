@@ -4,71 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "90724e69-1c1c-406d-b1d9-24521d2ba8e4",
+        "id": "fe061f4d-3064-4584-99cb-177d134a484b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro after dark\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Coyoacán and Xochimilco\",\n      \"area\": \"Area B and Area D\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p9\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Chapultepec morning\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro after dark\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p3\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Coyoacán\",\n      \"area\": \"Area C and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p2\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Chapultepec farewell\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 110,
+          "input_tokens": 1552,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 198,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "b73e05a8-f031-44bc-b319-1fe767301a11",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the lakes and shaded paths, and keep an eye out for the castle peeking through the trees.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 71,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 49,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "5f9e1a12-7222-4d82-bdd2-f8207d088328",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the old city, where the flag waves over centuries of stories.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Leafy streets, art deco facades and the easy rhythm of local life.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Plant-based tacos with enough spice to wake up a night owl.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Masked heroes, flying bodies and a crowd that roars like thunder.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 28,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 214,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 199,
           "service_tier": "standard"
         }
       }
@@ -76,23 +28,71 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "801b8092-5248-4921-819d-051054762345",
+        "id": "c0b8dda1-96f1-43bb-8b02-80fbda956e24",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Tacos al pastor carved straight off the trompo, a tiny spot with a big reputation.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A proper market wander, all butchers, moles and chiles under one roof.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates with plenty of veggie love in the middle of the city.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Float the old canals on a painted trajinera, mariachi drifting across the water.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Warm, spice-scented comfort food with halal and vegetarian options.\"}]}"
+            "text": "{\"stops\":[]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 499,
+          "input_tokens": 244,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 200,
+          "output_tokens": 6,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "e5281fce-614b-406d-be30-e7e35c65c583",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Al pastor carved off the trompo, pineapple juice dripping into the tortilla.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Masks, capes and flying bodies under the lights of the old arena.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 458,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 82,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "b63bd6f3-bdac-4a5e-86a8-2aef0c4e9c73",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A green farewell among the ahuehuetes and lakes, perfect for a slow wander before the flight.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates and good vegetarian bites to close the trip on a tasty note.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 482,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 86,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "59999282-42d9-4e55-9f80-f65cf9a4d03e",
+        "id": "b2da6de0-bb65-4a46-a166-aa8360042ea6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Three nights of city soul, from mariachi-lit streets to canals and a green morning — every must-do made it in."
+            "text": "Centro after dark, pyramids and Coyoacán, then Chapultepec goodbye — every must-do tucked in, nice and neat."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 227,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 26,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

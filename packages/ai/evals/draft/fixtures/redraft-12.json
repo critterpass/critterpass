@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "14063117-9ca4-4b5c-ae17-56ad9e65b0c4",
+        "id": "23cc30b0-e1a2-4ad0-8c17-102a4aba2fc7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Reykjavik on a shoestring\",\n  \"summary\": \"A gentler Sunday in Reykjavik that keeps the whales, swaps the pricey dome for free local colour, and eats well without emptying the nest.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The whales stay, as they should. We start here before the crowds and before the wallet gets a fright.\",\n      \"start\": \"10:00\",\n      \"end\": \"11:15\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the flea market gives us local life without the Perlan price tag.\",\n      \"start\": \"11:30\",\n      \"end\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki keeps us fed for a fair price, with a proper taste of Icelandic home cooking.\",\n      \"start\": \"13:00\",\n      \"end\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride out to Grótta gives us sea air and a free photo stop, far cheaper than another museum.\",\n      \"start\": \"14:45\",\n      \"end\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll lets everyone pick their own plate without a four-dollar-sign fuss.\",\n      \"start\": \"17:30\",\n      \"end\": \"18:30\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Reykjavik on a shoestring\",\n  \"summary\": \"A slower, cheaper Sunday around Reykjavik, keeping the whales and swapping pricey stops for free local colour.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see; those big sea faces are worth every minute, even on a thrifty day.\",\n      \"start_by\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, lively, and full of local oddities; a proper Reykjavik rummage without opening the wallet.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with rye bread and a view of Hallgrímskirkja; cheaper than the grill and kinder to the budget.\",\n      \"start_by\": \"20:00\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at the food hall keeps everyone happy and the bill low; plenty of choices for a crew of five.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 122,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 440,
+          "output_tokens": 334,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "5195e155-f6bd-4eb8-b60f-3889a84beede",
+        "id": "10ad7015-1edc-48d2-b3ae-ff0062f4bc4c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area A, near the beach and river\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River sunset and local bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p59\", \"p82\", \"p81\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Old town, beach and a show\",\n      \"area\": \"Area B and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p8\", \"p41\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula morning and farewell\",\n      \"area\": \"Area G and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p65\", \"p57\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p50\",\n      \"day_no\": 2,\n      \"when\": \"afternoon\",\n      \"weekdays\": []\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset welcome by the bay\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p82\", \"p59\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Peninsula, beach and local bites\",\n      \"area\": \"Area G and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p65\", \"p57\", \"p81\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Easy morning, local flavours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p36\", \"p34\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p50\",\n      \"day_no\": 2,\n      \"when\": \"afternoon\",\n      \"weekdays\": []\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1482,
+          "input_tokens": 87,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 257,
+          "cache_read_input_tokens": 3584,
+          "output_tokens": 245,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "6908e885-618c-46dc-9026-03d491f014ca",
+        "id": "c0a7eb0b-4a5d-43f9-932c-fc545132d0b1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p65\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Red socks on, eyes on the sea. Sơn Trà is my backyard, so go slow and let the doucs show themselves.\"},{\"poi_id\":\"p64\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Sky going grey over Sơn Trà? Sit by the water and let the view do the talking while you eat.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p36\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sea breeze, sand between your toes, and a slow loop where the city meets the water.\"},{\"poi_id\":\"p112\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Little shrimp-topped bánh ít, hot from the steamer — ngon quá (so tasty) and gone too fast.\"},{\"poi_id\":\"p34\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Quiet courtyard, incense drifting, and a calm corner of local temple life.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 370,
+          "input_tokens": 518,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 100,
+          "output_tokens": 133,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "b6c55970-8e7a-4637-b4d5-066e7a502386",
+        "id": "74c28415-d6cf-4a6a-a8b0-ab34a0396e1e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p57\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dip your toes in the bay and watch the fishing boats bob while the city wakes up behind you.\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon carp statue glows when the light drops over the river, so find a rail and let the sky do the work.\"\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pull up a tiny plastic stool and work through a pile of snails with lime, salt and chilli on your fingers.\"\n    },\n    {\n      \"poi_id\": \"p81\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coconut cream scooped into a cup, cold enough to make you forget the humidity for a minute.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Red socks on, eyes on the sea. The bay puts on its best colours here when the sun drops.\"\n    },\n    {\n      \"poi_id\": \"p125\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Roll your own, dip, repeat. The crew of one will still order like a whole troop.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sand, beats and a cold drink after dark. I taste-test the snacks, obviously.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 649,
+          "input_tokens": 491,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 245,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 179,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "ae07b7d3-b324-4161-b133-36bb46a27a52",
+        "id": "dfdabf61-2209-4125-ab02-e32806c630de",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Slurp the turmeric noodles like a local, sesame cracker crumbled on top. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old tiles, old stories, and a courtyard that slows your heartbeat right down.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, and a horizon that resets your whole head.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny steamed rice cakes, crispy shallots, and a fish sauce dip worth writing home about.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A pocket of green where the city exhales and the squirrels do the entertaining.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quiet corners, incense in the air, and a bell that rings like a long, slow breath.\"\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pick your fish, point at your prawns, and let the kitchen show off with garlic and chilli.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p50\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"Order the mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) and watch the broth do the talking.\"},{\"poi_id\":\"p57\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Long stretch of sand with a slow, easy rhythm; perfect for a barefoot wander and a long look at the bay.\"},{\"poi_id\":\"p81\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Coconut cream in a cup, cold enough to make you forget the heat for twenty minutes.\"},{\"poi_id\":\"p111\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Fermented fish broth with noodles, bold and briny; a proper local bowl near the centre.\"},{\"poi_id\":\"p49\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Sit-down Vietnamese plates with a river breeze; the kind of dinner that stretches past one course.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 726,
+          "input_tokens": 779,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 399,
+          "output_tokens": 224,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "e199723c-b742-44de-9752-2595effc78ba",
+        "id": "755ac0b7-919e-4886-83a1-08223dbdeec6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset on the river, old town sparkle, then Sơn Trà sunrise before we wave goodbye."
+            "text": "Sunset by the bay, Sơn Trà and beach bites, then a slow tasty farewell — every must-do's in the bag."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 240,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 640,
-          "output_tokens": 22,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

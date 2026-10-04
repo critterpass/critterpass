@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "67fae205-b95b-4488-97f5-c53debdcb2b6",
+        "id": "c2b1a11c-2c26-4df9-899c-f3b9763f0eeb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Surprise in Ubud\",\n  \"summary\": \"A slow, delicious day around Ubud with a market feast, a proper sit-down dinner, and a temple surprise the crew won't expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with a bit of royal history before the heat kicks in. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Keeping Alchemy for a bright, fresh lunch stop. Terima kasih (thank you) for the greens.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise detour to Goa Gajah. The crew asked for unexpected, and this old cave delivers.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays. A proper sit-down meal to end the day right.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Ubud Eats and Hidden Corners\",\n  \"summary\": \"A slower Sunday around Ubud, grazing through markets and a proper long dinner, with one unexpected stop to keep the crew guessing.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lazy brunch to start, because the sun won’t wait and neither will the smoothie bowls.\",\n      \"note_voice\": \"A lazy brunch to start, because the sun won’t wait and neither will the smoothie bowls.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick wander through the palace before the afternoon heat, history without the rush.\",\n      \"note_voice\": \"A quick wander through the palace before the afternoon heat, history without the rush.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A market-style snack stop for proper Balinese chicken rice, the kind of place I know a guy who swears by.\",\n      \"note_voice\": \"A market-style snack stop for proper Balinese chicken rice, the kind of place I know a guy who swears by.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise stop at the water temple, quiet and unexpected, just before the day winds down.\",\n      \"note_voice\": \"A surprise stop at the water temple, quiet and unexpected, just before the day winds down.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The long, splurge dinner you asked for, kept as the anchor of the evening.\",\n      \"note_voice\": \"The long, splurge dinner you asked for, kept as the anchor of the evening.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 50,
+          "input_tokens": 820,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 473,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "bc3104d9-1f71-4ed4-9dae-4d6f6716d8d2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Tasty, Twisty Ubud Sunday\",\n  \"summary\": \"A slower Sunday around Ubud with market snacks, a proper sit-down feast, and one surprise stop the crew would never expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle vegan brunch to ease everyone into the day, because the sun won’t wait but we can.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick wander through the palace for a bit of history before the afternoon gets cheeky.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys! The crew did not see this coming, and neither will their snacks.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays, because a proper sit-down feast is non-negotiable.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 76,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 290,
+          "output_tokens": 276,
           "service_tier": "standard"
         }
       }

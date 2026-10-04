@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "45884484-5381-4de5-a5a9-054befea7e24",
+        "id": "581dc6ac-727d-4533-8333-6250022de6df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area C\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the old town\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\n        \"m3\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p4\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"salt, terraces and far views\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\n        \"m1\",\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p2\",\n        \"p8\",\n        \"p6\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Cusco\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco old town welcome\",\n      \"area\": \"C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley salt and terraces\",\n      \"area\": \"A and B\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca stones and local life\",\n      \"area\": \"C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p8\", \"p5\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 49,
+          "input_tokens": 1500,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 224,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 197,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "cce213b0-4704-4fb2-8cb3-1773a398cc3f",
+        "id": "cb33aad5-05c9-4311-8a68-8a7b6e56fbd8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old Inca sun temple hides polished stone walls under a colonial shell.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Small museum full of Inca gold, textiles and mummies, easy on the wallet.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old sun temple still holds its Inca stonework under the colonial walls.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Small museum full of Inca gold, textiles and stories of the old city.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 383,
+          "input_tokens": 382,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 79,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "fcdcc827-8b57-4def-b558-c72743ee44eb",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The salt pans glow white and pink against the hillside, a strange and beautiful patchwork carved by hand.\",\"must_do_id\":\"m1\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Giant circular terraces sink into the earth like an amphitheatre for the wind and the crops.\",\"must_do_id\":\"m2\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A courtyard meal with wood-fired flavours and a quiet corner to rest your legs.\",\"must_do_id\":null},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little workshop where cacao beans become chocolate, and the smell alone is worth the stop.\",\"must_do_id\":null},{\"poi_id\":\"p18\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A cosy, honest kitchen with hearty plates and a welcome that feels like a friend's table.\",\"must_do_id\":null}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 603,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 251,
+          "output_tokens": 78,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "abad9689-873a-43ad-98eb-73b4cf55d5b5",
+        "id": "59352ce6-071b-466c-82b4-851fbe9f0923",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old square hums with local life and makes a gentle first hello to Cusco.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the market aisles for street snacks and a proper taste of daily life.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Cristo Blanco gives you the city and the hills in one sweeping, free view.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Green Point keeps dinner easy on the wallet with bright, plant-based plates.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The heart of the old town, where balconies lean in to gossip and the mountains keep watch.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A riot of colours and voices, with juice ladies calling you over and baskets of fruit stacked like treasure.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"The white Christ stands with open arms, and the whole city spreads out below like a rumpled blanket.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A cosy little spot where the veggie food is honest, hearty and easy on the wallet.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 560,
+          "input_tokens": 570,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 160,
+          "output_tokens": 174,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "a2374858-8c52-48b0-bc53-8b8db2a6a9f1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Thousands of salt pools carved into the hillside, glowing white under Inti (the sun).\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Giant circular terraces that look like an amphitheatre for the wind.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Wood-fired pizzas and fresh salads in a cosy courtyard, easy on the wallet.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bean-to-bar chocolate magic, with a chance to taste cacao from the jungle.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cuy and quinoa stews in a leafy colonial patio, with a proper Andean oven.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 589,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 283,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "e1d8b698-d144-450d-883b-8deff51b5be5",
+        "id": "368a9149-fe31-442f-a538-c504f817bba9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Soft landing, salt and terraces, then Inca stones and market colours — your guide in Cusco approves."
+            "text": "Cusco old town, Sacred Valley salt and terraces, then Inca stones — every must-do snug in the pack."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 266,
+          "input_tokens": 265,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 23,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }

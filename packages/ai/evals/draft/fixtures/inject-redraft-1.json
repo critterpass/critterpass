@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "254bdb87-8347-46c1-ab56-3498bf120fa4",
+        "id": "1d55c838-2f3c-42c4-b583-c55e5540c161",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two temples, two proper meals, and room to breathe between them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian choices, near the afternoon stop.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand faces. Worth the slow walk.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a bit of theatre, and options for the non-meat eaters.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two temples, two long meals, and a lot less rushing between them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, quiet kaiseki (multi-course Kyoto meal) lunch that suits the vegetarians and the slower pace.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, then we stop pretending to be efficient.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian choices, because the crew eats better than the deer.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 103,
+          "input_tokens": 735,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 238,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 248,
           "service_tier": "standard"
         }
       }

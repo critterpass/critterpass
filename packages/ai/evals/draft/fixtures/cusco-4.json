@@ -4,22 +4,22 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "308612b3-1fcb-46cd-9852-9f446afb74cb",
+        "id": "c6b1be8b-3761-4203-9b11-4e98eb3a8a20",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the old town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p3\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"museums and a last viewpoint\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and golden hour\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley day trip\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\", \"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca history and farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p8\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 84,
+          "input_tokens": 889,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
+          "cache_read_input_tokens": 1024,
           "output_tokens": 197,
           "service_tier": "standard"
         }
@@ -28,47 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "3a30ecfe-f53b-4a53-a97b-4a23f5c5a2ff",
+        "id": "96c10499-b463-458c-9e24-05584f88004b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the Inca halls and let the old stones whisper their history.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stand by the white Christ and drink in the whole bowl of Cusco below.\"}]}"
+            "text": "{\"stops\":[]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 342,
+          "input_tokens": 385,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 79,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "09fcb2c4-1069-4411-8a76-c5067cde083e",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A sweet little stop to learn how cacao becomes chocolate, with plenty of samples to keep the crew smiling.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"A splash of modern Peruvian flavour from Gastón Acurio, where the plates are as colourful as Cusco itself.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 417,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 96,
+          "output_tokens": 6,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "ed03a07c-ba0d-4ed1-b9e0-2b8d26132a79",
+        "id": "136c93d0-a5db-4d03-ba57-cbcb356bf593",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Inca stonework so precise even a blade won't slip between the joins, with colonial arches resting on top.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"A weighty silver altar and a painting of the Last Supper with a very Andean guest on the plate.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Baskets of giant maize, pyramids of fruit and the hum of Quechua bargaining under one roof.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cyclopean stones fitted like a puzzle by hands that left no mortar and no easy answers.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Cobbled lanes, tiny workshops and balconies painted the colour of a good sunset.\"}]}"
+            "text": "{\"stops\":[]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 490,
+          "input_tokens": 442,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 218,
+          "output_tokens": 6,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "aef06914-7717-4645-83e2-292738b98dc2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A calm white Christ above the city, perfect for shaking off the journey and catching the first golden light.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"Arequipa-born flavours with a Cusco twist, and plenty of veggie grace for the table.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 441,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 92,
           "service_tier": "standard"
         }
       }
@@ -100,20 +100,20 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "906fbcd0-8a3d-417f-b3bd-24d63fabe580",
+        "id": "de255e71-3a33-4423-9f06-4b21199acd54",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A gentle Cusco wander, from Inca stones to market colours and one last view — every must-do snug inside."
+            "text": "Arrival glow, Sacred Valley wander, then Inca tales and a soft goodbye — your guide in Cusco approves."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 264,
+          "input_tokens": 261,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
           "output_tokens": 24,
