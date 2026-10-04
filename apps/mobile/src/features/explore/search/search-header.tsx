@@ -78,6 +78,7 @@ export function SearchHeader(props: SearchHeaderProps) {
           accessibilityLabel={placeholder}
           returnKeyType="search"
           autoCorrect={false}
+          spellCheck={false}
           autoFocus={props.autoFocus ?? true}
           style={[styles.input, font, { color: theme.semantic.text.primary }]}
           testID="search-field"

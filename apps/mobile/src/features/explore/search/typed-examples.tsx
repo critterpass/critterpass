@@ -14,7 +14,8 @@ import { PressScale } from '@/ui/press/PressScale';
 const CHAR_MS = 28;
 const PAUSE_MS = 260;
 const BLINK_MS = 480;
-const ARROW = '↗';
+// Text presentation, so iOS never draws it as an emoji.
+const ARROW = '↗\uFE0E';
 
 const useStyles = makeStyles((th) => ({
   list: { gap: th.space['8'] },
