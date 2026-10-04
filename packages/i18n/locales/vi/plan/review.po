@@ -263,16 +263,8 @@ msgid "plan.review.money.million"
 msgstr " TR"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.reorder"
-msgstr "dời để đi đường ngắn hơn"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.rain"
 msgstr "dời để tránh mưa"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.clash"
-msgstr "dời để không còn chạm vào điểm trước đó"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.fix"
@@ -426,10 +418,6 @@ msgstr "Có thay đổi dời một chỗ đã đặt hoặc việc ai đó mu�
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.swap"
 msgstr "Hoán đổi"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.tooFar"
-msgstr "đổi sang nơi gần hơn"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.failed"

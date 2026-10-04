@@ -8,6 +8,7 @@
 import type { FitReason, StoredFit } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 
+import { fixReasonWords } from '../check/fix-copy';
 import type { LeftForYou } from './data/use-review-extras';
 import { reviewTitle } from './review-copy';
 
@@ -50,24 +51,17 @@ export function changesHeadline(trigger: string | null, count: number): string {
 const REASON_KEY = /^[a-z0-9]+(?:_[a-z0-9]+)+$/u;
 
 /**
- * Why a change is in the set, in words: the guide's fixes arrive as keys (`check_fix_clash`) and
- * are worded here; what a person wrote is shown as written.
+ * Why a change is in the set, in words: the plan check's fixes are worded by the check itself
+ * (one table for every screen), the guide's other keys here, and what a person wrote is shown as
+ * written.
  */
 export function changeReason(reason: string): string {
   const key = reason.replace(/^undo: /u, '');
+  const fix = fixReasonWords(key);
+  if (fix !== null) return fix;
   switch (key) {
-    case 'check_fix_reorder':
-      return t({ id: 'plan.review.reason.reorder', message: 'moved for a shorter drive' });
-    case 'check_fix_clash':
-      return t({
-        id: 'plan.review.reason.clash',
-        message: 'moved so it no longer runs into the stop before',
-      });
-    case 'check_fix_closed':
     case 'closed':
       return t({ id: 'plan.review.reason.closed', message: 'moved to when it’s open' });
-    case 'check_fix_too_far':
-      return t({ id: 'plan.review.reason.tooFar', message: 'swapped for somewhere closer' });
     case 'rain':
       return t({ id: 'plan.review.reason.rain', message: 'moved out of the rain' });
     case 'crowds':

@@ -263,16 +263,8 @@ msgid "plan.review.money.million"
 msgstr "M"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.reorder"
-msgstr "moved for a shorter drive"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.rain"
 msgstr "moved out of the rain"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.clash"
-msgstr "moved so it no longer runs into the stop before"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.fix"
@@ -426,10 +418,6 @@ msgstr "Some of this moves a booking or a must-do. Look before you send."
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.swap"
 msgstr "Swap"
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.tooFar"
-msgstr "swapped for somewhere closer"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.failed"

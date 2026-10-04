@@ -104,11 +104,10 @@ describe('whether a change set leaves a plan that holds', () => {
 });
 
 describe('the review in words', () => {
-  it('words the guide’s reason keys and keeps what a person wrote', () => {
-    expect(changeReason('check_fix_reorder')).toBe('moved for a shorter drive');
-    expect(changeReason('undo: check_fix_clash')).toBe(
-      'moved so it no longer runs into the stop before',
-    );
+  it('words the check’s fixes as the check does, the guide’s other keys, and keeps what a person wrote', () => {
+    expect(changeReason('check_fix_reorder')).toBe('new order, less driving');
+    expect(changeReason('undo: check_fix_clash')).toBe('so the drive fits');
+    expect(changeReason('crowds')).toBe('moved to a quieter hour');
     expect(changeReason('some_new_key')).toBe('moved so the day works');
     expect(changeReason('New time')).toBe('New time');
   });

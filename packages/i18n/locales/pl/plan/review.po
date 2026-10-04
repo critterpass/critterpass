@@ -262,15 +262,7 @@ msgid "plan.review.money.million"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.reorder"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.reason.rain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.clash"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
@@ -424,10 +416,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.swap"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.reason.tooFar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
