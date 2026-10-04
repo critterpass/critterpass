@@ -1,7 +1,7 @@
 ---
 phase: 11
 title: Places map and list
-status: pending
+status: in review
 depends_on: [1, 3, 4, 5]
 wave: 3
 screens: [7c-1, 7c-2, 7c-3]

@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: Plan check and its fixers
-status: pending
+status: in progress
 depends_on: [1, 3, 4, 5, 7]
 wave: 4
 screens: [7h-1, 7h-2, 7h-3, 7h-4, 7h-5]
