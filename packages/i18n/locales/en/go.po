@@ -12,6 +12,10 @@ msgid "go.preview.minutes"
 msgstr "{count} min"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.hours"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabEta"
 msgstr "A car about {eta} min away"
 
@@ -19,9 +23,17 @@ msgstr "A car about {eta} min away"
 msgid "go.preview.aboutMinutes"
 msgstr "about {count} min"
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutHours"
+msgstr "about {hours}H{rest}"
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
 msgstr "Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.billion"
+msgstr "B"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 #: ../../apps/mobile/src/features/go/go-screen.tsx
@@ -69,8 +81,16 @@ msgid "go.preview.modeLabel"
 msgstr "How you go"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.thousand"
+msgstr "K"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.noLocation"
 msgstr "Location is off, so there’s no line from you. Start still gives directions."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.million"
+msgstr "M"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.straight"

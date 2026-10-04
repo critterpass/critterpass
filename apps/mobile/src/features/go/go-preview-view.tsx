@@ -5,22 +5,24 @@
  * app) and Ride (Grab). Built from the map kit, the card and the buttons; the lab scenes render
  * it with fixed states.
  */
-import { formatMoney } from '@cp/cost-engine';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Card } from '@/ui/cards/Card';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { compactFareRange, durationParts } from './go-format';
 import { GoMap } from './go-map';
 import type { GoMode, GoPoint, MapsApp } from './maps-handoff';
 import type { GrabRow, ModeMinutes, PreviewState } from './preview-model';
@@ -40,31 +42,41 @@ export interface GoPreviewViewProps {
 }
 
 const useStyles = makeStyles((t) => ({
-  top: { position: 'absolute', top: 0, start: 0, end: 0, paddingHorizontal: t.size.gutter },
+  top: { position: 'absolute', top: 0, start: t.space['16'] },
   foot: { position: 'absolute', bottom: 0, start: 0, end: 0, paddingHorizontal: t.space['12'] },
 }));
 
 function useMinutesLabel() {
   const { t } = useLingui();
-  return ({ minutes: count, approx }: ModeMinutes) =>
-    approx
-      ? t({ id: 'go.preview.aboutMinutes', message: `about ${count} min` })
-      : t({ id: 'go.preview.minutes', message: `${count} min` });
+  return ({ minutes, approx }: ModeMinutes) => {
+    const parts = durationParts(minutes);
+    if (parts.kind === 'minutes') {
+      const count = parts.minutes;
+      return approx
+        ? t({ id: 'go.preview.aboutMinutes', message: `about ${count} min` })
+        : t({ id: 'go.preview.minutes', message: `${count} min` });
+    }
+    const { hours, rest } = parts;
+    return approx
+      ? t({ id: 'go.preview.aboutHours', message: `about ${hours}H${rest}` })
+      : t({ id: 'go.preview.hours', message: `${hours}H${rest}` });
+  };
 }
 
 function GrabLine({ grab, onRide }: { readonly grab: GrabRow; readonly onRide: () => void }) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const money = (minor: number, currency: string) =>
-    formatMoney({ amountMinor: BigInt(minor), currency }, { locale, mode: 'local' });
   let title = t({ id: 'go.preview.grabHere', message: 'Grab runs here' });
   let detail = t({ id: 'go.preview.grabLink', message: 'Opens Grab with the drop-off filled in' });
   if (grab.kind === 'fare') {
-    const low = money(grab.lowMinor, grab.currency);
-    const high = money(grab.highMinor, grab.currency);
+    const fare = compactFareRange(grab, locale, {
+      thousand: t({ id: 'go.preview.money.thousand', message: 'K' }),
+      million: t({ id: 'go.preview.money.million', message: 'M' }),
+      billion: t({ id: 'go.preview.money.billion', message: 'B' }),
+    });
     const eta = grab.etaMin;
-    title = t({ id: 'go.preview.grabFare', message: `Grab ${low}–${high}` });
+    title = t({ id: 'go.preview.grabFare', message: `Grab ${fare}` });
     detail = t({ id: 'go.preview.grabEta', message: `A car about ${eta} min away` });
   }
   return (
@@ -134,7 +146,13 @@ export function GoPreviewView(props: GoPreviewViewProps) {
         bottomInset={CARD_INSET}
       />
       <View style={[styles.top, { paddingTop: insets.top + theme.space['8'] }]}>
-        <BackEyebrow label={t({ id: 'go.preview.back', message: 'Back' })} testID="go-back" />
+        <IconButton
+          label={t({ id: 'go.preview.back', message: 'Back' })}
+          surface="onPhoto"
+          glyph={<StraightArrow direction="back" color={theme.semantic.text.primary} />}
+          onPress={() => router.back()}
+          testID="go-back"
+        />
       </View>
       <View style={[styles.foot, { paddingBottom: insets.bottom + theme.space['12'] }]}>
         <Card testID="go-card">

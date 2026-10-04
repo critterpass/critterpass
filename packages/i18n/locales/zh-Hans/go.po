@@ -12,6 +12,10 @@ msgid "go.preview.minutes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabEta"
 msgstr ""
 
@@ -19,8 +23,16 @@ msgstr ""
 msgid "go.preview.aboutMinutes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutHours"
+msgstr ""
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.billion"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
@@ -69,7 +81,15 @@ msgid "go.preview.modeLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.thousand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.noLocation"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.million"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx

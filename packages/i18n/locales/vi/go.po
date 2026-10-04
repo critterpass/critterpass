@@ -12,6 +12,10 @@ msgid "go.preview.minutes"
 msgstr "{count} phút"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.hours"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabEta"
 msgstr "Xe cách khoảng {eta} phút"
 
@@ -19,9 +23,17 @@ msgstr "Xe cách khoảng {eta} phút"
 msgid "go.preview.aboutMinutes"
 msgstr "~{count} phút"
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutHours"
+msgstr "~{hours}H{rest}"
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
 msgstr "Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.billion"
+msgstr " TỶ"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 #: ../../apps/mobile/src/features/go/go-screen.tsx
@@ -69,8 +81,16 @@ msgid "go.preview.modeLabel"
 msgstr "Cách bạn đi"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.thousand"
+msgstr " N"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.noLocation"
 msgstr "Vị trí đang tắt nên không có đường từ chỗ bạn. Nút Bắt đầu vẫn chỉ đường."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.million"
+msgstr " TR"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.straight"
