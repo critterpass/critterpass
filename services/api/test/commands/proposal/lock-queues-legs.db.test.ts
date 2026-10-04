@@ -1,7 +1,8 @@
 /**
  * Locking a plan in queues its legs, against a migrated Postgres: a crew of one locks the guide's
  * draft in alone, the command appends `proposal.locked` in its transaction, and the api's event
- * hook queues one debounced `plan.legs` run for the trip on the version that became the plan.
+ * hook queues one debounced `plan.legs` run for the trip on the version that became the plan,
+ * and one debounced `plan.check` run for the trip.
  */
 import { onEventAppended, withSystem } from '@cp/db';
 import { generateUuidV7 } from '@cp/domain';
@@ -11,6 +12,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerProposalCommands } from '../../../src/commands/proposal';
 import { startJobProducer } from '../../../src/jobs/producer';
+import { planCheckEventHook } from '../../../src/planning/fit/check-hook';
 import { legsEventHook } from '../../../src/planning/legs';
 import { registerProposalRoutes } from '../../../src/routes/proposals';
 import {
@@ -83,6 +85,7 @@ beforeAll(async () => {
     startAttempts: 5,
   });
   onEventAppended(legsEventHook);
+  onEventAppended(planCheckEventHook);
 });
 
 afterAll(async () => {
@@ -121,5 +124,11 @@ describe('lock_in_plan', () => {
     expect(rows).toEqual([
       { data: { trip_id: trip.tripId, version_id: trip.versionId }, key: `legs:${trip.tripId}` },
     ]);
+    // The plan check too: the lock makes the draft the crew's plan without a new version.
+    const checks = await harness.pool.query<{ data: unknown }>(
+      "SELECT data FROM pgboss.job WHERE name = 'plan.check' AND data ->> 'trip_id' = $1",
+      [trip.tripId],
+    );
+    expect(checks.rows).toEqual([{ data: { trip_id: trip.tripId, trigger: 'plan' } }]);
   });
 });
