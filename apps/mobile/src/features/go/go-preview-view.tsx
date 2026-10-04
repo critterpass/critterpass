@@ -5,7 +5,7 @@
  * app) and Ride (Grab). Built from the map kit, the card and the buttons; the lab scenes render
  * it with fixed states.
  */
-import { formatMoney, type CurrencyCode } from '@cp/cost-engine';
+import { formatMoney } from '@cp/cost-engine';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -57,10 +57,7 @@ function GrabLine({ grab, onRide }: { readonly grab: GrabRow; readonly onRide: (
   const locale = useLocale();
   const { t } = useLingui();
   const money = (minor: number, currency: string) =>
-    formatMoney(
-      { amountMinor: BigInt(minor), currency: currency as CurrencyCode },
-      { locale, mode: 'local' },
-    );
+    formatMoney({ amountMinor: BigInt(minor), currency }, { locale, mode: 'local' });
   let title = t({ id: 'go.preview.grabHere', message: 'Grab runs here' });
   let detail = t({ id: 'go.preview.grabLink', message: 'Opens Grab with the drop-off filled in' });
   if (grab.kind === 'fare') {

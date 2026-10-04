@@ -5,6 +5,7 @@
  * router could not answer, the minutes are straight-line "about" minutes and the line is drawn
  * straight and dashed, never as if it followed the roads.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- states and wire values, never copy. */
 import {
   decodePolyline,
   estimateStraightLineEta,

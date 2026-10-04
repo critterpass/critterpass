@@ -33,23 +33,23 @@ export interface GoPreviewData {
 export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi): GoPreviewData {
   const { db } = useLocalFirst();
   const online = useSyncStatus().phase !== 'offline';
-  const [place, setPlace] = useState<GoPlace | null | undefined>(undefined);
+  const [loaded, setLoaded] = useState<{ key: string; place: GoPlace | null } | null>(null);
   const [locate, setLocate] = useState<LocateState>({ kind: 'locating' });
-  const [route, setRoute] = useState<RouteState>({ kind: 'idle' });
-  const [ride, setRide] = useState<RideState>({ kind: 'none' });
+  const [answers, setAnswers] = useState<{
+    key: string;
+    route: RouteState;
+    ride: RideState;
+  } | null>(null);
   const [picked, setPicked] = useState<GoMode | null>(null);
 
   const targetKey = target === null ? null : JSON.stringify(target);
   useEffect(() => {
-    if (target === null) {
-      setPlace(null);
-      return undefined;
-    }
+    if (target === null || targetKey === null) return undefined;
     let live = true;
     void loadGoPlace(db, target, new Date())
       .catch(() => null)
-      .then((loaded) => {
-        if (live) setPlace(loaded);
+      .then((next) => {
+        if (live) setLoaded({ key: targetKey, place: next });
       });
     return () => {
       live = false;
@@ -57,6 +57,7 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
     // `target` is folded into `targetKey`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [db, targetKey]);
+  const place = target === null ? null : loaded?.key === targetKey ? loaded.place : undefined;
 
   useEffect(() => {
     let live = true;
@@ -69,36 +70,49 @@ export function useGoPreview(target: GoTarget | null, api: GoApi = deviceGoApi):
   }, []);
 
   const here = locate.kind === 'here' ? locate.at : null;
-  const hereKey = here === null ? null : `${here.lat},${here.lng}`;
+  // One ask per place and position; a new key reads as loading until its answers land.
+  const askKey =
+    here === null || !place || !online ? null : `${place.poiId}|${here.lat},${here.lng}`;
   useEffect(() => {
-    if (here === null || !place || !online) return undefined;
+    if (askKey === null || here === null || !place) return undefined;
     let live = true;
-    setRoute({ kind: 'loading' });
+    const merge = (next: Partial<{ route: RouteState; ride: RideState }>) =>
+      setAnswers((was) => ({
+        key: askKey,
+        route: was?.key === askKey ? was.route : { kind: 'loading' },
+        ride: was?.key === askKey ? was.ride : { kind: place.tripId === null ? 'none' : 'loading' },
+        ...next,
+      }));
     void api.routePreview({ from: here, to: place, tripId: place.tripId }).then((outcome) => {
       if (!live) return;
-      setRoute(
-        outcome.kind === 'ok'
-          ? { kind: 'ready', preview: outcome.value }
-          : { kind: outcome.kind === 'offline' ? 'offline' : 'error' },
-      );
+      merge({
+        route:
+          outcome.kind === 'ok'
+            ? { kind: 'ready', preview: outcome.value }
+            : { kind: outcome.kind === 'offline' ? 'offline' : 'error' },
+      });
     });
     if (place.tripId !== null) {
-      setRide({ kind: 'loading' });
       void api
         .rideQuote({ tripId: place.tripId, toPoi: place.poiId, from: here })
         .then((outcome) => {
-          if (live)
-            setRide(
+          if (!live) return;
+          merge({
+            ride:
               outcome.kind === 'ok' ? { kind: 'ready', quote: outcome.value } : { kind: 'none' },
-            );
+          });
         });
     }
     return () => {
       live = false;
     };
-    // `here` is folded into `hereKey`; `api` is fixed per screen.
+    // `here` and `place` are folded into `askKey`; `api` is fixed per screen.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hereKey, place, online]);
+  }, [askKey]);
+  const current = askKey !== null && answers?.key === askKey ? answers : null;
+  const route: RouteState =
+    askKey === null ? { kind: 'idle' } : (current?.route ?? { kind: 'loading' });
+  const ride: RideState = current?.ride ?? { kind: 'none' };
 
   const preview = route.kind === 'ready' ? route.preview : null;
   const straight = here !== null && place ? distanceM(here, place) : null;

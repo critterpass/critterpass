@@ -111,6 +111,7 @@ export function dayOfGo(
 ): GoTarget | null {
   if (!isToday) return null;
   if (leaveBy !== null && leaveBy.placeName !== null) {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a target kind, never copy.
     return { kind: 'leave_by', leaveById: leaveBy.id };
   }
   if (lead === null || lead.kind === 'done' || !lead.poiId) return null;

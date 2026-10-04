@@ -3,6 +3,7 @@
  * allowed it reads a fresh fix (the last known one when that is slow); when the app may still ask,
  * it goes through the shared when-in-use primer first. The fix lives in screen state only.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- permission kinds and states, never copy. */
 import {
   Accuracy,
   getCurrentPositionAsync,
