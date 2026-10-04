@@ -2,26 +2,28 @@
  * Validate, then repair only the days that broke a rule (at most two passes, the broken days in
  * parallel), then drop whatever still breaks one: the drafting job's last model stage. The planner
  * decides what is broken and on which day; the guide only redoes those days. What the planner can
- * finish itself needs no model call (./complete-days.ts): a missing lunch or dinner is added
- * before the first check, and days left thin after the repairs are filled at the end. Last, a
+ * finish itself needs no model call (./complete-days.ts): a missing lunch or dinner is added and
+ * a stop that breaks a rule gives way before the first check, and what the repairs leave broken or thin is settled at the end
+ * (./settle.ts). Last, a
  * line that names a time its stop is not at is taken off, and the first and last stop say what
  * was assumed about arriving and leaving.
  */
 import type { Itinerary } from '@cp/domain';
 import {
-  dropViolations,
   repairTargets,
   withAssumedTravelNotes,
   withHonestNotes,
   type ValidationResult,
 } from '@cp/planner';
 
-import { fillMeals, fillThinDays } from './complete-days';
+import { fillMeals } from './complete-days';
 import type { DraftModel, DraftPlanInput } from './context';
-import { draftOneDay, scheduleChoices } from './day';
-import type { SkeletonDay, SkeletonPlan } from './skeleton';
+import { draftOneDay } from './day';
+import { settle, trimForMustDos } from './settle';
+import type { SkeletonPlan } from './skeleton';
 import { validate } from './validate';
 
+export { trimForMustDos } from './settle';
 export { requiredMustDoIds, validate } from './validate';
 
 export const MAX_REPAIR_LOOPS = 2;
@@ -77,66 +79,6 @@ export function withFinalNotes(
   };
 }
 
-function dayViolations(result: ValidationResult, dayNo: number): number {
-  return result.violations.filter((v) => v.dayNo === dayNo).length;
-}
-
-/**
- * When the repairs are spent, a day that still breaks a rule gives up its other stops before a
- * must-do: stops without a must-do go one at a time (whichever removal fixes the most), and the
- * planner re-times the rest, until the day is clean or only must-dos are left.
- */
-export function trimForMustDos(
-  input: DraftPlanInput,
-  outlines: readonly SkeletonDay[],
-  start: Itinerary,
-  result: ValidationResult,
-): Itinerary {
-  let itinerary = start;
-  const broken = [
-    ...new Set(result.violations.flatMap((v) => (v.dayNo === null ? [] : [v.dayNo]))),
-  ];
-  for (const dayNo of broken) {
-    const outline = outlines.find((d) => d.dayNo === dayNo);
-    if (outline === undefined) continue;
-    let left = dayViolations(validate(input, itinerary), dayNo);
-    for (let round = 0; left > 0; round += 1) {
-      const day = itinerary.days.find((d) => d.day_no === dayNo);
-      if (day === undefined) break;
-      let best: { itinerary: Itinerary; left: number } | null = null;
-      for (const drop of day.items.filter((item) => item.must_do_id === null)) {
-        const choices = day.items
-          .filter((item) => item.stable_id !== drop.stable_id)
-          .map((item) => ({
-            poiId: item.poi_id ?? '',
-            kind: item.kind,
-            mustDoId: item.must_do_id,
-            note: item.note,
-          }));
-        const mustDoIds = day.items.flatMap((item) =>
-          item.must_do_id === null ? [] : [item.must_do_id],
-        );
-        const next = scheduleChoices(
-          input,
-          { ...outline, mustDoIds },
-          choices,
-          `trim-${dayNo}-${round}`,
-        );
-        const candidate = {
-          ...itinerary,
-          days: itinerary.days.map((d) => (d.day_no === dayNo ? { ...next, theme: day.theme } : d)),
-        };
-        const count = dayViolations(validate(input, candidate), dayNo);
-        if (best === null || count < best.left) best = { itinerary: candidate, left: count };
-      }
-      if (best === null || best.left >= left) break;
-      itinerary = best.itinerary;
-      left = best.left;
-    }
-  }
-  return itinerary;
-}
-
 export async function validateAndRepair(
   model: DraftModel,
   input: DraftPlanInput,
@@ -148,6 +90,17 @@ export async function validateAndRepair(
   const fed = fillMeals(input, skeleton.days, drafted);
   let itinerary = fed.itinerary;
   let filled = fed.added;
+  // What a stop leaving puts right needs no model call either: on a day that breaks a rule, stops
+  // without a must-do give way first, and the meal that went with them is filled again.
+  const rough = validate(input, itinerary);
+  if (!rough.ok) {
+    const trimmed = trimForMustDos(input, skeleton.days, itinerary, rough);
+    if (trimmed !== itinerary) {
+      const refed = fillMeals(input, skeleton.days, trimmed);
+      itinerary = refed.itinerary;
+      filled += refed.added;
+    }
+  }
   const first = validate(input, itinerary);
   const passes = [passOf(0, first)];
   let current = first;
@@ -214,24 +167,12 @@ export async function validateAndRepair(
     current = validate(input, itinerary);
     passes.push(passOf(loops, current));
   }
-  if (!current.ok) {
-    itinerary = trimForMustDos(input, skeleton.days, itinerary, current);
-    current = validate(input, itinerary);
-  }
-  let dropped: RepairOutcome['dropped'] = [];
-  if (!current.ok) {
-    const cut = dropViolations(itinerary, current.violations);
-    itinerary = cut.itinerary;
-    dropped = cut.dropped;
-    current = validate(input, itinerary);
-  }
-  // What repairs, trims and drops left short is filled from the day's own lists.
-  for (const fill of [fillMeals, fillThinDays]) {
-    const done = fill(input, skeleton.days, itinerary);
-    itinerary = done.itinerary;
-    filled += done.added;
-  }
-  if (filled > fed.added) current = validate(input, itinerary);
+  // What the guide could not put right, the planner settles: stops give way, then gaps are filled.
+  const settled = settle(input, skeleton.days, itinerary, current, { fillThin: true });
+  itinerary = settled.itinerary;
+  current = settled.final;
+  filled += settled.filled;
+  const { dropped } = settled;
   if (loops > 0 || dropped.length > 0) passes.push(passOf(loops + 1, current));
   const noted = withFinalNotes(input, itinerary);
   return {

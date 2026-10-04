@@ -6,7 +6,7 @@
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { alignStableIds, dayWindow, dropViolations, type ValidationResult } from '@cp/planner';
+import { alignStableIds, dayWindow, type ValidationResult } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -32,7 +32,8 @@ import {
   type RedraftPlanInput,
 } from './redraft-input';
 import { REASON_TEXT, reasonTarget } from './redraft-reasons';
-import { trimForMustDos, validate } from './repair';
+import { validate } from './repair';
+import { settle } from './settle';
 import { proseProblem, REDRAFT_FORMAT, redraftReplySchema } from './schema';
 
 export const REDRAFT_PROMPT_VERSION = 'redraft-day@2';
@@ -53,7 +54,8 @@ const TASK = [
   '  day must differ from the day now (for "slower", fewer activities; never the same list back).',
   '- Use only ids from the lists; never invent one, and never use a place from another day.',
   '- Keep lunch and dinner (kind "meal") whenever the day runs through meal times, whatever the',
-  '  reasons: a slower or lighter day drops activities, never a meal. Pick them from the meal list.',
+  '  reasons: a slower or lighter day drops activities, never a meal. Pick them from the meal list,',
+  '  one place per meal and no place twice; with too few meal places, plan the meals there are.',
   '- Keep the day in one part of the map: stops in the same area or areas listed as near each other.',
   '- Order the stops so each place is open for its whole visit, and stay within the stop limit.',
   '- The note on each stop says why it is there or what changed, in your voice.',
@@ -95,13 +97,20 @@ export function buildRedraftRequest(
     const poi = input.pois.get(id);
     return poi === undefined ? [] : [placeLine(input, poi, day.date, areas.of(poi.id))];
   };
+  const meals = [
+    ...new Set([
+      ...day.items.filter((i) => i.kind === 'meal').map((i) => i.poi_id ?? ''),
+      ...skeleton.mealIds,
+    ]),
+  ].flatMap(place);
   const text = [
     `Destination: ${input.destination}. Day ${day.day_no} of ${input.base.days.length}: ${weekdayOf(day.date)} ${day.date}, now "${day.theme}".`,
     `The day runs ${clockText(window.startMin)}–${clockText(window.endMin)}: at most ${stopBudget(window.endMin - window.startMin)} stops, meals included.`,
     crewLine(input),
     `Reasons: ${input.reasons.map((r) => REASON_TEXT[r]).join('; ') || 'see the organiser note'}.`,
     ...input.reasons.map(
-      (r) => `- ${reasonTarget(r, { day, frame: input.frame, hopCapMin: areas.capMin })}`,
+      (r) =>
+        `- ${reasonTarget(r, { day, frame: input.frame, hopCapMin: areas.capMin, mealsOffered: meals.length > 0 })}`,
     ),
     '',
     '## Areas (places with the same letter are a short ride apart)',
@@ -122,12 +131,9 @@ export function buildRedraftRequest(
     ].flatMap(place),
     '',
     '## Meal places',
-    ...[
-      ...new Set([
-        ...day.items.filter((i) => i.kind === 'meal').map((i) => i.poi_id ?? ''),
-        ...skeleton.mealIds,
-      ]),
-    ].flatMap(place),
+    ...(meals.length > 0
+      ? meals
+      : ['- none that suits the crew is free this day: plan no meal stop, and never invent one']),
     ...(fix.length > 0
       ? ['', '## Your last plan broke these rules; fix them', ...fix.map((f) => `- ${f}`)]
       : []),
@@ -227,23 +233,22 @@ export async function runRedraft(
     });
   }
   if (outcome === undefined) throw new Error('redraft: no reply');
-  let itinerary = withDay(input.base, outcome.day);
-  let final = validate(input, itinerary);
-  if (ownViolations(final, base).some((v) => v.dayNo === input.dayNo)) {
-    itinerary = trimForMustDos(input, [skeleton], itinerary, {
-      ...final,
-      violations: final.violations.filter((v) => v.dayNo === input.dayNo),
-    });
-    final = validate(input, itinerary);
-  }
-  if (ownViolations(final, base).some((v) => v.dayNo === input.dayNo)) {
-    const cut = dropViolations(
-      itinerary,
-      final.violations.filter((v) => v.dayNo === input.dayNo),
-    );
-    itinerary = cut.itinerary;
-    final = validate(input, itinerary);
-  }
+  // What the guide could not put right on the day, the planner settles (stops give way, meals
+  // are filled); the day keeps the ids its stops had.
+  const settled = settle(
+    input,
+    [skeleton],
+    withDay(input.base, outcome.day),
+    validate(input, withDay(input.base, outcome.day)),
+    { dayNo: input.dayNo, fillThin: false },
+  );
+  const itinerary = {
+    ...settled.itinerary,
+    days: settled.itinerary.days.map((d) =>
+      d.day_no === input.dayNo ? alignStableIds(base, d) : d,
+    ),
+  };
+  const final = settled.final;
   const day = itinerary.days.find((d) => d.day_no === input.dayNo) as DraftDay;
   return { ...outcome, day, itinerary, final, unknownIds, proseRejected };
 }

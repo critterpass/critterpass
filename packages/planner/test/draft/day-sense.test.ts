@@ -13,6 +13,7 @@ import {
   dayWindow,
   hopCapMin,
   longHops,
+  longRideMin,
   placeTime,
   placeWindow,
   roadBudgetMin,
@@ -103,7 +104,13 @@ const stop = (poi: DraftPoi, kind: DayChoice['kind'] = 'activity'): DayChoice =>
   note: null,
 });
 
-function drafted(dayIndex: number, choices: readonly DayChoice[], frame = FRAME): Itinerary {
+/** The day as the planner times it: in its best order, or (`asGiven`) in the order given. */
+function drafted(
+  dayIndex: number,
+  choices: readonly DayChoice[],
+  frame = FRAME,
+  asGiven = false,
+): Itinerary {
   const window = dayWindow(frame, dayIndex);
   const input = {
     date: frame.dates[dayIndex] as string,
@@ -112,7 +119,9 @@ function drafted(dayIndex: number, choices: readonly DayChoice[], frame = FRAME)
     window,
     travel: NEAR,
   };
-  const order = bestOrder({ ...input, hopCapMin: 40 }).order;
+  const order = asGiven
+    ? choices.map((_, index) => index)
+    : bestOrder({ ...input, hopCapMin: 40 }).order;
   let next = 0;
   const day = scheduleDay({
     ...input,
@@ -153,11 +162,23 @@ describe('the hop cap', { timeout: 60_000 }, () => {
     expect(hopCapMin(tight, spaced(8))).toBe(48);
   });
 
-  it('flags a ride over the cap, but not the ride to the first stop of the day', () => {
-    const travel = line({ a: 0, b: 10, far: 70 });
+  it('flags a ride too long for the day, but not the ride to the first stop of the day', () => {
+    const travel = line({ a: 0, b: 10, far: 90 });
     expect(longHops(['far', 'a', 'b'], travel, 40).map((hop) => hop.index)).toEqual([1]);
     expect(longHops(['a', 'b'], travel, 40)).toEqual([]);
-    expect(longHops(['a', 'b', 'far'], travel, 40)).toEqual([{ index: 2, over: 20 }]);
+    expect(longHops(['a', 'b', 'far'], travel, 40)).toEqual([{ index: 2, over: 40 }]);
+  });
+
+  it('lets a day change its part of the map once, and only once', () => {
+    expect(longRideMin(40)).toBe(60);
+    // A morning out, one 55-minute ride back to town, then stops in town.
+    const once = line({ peninsula: 0, lookout: 8, lunch: 63, museum: 70, dinner: 75 });
+    expect(longHops(['peninsula', 'lookout', 'lunch', 'museum', 'dinner'], once, 40)).toEqual([]);
+    // Out again after lunch: the second long ride is the hop too far.
+    const twice = line({ peninsula: 0, lunch: 50, lookout: 100, dinner: 108 });
+    expect(
+      longHops(['peninsula', 'lunch', 'lookout', 'dinner'], twice, 40).map((hop) => hop.index),
+    ).toEqual([2]);
   });
 
   it('flags the stop that sends the crew out and back between two stops that sit together', () => {
@@ -223,13 +244,17 @@ describe('a drafted day', () => {
   });
 
   it('is told when a lunch across the map sits between two stops in town', () => {
-    const plan = drafted(1, [
+    const stops = [
       stop(P.museum),
       stop(P.farLunch, 'meal'),
       stop(P.pagoda),
       stop(P.dinner, 'meal'),
-    ]);
-    expect(codes(plan)).toContain('LONG_HOP');
+    ];
+    expect(codes(drafted(1, stops, FRAME, true))).toContain('LONG_HOP');
+    // Left to order the day, the planner has that lunch open the day instead: no ride out and back.
+    const reordered = drafted(1, stops);
+    expect(names(reordered)[0]).toBe(P.farLunch.name);
+    expect(codes(reordered)).toEqual([]);
   });
 
   it('is told when a place comes twice', () => {

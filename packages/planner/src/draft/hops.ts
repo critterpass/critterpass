@@ -3,16 +3,25 @@
  * from the one before it, or a stop that sends the crew out and back between two stops that sit
  * together (a lunch across the island between two museums in town), is a hop too far. How long is
  * too long comes from the destination itself: three times the usual spacing of the places we may
- * plan with, never under forty minutes. The ride to the day's first stop is not a hop: a day trip
- * is where the day is spent, not a detour from it. And the rides of a day together stay under a
- * road budget (twice the cap, never under two hours): a day of rides that each pass is still a
- * day spent on the road.
+ * plan with, never under forty minutes. One longer ride a day is fine (a morning out at the
+ * peninsula, then back to town for lunch and the afternoon), up to half as long again; a second
+ * one makes a day of zigzags. The ride to the day's first stop is not a hop: a day trip is where
+ * the day is spent, not a detour from it. And the rides of a day together stay under a road
+ * budget (twice the cap, never under two hours): a day of rides that each pass is still a day
+ * spent on the road.
  */
 import type { DraftPoi, TravelMatrix } from './types';
 
 const MIN_HOP_CAP_MIN = 40;
 const MAX_HOP_CAP_MIN = 120;
 const MIN_ROAD_BUDGET_MIN = 120;
+/** The one longer ride a day may have, as a share of the cap. */
+const LONG_RIDE_SHARE = 1.5;
+
+/** The longest the day's one longer ride may be. */
+export function longRideMin(capMin: number): number {
+  return Math.round(capMin * LONG_RIDE_SHARE);
+}
 
 /** The most minutes a day's rides between its stops may add up to. */
 export function roadBudgetMin(capMin: number): number {
@@ -57,9 +66,9 @@ export interface Hop {
 
 /**
  * The stops of a day (in visiting order) that are a hop too far: a detour of more than the cap
- * between two stops that are closer to each other, or a ride of more than the cap. When the rides
- * left still add up to more than the road budget, the stops that cost the most riding are too far
- * as well, until the rest fits.
+ * between two stops that are closer to each other, a ride longer than the day's one long ride may
+ * be, or a second ride over the cap. When the rides left still add up to more than the road
+ * budget, the stops that cost the most riding are too far as well, until the rest fits.
  */
 export function longHops(
   poiIds: readonly (string | null)[],
@@ -72,6 +81,7 @@ export function longHops(
     return from == null || to == null ? 0 : (travel(from, to) ?? 0);
   };
   const found: Hop[] = [];
+  let longRides = 0;
   for (let i = 1; i < poiIds.length; i += 1) {
     const leg = ride(i - 1, i);
     const detour = i + 1 < poiIds.length ? leg + ride(i, i + 1) - ride(i - 1, i + 1) : 0;
@@ -79,7 +89,11 @@ export function longHops(
       found.push({ index: i, over: Math.round(detour - capMin) });
       continue;
     }
-    if (leg > capMin) found.push({ index: i, over: Math.round(leg - capMin) });
+    if (leg <= capMin) continue;
+    longRides += 1;
+    if (leg > longRideMin(capMin) || longRides > 1) {
+      found.push({ index: i, over: Math.round(leg - capMin) });
+    }
   }
   return [
     ...found,

@@ -9,7 +9,7 @@
 import type { DraftItem } from '@cp/domain';
 
 import { foodRole, sameDish } from './food-role';
-import { longHops, withinReach } from './hops';
+import { longHops, longRideMin, withinReach } from './hops';
 import {
   DINNER,
   DINNER_LAST_START_MIN,
@@ -120,7 +120,7 @@ function missingMeals(
         !used.has(place.id) &&
         mealSlots(place, day.date).includes(slot) &&
         (input.hopCapMin === undefined ||
-          withinReach(place.id, here, input.travel, input.hopCapMin)),
+          withinReach(place.id, here, input.travel, longRideMin(input.hopCapMin))),
     );
     return possible ? [{ code: 'MEAL_MISSING', dayNo: day.dayNo, stableId: null, slot }] : [];
   });

@@ -11,6 +11,7 @@ import {
   DINNER,
   dayWindow,
   foodRole,
+  longRideMin,
   mealSlots,
   mealsInWindow,
   minuteOfDate,
@@ -50,6 +51,20 @@ function longestHole(input: DraftPlanInput, day: DraftDay, window: DayWindow): n
   return Math.max(longest, Math.min(window.endMin, DINNER.startMin) - at);
 }
 
+/** Of `places`, those beside the day's stops, then those the day's one longer ride can reach. */
+function nearFirst(
+  input: DraftPlanInput,
+  places: readonly DraftPoi[],
+  here: readonly string[],
+): DraftPoi[] {
+  const cap = hopCap(input);
+  const beside = places.filter((poi) => withinReach(poi.id, here, input.travel, cap));
+  const further = places.filter(
+    (poi) => !beside.includes(poi) && withinReach(poi.id, here, input.travel, longRideMin(cap)),
+  );
+  return [...beside, ...further];
+}
+
 function choicesOf(day: DraftDay): DayChoice[] {
   return day.items.map((item) => ({
     poiId: item.poi_id ?? '',
@@ -64,8 +79,19 @@ function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
   return line !== null && proseProblem(line, 200, placeNames(input)) === null ? line : null;
 }
 
-function dayFaults(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): number {
-  return validate(input, itinerary).violations.filter((v) => v.dayNo === dayNo).length;
+/** What a day breaks: `hard` rules, and `meals` it runs through without one. */
+interface Faults {
+  readonly hard: number;
+  readonly meals: number;
+}
+
+function dayFaults(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): Faults {
+  // Rules of the whole trip (the budget) count with the day's: a stop added must not break them.
+  const own = validate(input, itinerary).violations.filter(
+    (v) => v.dayNo === dayNo || v.dayNo === null,
+  );
+  const meals = own.filter((v) => v.code === 'MEAL_MISSING').length;
+  return { hard: own.length - meals, meals };
 }
 
 interface Attempt {
@@ -82,13 +108,15 @@ function addOne(
   outline: SkeletonDay,
   itinerary: Itinerary,
   candidates: readonly DraftPoi[],
-  accept: (before: number, after: number, next: DraftDay) => boolean,
+  accept: (before: Faults, after: Faults, next: DraftDay) => boolean,
   key: string,
   finish: (candidate: Itinerary) => Itinerary = (candidate) => candidate,
+  /** What the day broke before anything was taken off it (default: what `itinerary` breaks). */
+  baseline?: Faults,
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
-  const before = dayFaults(input, itinerary, outline.dayNo);
+  const before = baseline ?? dayFaults(input, itinerary, outline.dayNo);
   for (const poi of candidates) {
     const choices = [
       ...choicesOf(day),
@@ -118,7 +146,11 @@ function addOne(
   return null;
 }
 
-/** Gives every day the lunch and dinner it is missing, from the meal places near it. */
+/**
+ * Gives every day the lunch and dinner it is missing, from the meal places near it. On a day too
+ * full to take the meal, an activity nobody asked for gives way to it (the last one first): a
+ * crew that skips lunch for one more museum has a worse day.
+ */
 export function fillMeals(
   input: DraftPlanInput,
   outlines: readonly SkeletonDay[],
@@ -127,33 +159,61 @@ export function fillMeals(
   let itinerary = start;
   let added = 0;
   for (const outline of outlines) {
-    for (let round = 0; round < 2; round += 1) {
+    const tried = new Set<string>();
+    for (;;) {
       const missing = validate(input, itinerary).violations.find(
-        (v) => v.code === 'MEAL_MISSING' && v.dayNo === outline.dayNo,
+        (v) =>
+          v.code === 'MEAL_MISSING' &&
+          v.dayNo === outline.dayNo &&
+          v.slot !== undefined &&
+          !tried.has(v.slot),
       );
       const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
       if (missing?.slot === undefined || day === undefined) break;
       const slot = missing.slot;
+      tried.add(slot);
       const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
       const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
       const listed = outline.mealIds
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);
-      const nearby = input.pools.eateries.filter((poi) =>
-        withinReach(poi.id, here, input.travel, hopCap(input)),
-      );
+      const nearby = nearFirst(input, input.pools.eateries, here);
       const candidates = [...new Set([...listed, ...nearby])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
       );
-      const next = addOne(
-        input,
-        outline,
-        itinerary,
-        candidates.slice(0, 12),
-        (before, after) => after < before,
-        `meal-${outline.dayNo}-${round}`,
-      );
-      if (next === null) break;
+      // The meal lands and nothing else breaks for it.
+      const lands = (before: Faults, after: Faults) =>
+        after.hard <= before.hard && after.meals < before.meals;
+      const key = `meal-${outline.dayNo}-${slot}`;
+      let next = addOne(input, outline, itinerary, candidates.slice(0, 12), lands, key);
+      if (next === null) {
+        const baseline = dayFaults(input, itinerary, outline.dayNo);
+        const giveWay = day.items
+          .filter((item) => item.must_do_id === null && item.kind === 'activity')
+          .reverse();
+        for (const item of giveWay) {
+          const lighter = {
+            ...itinerary,
+            days: itinerary.days.map((d) =>
+              d.day_no === outline.dayNo
+                ? { ...d, items: d.items.filter((i) => i.stable_id !== item.stable_id) }
+                : d,
+            ),
+          };
+          next = addOne(
+            input,
+            outline,
+            lighter,
+            candidates.slice(0, 6),
+            lands,
+            `${key}-for-${item.stable_id}`,
+            undefined,
+            baseline,
+          );
+          if (next !== null) break;
+        }
+      }
+      if (next === null) continue;
       itinerary = next;
       added += 1;
     }
@@ -184,12 +244,13 @@ export function fillThinDays(
       const thin = day.items.length < target;
       if (!thin && hole < HOLE_MIN) break;
       const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
-      const nearby = input.pools.activities
-        .filter(
-          (poi) =>
-            (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo) &&
-            withinReach(poi.id, here, input.travel, hopCap(input)),
-        )
+      const nearby = nearFirst(
+        input,
+        input.pools.activities.filter((poi) =>
+          (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo),
+        ),
+        here,
+      )
         .slice(0, NEARBY_TRIED)
         .map((poi) => poi.id);
       const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
@@ -209,7 +270,9 @@ export function fillThinDays(
         itinerary,
         candidates,
         (before, after, filled) =>
-          after <= before && (thin || longestHole(input, filled, window) < hole),
+          after.hard <= before.hard &&
+          after.meals <= before.meals &&
+          (thin || longestHole(input, filled, window) < hole),
         `fill-${outline.dayNo}-${round}`,
         // A new stop can bring a meal place within reach: the day gets that meal with it.
         (candidate) => fillMeals(input, [outline], candidate).itinerary,

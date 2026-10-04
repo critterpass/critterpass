@@ -7,6 +7,7 @@
 import type { DraftDay } from '@cp/domain';
 import {
   dayWindow,
+  longRideMin,
   mealSlots,
   mealsInWindow,
   minuteOfDate,
@@ -27,11 +28,12 @@ import {
   weekdayOf,
   type DraftPlanInput,
 } from './context';
+import { hopCap } from './areas';
 import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@2';
+export const DAY_PROMPT_VERSION = 'draft-day@3';
 
 const TASK = [
   '# Task',
@@ -51,7 +53,9 @@ const TASK = [
   '  morning places, lunch, the afternoon, sunset and evening places, dinner, after-dark places last.',
   '  Each stop must start before its "start by" time; leave out what does not fit.',
   '- Stay within the stop limit and keep neighbouring stops close together. A place marked as a long',
-  "  way from the day's other places is a detour: leave it out unless it is a must-do.",
+  "  way from the day's other places is a detour: leave it out unless it is a must-do. A day may",
+  '  change its part of the map once (a morning out, then back to town), never twice. Never use a',
+  '  place marked too far for this day; pick the meal places nearest the stops around them.',
   '- Each note is one short line in your voice about the place itself: what to see, eat or do there.',
   '  Words only: no numbers, times, prices, digits or links. Do not name a meal or a time of day in a',
   '  note (breakfast, lunch, dinner, morning, tonight, after dark) unless the list marks the stop for',
@@ -95,6 +99,9 @@ function lists(input: DraftPlanInput, context: DayContext): string[] {
       .map((a) => input.travel(a, id))
       .filter((m): m is number => m !== null);
     const nearest = legs.length === 0 ? 0 : Math.min(...legs);
+    if (nearest > longRideMin(hopCap(input))) {
+      return ` | too far for this day: about ${nearest} min from its other places`;
+    }
     return nearest > 30 ? ` | a long way: about ${nearest} min from the day's other places` : '';
   };
   const line = (id: string) => {

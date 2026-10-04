@@ -1579,7 +1579,8 @@
         "must_do": 0,
         "place_ids": ["01a1053c-38c1-7f29-ae9a-963cb786e38b"]
       }
-    ]
+    ],
+    "expect_full_days": true
   },
   {
     "id": "danang-real-1",
@@ -1612,7 +1613,8 @@
         ],
         "start_by": "10:30"
       }
-    ]
+    ],
+    "expect_full_days": true
   },
   {
     "id": "bali-real-1",
@@ -1652,6 +1654,7 @@
           "01a0edd4-48b4-782f-a7a6-452fc1161539"
         ]
       }
-    ]
+    ],
+    "expect_full_days": true
   }
 ]

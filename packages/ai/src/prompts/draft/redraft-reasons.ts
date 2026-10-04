@@ -39,6 +39,8 @@ export interface ReasonContext {
   readonly frame: TripFrame;
   /** The longest ride between two stops the planner allows on a day. */
   readonly hopCapMin: number;
+  /** Whether any meal place is offered for the day (none may suit the crew's diets). */
+  readonly mealsOffered: boolean;
 }
 
 /** What each reason asks of the new day, measured against the day as it stands. */
@@ -47,7 +49,9 @@ export function reasonTarget(reason: RedraftReasonKey, context: ReasonContext): 
   const activities = day.items.filter((item) => item.kind === 'activity').length;
   const food = day.items.filter((item) => item.kind === 'meal').length;
   const fewer = `at most ${Math.max(1, activities - 1)} activities (the day has ${activities} now)`;
-  const meals = 'Lunch and dinner stay: a day with fewer stops still eats.';
+  const meals = context.mealsOffered
+    ? 'Lunch and dinner stay: a day with fewer stops still eats.'
+    : 'No meal place is offered for this day: plan no meal stop.';
   switch (reason) {
     case 'slower':
       return `Slower means ${fewer}. ${meals}`;

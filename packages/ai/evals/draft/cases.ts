@@ -8,7 +8,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { Itinerary } from '@cp/domain';
+import { redraftReasonKeySchema, type Itinerary } from '@cp/domain';
 import {
   candidatePools,
   dayWindow,
@@ -19,6 +19,7 @@ import {
   stopKind,
   straightLineMatrix,
   timeWords,
+  visitOrder,
   withOpenDataDefaults,
   type DayChoice,
   type DraftPoi,
@@ -103,6 +104,8 @@ export const crewCaseSchema = z.object({
   expect_must_dos: z
     .array(z.object({ must_do: z.int().min(0), place_ids: z.array(z.uuid()).min(1) }))
     .default([]),
+  /** Every day between the first and last must have lunch, dinner and at least four stops. */
+  expect_full_days: z.boolean().default(false),
 });
 export type CrewCase = z.infer<typeof crewCaseSchema>;
 
@@ -110,9 +113,7 @@ export const redraftCaseSchema = z.object({
   id: z.string(),
   crew: z.string(),
   day: z.int().positive(),
-  reasons: z.array(
-    z.enum(['slower', 'cheaper', 'less_train', 'more_food', 'swap_it_out', 'surprise_me']),
-  ),
+  reasons: z.array(redraftReasonKeySchema),
   note: z.string().nullable(),
   chat: z.array(z.object({ author: z.string(), text: z.string() })),
 });
@@ -130,6 +131,11 @@ export const CITIES = {
 export const CREWS = load('crews.json', z.array(crewCaseSchema));
 export const INJECTION_DRAFTS = load('injection-drafts.json', z.array(crewCaseSchema));
 export const REDRAFTS = load('redrafts.json', z.array(redraftCaseSchema));
+
+/** The id a case's `i`th picked must-do has. */
+export function mustDoId(crew: Pick<CrewCase, 'id'>, i: number): string {
+  return derivedUuid(`${crew.id}:must_do:${i}`);
+}
 
 /** The id a case's `i`th typed wish has (also its must-do id). */
 export function wishId(crew: Pick<CrewCase, 'id'>, i: number): string {
@@ -206,7 +212,7 @@ export function planInput(
     budgetPpMinor: crew.budget_days_pp_minor,
     mustDos: [
       ...crew.must_dos.map((m, i) => ({
-        id: derivedUuid(`${crew.id}:must_do:${i}`),
+        id: mustDoId(crew, i),
         ownerId: members[m.owner] ?? (members[0] as string),
         // Planned at the well-known row of the same spot, the way the draft job does.
         poiId: mustDoRows.get(m.poi_id) ?? m.poi_id,
@@ -297,11 +303,13 @@ export function baselineItinerary(input: DraftPlanInput): Itinerary {
       });
       used.add(meal.id);
     }
+    // In the order the planner would visit them (an after-dark must-do last, not first).
+    const order = visitOrder({ date, choices, pois: input.pois, window, travel: input.travel });
     return scheduleDay({
       dayNo: index + 1,
       date,
       theme: `Day in ${input.destination.split(',')[0] ?? 'town'}`,
-      choices,
+      choices: order.map((at) => choices[at] as DayChoice),
       pois: input.pois,
       window,
       travel: input.travel,
