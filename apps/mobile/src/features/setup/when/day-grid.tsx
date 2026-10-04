@@ -26,6 +26,8 @@ const HOLD_MS = 220;
 const SWIPE_PT = 48;
 const SWIPE_SPEED = 600;
 const SETTLE_MS = tokens.motion.duration.fast;
+/** How far (pt) a band segment overlaps the next slot's. */
+const SEAM = 1;
 
 export interface BandEdges {
   readonly first: boolean;
@@ -65,7 +67,14 @@ const useStyles = makeStyles((th) => ({
   week: { flexDirection: 'row' },
   slot: { flex: 1, padding: th.space['2'] },
   weekday: { alignItems: 'center', paddingBottom: th.space['2'] },
-  band: { position: 'absolute', top: th.space['2'], bottom: th.space['2'], start: 0, end: 0 },
+  // Each segment reaches a hair into its neighbours, so fractional slot widths never leave a seam.
+  band: {
+    position: 'absolute',
+    top: th.space['2'],
+    bottom: th.space['2'],
+    start: -SEAM,
+    end: -SEAM,
+  },
   first: {
     start: th.space['2'],
     borderTopStartRadius: th.radius.sm,
