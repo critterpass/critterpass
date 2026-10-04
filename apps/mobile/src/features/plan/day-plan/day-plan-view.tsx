@@ -179,7 +179,6 @@ export function DayPlanView(props: DayPlanViewProps) {
                 me: model.me,
                 guide: model.guide,
                 notes: true,
-                go: 'all',
                 picked: props.picked,
                 titleOf: (id) => titles.get(id) ?? '',
                 onOpenStop: (row) => props.onOpenStop(row.stop.stableId),
