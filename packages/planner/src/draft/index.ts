@@ -41,12 +41,8 @@ export {
   DEFAULT_DEPARTURE_MIN,
   defaultDurationMin,
   DEPARTURE_BUFFER_MIN,
-  DINNER,
   GRID_MIN,
   instantAt,
-  LUNCH,
-  LUNCH_BEFORE_MIN,
-  mealSlotAt,
   minuteOfDate,
   scheduleDay,
   stopPriceMinor,
@@ -56,13 +52,41 @@ export {
 export {
   bestOrder,
   MAX_SEARCHED_STOPS,
-  mealSlots,
-  mealsInWindow,
   spansOn,
   visitOrder,
   type PlannedOrder,
   type SequenceInput,
 } from './sequence';
+export { dishOf, foodRole, sameDish, stopKind, type FoodRole } from './food-role';
+export { hopCapMin, longHops, withinReach, type Hop } from './hops';
+export {
+  BREAKFAST,
+  DINNER,
+  DINNER_LAST_START_MIN,
+  LUNCH,
+  LUNCH_LAST_START_MIN,
+  mealAt,
+  mealSlotAt,
+  mealSlots,
+  mealsInWindow,
+  type MealSlot,
+} from './meal-slots';
+export {
+  ASSUMED_ARRIVAL_NOTE,
+  ASSUMED_DEPARTURE_NOTE,
+  noteNamesAnotherTime,
+  withAssumedTravelNotes,
+  withHonestNotes,
+  type HonestNotes,
+} from './note-sense';
+export {
+  placeTime,
+  placeWindow,
+  sunsetMin,
+  timeOfDayWindow,
+  type PlaceTime,
+  type PlaceWindow,
+} from './place-time';
 export { straightLineMatrix } from './travel';
 export type {
   Chronotype,

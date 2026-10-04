@@ -1,0 +1,114 @@
+/**
+ * The guide writes its line about a stop before the planner times it, so a line can name a meal or
+ * a time of day the stop did not get ("for dinner" on a stop at four, "after dark" before sunset).
+ * Once the day is timed, a line that names a time the stop is not at is taken off: no line reads
+ * better than a wrong one. And where the planner assumed when the crew arrives or leaves (no
+ * flight or bus known yet), the first and last stop say so, so the organiser knows why the day is
+ * the length it is and how to change it.
+ */
+import type { DraftDay, Itinerary } from '@cp/domain';
+
+import { nameTokens } from './place-names';
+import { sunsetMin } from './place-time';
+import { minuteOfDate } from './schedule-day';
+import type { DraftPoi, TripFrame } from './types';
+
+type Fits = (startMin: number, sunset: number) => boolean;
+
+/** Words a line may use only when the stop starts in their part of the day. */
+const TIME_WORDS: readonly (readonly [readonly string[], Fits])[] = [
+  [['breakfast'], (start) => start < 10 * 60 + 30],
+  [['morning'], (start) => start < 12 * 60],
+  [['lunch', 'lunchtime', 'midday', 'noon'], (start) => start >= 11 * 60 && start <= 14 * 60 + 30],
+  [['afternoon'], (start) => start >= 12 * 60 && start < 18 * 60],
+  [['dinner', 'supper'], (start) => start >= 17 * 60 + 30],
+  [['sunset', 'dusk'], (start, sunset) => start >= sunset - 120 && start <= sunset + 15],
+  [['evening'], (start) => start >= 16 * 60 + 30],
+  [
+    ['night', 'nightcap', 'tonight', 'midnight', 'nightfall'],
+    (start, sunset) => start >= sunset + 15,
+  ],
+];
+const NIGHT = TIME_WORDS[TIME_WORDS.length - 1]?.[1] as Fits;
+
+/** "Before dinner" and "after lunch" say when the stop is not. */
+const RELATIVE = new Set(['before', 'after', 'until', 'till', 'post', 'pre']);
+
+/** Whether a line names a meal or a time of day that a stop starting at `startMin` is not at. */
+export function noteNamesAnotherTime(note: string, startMin: number, sunset: number): boolean {
+  const tokens = nameTokens(note);
+  return tokens.some((token, index) => {
+    const previous = tokens[index - 1] ?? '';
+    // "After dark" is the night itself; any other "before …" or "after …" points away from it.
+    if (token === 'dark') return previous === 'after' && !NIGHT(startMin, sunset);
+    if (RELATIVE.has(previous)) return false;
+    const rule = TIME_WORDS.find(([words]) => words.includes(token));
+    return rule !== undefined && !rule[1](startMin, sunset);
+  });
+}
+
+export interface HonestNotes {
+  readonly itinerary: Itinerary;
+  /** Lines taken off because they named a time the stop is not at. */
+  readonly removed: number;
+}
+
+export function withHonestNotes(
+  itinerary: Itinerary,
+  pois: ReadonlyMap<string, DraftPoi>,
+  tz: string,
+): HonestNotes {
+  let removed = 0;
+  const days = itinerary.days.map((day) => ({
+    ...day,
+    items: day.items.map((item) => {
+      const poi = item.poi_id === null ? undefined : pois.get(item.poi_id);
+      if (item.note === null || poi === undefined) return item;
+      const start = minuteOfDate(new Date(item.starts_at), day.date, tz);
+      if (!noteNamesAnotherTime(item.note, start, sunsetMin(poi, day.date))) return item;
+      removed += 1;
+      return { ...item, note: null };
+    }),
+  }));
+  return { itinerary: { ...itinerary, days }, removed };
+}
+
+export const ASSUMED_ARRIVAL_NOTE =
+  'I assumed you arrive around midday. Add your flight or bus, ask me to redo this day, and I will time it to fit.';
+export const ASSUMED_DEPARTURE_NOTE =
+  'I assumed you leave in the late afternoon. Add your flight or bus, ask me to redo this day, and I will time it to fit.';
+
+const NOTE_MAX = 240;
+
+function withLine(note: string | null, line: string): string {
+  if (note === null || note.includes(line)) return line;
+  const joined = `${note} ${line}`;
+  return joined.length <= NOTE_MAX ? joined : line;
+}
+
+/**
+ * Says what the planner assumed where no arrival or departure is known: on the first stop of the
+ * first day and the last stop of the last day (a one-stop trip says the departure only).
+ */
+export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): Itinerary {
+  const first = frame.dates[0];
+  const last = frame.dates[frame.dates.length - 1];
+  const mark = (day: DraftDay): DraftDay => {
+    const at = { arrival: -1, departure: -1 };
+    if (frame.arrivalMin === null && day.date === first) at.arrival = 0;
+    if (frame.departureMin === null && day.date === last) at.departure = day.items.length - 1;
+    if (at.arrival === at.departure) at.arrival = -1;
+    if (at.arrival < 0 && at.departure < 0) return day;
+    return {
+      ...day,
+      items: day.items.map((item, index) =>
+        index === at.arrival
+          ? { ...item, note: withLine(item.note, ASSUMED_ARRIVAL_NOTE) }
+          : index === at.departure
+            ? { ...item, note: withLine(item.note, ASSUMED_DEPARTURE_NOTE) }
+            : item,
+      ),
+    };
+  };
+  return { ...itinerary, days: itinerary.days.map(mark) };
+}

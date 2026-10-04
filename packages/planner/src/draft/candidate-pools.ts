@@ -5,6 +5,12 @@
  * suit every diet in the crew. Places closed on every trip date never make a list. The guide sees
  * only these ids, so it cannot pick a place we do not know.
  *
+ * What a food place is for decides its list (./food-role): only places that serve a meal are meal
+ * places, whatever kind our set files them under; cafés and snack stalls are breaks, and a few of
+ * them (one per day of the trip) sit among the activities. A day a place can go on is one that
+ * holds the time of day the place is for (./place-time) or a meal it serves: a bar is never
+ * offered to the morning of the flight home.
+ *
  * Hundreds of curated places tie on that score, and only a few dozen fit a list, so what breaks
  * the tie decides the trip. It is never the alphabet: one row per place first (the curated set
  * lists some places several times), then the places listed most often, then a spread across
@@ -16,6 +22,9 @@
  * other places a point or two, and without this the sights a city is known for would lose their
  * seats to them unless somebody typed their names.
  */
+import { foodRole } from './food-role';
+import { mealSlots, mealsInWindow } from './meal-slots';
+import { placeWindow } from './place-time';
 import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
@@ -56,7 +65,10 @@ export interface CandidatePools {
     readonly reason: 'unknown_place' | 'closed';
   }[];
   readonly activities: readonly DraftPoi[];
+  /** The best meal places across the destination. */
   readonly meals: readonly DraftPoi[];
+  /** Every meal place that suits the crew, best first: each day's own list is cut from these. */
+  readonly eateries: readonly DraftPoi[];
   /** Days (numbers) each pooled place can be visited on. */
   readonly openDays: ReadonlyMap<string, readonly number[]>;
 }
@@ -72,21 +84,32 @@ export interface CandidatePoolsInput {
   readonly ignoreNames?: readonly (readonly string[])[];
 }
 
+/** Meal places ranked for a trip (each day's list is the nearest of these). */
+const MAX_EATERIES = 160;
+
 /** About a kilometre of city: places in one cell are neighbours. */
 const CELL_DEG = 0.01;
 const cellOf = (poi: DraftPoi) =>
   `${Math.floor(poi.lat / CELL_DEG)}:${Math.floor(poi.lng / CELL_DEG)}`;
 
-/** A place can go on a day when a whole visit fits inside both its hours and the day's window. */
-function openOnDay(poi: DraftPoi, frame: TripFrame, index: number): boolean {
+/**
+ * A place can go on a day when a whole visit fits inside both its hours and the day's window;
+ * with `timed`, also at the time of day the place is for, or at a meal it serves.
+ */
+function openOnDay(poi: DraftPoi, frame: TripFrame, index: number, timed: boolean): boolean {
   const date = frame.dates[index] as string;
   if (closedOn(frame, poi, date) === 'poi') return false;
   const window = dayWindow(frame, index);
-  return spansOn(poi.hours, date).some(
-    (span) =>
-      Math.max(window.startMin, ceilGrid(span.start)) + ceilGrid(poi.durationMin) <=
-      Math.min(window.endMin, span.end),
-  );
+  const visit = ceilGrid(poi.durationMin);
+  const own = timed ? placeWindow(poi, date) : null;
+  if (timed && foodRole(poi) === 'meal') {
+    const served = mealSlots(poi, date);
+    if (!mealsInWindow(window).some((slot) => served.includes(slot))) return false;
+  }
+  return spansOn(poi.hours, date).some((span) => {
+    const start = Math.max(window.startMin, ceilGrid(span.start), own?.fromMin ?? 0);
+    return start + visit <= Math.min(window.endMin, span.end) && start <= (own?.toMin ?? start);
+  });
 }
 
 function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): number {
@@ -178,11 +201,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   const { frame } = input;
   const byId = new Map(input.pois.map((poi) => [poi.id, poi]));
   const openDays = new Map<string, number[]>();
+  const mustDoPlaces = new Set(frame.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])));
+  const daysOpen = (poi: DraftPoi, timed: boolean) =>
+    frame.dates.flatMap((_, index) => (openOnDay(poi, frame, index, timed) ? [index + 1] : []));
   for (const poi of input.pois) {
-    const days = frame.dates.flatMap((_, index) =>
-      openOnDay(poi, frame, index) ? [index + 1] : [],
-    );
-    if (days.length > 0) openDays.set(poi.id, days);
+    const days = daysOpen(poi, true);
+    // A must-do is planned even when no day gives its place its time of day.
+    const open = days.length === 0 && mustDoPlaces.has(poi.id) ? daysOpen(poi, false) : days;
+    if (open.length > 0) openDays.set(poi.id, open);
   }
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
@@ -220,19 +246,26 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     wellKnown: 0,
   };
   const activityLimit = Math.min(48, Math.max(24, days * 6));
-  const activities = pick(
-    open.filter(
-      (poi) => poi.category !== 'food' && poi.category !== 'stay' && poi.category !== 'transit',
-    ),
-    activityLimit,
-    { ...ranking, wellKnown: Math.floor(activityLimit / 3) },
+  const sights = open.filter(
+    (poi) => foodRole(poi) === null && poi.category !== 'stay' && poi.category !== 'transit',
   );
-  const meals = pick(
-    open.filter(
-      (poi) => poi.category === 'food' && frame.diets.every((diet) => suitsDiet(poi.tags, diet)),
-    ),
-    Math.min(30, Math.max(12, days * 3)),
+  const breaks = pick(
+    open.filter((poi) => foodRole(poi) === 'light'),
+    days,
     ranking,
   );
-  return { mustDos, unplaceable, activities, meals, openDays };
+  const activities = pick([...sights, ...breaks], activityLimit, {
+    ...ranking,
+    wellKnown: Math.floor(activityLimit / 3),
+  });
+  const eateries = pick(
+    open.filter(
+      (poi) => foodRole(poi) === 'meal' && frame.diets.every((diet) => suitsDiet(poi.tags, diet)),
+    ),
+    MAX_EATERIES,
+    ranking,
+  );
+  // The head of the meal list keeps its spread across kinds and across the city.
+  const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
+  return { mustDos, unplaceable, activities, meals, eateries, openDays };
 }
