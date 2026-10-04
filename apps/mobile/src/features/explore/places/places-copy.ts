@@ -160,11 +160,86 @@ export function bestTimeLine(bestTime: string, weekday: string | null): string {
   return t({ id: 'places.row.bestTime', message: `${bestTime} · fits ${weekday}` });
 }
 
-/** "Water temple · 45 min"; the category alone without a stay. */
-export function rowMeta(category: string, minutesFromStay: number | null): string {
-  const kind = categoryLabel(category);
-  if (minutesFromStay === null) return kind;
-  return `${kind} · ${lengthLabel(minutesFromStay)}`;
+/** "850 m", "2.4 km", "12 km". */
+export function distanceLabel(metres: number): string {
+  if (metres < 1000) {
+    const m = Math.max(10, Math.round(metres / 10) * 10);
+    return t({ id: 'places.distance.m', message: `${m} m` });
+  }
+  const km =
+    metres < 10_000
+      ? (Math.round(metres / 100) / 10).toFixed(1)
+      : String(Math.round(metres / 1000));
+  return t({ id: 'places.distance.km', message: `${km} km` });
+}
+
+/**
+ * A row's second line: "Temple · Ubud · 45 min" (from the stay) or "· 2.4 km" when the list runs
+ * nearest first; the parts that are not known are left out.
+ */
+export function rowMeta(
+  category: string,
+  minutesFromStay: number | null,
+  area: string | null = null,
+  metres: number | null = null,
+): string {
+  const tail =
+    metres !== null
+      ? distanceLabel(metres)
+      : minutesFromStay === null
+        ? null
+        : lengthLabel(minutesFromStay);
+  return [categoryLabel(category), area, tail].filter((part) => part !== null).join(' · ');
+}
+
+/** The sort line, naming the order the list is really in. */
+export function sortLabel(
+  order: 'fit' | 'picks' | 'nearest' | 'az',
+  facts: { readonly guide: string; readonly stay: string | null; readonly destination: string },
+): string {
+  const { guide, destination } = facts;
+  const stay = facts.stay;
+  switch (order) {
+    case 'fit':
+      return t({ id: 'places.sort.fit', message: 'Sorted by fit for your days' });
+    case 'picks':
+      return t({ id: 'places.sort.picks', message: `${guide}'s picks first` });
+    case 'nearest':
+      return stay === null
+        ? t({ id: 'places.sort.nearestMiddle', message: `Nearest to the middle of ${destination}` })
+        : t({ id: 'places.sort.nearestStay', message: `Nearest to ${stay}` });
+    case 'az':
+      return t({ id: 'places.sort.az', message: 'Sorted A–Z' });
+  }
+}
+
+/** "Mon 19 · Day 1 · 4"; the day number alone before the trip has dates. */
+export function planDayTitle(
+  dayNo: number,
+  date: string | null,
+  weekday: string | null,
+  count: number,
+): string {
+  const dayOfMonth = date === null ? null : String(Number(date.slice(8, 10)));
+  return weekday === null || dayOfMonth === null
+    ? t({ id: 'places.plan.day', message: `Day ${dayNo} · ${count}` })
+    : t({
+        id: 'places.plan.dayDated',
+        message: `${weekday} ${dayOfMonth} · Day ${dayNo} · ${count}`,
+      });
+}
+
+/** "In the plan · Tue" on a row, a card or a toast; the day number before the trip has dates. */
+export function inPlanLine(dayNo: number | null, weekday: string | null): string {
+  if (weekday !== null) return t({ id: 'places.row.inPlan', message: `In the plan · ${weekday}` });
+  if (dayNo === null) return t({ id: 'places.row.inPlanNoDay', message: 'In the plan' });
+  const day = dayNo;
+  return t({ id: 'places.label.inPlan', message: `In the plan · day ${day}` });
+}
+
+/** A name short enough for one toast line, cut in the name and never in the sentence. */
+export function shortName(name: string, max = 24): string {
+  return name.length <= max ? name : `${name.slice(0, max - 1).trimEnd()}…`;
 }
 
 export function splitLabel(): string {
@@ -174,4 +249,9 @@ export function splitLabel(): string {
 /** "Show Tirta Empul again", for a screen reader. */
 export function showAgainLabel(name: string): string {
   return t({ id: 'places.hidden.showA11y', message: `Show ${name} again` });
+}
+
+/** The one-time line under the sort bar. */
+export function swipeHint(): string {
+  return t({ id: 'places.hint.swipe', message: 'Swipe a place right to save it' });
 }
