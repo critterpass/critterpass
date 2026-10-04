@@ -6,9 +6,9 @@ import type { ImportCandidate } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles } from '@/ui';
-import { PlaceRow } from '@/ui/planning';
+import { PhotoCredit, PlaceRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 
 import { placeIcon } from './place-icons';
@@ -52,6 +52,7 @@ export function PickOneSheet({ label, candidates, photos, onPick, onClose }: Pic
             />
           ))}
         </View>
+        <PhotoCredit credits={screenCredits(photos?.values() ?? [])} />
       </View>
     </Sheet>
   );

@@ -6,12 +6,12 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import type { PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import type { LivePlace, MorePlacesState } from '@/data/places/more-places';
 import type { PlaceCandidate } from '@/data/places/match-places';
 import type { SearchState } from '@/data/places/server-name-search';
 import { makeStyles, Text, useTheme } from '@/ui';
-import { AddButton, PlaceRow } from '@/ui/planning';
+import { AddButton, PhotoCredit, PlaceRow } from '@/ui/planning';
 import { Skeleton } from '@/ui/states/Skeleton';
 
 import { placeIcon } from './place-icons';
@@ -98,7 +98,10 @@ export function NameResults({
             {t({ id: 'search.more.attribution', message: 'Powered by Foursquare' })}
           </Text>
         </View>
-      ) : null}
+      ) : (
+        // "More places" carries Foursquare's line itself; without it the photos' credit shows.
+        <PhotoCredit credits={screenCredits(photos?.values() ?? [])} />
+      )}
     </View>
   );
 }
