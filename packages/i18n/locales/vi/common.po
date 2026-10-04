@@ -172,6 +172,10 @@ msgstr "Dạng {word}, chưa gặp"
 msgid "common.critter.formLocked"
 msgstr "{word}, đang khóa: {need}"
 
+#: ../../apps/mobile/src/ui/map/RegionPackNotice.tsx
+msgid "common.map.regionPackOnItsWay"
+msgstr "Bản đồ chi tiết của {place} sắp có."
+
 #: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
 msgid "common.monetize.activeMonths"
 msgstr "Đang dùng: {active}"

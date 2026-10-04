@@ -14,7 +14,10 @@ import {
 import { useMemo, type ReactNode, type RefObject } from 'react';
 import { StyleSheet, View, type NativeSyntheticEvent } from 'react-native';
 import type { CameraRef } from '@maplibre/maplibre-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { noticeBottom, RegionPackNotice } from '../RegionPackNotice';
+import { useRegionTiles } from '../region-pack';
 import { makeStyles } from '../../theme';
 import { planningMapStyle } from './map-style';
 import { StayMarker } from './stay-marker';
@@ -31,8 +34,12 @@ export interface PlanningMapCanvasProps {
   readonly children?: ReactNode;
   readonly initialCenter: LngLat;
   readonly initialZoom?: number | undefined;
-  /** The destination whose region tiles to draw; null draws the world tiles. */
+  /** The destination whose region pack to draw; null, or no pack yet, draws the world tiles. */
   readonly destinationSlug: string | null;
+  /** The destination's name; with it, a destination without a pack says its map is on its way. */
+  readonly placeName?: string | null | undefined;
+  /** How much of the map's foot a sheet covers: that line sits above it. */
+  readonly coveredBottom?: number | undefined;
   /** The region file downloaded to this phone (`file://…pmtiles`), used instead of the network. */
   readonly localRegionUri?: string | null | undefined;
   readonly stay?: LngLat | null | undefined;
@@ -62,6 +69,8 @@ export function PlanningMapCanvas({
   initialCenter,
   initialZoom = 13,
   destinationSlug,
+  placeName,
+  coveredBottom,
   localRegionUri = null,
   stay,
   cameraRef,
@@ -74,10 +83,9 @@ export function PlanningMapCanvas({
   logo = !compact,
 }: PlanningMapCanvasProps) {
   const styles = useStyles();
-  const style = useMemo(
-    () => planningMapStyle(destinationSlug, localRegionUri),
-    [destinationSlug, localRegionUri],
-  );
+  const insets = useSafeAreaInsets();
+  const tiles = useRegionTiles(destinationSlug, localRegionUri);
+  const style = useMemo(() => planningMapStyle(tiles.sourceUrl), [tiles.sourceUrl]);
   const onRegionDidChange = (event: NativeSyntheticEvent<ViewStateChangeEvent>) => {
     const { center, zoom, bounds } = event.nativeEvent;
     onRegionChange?.({ center, zoom, bounds });
@@ -102,6 +110,12 @@ export function PlanningMapCanvas({
         {children}
         {stay === null || stay === undefined ? null : <StayMarker lngLat={stay} />}
       </MapLibreMap>
+      {tiles.awaited && !compact && placeName ? (
+        <RegionPackNotice
+          place={placeName}
+          bottom={noticeBottom({ ornamentBottom, insetBottom: insets.bottom, coveredBottom })}
+        />
+      ) : null}
     </View>
   );
 }

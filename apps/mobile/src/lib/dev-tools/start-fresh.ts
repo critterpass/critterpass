@@ -60,6 +60,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
     why: 'push-to-start tokens: iOS hands each out once per install, and every launch sends them again for the signed-in account',
   },
   { id: 'cp-location-prefs', cleared: true, why: 'location and visit prompt choices' },
+  {
+    id: 'cp-map-regions',
+    cleared: false,
+    why: 'which destinations have a published region pack: a fact about the tiles host, the same for every account',
+  },
   { id: 'cp-onboarding', cleared: true, why: 'the pass draft: name, photo, guide, tastes' },
   { id: 'cp-planning-switch', cleared: true, why: 'the planning rollout switch and plan hub' },
   { id: 'cp-permissions', cleared: true, why: 'when each primer was declined; OS grants stay' },

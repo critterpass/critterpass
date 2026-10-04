@@ -1,0 +1,32 @@
+appId: app.critterpass.dev
+---
+# From home or the developer tools list: opens the lab ${LAB} and its scene ${SCENE} (the row's
+# test id). It ends on the scene.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# The list keeps its place between visits: back to its head, then down to the lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: ${LAB}
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: ${LAB}
+- scrollUntilVisible:
+    element:
+      id: ${SCENE}
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: ${SCENE}
