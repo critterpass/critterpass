@@ -44,7 +44,7 @@ function stop(id: string, place: { lat: number; lng: number } | null): DayItem {
 function day(stops: readonly DayItem[], stay: TripDay['stay'] = null): TripDay {
   return {
     dayNo: 1,
-    dayId: 'd1',
+    dayId: 'day-one',
     date: '2026-10-04',
     theme: null,
     color: 'yellow',
