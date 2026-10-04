@@ -74,6 +74,14 @@ appId: app.critterpass.dev
     timeout: 10000
     optional: true
 - takeScreenshot: ${PREFIX}-7c-2-place-picked
+# A finger drag along the cards moves the label to the next place.
+- swipe:
+    start: 85%, 87%
+    end: 10%, 87%
+    duration: 600
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-7c-2-next-card
 - back
 - runFlow:
     file: scene.yaml

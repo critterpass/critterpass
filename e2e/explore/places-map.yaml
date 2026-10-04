@@ -1,13 +1,10 @@
 appId: app.critterpass.dev
 ---
-# The trip's places map (7c-1) and a picked place (7c-2) for a fresh account with the demo's Bali
-# trip and the planning redesign on. The peek counts the places in view; a chip leaves every place
-# on the map (the others fade) and its count in the chip row. Opened on a place from its page (reached
-# from its row in the list), the
-# label and the cards come up together, nearest first; swiping the cards moves the label, a card
-# opens the place, and ≡ LIST shows the same places as rows.
-# The CI emulator draws neither the tiles nor the dots reliably (GL layers), so the canvas is judged
-# on a real phone; the chips, the peek, the label and the cards are what the shots check.
+# The trip's places map (7c-1) for a fresh account with the demo's Bali trip and the planning
+# redesign on. The peek counts the places in view; a chip leaves every place on the map (the others
+# fade) and its count in the chip row; ≡ LIST shows the same places as rows. A picked place (7c-2)
+# is shot in the lab scenes (map.yaml, map-vi.yaml): dots and bubbles are drawn on the map, outside
+# the view tree a flow can tap, and the place page no longer links to the map.
 # Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub → Explore Bali.
 - runFlow: ../home/subflows/fresh-install.yaml
 - runFlow: ../home/subflows/onboard.yaml
@@ -62,45 +59,11 @@ appId: app.critterpass.dev
 - takeScreenshot: en-7c-1-filter-saved
 - tapOn:
     id: 'chip-saved'
-# A place's own page (opened from its row) opens the map on it: label and cards.
+# ≡ LIST shows the same places as rows.
 - tapOn:
     id: 'places-peek-list'
 - extendedWaitUntil:
     visible:
       id: 'places-suggests-0'
     timeout: 30000
-- tapOn:
-    id: 'places-suggests-0'
-- scrollUntilVisible:
-    element:
-      id: 'explore-place-map'
-    direction: DOWN
-    timeout: 20000
-- tapOn:
-    id: 'explore-place-map'
-- extendedWaitUntil:
-    visible:
-      id: 'places-carousel'
-    timeout: 60000
-# The label is a map marker, drawn on the map rather than in the view tree Maestro reads: the shot
-# shows it.
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: en-7c-2-fresh-account-picked
-# A finger drag along the cards (start and end on the card row, near the screen's foot).
-- swipe:
-    start: 85%, 87%
-    end: 10%, 87%
-    duration: 600
-- waitForAnimationToEnd:
-    timeout: 4000
-- assertVisible:
-    text: '2 OF .*'
-- takeScreenshot: en-7c-2-next-card
-- tapOn:
-    id: 'places-carousel-list'
-- extendedWaitUntil:
-    visible:
-      id: 'places-list'
-    timeout: 20000
-- takeScreenshot: en-7c-2-to-list
+- takeScreenshot: en-7c-1-to-list
