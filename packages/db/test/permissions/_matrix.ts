@@ -662,6 +662,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // Mapbox address lookups (server-only, class S): the monthly call count.
+  mapbox_geocode_usage: {
+    selectProbe: { sql: 'SELECT 1 FROM mapbox_geocode_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // FSQ OS export staging for the POI ingest (server-only, class S).
   fsq_os_export_runs: {
     selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_runs LIMIT 1', params: () => [] },

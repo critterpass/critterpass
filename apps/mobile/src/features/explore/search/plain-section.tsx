@@ -64,6 +64,8 @@ export interface PlainSectionProps {
   readonly onMap: (() => void) | undefined;
   /** What to show when the answer has no places (the ways out). */
   readonly empty: (answer: PlainAnswer) => ReactNode;
+  /** Shown under the places found (street addresses). */
+  readonly after?: ReactNode;
 }
 
 export function PlainSection(props: PlainSectionProps) {
@@ -97,17 +99,20 @@ export function PlainSection(props: PlainSectionProps) {
       {settled && answer.places.length === 0 && !softShown ? (
         props.empty(answer)
       ) : (
-        <PlainResults
-          rows={rows}
-          photos={photos}
-          loading={state.search === 'loading' || state.parse === 'parsing'}
-          softMisses={answer?.softMisses.length ?? 0}
-          showingSoftMisses={softShown}
-          onSoftMisses={() => setSoftShown(true)}
-          onOpen={props.onOpen}
-          onAdd={props.onAdd}
-          onMap={props.onMap}
-        />
+        <>
+          <PlainResults
+            rows={rows}
+            photos={photos}
+            loading={state.search === 'loading' || state.parse === 'parsing'}
+            softMisses={answer?.softMisses.length ?? 0}
+            showingSoftMisses={softShown}
+            onSoftMisses={() => setSoftShown(true)}
+            onOpen={props.onOpen}
+            onAdd={props.onAdd}
+            onMap={props.onMap}
+          />
+          {props.after}
+        </>
       )}
     </View>
   );

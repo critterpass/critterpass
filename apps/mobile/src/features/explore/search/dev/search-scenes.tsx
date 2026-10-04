@@ -1,7 +1,7 @@
 /**
  * Lab scenes for search (7d-1, 7d-2, 7d-4, 7i-2) over Bali fixtures: the empty field with a copied
- * TikTok, the iOS paste variant, typing, plain words with chips (chips come off), nothing found
- * with its ways out, and offline before and after the first bar. The words come from the screens'
+ * TikTok, the iOS paste variant, typing, typing a street address (the Addresses section, also above
+ * the ways out), plain words with chips (chips come off), nothing found with its ways out, and offline before and after the first bar. The words come from the screens'
  * own templates, so the lab reads in whichever language the app is in.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
@@ -12,6 +12,7 @@ import { View } from 'react-native';
 import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import type { PlaceCandidate } from '@/data/places/match-places';
 
+import { AddressSection } from '../address-section';
 import { BrowseGrid } from '../browse-grid';
 import { ChipBlock, excludeLine } from '../chip-row';
 import { ClipboardCard } from '../clipboard-card';
@@ -23,6 +24,7 @@ import { chipKey, type PlainAnswer } from '../plain-filters';
 import { PlainResults } from '../plain-results';
 import { SearchView } from '../search-view';
 import { plainExamples, TypedExamples } from '../typed-examples';
+import type { AddressesState } from '../use-addresses';
 import { WorksOfflineChips } from '../works-offline-chips';
 import { plainRows } from '../plain-section';
 import { baliDays, header, labSearchTrip, LAB_TRIP, SAYAN_PLACES, WED } from './search-fixtures';
@@ -104,6 +106,44 @@ function TypingScene() {
   );
 }
 
+const ADDRESSES: AddressesState = {
+  kind: 'done',
+  addresses: [
+    {
+      line: 'Jalan Raya Sayan 70',
+      rest: 'Sayan, Ubud, Gianyar, Bali 80571, Indonesia',
+      lat: -8.5031,
+      lng: 115.2447,
+    },
+    {
+      line: 'Jalan Raya Sayan',
+      rest: 'Kedewatan, Ubud, Gianyar, Bali 80571, Indonesia',
+      lat: -8.4893,
+      lng: 115.2459,
+    },
+  ],
+  credits: [
+    { label: '© Mapbox', url: 'https://www.mapbox.com/about/maps' },
+    { label: '© OpenStreetMap', url: 'https://www.openstreetmap.org/about' },
+  ],
+};
+
+function AddressScene() {
+  return (
+    <SearchView header={header('jalan raya sayan 70')} scope={null}>
+      <NameResults
+        rows={[typed('Sayan House', 'curated')]}
+        state="results"
+        live={{ kind: 'none' }}
+        onOpen={noop}
+        onAdd={noop}
+        onPickLive={noop}
+      />
+      <AddressSection state={ADDRESSES} onPick={noop} />
+    </SearchView>
+  );
+}
+
 const CHIPS: readonly SearchChip[] = [
   { code: 'meal', params: { meal: 'dinner' } },
   { code: 'attribute', params: { attribute: 'quiet' } },
@@ -167,15 +207,18 @@ const NOTHING: PlainAnswer = {
       areas: ['Seminyak', 'Canggu'],
       openLate: null,
     },
-    { kind: 'related', params: { term: 'Japanese' }, count: 4, areas: ['Ubud'], openLate: 2 },
+    { kind: 'related', params: { term: 'japanese' }, count: 4, areas: ['Ubud'], openLate: 2 },
     { kind: 'pin', params: {}, count: 0, areas: [], openLate: null },
   ],
   nearest: { name: 'Sushi Ko', area: 'Seminyak', minutes: 70 },
 };
 
-function NothingScene() {
+function NothingScene({ addresses }: { readonly addresses: boolean }) {
   return (
-    <SearchView header={header('omakase sushi in ubud')} scope={null}>
+    <SearchView
+      header={header(addresses ? 'jalan raya sayan 70' : 'omakase sushi in ubud')}
+      scope={null}
+    >
       <NoResults
         answer={NOTHING}
         area="Ubud"
@@ -184,6 +227,7 @@ function NothingScene() {
         guideName="Tokek"
         onWayOut={noop}
         onAsk={noop}
+        addresses={addresses ? <AddressSection state={ADDRESSES} onPick={noop} /> : undefined}
       />
     </SearchView>
   );
@@ -242,8 +286,10 @@ export const SEARCH_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '7d-1': () => <EmptyScene paste={false} />,
   '7d-1-paste': () => <EmptyScene paste />,
   '7d-1-typing': () => <TypingScene />,
+  '7d-1-addresses': () => <AddressScene />,
   '7d-2': () => <PlainScene />,
-  '7d-4': () => <NothingScene />,
+  '7d-4': () => <NothingScene addresses={false} />,
+  '7d-4-addresses': () => <NothingScene addresses />,
   '7i-2': () => <OfflineScene answered={false} />,
   '7i-2-back-online': () => <OfflineScene answered />,
 };

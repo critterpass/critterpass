@@ -80,6 +80,7 @@ import * as schema from './schema';
  * Foursquare id match and the monthly call counts are server bookkeeping for live place details.
  * `poi_foursquare_photos` (same file) is RLS "R" but read over HTTP only (`/v1/media`), like
  * `media_assets`.
+ * `mapbox_geocode_usage` (same file) is "S": the monthly count of address lookups sent to Mapbox.
  * `fsq_os_export_runs`, `fsq_os_export_chunks` and `fsq_os_export_rows` (same file) are "S": the
  * ingest's staging copy of FSQ OS Places, read only by the worker.
  * `climate_normals` (packages/db/src/schema/planning.ts) is RLS "R" but served over HTTP only: the
@@ -110,6 +111,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'journey_checks',
   'la_object_states',
   'la_push_to_start_tokens',
+  'mapbox_geocode_usage',
   'media_assets',
   'media_objects',
   'member_etas',

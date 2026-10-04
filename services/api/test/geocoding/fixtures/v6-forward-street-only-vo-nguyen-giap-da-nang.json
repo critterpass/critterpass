@@ -1,0 +1,315 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "address.482697165552708",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.246677, 16.058354]
+      },
+      "properties": {
+        "mapbox_id": "address.482697165552708",
+        "feature_type": "street",
+        "full_address": "Võ Nguyên Giáp, Phước Mỹ, 50400, An Hải, Da Nang, Vietnam",
+        "name": "Võ Nguyên Giáp",
+        "name_preferred": "Võ Nguyên Giáp",
+        "coordinates": {
+          "longitude": 108.246677,
+          "latitude": 16.058354
+        },
+        "place_formatted": "Phước Mỹ, 50400, An Hải, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.482697165552708",
+            "name": "Võ Nguyên Giáp"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpVVXow",
+            "name": "Phước Mỹ",
+            "wikidata_id": "Q10806453"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZE91OUE",
+            "name": "50400"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCYjdLOUE",
+            "name": "An Hải"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN"
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "address.8748672456700636",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.247312, 16.081586]
+      },
+      "properties": {
+        "mapbox_id": "address.8748672456700636",
+        "feature_type": "street",
+        "full_address": "Võ Nguyên Giáp, Mân Thái, 50400, Sơn Trà, Da Nang, Vietnam",
+        "name": "Võ Nguyên Giáp",
+        "name_preferred": "Võ Nguyên Giáp",
+        "coordinates": {
+          "longitude": 108.247312,
+          "latitude": 16.081586
+        },
+        "place_formatted": "Mân Thái, 50400, Sơn Trà, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.8748672456700636",
+            "name": "Võ Nguyên Giáp"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpQa3ow",
+            "name": "Mân Thái",
+            "wikidata_id": "Q10796174"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZE91OUE",
+            "name": "50400"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCWWVLOUE",
+            "name": "Sơn Trà"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN"
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "address.6527038360850488",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.260319, 16.102332]
+      },
+      "properties": {
+        "mapbox_id": "address.6527038360850488",
+        "feature_type": "street",
+        "full_address": "Võ Nguyên Giáp, Thọ Quang, 50400, Sơn Trà, Da Nang, Vietnam",
+        "name": "Võ Nguyên Giáp",
+        "name_preferred": "Võ Nguyên Giáp",
+        "coordinates": {
+          "longitude": 108.260319,
+          "latitude": 16.102332
+        },
+        "place_formatted": "Thọ Quang, 50400, Sơn Trà, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.6527038360850488",
+            "name": "Võ Nguyên Giáp"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpna3ow",
+            "name": "Thọ Quang",
+            "wikidata_id": "Q10826558"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZE91OUE",
+            "name": "50400"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCWWVLOUE",
+            "name": "Sơn Trà"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN"
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "address.2724062439461452",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.344362, 15.908538]
+      },
+      "properties": {
+        "mapbox_id": "address.2724062439461452",
+        "feature_type": "street",
+        "full_address": "Võ Nguyên Giáp, Cẩm An, 51300, Hội An Tây, Da Nang, Vietnam",
+        "name": "Võ Nguyên Giáp",
+        "name_preferred": "Võ Nguyên Giáp",
+        "coordinates": {
+          "longitude": 108.344362,
+          "latitude": 15.908538
+        },
+        "place_formatted": "Cẩm An, 51300, Hội An Tây, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.2724062439461452",
+            "name": "Võ Nguyên Giáp"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBUllzOUE",
+            "name": "Cẩm An",
+            "wikidata_id": "Q10752463"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZFNPOUE",
+            "name": "51300"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCZENxOUE",
+            "name": "Hội An Tây"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN",
+            "alternate": {
+              "mapbox_id": "dXJuOm1ieHBsYzpBZVQw",
+              "name": "Quảng Nam",
+              "wikidata_id": "Q33356",
+              "region_code": "27",
+              "region_code_full": "VN-27"
+            }
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "address.570649463053914",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.113299, 15.581461]
+      },
+      "properties": {
+        "mapbox_id": "address.570649463053914",
+        "feature_type": "street",
+        "full_address": "Võ Nguyên Giáp, Tân An, 52200, Hiệp Đức, Da Nang, Vietnam",
+        "name": "Võ Nguyên Giáp",
+        "name_preferred": "Võ Nguyên Giáp",
+        "coordinates": {
+          "longitude": 108.113299,
+          "latitude": 15.581461
+        },
+        "place_formatted": "Tân An, 52200, Hiệp Đức, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.570649463053914",
+            "name": "Võ Nguyên Giáp"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBVm9zOUE",
+            "name": "Tân An",
+            "wikidata_id": "Q10830340"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZFd1OUE",
+            "name": "52200"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCYzZLOUE",
+            "name": "Hiệp Đức"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN",
+            "alternate": {
+              "mapbox_id": "dXJuOm1ieHBsYzpBZVQw",
+              "name": "Quảng Nam",
+              "wikidata_id": "Q33356",
+              "region_code": "27",
+              "region_code_full": "VN-27"
+            }
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    }
+  ],
+  "attribution": "© 2026 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service. (https://www.mapbox.com/about/maps/)"
+}

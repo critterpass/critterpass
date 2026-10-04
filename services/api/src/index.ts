@@ -72,6 +72,16 @@ const app = createApp({
   exposeDocs: env.APP_ENV !== 'production',
   pool,
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
+  geocoding: {
+    redis,
+    mapboxMonthlyCap: env.MAPBOX_GEOCODE_MONTHLY_CAP,
+    onMapboxCapReached: () =>
+      logger.warn(
+        { cap: env.MAPBOX_GEOCODE_MONTHLY_CAP },
+        'mapbox geocode monthly cap reached: address search answers from our own places',
+      ),
+    onMapboxError: (error: unknown) => logger.warn({ err: error }, 'mapbox geocode failed'),
+  },
   ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
   ...(env.FOURSQUARE_API_KEY !== undefined
