@@ -26,7 +26,7 @@ export interface HeroCopy {
   readonly readinessDetail: string | null;
 }
 
-/** "Fri, Oct 2 · Day 2", led by "Tomorrow" when the day shown is the day after the trip's today. */
+/** "Fri, 10/2 · Day 2" (the weekday and numeric date, as the plan names a day), led by "Tomorrow" when the day shown is the day after the trip's today. */
 export function dayEyebrow(
   localDate: string,
   dayNo: number | null,
@@ -37,7 +37,7 @@ export function dayEyebrow(
   const day = format.date(locale, date, {
     timeZone: 'UTC',
     weekday: 'short',
-    month: 'short',
+    month: 'numeric',
     day: 'numeric',
   });
   const line =

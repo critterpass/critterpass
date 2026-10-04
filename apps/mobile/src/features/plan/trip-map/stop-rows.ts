@@ -42,6 +42,16 @@ export interface StopRow {
   readonly nowLine: string | null;
 }
 
+/**
+ * A clock time short enough for the time column: a 12-hour time closes up and lowers its period
+ * ("10:00 AM" → "10:00am"), which keeps it on one line; a 24-hour time is left as it is.
+ */
+export function columnClock(locale: string, minutes: number): string {
+  return clock(locale, minutes).replace(/\s*([AP]M)$/iu, (_, period: string) =>
+    period.toLowerCase(),
+  );
+}
+
 /** The stops an issue names. */
 function namedIn(issue: PlanCheckIssue): readonly string[] {
   if (issue.kind === 'clash') return [issue.params.first, issue.params.second];
@@ -156,7 +166,7 @@ export function buildStopRows(input: {
     return {
       stop,
       n: index + 1,
-      time: stop.start === null ? '' : clock(locale, stop.start),
+      time: stop.start === null ? '' : columnClock(locale, stop.start),
       length:
         stop.start === null || stop.end === null ? undefined : lengthLabel(stop.end - stop.start),
       detail: detailOf(locale, stop, issue, vote, input.members, input.me, personal),
@@ -179,7 +189,7 @@ export function buildStopRows(input: {
 /** The stops only I have on the day, as rows for the "Only you" list under it. */
 export function mineRows(locale: string, day: TripDay): { time: string; stop: DayItem }[] {
   return (day.mine ?? []).map((stop) => ({
-    time: stop.start === null ? '' : clock(locale, stop.start),
+    time: stop.start === null ? '' : columnClock(locale, stop.start),
     stop,
   }));
 }
@@ -212,10 +222,10 @@ export function stayRows(
     leave:
       out === null || first === undefined || first.start === null
         ? null
-        : { time: clock(locale, first.start - out.minutes), leg: legLabel(out) },
+        : { time: columnClock(locale, first.start - out.minutes), leg: legLabel(out) },
     back:
       home === null || lastEnd === null
         ? null
-        : { time: clock(locale, lastEnd + home.minutes), leg: legLabel(home) },
+        : { time: columnClock(locale, lastEnd + home.minutes), leg: legLabel(home) },
   };
 }

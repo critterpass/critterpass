@@ -106,13 +106,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: trip-rewalk-07-day-of-skipped-stop
-# 4. The trip map and all days in Vietnamese.
+# 4. The trip map and all days in Vietnamese. Day-of's own back leads to the hub.
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-back'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'trip-day-back'
+- waitForAnimationToEnd:
+    timeout: 4000
 - runFlow: subflows/on-trip-to-hub.yaml
+- takeScreenshot: trip-rewalk-07b-back-on-the-hub
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'
     direction: DOWN
-    timeout: 15000
+    timeout: 30000
+    centerElement: true
 - tapOn:
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:

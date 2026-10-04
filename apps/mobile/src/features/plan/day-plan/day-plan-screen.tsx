@@ -140,7 +140,8 @@ export function DayPlanScreen({
               }
         }
         onBack={backToTrip}
-        onDayOf={dayOf === undefined ? undefined : () => router.push(dayOf)}
+        // Back to day-of when it is underneath (the day was opened from it), else onto it.
+        onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}
         onShare={() => setSharing(true)}
         onSelectDay={(n) => {

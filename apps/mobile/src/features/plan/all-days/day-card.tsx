@@ -46,6 +46,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['6'],
   },
   summary: { flex: 1, minWidth: 0 },
+  move: { paddingTop: t.space['6'], alignItems: 'flex-start' },
 }));
 
 export interface DayCardProps {
@@ -191,18 +192,21 @@ export function AllDaysCard(props: DayCardProps) {
               <PlanningTag label={tagLabel(day.tag, true)} color={tagColor(day.tag)} />
             )}
           </View>
-          {props.canMove && day.stops.length > 0 ? (
-            <PillButton
-              size="sm"
-              variant="secondary"
-              label={t({ id: 'plan.allDays.moveStopShort', message: 'Move a stop' })}
-              accessibilityHint={moveLabel}
-              onPress={props.onMoveMenu}
-              testID={`all-days-move-${String(n)}`}
-            />
-          ) : null}
         </View>
       </Pressable>
+      {/* Outside the card's own press: a tap on it must never open the day instead. */}
+      {props.canMove && day.stops.length > 0 ? (
+        <View style={styles.move}>
+          <PillButton
+            size="sm"
+            variant="secondary"
+            label={t({ id: 'plan.allDays.moveStopShort', message: 'Move a stop' })}
+            accessibilityHint={moveLabel}
+            onPress={props.onMoveMenu}
+            testID={`all-days-move-${String(n)}`}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }

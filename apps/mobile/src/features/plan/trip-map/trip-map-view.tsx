@@ -58,6 +58,8 @@ const useStyles = makeStyles((t) => ({
 const FULL_STRIP = 64;
 /** Room the search pill and chips take at the top. */
 const TOP_BAR = 120;
+/** Kept clear around the fitted stops, so none sits half under the chips or the sheet. */
+const PIN_ROOM = 28;
 
 export interface TripMapViewProps {
   readonly model: TripMapModel;
@@ -142,15 +144,17 @@ export function TripMapView(props: TripMapViewProps) {
     fitKey: `${snap === 'full' ? 'half' : snap}|${fitSignature(day)}|${String(size.height)}|${String(noted)}`,
     ready: size.height > 0 && bounds !== null && snap !== 'full',
     points,
-    covered: clear,
+    // Room for a pin and its number inside the part of the map that shows.
+    covered: { top: clear.top + PIN_ROOM, bottom: clear.bottom + PIN_ROOM },
     bounds,
   });
   // The map opens already on the day's stops: the first fit can be lost while the style loads.
   const [opening] = useState(() => {
     const window = Dimensions.get('window');
     return openingCamera(points, window, {
-      top: insets.top + TOP_BAR,
-      bottom: mapSheetHeights(window.height, insets.top + FULL_STRIP)[snap === 'peek' ? 0 : 1],
+      top: insets.top + TOP_BAR + PIN_ROOM,
+      bottom:
+        mapSheetHeights(window.height, insets.top + FULL_STRIP)[snap === 'peek' ? 0 : 1] + PIN_ROOM,
     });
   });
 

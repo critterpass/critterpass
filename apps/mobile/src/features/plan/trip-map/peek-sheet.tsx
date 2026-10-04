@@ -29,9 +29,9 @@ import { GuideSticker } from './guide-sticker';
 
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
-  headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  titleRow: { flexDirection: 'row', alignItems: 'center', gap: t.space['12'] },
-  titleText: { flex: 1, minWidth: 0, gap: t.space['2'] },
+  headRow: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
+  headDate: { flex: 1, minWidth: 0 },
+  titleText: { gap: t.space['2'] },
   title: { flexShrink: 1 },
 }));
 
@@ -73,7 +73,7 @@ export function PeekSheet(
         testID="trip-map-day-chips"
       />
       <View style={styles.headRow}>
-        <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+        <Text variant="eyebrow" color={theme.semantic.text.secondary} style={styles.headDate}>
           {date === '' ? dayOfTrip(n, of) : `${date} · ${dayOfTrip(n, of)}`}
         </Text>
         {crew.length === 0 ? null : (
@@ -88,23 +88,6 @@ export function PeekSheet(
             testID="trip-map-going"
           />
         )}
-      </View>
-      <View style={styles.titleRow}>
-        <PressScale
-          style={styles.titleText}
-          accessibilityRole="button"
-          accessibilityLabel={title}
-          accessibilityHint={t({ id: 'plan.tripMap.openDayHint', message: 'Opens the day plan' })}
-          onPress={() => props.onOpenDay(n)}
-          testID="trip-map-peek-open-day"
-        >
-          <Text variant="h1" style={styles.title} testID="trip-map-day-title">
-            {title}
-          </Text>
-          <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {stopsLine(day.stops.length, props.route.legs)}
-          </Text>
-        </PressScale>
         <PillButton
           size="sm"
           variant="secondary"
@@ -113,6 +96,22 @@ export function PeekSheet(
           testID="trip-map-peek-open-day-pill"
         />
       </View>
+      {/* The title keeps the sheet's full width; the pill sits on the date's line. */}
+      <PressScale
+        style={styles.titleText}
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityHint={t({ id: 'plan.tripMap.openDayHint', message: 'Opens the day plan' })}
+        onPress={() => props.onOpenDay(n)}
+        testID="trip-map-peek-open-day"
+      >
+        <Text variant="h1" style={styles.title} testID="trip-map-day-title">
+          {title}
+        </Text>
+        <Text variant="bodySm" color={theme.semantic.text.secondary}>
+          {stopsLine(day.stops.length, props.route.legs)}
+        </Text>
+      </PressScale>
       {line === null ? null : (
         <TokekNote
           guide={model.guide.id}

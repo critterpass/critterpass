@@ -26,7 +26,8 @@ import { buildStopRows, mineRows, stayRows } from './stop-rows';
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
   head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
-  headText: { flex: 1, minWidth: 0, gap: t.space['2'] },
+  headText: { flex: 1, minWidth: 0 },
+  title: { gap: t.space['2'] },
 }));
 
 export function DaySheet(
@@ -65,22 +66,9 @@ export function DaySheet(
   return (
     <View style={styles.body} testID="trip-map-half">
       <View style={styles.head}>
-        <PressScale
-          style={styles.headText}
-          accessibilityRole="button"
-          accessibilityLabel={title}
-          accessibilityHint={t({ id: 'plan.tripMap.openDayHint', message: 'Opens the day plan' })}
-          onPress={() => props.onOpenDay(n)}
-          testID="trip-map-open-day"
-        >
-          <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-            {head}
-          </Text>
-          <Text variant="h1">{title}</Text>
-          <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {stopsLine(day.stops.length, route.legs)}
-          </Text>
-        </PressScale>
+        <Text variant="eyebrow" color={theme.semantic.text.secondary} style={styles.headText}>
+          {head}
+        </Text>
         <PillButton
           size="sm"
           label={t({ id: 'plan.tripMap.openDay', message: 'Open day' })}
@@ -95,6 +83,20 @@ export function DaySheet(
           testID="trip-map-all-days"
         />
       </View>
+      {/* The title keeps the sheet's full width: beside the pills it was cut after two words. */}
+      <PressScale
+        style={styles.title}
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityHint={t({ id: 'plan.tripMap.openDayHint', message: 'Opens the day plan' })}
+        onPress={() => props.onOpenDay(n)}
+        testID="trip-map-open-day"
+      >
+        <Text variant="h1">{title}</Text>
+        <Text variant="bodySm" color={theme.semantic.text.secondary}>
+          {stopsLine(day.stops.length, route.legs)}
+        </Text>
+      </PressScale>
       {rows.length === 0 && (day.mine ?? []).length === 0 ? (
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.tripMap.nothingYet', message: 'Nothing planned yet' })}
