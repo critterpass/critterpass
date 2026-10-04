@@ -152,8 +152,8 @@ beforeAll(async () => {
        issues AS (
          INSERT INTO plan_check_issues (trip_id, version_id, kind, severity, day_id, stable_ids, params, rank, fingerprint)
          SELECT $1, version_id, 'pace', 'know', day_id, ARRAY[stable_id], '{}', 0, 'pace:1' FROM items)
-       INSERT INTO change_sets (trip_id, base_version_id, author_kind, author_id, status, ops)
-       SELECT $1, id, 'user', $3, 'draft', '[]' FROM versions`,
+       INSERT INTO change_sets (trip_id, base_version_id, trigger, scope, author_kind, author_id, status, ops)
+       SELECT $1, id, 'manual', 'group', 'user', $3, 'draft', '[]' FROM versions`,
       [fixture.tripId, SUPERSEDED, fixture.actors.member],
     );
     await tx.query(
