@@ -46,6 +46,8 @@ export interface TripMapModel {
   readonly empty: boolean;
   /** The map's opening centre `[lng, lat]` when there is nothing to fit. */
   readonly center: readonly [number, number] | null;
+  /** The clock the plan is read against (which day is today); the phone's when absent. */
+  readonly now?: Date | undefined;
 }
 
 export interface TripMapSheetProps {

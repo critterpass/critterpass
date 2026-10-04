@@ -1,9 +1,9 @@
-/** GO on the trip map's sheet: today's next stop with a place, a later day's first, none past. */
+/** GO in the plan: only on today's stops still to go; a day planned ahead offers none. */
 import { describe, expect, it } from '@jest/globals';
 
 import type { DayItem } from '@/data/plan/plan-model';
 
-import { nextGoStop } from '../next-stop';
+import { goStopsToday, nextGoStop } from '../next-stop';
 import type { TripDay } from '../trip-days';
 
 const TZ = 'Asia/Ho_Chi_Minh';
@@ -37,17 +37,26 @@ const STOPS = [stop('market', 9 * 60), stop('lunch', 12 * 60, false), stop('brid
 // 13:00 on 4 October in Đà Nẵng.
 const NOW = new Date('2026-10-04T06:00:00Z');
 
-describe('the next stop GO is offered on', () => {
-  it("takes today's next stop that has a place", () => {
-    expect(nextGoStop(day('2026-10-04', STOPS), NOW, TZ)).toBe('bridge');
+describe('the stops GO is offered on in the plan', () => {
+  it("offers today's stops with a place that haven't ended, the first of them on the trip map", () => {
+    const today = day('2026-10-04', [
+      { ...stop('market', 9 * 60), end: 10 * 60 },
+      { ...stop('museum', 12 * 60), end: 14 * 60 },
+      stop('lunch', 15 * 60, false),
+      stop('bridge', 18 * 60),
+    ]);
+    // 13:00: the market has ended, the museum is being visited, lunch has no place.
+    expect(goStopsToday(today, NOW, TZ)).toEqual(['museum', 'bridge']);
+    expect(nextGoStop(today, NOW, TZ)).toBe('museum');
   });
 
-  it("takes a later day's first stop with a place, and none on a past day", () => {
-    expect(nextGoStop(day('2026-10-05', STOPS), NOW, TZ)).toBe('market');
-    expect(nextGoStop(day('2026-10-03', STOPS), NOW, TZ)).toBeNull();
+  it('offers nothing on a day planned ahead or a day gone by', () => {
+    expect(goStopsToday(day('2026-10-05', STOPS), NOW, TZ)).toEqual([]);
+    expect(nextGoStop(day('2026-10-05', STOPS), NOW, TZ)).toBeNull();
+    expect(goStopsToday(day('2026-10-03', STOPS), NOW, TZ)).toEqual([]);
   });
 
-  it('offers nothing once today has no stop left', () => {
+  it('offers nothing once every stop of today has ended', () => {
     expect(nextGoStop(day('2026-10-04', STOPS.slice(0, 2)), NOW, TZ)).toBeNull();
   });
 });

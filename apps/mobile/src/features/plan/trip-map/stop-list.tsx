@@ -47,16 +47,15 @@ export interface StopListContext {
   readonly titleOf: (stableId: string) => string;
   /** The picked stop is outlined too (its marker is open on the map). */
   readonly picked?: string | null | undefined;
-  /** Which stops offer GO when VOTE or SWAP? isn't there: every stop with a place, or one. */
-  readonly go?: 'all' | { readonly only: string | null } | undefined;
+  /** The stops that offer GO where VOTE or SWAP? isn't (today's, still to go), by stable id. */
+  readonly go?: readonly string[] | undefined;
 }
 
-/** GO on a stop: its place and the trip, when the stop has a place and the list offers it. */
+/** GO on a stop the list offers it on: its place and the trip. */
 function goFor(row: StopRow, context: StopListContext): (() => void) | null {
   const { go } = context;
   const poiId = row.stop.poiId;
-  if (go === undefined || poiId === null || row.stop.place === null) return null;
-  if (go !== 'all' && go.only !== row.stop.stableId) return null;
+  if (go === undefined || poiId === null || !go.includes(row.stop.stableId)) return null;
   return () => router.push(goHref({ kind: 'place', poiId, tripId: context.tripId }));
 }
 

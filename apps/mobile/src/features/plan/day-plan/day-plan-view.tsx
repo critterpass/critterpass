@@ -23,6 +23,7 @@ import { tokens } from '@cp/design-tokens';
 import { freeGaps } from '../trip-map/day-gaps';
 import type { DayRoute } from '../trip-map/day-route';
 import { dateLine, stopsLine } from '../trip-map/format';
+import { goStopsToday } from '../trip-map/next-stop';
 import { dayChips } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
 import { buildStopRows } from '../trip-map/stop-rows';
@@ -179,7 +180,7 @@ export function DayPlanView(props: DayPlanViewProps) {
                 me: model.me,
                 guide: model.guide,
                 notes: true,
-                go: 'all',
+                go: goStopsToday(day, model.now ?? new Date(), model.tz),
                 picked: props.picked,
                 titleOf: (id) => titles.get(id) ?? '',
                 onOpenStop: (row) => props.onOpenStop(row.stop.stableId),

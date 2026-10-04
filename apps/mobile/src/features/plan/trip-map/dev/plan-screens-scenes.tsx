@@ -29,14 +29,23 @@ function useLabDay(model: TripMapModel) {
   return { dayNo, setDayNo, day, route };
 }
 
+/** 10:00 on the trip's third day (Wed 14 Oct, Bali): the day shown is today and GO appears. */
+const ON_DAY_3 = new Date('2026-10-14T02:00:00Z');
+
 function TripMapScene({
   snap,
   empty = false,
+  today = false,
 }: {
   readonly snap: MapSheetSnap;
   readonly empty?: boolean;
+  /** The trip is under way and the day shown is today. */
+  readonly today?: boolean;
 }) {
-  const [model] = useState(() => (empty ? labEmptyModel() : labTripModel()));
+  const [model] = useState(() => ({
+    ...(empty ? labEmptyModel() : labTripModel()),
+    ...(today ? { now: ON_DAY_3 } : {}),
+  }));
   const { dayNo, setDayNo, route } = useLabDay(model);
   return (
     <TripMapView
@@ -51,8 +60,8 @@ function TripMapScene({
   );
 }
 
-function DayPlanScene() {
-  const [model] = useState(() => labTripModel());
+function DayPlanScene({ today = false }: { readonly today?: boolean }) {
+  const [model] = useState(() => ({ ...labTripModel(), ...(today ? { now: ON_DAY_3 } : {}) }));
   const { setDayNo, day, route } = useLabDay(model);
   if (day === null) return null;
   return (
@@ -151,9 +160,11 @@ function AllDaysScene({
 export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map': () => <TripMapScene snap="peek" />,
   'trip-map-day': () => <TripMapScene snap="half" />,
+  'trip-map-day-today': () => <TripMapScene snap="half" today />,
   'trip-map-whole-trip': () => <TripMapScene snap="full" />,
   'trip-map-nothing-saved': () => <TripMapScene snap="half" empty />,
   'day-plan': () => <DayPlanScene />,
+  'day-plan-today': () => <DayPlanScene today />,
   'day-plan-map-open': () => <DayMapScene />,
   'all-days': () => <AllDaysScene />,
   'all-days-move': () => <AllDaysScene menuOpen />,
