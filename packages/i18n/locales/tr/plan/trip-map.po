@@ -186,6 +186,14 @@ msgstr ""
 msgid "plan.tripMap.checkDetail"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checkingAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checking"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.clash"
 msgstr ""

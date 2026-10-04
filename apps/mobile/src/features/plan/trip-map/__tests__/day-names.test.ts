@@ -7,7 +7,7 @@ import { i18n } from '@lingui/core';
 
 import { chipWeekday, dateLine, dayOfMonth, dayOfTrip } from '../format';
 import { NO_FILTER } from '../map-places';
-import { dayChips } from '../sheet-copy';
+import { checkCounts, checkingLine, dayChips } from '../sheet-copy';
 import type { TripDay } from '../trip-days';
 import { filterChips } from '../trip-map-filters';
 
@@ -78,5 +78,57 @@ describe('the map’s filter chips', () => {
     const chips = filterChips({ ...input, saved: 3, crewPicks: 1 });
     expect(chips.map((chip) => chip.key)).toEqual(['day', 'saved', 'crew', 'cat:food']);
     expect(chips[0]?.label).toBe('Sun, 10/18');
+  });
+});
+
+describe('the check’s counts while it runs again', () => {
+  const V1 = 'version-1';
+  const V2 = 'version-2';
+  const done = { check: { status: 'done', version_id: V1 }, fixes: 5, know: 2 };
+
+  it('are the check’s own once it has run on the version on screen', () => {
+    expect(checkCounts(done, V1, undefined)).toEqual({ fixes: 5, know: 2, done: true });
+  });
+
+  it('keep the last count, marked as checking, while a new version waits for its check', () => {
+    const last = checkCounts(done, V1, undefined);
+    // The row still names the version before the edit.
+    const stale = checkCounts(done, V2, last);
+    expect(stale).toEqual({ fixes: 5, know: 2, done: true, checking: true });
+    // The row moved to the new version and is queued, with counts not to be trusted yet.
+    const running = checkCounts(
+      { check: { status: 'running', version_id: V2 }, fixes: 11, know: 0 },
+      V2,
+      last,
+    );
+    expect(running).toEqual({ fixes: 5, know: 2, done: true, checking: true });
+    expect(checkingLine(running)).toBe('Checking again after the change…');
+  });
+
+  it('say only that the plan is being checked before there is any count', () => {
+    const first = checkCounts(
+      { check: { status: 'queued', version_id: V1 }, fixes: 0, know: 0 },
+      V1,
+      undefined,
+    );
+    expect(first).toEqual({ fixes: 0, know: 0, done: false, checking: true });
+    expect(checkingLine(first)).toBe('Checking the plan…');
+  });
+
+  it('are silent with no check at all, and follow the hook when it says a run is under way', () => {
+    expect(checkCounts({ check: null, fixes: 0, know: 0 }, V1, undefined)).toEqual({
+      fixes: 0,
+      know: 0,
+      done: false,
+    });
+    expect(checkCounts({ ...done, checking: true }, V1, { fixes: 3, know: 0, done: true })).toEqual(
+      {
+        fixes: 3,
+        know: 0,
+        done: true,
+        checking: true,
+      },
+    );
+    expect(checkingLine(checkCounts(done, V1, undefined))).toBeNull();
   });
 });

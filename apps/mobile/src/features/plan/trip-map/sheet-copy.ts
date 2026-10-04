@@ -13,8 +13,49 @@ import type { TripDay } from './trip-days';
 export interface CheckCounts {
   readonly fixes: number;
   readonly know: number;
-  /** The check has run on the plan shown. */
+  /** There is a count to show: the check has run on the plan shown, or on the one before it. */
   readonly done: boolean;
+  /** The check is running on the plan shown (after an edit); the counts are the last ones. */
+  readonly checking?: boolean | undefined;
+}
+
+/**
+ * The counts the plan's screens show. Once the check has run on the version on screen they are
+ * its own. While it is queued or running on a new version (an edit made one), the last counts
+ * stay, marked as being checked again: a number that jumps and comes back a minute later reads as
+ * something she broke. With no earlier count there is only "checking".
+ */
+export function checkCounts(
+  view: {
+    readonly check: { readonly status: string; readonly version_id: string | null } | null;
+    readonly fixes: number;
+    readonly know: number;
+    /** The check hook's own word that a run is under way, where it gives one. */
+    readonly checking?: boolean | undefined;
+  },
+  versionId: string | null,
+  last: CheckCounts | undefined,
+): CheckCounts {
+  const { check } = view;
+  const onThisVersion = check !== null && check.version_id === versionId;
+  if (view.checking !== true && onThisVersion && check.status === 'done') {
+    return { fixes: view.fixes, know: view.know, done: true };
+  }
+  const pending =
+    view.checking === true ||
+    (check !== null && (check.status === 'queued' || check.status === 'running' || !onThisVersion));
+  if (!pending) return { fixes: 0, know: 0, done: false };
+  return last === undefined
+    ? { fixes: 0, know: 0, done: false, checking: true }
+    : { fixes: last.fixes, know: last.know, done: true, checking: true };
+}
+
+/** "Checking again…" under the last count, or alone before there is one; null when not checking. */
+export function checkingLine(check: CheckCounts): string | null {
+  if (check.checking !== true) return null;
+  return check.done
+    ? t({ id: 'plan.tripMap.check.checkingAgain', message: 'Checking again after the change…' })
+    : t({ id: 'plan.tripMap.check.checking', message: 'Checking the plan…' });
 }
 
 /** The peek sheet's note; null until the check has something to say. */

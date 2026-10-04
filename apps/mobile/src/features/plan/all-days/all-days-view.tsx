@@ -21,7 +21,7 @@ import { makeStyles } from '@/ui/theme';
 
 import { clock } from '../day/format';
 import { dateLine } from '../trip-map/format';
-import { daySummary, tripCheckLine } from '../trip-map/sheet-copy';
+import { checkingLine, daySummary, tripCheckLine } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
 import type { TripDay } from '../trip-map/trip-days';
 import { useWayOut } from '../trip-map/use-ways-out';
@@ -77,7 +77,8 @@ export function AllDaysView(props: AllDaysViewProps) {
   const see = useWayOut('7h-1', { tripId: model.tripId });
   const openIdeas = useWayOut('7f-2', { tripId: model.tripId });
   const ideas = model.ideas.length;
-  const line = tripCheckLine(model.check);
+  const checking = checkingLine(model.check);
+  const line = tripCheckLine(model.check) ?? checking;
   const place = model.destination ?? '';
   const count = model.days.length;
   const fits = ideaDays(model);
@@ -111,10 +112,13 @@ export function AllDaysView(props: AllDaysViewProps) {
             sticker={<GuideSticker guide={model.guide.id} />}
             name={model.guide.name}
             line={line}
-            detail={t({
-              id: 'plan.allDays.checkDetail',
-              message: 'Checked against opening hours, drives and bookings.',
-            })}
+            detail={
+              checking ??
+              t({
+                id: 'plan.allDays.checkDetail',
+                message: 'Checked against opening hours, drives and bookings.',
+              })
+            }
             {...(see === null
               ? {}
               : { action: { label: t({ id: 'plan.allDays.see', message: 'See' }), onPress: see } })}

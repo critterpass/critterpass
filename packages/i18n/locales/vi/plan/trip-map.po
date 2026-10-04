@@ -186,6 +186,14 @@ msgstr "Kiểm tra"
 msgid "plan.tripMap.checkDetail"
 msgstr "Đã đối chiếu giờ mở cửa, đường lái xe, đặt chỗ và những gì mọi người đã lưu."
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checkingAgain"
+msgstr "Đang kiểm tra lại sau thay đổi…"
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checking"
+msgstr "Đang kiểm tra kế hoạch…"
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.clash"
 msgstr "Trùng"

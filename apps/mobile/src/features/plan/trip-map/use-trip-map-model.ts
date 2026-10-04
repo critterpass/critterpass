@@ -10,6 +10,7 @@ import { useVersionLegPaths, type LegPaths } from '@/data/legs/version-leg-paths
 import { useLiveRows } from '@/data/plan/live-rows';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { checkCounts, type CheckCounts } from './sheet-copy';
 import type { TripMapModel } from './sheet-props';
 import { useTripMapData, type TripMapData } from './use-trip-map-data';
 
@@ -40,6 +41,25 @@ export function withKnownPaths(tripId: string, paths: LegPaths): LegPaths {
   knownPaths.set(tripId, seen);
   for (const [pair, path] of paths) seen.set(pair, path);
   return seen.size === paths.size ? paths : new Map(seen);
+}
+
+/** The last counts the check gave each trip, kept while it runs again on a new version. */
+const lastCounts = new Map<string, CheckCounts>();
+
+function currentCheck(tripId: string, data: TripMapData, versionId: string | null): CheckCounts {
+  const view = data.check as TripMapData['check'] & { readonly checking?: boolean };
+  const counts = checkCounts(
+    {
+      check: view.check,
+      fixes: view.fixes.length,
+      know: view.know.length,
+      checking: view.checking,
+    },
+    versionId,
+    lastCounts.get(tripId),
+  );
+  if (counts.done && counts.checking !== true) lastCounts.set(tripId, counts);
+  return counts;
 }
 
 /** The trip's start at 00:00 in its zone, near enough for a count of days. */
@@ -82,11 +102,7 @@ export function tripMapModel(
     draft: plan.mode === 'draft',
     readOnly: data.readOnly,
     guide: data.guide,
-    check: {
-      fixes: data.check.fixes.length,
-      know: data.check.know.length,
-      done: data.check.check?.status === 'done' && data.check.check.version_id === plan.versionId,
-    },
+    check: currentCheck(trip?.id ?? '', data, plan.versionId),
     ideas: data.ideas.ideas,
     placedCount: data.ideas.placedCount,
     curated: data.curated,

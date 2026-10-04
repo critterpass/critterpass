@@ -17,7 +17,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clock } from '../day/format';
 import { chipWeekday, dateLine, dayOfMonth, tagColor, tagLabel, tripDates } from './format';
-import { countdownLine, daySummary, paceWords, tripCheckLine } from './sheet-copy';
+import { checkingLine, countdownLine, daySummary, paceWords, tripCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
 import { GuideSticker } from './guide-sticker';
@@ -56,7 +56,8 @@ export function TripSheet(
   const dates = tripDates(locale, model.startDate, model.endDate);
   const head = [who, dates].filter((part) => part !== '').join(' · ');
   const countdown = countdownLine(model.countdownTo);
-  const line = tripCheckLine(model.check);
+  const checking = checkingLine(model.check);
+  const line = tripCheckLine(model.check) ?? checking;
   const ideas = model.ideas.length;
   return (
     <View style={styles.body} testID="trip-map-full">
@@ -88,10 +89,13 @@ export function TripSheet(
           sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={line}
-          detail={t({
-            id: 'plan.tripMap.checkDetail',
-            message: 'Checked against opening hours, drives, bookings and everyone’s saves.',
-          })}
+          detail={
+            checking ??
+            t({
+              id: 'plan.tripMap.checkDetail',
+              message: 'Checked against opening hours, drives, bookings and everyone’s saves.',
+            })
+          }
           {...(seeCheck === null
             ? {}
             : {

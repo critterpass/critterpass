@@ -22,7 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { planRoutes } from '../overview/routes';
 import { dateLine, dayOfTrip, stopsLine } from './format';
 import { todayOf } from './next-stop';
-import { dayChips, peekCheckLine } from './sheet-copy';
+import { checkingLine, dayChips, peekCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
 import { GuideSticker } from './guide-sticker';
@@ -59,7 +59,8 @@ export function PeekSheet(
   const n = day.dayNo;
   const of = model.days.length;
   const date = day.date === null ? '' : dateLine(locale, day.date);
-  const line = peekCheckLine(model.check, locale, model.startDate);
+  const checking = checkingLine(model.check);
+  const line = peekCheckLine(model.check, locale, model.startDate) ?? checking;
   const title = day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` });
   return (
     <View style={styles.body} testID="trip-map-peek">
@@ -118,6 +119,7 @@ export function PeekSheet(
           sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={line}
+          {...(checking === null || checking === line ? {} : { detail: checking })}
           {...(check === null || model.check.fixes + model.check.know === 0
             ? {}
             : {

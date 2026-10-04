@@ -186,6 +186,14 @@ msgstr "Check"
 msgid "plan.tripMap.checkDetail"
 msgstr "Checked against opening hours, drives, bookings and everyone’s saves."
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checkingAgain"
+msgstr "Checking again after the change…"
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checking"
+msgstr "Checking the plan…"
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.clash"
 msgstr "Clash"
