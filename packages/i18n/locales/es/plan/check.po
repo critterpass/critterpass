@@ -92,6 +92,26 @@ msgstr ""
 msgid "plan.check.done.swapped"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.keptLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.and"
 msgstr ""
@@ -768,26 +788,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-view.tsx
 msgid "plan.check.toKnow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.askedToast"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.waiting"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.staleLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.running"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.keptLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts

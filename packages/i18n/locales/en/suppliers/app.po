@@ -703,7 +703,7 @@ msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
 msgid "suppliers.vendor.empty"
-msgstr "No messages to places yet. When you ask a place something, it shows here."
+msgstr "When you ask a place something, the text and their reply show here."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx

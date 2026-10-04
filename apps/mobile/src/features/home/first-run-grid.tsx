@@ -14,7 +14,8 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { impact } from '@/motion/feedback';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { useGuidesPerCity } from '@/data/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -34,7 +35,7 @@ const SILHOUETTE = tokens.color.ink[400];
 
 /** The guides' home cities before the catalogue has synced (place names are data, not copy). */
 /* eslint-disable lingui/no-unlocalized-strings -- proper nouns from the content catalogue. */
-const FALLBACK_PLACES: Readonly<Record<GuideId, string>> = {
+const FALLBACK_PLACES: Readonly<Record<string, string>> = {
   tokek: 'Bali',
   pon: 'Kyoto',
   lundi: 'Iceland',
@@ -75,7 +76,7 @@ export function guideCells(rows: readonly GuideCellRow[]): GuideCell[] {
     const row = rows.find((candidate) => candidate.guide_slug === guide);
     return {
       guide,
-      place: row?.place ?? FALLBACK_PLACES[guide],
+      place: row?.place ?? FALLBACK_PLACES[guide] ?? '',
       placeId: row?.destination_id ?? null,
     };
   });
@@ -87,7 +88,7 @@ function Cell({ cell, index, width }: { cell: GuideCell; index: number; width: n
   const locale = useLocale();
   const { t } = useLingui();
   const float = useLoop('float', { offset: index / 6 });
-  const sticker = GUIDE_STICKERS[cell.guide];
+  const sticker = guideSticker(cell.guide);
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a shared-element id, never copy.
   const sourceId = `guide-cell-${cell.guide}`;
   const face = () => (
@@ -140,6 +141,7 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const locale = useLocale();
+  const perCity = useGuidesPerCity();
   const gap = theme.space['10'];
   const cellWidth = Math.floor((width - gap * (COLUMNS - 1)) / COLUMNS);
   const openSearch = () => {
@@ -156,10 +158,17 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
       <DashedRow
         testID="home-somewhere-else"
         title={upper(t({ id: 'home.firstRun.elsewhere', message: 'Somewhere else' }), locale)}
-        body={t({
-          id: 'home.firstRun.elsewhereBody',
-          message: 'No guide there yet. Tokek will cover until one moves in.',
-        })}
+        body={
+          perCity
+            ? t({
+                id: 'home.firstRun.elsewhereOwnGuide',
+                message: 'Every city has a guide of its own. Some are still learning their place.',
+              })
+            : t({
+                id: 'home.firstRun.elsewhereBody',
+                message: 'No guide there yet. Tokek will cover until one moves in.',
+              })
+        }
         mark={<Text variant="h3">+</Text>}
         onPress={openSearch}
       />

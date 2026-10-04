@@ -74,7 +74,7 @@ msgstr "{days, plural, one {CHECKED # DAY AGO} other {CHECKED # DAYS AGO}}"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.body"
-msgstr "{days, plural, one {Opening hours, drives, bookings and everyone’s saves, against the whole # day. Nothing changes until you say so.} other {Opening hours, drives, bookings and everyone’s saves, against all # days. Nothing changes until you say so.}}"
+msgstr "{days, plural, one {Opening hours, drives, bookings and everyone’s saves, against the day. Nothing changes until you say so.} other {Opening hours, drives, bookings and everyone’s saves, against all # days. Nothing changes until you say so.}}"
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.noGap"
@@ -100,6 +100,26 @@ msgstr "{fix, plural, one {# TO FIX} other {# TO FIX}}"
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.done.swapped"
 msgstr "{from} is now {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr "{guideName} asked {name} privately"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr "{guideName} asked {name}. Waiting for an answer."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr "{guideName} is checking it again."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr "{guideName} is checking the plan. It takes a moment after each change."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.keptLine"
+msgstr "{guideName} won’t bring it up again unless the stops around it change."
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.and"
@@ -323,7 +343,7 @@ msgstr "After"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.clear"
-msgstr "All good. Hours, drives and bookings line up. Tokek checks again whenever the plan changes."
+msgstr "All good. Hours, drives and bookings line up. {guideName} checks again whenever the plan changes."
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.ask"
@@ -634,7 +654,7 @@ msgstr "RAIN AT {rainAt},\n"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceNormals"
-msgstr "Rain is {month}’s usual shower; Tokek checks the real forecast three days out."
+msgstr "Rain is {month}’s usual shower; {guideName} checks the real forecast three days out."
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceForecast"
@@ -692,7 +712,7 @@ msgstr "so the drive fits"
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.estimate"
-msgstr "Some of these drives are estimates. Tokek checks the day again once the order is in."
+msgstr "Some of these drives are estimates. {guideName} checks the day again once the order is in."
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.else"
@@ -768,7 +788,7 @@ msgstr "They overlap by {over}. {first} ends at {end}, {second} starts at {start
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"
-msgstr "This order is already the shortest Tokek can find without moving anything booked."
+msgstr "This order is already the shortest {guideName} can find without moving anything booked."
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.thu"
@@ -781,26 +801,6 @@ msgstr "Tight: {first} → {second}"
 #: ../../apps/mobile/src/features/plan/check/check-view.tsx
 msgid "plan.check.toKnow"
 msgstr "To know"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.askedToast"
-msgstr "Tokek asked {name} privately"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.waiting"
-msgstr "Tokek asked {name}. Waiting for an answer."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.staleLine"
-msgstr "Tokek is checking it again."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.running"
-msgstr "Tokek is checking the plan. It takes a moment after each change."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.keptLine"
-msgstr "Tokek won’t bring it up again unless the stops around it change."
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.tag.tooFar"

@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { DocField } from '@/ui/documents/DocField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -63,7 +63,7 @@ export function BoardingPassView(props: BoardingPassViewProps) {
   const { width } = useWindowDimensions();
   const size = Math.min(width - theme.size.gutter * 2 - theme.space['24'], 360);
   const guide = useWalletGuide();
-  const tokek = GUIDE_STICKERS[guide.id];
+  const tokek = guideSticker(guide.id);
   const qr = useMemo(
     () => (props.payload === null ? null : qrPath(props.payload)),
     [props.payload],

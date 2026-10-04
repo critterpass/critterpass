@@ -6,7 +6,7 @@ import { t } from '@lingui/core/macro';
 import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
@@ -53,7 +53,7 @@ export function SearchHeader(props: SearchHeaderProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { value, destination, guideName } = props;
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   const placeholder = t({
     id: 'search.field.placeholder',
     message: `Search ${destination}, or ask ${guideName}`,

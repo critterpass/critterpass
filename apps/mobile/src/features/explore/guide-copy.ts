@@ -1,6 +1,7 @@
 /**
  * The words on a destination's hero: what its guide says, and the facts as chips. Guides with a line of their own keep it; the rest
- * introduce themselves, and the guest guide owns up to covering a place that is not home.
+ * introduce themselves, a guide whose picks nobody has checked says it is still learning the place, and the guest guide owns up
+ * to covering a place that is not home.
  */
 import { plural, t } from '@lingui/core/macro';
 
@@ -12,6 +13,12 @@ export function guideTagline(guide: GuideFacts, place: string): string {
     return t({
       id: 'explore.guide.guestLine',
       message: "Not my island, but I've done my homework.",
+    });
+  }
+  if (guide.learning) {
+    return t({
+      id: 'explore.guide.learningLine',
+      message: `I'm still learning ${place}. Nobody has checked my picks here yet.`,
     });
   }
   if (guide.id === 'tokek') {

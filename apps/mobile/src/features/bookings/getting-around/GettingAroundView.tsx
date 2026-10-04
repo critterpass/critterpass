@@ -11,7 +11,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -90,8 +90,8 @@ export function GettingAroundView(props: GettingAroundViewProps) {
             guideName={props.guide.name}
             sticker={
               <Sticker
-                kind={GUIDE_STICKERS[props.guide.id].kind}
-                name={GUIDE_STICKERS[props.guide.id].name}
+                kind={guideSticker(props.guide.id).kind}
+                name={guideSticker(props.guide.id).name}
                 pose="sleep"
                 size={120}
               />

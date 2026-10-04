@@ -11,7 +11,7 @@ import { Image, Pressable, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { patterns } from '@/motion';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
@@ -116,7 +116,7 @@ function MoodCritter({
   const styles = useStyles();
   const theme = useTheme();
   const hop = patterns.useSquash({ active: picked });
-  const critter = GUIDE_STICKERS[MOOD_CRITTERS[mood]];
+  const critter = guideSticker(MOOD_CRITTERS[mood]);
   return (
     <Pressable
       onPress={onPress}

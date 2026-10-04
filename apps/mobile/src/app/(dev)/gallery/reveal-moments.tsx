@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { RevealAction, RevealStage } from '@/features/vote/final/reveal-stage';
 import { guideColour } from '@/features/vote/format';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 
 export const __CP_DEV_ROUTE__ = true;
@@ -60,13 +60,13 @@ export default function RevealMomentsScreen() {
         photo={null}
         eyebrow="WHERE NEXT? · FINAL"
         voted="6 OF 6 VOTED"
-        guide={GUIDE_STICKERS.pon}
+        guide={guideSticker('pon')}
         name="KYOTO"
         score="WINS 4–2"
         tallySummary="Kyoto wins 4–2; Kyoto, 4 votes; Lisbon, 2 votes"
         rows={ROWS}
         consolation={{
-          guide: GUIDE_STICKERS.sardi,
+          guide: guideSticker('sardi'),
           line: 'Sardi took it well. Already pitching the next trip.',
         }}
         action={<RevealAction label="SET UP KYOTO" onPress={() => undefined} />}

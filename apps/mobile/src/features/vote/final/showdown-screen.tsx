@@ -21,7 +21,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { impact, toast, useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -129,7 +129,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
     const cast_ = await cast(option.id);
     const other = option.id === first.id ? second : first;
     if (cast_ && other.votes > option.votes) {
-      const guide = GUIDE_STICKERS[guideOr(placeOf(option)?.guide)];
+      const guide = guideSticker(guideOr(placeOf(option)?.guide));
       toast.show({
         // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
         id: `showdown-underdog-${option.id}`,

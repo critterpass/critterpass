@@ -5,18 +5,15 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
-import type { Critter } from '@cp/critter-art';
-import { canonicalSeed, critters } from '@cp/critter-art';
 import { tokens } from '@cp/design-tokens';
 
-import type { GuideId } from '@/lib/navigation/active-guide';
-import { useActiveGuide } from '@/lib/navigation/active-guide';
+import { useActiveGuide, useGuideRowsRevision } from '@/lib/navigation/active-guide';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { impact } from '@/motion/feedback';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { usePress } from '@/motion/gestures/press';
 
-import { GUIDE_DEX_IDS } from '../avatar/guides';
+import { guideSticker } from '../avatar/guides';
 import { Sticker } from '../sticker/Sticker';
 import { makeStyles, sizeToken } from '../theme';
 
@@ -25,15 +22,6 @@ import { makeStyles, sizeToken } from '../theme';
 export const GUIDE_SHEET_SCREEN = '3j-1';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- design screen id (data key), never rendered
 export const HELP_HUB_SCREEN = '3k-6';
-
-export function guideCritter(guideId: GuideId): Critter {
-  const critter = critters.find((entry) => entry.id === GUIDE_DEX_IDS[guideId]);
-  if (!critter) {
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a developer-facing throw, never rendered.
-    throw new Error(`critter-art: guide ${guideId} missing from the dex`);
-  }
-  return critter;
-}
 
 export const FAB_SIZE = sizeToken(tokens.size.fab, 'size');
 export { FAB_RAISE } from './tab-bar-metrics';
@@ -90,7 +78,9 @@ export function GuideFab() {
   const { t } = useLingui();
   const styles = useStyles();
   const { guideId } = useActiveGuide();
-  const critter = guideCritter(guideId);
+  // A guide row that arrives later (its name, its accent) redraws the button.
+  useGuideRowsRevision();
+  const critter = guideSticker(guideId);
   const askHref = useScreenHref(GUIDE_SHEET_SCREEN);
   const helpHref = useScreenHref(HELP_HUB_SCREEN);
 
@@ -145,12 +135,12 @@ export function GuideFab() {
       >
         <GestureDetector gesture={gestures.tapArea}>
           <View testID="guide-fab-tap-area" style={styles.tapArea}>
-            <View style={[styles.face, { backgroundColor: tokens.guide[guideId] }]}>
+            <View style={[styles.face, { backgroundColor: critter.accent }]}>
               <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
                 <Sticker
                   kind={critter.kind}
                   name={critter.name}
-                  seed={canonicalSeed(critter)}
+                  seed={critter.seed}
                   pose="idle"
                   size={STICKER_SIZE}
                 />

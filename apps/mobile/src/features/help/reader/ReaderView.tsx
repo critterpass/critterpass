@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -103,7 +103,7 @@ export function ReaderView(props: ReaderViewProps) {
         {article === null ? null : article === 'missing' ? (
           <EmptyState
             guide="tokek"
-            guideName={GUIDE_STICKERS.tokek.name}
+            guideName={guideSticker('tokek').name}
             title={t({ id: 'help.article.missingTitle', message: 'This article isn’t here yet' })}
             line={t({
               id: 'help.article.missingBody',

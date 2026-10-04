@@ -82,17 +82,20 @@ export function askedLabel(): string {
   return t({ id: 'plan.check.balance.asked', message: 'ASKED' });
 }
 
-export function askedToast(name: string): { title: string; subtitle: string } {
+export function askedToast(name: string, guideName: string): { title: string; subtitle: string } {
   return {
-    title: t({ id: 'plan.check.balance.askedToast', message: `Tokek asked ${name} privately` }),
+    title: t({
+      id: 'plan.check.balance.askedToast',
+      message: `${guideName} asked ${name} privately`,
+    }),
     subtitle: t({ id: 'plan.check.balance.askedToastLine', message: 'Nobody else sees it.' }),
   };
 }
 
-export function waitingLine(name: string): string {
+export function waitingLine(name: string, guideName: string): string {
   return t({
     id: 'plan.check.balance.waiting',
-    message: `Tokek asked ${name}. Waiting for an answer.`,
+    message: `${guideName} asked ${name}. Waiting for an answer.`,
   });
 }
 

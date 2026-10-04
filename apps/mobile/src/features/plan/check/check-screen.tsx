@@ -16,6 +16,7 @@ import { planRoutes } from '@/features/plan/overview/routes';
 import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
+import { usePlanGuide } from '../plan-guide';
 import { AskCard } from './ask-card';
 import {
   appliedToast,
@@ -56,6 +57,7 @@ import { fixActionOf, useFix, type FixOutcome } from './use-fix';
 
 export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const check = usePlanCheck(tripId);
   const ctx = useCheckContext(plan);
   const [motionMode] = useMotionMode();
@@ -89,7 +91,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
         : outcome.kind === 'sent'
           ? sentToast()
           : outcome.kind === 'stale'
-            ? staleToast()
+            ? staleToast(guideName)
             : outcome.kind === 'unfit'
               ? unfitToast()
               : failedToast();
@@ -159,7 +161,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
               onKeep: () => {
                 setOpen(null);
                 runner.keep(issue, organiser);
-                if (organiser) toast.show({ id: 'plan-check-kept', ...keptToast() });
+                if (organiser) toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
               },
             },
     };
@@ -176,14 +178,14 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const notice =
     !check.loaded || check.check === null
       ? check.loaded
-        ? runningNotice()
+        ? runningNotice(guideName)
         : null
       : status === 'failed'
         ? failedNotice()
         : fixes.length === 0 && check.know.length === 0
           ? running
-            ? runningNotice()
-            : clearNotice()
+            ? runningNotice(guideName)
+            : clearNotice(guideName)
           : null;
   const mine = asks.find((ask) => ask.memberId === plan.uid && ask.status === 'open') ?? null;
   const asker = plan.members.find((member) => member.uid === mine?.askedBy)?.name ?? '';

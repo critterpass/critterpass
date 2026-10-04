@@ -101,6 +101,26 @@ msgstr "{fix, plural, other {# CẦN SỬA}}"
 msgid "plan.check.done.swapped"
 msgstr "Đã đổi {from} thành {to}."
 
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr "{guideName} đã hỏi riêng {name}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr "{guideName} đã hỏi {name}. Đang chờ trả lời."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr "{guideName} đang kiểm tra lại."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr "{guideName} đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.keptLine"
+msgstr "{guideName} sẽ không nhắc lại, trừ khi các điểm quanh đó thay đổi."
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.and"
 msgstr "{head} và {last}"
@@ -323,7 +343,7 @@ msgstr "Sau"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.clear"
-msgstr "Ổn cả. Giờ mở cửa, đường đi và đặt chỗ đều khớp. Tokek sẽ kiểm tra lại mỗi khi kế hoạch thay đổi."
+msgstr "Ổn cả. Giờ mở cửa, đường đi và đặt chỗ đều khớp. {guideName} sẽ kiểm tra lại mỗi khi kế hoạch thay đổi."
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.ask"
@@ -634,7 +654,7 @@ msgstr "MƯA LÚC {rainAt} GIỜ,\n"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceNormals"
-msgstr "Mưa là cơn mưa thường gặp vào {month}; Tokek sẽ xem dự báo thật ba ngày trước."
+msgstr "Mưa là cơn mưa thường gặp vào {month}; {guideName} sẽ xem dự báo thật ba ngày trước."
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceForecast"
@@ -692,7 +712,7 @@ msgstr "để kịp lái xe tới"
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.estimate"
-msgstr "Một vài quãng lái xe ở đây là ước tính. Tokek sẽ kiểm tra lại ngày này khi bạn dùng thứ tự mới."
+msgstr "Một vài quãng lái xe ở đây là ước tính. {guideName} sẽ kiểm tra lại ngày này khi bạn dùng thứ tự mới."
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.else"
@@ -768,7 +788,7 @@ msgstr "Hai điểm trùng nhau {over}. {first} xong lúc {end}, {second} bắt 
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"
-msgstr "Thứ tự này đã là ngắn nhất Tokek tìm được mà không dời chỗ nào đã đặt."
+msgstr "Thứ tự này đã là ngắn nhất {guideName} tìm được mà không dời chỗ nào đã đặt."
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.thu"
@@ -781,26 +801,6 @@ msgstr "Sát giờ: {first} → {second}"
 #: ../../apps/mobile/src/features/plan/check/check-view.tsx
 msgid "plan.check.toKnow"
 msgstr "Cần biết"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.askedToast"
-msgstr "Tokek đã hỏi riêng {name}"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.waiting"
-msgstr "Tokek đã hỏi {name}. Đang chờ trả lời."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.staleLine"
-msgstr "Tokek đang kiểm tra lại."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.running"
-msgstr "Tokek đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.keptLine"
-msgstr "Tokek sẽ không nhắc lại, trừ khi các điểm quanh đó thay đổi."
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.tag.tooFar"

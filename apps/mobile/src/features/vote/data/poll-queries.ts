@@ -3,6 +3,8 @@
  * poll renders and takes votes offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import { DESTINATION_GUIDE_TABLES, destinationGuideSql } from '@/data/guides';
+
 import { CAST_BALLOT, RETRACT_BALLOT } from './vote-commands';
 
 export const POLL_SQL = `SELECT id, crew_id, trip_id, kind, stage, status, question, created_by,
@@ -34,11 +36,22 @@ export const PEOPLE_SQL = `SELECT u.id, u.display_name, m.colour
   WHERE m.crew_id = ? ORDER BY m.created_at, u.id`;
 export const PEOPLE_TABLES = ['crew_members', 'users'];
 
-/** A destination poll's places, for stickers, colours and guides. */
-export const PLACES_SQL = `SELECT d.id, d.slug, d.name, d.coverage, d.colour, s.guide_slug, s.code
+/**
+ * A destination poll's places, for stickers, colours and guides. `city_guide_slug` is the guide of
+ * the place's own critter while guides go by city, else null.
+ */
+export const placesSql = (
+  perCity: boolean,
+) => `SELECT d.id, d.slug, d.name, d.coverage, d.colour, s.guide_slug, s.code,
+    ${destinationGuideSql(perCity, 'd.critter_key', 'NULL')} AS city_guide_slug
   FROM destinations d LEFT JOIN critter_sets s ON s.id = d.critter_set_id
   WHERE d.id IN (SELECT ref_id FROM poll_options WHERE poll_id = ?)`;
-export const PLACES_TABLES = ['destinations', 'critter_sets', 'poll_options'];
+export const PLACES_TABLES = [
+  'destinations',
+  'critter_sets',
+  'poll_options',
+  ...DESTINATION_GUIDE_TABLES,
+];
 
 /** Closed destination polls whose reveal this user has not seen. */
 export const PENDING_REVEAL_SQL = `SELECT r.poll_id FROM poll_reveals r

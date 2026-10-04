@@ -28,7 +28,7 @@ export function tripDates(summary: SummaryModel, locale: string): string {
 }
 
 /** Each guide's theme as the header names it ("♪ gamelan lo-fi"). */
-export function themeName(guide: GuideId): string {
+export function themeName(guide: GuideId): string | null {
   switch (guide) {
     case 'tokek':
       return t({ id: 'recap.story.theme.tokek', message: 'gamelan lo-fi' });
@@ -43,8 +43,9 @@ export function themeName(guide: GuideId): string {
     case 'paco':
       return t({ id: 'recap.story.theme.paco', message: 'pan flute and charango' });
     case 'chava':
-    default:
       return t({ id: 'recap.story.theme.chava', message: 'đàn bầu lo-fi' });
+    default:
+      return null;
   }
 }
 

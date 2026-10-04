@@ -62,18 +62,17 @@ export function failedNotice(): string {
   });
 }
 
-export function clearNotice(): string {
+export function clearNotice(guideName: string): string {
   return t({
     id: 'plan.check.clear',
-    message:
-      'All good. Hours, drives and bookings line up. Tokek checks again whenever the plan changes.',
+    message: `All good. Hours, drives and bookings line up. ${guideName} checks again whenever the plan changes.`,
   });
 }
 
-export function runningNotice(): string {
+export function runningNotice(guideName: string): string {
   return t({
     id: 'plan.check.running',
-    message: 'Tokek is checking the plan. It takes a moment after each change.',
+    message: `${guideName} is checking the plan. It takes a moment after each change.`,
   });
 }
 
@@ -91,10 +90,13 @@ export function sentToast(): { title: string; subtitle: string } {
   };
 }
 
-export function staleToast(): { title: string; subtitle: string } {
+export function staleToast(guideName: string): { title: string; subtitle: string } {
   return {
     title: t({ id: 'plan.check.toast.stale', message: 'The plan changed since this check' }),
-    subtitle: t({ id: 'plan.check.toast.staleLine', message: 'Tokek is checking it again.' }),
+    subtitle: t({
+      id: 'plan.check.toast.staleLine',
+      message: `${guideName} is checking it again.`,
+    }),
   };
 }
 
@@ -118,12 +120,12 @@ export function unfitToast(): { title: string; subtitle: string } {
   };
 }
 
-export function keptToast(): { title: string; subtitle: string } {
+export function keptToast(guideName: string): { title: string; subtitle: string } {
   return {
     title: t({ id: 'plan.check.toast.kept', message: 'Kept as it is' }),
     subtitle: t({
       id: 'plan.check.toast.keptLine',
-      message: 'Tokek won’t bring it up again unless the stops around it change.',
+      message: `${guideName} won’t bring it up again unless the stops around it change.`,
     }),
   };
 }

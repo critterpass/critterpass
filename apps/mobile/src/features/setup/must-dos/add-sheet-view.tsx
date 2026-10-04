@@ -12,7 +12,7 @@ import { I18nManager, View } from 'react-native';
 
 import { MUST_DO_TITLE_MAX } from '@cp/domain';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
@@ -123,7 +123,7 @@ export function AddSheetView({
   // 3c-10 draws no ✕: the grabber (and a swipe down) is the way back.
   useNoBackByDesign();
   const theme = useTheme();
-  const guide = GUIDE_STICKERS[trip.guide];
+  const guide = guideSticker(trip.guide);
   const place = trip.destinationName;
   const guideName = guide.name;
   const name = me.name;
