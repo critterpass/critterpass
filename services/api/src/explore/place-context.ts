@@ -16,7 +16,7 @@ import {
   toLocalWallTime,
   type BestWindow,
 } from '@cp/domain';
-import { straightLineTravel } from '@cp/planner';
+import { legKey, straightLineTravel, type FitLeg } from '@cp/planner';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -25,6 +25,10 @@ import type { AppEnv } from '../app';
 import type { CommandDoorDeps } from '../commands/_framework/doors';
 import { requireCommandSession } from '../commands/_framework/session';
 import { readFitThresholds, straightLineSource, tripFitFacts } from '../planning/fit/context';
+import type { FitDeps } from '../planning/fit/service';
+import type { PlanningModule } from '../planning/register';
+import { createPlanningProvider } from '../routing/planning-provider';
+import { planningFitTravel } from '../routing/travel-modes';
 import { nearbyPlaces, type NearbyPlace } from '../planning/fit/nearby';
 import { readSplitSummary, type SplitSummary } from '../planning/split/stances';
 import { tripStay } from '../planning/stay';
@@ -94,6 +98,7 @@ export interface PlaceContext {
 export async function readPlaceContext(
   tx: pg.PoolClient,
   input: { readonly poiId: string; readonly tripId: string; readonly date?: string | undefined },
+  deps: PlaceContextDeps = {},
 ): Promise<PlaceContext> {
   const trip = await tripFacts(tx, input.tripId);
   const place = await placeFacts(tx, input.poiId);
@@ -121,7 +126,7 @@ export async function readPlaceContext(
     `SELECT DISTINCT user_id FROM swipe_yes_votes WHERE trip_id = $1 AND poi_id = $2 ORDER BY user_id`,
     [trip.id, input.poiId],
   );
-  const planning = await planningExtras(tx, { trip, place, poiId: input.poiId, date });
+  const planning = await planningExtras(tx, { trip, place, poiId: input.poiId, date }, deps);
   // Installed builds read this field: it keeps the slot finder's answer, unchanged; the planning
   // page reads `when_it_fits` instead.
   const suggested =
@@ -161,6 +166,7 @@ type PlanningExtras = Pick<
 async function planningExtras(
   tx: pg.PoolClient,
   input: { trip: TripFacts; place: PlaceFacts; poiId: string; date: string },
+  deps: PlaceContextDeps,
 ): Promise<PlanningExtras> {
   const { trip, place, poiId } = input;
   const base = {
@@ -178,21 +184,33 @@ async function planningExtras(
     throw error;
   });
   if (fitTrip === null) return base;
-  const fits = await whenItFits(tx, { tripId: trip.id, poiId, hours: place.hours });
+  const fits = await whenItFits(tx, { tripId: trip.id, poiId, hours: place.hours }, deps.travel);
   const date = fits?.best?.date ?? input.date;
   const { walkMaxM } = await readFitThresholds(tx);
-  const travel = straightLineTravel(fitTrip.driveFactor, walkMaxM);
+  // The planning router first (Valhalla on its own cache); a pair it cannot answer falls back to
+  // the straight line, marked approx.
+  const routed = (deps.travel ?? straightLineSource)(fitTrip.driveFactor, walkMaxM);
+  const straight = straightLineTravel(fitTrip.driveFactor, walkMaxM);
   const here = { key: poiId, lat: place.lat, lng: place.lng };
   const stay = await tripStay(tx, trip.id, date, fitTrip.versionId ?? undefined);
-  const fromStay =
-    stay === null ? null : travel({ key: 'stay', lat: stay.lat, lng: stay.lng }, here);
-  const similar = (
-    await similarPlaces(tx, { destinationId: trip.destination_id, poiId, place })
-  ).flatMap((row) => {
-    const leg = travel(here, { key: row.poi_id, lat: row.lat, lng: row.lng });
-    return leg === null || leg.minutes < SIMILAR_MIN_MINUTES
+  const candidates = await similarPlaces(tx, { destinationId: trip.destination_id, poiId, place });
+  const pairs = [
+    ...(stay === null ? [] : [{ from: { key: 'stay', lat: stay.lat, lng: stay.lng }, to: here }]),
+    ...candidates.map((row) => ({
+      from: here,
+      to: { key: row.poi_id, lat: row.lat, lng: row.lng },
+    })),
+  ];
+  const legs = await routed.legs(pairs).catch(() => new Map<string, FitLeg>());
+  const leg = (pair: (typeof pairs)[number]) =>
+    legs.get(legKey(pair.from.key, pair.to.key)) ?? straight(pair.from, pair.to);
+  const stayPair = stay === null ? undefined : pairs[0];
+  const fromStay = stayPair === undefined ? null : leg(stayPair);
+  const similar = candidates.flatMap((row) => {
+    const found = leg({ from: here, to: { key: row.poi_id, lat: row.lat, lng: row.lng } });
+    return found === null || found.minutes < SIMILAR_MIN_MINUTES
       ? []
-      : [{ poi_id: row.poi_id, name: row.name, category: row.category, minutes: leg.minutes }];
+      : [{ poi_id: row.poi_id, name: row.name, category: row.category, minutes: found.minutes }];
   });
   return {
     ...base,
@@ -202,11 +220,31 @@ async function planningExtras(
     nearby: await nearbyPlaces(
       tx,
       { destinationId: trip.destination_id, poiId, limit: 3 },
-      straightLineSource(fitTrip.driveFactor, walkMaxM),
+      routed,
+    ).catch(() =>
+      nearbyPlaces(
+        tx,
+        { destinationId: trip.destination_id, poiId, limit: 3 },
+        straightLineSource(fitTrip.driveFactor, walkMaxM),
+      ),
     ),
     similar: similar.slice(0, 3),
   };
 }
+
+export interface PlaceContextDeps {
+  /** The planning router for the trip's drive factor; straight-line minutes without one. */
+  readonly travel?: FitDeps['travel'];
+}
+
+/** Set once at boot by the planning module, which holds the api's router. */
+let bootTravel: FitDeps['travel'] | undefined;
+
+export const placeContextTravel: PlanningModule = ({ doors, env }) => {
+  bootTravel = planningFitTravel(
+    createPlanningProvider({ valhallaUrl: env.VALHALLA_URL, pool: doors.pool }),
+  );
+};
 
 const querySchema = z.object({ trip_id: z.uuid(), date: z.iso.date().optional() });
 
@@ -219,7 +257,11 @@ export function registerPlaceContextRoute(
     const query = querySchema.parse(c.req.query());
     const poiId = z.uuid().parse(c.req.param('id'));
     const body = await withUser(deps.pool, session.uid, 'unknown', (tx) =>
-      readPlaceContext(tx, { poiId, tripId: query.trip_id, date: query.date }),
+      readPlaceContext(
+        tx,
+        { poiId, tripId: query.trip_id, date: query.date },
+        bootTravel === undefined ? {} : { travel: bootTravel },
+      ),
     );
     c.header('Cache-Control', 'private, no-store');
     return c.json(body);

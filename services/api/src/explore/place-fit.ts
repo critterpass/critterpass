@@ -14,7 +14,7 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
-import { fitForTrip } from '../planning/fit/service';
+import { fitForTrip, type FitDeps } from '../planning/fit/service';
 import { readCrowdWeeks } from '../planning/fit/signals/crowds';
 import { tripStaySource } from '../planning/stay';
 import type { PlaceFacts } from './plan-read';
@@ -82,11 +82,12 @@ function dayView(fit: DayFit, date: string | undefined, tz: string): FitDayView 
 export async function whenItFits(
   tx: pg.PoolClient,
   input: { readonly tripId: string; readonly poiId: string; readonly hours: unknown },
+  travel?: FitDeps['travel'],
 ): Promise<WhenItFits | null> {
   const result = await fitForTrip(
     tx,
     { tripId: input.tripId, poiIds: [input.poiId], includeContext: true },
-    { stays: tripStaySource, now: () => new Date() },
+    { stays: tripStaySource, now: () => new Date(), ...(travel === undefined ? {} : { travel }) },
   );
   const fit = result.fits[0];
   const context = result.context;

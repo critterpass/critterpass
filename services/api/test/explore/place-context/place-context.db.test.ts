@@ -9,6 +9,7 @@ import { withSystem, withUser } from '@cp/db';
 import { knownHours } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { readPlaceContext } from '../../../src/explore/place-context';
 import { loadSlotDays, placeFacts, tripFacts } from '../../../src/explore/plan-read';
 import { suggestSlot } from '../../../src/explore/slot-suggest';
 import { readCrowds } from '../../../src/travel-data/crowds-route';
@@ -178,6 +179,28 @@ describe('place context for the planning page', () => {
       split: true,
     });
     expect((await context(farTemple)).body.split).toBeNull();
+  });
+
+  it('takes the planning router minutes, keeping the straight line for what it cannot answer', async () => {
+    // The router is the network boundary: it answers the stay leg only.
+    const travel = () => ({
+      legs: (pairs: readonly { from: { key: string }; to: { key: string } }[]) =>
+        Promise.resolve(
+          new Map(
+            pairs
+              .filter((pair) => pair.from.key === 'stay')
+              .map((pair) => [
+                `${pair.from.key}>${pair.to.key}`,
+                { minutes: 33, mode: 'drive' as const, approx: false },
+              ]),
+          ),
+        ),
+    });
+    const body = await withUser(world.harness.pool, world.a.organiser.uid, 'unknown', (tx) =>
+      readPlaceContext(tx, { poiId: spring, tripId: world.a.tripId }, { travel }),
+    );
+    expect(body.from_stay).toMatchObject({ minutes: 33, mode: 'drive', approx: false });
+    expect(body.similar.map((p) => p.poi_id)).toEqual([farTemple]);
   });
 
   it('is NOT_FOUND for someone outside the trip', async () => {
