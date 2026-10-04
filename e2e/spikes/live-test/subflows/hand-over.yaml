@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# The phone changes hands: Developer tools signs the kept account ${TARGET} back in
+# (dev-accounts-switch-<n>) and the app restarts on Home, which is what the returning person sees
+# first. ${SHOT} names that frame.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../../../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: ${TARGET}
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 90000
+# Sync brings the other person's changes in a moment after the restart.
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}

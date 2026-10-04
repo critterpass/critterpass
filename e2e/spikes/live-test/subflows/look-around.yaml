@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# What a returning person checks without being told: the inbox behind the bell, then the crew chat.
+# From Home, and back on Home at the end. ${SHOT} prefixes the frames (…-inbox, …-chat).
+- tapOn:
+    id: 'home-header-inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}-inbox
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}-chat
+- runFlow: home.yaml
