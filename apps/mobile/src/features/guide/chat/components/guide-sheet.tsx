@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, config keys and design ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useMemo, useState, type ReactNode } from 'react';
 
 import type { GuideThreadMode } from '@cp/domain';
@@ -130,7 +130,9 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
     online: sync.phase !== 'offline',
   });
   const rate = useCommand(rateGuideAnswerCommand);
-  const [draft, setDraft] = useState('');
+  // A question handed over from search (`q`) waits in the composer for the person to send.
+  const { q } = useLocalSearchParams<{ q?: string }>();
+  const [draft, setDraft] = useState(q ?? '');
   const color = theme.guide[guideAvatarId(context.guideSlug)];
   const modeLine = useModeLine(mode, trip);
   const quickActions = useQuickActions(trip?.tripId ?? null);

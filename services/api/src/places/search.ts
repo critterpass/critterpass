@@ -43,6 +43,10 @@ export interface PlaceSearchFilters {
   readonly q?: string;
   readonly near?: { readonly lat: number; readonly lng: number };
   readonly category?: PoiCategory;
+  /** Any of these categories (a plain-words search's kinds of place). */
+  readonly categories?: readonly PoiCategory[];
+  /** Price level at most this; places with no known price stay in. */
+  readonly priceMax?: number;
   readonly destinationId?: string;
   readonly openAt?: Date;
   readonly limit?: number;
@@ -60,6 +64,13 @@ export interface PlaceSearchResultItem {
   readonly tags: readonly string[];
   readonly distanceM: number | null;
   readonly openNow: boolean | null;
+}
+
+/** A match with what the planning filters read: its hours and the zone they are in. */
+export interface PlaceSearchCandidate {
+  readonly item: PlaceSearchResultItem;
+  readonly hours: Hours | null;
+  readonly tz: string | null;
 }
 
 interface PlaceSearchRow {
@@ -140,7 +151,35 @@ export async function searchPlaces(
   const limit = Math.min(filters.limit ?? DEFAULT_LIMIT, MAX_LIMIT);
   const needsOpenAtFilter = filters.openAt !== undefined;
   const fetchLimit = needsOpenAtFilter ? limit * OPEN_AT_CANDIDATE_MULTIPLIER : limit;
+  const rows = await queryPlaceRows(tx, filters, fetchLimit);
+  const results = needsOpenAtFilter
+    ? rows.filter((row) => isOpenAtInstant(row, filters.openAt as Date) === true)
+    : rows;
+  return results.slice(0, limit).map(toResultItem);
+}
 
+/**
+ * Up to `fetchLimit` matches in search order, with their hours, for the planning filters to narrow
+ * (`open_at` is not applied here). Same transaction rule as `searchPlaces`.
+ */
+export async function searchPlaceCandidates(
+  tx: pg.PoolClient,
+  filters: Omit<PlaceSearchFilters, 'openAt' | 'limit'>,
+  fetchLimit: number,
+): Promise<readonly PlaceSearchCandidate[]> {
+  const rows = await queryPlaceRows(tx, filters, fetchLimit);
+  return rows.map((row) => ({
+    item: toResultItem(row),
+    hours: knownHours(row.hours),
+    tz: row.timezone ?? row.destination_tz,
+  }));
+}
+
+async function queryPlaceRows(
+  tx: pg.PoolClient,
+  filters: PlaceSearchFilters,
+  fetchLimit: number,
+): Promise<readonly PlaceSearchRow[]> {
   // A record merged into another is the same place under a second name: only the target shows.
   const conditions: string[] = ["p.status = 'active'", 'p.merged_into_id IS NULL'];
   const params: unknown[] = [];
@@ -151,6 +190,14 @@ export async function searchPlaces(
   if (filters.category !== undefined) {
     params.push(filters.category);
     conditions.push(`p.category = $${params.length}`);
+  }
+  if (filters.categories !== undefined && filters.categories.length > 0) {
+    params.push(filters.categories);
+    conditions.push(`p.category = ANY($${params.length}::text[])`);
+  }
+  if (filters.priceMax !== undefined) {
+    params.push(filters.priceMax);
+    conditions.push(`(p.price_level IS NULL OR p.price_level <= $${params.length})`);
   }
 
   const hasQuery = filters.q !== undefined && filters.q.trim().length > 0;
@@ -204,10 +251,5 @@ export async function searchPlaces(
      LIMIT $${limitParam}`,
     params,
   );
-
-  const results = needsOpenAtFilter
-    ? rows.filter((row) => isOpenAtInstant(row, filters.openAt as Date) === true)
-    : rows;
-
-  return results.slice(0, limit).map(toResultItem);
+  return rows;
 }

@@ -1,7 +1,8 @@
 /**
  * The add sheet's search (3c-10): places matching every keystroke (debounced 120 ms), from
- * `/v1/places/search` biased to the trip's destination, or from the destination's places already
- * on the phone when there is no signal. Each result carries its pill, decided from what is known
+ * `/v1/places/search` biased to the trip's destination, or
+ * from the destination's places already on the phone when there is no signal, by the shared folded
+ * match (data/places). Each result carries its pill, decided from what is known
  * before a draft exists: a lottery or book-ahead tag, else whether the place is open on any trip
  * day (FITS, or CLASH when it is closed on all of them); unknown hours carry no pill.
  */
@@ -9,6 +10,7 @@
 import { hoursSchema, WEEKDAYS, type Hours } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
+import { matchPlaces } from '@/data/places/match-places';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
 import { parseIdList, parseJson } from '../data/rows';
@@ -37,6 +39,8 @@ interface LocalPlace {
   readonly tags: string | null;
   readonly hours: string | null;
   readonly editorial: string | null;
+  readonly name_local?: string | null;
+  readonly category?: string | null;
 }
 
 interface OnlinePlace {
@@ -90,13 +94,27 @@ function blurbOf(local: LocalPlace | undefined, address: string | null): string 
   return typeof why === 'string' && why !== '' ? why : address;
 }
 
-const LOCAL_SQL = `SELECT id, name, address, tags, hours, editorial FROM pois
-  WHERE destination_id = ? AND merged_into_id IS NULL
-    AND (name LIKE ? ESCAPE '\\' OR name_local LIKE ? ESCAPE '\\')
-  ORDER BY name LIMIT ${LIMIT}`;
+const LOCAL_SQL = `SELECT id, name, name_local, category, address, tags, hours, editorial FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL`;
 
-function likeOf(query: string): string {
-  return `%${query.replace(/[\\%_]/gu, (char) => `\\${char}`)}%`;
+/** The destination's places on the phone matching `query`, by the shared folded match. */
+function matchLocal(rows: readonly LocalPlace[], query: string): LocalPlace[] {
+  const byId = new Map(rows.map((row) => [row.id, row]));
+  const candidates = rows.map((row) => ({
+    id: row.id,
+    poiId: row.id,
+    name: row.name,
+    nameLocal: row.name_local ?? null,
+    category: row.category ?? null,
+    lat: null,
+    lng: null,
+    tags: parseIdList(row.tags),
+    source: 'curated' as const,
+  }));
+  return matchPlaces(candidates, query, { limit: LIMIT }).flatMap((place) => {
+    const row = byId.get(place.id);
+    return row === undefined ? [] : [row];
+  });
 }
 
 export function useMustDoSearch(options: {
@@ -136,11 +154,7 @@ export function useMustDoSearch(options: {
               )
             : destinationId === null
               ? []
-              : await db.getAll<LocalPlace>(LOCAL_SQL, [
-                  destinationId,
-                  likeOf(query),
-                  likeOf(query),
-                ]);
+              : matchLocal(await db.getAll<LocalPlace>(LOCAL_SQL, [destinationId]), query);
         const byId = new Map(local.map((place) => [place.id, place]));
         const places = (
           online ??
