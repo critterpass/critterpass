@@ -1,5 +1,5 @@
 /**
- * Tokek's suggestions for a trip (7c-3 "TOKEK SUGGESTS"): the destination's curated places that
+ * Tokek's suggestions for a trip (7c-3 "TOKEK SUGGESTS"): the destination's recommended places that
  * nobody saved, the caller didn't hide and the plan doesn't hold, ranked by how well they fit the
  * trip's days. Every candidate gets a coarse fit on stored legs and straight lines (hours, gaps,
  * crowds, rain); only the top places' insertions are routed, in one batched call, and refitted.
@@ -8,6 +8,7 @@
  * and coming back to the list never refit; a new plan version is a new key. Saves and hides are
  * taken out on every read, so a swipe shows at once.
  */
+import { recommendedSql } from '@cp/db';
 import type { PlaceFit } from '@cp/domain';
 import {
   fitPlace,
@@ -86,7 +87,7 @@ async function candidateIds(
 ): Promise<string[]> {
   const { rows } = await tx.query<{ id: string }>(
     `SELECT p.id FROM pois p
-      WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+      WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
         AND p.merged_into_id IS NULL AND p.category NOT IN ('stay', 'transit')
         AND (cardinality($2::text[]) = 0 OR p.category = ANY($2::text[]))
       ORDER BY p.id`,

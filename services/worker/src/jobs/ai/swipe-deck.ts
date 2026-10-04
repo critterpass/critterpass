@@ -1,12 +1,12 @@
 /**
  * `ai.swipe_deck` (docs/api-contracts-async.md §2): builds a new swipe session's deck. Ranking is
- * code (`rankDeck`): the destination's curated places minus those already in the plan, by the
+ * code (`rankDeck`): the destination's recommended places minus those already in the plan, by the
  * crew's taste tags, crew saves, must-sees and distance from the stay. The guide then notes each
  * card in one batch that sees only card ids and our own place data (never supplier content or crew
  * chat); a failed or rejected call leaves the cards without notes. The session goes live after.
  */
 import { personaIdSchema, recordUsage, writeDeckNotes, type DeckNoteCard } from '@cp/ai';
-import { appendDomainEvent, outbox, withSystem } from '@cp/db';
+import { appendDomainEvent, outbox, recommendedSql, withSystem } from '@cp/db';
 import {
   channelName,
   DECK_SIZE,
@@ -24,7 +24,7 @@ import type pg from 'pg';
 import { defineJob, type JobDefinition } from '../../boss';
 import type { GatewayFactory } from '../explore';
 
-interface SessionFacts {
+export interface SessionFacts {
   readonly trip_id: string;
   readonly destination_id: string;
   readonly destination: string;
@@ -33,7 +33,7 @@ interface SessionFacts {
   readonly status: string;
 }
 
-interface PlaceRow {
+export interface DeckPlaceRow {
   readonly poi_id: string;
   readonly name: string;
   readonly category: string;
@@ -62,9 +62,12 @@ async function sessionFacts(
   return rows[0];
 }
 
-/** The destination's curated places with the plan, stay and crew signals the ranking needs. */
-async function candidates(tx: pg.PoolClient, facts: SessionFacts): Promise<PlaceRow[]> {
-  const { rows } = await tx.query<PlaceRow>(
+/** The destination's recommended places with the plan, stay and crew signals the ranking needs. */
+export async function deckCandidates(
+  tx: pg.PoolClient,
+  facts: Pick<SessionFacts, 'destination_id' | 'version_id' | 'trip_id'>,
+): Promise<DeckPlaceRow[]> {
+  const { rows } = await tx.query<DeckPlaceRow>(
     `WITH plan AS (
        SELECT i.poi_id, p.category, p.lat, p.lng FROM plan_items i JOIN pois p ON p.id = i.poi_id
         WHERE i.version_id = $2
@@ -82,7 +85,7 @@ async function candidates(tx: pg.PoolClient, facts: SessionFacts): Promise<Place
               AS crew_saves,
             EXISTS (SELECT 1 FROM plan WHERE plan.poi_id = p.id) AS in_plan
        FROM pois p
-      WHERE p.destination_id = $1 AND p.curation = 'editorial' AND p.status = 'active'
+      WHERE p.destination_id = $1 AND ${recommendedSql('p')} AND p.status = 'active'
         AND p.merged_into_id IS NULL AND p.category NOT IN ('stay', 'transit', 'health')`,
     [facts.destination_id, facts.version_id, facts.trip_id],
   );
@@ -120,7 +123,7 @@ export async function buildSwipeDeck(
   const loaded = await withSystem(pool, async (tx) => {
     const facts = await sessionFacts(tx, job.session_id);
     if (facts === undefined || facts.status !== 'building') return { facts };
-    const places = await candidates(tx, facts);
+    const places = await deckCandidates(tx, facts);
     const { taste, size } = await crewTaste(tx, facts.trip_id);
     // Rows that are one place (a beach under three sources) reach the deck once.
     const input: DeckCandidate[] = places.map((place) => ({

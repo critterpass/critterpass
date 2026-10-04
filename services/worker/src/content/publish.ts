@@ -2,7 +2,9 @@
  * `content.publish` (docs/api-contracts-async.md §2.2): publishes an approved content release in
  * one transaction. The artifact's checksum is verified, every catalogue row of the kind is replaced
  * with the release's items, the previously live release of the kind becomes `superseded`, and
- * clients are told to refetch on the `catalog` channel. Help releases also queue `content.embed`.
+ * clients are told to refetch on the `catalog` channel. Help releases also queue `content.embed`,
+ * and a places release queues a forced `places.pick` for each destination it wrote to, so one that
+ * now has a curated set loses its machine picks and one still short of it is picked again.
  * A release the job must refuse (a card without native review, an unverified safety record) is
  * marked blocked with the reason instead of being retried. A rollback re-approves an older release and runs this same job, so restoring a
  * version is the same one-transaction swap.
@@ -14,6 +16,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, enqueueInTx, type AnyJobDefinition } from '../boss/define-job';
+import { queuePlacePick } from '../jobs/places/pick';
 import { contentEmbedJob } from './embed';
 import { WRITERS, PublishRefusedError } from './writers';
 import { writePersonas, writePlaces } from './writers-guides-places';
@@ -25,6 +28,8 @@ export interface PublishResult {
   readonly kind: ContentKind;
   readonly version: number;
   readonly items: number;
+  /** The destinations (slugs) a places release wrote to. */
+  readonly destinations?: readonly string[];
 }
 
 export async function publishRelease(tx: pg.PoolClient, releaseId: string): Promise<PublishResult> {
@@ -49,14 +54,18 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
       `release artifact is v${release.version}, the row is v${row.version}`,
     );
   }
+  let destinations: string[] | undefined;
   const writer = WRITERS[row.kind] as
     | ((tx: pg.PoolClient, items: readonly unknown[], releaseId: string) => Promise<void>)
     | undefined;
   if (writer !== undefined) await writer(tx, release.items, releaseId);
   else if (row.kind === 'personas')
     await writePersonas(tx, loadRelease(row.artifact, 'personas').items, row.version);
-  else if (row.kind === 'places') await writePlaces(tx, loadRelease(row.artifact, 'places').items);
-  else if (row.kind === 'media')
+  else if (row.kind === 'places') {
+    const places = loadRelease(row.artifact, 'places').items;
+    await writePlaces(tx, places);
+    destinations = [...new Set(places.map((place) => place.destination))].sort();
+  } else if (row.kind === 'media')
     await writeMedia(tx, loadRelease(row.artifact, 'media').items, releaseId);
 
   await tx.query(
@@ -76,7 +85,12 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
       version: row.version,
     },
   });
-  return { kind: row.kind, version: row.version, items: release.items.length };
+  return {
+    kind: row.kind,
+    version: row.version,
+    items: release.items.length,
+    ...(destinations === undefined ? {} : { destinations }),
+  };
 }
 
 const EMBEDDED_KINDS: ReadonlySet<ContentKind> = new Set(['help', 'insurance']);
@@ -86,7 +100,7 @@ export function contentPublishJob(): AnyJobDefinition {
     queue: 'content.publish',
     schema: contentPublishPayloadSchema,
     singletonKey: (data) => data.release_id,
-    async handler(data, { pool, logger }) {
+    async handler(data, { pool, logger, boss }) {
       try {
         const result = await withSystem(pool, async (tx) => {
           const published = await publishRelease(tx, data.release_id);
@@ -96,6 +110,12 @@ export function contentPublishJob(): AnyJobDefinition {
           return published;
         });
         logger.info({ ...result }, 'content release published');
+        // After the commit, so a missing queue can never undo a publish.
+        for (const slug of result.destinations ?? []) {
+          await queuePlacePick(boss, slug, true).catch((error: unknown) =>
+            logger.warn({ err: error, slug }, 'places pick not queued after the places release'),
+          );
+        }
         return { ...result };
       } catch (error) {
         if (!(error instanceof PublishRefusedError || error instanceof ReleaseLoadError))

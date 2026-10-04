@@ -1,0 +1,107 @@
+appId: app.critterpass.dev
+---
+# Release gate: a trip to a destination our editors have not curated, with no demo world. A fresh
+# account from Ho Chi Minh City starts a crew of one, pitches Đà Lạt and locks it in, sets the
+# trip up two weeks out for three days with one must-do typed by hand, and has the guide draft it
+# (subflows/trip-under-way.yaml, stopped on the private review). Đà Lạt has open-data places only,
+# so the draft is built from its machine picks: every day of the review names a stop (no day
+# reads "Nothing booked, on purpose"). CHANGE A DAY redrafts day 2 for a reason and KEEP IT puts
+# the new day in the draft, still with a stop on every day. The destination's Explore page then
+# shows picks for it. Staging's AI drafts and redrafts, so both waits allow a few minutes.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: uncurated
+      START_OFFSET_DAYS: 14
+      CREW_NAME: 'Da Lat crew'
+      DESTINATION_QUERY: 'da lat'
+      MUST_DO: 'Banh can for breakfast'
+      STOP_AT_DRAFT: 'yes'
+- assertVisible:
+    id: 'draft-private'
+- assertVisible:
+    id: 'draft-day-1'
+- scrollUntilVisible:
+    element:
+      id: 'draft-day-3'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: uncurated-draft-days
+# A day the guide found nothing for reads "Nothing booked, on purpose": none may.
+- assertNotVisible: '(?i).*nothing booked.*'
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- tapOn:
+    id: 'draft-change-day'
+# The sheet's root id isn't in iOS's accessibility tree; its day chips are.
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-2'
+    timeout: 15000
+- tapOn:
+    id: 'change-day-2'
+- tapOn:
+    id: 'redraft-reason-.*'
+    index: 0
+- tapOn:
+    id: 'change-day-submit'
+# The last free redraft asks first.
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-thinking|redraft-diff|last-redraft-use'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      - tapOn:
+          id: 'last-redraft-use'
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff'
+    timeout: 600000
+- waitForAnimationToEnd
+- takeScreenshot: uncurated-redraft-diff
+- scrollUntilVisible:
+    element:
+      id: 'redraft-keep'
+    timeout: 15000
+- tapOn:
+    id: 'redraft-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'draft-day-3'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: uncurated-draft-after-redraft
+- assertVisible:
+    id: 'draft-day-2'
+- assertNotVisible: '(?i).*nothing booked.*'
+# Explore for the same destination: the guide's page lists picks to tap, not an empty shelf.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+- assertVisible:
+    id: 'explore-pick-0'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: uncurated-explore-picks

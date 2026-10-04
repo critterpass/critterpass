@@ -147,9 +147,13 @@ export async function seedDaLat(pool: pg.Pool, suffix: string): Promise<DaLat> {
         11.9 + step * 0.004 + (seed.besidePrevious === true ? 0.0003 : 0),
         108.44,
         seed.address ?? null,
-        // Both sources list it; a source id belongs to one row.
+        // Both sources list it unless the seed says otherwise; a source id belongs to one row.
         JSON.stringify(
-          seed.sources ?? { fsq_os: `fsq-${slug}-${row}`, overture: `ovt-${slug}-${row}` },
+          seed.sources === undefined
+            ? { fsq_os: `fsq-${slug}-${row}`, overture: `ovt-${slug}-${row}` }
+            : Object.fromEntries(
+                Object.entries(seed.sources).map(([source, id]) => [source, `${id}-${slug}`]),
+              ),
         ),
         seed.confidence ?? 0.9,
         seed.brand ?? null,

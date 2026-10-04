@@ -10,10 +10,12 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { PLACES_INGEST_TILE_QUEUE } from '../../src/jobs/places/ingest-tile';
 import { PLACES_INGEST_QUEUE, placesJobs } from '../../src/jobs/places';
+import { PLACES_PICK_QUEUE, placesPickJob } from '../../src/jobs/places/pick';
+import { runPlacePick } from '../../src/places/pick/run';
 import { planDestinationTiles } from '../../src/places/ingest-tile-run';
 import type { DestinationPlaceBounds } from '../../src/places/place-bounds';
 import type { BoundingBox, PlaceSourceRow } from '../../src/places/source-readers';
-import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
+import { silent, startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
 
 const BOX: BoundingBox = { minLat: 34.9, maxLat: 35.1, minLng: 135.6, maxLng: 135.8 };
 const MAX_TILE_ROWS = 60;
@@ -194,5 +196,79 @@ describe('tiled places ingest', { timeout: 180_000 }, () => {
       [fsqRunId, slug],
     );
     expect(left).toHaveLength(0);
+  });
+
+  it('remakes the picks from the full set when the ingest finishes', async () => {
+    const slug = `da-lat-tiles-${Date.now()}`;
+    const box: BoundingBox = { minLat: 11.9, maxLat: 12.0, minLng: 108.4, maxLng: 108.5 };
+    const { rows: destination } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO destinations (slug, name, coverage, tz, place_bounds)
+       VALUES ($1, 'Đà Lạt', 'guest', 'Asia/Ho_Chi_Minh',
+               ST_MakeEnvelope($2, $3, $4, $5, 4326)::geography)
+       RETURNING id`,
+      [slug, box.minLng, box.minLat, box.maxLng, box.maxLat],
+    );
+    const destinationId = destination[0]!.id;
+    const { rows: run } = await harness.pool.query<{ id: string }>(
+      "INSERT INTO fsq_os_export_runs (targets, chunk_count) VALUES ('[]', 0) RETURNING id",
+    );
+    const fsqRunId = run[0]!.id;
+    const kitchens: FsqRow[] = Array.from({ length: 12 }, (_, i) => ({
+      id: `fsq-dl-kitchen-${i}`,
+      name: `Bep Moc ${String.fromCharCode(65 + i)}${i}`,
+      labels: ['Restaurant'],
+      lat: 11.91 + i * 0.006,
+      lng: 108.45,
+    }));
+    await insertFsqRows(fsqRunId, slug, kitchens);
+
+    // A draft started while only two places had landed and made its picks from those.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+       SELECT $1, r.name, 'food', r.lat, r.lng, jsonb_build_object('fsq_os', r.id)
+         FROM jsonb_to_recordset($2::jsonb) AS r(id text, name text, lat float8, lng float8)`,
+      [destinationId, JSON.stringify(kitchens.slice(0, 2))],
+    );
+    const early = await runPlacePick(harness.pool, {}, { slug }, silent);
+    expect(early).toMatchObject({ status: 'picked', total: 2 });
+
+    const boss: PgBoss = await harness.startRuntime([
+      ...placesJobs({
+        sources: {
+          readOverturePlaces: () => Promise.resolve([]),
+          readFsqOsPlaces: (inside) =>
+            Promise.resolve(
+              kitchens
+                .filter((row) => inBox(row, inside))
+                .map((row) => ({
+                  sourceId: row.id,
+                  name: row.name,
+                  categoryLabels: row.labels,
+                  lat: row.lat,
+                  lng: row.lng,
+                })),
+            ),
+          readOsmPlaces: () => Promise.resolve([]),
+        },
+        maxTileFsqRows: MAX_TILE_ROWS,
+      }),
+      placesPickJob({}),
+    ]);
+    await boss.send(PLACES_INGEST_QUEUE, { slug, fsqRunId });
+
+    let picked: Record<string, unknown> | undefined;
+    await until(async () => {
+      const jobs = await boss.findJobs(PLACES_PICK_QUEUE, { data: { destination: slug } });
+      picked = jobs.find((job) => job.state === 'completed')?.output as
+        Record<string, unknown> | undefined;
+      return picked !== undefined;
+    }, 150_000);
+    // Forced: the destination already had picks, and they are remade from every place it now has.
+    expect(picked).toMatchObject({ status: 'picked', total: kitchens.length });
+    const { rows: ranks } = await harness.pool.query<{ pick_rank: number }>(
+      'SELECT pick_rank FROM pois WHERE destination_id = $1 AND pick_rank IS NOT NULL ORDER BY pick_rank',
+      [destinationId],
+    );
+    expect(ranks.map((row) => row.pick_rank)).toEqual(kitchens.map((_, index) => index + 1));
   });
 });

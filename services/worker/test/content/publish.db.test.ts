@@ -8,7 +8,8 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { enqueue } from '../../src/boss';
 import { contentJobs, publishRelease } from '../../src/content';
 import { contentPublishJob } from '../../src/content/publish';
-import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
+import { PLACES_PICK_QUEUE, placesPickJob } from '../../src/jobs/places/pick';
+import { startJobsHarness, until, type JobsHarness } from '../helpers/jobs-harness';
 
 let harness: JobsHarness;
 const owner = randomUUID();
@@ -87,6 +88,38 @@ const tokek: ContentItem<'critters'> = {
 };
 
 const publish = (id: string) => withSystem(harness.pool, (tx) => publishRelease(tx, id));
+
+function poi(ref: string, name: string, mergeInto: string | null): ContentItem<'places'> {
+  const [source, id] = ref.split(':') as ['fsq_os' | 'overture', string];
+  return {
+    ref,
+    destination: 'bali',
+    name,
+    name_local: null,
+    category: 'temple_shrine',
+    lat: -8.8291,
+    lng: 115.0849,
+    address: null,
+    tz: 'Asia/Makassar',
+    tags: ['temples'],
+    hours: null,
+    licence: {
+      source,
+      source_id: id,
+      licence: 'Apache-2.0',
+      attribution: 'Foursquare Open Source Places',
+    },
+    editorial: {
+      why_go: 'A clifftop temple above the Indian Ocean.',
+      best_time: 'Late afternoon',
+      time_needed_min: 90,
+      crowd_hint: 'Busy at sunset',
+      etiquette: 'Wear a sarong; mind the monkeys.',
+    },
+    merge_into: mergeInto,
+    possible_duplicate_of: null,
+  };
+}
 
 async function status(id: string): Promise<{ status: string; blocked_reason: string | null }> {
   const { rows } = await harness.pool.query<{ status: string; blocked_reason: string | null }>(
@@ -232,43 +265,13 @@ describe('content.publish', () => {
       );
     await insert('fsq_os', 'uluwatu', 'Pura Luhur Uluwatu');
     await insert('overture', 'uluwatu-en', 'Uluwatu Temple');
-    const poi = (ref: string, name: string, mergeInto: string | null): ContentItem<'places'> => {
-      const [source, id] = ref.split(':') as ['fsq_os' | 'overture', string];
-      return {
-        ref,
-        destination: 'bali',
-        name,
-        name_local: null,
-        category: 'temple_shrine',
-        lat: -8.8291,
-        lng: 115.0849,
-        address: null,
-        tz: 'Asia/Makassar',
-        tags: ['temples'],
-        hours: null,
-        licence: {
-          source,
-          source_id: id,
-          licence: 'Apache-2.0',
-          attribution: 'Foursquare Open Source Places',
-        },
-        editorial: {
-          why_go: 'A clifftop temple above the Indian Ocean.',
-          best_time: 'Late afternoon',
-          time_needed_min: 90,
-          crowd_hint: 'Busy at sunset',
-          etiquette: 'Wear a sarong; mind the monkeys.',
-        },
-        merge_into: mergeInto,
-        possible_duplicate_of: null,
-      };
-    };
-    await publish(
+    const published = await publish(
       await approved('places', 1, [
         poi('fsq_os:uluwatu', 'Pura Luhur Uluwatu', null),
         poi('overture:uluwatu-en', 'Uluwatu Temple', 'fsq_os:uluwatu'),
       ]),
     );
+    expect(published.destinations).toEqual(['bali']);
     const { rows } = await harness.pool.query<{
       name: string;
       curation: string;
@@ -292,6 +295,32 @@ describe('content.publish', () => {
         why: 'A clifftop temple above the Indian Ocean.',
       },
     ]);
+  });
+
+  it('has the picks of every destination a places release wrote to made again', async () => {
+    // An open-data warung the pick job chose before Bali had any curated place.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, pick_rank, pick_source)
+       SELECT id, 'Warung Bu Made', 'food', -8.65, 115.13, '{"fsq_os": "warung-bu-made"}', 7, 'fill'
+         FROM destinations WHERE slug = 'bali'`,
+    );
+    const boss = await harness.startRuntime([...contentJobs(), placesPickJob({})]);
+    await enqueue(boss, contentPublishJob(), {
+      release_id: await approved('places', 2, [poi('fsq_os:uluwatu', 'Pura Luhur Uluwatu', null)]),
+    });
+    let output: Record<string, unknown> | undefined;
+    await until(async () => {
+      const jobs = await boss.findJobs(PLACES_PICK_QUEUE, { data: { destination: 'bali' } });
+      output = jobs.find((job) => job.state === 'completed')?.output as
+        Record<string, unknown> | undefined;
+      return output !== undefined;
+    }, 60_000);
+    // Forced: Bali is still far from a curated set, so its one open-data place is ranked afresh.
+    expect(output).toMatchObject({ destination: 'bali', status: 'picked', total: 1 });
+    const { rows } = await harness.pool.query<{ name: string; pick_rank: number }>(
+      'SELECT name, pick_rank FROM pois WHERE pick_rank IS NOT NULL',
+    );
+    expect(rows).toEqual([{ name: 'Warung Bu Made', pick_rank: 1 }]);
   });
 
   it('publishes persona packs for live guides, read back through the persona loader shape', async () => {

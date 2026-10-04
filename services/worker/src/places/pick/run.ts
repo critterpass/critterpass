@@ -5,7 +5,8 @@
  * destination's name); each name is kept only when one of our own rows carries it. The rest of
  * the list is the best open-data rows by the quality score search uses, shared across kinds of
  * place; transit, stays, health, chains and low-quality rows never fill. Ranks are written 1..N,
- * named places first, and a re-run replaces them. A destination with a curated set is left alone.
+ * named places first, and a re-run replaces them. A destination with a curated set has no picks:
+ * ranks made before the set arrived are cleared, so its recommended places are the editors' alone.
  */
 import { nameWellKnownPlaces, type Gateway, type NamedPlace } from '@cp/ai';
 import { LOW_QUALITY, MIN_CURATED_PLACES, pickCoverage, QUALITY_SCORE, withSystem } from '@cp/db';
@@ -84,6 +85,8 @@ export interface PlacePickReport {
   readonly filled: number;
   readonly total: number;
   readonly names: 'ok' | 'unavailable' | 'failed';
+  /** Ranks removed from a destination that has gained a curated set. */
+  readonly cleared?: number;
 }
 
 const skipped = (
@@ -195,6 +198,19 @@ export async function writePicks(
   );
 }
 
+/** Removes every rank of the destination; returns how many rows held one. */
+export async function clearPicks(tx: pg.PoolClient, destinationId: string): Promise<number> {
+  await tx.query(`SELECT pg_advisory_xact_lock(hashtextextended('places.pick:' || $1, 0))`, [
+    destinationId,
+  ]);
+  const cleared = await tx.query(
+    `UPDATE pois SET pick_rank = NULL, pick_source = NULL
+      WHERE destination_id = $1 AND pick_rank IS NOT NULL`,
+    [destinationId],
+  );
+  return cleared.rowCount ?? 0;
+}
+
 export async function runPlacePick(
   pool: pg.Pool,
   deps: PlacePickDeps,
@@ -217,7 +233,13 @@ export async function runPlacePick(
   });
   if (destination === null) return skipped(options.slug ?? null, 'unknown_destination');
   const { slug, coverage } = destination;
-  if (coverage.curated >= MIN_CURATED_PLACES) return skipped(slug, 'curated');
+  if (coverage.curated >= MIN_CURATED_PLACES) {
+    const cleared = coverage.picked
+      ? await withSystem(pool, (tx) => clearPicks(tx, destination.id))
+      : 0;
+    if (cleared > 0) logger.info({ slug, cleared }, 'place picks cleared: curated set in place');
+    return { ...skipped(slug, 'curated'), cleared };
+  }
   if (coverage.picked && options.force !== true) return skipped(slug, 'already_picked');
 
   let leads: NamedPlace[] = [];

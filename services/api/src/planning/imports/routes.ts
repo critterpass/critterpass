@@ -10,7 +10,7 @@
  * Both are rate limited per user. Nothing from the post is stored.
  */
 import { SSE_HEADERS } from '@cp/ai';
-import { withUser } from '@cp/db';
+import { recommendedSql, withUser } from '@cp/db';
 import {
   DomainError,
   importPlatformSchema,
@@ -110,7 +110,7 @@ export function registerImportRoutes(app: OpenAPIHono<AppEnv>, deps: ImportRoute
         [trip.destinationId],
       );
       const { rows: addresses } = await tx.query<{ address: string }>(
-        `SELECT address FROM pois WHERE destination_id = $1 AND curation = 'editorial'
+        `SELECT address FROM pois WHERE destination_id = $1 AND ${recommendedSql(null)}
             AND address IS NOT NULL LIMIT 300`,
         [trip.destinationId],
       );

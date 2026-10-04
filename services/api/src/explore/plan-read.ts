@@ -4,7 +4,7 @@
  * position, where a place already sits in the plan, who in the crew saved it and the crew's Q&A
  * line. Read as the caller: RLS shows a member the crew-visible version only.
  */
-import { sendInTx } from '@cp/db';
+import { recommendedOrderSql, recommendedSql, sendInTx } from '@cp/db';
 import { DomainError, EXPLORE_QUEUES, toLocalWallTime } from '@cp/domain';
 import type pg from 'pg';
 
@@ -212,11 +212,11 @@ export async function similarPlaces(
     lng: number;
   }>(
     `SELECT p.id AS poi_id, p.name, p.category, p.lat, p.lng FROM pois p
-      WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+      WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
         AND p.merged_into_id IS NULL AND p.id <> $2 AND p.category = $3
         AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = p.id AND h.user_id = app.uid())
       ORDER BY cardinality(ARRAY(SELECT unnest(p.tags) INTERSECT SELECT unnest($4::text[]))) DESC,
-               p.name
+               ${recommendedOrderSql('p')}, p.name
       LIMIT 20`,
     [input.destinationId, input.poiId, input.place.category, [...input.place.tags]],
   );

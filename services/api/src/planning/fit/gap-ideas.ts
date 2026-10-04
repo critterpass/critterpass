@@ -1,8 +1,9 @@
 /**
  * Ideas for one free window: the crew's own ideas (with whose save it was and who voted for it,
- * a swipe yes or a "want it"), then curated places near where the free people are, then pairs
+ * a swipe yes or a "want it"), then recommended places near where the free people are, then pairs
  * and going back to the stay. The window is the free window holding the requested start.
  */
+import { recommendedSql } from '@cp/db';
 import { DomainError, type GapIdeasResult } from '@cp/domain';
 import {
   dayGaps,
@@ -49,7 +50,7 @@ async function candidatePlaces(
       : (
           await tx.query<{ id: string }>(
             `SELECT p.id FROM pois p
-              WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+              WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
                 AND p.merged_into_id IS NULL AND p.category NOT IN ('stay', 'transit')
                 AND NOT EXISTS (SELECT 1 FROM trip_ideas i
                                  WHERE i.trip_id = $4 AND i.poi_id = p.id AND i.deleted_at IS NULL)

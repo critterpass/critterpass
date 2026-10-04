@@ -6,11 +6,15 @@
  * rows that did not change. A curated destination is left alone.
  */
 import { createGateway, type AiUsageRecord } from '@cp/ai';
+import { recommendedSql } from '@cp/db';
 import { fixtureTransport } from '@cp/ai/testing';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
+import { loadDraftPlaces } from '../../../src/jobs/ai/draft/load-places';
+import { ensurePlacePicks } from '../../../src/jobs/ai/draft/place-picks';
+import { placesPickJob } from '../../../src/jobs/places/pick';
 import { runPlacePick } from '../../../src/places/pick/run';
-import { silent, startJobsHarness, type JobsHarness } from '../../helpers/jobs-harness';
+import { silent, startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
 import {
   FILL,
   NAMED_IN_ORDER,
@@ -27,6 +31,10 @@ beforeAll(async () => {
   harness = await startJobsHarness();
   daLat = await seedDaLat(harness.pool, 'picks');
 }, 240_000);
+
+afterEach(async () => {
+  await harness.stopAll();
+});
 
 afterAll(async () => {
   await harness?.close();
@@ -191,5 +199,86 @@ describe('places.pick for a destination without a curated set', () => {
       status: 'skipped',
       reason: 'unknown_destination',
     });
+  });
+});
+
+describe('a picked destination that gains a curated set', () => {
+  it('loses every pick, so its recommended places are the editors’ alone', async () => {
+    const late = await seedDaLat(harness.pool, 'curated-later');
+    const picked = await runPlacePick(harness.pool, {}, { slug: late.slug }, silent);
+    expect(picked.total).toBeGreaterThan(0);
+    expect(await picksOf(harness.pool, late.destinationId)).toHaveLength(picked.total);
+
+    // The places release lands: fifty curated places, two of them rows that were picked.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, curation, editorial)
+       SELECT $1, 'Curated place ' || n, 'nature', 12.2 + n * 0.004, 108.44, 'editorial',
+              jsonb_build_object('must_see', n <= 3)
+         FROM generate_series(1, 48) AS n`,
+      [late.destinationId],
+    );
+    await harness.pool.query(
+      `UPDATE pois SET curation = 'editorial'
+        WHERE destination_id = $1 AND name IN ('Hồ Xuân Hương', 'Chợ Đà Lạt')`,
+      [late.destinationId],
+    );
+
+    const report = await runPlacePick(harness.pool, {}, { slug: late.slug }, silent);
+    expect(report).toMatchObject({ status: 'skipped', reason: 'curated', cleared: picked.total });
+    expect(await picksOf(harness.pool, late.destinationId)).toEqual([]);
+    // A second run has nothing left to clear.
+    expect(
+      await runPlacePick(harness.pool, {}, { slug: late.slug, force: true }, silent),
+    ).toMatchObject({ status: 'skipped', reason: 'curated', cleared: 0 });
+
+    // What a draft reads is the curated set only: no stand-in must-sees beside the editors' own.
+    const places = await loadDraftPlaces(harness.pool, late.destinationId, []);
+    expect(places).toHaveLength(50);
+    expect(places.every((poi) => poi.editorial)).toBe(true);
+    expect(
+      places
+        .filter((poi) => poi.mustSee)
+        .map((poi) => poi.name)
+        .sort(),
+    ).toEqual(['Curated place 1', 'Curated place 2', 'Curated place 3']);
+    const { rows } = await harness.pool.query<{ n: number }>(
+      `SELECT count(*)::int AS n FROM pois p
+        WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}`,
+      [late.destinationId],
+    );
+    expect(rows[0]?.n).toBe(50);
+  });
+});
+
+describe('a draft that starts before a destination has picks', () => {
+  it('fills from open data when its naming call fails, and has the job ask again', async () => {
+    const other = await seedDaLat(harness.pool, 'inline');
+    const boss = await harness.startRuntime([placesPickJob({ gateway: recorded() })]);
+    const report = await ensurePlacePicks(
+      harness.pool,
+      { gateway: overloaded() },
+      other.destinationId,
+      silent,
+      boss,
+    );
+    // The draft goes on with the fill: nothing named, so no stand-in must-sees yet.
+    expect(report).toMatchObject({ status: 'picked', names: 'failed', matched: 0 });
+    expect(report?.filled).toBeGreaterThan(0);
+
+    // The forced job names the well-known places and replaces the ranks.
+    await until(
+      async () =>
+        (await picksOf(harness.pool, other.destinationId)).some((pick) => pick.source === 'named'),
+      60_000,
+    );
+    const picks = await picksOf(harness.pool, other.destinationId);
+    expect(picks.filter((pick) => pick.source === 'named').map((pick) => pick.name)).toEqual([
+      ...NAMED_IN_ORDER,
+    ]);
+    expect(picks.map((pick) => pick.rank)).toEqual(picks.map((_, index) => index + 1));
+    const { rows } = await harness.pool.query<{ data: unknown }>(
+      "SELECT data FROM pgboss.job WHERE name = 'places.pick' ORDER BY created_on",
+    );
+    expect(rows.map((row) => row.data)).toEqual([{ destination: other.slug, force: true }]);
   });
 });

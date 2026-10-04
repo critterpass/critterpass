@@ -7,6 +7,9 @@ appId: app.critterpass.dev
 # ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots;
 # ${START_OFFSET_DAYS} (optional) starts the trip that many days from today instead, and
 # ${CREW_NAME} (optional) names the crew. The crew's join code is left in ${output.crewCode}.
+# ${DESTINATION_QUERY} (optional) is what is typed to find the place to pitch (Đà Nẵng when unset)
+# and ${MUST_DO} (optional) the must-do typed in; ${STOP_AT_DRAFT} set to 'yes' ends the flow on
+# the private draft review instead of locking the plan in.
 - runFlow:
     file: fresh-account.yaml
     env:
@@ -49,7 +52,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'pitch-search'
-- inputText: 'da nang'
+- inputText: ${typeof DESTINATION_QUERY === 'undefined' || DESTINATION_QUERY === '' ? 'da nang' :DESTINATION_QUERY}
 - extendedWaitUntil:
     visible:
       id: 'pitch-result-0'
@@ -139,7 +142,8 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'add-must-do-field'
-- inputText: 'Mi Quang for breakfast'
+- evalScript: ${output.mustDo = typeof MUST_DO === 'undefined' || MUST_DO === '' ? 'Mi Quang for breakfast' :MUST_DO}
+- inputText: ${output.mustDo}
 # Kept as typed, once the place search has answered (places, or none) and the row stops moving.
 - extendedWaitUntil:
     visible:
@@ -150,7 +154,7 @@ appId: app.critterpass.dev
     id: 'add-must-do-keep'
 - extendedWaitUntil:
     visible:
-      text: '(?i)mi quang for breakfast.*'
+      text: ${'(?i)' + output.mustDo + '.*'}
     timeout: 15000
 - scrollUntilVisible:
     element:
@@ -171,22 +175,26 @@ appId: app.critterpass.dev
     timeout: 600000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-draft-review
-- scrollUntilVisible:
-    element:
-      id: 'draft-propose'
-    timeout: 15000
-- tapOn:
-    id: 'draft-propose'
-# Nobody to pitch it to: lock it in alone.
-- extendedWaitUntil:
-    visible:
-      id: 'build-lock-alone'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-lock-alone
-- tapOn:
-    id: 'build-lock-alone'
-- extendedWaitUntil:
-    notVisible:
-      id: 'build-lock-alone'
-    timeout: 60000
+- runFlow:
+    when:
+      true: ${typeof STOP_AT_DRAFT === 'undefined' || STOP_AT_DRAFT !== 'yes'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'draft-propose'
+          timeout: 15000
+      - tapOn:
+          id: 'draft-propose'
+      # Nobody to pitch it to: lock it in alone.
+      - extendedWaitUntil:
+          visible:
+            id: 'build-lock-alone'
+          timeout: 30000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-lock-alone
+      - tapOn:
+          id: 'build-lock-alone'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'build-lock-alone'
+          timeout: 60000
