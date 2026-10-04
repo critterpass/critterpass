@@ -29,6 +29,7 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { tripVoters } from '../../plan/access';
+import { VISIBLE_PLAN_VERSION_SQL } from '../../plan/visible-version';
 import { readRain } from './signals/climate';
 import { readMonthFactors } from './signals/crowds';
 
@@ -94,7 +95,10 @@ export interface TripFitFacts {
   readonly driveFactor: number;
 }
 
-/** The trip as a participant sees it; anyone else, or a day they cannot see, is `NOT_FOUND`. */
+/**
+ * The trip as a participant sees it, with the plan they see (the crew's, or an organiser's own
+ * draft before there is one); anyone else, or a day they cannot see, is `NOT_FOUND`.
+ */
 export async function tripFitFacts(
   tx: pg.PoolClient,
   tripId: string,
@@ -103,7 +107,7 @@ export async function tripFitFacts(
   const { rows } = await tx.query<TripFitFacts>(
     `SELECT t.id, t.crew_id AS "crewId", coalesce(t.tz, d.tz, 'UTC') AS tz,
             t.destination_id AS "destinationId", d.slug AS "destinationSlug",
-            t.current_version_id AS "versionId", app.is_trip_organiser(t.id) AS organiser,
+            ${VISIBLE_PLAN_VERSION_SQL} AS "versionId", app.is_trip_organiser(t.id) AS organiser,
             coalesce(d.drive_factor, 1)::float8 AS "driveFactor"
        FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
       WHERE t.id = $1 AND app.is_trip_member(t.id)

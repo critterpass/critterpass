@@ -27,14 +27,15 @@ export async function copyVersion(
   source: string,
   parent: string | null,
   skip: readonly string[] = [],
+  origin: 'guide' | 'restore' = 'guide',
 ): Promise<string> {
   const { rows } = await tx.query<{ id: string }>(
     `INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor, currency,
-       metrics, coverage)
-     SELECT trip_id, $2, 'organiser', 'draft', cost_pp_minor, currency, metrics, coverage
+       metrics, coverage, origin)
+     SELECT trip_id, $2, 'organiser', 'draft', cost_pp_minor, currency, metrics, coverage, $3
        FROM itinerary_versions WHERE id = $1
      RETURNING id`,
-    [source, parent],
+    [source, parent, origin],
   );
   const id = rows[0]?.id;
   if (id === undefined) throw new Error(`no version ${source} to copy`);
@@ -88,8 +89,8 @@ interface ItemRow {
   readonly stable_id: string;
   readonly category: string | null;
   readonly poi_id: string | null;
-  readonly starts_at: Date;
-  readonly ends_at: Date;
+  readonly starts_at: Date | null;
+  readonly ends_at: Date | null;
   readonly tz: string | null;
   readonly must_do_id: string | null;
   readonly booking_id: string | null;
@@ -144,7 +145,8 @@ export async function readItinerary(tx: pg.PoolClient, versionId: string): Promi
       items: [],
     };
     days.set(row.day_no, day);
-    if (row.stable_id === null) continue;
+    // A stop she added without a time has no place in the day's numbers yet.
+    if (row.stable_id === null || row.starts_at === null || row.ends_at === null) continue;
     currency = row.currency ?? currency;
     const previous = day.items[day.items.length - 1];
     const leg =
@@ -213,4 +215,72 @@ export async function refreshNumbers(
     'UPDATE itinerary_versions SET metrics = $2, coverage = $3, cost_pp_minor = $4 WHERE id = $1',
     [versionId, JSON.stringify(next), JSON.stringify(nextCoverage), next.cost_pp_minor],
   );
+}
+
+/**
+ * Gives a plan the organiser built by hand its first numbers and must-do coverage, so it can be
+ * reviewed and sent like a draft the guide made. The numbers are those of the stops she placed:
+ * no stay nights and no budget target are worked in (the guide's draft adds those).
+ */
+export async function firstNumbers(
+  tx: pg.PoolClient,
+  versionId: string,
+  trip: { readonly id: string; readonly start: string; readonly end: string },
+  crewSize: number,
+): Promise<void> {
+  const itinerary = await readItinerary(tx, versionId);
+  const { rows } = await tx.query<{
+    currency: string | null;
+    places: unknown;
+    must_do_ids: string[];
+    budget_version: number | null;
+    rooms_version: number | null;
+  }>(
+    `SELECT coalesce(v.currency, t.local_currency, d.currency) AS currency,
+            coalesce(v.coverage->'places', '{}'::jsonb) AS places,
+            coalesce((SELECT array_agg(m.id ORDER BY m.created_at, m.id) FROM must_dos m
+                       WHERE m.trip_id = t.id AND m.deleted_at IS NULL), '{}') AS must_do_ids,
+            (SELECT version FROM budget_plans WHERE trip_id = t.id) AS budget_version,
+            (SELECT version FROM room_plans WHERE trip_id = t.id) AS rooms_version
+       FROM itinerary_versions v
+       JOIN trips t ON t.id = v.trip_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
+      WHERE v.id = $1`,
+    [versionId],
+  );
+  const row = rows[0];
+  if (row === undefined) throw new Error(`no version ${versionId} to number`);
+  const metrics = itineraryMetrics({
+    itinerary: { ...itinerary, currency: row.currency ?? itinerary.currency },
+    crewSize,
+    staysPpMinor: 0,
+    targetPpMinor: null,
+    validation: { first_pass_clean: true, repair_loops: 0, dropped: 0 },
+  });
+  const coverage = {
+    must_dos: { total: 0, made: 0, missing: [] },
+    flags: [],
+    closures: [],
+    stays: [],
+    places: row.places,
+    setup: {
+      start_date: trip.start,
+      end_date: trip.end,
+      must_do_ids: row.must_do_ids,
+      budget_version: row.budget_version,
+      rooms_version: row.rooms_version,
+    },
+  };
+  await tx.query(
+    'UPDATE itinerary_versions SET metrics = $2, coverage = $3, cost_pp_minor = $4, currency = $5 WHERE id = $1',
+    [
+      versionId,
+      JSON.stringify(metrics),
+      JSON.stringify(coverage),
+      metrics.cost_pp_minor,
+      metrics.currency,
+    ],
+  );
+  // Must-do coverage is worked out from the stops, as it is after every later edit.
+  await refreshNumbers(tx, versionId, crewSize);
 }

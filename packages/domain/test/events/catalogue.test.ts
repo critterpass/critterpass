@@ -663,6 +663,12 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     version_id: crypto.randomUUID(),
     from_version_id: crypto.randomUUID(),
   },
+  'draft.ops_applied': {
+    trip_id: crypto.randomUUID(),
+    version_id: crypto.randomUUID(),
+    base_version_id: crypto.randomUUID(),
+    op_count: 2,
+  },
   'redraft.requested': {
     trip_id: crypto.randomUUID(),
     redraft_id: crypto.randomUUID(),

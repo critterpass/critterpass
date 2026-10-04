@@ -200,6 +200,28 @@ describe('content batch commands', () => {
     ]);
   });
 
+  it('queues the publish again when an approved release that never went live is approved again', async () => {
+    const before = await harness.pool.query<{ checksum: string }>(
+      'SELECT checksum FROM content_releases WHERE id = $1',
+      [batchId],
+    );
+    // The publish job ran out of attempts: the release stays approved with no job left to run.
+    await harness.pool.query(
+      "UPDATE pgboss.job SET state = 'failed' WHERE name = 'content.publish' AND data ->> 'release_id' = $1",
+      [batchId],
+    );
+    const denied = await app.command(content, 'approve_content_batch', { batch_id: batchId });
+    expect(denied.status).toBe(403);
+    const again = await app.command(owner, 'approve_content_batch', { batch_id: batchId });
+    expect(again.status).toBe(200);
+    expect(await publishJobs()).toEqual([batchId, batchId]);
+    const after = await harness.pool.query<{ status: string; checksum: string }>(
+      'SELECT status, checksum FROM content_releases WHERE id = $1',
+      [batchId],
+    );
+    expect(after.rows[0]).toEqual({ status: 'approved', checksum: before.rows[0]!.checksum });
+  });
+
   it('rejects a batch with notes and rolls a kind back to a superseded release', async () => {
     const third = await insertRelease(3, 'review', [rare]);
     const reject = await app.command(content, 'reject_content_batch', {
