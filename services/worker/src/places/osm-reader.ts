@@ -18,7 +18,8 @@ import { OSM_POI_KEYS, classifyOsmTags, type OsmClassification, type OsmTags } f
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 
 import type { BoundingBox } from './source-readers';
-import { withOsmExtract } from './osm-extract';
+import { withOsmExtract, type OsmExtractListener } from './osm-extract';
+import { withStepTimeout } from './step-timeout';
 
 export interface OsmPlaceRow {
   /** `n<id>`, `w<id>` or `r<id>`: the `source_ids.osm` key. */
@@ -38,17 +39,27 @@ export interface OsmPlaceRow {
 
 const DUCKDB_TEMP_DIR = path.join(tmpdir(), 'critterpass-osm-duckdb');
 
+/** Longest the three scans of one extract may take: London's took about four minutes. */
+export const OSM_SCAN_TIMEOUT_MS = 12 * 60_000;
+
 async function withSpatialDuckDb<T>(run: (connection: DuckDBConnection) => Promise<T>): Promise<T> {
   await mkdir(DUCKDB_TEMP_DIR, { recursive: true });
   const instance = await DuckDBInstance.create(':memory:');
   const connection = await instance.connect();
   try {
-    await connection.run("SET memory_limit='1GB'");
-    await connection.run('SET threads=2');
-    await connection.run(`SET temp_directory='${DUCKDB_TEMP_DIR.replaceAll("'", "''")}'`);
-    await connection.run('INSTALL spatial');
-    await connection.run('LOAD spatial');
-    return await run(connection);
+    return await withStepTimeout(
+      'osm extract scan',
+      OSM_SCAN_TIMEOUT_MS,
+      async () => {
+        await connection.run("SET memory_limit='1GB'");
+        await connection.run('SET threads=2');
+        await connection.run(`SET temp_directory='${DUCKDB_TEMP_DIR.replaceAll("'", "''")}'`);
+        await connection.run('INSTALL spatial');
+        await connection.run('LOAD spatial');
+        return run(connection);
+      },
+      () => connection.interrupt(),
+    );
   } finally {
     connection.closeSync();
   }
@@ -185,9 +196,19 @@ export async function readOsmFile(file: string, bbox: BoundingBox): Promise<OsmP
   });
 }
 
-/** OSM places for the bounds from the covering Geofabrik extract; none when no extract covers them. */
-export async function readOsmPlaces(bbox: BoundingBox): Promise<OsmPlaceRow[]> {
-  return withOsmExtract(bbox, (file) =>
-    file === null ? Promise.resolve([]) : readOsmFile(file, bbox),
+/**
+ * OSM places for the bounds from the covering Geofabrik extract; none when no extract covers them
+ * or the covering one is too large to fetch (`./osm-extract.ts`). `onExtract` hears which extract
+ * was picked and when it is on disk.
+ */
+export async function readOsmPlaces(
+  bbox: BoundingBox,
+  onExtract?: OsmExtractListener,
+): Promise<OsmPlaceRow[]> {
+  return withOsmExtract(
+    bbox,
+    (file) => (file === null ? Promise.resolve([]) : readOsmFile(file, bbox)),
+    globalThis.fetch,
+    onExtract,
   );
 }

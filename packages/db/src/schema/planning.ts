@@ -124,6 +124,8 @@ export const planLegs = pgTable(
     /** Self-hosted routing or a straight-line estimate; never a Navigation API result. */
     source: text('source').notNull(),
     approx: boolean('approx').notNull().default(false),
+    /** Road shape (encoded polyline, precision 5) from self-hosted routing; null draws straight. */
+    shape: text('shape'),
     computedAt: at('computed_at').notNull().defaultNow(),
     createdAt: createdAt(),
     updatedAt: updatedAt(),

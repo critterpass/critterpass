@@ -14,6 +14,7 @@ import { fetchWithEgress, SupplierTimeoutError, type FetchLike } from '../core/e
 import { createCircuitBreaker, type CircuitBreaker, type CircuitBreakerOptions } from './breaker';
 import { isRetryable, kindForValhallaCode, ValhallaError } from './errors';
 import { emptyCells, runChunkedMatrix, runSkippingOffGraph, type MatrixCells } from './matrix';
+import { toLeg, toMeters, toRouteLeg, type ValhallaLeg, type ValhallaRouteLeg } from './route-legs';
 import {
   errorBodySchema,
   locateResponseSchema,
@@ -23,18 +24,15 @@ import {
 
 export type ValhallaCosting = 'auto' | 'pedestrian' | 'motor_scooter';
 
+export type { ValhallaLeg, ValhallaRouteLeg } from './route-legs';
+
 export interface ValhallaPoint {
   readonly lat: number;
   readonly lng: number;
 }
 
-export interface ValhallaLeg {
-  readonly seconds: number;
-  readonly meters: number;
-}
-
 export interface ValhallaRoute extends ValhallaLeg {
-  readonly legs: readonly ValhallaLeg[];
+  readonly legs: readonly ValhallaRouteLeg[];
 }
 
 export interface ValhallaOptimizedRoute extends ValhallaRoute {
@@ -85,11 +83,6 @@ export interface ValhallaClientOptions {
 export const VALHALLA_MAX_MATRIX_SIDE = 25;
 
 const toLocation = (point: ValhallaPoint) => ({ lat: point.lat, lon: point.lng });
-const toMeters = (km: number) => Math.round(km * 1000);
-const toLeg = (summary: { time: number; length: number }): ValhallaLeg => ({
-  seconds: summary.time,
-  meters: toMeters(summary.length),
-});
 
 function isBreaker(value: ValhallaClientOptions['breaker']): value is CircuitBreaker {
   return value !== undefined && 'allow' in value;
@@ -236,7 +229,7 @@ export function createValhallaClient(options: ValhallaClientOptions): ValhallaCl
         routeResponseSchema,
         routeTimeoutMs,
       );
-      return { ...toLeg(trip.summary), legs: trip.legs.map((leg) => toLeg(leg.summary)) };
+      return { ...toLeg(trip.summary), legs: trip.legs.map(toRouteLeg) };
     },
     async matrix(sources, destinations, costing) {
       if (sources.length === 0 || destinations.length === 0) {
@@ -269,7 +262,7 @@ export function createValhallaClient(options: ValhallaClientOptions): ValhallaCl
       );
       return {
         ...toLeg(trip.summary),
-        legs: trip.legs.map((leg) => toLeg(leg.summary)),
+        legs: trip.legs.map(toRouteLeg),
         order: trip.locations.map((location, index) => location.original_index ?? index),
       };
     },

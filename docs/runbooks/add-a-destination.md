@@ -154,8 +154,15 @@ last tile queues the run's finish, which applies OpenStreetMap to the whole box 
 stored rows and logs `places ingest finished` with the run's totals, tile count, failed tiles,
 minutes and active count. A run with a failed tile keeps its stored rows, so enqueueing the
 destination again with the same `--fsq-run` redoes it. Every places queue runs one job at a time.
-A new export run deletes the previous one. A destination enqueued without a stored run reads FSQ
-OS from the catalog itself and stays one tile.
+A new monthly export run deletes the previous one. A destination enqueued without a stored run
+(`--enqueue --only <slug>`, or the on-demand ingest) first gets an export run of its own, in the
+same restartable chunks, which keeps the other runs; its last chunk queues the destination again
+with that run, at the priority it was queued with. Each tile step logs `places ingest tile step`
+(start, then done with its duration), so a stalled tile shows where it is. A step has its own time
+limit (a DuckDB read 8 minutes, an OSM extract download 10, its scan 12) and a tile job expires
+after 15 minutes (a finish after 40), so a hang costs a retry, not hours of the queue. OSM never
+reads a continent-wide extract: a box across a border (Strasbourg) takes its own side's region,
+and an extract over 3 GB is skipped with an `osm extract too_large` step line.
 To start it by hand, or to hold destinations back (a crew on a trip there):
 
 ```sh

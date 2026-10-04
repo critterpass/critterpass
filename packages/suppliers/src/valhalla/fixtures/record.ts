@@ -77,12 +77,15 @@ const SCENARIOS: Record<string, (client: ValhallaClient) => Promise<unknown>> = 
       await c.matrix(places, [p.kyotoStation], costing);
     }
   },
-  // A planned Ubud day as the legs job asks for it: stay → temple → rice terraces → spring → stay.
+  // A planned Ubud day as the legs job asks for it: stay → temple → rice terraces → spring → stay,
+  // then the road shapes of the walked hop and of the three drives chained into one route.
   'bali-day-legs': async (c) => {
     const from = [p.ubudKomaneka, p.ubudSaraswati, p.baliTegallalang, p.baliTirtaEmpul];
     const to = [p.ubudSaraswati, p.baliTegallalang, p.baliTirtaEmpul, p.ubudKomaneka];
     await c.matrix(from, to, 'pedestrian');
     await c.matrix(from, to, 'auto');
+    await c.route([p.ubudKomaneka, p.ubudSaraswati], 'pedestrian');
+    await c.route([p.ubudSaraswati, p.baliTegallalang, p.baliTirtaEmpul, p.ubudKomaneka], 'auto');
   },
 };
 

@@ -102,4 +102,16 @@ describe('FSQ OS export runs', { timeout: 60_000 }, () => {
     expect(Number(rows[0]!.n)).toBe(0);
     expect(await fsqRunReader(pool, second.runId, 'vn-hoi-an')).not.toBeNull();
   });
+
+  it('keeps older runs when it exports for one destination', async () => {
+    const monthly = await startFsqExportRun(pool, [KYOTO], ['a']);
+    await exportFsqChunk(pool, monthly.runId, 0, from);
+    const single = await startFsqExportRun(pool, [HOI_AN], ['a'], { replaceOlder: false });
+    await exportFsqChunk(pool, single.runId, 0, from);
+
+    const kyoto = await fsqRunReader(pool, monthly.runId, 'kyoto');
+    expect(await kyoto!(KYOTO)).toHaveLength(1);
+    const hoiAn = await fsqRunReader(pool, single.runId, 'vn-hoi-an');
+    expect(await hoiAn!(HOI_AN)).toHaveLength(1);
+  });
 });
