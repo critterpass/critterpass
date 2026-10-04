@@ -1,62 +1,32 @@
 /**
  * What the planner finishes by itself, without another model call. A day that runs through lunch
- * or dinner and has no place for it gets the best one near its stops from its own meal list; and
- * once the repairs are done, a day left with too few stops, or with hours of nothing between two
- * stops or before dinner time, gets the planned, spare or nearby activities it can still take (and
- * the meal a new stop brings within reach). A stop added here carries our editors' line about the
+ * or dinner and has no place for it gets the best one near its stops from its own meal list (thin
+ * days and holes are filled in ./fill-days.ts). A stop added here carries our editors' line about the
  * place when there is one, else none. A stop is added only when the day stays as clean as it was.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
-  DINNER,
-  dayWindow,
-  foodRole,
   longRideMin,
   mealSlots,
-  mealsInWindow,
-  minuteOfDate,
   RIDE_HOME_MAX_MIN,
   stopKind,
   withinReach,
   type DayChoice,
-  type DayWindow,
   type DraftPoi,
 } from '@cp/planner';
 
 import { hopCap } from './areas';
-import { stopBudget } from './budget';
 import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import { proseProblem } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { validate } from './validate';
 
-/** Stops a full day should have at least, meals included, when there are places for them. */
-const MIN_DAY_STOPS = 4;
-/** Minutes with nothing planned between two stops (travel aside) that make a hole in a day. */
-const HOLE_MIN = 150;
-const NEARBY_TRIED = 10;
-
-/**
- * The longest stretch of a day with nothing planned: before its first stop, between two, or from
- * its last stop to dinner time (or the end of a day that stops before then).
- */
-function longestHole(input: DraftPlanInput, day: DraftDay, window: DayWindow): number {
-  let at = window.startMin;
-  let longest = 0;
-  for (const item of day.items) {
-    const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
-    longest = Math.max(longest, start - at - item.travel_min);
-    at = minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz);
-  }
-  return Math.max(longest, Math.min(window.endMin, DINNER.startMin) - at);
-}
-
 /**
  * Of `places`, those beside the day's stops, then those the day's one longer ride can reach, then
  * (for a dinner) those a ride home can.
  */
-function nearFirst(
+export function nearFirst(
   input: DraftPlanInput,
   places: readonly DraftPoi[],
   here: readonly string[],
@@ -88,12 +58,12 @@ function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
 }
 
 /** What a day breaks: `hard` rules, and `meals` it runs through without one. */
-interface Faults {
+export interface Faults {
   readonly hard: number;
   readonly meals: number;
 }
 
-function dayFaults(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): Faults {
+export function dayFaults(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): Faults {
   // Rules of the whole trip (the budget) count with the day's: a stop added must not break them.
   const own = validate(input, itinerary).violations.filter(
     (v) => v.dayNo === dayNo || v.dayNo === null,
@@ -102,7 +72,7 @@ function dayFaults(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): 
   return { hard: own.length - meals, meals };
 }
 
-interface Attempt {
+export interface Attempt {
   readonly itinerary: Itinerary;
   readonly added: number;
 }
@@ -111,7 +81,7 @@ interface Attempt {
  * Tries `candidates` one at a time on day `dayNo`; keeps the first that `accept` takes, after
  * `finish` has had its go at the day with the new stop in it.
  */
-function addOne(
+export function addOne(
   input: DraftPlanInput,
   outline: SkeletonDay,
   itinerary: Itinerary,
@@ -121,15 +91,20 @@ function addOne(
   finish: (candidate: Itinerary) => Itinerary = (candidate) => candidate,
   /** What the day broke before anything was taken off it (default: what `itinerary` breaks). */
   baseline?: Faults,
+  /** Where in the day's order the new stop goes (default: last; the planner may still reorder). */
+  position?: number,
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
   const before = baseline ?? dayFaults(input, itinerary, outline.dayNo);
   for (const poi of candidates) {
-    const choices = [
-      ...choicesOf(day),
-      { poiId: poi.id, kind: stopKind(poi), mustDoId: null, note: editorsLine(input, poi) },
-    ];
+    const choices = choicesOf(day);
+    choices.splice(position ?? choices.length, 0, {
+      poiId: poi.id,
+      kind: stopKind(poi),
+      mustDoId: null,
+      note: editorsLine(input, poi),
+    });
     const activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null);
     const next = scheduleChoices(
       input,
@@ -222,70 +197,6 @@ export function fillMeals(
         }
       }
       if (next === null) continue;
-      itinerary = next;
-      added += 1;
-    }
-  }
-  return { itinerary, added };
-}
-
-/**
- * Gives a day left with too few stops, or with a hole in it, the planned, spare or nearby
- * activities it can still take: each must leave the day as clean as it was, and when the day
- * already has its stops, make its longest hole shorter.
- */
-export function fillThinDays(
-  input: DraftPlanInput,
-  outlines: readonly SkeletonDay[],
-  start: Itinerary,
-): Attempt {
-  let itinerary = start;
-  let added = 0;
-  for (const outline of outlines) {
-    const window = dayWindow(input.frame, outline.dayNo - 1);
-    const room = stopBudget(window.endMin - window.startMin);
-    const target = Math.min(MIN_DAY_STOPS, room, 1 + mealsInWindow(window).length * 2);
-    for (let round = 0; round < MIN_DAY_STOPS; round += 1) {
-      const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
-      if (day === undefined || day.items.length >= room) break;
-      const hole = longestHole(input, day, window);
-      const thin = day.items.length < target;
-      if (!thin && hole < HOLE_MIN) break;
-      const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
-      const nearby = nearFirst(
-        input,
-        input.pools.activities.filter((poi) =>
-          (input.pools.openDays.get(poi.id) ?? []).includes(outline.dayNo),
-        ),
-        here,
-      )
-        .slice(0, NEARBY_TRIED)
-        .map((poi) => poi.id);
-      const used = new Set(itinerary.days.flatMap((d) => d.items.map((item) => item.poi_id)));
-      const hasBreak = day.items.some((item) => {
-        const poi = input.pois.get(item.poi_id ?? '');
-        return poi !== undefined && foodRole(poi) === 'light';
-      });
-      const candidates = [...new Set([...outline.poiIds, ...outline.spareIds, ...nearby])]
-        .map((id) => input.pois.get(id))
-        .filter(
-          (poi): poi is DraftPoi =>
-            poi !== undefined && !used.has(poi.id) && !(hasBreak && foodRole(poi) === 'light'),
-        );
-      const next = addOne(
-        input,
-        outline,
-        itinerary,
-        candidates,
-        (before, after, filled) =>
-          after.hard <= before.hard &&
-          after.meals <= before.meals &&
-          (thin || longestHole(input, filled, window) < hole),
-        `fill-${outline.dayNo}-${round}`,
-        // A new stop can bring a meal place within reach: the day gets that meal with it.
-        (candidate) => fillMeals(input, [outline], candidate).itinerary,
-      );
-      if (next === null) break;
       itinerary = next;
       added += 1;
     }

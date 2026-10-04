@@ -57,7 +57,7 @@ export {
   type PlannedOrder,
   type SequenceInput,
 } from './sequence';
-export { dishOf, foodRole, sameDish, stopKind, type FoodRole } from './food-role';
+export { dishOf, foodRole, sameDish, sharesDish, stopKind, type FoodRole } from './food-role';
 export {
   dinnerIsRideHome,
   hopCapMin,

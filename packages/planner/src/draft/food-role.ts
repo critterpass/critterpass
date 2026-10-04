@@ -4,7 +4,7 @@
  * called a café "dinner". A place is a `meal` place (it can be the day's lunch or dinner) or a
  * `light` one (coffee, tea, dessert, a snack: a break, never a meal), read from what the row
  * carries: its tags where our editors set them, else its name, the way the pick job tells cafés
- * from eateries. Eateries our set files under another kind (a roast-pork warung under nightlife)
+ * from eateries; a stop of twenty minutes or less is a snack whatever it sells. Eateries our set files under another kind (a roast-pork warung under nightlife)
  * count as meal places too.
  *
  * A dish is read from the names: two places whose names lead with the same two words that are not
@@ -16,6 +16,9 @@ import type { DraftPoi } from './types';
 export type FoodRole = 'meal' | 'light';
 
 const MEAL_TAGS: ReadonlySet<string> = new Set(['sit_down_dining', 'sit_down', 'street_food']);
+const SIT_DOWN: ReadonlySet<string> = new Set(['sit_down_dining', 'sit_down']);
+/** A food stop our editors give this long or less is eaten standing: a break, not a meal. */
+const SNACK_MAX_MIN = 20;
 const LIGHT_TAGS: ReadonlySet<string> = new Set([
   'coffee',
   'cafe',
@@ -98,6 +101,9 @@ function readRole(poi: DraftPoi): FoodRole | null {
   const mealName = MEAL_WORDS.some((run) => hasRun(tokens, run));
   if (poi.category === 'food') {
     if (lightName && !mealName) return 'light';
+    // Twenty minutes at a counter (a bánh mì, a sweet soup, a yoghurt) is a snack, not a dinner.
+    const quick = poi.durationMin <= SNACK_MAX_MIN && !poi.tags.some((tag) => SIT_DOWN.has(tag));
+    if (quick && !mealName) return 'light';
     if (mealTag || mealName) return 'meal';
     return lightTag ? 'light' : 'meal';
   }
@@ -166,4 +172,20 @@ export function sameDish(a: DraftPoi, b: DraftPoi): boolean {
   if (a.id === b.id) return true;
   const dish = dishOf(a);
   return dish !== null && dish === dishOf(b);
+}
+
+/**
+ * Whether two places serve the same dish even when one leads its name with its own ("Chip Chip -
+ * bánh căn" and "Bánh Căn Nhà Yến"): the same leading dish, or one's dish anywhere in the other's
+ * name.
+ */
+export function sharesDish(a: DraftPoi, b: DraftPoi): boolean {
+  if (sameDish(a, b)) return true;
+  const within = (dish: string | null, poi: DraftPoi) =>
+    dish !== null &&
+    hasRun(
+      nameTokens(poi.name).map((word) => word.replaceAll('y', 'i')),
+      dish.split(' '),
+    );
+  return within(dishOf(a), b) || within(dishOf(b), a);
 }

@@ -9,7 +9,7 @@
  * is built in ./skeleton-request.ts.
  */
 import { assignMeals, assignSpares, keepWhatFits, topUpDays } from './skeleton-days';
-import { checkWishAnswers, withWishAnswers, type WishAnswer } from './wish-answers';
+import { checkWishAnswers, whenOf, withWishAnswers, type WishAnswer } from './wish-answers';
 
 import { parseStructuredText, textOf } from '../../structured';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
@@ -45,6 +45,9 @@ export interface SkeletonPlan {
 }
 
 export { mealsIn } from './skeleton-days';
+
+/** Times of day that make a must-do a morning one. */
+const MORNING_WISHES: ReadonlySet<string> = new Set(['sunrise', 'morning']);
 
 export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): SkeletonPlan {
   const reply = skeletonReplySchema.parse(raw);
@@ -128,6 +131,19 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
         (a, b) => a.mustDoIds.length + a.poiIds.length - (b.mustDoIds.length + b.poiIds.length),
       )[0];
     lightest?.mustDoIds.push(slot.mustDoId);
+  }
+  // A wish for a morning is not left for the morning the crew leaves when an earlier one is free.
+  const last = days[days.length - 1];
+  for (const mustDoId of [...(last?.mustDoIds ?? [])]) {
+    const slot = pools.mustDos.find((s) => s.mustDoId === mustDoId);
+    const when = whenOf(input, mustDoId);
+    if (last === undefined || slot === undefined || !MORNING_WISHES.has(when ?? '')) continue;
+    const earlier = days.find(
+      (day) => day.dayNo > 1 && day.dayNo < last.dayNo && slot.openDays.includes(day.dayNo),
+    );
+    if (earlier === undefined) continue;
+    last.mustDoIds.splice(last.mustDoIds.indexOf(mustDoId), 1);
+    earlier.mustDoIds.push(mustDoId);
   }
   // What the outline gave a day must fit its hours and sit together; light days are topped up.
   const planned = days.reduce((sum, day) => sum + day.poiIds.length, 0);

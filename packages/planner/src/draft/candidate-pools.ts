@@ -128,6 +128,8 @@ interface Ranking {
   readonly include: ReadonlySet<string>;
   /** Seats kept for the places listed twice or more, most-listed first (0 = none kept). */
   readonly wellKnown: number;
+  /** Seats the must-sees take before anything else competes on score (default: none kept). */
+  readonly mustSees?: number;
 }
 
 /**
@@ -158,13 +160,20 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
     }
   }
   let kept = 0;
+  let seen = picked.filter((poi) => poi.mustSee).length;
   while (picked.length < limit && rest.size > 0) {
     // While seats are kept and a place listed twice or more is left, only those compete.
     const known =
       kept < ranking.wellKnown
         ? [...rest.values()].filter((poi) => (ranking.mentions.get(poi.id) ?? 1) >= 2)
         : [];
-    const field = known.length > 0 ? known : [...rest.values()];
+    // What a town is known for sits before what merely matches the crew's tastes: a long list of
+    // taste tags must not push the lake and the night market off the list.
+    const sights =
+      known.length === 0 && seen < (ranking.mustSees ?? 0)
+        ? [...rest.values()].filter((poi) => poi.mustSee)
+        : [];
+    const field = known.length > 0 ? known : sights.length > 0 ? sights : [...rest.values()];
     let best: DraftPoi | null = null;
     let bestKey: readonly number[] = [];
     for (const poi of field) {
@@ -183,6 +192,7 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
     }
     if (best === null) break;
     if (known.length > 0) kept += 1;
+    if (best.mustSee) seen += 1;
     take(best);
     rest.delete(best.id);
   }
@@ -245,7 +255,8 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     ),
     wellKnown: 0,
   };
-  const activityLimit = Math.min(48, Math.max(24, days * 6));
+  // Eight a day: where visits are short (half an hour at a church), a day takes many.
+  const activityLimit = Math.min(48, Math.max(24, days * 8));
   const sights = open.filter(
     (poi) => foodRole(poi) === null && poi.category !== 'stay' && poi.category !== 'transit',
   );
@@ -257,13 +268,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   const activities = pick([...sights, ...breaks], activityLimit, {
     ...ranking,
     wellKnown: Math.floor(activityLimit / 3),
+    mustSees: Math.floor((activityLimit * 2) / 3),
   });
   const eateries = pick(
     open.filter(
       (poi) => foodRole(poi) === 'meal' && frame.diets.every((diet) => suitsDiet(poi.tags, diet)),
     ),
     MAX_EATERIES,
-    ranking,
+    { ...ranking, mustSees: Math.floor(MAX_EATERIES / 4) },
   );
   // The head of the meal list keeps its spread across kinds and across the city.
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));

@@ -14,6 +14,7 @@ import {
   mealSlots,
   mealsInWindow,
   sameDish,
+  sharesDish,
   stopKind,
   withinReach,
   type DayChoice,
@@ -196,6 +197,9 @@ export function topUpDays(
 export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]): void {
   const listed = new Set<string>();
   const place = (id: string) => input.pois.get(id);
+  const asked = input.pools.mustDos
+    .map((slot) => place(slot.poiId))
+    .filter((poi): poi is DraftPoi => poi !== undefined && foodRole(poi) !== null);
   const eaten = (day: OutlineDay | undefined): DraftPoi[] =>
     day === undefined
       ? []
@@ -218,6 +222,8 @@ export function assignMeals(input: DraftPlanInput, days: readonly OutlineDay[]):
         if (listed.has(poi.id)) continue;
         const mine = eaten(day);
         if ([...around, ...mine].some((other) => sameDish(other, poi))) continue;
+        // A must-do's dish is that one visit: no other day is offered it again.
+        if (asked.some((other) => other.id !== poi.id && sharesDish(other, poi))) continue;
         day.mealIds.push(poi.id);
         listed.add(poi.id);
         count += 1;

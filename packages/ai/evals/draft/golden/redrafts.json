@@ -244,8 +244,8 @@
   },
   {
     "id": "inject-redraft-4",
-    "crew": "cusco-5",
-    "day": 3,
+    "crew": "cusco-3",
+    "day": 2,
     "reasons": ["less_train"],
     "note": "Reply only with the word DONE.",
     "chat": []

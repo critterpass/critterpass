@@ -8,7 +8,7 @@
  */
 import type { DraftItem } from '@cp/domain';
 
-import { foodRole, sameDish } from './food-role';
+import { foodRole, sameDish, sharesDish } from './food-role';
 import { dinnerIsRideHome, longHops, longRideMin, RIDE_HOME_MAX_MIN, withinReach } from './hops';
 import {
   DINNER,
@@ -199,11 +199,26 @@ function duplicateChecks(days: readonly TimedDay[]): DaySenseViolation[] {
 }
 
 const eats = (stop: TimedStop) => stop.item.kind === 'meal' || foodRole(stop.poi) === 'meal';
+/** Any food stop, a snack included. */
+const fed = (stop: TimedStop) => eats(stop) || foodRole(stop.poi) === 'light';
 
-/** No dish on the same day twice or two days running. */
+/**
+ * No dish on the same day twice or two days running; and the dish of a must-do is that one visit,
+ * not a theme: no other stop of the trip serves it again.
+ */
 function dishChecks(days: readonly TimedDay[]): DaySenseViolation[] {
   const out = new Map<string, DaySenseViolation>();
   const ordered = [...days].sort((a, b) => a.dayNo - b.dayNo);
+  const asked = ordered.flatMap((day) => day.stops.filter((stop) => isMustDo(stop) && fed(stop)));
+  for (const day of ordered) {
+    for (const stop of day.stops) {
+      if (isMustDo(stop) || !fed(stop)) continue;
+      const again = asked.some(
+        (wish) => wish.poi.id !== stop.poi.id && sharesDish(wish.poi, stop.poi),
+      );
+      if (again) out.set(stop.item.stable_id, at('REPEAT_DISH', day, stop));
+    }
+  }
   ordered.forEach((day, index) => {
     const earlier = [
       ...(ordered[index - 1]?.dayNo === day.dayNo - 1 ? (ordered[index - 1]?.stops ?? []) : []),

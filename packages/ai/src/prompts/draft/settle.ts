@@ -7,10 +7,11 @@
  * still without a lunch or dinner after that has no place the planner could fit: that is how the
  * day is, not a rule the draft breaks, so it is not reported as one.
  */
-import type { Itinerary } from '@cp/domain';
+import type { DraftDay, Itinerary } from '@cp/domain';
 import { dropViolations, type DropResult, type ValidationResult } from '@cp/planner';
 
-import { fillMeals, fillThinDays } from './complete-days';
+import { fillMeals } from './complete-days';
+import { fillThinDays } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
@@ -59,7 +60,8 @@ function without(
 /**
  * When the repairs are spent, a day that still breaks a rule gives up its other stops before a
  * must-do: stops without a must-do go one at a time (whichever removal fixes the most), and the
- * planner re-times the rest, until the day is clean or only must-dos are left. A removal that
+ * planner re-times the rest, until the day is clean or only must-dos are left (a meal before an
+ * activity when either would do: the day is about its sights). A removal that
  * fixes nothing yet is still made when the must-dos alone would make a clean day (two stops may
  * have to go before a late must-do fits).
  */
@@ -87,7 +89,17 @@ export function trimForMustDos(
       const day = itinerary.days.find((d) => d.day_no === dayNo);
       if (day === undefined) break;
       let best: { itinerary: Itinerary; left: number } | null = null;
-      for (const drop of day.items.filter((item) => item.must_do_id === null)) {
+      // Of the removals that fix as much, a meal goes first (another, nearer one is filled in
+      // afterwards), then a stop the outline never planned, then the later of two.
+      const planned = new Set(outline.poiIds);
+      const rank = (item: DraftDay['items'][number]) =>
+        item.kind === 'meal' ? 0 : planned.has(item.poi_id ?? '') ? 2 : 1;
+      const candidates = day.items
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => item.must_do_id === null)
+        .sort((a, b) => rank(a.item) - rank(b.item) || b.index - a.index)
+        .map(({ item }) => item);
+      for (const drop of candidates) {
         const candidate = without(
           input,
           outline,
