@@ -1,0 +1,254 @@
+appId: app.critterpass.dev
+---
+# All days (7b-3) over the Bali Six's eight days in the plan views lab: the grid with each day's
+# route sketch, pace and tag, moving the night market from Tuesday to the free Saturday with the
+# preview of both days (an organiser's MOVE IT, a member's SUGGEST IT), then Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-3-all-days
+- scrollUntilVisible:
+    element:
+      id: 'all-days-card-8'
+    direction: DOWN
+    timeout: 10000
+- takeScreenshot: en-7b-3-all-days-end
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'all-days'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+# Move a stop without dragging: the lab opens on Tuesday held (its "Move a stop"), a stop, then the day it goes to.
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-move'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-move'
+- extendedWaitUntil:
+    visible:
+      id: 'move-stop-0199c000-0000-7000-8000-000000000204'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'move-stop-0199c000-0000-7000-8000-000000000204'
+- extendedWaitUntil:
+    visible:
+      id: 'move-stop-days-6'
+    timeout: 10000
+- tapOn:
+    id: 'move-stop-days-6'
+- extendedWaitUntil:
+    visible:
+      id: 'move-preview-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: en-7b-3-move-preview
+- tapOn:
+    id: 'move-preview-confirm'
+- waitForAnimationToEnd:
+    timeout: 2000
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'all-days'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days-member'
+- extendedWaitUntil:
+    visible:
+      id: 'move-stop-0199c000-0000-7000-8000-000000000204'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'move-stop-0199c000-0000-7000-8000-000000000204'
+- extendedWaitUntil:
+    visible:
+      id: 'move-stop-days-6'
+    timeout: 10000
+- tapOn:
+    id: 'move-stop-days-6'
+- extendedWaitUntil:
+    visible:
+      id: 'move-preview-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: en-7b-3-move-preview-member
+- tapOn:
+    id: 'move-preview-confirm'
+- waitForAnimationToEnd:
+    timeout: 2000
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'all-days'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-plan-views-lab'
+    times: 2
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+# An iOS edge swipe can carry past the tools list to Home: back into the tools from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-all-days'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-7b-3-all-days
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'all-days'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000

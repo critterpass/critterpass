@@ -11,6 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GoButton } from '@/ui/buttons/GoButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Card } from '@/ui/cards/Card';
@@ -59,6 +60,8 @@ export interface DayOfViewProps {
   readonly offline: boolean;
   readonly alarmNote: AlarmNote | null;
   readonly onImUp: () => void;
+  /** GO to the next stop: the route from here, then directions in the maps app. */
+  readonly onGo?: (() => void) | undefined;
   readonly onTogglePack: (id: string, packed: boolean) => void;
   readonly onAddPack: (label: string) => void;
   readonly onRemovePack: (id: string) => void;
@@ -227,6 +230,9 @@ export function DayOfView(props: DayOfViewProps) {
               {t({ id: 'trip.dayOf.notYours', message: "You're not on this one. Sleep in." })}
             </Text>
           ) : null}
+          {props.onGo === undefined ? null : (
+            <GoButton block onPress={props.onGo} testID="trip-day-go" />
+          )}
           {canWake ? (
             <PillButton
               label={t({ id: 'trip.dayOf.imUp', message: "I'm up" })}

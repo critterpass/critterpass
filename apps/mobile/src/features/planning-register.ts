@@ -11,6 +11,7 @@ import '@/features/plan/add/register';
 import '@/features/plan/ideas/register';
 import '@/features/plan/review/register';
 
+import './plan/hub/register';
 import './explore/place-detail/register';
 import './explore/split/register';
 import '@/features/explore/search/register';

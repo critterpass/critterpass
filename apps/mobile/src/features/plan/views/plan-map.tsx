@@ -23,7 +23,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import criterpassDarkStyleJson from '../../../../assets/map-style/critterpass-dark.json';
-import { dayTileColour } from '../overview/day-card';
+import { dayTileColour } from '../overview/model/day-colour';
 import type { PlanDay, PlanItem } from '../overview/model/plan-model';
 import { planMapModel, type MapPin } from './model/views-model';
 

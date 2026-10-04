@@ -1,7 +1,7 @@
 ---
 phase: 10
 title: Trip map, day plan, all days and the empty trip
-status: pending
+status: done
 depends_on: [1, 3, 4, 5]
 wave: 3
 screens: [7a-1, 7a-2, 7a-3, 7b-1, 7b-2, 7b-3, 7i-1]
@@ -105,62 +105,62 @@ Reuse / extend / new: reuse `data/plan` (reader/editor), `buildDayCards`, `dayTi
 - Steps: 1. Hub selection from `planHub()`. 2. `hub/register.ts` registers the 7x ids and re-registers `3e-1`/`3e-2` as function routes reading `planning.redesign` (the old `overview/routes.ts` and `day/register.ts` stay untouched until phase 14). 3. Draft versions: organiser sees their draft on the hub (C44).
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/hub` (switch off → old screens; hub map/day; push forwarder targets)
 - Done when: trip hub PLAN, inbox rows and a review push open the right screens in both switch states.
-- Status: todo
+- Status: done — ea782d101
 
 ### T2 — Trip map and peek sheet (7a-1)
 - Files: `apps/mobile/src/features/plan/trip-map/{trip-map-screen,peek-sheet,trip-map-filters,use-trip-map-data}.ts(x)`, `packages/i18n/locales/{en,vi}/plan/trip-map.*`
 - Steps: 1. Canvas + layers from the kit with day/place data. 2. Filters (20 % fade). 3. Peek sheet content incl. check line and pending-review card. 4. Day chip → route trace. 5. Draw any route in `usePlanningMapPreview` (sheets over the map, e.g. Fill a gap, set it).
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/trip-map/use-trip-map-data` (marker sizing inputs, filter → visible set)
 - Done when: the Bali seed matches 7a-1 on device.
-- Status: todo
+- Status: done — 911844301
 
 ### T3 — One day at half (7a-2)
 - Files: `apps/mobile/src/features/plan/trip-map/{day-sheet,stop-list}.tsx`
 - Steps: 1. Rows with legs, vote, rain, gaps. 2. Stop tap → map label and camera ease. 3. Map zoom to fit the day; Tokek's dots hidden at half.
 - Tests: none beyond typecheck (layout)
 - Done when: SWAP? and FILL IT open their screens once phase 13 registers them (`useScreenHref`), and are hidden before.
-- Status: todo
+- Status: done — 6968ffe4d
 
 ### T4 — Whole trip at full (7a-3) and SHARE
 - Files: `apps/mobile/src/features/plan/trip-map/{trip-sheet,share-sheet}.tsx`, `apps/mobile/src/features/plan/views/export-sheet.tsx` (reused)
 - Steps: 1. Header, countdown, check card, day rows with chips and pace. 2. SHARE sheet: share the plan (slot) + "Add to my calendar" (existing export). 3. IDEAS footer.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/trip-map/pace` (pace from planned minutes vs the day's waking hours)
 - Done when: the Bali seed's chips match 7a-3 (BOOKED, CLASH, RAIN, BOOKED, VOTE, –, TOO FAR, –).
-- Status: todo
+- Status: done — 44d754572
 
 ### T5 — Day plan (7b-1)
 - Files: `apps/mobile/src/features/plan/day-plan/{day-plan-screen,mini-map,stop-timeline,use-reorder,add-bar}.ts(x)`, `packages/i18n/locales/{en,vi}/plan/day-plan.*`
 - Steps: 1. Header, chips, rain chip. 2. Live mini-map. 3. Timeline with legs and Tokek notes (issues → note + SEE). 4. Long-press reorder with planner rescheduling and lock rules; organiser apply / member change set. 5. Add bar → search.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/day-plan/use-reorder` (lift/cross/drop/cancel; booked stop rejects with reason; member path makes a change set)
 - Done when: reordering on phone A redraws phone B's day within 1 s; legs show "about" until the new legs land.
-- Status: todo
+- Status: done — ec065ca57
 
 ### T6 — Map open (7b-2)
 - Files: `apps/mobile/src/features/plan/day-plan/{day-map-screen,stop-strip}.tsx`, `apps/mobile/src/app/(trip)/[tripId]/day/[day]/map.tsx`
 - Steps: 1. Full map, day pill picker, chips. 2. Strip ↔ label sync. 3. On-the-way labels from idea fits.
 - Tests: none beyond typecheck
 - Done when: swiping the strip moves the single label stop to stop.
-- Status: todo
+- Status: done — e601af31c
 
 ### T7 — All days with cross-day drag (7b-3)
 - Files: `apps/mobile/src/features/plan/all-days/{all-days-screen,day-card,use-cross-day-drag,move-preview}.ts(x)`, `apps/mobile/src/app/(trip)/[tripId]/plan/days.tsx`, `packages/i18n/locales/{en,vi}/plan/all-days.*`
 - Steps: 1. Grid with sketches and pace. 2. Pinch-out entry. 3. Dot drag + hit-testing; preview with both days rerouted (local fit + legs/straight-line); confirm. 4. "Move to day…" alternative.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/all-days/use-cross-day-drag` (hit-testing, drop on the same day = no-op, booked stop cannot move)
 - Done when: moving a stop from Tue to Sat on device shows the preview and applies.
-- Status: todo
+- Status: done — 1059dedfd
 
 ### T8 — Nothing saved yet (7i-1)
 - Files: `apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx`
 - Steps: 1. Empty condition (no items, no ideas). 2. Four ways with role variants. 3. Floating guide where the stay will be (or the destination centre).
 - Tests: none beyond typecheck
 - Done when: a fresh trip after the destination vote shows 7i-1; each way opens its flow.
-- Status: todo
+- Status: done — fb87b49eb
 
 ### T9 — Device flows, deep links, undesigned states
 - Files: `e2e/plan/{trip-map,day-plan,day-plan-offline,all-days,nothing-saved}.yaml`, existing `e2e/plan/*.yaml` kept for `planning.redesign` off, `docs/undesigned-states.md`
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/plan/trip-map.yaml,e2e/plan/day-plan.yaml,e2e/plan/all-days.yaml,e2e/plan/nothing-saved.yaml" -f mode=compare -f pr=<n> -f shards=1`; `day-plan-offline.yaml` separately; iOS once for `trip-map.yaml` (sheet drag, safe areas)
 - Done when: sheets reviewed; `ui-reviewed` applied; old 3e flows still green with the switch off.
-- Status: todo
+- Status: done — 71a37a433 (sheets posted to #617; `ui-reviewed` waits on the controller)
 
 ## Device flows
 

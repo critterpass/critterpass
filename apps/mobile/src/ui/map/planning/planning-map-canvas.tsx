@@ -46,6 +46,8 @@ export interface PlanningMapCanvasProps {
   /** Each frame the map draws (the lab's frame meter). */
   readonly onFrame?: (() => void) | undefined;
   readonly testID?: string | undefined;
+  /** A small inset map (the day plan's mini-map): no logo, the attribution "i" at the bottom right. */
+  readonly compact?: boolean | undefined;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -66,6 +68,7 @@ export function PlanningMapCanvas({
   onPressMap,
   onFrame,
   testID = 'planning-map',
+  compact = false,
 }: PlanningMapCanvasProps) {
   const styles = useStyles();
   const style = useMemo(
@@ -83,8 +86,11 @@ export function PlanningMapCanvas({
         mapStyle={style}
         // Drawn inside the view tree, so a pushed screen never leaves a band of map behind it.
         androidView="texture"
+        logo={!compact}
         logoPosition={{ bottom: ornamentBottom, left: ORNAMENT_SIDE }}
-        attributionPosition={{ bottom: ornamentBottom, right: ORNAMENT_SIDE }}
+        attributionPosition={
+          compact ? { bottom: 4, right: 4 } : { bottom: ornamentBottom, right: ORNAMENT_SIDE }
+        }
         onRegionDidChange={onRegionDidChange}
         {...(onPressMap === undefined ? {} : { onPress: () => onPressMap() })}
         {...(onFrame === undefined ? {} : { onDidFinishRenderingFrame: () => onFrame() })}

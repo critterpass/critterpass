@@ -6,3 +6,417 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
+
+#. placeholder {0}: short(major / 1e3)
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.money.thousands"
+msgstr ""
+
+#. placeholder {0}: short(major / 1e6)
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.money.millions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCarAbout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.gap.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.dateDayOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.countdown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.tooFar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.clash"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.fixPart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.fixesBefore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.fixes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.both"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.fixOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.hoursMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.ideasWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.knowPart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.knowOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.pace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.votedEach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.about"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.crowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.stops"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.pace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.voted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-top.tsx
+msgid "plan.tripMap.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.booking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.draftLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
+msgid "plan.tripMap.label.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
+msgid "plan.tripMap.addToCalendar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+msgid "plan.tripMap.allDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.askDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.beaches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.checkDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.clash"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.dayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.dayWeekday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.dayOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.dayChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.driver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.gap.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.far"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.gap.fill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.reviewReady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.ideas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.markets"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.swipeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.museums"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.nothingYet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+msgid "plan.tripMap.openDayHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.otherDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.paste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.copyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.issue.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-camera.ts
+msgid "plan.tripMap.label.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.rainLikely"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.draftReview"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.ride"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.chip.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
+msgid "plan.tripMap.label.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-top.tsx
+msgid "plan.tripMap.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-top.tsx
+msgid "plan.tripMap.searchNoPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.see"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
+msgid "plan.tripMap.shareTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-camera.ts
+msgid "plan.tripMap.label.stop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.swipe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.wholeTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.draftOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.pasteLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.tooFar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.tag.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
+msgid "plan.tripMap.cat.wellness"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.you"
+msgstr ""

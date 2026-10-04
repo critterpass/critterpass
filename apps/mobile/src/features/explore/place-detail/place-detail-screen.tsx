@@ -15,6 +15,7 @@ import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { heroAt, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { dataOf } from '@/data/travel-data/freshness';
+import { goHref } from '@/features/go';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
@@ -247,6 +248,11 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
         onPress: press,
       }}
       onChat={chatHref === undefined ? undefined : () => router.push(chatHref)}
+      onGo={
+        row.lat === null || row.lng === null
+          ? undefined
+          : () => router.push(goHref({ kind: 'place', poiId: placeId, tripId }))
+      }
     />
   );
 }

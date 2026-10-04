@@ -27,6 +27,10 @@ msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. {only
 msgid "setup.when.line.all"
 msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. Đủ cả rồi.}}"
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.length"
+msgstr "{days, plural, other {# ngày}}"
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
 msgstr "{first} Vé máy bay đắt hơn {delta}."
@@ -39,9 +43,9 @@ msgstr "{first} Vé máy bay rẻ hơn {delta}."
 msgid "setup.when.option.pick"
 msgstr "{guide} chọn"
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.days"
-msgstr "{length} ngày"
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.lengthRange"
+msgstr "{length} · {range}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.countWord"
@@ -71,6 +75,10 @@ msgstr "{names} không đi trọn được."
 msgid "setup.ask.privacy"
 msgstr "{organiser} chỉ biết tuần đó có ổn không. Không bao giờ biết đó là việc gì."
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipSome"
+msgstr "{range} · {free}/{total}"
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.partTitle"
 msgstr "{range} · {free}/{total} người"
@@ -78,6 +86,10 @@ msgstr "{range} · {free}/{total} người"
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.windowPill"
 msgstr "{range} · cả {everyone} đều rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipAll"
+msgstr "{range} · cả {total}"
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.allTitle"
@@ -87,13 +99,29 @@ msgstr "{range} · đủ {total}"
 msgid "setup.when.windowPillSolo"
 msgstr "{range} · bạn rảnh"
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11y"
 msgstr "{when}, {free} trên {total} người rảnh"
 
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnly"
+msgstr "{when}, ngày đầu và ngày cuối, {free} trên {total} người rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirst"
+msgstr "{when}, ngày đầu, {free} trên {total} người rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLast"
+msgstr "{when}, ngày cuối, {free} trên {total} người rảnh"
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.free"
-msgstr "{who}/{all} người đi được trọn tuần."
+msgstr "{who}/{all} người đi được trọn mọi ngày đó."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.tooLong"
+msgstr "Một chuyến đi dài tối đa {max} ngày. Chọn ít ngày hơn để chốt."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.title"
@@ -118,6 +146,10 @@ msgstr "Không dời được"
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.change"
 msgstr "Đổi"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.clear"
+msgstr "Xoá"
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.connect"
@@ -160,6 +192,10 @@ msgstr "Từ lịch của bạn."
 msgid "setup.when.cta.lock"
 msgstr "Chốt {range}"
 
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr "Chốt luôn, hoặc chạm một ngày cuối khác."
+
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.offline"
 msgstr "Cần có mạng để chốt. Thử lại sau chút nhé."
@@ -175,10 +211,6 @@ msgstr "Hãy đánh dấu những ngày bạn không đi được."
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.pick.partial"
 msgstr "Gần đủ cả nhóm, đúng mùa đẹp. Người còn lại có thể đi một phần."
-
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.nextMonth"
-msgstr "Tháng sau"
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.timedOut"
@@ -196,14 +228,6 @@ msgstr "Không tuần nào đủ cả {total} người"
 msgid "setup.when.line.none"
 msgstr "Chưa ai chia sẻ ngày rảnh. Kết nối lịch hoặc đánh dấu tay nhé."
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.longer"
-msgstr "Thêm một ngày"
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.shorter"
-msgstr "Bớt một ngày"
-
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncedLine"
 msgstr "Chỉ chia sẻ rảnh hay bận theo ngày."
@@ -216,21 +240,17 @@ msgstr "Chỉ có rảnh hay bận theo ngày rời khỏi điện thoại."
 msgid "setup.ask.words"
 msgstr "Hoặc nhắn {name} bằng lời của bạn"
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.title"
-msgstr "Chọn một tuần"
-
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.pickAnyway"
 msgstr "Vẫn chọn một tuần"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOther"
-msgstr "Chọn tuần khác"
+msgid "setup.when.pickOtherDays"
+msgstr "Chọn ngày khác"
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.prevMonth"
-msgstr "Tháng trước"
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.titleDays"
+msgstr "Chọn ngày đi"
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.line"
@@ -239,6 +259,10 @@ msgstr "Hỏi nhanh: khoảng có thể bận của bạn là thứ duy nhất n
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.send"
 msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.monthHint"
+msgstr "Vuốt lên hoặc xuống để đổi tháng."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.staleLine"
@@ -249,8 +273,8 @@ msgid "setup.when.own.syncing"
 msgstr "Đang đồng bộ lịch"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.line"
-msgstr "Chạm vào ngày đầu tiên. Chỉnh số ngày bên dưới."
+msgid "setup.when.picker.howTo"
+msgstr "Chạm ngày đầu và ngày cuối, hoặc giữ một ngày rồi kéo."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"
@@ -275,6 +299,10 @@ msgstr "Tuần này rơi vào mùa đẹp nhất của {place}, và ai cũng r�
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.seasonPeak"
 msgstr "Tuần này rơi vào mùa đẹp nhất của {place}, và bạn rảnh. Được cả hai."
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.today"
+msgstr "Hôm nay"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.rate"

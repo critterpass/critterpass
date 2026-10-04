@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: Place detail and crew can't agree
-status: in review
+status: done
 depends_on: [1, 3, 4, 5, 6]
 wave: 3
 screens: [7e-1, 7e-2, 7e-3]

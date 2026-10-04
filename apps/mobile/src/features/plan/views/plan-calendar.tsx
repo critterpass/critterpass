@@ -13,7 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { dayTileColour } from '../overview/day-card';
+import { dayTileColour } from '../overview/model/day-colour';
 import type { CalendarMonth } from './model/views-model';
 
 const CELL = 44;

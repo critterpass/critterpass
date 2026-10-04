@@ -94,8 +94,8 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# Today in Vietnam, three days (today → today+2): the first day tapped in the picker's heatmap,
-# the length taken down to three, and the lock's own label checked before it is tapped.
+# Today in Vietnam, three days (today → today+2): the first and the last day tapped in the
+# picker's heatmap, and the lock's own label checked before it is tapped.
 - evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
 - scrollUntilVisible:
     element:
@@ -104,28 +104,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'when-pick-week'
-- extendedWaitUntil:
-    visible:
-      id: 'picker-shorter'
-    timeout: 10000
-- waitForAnimationToEnd
-# The day's own cell, on its own month.
+# Today and the day two after, each on its own month, by its date.
 - runFlow:
-    file: pick-week-day.yaml
+    file: pick-days.yaml
     env:
       PICK_DATE: ${output.pickDate}
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
-- repeat:
-    while:
-      notVisible: '3 days'
-    times: 30
-    commands:
-      - tapOn:
-          id: 'picker-shorter'
-- assertVisible: '3 days'
+      PICK_DAYS: 3
+- assertVisible:
+    id: 'picker-length'
+    text: '3 days .*'
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}

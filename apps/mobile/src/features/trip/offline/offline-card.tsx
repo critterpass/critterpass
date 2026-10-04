@@ -93,7 +93,13 @@ export function OfflineCard({ eyebrow, headline, line, chip, guide }: OfflineCar
         </Row>
         <Row gap="12" align="center">
           <Stack gap="10" flex={1}>
-            <Text variant="displayHero" autoFit color={theme.semantic.text.primary}>
+            {/* A place's name can be long ("Chợ Hàn (Han Market)"): up to three fitted lines. */}
+            <Text
+              variant="displayHero"
+              autoFit
+              numberOfLines={3}
+              color={theme.semantic.text.primary}
+            >
               {upper(headline, locale)}
             </Text>
             <Text variant="body" color={theme.semantic.text.primary}>
