@@ -25,9 +25,12 @@ $$;
 -- A private draft the organiser replaced by her next edit, and an empty plan nobody touched, are
 -- deleted rather than kept as history (the server does it, never a user): edits by hand would
 -- otherwise add a version, and its days, to every organiser's phone each time. `plan_items`
--- already grants this; `app_user` still has no write path to any of the three.
+-- already grants this; `app_user` gets no delete on any of the three.
 GRANT DELETE ON itinerary_versions TO app_system;
 GRANT DELETE ON plan_days TO app_system;
+
+-- The ops console reads the two new columns like the rest of the row (no personal data).
+GRANT SELECT (origin, checked_at) ON itinerary_versions TO admin_reader;
 
 -- The organiser's own edit of her private draft appends `draft.ops_applied`
 -- (packages/domain/src/itinerary/events.ts): ids and a count only, never an activity or a push.
