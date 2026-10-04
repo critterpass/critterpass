@@ -24,6 +24,7 @@ import type { TripDay } from '../trip-map/trip-days';
 import { useWayOut } from '../trip-map/use-ways-out';
 import { AllDaysCard } from './day-card';
 import type { CardRect } from './use-cross-day-drag';
+import { GuideSticker } from '../trip-map/guide-sticker';
 
 const useStyles = makeStyles((t) => ({
   scroll: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'], gap: t.space['14'] },
@@ -93,6 +94,7 @@ export function AllDaysView(props: AllDaysViewProps) {
         {line === null ? null : (
           <TokekNote
             guide={model.guide.id}
+            sticker={<GuideSticker guide={model.guide.id} />}
             name={model.guide.name}
             line={line}
             detail={t({

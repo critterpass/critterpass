@@ -19,6 +19,7 @@ import { tagColor, tagLabel, tripDates, weekday } from './format';
 import { countdownLine, daySummary, paceWords, tripCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
+import { GuideSticker } from './guide-sticker';
 
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
@@ -81,6 +82,7 @@ export function TripSheet(props: TripMapSheetProps) {
       {line === null ? null : (
         <TokekNote
           guide={model.guide.id}
+          sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={line}
           detail={t({

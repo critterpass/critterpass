@@ -51,7 +51,11 @@ export function DayPlanScreen({
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(plan.versionId, day);
   const editor = useDayEditing(plan);
-  const search = useScreenHref('7d-1', { tripId, scope: 'day', day: String(dayNo) });
+  const search = useScreenHref('7d-1', {
+    tripId,
+    scope: 'day',
+    ...(day?.dayId == null ? {} : { dayId: day.dayId }),
+  });
   const presence = usePlanPresence(tripId, 'day', dayNo);
   const rainWindow = useRainWindow(plan.trip?.destination_id ?? null, day?.date ?? null, model.tz);
   const slot: DaySlot = { dayNo, date: day?.date ?? '' };

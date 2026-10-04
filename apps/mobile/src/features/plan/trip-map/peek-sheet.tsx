@@ -20,16 +20,12 @@ import { dateLine, stopsLine } from './format';
 import { dayChips, peekCheckLine } from './sheet-copy';
 import type { TripMapSheetProps } from './sheet-props';
 import { useWayOut } from './use-ways-out';
+import { GuideSticker } from './guide-sticker';
 
 const useStyles = makeStyles((t) => ({
   body: { gap: t.space['12'] },
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    gap: t.space['12'],
-  },
+  titleRow: { gap: t.space['2'] },
   title: { flexShrink: 1 },
 }));
 
@@ -90,6 +86,7 @@ export function PeekSheet(props: TripMapSheetProps) {
       {line === null ? null : (
         <TokekNote
           guide={model.guide.id}
+          sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={line}
           {...(check === null || model.check.fixes + model.check.know === 0
@@ -106,6 +103,7 @@ export function PeekSheet(props: TripMapSheetProps) {
       {model.draft ? (
         <TokekNote
           guide={model.guide.id}
+          sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={t({
             id: 'plan.tripMap.draftOnly',
@@ -121,6 +119,7 @@ export function PeekSheet(props: TripMapSheetProps) {
       {review === undefined ? null : (
         <TokekNote
           guide={model.guide.id}
+          sticker={<GuideSticker guide={model.guide.id} />}
           name={model.guide.name}
           line={t({
             id: 'plan.tripMap.reviewReady',

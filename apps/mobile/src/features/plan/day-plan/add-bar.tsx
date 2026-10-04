@@ -1,5 +1,6 @@
 /**
- * The day plan's add bar (7b-1): "+ Add a place, or paste a link", where every add starts. It
+ * The day plan's add bar (7b-1): "+ Add a place, or paste a link", pinned at the foot of the day
+ * under a fade, where every add starts. It
  * opens search scoped to the day (a name, plain words or a link) once search is registered, and
  * the earlier add sheet until then.
  */
@@ -11,11 +12,12 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { useSurfaceBackground } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 const useStyles = makeStyles((t) => ({
-  wrap: { position: 'absolute', start: 0, end: 0, bottom: 0, paddingHorizontal: t.size.gutter },
+  wrap: { paddingHorizontal: t.size.gutter, paddingTop: t.space['4'] },
   bar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -37,9 +39,6 @@ const useStyles = makeStyles((t) => ({
   label: { flex: 1, minWidth: 0 },
 }));
 
-/** Room the bar takes at the foot of the day plan. */
-export const ADD_BAR_SPACE = 88;
-
 export function AddBar({
   guide,
   onPress,
@@ -52,9 +51,10 @@ export function AddBar({
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const sticker = GUIDE_STICKERS[guide];
+  const page = useSurfaceBackground() ?? theme.semantic.bg.base;
   const label = t({ id: 'plan.dayPlan.add', message: 'Add a place, or paste a link' });
   return (
-    <View style={[styles.wrap, { paddingBottom: insets.bottom + 8 }]} pointerEvents="box-none">
+    <View style={[styles.wrap, { paddingBottom: insets.bottom + 8, backgroundColor: page }]}>
       <PressScale
         onPress={onPress}
         accessibilityRole="button"

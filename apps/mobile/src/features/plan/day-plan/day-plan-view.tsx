@@ -14,6 +14,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import { DayChips, PlanningTag } from '@/ui/planning';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -26,7 +27,7 @@ import { dayChips } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
 import { buildStopRows } from '../trip-map/stop-rows';
 import type { TripDay } from '../trip-map/trip-days';
-import { ADD_BAR_SPACE, AddBar } from './add-bar';
+import { AddBar } from './add-bar';
 import { MiniMap } from './mini-map';
 import { StopTimeline, type TimelineDrag } from './stop-timeline';
 
@@ -34,6 +35,7 @@ import { StopTimeline, type TimelineDrag } from './stop-timeline';
 const PINCH_OUT = 0.8;
 
 const useStyles = makeStyles((t) => ({
+  fill: { flex: 1 },
   scroll: { paddingHorizontal: t.size.gutter, gap: t.space['14'] },
   head: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
   headStart: { flex: 1, alignItems: 'flex-start' },
@@ -98,7 +100,8 @@ export function DayPlanView(props: DayPlanViewProps) {
       <GestureDetector gesture={pinch}>
         <ScrollView
           scrollEnabled={props.drag === null || props.order === null}
-          contentContainerStyle={[styles.scroll, { paddingBottom: ADD_BAR_SPACE + 24 }]}
+          style={styles.fill}
+          contentContainerStyle={[styles.scroll, { paddingBottom: FOOTER_FADE_PT + 12 }]}
         >
           <View style={styles.head}>
             <View style={styles.headStart}>
@@ -184,7 +187,12 @@ export function DayPlanView(props: DayPlanViewProps) {
           )}
         </ScrollView>
       </GestureDetector>
-      {model.readOnly ? null : <AddBar guide={model.guide.id} onPress={props.onAdd} />}
+      {model.readOnly ? null : (
+        <>
+          <FooterFade />
+          <AddBar guide={model.guide.id} onPress={props.onAdd} />
+        </>
+      )}
     </Scaffold>
   );
 }

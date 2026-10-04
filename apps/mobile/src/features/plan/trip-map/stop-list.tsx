@@ -23,6 +23,7 @@ import { issueLine } from './format';
 import type { StopRow } from './stop-rows';
 import { whoFree } from './stop-rows';
 import { useFillGap, useFixer } from './use-ways-out';
+import { GuideSticker } from './guide-sticker';
 
 const useStyles = makeStyles((t) => ({
   list: { gap: t.space['4'] },
@@ -120,6 +121,7 @@ export function StopBlock({
         <View style={styles.note}>
           <TokekNote
             guide={context.guide.id}
+            sticker={<GuideSticker guide={context.guide.id} />}
             name={context.guide.name}
             line={issueLine(row.issue, context.titleOf)}
             {...(fixer === null

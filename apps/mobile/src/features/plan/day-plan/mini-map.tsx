@@ -86,7 +86,7 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
           <PlanningMapCanvas
             initialCenter={[centre[0], centre[1]]}
             initialZoom={12}
-            ornamentBottom={34}
+            compact
             destinationSlug={model.destinationSlug}
             localRegionUri={model.regionUri}
             stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}
