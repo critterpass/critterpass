@@ -7,7 +7,7 @@
 jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file-system'));
 
 import { foursquarePhotoAsset, type PlaceMediaAsset } from '@cp/domain';
-import { beforeEach, describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
@@ -19,14 +19,14 @@ import {
 } from '@/lib/media/media-files';
 import { downloads, reset, seed } from '@/ui/media/test-support/memory-file-system';
 
+import { isGenericPlacePhoto, resetPlacePhotos } from '@/data/media/place-photo-store';
+import { screenCredits, tilePhoto, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { mediaPath, prefetchMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import {
   TravelDataReaderProvider,
   type ReaderResponse,
   type TravelDataReader,
-} from '../../travel-data/client';
-import { isGenericPlacePhoto, resetPlacePhotos } from '../place-photo-store';
-import { screenCredits, tilePhoto, usePlaceTilePhotos } from '../use-place-tile-photos';
-import { mediaPath, prefetchMedia, useSubjectMedia } from '../use-subject-media';
+} from '@/data/travel-data/client';
 
 const POI = '01a0f303-0000-7000-8000-000000000001';
 const OTHER = '01a0f303-0000-7000-8000-000000000002';
