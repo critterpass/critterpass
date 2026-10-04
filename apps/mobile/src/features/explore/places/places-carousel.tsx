@@ -53,8 +53,11 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'space-between',
     paddingHorizontal: t.size.gutter,
     marginBottom: t.space['8'],
+    gap: t.space['12'],
   },
+  count: { flex: 1, minWidth: 0 },
   list: {
+    flexShrink: 0,
     paddingHorizontal: t.space['10'],
     paddingVertical: t.space['6'],
     borderRadius: t.radius.md,
@@ -96,9 +99,12 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
   return (
     <View testID="places-carousel">
       <View style={styles.head}>
-        <Text variant="eyebrow" testID="places-carousel-count">
-          {upper(carouselCount(position + 1, props.entries.length), i18n.locale)}
-        </Text>
+        {/* The label gives way (it shortens with …) so the LIST pill stays whole on screen. */}
+        <View style={styles.count}>
+          <Text variant="eyebrow" numberOfLines={1} testID="places-carousel-count">
+            {upper(carouselCount(position + 1, props.entries.length), i18n.locale)}
+          </Text>
+        </View>
         <PressScale
           style={styles.list}
           widthClass="narrow"

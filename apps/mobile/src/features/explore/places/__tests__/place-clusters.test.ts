@@ -95,6 +95,17 @@ describe('the plan as routes', () => {
     expect(routes[0]?.color).not.toBe(routes[1]?.color);
   });
 
+  it('carries each stop leg key and the roads its legs follow', () => {
+    const paths = new Map([['stay>s-1', [[115.2, -8.5] as const, [115.3, -8.4] as const]]]);
+    const [day] = routeDays(
+      [{ id: 'poi-1', legKey: 's-1', dayNo: 1, startsAt: null, name: 'A', lat: 0, lng: 0 }],
+      days,
+      paths,
+    );
+    expect(day?.stops[0]).toMatchObject({ id: 'poi-1', legKey: 's-1' });
+    expect(day?.legPaths).toBe(paths);
+  });
+
   it('leads with the picked stop day, else today, else the first day', () => {
     expect(leadDay(routes, 'spa', '2026-10-12')).toBe(3);
     expect(leadDay(routes, null, '2026-10-14')).toBe(3);

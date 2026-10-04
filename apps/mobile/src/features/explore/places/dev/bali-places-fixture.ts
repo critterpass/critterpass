@@ -12,7 +12,7 @@ import type { CrewMember } from '../use-places-data';
 
 export const LAB_TZ = 'Asia/Makassar';
 export const LAB_TODAY = '2026-10-14';
-export const VILLA = { name: 'the villa', at: { lat: -8.515, lng: 115.258 } };
+export const VILLA = { name: 'villa', at: { lat: -8.515, lng: 115.258 } };
 
 export const LAB_CREW: readonly CrewMember[] = [
   { uid: 'maya', name: 'Maya', joinIndex: 0 },

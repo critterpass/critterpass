@@ -2,11 +2,12 @@ appId: app.critterpass.dev
 ---
 # Opens one explore lab scene (apps/mobile/src/app/(dev)/explore-lab.tsx), waits for `${READY}`, takes
 # `${SHOT}` and goes back to the list (Android back; iOS drags back from the edge or reopens the lab).
+# The lab's list is long: the scroll gets a minute to reach a scene near its end.
 - scrollUntilVisible:
     element:
       id: 'explore-lab-${SCENE}'
     direction: DOWN
-    timeout: 20000
+    timeout: 60000
 - tapOn:
     id: 'explore-lab-${SCENE}'
 - extendedWaitUntil:

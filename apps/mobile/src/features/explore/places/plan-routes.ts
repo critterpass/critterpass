@@ -29,6 +29,8 @@ export interface PlanRouteStop {
   readonly name: string;
   readonly lat: number;
   readonly lng: number;
+  /** The plan item's stable id: the stop's key in the plan's stored legs. */
+  readonly legKey?: string;
 }
 
 export interface PlanRouteDay {
@@ -36,10 +38,14 @@ export interface PlanRouteDay {
   readonly date: string | null;
   readonly color: string;
   readonly stops: readonly PlanRouteStop[];
+  /** The road each leg follows, keyed `from>to`; a leg without one draws straight. */
+  readonly legPaths?: ReadonlyMap<string, readonly (readonly [number, number])[]>;
 }
 
 export interface RouteItem {
   readonly id: string;
+  /** The plan item's stable id, when the stop is drawn under another id (its place's). */
+  readonly legKey?: string | undefined;
   readonly dayNo: number;
   readonly startsAt: string | null;
   readonly name: string;
@@ -56,6 +62,7 @@ function startOrder(item: RouteItem): number {
 export function routeDays(
   items: readonly RouteItem[],
   days: readonly { readonly dayNo: number; readonly date: string | null }[],
+  legPaths?: PlanRouteDay['legPaths'],
 ): PlanRouteDay[] {
   return days.flatMap((day) => {
     const stops = items
@@ -67,10 +74,19 @@ export function routeDays(
         name: item.name,
         lat: item.lat,
         lng: item.lng,
+        ...(item.legKey === undefined ? {} : { legKey: item.legKey }),
       }));
     return stops.length === 0
       ? []
-      : [{ dayNo: day.dayNo, date: day.date, color: dayColor(day.dayNo), stops }];
+      : [
+          {
+            dayNo: day.dayNo,
+            date: day.date,
+            color: dayColor(day.dayNo),
+            stops,
+            ...(legPaths === undefined ? {} : { legPaths }),
+          },
+        ];
   });
 }
 

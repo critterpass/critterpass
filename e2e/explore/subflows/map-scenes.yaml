@@ -42,7 +42,7 @@ appId: app.critterpass.dev
     element:
       id: 'explore-lab-places-map'
     direction: DOWN
-    timeout: 20000
+    timeout: 60000
 - tapOn:
     id: 'explore-lab-places-map'
 - extendedWaitUntil:
@@ -61,7 +61,7 @@ appId: app.critterpass.dev
     element:
       id: 'explore-lab-places-picked'
     direction: DOWN
-    timeout: 20000
+    timeout: 60000
 - tapOn:
     id: 'explore-lab-places-picked'
 - extendedWaitUntil:

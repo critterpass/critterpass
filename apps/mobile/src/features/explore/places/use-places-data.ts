@@ -7,6 +7,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { useTripIdeas, type TripIdeaView } from '@/data/ideas/use-trip-ideas';
+import { useVersionLegPaths } from '@/data/legs/version-leg-paths';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
@@ -78,6 +79,7 @@ function planStops(plan: TripPlan): {
     if (at === null) continue;
     items.push({
       id: row.poi_id ?? row.stable_id,
+      legKey: row.stable_id,
       dayNo: row.day_no,
       startsAt: row.starts_at,
       name,
@@ -128,7 +130,9 @@ export function usePlacesData({
     () => plan.dayRows.map((day) => ({ dayNo: day.day_no, date: day.date })),
     [plan.dayRows],
   );
-  const routes = useMemo(() => routeDays(items, days), [items, days]);
+  // The roads the plan's stored legs follow, so the day routes run along the streets.
+  const legPaths = useVersionLegPaths(tripId === null ? null : plan.versionId);
+  const routes = useMemo(() => routeDays(items, days, legPaths), [items, days, legPaths]);
   const crew = useMemo(
     () =>
       plan.crew.map((member, index) => ({
