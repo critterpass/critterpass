@@ -44,6 +44,8 @@ export interface WhereViewProps {
   readonly requirement: string | null;
   readonly critter: { readonly key: string; readonly seed: number; readonly city: string } | null;
   readonly slug: string | null;
+  /** The trip destination's name, for the line a destination without a region pack shows. */
+  readonly placeName?: string | null | undefined;
   readonly position: { readonly lat: number; readonly lng: number } | null;
   /** The nearest place's distance, already formatted in the reader's unit. */
   readonly away: string | null;
@@ -136,6 +138,7 @@ export function WhereView(props: WhereViewProps) {
                 spots={where.spots.map((spot) => ({ ...spot, tier }))}
                 position={props.position}
                 slug={props.slug}
+                placeName={props.placeName}
                 foundLabel={allFound()}
                 height={MAP_HEIGHT}
                 testID="critters-where-map"

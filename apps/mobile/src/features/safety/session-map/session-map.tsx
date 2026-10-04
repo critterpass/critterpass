@@ -22,21 +22,35 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { PLATFORM } from '../sos/send-queries';
-import { useSessionMap } from './use-session-map';
+import { useSessionMap, type SessionMap } from './use-session-map';
 import { walkingDirectionsUrl } from './walking-route';
 import { distanceIn } from '@/lib/i18n/formats';
 
 export function SessionMapScreen() {
+  const params = useLocalSearchParams<{ id?: string }>();
+  const sosId = typeof params.id === 'string' && params.id !== '' ? params.id : null;
+  const map = useSessionMap(sosId);
+  return (
+    <SessionMapView
+      map={map}
+      senderName={map.model?.senderName ?? ''}
+      onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+    />
+  );
+}
+
+export interface SessionMapViewProps {
+  readonly map: Omit<SessionMap, 'model' | 'loaded'>;
+  readonly senderName: string;
+  readonly onClose: () => void;
+}
+
+export function SessionMapView({ map, senderName: name, onClose: close }: SessionMapViewProps) {
   const { t } = useLingui();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const locale = useLocale();
-  const params = useLocalSearchParams<{ id?: string }>();
-  const sosId = typeof params.id === 'string' && params.id !== '' ? params.id : null;
-  const map = useSessionMap(sosId);
   const [cardHeight, setCardHeight] = useState(0);
-  const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
-  const name = map.model?.senderName ?? '';
   const sender = map.sender;
   const eta = map.etaMin;
   const away = map.distanceM === null ? null : distanceIn(map.distanceM);
@@ -81,7 +95,9 @@ export function SessionMapScreen() {
             androidTexture
             ornamentBottom={cardHeight + 8}
             initialCenter={[map.centre.lng, map.centre.lat]}
-            {...(map.regionSourceUrl === undefined ? {} : { regionSourceUrl: map.regionSourceUrl })}
+            regionSourceUrl={map.regionSourceUrl}
+            regionPackAwaited={map.regionPackAwaited}
+            {...(map.destinationName === null ? {} : { destinationName: map.destinationName })}
             {...(map.here === null
               ? {}
               : {

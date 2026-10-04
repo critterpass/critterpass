@@ -7,6 +7,7 @@
  */
 import {
   GUIDE_SLUGS,
+  isPersonaId,
   phraseTip,
   recordUsage,
   templateTip,
@@ -123,17 +124,31 @@ async function planCrew(
     const facts = pickFacts(remaining);
     if (!toldKeys.has(tipDedupeKey(facts))) {
       const place = facts[0]?.place_id ?? '';
-      const { rows } = await tx.query<{ slug: string | null; id: string | null }>(
-        `SELECT s.guide_slug AS slug, g.id FROM critter_sets s
+      // The place's guide; while guides go by city, the guide of the destination's own critter.
+      const { rows } = await tx.query<{
+        slug: string | null;
+        id: string | null;
+        city_slug: string | null;
+        city_id: string | null;
+      }>(
+        `SELECT s.guide_slug AS slug, g.id, city.slug AS city_slug, city.id AS city_id
+           FROM destinations d
+           LEFT JOIN critter_sets s ON s.destination_id = d.id
            LEFT JOIN guides g ON g.slug = s.guide_slug
-          WHERE s.destination_id = $1 LIMIT 1`,
+           LEFT JOIN guides city ON city.critter_key = d.critter_key AND app.guides_per_city()
+          WHERE d.id = $1 LIMIT 1`,
         [place],
       );
-      const slug = rows[0]?.slug ?? null;
+      const row = rows[0];
+      const citySlug = row?.city_slug ?? null;
+      if (row !== undefined && citySlug !== null && isPersonaId(citySlug)) {
+        return { crewId, facts, guide: citySlug, guideId: row.city_id };
+      }
+      const slug = row?.slug ?? null;
       const guide = (GUIDE_SLUGS as readonly string[]).includes(slug ?? '')
         ? (slug as PersonaId)
         : 'guest';
-      return { crewId, facts, guide, guideId: rows[0]?.id ?? null };
+      return { crewId, facts, guide, guideId: row?.id ?? null };
     }
     remaining = remaining.filter((fact) => !facts.includes(fact));
   }

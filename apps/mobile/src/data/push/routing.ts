@@ -8,6 +8,8 @@
  * which falls back to the day the link names when that stop can't be placed.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: routes and URL schemes. */
+import { tripDayOfPath } from '@cp/domain';
+
 import { routeIncomingUrl } from '@/lib/links/router';
 
 export interface PushTap {
@@ -97,8 +99,6 @@ export function tapUrl(deeplink: string | null): string | null {
 export type RouteUrl = (url: string) => Promise<string>;
 
 const LEAVE_BY_ALARM = 'leave_by_alarm';
-/** The leave-by push links the day it is on: `/hub/<trip id>/day/<date>`. */
-const DAY_LINK = /^\/hub\/([0-9a-f-]{36})\/day\/\d{4}-\d{2}-\d{2}$/iu;
 
 /**
  * The leave-by alarm's tap: GO for that trip's next leave-by (the `/go` route's `trip` +
@@ -108,7 +108,8 @@ const DAY_LINK = /^\/hub\/([0-9a-f-]{36})\/day\/\d{4}-\d{2}-\d{2}$/iu;
  */
 export function leaveByGoRoute(tap: PushTap, dayHref: string): string | null {
   if (tap.type !== LEAVE_BY_ALARM) return null;
-  const tripId = DAY_LINK.exec(tap.deeplink?.trim() ?? '')?.[1];
+  // The push links the day it is on (`/trips/<trip id>/day/<date>`, or the former hub path).
+  const tripId = tripDayOfPath(tap.deeplink ?? '')?.tripId;
   if (tripId === undefined || !dayHref.startsWith('/') || !dayHref.includes(tripId)) return null;
   return `/go?${new URLSearchParams({ trip: tripId, leaveBy: 'next', fallback: dayHref }).toString()}`;
 }

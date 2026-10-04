@@ -60,6 +60,11 @@ export function regionTiles(input: {
   return { sourceUrl: WORLD_SOURCE_URL, awaited: input.pack === 'missing' };
 }
 
+/** The tiles' address without the `pmtiles://` scheme, as `CpMap` takes its region source. */
+export function plainTilesUrl(tiles: RegionTiles): string {
+  return tiles.sourceUrl.replace(/^pmtiles:\/\//u, '');
+}
+
 /** The dark style with its `region` source reading `sourceUrl`. */
 export function regionMapStyle(sourceUrl: string): StyleSpecification {
   return {

@@ -80,28 +80,39 @@ describe('budget band golden', () => {
     expect(band([dollars(1_400), ...rest])).toMatchObject({ high: dollars(1_350) });
   });
 
-  it('converts the $50 step through FX and rounds it up to two significant digits', () => {
-    expect(bandStepMinor(USD)).toBe(5_000n);
+  it('steps in amounts people say out loud, whatever the rates are', () => {
+    expect(bandStepMinor(USD)).toBe(5_000n); // $50
+    expect(bandStepMinor('EUR')).toBe(5_000n); // €50
+    expect(bandStepMinor('VND')).toBe(500_000n); // 500k ₫: 3 triệu is six steps, 5 triệu ten
+    expect(bandStepMinor('JPY')).toBe(5_000n); // ¥5,000
+    expect(bandStepMinor('IDR')).toBe(25_000_000n); // Rp 250,000, kept in sen
+    expect(3_000_000n % bandStepMinor('VND')).toBe(0n);
+    expect(5_000_000n % bandStepMinor('VND')).toBe(0n);
+  });
+
+  it('takes the round amount nearest $50 for other currencies, and none without a rate', () => {
+    const rate = (quote: 'SGD' | 'THB' | 'KRW' | 'GBP', value: string) => ({
+      base: 'USD' as const,
+      quote,
+      rate: value,
+      asOf: '2027-02-01',
+      source: 'f',
+    });
     const fx = {
       snapshotId: 'fx',
       snapshots: [
-        {
-          base: 'EUR' as const,
-          quote: 'USD' as const,
-          rate: '1.08',
-          asOf: '2027-02-01',
-          source: 'f',
-        },
-        {
-          base: 'EUR' as const,
-          quote: 'SGD' as const,
-          rate: '1.45',
-          asOf: '2027-02-01',
-          source: 'f',
-        },
+        rate('SGD', '1.3426'),
+        rate('THB', '36.2'),
+        rate('KRW', '1362'),
+        rate('GBP', '0.79'),
       ],
     };
-    expect(bandStepMinor('SGD', fx)).toBe(6_800n);
+    expect(bandStepMinor('SGD', fx)).toBe(5_000n); // S$67.13 → S$50
+    expect(bandStepMinor('THB', fx)).toBe(200_000n); // ฿1,810 → ฿2,000
+    expect(bandStepMinor('KRW', fx)).toBe(50_000n); // ₩68,100 → ₩50,000
+    expect(bandStepMinor('GBP', fx)).toBe(5_000n); // £39.50 → £50
+    expect(() => bandStepMinor('AUD', fx)).toThrow();
+    expect(() => bandStepMinor('SGD')).toThrow();
   });
 
   it('rejects mixed currencies and a non-positive step', () => {

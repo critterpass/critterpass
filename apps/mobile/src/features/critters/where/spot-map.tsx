@@ -10,19 +10,9 @@ import { StyleSheet, View } from 'react-native';
 import { tierWord, type Tier } from '@/ui/critters/tier';
 import { CpMap, type MapPlace } from '@/ui/map/CpMap';
 
-import criterpassDarkStyleJson from '../../../../assets/map-style/critterpass-dark.json';
 import { mapFraming } from './where-model';
-
-const WORLD_URL = (
-  (criterpassDarkStyleJson as { sources: Record<string, { url?: string }> }).sources['world']
-    ?.url ?? ''
-).replace(/^pmtiles:\/\//u, '');
-
-/** The destination's region tiles beside the world tiles (`<base>/<slug>/tiles-v1`). */
-function regionTiles(slug: string): string {
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL path, never copy.
-  return WORLD_URL.replace('/world/', `/${slug}/`);
-}
+import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
+import { RegionPackNotice } from '@/ui/map/RegionPackNotice';
 
 /** A phone-wide map inside the page gutters, for framing (the narrowest phones are about this). */
 const MAP_WIDTH = 340;
@@ -43,6 +33,7 @@ export function SpotMap({
   spots,
   position,
   slug,
+  placeName,
   foundLabel,
   height,
   testID,
@@ -50,12 +41,15 @@ export function SpotMap({
   readonly spots: readonly MapSpot[];
   readonly position: { readonly lat: number; readonly lng: number } | null;
   readonly slug: string | null;
+  /** The destination's name, for the line a destination without a region pack shows. */
+  readonly placeName?: string | null | undefined;
   /** The pin label of a place where everything is found. */
   readonly foundLabel: string;
   readonly height: number;
   readonly testID?: string;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const tiles = useRegionTiles(slug, null);
   // On Android a map in a pushed screen mounted mid-slide drew nothing: it waits out the push.
   const [settled, setSettled] = useState(false);
   useEffect(() => {
@@ -73,24 +67,28 @@ export function SpotMap({
     lng: spot.lng,
   }));
   return (
-    <View style={[styles.frame, { height }]} testID={testID}>
-      {settled ? (
-        <CpMap
-          places={places}
-          zoom={framing.zoom}
-          initialCenter={[framing.center.lng, framing.center.lat]}
-          androidTexture
-          onSelectPlace={setSelected}
-          {...(selected === null ? {} : { selectedPlaceId: selected })}
-          {...(slug === null || WORLD_URL === '' ? {} : { regionSourceUrl: regionTiles(slug) })}
-          {...(position === null
-            ? {}
-            : {
-                youLocation: [position.lng, position.lat] as [number, number],
-                locationStatus: 'granted-in-destination' as const,
-              })}
-        />
-      ) : null}
+    <View>
+      <View style={[styles.frame, { height }]} testID={testID}>
+        {settled ? (
+          <CpMap
+            places={places}
+            zoom={framing.zoom}
+            initialCenter={[framing.center.lng, framing.center.lat]}
+            androidTexture
+            onSelectPlace={setSelected}
+            {...(selected === null ? {} : { selectedPlaceId: selected })}
+            regionSourceUrl={plainTilesUrl(tiles)}
+            {...(position === null
+              ? {}
+              : {
+                  youLocation: [position.lng, position.lat] as [number, number],
+                  locationStatus: 'granted-in-destination' as const,
+                })}
+          />
+        ) : null}
+      </View>
+      {/* The framed map is too small to carry the line over its pins: it goes underneath. */}
+      {tiles.awaited && placeName ? <RegionPackNotice place={placeName} /> : null}
     </View>
   );
 }

@@ -12,6 +12,8 @@ import {
   guideFactsBySlug,
   guideLook,
   guideSlug,
+  nearestGuideColour,
+  type GuideFacts,
 } from './index';
 
 describe('guide slugs', () => {
@@ -76,13 +78,43 @@ describe('guide accents', () => {
     }
   });
 
-  it('takes the first own colour that reads, else lightens the first', () => {
-    expect(guideAccent('ngua', ['#fff1d6', '#ff8fbf', '#fffaf0'])).toBe('#fff1d6');
+  it('gives no two critters of one country the same accent unless they are drawn alike', () => {
+    const seen = new Map<string, GuideFacts>();
+    for (const facts of GUIDE_FACTS) {
+      const key = `${facts.country} ${guideAccent(facts.slug, facts.colours)}`;
+      const other = seen.get(key);
+      if (other !== undefined)
+        expect(facts.colours, `${facts.name} and ${other.name}`).toEqual(other.colours);
+      seen.set(key, facts);
+    }
+  });
+
+  it('takes the most saturated own colour that reads, and the fill when nothing is stronger', () => {
+    expect(guideAccent('ngua', ['#fff1d6', '#ff8fbf', '#fffaf0'])).toBe('#ff8fbf');
     expect(guideAccent('newcomer', ['#2a2a40', '#54d6a4', '#ffffff'])).toBe('#54d6a4');
-    const lightened = guideAccent('newcomer', ['#402010', '#301008', '#201008']);
-    expect(lightened).not.toBe('#402010');
-    expect(contrastRatio(tokens.semantic.text.onAccent, lightened)).toBeGreaterThanOrEqual(
-      GUIDE_ACCENT_MIN_RATIO,
-    );
+    expect(guideAccent('newcomer', ['#7fb8ff', '#3d6fe0', '#eef4ff'])).toBe('#7fb8ff');
+    expect(guideAccent('newcomer', ['#fffaf0', '#e6dfcf', '#fffaf0'])).toBe('#e6dfcf');
+  });
+
+  it('lightens a darker colour when only pale ones read as they are', () => {
+    for (const colours of [
+      ['#fffaf0', '#c4623e', '#fffaf0'],
+      ['#402010', '#301008', '#201008'],
+    ]) {
+      const accent = guideAccent('newcomer', colours);
+      expect(colours).not.toContain(accent);
+      expect(contrastRatio(tokens.semantic.text.onAccent, accent)).toBeGreaterThanOrEqual(
+        GUIDE_ACCENT_MIN_RATIO,
+      );
+    }
+  });
+
+  it('names the colour nearest by hue, and cream for one with no hue to speak of', () => {
+    expect(nearestGuideColour('#ff8fbf')).toBe('pink');
+    expect(nearestGuideColour('#948eb0')).toBe('blue');
+    expect(nearestGuideColour('#6fd66a')).toBe('green');
+    expect(nearestGuideColour('#b5d68f')).not.toBe('cream');
+    expect(nearestGuideColour('#fffaf0')).toBe('cream');
+    expect(nearestGuideColour('#bcc2da')).toBe('cream');
   });
 });
