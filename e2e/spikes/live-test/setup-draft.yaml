@@ -5,7 +5,8 @@ appId: app.critterpass.dev
 # draft read day by day, then CHANGE A DAY three times (keep, put back, the last free one). It
 # stops before the plan goes to the crew. Every screen and every action that changes it leaves a
 # frame (setup-draft-<nn>-<what>); the waits put their seconds in the frame's name. Steps that
-# explore are optional, so a screen that refuses still leaves its frame and the walk goes on.
+# explore are optional, so a screen that refuses still leaves its frame and the walk goes on. Android's
+# driver cannot type Vietnamese marks, so she types without them, as many do in a search field.
 - runFlow: ../../happy/subflows/fresh-install.yaml
 # The language: the developer gallery switches the running app (the test phone itself is English).
 - tapOn:
@@ -189,7 +190,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-16-place-search
-- inputText: 'Đà Lạt'
+- inputText: 'Da Lat'
 - extendedWaitUntil:
     visible:
       id: 'place-result-.*'
@@ -267,7 +268,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-23-crew-new
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Hội Đà Lạt'
+- inputText: 'Hoi Da Lat'
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-24-crew-name-typed
 - tapOn:
@@ -298,7 +299,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-27-pitch-sheet
 - tapOn:
     id: 'pitch-search'
-- inputText: 'Đà Lạt'
+- inputText: 'Da Lat'
 - extendedWaitUntil:
     visible:
       id: 'pitch-result-0'
@@ -512,7 +513,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-48-add-must-do
 - tapOn:
     id: 'add-must-do-field'
-- inputText: 'Ăn bánh căn buổi sáng'
+- inputText: 'An banh can buoi sang'
 - extendedWaitUntil:
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
@@ -720,7 +721,7 @@ appId: app.critterpass.dev
     id: 'redraft-reason-slower'
 - tapOn:
     id: 'change-day-note'
-- inputText: 'Thêm một quán cà phê view đẹp, bớt đi bộ'
+- inputText: 'Them mot quan ca phe view dep, bot di bo'
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-66-change-day-own-words
 - hideKeyboard
@@ -823,7 +824,7 @@ appId: app.critterpass.dev
     id: 'change-day-3'
 - tapOn:
     id: 'change-day-note'
-- inputText: 'Hôm này trời hay mưa, cho mình chỗ trong nhà'
+- inputText: 'Hom do troi hay mua, cho minh cho trong nha'
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-77-change-day-words-only
