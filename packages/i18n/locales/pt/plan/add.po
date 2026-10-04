@@ -200,7 +200,7 @@ msgstr ""
 msgid "plan.add.cta.ideas"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
 msgid "plan.add.savedToast"
 msgstr ""
 
