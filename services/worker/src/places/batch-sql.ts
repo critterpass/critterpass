@@ -1,4 +1,16 @@
 /** Helpers for the batched POI upsert (`./ingest-upsert.ts`). */
+import type pg from 'pg';
+
+/**
+ * Lifts the 15 s statement limit for one ingest write transaction. A 500-row write into `pois`
+ * now and then pays for merging the two GIN text indexes' pending lists (`fastupdate`, 4 MB each)
+ * into indexes of hundreds of megabytes; with Japanese names, whose trigrams are mostly distinct,
+ * that merge passed 15 s often enough to fail nearly every Tokyo tile. The ingest is a background
+ * job with its own step limits and expiry, so it waits for the merge instead.
+ */
+export async function allowIndexMaintenance(tx: pg.PoolClient): Promise<void> {
+  await tx.query("SET LOCAL statement_timeout = '90s'");
+}
 
 /** Splits `items` into consecutive chunks of at most `size`. */
 export function chunk<T>(items: readonly T[], size: number): readonly (readonly T[])[] {
