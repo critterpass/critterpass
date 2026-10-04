@@ -123,10 +123,14 @@ function straightMinutes(from: GoPoint, to: GoPoint, mode: GoMode): ModeMinutes 
   return { minutes: eta.minutes, approx: true };
 }
 
-const straightLine = (from: GoPoint, to: GoPoint): LngLat[] => [
-  [from.lng, from.lat],
-  [to.lng, to.lat],
-];
+/** Points along the straight stand-in: a two-point line source did not draw on Android. */
+const STRAIGHT_STEPS = 16;
+
+const straightLine = (from: GoPoint, to: GoPoint): LngLat[] =>
+  Array.from({ length: STRAIGHT_STEPS + 1 }, (_, i): LngLat => {
+    const share = i / STRAIGHT_STEPS;
+    return [from.lng + (to.lng - from.lng) * share, from.lat + (to.lat - from.lat) * share];
+  });
 
 export function previewState(input: PreviewInput): PreviewState {
   const grab = grabRow(input.ride);

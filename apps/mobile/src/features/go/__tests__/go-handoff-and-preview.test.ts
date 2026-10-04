@@ -88,10 +88,9 @@ describe('the preview', () => {
     });
     expect(fallback.status).toBe('straight');
     expect(fallback.minutes?.drive).toEqual({ minutes: 21, approx: true });
-    expect(fallback.line).toEqual([
-      [HERE.lng, HERE.lat],
-      [MARBLE.lng, MARBLE.lat],
-    ]);
+    expect(fallback.line?.[0]).toEqual([HERE.lng, HERE.lat]);
+    expect(fallback.line?.at(-1)?.[0]).toBeCloseTo(MARBLE.lng, 9);
+    expect(fallback.line?.at(-1)?.[1]).toBeCloseTo(MARBLE.lat, 9);
     expect(fallback.lineStraight).toBe(true);
 
     const failed = previewState({ ...base, route: { kind: 'error' } });
