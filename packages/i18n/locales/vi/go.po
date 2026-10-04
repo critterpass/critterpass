@@ -17,7 +17,7 @@ msgstr "Xe cách khoảng {eta} phút"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.aboutMinutes"
-msgstr "khoảng {count} phút"
+msgstr "~{count} phút"
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"

@@ -1,6 +1,6 @@
 /**
  * The GO preview's map: you as the blue dot, the place as a labelled pin, and the route between
- * them along the roads (solid) or as a straight stand-in (dashed). The camera frames both ends,
+ * them along the roads (yellow) or as a straight stand-in (thin and pale). The camera frames both ends,
  * or the place alone before a position is known. The destination's region tiles draw it offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
@@ -97,7 +97,7 @@ export function GoMap({
         <Camera
           initialViewState={
             framed
-              ? { bounds, padding: { top: 120, bottom: bottomInset + 40, left: 48, right: 48 } }
+              ? { bounds, padding: { top: 120, bottom: bottomInset + 48, left: 110, right: 110 } }
               : { center: [place.lng, place.lat], zoom: 15 }
           }
         />
@@ -105,9 +105,8 @@ export function GoMap({
           <RouteLine
             id="go-route"
             coordinates={line}
-            color={tokens.color.yellow}
-            dashed={lineStraight}
-            width={lineStraight ? 3 : 5}
+            color={lineStraight ? tokens.semantic.text.secondary : tokens.color.yellow}
+            width={lineStraight ? 2 : 5}
           />
         )}
         {you === null ? null : (

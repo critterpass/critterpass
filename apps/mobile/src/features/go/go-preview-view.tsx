@@ -26,7 +26,7 @@ import type { GoMode, GoPoint, MapsApp } from './maps-handoff';
 import type { GrabRow, ModeMinutes, PreviewState } from './preview-model';
 
 /** About the card's height, so the map frames the route above it. */
-const CARD_INSET = 300;
+const CARD_INSET = 380;
 
 export interface GoPreviewViewProps {
   readonly place: GoPoint & { readonly name: string };

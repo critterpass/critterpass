@@ -3,7 +3,7 @@
  * quote. The road line needs both a position and signal; without either the preview opens on the
  * place, with no line, and Start still hands off (the maps app finds the person itself). When the
  * router could not answer, the minutes are straight-line "about" minutes and the line is drawn
- * straight and dashed, never as if it followed the roads.
+ * straight and pale, never as if it followed the roads.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- states and wire values, never copy. */
 import {
@@ -78,7 +78,7 @@ export interface PreviewState {
   readonly minutes: { readonly walk: ModeMinutes; readonly drive: ModeMinutes } | null;
   /** `[lng, lat]` from you to the place for the selected mode; null hides the line. */
   readonly line: readonly LngLat[] | null;
-  /** The line is a straight stand-in, drawn dashed. */
+  /** The line is a straight stand-in, drawn thin and pale. */
   readonly lineStraight: boolean;
   readonly grab: GrabRow | null;
 }
