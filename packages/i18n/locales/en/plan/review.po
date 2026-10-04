@@ -75,7 +75,7 @@ msgstr "{guideName} rearranged a few things."
 msgid "plan.review.mustDosTouched"
 msgstr "{mustDosTouched, plural, one {must-do touched} other {must-dos touched}}"
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr "{needed, plural, one {{yes} of # yes so far} other {{yes} of # yeses so far}}"
 
@@ -128,6 +128,10 @@ msgstr "Approved. Putting it into the plan now."
 msgid "plan.review.why.opens"
 msgstr "as it opens"
 
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.billion"
+msgstr "B"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.crowds"
 msgstr "before the crowds"
@@ -169,13 +173,17 @@ msgstr "Everything lands in a gap. Nothing booked and nobody’s must-do moved."
 msgid "plan.review.tag.chat"
 msgstr "From the chat"
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.backIdeas"
 msgstr "Ideas"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.gap"
 msgstr "in a free gap"
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.thousand"
+msgstr "K"
 
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
 msgid "plan.review.toggleHint"
@@ -192,6 +200,10 @@ msgstr "Kept as is"
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.loading"
 msgstr "Loading the plan change"
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.million"
+msgstr "M"
 
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
 msgid "plan.review.needsYou"

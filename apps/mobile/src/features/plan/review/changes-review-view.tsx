@@ -63,7 +63,15 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'center',
     borderWidth: 2,
   },
-  footer: { gap: th.space['12'], alignItems: 'center', paddingTop: th.space['8'] },
+  scroll: { flex: 1 },
+  // Pinned under the list, as the design draws it: the list scrolls above the actions.
+  footer: {
+    gap: th.space['12'],
+    alignItems: 'center',
+    paddingTop: th.space['8'],
+    paddingHorizontal: th.space['20'],
+    paddingBottom: th.space['8'],
+  },
   voteRow: { flexDirection: 'row', gap: th.space['12'], alignSelf: 'stretch' },
   notice: {
     backgroundColor: th.semantic.bg.raised,
@@ -150,7 +158,7 @@ export function ChangesReviewView(props: ChangesReviewViewProps) {
   }
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="plan-review">
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <BackEyebrow label={props.backLabel} onPress={props.onBack} />
           {props.onlyYou === null ? null : (
@@ -224,51 +232,51 @@ export function ChangesReviewView(props: ChangesReviewViewProps) {
             <Text variant="bodySm">{props.notice}</Text>
           </View>
         )}
-        <View style={styles.footer}>
-          {props.send === null ? null : (
-            <PillButton
-              label={props.send.label}
-              onPress={props.send.onPress}
-              disabled={props.send.disabled}
-              loading={props.send.busy}
-              block
-              testID="plan-review-send"
-            />
-          )}
-          {props.vote === null ? null : (
-            <>
-              <Text variant="bodySm" color={theme.semantic.text.secondary}>
-                {props.vote.line}
-              </Text>
-              {props.vote.canVote ? (
-                <View style={styles.voteRow}>
-                  <PillButton
-                    label={t({ id: 'plan.review.yes', message: 'Yes' })}
-                    onPress={props.vote.onYes}
-                    block
-                    testID="plan-review-yes"
-                  />
-                  <PillButton
-                    label={t({ id: 'plan.review.no', message: 'Not this' })}
-                    onPress={props.vote.onNo}
-                    variant="secondary"
-                    block
-                    testID="plan-review-no"
-                  />
-                </View>
-              ) : null}
-            </>
-          )}
-          {props.personal === null ? null : (
-            <TextLink
-              label={t({ id: 'plan.review.personal', message: 'Apply to my plan only' })}
-              onPress={props.personal.onPress}
-              disabled={props.personal.busy}
-              testID="plan-review-personal"
-            />
-          )}
-        </View>
       </ScrollView>
+      <View style={styles.footer}>
+        {props.send === null ? null : (
+          <PillButton
+            label={props.send.label}
+            onPress={props.send.onPress}
+            disabled={props.send.disabled}
+            loading={props.send.busy}
+            block
+            testID="plan-review-send"
+          />
+        )}
+        {props.vote === null ? null : (
+          <>
+            <Text variant="bodySm" color={theme.semantic.text.secondary}>
+              {props.vote.line}
+            </Text>
+            {props.vote.canVote ? (
+              <View style={styles.voteRow}>
+                <PillButton
+                  label={t({ id: 'plan.review.yes', message: 'Yes' })}
+                  onPress={props.vote.onYes}
+                  block
+                  testID="plan-review-yes"
+                />
+                <PillButton
+                  label={t({ id: 'plan.review.no', message: 'Not this' })}
+                  onPress={props.vote.onNo}
+                  variant="secondary"
+                  block
+                  testID="plan-review-no"
+                />
+              </View>
+            ) : null}
+          </>
+        )}
+        {props.personal === null ? null : (
+          <TextLink
+            label={t({ id: 'plan.review.personal', message: 'Apply to my plan only' })}
+            onPress={props.personal.onPress}
+            disabled={props.personal.busy}
+            testID="plan-review-personal"
+          />
+        )}
+      </View>
     </Scaffold>
   );
 }

@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { dayTileColour } from '@/features/plan/overview/day-card';
 
 import { CREW, useLabDays } from '../../add/dev/add-scenes';
+import { labStopName } from '../../review/dev/changes-scenes';
 import type { ChipLayout, ChipRowFrame } from '../drag-hit';
 import { ideaIcon } from '../idea-icon';
 import { IdeaRow } from '../idea-row';
@@ -43,13 +44,6 @@ const DATES = [
   '2026-10-19',
 ];
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
-const STOPS = new Map([
-  [id(901), 'Tirta Empul'],
-  [id(902), 'the nap'],
-  [id(903), 'the boat'],
-  [id(904), 'the kecak'],
-  [id(905), 'lunch'],
-]);
 
 function fit(
   dayNo: number,
@@ -152,7 +146,7 @@ function IdeasScene({
       ),
     ]),
   );
-  const context = { weekdays, tz: TZ, stopName: (stableId: string) => STOPS.get(stableId) ?? null };
+  const context = { weekdays, tz: TZ, stopName: labStopName(locale) };
   const lifted = IDEAS[0];
   const grades = new Map([
     [6, 'good' as const],

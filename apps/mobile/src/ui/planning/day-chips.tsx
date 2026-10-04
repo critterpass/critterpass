@@ -81,11 +81,9 @@ export function DayChips({
   const chips = days.map((day) => {
     const selected = day.dayNo === selectedDayNo;
     const over = dropTarget?.overDayNo === day.dayNo;
-    const fill = selected
-      ? selectedFill === 'paper'
-        ? theme.color.paper.base
-        : day.color
-      : theme.semantic.bg.raised;
+    // On a sheet (Add to plan) the panel is already raised: each day sits on its own darker tile.
+    const tile = selectedFill === 'paper' ? theme.semantic.bg.control : theme.semantic.bg.raised;
+    const fill = selected ? (selectedFill === 'paper' ? theme.color.paper.base : day.color) : tile;
     const ink =
       selected && selectedFill === 'paper' ? theme.color.paper.ink : theme.semantic.text.primary;
     return (

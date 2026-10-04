@@ -94,7 +94,7 @@ export function AddSheetView(props: AddSheetViewProps) {
               {props.note}
             </Text>
           )}
-          <ReasonGrid reasons={props.reasons} testID="plan-add-why" />
+          <ReasonGrid reasons={props.reasons} onSheet testID="plan-add-why" />
         </View>
         {props.who}
       </SheetScrollView>

@@ -74,7 +74,7 @@ msgstr ""
 msgid "plan.review.mustDosTouched"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr ""
 
@@ -127,6 +127,10 @@ msgstr ""
 msgid "plan.review.why.opens"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.billion"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.crowds"
 msgstr ""
@@ -168,12 +172,16 @@ msgstr ""
 msgid "plan.review.tag.chat"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.backIdeas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.gap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.thousand"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
@@ -190,6 +198,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.million"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx

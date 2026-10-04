@@ -75,7 +75,7 @@ msgstr "{guideName} đã sắp xếp lại vài thứ."
 msgid "plan.review.mustDosTouched"
 msgstr "{mustDosTouched, plural, other {điểm nhất định ghé bị ảnh hưởng}}"
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr "{needed, plural, other {{yes} trên # đồng ý}}"
 
@@ -128,6 +128,10 @@ msgstr "Đã duyệt. Đang đưa vào kế hoạch."
 msgid "plan.review.why.opens"
 msgstr "lúc vừa mở cửa"
 
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.billion"
+msgstr " TỶ"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.crowds"
 msgstr "trước giờ đông"
@@ -169,13 +173,17 @@ msgstr "Mọi thứ đều vào khoảng trống. Không dời gì đã đặt h
 msgid "plan.review.tag.chat"
 msgstr "Từ nhóm chat"
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.backIdeas"
 msgstr "Ý tưởng"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.gap"
 msgstr "vào một khoảng trống"
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.thousand"
+msgstr " N"
 
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
 msgid "plan.review.toggleHint"
@@ -192,6 +200,10 @@ msgstr "Giữ nguyên"
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.loading"
 msgstr "Đang tải thay đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
+msgid "plan.review.money.million"
+msgstr " TR"
 
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
 msgid "plan.review.needsYou"

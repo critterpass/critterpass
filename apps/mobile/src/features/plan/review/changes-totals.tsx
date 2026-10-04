@@ -51,6 +51,43 @@ function Chip({
   );
 }
 
+/** The compact steps the money chip uses: thousands, millions, billions. */
+function compactStep(major: number): { readonly scaled: number; readonly unit: string } {
+  if (major >= 1e9)
+    return { scaled: major / 1e9, unit: t({ id: 'plan.review.money.billion', message: 'B' }) };
+  if (major >= 1e6)
+    return { scaled: major / 1e6, unit: t({ id: 'plan.review.money.million', message: 'M' }) };
+  if (major >= 1e3)
+    return { scaled: major / 1e3, unit: t({ id: 'plan.review.money.thousand', message: 'K' }) };
+  return { scaled: major, unit: '' };
+}
+
+/**
+ * "+RP 210K EACH": the share change in a compact form (vi "+RP 210 N MỖI NGƯỜI"); a whole number of
+ * the step rolls on the odometer, a small one shows one decimal.
+ */
+function CompactMoney({
+  minor,
+  digits,
+  symbol,
+  each,
+}: {
+  readonly minor: number;
+  readonly digits: number;
+  readonly symbol: string;
+  readonly each: string;
+}) {
+  const locale = useLocale();
+  const { scaled, unit } = compactStep(Math.abs(minor) / 10 ** digits);
+  const prefix = upper(`${minor > 0 ? '+' : '−'}${symbol} `, locale);
+  const suffix = `${unit} ${each}`;
+  if (scaled >= 10 || unit === '') {
+    return <Odometer value={Math.round(scaled)} prefix={prefix} suffix={suffix} variant="label" />;
+  }
+  const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(scaled);
+  return <Text variant="label">{`${prefix}${number}${suffix}`}</Text>;
+}
+
 export function ChangesTotals({
   numbers,
   drivingMin,
@@ -79,11 +116,11 @@ export function ChangesTotals({
     <View style={styles.row} testID="plan-review-totals">
       {money === null || money.minor === 0 ? null : (
         <Chip testID="plan-review-cost">
-          <Odometer
-            value={Math.round(Math.abs(money.minor) / 10 ** money.digits)}
-            prefix={`${money.minor > 0 ? '+' : '−'}${money.symbol}`}
-            suffix={` ${each}`}
-            variant="label"
+          <CompactMoney
+            minor={money.minor}
+            digits={money.digits}
+            symbol={money.symbol}
+            each={each}
           />
         </Chip>
       )}

@@ -145,3 +145,15 @@ export function drivingChip(minutes: number): string | null {
 export function onlyYouLabel(): string {
   return t({ id: 'plan.review.onlyYou', message: 'ONLY YOU SEE THIS' });
 }
+
+export function backIdeasLabel(): string {
+  return t({ id: 'plan.review.backIdeas', message: 'Ideas' });
+}
+
+/** "1 of 3 yeses so far" under a vote. */
+export function tallyLine(yes: number, needed: number): string {
+  return t({
+    id: 'plan.review.tallySoFar',
+    message: plural(needed, { one: `${yes} of # yes so far`, other: `${yes} of # yeses so far` }),
+  });
+}

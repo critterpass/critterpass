@@ -4,7 +4,7 @@
  * the crew as one vote, or puts it in their own plan only; once it is a vote the people it touches
  * say yes or no here. Ideas Tokek left out are listed under NEEDS YOU with a way to see why.
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
@@ -16,6 +16,7 @@ import type { SendResult } from '@/data/commands/client';
 import { dayTileColour, weekdayOf } from '../overview/day-card';
 import { planRoutes } from '../overview/routes';
 import {
+  backIdeasLabel,
   calmSummary,
   changesHeadline,
   leftLine,
@@ -23,6 +24,7 @@ import {
   onlyYouLabel,
   placedHeadline,
   placedReason,
+  tallyLine,
 } from './changes-copy';
 import { ChangesReviewView, type ChangeRow, type NeedsYouRow } from './changes-review-view';
 import { ChangesTotals } from './changes-totals';
@@ -145,9 +147,7 @@ export function ChangesReviewScreen({
   return (
     <ChangesReviewView
       state={view.status}
-      backLabel={
-        ideas ? t({ id: 'plan.review.backIdeas', message: 'Ideas' }) : backLabel(view.cards)
-      }
+      backLabel={ideas ? backIdeasLabel() : backLabel(view.cards)}
       onBack={() => (router.canGoBack() ? router.back() : router.replace(planRoutes.plan(tripId)))}
       onlyYou={editable ? onlyYouLabel() : null}
       title={
@@ -188,13 +188,7 @@ export function ChangesReviewScreen({
       vote={
         view.state === 'voting' && tally !== null
           ? {
-              line: t({
-                id: 'plan.review.tallySoFar',
-                message: plural(needed, {
-                  one: `${yes} of # yes so far`,
-                  other: `${yes} of # yeses so far`,
-                }),
-              }),
+              line: tallyLine(yes, needed),
               canVote: !voted && tally.eligible.includes(uid),
               onYes: () => void actions.decide('yes'),
               onNo: () => void actions.decide('no'),

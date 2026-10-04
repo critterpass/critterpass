@@ -11,6 +11,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { dayTileColour } from '@/features/plan/overview/day-card';
 
 import {
+  backIdeasLabel,
   calmSummary,
   changesHeadline,
   leftLine,
@@ -18,22 +19,36 @@ import {
   onlyYouLabel,
   placedHeadline,
   placedReason,
+  tallyLine,
 } from '../changes-copy';
 import { ChangesReviewView, type ChangeRow } from '../changes-review-view';
 import { ChangesTotals } from '../changes-totals';
 import type { LeftForYou } from '../data/use-review-extras';
-import { noticeText } from '../review-copy';
+import { noticeText, sendLabel } from '../review-copy';
 
 const noop = () => undefined;
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
-const STOPS = new Map([
-  [id(901), 'Tirta Empul'],
-  [id(902), 'the nap'],
-  [id(903), 'the boat'],
-  [id(904), 'the kecak'],
-  [id(905), 'Wednesday’s lunch'],
-]);
-const stopName = (stableId: string) => STOPS.get(stableId) ?? null;
+/** The plan's own stop labels, as the crew wrote them in each language. */
+const STOPS: Readonly<Record<'en' | 'vi', Readonly<Record<number, string>>>> = {
+  en: {
+    901: 'Tirta Empul',
+    902: 'the nap',
+    903: 'the boat',
+    904: 'the kecak',
+    905: 'Wednesday’s lunch',
+  },
+  vi: {
+    901: 'Tirta Empul',
+    902: 'giấc ngủ trưa',
+    903: 'chuyến thuyền',
+    904: 'buổi kecak',
+    905: 'bữa trưa thứ Tư',
+  },
+};
+export function labStopName(locale: string) {
+  const names = locale.startsWith('vi') ? STOPS.vi : STOPS.en;
+  return (stableId: string) => names[Number(stableId.slice(-3))] ?? null;
+}
 const quiet: FitReason = { code: 'quiet_until', params: { time: '10:00', source: 'editorial' } };
 const after = (n: number): FitReason => ({ code: 'after_item', params: { stable_id: id(n) } });
 const onWay: FitReason = { code: 'on_the_way', params: { stable_id: id(901), detour_minutes: 5 } };
@@ -104,6 +119,7 @@ function ChangesScene({
 }: Variant) {
   const settled = voting || approved;
   const locale = useLocale();
+  const stopName = labStopName(locale);
   const rows: ChangeRow[] = PLACED.map((stop, index) => ({
     key: id(500 + index),
     dayTag: new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' })
@@ -118,7 +134,7 @@ function ChangesScene({
   return (
     <ChangesReviewView
       state="ready"
-      backLabel="Ideas"
+      backLabel={backIdeasLabel()}
       onBack={noop}
       onlyYou={settled ? null : onlyYouLabel()}
       title={fixes ? changesHeadline('check', 2) : placedHeadline(6, approved ? 0 : 2)}
@@ -154,14 +170,14 @@ function ChangesScene({
         settled
           ? null
           : {
-              label: `SEND TO CREW · NEEDS ${String(3)} YESES`,
+              label: sendLabel({ kind: 'vote', needed: 3, affected: [] }).toUpperCase(),
               disabled: kept === 0,
               busy: false,
               onPress: noop,
             }
       }
       personal={approved ? null : { busy: false, onPress: noop }}
-      vote={voting ? { line: '1 of 3 yeses so far', canVote: true, onYes: noop, onNo: noop } : null}
+      vote={voting ? { line: tallyLine(1, 3), canVote: true, onYes: noop, onNo: noop } : null}
       notice={approved ? noticeText('approved') : null}
     />
   );

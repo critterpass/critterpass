@@ -15,6 +15,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 const useStyles = makeStyles((t) => ({
   row: { flexDirection: 'row', alignItems: 'center', gap: t.space['12'] },
   faces: { flex: 1, minWidth: 0 },
+  link: { minHeight: 44, justifyContent: 'center' },
   list: {
     marginTop: t.space['8'],
     borderRadius: t.radius.md,
@@ -64,9 +65,10 @@ export function WhoGoing({ members, out, open, onOpen, onToggle }: WhoGoingProps
           accessibilityState={{ expanded: open }}
           accessibilityLabel={summary}
           onPress={onOpen}
+          style={styles.link}
           testID="plan-add-who-open"
         >
-          <Text variant="label" color={theme.semantic.action.primary}>
+          <Text variant="body" color={theme.semantic.action.primary} singleLine>
             {summary}
           </Text>
         </PressScale>
