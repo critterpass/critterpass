@@ -412,3 +412,116 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: on-trip-clock-29-home-day-over
+
+# Tomorrow now carries the two stops she sent there: what the guide says about it, and its fix.
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'stop-.*-note'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- takeScreenshot: on-trip-clock-30-tomorrow-guide-note
+- tapOn:
+    text: 'XEM'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-31-guide-fix-opens
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-32-guide-fix-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-check-fix-.*'
+    commands:
+      - tapOn:
+          id: 'plan-check-fix-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-check-use-.*'
+          timeout: 60000
+          optional: true
+      - takeScreenshot: on-trip-clock-33-guide-fix-offer
+      - tapOn:
+          id: 'plan-check-use-.*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-clock-34-guide-fix-used
+
+# The hub's briefing and the inbox: where a trip row and a briefing line lead.
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-briefing-.*'
+    direction: UP
+    timeout: 15000
+    optional: true
+- takeScreenshot: on-trip-clock-35-hub-briefing
+- runFlow:
+    when:
+      visible:
+        id: 'trip-briefing-chip-.*'
+    commands:
+      - tapOn:
+          id: 'trip-briefing-chip-.*'
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-clock-36-briefing-open-leads-to
+      - runFlow: subflows/on-trip-to-hub.yaml
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- tapOn:
+    id: 'home-header-inbox'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-clock-37-inbox
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-clock-38-inbox-lower
+- tapOn:
+    id: 'inbox-row-.*|inbox-card-.*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-39-inbox-first-row-leads-to
+- runFlow:
+    when:
+      notVisible:
+        id: 'inbox-screen'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 4000
+- tapOn:
+    id: 'inbox-row-.*|inbox-card-.*'
+    index: 1
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-clock-40-inbox-second-row-leads-to
