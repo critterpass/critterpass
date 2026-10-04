@@ -453,7 +453,7 @@ msgstr "Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ. Điề
 
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.wear"
-msgstr "Trang phục"
+msgstr "Mặc"
 
 #: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
 msgid "explore.place.website"

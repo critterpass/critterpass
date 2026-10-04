@@ -16,7 +16,12 @@ appId: app.critterpass.dev
     id: 'explore-lab-split'
 - extendedWaitUntil:
     visible:
+      id: 'split-suggest'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
       id: 'split-option-1'
+    direction: DOWN
     timeout: 20000
 - tapOn:
     id: 'split-option-1'
