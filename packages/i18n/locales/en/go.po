@@ -70,7 +70,7 @@ msgstr "Google Maps"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabFare"
-msgstr "Grab {low}–{high}"
+msgstr "Grab {fare}"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabHere"
