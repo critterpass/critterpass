@@ -248,9 +248,11 @@ describe('entitle: redraft', () => {
       tx.query('INSERT INTO trip_entitlements (trip_id) VALUES ($1)', [tripId]),
     );
 
+    // Every redraft asked for also counts against the asker's silent daily cap.
+    const uid = await insertUser(pool);
     for (let i = 0; i < 3; i += 1) {
       const reservation = await withSystem(pool, (tx) =>
-        entitle(tx, { uid: randomId(), deviceTz: 'UTC' }, { kind: 'redraft', tripId }),
+        entitle(tx, { uid, deviceTz: 'UTC' }, { kind: 'redraft', tripId }),
       );
       expect(reservation).toEqual({
         subjectKind: 'trip',
@@ -259,11 +261,14 @@ describe('entitle: redraft', () => {
         periodKey: 'lifetime',
       });
     }
+    const { rows } = await pool.query<{ count: number }>(
+      "SELECT count FROM fair_use_counters WHERE user_id = $1 AND metric = 'redrafts'",
+      [uid],
+    );
+    expect(rows.map((row) => Number(row.count))).toEqual([3]);
 
     await expect(
-      withSystem(pool, (tx) =>
-        entitle(tx, { uid: randomId(), deviceTz: 'UTC' }, { kind: 'redraft', tripId }),
-      ),
+      withSystem(pool, (tx) => entitle(tx, { uid, deviceTz: 'UTC' }, { kind: 'redraft', tripId })),
     ).rejects.toMatchObject({ code: 'REDRAFT_LIMIT', detail: { used: 3, limit: 3 } });
   });
 

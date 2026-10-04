@@ -171,6 +171,71 @@ function hintOps(ops: readonly PlanOp[] | null): readonly PlanOp[] | null {
     : null;
 }
 
+export interface VersionRows {
+  readonly versionId: string;
+  readonly tripId: string;
+  /** The version `next` was made from: translations and place names carry over from it. */
+  readonly baseVersionId: string;
+  readonly next: PlanState;
+}
+
+/**
+ * Writes a new version's days and items from the plan state, and its record of the places its
+ * stops point at. The version row exists; the caller runs as the system.
+ */
+export async function writeVersionRows(tx: pg.PoolClient, rows: VersionRows): Promise<void> {
+  await tx.query(
+    // A day's translations follow its theme (a reorder moves themes between day numbers).
+    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
+     SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref,
+            (SELECT t.i18n FROM plan_days t
+              WHERE t.version_id = $4 AND t.theme = d.theme AND t.i18n IS NOT NULL LIMIT 1)
+       FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text)
+       LEFT JOIN plan_days old ON old.version_id = $4 AND old.day_no = d.day_no`,
+    [rows.versionId, rows.tripId, JSON.stringify(rows.next.days), rows.baseVersionId],
+  );
+  await tx.query(
+    `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, lane,
+       attendee_ids, poi_id, custom_place, provider_id, booking_id, must_do_id, category,
+       cost_model, amount_minor, currency, status, flexibility, is_outdoor, created_by_kind,
+       notes, locked_reason, i18n)
+     SELECT $1, d.id, $2, r.stable_id, r.starts_at, r.ends_at, r.tz, r.lane, r.attendee_ids,
+            r.poi_id, r.custom_place, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
+            r.amount_minor, r.currency, coalesce(r.status, 'proposed'), r.flexibility,
+            coalesce(r.is_outdoor, false), coalesce(r.created_by_kind, 'user'), r.notes,
+            r.locked_reason,
+            (SELECT old.i18n FROM plan_items old
+              WHERE old.version_id = $4 AND old.stable_id = r.stable_id LIMIT 1)
+       FROM jsonb_to_recordset($3::jsonb) AS r(stable_id uuid, day_no int, starts_at timestamptz,
+              ends_at timestamptz, tz text, lane text, attendee_ids uuid[], poi_id uuid,
+              custom_place jsonb, provider_id uuid, booking_id uuid, must_do_id uuid, category text,
+              cost_model text, amount_minor bigint, currency text, status text,
+              flexibility text, is_outdoor boolean, created_by_kind text, notes text,
+              locked_reason text)
+       JOIN plan_days d ON d.version_id = $1 AND d.day_no = r.day_no`,
+    [rows.versionId, rows.tripId, JSON.stringify(rows.next.items), rows.baseVersionId],
+  );
+  // The plan's own record of its places travels with every version, and gains the name of any
+  // place a stop now points at, so a stop is named by its place on every phone, whether or not
+  // that place is in the phone's catalogue (open-data places never are).
+  await tx.query(
+    `UPDATE itinerary_versions v SET coverage = jsonb_set(
+         coalesce(b.coverage, '{}'::jsonb), '{places}',
+         coalesce(b.coverage->'places', '{}'::jsonb) || coalesce((
+           SELECT jsonb_object_agg(p.id::text, jsonb_build_object(
+                    'name', p.name, 'category', p.category, 'lat', p.lat, 'lng', p.lng,
+                    'editorial', p.curation = 'editorial'))
+             FROM pois p
+            WHERE p.id IN (SELECT i.poi_id FROM plan_items i
+                            WHERE i.version_id = $1 AND i.poi_id IS NOT NULL)
+              AND NOT (coalesce(b.coverage->'places', '{}'::jsonb) ? p.id::text)
+         ), '{}'::jsonb))
+       FROM itinerary_versions b
+      WHERE v.id = $1 AND b.id = $2`,
+    [rows.versionId, rows.baseVersionId],
+  );
+}
+
 /**
  * Writes `next` as the trip's new current version on top of `baseVersionId` (the caller holds the
  * trip lock and checked the base), then queues the re-price and the stale sweep and tells the crew.
@@ -190,56 +255,7 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
     await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
       baseVersionId,
     ]);
-    await tx.query(
-      // A day's translations follow its theme (a reorder moves themes between day numbers).
-      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
-       SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref,
-              (SELECT t.i18n FROM plan_days t
-                WHERE t.version_id = $4 AND t.theme = d.theme AND t.i18n IS NOT NULL LIMIT 1)
-         FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text)
-         LEFT JOIN plan_days old ON old.version_id = $4 AND old.day_no = d.day_no`,
-      [id, head.tripId, JSON.stringify(next.days), baseVersionId],
-    );
-    await tx.query(
-      `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, lane,
-         attendee_ids, poi_id, custom_place, provider_id, booking_id, must_do_id, category,
-         cost_model, amount_minor, currency, status, flexibility, is_outdoor, created_by_kind,
-         notes, locked_reason, i18n)
-       SELECT $1, d.id, $2, r.stable_id, r.starts_at, r.ends_at, r.tz, r.lane, r.attendee_ids,
-              r.poi_id, r.custom_place, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
-              r.amount_minor, r.currency, coalesce(r.status, 'proposed'), r.flexibility,
-              coalesce(r.is_outdoor, false), coalesce(r.created_by_kind, 'user'), r.notes,
-              r.locked_reason,
-              (SELECT old.i18n FROM plan_items old
-                WHERE old.version_id = $4 AND old.stable_id = r.stable_id LIMIT 1)
-         FROM jsonb_to_recordset($3::jsonb) AS r(stable_id uuid, day_no int, starts_at timestamptz,
-                ends_at timestamptz, tz text, lane text, attendee_ids uuid[], poi_id uuid,
-                custom_place jsonb, provider_id uuid, booking_id uuid, must_do_id uuid, category text,
-                cost_model text, amount_minor bigint, currency text, status text,
-                flexibility text, is_outdoor boolean, created_by_kind text, notes text,
-                locked_reason text)
-         JOIN plan_days d ON d.version_id = $1 AND d.day_no = r.day_no`,
-      [id, head.tripId, JSON.stringify(next.items), baseVersionId],
-    );
-    // The plan's own record of its places travels with every version, and gains the name of any
-    // place a stop now points at, so a stop is named by its place on every phone, whether or not
-    // that place is in the phone's catalogue (open-data places never are).
-    await tx.query(
-      `UPDATE itinerary_versions v SET coverage = jsonb_set(
-           coalesce(b.coverage, '{}'::jsonb), '{places}',
-           coalesce(b.coverage->'places', '{}'::jsonb) || coalesce((
-             SELECT jsonb_object_agg(p.id::text, jsonb_build_object(
-                      'name', p.name, 'category', p.category, 'lat', p.lat, 'lng', p.lng,
-                      'editorial', p.curation = 'editorial'))
-               FROM pois p
-              WHERE p.id IN (SELECT i.poi_id FROM plan_items i
-                              WHERE i.version_id = $1 AND i.poi_id IS NOT NULL)
-                AND NOT (coalesce(b.coverage->'places', '{}'::jsonb) ? p.id::text)
-           ), '{}'::jsonb))
-         FROM itinerary_versions b
-        WHERE v.id = $1 AND b.id = $2`,
-      [id, baseVersionId],
-    );
+    await writeVersionRows(tx, { versionId: id, tripId: head.tripId, baseVersionId, next });
     await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [head.tripId, id]);
     return id;
   });

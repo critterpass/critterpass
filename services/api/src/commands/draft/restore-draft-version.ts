@@ -40,7 +40,7 @@ export const restoreDraftVersionCommand = defineCommand({
       if (payload.version_id === current) {
         throw new DomainError('STATE_INVALID', { reason: 'already_current' });
       }
-      const restored = await copyVersion(tx, payload.version_id, current);
+      const restored = await copyVersion(tx, payload.version_id, current, [], 'restore');
       if (current !== null) {
         await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
           current,
