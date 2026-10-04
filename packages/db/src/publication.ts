@@ -79,7 +79,7 @@ import * as schema from './schema';
  * `poi_foursquare_ids` and `foursquare_api_usage` (packages/db/src/schema/places.ts) are "S": the
  * Foursquare id match and the monthly call counts are server bookkeeping for live place details.
  * `poi_foursquare_photos` (same file) is RLS "R" but read over HTTP only (`/v1/media`), like
- * `media_assets`; `poi_foursquare_photo_reads` is "S": when the photos were last read.
+ * `media_assets`.
  * `fsq_os_export_runs`, `fsq_os_export_chunks` and `fsq_os_export_rows` (same file) are "S": the
  * ingest's staging copy of FSQ OS Places, read only by the worker.
  * `climate_normals` (packages/db/src/schema/planning.ts) is RLS "R" but served over HTTP only: the
@@ -118,7 +118,6 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'place_qna_summaries',
   'poi_embeddings',
   'poi_foursquare_ids',
-  'poi_foursquare_photo_reads',
   'poi_foursquare_photos',
   'poi_hours_proposals',
   'poi_live_checks',

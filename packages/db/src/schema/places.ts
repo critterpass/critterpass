@@ -226,16 +226,7 @@ export const poiFoursquarePhotos = pgTable('poi_foursquare_photos', {
   fetchedAt: timestamp('fetched_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
 
-/** When a place's Foursquare photos were last read: the warm-up skips places already read. */
-export const poiFoursquarePhotoReads = pgTable('poi_foursquare_photo_reads', {
-  poiId: uuid('poi_id')
-    .primaryKey()
-    .references(() => pois.id, { onDelete: 'cascade' }),
-  readAt: timestamp('read_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
-});
-
 registerTablePrivacy('poi_foursquare_photos', { class: 'C0' });
-registerTablePrivacy('poi_foursquare_photo_reads', { class: 'C0' });
 
 /**
  * FSQ OS Places export runs for the multi-destination ingest (migration

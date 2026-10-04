@@ -150,7 +150,7 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 
 Write path: all client writes go to the local insert-only `commands` table → `uploadData` → `POST /sync/upload` (batch) → each op runs its command handler in `withUser`; results land in `cmd_results` (stream `me`). Optimistic local rows are written to local-only overlay tables and reconciled when the server row replicates. Account switch (uid change) → `disconnectAndClear()`.
 
-Foursquare (D24): of a Place Details answer only the photos' ids and image addresses are stored (`poi_foursquare_photos`, C0 public place data, RLS R, writes `app_system` only; `poi_foursquare_photo_reads` is server-only bookkeeping). Neither table is published or in a sync stream: phones read the photos over `GET /v1/media`, and hours, rating, tips, price, website and phone are held in memory only.
+Foursquare (D24): of a Place Details answer only the photos' ids and image addresses are stored (`poi_foursquare_photos`, C0 public place data, RLS R, writes `app_system` only). The table is not published or in a sync stream: phones read the photos over `GET /v1/media`, and hours, rating, tips, price, website and phone are held in memory only.
 
 Failure rules: migrations are expand/contract; never drop or rename a published column before the stream config stops referencing it; publication changes ship in their own migration; the sync spike includes a PlanetScale failover drill (logical slot survives).
 

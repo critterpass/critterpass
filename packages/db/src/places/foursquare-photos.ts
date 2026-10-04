@@ -1,14 +1,14 @@
 /**
- * A place's stored Foursquare photos (docs/product-decisions.md D24): the api's live read and the
- * worker's warm-up both replace a place's set through here, in the caller's transaction (system
- * role). Only photo ids, address parts, pixel sizes and creation times are written.
+ * A place's stored Foursquare photos (docs/product-decisions.md D24): the api's live read replaces
+ * a place's set through here, in the caller's transaction (system role). Only photo ids, address
+ * parts, pixel sizes and creation times are written.
  */
 import type { FoursquareStoredPhoto } from '@cp/domain';
 import type pg from 'pg';
 
 /**
- * Replaces the place's photos with this set, in this order (rank 0 first), and notes the read. A
- * photo that stays keeps its row id, so a client that saved it by id finds it again.
+ * Replaces the place's photos with this set, in this order (rank 0 first). A photo that stays keeps
+ * its row id, so a client that saved it by id finds it again.
  */
 export async function replacePoiFoursquarePhotos(
   tx: pg.PoolClient,
@@ -46,9 +46,4 @@ export async function replacePoiFoursquarePhotos(
       ],
     );
   }
-  await tx.query(
-    `INSERT INTO poi_foursquare_photo_reads (poi_id, read_at) VALUES ($1, now())
-     ON CONFLICT (poi_id) DO UPDATE SET read_at = EXCLUDED.read_at`,
-    [poiId],
-  );
 }

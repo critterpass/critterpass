@@ -85,12 +85,6 @@ describe('poi_foursquare_photos RLS: public place photos (class C0, read-only, n
     }
   });
 
-  it('keeps the read log from every app_user', async () => {
-    await expect(
-      asReader((tx) => tx.query('SELECT 1 FROM poi_foursquare_photo_reads LIMIT 1')),
-    ).rejects.toThrow(/permission denied/i);
-  });
-
   it('holds only a photo id, its address parts, its size and times', async () => {
     const { rows } = await db.pool.query<{ column_name: string }>(
       `SELECT column_name FROM information_schema.columns
@@ -127,13 +121,9 @@ describe('poi_foursquare_photos RLS: public place photos (class C0, read-only, n
     );
   });
 
-  it('empties the set for a place Foursquare has no photos of, and still notes the read', async () => {
+  it('empties the set for a place Foursquare has no photos of', async () => {
     await withSystem(db.pool, (tx) => replacePoiFoursquarePhotos(tx, poiId, []));
     expect(await stored()).toEqual([]);
-    const { rows } = await withSystem(db.pool, (tx) =>
-      tx.query('SELECT 1 FROM poi_foursquare_photo_reads WHERE poi_id = $1', [poiId]),
-    );
-    expect(rows).toHaveLength(1);
   });
 
   it('refuses a sixth rank and an address that is not https', async () => {
@@ -154,8 +144,6 @@ describe('poi_foursquare_photos RLS: public place photos (class C0, read-only, n
   });
 
   it('never enters the powersync publication', () => {
-    const published = computePublicationAllowList();
-    expect(published).not.toContain('poi_foursquare_photos');
-    expect(published).not.toContain('poi_foursquare_photo_reads');
+    expect(computePublicationAllowList()).not.toContain('poi_foursquare_photos');
   });
 });

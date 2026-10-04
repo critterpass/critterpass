@@ -108,7 +108,6 @@ beforeEach(async () => {
   errors = [];
   await pool.query('DELETE FROM foursquare_api_usage');
   await pool.query('DELETE FROM poi_foursquare_photos');
-  await pool.query('DELETE FROM poi_foursquare_photo_reads');
 });
 
 afterAll(async () => {
@@ -181,13 +180,9 @@ describe('GET /v1/places/{id}/live', () => {
     const body = await live(buildTestApp(config()), linkedPoiId);
     const after = await dump();
 
-    // The only tables an answer writes: the kept photos, the note of the read, and the call count.
+    // The only tables an answer writes: the kept photos and the call count.
     const changed = [...after].filter(([name, rows]) => before.get(name) !== rows).map(([n]) => n);
-    expect(changed.sort()).toEqual([
-      'foursquare_api_usage',
-      'poi_foursquare_photo_reads',
-      'poi_foursquare_photos',
-    ]);
+    expect(changed.sort()).toEqual(['foursquare_api_usage', 'poi_foursquare_photos']);
 
     const { rows: photos } = await pool.query(
       `SELECT poi_id, fsq_photo_id, prefix, suffix, width, height, fsq_created_at, rank
@@ -227,10 +222,11 @@ describe('GET /v1/places/{id}/live', () => {
     expect(rows).toEqual([]);
   });
 
-  it('keeps nothing when Foursquare errs, and still answers when the photos cannot be kept', async () => {
+  it('leaves the kept photos alone when Foursquare errs, and answers when they cannot be kept', async () => {
     const failing = config({ fetch: () => Promise.resolve(new Response('nope', { status: 500 })) });
+    await live(buildTestApp(config()), linkedPoiId);
     await live(buildTestApp(failing), linkedPoiId);
-    expect((await pool.query('SELECT 1 FROM poi_foursquare_photo_reads')).rows).toEqual([]);
+    expect((await pool.query('SELECT 1 FROM poi_foursquare_photos')).rows).toHaveLength(5);
 
     errors = [];
     await pool.query('ALTER TABLE poi_foursquare_photos RENAME TO poi_foursquare_photos_away');

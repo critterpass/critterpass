@@ -21,9 +21,6 @@ import {
   type FoursquarePhotoParts,
 } from './foursquare';
 
-/** A Place Details call that asks for the photos alone (the warm-up; a Premium call all the same). */
-export const FOURSQUARE_PHOTO_FIELDS = 'photos';
-
 /** What is kept of one Foursquare photo. */
 export interface FoursquareStoredPhoto extends FoursquarePhotoParts {
   readonly photoId: string;

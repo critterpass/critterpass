@@ -651,17 +651,6 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
-  poi_foursquare_photo_reads: {
-    selectProbe: { sql: 'SELECT 1 FROM poi_foursquare_photo_reads LIMIT 1', params: () => [] },
-    expectations: {
-      outsider: F,
-      exMember: F,
-      anonymous: F,
-      member: F,
-      coOrganiser: F,
-      organiser: F,
-    },
-  },
   foursquare_api_usage: {
     selectProbe: { sql: 'SELECT 1 FROM foursquare_api_usage LIMIT 1', params: () => [] },
     expectations: {
