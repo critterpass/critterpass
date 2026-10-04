@@ -57,7 +57,7 @@ export function PlacesPeek({ count, loading, inTrip, onList }: PlacesPeekProps) 
   return (
     <View style={styles.peek} testID="places-peek">
       <View style={styles.copy}>
-        <Text variant="h3" numberOfLines={1} testID="places-peek-count">
+        <Text variant="h3" numberOfLines={2} singleLine={false} testID="places-peek-count">
           {upper(title, i18n.locale)}
         </Text>
         <Text variant="bodySm" color={theme.semantic.text.secondary} numberOfLines={1}>

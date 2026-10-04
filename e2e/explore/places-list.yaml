@@ -49,7 +49,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-7c-3-places-list
+- takeScreenshot: en-7c-3-fresh-account-list
 # Right: saved to Ideas, then undone.
 - swipe:
     from:

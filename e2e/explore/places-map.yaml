@@ -52,7 +52,7 @@ appId: app.critterpass.dev
       id: 'places-tiles-wait'
     timeout: 10000
     optional: true
-- takeScreenshot: en-7c-1-places-map
+- takeScreenshot: en-7c-1-fresh-account-map
 - tapOn:
     id: 'chip-saved'
 - waitForAnimationToEnd:
@@ -86,7 +86,7 @@ appId: app.critterpass.dev
 # shows it.
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: en-7c-2-place-picked
+- takeScreenshot: en-7c-2-fresh-account-picked
 # A finger drag along the cards (start and end on the card row, near the screen's foot).
 - swipe:
     start: 85%, 87%

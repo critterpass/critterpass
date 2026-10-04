@@ -214,7 +214,8 @@ export function PlacesMapView(props: PlacesMapViewProps) {
           </View>
         ) : null}
       </View>
-      {props.canDraw && leadRoute !== undefined ? (
+      {/* The cards cover the map's foot: edge chips show only over the peek. */}
+      {props.canDraw && leadRoute !== undefined && !carousel ? (
         <EdgeIndicator
           stops={leadRoute.stops.map((stop) => ({ ...stop, color: leadRoute.color }))}
           bounds={region.bounds}

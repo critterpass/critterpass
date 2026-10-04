@@ -148,7 +148,12 @@ export function PlacesHeader(props: PlacesHeaderProps) {
               onPress={props.onSearch}
               testID="places-search"
             >
-              <Text variant="body" color={theme.semantic.text.secondary} numberOfLines={1}>
+              <Text
+                variant="body"
+                color={theme.semantic.text.secondary}
+                numberOfLines={2}
+                singleLine={false}
+              >
                 {prompt}
               </Text>
             </PressScale>
