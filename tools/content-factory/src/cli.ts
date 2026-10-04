@@ -34,6 +34,7 @@ import {
   storeCrowdProposals,
 } from './kinds/places/crowds';
 import { readCrowdReview, renderCrowdReview } from './kinds/places/crowds-review';
+import { placeFactsCommand } from './kinds/places/facts';
 import { poisWithoutHours, researchHours, storeProposals } from './kinds/places/hours';
 import { recordingFetch } from './record';
 import { searchFromEnv } from './search';
@@ -51,10 +52,14 @@ const COMMANDS = [
   'pull',
   'hours',
   'crowds',
+  'facts',
 ] as const;
 type Command = (typeof COMMANDS)[number];
 
-const STAGES_FOR: Record<Exclude<Command, 'pull' | 'hours' | 'crowds'>, readonly Stage[]> = {
+const STAGES_FOR: Record<
+  Exclude<Command, 'pull' | 'hours' | 'crowds' | 'facts'>,
+  readonly Stage[]
+> = {
   brief: ['brief'],
   generate: ['generate'],
   validate: ['validate'],
@@ -194,6 +199,24 @@ export async function main(argv: readonly string[], log = console.log): Promise<
         `hours: ${proposals.length} of ${candidates.length} POIs have proposed hours waiting for verification`,
       );
       return 0;
+    }
+    if (args.command === 'facts') {
+      if (args.kind !== 'places' || pool === null)
+        throw new Error('facts runs on places with DATABASE_URL set');
+      const gateway = gatewayFromEnv();
+      const search = searchFromEnv();
+      return await placeFactsCommand(
+        pool,
+        {
+          destinations: (args.options['destinations'] ?? PLACES_DESTINATIONS).split(','),
+          batch: args.batch,
+          approve: args.options['approve'],
+          approverEmail: process.env['ADMIN_CLI_EMAIL'],
+          deps: gateway === null || search === null ? null : { gateway, search },
+          now: new Date(),
+        },
+        log,
+      );
     }
     if (args.command === 'crowds') {
       if (args.kind !== 'places' || pool === null)
