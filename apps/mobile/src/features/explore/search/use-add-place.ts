@@ -3,7 +3,7 @@
  * a place only the server holds is saved to the trip's Ideas first (a saved place syncs over);
  * when that save is refused the row says so instead of opening an empty sheet.
  */
- 
+
 import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
