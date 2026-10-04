@@ -174,6 +174,10 @@ msgstr ""
 msgid "explore.place.call"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.chooseDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.closed"
 msgstr ""
@@ -194,15 +198,11 @@ msgstr ""
 msgid "explore.detail.why.busySeen"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/model.ts
-msgid "explore.detail.noFit"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.entry"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.hero.back"
 msgstr ""
 
@@ -214,15 +214,15 @@ msgstr ""
 msgid "explore.place.free"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.place.missingLine"
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyClose"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.missingOffline"
 msgstr ""
 
@@ -244,6 +244,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTaste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goneLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -350,12 +358,36 @@ msgstr ""
 msgid "explore.place.ratingLabel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.unsave"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.link"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.unsavedIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -406,6 +438,22 @@ msgstr ""
 msgid "explore.place.share"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeasMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeasOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeas"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.suggestFor"
 msgstr ""
@@ -434,12 +482,20 @@ msgstr ""
 msgid "explore.add.refusedBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.place.missingTitle"
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goneTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.undo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx

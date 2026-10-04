@@ -27,8 +27,9 @@ export function dayTitle(date: string, locale: string): string {
 export type DetailCta =
   | { readonly kind: 'loading' }
   | { readonly kind: 'offline' }
-  /** No plan yet, or nothing fits: nothing to tap but the guide. */
+  /** No plan yet: nothing to tap but the guide. */
   | { readonly kind: 'noPlan' }
+  /** No slot is suggested: the button opens Add to plan for her to choose the day. */
   | { readonly kind: 'noFit' }
   | { readonly kind: 'inPlan'; readonly dayNo: number; readonly time: string | null }
   | {
@@ -88,7 +89,7 @@ export function ctaLabel(cta: DetailCta): string {
         : t({ id: 'explore.detail.inDayAt', message: `In day ${day} · ${time}` });
     }
     case 'noFit':
-      return t({ id: 'explore.detail.noFit', message: "Doesn't fit your days yet" });
+      return t({ id: 'explore.detail.chooseDay', message: 'Choose a day' });
     case 'noPlan':
       return t({ id: 'explore.detail.noPlan', message: 'No plan to add to yet' });
     case 'offline':

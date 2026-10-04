@@ -14,6 +14,7 @@ export interface PoiRow {
   readonly category: string;
   readonly lat: number | null;
   readonly lng: number | null;
+  readonly address: string | null;
   /** JSON text: the weekly opening hours. */
   readonly hours: string | null;
   readonly price_level: number | null;
@@ -27,7 +28,7 @@ export interface PoiRow {
 }
 
 const POI_SQL = `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng,
-    p.hours, p.price_level, p.editorial, p.timezone,
+    p.address, p.hours, p.price_level, p.editorial, p.timezone,
     d.tz AS destination_tz, d.name AS destination_name, d.slug AS destination_slug,
     (SELECT s.guide_slug FROM critter_sets s
       WHERE s.destination_id = p.destination_id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug

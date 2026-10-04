@@ -174,6 +174,10 @@ msgstr "By {0}"
 msgid "explore.place.call"
 msgstr "Call"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.chooseDay"
+msgstr "Choose a day"
+
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.closed"
 msgstr "Closed"
@@ -194,15 +198,11 @@ msgstr "Crew split {w}–{r}"
 msgid "explore.detail.why.busySeen"
 msgstr "crews have seen it busy from {at}"
 
-#: ../../apps/mobile/src/features/explore/place-detail/model.ts
-msgid "explore.detail.noFit"
-msgstr "Doesn't fit your days yet"
-
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.entry"
 msgstr "Entry"
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.hero.back"
 msgstr "Explore"
 
@@ -214,15 +214,15 @@ msgstr "Finding when it fits"
 msgid "explore.place.free"
 msgstr "free"
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.place.missingLine"
-msgstr "Give it a moment, or open it again from its destination."
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goBack"
+msgstr "Go back"
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyClose"
 msgstr "Got it"
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.missingOffline"
 msgstr "I need a connection the first time. After that it's here offline."
 
@@ -245,6 +245,14 @@ msgstr "In day {day} · {time}"
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTaste"
 msgstr "It fits what the crew likes: {tag}."
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.body"
+msgstr "It leaves Ideas for the whole crew. {savers} of you saved it."
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goneLine"
+msgstr "It may have closed or been merged with another. Search for it by name."
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.busy"
@@ -350,13 +358,37 @@ msgstr "rain is likely {from}–{to}"
 msgid "explore.place.ratingLabel"
 msgstr "Rated {0} out of 10"
 
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.confirm"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.title"
+msgstr "Remove {name} for everyone?"
+
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.unsave"
 msgstr "Remove from Ideas"
 
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.link"
+msgstr "Remove from Ideas for everyone"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.unsave"
 msgstr "Remove from saved"
+
+#: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
+msgid "explore.detail.removeAll.done"
+msgstr "Removed from Ideas for everyone"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.unsavedIdea"
+msgstr "Removed from your saves"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.retry"
+msgstr "Retry"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.after"
@@ -384,7 +416,7 @@ msgstr "Saved by {names}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.savedIdea"
-msgstr "Saved. It's in Ideas."
+msgstr "Saved to Ideas"
 
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.map"
@@ -405,6 +437,22 @@ msgstr "Share this place"
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.share"
 msgstr "Share this place"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.failedLine"
+msgstr "Something went wrong on our side. Try again."
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeasMore"
+msgstr "Still in Ideas: {first} and {more} more saved it too"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeasOne"
+msgstr "Still in Ideas: {first} saved it too"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.stillInIdeas"
+msgstr "Still in Ideas: the crew saved it too"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.suggestFor"
@@ -434,13 +482,21 @@ msgstr "The crew gets to okay it."
 msgid "explore.add.refusedBody"
 msgstr "The plan is unchanged. Try again."
 
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.place.missingTitle"
-msgstr "This place hasn't loaded yet"
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.failedTitle"
+msgstr "This place didn't load"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
+msgid "explore.place.goneTitle"
+msgstr "This place isn't listed any more"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr "Tickets and tours"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.undo"
+msgstr "Undo"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.disclosure"
