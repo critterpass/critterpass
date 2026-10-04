@@ -105,8 +105,10 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         onTracker={() => {
           // The private draft is retired once the plan is out: nothing is left under Who's in
           // that leads back to "only you see this".
+          // The stack is back to its first screen (the draft, when she came from it), which
+          // the tracker then replaces.
           if (router.canDismiss()) router.dismissAll();
-          router.push(proposalRoutes.tracker(outId));
+          router.replace(proposalRoutes.tracker(outId));
         }}
       />
     );

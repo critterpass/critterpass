@@ -150,8 +150,13 @@ appId: app.critterpass.dev
     visible:
       id: 'drafting-screen'
     timeout: 30000
-# She leaves the wait: Home says the guide is drafting, with the wait one tap away. The set-up
+# The draft job takes a few minutes on staging. She waits on the drafting screen (leaving it and
+# being pulled back when the draft lands is another walk's subject), then goes Home. The set-up
 # steps above check English labels, so the walk's language starts here.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
 - runFlow: home.yaml
 - runFlow:
     file: locale.yaml
@@ -159,16 +164,8 @@ appId: app.critterpass.dev
       LANDS: 'home-header-chat'
 - extendedWaitUntil:
     visible:
-      id: 'home-turn-guide_drafting|home-turn-finish_draft'
-    timeout: 60000
-- takeScreenshot: crew-home-${LOCALE}-01-linh-home-while-drafting
-# The draft job takes a few minutes on staging: Home turns to "your draft is ready" by itself.
-- extendedWaitUntil:
-    visible:
       id: 'home-turn-finish_draft'
-    timeout: 600000
-# The finished draft may rise over Home by itself: the frame is Home, as she finds it later.
-- runFlow: home.yaml
+    timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: crew-home-${LOCALE}-02-linh-home-draft-ready-alone
 - assertNotVisible:
@@ -405,7 +402,6 @@ appId: app.critterpass.dev
       id: 'proposal-tracker'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: crew-home-${LOCALE}-16-linh-who-s-in-nobody-yet
 # Back from Who's in never lands on the private draft again.
 - runFlow: ../../../../onboarding/subflows/back.yaml
 - waitForAnimationToEnd:
