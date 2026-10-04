@@ -1,0 +1,317 @@
+appId: app.critterpass.dev
+---
+# The walk itself, from Home with a locked five-day Bali plan and the planning screens on: a place
+# added from a day, a time changed, a drag, a stop moved to another day and a stop removed. After
+# each change the toast that says what changed is shot, UNDO is used twice, and the day is shot
+# again so the frames show the result. A walk, not a check: steps the app refuses are optional.
+# ${SHOTS} prefixes the screenshots.
+- runFlow: back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+- tapOn:
+    id: 'trip-map-day-chips-2'
+    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-01-day-2-before
+
+# 1. A place added from this day: the sheet opens on the day she came from.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'spa'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 30000
+- hideKeyboard
+- takeScreenshot: ${SHOTS}-02-search-from-day-2
+- tapOn:
+    id: 'search-row-add-0'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+    timeout: 20000
+# The button waits while the time is worked out.
+- takeScreenshot: ${SHOTS}-03-add-sheet-at-once
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-04-add-sheet-on-day-2
+- tapOn:
+    id: 'plan-add-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-05-added-toast
+# UNDO takes the add back.
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 12000
+    optional: true
+- takeScreenshot: ${SHOTS}-06-add-undone
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
+    optional: true
+
+# 2. A time: the second stop an hour later, from its sheet.
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-2'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-07-stop-sheet
+# A tap on the time opens the picker.
+- tapOn:
+    id: 'plan-time-start-pick'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-08-time-picker
+- tapOn:
+    id: 'plan-time-start-pick'
+- repeat:
+    times: 4
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+# What else the change moves, before SAVE.
+- takeScreenshot: ${SHOTS}-09-time-preview
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - takeScreenshot: ${SHOTS}-09b-time-confirm
+      - tapOn: '(?i)change it anyway|Vẫn đổi'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-10-time-toast
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 7000
+    optional: true
+- takeScreenshot: ${SHOTS}-11-day-2-after-time
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-12-day-2-after-time-lower
+
+# 3. A drag: the third stop above the second; then the first stop (her must-do) held.
+- scrollUntilVisible:
+    element:
+      id: 'stop-3'
+    direction: UP
+    timeout: 10000
+    optional: true
+- swipe:
+    from:
+      id: 'stop-3'
+    direction: UP
+    duration: 9000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 8000
+    optional: true
+- takeScreenshot: ${SHOTS}-13-reorder-toast
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 7000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-14-day-2-after-reorder
+- swipe:
+    from:
+      id: 'stop-1'
+    direction: DOWN
+    duration: 9000
+    optional: true
+- takeScreenshot: ${SHOTS}-15-must-do-held
+
+# 4. A stop to another day: the day is picked, the sheet says what moves there, SAVE commits it.
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 7000
+    optional: true
+- tapOn:
+    id: 'stop-2'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-3'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-3'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-16-move-picked-day-3
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - takeScreenshot: ${SHOTS}-16b-move-confirm
+      - tapOn: '(?i)change it anyway|Vẫn đổi'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-17-move-toast
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 7000
+    optional: true
+- takeScreenshot: ${SHOTS}-18-day-2-after-move
+
+# 5. A stop removed: the must-do, which asks first in her own words; then UNDO.
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-remove'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-19-remove-confirm
+- tapOn: '(?i)^remove$|change it anyway|^Bỏ$|Vẫn đổi'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-20-remove-toast
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 8000
+    optional: true
+- takeScreenshot: ${SHOTS}-21-remove-undone
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 6000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-22-day-2-at-the-end
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-23-day-2-at-the-end-lower
