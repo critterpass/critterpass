@@ -92,6 +92,7 @@ interface Variant {
   readonly explained?: boolean;
   readonly fixes?: boolean;
   readonly voting?: boolean;
+  readonly approved?: boolean;
 }
 
 function ChangesScene({
@@ -99,7 +100,9 @@ function ChangesScene({
   explained = false,
   fixes = false,
   voting = false,
+  approved = false,
 }: Variant) {
+  const settled = voting || approved;
   const locale = useLocale();
   const rows: ChangeRow[] = PLACED.map((stop, index) => ({
     key: id(500 + index),
@@ -117,13 +120,13 @@ function ChangesScene({
       state="ready"
       backLabel="Ideas"
       onBack={noop}
-      onlyYou={voting ? null : onlyYouLabel()}
-      title={fixes ? changesHeadline('check', 2) : placedHeadline(6, fixes ? 0 : 2)}
+      onlyYou={settled ? null : onlyYouLabel()}
+      title={fixes ? changesHeadline('check', 2) : placedHeadline(6, approved ? 0 : 2)}
       summary={calmSummary()}
       rows={fixes ? rows.slice(0, 2) : rows}
-      onToggle={voting ? null : noop}
+      onToggle={settled ? null : noop}
       needsYou={
-        fixes
+        fixes || approved
           ? []
           : LEFT.map((idea) => ({
               key: idea.ideaId,
@@ -148,7 +151,7 @@ function ChangesScene({
         />
       }
       send={
-        voting
+        settled
           ? null
           : {
               label: `SEND TO CREW · NEEDS ${String(3)} YESES`,
@@ -157,30 +160,9 @@ function ChangesScene({
               onPress: noop,
             }
       }
-      personal={{ busy: false, onPress: noop }}
+      personal={approved ? null : { busy: false, onPress: noop }}
       vote={voting ? { line: '1 of 3 yeses so far', canVote: true, onYes: noop, onNo: noop } : null}
-      notice={null}
-    />
-  );
-}
-
-function ApprovedScene() {
-  return (
-    <ChangesReviewView
-      state="ready"
-      backLabel="Ideas"
-      onBack={noop}
-      onlyYou={null}
-      title={placedHeadline(6, 0)}
-      summary={calmSummary()}
-      rows={[]}
-      onToggle={null}
-      needsYou={[]}
-      totals={null}
-      send={null}
-      personal={null}
-      vote={null}
-      notice={noticeText('approved')}
+      notice={approved ? noticeText('approved') : null}
     />
   );
 }
@@ -191,5 +173,5 @@ export const CHANGES_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'review-explained': () => <ChangesScene explained />,
   'review-fixes': () => <ChangesScene fixes />,
   'review-voting': () => <ChangesScene voting />,
-  'review-approved': () => <ApprovedScene />,
+  'review-approved': () => <ChangesScene approved />,
 };
