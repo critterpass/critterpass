@@ -4,7 +4,7 @@ jest.mock('@shopify/react-native-skia', () => require('@/ui/media/test-support/m
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file-system'));
 
-import type { MediaAsset } from '@cp/domain';
+import { mediaListResponseSchema, type MediaAsset } from '@cp/domain';
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
@@ -66,6 +66,15 @@ describe('a place card photo', () => {
     expect(isGenericPhoto(generic)).toBe(true);
     expect(isGenericPhoto(own)).toBe(false);
     expect(isGenericPhoto(null)).toBe(false);
+  });
+
+  it('shows a street-level photo, or a source newer than this build, as the place', () => {
+    const street = asset('01a0f4a2-0000-7000-8000-000000000004', [`poi:${PLACE}`], 'mapillary');
+    const later = asset('01a0f4a2-0000-7000-8000-000000000005', [`poi:${OTHER}`], 'a-later-source');
+    expect(mediaListResponseSchema.safeParse({ items: [street, later] }).success).toBe(true);
+    expect(isGenericPhoto(street)).toBe(false);
+    expect(isGenericPhoto(later)).toBe(false);
+    expect(photosByPlace([street, later], [PLACE, OTHER]).get(OTHER)?.credit).toBe(later.credit);
   });
 });
 

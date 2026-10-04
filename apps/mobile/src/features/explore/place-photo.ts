@@ -2,8 +2,10 @@
  * Which photo a place card shows: an asset filed under the place itself (`poi:<id>`), never the
  * destination's. A stock asset on a place is a generic one (a similar dish, a beach like it): the
  * content factory files stock under a place only that way, and the card says it is not this place.
+ * Every other source's photo is of the place (Commons, a street-level photo, a source added after
+ * this build shipped) and shows with its credit alone.
  */
-import type { MediaAsset } from '@cp/domain';
+import { STOCK_MEDIA_SOURCES, type MediaAsset } from '@cp/domain';
 
 import { poiSubject } from './format';
 
@@ -23,5 +25,5 @@ export function photosByPlace(
 
 /** A stock photo standing in for the place: shown with the "not this place" label. */
 export function isGenericPhoto(photo: MediaAsset | null | undefined): boolean {
-  return photo !== null && photo !== undefined && photo.source !== 'wikimedia';
+  return photo !== null && photo !== undefined && STOCK_MEDIA_SOURCES.includes(photo.source);
 }
