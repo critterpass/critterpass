@@ -4,7 +4,8 @@
  * that still hold under their own ids (matched by fingerprint), work out every idea's fit against
  * the same context, record the run against the trip's daily cap, and hint open screens. An issue
  * the organiser chose to keep as it is stays out of the list and the counts while the stops around
- * it are the same. No model is called, and nothing is metered: this is deterministic system work.
+ * it are the same. A version whose legs are not stored yet is not checked: the run waits for them
+ * (`legs-ready.ts`). No model is called, and nothing is metered: this is deterministic system work.
  */
 import { outbox, withSystem } from '@cp/db';
 import {
@@ -28,6 +29,7 @@ import {
 import type pg from 'pg';
 
 import { loadCheck, readCheckTrip, type LoadedCheck } from './context';
+import { legsPending } from './legs-ready';
 
 export type PlanCheckOutcome =
   | {
@@ -36,7 +38,7 @@ export type PlanCheckOutcome =
       readonly know: number;
       readonly ideas: number;
     }
-  | { readonly outcome: 'skipped'; readonly reason: 'inactive' | 'daily_cap' };
+  | { readonly outcome: 'skipped'; readonly reason: 'inactive' | 'daily_cap' | 'legs_pending' };
 
 async function writeIssues(
   tx: pg.PoolClient,
@@ -173,6 +175,9 @@ export async function runPlanCheck(
   return withSystem(pool, async (tx) => {
     const trip = await readCheckTrip(tx, job.trip_id);
     if (trip === null) return { outcome: 'skipped', reason: 'inactive' };
+    if (trip.versionId !== null && (await legsPending(tx, trip.id, trip.versionId, now))) {
+      return { outcome: 'skipped', reason: 'legs_pending' };
+    }
     const today = toLocalWallTime(now, trip.tz).date;
     const previous = (
       await tx.query<{ runs_on: string | null; runs_today: number; quiet: unknown }>(
@@ -184,6 +189,11 @@ export async function runPlanCheck(
     const runsToday = previous?.runs_on === today ? previous.runs_today : 0;
     const loaded = await loadCheck(tx, trip, now);
     if (job.trigger !== 'daily' && runsToday >= loaded.maxRunsPerDay) {
+      // No run is coming today: the check stops saying it is waiting for one.
+      await tx.query(
+        "UPDATE plan_checks SET status = 'done' WHERE trip_id = $1 AND status = 'queued'",
+        [trip.id],
+      );
       return { outcome: 'skipped', reason: 'daily_cap' };
     }
     const found =
