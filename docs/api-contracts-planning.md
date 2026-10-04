@@ -37,7 +37,7 @@ Error reasons by code (`PLANNING_ERROR_REASONS`): `VALIDATION` outside_destinati
 
 | Route | Auth | Source | Cache |
 |---|---|---|---|
-| `POST /v1/trips/{id}/fit` | S | `{poi_ids (1..50), day_id?, starts_at?, include_context?}` → `[{poi_id, best, days[]}]` (`placeFitSchema`) + `context` (one place only, for local re-evaluation). Participants, else `NOT_FOUND` | private no-store |
+| `POST /v1/trips/{id}/fit` | S | `{poi_ids (1..50), day_id?, starts_at?, include_context?}` → `[{poi_id, best, days[]}]` (`placeFitSchema`) + `context` (one place only, for local re-evaluation). Participants, else `NOT_FOUND`. Without `day_id` the days are those of the plan the caller sees: the crew's, or an organiser's own draft before there is one (a member then gets no days) | private no-store |
 | `GET /v1/trips/{id}/places/{poiId}/nearby?limit` | S | curated places by drive minutes from the place `[{poi_id, name, category, minutes, mode}]` | private 15 min |
 | `GET /v1/trips/{id}/gaps/ideas?day_id&start&end` | S | `gapIdeasResultSchema`: `{who_free[], context{busy[], next_item?}, ideas[≤ 3]{kind: single\|pair\|stay, poi_ids, minutes, cost_each_minor?, currency?, saver_id?, voted_by[], reasons[]}}` | no-store |
 | `GET /v1/places/{id}/context?trip_id&date` (delta) | S | adds `when_it_fits{best, other_best?, days[], bars{from, to, hourly[], lit{from, to}}}`, `facts{open_spans[], entry?, takes_min?, dress?}`, `tip?`, `know[]`, `nearby[]`, `similar[]`, `quote?`, `split{want, rather_not, silent_user_ids[]}?`; `suggested_slot` stays for installed builds | no-store |
