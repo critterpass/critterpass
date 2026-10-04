@@ -62,6 +62,17 @@ export const applyPlanOpsPayloadSchema = z.object({
 });
 export type ApplyPlanOpsPayload = z.infer<typeof applyPlanOpsPayloadSchema>;
 
+/**
+ * `undo_plan_edit`: the caller takes back the plan version one of their own commands made
+ * (`apply_plan_ops`, or `apply_changeset` to the group), named by that command's `op_id`. It only
+ * goes through while that version is still the trip's current one.
+ */
+export const undoPlanEditPayloadSchema = z.object({
+  trip_id: z.uuid(),
+  op_id: z.uuid(),
+});
+export type UndoPlanEditPayload = z.infer<typeof undoPlanEditPayloadSchema>;
+
 export interface PlanStateDay {
   readonly day_no: number;
   /** Local calendar date (`YYYY-MM-DD`); null while the trip's dates are open. */
