@@ -12,6 +12,7 @@ export * from './hours-research';
 
 export const PLACES_QUEUES = {
   foursquareMatch: 'places.fsq_match',
+  ingest: 'places.ingest',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -21,6 +22,15 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 600,
     expireInSeconds: 2 * 60 * 60,
     cron: { expr: '0 4 2 * *', tz: 'UTC' },
+  },
+  // Monthly for every destination, or on demand for one: one run at a time per key, the rest wait.
+  // A destination job only plans its tiles; the fan-out also fills missing place boxes.
+  'places.ingest': {
+    policy: 'singleton',
+    retryLimit: 3,
+    retryDelay: 60,
+    expireInSeconds: 60 * 60,
+    cron: { expr: '0 2 1 * *', tz: 'UTC' },
   },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
@@ -38,6 +48,7 @@ export function placesQueueSpecs(
 export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEUE_SPECS, string>> =
   {
     'places.fsq_match': 'Links curated places to their Foursquare ids for live place details',
+    'places.ingest': "Plans a destination's open-data place tiles, or every destination's monthly",
   };
 
 export const foursquareMatchJobSchema = z.object({

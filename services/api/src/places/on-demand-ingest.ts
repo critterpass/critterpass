@@ -7,10 +7,11 @@
  * open data) is retried at most once a week.
  */
 import { sendInTx, type AppendedDomainEvent } from '@cp/db';
+import { PLACES_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
 /** The worker's per-destination ingest queue (services/worker/src/jobs/places). */
-export const PLACES_INGEST_QUEUE = 'places.ingest';
+export const PLACES_INGEST_QUEUE = PLACES_QUEUES.ingest;
 export const SPARSE_PLACES_THRESHOLD = 50;
 const RETRY_SECONDS = 7 * 24 * 3_600;
 

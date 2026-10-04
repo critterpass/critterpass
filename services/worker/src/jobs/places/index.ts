@@ -14,7 +14,7 @@
  * (services/api/src/places/on-demand-ingest.ts), and a destination without a place box gets one
  * before it is planned.
  */
-import { DEFAULT_QUEUE_SPEC, type QueueSpec } from '@cp/domain';
+import { DEFAULT_QUEUE_SPEC, PLACES_QUEUES, queueSpec, type QueueSpec } from '@cp/domain';
 import type { PgBoss } from 'pg-boss';
 import { z } from 'zod';
 
@@ -32,20 +32,13 @@ import { backfillPlaceBounds } from '../../places/place-bounds';
 import { fsqOsSource } from '../../places/source-readers';
 import { placesIngestTileJob, queueTileRun } from './ingest-tile';
 
-export const PLACES_INGEST_QUEUE = 'places.ingest';
+export const PLACES_INGEST_QUEUE = PLACES_QUEUES.ingest;
 export const PLACES_FSQ_EXPORT_CHUNK_QUEUE = 'places.fsq_export_chunk';
 
 const HOUR = 3_600;
 
-export const PLACES_INGEST_SPEC: QueueSpec = {
-  ...DEFAULT_QUEUE_SPEC,
-  policy: 'singleton',
-  retryLimit: 3,
-  retryDelay: 60,
-  // A destination job only plans its tiles; the fan-out also fills missing place boxes.
-  expireInSeconds: HOUR,
-  cron: { expr: '0 2 1 * *', tz: 'UTC' },
-};
+/** From the shared catalogue, so the api creates the queue with the same policy. */
+export const PLACES_INGEST_SPEC: QueueSpec = queueSpec(PLACES_INGEST_QUEUE);
 
 export const PLACES_FSQ_EXPORT_CHUNK_SPEC: QueueSpec = {
   ...DEFAULT_QUEUE_SPEC,

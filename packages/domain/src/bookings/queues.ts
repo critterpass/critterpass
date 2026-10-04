@@ -21,8 +21,11 @@ export const BOOKINGS_QUEUE_SPECS = {
   'mail.parse': { policy: 'exclusive', retryLimit: 3, deadLetter: true, notify: true },
   'import.parse': { policy: 'exclusive', retryLimit: 3, notify: true },
   // Hourly: each connection is scanned once a day in its owner's 07:00 hour (and on connect).
+  // `exclusive`: the sweep picks due mailboxes without a lock and marks them scanned only when it
+  // finishes, so one waiting-or-running sweep (and one scan per connection key) is what prevents
+  // the same mailbox being scanned twice.
   'mailbox.scan': {
-    policy: 'standard',
+    policy: 'exclusive',
     retryLimit: 2,
     expireInSeconds: 30 * 60,
     cron: { expr: '5 * * * *', tz: 'UTC' },
