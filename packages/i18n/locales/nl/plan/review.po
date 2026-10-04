@@ -74,6 +74,22 @@ msgstr ""
 msgid "plan.review.mustDosTouched"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swap"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr ""
@@ -401,4 +417,20 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.addMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.removeMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.moveMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swapMine"
 msgstr ""

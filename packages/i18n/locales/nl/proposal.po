@@ -139,6 +139,10 @@ msgstr ""
 msgid "proposal.dropout.seatsBefore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr ""
@@ -275,6 +279,10 @@ msgstr ""
 msgid "proposal.reaction.sixAm"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.plain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
 msgstr ""
@@ -319,7 +327,7 @@ msgstr ""
 msgid "proposal.inbox.received.body"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.asked"
 msgstr ""
 
@@ -557,8 +565,16 @@ msgstr ""
 msgid "proposal.objection.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.laterDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTonight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -655,12 +671,12 @@ msgstr ""
 msgid "proposal.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.lock.button"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
@@ -724,7 +740,7 @@ msgstr ""
 msgid "proposal.version.askFirst"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothing"
 msgstr ""
 
@@ -778,6 +794,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.openPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
@@ -883,8 +907,20 @@ msgstr ""
 msgid "proposal.share.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingOther"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.button"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.drafting.button"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seePlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -965,12 +1001,24 @@ msgstr ""
 msgid "proposal.build.noStay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTonight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
@@ -999,6 +1047,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx

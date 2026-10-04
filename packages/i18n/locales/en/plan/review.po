@@ -75,6 +75,22 @@ msgstr "{guideName} rearranged a few things."
 msgid "plan.review.mustDosTouched"
 msgstr "{mustDosTouched, plural, one {must-do touched} other {must-dos touched}}"
 
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.add"
+msgstr "{name} wants to add {where}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.remove"
+msgstr "{name} wants to drop {place}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.move"
+msgstr "{name} wants to move {place} to {at}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swap"
+msgstr "{name} wants to swap in {where}"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr "{needed, plural, one {{yes} of # yes so far} other {{yes} of # yeses so far}}"
@@ -403,3 +419,19 @@ msgstr "You said not this."
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
 msgstr "You said yes."
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.addMine"
+msgstr "You want to add {where}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.removeMine"
+msgstr "You want to drop {place}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.moveMine"
+msgstr "You want to move {place} to {at}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swapMine"
+msgstr "You want to swap in {where}"

@@ -139,6 +139,10 @@ msgstr "{answered} of {recipients} answered so far."
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} seats"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote"
+msgstr "{by} wants to change the plan. It waits for your yes."
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr "{crew, plural, other {{going} of # in the crew are in.}}"
@@ -275,6 +279,10 @@ msgstr "{who}’s entry is withdrawn"
 msgid "proposal.reaction.sixAm"
 msgstr "6AM??"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.plain"
+msgstr "A change to the plan is waiting for your yes."
+
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
 msgstr "A guide suggestion"
@@ -319,7 +327,7 @@ msgstr "Applying the re-split"
 msgid "proposal.inbox.received.body"
 msgstr "Are you in?"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.asked"
 msgstr "Asked without your name"
 
@@ -557,9 +565,17 @@ msgstr "I can’t make it after all"
 msgid "proposal.objection.failed"
 msgstr "I couldn’t reach the plan just now. Try again in a moment."
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.laterDone"
 msgstr "I’ll ask you on Sunday"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTomorrow"
+msgstr "I’ll ask you tomorrow morning"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTonight"
+msgstr "I’ll ask you tonight"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
@@ -655,12 +671,12 @@ msgstr "Loading the proposal"
 msgid "proposal.loading"
 msgstr "Loading the proposal"
 
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.lock.button"
-msgstr "Lock it in"
-
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.cta"
+msgstr "Lock it in"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock.button"
 msgstr "Lock it in"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
@@ -724,7 +740,7 @@ msgstr "Not sure yet"
 msgid "proposal.version.askFirst"
 msgstr "Not sure? Ask {0}"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothing"
 msgstr "Nothing here moves the cost for just you. You can still take your time."
 
@@ -779,6 +795,14 @@ msgstr "Only here"
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.open"
 msgstr "Open it"
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seeDay"
+msgstr "Open its day and ask about it"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.openPlan"
+msgstr "Open the plan"
 
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.plan"
@@ -883,9 +907,21 @@ msgstr "Said maybe"
 msgid "proposal.share.saved"
 msgstr "Saved"
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingOther"
+msgstr "Say it in the crew chat, or to {organiser}. You can still take your time."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.button"
+msgstr "See the change"
+
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.drafting.button"
 msgstr "See the draft"
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seePlace"
+msgstr "See the place"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.wholePlan"
@@ -965,13 +1001,25 @@ msgstr "split {before} ways"
 msgid "proposal.build.noStay"
 msgstr "Stays not booked yet"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.later"
 msgstr "Still thinking. Ask me on Sunday"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTomorrow"
+msgstr "Still thinking. Ask me tomorrow morning"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTonight"
+msgstr "Still thinking. Ask me tonight"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"
 msgstr "Tap for the next one · hold to pause"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingPlan"
+msgstr "Tell {organiser} which part. Open the plan and leave a note on the stop, or say it in the crew chat."
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.title"
@@ -1000,6 +1048,10 @@ msgstr "The crew knows you can’t make it"
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.dates"
 msgstr "The dates"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingDates"
+msgstr "The dates are {organiser}’s to move. Say in the crew chat which days work for you."
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.plan"

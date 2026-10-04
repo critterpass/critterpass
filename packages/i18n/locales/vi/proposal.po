@@ -139,6 +139,10 @@ msgstr "{answered}/{recipients} người đã trả lời."
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} chỗ"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote"
+msgstr "{by} muốn đổi kế hoạch. Đang chờ bạn đồng ý."
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr "{crew, plural, other {{going}/# người trong nhóm đã nhận lời.}}"
@@ -275,6 +279,10 @@ msgstr "Suất của {who} được rút lại"
 msgid "proposal.reaction.sixAm"
 msgstr "6 GIỜ SÁNG??"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.plain"
+msgstr "Có một thay đổi kế hoạch đang chờ bạn đồng ý."
+
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
 msgstr "Một gợi ý của hướng dẫn viên"
@@ -319,7 +327,7 @@ msgstr "Đang áp dụng việc chia lại"
 msgid "proposal.inbox.received.body"
 msgstr "Bạn đi chứ?"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.asked"
 msgstr "Đã hỏi, không nêu tên bạn"
 
@@ -557,9 +565,17 @@ msgstr "Rốt cuộc tôi không đi được"
 msgid "proposal.objection.failed"
 msgstr "Mình chưa xem được kế hoạch lúc này. Thử lại sau chút nhé."
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.laterDone"
 msgstr "Chủ nhật mình hỏi lại nhé"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTomorrow"
+msgstr "Sáng mai mình hỏi lại nhé"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTonight"
+msgstr "Tối nay mình hỏi lại nhé"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
@@ -655,12 +671,12 @@ msgstr "Đang tải đề xuất"
 msgid "proposal.loading"
 msgstr "Đang tải đề xuất"
 
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.lock.button"
-msgstr "Chốt luôn"
-
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.cta"
+msgstr "Chốt luôn"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock.button"
 msgstr "Chốt luôn"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
@@ -724,7 +740,7 @@ msgstr "Chưa chắc"
 msgid "proposal.version.askFirst"
 msgstr "Còn phân vân? Hỏi {0}"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothing"
 msgstr "Không có gì ở đây giúp giảm chi phí cho riêng bạn. Bạn cứ từ từ nghĩ nhé."
 
@@ -779,6 +795,14 @@ msgstr "Chỉ có ở đây"
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.open"
 msgstr "Mở xem"
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seeDay"
+msgstr "Mở ngày đó và hỏi về mục này"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.openPlan"
+msgstr "Mở kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.plan"
@@ -883,9 +907,21 @@ msgstr "Nói là có thể"
 msgid "proposal.share.saved"
 msgstr "Tiết kiệm"
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingOther"
+msgstr "Cứ nói trong chat nhóm, hoặc nói với {organiser}. Bạn vẫn có thể từ từ quyết định."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.button"
+msgstr "Xem thay đổi"
+
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.drafting.button"
 msgstr "Xem bản nháp"
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seePlace"
+msgstr "Xem địa điểm"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.wholePlan"
@@ -965,13 +1001,25 @@ msgstr "chia {before} phần"
 msgid "proposal.build.noStay"
 msgstr "Chưa đặt chỗ ở"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.later"
 msgstr "Đang nghĩ thêm. Chủ nhật hỏi lại mình"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTomorrow"
+msgstr "Đang nghĩ thêm. Sáng mai hỏi lại mình"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTonight"
+msgstr "Đang nghĩ thêm. Tối nay hỏi lại mình"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"
 msgstr "Chạm để xem tiếp · giữ để tạm dừng"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingPlan"
+msgstr "Nói cho {organiser} biết phần nào. Mở kế hoạch và ghi chú vào điểm dừng, hoặc nói trong chat nhóm."
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.title"
@@ -1000,6 +1048,10 @@ msgstr "Cả nhóm đã biết bạn không đi được"
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.dates"
 msgstr "Ngày đi"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingDates"
+msgstr "Ngày đi là do {organiser} dời được. Nói trong chat nhóm những ngày bạn đi được."
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.plan"

@@ -137,12 +137,12 @@ msgstr "Bìa pass"
 msgid "crew.composer.previewCrew"
 msgstr "Nhóm"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeLabel"
-msgstr "Mã nhóm"
-
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLabel"
+msgstr "Mã nhóm"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
 msgstr "Mã nhóm"
 
 #. placeholder {0}: code.split('').join(' ')

@@ -137,12 +137,12 @@ msgstr "Covers"
 msgid "crew.composer.previewCrew"
 msgstr "Crew"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
-msgid "crew.composer.codeLabel"
-msgstr "Crew code"
-
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLabel"
+msgstr "Crew code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
 msgstr "Crew code"
 
 #. placeholder {0}: code.split('').join(' ')

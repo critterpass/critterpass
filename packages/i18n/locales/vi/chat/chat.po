@@ -467,6 +467,26 @@ msgstr "Cảm ơn bạn. Đội ngũ của chúng mình sẽ xem ngay."
 msgid "chat.attach.cameraOff"
 msgstr "Máy ảnh đang tắt"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKeptOne"
+msgstr "Nhóm không đồng ý {change}. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKept"
+msgstr "Nhóm không đồng ý. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planAdded"
+msgstr "Nhóm đồng ý: {change} đã vào kế hoạch"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChangedTo"
+msgstr "Nhóm đồng ý: kế hoạch giờ có {change}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChanged"
+msgstr "Nhóm đồng ý. Kế hoạch đã đổi."
+
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedTitle"
 msgstr "Micro đang tắt"
@@ -474,6 +494,10 @@ msgstr "Micro đang tắt"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripLockedAuto"
 msgstr "Chuyến đi đã được chốt"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planVoteRanOut"
+msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"

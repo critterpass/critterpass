@@ -13,9 +13,21 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, with {1}"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.added"
+msgstr "{change} is in the plan"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.removed"
+msgstr "{change} is off the plan"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.title"
 msgstr "{count, plural, one {{guide} found a spot for # idea} other {{guide} found a spot for # ideas}}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMany"
+msgstr "{count, plural, one {{name} wants # change to the plan} other {{name} wants # changes to the plan}}"
 
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
@@ -76,6 +88,18 @@ msgstr "{name} nudged you"
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.line"
 msgstr "{name} nudged you"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedAdd"
+msgstr "{name} wants to add {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedRemove"
+msgstr "{name} wants to drop {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMove"
+msgstr "{name} wants to move {change}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.title"
@@ -144,6 +168,10 @@ msgstr "How'd it go?"
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.title"
 msgstr "Inbox"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.body"
+msgstr "It goes in when the crew says yes."
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
@@ -253,6 +281,10 @@ msgstr "Plan {progress}%"
 msgid "home.inbox.ideasPlaced.open"
 msgstr "Review"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.open"
+msgstr "See the change"
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"
 msgstr "See the recap"
@@ -301,13 +333,33 @@ msgstr "That trip is over"
 msgid "home.inbox.nudge.vote"
 msgstr "The crew is waiting on your vote."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.keptOne"
+msgstr "The crew said no to {change}. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.kept"
+msgstr "The crew said no. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.applied"
+msgstr "The crew said yes. The plan changed."
+
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr "The nudge didn't go through. Try again."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.moved"
+msgstr "The plan now has {change}"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.full"
 msgstr "The trip is full. You’re number {position} in line for a seat."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.ranOut"
+msgstr "The vote ran out. The plan stays as it was."
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"

@@ -13,8 +13,20 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.removed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMany"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/format.ts
@@ -75,6 +87,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedRemove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -143,6 +167,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
@@ -253,6 +281,10 @@ msgstr ""
 msgid "home.inbox.ideasPlaced.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.open"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"
 msgstr ""
@@ -301,12 +333,32 @@ msgstr ""
 msgid "home.inbox.nudge.vote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.keptOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.kept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.applied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.moved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.ranOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
