@@ -56,7 +56,7 @@ What the planner needs: `TripFrame.held: readonly HeldStop[]` (`stableId`, `dayN
 
 ## Coordination
 
-- This lane owns `packages/planner/src/draft/**` and `packages/ai/src/prompts/draft/**`. The server rules lane adds redraft reasons first: merge main before touching `prompts/draft/redraft.ts`.
+- Waits for the plan-quality lane (the planner's schedule rules), which owns `packages/planner/src/draft/**` and `packages/ai/src/prompts/draft/**` until it merges: this phase starts when the controller says that change is on main. The server rules lane's redraft reasons land first too: merge main before touching `prompts/draft/redraft.ts`.
 - Prompts find a persona through the one resolver; no direct pack lookup.
 
 ## Risks

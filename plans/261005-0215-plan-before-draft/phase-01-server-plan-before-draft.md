@@ -71,7 +71,7 @@ No new table, so no new RLS policy. The permission test covers what changes: a m
 
 ### T7. A put-back gives the redraft back
 - Files: `services/api/src/commands/draft/keep-redraft.ts`, `services/api/test/commands/draft/redraft-quota.db.test.ts`, `docs/api-contracts.md`.
-- Rule: `revert_redraft` settles the reservation `released` and calls `app.release_quota`; delivered redrafts still count against the silent fair-use cap (product call 1).
+- Rule: `revert_redraft` settles the reservation `released` and calls `app.release_quota`; delivered redrafts still count against the silent fair-use cap.
 - Test: counter before = counter after a put-back; a kept redraft still counts.
 - Status: pending
 
