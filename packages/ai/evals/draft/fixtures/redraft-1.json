@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f0d3eb68-6335-4682-adfb-9c712e84b3de",
+        "id": "57893dc3-f2ca-403b-bdd6-0ab8325a0300",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tight-Knit Kyoto Day\",\n  \"summary\": \"A slower, closer day around the northern and eastern temples, with a quiet vegan lunch and an evening wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the must-do. Shoes off, phone down, eyes up for the golden pavilion.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, gentle stroll between temples. The deer will cope without you; the blossoms won't wait.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Close to the path and easier on the budget than the far museum. Worth one message.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch that suits everyone, tucked near the temples. Tentative usually means a dentist; this is not that.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, open all day, and a short hop from the temples. Good for the photo spot taste.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An evening wander for the night owl, close to Gion. Keep the phone down and the eyes up.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegetarian-friendly dinner near the evening stop, kinder to the budget than the old ryokan meal.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Kyoto, close and quiet\",\n  \"summary\": \"A slower day around one corner of Kyoto, with Kinkaku-ji kept and the rest gathered near it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing you asked to keep, so we start here before the buses and the selfie sticks wake up.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a long slow walk for the two early birds who hate being rushed.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian for all four of you, and close enough to the path that nobody has to watch a clock over lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, flat, and full of old shopfronts — the street-food and photo-spot people can wander while the temple people rest their feet.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening lanterns, because the night owl in your crew deserves one meal after dark.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 654,
+          "input_tokens": 6,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 444,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 354,
           "service_tier": "standard"
         }
       }

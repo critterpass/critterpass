@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "82d917db-b183-4208-9999-31a0cd7b9901",
+        "id": "8c5ae2f1-30b6-4df3-bbc1-bb6457728055",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Alfama\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Golden hour in the old town\",\n      \"area\": \"Alfama\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p12\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Classic Lisbon on a budget\",\n      \"area\": \"Belém and Baixa\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p2\",\n        \"p13\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Easy morning farewell\",\n      \"area\": \"Alfama\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p4\"\n      ]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama light and local life\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Views, markets and a castle\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p12\", \"p4\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Belém by the river\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 124,
+          "input_tokens": 79,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 212,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 192,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "11639997-ec7f-4cca-87f5-bcae605d0405",
+        "id": "585b3fef-9d86-4119-aae5-d32ed3c0329f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A castle with a view to say goodbye to Lisbon properly.\"}]}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The tower by the water is pure postcard Lisbon, all Manueline stone and river light.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The monastery cloisters are a quiet, honey-coloured maze that makes you whisper.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 487,
+          "input_tokens": 16,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 43,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "31a95dc6-0b2e-4726-81b2-a1c04bcb315b",
+        "id": "85941515-e02e-46bb-aa31-487080d87b66",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander Alfama's lanes while the light turns to honey. Every corner is a postcard.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The best free show in town: Lisbon glowing gold from Senhora do Monte.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A garden of calm and good veggie food. Easy on the wallet, kind to the soul.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old lanes and catch the light on the laundry lines.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Hold on tight, this little yellow tram rattles through the heart of Alfama.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bifana and a cold beer, the local way to end a wander.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 481,
+          "input_tokens": 463,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 178,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 169,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d16bc018-199c-435e-a625-249bd5f8d93a",
+        "id": "dc44fe80-0111-4ac2-81b6-8a60ae313949",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A postcard-perfect start by the river, even if the tower keeps its secrets behind a ticket.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Manueline stone lace so grand it almost makes you forget the entrance fee.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A no-fuss bifana stop where the locals squeeze in and the price leaves you smiling.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The rattling old tram that turns a simple ride into a rolling photo album.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market that hums with hungry locals and smells like every corner of Portugal at once.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A fragrant, budget-friendly curry that feels like a warm hug after a long wander.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rummage through old tiles, vinyl and trinkets while the city wakes up around you.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the old walls and let the red rooftops do all the talking.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The best free view in Lisbon, with the river winking back at you.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tasca with big flavours, and the daily specials are a proper local secret.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old factory turned creative corner, full of street art and odd little shops.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm custard tarts with a blistered top, dusted with cinnamon. No arguments.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 568,
+          "input_tokens": 503,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 333,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 331,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "2542f35b-4203-4503-acc2-75d09809505c",
+        "id": "2af5b20c-f71a-4e40-92dc-6ed509b6b0a0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Old-town glow, cheap classics, easy goodbye — all the must-dos, and grilled sardines every single night."
+            "text": "Alfama glow, castle views, Belém breeze — all the must-dos, grilled sardines every single night."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 169,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }

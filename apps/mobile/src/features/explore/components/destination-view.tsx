@@ -32,7 +32,7 @@ export interface DestinationViewProps {
   readonly loading: boolean;
   readonly offline: boolean;
   /**
-   * `limited`: a guest-guide place with no curve or picks; `writing`: a guide's own place whose
+   * `limited`: a place nobody has checked (the guest guide's, or its own guide still learning it) with no curve or picks; `writing`: a guide's own place whose
    * curve and picks are not written yet; `unavailable`: they did not load.
    */
   readonly notice: 'limited' | 'writing' | 'unavailable' | null;
@@ -185,10 +185,15 @@ export function DestinationView(props: DestinationViewProps) {
                 )}
               </Text>
               <Text variant="body">
-                {t({
-                  id: 'explore.limited.body',
-                  message: `No guide lives in ${hero.name} yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
-                })}
+                {guide.learning
+                  ? t({
+                      id: 'explore.learning.body',
+                      message: `${guide.name} is still learning ${hero.name}, and nobody has checked the picks here yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                    })
+                  : t({
+                      id: 'explore.limited.body',
+                      message: `No guide lives in ${hero.name} yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                    })}
               </Text>
             </View>
           ) : null}

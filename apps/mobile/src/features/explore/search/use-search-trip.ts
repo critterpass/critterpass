@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { weekdayOfDate } from './weekday-names';
@@ -42,9 +42,7 @@ export interface SearchTrip {
 }
 
 function guideOf(slug: string | null | undefined): GuideId {
-  return slug !== null && slug !== undefined && slug in GUIDE_STICKERS
-    ? (slug as GuideId)
-    : 'tokek';
+  return guideIdOr(slug);
 }
 
 export function useSearchTrip(tripId: string): SearchTrip {
@@ -82,7 +80,7 @@ export function useSearchTrip(tripId: string): SearchTrip {
     destination: plan.trip?.destination_name ?? '',
     destinationSlug: plan.trip?.destination_slug ?? null,
     guide,
-    guideName: GUIDE_STICKERS[guide].name,
+    guideName: guideSticker(guide).name,
     days,
     versionId: plan.versionId,
     organiser: plan.organiser,

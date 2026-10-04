@@ -16,7 +16,7 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { OfflinePill } from '@/ui/states/OfflinePill';
@@ -77,7 +77,7 @@ export function SummaryView(props: SummaryViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const insets = useSafeAreaInsets();
-  const shadow = GUIDE_STICKERS[guide];
+  const shadow = guideSticker(guide);
   const forms = model.forms;
   const gotAway = model.gotAway;
 

@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { FilterChipRow } from '@/ui/planning';
 import { PressScale } from '@/ui/press/PressScale';
@@ -75,7 +75,7 @@ export function TripMapTop(props: TripMapTopProps) {
   const list = useWayOut('7c-3', { tripId: model.tripId });
   const place = model.destination ?? '';
   const guide = model.guide.name;
-  const sticker = GUIDE_STICKERS[model.guide.id];
+  const sticker = guideSticker(model.guide.id);
   const prompt =
     place === ''
       ? t({ id: 'plan.tripMap.searchNoPlace', message: `Search, or ask ${guide}` })

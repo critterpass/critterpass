@@ -10,7 +10,7 @@ import Animated from 'react-native-reanimated';
 
 import { usePingRings } from '@/motion/patterns/ping-rings';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
 import { Row, Stack, Text } from '@/ui';
@@ -70,7 +70,7 @@ export function MeetupPin({
   const styles = useStyles();
   const rings = usePingRings(pulse);
   const hop = useLoop('hop');
-  const guide = GUIDE_STICKERS.tokek;
+  const guide = guideSticker('tokek');
   return (
     <View style={styles.wrap}>
       <PressScale

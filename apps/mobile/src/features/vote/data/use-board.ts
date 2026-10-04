@@ -7,10 +7,11 @@ import type { HomeVoteSlot } from '@cp/domain';
 import { useMemo } from 'react';
 
 import type { GuideId } from '@/ui/people/GuideLine';
+import { useGuidesPerCity } from '@/data/guides';
 
 import { guideColour, guideOr } from '../format';
 import { useLiveRows } from './live-rows';
-import { OPEN_DESTINATION_SQL, PLACES_SQL, PLACES_TABLES } from './poll-queries';
+import { OPEN_DESTINATION_SQL, PLACES_TABLES, placesSql } from './poll-queries';
 import type { PollView } from './poll-view';
 import { useMyUid } from './use-my-uid';
 import { useRevealOnOpen } from './use-final';
@@ -41,6 +42,7 @@ export function useOpenDestinationPoll(crewId: string | null): string | null {
 }
 
 export function usePlaces(pollId: string | null): ReadonlyMap<string, BoardPlace> {
+  const perCity = useGuidesPerCity();
   const { rows } = useLiveRows<{
     id: string;
     slug: string;
@@ -48,13 +50,15 @@ export function usePlaces(pollId: string | null): ReadonlyMap<string, BoardPlace
     coverage: string | null;
     colour: string | null;
     guide_slug: string | null;
-  }>(PLACES_SQL, pollId === null ? null : [pollId], PLACES_TABLES);
+    city_guide_slug: string | null;
+  }>(placesSql(perCity), pollId === null ? null : [pollId], PLACES_TABLES);
   return useMemo(
     () =>
       new Map(
         rows.map((row) => {
           const live = row.coverage === 'live';
-          const guide = live ? guideOr(row.guide_slug) : 'tokek';
+          // The city's own critter is its guide, curated set or not; else the place's guide.
+          const guide = guideOr(row.city_guide_slug, live ? guideOr(row.guide_slug) : 'tokek');
           return [
             row.id,
             {

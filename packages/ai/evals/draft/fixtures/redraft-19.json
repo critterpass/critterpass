@@ -1,50 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "10a7f9ca-789b-4a5d-ae30-a8de65911435",
+        "id": "841c6e8c-4acd-4137-af05-5eb29a9b63ec",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in Roma Norte\",\n  \"summary\": \"A gentle day with a long, unhurried wander through Roma Norte and a relaxed meal, leaving plenty of time to soak up the neighbourhood.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the heart of the day, now with room to linger over every leafy corner and mural.\",\n      \"note\": \"Kept as the heart of the day, now with room to linger over every leafy corner and mural.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A slow lunch break folded into the walk, so nobody has to rush off to the next stop.\",\n      \"note\": \"A slow lunch break folded into the walk, so nobody has to rush off to the next stop.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day in Mexico City\",\n  \"summary\": \"A gentle day with a long morning walk and a museum visit, leaving room to wander and rest.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte stroll, now with extra time to dawdle and notice the little things.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor stays, but we arrive unrushed and let the old stones do the talking.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 480,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 220,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "576e5bf0-ec0e-47bd-9907-1240c371aca9",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in Mexico City\",\n  \"summary\": \"A gentle day with a long neighbourhood wander and one grand museum, leaving plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the heart of the day, with a lazy start so the crew can sleep in and still soak up the local life.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One grand museum instead of two, giving the art and architecture time to settle in.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 118,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 174,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 178,
           "service_tier": "standard"
         }
       }

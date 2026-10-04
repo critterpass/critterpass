@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { PermissionsPrimer } from '@/ui/permission-primer';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { completeOnboarding } from '../flow-controller/completion';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
@@ -28,7 +28,7 @@ export function PermissionsStep() {
   return (
     <PermissionsPrimer
       guide="tokek"
-      guideName={GUIDE_STICKERS.tokek.name}
+      guideName={guideSticker('tokek').name}
       onDone={finish}
       onLater={finish}
       onBack={() => router.replace(ONBOARDING_ROUTES.issued)}

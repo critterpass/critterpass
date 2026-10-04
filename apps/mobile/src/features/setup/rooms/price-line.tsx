@@ -7,9 +7,8 @@ import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { currencyExponent, currencySymbol, isKnownCurrency } from '@cp/cost-engine';
-import { tokens } from '@cp/design-tokens';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { Odometer } from '@/ui/data/Odometer';
 import { Row } from '@/ui/layout/Row';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -45,8 +44,8 @@ export function PriceLine({
   readonly member: boolean;
 }) {
   const styles = useStyles();
-  const sticker = GUIDE_STICKERS[guide];
-  const colour = tokens.guide[guide];
+  const sticker = guideSticker(guide);
+  const colour = guideColour(guide);
   const symbol = symbolOf(currency);
   const each = t({ id: 'setup.rooms.price.each', message: ' each' });
   const equal = price.low === price.high;

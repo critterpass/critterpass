@@ -7,11 +7,11 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { patterns } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { TextureCanvas } from '@/ui/textures/TextureCanvas';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
 const STICKER = 190;
 const RING = 260;
@@ -35,7 +35,6 @@ const useStyles = makeStyles((th) => ({
 
 /** The screen's radial glow, centred on the guide, in the guide's colour fading to the page. */
 export function GuideGlow({ guide }: { readonly guide: GuideId }) {
-  const theme = useTheme();
   return (
     <TextureCanvas>
       {({ width, height }) => (
@@ -44,7 +43,7 @@ export function GuideGlow({ guide }: { readonly guide: GuideId }) {
             <RadialGradient
               c={vec(width / 2, RING * 0.9)}
               r={Math.max(width, height)}
-              colors={[theme.guide[guide], 'transparent']}
+              colors={[guideColour(guide), 'transparent']}
             />
           </Rect>
         </Group>
@@ -61,16 +60,15 @@ export function GuideInRings({
   readonly active: boolean;
 }) {
   const styles = useStyles();
-  const theme = useTheme();
   const rings = patterns.usePingRings(active);
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   return (
     <View style={styles.hero} testID="drafting-guide">
       {rings.map((ring) => (
         <Animated.View
           key={ring.key}
           pointerEvents="none"
-          style={[styles.ring, { borderColor: theme.guide[guide] }, ring.style]}
+          style={[styles.ring, { borderColor: guideColour(guide) }, ring.style]}
         />
       ))}
       <Sticker kind={info.kind} name={info.name} pose="think" size={STICKER} />

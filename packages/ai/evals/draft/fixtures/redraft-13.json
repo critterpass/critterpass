@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "76f32be9-50ee-415c-88ac-4a4e012d2f9a",
+        "id": "5e8f621b-280e-48de-b9cb-867d96a2f2bf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Reykjavik Day\",\n  \"summary\": \"A gentler Monday with fewer stops, more time to breathe, and no long bus rides to weigh the day down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The National Museum keeps us on our feet without a long ride, and the history here rewards a slow wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Blue Lagoon stays, of course — a long, warm soak is exactly what tired legs deserve after the bus-heavy days.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower Reykjavik day\",\n  \"summary\": \"We trade bus rides for breathing room, keeping the Blue Lagoon and letting the city wait.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays, and with fewer stops we can soak properly instead of rushing off.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 798,
+          "input_tokens": 91,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 197,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 103,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "883b31d0-6bc5-4326-b8c4-5fee8efb89bb",
+        "id": "dc68dbb9-991a-4899-aa16-cc0fb7235fa0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém to Bairro Alto, close and cosy\",\n  \"summary\": \"A slower Tuesday that keeps Belém Tower as the anchor, then wanders through nearby flavours, a tram ride, and finishes with Bairro Alto's evening glow.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop the crew would never forgive me for dropping. Belém Tower, looking all dramatic by the water, history with a side of sea breeze.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right by the tower, because walking far on an empty stomach is a crime. Pastéis de Belém keeps the vegetarians happy and the rest of us grinning.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A tram ride that rattles and rolls through the city without asking anyone to hike across half of Lisbon. Photo spots appear at every bend, no long ride needed.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra is close to the tram's wanderings and full of local life. A flea market where the treasure is the people-watching, not the walking distance.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Ao 26 Vegan Food Project, because every meal must suit the vegetarians and this place does it with proper Lisbon warmth. Grilled sardines can wait for another day.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto wakes up late, so we end the day here. Cobbled lanes, tiny bars, and the night owls finally get their moment without a single long ride.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Belém and Bairro Alto, no long rides\",\n  \"summary\": \"A slower Tuesday split between Belém's riverside history and Bairro Alto's evening charm, with meals right beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we never skip, and it keeps us right by the river for the morning.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop from the tower, so we stay close and still get a proper wander.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with vegetarian plates, tucked into the streets we are already exploring.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick viewpoint stop to catch the city before the light turns golden.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Street food buzz without a long ride, and plenty for the vegetarian crew.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve their moment.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening wander, vegan and easy for everyone.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 52,
+          "input_tokens": 118,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 492,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 415,
           "service_tier": "standard"
         }
       }

@@ -9,7 +9,7 @@ jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-do
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen, waitFor, within } from '@testing-library/react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { GuideImage } from '../map/guide-image';
 
@@ -17,7 +17,7 @@ const PNG = new Uint8Array([137, 80, 78, 71]);
 
 describe('guide beside the meet-up pin', () => {
   it('is its drawn picture, named after the guide, not a wrapper around it', async () => {
-    const guide = GUIDE_STICKERS.tokek;
+    const guide = guideSticker('tokek');
     await render(<GuideImage guide={guide} size={44} render={() => Promise.resolve(PNG)} />);
 
     await waitFor(() => expect(screen.getByTestId('live-guide-tokek-image')).toBeTruthy());

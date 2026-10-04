@@ -12,10 +12,10 @@ import Animated from 'react-native-reanimated';
 
 import { patterns } from '@/motion';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
-import { cardBackground } from '@/ui/cards/tone';
+import { cardBackground, guideCardTone } from '@/ui/cards/tone';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -33,16 +33,6 @@ import { stackOf, type Person } from '../data/use-people';
 import { FadeSection } from './fade-section';
 import type { PitchState } from '../data/use-pitch-stream';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
-
-const TONES = {
-  tokek: 'yellow',
-  pon: 'orange',
-  lundi: 'blue',
-  ajo: 'pink',
-  sardi: 'green',
-  paco: 'cream',
-  chava: 'red',
-} as const;
 
 const TAG_ICONS: Readonly<Record<string, DoodleName>> = {
   FOODIE: 'food',
@@ -133,7 +123,7 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
   const { t, i18n } = useLingui();
   const chipText = useChipText();
   const guideId = guideOr(state.sticker?.guide);
-  const guide = GUIDE_STICKERS[guideId];
+  const guide = guideSticker(guideId);
   const slap = patterns.useSlap({ active: state.sticker !== null, direction: -1 });
   const streaming = state.phase === 'streaming';
   const ink = theme.semantic.text.onAccent;
@@ -164,13 +154,13 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
   const heading = state.sticker === null ? '' : (state.headline ?? state.sticker.name);
   return (
     <Card
-      tone={TONES[guideId]}
+      tone={guideCardTone(guideId)}
       halftone={photo === null}
       backdrop={
         <MediaLayer
           media={photo}
           surface="accent"
-          accent={cardBackground(theme, TONES[guideId])}
+          accent={cardBackground(theme, guideCardTone(guideId))}
           creditAt="top"
           testID="pitch-card-photo"
         />

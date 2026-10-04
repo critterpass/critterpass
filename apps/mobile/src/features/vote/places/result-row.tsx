@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { Pressable, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
@@ -42,7 +42,7 @@ export function ResultRow({
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const count = result.locals.length;
-  const guide = GUIDE_STICKERS[guideOr(result.guide)].name;
+  const guide = guideSticker(guideOr(result.guide)).name;
   const detail =
     result.coverage === 'live'
       ? t({ id: 'vote.search.liveGuide', message: `${guide} guides here` })

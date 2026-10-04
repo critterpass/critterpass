@@ -157,19 +157,19 @@ msgstr "A FEW MORE SURPRISES"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "A flower pony, waiting for you in Đà Lạt."
+msgstr "A flower pony, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "A Hoàn Kiếm turtle, waiting for you in Hà Nội."
+msgstr "A Hoàn Kiếm turtle, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "A jackrabbit, waiting for you in Las Vegas."
+msgstr "A jackrabbit, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "A lantern carp, waiting for you in Hội An."
+msgstr "A lantern carp, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr "A look inside"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "A mosaic salamander, waiting for you in Barcelona."
+msgstr "A mosaic salamander, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "A pigeon in a beret, waiting for you in Paris."
+msgstr "A pigeon in a beret, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr "A stamp lands once they've joined and voted on, or planned, their first 
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "A subway rat, waiting for you in New York."
+msgstr "A subway rat, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr "Already in: {names}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "An Iberian lynx, waiting for you in Seville."
+msgstr "An Iberian lynx, waiting for you in {place}."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"

@@ -28,7 +28,7 @@ import { triggerConfetti } from '@/motion/patterns/confetti';
 import { useLoop } from '@/motion/use-loop';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Stamp } from '@/ui/documents/Stamp';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -147,7 +147,7 @@ export function IssuedPage({ choreography, saved = false, footer }: IssuedPagePr
       ) : null}
     </View>
   );
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="onboarding-issued">
       <View style={styles.content}>

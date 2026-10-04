@@ -35,12 +35,12 @@ msgstr "{count, plural, one {# stop is} other {# stops are}} ready to review. On
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
 
-#: ../domain/src/planning/templates.ts
-msgid "notifications.check.ask_member.title"
-msgstr "{crew}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
+msgstr "{crew}"
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
 msgstr "{crew}"
 
 #: ../domain/src/money/templates.ts

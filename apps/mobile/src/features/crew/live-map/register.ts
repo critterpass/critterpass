@@ -6,7 +6,7 @@
  */
 import { router } from 'expo-router';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { registerChatMapTarget } from '../chat/slots';
 import { GUIDE_IMAGE_PT, renderGuidePng } from './map/guide-image';
@@ -16,5 +16,5 @@ registerChatMapTarget((crewId) => router.push(`/map/crew/${crewId}`));
 
 // Idle-time warm-up; a failure only means the first map renders the image itself.
 setTimeout(() => {
-  renderGuidePng(GUIDE_STICKERS.tokek.kind, GUIDE_IMAGE_PT).catch(() => undefined);
+  renderGuidePng(guideSticker('tokek').kind, GUIDE_IMAGE_PT).catch(() => undefined);
 }, 3000);

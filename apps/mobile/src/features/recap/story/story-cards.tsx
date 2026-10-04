@@ -9,7 +9,7 @@ import { format, type DistanceUnit } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { AwardsCard } from '../cards/awards-card';
@@ -272,7 +272,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
         }
         bottom={tripDates(summary, locale)}
         ink={stamp.ink_colour ?? input.ground}
-        guideKind={GUIDE_STICKERS[guide].kind}
+        guideKind={guideSticker(guide).kind}
         older={data.stamps.slice(1).map((older) => ({
           id: older.id,
           title: older.place ?? '',

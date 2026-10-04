@@ -283,7 +283,9 @@ describe('the guide’s lists', () => {
     expect(
       names(withWish.activities).filter((name) => /^marble mountains|^ngũ hành/iu.test(name)),
     ).toEqual([]);
-    expect(withWish.meals.map((poi) => poi.id)).toContain(D.eggCoffee.id);
+    // The egg coffee place is a break, not a meal: it sits with the activities.
+    expect(withWish.activities.map((poi) => poi.id)).toContain(D.eggCoffee.id);
+    expect(withWish.meals.map((poi) => poi.id)).not.toContain(D.eggCoffee.id);
   });
 
   it('are the same for the same places in any order', { timeout: 60_000 }, () => {

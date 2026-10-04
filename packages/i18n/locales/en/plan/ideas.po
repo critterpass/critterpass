@@ -9,7 +9,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.body"
-msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day, or let Tokek place it.} other {# saved places that aren't in a day yet. Drag one onto a day, or let Tokek place them.}}"
+msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day, or let {guideName} place it.} other {# saved places that aren't in a day yet. Drag one onto a day, or let {guideName} place them.}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
@@ -34,8 +34,16 @@ msgid "plan.ideas.placeSome"
 msgstr "{fitting, plural, one {One fits without moving anything booked.} other {# fit without moving anything booked.}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.failed"
+msgstr "{guideName} couldn’t place them this time."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr "{guideName} couldn’t start placing them"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSome"
-msgstr "{0, plural, one {Leaving one for you} other {Leaving # for you}}"
+msgstr "{leftCount, plural, one {Leaving one for you} other {Leaving # for you}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeCrew"
@@ -59,7 +67,7 @@ msgstr "A place taken off Ideas"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.foot"
-msgstr "About ten seconds. Leave if you like, Tokek will ping you."
+msgstr "About ten seconds. Leave if you like, {guideName} will ping you."
 
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
@@ -144,18 +152,6 @@ msgstr "Routing the days"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.emptyLine"
 msgstr "Save places from search, paste a link from TikTok or Maps, or swipe together, and they land here."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.guide"
-msgstr "Tokek"
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
-msgid "plan.placing.failed"
-msgstr "Tokek couldn’t place them this time."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.placeFailed"
-msgstr "Tokek couldn’t start placing them"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"

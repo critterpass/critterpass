@@ -19,7 +19,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { useActiveGuide } from '@/lib/navigation/active-guide';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -36,7 +37,7 @@ const useStyles = makeStyles((t) => ({
 }));
 
 export interface AllCaughtUpProps {
-  /** What Tokek is watching ("the boat vote"), when there is something to watch. */
+  /** What the guide is watching ("the boat vote"), when there is something to watch. */
   readonly watching?: string | null;
 }
 
@@ -67,7 +68,9 @@ export function AllCaughtUp({ watching = null }: AllCaughtUpProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awake]);
   const jumpStyle = useAnimatedStyle(() => ({ transform: [{ translateY: jump.value }] }));
-  const tokek = GUIDE_STICKERS.tokek;
+  // The guide of the trip the person is in; Tokek when there is none.
+  const tokek = guideSticker(useActiveGuide().guideId);
+  const guideName = tokek.name;
 
   const wake = () => {
     setAwake(true);
@@ -86,11 +89,11 @@ export function AllCaughtUp({ watching = null }: AllCaughtUpProps) {
     watching === null
       ? t({
           id: 'home.inbox.caughtUp.line',
-          message: 'Nothing needs you right now. Tokek will wake you when something does.',
+          message: `Nothing needs you right now. ${guideName} will wake you when something does.`,
         })
       : t({
           id: 'home.inbox.caughtUp.watching',
-          message: `Nothing needs you right now. Tokek will wake you if ${watching} changes.`,
+          message: `Nothing needs you right now. ${guideName} will wake you if ${watching} changes.`,
         });
 
   return (
@@ -98,7 +101,10 @@ export function AllCaughtUp({ watching = null }: AllCaughtUpProps) {
       <Pressable
         testID="inbox-tokek"
         accessibilityRole="button"
-        accessibilityLabel={t({ id: 'home.inbox.caughtUp.tokek', message: 'Tokek, asleep' })}
+        accessibilityLabel={t({
+          id: 'home.inbox.caughtUp.tokek',
+          message: `${guideName}, asleep`,
+        })}
         onPress={wake}
       >
         <Animated.View style={[bob, jumpStyle]}>

@@ -12,7 +12,7 @@ import Animated from 'react-native-reanimated';
 
 import { deviceTier, patterns } from '@/motion';
 import { useMotionMode } from '@/motion/motion-mode';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -91,7 +91,7 @@ export function SentView(props: SentViewProps) {
       patterns.triggerConfetti(width * 0.7, height * 0.4, 'medium', deviceTier);
     }
   }, [stamped, motionMode, width, height]);
-  const guide = GUIDE_STICKERS.tokek;
+  const guide = guideSticker('tokek');
   const ink = theme.color.paper.muted;
   return (
     // The paper scaffold keeps the status bar dark over the paper card; the page behind is dark.

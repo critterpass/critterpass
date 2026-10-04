@@ -21,7 +21,7 @@ import { dayRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { alarmPort } from '../alarm/alarm-port';
 import { AlarmPermissionSheet, type AlarmSheetKind } from '../alarm/alarm-permission-sheet';
@@ -135,7 +135,7 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const { send: sendRemove } = useCommand(removePackingItemCommand);
 
   const leaveBy = pickLeaveBy(leaveBys.views);
-  const guideName = tripRow?.guide_name ?? GUIDE_STICKERS[guideOr(tripRow?.guide_slug)].name;
+  const guideName = tripRow?.guide_name ?? guideSticker(guideOr(tripRow?.guide_slug)).name;
   const dayNo = items.rows[0]?.day_no ?? null;
   const forecast = forecastFor(weather.rows, leaveBy?.startsAt ?? null);
   const { redesign } = usePlanningSwitch();
