@@ -25,6 +25,9 @@ ALTER TABLE pois ADD CONSTRAINT pois_pick_check CHECK (
 CREATE INDEX CONCURRENTLY IF NOT EXISTS pois_destination_pick_rank_idx ON pois (destination_id, pick_rank)
   WHERE pick_rank IS NOT NULL;
 
+-- The ops console reads pois column by column: the pick columns are public place data like the rest.
+GRANT SELECT (pick_rank, pick_source) ON pois TO admin_reader;
+
 -- The guide's view gains the rank, so its "recommended" matches every other reader's. The column
 -- is appended, so the view keeps its existing column order.
 CREATE OR REPLACE VIEW llm.pois AS
