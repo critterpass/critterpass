@@ -5,6 +5,7 @@
  * place, so each pin takes the active POI of that name nearest its point, within about 1 km, the
  * record spelt as the pin (with its diacritics) before one that only folds to it.
  */
+import type { PoiCategory } from '@cp/domain';
 import type pg from 'pg';
 
 export interface PinnedPlace {
@@ -12,6 +13,13 @@ export interface PinnedPlace {
   readonly name: string;
   readonly lat: number;
   readonly lng: number;
+  /** The local name another record of the place or its Wikidata item carries, where the pinned
+   *  record has only an English one. */
+  readonly nameLocal?: string;
+  /** What the place is ("a café", "a soy-milk stall"), for the note writer. */
+  readonly kind?: string;
+  /** The category, where the open data files the place under a wrong one. */
+  readonly category?: PoiCategory;
 }
 
 /**
@@ -34,7 +42,17 @@ export async function pinnedPoiIds(
   pins: readonly PinnedPlace[],
   log: (line: string) => void = () => undefined,
 ): Promise<string[]> {
-  if (pins.length === 0) return [];
+  return [...(await pinnedPois(pool, destinationId, pins, log)).keys()];
+}
+
+/** Each pin's POI id with the pin, for what the pin says of the place (kind, category). */
+export async function pinnedPois<P extends PinnedPlace>(
+  pool: pg.Pool,
+  destinationId: string,
+  pins: readonly P[],
+  log: (line: string) => void = () => undefined,
+): Promise<Map<string, P>> {
+  if (pins.length === 0) return new Map();
   const { rows } = await pool.query<{ pin: number; id: string }>(
     `SELECT DISTINCT ON (pin.n) pin.n::int AS pin, p.id
        FROM unnest($2::text[], $3::float8[], $4::float8[]) WITH ORDINALITY AS pin(name, lat, lng, n)
@@ -55,5 +73,9 @@ export async function pinnedPoiIds(
   pins.forEach((pin, index) => {
     if (!found.has(index + 1)) log(`pinned place not found near its point: ${pin.name}`);
   });
-  return rows.map((row) => row.id);
+  return new Map(
+    rows
+      .flatMap((row) => [[row.id, pins[row.pin - 1]] as const])
+      .flatMap(([id, pin]) => (pin === undefined ? [] : [[id, pin] as const])),
+  );
 }

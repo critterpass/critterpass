@@ -78,7 +78,7 @@ export function tellingWords(text: string): string[] {
   return words(text).filter((word) => !PLAIN.has(word) && !TYPE_WORDS.has(word));
 }
 
-function typesOf(tokens: readonly string[]): Set<string> {
+export function typesOf(tokens: readonly string[]): Set<string> {
   const joined = ` ${tokens.join(' ')} `;
   const found = new Set<string>();
   for (const [type, phrases] of Object.entries(TYPES)) {

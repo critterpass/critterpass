@@ -16,8 +16,10 @@ import { registerKind } from '../registry';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
 import { poisBrief } from './brief';
 import type { DuplicateVerdict } from './duplicates';
+import { ALONE, FROM_NAME, readsTheName, standsAlone, unsupportedClaim } from './note-checks';
 
 export { placesNetwork } from './brief';
+export { namedFood, unsupportedClaim } from './note-checks';
 
 export const MIN_POIS_PER_CITY = 250;
 
@@ -44,24 +46,8 @@ export interface PoiSource {
   readonly duplicate: { readonly of: string; readonly verdict: DuplicateVerdict } | null;
   /** A pinned place or a landmark: in the set whatever its score, and first on the review page. */
   readonly mustSee?: boolean;
-}
-
-/**
- * A note that leans on the other places of its list ("another palace", "quieter than Palace II"):
- * the writer sees fifteen places at once and nothing in the open data backs the comparison, so
- * the unit is written again.
- */
-const COMPARES = /\b(another|a second|alternative)\b/iu;
-const COMPARES_WITH = /\bthan (?:(?:the )?other|nearby|most|many|\p{Lu})/u;
-const standsAlone = (text: string) => !COMPARES.test(text) && !COMPARES_WITH.test(text);
-const ALONE = 'the note compares the place with another';
-/** Superlatives and dates: claims the name, category and address cannot support. */
-const CLAIMS =
-  /\bone of [^.;]*\b(largest|biggest|oldest|tallest|highest|best|finest)\b|\b(the|'s) (largest|biggest|oldest|tallest|highest|first)\b|\b(1[5-9]|20)\d{2}s?\b|\b\d{1,2}(st|nd|rd|th)[- ]century\b|\bnamed (for|after)\b/iu;
-
-export function unsupportedClaim(poi: ContentItem<'places'>): string | null {
-  const { why_go, best_time, crowd_hint } = poi.editorial;
-  return CLAIMS.exec(`${why_go} ${best_time} ${crowd_hint}`)?.[0] ?? null;
+  /** What a pinned place is ("a café"), as the curator pinned it. */
+  readonly kind?: string;
 }
 
 const editorialSchema = z.object({
@@ -71,7 +57,12 @@ const editorialSchema = z.object({
     .array(
       z.object({
         ref: z.string(),
-        why_go: z.string().min(1).max(200).refine(standsAlone, ALONE),
+        why_go: z
+          .string()
+          .min(1)
+          .max(200)
+          .refine(standsAlone, ALONE)
+          .refine((text) => readsTheName(text) === null, FROM_NAME),
         best_time: z.string().min(1).max(80),
         // Model replies occasionally overshoot these bounds; clamp rather than regenerate the unit.
         time_needed_min: z.number().transform((n) => Math.min(1440, Math.max(10, Math.round(n)))),
@@ -88,7 +79,9 @@ const SYSTEM = `You write short, honest editorial notes for places in a travel a
 For each place: why_go (one sentence, at most 160 characters), best_time (e.g. "Early morning before tour buses"), time_needed_min (typical visit, minutes), crowd_hint (at most 60 characters), etiquette (dress or behaviour guidance for temples, shrines and similar, otherwise null) and 1-4 taste tags from the allowed list.
 Never mention prices, booking sites, tour operators, hotels or reviews. If you do not know a place, keep the notes generic to its category rather than inventing specifics.
 State only what the name, category and address support, or what is widely documented about a famous landmark: no dates, founders, dishes, decor, views, facilities, activities or opening times you are not sure of.
-The category comes from open data and can be wrong: when the name plainly says what the place is (a waterfall filed as a museum), write for what the name says. Write each place on its own: never compare it with other places, and never call it another, a second or an alternative one. Reply with JSON only.`;
+A note says what the record says (what kind of place it is, its street or area) and, for a well-known place, what is widely documented about it, plainly: "See prehistoric Sa Huynh artefacts and burial jars from central Vietnam." Where a line says what the place is ("it is a café"), write for that and nothing else.
+Never read meaning into a name: no "its name suggests", no atmosphere, mood, decor or theme taken from what the name means or sounds like, and no remark about the name itself.
+Write each place on its own: never compare it with other places, and never call it another, a second or an alternative one. Reply with JSON only.`;
 
 function poisPrompt(unit: GenerationUnit, brief: Brief): Prompt {
   const pois = unit.input as PoiSource[];
@@ -96,7 +89,7 @@ function poisPrompt(unit: GenerationUnit, brief: Brief): Prompt {
   const list = pois
     .map(
       (p) =>
-        `- ${p.ref}: ${p.name}${p.nameLocal ? ` (${p.nameLocal})` : ''}, ${p.category}${p.address ? `, ${p.address}` : ''}`,
+        `- ${p.ref}: ${p.name}${p.nameLocal ? ` (${p.nameLocal})` : ''}, ${p.category}${p.address ? `, ${p.address}` : ''}${p.kind ? `; it is ${p.kind}` : ''}`,
     )
     .join('\n');
   return {
@@ -138,7 +131,11 @@ function poisPrompt(unit: GenerationUnit, brief: Brief): Prompt {
   };
 }
 
-export function toPoiItem(source: PoiSource, editorial: Editorial): ContentItem<'places'> {
+export function toPoiItem(
+  source: PoiSource,
+  editorial: Editorial,
+  mustSee = source.mustSee === true,
+): ContentItem<'places'> {
   const kind = source.ref.split(':')[0] as keyof typeof LICENCES;
   const hours = hoursSchema.safeParse(source.hours);
   return poiItemSchema.parse({
@@ -161,10 +158,27 @@ export function toPoiItem(source: PoiSource, editorial: Editorial): ContentItem<
       time_needed_min: editorial.time_needed_min,
       crowd_hint: editorial.crowd_hint,
       etiquette: editorial.etiquette,
+      must_see: mustSee,
     },
     merge_into: source.duplicate?.verdict === 'merge' ? source.duplicate.of : null,
     possible_duplicate_of: source.duplicate?.verdict === 'review' ? source.duplicate.of : null,
   });
+}
+
+/** The must-sees: each pinned place or landmark, and the record it merges into when it is one. */
+export function mustSeeRefs(sources: readonly PoiSource[]): Set<string> {
+  const byRef = new Map(sources.map((source) => [source.ref, source]));
+  const refs = new Set<string>();
+  for (const source of sources.filter((s) => s.mustSee === true)) {
+    let ref = source.ref;
+    for (let hops = 0; hops < 5; hops += 1) {
+      refs.add(ref);
+      const duplicate = byRef.get(ref)?.duplicate;
+      if (duplicate?.verdict !== 'merge') break;
+      ref = duplicate.of;
+    }
+  }
+  return refs;
 }
 
 export const placesKind: KindModule<'places'> = {
@@ -173,17 +187,21 @@ export const placesKind: KindModule<'places'> = {
   gate: 'places_review',
   brief: (ctx) => poisBrief(ctx.options),
   prompt: poisPrompt,
-  assemble: (_ctx, brief, outputs) =>
-    Promise.resolve(
+  assemble: (_ctx, brief, outputs) => {
+    const mustSee = mustSeeRefs(brief.units.flatMap((unit) => unit.input as PoiSource[]));
+    return Promise.resolve(
       brief.units.flatMap((unit) => {
         const output = outputs.get(unit.id) as z.infer<typeof editorialSchema> | undefined;
         if (output === undefined) return [];
         return (unit.input as PoiSource[]).flatMap((source) => {
           const editorial = output.pois.find((p) => p.ref === source.ref);
-          return editorial === undefined ? [] : [toPoiItem(source, editorial)];
+          return editorial === undefined
+            ? []
+            : [toPoiItem(source, editorial, mustSee.has(source.ref))];
         });
       }),
-    ),
+    );
+  },
   validators: {
     items: [
       {
@@ -203,6 +221,14 @@ export const placesKind: KindModule<'places'> = {
           return suppliersNamed(Object.values(poi.editorial).join(' ')).map(
             (word) => `editorial names a supplier (${word})`,
           );
+        },
+      },
+      {
+        id: 'reads-the-name',
+        severity: 'fail',
+        check: (poi) => {
+          const reading = readsTheName(poi.editorial.why_go);
+          return reading === null ? [] : [`the note reads meaning into the name ("${reading}")`];
         },
       },
       {

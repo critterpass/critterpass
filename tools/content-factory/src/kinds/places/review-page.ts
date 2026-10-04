@@ -1,7 +1,7 @@
 /**
  * The one-page review of a curated places batch, readable on a phone: the must-sees first (pinned
  * places and landmarks), then every place by category with its editorial lines, the records merged
- * into another place, the pairs a reviewer still has to decide, the lines that make a claim worth
+ * into another place, the pairs a reviewer still has to decide or the curator settled, the lines that make a claim worth
  * checking, and what was left out and why. It
  * is built from the batch's own files, so what the founder reads is what queueing would send.
  */
@@ -10,10 +10,11 @@ import path from 'node:path';
 
 import { loadRelease, parseItems, type ContentItem } from '@cp/content';
 
-import { LEFT_OUT_PLACES } from '../../data/pinned-places';
+import { DUPLICATE_RULINGS, LEFT_OUT_PLACES } from '../../data/pinned-places';
 import { stageFiles } from '../../stages/state';
 import { readJson, writeText } from '../../work';
-import { unsupportedClaim, type PoiSource } from './pois';
+import { unsupportedClaim } from './note-checks';
+import type { PoiSource } from './pois';
 
 type Poi = ContentItem<'places'>;
 
@@ -24,6 +25,8 @@ export interface PlacesReview {
   readonly sources: readonly PoiSource[];
   /** What the curator left out and why, one line each. */
   readonly leftOut: readonly string[];
+  /** Pairs settled by hand, one line each. */
+  readonly rulings: readonly string[];
 }
 
 const SECTIONS: readonly { readonly title: string; readonly categories: readonly string[] }[] = [
@@ -60,19 +63,9 @@ function placeBlock(poi: Poi, mustSee: boolean): string {
 
 export function renderPlacesReview(review: PlacesReview): string {
   const byRef = new Map(review.items.map((poi) => [poi.ref, poi]));
-  // A must-see merged into another record of the same place makes that record the must-see.
+  // What publishing writes: the flag on each item.
   const mustSee = new Set(
-    review.sources
-      .filter((s) => s.mustSee === true)
-      .map((s) => {
-        let ref = s.ref;
-        for (let hops = 0; hops < 5; hops += 1) {
-          const into = byRef.get(ref)?.merge_into ?? null;
-          if (into === null) break;
-          ref = into;
-        }
-        return ref;
-      }),
+    review.items.filter((poi) => poi.editorial.must_see === true).map((poi) => poi.ref),
   );
   const visible = review.items.filter((poi) => poi.merge_into === null);
   const byName = (a: Poi, b: Poi) => a.name.localeCompare(b.name, 'vi');
@@ -127,6 +120,11 @@ li{margin:3px 0}table{border-collapse:collapse}td{padding:2px 12px 2px 0}
 ${sections.map((s) => `<h2>${s.title} · ${s.places.length}</h2>${s.places.map((poi) => placeBlock(poi, mustSee.has(poi.ref))).join('')}`).join('')}
 ${list('Merged', 'Records of one place: publishing redirects the first to the second.', merged)}
 ${list('Possible duplicates', 'Too close to call: the reviewer decides in the console.', undecided)}
+${list(
+  'Pairs settled by hand',
+  'One place where a street address or a Wikidata item says so; otherwise both are kept.',
+  review.rulings.map((line) => `<li>${escape(line)}</li>`),
+)}
 ${list('Lines to check', 'A superlative or a date the open data does not back.', claims)}
 ${list(
   'Left out',
@@ -151,8 +149,9 @@ export function writePlacesReview(batchKey: string, leftOutFile?: string): strin
       ? loadRelease(readJson<unknown>(files.paths.artifact), 'places').items
       : parseItems('places', staged);
   const sources = (files.brief()?.units ?? []).flatMap((unit) => unit.input as PoiSource[]);
+  const slugs = [...new Set(items.map((poi) => poi.destination))];
   const leftOut = [
-    ...[...new Set(items.map((poi) => poi.destination))].flatMap((slug) =>
+    ...slugs.flatMap((slug) =>
       (LEFT_OUT_PLACES[slug] ?? []).map((place) => `${place.name}: ${place.why}`),
     ),
     ...(leftOutFile !== undefined && existsSync(leftOutFile)
@@ -163,6 +162,12 @@ export function writePlacesReview(batchKey: string, leftOutFile?: string): strin
       : []),
   ];
   const file = path.join(files.paths.dir, 'review.html');
-  writeText(file, renderPlacesReview({ batchKey, items, sources, leftOut }));
+  const rulings = slugs.flatMap((slug) =>
+    (DUPLICATE_RULINGS[slug] ?? []).map(
+      ({ names, same, why }) =>
+        `${names[0]} and ${names[1]}: ${same ? 'one place, merged' : 'kept both'} (${why})`,
+    ),
+  );
+  writeText(file, renderPlacesReview({ batchKey, items, sources, leftOut, rulings }));
   return file;
 }

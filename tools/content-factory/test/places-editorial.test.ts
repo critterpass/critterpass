@@ -64,6 +64,36 @@ describe('POI editorial replies', () => {
     );
   });
 
+  it('sends back and fails a note that reads meaning into the name', () => {
+    const fromName = 'A casual stop whose name suggests a dreamy, laid-back atmosphere.';
+    expect(schema?.safeParse(reply({ why_go: fromName })).success).toBe(false);
+    expect(schema?.safeParse(reply({ why_go: 'A café with a memorable name.' })).success).toBe(
+      false,
+    );
+    const check = placesKind.validators.items?.find((v) => v.id === 'reads-the-name');
+    expect(check?.severity).toBe('fail');
+    const parsed = schema?.parse(reply({})) as { pois: Parameters<typeof toPoiItem>[1][] };
+    const editorial = parsed.pois[0];
+    if (editorial === undefined) throw new Error('no editorial');
+    const item = toPoiItem(source, editorial);
+    const ctx = { items: [], previous: [] };
+    expect(check?.check(item, ctx)).toEqual([]);
+    expect(
+      check?.check({ ...item, editorial: { ...item.editorial, why_go: fromName } }, ctx),
+    ).toHaveLength(1);
+  });
+
+  it('tells the writer what a pinned place is, and publishes its must-see flag', () => {
+    const pinned = { ...source, mustSee: true, kind: 'a soy-milk stall' };
+    const prompt = placesKind.prompt?.({ id: 'x', input: [pinned] }, { units: [] });
+    expect(prompt?.user).toContain('; it is a soy-milk stall');
+    const parsed = schema?.parse(reply({})) as { pois: Parameters<typeof toPoiItem>[1][] };
+    const editorial = parsed.pois[0];
+    if (editorial === undefined) throw new Error('no editorial');
+    expect(toPoiItem(pinned, editorial).editorial.must_see).toBe(true);
+    expect(toPoiItem(source, editorial).editorial.must_see).toBe(false);
+  });
+
   it('flags a superlative or a date for the reviewer, not a plain note', () => {
     const claim = placesKind.validators.items?.find((v) => v.id === 'unsupported-claim');
     const item = (why_go: string) => {

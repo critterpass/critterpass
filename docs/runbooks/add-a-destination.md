@@ -127,6 +127,10 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    `tools/content-factory/src/data/pinned-places.ts`. Find the names on staging first, because
    open data repeats names at wrong positions. Pinned stays, transit and markets are kept even
    outside the selection buckets.
+   A pin can say what the place is (`kind`, which the note writer is told), correct a wrong
+   open-data `category` and carry a `nameLocal` another record or the Wikidata item holds.
+   `DUPLICATE_RULINGS` settles the duplicate pairs the decision left open (one place only on a
+   street address or a Wikidata item). Pins and landmarks publish as `editorial.must_see`.
    `LEFT_OUT_PLACES` in the same file names the records the set never takes (a point far from the
    real place, a further record of a place the set holds, a seller), each with the reason the
    review page prints. A city that is not its country's guide city (Đà Lạt) is added to
