@@ -1,8 +1,11 @@
 /**
- * A guide's accent colour. A guide with a token colour keeps it; any other guide takes the first
- * of its critter's own colours that dark text reads on, else its first colour lightened until dark
- * text does. On paper the accent is darkened the way the token colours are. `guides.colour` keeps
- * a named colour for older readers: the named colour nearest the accent.
+ * A guide's accent colour. A guide with a token colour keeps it; any other guide takes the most
+ * saturated of its critter's own colours that dark text reads on, so a pale critter is known by
+ * its mane or beak and takes its fill only when it has nothing stronger. When only pale colours
+ * read, its darker colours count too, lightened until dark text reads on them. On
+ * paper the accent is darkened the way the token colours are. `guides.colour` keeps a named colour
+ * for older readers: the named colour nearest the accent by hue, cream for one with no hue to
+ * speak of.
  */
 import { contrastRatio, darkenToContrast, parseColor, tokens } from '@cp/design-tokens';
 
@@ -54,13 +57,33 @@ function tokenColour(slug: string): string | undefined {
   return typeof value === 'string' ? value : undefined;
 }
 
+/** How far a colour is from grey, 0 to 255. */
+function saturation(hex: string): number {
+  const { r, g, b } = parseColor(hex);
+  return Math.max(r, g, b) - Math.min(r, g, b);
+}
+
+/** Below this a colour reads as off-white or grey: nothing a guide could be known by. */
+const PALE_SATURATION = 48;
+
+function mostSaturated(colours: readonly string[]): string | undefined {
+  let best = colours[0];
+  for (const colour of colours) {
+    if (best !== undefined && saturation(colour) > saturation(best)) best = colour;
+  }
+  return best;
+}
+
 export function guideAccent(slug: string, colours: readonly string[] | null): string {
   const token = tokenColour(slug);
   if (token !== undefined) return token;
   const own = (colours ?? []).map((colour) => toHex(parseColor(colour)));
-  const first = own[0];
-  if (first === undefined) return NAMED_COLOURS.cream;
-  return own.find(readsUnderDarkText) ?? lightenUntilReadable(first);
+  if (own.length === 0) return NAMED_COLOURS.cream;
+  const readable = mostSaturated(own.filter(readsUnderDarkText));
+  if (readable !== undefined && saturation(readable) >= PALE_SATURATION) return readable;
+  // Only pale colours read as they are: its darker colours, lightened, may say more.
+  const lightened = own.filter((colour) => !readsUnderDarkText(colour)).map(lightenUntilReadable);
+  return mostSaturated([...(readable === undefined ? [] : [readable]), ...lightened]) ?? '#ffffff';
 }
 
 /** The accent as a text colour on paper. */
@@ -68,16 +91,39 @@ export function guideAccentOnPaper(accent: string): string {
   return darkenToContrast(accent, tokens.color.paper.base, GUIDE_ACCENT_MIN_RATIO);
 }
 
+/** Below this a colour reads as off-white or grey, whatever its hue. */
+const HUELESS_CHROMA = 0.04;
+
+/** A colour's chroma and hue angle (degrees) in OKLab, where equal steps look equal. */
+function chromaAndHue(hex: string): { chroma: number; hue: number } {
+  const { r, g, b } = parseColor(hex);
+  const linear = (value: number) => {
+    const v = value / 255;
+    return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  };
+  const [lr, lg, lb] = [linear(r), linear(g), linear(b)];
+  const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+  const a = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const bb = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+  return { chroma: Math.hypot(a, bb), hue: (Math.atan2(bb, a) * 180) / Math.PI };
+}
+
 export function nearestGuideColour(accent: string): GuideColourName {
-  const target = parseColor(accent);
+  const named = Object.entries(NAMED_COLOURS).find(([, hex]) => hex === accent)?.[0];
+  if (named !== undefined) return named as GuideColourName;
+  const target = chromaAndHue(accent);
+  if (target.chroma < HUELESS_CHROMA) return 'cream';
   let best: GuideColourName = 'cream';
-  let bestDistance = Number.POSITIVE_INFINITY;
+  let bestTurn = Number.POSITIVE_INFINITY;
   for (const [name, hex] of Object.entries(NAMED_COLOURS) as [GuideColourName, string][]) {
-    const c = parseColor(hex);
-    const distance = (c.r - target.r) ** 2 + (c.g - target.g) ** 2 + (c.b - target.b) ** 2;
-    if (distance < bestDistance) {
+    if (name === 'cream') continue;
+    const apart = Math.abs(chromaAndHue(hex).hue - target.hue) % 360;
+    const turn = Math.min(apart, 360 - apart);
+    if (turn < bestTurn) {
       best = name;
-      bestDistance = distance;
+      bestTurn = turn;
     }
   }
   return best;

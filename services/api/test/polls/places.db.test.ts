@@ -102,6 +102,30 @@ describe('GET /v1/places', { timeout: 120_000 }, () => {
     });
   });
 
+  it("routes a city to its own critter's guide only while guides go by city", async () => {
+    const setPerCity = (on: boolean) =>
+      harness.pool.query(
+        `INSERT INTO ops.ops_config (key, value) VALUES ('guides.per_city', $1::jsonb)
+         ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+        [JSON.stringify(on)],
+      );
+    const vietnam = PLACE_SETS.find((set) => set.code === 'vn')!;
+    const asToday = vietnam.coverage === 'live' ? (vietnam.guide ?? 'tokek') : 'tokek';
+    await harness.pool.query(
+      `INSERT INTO guides (slug, name, colour, accent, critter_key)
+       VALUES ('ngua', 'Ngựa', 'pink', '#ff8fbf', 'cp-006')`,
+    );
+    expect((await search('da lat'))[0]).toMatchObject({ name: 'Đà Lạt', guide: asToday });
+    const kyoto = (await search('kyoto'))[0];
+
+    await setPerCity(true);
+    expect((await search('da lat'))[0]).toMatchObject({ name: 'Đà Lạt', guide: 'ngua' });
+    // A destination whose critter has no guide row answers as before.
+    expect((await search('kyoto'))[0]).toEqual(kyoto);
+    await setPerCity(false);
+    expect((await search('da lat'))[0]).toMatchObject({ name: 'Đà Lạt', guide: asToday });
+  });
+
   it('shows locals as silhouettes and never names them', async () => {
     const [marrakech] = await search('Marrakech');
     expect(marrakech?.locals).toEqual(['cp-097']);

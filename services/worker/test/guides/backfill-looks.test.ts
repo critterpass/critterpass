@@ -1,6 +1,6 @@
 /**
  * The guide rows of the critters released before guides came from the catalogue were backfilled by
- * a migration that carries each critter's look. It must be the look the release writer computes.
+ * a migration, and re-coloured by a later one that carries each critter's look. It must be the look the release writer computes.
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
@@ -14,7 +14,9 @@ const MIGRATIONS = path.resolve(import.meta.dirname, '../../../../packages/db/mi
 
 describe('the guide backfill', () => {
   it('carries the look the release writer gives every dex critter', () => {
-    const file = readdirSync(MIGRATIONS).find((name) => name.endsWith('_city_critter_guides.sql'));
+    const file = readdirSync(MIGRATIONS).find((name) =>
+      name.endsWith('_guide_accents_from_strongest_colour.sql'),
+    );
     expect(file).toBeDefined();
     const sql = readFileSync(path.join(MIGRATIONS, file ?? ''), 'utf8');
     const literal = /\$looks\$([\s\S]*?)\$looks\$/u.exec(sql)?.[1];
