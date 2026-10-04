@@ -3,10 +3,8 @@
  * it did before (a removed stop returns with its lock and its translations); a member, somebody
  * else's edit and an edit the plan has moved on from are all refused, and nothing changes.
  */
-import { randomUUID } from 'node:crypto';
-
 import { withSystem } from '@cp/db';
-import { guideTextSourceHash } from '@cp/domain';
+import { generateUuidV7, guideTextSourceHash } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerPlanCommands } from '../../src/commands/plan';
@@ -85,7 +83,7 @@ describe('undo_plan_edit', () => {
       ),
     );
     const before = await itemsOf(base);
-    const opId = randomUUID();
+    const opId = generateUuidV7();
     const applied = await edit(
       crew.organiser,
       base,
@@ -142,7 +140,7 @@ describe('undo_plan_edit', () => {
         },
       },
     ];
-    const first = randomUUID();
+    const first = generateUuidV7();
     const one = await edit(crew.organiser, base, move(10), first);
     expect(one.status).toBe(200);
     const afterOne = resultOf<{ version_id: string }>(one).version_id;
@@ -151,12 +149,12 @@ describe('undo_plan_edit', () => {
       code: 'FORBIDDEN',
       detail: { reason: 'use_changeset' },
     });
-    expect(errorOf(await undo(crew.organiser, randomUUID()))).toMatchObject({
+    expect(errorOf(await undo(crew.organiser, generateUuidV7()))).toMatchObject({
       code: 'NOT_FOUND',
       detail: { reason: 'edit' },
     });
 
-    const second = randomUUID();
+    const second = generateUuidV7();
     expect((await edit(crew.organiser, afterOne, move(11), second)).status).toBe(200);
     const afterTwo = await current();
     expect(errorOf(await undo(crew.organiser, first))).toMatchObject({

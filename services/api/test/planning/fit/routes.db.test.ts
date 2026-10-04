@@ -202,7 +202,7 @@ describe('POST /v1/trips/{id}/fit', () => {
 });
 
 describe('a visit to a place filed as a stay', () => {
-  it('is a stop of its day like any other, so nothing is fitted on top of it', async () => {
+  it('is a stop of its day like any other: a place fits there only if the visit moves', async () => {
     const other = await seedCurrentPlan(harness.pool, b.tripId);
     const date = other.dates[2] as string;
     await withSystem(harness.pool, async (tx) => {
@@ -234,8 +234,9 @@ describe('a visit to a place filed as a stay', () => {
     const { status, body } = await post(b.organiser, b.tripId, { poi_ids: [places[2]] });
     expect(status).toBe(200);
     const third = (body as unknown as Fits).fits[0]?.days.find((day) => day.day_no === 3);
-    expect(third?.grade).toBe('no');
-    expect(third?.reasons.map((reason) => reason.code)).toContain('no_window');
+    // The place only fits that day if the visit moves: the visit is in the way, not ignored.
+    expect(third?.grade).toBe('possible');
+    expect(third?.reasons.map((reason) => reason.code)).toContain('needs_move');
   });
 });
 
