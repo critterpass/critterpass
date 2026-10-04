@@ -69,7 +69,24 @@
       "maxzoom": 9,
       "layout": {
         "text-field": ["get", "name"],
-        "text-font": ["Borel-400 Regular"],
+        "text-font": [
+          "case",
+          [
+            "any",
+            ["in", "Ā", ["coalesce", ["get", "name"], ""]],
+            ["in", "ā", ["coalesce", ["get", "name"], ""]],
+            ["in", "Ē", ["coalesce", ["get", "name"], ""]],
+            ["in", "ē", ["coalesce", ["get", "name"], ""]],
+            ["in", "Ī", ["coalesce", ["get", "name"], ""]],
+            ["in", "ī", ["coalesce", ["get", "name"], ""]],
+            ["in", "Ō", ["coalesce", ["get", "name"], ""]],
+            ["in", "ō", ["coalesce", ["get", "name"], ""]],
+            ["in", "Ū", ["coalesce", ["get", "name"], ""]],
+            ["in", "ū", ["coalesce", ["get", "name"], ""]]
+          ],
+          ["literal", ["Caveat-600 Regular"]],
+          ["literal", ["Borel-400 Regular"]]
+        ],
         "text-size": ["interpolate", ["linear"], ["zoom"], 0, 8, 8, 16]
       },
       "paint": {
@@ -220,7 +237,24 @@
       "filter": ["in", ["get", "class"], ["literal", ["city", "town"]]],
       "layout": {
         "text-field": ["coalesce", ["get", "name:latin"], ["get", "name"]],
-        "text-font": ["Borel-400 Regular"],
+        "text-font": [
+          "case",
+          [
+            "any",
+            ["in", "Ā", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "ā", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "Ē", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "ē", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "Ī", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "ī", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "Ō", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "ō", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "Ū", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]],
+            ["in", "ū", ["coalesce", ["coalesce", ["get", "name:latin"], ["get", "name"]], ""]]
+          ],
+          ["literal", ["Caveat-600 Regular"]],
+          ["literal", ["Borel-400 Regular"]]
+        ],
         "text-size": ["interpolate", ["linear"], ["zoom"], 6, 13, 12, 20]
       },
       "paint": {
