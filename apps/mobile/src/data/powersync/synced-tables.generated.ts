@@ -142,7 +142,7 @@ export const SYNCED_TABLE_COLUMNS = {
   invites:
     'crew_id trip_id inviter_id join_code_id kind seat_token_hash invitee_user_id channel status waitlist_position:integer expires_at claimed_by claimed_at nudged_at created_at updated_at',
   itinerary_versions:
-    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage',
+    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage origin checked_at',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   leave_bys:

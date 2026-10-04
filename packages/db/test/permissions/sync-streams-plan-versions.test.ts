@@ -3,7 +3,7 @@
  * must not send (or look up) every version a trip ever had. Phones get the plan rows of the live crew
  * versions and of the version each one replaced; every crew change set stays, because chat cards and
  * the review read applied ones; an organiser keeps every draft's days for the draft history sheet,
- * and only the drafts still in play bring their items, legs and change sets.
+ * and only the drafts still in play bring their items, legs, check issues and change sets.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -155,12 +155,19 @@ describe('plan rows ride only the versions phones read', () => {
     expect(ids['plan_days']).toEqual(ofVersions(['oldDraft', 'draft'], 'day'));
     expect(ids['plan_items']).toEqual([v.draft.item]);
     expect(ids['plan_legs']).toEqual([v.draft.leg]);
+    expect(ids['plan_check_issues']).toEqual([v.draft.issue]);
     expect(ids['change_sets']).toEqual(sorted([cs.draftEdit, cs.guideLive]));
   });
 
   it('brings a member none of the drafts', async () => {
     const ids = idsByTable(await harness.rows('trip_draft', 'member', { trip_id: tripId }));
-    for (const table of ['itinerary_versions', 'plan_days', 'plan_items', 'plan_legs']) {
+    for (const table of [
+      'itinerary_versions',
+      'plan_days',
+      'plan_items',
+      'plan_legs',
+      'plan_check_issues',
+    ]) {
       expect(ids[table] ?? [], table).toEqual([]);
     }
     expect(ids['change_sets'] ?? []).toEqual([]);

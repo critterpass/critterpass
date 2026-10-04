@@ -1,6 +1,6 @@
 /**
- * Everything one plan check run reads, once, as the system: the crew's current plan version (never
- * an organiser's private draft), the trip's people, the stay each night, rain (the stored forecast
+ * Everything one plan check run reads, once, as the system: the crew's current plan version, or
+ * the organiser's private draft while the crew has no plan yet, the trip's people, the stay each night, rain (the stored forecast
  * inside the horizon, else the usual chance), crowd curves and month factors, stored legs, the
  * places' own hours, crew-visible booking deadlines and the check's limits.
  */
@@ -41,6 +41,8 @@ export interface CheckTrip {
   readonly destinationId: string | null;
   readonly slug: string | null;
   readonly versionId: string | null;
+  /** The version checked is an organiser's private draft: what is found stays with organisers. */
+  readonly privateDraft: boolean;
   readonly driveFactor: number;
 }
 
@@ -56,7 +58,9 @@ export interface LoadedCheck {
 export async function readCheckTrip(tx: pg.PoolClient, tripId: string): Promise<CheckTrip | null> {
   const { rows } = await tx.query<CheckTrip>(
     `SELECT t.id, t.crew_id AS "crewId", coalesce(t.tz, d.tz, 'UTC') AS tz,
-            t.destination_id AS "destinationId", d.slug, t.current_version_id AS "versionId",
+            t.destination_id AS "destinationId", d.slug,
+            coalesce(t.current_version_id, t.draft_version_id) AS "versionId",
+            (t.current_version_id IS NULL AND t.draft_version_id IS NOT NULL) AS "privateDraft",
             coalesce(d.drive_factor, 1)::float8 AS "driveFactor"
        FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
       WHERE t.id = $1 AND t.phase IN ('planning', 'pre', 'in')`,
