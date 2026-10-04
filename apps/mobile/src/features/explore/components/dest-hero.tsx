@@ -2,8 +2,8 @@
  * The destination hero: the guide's colour flooded to the top edge, the way back, SAVE, the place
  * name in the mega face, who the guide is and their line, then the facts as chips (flight time
  * from home, the exchange rate, the best months). The guide walks in from the edge, sits, and
- * bobs: as a ghosted sticker, or as the guide's own sticker sitting on the hero. Reduced motion
- * shows it seated.
+ * bobs: as a ghosted sticker, or (the destination guide with the planning screens on) as the
+ * guide's own sticker sitting on the hero. Reduced motion shows it seated.
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
@@ -14,6 +14,7 @@ import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -77,7 +78,10 @@ export interface DestHeroProps {
   /** Already worded facts, in display order. */
   readonly chips: readonly string[];
   readonly photo: MediaAsset | null;
-  /** `ghost` (default): the paper silhouette; `seated`: the guide's own sticker. */
+  /**
+   * `ghost`: the paper silhouette; `seated`: the guide's own sticker. Absent follows the planning
+   * switch: seated on the destination guide (7g-3) while `planning.redesign` is on.
+   */
   readonly guideArt?: 'ghost' | 'seated' | undefined;
 }
 
@@ -120,6 +124,7 @@ export function DestHero(props: DestHeroProps) {
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const { guide } = props;
+  const { redesign } = usePlanningSwitch();
   const who = guide.guest
     ? t({ id: 'explore.hero.guestGuide', message: `Guest guide: ${guide.name}` })
     : t({ id: 'explore.hero.yourGuide', message: `Your guide: ${guide.name}` });
@@ -134,7 +139,10 @@ export function DestHero(props: DestHeroProps) {
       <SurfaceToneProvider value="accent">
         {props.photo === null ? <Halftone /> : null}
         <MediaLayer media={props.photo} surface="accent" accent={guide.colour} creditAt="bottom" />
-        <WalkingGuide guide={guide} seated={props.guideArt === 'seated'} />
+        <WalkingGuide
+          guide={guide}
+          seated={(props.guideArt ?? (redesign ? 'seated' : 'ghost')) === 'seated'}
+        />
         <Row justify="space-between" align="center">
           <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
           {props.trailing ??
