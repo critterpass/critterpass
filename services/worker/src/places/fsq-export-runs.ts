@@ -9,7 +9,7 @@
  * transaction (`fsq_os_export_rows`, `fsq_os_export_chunks`). A restart costs one chunk. When the
  * last chunk lands, `completeChunk` reports the run ready exactly once and the caller queues one
  * ingest per destination; each reads its rows (`fsqRunReader`) and deletes them once ingested. A new
- * run deletes older ones.
+ * monthly run deletes older ones; a one-destination run (a destination queued without a run) keeps them.
  */
 import { withSystem } from '@cp/db';
 import type { DuckDBConnection } from '@duckdb/node-api';
@@ -49,15 +49,20 @@ export async function listFsqDataFiles(): Promise<string[]> {
   });
 }
 
-/** Creates a run over `files` for `targets` and deletes every older run; returns the run id and chunk count. */
+/**
+ * Creates a run over `files` for `targets`; returns the run id and chunk count. `replaceOlder`
+ * (the monthly run over every destination) deletes every older run first; a one-destination run
+ * leaves them for the destinations still reading theirs.
+ */
 export async function startFsqExportRun(
   pool: pg.Pool,
   targets: readonly FsqRunTarget[],
   files: readonly string[],
+  options: { readonly replaceOlder: boolean } = { replaceOlder: true },
 ): Promise<{ readonly runId: string; readonly chunks: number }> {
   const groups = chunk(files, FILES_PER_CHUNK);
   return withSystem(pool, async (tx) => {
-    await tx.query('DELETE FROM fsq_os_export_runs');
+    if (options.replaceOlder) await tx.query('DELETE FROM fsq_os_export_runs');
     const { rows } = await tx.query<{ id: string }>(
       'INSERT INTO fsq_os_export_runs (targets, chunk_count) VALUES ($1, $2) RETURNING id',
       [JSON.stringify(targets), groups.length],
