@@ -22,8 +22,8 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `crew_people` | auto | active co-members | `users` |
 | `trip` | client, `{trip_id}` | trip of an active crew | `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
 | `trip_draft` | client, `{trip_id}` | organiser seat + active crew | organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
-| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (editorial, not hidden, not merged; plus every POI the trip references to its members: stops of non-superseded crew versions, organisers also their drafts' stops, and live `trip_ideas`), `map_regions` |
-| `explore` | client, `{destination_id}` | public | `pois` (editorial, not hidden, not merged) |
+| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (recommended: editorial or machine-picked, not hidden, not merged; plus every POI the trip references to its members: stops of non-superseded crew versions, organisers also their drafts' stops, and live `trip_ideas`), `map_regions` |
+| `explore` | client, `{destination_id}` | public | `pois` (recommended: editorial or machine-picked, not hidden, not merged) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
 | `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
 

@@ -678,18 +678,18 @@ streams:
       - SELECT * FROM facilities WHERE destination_id IN trip_destination
       - |-
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, created_at, updated_at
         FROM pois
         WHERE destination_id IN trip_destination
-          AND curation = 'editorial'
+          AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
           AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
       - |-
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, created_at, updated_at
         FROM pois
         WHERE id IN (
           SELECT poi_id FROM plan_items
@@ -699,8 +699,8 @@ streams:
             AND poi_id IS NOT NULL)
       - |-
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, created_at, updated_at
         FROM pois
         WHERE id IN (
           SELECT poi_id FROM plan_items
@@ -711,8 +711,8 @@ streams:
             AND poi_id IS NOT NULL)
       - |-
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, created_at, updated_at
         FROM pois
         WHERE id IN (
           SELECT poi_id FROM trip_ideas
@@ -806,11 +806,11 @@ streams:
           AND moderation_status = 'approved'
       - |-
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
+          hours_verified_at, price_level, editorial, tags, status, curation, pick_rank, visit_radius_m,
+          timezone, last_live_check_at, created_at, updated_at
         FROM pois
         WHERE destination_id = subscription.parameter('destination_id')
-          AND curation = 'editorial'
+          AND (curation = 'editorial' OR pick_rank IS NOT NULL)
           AND status != 'hidden'
           AND merged_into_id IS NULL
   guide_chat:
