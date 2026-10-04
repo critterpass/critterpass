@@ -268,7 +268,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-23-crew-new
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Hoi Da Lat 3'
+- inputText: 'Hoi Da Lat 4'
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-24-crew-name-typed
 - tapOn:
@@ -972,3 +972,41 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: setup-draft-92-home-with-private-draft
+
+# Who the guide is outside the plan: the inbox, then the guide chat from the tab button.
+- tapOn:
+    id: 'home-header-inbox'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: setup-draft-93-inbox
+- repeat:
+    while:
+      notVisible:
+        id: 'home-screen'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'guide-fab'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: setup-draft-94-guide-chat-greeting
+- tapOn:
+    id: 'guide-prompt-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-[0-9a-f-]{36}'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: setup-draft-95-guide-chat-answer
