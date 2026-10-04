@@ -201,10 +201,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: search-places-14-link-flow
+# The link sheet sits over the search: close it before typing again.
 - runFlow:
     when:
-      notVisible:
-        id: 'search-screen'
+      visible:
+        id: 'search-link-sheet'
     commands:
       - back
       - waitForAnimationToEnd:
