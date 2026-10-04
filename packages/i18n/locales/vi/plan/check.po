@@ -352,6 +352,12 @@ msgid "plan.check.checkedNow"
 msgstr "VỪA KIỂM TRA XONG"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr ""
+"ĐANG KIỂM TRA\n"
+"KẾ HOẠCH"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.checking"
 msgstr "ĐANG KIỂM TRA…"
 
@@ -373,7 +379,7 @@ msgstr "Đông người"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
 msgid "plan.check.rain.laneCrowds"
-msgstr "Đông người"
+msgstr "Độ đông"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceEditorial"
@@ -651,7 +657,7 @@ msgstr "Đổi chỗ với {other}"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
 msgid "plan.check.rain.laneSwapped"
-msgstr "Sau khi đổi"
+msgstr "Sau đổi"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.toast.failed"

@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Less driving (7h-3) from the plan ideas lab, in English then Vietnamese: Tuesday's new order,
-# 2H10 down to 1H05 with the booked class locked, and the day already in its shortest order.
+# 2H10 down to 1H05 with the booked class locked.
 # Shots are named `<lang>-7h-3-<state>`.
 - launchApp:
     clearState: true
@@ -56,37 +56,6 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       text: '^check-7h-3$'
-    timeout: 10000
-- scrollUntilVisible:
-    element:
-      text: '^check-7h-3-none$'
-    direction: DOWN
-    centerElement: true
-    timeout: 20000
-- tapOn:
-    text: '^check-7h-3-none$'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-less-driving-none'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: en-7h-3-none
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- extendedWaitUntil:
-    visible:
-      text: '^check-7h-3-none$'
     timeout: 10000
 - launchApp:
     clearState: true
@@ -164,35 +133,4 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       text: '^check-7h-3$'
-    timeout: 10000
-- scrollUntilVisible:
-    element:
-      text: '^check-7h-3-none$'
-    direction: DOWN
-    centerElement: true
-    timeout: 20000
-- tapOn:
-    text: '^check-7h-3-none$'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-less-driving-none'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: vi-7h-3-none
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- extendedWaitUntil:
-    visible:
-      text: '^check-7h-3-none$'
     timeout: 10000

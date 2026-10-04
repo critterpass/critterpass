@@ -52,10 +52,13 @@ export function useCheckContext(plan: TripPlan): IssueContext {
       },
       dayDate,
       bookingTitle: (bookingId) => bookings.rows.find((row) => row.id === bookingId)?.title ?? null,
-      month: (date) =>
-        new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(
+      month: (date) => {
+        const month = new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(
           new Date(`${date}T12:00:00Z`),
-        ),
+        );
+        // English names months with a capital; mid-sentence elsewhere ("vào tháng 10") they are not.
+        return locale.startsWith('en') ? month : month.toLocaleLowerCase(locale);
+      },
       shortDate: (instant) =>
         new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', timeZone: tz }).format(
           new Date(instant),

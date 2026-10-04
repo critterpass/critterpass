@@ -76,10 +76,15 @@ export function driveLine(minutes: number): string {
 }
 
 /** "RP 60K", "RP 1.2M", "€12": a price in the compact form the review's totals use. */
-export function compactMoney(minor: number, currency: string, locale: string): string {
-  const digits =
+export function currencyDigits(currency: string, locale: string): number {
+  return (
     new Intl.NumberFormat(locale, { style: 'currency', currency }).resolvedOptions()
-      .maximumFractionDigits ?? 2;
+      .maximumFractionDigits ?? 2
+  );
+}
+
+export function compactMoney(minor: number, currency: string, locale: string): string {
+  const digits = currencyDigits(currency, locale);
   const major = Math.abs(minor) / 10 ** digits;
   const symbol = currency === 'IDR' ? 'RP' : currency === 'VND' ? '₫' : currency;
   const number = (value: number) =>

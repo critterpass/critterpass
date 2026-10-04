@@ -40,7 +40,7 @@ export interface SwapChartProps {
 
 export const CHART_FROM = 7 * 60;
 export const CHART_TO = 20 * 60;
-const LABEL_W = 72;
+const LABEL_W = 84;
 const LANE_H = 18;
 const TICKS = [7, 9, 11, 13, 15, 17, 19];
 

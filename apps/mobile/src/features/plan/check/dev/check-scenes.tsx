@@ -14,7 +14,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { AskCard } from '../ask-card';
 import * as words from '../check-copy';
 import { CheckView } from '../check-view';
-import { compactMoney, dayTag, driveTitle } from '../format';
+import { compactMoney, currencyDigits, dayTag, driveTitle } from '../format';
 import { wasLabel } from '../less-driving/less-driving-screen';
 import { LessDrivingView } from '../less-driving/less-driving-view';
 import { GapView } from '../fill-gap/gap-view';
@@ -51,7 +51,11 @@ function Check({
       onBack={noop}
       status={state === 'running' ? words.checkingLabel() : lab.checkedNow()}
       state="ready"
-      title={words.checkTitle(cards.length, state === 'clear' || state === 'running' ? 0 : 2)}
+      title={
+        state === 'running'
+          ? words.checkingTitle()
+          : words.checkTitle(cards.length, state === 'clear' ? 0 : 2)
+      }
       body={words.checkBody(8)}
       notice={
         state === 'running' ? words.runningNotice() : state === 'clear' ? words.clearNotice() : null
@@ -69,9 +73,7 @@ function Check({
         ) : null
       }
       balance={
-        member || state !== 'ready'
-          ? null
-          : { label: `${words.balanceRowLabel()} ›`, onPress: noop }
+        member || state !== 'ready' ? null : { label: words.balanceRowLabel(), onPress: noop }
       }
       fixAll={
         cards.length === 0 ? null : { label: words.fixAllLabel(3), busy: false, onPress: noop }
@@ -217,7 +219,7 @@ function Gap() {
           body: `Seniman Coffee, ${gap.saveOf('Dev')}. ${gap.closesLine('Art market', '18:00')}`,
           tags: [
             gap.minutesChip(12),
-            gap.eachChip(compactMoney(60_000, 'IDR', locale)),
+            gap.eachChip(compactMoney(60_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale)),
             gap.saveOf('Dev').toUpperCase(),
           ],
         },
@@ -225,7 +227,10 @@ function Gap() {
           key: '1',
           title: 'Arma Museum',
           body: lab.museumLine(),
-          tags: [gap.minutesChip(15), compactMoney(100_000, 'IDR', locale)],
+          tags: [
+            gap.minutesChip(15),
+            compactMoney(100_000 * 10 ** currencyDigits('IDR', locale), 'IDR', locale),
+          ],
         },
         { key: '2', title: gap.stayTitle(), body: gap.stayBody('Jordan'), tags: [gap.freeChip()] },
       ]}
@@ -234,7 +239,6 @@ function Gap() {
       add={{ label: gap.addLabel([...(names[Number(picked)] ?? [])]), busy: false, onPress: noop }}
       elseLabel={gap.somethingElse()}
       onElse={noop}
-      onDismiss={noop}
     />
   );
 }

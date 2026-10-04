@@ -350,6 +350,11 @@ msgid "plan.check.checkedNow"
 msgstr "CHECKED JUST NOW"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr "CHECKING\n"
+"THE PLAN"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.checking"
 msgstr "CHECKING…"
 

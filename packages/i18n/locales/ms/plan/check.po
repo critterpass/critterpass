@@ -341,6 +341,10 @@ msgid "plan.check.checkedNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.checking"
 msgstr ""
 

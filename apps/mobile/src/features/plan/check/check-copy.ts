@@ -25,11 +25,15 @@ export function checkBody(days: number): string {
   return t({
     id: 'plan.check.body',
     message: plural(days, {
-      one: 'Opening hours, drives, bookings and everyone’s saves, against the whole # day. Nothing changes until you say so.',
+      one: 'Opening hours, drives, bookings and everyone’s saves, against the day. Nothing changes until you say so.',
       other:
         'Opening hours, drives, bookings and everyone’s saves, against all # days. Nothing changes until you say so.',
     }),
   });
+}
+
+export function checkingTitle(): string {
+  return t({ id: 'plan.check.title.checking', message: 'CHECKING\nTHE PLAN' });
 }
 
 export function checkingLabel(): string {

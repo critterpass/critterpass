@@ -23,6 +23,7 @@ import {
   balanceRowLabel,
   checkBody,
   checkingLabel,
+  checkingTitle,
   checkTitle,
   clearNotice,
   failedNotice,
@@ -177,7 +178,11 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
           : checkedAgo(check.check.checked_at, new Date())
       }
       state={check.loaded ? 'ready' : 'loading'}
-      title={checkTitle(fixes.length, check.know.length)}
+      title={
+        check.check?.checked_at == null
+          ? checkingTitle()
+          : checkTitle(fixes.length, check.know.length)
+      }
       body={checkBody(plan.dayRows.length)}
       notice={notice}
       cards={cards}
@@ -195,7 +200,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
       balance={
         organiser
           ? {
-              label: `${balanceRowLabel()} ›`,
+              label: balanceRowLabel(),
               onPress: () => router.push(checkRoutes.balance(tripId)),
             }
           : null

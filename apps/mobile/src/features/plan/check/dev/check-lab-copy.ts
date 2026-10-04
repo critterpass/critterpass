@@ -163,9 +163,10 @@ export function checkedNow(): string {
 }
 
 export function october(locale: string): string {
-  return new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(
+  const month = new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }).format(
     new Date('2026-10-14T12:00:00Z'),
   );
+  return locale.startsWith('en') ? month : month.toLocaleLowerCase(locale);
 }
 
 export function orderLabel(): string {

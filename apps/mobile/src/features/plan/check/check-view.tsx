@@ -7,7 +7,14 @@
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, FadeOut } from 'react-native-reanimated';
+import { useEffect } from 'react';
+import Animated, {
+  FadeOut,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated';
 import { tokens } from '@cp/design-tokens';
 
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -43,6 +50,7 @@ export interface CheckViewProps {
 }
 
 const DEAL_MS = 90;
+const DEAL_RISE = 16;
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -88,13 +96,37 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
+/** A card dealt in after the ones before it: it rises and fades in (a plain fade with motion reduced). */
+function DealIn({
+  index,
+  reduced,
+  children,
+}: {
+  readonly index: number;
+  readonly reduced: boolean;
+  readonly children: ReactNode;
+}) {
+  const shown = useSharedValue(0);
+  useEffect(() => {
+    shown.value = withDelay(
+      reduced ? 0 : index * DEAL_MS,
+      withTiming(1, { duration: tokens.motion.duration.base }),
+    );
+  }, [index, reduced, shown]);
+  const style = useAnimatedStyle(() => ({
+    opacity: shown.value,
+    transform: [{ translateY: reduced ? 0 : (1 - shown.value) * DEAL_RISE }],
+  }));
+  return (
+    <Animated.View style={style} exiting={FadeOut}>
+      {children}
+    </Animated.View>
+  );
+}
+
 export function CheckView(props: CheckViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const enter = (index: number) =>
-    props.reducedMotion
-      ? FadeIn.duration(tokens.motion.duration.fast)
-      : FadeInDown.delay(index * DEAL_MS).springify();
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="plan-check">
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
@@ -129,25 +161,23 @@ export function CheckView(props: CheckViewProps) {
           </View>
         )}
         {props.cards.map((card, index) => (
-          <Animated.View key={card.id} entering={enter(index)} exiting={FadeOut}>
+          <DealIn key={card.id} index={index} reduced={props.reducedMotion}>
             <IssueCard {...card} />
-          </Animated.View>
+          </DealIn>
         ))}
         {props.know.length === 0 ? null : (
-          <Animated.View
-            entering={enter(props.cards.length)}
-            style={styles.know}
-            testID="plan-check-know"
-          >
-            <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-              {t({ id: 'plan.check.toKnow', message: 'To know' })}
-            </Text>
-            {props.know.map((line) => (
-              <Text key={line} variant="bodySm" singleLine={false}>
-                {line}
+          <DealIn index={props.cards.length} reduced={props.reducedMotion}>
+            <View style={styles.know} testID="plan-check-know">
+              <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+                {t({ id: 'plan.check.toKnow', message: 'To know' })}
               </Text>
-            ))}
-          </Animated.View>
+              {props.know.map((line) => (
+                <Text key={line} variant="bodySm" singleLine={false}>
+                  {line}
+                </Text>
+              ))}
+            </View>
+          </DealIn>
         )}
         {props.balance === null ? null : (
           <PressScale
