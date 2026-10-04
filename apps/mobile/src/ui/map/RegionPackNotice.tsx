@@ -39,6 +39,13 @@ const ORNAMENT_ROW = 44;
 const ABOVE_SHEET = 12;
 
 /**
+ * The room the line takes above a sheet (its pill, the gap under it and one above): a screen that
+ * fits its camera to the uncovered map adds this to the covered foot while the line shows, so the
+ * stay and the fitted stops never sit under it.
+ */
+export const NOTICE_ROOM = 64;
+
+/**
  * Where the line sits on a map that runs to the foot of the screen: above the ornament row (which
  * the map itself lifts by the bottom inset) and above the sheet covering the map's foot.
  */

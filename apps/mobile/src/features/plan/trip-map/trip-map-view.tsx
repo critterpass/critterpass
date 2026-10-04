@@ -14,6 +14,8 @@ import { usePlanningMapPreview } from '@/data/plan/map-preview';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { EdgeIndicator, StopRouteLayer, usePlanningCamera } from '@/ui/map/planning';
+import { useRegionTiles } from '@/ui/map/region-pack';
+import { NOTICE_ROOM } from '@/ui/map/RegionPackNotice';
 import { MapSheet, MapSheetScrollView, type MapSheetSnap } from '@/ui/sheet/map-sheet';
 import { mapSheetHeights } from '@/ui/sheet/map-sheet-snap';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -73,6 +75,11 @@ export function TripMapView(props: TripMapViewProps) {
   const heights = mapSheetHeights(size.height, insets.top + FULL_STRIP);
   const sheetHeight = snap === 'peek' ? heights[0] : snap === 'half' ? heights[1] : heights[2];
   const covered = { top: insets.top + TOP_BAR, bottom: sheetHeight };
+  // A destination without a region pack says so in a line above the sheet: the camera keeps the
+  // stay and the fitted stops clear of it for as long as it shows.
+  const tiles = useRegionTiles(model.destinationSlug, model.regionUri);
+  const noted = tiles.awaited && model.destination !== null && snap !== 'full';
+  const clear = noted ? { ...covered, bottom: covered.bottom + NOTICE_ROOM } : covered;
 
   const allPlaces = useMemo(
     () =>
@@ -93,16 +100,14 @@ export function TripMapView(props: TripMapViewProps) {
 
   // The camera follows the sheet and the chosen day once the screen has a size.
   // The map answers its first region once it can move, so the first fit waits for it.
-  const fitKey = `${snap}|${String(day?.dayNo)}|${String(size.height)}|${String(bounds !== null)}`;
+  const fitKey = `${snap}|${String(day?.dayNo)}|${String(size.height)}|${String(bounds !== null)}|${String(noted)}`;
   useEffect(() => {
     if (size.height === 0 || bounds === null) return;
     const points = viewPoints(model, snap === 'full' ? null : day);
     if (points.length === 0) return;
     camera.fitPoints(
       points,
-      snap === 'full'
-        ? { top: insets.top, bottom: size.height - insets.top - FULL_STRIP }
-        : covered,
+      snap === 'full' ? { top: insets.top, bottom: size.height - insets.top - FULL_STRIP } : clear,
     );
     // Only a new snap, day or size moves the camera; a re-read of the same plan does not.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +125,7 @@ export function TripMapView(props: TripMapViewProps) {
         : next?.kind === 'place'
           ? allPlaces.find((place) => place.id === next.id)
           : undefined;
-    if (target != null) camera.flyToPlace([target.lng, target.lat], { zoom: 14, covered });
+    if (target != null) camera.flyToPlace([target.lng, target.lat], { zoom: 14, covered: clear });
   };
   const sheetProps = {
     model,
@@ -204,7 +209,7 @@ export function TripMapView(props: TripMapViewProps) {
             bounds={bounds}
             size={size}
             coveredTop={covered.top}
-            coveredBottom={covered.bottom}
+            coveredBottom={clear.bottom}
             onPress={(id) => pick({ kind: 'stop', id })}
           />
         )}
