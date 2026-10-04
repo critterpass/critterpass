@@ -28,8 +28,13 @@ export interface PlaceThumbProps {
 
 /** From this size up the generic photo's line fits; smaller tiles take the corner mark. */
 export const GENERIC_LABEL_MIN_SIZE = 92;
-/** Under this size the tile is a chip's picture: tighter corners and a smaller mark. */
+/** Under this size the tile is a chip's picture, with a smaller mark. */
 const CHIP_SIZE = 38;
+/**
+ * Under this size (an Ideas row's 38 pt picture, a chip's) the corners tighten and the category
+ * badge shrinks into the corner, so the tile stays a rounded square and the photo shows.
+ */
+const SMALL_SIZE = 44;
 
 const useStyles = makeStyles((t) => ({
   tile: { borderRadius: t.radius.md, overflow: 'hidden' },
@@ -45,6 +50,13 @@ const useStyles = makeStyles((t) => ({
     backgroundColor: t.color.paper.bright,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  smallDisc: {
+    start: t.space['2'],
+    bottom: t.space['2'],
+    width: 16,
+    height: 16,
+    borderRadius: 8,
   },
   mark: {
     position: 'absolute',
@@ -86,7 +98,7 @@ export function PlaceThumb({
     <View
       style={[
         styles.tile,
-        size < CHIP_SIZE ? styles.chip : null,
+        size < SMALL_SIZE ? styles.chip : null,
         { width: size, height: size, backgroundColor: tint ?? theme.color.ink[700] },
       ]}
       accessibilityElementsHidden
@@ -103,8 +115,13 @@ export function PlaceThumb({
         />
       ) : null}
       {icon === undefined ? null : (
-        <View style={styles.disc}>
-          <Icon name={icon} size={14} color={theme.color.paper.ink} decorative />
+        <View style={[styles.disc, size < SMALL_SIZE ? styles.smallDisc : null]}>
+          <Icon
+            name={icon}
+            size={size < SMALL_SIZE ? 10 : 14}
+            color={theme.color.paper.ink}
+            decorative
+          />
         </View>
       )}
       {!generic ? null : size >= GENERIC_LABEL_MIN_SIZE ? (
