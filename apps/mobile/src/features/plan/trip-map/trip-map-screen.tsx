@@ -1,7 +1,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
 /**
  * The trip map route's screen over the synced plan (7a-1…7a-3, 7i-1): reads the plan I see and
- * everything around it, keeps the chosen day (the `day` the link names, else the day last looked
+ * everything around it, keeps the chosen day (the `day` or `date` the link names, else the day last looked
  * at in any of the plan's views, else today during the trip, else the first day with stops), reads
  * that day's legs, opens a tapped stop's sheet over the map and SHARE over it.
  */
@@ -15,7 +15,7 @@ import { ItemSheetHost } from '../day/item-sheet-host';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { hubDay } from '../hub/plan-hub';
 import { tripPlanRoutes } from '../hub/routes';
-import { useChosenDay } from './chosen-day';
+import { useChosenDay, useOpenOnDate } from './chosen-day';
 import { useDayRoute } from './day-route';
 import { ShareSheet } from './share-sheet';
 import { TripMapView } from './trip-map-view';
@@ -24,14 +24,18 @@ import { useTripMapModel } from './use-trip-map-model';
 export function TripMapScreen({
   tripId,
   day,
+  date,
   sheet,
 }: {
   readonly tripId: string;
   readonly day?: number | null | undefined;
+  /** The day to open on by its date (`YYYY-MM-DD`), when a link names it that way. */
+  readonly date?: string | null | undefined;
   readonly sheet?: MapSheetSnap | undefined;
 }) {
   const { data, model } = useTripMapModel(tripId);
   const [chosen, setChosen] = useChosenDay(tripId, day);
+  const finding = useOpenOnDate(tripId, date, model.days, data.loaded);
   const [sharing, setSharing] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const editor = useDayEditing(data.plan);
@@ -48,7 +52,7 @@ export function TripMapScreen({
     );
   const selected = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(data.plan.versionId, selected);
-  if (!data.loaded) return null;
+  if (!data.loaded || finding) return null;
   const open = selected?.items.find((entry) => entry.stableId === openId) ?? null;
   return (
     <>

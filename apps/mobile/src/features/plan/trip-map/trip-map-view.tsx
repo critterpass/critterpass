@@ -256,6 +256,8 @@ export function TripMapView(props: TripMapViewProps) {
           onSnapChange={(next) => setSnap(next)}
           accessibilityLabel={model.destination ?? ''}
           testID="trip-map-sheet"
+          // Back brings a raised sheet straight down, then leaves: two presses at most.
+          backCollapses="rest"
         >
           {/* As tall as the screen, so a short sheet at peek never caps how far it pulls up. */}
           <MapSheetScrollView

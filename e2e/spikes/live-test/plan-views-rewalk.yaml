@@ -169,20 +169,22 @@ appId: app.critterpass.dev
       id: 'trip-map-full'
     timeout: 10000
 - takeScreenshot: plan-rewalk-11-the-whole-trip
-- tapOn:
-    id: 'trip-day-3'
+# The phone's back button brings the raised sheet straight down, keeping the day.
+- back
 - extendedWaitUntil:
     visible:
-      id: 'trip-map-half'
+      id: 'trip-map-peek'
     timeout: 10000
+- takeScreenshot: plan-rewalk-12-one-back-brings-the-sheet-down
+- tapOn:
+    id: 'trip-map-day-chips-3'
 - runFlow:
     file: subflows/settle.yaml
     env:
-      WAIT: 4000
-- takeScreenshot: plan-rewalk-12-half-day-3
+      WAIT: 5000
 # 4. The day's map: a card opens the stop over the map.
 - tapOn:
-    id: 'trip-map-open-day-pill'
+    id: 'trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
@@ -250,19 +252,8 @@ appId: app.critterpass.dev
       WAIT: 5000
 - takeScreenshot: plan-rewalk-18-trip-link-lands-on-the-trip-day-4
 # 6. A stop moved with MOVE A STOP, then the maps of the day it left.
-- repeat:
-    while:
-      notVisible:
-        id: 'trip-map-peek'
-    times: 3
-    commands:
-      - back
-      - waitForAnimationToEnd:
-          timeout: 3000
 - tapOn:
-    id: 'trip-map-day-chips-2'
-- tapOn:
-    id: 'trip-map-peek-open-day-pill'
+    id: 'trip-map-open-day-pill|trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
@@ -347,7 +338,7 @@ appId: app.critterpass.dev
     id: 'day-plan-back'
 - extendedWaitUntil:
     visible:
-      id: 'trip-map-peek'
+      id: 'trip-map'
     timeout: 15000
 - tapOn:
     id: 'trip-map-list'
@@ -359,13 +350,15 @@ appId: app.critterpass.dev
 - back
 - extendedWaitUntil:
     visible:
-      id: 'trip-map-peek'
+      id: 'trip-map'
     timeout: 15000
 - runFlow:
     file: subflows/settle.yaml
     env:
       WAIT: 4000
 - takeScreenshot: plan-rewalk-26-back-from-places-still-day-2
+# The phone's back button brings a raised sheet straight down, then leaves the map: two presses at
+# most, and the back arrow leaves at once.
 - tapOn:
     id: 'trip-map-back'
 - extendedWaitUntil:

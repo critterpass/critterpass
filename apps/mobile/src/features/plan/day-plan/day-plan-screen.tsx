@@ -22,7 +22,7 @@ import { AddItemSheet } from '../day/add-item-sheet';
 import { ItemSheetHost } from '../day/item-sheet-host';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
-import { useChosenDay } from '../trip-map/chosen-day';
+import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
@@ -39,17 +39,21 @@ import { useReorder } from './use-reorder';
 export function DayPlanScreen({
   tripId,
   dayNo: initialDay,
+  date,
   item,
 }: {
   readonly tripId: string;
   readonly dayNo: number;
+  /** The day to open on by its date (`YYYY-MM-DD`), when a link names it that way. */
+  readonly date?: string | null | undefined;
   readonly item?: string | undefined;
 }) {
   const { t } = useLingui();
   const locale = useLocale();
   const { data, model } = useTripMapModel(tripId);
   const { plan } = data;
-  const [chosen, setDayNo] = useChosenDay(tripId, initialDay);
+  const [chosen, setDayNo] = useChosenDay(tripId, date == null ? initialDay : null);
+  const finding = useOpenOnDate(tripId, date, model.days, data.loaded);
   const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(item ?? null);
   const backToTrip = useBackToTrip(tripId);
@@ -82,7 +86,7 @@ export function DayPlanScreen({
     submit: (ops) => editor.submit(ops),
     editable: !model.readOnly && day?.date != null,
   });
-  if (!data.loaded) return null;
+  if (!data.loaded || finding) return null;
   if (day === null) return <DayGone onBack={backToTrip} />;
 
   const rainIssue = day.issues.find((issue) => issue.kind === 'rain');
