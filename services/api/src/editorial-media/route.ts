@@ -3,14 +3,22 @@
  * stills and video loops) for up to 20 subjects, hero first per subject. Files are public, immutable
  * objects under the media Worker's `c/` prefix, so each URL is absolute and never expires; the app
  * caches them and prefetches a trip's to disk. Every item carries its credit and licence.
+ *
+ * A place's pictures come in the order it shows them (`byPlacePhotoPrecedence`): its own Commons
+ * photo before generic stock. With `include=foursquare` the place's kept Foursquare photos join as
+ * assets of source `foursquare`, between the two; a build that does not ask never gets a source it
+ * cannot read.
  */
 import { withUser } from '@cp/db';
 import {
+  byPlacePhotoPrecedence,
   DomainError,
+  MEDIA_INCLUDE_FOURSQUARE,
   mediaSubjectKeySchema,
   type MediaAsset,
   type MediaListResponse,
   type MediaVariant,
+  type PlaceMediaListResponse,
 } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -18,6 +26,7 @@ import { z } from 'zod';
 
 import type { AppEnv } from '../app';
 import { requireCommandSession, type SessionResolver } from '../commands/_framework/session';
+import { readFoursquarePhotoAssets } from '../places/foursquare-photo-assets';
 
 export interface EditorialMediaDeps {
   readonly pool: pg.Pool;
@@ -31,6 +40,11 @@ const querySchema = z.object({
     .string()
     .transform((value) => [...new Set(value.split(',').map((s) => s.trim()))])
     .pipe(z.array(mediaSubjectKeySchema).min(1).max(20)),
+  /** Extra sources the caller can read, comma-separated; unknown names are ignored. */
+  include: z
+    .string()
+    .optional()
+    .transform((value) => new Set((value ?? '').split(',').map((s) => s.trim()))),
 });
 
 interface AssetRow {
@@ -107,8 +121,18 @@ export function registerEditorialMediaRoute(
     const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
     const parsed = querySchema.safeParse(c.req.query());
     if (!parsed.success) throw new DomainError('VALIDATION', { field: 'subjects' });
-    const body = await withUser(deps.pool, session.uid, 'unknown', (tx) =>
-      readEditorialMedia(tx, parsed.data.subjects, deps.publicBaseUrl),
+    const { subjects, include } = parsed.data;
+    const body = await withUser(
+      deps.pool,
+      session.uid,
+      'unknown',
+      async (tx): Promise<PlaceMediaListResponse> => {
+        const editorial = await readEditorialMedia(tx, subjects, deps.publicBaseUrl);
+        const foursquare = include.has(MEDIA_INCLUDE_FOURSQUARE)
+          ? await readFoursquarePhotoAssets(tx, subjects)
+          : [];
+        return { items: byPlacePhotoPrecedence([...editorial.items, ...foursquare]) };
+      },
     );
     c.header('Cache-Control', 'private, max-age=3600');
     return c.json(body);

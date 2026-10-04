@@ -638,6 +638,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // A place's kept Foursquare photos: any signed-in reader, system writes only
+  // (foursquare-photos.test.ts).
+  poi_foursquare_photos: {
+    selectProbe: { sql: 'SELECT 1 FROM poi_foursquare_photos LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   foursquare_api_usage: {
     selectProbe: { sql: 'SELECT 1 FROM foursquare_api_usage LIMIT 1', params: () => [] },
     expectations: {

@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # The Explore map (3d-4) inside a trip, far away, with location off, with nothing matching, offline
 # without the region, as a list with a sponsored row and with long Vietnamese names, prefixed
-# `${PREFIX}`.
+# `${PREFIX}`; then the places map and list (7c-1…7c-3) over a seeded Bali trip.
 - runFlow:
     file: scene.yaml
     env: { SCENE: map, READY: explore-map-carousel, SHOT: '${PREFIX}-3d-4-map' }
@@ -35,3 +35,54 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       { SCENE: map-da-nang, READY: explore-map-carousel, SHOT: '${PREFIX}-3d-4-da-nang-long-names' }
+# The places map and list (7c-1…7c-3) over the seeded Bali trip: saved places, the plan's routes
+# and Tokek's picks, in the lab's order. The maps wait for their tiles before the shot; the list
+# goes through scene.yaml.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-places-map'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'explore-lab-places-map'
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek'
+    timeout: 20000
+# The tiles and layers draw after the screen: a fixed wait for them (an id that never shows).
+- extendedWaitUntil:
+    visible:
+      id: 'places-tiles-wait'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${PREFIX}-7c-1-places-map
+- back
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-places-picked'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'explore-lab-places-picked'
+- extendedWaitUntil:
+    visible:
+      id: 'places-carousel'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'places-tiles-wait'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${PREFIX}-7c-2-place-picked
+# A finger drag along the cards moves the label to the next place.
+- swipe:
+    start: 85%, 87%
+    end: 10%, 87%
+    duration: 600
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PREFIX}-7c-2-next-card
+- back
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: places-list, READY: places-suggests-0, SHOT: '${PREFIX}-7c-3-places-list' }

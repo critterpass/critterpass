@@ -20,6 +20,7 @@ import { placeContextTravel } from '../explore/place-context';
 import { ideasModule } from './ideas/register';
 import { searchModule } from './search';
 import { importsModule } from './imports';
+import { placesHubModule } from './hub';
 import { fixersModule } from './fixers';
 
 export interface PlanningDeps {
@@ -43,6 +44,7 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   routePreviewModule,
   searchModule,
   importsModule,
+  placesHubModule,
   fixersModule,
 ];
 

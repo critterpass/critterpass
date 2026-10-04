@@ -1,0 +1,70 @@
+appId: app.critterpass.dev
+---
+# The trip's places map (7c-1) for a fresh account with the demo's Bali trip and the planning
+# redesign on. The peek counts the places in view; a chip leaves every place on the map (the others
+# fade) and its count in the chip row; ≡ LIST shows the same places as rows. A picked place (7c-2)
+# is shot in the lab scenes (map.yaml, map-vi.yaml): dots and bubbles are drawn on the map, outside
+# the view tree a flow can tap, and the place page no longer links to the map.
+# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub →
+# PLAN (the trip map) → ≡ LIST.
+- runFlow: ../home/subflows/fresh-install.yaml
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- runFlow: ../_shared/planning-redesign-on.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+# PLAN opens the trip map; its ≡ LIST is the places list.
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-list'
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'trip-map-list'
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 30000
+# ◎ MAP shows the same places on the map.
+- tapOn:
+    id: 'places-to-map'
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek-count'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+# The tiles and layers draw after the screen: a fixed wait for them (an id that never shows).
+- extendedWaitUntil:
+    visible:
+      id: 'places-tiles-wait'
+    timeout: 10000
+    optional: true
+- takeScreenshot: en-7c-1-fresh-account-map
+- tapOn:
+    id: 'chip-saved'
+- waitForAnimationToEnd:
+    timeout: 4000
+- assertVisible:
+    id: 'places-map'
+- takeScreenshot: en-7c-1-filter-saved
+- tapOn:
+    id: 'chip-saved'
+# ≡ LIST shows the same places as rows.
+- tapOn:
+    id: 'places-peek-list'
+- extendedWaitUntil:
+    visible:
+      id: 'places-suggests-0'
+    timeout: 30000
+- takeScreenshot: en-7c-1-to-list

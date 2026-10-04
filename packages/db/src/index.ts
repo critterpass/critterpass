@@ -82,6 +82,7 @@ export * from './proposals/booked-plan-items';
 export * from './planning/stay';
 export * from './planning/split-decision';
 export * from './places/geocode-local';
+export * from './places/foursquare-photos';
 export {
   AccountPurgeError,
   dueAccountPurges,

@@ -35,7 +35,7 @@ Crew-visibility matrix (master §10.4, C36) maps to: `users`/`avatars`/`passes`/
 | `llm.trip_context` | trip header, dates, tz, destination, participants (display name, taste tags unless hidden, RSVP), seat cap, budget **band** | budget maxes, calendars, engagement |
 | `llm.plan_items` | current + (for organiser jobs) draft version items, POI refs, costs from `cost-engine` outputs | — |
 | `llm.plan_version_days` (doc delta) | the current crew plan's version and its days (`day_no`, `date`), empty days included, so a plan with no items is still a plan the guide can propose to | organiser drafts |
-| `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags), plus the content factory's quality signals `curation`, `must_see` and `why_go` and the unaccented search vector `fts` (doc delta; the catalogue has no ratings) | supplier content, `source_ids`, the rest of `editorial`, `merged_into_id`, `geofence` |
+| `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags), plus the content factory's quality signals `curation`, `must_see` and `why_go` and the unaccented search vector `fts` (doc delta; the catalogue has no ratings) | supplier content, `source_ids`, the rest of `editorial`, `merged_into_id`, `geofence`, Foursquare content (live details are never stored; the kept photos in `poi_foursquare_photos` are in no view) |
 | `llm.bookings` | type, title, location, times, tz, status, free_cancel_until, cancel_policy_text; visibility=crew only (doc delta: title, location, policy text) | barcodes, attachments, prices, confirmation codes, personal bookings (own included) |
 | `llm.money_summary` | per-member net balances, category totals | payout methods |
 | `llm.chat_window` view + `llm.chat_window(crew, n)` (last n ≤200, oldest first) | seq, author kind (member/guide), author display name, type, body of visible `text` rows of crews the asker is an active member of; callers wrap rows as untrusted user data | attachments, every card payload (poll, expense, supplier_order, proposal, changeset, boost_card, meetup), system rows, hidden and deleted rows, private guide threads |
@@ -149,6 +149,8 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 | `guide_chat` | auto | own | `guide_threads`, `guide_messages` (last 90 d), `queued_guide_questions`, `custom_phrase_cards` (own), `phrase_progress` (doc delta: synced here) |
 
 Write path: all client writes go to the local insert-only `commands` table → `uploadData` → `POST /sync/upload` (batch) → each op runs its command handler in `withUser`; results land in `cmd_results` (stream `me`). Optimistic local rows are written to local-only overlay tables and reconciled when the server row replicates. Account switch (uid change) → `disconnectAndClear()`.
+
+Foursquare (D24): of a Place Details answer only the photos' ids and image addresses are stored (`poi_foursquare_photos`, C0 public place data, RLS R, writes `app_system` only). The table is not published or in a sync stream: phones read the photos over `GET /v1/media`, and hours, rating, tips, price, website and phone are held in memory only.
 
 Failure rules: migrations are expand/contract; never drop or rename a published column before the stream config stops referencing it; publication changes ship in their own migration; the sync spike includes a PlanetScale failover drill (logical slot survives).
 

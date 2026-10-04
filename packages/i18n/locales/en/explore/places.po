@@ -6,3 +6,287 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.bestTime"
+msgstr "{bestTime} · fits {weekday}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.inView"
+msgstr "{count, plural, one {# place in view} other {# places in view}}"
+
+#: ../../apps/mobile/src/features/explore/places/cluster-bubble.tsx
+msgid "places.cluster"
+msgstr "{count} places here. Tap to spread them out."
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.two"
+msgstr "{first} + {second}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.more"
+msgstr "{first}, {second} + {more}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.suggests"
+msgstr "{guide} suggests · {count}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.suggested"
+msgstr "{guide} suggests it"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hours"
+msgstr "{hours}h"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.hoursMinutes"
+msgstr "{hours}h{mm}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.fromStay"
+msgstr "{kind} · {minutes} min from {stayName}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.minutesOn"
+msgstr "{kind} · {minutes} min on"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.plan.summaryMore"
+msgstr "{list} and {more} more"
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.hidden"
+msgstr "{name} is hidden. Only you see this."
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.saved"
+msgstr "{name} is in Ideas."
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.carousel.count"
+msgstr "{position} of {count} in view · nearest first"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.length.minutes"
+msgstr "{whole} min"
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.list"
+msgstr "≡ List"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.map"
+msgstr "◎ Map"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.hide"
+msgstr "A hidden place"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.save"
+msgstr "A place saved to Ideas"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.unhide"
+msgstr "A place shown again"
+
+#: ../../apps/mobile/src/features/explore/places/commands.ts
+msgid "places.queued.remove"
+msgstr "A place taken out of Ideas"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.add"
+msgstr "Add {0} to the plan"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.all"
+msgstr "All"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.beaches"
+msgstr "Beaches"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.trip"
+msgstr "Biggest first: what fits your days"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.destination"
+msgstr "Biggest first: what the crew saved"
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.closedToday"
+msgstr "Closed today"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.loading"
+msgstr "Fetching places"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.food"
+msgstr "Food"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.fri"
+msgstr "Fri"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.title"
+msgstr "Hidden places"
+
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.hide"
+msgstr "Hide"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.plan"
+msgstr "In the plan"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.plan"
+msgstr "In the plan · {count}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.inPlan"
+msgstr "In the plan · day {day}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.mon"
+msgstr "Mon"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.museums"
+msgstr "Museums"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nature"
+msgstr "Nature"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.nextDoor"
+msgstr "Next door"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nightlife"
+msgstr "Nightlife"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.none"
+msgstr "No places in view"
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.openToday"
+msgstr "Open {from}–{to}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sat"
+msgstr "Sat"
+
+#: ../../apps/mobile/src/features/explore/places/swipe-row.tsx
+msgid "places.swipe.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.savedBy"
+msgstr "Saved by {who}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.saved"
+msgstr "Saved, not in a day · {count}"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.searchHere"
+msgstr "Search {place}"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.search"
+msgstr "Search {place}, or ask {guide}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.shopping"
+msgstr "Shopping"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.show"
+msgstr "Show"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.hidden.showA11y"
+msgstr "Show {0} again"
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.showList"
+msgstr "Show as a list"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.showMap"
+msgstr "Show the map"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.az"
+msgstr "Sorted A–Z"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.fit"
+msgstr "Sorted by fit for your days"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.sort.nearest"
+msgstr "Sorted by nearest"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.split"
+msgstr "Split"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.sun"
+msgstr "Sun"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.temples"
+msgstr "Temples"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.thu"
+msgstr "Thu"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.tue"
+msgstr "Tue"
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.undo"
+msgstr "Undo"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.weekday.wed"
+msgstr "Wed"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.wellness"
+msgstr "Wellness"
+
+#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+msgid "places.hidden.none"
+msgstr "You haven't hidden any places."
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.noneHint"
+msgstr "Zoom out or pick another filter."

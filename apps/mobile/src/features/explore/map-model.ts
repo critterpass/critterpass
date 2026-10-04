@@ -18,6 +18,8 @@ export interface MapPoi {
   readonly mustSee: boolean;
   /** The editors wrote it up (a reason to go), must-see or not. */
   readonly written: boolean;
+  /** The editors' best-time line ("Light beams 09–10"), shown as written. */
+  readonly bestTime?: string | null | undefined;
 }
 
 export type MapFilter = 'saved' | 'crew' | 'food' | 'open';
