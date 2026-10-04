@@ -9,6 +9,13 @@ msgstr ""
 
 #. placeholder {0}: guide.name
 #. placeholder {1}: hero.name
+#. placeholder {2}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.learning.body"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.writing"
 msgstr ""
@@ -124,6 +131,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.learningLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx

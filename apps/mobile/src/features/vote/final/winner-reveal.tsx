@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
@@ -61,7 +61,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   const loserGuide =
     loser === undefined
       ? null
-      : GUIDE_STICKERS[guideOr(loser.refId === null ? null : places.get(loser.refId)?.guide)];
+      : guideSticker(guideOr(loser.refId === null ? null : places.get(loser.refId)?.guide));
   const colour = winnerPlace?.colour ?? theme.color.orange;
   const ink = theme.semantic.text.onAccent;
   // Nobody voted: the organiser locked the place in, so there is no score and nothing to miss.
@@ -116,7 +116,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
             }),
         i18n.locale,
       )}
-      guide={GUIDE_STICKERS[guideOr(winnerPlace?.guide)]}
+      guide={guideSticker(guideOr(winnerPlace?.guide))}
       name={upper(winnerName, i18n.locale)}
       score={upper(score, i18n.locale)}
       tallySummary={[

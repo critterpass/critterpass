@@ -16,6 +16,7 @@ import { planRoutes } from '@/features/plan/overview/routes';
 import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
+import { usePlanGuide } from '../plan-guide';
 import { AskCard } from './ask-card';
 import {
   appliedToast,
@@ -29,7 +30,7 @@ import {
   failedNotice,
   failedToast,
   fixAllLabel,
-  fixLabel,
+  keptToast,
   movedLine,
   nearerDetail,
   nearerNone,
@@ -38,6 +39,7 @@ import {
   sentToast,
   staleToast,
   swappedLine,
+  unfitToast,
 } from './check-copy';
 import { CheckView } from './check-view';
 import { answerMemberAskCommand } from './commands';
@@ -45,14 +47,17 @@ import { fixAll } from './data/fixer-api';
 import { useCheckContext } from './data/use-check-context';
 import { useFixPreviews } from './data/use-fix-previews';
 import { useMemberAsks } from './data/use-member-ask';
+import { fixKindLabel, fixSummary } from './fix-copy';
+import { useFixedDays } from './fixed-days';
 import { checkedAgo, dayTag, driveLine } from './format';
 import type { IssueCardProps } from './issue-card';
-import { fixSummary, issueWords, kindTag, knowLine } from './issue-copy';
+import { issueWords, kindTag, knowLine } from './issue-copy';
 import { checkRoutes } from './routes';
 import { fixActionOf, useFix, type FixOutcome } from './use-fix';
 
 export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const check = usePlanCheck(tripId);
   const ctx = useCheckContext(plan);
   const [motionMode] = useMotionMode();
@@ -62,9 +67,15 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const asks = useMemberAsks(tripId);
   const [open, setOpen] = useState<string | null>(null);
   const [fixingAll, setFixingAll] = useState(false);
+  const fixedDays = useFixedDays();
+  // A card leaves at once when its fix landed, it was kept, or a fixer screen changed its day.
   const fixes = useMemo(
-    () => check.fixes.filter((issue) => !runner.gone.has(issue.id)),
-    [check.fixes, runner.gone],
+    () =>
+      check.fixes.filter(
+        (issue) =>
+          !runner.gone.has(issue.id) && (issue.day_id === null || !fixedDays.has(issue.day_id)),
+      ),
+    [check.fixes, fixedDays, runner.gone],
   );
   const clock = useCallback(
     (instant: string, dayId: string | null = null) => ctx.clock(instant, dayId),
@@ -80,8 +91,10 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
         : outcome.kind === 'sent'
           ? sentToast()
           : outcome.kind === 'stale'
-            ? staleToast()
-            : failedToast();
+            ? staleToast(guideName)
+            : outcome.kind === 'unfit'
+              ? unfitToast()
+              : failedToast();
     toast.show({ id: `plan-check-${outcome.kind}`, ...words });
   };
 
@@ -120,7 +133,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
       title: words.title,
       body: words.body,
       summary: fixSummary(issue, ctx, preview),
-      fixLabel: action.kind === 'none' ? null : fixLabel(organiser),
+      fixLabel: action.kind === 'none' ? null : fixKindLabel(issue, organiser),
       busy: runner.busy === issue.id,
       onFix: () => void onFix(issue),
       detail:
@@ -145,25 +158,34 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
                         setOpen(null);
                         after(outcome, swappedLine(ctx.name(issue.stable_ids[0] ?? ''), nearer));
                       }),
-              onClose: () => setOpen(null),
+              onKeep: () => {
+                setOpen(null);
+                runner.keep(issue, organiser);
+                if (organiser) toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
+              },
             },
     };
   });
 
   const fixable = fixes.filter((issue) => fixActionOf(issue, tripId).kind !== 'none');
   const status = check.check?.status ?? null;
-  const running = status === 'queued' || status === 'running';
+  // Waiting for its next run: the server says so once the new plan syncs; until then a fix that
+  // just landed on the version this check read, or a day a fixer screen changed, says it here.
+  const running =
+    check.checking ||
+    (runner.fixedOn !== null && runner.fixedOn === versionId) ||
+    check.fixes.some((issue) => issue.day_id !== null && fixedDays.has(issue.day_id));
   const notice =
     !check.loaded || check.check === null
       ? check.loaded
-        ? runningNotice()
+        ? runningNotice(guideName)
         : null
       : status === 'failed'
         ? failedNotice()
         : fixes.length === 0 && check.know.length === 0
           ? running
-            ? runningNotice()
-            : clearNotice()
+            ? runningNotice(guideName)
+            : clearNotice(guideName)
           : null;
   const mine = asks.find((ask) => ask.memberId === plan.uid && ask.status === 'open') ?? null;
   const asker = plan.members.find((member) => member.uid === mine?.askedBy)?.name ?? '';

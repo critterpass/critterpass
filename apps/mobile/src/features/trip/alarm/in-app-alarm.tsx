@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { Stack } from '@/ui/layout/Stack';
@@ -67,7 +67,7 @@ export function InAppAlarm(props: InAppAlarmProps) {
   const { t } = useLingui();
   const pulse = useLoop('pulse');
   const hop = useLoop('hop');
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   const guideName = sticker.name;
   return (
     <View

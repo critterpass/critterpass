@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3af3b6d5-c63b-45f5-b5f9-5b469bcd4277",
+        "id": "67fae205-b95b-4488-97f5-c53debdcb2b6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tastier, Wilder Sunday\",\n  \"summary\": \"A slower Sunday built around proper Balinese flavours, a market wander, and one surprise the crew never saw coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Snacks and spice and everything nice. The market is the real breakfast of champions, and the crew wanted more food.\",\n      \"start_by\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local lunch, the kind where you point at the pot and hope for the best. Warung Biah Biah delivers, terima kasih (thank you (Indonesian)).\",\n      \"start_by\": \"21:00\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to shake off the rice and let the late start feel justified.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge. Kept because some nights deserve a long table and a story to tell.\",\n      \"start_by\": \"20:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise. After a day of temples and trails, the crew gets a beach club with a nightlife pulse. Rise and shine, night owls.\",\n      \"start_by\": \"21:00\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Tasty Surprise in Ubud\",\n  \"summary\": \"A slow, delicious day around Ubud with a market feast, a proper sit-down dinner, and a temple surprise the crew won't expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with a bit of royal history before the heat kicks in. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Keeping Alchemy for a bright, fresh lunch stop. Terima kasih (thank you) for the greens.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise detour to Goa Gajah. The crew asked for unexpected, and this old cave delivers.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays. A proper sit-down meal to end the day right.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 89,
+          "input_tokens": 50,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 408,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 290,
           "service_tier": "standard"
         }
       }

@@ -10,7 +10,7 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -32,7 +32,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 export function guideOfSlug(slug: string | null): GuideStickerId {
-  return slug !== null && Object.hasOwn(GUIDE_STICKERS, slug) ? (slug as GuideStickerId) : 'tokek';
+  return guideIdOr(slug);
 }
 
 function QuestsEmpty({
@@ -43,7 +43,7 @@ function QuestsEmpty({
   readonly guide: GuideStickerId;
 }) {
   const { t } = useLingui();
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   const name = art.name;
   const copy = {
     writing: {
@@ -106,7 +106,7 @@ export function QuestsView({
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   return (
     <Scaffold variant="dark" testID="quests-screen">
       <ScrollView

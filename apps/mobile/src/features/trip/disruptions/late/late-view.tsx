@@ -10,7 +10,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { RadioCard } from '@/ui/inputs/RadioCard';
@@ -137,8 +137,8 @@ export function LateView(props: LateViewProps) {
               guideName={props.guideName}
               sticker={
                 <Sticker
-                  kind={GUIDE_STICKERS[props.guide].kind}
-                  name={GUIDE_STICKERS[props.guide].name}
+                  kind={guideSticker(props.guide).kind}
+                  name={guideSticker(props.guide).name}
                   pose="sleep"
                   size={EMPTY_STICKER}
                 />

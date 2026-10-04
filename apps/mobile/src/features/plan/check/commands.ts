@@ -13,6 +13,16 @@ export const applyCheckFixOnline = defineClientCommand<{ issue_id: string; base_
   offline: false,
 });
 
+/** An organiser's "Keep it as it is": it waits in the offline queue like any plan edit. */
+export const keepCheckIssueCommand = defineClientCommand<{
+  issue_id: string;
+  base_version: string;
+}>({
+  name: 'keep_check_issue',
+  offline: true,
+  summarize: () => msg({ id: 'plan.check.queued.keep', message: 'Keeping a stop as it is' }),
+});
+
 export const askMemberOnline = defineClientCommand<{
   ask_id: string;
   trip_id: string;

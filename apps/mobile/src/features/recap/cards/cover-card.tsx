@@ -8,7 +8,7 @@ import Animated from 'react-native-reanimated';
 
 import { useSlap } from '@/motion/patterns/slap';
 import { useStamp } from '@/motion/patterns/stamp';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -74,7 +74,7 @@ function Slapped({
 
 export function CoverCard({ guide, ground, eyebrow, place, chips, forms }: CoverCardProps) {
   const styles = useStyles();
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   const stickers = forms.slice(0, SPOTS.length - 1);
   const steps = [...[art, ...stickers].map((_, index) => 200 + index * SLAP_GAP_MS)];
   const slamAt = (steps.at(-1) ?? 0) + SLAP_GAP_MS;

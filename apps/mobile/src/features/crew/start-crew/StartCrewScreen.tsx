@@ -22,7 +22,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { AvatarPicker, type GuideAvatarId } from '@/ui/avatar';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
@@ -164,11 +164,7 @@ export function StartCrewScreen() {
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
           >
-            <Sticker
-              kind={GUIDE_STICKERS[art].kind}
-              name={GUIDE_STICKERS[art].name}
-              size={ART_PT}
-            />
+            <Sticker kind={guideSticker(art).kind} name={guideSticker(art).name} size={ART_PT} />
           </View>
           <Text variant="h1" accessibilityRole="header">
             {upper(t({ id: 'crew.start.createdTitle', message: `${crew} is on` }), locale)}

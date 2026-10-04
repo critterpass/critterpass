@@ -256,6 +256,10 @@ msgid "vote.newPoll.option"
 msgstr "Lựa chọn {0}"
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.idleOwnGuides"
+msgstr "Bất kỳ thành phố nào trên thế giới. Nơi nào cũng có hướng dẫn viên riêng; vài bạn vẫn đang tìm hiểu nơi của mình."
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.idle"
 msgstr "Thành phố nào cũng được. Hướng dẫn viên lo vài nơi, khách mời lo phần còn lại."
 
@@ -363,10 +367,15 @@ msgstr "Chung kết: {both}"
 msgid "vote.board.goToFinal"
 msgstr "Vào chung kết"
 
-#. placeholder {0}: GUEST.name
+#. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.guestGuide"
 msgstr "Hướng dẫn khách mời: {0}"
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.learningLine"
+msgstr "Mình vẫn đang tìm hiểu {0}. Chưa ai kiểm tra các gợi ý của mình ở đây."
 
 #. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
 #. placeholder {1}: tie.memberCount
@@ -709,6 +718,11 @@ msgstr "Bạn đang ngoại tuyến. Có mạng lại là tìm được."
 #: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
 msgid "vote.quickCrew.offline"
 msgstr "Bạn đang mất mạng. Nhóm đã được lưu; có mạng lại là mở phần giới thiệu."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.yourGuide"
+msgstr "Hướng dẫn viên của bạn: {0}"
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.trip"

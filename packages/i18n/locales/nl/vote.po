@@ -256,6 +256,10 @@ msgid "vote.newPoll.option"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.idleOwnGuides"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.idle"
 msgstr ""
 
@@ -363,9 +367,14 @@ msgstr ""
 msgid "vote.board.goToFinal"
 msgstr ""
 
-#. placeholder {0}: GUEST.name
+#. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.guestGuide"
+msgstr ""
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.learningLine"
 msgstr ""
 
 #. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
@@ -708,6 +717,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
 msgid "vote.quickCrew.offline"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.yourGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts

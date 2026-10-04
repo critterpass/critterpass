@@ -12,7 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -90,8 +90,8 @@ export function FlightView(props: FlightViewProps) {
               guideName={props.guideName}
               sticker={
                 <Sticker
-                  kind={GUIDE_STICKERS[props.guide].kind}
-                  name={GUIDE_STICKERS[props.guide].name}
+                  kind={guideSticker(props.guide).kind}
+                  name={guideSticker(props.guide).name}
                   pose="sleep"
                   size={EMPTY_STICKER}
                 />

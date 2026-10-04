@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# A city's own guide (Ngựa of Đà Lạt), in Vietnamese: the dev gallery switches the running app's language (not
+# persisted), then back through the developer tools into the guide lab.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/city-guide-scenes.yaml
+    env: { PREFIX: vi }

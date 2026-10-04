@@ -1,7 +1,8 @@
 /**
  * The trip's stay on the real schema: a booked crew stay covering the night wins over the plan,
  * two bookings split the nights between them, a planned stay anchors the nights it reaches, a
- * personal booking never anchors crew legs, and a trip with nothing has no stay.
+ * personal booking never anchors crew legs, a visit to a place the catalogue files as a stay is
+ * not where the crew sleeps, and a trip with nothing has no stay.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -159,6 +160,22 @@ describe('tripStay', () => {
     expect(await stayOn(tripId, night(1))).toMatchObject({ poiId: places.hotel, source: 'plan' });
     expect((await stayOn(tripId, night(3)))?.poiId).toBe(places.hotel);
     expect((await stayOn(tripId, night(4)))?.poiId).toBe(places.villa);
+  });
+
+  it('does not take a visit to a place filed as a stay for the night’s stay', async () => {
+    const tripId = await newTrip();
+    await plan(tripId, [[2, places.hotel]]);
+    // An afternoon at a famous villa the catalogue files as a stay: a stop, not where they sleep.
+    await pool.query(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz,
+         poi_id, category)
+       SELECT d.version_id, d.id, d.trip_id, $2, $3, $4, 'Asia/Makassar', $5, 'activity'
+         FROM plan_days d JOIN trips t ON t.current_version_id = d.version_id
+        WHERE t.id = $1 AND d.day_no = 3`,
+      [tripId, randomUUID(), bali(night(3), 10), bali(night(3), 12), places.resort],
+    );
+    expect((await stayOn(tripId, night(3)))?.poiId).toBe(places.hotel);
+    expect((await stayOn(tripId, night(4)))?.poiId).toBe(places.hotel);
   });
 
   it('has no stay when nothing places one', async () => {

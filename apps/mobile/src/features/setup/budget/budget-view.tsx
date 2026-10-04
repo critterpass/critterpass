@@ -12,7 +12,7 @@ import { useMemo, useState, type ReactNode } from 'react';
 import Animated from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { InlineAction } from '@/ui/buttons/InlineAction';
@@ -131,7 +131,7 @@ export function BudgetView(props: BudgetViewProps) {
     const bars = barsFor(target, props.estimates);
     return bars === null ? { kind: 'missing' } : { kind: 'ready', bars };
   }, [props.estimatesLoading, props.estimates, target, track]);
-  const guide = GUIDE_STICKERS[trip.guide].name;
+  const guide = guideSticker(trip.guide).name;
   const line =
     band.kind === 'waiting'
       ? band.of < BUDGET_K_MIN

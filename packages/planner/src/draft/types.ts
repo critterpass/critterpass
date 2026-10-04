@@ -67,6 +67,8 @@ export interface TripFrame {
   readonly budgetPpMinor: number | null;
   readonly mustDos: readonly DraftMustDo[];
   readonly closures: readonly ClosureRecord[];
+  /** Days (1-based) the crew asked to start later: their window opens later (see `dayWindow`). */
+  readonly laterStartDays?: readonly number[];
 }
 
 /** Minutes between two places; null = unknown (not checked). */

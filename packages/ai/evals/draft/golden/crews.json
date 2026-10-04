@@ -1542,5 +1542,231 @@
         "weekdays": ["sa", "su"]
       }
     ]
+  },
+  {
+    "id": "dalat-real-1",
+    "city": "da-lat",
+    "start": "2026-10-19",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Linh",
+        "tastes": ["street_food", "coffee", "nature"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "01a1053c-2fce-7e83-ace1-d98d1e317b51",
+        "owner": 0
+      }
+    ],
+    "wishes": ["An banh can buoi sang"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": ["01a1053c-2fdf-7989-9b02-532fa7679af6"],
+        "start_by": "10:30"
+      }
+    ],
+    "expect_must_dos": [
+      {
+        "must_do": 0,
+        "place_ids": ["01a1053c-38c1-7f29-ae9a-963cb786e38b"]
+      }
+    ],
+    "expect_full_days": true
+  },
+  {
+    "id": "dalat-curated-1",
+    "city": "da-lat-curated",
+    "start": "2026-10-19",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Linh",
+        "tastes": [
+          "easy_pace",
+          "local_life",
+          "sit_down_dining",
+          "splurge",
+          "coffee",
+          "late_starts",
+          "quiet_evenings",
+          "wellness",
+          "nightlife",
+          "photo_spots",
+          "thrifty",
+          "street_food",
+          "markets"
+        ],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "01a1053c-38c1-7f29-ae9a-963cb786e38b",
+        "owner": 0
+      }
+    ],
+    "wishes": ["An banh can buoi sang"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "01a1053c-2fca-78bb-a51c-d8869c12f7d9",
+          "01a1053c-2fd2-75d1-8be2-a67626442990",
+          "01a1053c-2fd8-7330-a281-647882c0f5df",
+          "01a1053c-2fdd-77b6-869f-4f4f61e5097f",
+          "01a1053c-2fdf-7989-9b02-532fa7679af6",
+          "01a1053c-2fee-7e9b-beb7-ad74d40c6001",
+          "01a1053c-3020-7ed1-a607-9c715ce18c26",
+          "01a1053c-304b-7065-88c1-5bc9aa5bbd5b",
+          "01a1053c-3220-7b4c-8cdc-c3ae36afe6fd",
+          "01a1053c-322f-7855-8ea9-bb9afaff51bd",
+          "01a1053c-3235-7aef-9370-b04bf29f6e35",
+          "01a1053c-3725-791c-959d-b56cebaa09b1",
+          "01a1053c-38f2-7668-9a3a-3a7898bcf525",
+          "01a1053c-3a94-740a-8be3-f074045c8876",
+          "01a1053c-3c21-70d6-ad22-5d724c0551ae",
+          "01a1053c-3c2a-71d3-b43c-519852ac6809",
+          "01a1053c-3c5b-7a79-9a23-f57b745ad596",
+          "01a1053c-3db2-7a60-b098-dfc4a13f0a23",
+          "01a1053c-46a1-7d80-adae-c45c6d6f9075",
+          "01a1053c-4889-71d5-b341-51b263476c6c",
+          "01a1053c-4a2f-7dd4-bb60-4b4d32254db3",
+          "01a1053c-4a68-7e9c-b447-4806da327030",
+          "01a1053c-4bc4-773b-9f72-ca432b145c38",
+          "01a1053c-4bcf-7511-8776-b704a4833270",
+          "01a1053c-4bd0-729f-95d6-806659488000",
+          "01a1053c-4be2-78ab-b8c2-7898e72ead9e",
+          "01a1053c-4bfd-7042-b43b-a4c5ee7560f6",
+          "01a1053c-4d63-78ba-b6e5-b1be3192619c",
+          "01a1053c-4f17-70c5-bc1c-2d8dae73ac0a",
+          "01a1053c-50e1-7b9e-adc2-8f315097c794",
+          "01a1053c-510c-76d5-8485-eb6c2b103649",
+          "01a1053c-52ab-7fa0-b55c-8aa3698ea607",
+          "01a1053c-545c-7df4-8f6c-2cdd314db9c6",
+          "01a1053c-6a40-7348-b623-c75ef954be35",
+          "01a1053c-6a8a-705e-b5f7-372188b54a3e",
+          "01a1053c-6a96-759f-9dde-3492f8de83f1",
+          "01a1053c-6deb-7c1a-af55-2ba538d219d1",
+          "01a1053c-6dfc-789e-8c9b-84c175c311dd",
+          "01a1053c-7016-7612-adde-a4dff143c712",
+          "01a1053c-7219-76de-b256-65e033bca434",
+          "01a1053c-73d6-713f-ad4d-b11a856a3030",
+          "01a1053c-77bc-7ed8-b484-8dc816147474",
+          "01a1053c-79e1-7170-892e-78eea7db34d4",
+          "01a1053c-79f0-7e3c-bf3b-5b65aff627de",
+          "01a1053c-7a16-713a-85c5-9c29a5a62741",
+          "01a1053c-7b89-7dca-8df2-80bda7674632",
+          "01a1053c-7b9b-7974-892b-b8a793b805fb",
+          "01a1053c-7bf9-73e4-bddd-bd115aa5bec0",
+          "01a1053c-7d6d-79d9-bfc1-d42c506f9a16",
+          "01a1053c-7dbd-7f2a-91f4-d6363b978f69",
+          "01a1053c-7f5d-7ab0-99cb-d7dc823efbe1",
+          "01a1053c-8327-7d3f-9a3e-85f1489d3f49",
+          "01a1053c-83ab-741e-98d8-89e1e11b6323",
+          "01a1053c-8580-7506-84bd-e11aa0da73b1",
+          "01a1053c-8596-7304-afee-c31c04f35c0f",
+          "01a1053c-85ad-7f7c-a4f8-9f85101f326a",
+          "01a1053c-8759-7e31-8bce-d05d16335401",
+          "01a1053c-8794-7005-9004-ebf1526ed668"
+        ],
+        "start_by": "10:30"
+      }
+    ],
+    "expect_must_dos": [
+      {
+        "must_do": 0,
+        "place_ids": ["01a1053c-38c1-7f29-ae9a-963cb786e38b"]
+      }
+    ],
+    "expect_full_days": true
+  },
+  {
+    "id": "danang-real-1",
+    "city": "da-nang-curated",
+    "start": "2026-10-19",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Linh",
+        "tastes": ["street_food", "beach", "local_life"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [],
+    "wishes": ["Mi Quang for breakfast"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "01a0f2fd-62c6-7c34-9fe1-8063ff94b35c",
+          "01a0f2fd-6c36-7fd5-82f5-bc65053873e9",
+          "01a0f2fd-6c99-7660-8da3-5a511e906958",
+          "01a0f2fd-7576-7426-8de0-abd73483e3e0",
+          "01a0f301-d8de-7a7b-a52b-9ea3b16bda0a"
+        ],
+        "start_by": "10:30"
+      }
+    ],
+    "expect_full_days": true
+  },
+  {
+    "id": "bali-real-1",
+    "city": "bali-curated",
+    "start": "2026-10-19",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Maya",
+        "tastes": ["temples", "culture", "nature"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["street_food", "nightlife"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [],
+    "wishes": ["Tirta Empul"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "01a0edd6-8e8c-741d-8092-70191ed916e5",
+          "01a0edd6-8e8c-7702-9c65-dd6009295bc9",
+          "01a10368-5d42-7a89-9f8f-f3b034896f39",
+          "01a10368-7e30-7db3-8cc6-68bfbe87c0b9",
+          "01a10368-9d9b-77b7-bdc4-679eded1cda8",
+          "01a0edd4-48b3-78d3-8597-ced4713fd4bb",
+          "01a0edd4-48b3-75dc-afe8-090e673b3272",
+          "01a0edd4-48b4-782f-a7a6-452fc1161539"
+        ]
+      }
+    ],
+    "expect_full_days": true
   }
 ]

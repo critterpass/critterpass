@@ -15,7 +15,7 @@ import type { DraftPoi } from './types';
 const SAME_PLACE_M = 150;
 const NAME_OVERLAP = 0.6;
 
-function metresBetween(a: DraftPoi, b: DraftPoi): number {
+export function metresBetween(a: DraftPoi, b: DraftPoi): number {
   const rad = Math.PI / 180;
   const x = (b.lng - a.lng) * rad * Math.cos(((a.lat + b.lat) / 2) * rad);
   const y = (b.lat - a.lat) * rad;
@@ -120,4 +120,44 @@ export function collapseSamePlaces(
     for (const poi of sorted) if (!kept.has(poi.id)) keptFor.set(poi.id, head.id);
   }
   return { kept: pois.filter((poi) => kept.has(poi.id)), mentions, keptFor };
+}
+
+/** A row this close to another, carrying its name, is the same spot under another listing. */
+const TWIN_M = 100;
+const FILLER: ReadonlySet<string> = new Set(['the', 'a', 'an']);
+
+/**
+ * The row a must-do picked from search is planned at. Search can hand back a stay or a shop that
+ * shares a sight's name and doorstep ("The Crazy House", filed as a guesthouse, beside the villa
+ * everybody means). When a recommended row (curated, or one of the destination's well-known
+ * picks) sits on the same spot and carries every word of the picked row's name, the stop goes
+ * there; a row that is itself recommended is never swapped.
+ */
+export function knownPlaceFor(
+  own: DraftPoi,
+  places: readonly DraftPoi[],
+  ignore: readonly (readonly string[])[] = [],
+): DraftPoi {
+  if (own.editorial || own.mustSee) return own;
+  const words = (poi: DraftPoi) => {
+    const aliases = nameAliases(poi.name, ignore);
+    return new Set([...aliases.primary, ...aliases.secondary].flat());
+  };
+  const mine = [...words(own)].filter((word) => !FILLER.has(word));
+  if (mine.length === 0) return own;
+  const twins = places.filter((poi) => {
+    if (poi.id === own.id || !(poi.editorial || poi.mustSee)) return false;
+    if (poi.category === 'stay' || poi.category === 'transit') return false;
+    if (metresBetween(own, poi) > TWIN_M) return false;
+    const theirs = words(poi);
+    return mine.every((word) => theirs.has(word));
+  });
+  twins.sort(
+    (a, b) =>
+      Number(b.mustSee) - Number(a.mustSee) ||
+      Number(b.editorial) - Number(a.editorial) ||
+      (b.detail ?? 0) - (a.detail ?? 0) ||
+      (a.id < b.id ? -1 : 1),
+  );
+  return twins[0] ?? own;
 }

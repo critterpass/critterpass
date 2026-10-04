@@ -14,7 +14,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -89,7 +89,7 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { reason, answer, chosen } = props;
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   const skips: Saving[] = (answer?.options ?? []).flatMap((o) =>
     o.kind === 'skip_item' && o.deltaMinor !== null && o.currency !== null
       ? [

@@ -7,6 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { useContext, useEffect, useState } from 'react';
 
+import { feedGuides } from '@/data/guides';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { ActiveGuide } from '@/lib/navigation/active-guide';
@@ -73,6 +74,8 @@ export function useCurrentTripGuide(): ActiveGuide | null {
     readonly db: unknown;
     readonly rows: readonly TripGuideRow[];
   } | null>(null);
+  // The shell is where every session's guide rows and the per-city switch start arriving.
+  useEffect(() => (db === null ? undefined : feedGuides(db)), [db]);
   useEffect(() => {
     if (db === null) return undefined;
     return watchQuery<TripGuideRow>(

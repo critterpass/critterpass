@@ -61,6 +61,10 @@ msgstr "{guide} will nudge {name} at {at}, when they open things."
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr "{guideName}, asleep"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr "{name} joined {crew}"
@@ -201,6 +205,10 @@ msgstr "Next up"
 msgid "home.nextUp.eyebrow"
 msgstr "Next up · {day}"
 
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereBody"
+msgstr "No guide there yet. Tokek will cover until one moves in."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr "Nothing from the crew yet."
@@ -211,11 +219,11 @@ msgstr "Nothing from the guides yet."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
-msgstr "Nothing needs you right now. Tokek will wake you if {watching} changes."
+msgstr "Nothing needs you right now. {guideName} will wake you if {watching} changes."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.line"
-msgstr "Nothing needs you right now. Tokek will wake you when something does."
+msgstr "Nothing needs you right now. {guideName} will wake you when something does."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.awake"
@@ -328,10 +336,6 @@ msgstr "Today"
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.inTrip.eyebrow"
 msgstr "Today · Day {day}"
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
-msgstr "Tokek, asleep"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"

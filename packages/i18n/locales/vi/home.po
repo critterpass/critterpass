@@ -61,6 +61,10 @@ msgstr "{guide} sẽ nhắc {name} lúc {at}, khi bạn ấy hay mở app."
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr "{guideName} đang ngủ"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr "{name} đã vào {crew}"
@@ -201,6 +205,10 @@ msgstr "Sắp tới"
 msgid "home.nextUp.eyebrow"
 msgstr "Sắp tới · {day}"
 
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereBody"
+msgstr "Nơi đó chưa có hướng dẫn viên. Tokek sẽ đi cùng bạn cho tới khi có."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.crewEmpty"
 msgstr "Nhóm chưa gửi gì."
@@ -211,11 +219,11 @@ msgstr "Hướng dẫn viên chưa gửi gì."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
-msgstr "Hiện không có gì cần bạn. Tokek sẽ gọi bạn nếu {watching} thay đổi."
+msgstr "Hiện không có gì cần bạn. {guideName} sẽ gọi bạn nếu {watching} thay đổi."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.line"
-msgstr "Hiện không có gì cần bạn. Có gì mới Tokek sẽ gọi bạn."
+msgstr "Hiện không có gì cần bạn. Có gì mới {guideName} sẽ gọi bạn."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.awake"
@@ -328,10 +336,6 @@ msgstr "Hôm nay"
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.inTrip.eyebrow"
 msgstr "Hôm nay · Ngày {day}"
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
-msgstr "Tokek đang ngủ"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"

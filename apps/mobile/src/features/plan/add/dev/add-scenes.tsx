@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import type { DayChip, FitGrade } from '@/ui/planning';
 
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { AddBlock } from '../add-block';
 import {
   addLabel,
@@ -145,7 +146,7 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
             : note === 'nowhere'
               ? nowhereNote()
               : note === 'offline'
-                ? offlineNote()
+                ? offlineNote(NO_TRIP_GUIDE.name)
                 : null
         }
         who={

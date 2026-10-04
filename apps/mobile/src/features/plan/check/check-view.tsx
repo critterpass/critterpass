@@ -21,11 +21,11 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { PlanGuideSticker } from '../plan-guide';
 import { IssueCard, type IssueCardProps } from './issue-card';
 
 export interface CheckViewProps {
@@ -140,7 +140,7 @@ export function CheckView(props: CheckViewProps) {
         </View>
         {props.ask}
         <View style={styles.hero}>
-          <Sticker kind="gecko" name="Tokek" size={64} />
+          <PlanGuideSticker size={64} />
           <View style={styles.heroText}>
             <Text variant="h1" singleLine={false} testID="plan-check-title">
               {props.title}

@@ -18,7 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { bezierEasing, useLoop, useMotionMode } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
@@ -152,7 +152,7 @@ export function ShowdownHalf({
   const { t, i18n } = useLingui();
   const squash = useChosenSquash(squashKey > 0);
   const guideId = guideOr(place?.guide);
-  const guide = GUIDE_STICKERS[guideId];
+  const guide = guideSticker(guideId);
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
@@ -252,7 +252,7 @@ export function ShowdownHalf({
               accessibilityLabel={`${guide.name}: ${quote}`}
               testID={`showdown-quote-${index}`}
             >
-              <Text variant="voice" color={tokens.guide[guideId]}>
+              <Text variant="voice" color={guideColour(guideId)}>
                 {quote}
               </Text>
             </View>

@@ -12,7 +12,7 @@ import Animated from 'react-native-reanimated';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSwipeDeck } from '@/motion/gestures/swipe-deck';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 
@@ -31,7 +31,7 @@ export function TipStrip({ tip }: TipStripProps) {
   const { t } = useLingui();
   const dismiss = useCommand(dismissTipCommand);
   const guide = guideOr(tip.guide_slug);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const swipe = useSwipeDeck({
     onSwiped: () => void dismiss.send({ tip_id: tip.id }),
     accessibilityLabel: t({ id: 'home.tip.dismiss', message: 'Dismiss tip' }),

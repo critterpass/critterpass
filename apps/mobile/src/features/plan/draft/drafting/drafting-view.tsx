@@ -8,7 +8,7 @@
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -187,7 +187,7 @@ export function DraftingView({
 }: DraftingViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const guideName = GUIDE_STICKERS[guide].name;
+  const guideName = guideSticker(guide).name;
   const rows = steps.filter((row) => (VISIBLE_STEP_IDS as readonly string[]).includes(row.id));
   const working = phase.kind === 'running' || phase.kind === 'starting' || phase.kind === 'done';
   return (

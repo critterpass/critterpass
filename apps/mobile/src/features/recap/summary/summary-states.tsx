@@ -4,7 +4,7 @@
  * Undesigned; built from the empty-state pattern the rest of the app uses.
  */
 import { useLingui } from '@lingui/react/macro';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -24,7 +24,7 @@ export interface SummaryStateProps {
 
 export function SummaryState({ phase, guide, guideName, retrying, onRetry }: SummaryStateProps) {
   const { t } = useLingui();
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   if (phase === 'loading') {
     return (
       <Skeleton

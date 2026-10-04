@@ -118,6 +118,7 @@ function goldenTrip(id: string): { trip: DraftTripData; places: DraftPoi[] } {
       foodPpDayMinor: city.bands.food_pp_day_minor,
       funPpDayMinor: city.bands.fun_pp_day_minor,
     },
+    transport: [],
   };
   const places = city.pois.map((p) => ({
     id: p.id,

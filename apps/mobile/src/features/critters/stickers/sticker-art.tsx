@@ -4,7 +4,7 @@
  */
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -25,10 +25,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 export function guideArt(slug: string): { readonly kind: string; readonly name: string } {
-  const id: GuideStickerId = Object.hasOwn(GUIDE_STICKERS, slug)
-    ? (slug as GuideStickerId)
-    : 'tokek';
-  return GUIDE_STICKERS[id];
+  return guideSticker(slug);
 }
 
 export function StickerArt({ item, size }: { readonly item: ShelfItem; readonly size: number }) {

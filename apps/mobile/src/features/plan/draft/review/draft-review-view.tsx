@@ -10,7 +10,7 @@ import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
@@ -96,7 +96,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const bob = useLoop('bob');
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const destination = props.destination;
   const dates = props.dates;
@@ -190,7 +190,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
               day={day}
               index={index}
               locale={locale}
-              colour={theme.guide[guide]}
+              colour={guideColour(guide)}
               onPress={
                 props.onOpenDay === undefined ? undefined : () => props.onOpenDay?.(day.dayNo)
               }

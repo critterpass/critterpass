@@ -192,7 +192,6 @@ msgstr "Nobody else has seen it yet."
 msgid "planDraft.change.empty"
 msgstr "Nothing booked, on purpose"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.onlyYou"
 msgstr "Only you see this"

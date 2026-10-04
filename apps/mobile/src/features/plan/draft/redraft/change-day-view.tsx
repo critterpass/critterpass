@@ -12,7 +12,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { TextField } from '@/ui/inputs/TextField';
@@ -159,7 +159,7 @@ export function ChangeDayView(props: ChangeDayViewProps) {
   const { guide, days, day, locale } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const destination = props.destination;
   const picked = days.find((d) => d.dayNo === day);
