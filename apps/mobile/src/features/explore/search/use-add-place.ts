@@ -3,7 +3,7 @@
  * a place only the server holds is saved to the trip's Ideas first (a saved place syncs over);
  * when that save is refused the row says so instead of opening an empty sheet.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- wire values and toast ids, never copy. */
+ 
 import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -13,6 +13,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
 
+import { placeHeld, untilPlaceHeld } from '../place-detail/use-place-on-phone';
 import { saveIdeaCommand } from './commands';
 import { matchPlaceRef } from './search-navigation';
 
@@ -37,12 +38,7 @@ export function useAddPlace(input: {
         const href = matchPlaceRef(tripId, destinationId, { poiId: target.poiId }, 'add', dayId);
         if (href !== undefined) router.push(href);
       };
-      const onPhone = db
-        .getAll<{ id: string }>('SELECT id FROM pois WHERE id = ? LIMIT 1', [target.poiId])
-        .then(
-          (rows) => rows.length > 0,
-          () => false,
-        );
+      const onPhone = placeHeld(db, tripId, target.poiId);
       void onPhone.then(async (held) => {
         if (held) {
           open();
@@ -68,6 +64,7 @@ export function useAddPlace(input: {
           });
           return;
         }
+        await untilPlaceHeld(db, tripId, target.poiId);
         open();
       });
     },
