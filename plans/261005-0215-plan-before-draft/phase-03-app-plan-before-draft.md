@@ -34,7 +34,7 @@ All of it behind `planning.redesign`. Renders: 3c-9, 7i-1, 7f-1, 7f-2, 7a-1…7a
 
 ### T3. Ideas, Add to plan and the place page before the crew plan
 - Files: `features/plan/ideas/ideas-screen.tsx`, `data/ideas/use-trip-ideas.ts`, `features/plan/add/{add-sheet.tsx,add-model.ts,add-copy.ts}`, `features/explore/place-detail/{model.ts,place-detail-screen.tsx}`.
-- Rules: the organiser gets day chips and the add on her draft; a fit worked out on a version the phone does not have is not shown; PLACE THEM FOR ME is hidden until the crew's plan exists.
+- Rules: the organiser gets day chips and the add on her draft; on a draft, Ideas rows ask the fit route for their fits (the server stores none for a private draft); PLACE THEM FOR ME is hidden until the crew's plan exists.
 - Tests: `add-model` with an empty plan (a day is named, the button is enabled), with no visible plan (member: SAVE TO IDEAS), the place page model's add state for each.
 - Status: pending
 

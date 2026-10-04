@@ -18,11 +18,6 @@ export async function dropReplacedDraft(tx: pg.PoolClient, versionId: string): P
     await tx.query('DELETE FROM plan_legs WHERE version_id = $1', [versionId]);
     await tx.query('DELETE FROM plan_items WHERE version_id = $1', [versionId]);
     await tx.query('DELETE FROM plan_days WHERE version_id = $1', [versionId]);
-    // A fit worked out on the deleted draft is worked out again by the next plan check.
-    await tx.query(
-      'UPDATE trip_ideas SET fit = NULL, fit_version_id = NULL WHERE fit_version_id = $1',
-      [versionId],
-    );
     await tx.query("DELETE FROM itinerary_versions WHERE id = $1 AND visibility = 'organiser'", [
       versionId,
     ]);

@@ -66,6 +66,7 @@ No new table, so no new RLS policy. The permission test covers what changes: a m
 ### T6. The plan check on a draft
 - Files: `services/worker/src/jobs/planning/check/{hooks,context,run}.ts`, `services/api/src/planning/fit/check-hook.ts`, `packages/domain/src/planning/legs.ts` (trigger list), `infra/powersync/streams/planning.yaml`, `docs/data-model-sync-and-privacy.md`, `services/worker/test/planning/check-draft.db.test.ts`.
 - Rules: the run checks the crew's version when there is one, else the draft; triggers add `draft.ready`, `redraft.kept`, `draft.version_restored`, `draft.ops_applied`; a draft run writes its issues, stamps `itinerary_versions.checked_at`, counts against the daily cap, and leaves the trip-wide row's version, status and counts alone.
+- A draft run writes no idea fits: `trip_ideas` syncs to every member, so a fit worked out on a private draft would tell them it exists. The organiser's screens ask the fit route (which reads the plan the caller sees) instead.
 - Tests: issues written for a draft; a member's query returns none (RLS); the trip-wide row unchanged; a crew-version run unchanged.
 - Status: done — b87ff2c07
 
@@ -78,6 +79,7 @@ No new table, so no new RLS policy. The permission test covers what changes: a m
 ### T8. A plan built by hand can be sent
 - Files: new `services/api/src/commands/draft/review-hand-plan.ts`, `services/api/src/commands/draft/versions.ts` (first numbers and coverage for a version that has none), payload schema in `packages/domain`, `docs/api-contracts.md`, `services/api/test/commands/draft/review-hand-plan.db.test.ts`.
 - The trip reaches `draft_review` through `drafting` inside the command's transaction (the status machine has no `setup → draft_review` pair and is left as it is).
+- Its review numbers cover her stops only: no stay nights and no budget target (the guide's draft adds those).
 - Rule: needs what `start_draft` needs (dates locked, a destination, no draft job running) plus at least one stop; other set-up steps (budget, rooms, must-dos) are not required, as for a guide draft. Emits `trip.status_changed {from: setup, to: draft_review}`.
 - Tests: refused with no stops, while drafting, for a member; after it `create_proposal` and `send_proposal` work unchanged and the crew reads the plan.
 - Status: done — 58b9eaf05

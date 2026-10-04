@@ -82,7 +82,10 @@ async function writeIssues(
 /** Every live idea's fit, against the same context the rules read. */
 async function writeIdeaFits(tx: pg.PoolClient, loaded: LoadedCheck, now: Date): Promise<number> {
   const versionId = loaded.trip.versionId;
-  if (versionId === null) return 0;
+  // Ideas sync to the whole crew: a fit worked out on the organiser's private draft would tell a
+  // member the draft exists and where its free time is. Her screens ask for fits on her draft
+  // when they open (the fit route reads the plan the caller sees).
+  if (versionId === null || loaded.trip.privateDraft) return 0;
   const { rows } = await tx.query<{
     id: string;
     poi_id: string;

@@ -1,7 +1,8 @@
 /**
  * The plan check on an organiser's private draft, on a real database: before the crew has a plan
  * the run reads the draft, writes what it finds against the draft and stamps the draft; the
- * trip-wide row the crew reads says nothing about it. Her edits and the guide's deliveries queue
+ * trip-wide row the crew reads says nothing about it, and no idea (ideas sync to every member)
+ * gets a fit worked out on the draft. Her edits and the guide's deliveries queue
  * the run. Once the crew has a plan, the run reads that one again.
  */
 import { randomUUID } from 'node:crypto';
@@ -49,6 +50,14 @@ const found = async () =>
     )
   ).rows;
 
+const ideaFits = async () =>
+  (
+    await db.pool.query<{ fit: unknown; fit_version_id: string | null }>(
+      'SELECT fit, fit_version_id FROM trip_ideas WHERE trip_id = $1',
+      [tripId],
+    )
+  ).rows;
+
 beforeAll(async () => {
   db = await startNotifyDb();
   await db.startBoss([planCheckJob()]);
@@ -63,6 +72,16 @@ beforeAll(async () => {
     [crewId, destination.rows[0]!.id],
   );
   tripId = trip.rows[0]!.id;
+  const poi = await db.pool.query<{ id: string }>(
+    `INSERT INTO pois (destination_id, name, category, lat, lng, curation)
+     VALUES ($1, 'Tirta Empul', 'temple_shrine', -8.4153, 115.3153, 'editorial') RETURNING id`,
+    [destination.rows[0]!.id],
+  );
+  await db.pool.query(
+    `INSERT INTO trip_ideas (trip_id, poi_id, name, category, lat, lng, backer_ids, sources)
+     VALUES ($1, $2, 'Tirta Empul', 'temple_shrine', -8.4153, 115.3153, $3, '{save}')`,
+    [tripId, poi.rows[0]!.id, [people[1]]],
+  );
   draftId = await addVersion('organiser', 'draft', true);
   await db.pool.query('UPDATE trips SET draft_version_id = $1 WHERE id = $2', [draftId, tripId]);
 }, 240_000);
@@ -90,6 +109,8 @@ describe('plan check on a private draft', () => {
       runs_today: 1,
       stamped: NOW,
     });
+    // Ideas sync to every member: none carries a fit worked out on the private draft.
+    expect(await ideaFits()).toEqual([{ fit: null, fit_version_id: null }]);
     const hints = await db.pool.query(
       "SELECT 1 FROM rt_outbox WHERE channel = $1 AND payload::text LIKE '%' || $2 || '%'",
       [`trip_plan:${tripId}`, draftId],
@@ -130,5 +151,6 @@ describe('plan check on a private draft', () => {
       tripId,
     ]);
     expect(rows[0]).toEqual({ version_id: crewVersion });
+    expect(await ideaFits()).toMatchObject([{ fit_version_id: crewVersion }]);
   });
 });
