@@ -3,15 +3,15 @@
  * "{organiser} only sees 'maybe'". Picking THE COST / THE DATES / THE PLAN / SOMETHING ELSE asks
  * the server for options the cost engine decided (skip an item, ask the crew without a name in a
  * crew of four or more); toggles re-count the share, and the button follows ("I'M IN AT $1,170").
- * "Still thinking. Ask me on Sunday" schedules a nudge for that evening.
+ * When nothing can move, the line answers the reason picked (the plan, the dates, the cost), and
+ * THE PLAN offers the plan itself, where a stop takes a note. "Still thinking. Ask me tonight"
+ * (or tomorrow morning, or on Sunday) schedules the guide's nudge for a time before the answer is
+ * due; it is not offered when the answer is due too soon. The wired sheet is ./objection-host.tsx.
  */
 import type { PrivateReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
-import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
@@ -23,15 +23,11 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import {
-  choosePrivateOptionCommand,
-  scheduleFollowupCommand,
-  submitPrivateReasonCommand,
-} from '../data/commands';
 import { wholeMoney } from '../data/format';
 import type { Saving } from '../data/savings';
 import { ShareCard, shareWith } from '../your-version/share-card';
-import { nextSundayEvening, parseOptions, type PrivateOption } from './options';
+import { laterLabel, nothingLine } from './objection-copy';
+import type { FollowUp, PrivateOption } from './options';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['14'] },
@@ -63,6 +59,10 @@ export interface ObjectionSheetProps {
   readonly baseMinor: number | null;
   readonly currency: string | null;
   readonly freeCancelLine: string | null;
+  /** When the answer is due: "ask me later" lands before it. */
+  readonly replyBy: string | null;
+  /** Opens the plan, where a stop takes a note; absent until the plan area offers it. */
+  readonly onOpenPlan?: (() => void) | undefined;
   readonly onBoard: (optionIds: readonly string[]) => void;
   readonly onClose: () => void;
 }
@@ -81,6 +81,8 @@ export interface ObjectionSheetViewProps extends Omit<ObjectionSheetProps, 'prop
   readonly onReason: (reason: PrivateReason) => void;
   readonly onToggle: (optionId: string, on: boolean) => void;
   readonly onAskCrew: (threadId: string, optionId: string) => void;
+  /** When the guide would ask again; null offers no "ask me later". */
+  readonly later: FollowUp | null;
   readonly onLater: () => void;
 }
 
@@ -209,11 +211,15 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
           ) : null}
           {answer !== null && skips.length === 0 && askCrew === null ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary} testID="objection-none">
-              {t({
-                id: 'proposal.objection.nothing',
-                message: 'Nothing here moves the cost for just you. You can still take your time.',
-              })}
+              {nothingLine(reason, props.organiserName)}
             </Text>
+          ) : null}
+          {answer !== null && reason === 'plan' && props.onOpenPlan !== undefined ? (
+            <TextLink
+              label={t({ id: 'proposal.objection.openPlan', message: 'Open the plan' })}
+              onPress={props.onOpenPlan}
+              testID="objection-open-plan"
+            />
           ) : null}
           {base !== null && currency !== null && skips.length > 0 ? (
             <ShareCard
@@ -247,70 +253,16 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
               onPress={() => props.onBoard(chosen)}
               testID="objection-board"
             />
-            <TextLink
-              label={t({
-                id: 'proposal.objection.later',
-                message: 'Still thinking. Ask me on Sunday',
-              })}
-              onPress={props.onLater}
-              testID="objection-later"
-            />
+            {props.later === null ? null : (
+              <TextLink
+                label={laterLabel(props.later)}
+                onPress={props.onLater}
+                testID="objection-later"
+              />
+            )}
           </View>
         </View>
       </SheetScrollView>
     </Sheet>
-  );
-}
-
-/** The sheet wired to the phone: the private reason goes to the server and comes back as options. */
-export function ObjectionSheet(props: ObjectionSheetProps) {
-  const submit = useCommand(submitPrivateReasonCommand);
-  const choose = useCommand(choosePrivateOptionCommand);
-  const followup = useCommand(scheduleFollowupCommand);
-  const [reason, setReason] = useState<PrivateReason | null>(null);
-  const [answer, setAnswer] = useState<ObjectionAnswer | null>(null);
-  const [chosen, setChosen] = useState<readonly string[]>([]);
-  const [failed, setFailed] = useState(false);
-
-  const pick = async (next: PrivateReason) => {
-    setReason(next);
-    setAnswer(null);
-    setChosen([]);
-    setFailed(false);
-    const result = await submit.send({ proposal_id: props.proposalId, reason: next });
-    if (result.kind === 'applied') setAnswer(parseOptions(result.result));
-    else setFailed(true);
-  };
-
-  return (
-    <ObjectionSheetView
-      {...props}
-      reason={reason}
-      answer={answer}
-      chosen={chosen}
-      pending={submit.pending}
-      failed={failed}
-      onReason={(next) => void pick(next)}
-      onToggle={(id, on) => setChosen(on ? [...chosen, id] : chosen.filter((c) => c !== id))}
-      onAskCrew={(threadId, optionId) => {
-        void choose.send({ thread_id: threadId, option_id: optionId });
-        toast.show({
-          id: 'proposal-asked-crew',
-          title: t({ id: 'proposal.objection.asked', message: 'Asked without your name' }),
-        });
-      }}
-      onLater={() => {
-        void followup.send({
-          proposal_id: props.proposalId,
-          at_local: nextSundayEvening(new Date()),
-          tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        });
-        toast.show({
-          id: 'proposal-followup',
-          title: t({ id: 'proposal.objection.laterDone', message: 'I’ll ask you on Sunday' }),
-        });
-        props.onClose();
-      }}
-    />
   );
 }

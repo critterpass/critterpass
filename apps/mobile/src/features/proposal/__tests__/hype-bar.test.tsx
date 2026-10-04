@@ -8,7 +8,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { renderUi } from '@/ui/test-support/render';
 
-import { HypeBar } from '../your-version/hype-bar';
+import { crewInPct, HypeBar } from '../your-version/hype-bar';
 
 describe('crew hype', () => {
   it('says how many of the crew are in, the organiser counted', async () => {
@@ -20,13 +20,23 @@ describe('crew hype', () => {
     expect(screen.getByTestId('version-hype-bar')).toBeTruthy();
   });
 
-  it('leaves the bar out while nobody has boarded or reacted', async () => {
+  it('shows only the organiser in while nobody has answered', async () => {
     await renderUi(
       <HypeBar hype={{ pct: 0, reacted: 0, boarded: 0, recipients: 2 }} latest={null} />,
     );
-    expect(screen.queryByTestId('version-hype-bar')).toBeNull();
     expect(screen.getByText('Nobody has answered yet.')).toBeTruthy();
-    expect(screen.queryByText('0%')).toBeNull();
+    expect(screen.getByText('33%')).toBeTruthy();
+  });
+
+  it('never reads full because someone sent a quick reply before answering', async () => {
+    // The server counts a reaction toward its figure; the bar here counts only who is in.
+    const reacted = { pct: 100, reacted: 1, boarded: 0, recipients: 1 };
+    expect(crewInPct(reacted)).toBe(50);
+    expect(crewInPct({ ...reacted, boarded: 1 })).toBe(100);
+    expect(crewInPct(null)).toBe(0);
+    await renderUi(<HypeBar hype={reacted} latest={null} organiser="Linh" />);
+    expect(screen.queryByText('100%')).toBeNull();
+    expect(screen.getByText('50%')).toBeTruthy();
   });
 
   it('counts the organiser, so a crew of two never reads "0 of 1"', async () => {

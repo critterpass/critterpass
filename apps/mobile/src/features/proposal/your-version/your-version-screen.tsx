@@ -7,7 +7,7 @@
  * its row syncs back.
  */
 import { t } from '@lingui/core/macro';
-import { router } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -32,7 +32,7 @@ import {
 import { useSavings } from '../data/savings';
 import { useProposalTrip } from '../data/trip';
 import { useHasWishes } from '../data/wishes';
-import { ObjectionSheet } from '../objection/objection-sheet';
+import { ObjectionSheet } from '../objection/objection-host';
 import { ProposalLoading } from '../proposal-loading';
 import { stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
@@ -40,6 +40,29 @@ import { HypeBar } from './hype-bar';
 import { ShareCard } from './share-card';
 import { WhySheet } from './why-sheet';
 import { YourVersionView } from './your-version-view';
+
+/* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
+/** The place's own page, for a stop that has a place on file. */
+function placeHrefOf(pick: Pick, tripId: string): Href | undefined {
+  if (pick.poiId == null) return undefined;
+  const params = { placeId: pick.poiId, tripId };
+  return hrefFor('7e-1', params) ?? hrefFor('3d-3', params);
+}
+
+/** The stop's day in the plan, where a stop takes a note or a question. */
+function dayHrefOf(pick: Pick, tripId: string): Href | undefined {
+  return pick.dayNo === null ? undefined : hrefFor('3e-2', { tripId, day: String(pick.dayNo) });
+}
+/* eslint-enable lingui/no-unlocalized-strings */
+
+/** Closes the sheet, then opens `href`; undefined when there is nowhere to go. */
+function opener(href: Href | undefined, close: () => void): (() => void) | undefined {
+  if (href === undefined) return undefined;
+  return () => {
+    close();
+    router.push(href);
+  };
+}
 
 export function YourVersionScreen(props: { readonly proposalId: string; readonly as?: string }) {
   const proposal = useProposal(props.proposalId);
@@ -196,6 +219,8 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           pick={why}
           when={stopWhen(locale, why)}
           reason={reasonWhy(why, reader)}
+          onPlace={opener(placeHrefOf(why, trip.tripId), () => setWhy(null))}
+          onDay={opener(dayHrefOf(why, trip.tripId), () => setWhy(null))}
           onDismiss={() => setWhy(null)}
         />
       )}
@@ -215,6 +240,15 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
                   id: 'proposal.objection.freeCancel',
                   message: `Free cancellation until ${instantDate(locale, proposal.freeCancelUntil)}`,
                 })
+          }
+          replyBy={proposal.replyBy}
+          onOpenPlan={
+            planHref === undefined
+              ? undefined
+              : () => {
+                  setAsking(false);
+                  router.push(planHref);
+                }
           }
           onBoard={board}
           onClose={() => setAsking(false)}

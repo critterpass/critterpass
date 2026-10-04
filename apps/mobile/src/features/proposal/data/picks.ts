@@ -29,6 +29,8 @@ export interface Pick {
   /** Whose must-do the stop is, when it is one: what is actually known about why it is there. */
   readonly mustDoOwnerId?: string | null;
   readonly mustDoOwnerName?: string | null;
+  /** The stop's place in the catalogue, when it has one: its page can be opened. */
+  readonly poiId?: string | null;
 }
 
 interface ItemRow {
@@ -116,6 +118,7 @@ export function usePicks(
           row === undefined
             ? null
             : text('plan_day', { theme: row.theme, i18n: row.day_i18n }, 'theme'),
+        poiId: row?.poi_id ?? null,
         mustDoOwnerId: row?.must_do_owner ?? null,
         mustDoOwnerName: firstName(row?.must_do_owner_name ?? null) || null,
       },

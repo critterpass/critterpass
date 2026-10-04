@@ -1,9 +1,10 @@
 /**
  * CREW HYPE (3f-3): the crew-level hype percentage and one line built only from what people chose
  * to post: the latest public reply ("Jordan replied “OKAY WOW”"), how many of the crew are in and
- * how many reacted (the bar is the share of recipients who boarded or reacted; it and its figure
- * are left out at 0%). The organiser sent the plan, so she counts as in: with nobody else in yet
- * the line says so instead of "0 of 1". Nobody's opens or views are ever shown.
+ * how many reacted. The figure and the bar are the share of the crew who are in, the organiser
+ * counted (she sent the plan): a quick reply never fills the bar, so it cannot read 100% before
+ * anyone has answered, and with nobody else in yet the line says so instead of "0 of 1". Nobody's
+ * opens or views are ever shown.
  */
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
@@ -66,10 +67,17 @@ export function crewInLine(boarded: number, recipients: number, organiser: strin
   });
 }
 
+/** The share of the crew who are in, the organiser counted; 0 while there is nobody to count. */
+export function crewInPct(hype: Hype | null): number {
+  if (hype === null || hype.recipients <= 0) return 0;
+  const boarded = Math.min(hype.boarded, hype.recipients);
+  return Math.round(((boarded + 1) / (hype.recipients + 1)) * 100);
+}
+
 export function HypeBar({ hype, latest, organiser = '' }: HypeBarProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const pct = hype?.pct ?? 0;
+  const pct = crewInPct(hype);
   const parts: string[] = [];
   if (latest !== null) {
     const words = reactionWords(latest.kind);

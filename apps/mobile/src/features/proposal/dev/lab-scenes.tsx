@@ -38,7 +38,7 @@ import { YourVersionView } from '../your-version/your-version-view';
 import { Dismissable } from './dismissable';
 import { DROPOUT_SCENES } from './lab-scenes-dropout';
 import {
-  LAB_OPTIONS,
+  LAB_OBJECTION,
   LAB_PEOPLE,
   LAB_GROUP_PICKS,
   LAB_PICKS,
@@ -263,18 +263,10 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, LabScene>> = {
       <Dismissable>
         {(close) => (
           <ObjectionSheetView
-            guide="chava"
-            guideName="Chà Vá"
-            organiserName="Khanh"
+            {...LAB_OBJECTION}
             locale={locale}
             baseMinor={SHARE_MINOR}
             currency={CURRENCY}
-            freeCancelLine={null}
-            reason="cost"
-            answer={{ threadId: 't1', options: LAB_OPTIONS }}
-            chosen={['skip:ba-na']}
-            pending={false}
-            failed={false}
             onReason={noop}
             onToggle={noop}
             onAskCrew={noop}
