@@ -13,6 +13,7 @@ import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import type { PlaceApiRead } from '@/data/places/more-places';
 
+import { readScreenshot, type ScreenshotOcr } from '../screenshot-import';
 import type { SearchServices } from './search-services';
 
 const READ_TIMEOUT_MS = 10_000;
@@ -99,7 +100,8 @@ async function streamImport(
   parseImportFrames(`${buffer}\n\n`).events.forEach(onEvent);
 }
 
-export const deviceSearchServices: SearchServices = {
+/** The device services; `ocr` is the app's `cp-ocr` (null where the native module is missing). */
+export const deviceSearchServices = (ocr: ScreenshotOcr | null): SearchServices => ({
   getJson: (path) => request(path, { method: 'GET' }),
   postJson: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
   streamImport: (tripId, body, onEvent, signal) => streamImport(tripId, body, onEvent, signal),
@@ -119,4 +121,5 @@ export const deviceSearchServices: SearchServices = {
       return false;
     }
   },
-};
+  readScreenshot: () => readScreenshot(ocr),
+});

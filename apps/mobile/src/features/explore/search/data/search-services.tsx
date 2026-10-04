@@ -8,6 +8,8 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 import type { PlaceApiRead } from '@/data/places/more-places';
 
+import type { ScreenshotRead } from '../screenshot-import';
+
 export type ImportBody =
   { readonly url: string } | { readonly text: string; readonly kind: 'screenshot' };
 
@@ -27,6 +29,8 @@ export interface SearchServices {
   readonly readClipboard: () => Promise<string | null>;
   /** Whether the clipboard holds a URL, asked without reading it (iOS shows no paste alert). */
   readonly clipboardHasUrl: () => Promise<boolean>;
+  /** Picks a screenshot and reads its text on the phone. */
+  readonly readScreenshot: () => Promise<ScreenshotRead>;
 }
 
 const offline = (): Promise<PlaceApiRead> => Promise.resolve({ kind: 'offline' });
@@ -39,6 +43,7 @@ const unavailable: SearchServices = {
   streamImport: () => Promise.reject(new Error('search services unavailable')),
   readClipboard: () => Promise.resolve(null),
   clipboardHasUrl: () => Promise.resolve(false),
+  readScreenshot: () => Promise.resolve({ kind: 'unavailable' }),
 };
 
 const SearchServicesContext = createContext<SearchServices>(unavailable);

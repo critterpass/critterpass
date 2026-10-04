@@ -15,6 +15,10 @@ msgstr "{count, plural, one {# place} other {# places}}"
 msgid "search.plain.softMisses"
 msgstr "{count} more, louder or further"
 
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.savedToast"
+msgstr "{count} saved to Ideas"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.exclude.mealNoTitle"
 msgstr "{day} already has that meal, so I looked at your other days."
@@ -31,6 +35,10 @@ msgstr "{day}’s already {title}, so I looked at your other nights."
 msgid "search.exclude.full"
 msgstr "{day}’s full, so I looked at your other days."
 
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.found"
+msgstr "{0} found"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chips.eyebrow"
 msgstr "{guideName} read it as"
@@ -43,6 +51,22 @@ msgstr "{minutes} min"
 msgid "search.plain.walk"
 msgstr "{minutes} min walk"
 
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.ask"
+msgstr "{read} {asks, plural, one {One I need you for.} other {# I need you for.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sure"
+msgstr "{read} {sure, plural, one {One I’m sure of.} other {# I’m sure of.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sureAndAsk"
+msgstr "{read} {sure, plural, one {One I’m sure of} other {# I’m sure of}}, {asks, plural, one {one I need you for.} other {# I need you for.}}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.nothing"
+msgstr "{read} I couldn’t pin any place from it."
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.fromPlace"
 msgstr "≤ {minutes} min from {place}"
@@ -54,6 +78,10 @@ msgstr "≤ {minutes} min from the stay"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.fromRoute"
 msgstr "≤ {minutes} min off the day's route"
+
+#: ../../apps/mobile/src/features/explore/search/commands.ts
+msgid "search.queued.idea"
+msgstr "A place saved to Ideas"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.view"
@@ -68,9 +96,17 @@ msgstr "a waterfall without the crowds, {day}"
 msgid "search.row.add"
 msgstr "Add {0}"
 
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.screenshot"
+msgstr "Add a screenshot instead"
+
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.add"
 msgstr "Add from it"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.addedToast"
+msgstr "Added to {0}"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.eyebrow"
@@ -108,6 +144,22 @@ msgstr "Coffee"
 msgid "search.chip.meal.coffee"
 msgstr "Coffee"
 
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBe"
+msgstr "Could be one of {count} places"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBeNear"
+msgstr "Could be one of {count} places near {area}"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.notFound"
+msgstr "Couldn’t find it"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.busy"
+msgstr "Couldn’t read it just now."
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.dinner"
 msgstr "Dinner"
@@ -132,6 +184,38 @@ msgstr "For day {no}"
 msgid "search.scope.day"
 msgstr "For day {no} · {0}"
 
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.link"
+msgstr "From a link"
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.added"
+msgstr "From a link"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.screenshot"
+msgstr "From a screenshot"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.tiktok"
+msgstr "From a TikTok"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.youtube"
+msgstr "From a YouTube video"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.instagram"
+msgstr "From an Instagram post"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.appleMaps"
+msgstr "From Apple Maps"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.googleMaps"
+msgstr "From Google Maps"
+
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.eyebrow"
 msgstr "From your clipboard"
@@ -139,6 +223,30 @@ msgstr "From your clipboard"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.kids"
 msgstr "Good with kids"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.unsupported"
+msgstr "I can’t read this link. Send a screenshot of the post instead."
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noText"
+msgstr "I couldn’t read any words in that screenshot."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.map"
+msgstr "I read the map link."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.post"
+msgstr "I read the post."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.screenshot"
+msgstr "I read your screenshot."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.video"
+msgstr "I watched it."
 
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.scope.map"
@@ -192,6 +300,10 @@ msgstr "Nature"
 msgid "search.scope.place"
 msgstr "Near {place}"
 
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.moved"
+msgstr "New time"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.nightlife"
 msgstr "Nightlife"
@@ -199,6 +311,10 @@ msgstr "Nightlife"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.notDays"
 msgstr "Not {days}"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.openIdeas"
+msgstr "Open"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.openPast"
@@ -212,6 +328,10 @@ msgstr "Open till {time}"
 msgid "search.browse.eyebrow"
 msgstr "Or browse"
 
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.putOnDay"
+msgstr "Or put them on {0}"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.outdoor"
 msgstr "Outdoors"
@@ -219,6 +339,10 @@ msgstr "Outdoors"
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.pasteLine"
 msgstr "Paste the link to add its places."
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.pickOne"
+msgstr "Pick one"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.other"
@@ -232,13 +356,45 @@ msgstr "Powered by Foursquare"
 msgid "search.chip.attr.quiet"
 msgstr "Quiet"
 
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.reading"
+msgstr "Reading it…"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
 msgstr "Saturday"
 
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saveToggle"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.saveToIdeas"
+msgstr "Save {chosen} to Ideas"
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saved"
+msgstr "Save ✓"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noPicker"
+msgstr "Screenshots can’t be read on this phone."
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.search"
+msgstr "Search"
+
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.placeholder"
 msgstr "Search {destination}, or ask {guideName}"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.proposedToast"
+msgstr "Sent to the crew to approve"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.shopping"
@@ -264,6 +420,10 @@ msgstr "Spa and wellness"
 msgid "search.chip.attr.sunset"
 msgstr "Sunset"
 
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.removed"
+msgstr "Taken off the day"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.temples"
 msgstr "Temples"
@@ -271,6 +431,18 @@ msgstr "Temples"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.temple"
 msgstr "Temples"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.limit"
+msgstr "That’s a lot of links today. Try again tomorrow."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.private"
+msgstr "This post is private or gone."
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.retry"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.price"
@@ -287,3 +459,15 @@ msgstr "Waterfalls"
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.rain"
 msgstr "what to do in {0} when it rains"
+
+#: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
+msgid "search.link.pickTitle"
+msgstr "Which is “{label}”?"
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.worksWith"
+msgstr "Works with Instagram, Maps, YouTube and screenshots"
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.tip"
+msgstr "Your {weekday} works for these."

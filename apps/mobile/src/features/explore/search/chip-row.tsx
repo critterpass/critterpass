@@ -21,7 +21,7 @@ export interface ChipWords {
   readonly placeName: (poiId: string) => string | null;
 }
 
-function categoryWord(category: PoiCategory): string {
+export function categoryWord(category: PoiCategory): string {
   switch (category) {
     case 'food':
       return t({ id: 'search.chip.category.food', message: 'Food' });
