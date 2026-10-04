@@ -8,22 +8,9 @@ appId: app.critterpass.dev
 # added, tomorrow's stop moved to today, all days, and the day-of screen again after the edits.
 # A walk, not a check: steps are optional so the frames keep coming where the app refuses.
 - runFlow:
-    file: ../../happy/subflows/trip-under-way.yaml
+    file: subflows/on-trip-start.yaml
     env:
       SHOTS: on-trip-00-setup
-- extendedWaitUntil:
-    visible:
-      id: 'home-mode-.*'
-    timeout: 60000
-- runFlow:
-    when:
-      visible:
-        id: 'critters-hatch-later'
-    commands:
-      - tapOn:
-          id: 'critters-hatch-later'
-- runFlow: ../../_shared/planning-redesign-on.yaml
-- runFlow: subflows/on-trip-vietnamese.yaml
 
 # 1. Opening the app on day 1: Home.
 - waitForAnimationToEnd:

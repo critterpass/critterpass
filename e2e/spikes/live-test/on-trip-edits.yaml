@@ -1,0 +1,585 @@
+appId: app.critterpass.dev
+---
+# Live walk, on the trip, second pass: the day going wrong. From the same start as
+# on-trip-walk.yaml (a three-day Đà Nẵng trip that starts today, in Vietnamese): Home's trip card,
+# tomorrow and the whole trip on the trip map, where the day plan's back goes, a stop's place page
+# and its GO, a stop pushed late into the next one and what the guide offers, a stop removed, a
+# place added for today (a category, plain words, "near here"), a stop moved from all days, the
+# days after, and the hand-over to the maps app.
+# A walk, not a check: steps are optional so the frames keep coming where the app refuses.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: on-trip-edits-00-setup
+
+# Home's trip card: where does it lead?
+- takeScreenshot: on-trip-edits-01-home
+- tapOn:
+    id: 'home-next-up|home-in-trip'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-02-home-card-tapped
+
+# The trip map: tomorrow, the whole trip, the last day.
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'trip-map-day-chips-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-edits-03-trip-map-tomorrow
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-04-trip-map-tomorrow-stops
+- tapOn:
+    id: 'trip-map-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-05-whole-trip
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-06-whole-trip-lower
+- tapOn:
+    id: 'trip-day-3'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-07-trip-map-last-day
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-08-day-plan-last-day
+# The day plan's own back, labelled with the trip.
+- tapOn:
+    id: 'day-plan-back'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-09-day-plan-back
+
+# Today's day plan; the first stop's place page and its GO.
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-10-day-plan-today
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-place'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-place'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-edits-11-place-page
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-12-place-page-lower
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-13-place-page-end
+- runFlow:
+    when:
+      visible:
+        id: 'place-detail'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'place-detail-go'
+          direction: UP
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'place-detail-go'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'go-map-ready'
+          timeout: 25000
+          optional: true
+      - takeScreenshot: on-trip-edits-14-go-from-place-page
+      - tapOn:
+          id: 'go-back'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - back
+      - waitForAnimationToEnd:
+          timeout: 5000
+- takeScreenshot: on-trip-edits-15-back-from-place-page
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Running late: the second stop pushed 45 minutes, into the third.
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+          optional: true
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: on-trip-edits-16-late-save
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- takeScreenshot: on-trip-edits-17-late-saved-at-once
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-18-late-saved
+- extendedWaitUntil:
+    visible:
+      id: 'stop-.*-note'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-19-late-guide-note
+- swipe:
+    start: 50%, 75%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-20-late-guide-note-lower
+# What the guide offers.
+- tapOn:
+    text: 'XEM'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-edits-21-guide-fix-opens
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-22-guide-fix-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-check-fix-.*'
+    commands:
+      - tapOn:
+          id: 'plan-check-fix-.*'
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-edits-23-guide-fix-tapped
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-check-use-.*'
+          timeout: 60000
+          optional: true
+      - takeScreenshot: on-trip-edits-24-guide-fix-offer
+      - tapOn:
+          id: 'plan-check-use-.*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-edits-25-guide-fix-used
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-26-day-plan-after-fix
+- swipe:
+    start: 50%, 75%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-27-day-plan-after-fix-lower
+
+# A stop that no longer fits: the last one taken off the day.
+- tapOn:
+    id: 'stop-3'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-remove'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-edits-28-remove-asks
+- tapOn:
+    id: 'plan-item-confirm'
+    optional: true
+- takeScreenshot: on-trip-edits-29-removed-at-once
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-30-removed
+
+# Adding a place for right now.
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- hideKeyboard
+- tapOn:
+    id: 'search-browse-coffee'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-edits-31-browse-coffee
+- tapOn:
+    id: 'search-clear'
+    optional: true
+- hideKeyboard
+- tapOn:
+    id: 'search-example-0'
+    optional: true
+- takeScreenshot: on-trip-edits-32-plain-words-asked
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-row-0|search-no-results|search-plain-soft-misses'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-33-plain-words-answer
+- tapOn:
+    id: 'search-clear'
+    optional: true
+- tapOn:
+    id: 'search-field-query'
+    optional: true
+- inputText: 'ca phe gan day'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0|search-plain-row-0|search-no-results'
+    timeout: 60000
+    optional: true
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-edits-34-coffee-near-here
+# A result's row, not its plus: what is this place?
+- tapOn:
+    id: 'search-row-1|search-plain-row-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: on-trip-edits-35-result-opened
+- runFlow:
+    when:
+      visible:
+        id: 'place-detail-cta'
+    commands:
+      - tapOn:
+          id: 'place-detail-cta'
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: on-trip-edits-36-place-page-add
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-add-sheet|plan-add-scroll'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'place-detail'
+          commands:
+            - back
+            - waitForAnimationToEnd:
+                timeout: 3000
+      - tapOn:
+          id: 'search-row-add-1|search-plain-add-1'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+- takeScreenshot: on-trip-edits-37-add-sheet
+# The sheet picked a day by itself: ask for today.
+- tapOn:
+    id: 'plan-add-days-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-38-add-sheet-today
+- swipe:
+    start: 50%, 70%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-39-add-sheet-today-lower
+- tapOn:
+    id: 'plan-add-confirm'
+    optional: true
+- takeScreenshot: on-trip-edits-40-added-at-once
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-41-added
+# Telling the guide she is late, in plain words.
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - tapOn:
+          id: 'search-clear'
+          optional: true
+      - tapOn:
+          id: 'search-field-query'
+          optional: true
+      - inputText: 'toi dang tre 30 phut'
+      - extendedWaitUntil:
+          visible:
+            id: 'search-plain-row-0|search-no-results|search-plain-soft-misses|search-ask-guide'
+          timeout: 30000
+          optional: true
+      - hideKeyboard
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: on-trip-edits-42-told-guide-late
+      - tapOn:
+          id: 'search-ask-guide'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 15000
+      - takeScreenshot: on-trip-edits-43-asked-guide
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-44-day-plan-after-add
+- swipe:
+    start: 50%, 75%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-45-day-plan-after-add-lower
+
+# All days: a stop of tomorrow moved to today from the card's menu.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-all-days'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-46-all-days
+- longPressOn:
+    id: 'all-days-card-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-47-all-days-card-held
+- runFlow:
+    when:
+      visible:
+        id: 'move-stop-.*'
+    commands:
+      - tapOn:
+          id: 'move-stop-[0-9a-f].*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: on-trip-edits-48-move-which-day
+      - tapOn:
+          text: '(?i)ngày 1.*'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-edits-49-move-preview
+      - tapOn:
+          id: 'move-preview-confirm'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: on-trip-edits-50-moved
+      - tapOn:
+          id: 'move-preview-ok'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+- takeScreenshot: on-trip-edits-51-all-days-after
+- tapOn:
+    id: 'all-days-card-3'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: on-trip-edits-52-last-day-from-all-days
+- swipe:
+    start: 50%, 75%
+    end: 50%, 40%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-53-last-day-lower
+
+# The hub and the day-of screen after all of it.
+- runFlow: subflows/on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-edits-54-hub-after
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: on-trip-edits-55-day-of-after
+- swipe:
+    start: 50%, 75%
+    end: 50%, 30%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: on-trip-edits-56-day-of-after-timeline
+
+# Last: Start hands over to the maps app.
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-back'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-go'
+    commands:
+      - tapOn:
+          id: 'trip-day-go'
+      - extendedWaitUntil:
+          visible:
+            id: 'go-map-ready'
+          timeout: 25000
+          optional: true
+      - tapOn:
+          id: 'go-start'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'never-shown-maps-loads'
+          timeout: 20000
+          optional: true
+      - takeScreenshot: on-trip-edits-57-start-hand-over
+      - extendedWaitUntil:
+          visible:
+            id: 'never-shown-maps-loads'
+          timeout: 20000
+          optional: true
+      - takeScreenshot: on-trip-edits-58-start-hand-over-later
+      - back
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: on-trip-edits-59-back-pressed
+      - launchApp:
+          stopApp: false
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: on-trip-edits-60-back-in-the-app

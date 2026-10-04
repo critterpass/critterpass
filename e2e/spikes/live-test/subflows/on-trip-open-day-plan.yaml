@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# From anywhere in the trip to today's day plan, the way a traveller gets there: the hub's plan
+# tile, the trip map's sheet pulled up to the day, then the day's title.
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek|day-plan'
+    timeout: 30000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map-peek'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-half'
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-map-open-day'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
