@@ -3,9 +3,10 @@
 # legs and issues also by app.is_version_visible); legs of an organiser-only version ride trip_draft
 # to organisers. A person's hidden places and the private asks they made or received ride their own
 # `me` stream: neither ever reaches the trip stream. Unsent change set drafts are filtered in
-# core.yaml; a guide's draft reaches organisers here.
-# `organised_trips` repeats core.yaml's trip_draft CTE verbatim (a stream named in several files
-# shares its CTEs, which must be identical).
+# core.yaml; a guide's draft reaches organisers here. Legs and issues ride only the versions phones
+# read (core.yaml explains why a lookup over every version must not grow with each edit).
+# `live_versions`, `replaced_versions`, `organised_trips` and `live_drafts` repeat core.yaml's CTEs
+# verbatim (a stream named in several files shares its CTEs, which must be identical).
 
 streams:
   me:
@@ -22,6 +23,14 @@ streams:
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
 
   trip:
+    with:
+      live_versions: |
+        SELECT id FROM itinerary_versions
+        WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded'
+      replaced_versions: |
+        SELECT id FROM itinerary_versions
+        WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew'
+          AND id IN (SELECT parent_id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded')
     queries:
       # A removed idea leaves the stream, so it leaves every phone.
       - |
@@ -41,31 +50,35 @@ streams:
         SELECT * FROM plan_check_issues
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+          AND (version_id IN live_versions OR version_id IN replaced_versions)
       - |
         SELECT * FROM plan_legs
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+          AND (version_id IN live_versions OR version_id IN replaced_versions)
 
   trip_draft:
     with:
       organised_trips: |
         SELECT trip_id FROM trip_participants
         WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser'
+      live_drafts: |
+        SELECT id FROM itinerary_versions
+        WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser' AND status != 'superseded'
     queries:
       - |
         SELECT * FROM plan_legs
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
-      # A guide's unsent draft on the crew's plan (a swipe match waiting for approval).
+          AND version_id IN live_drafts
+      # A guide's unsent draft on the crew's plan (a swipe match waiting for approval). A draft whose
+      # base was replaced can never apply (it would go stale), so only drafts on a live version ride.
       - |
         SELECT * FROM change_sets
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
-          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded')
           AND status = 'draft'
           AND author_kind = 'guide'

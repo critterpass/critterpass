@@ -20,9 +20,9 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `me` | auto | `auth.user_id()` | `users` (self), `user_settings`, `consents`, `account_deletions`, `cmd_results`, `user_entitlements`, `usage_counters` (user) |
 | `crews` | auto | active crew memberships | `crews`, `crew_members`, `trips` |
 | `crew_people` | auto | active co-members | `users` |
-| `trip` | client, `{trip_id}` | trip of an active crew | `trips`, `trip_participants`, crew-visible `itinerary_versions`/`plan_days`/`plan_items`/`change_sets`, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
-| `trip_draft` | client, `{trip_id}` | organiser seat + active crew | organiser-visible `itinerary_versions`/`plan_days`/`plan_items`/`change_sets` |
-| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (editorial, not hidden, not merged), `map_regions` |
+| `trip` | client, `{trip_id}` | trip of an active crew | `trips`, `trip_participants`, crew-visible `itinerary_versions` and `change_sets`, `plan_days`/`plan_items` of the live crew versions and the one each replaced, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
+| `trip_draft` | client, `{trip_id}` | organiser seat + active crew | organiser-visible `itinerary_versions`/`plan_days` (every draft), `plan_items`/`change_sets` of drafts not superseded |
+| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (editorial, not hidden, not merged; plus every POI the trip references to its members: stops of non-superseded crew versions, organisers also their drafts' stops, and live `trip_ideas`), `map_regions` |
 | `explore` | client, `{destination_id}` | public | `pois` (editorial, not hidden, not merged) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
 | `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
@@ -42,6 +42,12 @@ Rules for a new area (a phase that publishes new tables):
 
 Stream filters cannot use `now()`, so time windows (e.g. recent FX days) need a flag column
 maintained by a job; `fx` is bounded by currency instead.
+
+Every subquery result counts toward PowerSync's 1,000 parameter results per connection, and every
+group edit supersedes a plan version, so plan lookups use the not-superseded versions (plus, on
+`trip`, the version each live one replaced). The trip stream's `change_sets` lookup is the one that
+still grows by one result per edit; `sync-streams-parameter-bounds.test.ts` names it and fails on
+any other lookup that grows.
 
 ## Local
 
