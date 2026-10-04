@@ -1,0 +1,143 @@
+appId: app.critterpass.dev
+# Signal comes back even when a step fails, so the next flow on this device starts online.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+# A real trip's plan with no network (Android only: Maestro's airplane mode cannot cut the iOS
+# simulator's network). A brand-new account locks in a Đà Nẵng trip for today
+# (../happy/subflows/trip-under-way.yaml) and turns the section 7 plan screens on for this phone
+# (../_shared/planning-redesign-on.yaml). Online, PLAN opens the trip map, its day at half and the
+# day plan; then in airplane mode, after a cold start, the same trip map and day plan draw from
+# what the phone holds, legs included.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: plan-offline
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../_shared/planning-redesign-on.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan|visit-consent-decline'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+# Tiles arrive over the network, and the stored legs a little after the plan was locked in.
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: en-7a-1-trip-map-fresh
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7a-2-trip-map-fresh
+- tapOn:
+    id: 'trip-map-open-day'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-1-day-plan-fresh
+# No network from here, and a cold start.
+- setAirplaneMode: enabled
+- stopApp
+- launchApp
+# A cold start may reopen the screen it left (the day plan) or start at Home.
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan|trip-map|home-header-chat'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'day-plan'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: en-7b-1-day-plan-offline
+      - runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'home-header-chat'
+    commands:
+      - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+      - tapOn:
+          id: 'tab-trips'
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 30000
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7a-1-trip-map-offline
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+- tapOn:
+    id: 'trip-map-open-day'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7b-1-day-plan-offline-again
+- assertVisible:
+    id: 'stop-1'
+- setAirplaneMode: disabled

@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from 'expo-router';
 
-import { CalendarWriterProvider, calendarWriter, PlanScreen } from '@/features/plan';
+import { CalendarWriterProvider, calendarWriter } from '@/features/plan';
+import { PlanHubScreen } from '@/features/plan/hub/plan-hub-screen';
 
 import { nativeCpCalendarModule } from '../../../../../modules/cp-calendar/src/CpCalendarModule';
 
@@ -8,12 +9,15 @@ import { nativeCpCalendarModule } from '../../../../../modules/cp-calendar/src/C
 // with the subscribable feed.
 const writer = calendarWriter(nativeCpCalendarModule);
 
-/** The trip plan overview (3e-1): `/{tripId}/plan`. */
+/**
+ * What the trip's PLAN opens (`/{tripId}/plan`): the trip map or a day plan, as `plan.hub` says,
+ * with `planning.redesign` on; the earlier overview (3e-1) with it off.
+ */
 export default function PlanRoute() {
   const { tripId } = useLocalSearchParams<{ tripId: string }>();
   return (
     <CalendarWriterProvider value={writer}>
-      <PlanScreen tripId={tripId ?? ''} />
+      <PlanHubScreen tripId={tripId ?? ''} />
     </CalendarWriterProvider>
   );
 }

@@ -5,6 +5,7 @@
  * grey). While something is dragged over the row, the day under it glows: the drag itself belongs
  * to the screen, which passes the day it is over.
  */
+import { tokens } from '@cp/design-tokens';
 import { ScrollView, View } from 'react-native';
 
 import { PressScale } from '../press/PressScale';
@@ -28,6 +29,11 @@ export interface DayChipsProps {
   readonly onSelect?: ((dayNo: number) => void) | undefined;
   /** The chosen chip's fill: the day's colour (trip map) or paper (Add to plan, 7f-1). */
   readonly selectedFill?: 'day' | 'paper' | undefined;
+  /**
+   * The tile under each day: `raised` on a page, `control` on a raised sheet (the trip map's), so
+   * each day still sits on its own tile. Defaults to `control` with a paper fill.
+   */
+  readonly tile?: 'raised' | 'control' | undefined;
   /** A drag is over the row: every chip shows it can take the drop, this one glows. */
   readonly dropTarget?: { readonly overDayNo: number | null } | undefined;
   readonly testID?: string | undefined;
@@ -66,11 +72,19 @@ const useStyles = makeStyles((t) => ({
   },
 }));
 
+const LIGHT_FILLS: ReadonlySet<string> = new Set([
+  tokens.color.yellow,
+  tokens.color.paper.base,
+  tokens.color.green.base,
+  tokens.color.orange,
+]);
+
 export function DayChips({
   days,
   selectedDayNo = null,
   onSelect,
   selectedFill = 'day',
+  tile: tileTone,
   dropTarget,
   testID = 'day-chips',
 }: DayChipsProps) {
@@ -82,10 +96,12 @@ export function DayChips({
     const selected = day.dayNo === selectedDayNo;
     const over = dropTarget?.overDayNo === day.dayNo;
     // On a sheet (Add to plan) the panel is already raised: each day sits on its own darker tile.
-    const tile = selectedFill === 'paper' ? theme.semantic.bg.control : theme.semantic.bg.raised;
+    const onSheet = (tileTone ?? (selectedFill === 'paper' ? 'control' : 'raised')) === 'control';
+    const tile = onSheet ? theme.semantic.bg.control : theme.semantic.bg.raised;
     const fill = selected ? (selectedFill === 'paper' ? theme.color.paper.base : day.color) : tile;
+    // A light day colour (yellow, paper, green, orange) takes dark ink, as paper does.
     const ink =
-      selected && selectedFill === 'paper' ? theme.color.paper.ink : theme.semantic.text.primary;
+      selected && LIGHT_FILLS.has(fill) ? theme.color.paper.ink : theme.semantic.text.primary;
     return (
       <PressScale
         key={day.dayNo}
