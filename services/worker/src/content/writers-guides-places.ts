@@ -6,6 +6,7 @@
 import type { ContentItem } from '@cp/content';
 import type pg from 'pg';
 
+import { allowIndexMaintenance } from '../places/batch-sql';
 import { PublishRefusedError } from './writers-core';
 
 export async function writePersonas(
@@ -55,9 +56,22 @@ function sourceIdMatch(source: string, param: string): string {
   return `source_ids ? '${source}' AND source_ids ->> '${source}' = ${param}`;
 }
 
+/** True for a row that already reads as the item says (parameters as in the overlay `UPDATE`). */
+const AS_PUBLISHED = `name = $2 AND name_local IS NOT DISTINCT FROM $3 AND category = $4
+  AND tags IS NOT DISTINCT FROM $5 AND curation = 'editorial' AND timezone IS NOT DISTINCT FROM $7
+  AND (editorial || $6::jsonb) = editorial AND ($8::jsonb IS NULL OR hours = $8::jsonb)`;
+
 /**
- * Overlays editorial text, taste tags and verified hours onto curated POIs, matched by source id;
- * a POI the importer has not brought in yet is created from the release item.
+ * Overlays editorial text, the must-see flag, taste tags and verified hours onto curated POIs,
+ * matched by source id; a POI the importer has not brought in yet is created from the release
+ * item. The overlay is merged key by key: what the item does not carry (an absent `must_see`, the
+ * researched place facts) stays as it is, and `must_see: false` clears the flag.
+ *
+ * A places release re-states every curated place of every destination, so a row that already
+ * reads as its item says is left alone: rewriting thousands of unchanged rows would churn the two
+ * large text indexes on `pois` for nothing. Any write that remains may still pay for merging one
+ * of those indexes' pending lists, which passes the usual statement limit on a table this size,
+ * so the publish waits for it as the ingest does.
  */
 export async function writePlaces(
   tx: pg.PoolClient,
@@ -67,6 +81,7 @@ export async function writePlaces(
     'SELECT slug, id FROM destinations',
   );
   const destinations = new Map(rows.map((row) => [row.slug, row.id]));
+  await allowIndexMaintenance(tx);
   for (const poi of items) {
     const destinationId = destinations.get(poi.destination);
     if (destinationId === undefined) {
@@ -79,7 +94,7 @@ export async function writePlaces(
          curation = 'editorial', timezone = $7,
          hours = COALESCE($8::jsonb, hours),
          hours_verified_at = CASE WHEN $8::jsonb IS NULL THEN hours_verified_at ELSE now() END
-       WHERE ${sourceIdMatch(source, '$1')}`,
+       WHERE ${sourceIdMatch(source, '$1')} AND NOT (${AS_PUBLISHED})`,
       [
         source_id,
         poi.name,
@@ -92,6 +107,11 @@ export async function writePlaces(
       ],
     );
     if ((updated.rowCount ?? 0) > 0) continue;
+    const existing = await tx.query(
+      `SELECT 1 FROM pois WHERE ${sourceIdMatch(source, '$1')} LIMIT 1`,
+      [source_id],
+    );
+    if ((existing.rowCount ?? 0) > 0) continue;
     await tx.query(
       `INSERT INTO pois (destination_id, name, name_local, category, lat, lng, address, tags, editorial,
          curation, timezone, hours, hours_verified_at, source_ids)
@@ -121,7 +141,8 @@ export async function writePlaces(
     await tx.query(
       `UPDATE pois SET merged_into_id = target.id
        FROM (SELECT id FROM pois WHERE ${sourceIdMatch(toSource ?? '', '$2')}) AS target
-       WHERE ${sourceIdMatch(fromSource ?? '', '$1')} AND pois.id <> target.id`,
+       WHERE ${sourceIdMatch(fromSource ?? '', '$1')} AND pois.id <> target.id
+         AND pois.merged_into_id IS DISTINCT FROM target.id`,
       [fromId.join(':'), toId.join(':')],
     );
   }

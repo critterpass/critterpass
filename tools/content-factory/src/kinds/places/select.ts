@@ -18,6 +18,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { FACTORY_DIR, readJsonIfExists, writeJson } from '../../work';
+import { HAS_CONTENT_REF } from './pins';
 
 export const DEFAULT_POIS_PER_CITY = 400;
 const MAX_CANDIDATES_PER_BUCKET = 2000;
@@ -58,8 +59,8 @@ export async function selectionCandidates(
     `WITH counted AS (
        SELECT id, name, category, address, source_ids, curation,
          count(*) OVER (PARTITION BY lower(name)) AS same_name
-       FROM pois
-       WHERE destination_id = $1 AND status = 'active' AND merged_into_id IS NULL
+       FROM pois p
+       WHERE destination_id = $1 AND status = 'active' AND merged_into_id IS NULL AND ${HAS_CONTENT_REF}
          AND category = ANY($2::text[]) AND char_length(name) >= 3
      )
      SELECT id, name, category, address,
@@ -80,7 +81,7 @@ const scoresSchema = z.object({
 });
 
 const SYSTEM = `You pick places worth a traveller's time from a numbered list of open-data places in one destination (name, category, address).
-Score each place you would put in a curated city guide: 3 = famous landmark or must-see, 2 = well known or locally loved, 1 = a solid, useful choice. Leave out places you do not recognise as notable, generic businesses, offices, residential buildings and anything that looks like a data error.
+Score each place you would put in a curated city guide: 3 = famous landmark or must-see, 2 = well known or locally loved, 1 = a solid, useful choice. Leave out places you do not recognise as notable, generic businesses, tour operators, travel agencies, vehicle rentals, offices, residential buildings and anything that looks like a data error.
 For practical places (stations, hospitals, pharmacies) score the ones a visitor would realistically need. Reply with JSON only: {"picks": [{"n": <number>, "score": <1-3>}]}.`;
 
 function scoringRequest(destination: string, chunk: readonly SelectionCandidate[]) {
@@ -258,13 +259,14 @@ export function pickCurated(
   return [...chosen];
 }
 
-/** The curated POI ids of one destination, `mustInclude` among them. */
+/** The curated POI ids of one destination, `mustInclude` among them and none of `leftOut`. */
 export async function selectCurated(
   pool: pg.Pool,
   destination: { readonly id: string; readonly slug: string },
   target: number,
   options: ScoreOptions,
   mustInclude: readonly string[] = [],
+  leftOut: ReadonlySet<string> = new Set(),
 ): Promise<string[]> {
   const buckets = [];
   for (const bucket of CURATED_BUCKETS) {
@@ -281,5 +283,10 @@ export async function selectCurated(
     all.filter((c) => !c.editorial),
     options,
   );
-  return pickCurated(buckets, scores, target, mustInclude);
+  // Left out after scoring, so the scored chunks stay the cached ones.
+  const kept = buckets.map((bucket) => ({
+    share: bucket.share,
+    candidates: bucket.candidates.filter((c) => !leftOut.has(c.id)),
+  }));
+  return pickCurated(kept, scores, target, mustInclude);
 }

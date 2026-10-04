@@ -8,7 +8,7 @@ import type { AiRoute } from '@cp/domain';
 import type { Gateway, GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
@@ -54,7 +54,7 @@ export function buildCopyRequest(
 ): GatewayInput {
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(guide)) },
       { type: 'text', text: `${task}\n${COPY_RULES}` },
     ],
     messages: [

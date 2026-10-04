@@ -13,7 +13,7 @@ import { z } from 'zod';
 import type { Gateway, GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import { personaIdSchema, type PersonaId } from '../../persona/schema';
 import { textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
@@ -116,7 +116,7 @@ export function describeFacts(facts: PitchFacts): string {
 export function buildPitchRequest(facts: PitchFacts): GatewayInput {
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[pitchPersona(facts)]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(pitchPersona(facts))) },
       { type: 'text', text: TASK },
     ],
     messages: [

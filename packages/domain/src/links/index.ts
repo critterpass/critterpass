@@ -65,3 +65,4 @@ export {
   type LinkSettings,
   type LinkState,
 } from './wire';
+export * from './trip-paths';

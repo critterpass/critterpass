@@ -23,6 +23,7 @@ import { z } from 'zod';
 
 import type { AppEnv } from '../app';
 import type { CommandDoorDeps } from '../commands/_framework/doors';
+import { visiblePlanVersion, type VisiblePlanVersion } from '../plan/visible-version';
 import { requireCommandSession } from '../commands/_framework/session';
 import { readFitThresholds, straightLineSource, tripFitFacts } from '../planning/fit/context';
 import type { FitDeps } from '../planning/fit/service';
@@ -77,6 +78,12 @@ export interface PlaceContext {
   readonly suggested_slot: SuggestedSlot | null;
   readonly add_mode: 'apply' | 'changeset';
   readonly base_version: string | null;
+  /**
+   * The plan the caller's plan screens show: the crew's, or an organiser's own draft before there
+   * is one (`kind: 'draft'`, edited with `apply_draft_ops`); null when they have none to see.
+   * `base_version` and `add_mode` above stay the crew plan's, for installed builds.
+   */
+  readonly plan_version: VisiblePlanVersion | null;
   /** Drive or walk minutes from the night's stay, by the planning travel estimate. */
   readonly from_stay: {
     readonly name: string;
@@ -153,6 +160,7 @@ export async function readPlaceContext(
     suggested_slot: suggested,
     add_mode: trip.organiser ? 'apply' : 'changeset',
     base_version: trip.current_version_id,
+    plan_version: await visiblePlanVersion(tx, trip.id),
     ...planning,
   };
 }

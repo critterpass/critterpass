@@ -8,7 +8,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import { translateLanguageName } from '../translate/prompt';
 import {
   MAX_SLIDES,
@@ -89,7 +89,7 @@ export function buildVersionRequest(context: VersionContext): GatewayInput {
   const language = replyLanguage(context.locale);
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[context.guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(context.guide)) },
       { type: 'text', text: language === '' ? TASK : `${TASK}\n${READER_LANGUAGE_RULES}` },
     ],
     messages: [

@@ -36,15 +36,19 @@ function TripMapScene({
   snap,
   empty = false,
   today = false,
+  noPack = false,
 }: {
   readonly snap: MapSheetSnap;
   readonly empty?: boolean;
   /** The trip is under way and the day shown is today. */
   readonly today?: boolean;
+  /** The destination has no region pack: a slug the tiles host has never heard of. */
+  readonly noPack?: boolean;
 }) {
   const [model] = useState(() => ({
     ...(empty ? labEmptyModel() : labTripModel()),
     ...(today ? { now: ON_DAY_3 } : {}),
+    ...(noPack ? { destinationSlug: 'lab-no-region-pack' } : {}),
   }));
   const { dayNo, setDayNo, route } = useLabDay(model);
   return (
@@ -163,6 +167,8 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map-day-today': () => <TripMapScene snap="half" today />,
   'trip-map-whole-trip': () => <TripMapScene snap="full" />,
   'trip-map-nothing-saved': () => <TripMapScene snap="half" empty />,
+  'trip-map-no-pack': () => <TripMapScene snap="peek" noPack />,
+  'trip-map-day-no-pack': () => <TripMapScene snap="half" noPack />,
   'day-plan': () => <DayPlanScene />,
   'day-plan-today': () => <DayPlanScene today />,
   'day-plan-map-open': () => <DayMapScene />,

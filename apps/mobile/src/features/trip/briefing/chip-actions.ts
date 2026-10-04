@@ -3,7 +3,7 @@
  * at once); a nudge also says who was nudged, and OPEN follows the line's link.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names and URL schemes, never copy. */
-import type { ActBriefingItemPayload } from '@cp/domain';
+import { currentAppPath, type ActBriefingItemPayload } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { msg, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -23,9 +23,12 @@ export const actBriefingItemCommand = defineClientCommand<ActBriefingItemPayload
   summarize: () => msg({ id: 'trip.briefing.queued', message: 'Your briefing' }),
 });
 
-/** Opens a briefing link: an app path in the app, anything else with the system. */
+/**
+ * Opens a briefing link: an app path in the app (lines written earlier name the trip hub and its
+ * day by their former paths), anything else with the system.
+ */
 export function openBriefingLink(link: string): void {
-  if (link.startsWith('/')) router.push(link);
+  if (link.startsWith('/')) router.push(currentAppPath(link));
   else void Linking.openURL(link).catch(() => false);
 }
 

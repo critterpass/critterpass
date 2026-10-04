@@ -8,7 +8,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { personaPackSchema, REPO_PACKS, type PersonaId } from '@cp/ai';
+import { personaPackSchema, REPO_PACKS, resolvePersonaPack, type PersonaId } from '@cp/ai';
 import { PERSONA_KEYS, personaItemSchema, type ContentItem } from '@cp/content';
 import { critters, isGuideSpec } from '@cp/critter-art';
 import { z } from 'zod';
@@ -131,7 +131,7 @@ export function toPersona(
   output: PersonaOutput,
   version: string,
 ): ContentItem<'personas'> {
-  const base = REPO_PACKS[id];
+  const base = resolvePersonaPack(id);
   const known = new Set(base.local_words.map((w) => w.term.toLowerCase()));
   const pack = personaPackSchema.parse({
     ...base,
@@ -169,9 +169,7 @@ export const personasKind: KindModule<'personas'> = {
     Promise.resolve(
       brief.units.flatMap((unit) => {
         const output = outputs.get(unit.id) as PersonaOutput | undefined;
-        return output === undefined
-          ? []
-          : [toPersona(unit.id as PersonaId, output, `content-${ctx.batchKey}`)];
+        return output === undefined ? [] : [toPersona(unit.id, output, `content-${ctx.batchKey}`)];
       }),
     ),
   validators: {

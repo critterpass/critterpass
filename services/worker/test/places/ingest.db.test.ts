@@ -254,4 +254,37 @@ describe('ingestDestination', () => {
     );
     expect(result.fsqOsGated).toBe(true);
   });
+
+  it('leaves a row unwritten on a rerun that changes nothing, and rewrites it when a field changes', async () => {
+    const row: PlaceSourceRow = {
+      sourceId: 'overture-kinkaku',
+      name: 'Kinkaku-ji',
+      categoryLabels: ['buddhist_temple'],
+      lat: 35.0394,
+      lng: 135.7292,
+      confidence: 0.9,
+    };
+    const ingest = (rows: PlaceSourceRow[]) =>
+      ingestDestination(
+        pool,
+        { destinationId, bbox: KYOTO_BBOX },
+        { readOverturePlaces: fixedReader(rows), readFsqOsPlaces: fixedReader([]) },
+      );
+    const stamp = async () => {
+      const { rows } = await pool.query<{ updated_at: Date; name: string }>(
+        "SELECT updated_at, name FROM pois WHERE source_ids->>'overture' = 'overture-kinkaku'",
+      );
+      return rows[0]!;
+    };
+
+    await ingest([row]);
+    const first = await stamp();
+    await ingest([row]);
+    expect((await stamp()).updated_at).toEqual(first.updated_at);
+
+    await ingest([{ ...row, name: 'Kinkaku-ji Temple' }]);
+    const renamed = await stamp();
+    expect(renamed.name).toBe('Kinkaku-ji Temple');
+    expect(renamed.updated_at.getTime()).toBeGreaterThan(first.updated_at.getTime());
+  });
 });

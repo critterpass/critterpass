@@ -21,6 +21,7 @@ import { getPlaceDetail } from './detail';
 import { getPlaceLive, type FoursquareLiveConfig } from './live';
 import { registerLiveSearchRoutes } from './live-search-routes';
 import { getMapRegionManifest } from './map-regions';
+import { createWantedRegionsReader, WANTED_MAX } from './map-regions-wanted';
 import { searchPlaces, type PlaceSearchFilters } from './search';
 
 export interface PlacesRouteDeps {
@@ -145,6 +146,23 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
     const live = await getPlaceLive(deps.pool, poiId, deps.foursquare);
     c.header('Cache-Control', 'no-store');
     return c.json(live);
+  });
+
+  // No session: slugs and boxes of destinations waiting for a region pack, for the scheduled
+  // workflow that builds them. Registered before the manifest route, whose parameter would
+  // otherwise take "wanted".
+  const wantedRegions = createWantedRegionsReader(deps.pool);
+  app.get('/v1/map/regions/wanted', async (c) => {
+    const limit = z.coerce
+      .number()
+      .int()
+      .min(1)
+      .max(WANTED_MAX)
+      .catch(6)
+      .parse(c.req.query('limit'));
+    const regions = await wantedRegions();
+    c.header('Cache-Control', 'public, max-age=300');
+    return c.json({ regions: regions.slice(0, limit) });
   });
 
   app.get('/v1/map/regions/:destination_id', async (c) => {

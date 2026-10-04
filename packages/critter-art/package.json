@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./canvas2d": "./src/backends/canvas2d/index.ts",
+    "./guides": "./src/guides/index.ts",
     "./skia": "./src/backends/skia/index.ts",
     "./share": "./src/share/index.ts",
     "./share/node": "./src/share/backend-node.ts",
@@ -26,6 +27,7 @@
     "gallery:build": "vite build --config gallery/vite.config.ts"
   },
   "dependencies": {
+    "@cp/design-tokens": "workspace:*",
     "zod": "catalog:"
   },
   "peerDependencies": {
@@ -37,7 +39,6 @@
     }
   },
   "devDependencies": {
-    "@cp/design-tokens": "workspace:*",
     "@napi-rs/canvas": "catalog:",
     "@shopify/react-native-skia": "2.11.2",
     "canvaskit-wasm": "0.41.0",

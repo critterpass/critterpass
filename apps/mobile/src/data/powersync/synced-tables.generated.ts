@@ -84,7 +84,7 @@ export const SYNCED_TABLE_COLUMNS = {
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
-    'slug name country coverage colour currency best_months tz geofence critter_set_id drive_factor:real created_at updated_at',
+    'slug name country coverage colour currency best_months tz geofence critter_set_id critter_key drive_factor:real created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   disruptions:
@@ -117,7 +117,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
   guide_skins: 'user_id guide_id form_id created_at updated_at',
   guide_threads: 'user_id trip_id crew_id guide_id mode last_message_at created_at updated_at',
-  guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
+  guides:
+    'slug name colour persona_pack_version voice_id local_words critter_key accent created_at updated_at',
   hazard_alerts:
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
   help_articles:
@@ -141,7 +142,7 @@ export const SYNCED_TABLE_COLUMNS = {
   invites:
     'crew_id trip_id inviter_id join_code_id kind seat_token_hash invitee_user_id channel status waitlist_position:integer expires_at claimed_by claimed_at nudged_at created_at updated_at',
   itinerary_versions:
-    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage',
+    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage origin checked_at',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   leave_bys:
@@ -200,7 +201,7 @@ export const SYNCED_TABLE_COLUMNS = {
   plan_check_issues:
     'trip_id version_id kind severity day_id stable_ids params fix rank:integer fingerprint created_at updated_at',
   plan_checks:
-    'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer created_at updated_at',
+    'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer quiet created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at i18n',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id custom_place provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',

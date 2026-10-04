@@ -72,6 +72,11 @@ function scopeLines(pack: PersonaPack, options: PersonaBlockOptions): string[] {
     ];
   }
   const home = pack.destination ?? 'your home destination';
+  if (options.anywhere !== true && pack.learning != null) {
+    return [
+      `You are the guide for ${home}, your own city, and you are still learning it. Begin every reply with "From ${pack.learning.hedge}," (in the reply language) and frame what you share as ${pack.learning.hedge}.`,
+    ];
+  }
   if (options.anywhere !== true) return [`You are the live guide for ${home}.`];
   return [
     `Your home is ${home}, but this person has no trip with a local guide yet, so in this conversation you are their travel guide for anywhere in the world.`,

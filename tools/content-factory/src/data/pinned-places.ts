@@ -2,8 +2,12 @@
  * Places each destination's curated set always holds (see kinds/places/pins.ts), by the name the
  * open data uses and a point at the real place. Đà Nẵng's list is the itinerary of the first crew
  * trip there (stay, day plans, airport) plus the city's landmarks and well-known local food.
+ * Đà Lạt's list is the sights the landmark step does not reach and the town's cafés and food.
  */
-import type { PinnedPlace } from '../kinds/places/pins';
+import type { PairRuling } from '../kinds/places/merges';
+import type { LeftOutPlace, PinnedPlace } from '../kinds/places/pins';
+import { DA_LAT_PINS, DA_LAT_RULINGS } from './places-da-lat';
+import { DA_LAT_LEFT_OUT } from './places-da-lat-left-out';
 
 export const PINNED_PLACES: Readonly<Record<string, readonly PinnedPlace[]>> = {
   'da-nang': [
@@ -41,4 +45,22 @@ export const PINNED_PLACES: Readonly<Record<string, readonly PinnedPlace[]>> = {
     { name: 'Cộng Cà Phê', lat: 16.049, lng: 108.245 },
     { name: 'Beach Front Cafe', lat: 16.0564, lng: 108.2474 },
   ],
+  'vn-da-lat': DA_LAT_PINS,
+};
+
+/**
+ * Records the curated set never takes (by open-data name and the record's own point), each with
+ * the reason the review page shows: a point far from the real place, a second record of a place
+ * the set already holds, or a seller rather than a place to visit.
+ */
+export const LEFT_OUT_PLACES: Readonly<Record<string, readonly LeftOutPlace[]>> = {
+  'vn-da-lat': DA_LAT_LEFT_OUT,
+};
+
+/**
+ * Pairs of curated records the duplicate decision left open, settled by hand: one place where a
+ * street address or a Wikidata item says so, otherwise both are kept. The review page prints each.
+ */
+export const DUPLICATE_RULINGS: Readonly<Record<string, readonly PairRuling[]>> = {
+  'vn-da-lat': DA_LAT_RULINGS,
 };

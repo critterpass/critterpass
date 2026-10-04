@@ -47,6 +47,8 @@ export const destinations = pgTable('destinations', {
   geofence: geographyMultiPolygon('geofence'),
   /** The place (critter set) this destination belongs to; no FK here to keep the modules acyclic. */
   critterSetId: uuid('critter_set_id'),
+  /** The critter whose city this is (`critters.key`); kept by `app.sync_place_destinations()`. */
+  critterKey: text('critter_key'),
   /** Calibrates free-flow drive minutes to local traffic (editorial; 1.0 = none). */
   driveFactor: real('drive_factor').notNull().default(1),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
@@ -63,6 +65,10 @@ export const guides = pgTable('guides', {
   personaPackVersion: text('persona_pack_version'),
   voiceId: text('voice_id'),
   localWords: jsonb('local_words').notNull().default({}),
+  /** The critter this guide is (`critters.key`); null for a guide whose critter is not released. */
+  critterKey: text('critter_key').unique(),
+  /** `#rrggbb`; null until the catalogue sync has seen the guide's critter. */
+  accent: text('accent'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

@@ -6,11 +6,8 @@
 import { channelName } from '@cp/domain';
 
 import type { ReaderClient, RunAsGuideReader } from '../../context/build';
-import {
-  LATEST_APPROVED_PERSONA_SQL,
-  loadPersonaPack,
-  type ApprovedPersonaRow,
-} from '../../persona/loader';
+import { LATEST_APPROVED_PERSONA_SQL, type ApprovedPersonaRow } from '../../persona/loader';
+import { loadPersonaPack } from '../../persona/resolve';
 import { personaIdSchema, type PersonaPack } from '../../persona/schema';
 import type { RunAsSystem, SqlClient } from '../../usage';
 import type { CrewTurnPorts, MentionClaim } from './crew-turn';

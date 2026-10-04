@@ -135,7 +135,9 @@ export const WORSHIP: ReadonlySet<string> = new Set(['religious', 'church', 'con
 
 /** Words that name the region, or say nothing about which place it is. */
 export const PLAIN: ReadonlySet<string> = new Set([
-  ...['da', 'nang', 'danang', 'hoi', 'an', 'hoian', 'quang', 'nam', 'viet', 'vietnam'],
+  ...['da', 'nang', 'danang', 'hoi', 'an', 'hoian', 'lat', 'quang', 'nam', 'viet', 'vietnam'],
+  // "Khu du lịch": tourist area.
+  ...['khu', 'lich', 'kdl'],
   ...['of', 'the', 'and', 'va', 'de', 'old', 'ancient', 'town', 'city'],
   ...['thanh', 'pho', 'co', 'dinh', 'lang'],
   ...['in', 'at', 'del', 'la', 'el', 'los', 'las', 'do', 'dos', 'das', 'di', 'du', 'le', 'y'],

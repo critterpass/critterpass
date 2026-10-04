@@ -1,6 +1,7 @@
 /**
- * The budget step in a crew that does not settle in dollars, on the real stack. The step is $50 in
- * the crew's own currency (two significant digits) and the server is its only authority: the band
+ * The budget step in a crew that does not settle in dollars, on the real stack. The step is an
+ * amount the crew would say out loud in its own currency (500,000 ₫; the round amount nearest $50
+ * where a currency has no step of its own) and the server is its only authority: the band
  * read hands it out below four maxes alongside the counts, a target on it locks into a plan in the
  * crew currency, and a target off it is refused with the step and uses up none of the organiser's
  * hourly tries. The rates are the newest of each currency, so a newer day that has only the
@@ -23,11 +24,12 @@ import {
   type SetupHarness,
 } from './setup-harness';
 
-// One euro buys 1.25 dollars, so $50 is €40: 1,300,000 ₫ and S$64.00 at the rates below.
+// One euro buys 1.25 dollars, so $50 is €40: S$64.00 at the rates below, which steps in S$50.
+// Đồng steps in half millions whatever the rates say.
 const RATES = { USD: '1.25', VND: '32500', SGD: '1.6' } as const;
 const CREWS = [
-  { currency: 'VND', stepMinor: 1_300_000, targetMinor: 26_000_000 },
-  { currency: 'SGD', stepMinor: 6_400, targetMinor: 192_000 },
+  { currency: 'VND', stepMinor: 500_000, targetMinor: 26_000_000 },
+  { currency: 'SGD', stepMinor: 5_000, targetMinor: 190_000 },
 ] as const;
 
 let harness: SetupHarness;
@@ -107,9 +109,9 @@ describe.each(CREWS)('a crew settling in $currency', ({ currency, stepMinor, tar
   });
 
   it('refuses a target off the step with the step, without using up a try', async () => {
-    // A dollar-sized step (5,000 minor units) is what a device with no dollar rate used to send.
+    // Half a step off the grid, as a device still stepping in converted dollars would send.
     for (let i = 0; i <= BUDGET_LOCKS_PER_HOUR; i += 1) {
-      const refused = await lock(targetMinor + 5_000);
+      const refused = await lock(targetMinor + stepMinor / 2);
       expect(refused.status).toBe(422);
       expect(errorOf(refused)).toMatchObject({
         code: 'VALIDATION',
