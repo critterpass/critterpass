@@ -6,6 +6,7 @@
  * destination page (once that page is registered); a place near home opens the same page.
  */
 import { tokens } from '@cp/design-tokens';
+import { toCountryCode } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -142,12 +143,32 @@ export interface NearHomePlace {
 const NEAR_HOME_MAX = 6;
 
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-const NEAR_HOME_SQL = `SELECT d.id, d.name FROM destinations d
-  JOIN users u ON upper(u.home_country) = upper(d.country)
-  WHERE u.id = ?
-  ORDER BY CASE d.coverage WHEN 'live' THEN 0 ELSE 1 END, d.name LIMIT ${NEAR_HOME_MAX}`;
+const NEAR_HOME_SQL = `SELECT d.id, d.name, d.country, d.coverage,
+    (SELECT home_country FROM users WHERE id = ?) AS home
+  FROM destinations d ORDER BY d.name`;
 const NEAR_HOME_TABLES = ['destinations', 'users'];
 /* eslint-enable lingui/no-unlocalized-strings */
+
+export interface DestinationRow extends NearHomePlace {
+  readonly country: string | null;
+  readonly coverage: string | null;
+  readonly home: string | null;
+}
+
+/**
+ * The catalogue's places in the traveller's home country (the catalogue writes countries by name,
+ * the account by code: both are read as codes), places with a live guide first, a handful at most.
+ */
+export function nearHomePlaces(rows: readonly DestinationRow[]): NearHomePlace[] {
+  const home = toCountryCode(rows[0]?.home ?? null);
+  if (home === null) return [];
+  const live = (row: DestinationRow) => (row.coverage === 'live' ? 0 : 1);
+  return rows
+    .filter((row) => toCountryCode(row.country) === home)
+    .sort((a, b) => live(a) - live(b))
+    .slice(0, NEAR_HOME_MAX)
+    .map((row) => ({ id: row.id, name: row.name }));
+}
 
 /** The destinations in the traveller's home country, from the synced catalogue. */
 export function useNearHomePlaces(uid: string | null): readonly NearHomePlace[] {
@@ -157,9 +178,9 @@ export function useNearHomePlaces(uid: string | null): readonly NearHomePlace[] 
     if (db === null || uid === null) return undefined;
     const controller = new AbortController();
     const load = () =>
-      db.getAll<NearHomePlace>(NEAR_HOME_SQL, [uid]).then(
+      db.getAll<DestinationRow>(NEAR_HOME_SQL, [uid]).then(
         (rows) => {
-          if (!controller.signal.aborted) setPlaces(rows);
+          if (!controller.signal.aborted) setPlaces(nearHomePlaces(rows));
         },
         () => undefined,
       );

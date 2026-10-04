@@ -8,6 +8,7 @@
  */
 import { plural, t } from '@lingui/core/macro';
 import { useMemo, useRef, useState } from 'react';
+import { View } from 'react-native';
 
 import { TRIP_LENGTH_MAX_DAYS } from '@cp/domain';
 
@@ -51,6 +52,7 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
   chips: { flexWrap: 'wrap', gap: th.space['8'] },
   summary: { gap: th.space['4'] },
+  footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'] },
 }));
 
 export interface WeekPickerProps {
@@ -247,16 +249,19 @@ export function WeekPicker({
               </Text>
             ) : null}
           </Stack>
-          {picked !== null && problem === null ? (
-            <PillButton
-              label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
-              loading={busy}
-              onPress={() => onLock(picked.start, picked.end)}
-              testID="picker-lock"
-            />
-          ) : null}
         </Stack>
       </SheetScrollView>
+      {/* Under the calendar, outside the scroll: the lock is in reach however long the sheet. */}
+      <View style={styles.footer}>
+        {picked !== null && problem === null ? (
+          <PillButton
+            label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
+            loading={busy}
+            onPress={() => onLock(picked.start, picked.end)}
+            testID="picker-lock"
+          />
+        ) : null}
+      </View>
     </Sheet>
   );
 }
