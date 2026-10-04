@@ -268,7 +268,7 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-23-crew-new
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Hoi Da Lat 4'
+- inputText: 'Hoi Da Lat 5'
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-24-crew-name-typed
 - tapOn:
@@ -879,14 +879,8 @@ appId: app.critterpass.dev
     duration: 600
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-84-second-diff-scrolled
-- scrollUntilVisible:
-    element:
-      id: 'redraft-put-back'
-    direction: DOWN
-    timeout: 10000
-    optional: true
 - tapOn:
-    id: 'redraft-put-back'
+    id: 'redraft-keep'
     optional: true
 - tapOn:
     id: 'redraft-outcome-back'
@@ -896,7 +890,7 @@ appId: app.critterpass.dev
       id: 'draft-review'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-85-draft-after-put-back
+- takeScreenshot: setup-draft-85-draft-after-second-keep
 
 # The third time: the last free redraft asks first. She reads it and backs out.
 - scrollUntilVisible:
@@ -934,6 +928,13 @@ appId: app.critterpass.dev
     timeout: 8000
     optional: true
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'change-day-submit'
+    commands:
+      - back
+      - waitForAnimationToEnd
 - takeScreenshot: setup-draft-89-draft-after-backing-out
 
 # Earlier drafts, and the way back to Home with the plan still private.
@@ -945,6 +946,11 @@ appId: app.critterpass.dev
     optional: true
 - tapOn:
     id: 'draft-history-open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'draft-history'
+    timeout: 8000
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-90-earlier-drafts
