@@ -18,9 +18,14 @@ export interface CrewRowProps {
   readonly keen: readonly StackMember[];
   /** The crew's Q&A line about the place, when the chat has one. */
   readonly qna: string | null;
+  /**
+   * The faces are who saved it (the planning place page): "Alex and Rin saved it." leads, then
+   * the Q&A line.
+   */
+  readonly savers?: boolean | undefined;
 }
 
-export function CrewRow({ keen, qna }: CrewRowProps) {
+export function CrewRow({ keen, qna, savers = false }: CrewRowProps) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   if (keen.length === 0 && qna === null) return null;
@@ -29,8 +34,16 @@ export function CrewRow({ keen, qna }: CrewRowProps) {
     keen.slice(0, 3).map((member) => member.name),
   );
   const more = Math.max(0, keen.length - 3);
-  const line =
-    qna !== null
+  const answer = qna === null ? null : guideWritten(qna, i18n.locale);
+  const saved =
+    keen.length === 0
+      ? null
+      : more > 0
+        ? t({ id: 'explore.crew.savedMore', message: `${names} and ${more} more saved it.` })
+        : t({ id: 'explore.crew.saved', message: `${names} saved it.` });
+  const line = savers
+    ? [saved, answer].filter((part): part is string => part !== null).join(' ')
+    : qna !== null
       ? guideWritten(qna, i18n.locale)
       : more > 0
         ? t({ id: 'explore.crew.keenMore', message: `${names} and ${more} more are keen on this.` })
