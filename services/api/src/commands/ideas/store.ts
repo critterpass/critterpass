@@ -97,7 +97,9 @@ export async function pinForTrip(
 export interface BackIdeaInput {
   readonly tripId: string;
   readonly crewId: string | null;
+  /** Who acts; backs the idea unless `backerIds` names the backers (a swipe match's yes voters). */
   readonly uid: string;
+  readonly backerIds?: readonly string[];
   readonly place: IdeaPlace;
   readonly source: IdeaSource;
   readonly sourceUrl?: string | undefined;
@@ -108,13 +110,15 @@ export interface BackIdeaInput {
 export interface BackedIdea {
   readonly ideaId: string;
   readonly backerIds: string[];
-  /** False when the person already backed it from this source (nothing changed). */
+  /** False when every backer already backed it from this source (nothing changed). */
   readonly changed: boolean;
 }
 
 type IdeaRow = { id: string; backer_ids: string[]; changed: boolean };
 
-/** Adds the person (and the source) to an existing idea: the client's id, or the place's live idea. */
+const backersOf = (input: BackIdeaInput): readonly string[] => input.backerIds ?? [input.uid];
+
+/** Adds the backers (and the source) to an existing idea: the client's id, or the place's live idea. */
 async function joinIdea(tx: pg.PoolClient, input: BackIdeaInput): Promise<IdeaRow | undefined> {
   const { rows } = await tx.query<IdeaRow>(
     `WITH target AS (
@@ -123,19 +127,20 @@ async function joinIdea(tx: pg.PoolClient, input: BackIdeaInput): Promise<IdeaRo
           AND (id = $2 OR ($3::uuid IS NOT NULL AND poi_id = $3))
         ORDER BY (id = $2) DESC LIMIT 1 FOR UPDATE)
      UPDATE trip_ideas i
-        SET backer_ids = CASE WHEN $4 = ANY(t.backer_ids) THEN t.backer_ids
-                              ELSE t.backer_ids || $4::uuid END,
+        SET backer_ids = t.backer_ids || ARRAY(
+              SELECT b FROM unnest($4::uuid[]) WITH ORDINALITY AS n(b, k)
+               WHERE b <> ALL(t.backer_ids) ORDER BY k),
             sources = CASE WHEN $5 = ANY(t.sources) THEN t.sources ELSE t.sources || $5::text END,
             source_url = coalesce(i.source_url, $6)
        FROM target t
       WHERE i.id = t.id
       RETURNING i.id, i.backer_ids,
-                NOT ($4 = ANY(t.backer_ids) AND $5 = ANY(t.sources)) AS changed`,
+                NOT ($4::uuid[] <@ t.backer_ids AND $5 = ANY(t.sources)) AS changed`,
     [
       input.tripId,
       input.ideaId ?? null,
       input.place.poiId,
-      input.uid,
+      backersOf(input),
       input.source,
       input.sourceUrl ?? null,
     ],
@@ -148,8 +153,8 @@ async function insertIdea(tx: pg.PoolClient, input: BackIdeaInput): Promise<Idea
   const { rows } = await tx.query<IdeaRow>(
     `INSERT INTO trip_ideas (id, trip_id, poi_id, name, name_local, category, lat, lng,
                              backer_ids, sources, source_url, created_by)
-     SELECT coalesce($1::uuid, uuidv7()), $2, $3, $4, $5, $6, $7, $8, ARRAY[$9::uuid],
-            ARRAY[$10::text], $11, $9
+     SELECT coalesce($1::uuid, uuidv7()), $2, $3, $4, $5, $6, $7, $8, $9::uuid[],
+            ARRAY[$10::text], $11, $12
       WHERE $1::uuid IS NULL OR NOT EXISTS (SELECT 1 FROM trip_ideas WHERE id = $1)
      ON CONFLICT (trip_id, poi_id) WHERE poi_id IS NOT NULL AND deleted_at IS NULL DO NOTHING
      RETURNING id, backer_ids, true AS changed`,
@@ -162,17 +167,18 @@ async function insertIdea(tx: pg.PoolClient, input: BackIdeaInput): Promise<Idea
       place.category,
       place.lat,
       place.lng,
-      input.uid,
+      backersOf(input),
       input.source,
       input.sourceUrl ?? null,
+      input.uid,
     ],
   );
   return rows[0];
 }
 
 /**
- * The person backs the idea for this place: a new idea, or one more backer (and source) on the
- * live one. Two people saving one place at once make one idea with both backers: the insert that
+ * The person (or the named backers) back the idea for this place: a new idea, or more backers (and
+ * the source) on the live one. Two people saving one place at once make one idea with both backers: the insert that
  * loses the race on the live-idea key joins the winner's row instead.
  */
 export async function backIdea(tx: pg.PoolClient, input: BackIdeaInput): Promise<BackedIdea> {

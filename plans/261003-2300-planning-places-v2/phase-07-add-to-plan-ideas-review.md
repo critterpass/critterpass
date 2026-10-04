@@ -1,7 +1,7 @@
 ---
 phase: 7
 title: Add to plan, Ideas, placing them and the review
-status: pending
+status: done
 depends_on: [1, 3, 4, 5]
 wave: 3
 screens: [7f-1, 7f-2, 7h-6, 7h-7]
@@ -109,7 +109,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Handlers with the display copy taken from `pois` (or the pin). 2. `save_place`/`unsave_place` trip hook. 3. `ideas.seed` (events + backfill command). 4. Realtime hint.
 - Tests: `pnpm test:remote @cp/api -- commands/ideas` (happy path + outsider deny + outside destination); `pnpm test:remote @cp/worker -- planning/ideas-seed.db`
 - Done when: two members saving the same place make one idea with two backers; an outsider gets `NOT_FOUND`.
-- Status: todo
+- Status: done — 5a47b01d3 (#613)
 
 ### T2 — Swipe matches go to Ideas
 - Goal: "matches drop into Ideas with everyone who said yes" (7g-2).
@@ -117,7 +117,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. In the vote transaction: unique match row, then idea upsert with the yes voters. 2. Contract + realtime payload. 3. Apply only after the founder confirms the Q-24 change; otherwise keep the ChangeSet path and still add the idea.
 - Tests: `pnpm test:remote @cp/api -- commands/explore/swipe` (20 concurrent yes votes → one match, one idea, all yes voters as backers)
 - Done when: a match shows in Ideas on both devices with the yes voters' faces.
-- Status: todo
+- Status: done — 05478f796
 
 ### T3 — Placement engine and job
 - Goal: PLACE THEM FOR ME in the background with progress.
@@ -125,7 +125,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Pure assignment over fit results. 2. Agent job steps and partial results (placed idea → day, number) for the 7h-6 animation. 3. Draft change set (author-only). 4. Ping + inbox row. 5. Wire the per-trip system jobs cap.
 - Tests: `pnpm --filter @cp/planner test -- placement` (property, 60 s budget: never moves a locked item, never places a split idea, same input → same output); `pnpm test:remote @cp/worker -- planning/place-ideas.db`
 - Done when: the Bali fixture places 6, leaves 2 "for you" with their reasons; the draft is invisible to other members (stream test from phase 2 covers the rule).
-- Status: todo
+- Status: done — c37fc93a3
 
 ### T4 — Add to plan sheet (7f-1)
 - Goal: one sheet for every add.
@@ -133,7 +133,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Fit with context; day chips + dots; block preview; nearby suggestion. 2. Local re-evaluation on day/time change. 3. Who's going + split. 4. Organiser apply / member suggest; save for later; registered `7f-1`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/add` (state machine: preset day honoured, day switch recomputes reasons, member path produces a change set op)
 - Done when: adding Tirta Empul on a seeded trip shows SAT 17 · 08:00 with the four reasons, and the stop appears with its leg on a second device.
-- Status: todo
+- Status: done — 66e28b41f
 
 ### T5 — Ideas screen with drag onto a day (7f-2)
 - Goal: everything saved but not placed, placeable by hand.
@@ -141,7 +141,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Rows from `useTripIdeas` with fit lines. 2. Drag with Gesture Handler 3: lift, chip hit-testing (pure `dragHit`), grade glow, drop → 7f-1. 3. Counts and PLACE THEM FOR ME. 4. Links via `useScreenHref`. 5. Registered `7f-2`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/ideas` (hit-testing at chip edges, scroll while dragging)
 - Done when: drag works on the Android emulator and on an iPhone run; a11y action adds without dragging.
-- Status: todo
+- Status: done — 8af575c16
 
 ### T6 — Placing screen (7h-6)
 - Goal: the background job made visible, leavable.
@@ -149,7 +149,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Subscribe to `job.progress`; poll fallback (`jobs-route`). 2. Pins slide into numbered stops (≤ 8 animated views; reduce motion = fades). 3. Keep browsing; done → replace with 7h-7. 4. Registered `7h-6`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/ideas/placing` (progress reducer: out-of-order and repeated steps)
 - Done when: leaving mid-run still yields the review card and a ping.
-- Status: todo
+- Status: done — e53ceec65
 
 ### T7 — Review changes (7h-7)
 - Goal: one review for every set, in the new design.
@@ -157,7 +157,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Layout per 7h-7 (rows with day tags, needs-you section, only-you label). 2. `driving_delta_min` in the cost preview + chip. 3. Headlines per trigger. 4. `review/register.ts` registers `7h-7` and re-registers `3e-3` (same route; the layout switches on `planning.redesign`).
 - Tests: `pnpm test:remote @cp/api -- cost/preview.db` (driving delta); `pnpm --filter @cp/mobile test -- features/plan/review` (strike + recount)
 - Done when: send from 7h-7 creates the approval poll; a second device approves from the chat card; the plan updates on both.
-- Status: todo
+- Status: done — e0b162b0f
 
 ### T8 — Device flows and undesigned states
 - Goal: proof on device, gaps logged.
@@ -165,7 +165,7 @@ Reuse / extend / new: reuse `usePlanEditor` (now `data/plan`), `time-range-field
 - Steps: 1. Flows with shots named `7f-1-*`, `7f-2-*`, `7h-6-*`, `7h-7-*` (EN + VI). 2. Rename the old review flow's shots to `7h-7`. 3. Log the states below.
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/plan/add-to-plan.yaml,e2e/plan/ideas.yaml,e2e/plan/placing.yaml,e2e/plan/review.yaml" -f mode=compare -f pr=<n> -f shards=1`; iOS once for `add-to-plan.yaml` (sheet presentation)
 - Done when: sheets reviewed, `ui-reviewed` label applied by the controller.
-- Status: todo
+- Status: done — 5186afb5f (#622, b643446bb)
 
 ## Device flows
 
