@@ -13,4 +13,4 @@ export {
   type MapsApp,
 } from './maps-handoff';
 export { useMapsAppRow } from './maps-app-row';
-export { useGoOffer, type GoOffer } from './use-go-offer';
+export { goAirportLabel, useGoOffer, type GoOffer } from './use-go-offer';
