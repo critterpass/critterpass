@@ -1,10 +1,10 @@
 /**
  * A search row's +: opens Add to plan for the place. The sheet reads the place from the phone, so
- * a place only the server holds is saved to the trip's Ideas first (a saved place syncs over);
- * when that save is refused the row says so instead of opening an empty sheet.
+ * a place only the server holds is saved to the trip's Ideas first (a saved place syncs over) and
+ * taken back out if she backs out of the sheet; when that save is refused the row says so instead
+ * of opening an empty sheet.
  */
 
-import { generateUuidV7 } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useCallback } from 'react';
@@ -13,7 +13,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
 
-import { placeHeld, untilPlaceHeld } from '../place-detail/use-place-on-phone';
+import { ensurePlaceOnPhone } from '../place-detail/use-place-on-phone';
 import { saveIdeaCommand } from './commands';
 import { matchPlaceRef } from './search-navigation';
 
@@ -38,34 +38,19 @@ export function useAddPlace(input: {
         const href = matchPlaceRef(tripId, destinationId, { poiId: target.poiId }, 'add', dayId);
         if (href !== undefined) router.push(href);
       };
-      const onPhone = placeHeld(db, tripId, target.poiId);
-      void onPhone.then(async (held) => {
-        if (held) {
+      void ensurePlaceOnPhone(db, send, tripId, target.poiId).then((ok) => {
+        if (ok) {
           open();
           return;
         }
-        const result = await send({
-          idea_id: generateUuidV7(),
-          trip_id: tripId,
-          poi_id: target.poiId,
-          source: 'search',
+        const name = target.name;
+        toast.show({
+          id: 'search-add-failed',
+          title:
+            name === ''
+              ? t({ id: 'search.add.failedPlace', message: 'Couldn’t add that place. Try again.' })
+              : t({ id: 'search.add.failed', message: `Couldn’t add ${name}. Try again.` }),
         });
-        if (result.kind === 'rejected' || result.kind === 'unavailable') {
-          const name = target.name;
-          toast.show({
-            id: 'search-add-failed',
-            title:
-              name === ''
-                ? t({
-                    id: 'search.add.failedPlace',
-                    message: 'Couldn’t add that place. Try again.',
-                  })
-                : t({ id: 'search.add.failed', message: `Couldn’t add ${name}. Try again.` }),
-          });
-          return;
-        }
-        await untilPlaceHeld(db, tripId, target.poiId);
-        open();
       });
     },
     [send, db, tripId, destinationId, dayId],

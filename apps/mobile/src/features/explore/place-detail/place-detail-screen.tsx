@@ -40,6 +40,7 @@ import {
 import { PlaceDetailView } from './place-detail-view';
 import { areaFromAddress, sellsTickets } from './place-facts';
 import { RemoveForEveryone } from './remove-for-everyone';
+import { useSettleProvisionalIdeas } from './provisional-idea';
 import { useIdeaSave } from './use-idea-save';
 import { usePlaceOnPhone } from './use-place-on-phone';
 
@@ -151,6 +152,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
     tripId === null ? undefined : hrefFor('7f-1', { tripId, placeId, ...params });
   const otherDays = pick({ pick: 'day' });
   const onPhone = usePlaceOnPhone(tripId, placeId, row.name);
+  useSettleProvisionalIdeas();
 
   const press = () => {
     if (cta.kind === 'add') {

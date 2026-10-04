@@ -8,6 +8,7 @@ import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { useSettleProvisionalIdeas } from '../place-detail/provisional-idea';
 import { matchPlaceRef } from './search-navigation';
 import {
   useLivePlaces,
@@ -54,6 +55,7 @@ export interface SearchScreenProps extends SearchParams {
 export function SearchScreen(props: SearchScreenProps) {
   const { tripId } = props;
   const services = useSearchServices();
+  useSettleProvisionalIdeas();
   const trip = useSearchTrip(tripId);
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');

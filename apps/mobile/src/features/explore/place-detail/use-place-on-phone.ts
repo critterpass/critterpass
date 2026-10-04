@@ -1,7 +1,8 @@
 /**
  * Add to plan reads the place from the phone. A place the page drew from the api (a search result
  * nobody recommends) is not there, so before the sheet opens it is saved to the trip's Ideas, which
- * brings it over; a refused save says so instead of opening an empty sheet.
+ * brings it over; a refused save says so instead of opening an empty sheet. The save is
+ * provisional: backing out of the sheet takes it out again (./provisional-idea).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, wire values and toast ids, never copy. */
 import { generateUuidV7 } from '@cp/domain';
@@ -13,6 +14,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
 
 import { saveIdeaCommand } from '../search/commands';
+import { holdProvisionalIdea } from './provisional-idea';
 
 const HELD_SQL = `SELECT 1 AS held FROM pois WHERE id = ?1
   UNION ALL
@@ -43,6 +45,37 @@ export async function untilPlaceHeld(db: Reader, tripId: string, placeId: string
   }
 }
 
+type SaveIdea = (payload: {
+  idea_id: string;
+  trip_id: string;
+  poi_id: string;
+  source: 'search';
+}) => Promise<{ readonly kind: string }>;
+
+/**
+ * Makes sure the phone holds the place before Add to plan opens: held already, or saved to Ideas
+ * for the sheet's sake (taken back out if she then backs out). False when the save was refused.
+ */
+export async function ensurePlaceOnPhone(
+  db: Parameters<typeof holdProvisionalIdea>[0] & Reader,
+  send: SaveIdea,
+  tripId: string,
+  placeId: string,
+): Promise<boolean> {
+  if (await placeHeld(db, tripId, placeId)) return true;
+  const ideaId = generateUuidV7();
+  const result = await send({
+    idea_id: ideaId,
+    trip_id: tripId,
+    poi_id: placeId,
+    source: 'search',
+  });
+  if (result.kind === 'rejected' || result.kind === 'unavailable') return false;
+  holdProvisionalIdea(db, ideaId, placeId);
+  await untilPlaceHeld(db, tripId, placeId);
+  return true;
+}
+
 /** Runs `then` once the phone holds the place (at once when it already does). */
 export function usePlaceOnPhone(
   tripId: string | null,
@@ -57,29 +90,18 @@ export function usePlaceOnPhone(
         then();
         return;
       }
-      void placeHeld(db, tripId, placeId).then(async (held) => {
-        if (held) {
+      void ensurePlaceOnPhone(db, send, tripId, placeId).then((ok) => {
+        if (ok) {
           then();
           return;
         }
-        const result = await send({
-          idea_id: generateUuidV7(),
-          trip_id: tripId,
-          poi_id: placeId,
-          source: 'search',
+        toast.show({
+          id: 'place-add-failed',
+          title: t({
+            id: 'explore.detail.addFailed',
+            message: `Couldn’t add ${name}. Try again.`,
+          }),
         });
-        if (result.kind === 'rejected' || result.kind === 'unavailable') {
-          toast.show({
-            id: 'place-add-failed',
-            title: t({
-              id: 'explore.detail.addFailed',
-              message: `Couldn’t add ${name}. Try again.`,
-            }),
-          });
-          return;
-        }
-        await untilPlaceHeld(db, tripId, placeId);
-        then();
       });
     },
     [send, db, tripId, placeId, name],
