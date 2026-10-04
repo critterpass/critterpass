@@ -1,7 +1,7 @@
 /**
  * The place a GO opens on, read from the phone's synced rows: a place by id, the stop a leave-by
- * is for, or the trip's next leave-by (what its push is about). Also the trip's destination, for
- * the region tiles and the drive factor the api applies.
+ * is for, or the trip's next leave-by (what its push is about). Also the place's destination for
+ * the region tiles, and the trip whose drive factor the api applies.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route params, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
@@ -35,8 +35,8 @@ const NEXT_LEAVE_BY_PLACE_SQL = `SELECT ${PLACE_COLUMNS}, l.trip_id FROM leave_b
   WHERE l.trip_id = ? AND l.state NOT IN ('cancelled', 'departed')
     AND julianday(l.leave_at) > julianday(?) AND p.lat IS NOT NULL
   ORDER BY l.leave_at LIMIT 1`;
-const DESTINATION_SQL = `SELECT d.slug FROM trips t JOIN destinations d ON d.id = t.destination_id
-  WHERE t.id = ?`;
+const DESTINATION_SQL = `SELECT d.slug FROM pois p JOIN destinations d ON d.id = p.destination_id
+  WHERE p.id = ?`;
 
 interface PlaceRow {
   readonly poi_id: string;
@@ -85,8 +85,7 @@ export async function loadGoPlace(
   const row = rows[0];
   if (row === undefined) return null;
   const tripId = target.kind === 'place' ? target.tripId : (row.trip_id ?? null);
-  const destination =
-    tripId === null ? [] : await db.getAll<{ slug: string | null }>(DESTINATION_SQL, [tripId]);
+  const destination = await db.getAll<{ slug: string | null }>(DESTINATION_SQL, [row.poi_id]);
   return {
     poiId: row.poi_id,
     name: row.name,
