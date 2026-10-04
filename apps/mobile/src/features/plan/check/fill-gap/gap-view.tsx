@@ -70,7 +70,7 @@ export function GapView(props: GapViewProps) {
       }
       detents={['large']}
       accessibilityLabel={props.window}
-      onDismiss={props.onDismiss}
+      {...(props.onDismiss === undefined ? {} : { onDismiss: props.onDismiss })}
       testID="plan-gap"
     >
       <SheetScrollView contentContainerStyle={styles.body} testID="plan-gap-scroll">

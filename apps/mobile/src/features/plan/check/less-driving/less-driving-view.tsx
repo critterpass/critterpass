@@ -190,7 +190,7 @@ export function LessDrivingView(props: LessDrivingViewProps) {
               {props.rows.map((row, index) => (
                 <Animated.View
                   key={row.key}
-                  layout={props.reducedMotion ? undefined : LinearTransition.springify()}
+                  {...(props.reducedMotion ? {} : { layout: LinearTransition.springify() })}
                   style={styles.row}
                   testID={`plan-less-driving-row-${String(index + 1)}`}
                 >

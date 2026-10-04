@@ -152,6 +152,7 @@ export function CheckView(props: CheckViewProps) {
         {props.balance === null ? null : (
           <PressScale
             accessibilityRole="button"
+            accessibilityLabel={props.balance.label}
             onPress={props.balance.onPress}
             style={styles.row}
             testID="plan-check-balance"

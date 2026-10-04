@@ -95,7 +95,7 @@ function BlockView({
   const fade = useAnimatedStyle(() => ({ opacity: opacity.value }));
   return (
     <Animated.View
-      layout={reducedMotion ? undefined : LinearTransition.springify()}
+      {...(reducedMotion ? {} : { layout: LinearTransition.springify() })}
       style={[
         style,
         fade,
