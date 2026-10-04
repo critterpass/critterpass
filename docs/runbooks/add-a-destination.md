@@ -127,6 +127,15 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    `tools/content-factory/src/data/pinned-places.ts`. Find the names on staging first, because
    open data repeats names at wrong positions. Pinned stays, transit and markets are kept even
    outside the selection buckets.
+   A pin can say what the place is (`kind`, which the note writer is told), correct a wrong
+   open-data `category` and carry a `nameLocal` another record or the Wikidata item holds.
+   `DUPLICATE_RULINGS` settles the duplicate pairs the decision left open (one place only on a
+   street address or a Wikidata item). Pins and landmarks publish as `editorial.must_see`.
+   `LEFT_OUT_PLACES` in the same file names the records the set never takes (a point far from the
+   real place, a further record of a place the set holds, a seller), each with the reason the
+   review page prints. A city that is not its country's guide city (Đà Lạt) is added to
+   `MORE_CURATED_DESTINATIONS` in `tools/content-factory/src/data/place-facts.ts` first. A place
+   only OpenStreetMap holds cannot be named by a release; its FSQ or Overture record is taken.
 4. Run the curated batch for the destination only (selection and editorial, about $1 for 400
    POIs). Publishing it is additive, so the other cities are untouched:
 
@@ -134,6 +143,12 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    railway run --service api --environment staging -- pnpm --dir <worktree> \
      content places run --opt destinations=da-nang --max-usd 4 --concurrency 4
    ```
+
+   To prepare a batch without queueing it, run `brief`, `generate` and `validate` the same way,
+   then `content places review --batch <key>` with no `DATABASE_URL` (it writes the artifact to
+   `batches/places/`) and `content places page --batch <key>` for the one-page review
+   (`work/places/<key>/review.html`: must-sees, every place by category, merges, lines to check,
+   what was left out). `review` with `DATABASE_URL` set queues the batch.
 
 5. Review the gray-band duplicate pairs and approve the batch in the console. Publishing marks the
    POIs `curation = 'editorial'`. Place search and detail read every active POI, so they work

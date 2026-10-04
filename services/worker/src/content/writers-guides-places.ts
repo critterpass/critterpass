@@ -56,8 +56,10 @@ function sourceIdMatch(source: string, param: string): string {
 }
 
 /**
- * Overlays editorial text, taste tags and verified hours onto curated POIs, matched by source id;
- * a POI the importer has not brought in yet is created from the release item.
+ * Overlays editorial text, the must-see flag, taste tags and verified hours onto curated POIs,
+ * matched by source id; a POI the importer has not brought in yet is created from the release
+ * item. The overlay is merged key by key: what the item does not carry (an absent `must_see`, the
+ * researched place facts) stays as it is, and `must_see: false` clears the flag.
  */
 export async function writePlaces(
   tx: pg.PoolClient,

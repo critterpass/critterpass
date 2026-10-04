@@ -22,6 +22,7 @@ import { defaultVisitRadiusM, parseOsmOpeningHours } from '@cp/domain';
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
+import { allowIndexMaintenance } from './batch-sql';
 import type { OsmPlaceRow } from './osm-reader';
 
 export const OSM_BATCH_SIZE = 500;
@@ -72,6 +73,9 @@ function toRecord(row: OsmPlaceRow): OsmRecord {
 const RECORDS = `jsonb_to_recordset($1::jsonb) AS v(
   source_id text, name text, name_local text, category text, kind text, lat double precision,
   lng double precision, address text, hours jsonb, website text, phone text, visit_radius_m integer)`;
+
+/** The POI is OSM's own (no other source): OSM's name, category, point and address win. */
+const OSM_ONLY = `p.source_ids = jsonb_build_object('osm', u.source_id)`;
 
 /** Hours a POI has none of: the column default `{}` or an empty weekly schedule. */
 const NO_HOURS = `(p.hours = '{}'::jsonb OR coalesce(p.hours->'weekly', '{}'::jsonb) = '{}'::jsonb)`;
@@ -153,25 +157,40 @@ async function applyChunk(
     (update) => update.hours !== null && empty.has(update.source_id),
   ).length;
   if (updates.length > 0) {
+    // The new values are worked out first, so an element that changes nothing (most of a rerun)
+    // leaves its row and the row's indexes alone.
     await tx.query(
-      `UPDATE pois AS p SET
-         source_ids = p.source_ids || jsonb_build_object('osm', u.source_id),
-         hours = CASE WHEN u.hours IS NOT NULL AND (${NO_HOURS} OR p.hours_source = 'osm')
-                      THEN u.hours ELSE p.hours END,
-         hours_source = CASE WHEN u.hours IS NOT NULL AND (${NO_HOURS} OR p.hours_source = 'osm')
-                             THEN 'osm' ELSE p.hours_source END,
-         website = coalesce(p.website, u.website),
-         phone = coalesce(p.phone, u.phone),
-         name_local = coalesce(p.name_local, u.name_local),
-         name = CASE WHEN p.source_ids = jsonb_build_object('osm', u.source_id) THEN u.name ELSE p.name END,
-         category = CASE WHEN p.source_ids = jsonb_build_object('osm', u.source_id) THEN u.category ELSE p.category END,
-         lat = CASE WHEN p.source_ids = jsonb_build_object('osm', u.source_id) THEN u.lat ELSE p.lat END,
-         lng = CASE WHEN p.source_ids = jsonb_build_object('osm', u.source_id) THEN u.lng ELSE p.lng END,
-         address = CASE WHEN p.source_ids = jsonb_build_object('osm', u.source_id) THEN u.address ELSE p.address END
-       FROM jsonb_to_recordset($1::jsonb) AS u(
-         id uuid, source_id text, name text, name_local text, category text, lat double precision,
-         lng double precision, address text, hours jsonb, website text, phone text)
-       WHERE p.id = u.id`,
+      `WITH n AS (
+         SELECT p.id,
+           p.source_ids || jsonb_build_object('osm', u.source_id) AS source_ids,
+           CASE WHEN u.hours IS NOT NULL AND (${NO_HOURS} OR p.hours_source = 'osm')
+                THEN u.hours ELSE p.hours END AS hours,
+           CASE WHEN u.hours IS NOT NULL AND (${NO_HOURS} OR p.hours_source = 'osm')
+                THEN 'osm' ELSE p.hours_source END AS hours_source,
+           coalesce(p.website, u.website) AS website,
+           coalesce(p.phone, u.phone) AS phone,
+           coalesce(p.name_local, u.name_local) AS name_local,
+           CASE WHEN ${OSM_ONLY} THEN u.name ELSE p.name END AS name,
+           CASE WHEN ${OSM_ONLY} THEN u.category ELSE p.category END AS category,
+           CASE WHEN ${OSM_ONLY} THEN u.lat ELSE p.lat END AS lat,
+           CASE WHEN ${OSM_ONLY} THEN u.lng ELSE p.lng END AS lng,
+           CASE WHEN ${OSM_ONLY} THEN u.address ELSE p.address END AS address
+         FROM jsonb_to_recordset($1::jsonb) AS u(
+           id uuid, source_id text, name text, name_local text, category text, lat double precision,
+           lng double precision, address text, hours jsonb, website text, phone text)
+         JOIN pois p ON p.id = u.id
+       )
+       UPDATE pois AS p SET
+         source_ids = n.source_ids, hours = n.hours, hours_source = n.hours_source,
+         website = n.website, phone = n.phone, name_local = n.name_local, name = n.name,
+         category = n.category, lat = n.lat, lng = n.lng, address = n.address
+       FROM n
+       WHERE p.id = n.id
+         AND (p.source_ids, p.hours, p.hours_source, p.website, p.phone, p.name_local, p.name,
+              p.category, p.lat, p.lng, p.address)
+             IS DISTINCT FROM
+             (n.source_ids, n.hours, n.hours_source, n.website, n.phone, n.name_local, n.name,
+              n.category, n.lat, n.lng, n.address)`,
       [JSON.stringify(updates)],
     );
   }
@@ -202,7 +221,10 @@ export async function applyOsmPlaces(
   const total = { inserted: 0, linked: 0, hoursFilled: 0 };
   for (let index = 0; index < records.length; index += OSM_BATCH_SIZE) {
     const chunk = records.slice(index, index + OSM_BATCH_SIZE);
-    const counts = await withSystem(pool, (tx) => applyChunk(tx, destinationId, timezone, chunk));
+    const counts = await withSystem(pool, async (tx) => {
+      await allowIndexMaintenance(tx);
+      return applyChunk(tx, destinationId, timezone, chunk);
+    });
     total.inserted += counts.inserted;
     total.linked += counts.linked;
     total.hoursFilled += counts.hoursFilled;
