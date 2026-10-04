@@ -228,6 +228,20 @@ describe('GET /v1/geocode for a street address', () => {
     expect(await usage()).toEqual({ calls: 1, refused_calls: 0 });
   });
 
+  it('leaves out an address far from the near point: a namesake in another country is no answer', async () => {
+    const mapbox = recordedMapbox(STREETS_IN_DA_NANG);
+    const app = buildTestApp('fake-token', mapbox);
+    // Asked from Ubud, Bali; Mapbox's only matches are in Đà Nẵng.
+    const response = await app.request(
+      `/v1/geocode?q=${encodeURIComponent('10 Vo Nguyen Giap')}&near=-8.5069,115.2625`,
+    );
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as ForwardBody;
+    expect(body.results.filter((result) => result.source === 'mapbox')).toEqual([]);
+    expect(body.attribution).toBeUndefined();
+    expect(mapbox.calls).toHaveLength(1);
+  });
+
   it('asks Mapbox for text that reads like an address even when a place of ours matches, ours first', async () => {
     const mapbox = recordedMapbox(ADDRESS_IN_LISBON);
     const app = buildTestApp('fake-token', mapbox);
