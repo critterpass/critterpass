@@ -6,7 +6,7 @@
  * never reach the api; `--opt approve=<batch>` copies what that page showed onto each place's
  * editorial overlay (`entry_short`, `dress_short`, `know_before`) with one `ops.admin_audit` row.
  * Tiles are short labels: a value longer than a tile is kept as a KNOW BEFORE line instead, and a
- * value without a source is dropped. Đà Nẵng is not written before 2026-10-05 00:00 +07.
+ * value without a source is dropped.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -21,7 +21,6 @@ import { FACTORY_DIR, readJsonIfExists, writeJson } from '../../work';
 export const FACT_LABEL_MAX = 12;
 export const KNOW_TITLE_MAX = 60;
 export const KNOW_MAX = 5;
-const PROTECTED: Readonly<Record<string, string>> = { 'da-nang': '2026-10-04T17:00:00Z' };
 
 export interface FactsPlace {
   readonly id: string;
@@ -111,15 +110,9 @@ export function editorialFacts(proposal: PlaceFactsProposal): Record<string, unk
   };
 }
 
-export function isProtected(destination: string, now: Date): boolean {
-  const until = PROTECTED[destination];
-  return until !== undefined && now < new Date(until);
-}
-
 export async function placesWithoutFacts(
   pool: pg.Pool,
   destinations: readonly string[],
-  now: Date,
 ): Promise<FactsPlace[]> {
   const { rows } = await pool.query<FactsPlace>(
     `SELECT p.id, p.name, p.name_local AS "localName", p.address, d.slug AS destination,
@@ -131,7 +124,7 @@ export async function placesWithoutFacts(
       ORDER BY d.slug, p.name`,
     [destinations],
   );
-  return rows.filter((place) => !isProtected(place.destination, now));
+  return rows;
 }
 
 export async function proposePlaceFacts(
@@ -201,7 +194,6 @@ export async function approvePlaceFacts(
     if (adminId === undefined) throw new Error('ADMIN_CLI_EMAIL is not an ops operator');
     const written: string[] = [];
     for (const proposal of proposals) {
-      if (isProtected(proposal.destination, input.now)) continue;
       const fields = editorialFacts(proposal);
       if (Object.keys(fields).length === 0) continue;
       const updated = await client.query(
@@ -270,7 +262,7 @@ export async function placeFactsCommand(
   if (input.deps === null)
     throw new Error('facts research needs ANTHROPIC_API_KEY and TAVILY_API_KEY');
   const batch = input.batch ?? `${input.now.toISOString().slice(0, 10)}-facts`;
-  const places = await placesWithoutFacts(pool, input.destinations, input.now);
+  const places = await placesWithoutFacts(pool, input.destinations);
   const { proposals, failed } = await proposePlaceFacts(places, input.deps);
   const page = writeFactsBatch(batch, proposals);
   log(

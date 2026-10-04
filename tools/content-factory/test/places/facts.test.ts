@@ -1,7 +1,7 @@
 /**
  * Place facts are shaped for the tiles before anyone sees them: no value without a source, a tile
  * value within twelve characters, a longer one kept as a KNOW BEFORE line, nothing written to the
- * overlay that its own schema refuses, and no Đà Nẵng run before the protected date.
+ * overlay that its own schema refuses, and the review page escapes what the pages said.
  */
 import type { CitedFact } from '@cp/ai';
 import { describe, expect, it } from 'vitest';
@@ -9,7 +9,6 @@ import { describe, expect, it } from 'vitest';
 import {
   editorialFacts,
   FACT_LABEL_MAX,
-  isProtected,
   renderFactsReview,
   shapeFacts,
 } from '../../src/kinds/places/facts';
@@ -66,13 +65,7 @@ describe('editorialFacts', () => {
   });
 });
 
-describe('protection and review', () => {
-  it('holds Đà Nẵng until 2026-10-05 00:00 +07', () => {
-    expect(isProtected('da-nang', new Date('2026-10-04T16:59:00Z'))).toBe(true);
-    expect(isProtected('da-nang', new Date('2026-10-04T17:00:00Z'))).toBe(false);
-    expect(isProtected('bali', new Date('2026-10-01T00:00:00Z'))).toBe(false);
-  });
-
+describe('review', () => {
   it('escapes what the pages said', () => {
     const shaped = shapeFacts(place, { entry: at('<b>Free</b>'), dress: null, knowBefore: [] });
     expect(renderFactsReview([shaped], 'b1')).not.toContain('<b>Free</b>');
