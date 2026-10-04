@@ -14,6 +14,12 @@ appId: app.critterpass.dev
           timeout: 30000
       - tapOn:
           id: 'dev-tools-entry'
+      # The list keeps its place from the last visit: back to its top before looking for a row.
+      - scrollUntilVisible:
+          element:
+            id: 'dev-build-marker'
+          direction: UP
+          timeout: 15000
       - runFlow:
           file: ../../../../home/subflows/pick-gallery-locale.yaml
           env:
