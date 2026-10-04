@@ -20,6 +20,8 @@ export interface PlaceCardProps {
   /** "Open 08:00–17:00 · Rp 75k". */
   readonly facts?: string | undefined;
   readonly photo?: ImageSourcePropType | undefined;
+  /** The photo is a stock one standing in for the place (the picture marks it). */
+  readonly genericPhoto?: boolean | undefined;
   readonly icon?: DoodleName | undefined;
   readonly savers?: readonly StackMember[] | undefined;
   readonly fit?: { readonly text: string; readonly tone: FitTone } | undefined;
@@ -61,6 +63,7 @@ export function PlaceCard({
   description,
   facts,
   photo,
+  genericPhoto,
   icon,
   savers = [],
   fit,
@@ -84,7 +87,7 @@ export function PlaceCard({
       testID={testID}
     >
       <View style={[styles.card, picked ? styles.picked : null]}>
-        <PlaceThumb photo={photo} icon={icon} size={92} />
+        <PlaceThumb photo={photo} genericPhoto={genericPhoto} icon={icon} size={92} />
         <View style={styles.body}>
           <View style={styles.head}>
             <View style={styles.title}>
