@@ -5,9 +5,11 @@
  * distance. Timed (window) and crew-together (co-presence) rules are left out: a traveller sent
  * there could wait for nothing.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- rule kinds and map URLs, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- rule kinds, never copy. */
 import { distanceM, type LatLng } from '@cp/domain';
 import { Platform } from 'react-native';
+
+import { chosenMapsApp, mapsAppFor, mapsDirectionsUrl, WALK_FIRST_MAX_M } from '@/features/go';
 
 import { spotsFor, type SpawnPoiRow, type SpawnSqlRow } from '../data/spawn-rows';
 
@@ -47,19 +49,16 @@ export function nearestBefriendSpot(input: {
   return best;
 }
 
-/** Past this a traveller drives (or rides) there rather than walks. */
-const WALKING_M = 2000;
-
-/** Directions to the spot in the phone's maps app: walking when it is close, driving otherwise. */
+/**
+ * Directions to the spot in the phone's maps app (the one GO hands off to): walking when it is
+ * close, driving otherwise.
+ */
 export function directionsUrl(
   spot: BefriendSpot,
   platform: 'ios' | 'android' = Platform.OS === 'ios' ? 'ios' : 'android',
 ): string {
-  const at = `${spot.lat.toFixed(6)},${spot.lng.toFixed(6)}`;
-  const walking = spot.distanceM === null || spot.distanceM <= WALKING_M;
-  return platform === 'ios'
-    ? `https://maps.apple.com/?daddr=${at}&dirflg=${walking ? 'w' : 'd'}`
-    : `https://www.google.com/maps/dir/?api=1&destination=${at}&travelmode=${walking ? 'walking' : 'driving'}`;
+  const walking = spot.distanceM === null || spot.distanceM <= WALK_FIRST_MAX_M;
+  return mapsDirectionsUrl(spot, walking ? 'walk' : 'drive', mapsAppFor(platform, chosenMapsApp()));
 }
 
 /**

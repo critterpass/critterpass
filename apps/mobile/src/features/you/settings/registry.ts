@@ -79,6 +79,7 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'offline-trips', section: 'offline', scope: link, owner: 'trip-day' },
   { key: 'sound-effects', section: 'app', scope: device, owner: 'motion' },
   { key: 'haptics', section: 'app', scope: device, owner: 'motion' },
+  { key: 'maps-app', section: 'app', scope: device, owner: 'go' },
   { key: 'language', section: 'app', scope: link, owner: 'you' },
   { key: 'rate', section: 'help', scope: link, owner: 'help' },
   { key: 'feedback', section: 'help', scope: link, owner: 'help' },

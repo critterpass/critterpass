@@ -10,6 +10,7 @@ import type { OpenAPIHono } from '@hono/zod-openapi';
 import type { AppEnv } from '../app';
 import type { ApiEnv } from '../env';
 import type { ApiCommandDoors } from '../feature-routes';
+import { routePreviewModule } from '../routing/preview-route';
 import { registerPlanLegs } from './legs';
 import { fitModule } from './fit';
 import { planCheckHooks } from './fit/check-hook';
@@ -38,6 +39,7 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   splitModule,
   placeContextTravel,
   ideasModule,
+  routePreviewModule,
   searchModule,
   importsModule,
 ];

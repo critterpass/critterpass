@@ -197,6 +197,7 @@ function Scene({
         onPress: () => setAdded(best?.day_no ?? null),
       }}
       onChat={() => undefined}
+      onGo={() => undefined}
     />
   );
 }

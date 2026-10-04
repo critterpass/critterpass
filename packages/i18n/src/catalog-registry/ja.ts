@@ -22,6 +22,7 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "explore/sponsored": () => import('../../locales/ja/explore/sponsored').then((m) => m.messages),
   "explore/swipe": () => import('../../locales/ja/explore/swipe').then((m) => m.messages),
   "explore/trip-explore": () => import('../../locales/ja/explore/trip-explore').then((m) => m.messages),
+  "go": () => import('../../locales/ja/go').then((m) => m.messages),
   "guide": () => import('../../locales/ja/guide').then((m) => m.messages),
   "help": () => import('../../locales/ja/help').then((m) => m.messages),
   "home": () => import('../../locales/ja/home').then((m) => m.messages),
