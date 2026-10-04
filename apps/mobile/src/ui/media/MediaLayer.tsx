@@ -71,7 +71,7 @@ const DOTS_OVER_PHOTO = 0.5;
 /** A low-data slot loads a smaller still (it is tinted and dotted anyway). */
 const LOW_DATA_SCALE = 0.5;
 
-/** The credit's inset from the layer's sides, and its own padding (the styles below). */
+/** The credit line's inset from the layer's sides, and the credit's own padding (the styles below). */
 const CREDIT_INSET = 12 + 6;
 /** A caption letter's average width, for telling whether a credit fits its line. */
 const CREDIT_CHAR_PT = 5.8;
@@ -87,13 +87,14 @@ export function creditFor(credit: string, widthPt: number | null): string {
 }
 
 const useStyles = makeStyles((t) => ({
-  credit: {
+  creditLine: {
     position: 'absolute',
     start: t.space['12'],
     end: t.space['12'],
-    paddingHorizontal: t.space['6'],
-    opacity: 0.85,
+    flexDirection: 'row',
   },
+  credit: { flexShrink: 1, paddingHorizontal: t.space['6'], opacity: 0.85 },
+  creditOnPhoto: { backgroundColor: t.semantic.bg.base, borderRadius: t.radius.xs },
 }));
 
 function Still({
@@ -258,19 +259,25 @@ export function MediaLayer({
         )}
       </View>
       {media.attribution_required ? (
-        <Text
-          variant="caption"
-          color={creditColour}
-          numberOfLines={1}
+        <View
+          pointerEvents="none"
           style={[
-            styles.credit,
-            { textAlign: creditAlign === 'start' ? 'left' : 'right' },
+            styles.creditLine,
+            { justifyContent: creditAlign === 'start' ? 'flex-start' : 'flex-end' },
             creditAt === 'top' ? { top: 6 } : { bottom: 6 },
           ]}
-          testID={testID === undefined ? undefined : `${testID}-credit`}
         >
-          {creditFor(media.credit, size?.width ?? null)}
-        </Text>
+          <Text
+            variant="caption"
+            color={creditColour}
+            numberOfLines={1}
+            // On a photo in its own colours the line sits on ink, so it reads whatever is under it.
+            style={[styles.credit, tone === 'colour' ? styles.creditOnPhoto : null]}
+            testID={testID === undefined ? undefined : `${testID}-credit`}
+          >
+            {creditFor(media.credit, size?.width ?? null)}
+          </Text>
+        </View>
       ) : null}
     </>
   );

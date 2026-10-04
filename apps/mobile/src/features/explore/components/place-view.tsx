@@ -126,7 +126,14 @@ export function PlacePhoto({
   return (
     <Animated.View style={[styles.fill, push]}>
       <Hatch />
-      <MediaLayer media={photo} surface="dark" accent={accent} dots={false} creditAt="top" />
+      <MediaLayer
+        media={photo}
+        surface="dark"
+        accent={accent}
+        tone="colour"
+        dots={false}
+        creditAt="top"
+      />
       <GenericPhotoLabel photo={photo} at="top" />
       {photo === null && heroUrl ? (
         <Image

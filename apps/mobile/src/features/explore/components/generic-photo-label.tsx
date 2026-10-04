@@ -16,6 +16,10 @@ const useStyles = makeStyles((t) => ({
     position: 'absolute',
     start: t.space['12'],
     paddingHorizontal: t.space['6'],
+    // On ink, so the line reads on a photo in its own colours.
+    backgroundColor: t.semantic.bg.base,
+    borderRadius: t.radius.xs,
+    overflow: 'hidden',
     opacity: 0.85,
   },
 }));
