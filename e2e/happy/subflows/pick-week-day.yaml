@@ -1,33 +1,40 @@
 appId: app.critterpass.dev
 ---
-# Taps the first day ${PICK_DATE} (YYYY-MM-DD) in the open "Pick a week" sheet.
+# Taps the day ${PICK_DATE} (YYYY-MM-DD) in the open day picker sheet.
 #
 # The sheet opens on the month of the suggested week, which can be another month than the day's,
-# and the dates step under the sheet has a month title and arrows of its own, which a plain id or
-# text match finds first. So: the month title and the arrows are looked up inside the sheet
-# (`childOf: week-picker-panel`), the sheet is paged to the day's month, and the cell is tapped by
-# its id (`heat-pick-<date>`, which only the sheet's cells carry), never by position.
+# and the dates step under the sheet has a month title of its own, which a plain text match finds
+# first. So: the month title is looked up inside the sheet (`childOf: week-picker-panel`), the
+# sheet goes back to today's month with its "Today" link (`picker-today`, shown only while another
+# month is showing), the grid (`picker-grid`) is swiped left a month at a time to the day's month
+# (a day picked is never before today), and the cell is tapped by its id (`heat-pick-<date>`,
+# which only the sheet's cells carry), never by position.
 #
-# Use it from any flow, after `picker-shorter` is visible:
+# Use it from any flow once the sheet is open; pick-days.yaml taps a first and a last day with it:
 #   - runFlow:
 #       file: ../happy/subflows/pick-week-day.yaml
 #       env:
 #         PICK_DATE: ${output.pickDate}
-# then check `picker-lock` names the day before tapping it.
 - evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickWeekMonth = '(?i)' + months[Number(PICK_DATE.slice(5, 7)) - 1] + ' ' + PICK_DATE.slice(0, 4); output.pickWeekCell = 'heat-pick-' + PICK_DATE}
-- repeat:
-    while:
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- runFlow:
+    when:
       notVisible:
         text: ${output.pickWeekMonth}
         childOf:
           id: 'week-picker-panel'
-    times: 6
     commands:
-      - tapOn:
-          id: 'heatmap-prev'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'picker-today'
+          commands:
+            - tapOn:
+                id: 'picker-today'
+            - waitForAnimationToEnd
 - repeat:
     while:
       notVisible:
@@ -36,10 +43,10 @@ appId: app.critterpass.dev
           id: 'week-picker-panel'
     times: 12
     commands:
-      - tapOn:
-          id: 'heatmap-next'
-          childOf:
-            id: 'week-picker-panel'
+      - swipe:
+          from:
+            id: 'picker-grid'
+          direction: LEFT
       - waitForAnimationToEnd
 - assertVisible:
     text: ${output.pickWeekMonth}

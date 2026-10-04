@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} đã trả tiền cho vị trí này trong danh sách. Nó được ghi rõ ĐƯỢC TÀI TRỢ để bạn phân biệt với gợi ý của chính hướng dẫn viên."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ và các chuyến đi đã Boost không có gợi ý được tài trợ."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "Xem Pass+"
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr "Tài trợ"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "Gợi ý của hướng dẫn viên không bao giờ được xếp hạng theo số tiền đối tác trả. Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ qua đối tác."
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "Bạn thấy nó vì bạn đang xem {place}. Nó không được chọn dựa trên bất cứ điều gì về bạn, và chúng tôi không theo dõi bạn vì nó."

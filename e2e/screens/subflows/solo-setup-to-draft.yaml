@@ -10,21 +10,13 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'when-pick-week'
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-shorter'
-          timeout: 10000
-      - waitForAnimationToEnd
-      # The first day: three weeks from today, on its own month, by its date.
+      # A week from three weeks out, the first and the last day each on its own month, by date.
       - evalScript: ${output.pickDate = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
       - runFlow:
-          file: ../../happy/subflows/pick-week-day.yaml
+          file: ../../happy/subflows/pick-days.yaml
           env:
             PICK_DATE: ${output.pickDate}
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-lock'
-          timeout: 10000
+            PICK_DAYS: 7
       - tapOn:
           id: 'picker-lock'
       - extendedWaitUntil:
@@ -58,40 +50,7 @@ appId: app.critterpass.dev
                 timeout: 10000
       - tapOn:
           id: 'calendar-by-hand'
-      - extendedWaitUntil:
-          visible:
-            id: 'manual-days-month'
-          timeout: 10000
-      # Next month: every day of it is ahead of today. Seven days in a row, each tapped once: free.
-      - tapOn:
-          id: 'manual-days-next'
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 8
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 9
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 10
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 11
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 12
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 13
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 14
-      - tapOn:
-          id: 'manual-days-save'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'manual-days-month'
-          timeout: 15000
+      - runFlow: ../../happy/subflows/mark-week-by-hand.yaml
       # The saved days reach the crew's counts, and the organiser has a way on.
       - extendedWaitUntil:
           visible:
@@ -113,10 +72,7 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'when-pick-week'
-            - extendedWaitUntil:
-                visible:
-                  id: 'picker-lock'
-                timeout: 10000
+            - runFlow: ../../happy/subflows/pick-any-days.yaml
             - tapOn:
                 id: 'picker-lock'
 - extendedWaitUntil:

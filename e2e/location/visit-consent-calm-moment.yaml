@@ -61,19 +61,11 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'when-pick-week'
-- extendedWaitUntil:
-    visible:
-      id: 'picker-shorter'
-    timeout: 10000
-- waitForAnimationToEnd
 - runFlow:
-    file: ../happy/subflows/pick-week-day.yaml
+    file: ../happy/subflows/pick-days.yaml
     env:
       PICK_DATE: ${output.pickDate}
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
+      PICK_DAYS: 7
 - waitForAnimationToEnd
 - assertVisible: ${output.lockToday}
 - tapOn:

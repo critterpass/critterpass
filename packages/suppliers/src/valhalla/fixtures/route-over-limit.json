@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/route",
+    "request": {
+      "locations": [
+        {
+          "lat": 16.0611,
+          "lon": 108.2272
+        },
+        {
+          "lat": -8.5188,
+          "lon": 115.2585
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers",
+      "directions_type": "none"
+    },
+    "status": 400,
+    "response": {
+      "error_code": 154,
+      "error": "Path distance exceeds the max distance limit: 1500000 meters",
+      "status_code": 400,
+      "status": "Bad Request"
+    }
+  }
+]

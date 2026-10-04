@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr "{0, plural, one {# more saved place shows once its destination has been opened on this phone.} other {# more saved places show once their destinations have been opened on this phone.}}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
+msgstr "+ New list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr "All"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.create"
+msgstr "Create list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr "Delete list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr "Destination guide"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr "Edit"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.hero.back"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr "Move"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.newName"
+msgstr "Name the new list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr "Nothing in this list yet"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.rename"
+msgstr "Rename"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr "Rename list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.renameName"
+msgstr "Rename this list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr "Tap the heart on a place or a destination and it lands here."
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.nameTaken"
+msgstr "You already have a list with that name."

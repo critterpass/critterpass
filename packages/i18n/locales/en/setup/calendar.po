@@ -15,7 +15,7 @@ msgstr "{dayName}, {state}"
 msgid "setup.connected.back"
 msgstr "Back to setup"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.busy"
 msgstr "Busy"
 
@@ -43,7 +43,7 @@ msgstr "Couldn’t read your calendar."
 msgid "setup.calendar.title"
 msgstr "Find your free days"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.free"
 msgstr "Free"
 
@@ -67,17 +67,13 @@ msgstr "Mark days by hand"
 msgid "setup.manual.title"
 msgstr "Mark your days"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.maybe"
 msgstr "Maybe"
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.unavailable"
 msgstr "Needs the latest app update. Mark your days by hand for now."
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.next"
-msgstr "Next month"
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.notConnected"
@@ -87,7 +83,7 @@ msgstr "Not connected"
 msgid "setup.connected.deniedTitle"
 msgstr "Not connected"
 
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+#: ../../apps/mobile/src/features/setup/calendar/manual-day-face.tsx
 msgid "setup.manual.unmarked"
 msgstr "Not marked"
 
@@ -100,8 +96,8 @@ msgid "setup.calendar.microsoft"
 msgstr "Outlook Calendar"
 
 #: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.previous"
-msgstr "Previous month"
+msgid "setup.manual.paintLine"
+msgstr "Pick Free, Maybe or Busy, then tap or drag across days. Paint a day again to clear it."
 
 #: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
 msgid "setup.connected.connectingLine"
@@ -126,10 +122,6 @@ msgstr "Sync now"
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.synced"
 msgstr "Synced {age}"
-
-#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
-msgid "setup.manual.line"
-msgstr "Tap a day to mark it free, tap again for busy, then maybe."
 
 #: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
 msgid "setup.calendar.oauthFailed"

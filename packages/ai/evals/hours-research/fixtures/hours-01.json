@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T16:15:43.773Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "鹿苑寺 (金閣寺) (Kinkaku-Ji Temple) Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://en.gogo-tour.com/info/kyoto-kinkakuji",
+          "title": "Kinkaku-ji (Rokuon-ji) Kyoto: Admission, Access & The Golden Pavilion Complete Guide - GO!GO!TOUR Japan Travel Guide",
+          "content": "| Item | Details |\n --- |\n| Official name | Rokuon-ji (鹿苑寺) — popularly called Kinkaku-ji (金閣寺, “Golden Pavilion Temple”) |\n| Location | 京都府京都市北区金閣寺町1 (Kita-ku, Kyoto) |\n| School of Zen | Rinzai Zen — Shokoku-ji sect |\n| Founded | 1397 CE — originally the retirement villa of Shogun Ashikaga Yoshimitsu |\n| UNESCO status | World Heritage Site (1994) — “Historic Monuments of Ancient Kyoto” |\n| Admission | Adults ¥500 / Elementary & JHS ¥300 |\n| Opening hours | 9:00 – 17:00 (open year-round) | [...] Q. How much is admission to Kinkaku-ji?  \n Adults ¥500, elementary and junior high school students ¥300. The ticket is printed as a paper ofuda (temple talisman) that doubles as a souvenir.\n\nQ. What are the opening hours?  \n 9:00 AM to 5:00 PM year-round. Unlike Kiyomizu-dera, Kinkaku-ji does not hold night viewings in any season — always plan a daytime visit. [...] Admission ¥500, open 9:00 – 17:00 year-round, no night viewings\n From Kyoto Station: bus 101 / 205 to Kinkakuji-michi + 3-minute walk\n Drivers: on-site paid parking (¥400/hr) — much easier than at Kiyomizu-dera\n Avoid crowds — arrive at 9:00 opening or after 16:00\n No interior access — the visit is a one-way walking loop around the pond\n The route is counter-clockwise, one-way — you can’t backtrack\n End at the tea house for matcha (~¥500) — the perfect closer",
+          "score": 0.92359936,
+          "raw_content": null,
+          "published_date": "Thu, 13 Aug 2026 05:25:32 GMT",
+          "id": "271b63-00"
+        },
+        {
+          "url": "https://japanesegardens.jp/gardens/famous/the-golden-pavilion-kinkaku-ji",
+          "title": "The Golden Pavilion (Kinkaku-ji)（金閣寺　鹿苑寺） - Real Japanese Gardens",
+          "content": "Bus: Take the bus 101 or 205 and get off at the stop ’Kinkaku-ji’. From Kyoto Station it takes around 40 minutes.  \nSubway: Take the Karasuma line to Kitaō-ji station. From there you can take a taxi (10min) or the bus 101, 102, 204 or 205 (10 min).\n\nView Google Map (Google Website)\n\n### Address\n\n EN: 〒603-8231, Kyoto-Shi, Kita-Ku, Kinkaku-ji-Chō 1\n JP: 〒603-8361, 京都府京都市 北区 金閣寺町1 Tel: 075-461-0013\n\n### Opening times\n\n March – November: 9:00 – 17:00\n>\n\nTimes may change during special exhibits. [...] Kinkaku-ji (金閣寺), formally known as Rokuon-ji (鹿苑寺), is one of the most famous temples in Japan and a defining symbol of Kyoto’s cultural heritage. The sight of the golden pavilion shimmering above the mirror pond, framed by pine trees and stone islands, creates an image so striking it almost feels surreal. [...] In April/May during azalea bloom.\n End of November/ Beginning of December for autumn leaves.\n\n### Map\n\n### Related posts:\n\nGinkaku-ji the Silver Pavilion by Real Japanese GardensThe Silver Pavilion (Ginkaku-ji)（銀閣寺　（慈照寺））（銀閣寺　（慈照寺））\")  Daisen-in Temple by Real Japanese GardensDaisen-in (Daitoku-ji)（大徳寺、大仙院）（大徳寺、大仙院）\")  Ryoan-ji Temple by Real Japanese GardensRyoan-ji（龍安寺）  Katsura Rikyu Imperial Villa KyotoKatsura Rikyu（桂離宮）\n\n### No Comments on “The Golden Pavilion (Kinkaku-ji)（金閣寺　鹿苑寺）”",
+          "score": 0.8952393,
+          "raw_content": null,
+          "published_date": "Fri, 25 Jul 2025 00:00:00 GMT",
+          "id": "552cae-01"
+        },
+        {
+          "url": "https://www.shokoku-ji.jp/en/kinkakuji/access",
+          "title": "ACCESS | Kinkaku-ji | 臨済宗相国寺派",
+          "content": "From Ginkaku-ji\n\nCity Bus:Get on at Ginkakuji-michi Stop.Get off at Kinkakuji-michi Stop.\n\nNo.102 No.204\n\n## PARKING\n\nHours\n:   8：40 a.m. – 5：10 p.m.\n\nSpace\n:   250 cars\n\n| The first 60 minutes | every half hour |\n --- |\n| Passenger Car | 400 yen | 200 yen |\n| Minicoach | 600 yen | 300 yen |\n| Bus | 1,300 yen | 650 yen |\n| Motorsycle | 200 yen | 100 yen |\n\nKinkaku-ji GUIDE MAP\n\n### GUIDE MAP\n\nPDF\n\n## VISIT\n\nHours\n:   9:00 a.m.-5:00 p.m. [...] open all year round\n Hours may change for special exhibitions.\n\nAdmission\n:   General500 yen\n:   Primary and Middle School Students300 yen\n\n There is no group discount, but if it is over 30 people please enter as a group.\n The admission fee may change for special exhibitions.\n\n PAGE TOP [...] # 金閣寺\n\n# Kinkaku-ji\n\n \n\n# ACCESS\n\n ADDRESS\n ACCESS\n PARKING\n VISIT\n\n## ADDRESS\n\n1 Kinkakuji-cho, Kita-ku, Kyoto 603-8361 Japan  \n Contact  \n 075-461-0013(Japanese only)\n\nGoogle Map\n\n## ACCESS\n\nBy bus\n\nCity Bus:Get off at Kinkakuji-michi Stop.\n\nNo.12 No.59 No.205 No.M1\n\nFrom Shokoku-ji\n\nCity Bus:Get on at Karasuma Imadegawa Stop.Get off at Kinkakuji-michi Stop.\n\nNo.59 No.102\n\nCity Bus:Get on at Doshisha-mae Stop.Get off at Kinkakuji-michi Stop.\n\nNo.59\n\nFrom Ginkaku-ji",
+          "score": 0.7672197,
+          "raw_content": null,
+          "published_date": "Thu, 13 Jun 2019 03:42:45 GMT",
+          "id": "f20ac2-02"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kinkaku-ji",
+          "title": "Kinkaku-ji - Wikipedia",
+          "content": ", lit. 'Temple of the Golden Pavilion'), officially named Rokuon-ji (鹿苑寺; ( \"Help:IPA/Japanese\"), lit. 'Deer Garden Temple'), is a Zen Buddhist temple in Kyoto, Japan and a tourist attraction. It is designated as a World Heritage Site, a National Special Historic Site, a National Special Landscape, and one of the 17 Historic Monuments of Ancient Kyoto \"Historic Monuments of Ancient Kyoto (Kyoto, Uji and Otsu Cities)\"). The temple is nicknamed after its reliquary (shariden), the Golden Pavilion [...] | 鹿苑寺 |\n| The shariden at Rokuon-ji,  commonly known as the Golden Pavilion (Kinkakuji) |\n| Kinkaku-ji is located in Japan Kinkaku-ji  Location within Japan |\n| Religion |\n| Affiliation | Buddhism |\n| Sect | Zen, Rinzai sect, Shōkoku-ji school |\n| Deity | Kannon Bosatsu (Avalokiteśvara) |\n| Location |\n| Location | 1 Kinkakuji-chō, Kita-ku, Kyōto, Kyoto Prefecture |\n| Country | Japan |\n| Map Interactive map of Rokuon-ji | [...] Zen Buddhist temple in Kyoto, Japan\n\nThis article is about a Buddhist temple in Kyoto, Japan. For other topics translated as \"Temple of the Golden Pavilion\" or \"Golden Pavilion Temple\" in English, see Temple of the Golden Pavilion (disambiguation) \"Temple of the Golden Pavilion (disambiguation)\").\n\n| Rokuon-ji |",
+          "score": 0.44059017,
+          "raw_content": null,
+          "published_date": null,
+          "id": "7e77cd-03"
+        },
+        {
+          "url": "https://www.instagram.com/p/DWfkvgHlKd4",
+          "title": "The iconic Kinkaku-ji Temple (金閣寺/鹿苑寺) in Kyoto ...",
+          "content": "It's known for the gold leaf exterior, and the three story design that each represents a different aspect of Japanese historical architecture.",
+          "score": 0.299162,
+          "raw_content": null,
+          "published_date": "Mon, 06 Apr 2026 16:00:00 GMT",
+          "id": "8f8e5b-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "211b0a30-7636-44cd-9921-b401e04f184d"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "9d2ddb9e-8b9c-4780-b9fd-2fda8fc6dae2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"The official Kinkaku-ji access page states visit hours 9:00 a.m.–5:00 p.m. and open all year round, so the same span applies every day.\",\"source_url\":\"https://www.shokoku-ji.jp/en/kinkakuji/access\",\"confidence\":0.9,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"tu\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"we\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"th\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"fr\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"sa\":[{\"start\":\"09:00\",\"end\":\"17:00\"}],\"su\":[{\"start\":\"09:00\",\"end\":\"17:00\"}]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3393,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 194,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

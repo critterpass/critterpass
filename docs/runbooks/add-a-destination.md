@@ -113,6 +113,16 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    already owns (overlapping boxes: Hội An inside Đà Nẵng's) is left untouched; search finds it
    through the box. Nothing is ever deactivated or deleted. Đà Nẵng ingested 80,479 active POIs.
 
+   OpenStreetMap runs last over the same box (D25, ODbL). The worker downloads the smallest
+   Geofabrik extract covering the box into its temp directory (Bali reads the 176 MB Nusa Tenggara
+   file; it is deleted when another extract is needed) and reads it with DuckDB's `spatial`
+   extension. Sights the other sources lack (viewpoints, peaks, waterfalls, beaches, temples,
+   ruins, parks, markets) become POIs under `source_ids.osm`. A business OSM holds only fills the
+   matched POI's empty hours, website and phone. `opening_hours` fills `pois.hours` where ours are
+   empty, with `hours_source = 'osm'`; editorial and researched hours are never replaced. The
+   worker log's `osm` block counts what was added, linked and given hours. An ingest that injects
+   its own Overture reader (the tests) reads OSM only when it injects an OSM reader too.
+
 3. Pin the places the curated set must hold, by open-data name and a point at the real place:
    `tools/content-factory/src/data/pinned-places.ts`. Find the names on staging first, because
    open data repeats names at wrong positions. Pinned stays, transit and markets are kept even
@@ -132,8 +142,27 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
 ### Every destination, monthly
 
 The worker's `places.ingest` job runs on the 1st of each month at 02:00 UTC. Its first run fills
-missing place boxes, exports FSQ OS once for every destination's box (one scan, one parquet
-directory per destination), then queues one job per destination; the queue runs one at a time.
+missing place boxes, then starts an FSQ OS export run: the catalog's data files are split into
+`places.fsq_export_chunk` jobs (five files each), and each chunk stores the rows inside any
+destination's box in Postgres (`fsq_os_export_rows`) together with its progress, so a worker
+deploy mid-run costs one chunk, not the whole scan. The chunk that completes the run queues one
+`places.ingest` job per destination. A destination job splits its box into tiles by where its
+stored FSQ OS rows are (at most 15,000 rows a tile, a few minutes each; a destination under that is
+one tile) and queues them on `places.ingest_tile`. Each tile ingests Overture and FSQ OS inside its
+own area, so a worker deploy mid-run costs one tile and the tile runs again (three retries). The
+last tile queues the run's finish, which applies OpenStreetMap to the whole box once, deletes the
+stored rows and logs `places ingest finished` with the run's totals, tile count, failed tiles,
+minutes and active count. A run with a failed tile keeps its stored rows, so enqueueing the
+destination again with the same `--fsq-run` redoes it. Every places queue runs one job at a time.
+A new monthly export run deletes the previous one. A destination enqueued without a stored run
+(`--enqueue --only <slug>`, or the on-demand ingest) first gets an export run of its own, in the
+same restartable chunks, which keeps the other runs; its last chunk queues the destination again
+with that run, at the priority it was queued with. Each tile step logs `places ingest tile step`
+(start, then done with its duration), so a stalled tile shows where it is. A step has its own time
+limit (a DuckDB read 8 minutes, an OSM extract download 10, its scan 12) and a tile job expires
+after 15 minutes (a finish after 40), so a hang costs a retry, not hours of the queue. OSM never
+reads a continent-wide extract: a box across a border (Strasbourg) takes its own side's region,
+and an extract over 3 GB is skipped with an `osm extract too_large` step line.
 To start it by hand, or to hold destinations back (a crew on a trip there):
 
 ```sh
@@ -142,8 +171,13 @@ railway run --service api --environment staging -- pnpm --dir <worktree> --filte
 ```
 
 `ingest -- --all [--except …]` runs the same steps on this machine, one destination at a time.
-Watch progress in the console's jobs panel (`places.ingest`) or the worker logs
-(`places ingest finished`, with inserted, updated, skipped and active counts).
+Watch progress in the console's jobs panel (`places.ingest`, `places.ingest_tile`) or the worker
+logs (`places ingest tiles queued`, then `places ingest finished` with inserted, updated, skipped
+and active counts).
+
+A destination nobody ingested yet does not wait for the month: the first pitch or trip there,
+while it holds fewer than 50 active places, queues `places.ingest` for its slug (at most once a
+week). That job finds the place box first when the destination has none.
 
 ## 4. Ride tariffs
 

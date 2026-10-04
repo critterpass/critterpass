@@ -24,28 +24,12 @@ msgstr ""
 
 #. placeholder {0}: warning.minutes ?? 0
 #. placeholder {1}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.travel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.plusOne"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.proposal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.comment"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.edit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
@@ -78,14 +62,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.anyTime"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.apply"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.send"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
@@ -144,7 +120,7 @@ msgstr ""
 msgid "plan.day.item.placeDetail"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
 msgstr ""
 
@@ -205,7 +181,7 @@ msgid "plan.day.lockedLine"
 msgstr ""
 
 #. placeholder {0}: titleOf(warning.relatedId, all)
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.fit.overlap"
 msgstr ""
 
@@ -255,7 +231,7 @@ msgstr ""
 msgid "plan.day.queued"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedToast"
 msgstr ""
 
@@ -263,7 +239,7 @@ msgstr ""
 msgid "plan.day.item.skip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr ""
 
@@ -337,10 +313,6 @@ msgstr ""
 msgid "plan.day.add.tryAgain"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.undo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.waiting"
 msgstr ""
@@ -359,8 +331,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.vote"
 msgstr ""

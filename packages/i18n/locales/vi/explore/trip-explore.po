@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFreeWhile"
+msgstr "{count, plural, =2 {Hai bạn rảnh trong lúc {busy} diễn ra} =3 {Ba bạn rảnh trong lúc {busy} diễn ra} =4 {Bốn bạn rảnh trong lúc {busy} diễn ra} =5 {Năm bạn rảnh trong lúc {busy} diễn ra} other {# bạn rảnh trong lúc {busy} diễn ra}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFree"
+msgstr "{count, plural, =2 {Hai bạn đang rảnh} =3 {Ba bạn đang rảnh} =4 {Bốn bạn đang rảnh} =5 {Năm bạn đang rảnh} other {# bạn đang rảnh}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCountLabel"
+msgstr "{count, plural, other {Ý tưởng: # nơi đã lưu cho chuyến này}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksAll"
+msgstr "{count} ›"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pairIdea"
+msgstr "{first} + {second}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksTitle"
+msgstr "Gợi ý của {guide} cho lần đầu đến"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSavedToast"
+msgstr "{place} đã vào Ý tưởng."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapWhen"
+msgstr "{weekday} {from}–{to}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCount"
+msgstr "♡ {count} đã lưu"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSaved"
+msgstr "♥ Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.stayIdea"
+msgstr "Về chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsBy"
+msgstr "{guide} gợi ý"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeBody"
+msgstr "Chưa thống nhất? {count} địa điểm, ai cũng quẹt, chỗ trùng sẽ vào Ý tưởng."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.fillIt"
+msgstr "Lấp đầy"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsTitle"
+msgstr "Cho các khoảng trống"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickInDay"
+msgstr "Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeJoin"
+msgstr "Tham gia"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullLine"
+msgstr "Không còn khoảng trống nào từ một tiếng trở lên. Bỏ bớt một mục là gợi ý cho khoảng đó hiện ra ở đây."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyTitle"
+msgstr "Chưa có gì trong lịch"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyLine"
+msgstr "Khi kế hoạch có ngày, {guide} sẽ tìm các khoảng trống và lấp đầy chúng ở đây."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickAdd"
+msgstr "Lưu {place} vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.search"
+msgstr "Tìm ở {destination}, hoặc hỏi {guide}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeStart"
+msgstr "Bắt đầu"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeTitle"
+msgstr "Quẹt cùng nhau"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapEveryone"
+msgstr "Cả nhóm đều rảnh"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullTitle"
+msgstr "Các ngày đã kín lịch"

@@ -1,11 +1,11 @@
 appId: app.critterpass.dev
 ---
 # The setup's When step as organiser, picked by hand: today in Vietnam as the first day (or
-# ${START_OFFSET_DAYS} days from today), three days long, so the trip is under way the moment it is
+# ${START_OFFSET_DAYS} days from today), three days long (the first day and the day two after tapped), so the trip is under way the moment it is
 # confirmed (or starts tomorrow). The
 # lock's own label is checked before it is tapped, so a tap that landed on another day fails here
 # instead of locking the wrong dates.
-# The day is tapped by pick-week-day.yaml (its header says how to use it from another flow).
+# The days are tapped by pick-days.yaml (its header says how to use it from another flow).
 - evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + (typeof START_OFFSET_DAYS === 'undefined' || START_OFFSET_DAYS === '' ? 0 :Number(START_OFFSET_DAYS)) * 86400000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
 - scrollUntilVisible:
     element:
@@ -14,28 +14,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'when-pick-week'
-- extendedWaitUntil:
-    visible:
-      id: 'picker-shorter'
-    timeout: 10000
-- waitForAnimationToEnd
-# The day's own cell, on its own month.
+# The first day and the day two after, each on its own month, by its date.
 - runFlow:
-    file: pick-week-day.yaml
+    file: pick-days.yaml
     env:
       PICK_DATE: ${output.pickDate}
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
-- repeat:
-    while:
-      notVisible: '3 days'
-    times: 30
-    commands:
-      - tapOn:
-          id: 'picker-shorter'
-- assertVisible: '3 days'
+      PICK_DAYS: 3
+- assertVisible:
+    id: 'picker-length'
+    text: '3 days .*'
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}

@@ -1,0 +1,471 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr "{0, plural, one {# of the crew saved it.} other {# of the crew saved it.}}"
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.rating"
+msgstr "{0} / 10"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.destination_name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.shareText"
+msgstr "{0}, {1}. Worth a look?"
+
+#. placeholder {0}: capital(said[0] ?? '', input.locale)
+#. placeholder {1}: said[1] ?? ''
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.two"
+msgstr "{0}, and {1}."
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.when"
+msgstr "{day} at {time}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.fromStay"
+msgstr "{duration} from {stayName}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr "{duration} on"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.guidePick"
+msgstr "{guideName}'s pick"
+
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarMeta"
+msgstr "{kind} · {duration}"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.fromStay"
+msgstr "{minutes} min from your stay"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.minutes"
+msgstr "{n} min"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
+msgid "explore.save.toast"
+msgstr "{name} saved"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposed"
+msgstr "{name} suggested for Day {day}"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.shareText"
+msgstr "{name}, {where}. Worth a look?"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.done"
+msgstr "{name}'s in the plan for Day {day}"
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenMore"
+msgstr "{names} and {more} more are keen on this."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.savedMore"
+msgstr "{names} and {more} more saved it."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keen"
+msgstr "{names} are keen on this."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenOne"
+msgstr "{names} is keen on this."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.saved"
+msgstr "{names} saved it."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.alsoAfter"
+msgstr "{weekday} after {afterName} works too."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.also"
+msgstr "{weekday} works too."
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.save"
+msgstr "♡ Save"
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.saved"
+msgstr "♥ Saved"
+
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.unidea"
+msgstr "A place out of Ideas"
+
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.idea"
+msgstr "A place saved to Ideas"
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarAdd"
+msgstr "Add {0} to the plan"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.addTo"
+msgstr "Add to {weekday} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.toDay"
+msgstr "Add to day {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.reason"
+msgstr "Added {name} from Explore"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.offline"
+msgstr "Adding needs a connection"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.offline"
+msgstr "Adding needs a connection"
+
+#. placeholder {0}: props.guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.chat"
+msgstr "Ask {0} about this place"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.chat"
+msgstr "Ask {0} about this place"
+
+#: ../../apps/mobile/src/features/explore/place-detail/collapsing-header.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.peak"
+msgstr "Busiest at {busiest}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearbyBy"
+msgstr "By {0}"
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.call"
+msgstr "Call"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.closed"
+msgstr "Closed"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedNow"
+msgstr "closed now"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedForGood"
+msgstr "closed permanently"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.split"
+msgstr "Crew split {w}–{r}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busySeen"
+msgstr "crews have seen it busy from {at}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noFit"
+msgstr "Doesn't fit your days yet"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.entry"
+msgstr "Entry"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.loading"
+msgstr "Finding when it fits"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.free"
+msgstr "free"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingLine"
+msgstr "Give it a moment, or open it again from its destination."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingOffline"
+msgstr "I need a connection the first time. After that it's here offline."
+
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similar"
+msgstr "If you like this"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDay"
+msgstr "In day {day}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.inDay"
+msgstr "In day {day}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDayAt"
+msgstr "In day {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr "It fits what the crew likes: {tag}."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busy"
+msgstr "it usually gets busy around {at}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr "It's about {minutes} min on foot from the stay."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr "It's one of {guideName}'s must-sees."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr "It's one of the places {guideName} keeps for this destination."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.quiet"
+msgstr "it's quiet until {at}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.hoursUnknown"
+msgstr "its hours aren't known"
+
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.hoursUnknown"
+msgstr "Its hours aren't known, so I can't fit it yet."
+
+#: ../../apps/mobile/src/features/explore/place-detail/know-before.tsx
+msgid "explore.detail.know"
+msgstr "Know before you go"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.mustDo"
+msgstr "Must-do · {mustDoOwner}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearby"
+msgstr "Next, nearby"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.full"
+msgstr "No free slot in the plan"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
+msgstr "No plan to add to yet"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.noPlan"
+msgstr "No plan to add to yet"
+
+#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
+msgid "explore.photo.notThisPlace"
+msgstr "Not this place"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.offline"
+msgstr "Offers need a connection."
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.open"
+msgstr "Open"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.open"
+msgstr "Open {from} to {to}"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.open24"
+msgstr "open 24h"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.openNow"
+msgstr "open now"
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.other"
+msgstr "Other days ›"
+
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.planTrip"
+msgstr "Plan a trip here"
+
+#. placeholder {0}: attribution.name
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.poweredBy"
+msgstr "Powered by {0}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.quiet"
+msgstr "Quiet until {quiet}, busiest at {busiest}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.rain"
+msgstr "rain is likely {from}–{to}"
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.ratingLabel"
+msgstr "Rated {0} out of 10"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.unsave"
+msgstr "Remove from Ideas"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.unsave"
+msgstr "Remove from saved"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.after"
+msgstr "right after {afterName}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.save"
+msgstr "Save for a trip"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.save"
+msgstr "Save this place"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.save"
+msgstr "Save to Ideas"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.savedBy"
+msgstr "Saved by {names}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.savedIdea"
+msgstr "Saved. It's in Ideas."
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
+msgstr "See it on the map"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.open"
+msgstr "See offers"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.body"
+msgstr "See what our booking partners have for {placeName}, in their own words."
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.share"
+msgstr "Share this place"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.share"
+msgstr "Share this place"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.suggestFor"
+msgstr "Suggest for {weekday} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggest"
+msgstr "Suggest for day {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggested"
+msgstr "Suggested for day {day}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.takes"
+msgstr "Takes"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refused"
+msgstr "That didn't go through"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposedBody"
+msgstr "The crew gets to okay it."
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refusedBody"
+msgstr "The plan is unchanged. Try again."
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingTitle"
+msgstr "This place hasn't loaded yet"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.title"
+msgstr "Tickets and tours"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.disclosure"
+msgstr "We may earn a commission if you book. It never changes what we rank first."
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.wear"
+msgstr "Wear"
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.website"
+msgstr "Website"
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.visitorTips"
+msgstr "What visitors say"
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.eyebrow"
+msgstr "When it fits"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr "Why {placeName}?"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.freeDay"
+msgstr "Your free day"

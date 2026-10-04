@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 928,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "5a9f970b-a205-4d3c-a9fb-3280f29b7f60",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"babi guling\",\"categories\":[],\"meal\":null,\"attributes\":[],\"open_past\":null,\"near\":null,\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 199,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 42,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

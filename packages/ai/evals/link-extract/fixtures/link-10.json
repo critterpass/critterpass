@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 953,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "fd06c4d8-d156-41cd-9860-6d44b4a06adb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Pastéis de Belém\",\"kind_hint\":\"food\",\"area_hint\":\"Belém\",\"quote\":\"2:15 Pastéis de Belém\"},{\"label\":\"Belém Tower\",\"kind_hint\":\"other\",\"area_hint\":\"Belém\",\"quote\":\"5:40 Belém Tower\"},{\"label\":\"Time Out Market\",\"kind_hint\":\"market\",\"area_hint\":null,\"quote\":\"9:00 Time Out Market\"},{\"label\":\"Miradouro da Senhora do Monte\",\"kind_hint\":\"other\",\"area_hint\":null,\"quote\":\"12:30 Miradouro da Senhora do Monte for sunset\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 356,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 144,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

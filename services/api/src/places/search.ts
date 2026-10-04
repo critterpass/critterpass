@@ -23,14 +23,18 @@ const OPEN_AT_CANDIDATE_MULTIPLIER = 5;
 /** Overture confidence under which an auto row FSQ does not also list counts as low quality. */
 export const LOW_CONFIDENCE = 0.5;
 
-/** True for an auto-curated, Overture-only row whose confidence is under `LOW_CONFIDENCE`. */
-const LOW_QUALITY = `(p.curation <> 'editorial' AND NOT (p.source_ids ? 'fsq_os') AND coalesce(p.confidence < ${LOW_CONFIDENCE}, false))`;
+/**
+ * True for an auto-curated, Overture-only row whose confidence is under `LOW_CONFIDENCE`. This and
+ * `QUALITY_SCORE` are repeated verbatim in the `pois_destination_browse_idx` migration: the planner
+ * uses that index for a no-query browse only while the texts match.
+ */
+export const LOW_QUALITY = `(p.curation <> 'editorial' AND NOT (p.source_ids ? 'fsq_os') AND coalesce(p.confidence < ${LOW_CONFIDENCE}, false))`;
 
 /**
  * Non-editorial quality in about [0, 4]: listed by FSQ OS, by both sources, a mapped category, and
  * Overture's confidence (an unknown score counts as middling).
  */
-const QUALITY_SCORE = `((p.source_ids ? 'fsq_os')::int + (p.source_ids ? 'fsq_os' AND p.source_ids ? 'overture')::int + (p.category <> 'other')::int + coalesce(p.confidence, 0.5))`;
+export const QUALITY_SCORE = `((p.source_ids ? 'fsq_os')::int + (p.source_ids ? 'fsq_os' AND p.source_ids ? 'overture')::int + (p.category <> 'other')::int + coalesce(p.confidence, 0.5))`;
 
 /** Weight of `QUALITY_SCORE` next to text relevance: a tie-breaker, never louder than the match. */
 const QUALITY_WEIGHT_WITH_QUERY = 0.05;
@@ -39,6 +43,10 @@ export interface PlaceSearchFilters {
   readonly q?: string;
   readonly near?: { readonly lat: number; readonly lng: number };
   readonly category?: PoiCategory;
+  /** Any of these categories (a plain-words search's kinds of place). */
+  readonly categories?: readonly PoiCategory[];
+  /** Price level at most this; places with no known price stay in. */
+  readonly priceMax?: number;
   readonly destinationId?: string;
   readonly openAt?: Date;
   readonly limit?: number;
@@ -56,6 +64,13 @@ export interface PlaceSearchResultItem {
   readonly tags: readonly string[];
   readonly distanceM: number | null;
   readonly openNow: boolean | null;
+}
+
+/** A match with what the planning filters read: its hours and the zone they are in. */
+export interface PlaceSearchCandidate {
+  readonly item: PlaceSearchResultItem;
+  readonly hours: Hours | null;
+  readonly tz: string | null;
 }
 
 interface PlaceSearchRow {
@@ -136,7 +151,35 @@ export async function searchPlaces(
   const limit = Math.min(filters.limit ?? DEFAULT_LIMIT, MAX_LIMIT);
   const needsOpenAtFilter = filters.openAt !== undefined;
   const fetchLimit = needsOpenAtFilter ? limit * OPEN_AT_CANDIDATE_MULTIPLIER : limit;
+  const rows = await queryPlaceRows(tx, filters, fetchLimit);
+  const results = needsOpenAtFilter
+    ? rows.filter((row) => isOpenAtInstant(row, filters.openAt as Date) === true)
+    : rows;
+  return results.slice(0, limit).map(toResultItem);
+}
 
+/**
+ * Up to `fetchLimit` matches in search order, with their hours, for the planning filters to narrow
+ * (`open_at` is not applied here). Same transaction rule as `searchPlaces`.
+ */
+export async function searchPlaceCandidates(
+  tx: pg.PoolClient,
+  filters: Omit<PlaceSearchFilters, 'openAt' | 'limit'>,
+  fetchLimit: number,
+): Promise<readonly PlaceSearchCandidate[]> {
+  const rows = await queryPlaceRows(tx, filters, fetchLimit);
+  return rows.map((row) => ({
+    item: toResultItem(row),
+    hours: knownHours(row.hours),
+    tz: row.timezone ?? row.destination_tz,
+  }));
+}
+
+async function queryPlaceRows(
+  tx: pg.PoolClient,
+  filters: PlaceSearchFilters,
+  fetchLimit: number,
+): Promise<readonly PlaceSearchRow[]> {
   // A record merged into another is the same place under a second name: only the target shows.
   const conditions: string[] = ["p.status = 'active'", 'p.merged_into_id IS NULL'];
   const params: unknown[] = [];
@@ -147,6 +190,14 @@ export async function searchPlaces(
   if (filters.category !== undefined) {
     params.push(filters.category);
     conditions.push(`p.category = $${params.length}`);
+  }
+  if (filters.categories !== undefined && filters.categories.length > 0) {
+    params.push(filters.categories);
+    conditions.push(`p.category = ANY($${params.length}::text[])`);
+  }
+  if (filters.priceMax !== undefined) {
+    params.push(filters.priceMax);
+    conditions.push(`(p.price_level IS NULL OR p.price_level <= $${params.length})`);
   }
 
   const hasQuery = filters.q !== undefined && filters.q.trim().length > 0;
@@ -178,8 +229,11 @@ export async function searchPlaces(
     params.push(filters.near.lng, filters.near.lat);
     const lngParam = params.length - 1;
     const latParam = params.length;
-    distanceSelect = `ST_Distance(p.location, ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography) AS distance_m`;
-    if (!hasQuery) orderExpression = 'distance_m ASC';
+    const point = `ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography`;
+    distanceSelect = `ST_Distance(p.location, ${point}) AS distance_m`;
+    // `<->` walks the location GiST index nearest-first, so a browse reads only the rows it returns
+    // instead of measuring and sorting every row in the destination.
+    if (!hasQuery) orderExpression = `p.location <-> ${point}`;
   }
 
   params.push(fetchLimit);
@@ -197,10 +251,5 @@ export async function searchPlaces(
      LIMIT $${limitParam}`,
     params,
   );
-
-  const results = needsOpenAtFilter
-    ? rows.filter((row) => isOpenAtInstant(row, filters.openAt as Date) === true)
-    : rows;
-
-  return results.slice(0, limit).map(toResultItem);
+  return rows;
 }

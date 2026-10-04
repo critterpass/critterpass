@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T16:15:47.671Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "元離宮二条城 Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.kyoto-to-do.com/nijo-jo-castle",
+          "title": "Nijo-jo Castle - Kyoto travel guide",
+          "content": "|  |  |\n --- |\n| Name in Japanese | 元離宮二条城（Nijo-jo Castle） |\n| Postal Code | 604-8301 |\n| Address | 541 Nijo-jo-cho, Horikawa-nishi-iru, Nijo-jo-dori, Nakagyo-ku, Kyoto City, Kyoto |\n| Telephone | 075-841-0096 |\n| Holiday | December 29-31 (Ninomaru-goten Palace : Tuesdays in January, July, August, and December, and December 26-31) |\n| Business Hours | 8:45am-5:00pm (Last admission 4:00pm, Ninomaru-goten Palace 4:10pm) | [...] ## FAQ\n\n### How long does it take to visit Nijo Castle?\n\nA leisurely visit may take 2-3 hours. If you only want to see the highlights, plan for at least 1.5 hours.\n\n### Are there English-guided tours available?\n\nYes, volunteer English guides offer free tours every 20 minutes from 10 AM to 12 PM on weekdays. No advance reservation is required.\n\n### How do I access Nijo Castle? [...] | Admission | 1,300 yen (including admission to the Ninomaru-goten Palace) Nijo-jo Castle Painting Gallery 100 yen \\open 4 times a year, total of 240 days |",
+          "score": 0.91988057,
+          "raw_content": null,
+          "published_date": "Thu, 27 Jun 2024 20:25:19 GMT",
+          "id": "268aaa-00"
+        },
+        {
+          "url": "https://nijo-jocastle.city.kyoto.lg.jp/guide/annai",
+          "title": "開城時間・休城日等 | 世界遺産・元離宮二条城",
+          "content": "Language\n:    日本語に切り替える\")\n     English (英語)に切り替える\")\n     繁體中文 (繁体中国語)に切り替える\")\n     简体中文 (簡体中国語)に切り替える\")\n     한국어 (韓国語)に切り替える\")\n\n 交通アクセス\n WEBチケット\n\nWEBチケット\n\n:   # ご利用案内\n\n TOP\n ご利用案内\n 開城時間・休城日等\n\n## 開城時間・休城日等\n\n### 所在地\n\n〒604-8301　京都市中京区二条通堀川西入二条城町541  \n TEL 075-841-0096　FAX 075-802-6181\n\n### 開城時間\n\n午前８時４５分～午後４時（閉城午後５時）\n\n### 二の丸御殿観覧受付時間\n\n午前８時４５分～午後４時１０分\n\n### 本丸御殿観覧受付時間\n\n午前９時３０分～午後４時\n\n ※本丸御殿の観覧は事前予約制となっております。  \n  観覧御希望の方は、事前予約・時間指定のWEBチケットを御購入下さい。\n\nWEBチケットの詳細についてはこちら\n\n### 休城日、二の丸御殿及び本丸御殿観覧休止日 [...] 定期的な休城日・二の丸御殿及び本丸御殿観覧休止日を設けて、国宝二の丸御殿や重要文化財本丸御殿などの貴重な文化財の維持・管理に努めています。\n\n#### 休城日\n\n年末　１２月２９日～３１日\n\n#### 二の丸御殿観覧休止日\n\n毎年１月・７月・８月・１２月の毎週火曜日※、１２月２６日～２８日、１月１日～３日\n\n ※当該日が休日の場合は二の丸御殿を観覧いただけますが、その翌日に二の丸御殿を観覧休止いたします。\n\n#### 本丸御殿観覧休止日\n\n毎月第３月曜日※及びその翌日※、１２月２６日～２８日、１月１日～３日\n\n ※当該日が休日の場合は、本丸御殿を観覧いただけます。\n\n### 観覧にあたっての主な禁止事項\n\n   \n   二の丸御殿及び  \n  本丸御殿内は  \n  撮影禁止\n   \n   城内飲食禁止  \n  （指定場所を除く）\n   \n   ドローン  \n  使用禁止\n   \n   火気厳禁\n   \n   落書き禁止\n   \n   喫煙スペース以外禁煙\n\nその他観覧に係る注意事項はこちら\n\nTOP",
+          "score": 0.9061314,
+          "raw_content": null,
+          "published_date": null,
+          "id": "aef8a3-01"
+        },
+        {
+          "url": "https://kyotopian.com/ktp/map/spots/nijojo.html",
+          "title": "二条城 | Nijo Castle - 京都 寺社仏閣ガイド",
+          "content": "## アクセス・拝観情報Access & Visiting\n\n|  |  |\n --- |\n| 所在地Address | 京都市中京区二条通堀川西入二条城町541 |\n| 拝観時間Hours | 8:45〜17:00（入城は16:00まで／二の丸御殿は8:45〜16:10） |\n| 拝観料Admission | 入城料＋二の丸御殿観覧料 1,300円（時期・特別公開により変動） |\n| アクセスGetting there | 地下鉄東西線「二条城前」駅下車すぐ。JR京都駅から市バスでも行ける。Directly outside Nijojo-mae Station on the Tozai subway line; also reachable by city bus from Kyoto Station. |\n| おすすめ度Rating | ★★★★☆ (4/5) |\n\n 🚶 経路を見る（Google マップ）🚶 Get directions (Google Maps) \n\n## 出典・注記Sources & Notes [...] The peaks of congestion are blossom, autumn, and early summer when school trips converge. The Ninomaru palace is a one-way route and a coach party will plug the corridors. Arrive at 8:45 when the gates open, or near the final admission in the late afternoon, and the floors are sometimes quiet enough to hear properly.\n\n## 訪問のポイントと周辺Visiting Tips and the Neighbourhood\n\n所要時間は、二の丸御殿と二の丸庭園、本丸周辺と天守台を回っておよそ90分。展示収蔵館や清流園まで含めると2時間を見ておくとよい。城域は広く、砂利道が長いので、歩きやすい靴は必須である。 [...] | 時期When | 行事Event |\n --- |\n| 1月January | 一般公開（正月開城）・城内の冬景色New Year opening; the castle in winter |\n| 2月中旬〜3月上旬Mid-Feb – early Mar | 梅林の梅（紅白の梅が咲きそろう）Plum blossom in the grove |\n| 3月下旬〜4月中旬Late Mar – mid-Apr | 桜まつり・夜間ライトアップCherry Festival and evening illumination |\n| 7月〜8月July–August | 夏の夜間特別公開が行われる年があるSummer evening openings in some years |\n| 10月〜12月上旬Oct – early Dec | 紅葉と秋のライトアップAutumn colour and evening illumination |",
+          "score": 0.86136365,
+          "raw_content": null,
+          "published_date": null,
+          "id": "b14bb5-02"
+        },
+        {
+          "url": "https://nijo-jocastle.city.kyoto.lg.jp",
+          "title": "世界遺産・元離宮二条城",
+          "content": "Language\n:    日本語に切り替える\")\n     English (英語)に切り替える\")\n     繁體中文 (繁体中国語)に切り替える\")\n     简体中文 (簡体中国語)に切り替える\")\n     한국어 (韓国語)に切り替える\")\n\nWEBチケット\n\n## 開城時間\n:   8時45分～16時(閉城 17時)\n\n    ### 休城日\n\n    12月29日～12月31日\n\n## 本丸御殿 観覧休止日\n:   毎月第3月曜日※及びその翌日※、12月26日～28日、1月1日～3日\n\n    ※当該日が休祝日の場合は、本丸御殿を観覧いただけます。\n\n## 二の丸御殿 観覧休止日\n:   12月26日～28日  \n     1月1日～3日。\n\n    毎年1月・7月・8月・12月の  \n     毎週火曜日※  \n     ※当該日が休祝日の場合は二の丸御殿を観覧いただけますが、その翌日に二の丸御殿の観覧を休止します。\n\n 交通アクセス\n WEBチケット\n\n ALL\n お知らせ\n イベント情報\n 本丸御殿\n\n :   2026年10月1日NEW [...] お知らせ\n\n :   2026年9月11日\n\n      ### 元離宮二条城の運営について\n :   2026年9月3日\n\n      ### 令和８年度 秋期「二条城障壁画 展示収蔵館」原画公開について\n :   2026年8月31日\n\n      ### 「二条城障壁画 展示収蔵館」エントランス特別展示「障壁画を守り、引き継ぐ」\n :   2026年8月26日\n\n      ### 特別名勝・二の丸庭園　池清掃のお知らせ\n :   2026年8月19日\n\n      ### 12月6日（日）の入城受付時間の変更について\n :   2026年7月27日\n\n      ### ニコニコ美術館 二条城生配信　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 「寛永行幸400年を迎える世界遺産・元離宮二条城を巡ろう」\n :   2026年7月16日\n\n      ### 【ご来城の皆さまへ】熱中症対策のお願い\n :   2026年6月18日\n\n      ### 第30回京都市元離宮二条城保存整備委員会の結果について\n :   2026年6月5日 [...] ### 12月6日（日）の入城受付時間の変更について\n\n      お知らせ\n :   2026年8月18日\n\n      ### 「世界遺産二条城ヨガ」の開催について\n\n      イベント情報\n :   2026年7月27日\n\n      ### ニコニコ美術館 二条城生配信　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 「寛永行幸400年を迎える世界遺産・元離宮二条城を巡ろう」\n\n      お知らせ\n :   2026年7月16日\n\n      ### 【ご来城の皆さまへ】熱中症対策のお願い\n\n      お知らせ\n :   2026年6月18日\n\n      ### 第30回京都市元離宮二条城保存整備委員会の結果について\n\n      お知らせ\n :   2026年6月15日\n\n      ### 「世界遺産　二条城　夏の特別事業」～国宝　二の丸御殿特別入室や障壁画の原画公開、朝御膳の提供～\n\n      イベント情報\n :   2026年6月5日\n\n      ### 令和８年度 夏期「二条城障壁画 展示収蔵館」原画公開について",
+          "score": 0.7915799,
+          "raw_content": null,
+          "published_date": "Thu, 01 Oct 2026 07:00:00 GMT",
+          "id": "735aa4-03"
+        },
+        {
+          "url": "https://www.japan-guide.com/e/e3918.html",
+          "title": "Nijo Castle (Nijojo) - Kyoto Travel",
+          "content": "How to get to and around Kyoto\n\n## Hours and Fees\n\n#### Hours\n\n8:45 to 17:00 (entry until 16:00)   \nEntry to Ninomaru Palace from 8:45 to 16:10\n\n#### Closed\n\nDecember 29-31 (December 26 to January 3 for the Ninomaru and Honmaru palaces); the Ninomaru Palace is also closed on Tuesdays in January, July, August and December (or following day if Tuesday is a national holiday), while the Honmaru Palace is also closed the third Monday of every month (except national holidays)\n\n#### Admission [...] The interior of the Honmaru Palace was closed to the public for many years, but it was reopened to the public in September 2024. Entering it requires an advance reservation and an additional fee. All castle visitors can also walk around the Honmaru gardens and climb up the stone foundation of the former castle keep, which offers views over the castle grounds.\n\nHonmaru [...] The entrance of Nijo Castle is a few steps from Nijojo-mae Station on the Tozai Subway Line.\n\nFrom Kyoto Station, take the Karasuma Subway Line to Karasuma-Oike Station and transfer to the Tozai Line to Nijojo-mae Station. The whole trip takes about 15 minutes and costs 260 yen. Alternatively, the castle can be reached from Kyoto Station by Kyoto City Bus numbers 9 or 50 (15-20 minutes, 230 yen one way) or from Shijo-Kawaramachi by Kyoto City Bus number 12 (15 minutes, 230 yen one way).",
+          "score": 0.7644879,
+          "raw_content": null,
+          "published_date": "Thu, 12 Feb 2026 00:00:00 GMT",
+          "id": "fa7854-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "7f96d69f-a6c8-48cf-aa07-f50710a689e0"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "fadb0388-f4b1-4b80-b769-4a8d1172cd25",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"The official Nijo-jo Castle page states opening hours 8:45-16:00 (castle closes 17:00) and closed December 29-31, with no day-of-week variation for the castle itself.\",\"source_url\":\"https://nijo-jocastle.city.kyoto.lg.jp\",\"confidence\":0.8,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"tu\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"we\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"th\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"fr\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"sa\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"su\":[{\"start\":\"08:45\",\"end\":\"17:00\"}]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3388,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 200,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

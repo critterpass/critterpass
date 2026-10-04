@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 02:33+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: String(want.length)
+#. placeholder {1}: String(ratherNot.length)
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.summary"
+msgstr "{0} người muốn đi, {1} người không muốn"
+
+#: ../../apps/mobile/src/ui/sheet/map-sheet.tsx
+msgid "kit.mapSheet.collapse"
+msgstr "Thu gọn"
+
+#: ../../apps/mobile/src/ui/sheet/map-sheet.tsx
+msgid "kit.mapSheet.expand"
+msgstr "Mở rộng"
+
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.ratherNot"
+msgstr "Không muốn"
+
+#. placeholder {0}: chip.label
+#: ../../apps/mobile/src/ui/planning/filter-chip-row.tsx
+msgid "kit.filterChipRow.remove"
+msgstr "Bỏ {0}"
+
+#. placeholder {0}: stop.n
+#. placeholder {1}: stop.name
+#: ../../apps/mobile/src/ui/map/planning/edge-indicator.tsx
+msgid "kit.edgeIndicator.label"
+msgstr "Điểm dừng {0}, {1}, nằm ngoài bản đồ. Xem điểm này"
+
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.want"
+msgstr "Muốn đi"
+
+#: ../../apps/mobile/src/ui/map/planning/stay-marker.tsx
+msgid "kit.stayMarker.label"
+msgstr "Nơi bạn ở"

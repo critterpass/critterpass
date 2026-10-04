@@ -172,9 +172,9 @@ export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
 export interface AutoFitResult {
   readonly fontSize: number;
   /**
-   * The `numberOfLines` to render with. While fitting there is none: iOS reports a line it
-   * truncated with its full text, so only an unlimited layout shows the real line count. The limit
-   * comes back only when the text still overflows at its floor.
+   * The `numberOfLines` to render with. While fitting there is none: the platforms report a line
+   * they truncated with its full text, so only an unlimited layout shows the real line count. The
+   * limit comes back only when the text still overflows at its floor.
    */
   readonly numberOfLines: number | undefined;
   /** The text overflowed at its floor and is shown cut at `numberOfLines`. */
@@ -289,8 +289,11 @@ export function useAutoFit({
 
   return {
     fontSize,
+    // A caller's own line limit is also lifted while the text is being fitted: Android reports a
+    // line it cut with its full text too, so a name too wide for its lines ("ĐÀ NẴNG" on one)
+    // would be cut at a size that never shrank. The limit is back once the floor is reached.
     numberOfLines: finite(
-      !enabled || !wrapAtFloor || (overflowed && !neverCut) ? maxLines : Number.POSITIVE_INFINITY,
+      !enabled || (overflowed && !(neverCut && wrapAtFloor)) ? maxLines : Number.POSITIVE_INFINITY,
     ),
     // A word still split at the floor is reported as broken, not as cut.
     overflowed: enabled && overflowed && !(neverCut && wrapAtFloor),

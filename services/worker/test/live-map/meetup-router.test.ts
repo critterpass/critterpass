@@ -50,6 +50,31 @@ describe('valhallaRouter', () => {
     expect(cells.every((cell) => cell.estimate)).toBe(true);
     expect(errors).toHaveLength(1);
   });
+
+  // Live map, recap and SOS responder ETAs all route through here: an outage must never fail them.
+  it.each([
+    [
+      'hangs past the deadline',
+      (_url: string | URL | Request, init?: RequestInit) =>
+        new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => reject(new Error('aborted')));
+        }),
+    ],
+    ['is unreachable', () => Promise.reject(new TypeError('fetch failed'))],
+    ['answers an unexpected shape', () => Promise.resolve(new Response('{"oops":1}'))],
+  ])('estimates every cell when Valhalla %s', async (_case, fetch) => {
+    const errors: unknown[] = [];
+    const router = valhallaRouter({
+      baseUrl: 'http://valhalla.internal:8002',
+      timeoutMs: 20,
+      fetch,
+      onError: (error) => errors.push(error),
+    });
+    const cells = await router.matrix('auto', sources, target);
+    expect(cells).toHaveLength(2);
+    expect(cells.every((cell) => cell.estimate && cell.minutes > 0)).toBe(true);
+    expect(errors).toHaveLength(1);
+  });
 });
 
 describe('straightLineRouter', () => {

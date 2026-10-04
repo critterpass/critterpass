@@ -126,13 +126,18 @@ export const crowdForecasts = pgTable(
       .references(() => destinations.id),
     dow: smallint('dow').notNull(),
     hourly: smallint('hourly').array().notNull(),
+    /** besttime, editorial (a typical week, shown once approved) or visits (≥ 5 crews). */
     source: text('source').notNull(),
     fetchedAt: timestamp('fetched_at', { withTimezone: true, mode: 'date' }).notNull(),
+    /** When ops approved an editorial curve; unapproved editorial rows reach no client. */
+    approvedAt: timestamp('approved_at', { withTimezone: true, mode: 'date' }),
+    /** Distinct crews behind a visits curve (never fewer than five). */
+    crewCount: integer('crew_count'),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
   (table) => [
-    unique().on(table.poiId, table.dow),
+    unique('crowd_forecasts_poi_source_dow_key').on(table.poiId, table.source, table.dow),
     index('crowd_forecasts_destination_idx').on(table.destinationId),
   ],
 );

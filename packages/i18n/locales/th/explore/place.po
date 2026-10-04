@@ -1,0 +1,471 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: th\n"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr ""
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.rating"
+msgstr ""
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.destination_name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.shareText"
+msgstr ""
+
+#. placeholder {0}: capital(said[0] ?? '', input.locale)
+#. placeholder {1}: said[1] ?? ''
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.two"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.guidePick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarMeta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
+msgid "explore.save.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.shareText"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.savedMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.alsoAfter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.also"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.unidea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.idea"
+msgstr ""
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.addTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.toDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.reason"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.offline"
+msgstr ""
+
+#. placeholder {0}: props.guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.chat"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/collapsing-header.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.peak"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearbyBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedForGood"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busySeen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noFit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.inDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDayAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.hoursUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.hoursUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/know-before.tsx
+msgid "explore.detail.know"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearby"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.noPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
+msgid "explore.photo.notThisPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.open24"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.openNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/dev/place-detail-scenes.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.planTrip"
+msgstr ""
+
+#. placeholder {0}: attribution.name
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.poweredBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.rain"
+msgstr ""
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.ratingLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.savedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.savedIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.suggestFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.takes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.disclosure"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.wear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.website"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.visitorTips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.freeDay"
+msgstr ""

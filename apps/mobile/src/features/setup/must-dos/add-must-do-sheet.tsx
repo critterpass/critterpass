@@ -2,7 +2,8 @@
  * The add-a-must-do sheet wired to the phone (`/{tripId}/setup/must-dos/add`, also where the
  * guide's "what's the one thing" push lands): searches as you type, tells the crew you are typing
  * (`trip_presence`, throttled), and adds the pick to your whole list with `set_must_dos`, which
- * waits in the queue when there is no signal. Closes once the pick is queued or sent.
+ * waits in the queue when there is no signal. Closes once the pick is queued or sent. Past the
+ * guide's own results, "More places" shows live Foursquare results (`./more-places.ts`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command values, route ids and date options, never copy. */
 import { router } from 'expo-router';
@@ -17,6 +18,8 @@ import { useSetupTrip } from '../data/setup-trip';
 import { useMe } from '../data/use-me';
 import { AddSheetView } from './add-sheet-view';
 import { useMustDosData } from './data';
+import { MorePlacesSection, type LivePickNote } from './more-places-section';
+import { resolveLivePick, useMorePlaces, type LivePlace } from './more-places';
 import { buildMustDos } from './model';
 import { listWith, type NewPick } from './save';
 import { tripDates, useMustDoSearch } from './search';
@@ -38,6 +41,8 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
     [trip?.startDate, trip?.endDate],
   );
   const search = useMustDoSearch({ services, destinationId: data.destinationId, query, dates });
+  const more = useMorePlaces({ services, destinationId: data.destinationId, query, search });
+  const [note, setNote] = useState<LivePickNote | null>(null);
   const self = trip?.members.find((member) => member.uid === trip.me);
   if (trip === null || trip === undefined || self === undefined) return null;
 
@@ -46,6 +51,21 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
     const payload = listWith(tripId, mine, pick);
     if (payload === null || setMustDos.pending) return;
     void setMustDos.send(payload).then(close);
+  };
+
+  // A live result is added as our own open-data place, never with Foursquare's name or details.
+  const pickLive = (place: LivePlace) => {
+    const destinationId = data.destinationId;
+    if (destinationId === null || note?.kind === 'resolving') return;
+    setNote({ fsqPlaceId: place.fsqPlaceId, kind: 'resolving' });
+    void resolveLivePick(services, destinationId, place).then((pick) => {
+      if (pick.kind === 'ready') {
+        setNote(null);
+        add({ text: pick.name, poiId: pick.poiId });
+      } else {
+        setNote({ fsqPlaceId: place.fsqPlaceId, kind: pick.kind });
+      }
+    });
   };
 
   return (
@@ -62,6 +82,14 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
       onKeepText={() => {
         if (query.trim() !== '') add({ text: query, poiId: null });
       }}
+      more={
+        <MorePlacesSection
+          state={more}
+          note={note}
+          destinationName={trip.destinationName}
+          onPick={pickLive}
+        />
+      }
     />
   );
 }

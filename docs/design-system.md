@@ -86,7 +86,7 @@ Increase-contrast variants (auto when OS Increase Contrast is on): `border.contr
 
 ### 1.3 Typography
 
-Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Borel 400 (guide voice; Latin and full Vietnamese), Noto Sans Thai 400/900. Instrument Serif is web-only. Caveat 600 is used only for map place-name labels. Fonts prewarmed before first hero paint.
+Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Borel 400 (guide voice; Latin and full Vietnamese), Noto Sans Thai 400/900. Instrument Serif is web-only. Hand-drawn map place-name labels use Borel 400 too, served as SDF glyph ranges (`fonts/Borel-400 Regular/` on the tiles bucket), so Vietnamese names such as Đà Nẵng draw in full; the Caveat 600 ranges stay on the bucket only for installed builds with the older style. Fonts prewarmed before first hero paint.
 
 **Archivo width steps (only these):** `w62` hero/mega, `w66` hero, `w70` h1/h2, `w78` titles, `w100` buttons. Design values 58/60/64/68/72/74/76/80/84 snap to the nearest step.
 
@@ -234,6 +234,23 @@ Flat sticker language; rings over shadows.
 
 ### 2.8 Planning, voting, collaboration
 `DayRow` (drag-reorder + move actions), `DayTimeline` (07–19 grid, 15-min snap, rain band, ghost suggestion, time stepper alt), `DiffRow` (old struck, new bold, reason, ✓/✕), `MustDoRow`, `RoomAssign`, `VoteBoard`, `SplitShowdown`, `ResultTally`, `SwipeStack` (+ buttons), `RateStack`, `LiveOptionCards` (presence cursor), `ChatMessage` (theirs/mine/guide/photo/divider; actions menu), `ChatRichCard` (poll, offer, expense, boost, settled, typing), `ReactionFloats`, `FormatPicker`, `IdeaVoteBox`, `MoodPicker`, `AttachmentThumb`.
+
+### 2.8.1 Planning kit (section 7: `ui/planning`, `ui/map/planning`, `ui/sheet/map-sheet`)
+Props-only pieces every section 7 screen composes (the reads behind them live in `data/plan`, `data/fit`, `data/ideas`, `data/checks`, `data/legs`); each shows in the planning kit lab (`(dev)/planning-map-lab`, scene `kit`, English and Vietnamese).
+
+| Component | Variants / behaviour | Screens |
+|---|---|---|
+| `MapSheet` + `MapSheetScrollView` | Non-modal, no scrim; snaps peek (7a-1 sheet top, 300 of 844 pt, scaled to the screen) / half (452 of 844) / full (the map's top strip left showing); a release settles on the nearest snap, a fling (≥ .55 pt/ms) moves one snap past where it was let go; content scrolls only at full and hands a downward drag back once at its top; content shorter than a snap caps it; Android back lowers one snap before leaving; grabber carries Expand / Collapse a11y actions; a programmatic snap takes 420 `standard`, a release settles in 340 `gesture`; reduced motion fades out, moves, fades in (200) | 7a-1…7a-3, 7c-1 |
+| `PlanningMapCanvas` | Region pack or world tiles (TextureView on Android), the stay marker (yellow diamond, bed), and the layers below; `usePlanningCamera` fits a day above the sheet, flies to a place so it sits above the cards (`padding.bottom`), opens a cluster at its split zoom | 7a, 7b, 7c |
+| `PlaceDotsLayer` | Map layers, no view per place: saved places as paper discs with the category sprite and the saver's colour badge from town zoom (11), Tokek's suggestions as small dots that gather into count bubbles until street zoom (14); size by crew relevance (0–3); a filter dims what it leaves out to 20 % (never removes it, so nothing jumps) | 7a-1, 7c-1, 7c-2 |
+| `StopRouteLayer` | Numbered stops in the day's colour joined by straight segments from the stay and back; other days at 50 %; choosing a day traces its line out from the stay (780 `extra`, ease out; instant under reduced motion) | 7a-1, 7a-2, 7b-1, 7b-2 |
+| `MapLabel` | The only label on the map: paper for a place, the day's colour for a stop; pops in 340 ms `cubic-bezier(.3, 1.5, .5, 1)` (scale .6 → 1, rise 8 pt), reduced motion fades in 240; a live `Marker` on both platforms | 7c-2, 7a-2, 7b-2 |
+| `EdgeIndicator` | "1 ← JATILUWIH": off-screen stops of the chosen day as pills on the edge they lie beyond, level with them, clear of the corners, the chips and the sheet | 7a-1, 7b-1 |
+| `DayChips` | Number over weekday, short colour underline, chosen = filled in the day's colour (or paper on Add to plan) with a ring; corner fit dot green / orange / grey; drop target: every chip dashed, the one under the drag glows yellow; > 8 days scroll | 7a-1, 7b-1, 7f-1, 7f-2 |
+| `PlaceRow`, `PlaceCard`, `PlaceThumb`, `AddButton` | Picture with category disc, name, meta, saver faces, the fit line in its tone (yellow fits, orange only if a stop moves, pink split, secondary none); card outlined when picked, yellow + | 7c-2, 7c-3, 7f-2 |
+| `TimedStop` (`TimeColumn` + `StopCard`) + `LegConnector`, `GapSlot` | Time over length; numbered disc in the day's colour, outlined when it needs a look; dashed leg line with "CAR · 1H10"; dashed free-time slot with an optional time and + | 7a-2, 7b-1, 7f-1 |
+| `TokekNote`, `PlanningDayRow`, `PaceBars`, `PlanningTag`, `MiniRouteSketch` | Guide line + one action (card form adds a plain line); whole-trip day row with tile, tag and five pace bars; status tags filled in their state colour; a day's route as plain views fitted to the card | 7a-1, 7a-3, 7b-1, 7b-3 |
+| `FilterChipRow`, `ReasonGrid`, `StanceBar`, `HourBars`, `OptionRadioCard` | Scrolling chips with counts, chosen fill, removable ×; two-up reason tiles; WANT IT (pink) / RATHER NOT (blue) bar with faces; hourly bars with the fitted slot lit green; radio cards with tags, chosen outlined yellow | 7c-1, 7d-1, 7e-1, 7e-3, 7f-1 |
 
 ### 2.9 Map, trip-day, money, camera
 `MapView` (MapLibre + custom style), `MapPin` (place, selected, person, meet-up, you, car, cluster, closed road), `RouteLine`, `PlaceCarousel`, `EtaList`, `CrewRail`, `LeaveByHero`, `PackingChips`, `TimelineList`, `PhraseCard` (TTS play), `EmergencyTiles`, `SettleRow`, `PayMethodChips`, `Viewfinder`, `ScanOverlay`, `ArLabels`, `VoiceOrb` (driven by audio levels), `WatchRow`, `ImportTiles`, `ParsedBookingCard`, `SupplierCard` (verbatim supplier data + attribution + disclosure; never cached).

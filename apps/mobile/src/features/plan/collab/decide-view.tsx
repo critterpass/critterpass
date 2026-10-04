@@ -23,9 +23,9 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import type { PlanMember } from '../day/use-trip-plan';
 import type { Decision } from './decision-model';
 import { OptionCard } from './option-card';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 export interface DecideViewProps {
   readonly eyebrow: string;

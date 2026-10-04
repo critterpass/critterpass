@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# In the open "Mark your days" sheet: next month (every day of it is ahead of today), reached by
+# swiping the grid, then seven days in a row painted with the Free tool (the one it opens with),
+# each tapped once, and Save. Waits for the sheet to close (by its month title: the sheet's root
+# id isn't in iOS's accessibility tree).
+- extendedWaitUntil:
+    visible:
+      id: 'manual-days-month'
+    timeout: 10000
+- waitForAnimationToEnd
+- swipe:
+    from:
+      id: 'manual-days-grid'
+    direction: LEFT
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'manual-days-today'
+    timeout: 5000
+- tapOn:
+    id: 'manual-tool-free'
+- tapOn:
+    id: 'manual-day-.*'
+    index: 8
+- tapOn:
+    id: 'manual-day-.*'
+    index: 9
+- tapOn:
+    id: 'manual-day-.*'
+    index: 10
+- tapOn:
+    id: 'manual-day-.*'
+    index: 11
+- tapOn:
+    id: 'manual-day-.*'
+    index: 12
+- tapOn:
+    id: 'manual-day-.*'
+    index: 13
+- tapOn:
+    id: 'manual-day-.*'
+    index: 14
+- tapOn:
+    id: 'manual-days-save'
+- extendedWaitUntil:
+    notVisible:
+      id: 'manual-days-month'
+    timeout: 15000

@@ -27,8 +27,6 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayFit, type FitWarning } from './fit-check';
 import { FitWarningPill } from './fit-warning-pill';
-import { useLiveRows, type LiveRows } from './live-rows';
-import type { DayItem } from './plan-model';
 import { NO_PICK, pickStep, shownPlaces } from './add-pick';
 import type { SearchState } from './server-place-search';
 import { useAddSheetSearch } from './use-add-search';
@@ -37,6 +35,8 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { SearchStates } from './search-states';
 import { PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
 import { TimeRangeField } from './time-range-field';
+import { type LiveRows, useLiveRows } from '@/data/plan/live-rows';
+import { type DayItem } from '@/data/plan/plan-model';
 
 export type AddSource = 'search' | 'saved' | 'own';
 type Source = AddSource;

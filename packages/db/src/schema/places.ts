@@ -21,6 +21,7 @@ import {
   jsonb,
   pgSchema,
   pgTable,
+  primaryKey,
   real,
   text,
   timestamp,
@@ -62,6 +63,8 @@ export const pois = pgTable('pois', {
   address: text('address'),
   hours: jsonb('hours').notNull().default({}),
   hoursVerifiedAt: timestamp('hours_verified_at', { withTimezone: true, mode: 'date' }),
+  /** Where `hours` came from: `osm`, `editorial` or `research`; null for older rows. */
+  hoursSource: text('hours_source'),
   priceLevel: integer('price_level'),
   sourceIds: jsonb('source_ids').notNull().default({}),
   editorial: jsonb('editorial').notNull().default({}),
@@ -192,9 +195,62 @@ export const foursquareApiUsage = pgTable('foursquare_api_usage', {
   month: text('month').primaryKey(),
   detailsCalls: integer('details_calls').notNull().default(0),
   matchCalls: integer('match_calls').notNull().default(0),
+  searchCalls: integer('search_calls').notNull().default(0),
   refusedCalls: integer('refused_calls').notNull().default(0),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
 
 registerTablePrivacy('poi_foursquare_ids', { class: 'C0' });
 registerTablePrivacy('foursquare_api_usage', { class: 'C0' });
+
+/**
+ * FSQ OS Places export runs for the multi-destination ingest (migration
+ * 20261003170000_fsq_os_export_runs.sql): one catalog scan in chunk jobs, rows kept per destination
+ * until that destination is ingested. Server-only bookkeeping of open data.
+ */
+export const fsqOsExportRuns = pgTable('fsq_os_export_runs', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  targets: jsonb('targets').notNull(),
+  chunkCount: integer('chunk_count').notNull(),
+  fannedOutAt: timestamp('fanned_out_at', { withTimezone: true, mode: 'date' }),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+export const fsqOsExportChunks = pgTable(
+  'fsq_os_export_chunks',
+  {
+    runId: uuid('run_id')
+      .notNull()
+      .references(() => fsqOsExportRuns.id, { onDelete: 'cascade' }),
+    chunk: integer('chunk').notNull(),
+    files: text('files').array().notNull(),
+    rowCount: integer('row_count'),
+    doneAt: timestamp('done_at', { withTimezone: true, mode: 'date' }),
+  },
+  (table) => [primaryKey({ columns: [table.runId, table.chunk] })],
+);
+
+export const fsqOsExportRows = pgTable(
+  'fsq_os_export_rows',
+  {
+    runId: uuid('run_id')
+      .notNull()
+      .references(() => fsqOsExportRuns.id, { onDelete: 'cascade' }),
+    slug: text('slug').notNull(),
+    fsqPlaceId: text('fsq_place_id').notNull(),
+    name: text('name').notNull(),
+    categoryLabels: text('category_labels').array().notNull().default([]),
+    lat: doublePrecision('lat').notNull(),
+    lng: doublePrecision('lng').notNull(),
+    address: text('address'),
+    website: text('website'),
+    phone: text('phone'),
+  },
+  (table) => [primaryKey({ columns: [table.runId, table.slug, table.fsqPlaceId] })],
+);
+
+registerTablePrivacy('fsq_os_export_runs', { class: 'C0' });
+registerTablePrivacy('fsq_os_export_chunks', { class: 'C0' });
+registerTablePrivacy('fsq_os_export_rows', { class: 'C0' });

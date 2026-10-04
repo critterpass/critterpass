@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.booked"
+msgstr "{stop} đã đặt nên giữ nguyên giờ."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.pinned"
+msgstr "{stop} đã được ghim giờ."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.untimed"
+msgstr "{stop} cần có giờ trước."
+
+#: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
+msgid "plan.dayPlan.add"
+msgstr "Thêm địa điểm, hoặc dán liên kết"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.allDays"
+msgstr "Tất cả ngày"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.dayTitle"
+msgstr "Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveDown"
+msgstr "Chuyển xuống"
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveUp"
+msgstr "Chuyển lên"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.empty"
+msgstr "Chưa có gì. Thêm điểm dừng đầu tiên."
+
+#. placeholder {0}: idea.minutes
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.onTheWay"
+msgstr "Tiện đường · +{0} phút"
+
+#: ../../apps/mobile/src/features/plan/day-plan/mini-map.tsx
+msgid "plan.dayPlan.openMap"
+msgstr "Mở bản đồ của ngày"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.pickDay"
+msgstr "Chọn ngày"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+msgid "plan.dayPlan.pickDayHint"
+msgstr "Chọn ngày khác"
+
+#. placeholder {0}: rainIssue.params.from
+#. placeholder {1}: rainIssue.params.to
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rain"
+msgstr "Có thể mưa {0}–{1}"
+
+#. placeholder {0}: clock(locale, rainWindow.start)
+#. placeholder {1}: clock(locale, rainWindow.end)
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rainForecast"
+msgstr "Có thể mưa {0}–{1}"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.runsInto"
+msgstr "Thứ tự đó lấn sang {stop}, nơi phải giữ nguyên giờ."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.late"
+msgstr "Thứ tự đó kéo qua nửa đêm."
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.readOnly"
+msgstr "Không thể đổi kế hoạch này ở đây."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.draft"
+msgstr "Bản nháp của bạn. Chỉ bạn thấy."

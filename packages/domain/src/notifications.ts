@@ -145,6 +145,8 @@ const CATALOGUE = [
   spec('guide_availability_ask', 'budgeted', 'cp.setup_ask', 'cp_guide', 'guide'),
   spec('availability_reply', 'budgeted', 'cp.generic', 'cp_trip', 'member', { private: true }),
   spec('draft_ready', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { onlyIfBackgrounded: true, collapse: 'draft:{trip_id}' }),
+  spec('ideas_placed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { ...passive, onlyIfBackgrounded: true, collapse: 'ideas:{trip_id}' }),
+  spec('check_ask_member', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'ask:{ask_id}'),
   spec('proposal_version', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.9 }),
   spec('scheduled_resend', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
   spec('reply_by_expiring', 'always', 'cp.rsvp', 'cp_always', 'guide', 'reply_by:{trip_id}'),
@@ -332,6 +334,10 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'lottery.reminder_due': ['lottery_deadline'],
   // Drafting: the organiser's draft is ready (pushed only when the app is in the background).
   'draft.ready': ['draft_ready'],
+  // Planning: Tokek finished placing ideas; the requester's private review is ready.
+  'ideas.placed': ['ideas_placed'],
+  // An organiser's private ask about one member's saves, to that member only.
+  'check.member_asked': ['check_ask_member'],
   'guide.question_answered': ['queued_answer'],
   // Money: a new expense to the members it splits with, requests, nudges, reminders and
   // confirmations to the other side of each payment, and the Settled Tokek to everyone at once.

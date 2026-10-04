@@ -92,10 +92,6 @@ msgstr "Chuyển xuống"
 msgid "plan.overview.moveUp"
 msgstr "Chuyển lên"
 
-#: ../../apps/mobile/src/features/plan/overview/data/plan-commands.ts
-msgid "plan.overview.queued.reorder"
-msgstr "Thứ tự ngày mới"
-
 #: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
 msgid "plan.overview.empty.title"
 msgstr "Chưa có kế hoạch"

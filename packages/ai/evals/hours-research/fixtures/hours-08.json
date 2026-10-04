@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T16:15:59.413Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "福寿園嵐山茶屋 Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://prtimes.jp/main/html/rd/p/000000048.000026565.html",
+          "title": "福寿園「嵐山茶屋」9月16日リニューアルオープン！こだわり宇治茶ドリンク＆スイーツで、京都旅の気分を盛り上げます。 | 株式会社福寿園のプレスリリース",
+          "content": "店舗イメージ店舗イメージ\n\n店舗名：福寿園　嵐山茶屋  \n 住所：京都市右京区嵯峨天竜寺芒ノ馬場町40番地8  \n 　　（嵐山 昇龍苑1階）  \n 電話番号：075-861-2910  \n 営業時間：10:00〜17:00 ［年中無休］  \n ※京都府における緊急事態措置を踏まえ、当面の間は、水曜定休、営業時間11：00～16：00とさせていただきます。  \n インスタグラム：  \n   \n   \n   \n   \n 【会社概要】  \n 株式会社福寿園は、寛政二年(1790年)の創業以来、茶一筋に歩み続けている京都の老舗茶舗です。代々が築いた茶づくりの伝統の技を生かしながら、常に新しい技術を取り入れ、これからの時代のティーライフをご提案してまいります。  \n 会社名　： 株式会社　福寿園  \n 所在地　： 京都府木津川市山城町上狛東作り道11  \n 代表者　： 取締役社長　福井 正興  \n 設立　　： 昭和24年(1949年)  \n 事業内容： 日本茶の製造・販売  \n URL　　 ： \n\nこのプレスリリースには、メディア関係者向けの情報があります [...] プレスリリース・ニュースリリース配信サービスのPR TIMES\n\n Top\n テクノロジー\n モバイル\n アプリ\n エンタメ\n ビューティー\n ファッション\n ライフスタイル\n ビジネス\n グルメ\n スポーツ\n\n株式会社福寿園\n\n会社概要\n\n# 福寿園「嵐山茶屋」9月16日リニューアルオープン！こだわり宇治茶ドリンク＆スイーツで、京都旅の気分を盛り上げます。\n\n株式会社福寿園\n\n創業230年を超える宇治茶の老舗・福寿園は、京都・嵐山にある「福寿園　嵐山茶屋」を9月16日（木）にリニューアルオープンします。嵐山のお猿さんをイメージしたオリジナルクッキー、縁日風のコットンキャンディーパフェなど、京都旅の気分をいっそう盛り上げる限定テイクアウトメニューが更に充実しました。\n\n「老舗はたのし」をテーマに、嵐山を訪れる方々に上質な時間と空間を提供する「嵐山昇龍苑」内にある福寿園『嵐山茶屋』が9月16日（木）にリニューアルオープン。『茶寮FUKUCHA』シェフパティシエ 杉本 映 監修で、新たなテイクアウトメニューを始めます。\n\n 新しい楽しみ方のドリンクメニュー [...] メディアユーザーログイン既に登録済みの方はこちら\n\nメディアユーザー新規登録無料\n\nメディアユーザー登録を行うと、企業担当者の連絡先や、イベント・記者会見の情報など様々な特記情報を閲覧できます。※内容はプレスリリースにより異なります。\n\nすべての画像\n\n種類\n:   商品サービス\n\nビジネスカテゴリ\n:   レストラン・ファストフード・居酒屋食品・お菓子\n\nキーワード\n:   リニューアルオープン宇治茶インスタ映えスイーツ嵐山京都パフェ抹茶ラテ旅行気分テイクアウト\n\n位置情報\n:   京都府京都市（店舗・民間施設）\n\nダウンロード\n:   プレスリリース素材\n\n    このプレスリリース内で使われている画像ファイルがダウンロードできます\n\n## 会社概要\n\n株式会社福寿園\n\n7フォロワー\n\nRSS\n\nURL\n:   \n\n業種\n:   製造業\n\n本社所在地\n:   京都府木津川市山城町上狛東作り道11\n\n電話番号\n:   0774-86-3901\n\n代表者名\n:   福井　正興\n\n上場\n:   未上場\n\n資本金\n:   8600万円\n\n設立\n:   1949年12月",
+          "score": 0.92980474,
+          "raw_content": null,
+          "published_date": "Tue, 14 Sep 2021 00:00:00 GMT",
+          "id": "01f86a-00"
+        },
+        {
+          "url": "https://www.instagram.com/p/CT0sJCxF4RM",
+          "title": "茶寮FUKUCHA | 「老舗はたのし」をテーマに、嵐山を訪れる ...",
+          "content": "店舗名：福寿園 嵐山茶屋住所：京都市右京区嵯峨天竜寺芒ノ馬場町40番地8（嵐山 昇龍苑1階） 電話番号：075-861-2910 営業時間：10:00〜17:00 ［年中無休",
+          "score": 0.8900749,
+          "raw_content": null,
+          "published_date": "Mon, 04 Oct 2021 16:00:00 GMT",
+          "id": "e9a191-01"
+        },
+        {
+          "url": "https://www.lavietaste.com/en/restaurant/47310",
+          "title": "Kyoto, Japan Cuisine/Saga, Arashiyama, Hozukyo/Tea Stand",
+          "content": "Opening hours: 10:00-18:00 Open Sundays. Rest time: Open daily Open hours and holidays are subject to change, so please check with the store before visiting.",
+          "score": 0.88564163,
+          "raw_content": null,
+          "published_date": null,
+          "id": "346f6c-02"
+        },
+        {
+          "url": "https://tabelog.com/kyoto/A2601/A260403/26025248",
+          "title": "福寿園 嵐山茶屋 （フクジュエン） - 嵐山（京福）/ティースタンド",
+          "content": "075-861-2910 予約可否 予約不可 営業時間 10:00 - 18:00 営業時間・定休日は変更となる場合がございますので、ご来店前に店舗にご確認ください。",
+          "score": 0.8657814,
+          "raw_content": null,
+          "published_date": null,
+          "id": "dae552-03"
+        },
+        {
+          "url": "https://www.fukujuen.com/shop/default.aspx",
+          "title": "宇治茶　福寿園　京都・山城",
+          "content": "## お茶へのこだわり\n\n私共は創業以来、伝統の心の上に常に革新の技を加え、日本の心を支える茶づくりに専念して参りました。長い歴史で培った技術のもと、幅広い種類の茶を安定したクオリティでお届けしています。\n\nもっと見る\n\nFUKUJUEN'S TEA\n\n## 福寿園の お茶を味わう\n\n京都・山城にて高品質な宇治茶を取りそろえています。抹茶・玉露・かぶせ茶・煎茶・ほうじ茶・和紅茶などの茶種はもちろん、それぞれの茶種ごとに多様な味わいの茶葉をご用意しています。\n\n商品を見る\n\nSTORE\n\n## 店舗のご案内\n\n販売店一覧へ\n\n## NEWSお知らせ\n\n 2026.08.27\n  :   広報誌「Fukujuso2026年9月号 Vol.57」をアップしました\n 2026.08.06\n  :   2026年度下期　京都展等催事出展のご案内\n 2026.07.14\n  :   福寿園公式LINEギフトをはじめました\n 2026.06.02\n  :   関西国際空港店をオープンしました\n 2026.05.20\n  :   日本茶シーズンイベント「新茶のふるまい」を京都ポルタで初開催！ [...] sitelogo\n\nENGLISH SITE\n\nHOMEHOME店舗・体験店舗・体験商品・買い物商品・買い物カートカート0\n\n ログインログイン\n マイページマイページ\n 新規会員登録新規会員登録\n 購入履歴購入履歴\n お気に入りお気に入り\n\nFUKUJUEN SERIES\n\n福寿園シリーズ\n\n珠玉\n\nSYUGYOKU\n\n珠玉高山\n\nKOZAN\n\n高山八十八\n\nHACHI JU HACHI\n\n八十八四君子\n\nSHIKUNSHI\n\n四君子京洛茶座\n\nKYORAKUCHAZA\n\n京洛茶座\n\nSEARCH BY CATEGORY\n\nカテゴリから探す\n\nお茶\n\nお茶お菓子・茶食品\n\nお菓子・茶食品茶器・雑貨\n\n茶器・雑貨\n\n Fukujuen Global Store\n よみもの\n 商品・買い物\n 店舗・体験\n お問い合わせ\n ご利用ガイド\n よくあるご質問\n\nmv_0 mv_1 mv_2\n\n福寿園\n\n## おいしいお茶 お詰めは、京都福寿園でございます [...] 寛政二年(1790年)の創業以来、茶一筋に歩み続けている京都の茶舗です。創業地でもある「京都・山城」の歴史は、平安や奈良時代よりも古い飛鳥時代に遡ります。緑豊かな自然と厳しさを併せ持つこの地は、由緒ある寺院が多く存在し、俗世を離れた山岳修験の拠点とされ、荘厳な雰囲気につつまれています。ここ上狛は木津川水運を利用した交通の要所であり、その地の利から茶問屋が形成されてきました。この地で代々が築いた茶づくりの伝統の技を生かしながら、常に新しい技術を取り入れ、これからの時代のティーライフをご提案してまいります。\n\nもっと見る\n\nBLOG\n\n## よみもの\n\nお茶とともに歩む、人生100年時代   Fukujuso8月号　夏に楽しむ「四君子 無上ブレンド」   Fukujuso7月号　祇園祭と楽しむ、わが家の「てのひら屏風祭」   Fukujuso6月号　お茶で愉しむ晩酌「日本酒出し玉露」   碾茶香る―「四君子」シリーズから新たな味わいが登場   LEAF to BOTTLE ボトルドティー\n\nもっと見る\n\nAbout tea\n\n## お茶へのこだわり",
+          "score": 0.21413255,
+          "raw_content": null,
+          "published_date": null,
+          "id": "d8dc65-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "9a2865f7-f16e-469c-bcfa-c021cedfd23c"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "d0d5e80d-1264-4c96-8ee4-8f3ae007ffc3",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"decline\",\"reason\":\"The results disagree on the hours (10:00-17:00 vs 10:00-18:00) and one gives a temporary reduced schedule, so no single current weekly schedule can be confirmed.\",\"source_url\":\"\",\"confidence\":0.2,\"always_open\":false,\"weekly\":{\"mo\":[],\"tu\":[],\"we\":[],\"th\":[],\"fr\":[],\"sa\":[],\"su\":[]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2875,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 96,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

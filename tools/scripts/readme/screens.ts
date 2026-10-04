@@ -39,7 +39,7 @@ export const GALLERY: readonly { flow: string; screens: readonly string[] }[] = 
   },
   {
     flow: 'Vote',
-    screens: ['3b-3_Pitch_a_place', '3d-2_Swipe_together', '3c-1_Vote_showdown', '3c-2_Kyoto_wins'],
+    screens: ['3b-3_Pitch_a_place', '7g-2_Swipe_together', '3c-1_Vote_showdown', '3c-2_Kyoto_wins'],
   },
   { flow: 'Trip setup', screens: ['3c-3_When', '3c-5_Budget', '3c-6_Rooms', '3c-7_Must-dos'] },
   {
@@ -61,12 +61,7 @@ export const GALLERY: readonly { flow: string; screens: readonly string[] }[] = 
   },
   {
     flow: 'Plan',
-    screens: [
-      '3e-1_Trip_plan',
-      '3e-2_Day_planning',
-      '3e-3_Review_changes',
-      '3f-2_Proposal_trailer',
-    ],
+    screens: ['7a-1_Trip_map', '7b-1_Day_plan', '7e-1_Place_detail', '3f-2_Proposal_trailer'],
   },
 ];
 

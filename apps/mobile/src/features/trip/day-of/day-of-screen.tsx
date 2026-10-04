@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { goHref, useGoOffer } from '@/features/go';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
@@ -44,6 +45,7 @@ import { useMediaLowData } from '../media/use-media-low-data';
 import {
   alarmNoteFor,
   dayLead,
+  dayOfGo,
   dayRelation,
   dayTimeline,
   forecastFor,
@@ -134,6 +136,16 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const timeline = dayTimeline(items.rows, me, members, locale, tz);
   const port = alarmPort();
   const note = alarmNoteFor(leaveBy, alarm.status, port?.authorizationStatus() ?? null, locale);
+  const lead = dayLead(timeline, relation === 'today', now);
+  // GO is offered only for a place it can open on: the leave-by's first, else the next stop's.
+  const goTargets = dayOfGo(leaveBy, lead, tripId, relation === 'today');
+  const leaveByOffer = useGoOffer(goTargets.leaveBy);
+  const stopOffer = useGoOffer(goTargets.stop);
+  const go = leaveByOffer.placed
+    ? { target: goTargets.leaveBy, detail: leaveByOffer.detail }
+    : stopOffer.placed
+      ? { target: goTargets.stop, detail: stopOffer.detail }
+      : null;
 
   const onSheetPrimary = async () => {
     const kind = sheet;
@@ -173,7 +185,15 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
       leaveBy={leaveBy}
       now={now}
       guideName={guideName}
-      firstUp={dayLead(timeline, relation === 'today', now)}
+      firstUp={lead}
+      onGo={
+        go?.target == null
+          ? undefined
+          : () => {
+              if (go.target !== null) router.push(goHref(go.target));
+            }
+      }
+      goDetail={go?.detail ?? null}
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,

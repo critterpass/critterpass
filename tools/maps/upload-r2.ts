@@ -14,7 +14,10 @@ import { spawnSync } from 'node:child_process';
 import { readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
 
+import { TILES_PUBLIC_BASE_URL } from './build-style';
+
 const BUCKET = 'cp-tiles';
+const FONTSTACK_PUT_ATTEMPTS = 3;
 
 function contentTypeFor(filePath: string): string {
   if (filePath.endsWith('.pmtiles')) return 'application/octet-stream';
@@ -41,6 +44,46 @@ function putObject(localPath: string, key: string): void {
   if (run.status !== 0) {
     throw new Error(`tiles upload-r2: wrangler put failed for ${key} (exit ${String(run.status)})`);
   }
+}
+
+/** Encodes each path segment the way MapLibre requests it (a fontstack's space becomes `%20`). */
+function publicUrlFor(key: string): string {
+  return `${TILES_PUBLIC_BASE_URL}/${key.split('/').map(encodeURIComponent).join('/')}`;
+}
+
+/**
+ * Adds one fontstack's ranges without touching anything already in the bucket: a key the public
+ * URL already serves is skipped, never overwritten (installed builds keep reading it). Files go
+ * up one at a time with retries, since a slow uplink drops the odd request.
+ */
+async function uploadFontstack(fontsDir: string, fontstack: string): Promise<void> {
+  const files = walkFiles(path.join(fontsDir, fontstack)).sort();
+  let uploaded = 0;
+  let skipped = 0;
+  for (const file of files) {
+    const key = `fonts/${path.relative(fontsDir, file)}`;
+    const head = await fetch(publicUrlFor(key), { method: 'HEAD' });
+    if (head.ok) {
+      skipped += 1;
+      continue;
+    }
+    if (head.status !== 404) {
+      throw new Error(`tiles upload-r2: cannot tell whether ${key} exists (${head.status})`);
+    }
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        putObject(file, key);
+        break;
+      } catch (error) {
+        if (attempt === FONTSTACK_PUT_ATTEMPTS) throw error;
+        console.error(JSON.stringify({ msg: 'tiles upload-r2: retrying', key, attempt }));
+      }
+    }
+    uploaded += 1;
+  }
+  console.log(
+    JSON.stringify({ msg: 'tiles upload-r2: fontstack done', fontstack, uploaded, skipped }),
+  );
 }
 
 function walkFiles(dir: string): string[] {
@@ -83,6 +126,7 @@ async function upsertMapRegion(
 interface CliArgs {
   readonly target: 'fonts' | 'sprite' | 'world' | 'region';
   readonly destination?: string;
+  readonly fontstack?: string;
   readonly version: string;
 }
 
@@ -92,13 +136,15 @@ function parseArgs(argv: readonly string[]): CliArgs {
     return index === -1 ? undefined : argv[index + 1];
   };
   const version = get('--version') ?? 'v1';
+  const fontstack = get('--fontstack');
+  if (fontstack) return { target: 'fonts', fontstack, version };
   if (argv.includes('--fonts')) return { target: 'fonts', version };
   if (argv.includes('--sprite')) return { target: 'sprite', version };
   if (argv.includes('--world')) return { target: 'world', version };
   const destination = get('--destination');
   if (!destination) {
     throw new Error(
-      'tiles upload-r2: one of --fonts, --sprite, --world, or --destination <slug> is required',
+      'tiles upload-r2: one of --fonts, --fontstack <name>, --sprite, --world, or --destination <slug> is required',
     );
   }
   return { target: 'region', destination, version };
@@ -110,6 +156,10 @@ async function main(): Promise<void> {
 
   if (args.target === 'fonts') {
     const fontsDir = path.join(outputRoot, 'fonts');
+    if (args.fontstack !== undefined) {
+      await uploadFontstack(fontsDir, args.fontstack);
+      return;
+    }
     const files = walkFiles(fontsDir);
     for (const file of files) putObject(file, `fonts/${path.relative(fontsDir, file)}`);
     console.log(JSON.stringify({ msg: 'tiles upload-r2: fonts done', files: files.length }));

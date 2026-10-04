@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ja\n"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.pinned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.untimed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/add-bar.tsx
+msgid "plan.dayPlan.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.allDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.dayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveDown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
+msgid "plan.dayPlan.moveUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.empty"
+msgstr ""
+
+#. placeholder {0}: idea.minutes
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.onTheWay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/mini-map.tsx
+msgid "plan.dayPlan.openMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-map-view.tsx
+msgid "plan.dayPlan.pickDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
+msgid "plan.dayPlan.pickDayHint"
+msgstr ""
+
+#. placeholder {0}: rainIssue.params.from
+#. placeholder {1}: rainIssue.params.to
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rain"
+msgstr ""
+
+#. placeholder {0}: clock(locale, rainWindow.start)
+#. placeholder {1}: clock(locale, rainWindow.end)
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-screen.tsx
+msgid "plan.dayPlan.rainForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.runsInto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.readOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.draft"
+msgstr ""

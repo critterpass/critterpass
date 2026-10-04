@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "758e79f4-162f-4043-9e7a-32c46b6e42da",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Vừa nhé, ngày 3 xếp Tegallalang vào lúc 08:30–10:30 là ổn, vì chỗ đó mở cửa từ 08:00. Đi sớm vậy thì nắng chưa gắt, terima kasih (cảm ơn) vì đã hỏi trước."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 313,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 86,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

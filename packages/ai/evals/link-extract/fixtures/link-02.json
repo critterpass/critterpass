@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1323,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "70797786-6693-4ded-bf18-75ab6a9e29f7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Crate Cafe\",\"kind_hint\":\"food\",\"area_hint\":\"Canggu\",\"quote\":\"Best brunch in Canggu ☕️ 1. Crate Cafe 2. Milk & Madu 3. Give Cafe.\"},{\"label\":\"Milk & Madu\",\"kind_hint\":\"food\",\"area_hint\":\"Canggu\",\"quote\":\"Best brunch in Canggu ☕️ 1. Crate Cafe 2. Milk & Madu 3. Give Cafe.\"},{\"label\":\"Give Cafe\",\"kind_hint\":\"food\",\"area_hint\":\"Canggu\",\"quote\":\"Best brunch in Canggu ☕️ 1. Crate Cafe 2. Milk & Madu 3. Give Cafe.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 355,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 167,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

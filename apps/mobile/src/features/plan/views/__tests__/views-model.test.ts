@@ -27,6 +27,31 @@ describe('plan map', () => {
     expect(model.pins.map((pin) => pin.label)).toEqual(['Pickup', 'Hot springs']);
     expect(model.routes).toHaveLength(1);
   });
+
+  it('follows the road of each synced leg item to item, straight where a leg has none', () => {
+    const [pickup, springs] = planMapModel(BALI_ITEMS, 4).pins;
+    if (pickup === undefined || springs === undefined) throw new Error('day 4 has two places');
+    const road: [number, number][] = [
+      [pickup.lng, pickup.lat],
+      [pickup.lng + 0.01, pickup.lat + 0.02],
+      [springs.lng, springs.lat],
+    ];
+    const shaped = planMapModel(
+      BALI_ITEMS,
+      4,
+      new Map([[`${pickup.stableId}>${springs.stableId}`, road]]),
+    );
+    expect(shaped.routes[0]?.coordinates).toEqual(road);
+    const reversed = planMapModel(
+      BALI_ITEMS,
+      4,
+      new Map([[`${springs.stableId}>${pickup.stableId}`, road]]),
+    );
+    expect(reversed.routes[0]?.coordinates).toEqual([
+      [pickup.lng, pickup.lat],
+      [springs.lng, springs.lat],
+    ]);
+  });
 });
 
 describe('plan calendar', () => {

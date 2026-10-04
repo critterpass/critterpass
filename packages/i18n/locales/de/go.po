@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 10:01+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#: ../../apps/mobile/src/features/go/use-go-offer.ts
+msgid "go.button.airport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.appleMaps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.billion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.mapsApp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.drive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.locating"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.routing"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.labelTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.googleMaps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabFare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.modeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.thousand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noLocation"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.million"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.straight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.ride"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startApple"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startGoogle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.walk"
+msgstr ""

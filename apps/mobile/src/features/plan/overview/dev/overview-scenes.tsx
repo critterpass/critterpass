@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 
 import { calendarMonths } from '../../views/model/views-model';
 import { PlanCalendar } from '../../views/plan-calendar';
+import { BALI_MAP_LEG_PATHS } from '../../views/dev/bali-map-leg-shapes';
 import { PlanMap } from '../../views/plan-map';
 import { buildDayCards, type DayCard } from '../model/plan-model';
 import { PlanOverviewView, type PlanOverviewViewProps } from '../plan-overview-view';
@@ -43,6 +44,7 @@ export function overviewProps(
       <PlanMap
         days={BALI_DAYS}
         items={BALI_ITEMS}
+        legPaths={BALI_MAP_LEG_PATHS}
         destinationSlug="bali"
         localRegionUri={null}
         offlineUnavailable={false}

@@ -61,7 +61,7 @@ A selection of the design renders, grouped by flow. All 172 screens and their ca
 <tr><th colspan="4" align="left">Vote</th></tr>
 <tr>
 <td align="center"><img src="docs/assets/readme/screens/3b-3_Pitch_a_place.jpg" width="190" alt="Pitch a place"><br><sub>Pitch a place</sub></td>
-<td align="center"><img src="docs/assets/readme/screens/3d-2_Swipe_together.jpg" width="190" alt="Swipe together"><br><sub>Swipe together</sub></td>
+<td align="center"><img src="docs/assets/readme/screens/7g-2_Swipe_together.jpg" width="190" alt="Swipe together"><br><sub>Swipe together</sub></td>
 <td align="center"><img src="docs/assets/readme/screens/3c-1_Vote_showdown.jpg" width="190" alt="Vote showdown"><br><sub>Vote showdown</sub></td>
 <td align="center"><img src="docs/assets/readme/screens/3c-2_Kyoto_wins.jpg" width="190" alt="Kyoto wins"><br><sub>Kyoto wins</sub></td>
 </tr>
@@ -95,9 +95,9 @@ A selection of the design renders, grouped by flow. All 172 screens and their ca
 </tr>
 <tr><th colspan="4" align="left">Plan</th></tr>
 <tr>
-<td align="center"><img src="docs/assets/readme/screens/3e-1_Trip_plan.jpg" width="190" alt="Trip plan"><br><sub>Trip plan</sub></td>
-<td align="center"><img src="docs/assets/readme/screens/3e-2_Day_planning.jpg" width="190" alt="Day planning"><br><sub>Day planning</sub></td>
-<td align="center"><img src="docs/assets/readme/screens/3e-3_Review_changes.jpg" width="190" alt="Review changes"><br><sub>Review changes</sub></td>
+<td align="center"><img src="docs/assets/readme/screens/7a-1_Trip_map.jpg" width="190" alt="Trip map"><br><sub>Trip map</sub></td>
+<td align="center"><img src="docs/assets/readme/screens/7b-1_Day_plan.jpg" width="190" alt="Day plan"><br><sub>Day plan</sub></td>
+<td align="center"><img src="docs/assets/readme/screens/7e-1_Place_detail.jpg" width="190" alt="Place detail"><br><sub>Place detail</sub></td>
 <td align="center"><img src="docs/assets/readme/screens/3f-2_Proposal_trailer.jpg" width="190" alt="Proposal trailer"><br><sub>Proposal trailer</sub></td>
 </tr>
 </table>

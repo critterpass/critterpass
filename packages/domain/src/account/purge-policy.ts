@@ -152,6 +152,11 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.quest_signups', ['user_id', del]),
   ...rules('public.swipe_votes', ['user_id', del]),
   ...rules('public.swipe_yes_votes', ['user_id', del]),
+  // A hidden place is private; a stance is the person's own words; a private ask concerns two
+  // people and goes with either of them.
+  ...rules('public.place_hides', ['user_id', del]),
+  ...rules('public.place_stances', ['user_id', del]),
+  ...rules('public.member_asks', ['asked_by', del], ['member_id', del]),
   ...rules('public.proposal_followups', ['user_id', del]),
   ...rules('public.engagement_events', ['user_id', del]),
   ...rules('public.device_activities', ['user_id', del]),
@@ -209,6 +214,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.proposal_reactions', ['user_id', keep(CREW)]),
   ...rules('public.rsvp_suggestions', ['target_uid', keep(CREW)]),
   ...rules('public.swipe_sessions', ['started_by', keep(CREW)]),
+  ...rules('public.trip_ideas', ['created_by', keep(CREW)]),
   ...rules('public.trip_dropouts', ['user_id', keep(CREW)], ['resolved_by', keep(CREW)]),
   ...rules('public.place_tips', ['author_id', nul]),
   ...rules('public.join_codes', ['created_by', keep('revoked by the purge; the row is history')]),

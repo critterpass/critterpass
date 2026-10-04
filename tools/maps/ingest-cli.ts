@@ -10,7 +10,9 @@
  *   pnpm --filter @cp/maps ingest -- --all [--except da-nang]    # every destination, here, in turn
  *   pnpm --filter @cp/maps ingest -- --enqueue [--except da-nang]
  *     # the worker's `places.ingest` fan-out: one FSQ OS export, then one job per destination
- *   pnpm --filter @cp/maps ingest -- --enqueue --only vn-hoi-an,vn-hue   # those, on the worker
+ *   pnpm --filter @cp/maps ingest -- --enqueue --only vn-hoi-an,vn-hue [--fsq-run <run id>]
+ *     # those, on the worker; with --fsq-run they read FSQ OS from that stored export run, without
+ *     # it the worker first exports each one's FSQ OS rows in restartable chunks
  *
  * `--backfill-bounds` uses the region-pack bounds in `./destinations.ts` for the guide
  * destinations and the Overture locality point for the rest (services/worker/src/places/
@@ -163,19 +165,27 @@ async function ingestOne(pool: pg.Pool, slug: string, box: BoundingBox | undefin
   await writeNotice(slug, result);
 }
 
-/** Queues the worker's fan-out, or one job per slug in `only` (each reads FSQ OS itself). */
+/**
+ * Queues the worker's fan-out, or one job per slug in `only`: those read FSQ OS from `fsqRunId`
+ * when given (a stored export run), else the catalog itself.
+ */
 async function enqueueOnWorker(
   connectionString: string,
   except: readonly string[],
   only: readonly string[],
+  fsqRunId: string | undefined,
 ): Promise<void> {
   const logger = { info: console.log, warn: console.warn, error: console.error };
   const boss = createBoss({ connectionString, logger, applicationName: 'cp-ingest-cli' });
   await boss.start();
   try {
-    const payloads = only.length > 0 ? only.map((slug) => ({ slug })) : [{ except }];
+    const run = fsqRunId !== undefined ? { fsqRunId } : {};
+    const payloads = only.length > 0 ? only.map((slug) => ({ slug, ...run })) : [{ except }];
     for (const payload of payloads) {
-      const jobId = await boss.send(PLACES_INGEST_QUEUE, payload);
+      // Named destinations go ahead of a monthly fan-out already queued.
+      const jobId = await boss.send(PLACES_INGEST_QUEUE, payload, {
+        priority: 'slug' in payload ? 10 : 0,
+      });
       console.log(JSON.stringify({ queue: PLACES_INGEST_QUEUE, jobId, ...payload }));
     }
   } finally {
@@ -190,7 +200,12 @@ async function main(): Promise<void> {
   const except = listValue(values, 'except');
 
   if (flags.has('enqueue'))
-    return enqueueOnWorker(connectionString, except, listValue(values, 'only'));
+    return enqueueOnWorker(
+      connectionString,
+      except,
+      listValue(values, 'only'),
+      values.get('fsq-run'),
+    );
 
   const pool = createPool({ connectionString, max: 2 });
   try {

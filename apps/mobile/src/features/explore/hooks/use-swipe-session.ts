@@ -2,7 +2,8 @@
  * A trip's swipe session on this phone: the session row with its deck, the places behind the
  * cards, everyone's yes votes and the matches from the synced trip rows, who is swiping right now
  * from the session's presence channel, and what this phone has swiped (kept on the device, since
- * a "no" is never synced back). Swipes queue offline; a match they make shows when it syncs.
+ * a "no" is never synced back). Swipes queue offline; a match they make shows when it syncs. Each
+ * match says where it went: the trip's Ideas (its idea, once synced) or an earlier change set.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and storage keys, never copy. */
 import { generateUuidV7 } from '@cp/domain';
@@ -10,6 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createMMKV } from 'react-native-mmkv';
 
 import { useCommand } from '@/data/commands/use-command';
+import { textArray } from '@/data/ideas/use-trip-ideas';
 import { usePresence } from '@/data/realtime/use-presence';
 
 import {
@@ -53,8 +55,10 @@ const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule,
 const SESSION_TABLES = ['swipe_sessions', 'trips', 'destinations', 'guides'];
 
 const YES_SQL = 'SELECT poi_id, user_id FROM swipe_yes_votes WHERE session_id = ?';
-const MATCH_SQL = `SELECT id, poi_id, day_no FROM swipe_matches WHERE session_id = ?
-  ORDER BY created_at, id`;
+const MATCH_SQL = `SELECT m.id, m.poi_id, m.day_no, m.change_set_id, m.user_ids,
+    (SELECT i.id FROM trip_ideas i WHERE i.trip_id = m.trip_id AND i.poi_id = m.poi_id
+      AND i.deleted_at IS NULL LIMIT 1) AS idea_id
+  FROM swipe_matches m WHERE m.session_id = ? ORDER BY m.created_at, m.id`;
 const PLACES_SQL = `SELECT id, name, category, price_level FROM pois
   WHERE id IN (SELECT value FROM json_each(?))`;
 
@@ -69,6 +73,22 @@ export interface SessionRow {
   readonly end_date: string | null;
   readonly destination_name: string | null;
   readonly guide_slug: string | null;
+}
+
+/** A match with where it went and who said yes. */
+export interface SessionMatch extends MatchRow {
+  readonly changeSetId: string | null;
+  readonly ideaId: string | null;
+  readonly userIds: readonly string[];
+}
+
+interface MatchSqlRow {
+  readonly id: string;
+  readonly poi_id: string;
+  readonly day_no: number | null;
+  readonly change_set_id: string | null;
+  readonly user_ids: string | null;
+  readonly idea_id: string | null;
 }
 
 export interface DeckPlace {
@@ -95,11 +115,10 @@ export function useSwipeSession(tripId: string, sessionRef: string) {
     sessionId === null ? null : [sessionId],
     ['swipe_yes_votes'],
   ).rows;
-  const matchRows = useLiveRows<{ id: string; poi_id: string; day_no: number | null }>(
-    MATCH_SQL,
-    sessionId === null ? null : [sessionId],
-    ['swipe_matches'],
-  ).rows;
+  const matchRows = useLiveRows<MatchSqlRow>(MATCH_SQL, sessionId === null ? null : [sessionId], [
+    'swipe_matches',
+    'trip_ideas',
+  ]).rows;
   const live = usePresence('swipe', sessionId);
 
   const start = useCommand(startSwipeSessionCommand);
@@ -164,8 +183,15 @@ export function useSwipeSession(tripId: string, sessionRef: string) {
       [yes],
     ),
     matches: useMemo(
-      (): MatchRow[] =>
-        matchRows.map((entry) => ({ id: entry.id, poiId: entry.poi_id, dayNo: entry.day_no })),
+      (): SessionMatch[] =>
+        matchRows.map((entry) => ({
+          id: entry.id,
+          poiId: entry.poi_id,
+          dayNo: entry.day_no,
+          changeSetId: entry.change_set_id,
+          ideaId: entry.idea_id,
+          userIds: textArray(entry.user_ids),
+        })),
       [matchRows],
     ),
     live,

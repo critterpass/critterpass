@@ -18,6 +18,7 @@ export const AGENT_JOB_KINDS = [
   'pitch',
   'briefing',
   'content',
+  'place_ideas',
 ] as const;
 export const agentJobKindSchema = z.enum(AGENT_JOB_KINDS);
 export type AgentJobKind = z.infer<typeof agentJobKindSchema>;

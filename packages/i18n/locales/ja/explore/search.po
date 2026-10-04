@@ -1,0 +1,657 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ja\n"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.or"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.softMisses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.relatedLate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widenAreas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.savedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.mealNoTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.travel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.meal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-queued-plain-question.ts
+msgid "search.queued.pingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chips.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.waits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.drive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.pin.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sure"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.sureAndAsk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromRoute"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/commands.ts
+msgid "search.queued.idea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.view"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.crowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.row.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pinLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.screenshot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.addedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.beaches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.bookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.breakfast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.cheap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.coffee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.coffee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.couldBeNear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.notFound"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.dinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.drinks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.pin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.dayNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.fri"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.link"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.screenshot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.tiktok"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.youtube"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.instagram"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.appleMaps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.from.googleMaps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.fromNoDate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.kids"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.unsupported"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noText"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.post"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.screenshot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.read.video"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.row.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.indoor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.local"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.lunch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.market"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.mon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.museum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.place"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.banner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.notDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.leadMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.openIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.openPast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.openTill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.openAsOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.askLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.putOnDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.outdoor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.pasteLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.pickOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queuedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.attribution"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.reading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.saturday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saveToggle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.saveToIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.noPicker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/match-row.tsx
+msgid "search.link.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+msgid "search.link.proposedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.view"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.spa"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.health"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.sunset"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/use-link-actions.ts
+msgid "search.link.reason.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.temple"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.limit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.nearestPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.error.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.thu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.related"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.tue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.price"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.vegetarian"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.waterfalls"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.wed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
+msgid "search.pin.name"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
+msgid "search.link.pickTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.widen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+msgid "search.link.worksWith"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.tip"
+msgstr ""

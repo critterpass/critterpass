@@ -6,6 +6,7 @@ import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { useVersionLegPaths } from '@/data/legs/version-leg-paths';
 import { useRegionPack } from '@/data/places/useRegionPack';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -31,9 +32,11 @@ export function PlanMapTab({
   const pack = useRegionPack(data.trip?.destination_id ?? '', data.trip?.destination_slug ?? '');
   const tripId = data.trip?.id ?? '';
   const downloaded = pack.status === 'downloaded' ? pack.localPmtilesUri : null;
+  const legPaths = useVersionLegPaths(data.versionId);
   return (
     <PlanMap
       days={data.days}
+      legPaths={legPaths}
       items={items}
       destinationSlug={data.trip?.destination_slug ?? null}
       localRegionUri={downloaded}

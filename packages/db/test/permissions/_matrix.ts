@@ -105,6 +105,10 @@ function crewVisibleOwnerWrite(update: boolean): Readonly<Record<ActorKind, Tabl
   };
 }
 
+function tripRowProbe(table: string): SelectProbe {
+  return { sql: `SELECT 1 FROM ${table} WHERE trip_id = $1`, params: (f) => [f.tripId] };
+}
+
 function ownRowProbe(table: string): SelectProbe {
   return { sql: `SELECT 1 FROM ${table} WHERE user_id = $1`, params: (f) => [f.actors.organiser] };
 }
@@ -636,6 +640,40 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   },
   foursquare_api_usage: {
     selectProbe: { sql: 'SELECT 1 FROM foursquare_api_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  // FSQ OS export staging for the POI ingest (server-only, class S).
+  fsq_os_export_runs: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_runs LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  fsq_os_export_chunks: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_chunks LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  fsq_os_export_rows: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_rows LIMIT 1', params: () => [] },
     expectations: {
       outsider: F,
       exMember: F,
@@ -2012,6 +2050,35 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   album_prefs: { selectProbe: ownRowProbe('album_prefs'), expectations: OWNER_READ },
   album_exports: { selectProbe: ownRowProbe('album_exports'), expectations: OWNER_READ },
   mailing_addresses: { selectProbe: ownRowProbe('mailing_addresses'), expectations: OWNER_READ },
+  trip_ideas: { selectProbe: tripRowProbe('trip_ideas'), expectations: CREW_VISIBLE_READ },
+  place_stances: { selectProbe: tripRowProbe('place_stances'), expectations: CREW_VISIBLE_READ },
+  place_hides: { selectProbe: ownRowProbe('place_hides'), expectations: OWNER_READ },
+  plan_legs: { selectProbe: tripRowProbe('plan_legs'), expectations: CREW_VISIBLE_READ },
+  plan_checks: { selectProbe: tripRowProbe('plan_checks'), expectations: CREW_VISIBLE_READ },
+  plan_check_issues: {
+    selectProbe: tripRowProbe('plan_check_issues'),
+    expectations: CREW_VISIBLE_READ,
+  },
+  // The organiser asked the member: those two read it, nobody else on the trip does.
+  member_asks: {
+    selectProbe: tripRowProbe('member_asks'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: F,
+      organiser: op(true, false, false),
+    },
+  },
+  route_cache: {
+    selectProbe: { sql: 'SELECT 1 FROM route_cache', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  climate_normals: {
+    selectProbe: { sql: 'SELECT 1 FROM climate_normals', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
 };
 
 /**

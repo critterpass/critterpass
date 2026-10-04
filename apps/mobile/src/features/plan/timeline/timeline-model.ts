@@ -6,12 +6,12 @@
  */
 import type { PlanOp } from '@cp/domain';
 
-import type { DayItem } from '../day/plan-model';
-import { moveOp, resizeOp, type DaySlot } from '../day/plan-ops';
 import { AXIS_GUTTER, PT_PER_MINUTE, axisFor, yOf, type Axis } from './geometry';
 import { layoutLanes } from './lane-layout';
 import { reflow } from './reflow';
 import type { BlockFrame } from './timeline-block';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type DaySlot, moveOp, resizeOp } from '@/data/plan/plan-ops';
 
 export interface Placed {
   readonly start: number;

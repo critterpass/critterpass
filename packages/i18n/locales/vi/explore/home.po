@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr "{0}, cùng {1}"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
+msgstr "{count} mục đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr "Trang chủ"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr "Đang tải các điểm đến"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr "Địa điểm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
+msgstr "Tìm thành phố hoặc quốc gia bất kỳ"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr "Các điểm đến chưa về tới điện thoại này. Chúng sẽ tải khi có mạng."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr "Nơi các hướng dẫn viên sống"

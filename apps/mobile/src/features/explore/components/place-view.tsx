@@ -105,7 +105,8 @@ const useStyles = makeStyles((t) => ({
   footer: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'] },
 }));
 
-function Photo({
+/** The place photo, pushing in slowly as the page opens; the category doodle without one. */
+export function PlacePhoto({
   photo,
   heroUrl,
   category,
@@ -173,7 +174,7 @@ export function PlaceView(props: PlaceViewProps) {
     <Scaffold edges={[]} testID="explore-place">
       <ScrollView contentContainerStyle={{ paddingBottom: FOOTER_FADE_PT + theme.space['8'] }}>
         <View style={styles.photo}>
-          <Photo
+          <PlacePhoto
             photo={props.photo}
             heroUrl={props.heroUrl}
             category={props.category}

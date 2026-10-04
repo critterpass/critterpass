@@ -107,6 +107,10 @@ msgstr "Vừa"
 msgid "setup.mustDos.pill.fitsDay"
 msgstr "Vừa ngày {day}"
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.resolving"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.keep"
 msgstr "Giữ đúng như bạn gõ"
@@ -115,9 +119,17 @@ msgstr "Giữ đúng như bạn gõ"
 msgid "setup.addMustDo.loading"
 msgstr "Đang tìm địa điểm"
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.searching"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.lottery"
 msgstr "Bốc thăm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.title"
+msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
@@ -131,6 +143,10 @@ msgstr "Mất sóng nên chưa tìm được nơi mới. Cứ giữ lời của 
 msgid "setup.addMustDo.offlineSaved"
 msgstr "Mất sóng: đây là các nơi có sẵn trên máy. Có mạng sẽ gửi lựa chọn của bạn."
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.line.empty"
 msgstr "Chưa ai thêm. Bạn mở hàng nhé."
@@ -138,6 +154,10 @@ msgstr "Chưa ai thêm. Bạn mở hàng nhé."
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "Mỗi người một việc"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.attribution"
+msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.remind"
@@ -155,6 +175,10 @@ msgstr "Có mạng sẽ gửi"
 msgid "setup.mustDos.doneLine"
 msgstr "Xong phần chuẩn bị. {guideName} bắt đầu lên lịch từ đây."
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.unavailable"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.tight"
 msgstr "Sít"
@@ -162,3 +186,7 @@ msgstr "Sít"
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pendingA11y"
 msgstr "Đang chờ gửi"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.loading"
+msgstr ""

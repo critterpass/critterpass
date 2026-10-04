@@ -7,9 +7,9 @@
 import { i18n } from '@lingui/core';
 import type { StackMember } from '@/ui/people/AvatarStack';
 
-import type { DayItem } from '../plan-model';
 import type { PlaceRow } from '../queries';
-import type { PlanMember } from '../use-trip-plan';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 export const LAB_DATE = '2026-10-14';
 export const LAB_TZ = 'Asia/Makassar';

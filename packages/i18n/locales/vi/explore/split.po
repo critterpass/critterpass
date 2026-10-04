@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.thinking"
+msgstr "{0} đang tìm cách."
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.going"
+msgstr "{going} người đi"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.costEach"
+msgstr "{money} mỗi người"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.costCar"
+msgstr "{money}, cả xe"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentOne"
+msgstr "{names} chưa nói"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silent"
+msgstr "{names} chưa nói"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.all"
+msgstr "Cả {going}"
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLabel"
+msgstr "Bằng lời của bạn (không bắt buộc)"
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.posted"
+msgstr "Đã gửi vào chat nhóm để bỏ phiếu."
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLong"
+msgstr "Tối đa 140 ký tự"
+
+#: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWays"
+msgstr "Chưa có cách nào. Nói bạn nghĩ sao rồi mình xem lại."
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refusedBody"
+msgstr "Chưa gửi gì cả. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.vote"
+msgstr "Để cả nhóm bỏ phiếu"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.ratherNot"
+msgstr "Không muốn"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.say"
+msgstr "Nói"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestFirst"
+msgstr "Đề xuất cách thứ nhất"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestSecond"
+msgstr "Đề xuất cách thứ hai"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.clear"
+msgstr "Rút lại"
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.clear"
+msgstr "Rút lại ý kiến"
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refused"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteSeen"
+msgstr "Cả nhóm sẽ thấy, kèm tên bạn."
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.ways"
+msgstr "Hai cách không ai thiệt:"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.update"
+msgstr "Cập nhật"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.want"
+msgstr "Muốn đi"
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.where"
+msgstr "Bạn nghĩ sao?"
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.stance"
+msgstr "Ý kiến của bạn"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.you"
+msgstr "bạn"
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentYou"
+msgstr "Bạn chưa nói"

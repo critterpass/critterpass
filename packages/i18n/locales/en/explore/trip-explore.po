@@ -1,0 +1,116 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFreeWhile"
+msgstr "{count, plural, =2 {Two of you are free while {busy} runs} =3 {Three of you are free while {busy} runs} =4 {Four of you are free while {busy} runs} =5 {Five of you are free while {busy} runs} other {# of you are free while {busy} runs}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFree"
+msgstr "{count, plural, =2 {Two of you are free} =3 {Three of you are free} =4 {Four of you are free} =5 {Five of you are free} other {# of you are free}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCountLabel"
+msgstr "{count, plural, one {Ideas: # place saved for this trip} other {Ideas: # places saved for this trip}}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksAll"
+msgstr "{count} ›"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pairIdea"
+msgstr "{first} + {second}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksTitle"
+msgstr "{guide}'s first-timer picks"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSavedToast"
+msgstr "{place} is in Ideas."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapWhen"
+msgstr "{weekday} {from}–{to}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCount"
+msgstr "♡ {count} saved"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSaved"
+msgstr "♥ Saved"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.stayIdea"
+msgstr "Back at the stay"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsBy"
+msgstr "By {guide}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeBody"
+msgstr "Can't agree? {count} places, everyone swipes, matches go to Ideas."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.fillIt"
+msgstr "Fill it"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsTitle"
+msgstr "For your gaps"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickInDay"
+msgstr "In day {day}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeJoin"
+msgstr "Join"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullLine"
+msgstr "No free window of an hour or more is left. Free one up and ideas for it land here."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyTitle"
+msgstr "Nothing planned yet"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyLine"
+msgstr "Once the plan has its days, {guide} finds the free windows and fills them here."
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickAdd"
+msgstr "Save {place} to Ideas"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.search"
+msgstr "Search {destination}, or ask {guide}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeStart"
+msgstr "Start"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeTitle"
+msgstr "Swipe together"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapEveryone"
+msgstr "The whole crew is free"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.back"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullTitle"
+msgstr "Your days are full"

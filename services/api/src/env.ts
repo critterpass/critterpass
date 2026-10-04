@@ -152,6 +152,8 @@ export const apiEnvSchema = z.object({
   /** Mapbox Geocoding v6 server key (`@cp/suppliers` geocode client); omitted = forward geocoding stays
    *  local-only (our pois + cities), no Mapbox fallback for addresses. */
   MAPBOX_TOKEN: optionalString,
+  /** Self-hosted Valhalla on the private network (planning travel); unset = straight-line. */
+  VALHALLA_URL: optionalUrl,
   /** Public base URL the `cp-tiles` R2 bucket (or its `tiles.critterpass.app` custom domain, once
    *  attached — infra/cloudflare/tiles/wrangler.toml) serves PMTiles/fonts/sprite from; read by
    *  src/places/map-regions.ts to build the manifest's `url`. */
@@ -199,6 +201,12 @@ export const apiEnvSchema = z.object({
   ANTHROPIC_BASE_URL: optionalUrl,
   /** TypeSafe Jev key for the input compliance check; unset = it answers from the fast-tier twin. */
   TYPESAFE_API_KEY: optionalString,
+  /** Gemini key for the vision fallback of Add from a link (a public YouTube video), used only
+   *  while `ai.gemini_vision` is on; unset = no request ever reaches Gemini. */
+  GEMINI_API_KEY: optionalString,
+  /** YouTube Data API key: Add from a link reads a video's description (`videos.list`); unset =
+   *  only its oEmbed title is read. */
+  YOUTUBE_API_KEY: optionalString,
 
   // --- Links (docs/api-contracts.md §5.6) ---
   /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =

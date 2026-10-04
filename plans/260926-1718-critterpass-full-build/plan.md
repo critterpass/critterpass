@@ -28,6 +28,8 @@ critical_path_tasks: 253
 - **In progress (28):** 2, 5, 6, 7, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 29, 30, 31, 35, 36, 37, 38, 39, 40, 45, 46, 48, 49, 51. Every task is ticked in 2, 5, 18, 19, 20, 27, 29, 30, 31 and 37; they wait on their close-out.
 - **Not started (12):** 42, 43, 44, 47, 50, 52, 53, 54, 55, 56, 57, 59.
 
+**Handover to the section 7 plan (4 Oct):** the founder's section 7 design (screens 7a-1 to 7i-2) replaces screens 3d-1 to 3d-4 and 3e-1 to 3e-3. Phases 29 and 30 close out as they stand; their 3d/3e screens and `apps/mobile/src/features/plan/{overview,day,timeline,review,views}` and `apps/mobile/src/features/explore/**` pass to [`plans/261003-2300-planning-places-v2`](../261003-2300-planning-places-v2/plan.md), which re-points each old screen id behind `planning.redesign` and retires the old screens in its last phase. Phase 37's timeline weather overlay is superseded by 7h-4 (Rain and crowds) and retired there after the founder approves the day plan on device.
+
 **2 Oct** (everything since the 1 Oct 17:00 update):
 - **Shipped:**
   - Build 16 reached TestFlight on the night of 1 Oct, and the founder moved to it at 23:49. Build 15's signing failed when Apple's API refused the Time Sensitive capability, which used up its number. Build 16 carries the lock-screen I'M UP fix (#396). App updates now go only to build 16; the release loop publishes one within minutes of each merge.

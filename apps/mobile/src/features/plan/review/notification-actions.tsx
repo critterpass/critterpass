@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 
 import { planRoutes } from '../overview/routes';
-import { APPROVE_CHANGESET } from './data/changeset-commands';
+import { approveChangesetCommand } from '@/data/plan/commands';
 
 export const CHANGESET_CATEGORY = 'cp.changeset';
 const ACTIONS = { approve: 'yes', reject: 'no' } as const;
@@ -95,7 +95,7 @@ export async function handleChangesetReply(
 /** Mounted once inside the signed-in session: category titles and the reply handler. */
 export function ChangesetNotificationActions() {
   const { t, i18n } = useLingui();
-  const { send } = useCommand(APPROVE_CHANGESET);
+  const { send } = useCommand(approveChangesetCommand);
 
   useEffect(() => {
     Notifications.setNotificationCategoryAsync(CHANGESET_CATEGORY, [

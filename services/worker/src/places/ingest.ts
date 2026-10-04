@@ -1,7 +1,9 @@
 /**
  * Curated POI ingest for one destination bbox: reads Overture places and FSQ OS Places
  * (`./source-readers.ts`), conflates them (`./conflate.ts`), and upserts into `pois` keyed by
- * source id so a rerun updates existing rows instead of creating new ones. Upserts are batched
+ * source id so a rerun updates existing rows instead of creating new ones. OpenStreetMap
+ * (`./osm-reader.ts`, `./osm-apply.ts`) runs last over the same bbox: it links to the rows just
+ * written, fills their empty hours, and adds the sights the other two lack. Upserts are batched
  * (`INGEST_BATCH_SIZE` conflated POIs per chunk, one transaction, one existing-id lookup plus one
  * multi-row `INSERT` and one multi-row `UPDATE`): a metro-wide bbox against a remote Postgres would
  * otherwise turn into tens of thousands of sequential round trips.
@@ -10,7 +12,9 @@ import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
 import { chunk } from './batch-sql';
-import { conflatePlaces, type ConflationCandidate } from './conflate';
+import { conflatePlaces, type ConflatedPoi, type ConflationCandidate } from './conflate';
+import { applyOsmPlaces, type OsmApplyResult } from './osm-apply';
+import { readOsmPlaces, type OsmPlaceRow } from './osm-reader';
 import {
   batchUpsertConflatedPois,
   INGEST_BATCH_SIZE,
@@ -35,7 +39,7 @@ export {
   type PlaceSourceRow,
 } from './source-readers';
 
-function toCandidate(row: PlaceSourceRow): ConflationCandidate {
+export function toCandidate(row: PlaceSourceRow): ConflationCandidate {
   return {
     sourceId: row.sourceId,
     name: row.name,
@@ -50,7 +54,23 @@ function toCandidate(row: PlaceSourceRow): ConflationCandidate {
   };
 }
 
-const SPARSE_COVERAGE_THRESHOLD = 50;
+/**
+ * The first row of each source id: a source that lists one place twice would otherwise yield two
+ * POIs with the same id, and the second insert would break the per-source unique index.
+ */
+export function uniqueBySourceId<Row extends { readonly sourceId: string }>(
+  rows: readonly Row[],
+): Row[] {
+  const seen = new Set<string>();
+  return rows.filter((row) => {
+    if (seen.has(row.sourceId)) return false;
+    seen.add(row.sourceId);
+    return true;
+  });
+}
+
+/** Below this many active POIs a destination shows the "no curated places yet" state. */
+export const SPARSE_COVERAGE_THRESHOLD = 50;
 
 export interface IngestDestinationInput {
   readonly destinationId: string;
@@ -63,6 +83,8 @@ export interface IngestDestinationInput {
 export interface IngestSources {
   readonly readOverturePlaces?: PlaceSourceReader;
   readonly readFsqOsPlaces?: PlaceSourceReader;
+  /** Defaults to the Geofabrik reader only when Overture is also read for real. */
+  readonly readOsmPlaces?: (bbox: BoundingBox) => Promise<readonly OsmPlaceRow[]>;
 }
 
 export interface IngestDestinationResult {
@@ -80,27 +102,25 @@ export interface IngestDestinationResult {
   readonly activeCount: number;
   /** True when the real FSQ OS Places source was used and returned nothing because it is gated. */
   readonly fsqOsGated: boolean;
+  /** What OpenStreetMap added and filled; null when it was not read. */
+  readonly osm: OsmApplyResult | null;
   /** Triggers the "no curated places yet" UI state: fewer than 50 active POIs after this ingest. */
   readonly sparseCoverage: boolean;
 }
 
-/** Ingests one destination bbox: reads both sources, conflates, and upserts (see file header). */
-export async function ingestDestination(
+export interface UpsertCounts {
+  readonly inserted: number;
+  readonly updated: number;
+  readonly skipped: number;
+  readonly ownedElsewhere: number;
+}
+
+/** Upserts conflated POIs for a destination in `INGEST_BATCH_SIZE` chunks; returns the summed counts. */
+export async function upsertConflated(
   pool: pg.Pool,
   input: IngestDestinationInput,
-  sources: IngestSources = {},
-): Promise<IngestDestinationResult> {
-  const readOverture = sources.readOverturePlaces ?? readOverturePlaces;
-  const readFsq = sources.readFsqOsPlaces ?? readFsqOsPlaces;
-  const usingRealFsqReader = sources.readFsqOsPlaces === undefined;
-
-  // One source at a time: each read holds its own DuckDB instance and memory budget.
-  const overtureRows = await readOverture(input.bbox);
-  const fsqRows = await readFsq(input.bbox);
-  const fsqOsGated = usingRealFsqReader && fsqRows.length === 0 && fsqOsSource() === 'none';
-
-  const conflated = conflatePlaces(fsqRows.map(toCandidate), overtureRows.map(toCandidate));
-
+  conflated: readonly ConflatedPoi[],
+): Promise<UpsertCounts> {
   const counts = { inserted: 0, updated: 0, skipped: 0, ownedElsewhere: 0 };
   for (const batch of chunk(conflated, INGEST_BATCH_SIZE)) {
     const batchCounts = await batchUpsertConflatedPois(
@@ -115,14 +135,52 @@ export async function ingestDestination(
     counts.skipped += batchCounts.skipped;
     counts.ownedElsewhere += batchCounts.ownedElsewhere;
   }
+  return counts;
+}
 
-  const activeCount = await withSystem(pool, async (tx) => {
+/** The destination's active POIs. */
+export async function countActivePois(pool: pg.Pool, destinationId: string): Promise<number> {
+  return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ count: string }>(
       "SELECT count(*) FROM pois WHERE destination_id = $1 AND status = 'active'",
-      [input.destinationId],
+      [destinationId],
     );
     return Number(rows[0]?.count ?? 0);
   });
+}
+
+/** Ingests one destination bbox: reads both sources, conflates, and upserts (see file header). */
+export async function ingestDestination(
+  pool: pg.Pool,
+  input: IngestDestinationInput,
+  sources: IngestSources = {},
+): Promise<IngestDestinationResult> {
+  const readOverture = sources.readOverturePlaces ?? readOverturePlaces;
+  const readFsq = sources.readFsqOsPlaces ?? readFsqOsPlaces;
+  const usingRealFsqReader = sources.readFsqOsPlaces === undefined;
+
+  // One source at a time: each read holds its own DuckDB instance and memory budget.
+  const overtureRows = uniqueBySourceId(await readOverture(input.bbox));
+  const fsqRows = uniqueBySourceId(await readFsq(input.bbox));
+  const fsqOsGated = usingRealFsqReader && fsqRows.length === 0 && fsqOsSource() === 'none';
+
+  const conflated = conflatePlaces(fsqRows.map(toCandidate), overtureRows.map(toCandidate));
+
+  const counts = await upsertConflated(pool, input, conflated);
+
+  const readOsm =
+    sources.readOsmPlaces ?? (sources.readOverturePlaces === undefined ? readOsmPlaces : undefined);
+  const osm =
+    readOsm === undefined
+      ? null
+      : await applyOsmPlaces(
+          pool,
+          input.destinationId,
+          input.timezone ?? null,
+          await readOsm(input.bbox),
+        );
+
+  const activeCount = await countActivePois(pool, input.destinationId);
 
   return {
     overtureRows: overtureRows.length,
@@ -131,6 +189,7 @@ export async function ingestDestination(
     ...counts,
     activeCount,
     fsqOsGated,
+    osm,
     sparseCoverage: activeCount < SPARSE_COVERAGE_THRESHOLD,
   };
 }
@@ -144,7 +203,7 @@ export interface AttributionNoticeInput {
 
 /**
  * NOTICE text for one destination's ingest: Apache-2.0 requires FSQ OS Places attribution when
- * included; CDLA-P-2.0 requires crediting Overture regardless.
+ * included; CDLA-P-2.0 requires crediting Overture and the ODbL OpenStreetMap regardless.
  */
 export function generateAttributionNotice(input: AttributionNoticeInput): string {
   const lines = [
@@ -154,6 +213,9 @@ export function generateAttributionNotice(input: AttributionNoticeInput): string
     '',
     `- Map data (c) OpenStreetMap contributors and Overture Maps Foundation, release ${input.overtureRelease}, licensed under CDLA-Permissive-2.0 (https://cdla.dev/permissive-2-0/).`,
   ];
+  lines.push(
+    '- Places and opening hours (c) OpenStreetMap contributors, from Geofabrik extracts of OpenStreetMap, available under the Open Database License (https://opendatacommons.org/licenses/odbl/1-0/). https://www.openstreetmap.org/copyright',
+  );
   if (input.fsqOsIncluded) {
     lines.push(
       '- Places data (c) Foursquare Labs, Inc., from FSQ OS Places, licensed under Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0). This product includes software developed by Foursquare Labs, Inc. (https://foursquare.com).',

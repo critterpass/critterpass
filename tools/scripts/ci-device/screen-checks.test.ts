@@ -129,6 +129,12 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(band?.detail).toContain('#000000');
     });
 
+    it("reads the iOS 26 keyboard's empty suggestion strip as the keyboard, not a band", () => {
+      const image = load('ios26-search-suggestion-strip');
+      expect(keyboardTop(image)).not.toBeNull();
+      expect(findKeyboardBand(image)).toBeNull();
+    });
+
     it('reads a light number pad (its grey tray too) as the keyboard, not a band', () => {
       const pad = load('phone-number-pad');
       expect(keyboardTop(pad)).not.toBeNull();

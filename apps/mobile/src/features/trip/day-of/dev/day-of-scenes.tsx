@@ -5,6 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
 
+import { goAirportLabel } from '@/features/go';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { alarmText } from '../../alarm/alarm-copy';
@@ -33,7 +34,7 @@ const noop = () => undefined;
 const ALL = [WINSTON, MAYA, JORDAN, RIN, ALEX, DEV];
 
 function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
-  return {
+  const merged: DayOfViewProps = {
     state: 'ready',
     eyebrow: '',
     forecast: null,
@@ -51,6 +52,11 @@ function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
     onRemovePack: noop,
     ...overrides,
   };
+  // GO shows on today (no way back to it) with a next stop, as `dayOfGo` decides on the screen.
+  const hasStop =
+    merged.onToday === undefined &&
+    (merged.leaveBy !== null || (merged.firstUp !== null && merged.firstUp.kind !== 'done'));
+  return { ...merged, onGo: hasStop ? noop : undefined };
 }
 
 /** Day 1 of a Đà Nẵng trip: the flight in, then the afternoon. */
@@ -186,6 +192,7 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
       overrides={{
         now: AT_0440,
         leaveBy: airportLeaveBy(),
+        goDetail: goAirportLabel('Tân Sơn Nhất', 'SGN'),
         forecast: '26°',
         pack: [],
         timeline: DA_NANG_FIRST_DAY,

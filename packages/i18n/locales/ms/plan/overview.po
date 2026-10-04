@@ -92,10 +92,6 @@ msgstr ""
 msgid "plan.overview.moveUp"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/overview/data/plan-commands.ts
-msgid "plan.overview.queued.reorder"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
 msgid "plan.overview.empty.title"
 msgstr ""

@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.place.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdeaVoters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.seeIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr ""

@@ -26,3 +26,13 @@ apps/mobile/assets/fonts/*
 !apps/mobile/assets/fonts/Borel-400.ttf
 e2e
 **/*.md
+# Nothing the api or worker builds or reads at runtime; a smaller upload survives a slow uplink.
+apps/web
+apps/admin
+# Railway matches like git: a bare name drops that folder at any depth (packages/ai/src/tools too),
+# so root folders are anchored with a leading slash. Docker matches from the root either way.
+/tools
+packages/sound-art
+packages/critter-bake
+# Translation sources: the services import the compiled catalogs next to them.
+packages/i18n/locales/**/*.po

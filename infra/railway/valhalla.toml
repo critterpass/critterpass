@@ -1,0 +1,26 @@
+# Railway config-as-code for the private `valhalla` service (set once per environment under
+# Settings -> Config-as-code -> Railway config file: infra/railway/valhalla.toml). No public domain:
+# the api and worker reach it at http://valhalla.railway.internal:8002 (their VALHALLA_URL).
+# Variables (names only): ROUTING_TILES_MANIFEST_URL (the `routing-tiles` release's manifest.json),
+# PORT=8002 (Railway health-checks PORT), VALHALLA_THREADS (default 2), DATA_DIR=/data with a
+# volume mounted at /data so a restart serves the tiles on disk without downloading them again.
+# Deploying with `railway up` from a scratch folder: Railway ignores this file at the upload root and
+# builds with Railpack unless the folder has a root `Dockerfile`, so copy valhalla.Dockerfile there
+# (with tools/routing-tiles/serve.sh at its repo path). The health check settings below then apply
+# only once this file is set as the service's config-as-code path.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "infra/railway/valhalla.Dockerfile"
+watchPatterns = ["infra/railway/valhalla.Dockerfile", "infra/railway/valhalla.toml", "tools/routing-tiles/serve.sh"]
+
+[deploy]
+# The first boot downloads and unpacks the tiles before /status answers.
+healthcheckPath = "/status"
+healthcheckTimeout = 900
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+drainingSeconds = 10
+
+[deploy.multiRegionConfig.asia-southeast1-eqsg3a]
+numReplicas = 1

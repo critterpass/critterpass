@@ -19,7 +19,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { blockColor } from './category-color';
 import { clock } from './format';
-import type { DayItem } from './plan-model';
+import { type DayItem } from '@/data/plan/plan-model';
 
 export interface DayRowState {
   readonly queued: boolean;

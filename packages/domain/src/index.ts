@@ -16,17 +16,7 @@ export * from './travel-data';
 export * from './media';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
-export {
-  ENTITLEMENT_SUBJECT_KINDS,
-  entitlementSubjectKindSchema,
-  FAIR_USE_METRICS,
-  fairUseMetricSchema,
-  USAGE_METRICS,
-  usageMetricSchema,
-  type EntitlementSubjectKind,
-  type FairUseMetric,
-  type UsageMetric,
-} from './entitlements/metrics';
+export * from './entitlements/metrics';
 export {
   PRODUCT_KEYS,
   PRODUCT_TYPES,
@@ -162,6 +152,9 @@ export {
   type WeeklySpans,
 } from './places/hours';
 export { closesSoon, nextOpen, openAt } from './places/open-at';
+export { openSpans, openThrough, type OpenSpan } from './places/open-spans';
+export { DEFAULT_VISIT_MIN, visitMinutes } from './places/visit-minutes';
+export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/queues';
@@ -239,6 +232,7 @@ export {
   type TablePrivacy,
 } from './privacy';
 export * from './routing/eta-provider';
+export * from './routing/polyline';
 export { estimateStraightLineEta, straightLineEtaProvider } from './routing/straight-line-eta';
 export {
   assertApprovedByKindAllowed,
@@ -286,6 +280,7 @@ export * from './help';
 export * from './trip-day';
 export * from './disruptions';
 export * from './explore';
+export * from './planning';
 export * from './proposal';
 export * from './critters';
 export * from './trips/lifecycle';

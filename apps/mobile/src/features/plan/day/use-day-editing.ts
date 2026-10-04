@@ -6,9 +6,8 @@ import { useLingui } from '@lingui/react/macro';
 
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
-
-import { usePlanEditor } from './use-plan-editor';
-import type { TripPlan } from './use-trip-plan';
+import { usePlanEditor } from '@/data/plan/use-plan-editor';
+import { type TripPlan } from '@/data/plan/use-trip-plan';
 
 export function useDayEditing(plan: TripPlan) {
   const { t } = useLingui();
@@ -48,3 +47,5 @@ export function useDayEditing(plan: TripPlan) {
     },
   );
 }
+
+export { announceEdit, fitWarningText } from './edit-copy';

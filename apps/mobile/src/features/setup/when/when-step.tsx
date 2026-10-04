@@ -63,10 +63,11 @@ export function WhenStep({ trip, shell }: StepProps) {
   const selectedId = chosen ?? pick?.id ?? null;
   const startMonth = initialMonth(months, best);
   // The picker spans the whole horizon, so the organiser can pick a week before anyone has shared.
-  const pickerMonths = heatMonths(
-    data.summaries,
-    syncRange(new Date(services.now()), Intl.DateTimeFormat().resolvedOptions().timeZone),
+  const horizon = syncRange(
+    new Date(services.now()),
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+  const pickerMonths = heatMonths(data.summaries, horizon);
 
   const onLock = (start: string, end: string) => {
     setFailure(null);
@@ -121,6 +122,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           mustDoTitles: data.mustDoTitles,
           calendar: { status: calendar.status, lastSyncedAt: calendar.lastSyncedAt },
           now: new Date(services.now()),
+          today: horizon.from,
           busy: lock.pending || ask.pending,
           failure,
         }}
@@ -149,6 +151,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           startMonth={initialMonth(pickerMonths, best)}
           total={total}
           lengthDays={trip.lengthDays ?? DEFAULT_LENGTH_DAYS}
+          today={horizon.from}
           busy={lock.pending}
           onLock={onLock}
           onDismiss={() => setOverlay(null)}

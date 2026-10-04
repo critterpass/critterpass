@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
+msgid "explore.map.cluster"
+msgstr "{count} places here. Tap to spread them out."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.ready"
+msgstr "{place} works offline"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readySize"
+msgstr "{place} works offline · {size} MB"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.place.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.place.closedNow"
+msgstr "closed now"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.crew"
+msgstr "Crew picks"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDay"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDayTime"
+msgstr "Day {dayNo} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.download"
+msgstr "Download for offline"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.downloading"
+msgstr "Downloading {place}"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.loading"
+msgstr "Fetching {place}'s places"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr "Food"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationOff"
+msgstr "Location is off, so the map leaves you out."
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
+msgid "explore.map.noResults"
+msgstr "Nothing matches. Try fewer filters or another word."
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.place.open24"
+msgstr "open 24h"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.place.openNow"
+msgstr "open now"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.open"
+msgstr "Open now"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.remove"
+msgstr "Remove from this phone"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.search"
+msgstr "Search {place}"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.offer"
+msgstr "Search and the map work offline once {place} is on this phone."
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationSettings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showList"
+msgstr "Show as a list"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showMap"
+msgstr "Show the map"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.failed"
+msgstr "The download didn't finish. Check your connection and try again."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readyBody"
+msgstr "The map and search are on this phone."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.away"
+msgstr "You're {km} km from {place}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr "You're {km} mi from {place}"

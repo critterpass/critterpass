@@ -5,11 +5,14 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture data and scene ids, never copy. */
 import type { TripSetupStep } from '@cp/domain';
+import type { ReactNode } from 'react';
 
 import { ALEX, DEV, JORDAN, kyotoTrip, MAYA, RIN, sceneFrame, WINSTON } from '../scenes/fixtures';
 import { exitScene, type SetupScene } from '../scenes/types';
 import { AddSheetView } from './add-sheet-view';
 import { buildMustDos, type MustDoRow } from './model';
+import { MorePlacesSection } from './more-places-section';
+import type { LivePlace } from './more-places';
 import { MustDosView } from './must-dos-view';
 import type { PlaceResult, SearchState } from './search';
 
@@ -93,7 +96,12 @@ const RAMEN: readonly PlaceResult[] = [
   },
 ];
 
-function sheetScene(name: string, query: string, search: SearchState): SetupScene {
+function sheetScene(
+  name: string,
+  query: string,
+  search: SearchState,
+  more?: ReactNode,
+): SetupScene {
   return {
     name,
     render: () => {
@@ -110,10 +118,41 @@ function sheetScene(name: string, query: string, search: SearchState): SetupScen
           onPickPlace={() => undefined}
           onKeepText={() => undefined}
           onDismiss={exitScene}
+          more={more}
         />
       );
     },
   };
+}
+
+/** Live results the guide's own search did not have (display-only Foursquare results). */
+const KODAI: readonly LivePlace[] = [
+  {
+    fsqPlaceId: '4b0588c1f964a5203a8e22e3',
+    poiId: null,
+    name: 'Kōdai-ji',
+    address: 'Shimokawara-chō, Higashiyama-ku',
+  },
+  { fsqPlaceId: '5a1b2c3d4e5f60718293a4b5', poiId: null, name: 'Kodai Tea Stand', address: null },
+];
+
+const ONE_TEMPLE: SearchState = {
+  kind: 'done',
+  offline: false,
+  results: [
+    { id: 'kodaiji-garden', name: 'Kōdai-ji Garden', blurb: 'Lit up in autumn', pill: null },
+  ],
+};
+
+function more(note: 'unavailable' | null): ReactNode {
+  return (
+    <MorePlacesSection
+      state={{ kind: 'done', places: KODAI }}
+      note={note === null ? null : { fsqPlaceId: '5a1b2c3d4e5f60718293a4b5', kind: note }}
+      destinationName="Kyoto"
+      onPick={() => undefined}
+    />
+  );
 }
 
 export const MUST_DOS_SCENES: readonly SetupScene[] = [
@@ -183,4 +222,6 @@ export const MUST_DOS_SCENES: readonly SetupScene[] = [
       },
     ],
   }),
+  sheetScene('add-must-do-more-places', 'kodai', ONE_TEMPLE, more(null)),
+  sheetScene('add-must-do-more-unsaved', 'kodai', ONE_TEMPLE, more('unavailable')),
 ];

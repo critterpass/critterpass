@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Add from a link (7d-3) from the search lab: the @balibites TikTok with two places sure and the
+# swing to pick, the pick-one chooser, still reading, and a link that can't be read.
+# English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3, READY: search-link-save-ideas, SHOT: en-7d-3-add-from-link }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-pick-one, READY: search-pick-0, SHOT: en-7d-3-pick-one }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-reading, READY: search-link-sheet-panel, SHOT: en-7d-3-reading }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3-unsupported, READY: search-link-stopped, SHOT: en-7d-3-unsupported-link }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-3, READY: search-link-save-ideas, SHOT: vi-7d-3-add-from-link }

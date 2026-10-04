@@ -1,11 +1,14 @@
 /**
- * Plan and place reads for the explore routes and the swipe match: the trip's current plan as
- * slot-finder days (timed items in local minutes), the stay's position, and where a place already
- * sits in the plan. Read as the caller: RLS shows a member the crew-visible version only.
+ * Plan and place reads for the explore routes and the swipe match: the trip as its member sees
+ * it, the trip's current plan as slot-finder days (timed items in local minutes), the stay's
+ * position, where a place already sits in the plan, who in the crew saved it and the crew's Q&A
+ * line. Read as the caller: RLS shows a member the crew-visible version only.
  */
-import { DomainError, toLocalWallTime } from '@cp/domain';
+import { sendInTx } from '@cp/db';
+import { DomainError, EXPLORE_QUEUES, toLocalWallTime } from '@cp/domain';
 import type pg from 'pg';
 
+import { asSystemRole } from '../admin/command';
 import type { SlotDay } from './slot-suggest';
 
 export interface TripFacts {
@@ -24,12 +27,16 @@ export interface PlaceFacts {
   readonly hours: unknown;
   readonly tz: string | null;
   readonly timeNeededMin: number | null;
+  readonly category: string;
+  readonly tags: readonly string[];
+  readonly editorial: Readonly<Record<string, unknown>>;
 }
 
 export async function placeFacts(tx: pg.PoolClient, poiId: string): Promise<PlaceFacts> {
   const { rows } = await tx.query<PlaceFacts>(
     `SELECT p.name, p.lat, p.lng, p.hours, coalesce(p.timezone, d.tz) AS tz,
-            (p.editorial->>'time_needed_min')::int AS "timeNeededMin"
+            (p.editorial->>'time_needed_min')::int AS "timeNeededMin", p.category, p.tags,
+            p.editorial
        FROM pois p JOIN destinations d ON d.id = p.destination_id
       WHERE p.id = $1 AND p.status = 'active'`,
     [poiId],
@@ -109,4 +116,109 @@ export async function loadSlotDays(
             starts_at: here.starts_at?.toISOString() ?? null,
           },
   };
+}
+
+export async function tripFacts(tx: pg.PoolClient, tripId: string): Promise<TripFacts> {
+  const { rows } = await tx.query<TripFacts>(
+    `SELECT t.id, coalesce(t.tz, d.tz) AS tz, t.destination_id, t.current_version_id,
+            t.start_date::text AS start_date, app.is_trip_organiser(t.id) AS organiser
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
+      WHERE t.id = $1 AND app.is_trip_member(t.id)`,
+    [tripId],
+  );
+  const trip = rows[0];
+  if (trip === undefined) throw new DomainError('NOT_FOUND', { reason: 'trip' });
+  return trip;
+}
+
+/** Crewmates on the trip who saved this place: derived, only for a place in the trip's destination. */
+export async function savedBy(
+  tx: pg.PoolClient,
+  trip: TripFacts,
+  poiId: string,
+): Promise<string[]> {
+  const { rows } = await asSystemRole(tx, () =>
+    tx.query<{ user_id: string }>(
+      `SELECT s.user_id FROM saved_items s
+         JOIN trip_participants p ON p.user_id = s.user_id AND p.trip_id = $1
+         JOIN pois ON pois.id = s.ref_id AND pois.destination_id = $3
+        WHERE s.kind = 'poi' AND s.ref_id = $2 AND p.rsvp IS DISTINCT FROM 'out'
+        ORDER BY s.created_at, s.user_id`,
+      [trip.id, poiId, trip.destination_id],
+    ),
+  );
+  return rows.map((row) => row.user_id);
+}
+
+/** The trip's Q&A line, and a refresh queued when its chat named the place since. */
+export async function qnaLine(tx: pg.PoolClient, tripId: string, poiId: string, name: string) {
+  const { rows } = await tx.query<{ text: string; source_at: Date; updated_at: Date }>(
+    'SELECT text, source_at, updated_at FROM place_qna_summaries WHERE trip_id = $1 AND poi_id = $2',
+    [tripId, poiId],
+  );
+  const line = rows[0];
+  const latest = await tx.query<{ at: Date | null }>(
+    `SELECT max(created_at) AS at FROM messages
+      WHERE trip_id = $1 AND sender_kind = 'user' AND type = 'text' AND deleted_at IS NULL
+        AND ((ref_kind = 'poi' AND ref_id = $2) OR strpos(lower(body), lower($3)) > 0)`,
+    [tripId, poiId, name],
+  );
+  const at = latest.rows[0]?.at ?? null;
+  if (at !== null && (line === undefined || at > line.source_at)) {
+    await sendInTx(
+      tx,
+      EXPLORE_QUEUES.placeQna,
+      { trip_id: tripId, poi_id: poiId },
+      {
+        singletonKey: `${tripId}:${poiId}`,
+      },
+    );
+  }
+  return line === undefined
+    ? null
+    : {
+        text: line.text,
+        source_at: line.source_at.toISOString(),
+        updated_at: line.updated_at.toISOString(),
+      };
+}
+
+export interface SimilarPlace {
+  readonly poi_id: string;
+  readonly name: string;
+  readonly category: string;
+  readonly minutes: number;
+}
+
+/**
+ * Curated places of the same kind elsewhere in the destination, most shared tags first; the
+ * caller keeps only those far enough away to be "the same idea somewhere else". Places the caller
+ * hid are left out.
+ */
+export async function similarPlaces(
+  tx: pg.PoolClient,
+  input: {
+    readonly destinationId: string | null;
+    readonly poiId: string;
+    readonly place: Pick<PlaceFacts, 'category' | 'tags'>;
+  },
+): Promise<{ poi_id: string; name: string; category: string; lat: number; lng: number }[]> {
+  if (input.destinationId === null) return [];
+  const { rows } = await tx.query<{
+    poi_id: string;
+    name: string;
+    category: string;
+    lat: number;
+    lng: number;
+  }>(
+    `SELECT p.id AS poi_id, p.name, p.category, p.lat, p.lng FROM pois p
+      WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+        AND p.merged_into_id IS NULL AND p.id <> $2 AND p.category = $3
+        AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = p.id AND h.user_id = app.uid())
+      ORDER BY cardinality(ARRAY(SELECT unnest(p.tags) INTERSECT SELECT unnest($4::text[]))) DESC,
+               p.name
+      LIMIT 20`,
+    [input.destinationId, input.poiId, input.place.category, [...input.place.tags]],
+  );
+  return rows;
 }

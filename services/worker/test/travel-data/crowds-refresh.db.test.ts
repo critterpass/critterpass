@@ -60,4 +60,17 @@ describe('crowd pattern upkeep', () => {
     );
     expect(rows[0]?.n).toBe(4);
   });
+
+  it('leaves an editorial typical week alone however old it is', async () => {
+    await db.pool.query(
+      `INSERT INTO crowd_forecasts (poi_id, dow, hourly, source, fetched_at, approved_at)
+       VALUES ($1, 0, array_fill(30::smallint, ARRAY[24]), 'editorial', $2, $2)`,
+      [poiId, new Date(NOW.getTime() - 400 * DAY)],
+    );
+    expect(await withSystem(db.pool, (tx) => expireCrowdPatterns(tx, NOW))).toBe(0);
+    const { rows } = await db.pool.query<{ n: number }>(
+      "SELECT count(*)::int AS n FROM crowd_forecasts WHERE source = 'editorial'",
+    );
+    expect(rows[0]?.n).toBe(1);
+  });
 });

@@ -1,9 +1,10 @@
 # Places streams (docs/data-model-sync-and-privacy.md §4): the offline pack for one trip's destination
-# and on-demand exploration of any destination. Only editorial POIs are sent: a destination's open-data
-# import runs to hundreds of thousands of rows, which search reaches over HTTP, while the phone carries
-# the curated few hundred. Hidden POIs and POIs merged into another are never sent. Columns are listed so the search vector and PostGIS shapes stay
-# server-side (lat/lng carry the position). A CTE cannot reference another CTE, so
-# trip_destination repeats core.yaml's `my_crews` membership filter inline.
+# and on-demand exploration of any destination. A destination's open-data import runs to hundreds of
+# thousands of rows, which search reaches over HTTP, so the phone carries the curated few hundred
+# editorial POIs (never hidden or merged ones) plus every POI the subscribed trip points at.
+# Columns are listed so the search vector and PostGIS shapes stay server-side (lat/lng carry the
+# position). A CTE cannot reference another CTE, so trip_destination repeats core.yaml's `my_crews`
+# membership filter inline.
 
 streams:
   # Subscribed with {trip_id} alongside `trip` while the trip is upcoming or live.
@@ -24,6 +25,48 @@ streams:
           AND status != 'hidden'
           AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
+      # The places the trip's plan and ideas point at, whatever their curation: a stop added from
+      # search or a link may be an open-data POI, and a place hidden or merged after it was added
+      # still draws where the plan put it. Which places a trip references reveals its plan, so the
+      # subquery re-checks membership like the trip stream does. Superseded versions are left out:
+      # every group edit writes a new version, and one parameter result per old stop would grow
+      # with the trip's history towards PowerSync's per-connection limit.
+      - |
+        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
+          last_live_check_at, created_at, updated_at
+        FROM pois
+        WHERE id IN (
+          SELECT poi_id FROM plan_items
+          WHERE trip_id = subscription.parameter('trip_id')
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded')
+            AND poi_id IS NOT NULL)
+      # An organiser-only draft's stops (a must-do may be an open-data place), to organisers alone.
+      - |
+        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
+          last_live_check_at, created_at, updated_at
+        FROM pois
+        WHERE id IN (
+          SELECT poi_id FROM plan_items
+          WHERE trip_id = subscription.parameter('trip_id')
+            AND trip_id IN (SELECT trip_id FROM trip_participants WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser')
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser' AND status != 'superseded')
+            AND poi_id IS NOT NULL)
+      # The trip's live ideas, which include every place a member saved inside its destination.
+      - |
+        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
+          last_live_check_at, created_at, updated_at
+        FROM pois
+        WHERE id IN (
+          SELECT poi_id FROM trip_ideas
+          WHERE trip_id = subscription.parameter('trip_id')
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND deleted_at IS NULL
+            AND poi_id IS NOT NULL)
 
   # Subscribed with {destination_id} while browsing a destination. The parameter is unauthenticated
   # on purpose: every destination's public POIs are open to any signed-in client.

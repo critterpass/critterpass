@@ -1,0 +1,771 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: issue.params.stops
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.pace"
+msgstr "{0, plural, other {{day} có # điểm dừng trong chín tiếng. Vẫn ổn, vừa đủ.}}"
+
+#. placeholder {0}: word(saved)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.missed"
+msgstr "{0, select, one {Điểm {name} đã lưu chưa được xếp.} two {Cả hai điểm {name} đã lưu đều chưa được xếp.} three {Cả ba điểm {name} đã lưu đều chưa được xếp.} other {Các điểm {name} đã lưu đều chưa được xếp.}}"
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.ideas"
+msgstr "{0, select, one {TOKEK CÓ MỘT GỢI Ý} two {TOKEK CÓ HAI GỢI Ý} three {TOKEK CÓ BA GỢI Ý} other {TOKEK CÓ {n} GỢI Ý}}"
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.free"
+msgstr ""
+"{0, select, two {HAI NGƯỜI\n"
+"ĐANG RẢNH} three {BA NGƯỜI\n"
+"ĐANG RẢNH} four {BỐN NGƯỜI\n"
+"ĐANG RẢNH} five {NĂM NGƯỜI\n"
+"ĐANG RẢNH} six {SÁU NGƯỜI\n"
+"ĐANG RẢNH} seven {BẢY NGƯỜI\n"
+"ĐANG RẢNH} eight {TÁM NGƯỜI\n"
+"ĐANG RẢNH} other {{n} NGƯỜI\n"
+"ĐANG RẢNH}}"
+
+#. placeholder {0}: word(fit)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.fit"
+msgstr "{0, select, zero {Không điểm nào vừa mà không phải dời gì.} one {Một điểm vừa mà không phải dời gì.} two {Hai điểm vừa mà không phải dời gì.} other {Vài điểm vừa mà không phải dời gì.}}"
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.line"
+msgstr "{asker} hỏi có nên thêm {list} vào kế hoạch không."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.linePlain"
+msgstr "{asker} hỏi có nên thêm các điểm bạn đã lưu vào kế hoạch không."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.added"
+msgstr "{count, plural, =1 {Đã thêm cho bạn} other {Đã thêm cho # người}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fixAll"
+msgstr "{count, plural, =1 {SỬA # · XEM TRƯỚC} other {SỬA CẢ # · XEM TRƯỚC}}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.suggestAll"
+msgstr "{count, plural, =1 {ĐỀ XUẤT} other {ĐỀ XUẤT CẢ #}}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.useAll"
+msgstr "{count, plural, =1 {DÙNG} other {DÙNG CẢ #}}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.window"
+msgstr "{day} · {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedDays"
+msgstr "{days, plural, other {ĐÃ KIỂM TRA # NGÀY TRƯỚC}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.body"
+msgstr "{days, plural, other {Giờ mở cửa, đường đi, đặt chỗ và những điểm mọi người đã lưu, cho cả # ngày. Không có gì thay đổi cho đến khi bạn đồng ý.}}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.body"
+msgstr "{first} kết thúc lúc {end}. {second} bắt đầu lúc {start}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.title"
+msgstr "{first} chồng giờ với {second}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.both"
+msgstr ""
+"{first},\n"
+"{second}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.pairTitle"
+msgstr "{first}, rồi {second}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.fix"
+msgstr "{fix, plural, other {# CẦN SỬA}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.swapped"
+msgstr "Đã đổi {from} thành {to}."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.and"
+msgstr "{head} và {last}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedHours"
+msgstr "{hours, plural, other {ĐÃ KIỂM TRA # GIỜ TRƯỚC}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHours"
+msgstr "{hours}h"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleWhole"
+msgstr "{hours}H"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHoursMinutes"
+msgstr "{hours}h{rest}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleHours"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.know"
+msgstr "{know, plural, other {# CẦN BIẾT}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineMinutes"
+msgstr "{mins} phút"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleMinutes"
+msgstr "{mins} PHÚT"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.minutes"
+msgstr "{minutes, plural, other {# PHÚT}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedMinutes"
+msgstr "{minutes, plural, other {ĐÃ KIỂM TRA # PHÚT TRƯỚC}}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.each"
+msgstr "{money} MỖI NGƯỜI"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.normals"
+msgstr "Vào {month}, ở đây thường mưa từ {from} đến {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.you"
+msgstr "{name} (bạn)"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.title"
+msgstr "{name} hỏi bạn về các điểm bạn đã lưu"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.line"
+msgstr "{name} hỏi bạn về các điểm bạn đã lưu"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.detail"
+msgstr "Thay bằng {name}, cách điểm trước {leg}: bớt {saved} trên xe."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.plain"
+msgstr "Thay bằng {name}: bớt {saved} trên xe."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busyOne"
+msgstr "{name} ở {place} đến {until}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.declined"
+msgstr "{name} muốn để sau. Các điểm đã lưu vẫn nằm trong Ý tưởng."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.accepted"
+msgstr "{name} đã đồng ý. Các điểm đã lưu đã vào kế hoạch."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.saveOf"
+msgstr "điểm {name} đã lưu"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busy"
+msgstr "{names} ở {place} đến {until}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearer"
+msgstr "Thay bằng {nearer}, trên đường về"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.moveTo"
+msgstr "{place} lúc {time}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderMove"
+msgstr "{place} lúc {time}, bớt {less} lái xe"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.title"
+msgstr "{place} vào giờ đông"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.title"
+msgstr "{place} gặp mưa"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.next"
+msgstr "{place} lúc {at}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.title"
+msgstr "{place} đóng cửa lúc đó"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.moved"
+msgstr "Đã dời {place} sang {time}."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.closes"
+msgstr "{place} đóng cửa lúc {at}."
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasPlace"
+msgstr "{position, selectordinal, other {TRƯỚC LÀ THỨ #}}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.savesIn"
+msgstr "{saved, plural, other {ĐÃ XẾP {k}/# ĐIỂM}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.plain"
+msgstr "{symbol} {value}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.thousand"
+msgstr "{symbol} {value} N"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.million"
+msgstr "{symbol} {value} TR"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancel"
+msgstr "{title} được huỷ miễn phí đến {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.hold"
+msgstr "{title} giữ chỗ cho bạn đến {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.title"
+msgstr "{total} trên xe"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.dayTag"
+msgstr "{weekday} {day}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancelPlain"
+msgstr "Một đặt chỗ được huỷ miễn phí đến {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.holdPlain"
+msgstr "Một đặt chỗ được giữ đến {date}."
+
+#: ../../apps/mobile/src/features/plan/check/data/use-check-context.ts
+msgid "plan.check.aStop"
+msgstr "một điểm dừng"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addOne"
+msgstr "THÊM {first}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addTwo"
+msgstr "THÊM {first} + {second}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addBoth"
+msgstr "THÊM CẢ HAI"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addIt"
+msgstr "THÊM VÀO"
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.yes"
+msgstr "Thêm vào"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.yes"
+msgstr "Thêm vào"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.added"
+msgstr "Đã thêm vào kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.after"
+msgstr "Sau"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.clear"
+msgstr "Ổn cả. Giờ mở cửa, đường đi và đặt chỗ đều khớp. Tokek sẽ kiểm tra lại mỗi khi kế hoạch thay đổi."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.ask"
+msgstr "HỎI {name} TRƯỚC"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.asked"
+msgstr "ĐÃ HỎI"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayTitle"
+msgstr "Về chỗ ở"
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+msgid "plan.check.lab.museum"
+msgstr "Tranh Bali, một khu vườn và quán cà phê luôn yên tĩnh."
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.before"
+msgstr "Trước"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.booked"
+msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.booking"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietBefore"
+msgstr "Đông từ {busy}. Cả nhóm đến trước."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedNow"
+msgstr "VỪA KIỂM TRA XONG"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr ""
+"ĐANG KIỂM TRA\n"
+"KẾ HOẠCH"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.checking"
+msgstr "ĐANG KIỂM TRA…"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.clash"
+msgstr "Trùng giờ"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.closed"
+msgstr "Đóng cửa"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.visits"
+msgstr "Các nhóm thấy chỗ này đông từ {from}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.crowds"
+msgstr "Đông người"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneCrowds"
+msgstr "Độ đông"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceEditorial"
+msgstr "Độ đông là mức thường thấy vào {month}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceVisits"
+msgstr "Độ đông là những gì các nhóm đã thấy ở đây vào {month}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleCrowds"
+msgstr "ĐÔNG LÚC {busyAt} GIỜ"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryBefore"
+msgstr "Xong trước cơn mưa lúc {from}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleNone"
+msgstr "KHÔ RÁO VÀ VẮNG"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryAfter"
+msgstr "Tạnh trước {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.allIn"
+msgstr "Việc phải làm của mọi người đều đã vào, các điểm đã lưu cũng đều nhau."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.uneven"
+msgstr "Việc phải làm của mọi người đều đã vào. Các điểm đã lưu chưa đều."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.fillGap"
+msgstr "Lấp khoảng trống"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fix"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.freeChip"
+msgstr "MIỄN PHÍ"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayBody"
+msgstr "Miễn phí, chẳng phải đi đâu."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayVoted"
+msgstr "Miễn phí. {voter} đã bình chọn cho lựa chọn này."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.fri"
+msgstr "T6"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.forecastChip"
+msgstr "THEO DỰ BÁO"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.pace"
+msgstr "Ngày kín lịch"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.goAt"
+msgstr "Đi lúc {to}, trước khi đông"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.inCar"
+msgstr "trên xe"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.indoors"
+msgstr "Ở trong nhà khi trời mưa. Dời thoải mái."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sentLine"
+msgstr "Kế hoạch đổi khi mọi người đồng ý."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.allDay"
+msgstr "Cả ngày đóng cửa."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.body"
+msgstr "Hôm đó mở cửa từ {opens} đến {closes}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.editorial"
+msgstr "Thường đông từ {from}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-card.tsx
+msgid "plan.check.keep"
+msgstr "Giữ nguyên"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.keepFree"
+msgstr "ĐỂ TRỐNG"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.dismissWeather"
+msgstr "Giữ nguyên ngày này"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.mon"
+msgstr "T2"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.dryAt"
+msgstr "Dời sang {to}, lúc trời khô"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapPlain"
+msgstr "Dời sang giờ hợp hơn"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.generic"
+msgstr "Dời sang giờ phù hợp"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDo"
+msgstr "Việc phải làm: {title}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoIn"
+msgstr "Việc phải làm: {title} ✓"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.applied"
+msgstr "Thứ tự mới, đỡ lái xe hơn"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToastLine"
+msgstr "Không ai khác thấy."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoMissing"
+msgstr "Chưa phải việc phải làm nào cũng đã vào."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.no"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.no"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failedLine"
+msgstr "Chưa có gì thay đổi. Thử lại sau giây lát."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.none"
+msgstr "Không có chỗ nào gần đây vừa khoảng này. Thử Chọn khác, hoặc để trống."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.none"
+msgstr "Không có chỗ cùng loại nào gần hơn mà còn mở lúc đó. Dời một điểm sang ngày khác có thể giúp."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.noFix"
+msgstr "KHÔNG CÓ GÌ CẦN SỬA"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.noneBody"
+msgstr "Không có gì để đổi. Mọi khối giờ đều đủ khô ráo và vắng."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneNow"
+msgstr "Hiện tại"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.onlyYou"
+msgstr "CHỈ MÌNH BẠN THẤY"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.body"
+msgstr "Chỉ hai người thấy."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.private"
+msgstr "Chỉ hai người thấy. Không có gì bị dời để lấy chỗ."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietAfter"
+msgstr "Vắng hơn khi qua giờ cao điểm."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.rain"
+msgstr "Mưa"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneRain"
+msgstr "Mưa"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleRain"
+msgstr "MƯA LÚC {rainAt} GIỜ"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleBoth"
+msgstr ""
+"MƯA LÚC {rainAt} GIỜ,\n"
+"ĐÔNG LÚC {busyAt} GIỜ"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceNormals"
+msgstr "Mưa là cơn mưa thường gặp vào {month}; Tokek sẽ xem dự báo thật ba ngày trước."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceForecast"
+msgstr "Mưa lấy theo dự báo."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.recheck"
+msgstr "KIỂM TRA LẠI {label}"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.title"
+msgstr ""
+"CÙNG NGÀY,\n"
+"ĐỠ LÁI XE"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorder"
+msgstr "Cùng ngày, bớt {less} lái xe"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderPlain"
+msgstr "Cùng ngày, đỡ lái xe hơn"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sat"
+msgstr "T7"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr "Xem phần kiểm tra kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.sendFirst"
+msgstr "Gửi cả nhóm xem trước"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.sendFirst"
+msgstr "Gửi cả nhóm xem trước"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.toast.sent"
+msgstr "Đã gửi cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.else"
+msgstr "Chọn khác"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearerPlain"
+msgstr "Chọn chỗ gần hơn"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.suggest"
+msgstr "Đề xuất"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.suggest"
+msgstr "Đề xuất thứ tự này"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sun"
+msgstr "CN"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapWith"
+msgstr "Đổi chỗ với {other}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneSwapped"
+msgstr "Sau đổi"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failed"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.failed"
+msgstr "Lần kiểm tra này chưa xong. Sẽ chạy lại sau lần thay đổi tới."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.forecast"
+msgstr "Dự báo có {pct}% khả năng mưa từ {from} đến {to}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.dark"
+msgstr "Chặng dài nhất mất {longest}, và tới nơi khi trời đã tối."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.body"
+msgstr "Chặng dài nhất mất {longest}."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.stale"
+msgstr "Kế hoạch đã đổi sau lần kiểm tra này"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.none"
+msgstr "Thứ tự này đã là ngắn nhất Tokek tìm được mà không dời chỗ nào đã đặt."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.thu"
+msgstr "T5"
+
+#: ../../apps/mobile/src/features/plan/check/check-view.tsx
+msgid "plan.check.toKnow"
+msgstr "Cần biết"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr "Tokek đã hỏi riêng {name}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr "Tokek đã hỏi {name}. Đang chờ trả lời."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr "Tokek đang kiểm tra lại."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr "Tokek đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.tooFar"
+msgstr "Quá xa"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.trade"
+msgstr "Đổi chỗ cho nhau để có chỗ."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.backTrip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.tue"
+msgstr "T3"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.undo"
+msgstr "Hoàn tác trong Hộp thư."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.use"
+msgstr "Dùng chỗ này"
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.use"
+msgstr "Dùng thứ tự này"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasTime"
+msgstr "TRƯỚC LÀ {time}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.wed"
+msgstr "T4"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.title"
+msgstr ""
+"ĐIỂM CỦA AI\n"
+"ĐÃ VÀO LỊCH"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.balanceRow"
+msgstr "Điểm của ai đã vào lịch"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askNo"
+msgstr "Bạn để sau việc thêm các điểm đã lưu"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askYes"
+msgstr "Bạn đồng ý thêm các điểm đã lưu"

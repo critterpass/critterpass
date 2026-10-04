@@ -15,6 +15,7 @@ import { feedbackHref, HELP_ROUTES, storeReviewUrl, useIdeasToVote } from '@/fea
 import { useMoneyDisplay } from '@/data/money';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { mapsAppFor, useChosenMapsApp } from '@/features/go';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
 import { PermissionsSection } from '@/ui/permission-primer/PermissionsSection';
 
@@ -63,6 +64,7 @@ export function SettingsScreen({
   const ideasToVote = useIdeasToVote();
   const reviewUrl = storeReviewUrl(Platform.OS, Application.applicationId);
   const dataExport = useDataExport();
+  const [chosenMapsApp, setMapsApp] = useChosenMapsApp();
   // Reading the inbox needs a provider switched on for this build; until then the row offers the
   // crew's forward address, which works today.
   /* eslint-disable lingui/no-unlocalized-strings -- feature flag keys, never copy. */
@@ -84,6 +86,7 @@ export function SettingsScreen({
       helpShare: helpShare.on,
       soundEffects: prefs.categoryEnabled[STICKER_SOUNDS],
       haptics: prefs.hapticsEnabled,
+      mapsApp: Platform.OS === 'ios' ? mapsAppFor('ios', chosenMapsApp) : null,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
       ideasToVote,
@@ -109,6 +112,7 @@ export function SettingsScreen({
       onOfflineTrips: () => router.push(YOU_ROUTES.offlineStorage),
       onSoundEffects: (next) => prefs.setCategoryEnabled(STICKER_SOUNDS, next),
       onHaptics: prefs.setHapticsEnabled,
+      onMapsApp: setMapsApp,
       onLanguage: () => router.push(YOU_ROUTES.language),
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),

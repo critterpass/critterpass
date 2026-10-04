@@ -122,6 +122,12 @@ const HELP_SHARE = {
   share_id: crypto.randomUUID(),
   session_id: crypto.randomUUID(),
 };
+const IDEA = {
+  trip_id: crypto.randomUUID(),
+  idea_id: crypto.randomUUID(),
+  user_id: crypto.randomUUID(),
+};
+const STANCE = { trip_id: IDEA.trip_id, poi_id: crypto.randomUUID(), user_id: IDEA.user_id };
 const SOS_REF = { trip_id: crypto.randomUUID(), sos_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
@@ -581,6 +587,29 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     change_set_id: null,
   },
   'swipe.ended': SWIPE,
+  'trip_idea.saved': { ...IDEA, poi_id: null },
+  'trip_idea.removed': { ...IDEA, deleted: true },
+  'place.stance_set': { ...STANCE, stance: 'rather_not' },
+  'place.stance_cleared': STANCE,
+  'plan.legs_updated': { trip_id: IDEA.trip_id, version_id: crypto.randomUUID() },
+  'ideas.placed': {
+    trip_id: IDEA.trip_id,
+    job_id: crypto.randomUUID(),
+    user_id: IDEA.user_id,
+    change_set_id: null,
+  },
+  'check.member_asked': {
+    trip_id: IDEA.trip_id,
+    ask_id: crypto.randomUUID(),
+    asker_id: crypto.randomUUID(),
+    member_id: IDEA.user_id,
+  },
+  'check.member_ask_answered': {
+    trip_id: IDEA.trip_id,
+    ask_id: crypto.randomUUID(),
+    member_id: IDEA.user_id,
+    status: 'declined',
+  },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

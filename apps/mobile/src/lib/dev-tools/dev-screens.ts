@@ -60,6 +60,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/trip-day-lab',
         label: 'Trip day (3k scenes)',
       },
+      { testId: 'dev-nav-go-lab', href: '/(dev)/go-lab', label: 'GO (route preview scenes)' },
       {
         testId: 'dev-nav-disruption-lab',
         href: '/(dev)/disruption-lab',
@@ -89,6 +90,21 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Drafting and redrafts (3c-8…3c-12, 4f-3 scenes)',
       },
       { testId: 'dev-nav-explore-lab', href: '/(dev)/explore-lab', label: 'Explore (3d scenes)' },
+      {
+        testId: 'dev-nav-planning-map-lab',
+        href: '/(dev)/planning-map-lab',
+        label: 'Planning kit (7a, 7c map, sheet and components)',
+      },
+      {
+        testId: 'dev-nav-plan-ideas-lab',
+        href: '/(dev)/plan-ideas-lab',
+        label: 'Plan ideas (7f-1, 7f-2, 7h-6, 7h-7 scenes)',
+      },
+      {
+        testId: 'dev-nav-search-lab',
+        href: '/(dev)/search-lab',
+        label: 'Search (7d, 7i-2 scenes)',
+      },
     ],
   },
   {

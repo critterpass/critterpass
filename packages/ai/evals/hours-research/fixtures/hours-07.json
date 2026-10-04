@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T16:15:57.660Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "室町和久傳 Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.allway-japan.com/en/travelpost/299551",
+          "title": "室町和久傳 – RURUBU & ALL WAY JAPAN",
+          "content": "075-223-3200\n\nBusiness Hours\n\n11:30 to 13:00 LO, 17:30 to 19:00 LO\n\nCuisines Category\n\nCooking\n\nThe information provided reflects the details available at the time of the survey.  \nPlease note that facility details may change due to the facility’s circumstances, so please check for the latest information before visiting. This content has been translated using machine translation.\n\nInformation provided by: JTB Publishing [...] 跳过内容\n\nen_US English   ja Japanese   zh_CN\") Chinese (China)\")   zh_TW\") Chinese (Taiwan)\")   ko_KR Korean\n\nRURUBU & ALL WAY JAPANRURUBU & ALL WAY JAPAN\n\nEnglish\n\n Japanese\n Chinese (China)\n Chinese (Taiwan)\n Korean\n\nHome Travel Area List\n\nKyoto City\n\nMuromachi Kazuhisa\n\n# Muromachi Kazuhisa\n\nMuromachi Kazuhisa\n\nInfo\n\n Address:\n\n Sakaimachi-dori, Nakagyo-ku, Kyoto, Kyoto\n\n Public Transportation:\n\nKyoto Municipal Subway Karasumaru-Oike Station → 5-minute walk\n\n Phone Number:\n\n 075-223-3200 [...] This content uses automatic translation services. Automatic translations may not always be accurate.  \nPlease note that the translated content may differ from the original meaning. We ask for your understanding when using this content.\n\n## Related Foods\n\n.\n\nConsult Details\n\n## Contact Us: Business & Personal Inquiries",
+          "score": 0.85567063,
+          "raw_content": null,
+          "published_date": null,
+          "id": "3f7395-00"
+        },
+        {
+          "url": "https://omakase.in/en/r/ro378358",
+          "title": "Muromachi Wakuden's Reservation - OMAKASE",
+          "content": "|  |  |\n --- |\n| Phone | 075-223-3200 |\n| Seats | 44 Seats |\n| Operation hours | 11:30～, 17:30～ |\n| Regular holiday | Irregular holidays.   \\The restaurant may be temporarily open or temporarily closed. |\n| Age restriction | Counter / 12 years of age or older (secondary school students or older)  Children are allowed in private rooms |\n| Payment methods | Cash, Credit card |\n| BYOB | 3,000JPY / 1 bottle |\n| Smoking | Not allowed | [...] 075-223-3200\n\n44 Seats\n\n11:30～, 17:30～\n\nCounter / 12 years of age or older (secondary school students or older)\n  \nChildren are allowed in private rooms\n\nCash, Credit card\n\n3,000JPY / 1 bottle\n\nNot allowed\n\nKarasumaoike\n\nReservation rules | || Current reservation period | until Mon Nov 30 2026 |\n| Next round opens | Oct 5, 2026, 00:00   JST(UTC+9) |\n| Maximum frequency | unlimited |\n\n| Cancellation policy | |\n --- |\n| 2 days prior to the day | 80% |\n| on the previous day | 100% | [...] | Address | 679 Marukizaimokucho, Nakagyo-ku, Kyoto City, Kyoto |\n| Nearest station | Karasumaoike |",
+          "score": 0.6609831,
+          "raw_content": null,
+          "published_date": null,
+          "id": "93c027-01"
+        },
+        {
+          "url": "https://tabelog.com/en/kyoto/A2601/A260202/26000621",
+          "title": "Muromachi Wakuden - Karasuma Oike/Japanese Cuisine | Tabelog",
+          "content": "| Business hours |  Mon, Tue, Thu, Fri, Sat, Sun, Public Holiday, Day before public holiday, Day after public holiday    + 12:00 PM - 3:00 PM L.O. Food 1:00 PM   + 6:00 PM - 10:00 PM L.O. Food 7:00 PM  Wed    + Closed    ■Business hours [Lunch] Last seating at 13:00  [Dinner] Last seating at 19:00  ■Closed on Wednesdays and not fixed on other days. |\n| Average price | JPY 20,000 - JPY 29,999  JPY 15,000 - JPY 19,999 | [...] Japanese Cuisine×Imperial Palace Area\n     Japanese Cuisine×Kyoto City\n     Japanese Cuisine×Kyoto\n\n     Crab×Imperial Palace Area\n     Crab×Kyoto City\n     Crab×Kyoto\n\nBudget：\n:   JPY 20,000 - JPY 29,999\n\n    JPY 15,000 - JPY 19,999\n\nClosed：\n:   Wednesday\n\nRestaurant information(detail) [...] | Website |  |\n| Phone number | 075-223-3200 |\n| Remarks | We offer private reservations for both counter seats and private rooms. If you are interested, please contact the restaurant. |",
+          "score": 0.65412235,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1d69d4-02"
+        },
+        {
+          "url": "https://muromachi_wakuden.surf.menu",
+          "title": "Wakuden Muromachi > SURF",
+          "content": "# Wakuden Muromachi\n\n About\n Menu Book\n Food Allergen\n Reservation)\n Location\n SNS\n Survey\n Store List / Map\n\n / Dinner 18:00 ~ 21:00(LO )\n\nBusiness Hours >\n\n Menu\n\n Food Allergen\n\nReservation)\n\n Location\n\n About\n\n SNS\n\n Survey\n\n Manager\n\nWakuden Store List / Map\n\nEN\n\n#### Please select a service\n\n#### Select Your Cuisine\n\n#### Please select a budget.\n\n~\n\n¥\n\n¥\n\n~\n\n¥\n\n#### Please select a floor.",
+          "score": 0.61196244,
+          "raw_content": null,
+          "published_date": null,
+          "id": "511c04-03"
+        },
+        {
+          "url": "https://www.kinnso.ai/en/directory/food/a3245073",
+          "title": "室町和久傳 - Kinnso",
+          "content": "## Review\n\nKinnso Avatar\n\nAdd Review\n\nempty state\n\nLeave a comment now!\n\n### Address & Contact Information\n\nSakaimachidori Oike Sagaru Higashigawa, Nakagyo-ku, Kyoto 604-0000 Kyoto Prefecture\n\n+81 75-223-3200 [...] \"室町和久傳\", also known as Muromachi Wakuden, is a remarkable and prestigious restaurant tucked away in the heart of Kyoto, Japan's ancient capital. Situated in Nakagyo-ku, this esteemed culinary destination is known for its authentic Kaiseki cuisine, a traditional multi-course Japanese dinner that is an art form balancing the taste, texture, and colors of food. Muromachi Wakuden's elegant ambiance reflects the rich history and culture of the city. The restaurant's interior is a blend of classic [...] seeking to explore Japan's culinary heritage or a traveler looking for a memorable dining experience in Kyoto, Muromachi Wakuden is a must-visit destination. It's not just a restaurant; it's a journey into the heart of Japanese culture and tradition.",
+          "score": 0.45973158,
+          "raw_content": null,
+          "published_date": null,
+          "id": "908db6-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "9780b8bb-d286-4b20-8e14-9154ab6db640"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "61181568-178e-40ec-8fba-131e436e359b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"decline\",\"reason\":\"The results disagree on closing days and hours: one lists Wednesday closed with 12:00-15:00 and 18:00-22:00, while others give only vague or different times without consistent day coverage.\",\"source_url\":\"\",\"confidence\":0.2,\"always_open\":false,\"weekly\":{\"mo\":[],\"tu\":[],\"we\":[],\"th\":[],\"fr\":[],\"sa\":[],\"su\":[]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2011,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 99,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

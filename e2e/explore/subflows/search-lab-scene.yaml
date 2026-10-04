@@ -1,0 +1,69 @@
+appId: app.critterpass.dev
+---
+# Opens one search lab scene, waits for `${READY}`, takes `${SHOT}` and goes back to the list
+# (Android back, twice for a sheet scene; iOS drags back from the edge).
+- scrollUntilVisible:
+    element:
+      id: 'search-lab-${SCENE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'search-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      # Android's hideKeyboard is a back press when no keyboard is up: back alone closes the
+      # keyboard or the scene, and a second back follows when the list isn't showing yet.
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'search-lab-${SCENE}'
+          commands:
+            - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+      - swipe:
+          start: 0%, 50%
+          end: 85%, 50%
+          duration: 800
+      - waitForAnimationToEnd:
+          timeout: 3000
+# iOS: when the scene keeps the edge drag (a focused field, a sheet), the lab is reopened from Home.
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'search-lab-${SCENE}'
+    commands:
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-search-lab'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+      - tapOn:
+          id: 'dev-nav-search-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'search-lab-${SCENE}'
+          direction: DOWN
+          timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'search-lab-${SCENE}'
+    timeout: 10000

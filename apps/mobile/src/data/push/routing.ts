@@ -4,7 +4,8 @@
  * messaging service (modules/cp-notifications) already decoded. Either way the push's `deeplink`
  * (`/crew/<id>/chat`, or a full `critterpass://` / https link) goes through the deep-link router,
  * so gating (onboarding, membership) is the same as for any other link. A push without a link
- * opens the inbox.
+ * opens the inbox. The leave-by alarm's tap opens GO, the route from here to that trip's next stop,
+ * which falls back to the day the link names when that stop can't be placed.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: routes and URL schemes. */
 import { routeIncomingUrl } from '@/lib/links/router';
@@ -95,6 +96,23 @@ export function tapUrl(deeplink: string | null): string | null {
 
 export type RouteUrl = (url: string) => Promise<string>;
 
+const LEAVE_BY_ALARM = 'leave_by_alarm';
+/** The leave-by push links the day it is on: `/hub/<trip id>/day/<date>`. */
+const DAY_LINK = /^\/hub\/([0-9a-f-]{36})\/day\/\d{4}-\d{2}-\d{2}$/iu;
+
+/**
+ * The leave-by alarm's tap: GO for that trip's next leave-by (the `/go` route's `trip` +
+ * `leaveBy=next`), carrying `dayHref` (where the tap opened before GO) for GO to open instead when
+ * the leave-by has no place to go to. Null for any other push, or when the day link was routed
+ * somewhere else (onboarding, another notice): that answer stands.
+ */
+export function leaveByGoRoute(tap: PushTap, dayHref: string): string | null {
+  if (tap.type !== LEAVE_BY_ALARM) return null;
+  const tripId = DAY_LINK.exec(tap.deeplink?.trim() ?? '')?.[1];
+  if (tripId === undefined || !dayHref.startsWith('/') || !dayHref.includes(tripId)) return null;
+  return `/go?${new URLSearchParams({ trip: tripId, leaveBy: 'next', fallback: dayHref }).toString()}`;
+}
+
 /** The in-app href a tap opens. */
 export async function routeForTap(
   tap: PushTap,
@@ -102,11 +120,13 @@ export async function routeForTap(
 ): Promise<string> {
   const url = tapUrl(tap.deeplink);
   if (url === null) return TAP_FALLBACK_ROUTE;
+  let href: string;
   try {
-    return await route(url);
+    href = await route(url);
   } catch {
     return TAP_FALLBACK_ROUTE;
   }
+  return leaveByGoRoute(tap, href) ?? href;
 }
 
 export interface TapRouter {

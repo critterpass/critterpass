@@ -7,6 +7,10 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.body"
+msgstr "{asker} asked you something about the plan"
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.needed.body"
 msgstr "{asker} asked: {question} Tap an answer, I will count."
@@ -23,9 +27,17 @@ msgstr "{count, plural, one {{names} is running {minutes} min late.} other {{nam
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or reject?"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.body"
+msgstr "{count, plural, one {# stop is} other {# stops are}} ready to review. Only you can see them for now."
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.check.ask_member.title"
+msgstr "{crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
@@ -94,6 +106,10 @@ msgstr "{flight} is boarding"
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
 msgstr "{guide} answered your question"
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.title"
+msgstr "{guide} placed your ideas"
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.version_title"
@@ -356,6 +372,7 @@ msgid "notifications.sos.need_ride"
 msgstr "{sender} needs a ride."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.title"
 msgstr "{sender} needs help"
 
@@ -364,6 +381,7 @@ msgid "notifications.help_share.started"
 msgstr "{sender} opened Help and is sharing where they are for an hour."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.plain"
 msgstr "{sender} sent an SOS to the crew."
 
@@ -610,6 +628,10 @@ msgstr "Not enough yeses from {crew}, so nothing changed."
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_late_body"
 msgstr "Not everyone is there yet."
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.none_body"
+msgstr "Nothing fits without moving something. Have a look at what needs you."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.on_my_way"

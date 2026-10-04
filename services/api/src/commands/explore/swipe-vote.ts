@@ -3,8 +3,10 @@
  * arbitrated here, once: votes on one card are serialised by a transaction lock on (session,
  * card), so the vote that brings the yes count to the session's rule (two, or one on a solo trip)
  * sees every earlier yes and inserts the one match; the unique (session, card) row makes a replay
- * or a late yes find it instead. The match becomes a ChangeSet suggestion for the organiser. The
- * crew hears that someone voted, never how: a "no" stays its voter's (owner-read table).
+ * or a late yes find it instead. With the planning redesign on, the match drops into the trip's
+ * Ideas with every yes voter as a backer; with it off it becomes a ChangeSet suggestion for the
+ * organiser, as installed apps expect. The crew hears that someone voted, never how: a "no" stays
+ * its voter's (owner-read table).
  */
 import { appendDomainEvent } from '@cp/db';
 import { DomainError, SWIPE_RT, swipeVotePayloadSchema, type SwipeVoteResult } from '@cp/domain';
@@ -12,6 +14,7 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { matchToChangeSet } from '../../explore/match-to-changeset';
+import { ideaForPlace, matchToIdea, planningRedesignOn } from '../../planning/ideas/match-to-idea';
 import { defineCommand } from '../_framework/define-command';
 import { loadSession, publishSwipe, type SwipeSessionRow } from './swipe-access';
 
@@ -35,13 +38,42 @@ async function existingMatch(tx: pg.PoolClient, sessionId: string, placeId: stri
   return rows[0];
 }
 
-function matchResult(row: { id: string; change_set_id: string | null; day_no: number | null }) {
+type MatchRow = { id: string; change_set_id: string | null; day_no: number | null };
+type MatchReport = NonNullable<SwipeVoteResult['match']>;
+
+function matchResult(row: MatchRow): MatchReport {
   return {
     match_id: row.id,
     change_set_id: row.change_set_id,
     day_no: row.day_no,
-    status: row.change_set_id === null ? ('unslotted' as const) : ('suggested' as const),
+    status: row.change_set_id === null ? 'unslotted' : 'suggested',
   };
+}
+
+/** A match that went to Ideas reports its idea (only with the redesign on). */
+function ideaResult(row: MatchRow, ideaId: string): MatchReport {
+  return { ...matchResult(row), status: 'idea', idea_id: ideaId };
+}
+
+/**
+ * An earlier match on this card. With the redesign on, a later yes joins the idea's backers, so
+ * everyone who said yes is on it however the votes raced.
+ */
+async function reportEarlier(
+  tx: pg.PoolClient,
+  vote: { readonly tripId: string; readonly placeId: string; readonly uid: string; yes: boolean },
+  row: MatchRow,
+): Promise<MatchReport> {
+  if (row.change_set_id !== null || !(await planningRedesignOn(tx))) return matchResult(row);
+  const ideaId = vote.yes
+    ? await matchToIdea(tx, {
+        tripId: vote.tripId,
+        poiId: vote.placeId,
+        userIds: [vote.uid],
+        actorId: vote.uid,
+      })
+    : await ideaForPlace(tx, vote.tripId, vote.placeId);
+  return ideaId === null ? matchResult(row) : ideaResult(row, ideaId);
 }
 
 export const swipeVoteCommand = defineCommand({
@@ -85,8 +117,19 @@ export const swipeVoteCommand = defineCommand({
     await publishSwipe(tx, session.id, SWIPE_RT.vote, { uid: ctx.uid, poi_id: payload.place_id });
 
     const result = { session_id: session.id, place_id: payload.place_id, verdict: payload.verdict };
+    const voteOf = () => ({
+      tripId: session.trip_id,
+      placeId: payload.place_id,
+      uid: ctx.uid,
+      yes: yesVoters.includes(ctx.uid),
+    });
     const earlier = await existingMatch(tx, session.id, payload.place_id);
-    if (earlier !== undefined) return { ...result, match: matchResult(earlier) };
+    if (earlier !== undefined) {
+      return {
+        ...result,
+        match: await reportEarlier(tx, voteOf(), earlier),
+      };
+    }
     if (yesVoters.length < session.match_rule) return { ...result, match: null };
 
     const inserted = await asSystemRole(tx, () =>
@@ -99,7 +142,35 @@ export const swipeVoteCommand = defineCommand({
     const matchId = inserted.rows[0]?.id;
     if (matchId === undefined) {
       const raced = await existingMatch(tx, session.id, payload.place_id);
-      return { ...result, match: raced === undefined ? null : matchResult(raced) };
+      return {
+        ...result,
+        match: raced === undefined ? null : await reportEarlier(tx, voteOf(), raced),
+      };
+    }
+    if (await planningRedesignOn(tx)) {
+      const ideaId = await matchToIdea(tx, {
+        tripId: session.trip_id,
+        poiId: payload.place_id,
+        userIds: yesVoters,
+        actorId: ctx.uid,
+      });
+      await appendDomainEvent(tx, {
+        type: 'swipe.matched',
+        aggregateKind: 'swipe_session',
+        aggregateId: session.id,
+        actorKind: 'system',
+        actorId: null,
+        tripId: session.trip_id,
+        payload: { ...base, match_id: matchId, change_set_id: null },
+      });
+      await publishSwipe(tx, session.id, SWIPE_RT.match, {
+        poi_id: payload.place_id,
+        match_id: matchId,
+        idea_id: ideaId,
+        user_ids: yesVoters,
+      });
+      const row = { id: matchId, change_set_id: null, day_no: null };
+      return { ...result, match: ideaResult(row, ideaId) };
     }
     const slot = await matchToChangeSet(tx, {
       matchId,

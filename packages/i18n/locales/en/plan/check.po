@@ -1,0 +1,765 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: issue.params.stops
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.pace"
+msgstr "{0, plural, one {{day} has # stop in nine hours. It works, just.} other {{day} has # stops in nine hours. It works, just.}}"
+
+#. placeholder {0}: word(saved)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.missed"
+msgstr "{0, select, one {{name}’s save missed.} two {{name}’s two saves both missed.} three {{name}’s three saves all missed.} other {{name}’s saves all missed.}}"
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.ideas"
+msgstr "{0, select, one {TOKEK HAS ONE IDEA} two {TOKEK HAS TWO IDEAS} three {TOKEK HAS THREE IDEAS} other {TOKEK HAS {n} IDEAS}}"
+
+#. placeholder {0}: word(count)
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.free"
+msgstr "{0, select, two {TWO OF YOU\n"
+"ARE FREE} three {THREE OF YOU\n"
+"ARE FREE} four {FOUR OF YOU\n"
+"ARE FREE} five {FIVE OF YOU\n"
+"ARE FREE} six {SIX OF YOU\n"
+"ARE FREE} seven {SEVEN OF YOU\n"
+"ARE FREE} eight {EIGHT OF YOU\n"
+"ARE FREE} other {{n} OF YOU\n"
+"ARE FREE}}"
+
+#. placeholder {0}: word(fit)
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.fit"
+msgstr "{0, select, zero {None fits without moving something.} one {One fits without moving anything.} two {Two fit without moving anything.} other {Some fit without moving anything.}}"
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.line"
+msgstr "{asker} asked if {list} should go in."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.linePlain"
+msgstr "{asker} asked if your saves should go in."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.added"
+msgstr "{count, plural, one {Added for you} other {Added for the # of you}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fixAll"
+msgstr "{count, plural, one {FIX # · REVIEW FIRST} other {FIX ALL # · REVIEW FIRST}}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.suggestAll"
+msgstr "{count, plural, one {SUGGEST IT} other {SUGGEST ALL #}}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.useAll"
+msgstr "{count, plural, one {USE IT} other {USE ALL #}}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.window"
+msgstr "{day} · {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedDays"
+msgstr "{days, plural, one {CHECKED # DAY AGO} other {CHECKED # DAYS AGO}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.body"
+msgstr "{days, plural, one {Opening hours, drives, bookings and everyone’s saves, against the whole # day. Nothing changes until you say so.} other {Opening hours, drives, bookings and everyone’s saves, against all # days. Nothing changes until you say so.}}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.body"
+msgstr "{first} ends at {end}. {second} starts at {start}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.title"
+msgstr "{first} runs into {second}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.both"
+msgstr "{first},\n"
+"{second}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.pairTitle"
+msgstr "{first}, then {second}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.fix"
+msgstr "{fix, plural, one {# TO FIX} other {# TO FIX}}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.swapped"
+msgstr "{from} is now {to}."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.and"
+msgstr "{head} and {last}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedHours"
+msgstr "{hours, plural, one {CHECKED #H AGO} other {CHECKED #H AGO}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHours"
+msgstr "{hours}h"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleWhole"
+msgstr "{hours}H"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineHoursMinutes"
+msgstr "{hours}h{rest}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleHours"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.know"
+msgstr "{know, plural, one {# TO KNOW} other {# TO KNOW}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.lineMinutes"
+msgstr "{mins} min"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.drive.titleMinutes"
+msgstr "{mins} MIN"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.minutes"
+msgstr "{minutes, plural, one {# MIN} other {# MIN}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedMinutes"
+msgstr "{minutes, plural, one {CHECKED # MIN AGO} other {CHECKED # MIN AGO}}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.each"
+msgstr "{money} EACH"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.normals"
+msgstr "{month} days here are usually wet from {from} to {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.you"
+msgstr "{name} (you)"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.title"
+msgstr "{name} asked you about your saves"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.line"
+msgstr "{name} asked you about your saves"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.detail"
+msgstr "{name} instead, {leg} from the stop before: {saved} less in the car."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.plain"
+msgstr "{name} instead: {saved} less in the car."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busyOne"
+msgstr "{name} is at {place} till {until}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.declined"
+msgstr "{name} said not now. Their saves stay in Ideas."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.accepted"
+msgstr "{name} said yes. Their saves are in."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.saveOf"
+msgstr "{name}’s save"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.busy"
+msgstr "{names} are at {place} till {until}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearer"
+msgstr "{nearer} instead, on the way back"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.moveTo"
+msgstr "{place} at {time}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderMove"
+msgstr "{place} at {time}, and {less} less driving"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.title"
+msgstr "{place} at the busy time"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.title"
+msgstr "{place} in the rain"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.next"
+msgstr "{place} is at {at}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.title"
+msgstr "{place} is shut then"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.done.moved"
+msgstr "{place} moved to {time}."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.closes"
+msgstr "{place} shuts at {at}."
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasPlace"
+msgstr "{position, selectordinal, one {WAS #ST} two {WAS #ND} few {WAS #RD} other {WAS #TH}}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.savesIn"
+msgstr "{saved, plural, one {{k} OF # SAVE IN} other {{k} OF # SAVES IN}}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.plain"
+msgstr "{symbol} {value}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.thousand"
+msgstr "{symbol} {value}K"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.money.million"
+msgstr "{symbol} {value}M"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancel"
+msgstr "{title} cancels for free until {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.hold"
+msgstr "{title} holds your place until {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.title"
+msgstr "{total} in the car"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.dayTag"
+msgstr "{weekday} {day}"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.cancelPlain"
+msgstr "A booking cancels for free until {date}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.know.holdPlain"
+msgstr "A booking is held until {date}."
+
+#: ../../apps/mobile/src/features/plan/check/data/use-check-context.ts
+msgid "plan.check.aStop"
+msgstr "a stop"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addOne"
+msgstr "ADD {first}"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.addTwo"
+msgstr "ADD {first} + {second}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addBoth"
+msgstr "ADD BOTH"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.addIt"
+msgstr "ADD IT"
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.yes"
+msgstr "Add them"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.yes"
+msgstr "Add them"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.added"
+msgstr "Added to the plan"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.after"
+msgstr "After"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.clear"
+msgstr "All good. Hours, drives and bookings line up. Tokek checks again whenever the plan changes."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.ask"
+msgstr "ASK {name} FIRST"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.asked"
+msgstr "ASKED"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayTitle"
+msgstr "Back to the stay"
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+msgid "plan.check.lab.museum"
+msgstr "Balinese painting, a garden, and a café that stays quiet."
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.before"
+msgstr "Before"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.booking"
+msgstr "Booking"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietBefore"
+msgstr "Busy from {busy}. You get there first."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.checkedNow"
+msgstr "CHECKED JUST NOW"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.checking"
+msgstr "CHECKING\n"
+"THE PLAN"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.checking"
+msgstr "CHECKING…"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.clash"
+msgstr "Clash"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.closed"
+msgstr "Closed"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.visits"
+msgstr "Crews saw it busy from {from}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.crowds"
+msgstr "Crowds"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneCrowds"
+msgstr "Crowds"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceEditorial"
+msgstr "Crowds are how busy it usually gets in {month}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceVisits"
+msgstr "Crowds are what crews saw here in {month}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleCrowds"
+msgstr "CROWDS AT {busyAt}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryBefore"
+msgstr "Done before the rain at {from}."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleNone"
+msgstr "DRY AND QUIET"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.dryAfter"
+msgstr "Dry by {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.allIn"
+msgstr "Everyone’s must-do is in, and the saves are even."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.uneven"
+msgstr "Everyone’s must-do is in. Saves are uneven."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.fillGap"
+msgstr "Fill the free time"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.fix"
+msgstr "Fix"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.freeChip"
+msgstr "FREE"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayBody"
+msgstr "Free, and nothing to get to."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.stayVoted"
+msgstr "Free. {voter} already voted for this one."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.fri"
+msgstr "Fri"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.forecastChip"
+msgstr "FROM THE FORECAST"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.pace"
+msgstr "Full day"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.goAt"
+msgstr "Go at {to}, before it fills up"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.inCar"
+msgstr "in the car"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.indoors"
+msgstr "Indoors while it rains. Free to move."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sentLine"
+msgstr "It changes once they say yes."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.allDay"
+msgstr "It’s closed all day."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.closed.body"
+msgstr "It’s open {opens} to {closes} that day."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.crowds.editorial"
+msgstr "It’s usually busy from {from}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-card.tsx
+msgid "plan.check.keep"
+msgstr "Keep it as it is"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.keepFree"
+msgstr "KEEP IT FREE"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.dismissWeather"
+msgstr "Keeping the day as it is"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.mon"
+msgstr "Mon"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.dryAt"
+msgstr "Move it to {to}, when it’s dry"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapPlain"
+msgstr "Move it to a better time"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.generic"
+msgstr "Move it to a time that works"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDo"
+msgstr "Must-do: {title}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoIn"
+msgstr "Must-do: {title} ✓"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.applied"
+msgstr "New order, less driving"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToastLine"
+msgstr "Nobody else sees it."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.mustDoMissing"
+msgstr "Not every must-do is in yet."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.no"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.no"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failedLine"
+msgstr "Nothing changed. Try again in a moment."
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.none"
+msgstr "Nothing nearby fits this window. Try Something else, or keep it free."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.none"
+msgstr "Nothing of the same kind is nearer and open then. Moving a stop to another day may help."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.title.noFix"
+msgstr "NOTHING TO FIX"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.noneBody"
+msgstr "Nothing to swap. Every block is dry and quiet enough where it is."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneNow"
+msgstr "Now"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.onlyYou"
+msgstr "ONLY YOU SEE THIS"
+
+#: ../../apps/mobile/src/features/plan/check/ask-inbox.ts
+msgid "plan.check.inbox.body"
+msgstr "Only you two see this."
+
+#: ../../apps/mobile/src/features/plan/check/ask-card.tsx
+msgid "plan.check.ask.private"
+msgstr "Only you two see this. Nothing moves to make room."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.quietAfter"
+msgstr "Quieter once the rush is over."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.rain"
+msgstr "Rain"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneRain"
+msgstr "Rain"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleRain"
+msgstr "RAIN AT {rainAt}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.titleBoth"
+msgstr "RAIN AT {rainAt},\n"
+"CROWDS AT {busyAt}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceNormals"
+msgstr "Rain is {month}’s usual shower; Tokek checks the real forecast three days out."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.sourceForecast"
+msgstr "Rain is from the forecast."
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.recheck"
+msgstr "RECHECKS {label}"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.title"
+msgstr "SAME DAY,\n"
+"LESS DRIVING"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorder"
+msgstr "Same day, {less} less driving"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.reorderPlain"
+msgstr "Same day, less driving"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sat"
+msgstr "Sat"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.openCheck"
+msgstr "See the plan check"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.sendFirst"
+msgstr "Send it to the crew first"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-view.tsx
+msgid "plan.check.rain.sendFirst"
+msgstr "Send to the crew first"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.toast.sent"
+msgstr "Sent to the crew"
+
+#: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
+msgid "plan.check.gap.else"
+msgstr "Something else"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.nearerPlain"
+msgstr "Something nearer instead"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.suggest"
+msgstr "Suggest"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.suggest"
+msgstr "Suggest this order"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.sun"
+msgstr "Sun"
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.fix.swapWith"
+msgstr "Swap it with {other}"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
+msgid "plan.check.rain.laneSwapped"
+msgstr "Swapped"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.failed"
+msgstr "That didn’t go through"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.failed"
+msgstr "The check didn’t finish this time. It runs again after the next change."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.rain.forecast"
+msgstr "The forecast says {pct}% rain from {from} to {to}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.dark"
+msgstr "The longest drive is {longest}, and it ends after dark."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tooFar.body"
+msgstr "The longest drive is {longest}."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.stale"
+msgstr "The plan changed since this check"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.none"
+msgstr "This order is already the shortest Tokek can find without moving anything booked."
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.thu"
+msgstr "Thu"
+
+#: ../../apps/mobile/src/features/plan/check/check-view.tsx
+msgid "plan.check.toKnow"
+msgstr "To know"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr "Tokek asked {name} privately"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr "Tokek asked {name}. Waiting for an answer."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr "Tokek is checking it again."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr "Tokek is checking the plan. It takes a moment after each change."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.tag.tooFar"
+msgstr "Too far"
+
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.why.trade"
+msgstr "Trades places to make room."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.backTrip"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.tue"
+msgstr "Tue"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.undo"
+msgstr "Undo it from the trip feed."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.nearer.use"
+msgstr "Use it"
+
+#: ../../apps/mobile/src/features/plan/check/dev/check-lab-copy.ts
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.use"
+msgstr "Use this order"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
+msgid "plan.check.lessDriving.wasTime"
+msgstr "WAS {time}"
+
+#: ../../apps/mobile/src/features/plan/check/format.ts
+msgid "plan.check.weekday.wed"
+msgstr "Wed"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.title"
+msgstr "WHOSE PICKS\n"
+"MADE IT"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.balanceRow"
+msgstr "Whose picks made it"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askNo"
+msgstr "Your no to adding your saves"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.askYes"
+msgstr "Your yes to adding your saves"

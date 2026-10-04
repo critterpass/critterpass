@@ -2,3 +2,8 @@
 # stopping on a conflict. Each row is one line, so a union of the two sides is the right merge.
 docs/undesigned-states.md merge=union
 e2e/README.md merge=union
+# The planning aggregators: each planning module adds one import line and one list entry.
+services/api/src/planning/register.ts merge=union
+services/worker/src/jobs/planning/index.ts merge=union
+apps/mobile/src/features/planning-register.ts merge=union
+docs/api-contracts-planning.md merge=union

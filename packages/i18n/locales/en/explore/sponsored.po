@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ and boosted trips have no sponsored picks."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "See Pass+"
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr "Sponsored"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "The guide's picks are never ranked by what a partner pays. We may earn a commission if you book through a partner."
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr "Why am I seeing this?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Why am I seeing this?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "You see it because you're looking at {place}. It isn't chosen from anything about you, and we don't track you for it."

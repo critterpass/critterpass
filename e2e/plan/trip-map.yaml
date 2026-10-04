@@ -1,0 +1,257 @@
+appId: app.critterpass.dev
+---
+# The trip map (7a-1 peek, 7a-2 one day at half, 7a-3 the whole trip at full) over the Bali Six's
+# trip in the plan views lab (apps/mobile/src/features/plan/trip-map/dev): a filter chip, the sheet
+# dragged up to the day, a stop's one label, ALL DAYS, a day row back to half, then Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-trip-map'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-trip-map'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7a-1-trip-map
+- tapOn:
+    id: 'chip-saved'
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: en-7a-1-trip-map-saved-filter
+- tapOn:
+    id: 'chip-saved'
+# Up from peek: the sheet settles at half on one day.
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7a-2-trip-map-one-day
+- tapOn:
+    id: 'stop-3'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-7a-2-trip-map-stop-label
+- tapOn:
+    id: 'trip-map-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-7a-3-trip-map-all-days
+- tapOn:
+    id: 'trip-day-5'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-7a-2-trip-map-day-5
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: 'trip-map'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - repeat:
+          while:
+            notVisible:
+              id: 'dev-nav-plan-views-lab'
+          times: 2
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # An iOS edge swipe can carry past the tools list to Home: back into the tools from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-build-marker'
+          direction: UP
+          timeout: 20000
+      - runFlow:
+          file: ../home/subflows/pick-gallery-locale.yaml
+          env:
+            LOCALE: vi
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-plan-views-lab'
+          direction: DOWN
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+      # An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-nav-plan-views-lab'
+          commands:
+            - tapOn:
+                id: 'dev-nav-plan-views-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-views-lab-trip-map'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
+      - tapOn:
+          id: 'plan-views-lab-trip-map'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: vi-7a-1-trip-map
+      # Android back lowers a raised map sheet one snap before it leaves the screen.
+      - repeat:
+          while:
+            visible:
+              id: 'trip-map'
+          times: 4
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-nav-plan-views-lab'
+          commands:
+            - tapOn:
+                id: 'dev-nav-plan-views-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-views-lab-trip-map-day'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
+      - tapOn:
+          id: 'plan-views-lab-trip-map-day'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-half'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: vi-7a-2-trip-map-one-day
+      # Android back lowers a raised map sheet one snap before it leaves the screen.
+      - repeat:
+          while:
+            visible:
+              id: 'trip-map'
+          times: 4
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-nav-plan-views-lab'
+          commands:
+            - tapOn:
+                id: 'dev-nav-plan-views-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-views-lab-trip-map-whole-trip'
+          direction: DOWN
+          centerElement: true
+          timeout: 30000
+      - tapOn:
+          id: 'plan-views-lab-trip-map-whole-trip'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-full'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: vi-7a-3-trip-map-all-days
+      # Android back lowers a raised map sheet one snap before it leaves the screen.
+      - repeat:
+          while:
+            visible:
+              id: 'trip-map'
+          times: 4
+          commands:
+            - runFlow: ../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 2000

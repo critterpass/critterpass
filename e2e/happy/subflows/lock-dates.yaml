@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # Locks the trip's dates on setup's When step as organiser (lock_trip_dates). The crew window's
 # lock button is the way when the window arrives; "Pick a week anyway" is on the step from the
-# start, so the window is waited for first and the picker is only the fallback: a first day tapped
-# in its heatmap brings up its lock.
+# start, so the window is waited for first and the picker is only the fallback: its best window (or
+# two days of its heatmap) brings up its lock.
 - extendedWaitUntil:
     visible:
       id: 'when-cta'
@@ -24,16 +24,6 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'when-pick-week'
-      - extendedWaitUntil:
-          visible:
-            id: 'heat-.*'
-          timeout: 10000
-      - tapOn:
-          id: 'heat-.*'
-          index: 10
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-lock'
-          timeout: 10000
+      - runFlow: pick-any-days.yaml
       - tapOn:
           id: 'picker-lock'

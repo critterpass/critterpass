@@ -1,0 +1,75 @@
+[
+  {
+    "path": "/route",
+    "request": {
+      "locations": [
+        {
+          "lat": -8.6913,
+          "lon": 115.1682
+        },
+        {
+          "lat": -8.5188,
+          "lon": 115.2585
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers",
+      "directions_type": "none"
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": -8.6913,
+            "lon": 115.1682,
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": -8.5188,
+            "lon": 115.2585,
+            "original_index": 1
+          }
+        ],
+        "legs": [
+          {
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": -8.690964,
+              "min_lon": 115.164577,
+              "max_lat": -8.519182,
+              "max_lon": 115.257944,
+              "time": 3571.423,
+              "length": 29.855,
+              "cost": 4102
+            },
+            "shape": "hpmqOqzhtzEO{I]gTGeIGqDEgKMqKOiPk@}NQ}IM}CIyILmLB{Gl@iQLoIH_BZ}EBqAPgISmK]{JEq@U{EMmCKeB[{Ae@oAsAcCiGyKcKeReOxGa[`PyZbN}G|CaH~CcH`DaD~AiGzCuGnC}WnMkTjKeOdH{TvJwSdKcNrG{RvJ_ZvOgPpKcUdPeEtDgDxCkK`JaIpIuKlLyJfLqFdHsGlImDbFyEfHcEpH_DzFmJlRoNlZiDzGsCwCwFeCcFiBiCo@mFaAiZiFoB]_DQ_FCyFDeKVoEPcFX}CHwDAwEAcNUoHQoFUmAGcFYeDUiCWoDc@eEi@cCY}BW{De@}Em@wFa@mGc@aES_Ie@}BSiDWgEe@oB_@_Cg@qCo@gD}@{JiBqB]sF{@aCi@gD?cCH}BJcCReAVqA`@q@TiFxB_CnAq@b@qA~@}GpDeBnAwA`AyBnAcBr@kCx@oBf@g@X{KjAoBL_UnAcLfAeHj@qFn@oFl@aHb@gDH_BMyBWqCYw@[gDg@i@IcCMsDCwFCeLIi@@wD@{BCkBCcA?g@AaOM{RUqE?sHIuFAqFJ{JZmJ`@iMp@y^r@kGJiHP[?q@JSJ_@ZK`XCd_@J`USpOOrFc@lPQlCWnDCx@?LGzAqBN}D\\_DV}ALmMhAmZ`CoAJwR|AaMx@aAFgMx@uJd@sET}P~@uGVuOVq]J{CIoCK{AO{AWcCk@aDmAsB_AgJ_FmRgKqIkFwZiRgCcB_HwEsFwDmFsDmPoLiLkIiQ_MuFeE}S}NkJsF_KmGcD}BaEcCyC_BwDcBsCaAiDu@eGo@mFk@wAGkH]}GYuBKgIKiMk@gMSmNPoX~@mAB}DF_ABoGZaJd@wAFeGTaK`@mVn@{KTuUz@aBFsMd@sX|AsGR_N`@iNn@mFL_Vv@cGRmMR}I?sO?{NAqL@wEIe[Y_PMsMe@wBOmg@{EcOsA}Fk@mPuBmQeDyZ}GuIqByJ_C}GmBiHqBiKoC{GcBwD{@sG}@kEQ{DOyGCig@mAaDKoDIoDW{F[eHm@qC_@yKaBeCc@oIoBuC_AkGoBeA]i@QiG{BuEeBg@YeJ{EaGkDcBgAsIuFeJaG{EmDaBqAiFeEcQeLeI{EcIuEkCaBqDsBaCsAi@[yAy@eFeCoFuCa@SqNaHyEcCcHwDwJkFoLqGqFkCcGyDyJgGiGkDqBiA_NwH{FaEeD_CwGuE{B_B}SsPaAs@yBsAuF{CqBu@aFkBkDqAgIiCiKwB}A[{Cu@wHoAyASgKyA}BOyE[_COuJw@yDU}BMoDSqJc@}BWySuBoLw@oCQcYyBcD]sBUgT{BuWeD{AMcUkB_Da@cLwAwL{AiGo@eIy@sG_AuOkBsJmAkGw@}Ba@uEg@{HiA_AMoHwAgI{BcH}CeKcGaIsFwHkGcFoEyLoIiHaFgDsB{EaCkIqCqFwA}GkBqCu@oPwEcFmAeJqCiGeBwGkBoG_D{GwDmKgFiHsD_H}CeHaBcB[}Dw@{PwEkb@gLwPgE}QqDoIsBaEm@{F{@uC_@oJkAiAKwHy@qLgAsIs@o[iC{OqAwHi@oFUaCIsBE{BZaDh@yGvAa`@jIe_A~TiGbBmCt@uBf@iN`DcGtAuRxE}U|FoFvAkBb@yS`Fwa@nKkV`GaMlC{K~AwFl@}MhAiDHyEPqJ^mINuJT{PHgDAcLO{AAkNMqKMcJMgJMoBEwSc@mU_AiHYqBQcD]sG{@_Fm@cCe@wB_@uFq@yKcCqB_@wM}CyCi@uI{BgHmByCaA{GkBmCs@kIeCcCk@eK}ByI}BeK_CeEg@mGm@mMy@}KeAeBO_Ho@aFY{CQwFe@}McA_OeAuGYwDUoFa@kAGcCMqEAyHUm@AiRk@}EOcO{@oRo@aCQ{Ko@kOgAgLaA}MqAqMqAsDYcAOmIs@gEUiIo@{G]sAEcHU{CEuEQiACeJYyFU_MB_WLac@x@ulAtAmLRqRZeOVcRNoJNeE?qII{@aF}@aEkAkFkCyIeEyNgGmPo@eCgCcLkBoHcFy\\oB}NmAwHe@oCu@aE}CgQeAqHeC{PcEyYiBcO_BcKoAcHwAuOsAsIcAuHu@wDiAiCmCuBiBo@wDiAwEq@_Hw@oMgAm@EmLoAc@EmJ_AsIy@kGWoMi@gLgAmK_AaAImIs@cN}AeEe@gQmBcAK}N{AuJeA[C_@AwLi@aReBaFk@_CWiDo@wCgAeBoCoAsCeA{CeAwDQ_En@sIjBaQr@{GXyFnC_a@zAuS`A{QlBgT~@sN|@yMf@uHr@oL^mHDcHyAuCo@m@wAoAaBeAaC_BqC|@_ETcHSeKe@_BGoCK_La@_SwAkF]sHe@{AGsCOaFYmHWaBGiAGaMi@sJi@iOu@cQm@gCIw@I}FYmCOqUs@}Qg@{Q[oBGoHK{ACaHKcFIkFImHKwHKiAC_^_@o]u@a}@sA_]}@}HS_ACuYs@mACyNQqEAqIKyUk@__@y@iPc@gDI}HQoKIcKW}[gB_No@iDGyXIgOYoFOmOy@sLo@iFYeESuNe@eRe@iNc@wQm@u[_BiDKqDIuDMcMq@iTgAaRqAoD[eDUcNgAqD[sPmAiIs@m[mC{@IaPsAaP}AqNmAaBOoNqAwTyB{VcCgl@kGuBUaL}A{HkAkDe@aC[iH}@cFq@kJaBy@KgUmCaEi@sCa@gBUoKuAsGcA_OsBkC]_SuC}G{@sIgA{Gw@kEUqCEcB?mCLV_FV}At@yEbEcYnE{[dAgJH}@tJm}@dAkPvAwOr@iF~BcIlJaXlO_b@ZaAv@_Cf[m_A|Nof@pBgIxFeTlI{_@x@gE`@_BxCoNxEkShDsNzDkSFa@H[Pu@~BsNlLeh@tCiKxB}HxBmIfDsJ`CaH`AqCxEsO|CeKtGs[hC_M|B{K~D_T~BoLpAmHhHa\\t@aEjFyYhCgOvAcJfDyS~B}O~B{P|A}L~@oJpAcOh@uHViD@i@FcADcAh@uJXaF`@}GTyIK_TVcO?wHSqWYgMY}Ma@yLmAy]sDyrAgAu^WaEO}FkAuX{Bgm@OwD}Cyy@cA{b@yBu~@kAql@i@q]u@g^k@mWq@{\\Ym`@y@{AeA}AsBkCoJDqAPcGpAaDrAu^tViFpDiMbJ{HjFuOvIeErA}GCgG}@sT}Fkb@yLiIaCiN_GwOsJwd@se@mXcVmAgAaFgCkFmA_K}AaBYgLkBuF}@{B[a_@yF{rA}SgEo@wDm@sl@iJw\\sFkRaDuZqEit@yKiRuCin@wJmS_D}g@kIuNaCc`@kF}YeFqWcEuQqCme@oHeBYa`@}FeHmAmScD_p@aKeC_@kBY{s@qJ}a@}Feo@gJmt@aK_^eFqa@cG{Ew@sDg@{[aFon@gFcKUee@\\yMlBsJrCuQpG}JpEi\\jReYtRqUlQuNpIkQzHm[jKiY~FwJlBqUhDqUnByU|@gDDcCBas@uAmcAyJyJeAiZoCac@_E}VoCgi@mHwr@cHs`@mDyN}AoOiBqj@wG{Gq@uw@eLaYcEcIeA{IgAgFs@gb@mHyFoAcO}CsCe@qL{B_O_CoGaAmAS}@Yw@s@c@q@UcAGuAHgC|Cac@zAm]D}A@mAGkAYaAe@o@{@c@yAKyB@}IAuF?gBCcLSgOu@eZ_BmEYmD]aEg@oKkBoP{BgFk@oCOmCGgACgCBsENmHZ_CJqCHiCE_Kg@qRcAcFYqHg@g[uBaVwBs[kDcTiB_o@}BsAOgA]eAkAYgAaDoO{@aB}AgAmAi@yA]uCSoFWyUoAs`@oByG_@gHo@sMu@mKe@yOa@qEYwFo@sGy@iFu@mGm@yEWmGSwRa@gf@o@aDBgDJiDn@mDz@wCD{DUuEa@_OaCwD_AkCoA}AqBu@}Bs@eEmDwf@g@sDyAwCgC_CoBsAaC{AyBy@qCq@}Du@aFi@cIq@aOuAwXcDkf@_Biy@eEwG{@kIqB_J}BgHkBuE_AyCq@mf@gD}Bu@sDgA{CwA}IiEeC_AkCs@sG}AmOaDuWsFcAk@m@aAIs@AgAxEeh@hM}tAHeAxFys@xHkt@r@}IFq@l@aIPwBlC}VdF{_@JgD_@iCuAsAeCgAgG{AuiAiUqrAa[u\\uGgh@yEsl@qJmj@uM{|@kVmt@_[qe@mOsAe@uJgDwAmBImCNoMs@uB}CeDeHsA}G]uAaAcBsEF_EfAwCxBuA~ZaIhBwBn@{DQwAwA}q@ZwBRw@x@sE`@_E^k`@@mAP_Fb@wTj@sMnAgQpCmYl@{On@iKtQZlh@NtM?bw@P~CDd@?rWTbt@`B`Bct@C}G[y]m@eNRwKvB}\\pAeLtHuZvMwj@bDkY|@eITeF?oCCoLQw]QaOHmKDiCD}@p@}Fv@kD|CoOhCaLtB}Jf@{C`E}UlDyRtCuS|BePtBuPrDqZz@eJxB}Xf@gIl@gLRoIj@mOd@aM@iA`@eMfAqPv@{Mx@oSJyBh@mLh@_NR}Cf@iIdA_Or@eN\\sODcBRiGFmPMaPCmMAyG@gJ@iFIsIEsFYkLo@aDsAyEuAaC_B_CkB_BcFaDqB}@oGqA{IcBuCc@mFcA}Du@eC}@mB{@qC{B_AcA{AqBcA}Au@eC}AaGk@sE_@eEHcCLmAd@eBTw@n@oAb@u@r@oAbAeB|BsDlAuDn@uC{w@Yka@SiTM{SA_\\_@_O_@uTi@cCwk@SDS?SCQIOOIQES?SaWkA{t@_@kFCkBIsFQwJvAk@LsMhAqWcDmIaAib@wEuOqBsVqD_YsDiG{BaM}JoXiV_@]oDoCuAiA"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": -8.690964,
+          "min_lon": 115.164577,
+          "max_lat": -8.519182,
+          "max_lon": 115.257944,
+          "time": 3571.423,
+          "length": 29.855,
+          "cost": 4102
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "en-US"
+      }
+    }
+  }
+]

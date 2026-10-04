@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 603,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "79ba5485-5416-425a-86ea-2cac481c0bde",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Mount Batur\",\"kind_hint\":\"nature\",\"area_hint\":null,\"quote\":\"sunrise at Mount Batur was unreal 🌋 #batur\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 340,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 45,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

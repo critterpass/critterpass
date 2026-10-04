@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.some"
+msgstr "{count} người đi ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.dayHeader.free"
+msgstr "{dayLabel} · NGÀY TRỐNG"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.line"
+msgstr "{guide} đã chọn ngày và giờ. Đổi gì cũng được."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hours"
+msgstr "{hours}G"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.hoursMinutes"
+msgstr "{hours}G{rest}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.drive"
+msgstr "{minutes} phút đi xe"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.walk"
+msgstr "{minutes} phút đi bộ"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveRide"
+msgstr "{minutes} phút, gọi xe được"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearby"
+msgstr "{name} cách {count} phút nữa. Thêm luôn nhé?"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.length.minutes"
+msgstr "{only} PHÚT"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.car"
+msgstr "{time} · RỜI CHỖ Ở · XE {minutes} PHÚT"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.leave.walk"
+msgstr "{time} · RỜI CHỖ Ở · ĐI BỘ {minutes} PHÚT"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.travelDay"
+msgstr "Ngày di chuyển"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.driveAbout"
+msgstr "Khoảng {minutes} phút đi xe"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.add"
+msgstr "Thêm luôn"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.add"
+msgstr "THÊM VÀO {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.eyebrow"
+msgstr "THÊM VÀO LỊCH TRÌNH"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.already"
+msgstr "Đã có trong lịch trình vào {dayLabel}. Chọn chỗ để dời."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.busy"
+msgstr "Đông từ {hour} giờ"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closed"
+msgstr "Hôm đó đóng cửa"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.closes"
+msgstr "Đóng cửa lúc {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dry"
+msgstr "Khô ráo {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.dryMornings"
+msgstr "Buổi sáng khô ráo vào {month}"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.everyone"
+msgstr "Mọi người ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.saveLater"
+msgstr "Để dành sau"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.nearby.drop"
+msgstr "Bỏ ra"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.move"
+msgstr "DỜI SANG {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.new"
+msgstr "Mới"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.block.newQuiet"
+msgstr "Mới · vắng đến khoảng {hour} giờ"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.noWindow"
+msgstr "Hôm đó không còn giờ trống"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.offline"
+msgstr "Không có sóng: Tokek sẽ tính lý do khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nowhere"
+msgstr "Chưa có ngày nào hợp. Chọn một ngày, hoặc để dành sau."
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.needsMove"
+msgstr "Chỉ vừa nếu dời một điểm dừng"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.hoursUnknown"
+msgstr "Chưa biết giờ mở cửa"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.opens"
+msgstr "Mở cửa lúc {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.quiet"
+msgstr "Vắng đến khoảng {hour} giờ"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.rain"
+msgstr "Dễ mưa {from}–{to}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.savedToast"
+msgstr "Đã lưu vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/plan/add/add-block.tsx
+msgid "plan.add.time.a11y"
+msgstr "Bắt đầu {time}. Đổi giờ"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.cta.suggest"
+msgstr "ĐỀ XUẤT CHO {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+msgid "plan.add.guide"
+msgstr "Tokek"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.title"
+msgstr "AI ĐI"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.title"
+msgstr "VÌ SAO {time}"

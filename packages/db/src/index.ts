@@ -79,6 +79,8 @@ export * from './pitches';
 export * from './trips/status';
 export * from './proposals/lock';
 export * from './proposals/booked-plan-items';
+export * from './planning/stay';
+export * from './planning/split-decision';
 export * from './places/geocode-local';
 export {
   AccountPurgeError,

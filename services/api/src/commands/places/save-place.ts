@@ -4,7 +4,8 @@
  * optionally in one of their named lists (created on first use, so a save made offline needs no
  * list command first). Saving again is a no-op unless it names another list, which moves it.
  * `request_place` keeps a city nobody covers yet, asked for from an empty search, as the caller's
- * own request.
+ * own request. A POI saved inside the destination of one of the caller's active trips also backs
+ * that trip's idea for it, and unsaving leaves it.
  */
 import { createHash } from 'node:crypto';
 
@@ -14,6 +15,7 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
+import { backSavedPoiOnTrips, leaveSavedPoiOnTrips } from '../ideas/saved-places';
 
 /** `place` for a destination, `poi` for an active POI; anything else is not found. */
 async function savedKind(tx: pg.PoolClient, placeId: string): Promise<'place' | 'poi'> {
@@ -67,6 +69,7 @@ export const savePlaceCommand = defineCommand({
     );
     if ((rowCount ?? 0) > 0) {
       await appendDomainEvent(tx, placeEvent('place.saved', ctx.uid, payload.place_id));
+      if (kind === 'poi') await backSavedPoiOnTrips(tx, ctx.uid, payload.place_id);
     } else if (list !== null) {
       await tx.query(
         'UPDATE saved_items SET list_name = $4 WHERE user_id = $1 AND kind = $2 AND ref_id = $3',
@@ -93,6 +96,7 @@ export const unsavePlaceCommand = defineCommand({
     );
     if ((removed.rowCount ?? 0) > 0) {
       await appendDomainEvent(tx, placeEvent('place.unsaved', ctx.uid, payload.place_id));
+      await leaveSavedPoiOnTrips(tx, ctx.uid, payload.place_id);
     }
     return { place_id: payload.place_id, saved: false };
   },

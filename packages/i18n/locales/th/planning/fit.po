@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 02:33+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: th\n"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.none"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fitsDay"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fits"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.after"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.onTheWay"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMove"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMoveDay"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.openLate"
+msgstr ""
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.split"
+msgstr ""

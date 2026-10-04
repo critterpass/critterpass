@@ -10,7 +10,7 @@
  * Reads DATABASE_URL, ANTHROPIC_API_KEY and TAVILY_API_KEY from the environment or `.env`
  * (`CP_ENV_FILE` points at another file).
  */
-import { existsSync, mkdtempSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -27,11 +27,19 @@ import {
   validateCommitted,
   type Stage,
 } from './pipeline';
+import {
+  approveCrowdCurves,
+  placesWithoutCurves,
+  proposeCrowdCurves,
+  storeCrowdProposals,
+} from './kinds/places/crowds';
+import { readCrowdReview, renderCrowdReview } from './kinds/places/crowds-review';
+import { placeFactsCommand } from './kinds/places/facts';
 import { poisWithoutHours, researchHours, storeProposals } from './kinds/places/hours';
 import { recordingFetch } from './record';
 import { searchFromEnv } from './search';
 import { writeCurrentRelease } from './stages/pull';
-import { REPO_DIR } from './work';
+import { FACTORY_DIR, REPO_DIR } from './work';
 
 const COMMANDS = [
   'brief',
@@ -43,10 +51,15 @@ const COMMANDS = [
   'resume',
   'pull',
   'hours',
+  'crowds',
+  'facts',
 ] as const;
 type Command = (typeof COMMANDS)[number];
 
-const STAGES_FOR: Record<Exclude<Command, 'pull' | 'hours'>, readonly Stage[]> = {
+const STAGES_FOR: Record<
+  Exclude<Command, 'pull' | 'hours' | 'crowds' | 'facts'>,
+  readonly Stage[]
+> = {
   brief: ['brief'],
   generate: ['generate'],
   validate: ['validate'],
@@ -115,6 +128,49 @@ function gatewayFromEnv(): Gateway | null {
   });
 }
 
+const PLACES_DESTINATIONS = 'bali,kyoto,iceland,mexico-city,lisbon,cusco,da-nang';
+
+/**
+ * Proposes editorial crowd curves and writes the one-page review; `--opt approve=<batch>` approves
+ * what that page showed, attributed to the operator `ADMIN_CLI_EMAIL` names.
+ */
+async function crowdCurves(
+  pool: NonNullable<ReturnType<typeof openPool>>,
+  args: CliArgs,
+  log: (line: string) => void,
+): Promise<number> {
+  const destinations = (args.options['destinations'] ?? PLACES_DESTINATIONS).split(',');
+  const now = new Date();
+  const approve = args.options['approve'];
+  if (approve !== undefined) {
+    const approverEmail = process.env['ADMIN_CLI_EMAIL'];
+    if (!approverEmail) throw new Error('approving crowd curves needs ADMIN_CLI_EMAIL');
+    const places = await approveCrowdCurves(pool, {
+      destinations,
+      approverEmail,
+      batchKey: approve,
+      now,
+    });
+    log(`crowds: approved the curves of ${places} places (${approve})`);
+    return 0;
+  }
+  const batchKey = args.batch ?? `${now.toISOString().slice(0, 10)}-crowds`;
+  const candidates = await placesWithoutCurves(pool, destinations);
+  const { proposals, rejected } = await proposeCrowdCurves(candidates, {
+    gateway: gatewayFromEnv(),
+    now,
+  });
+  await storeCrowdProposals(pool, proposals, now);
+  const dir = path.join(FACTORY_DIR, 'work', 'places');
+  mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, `crowds-review-${batchKey}.html`);
+  writeFileSync(file, renderCrowdReview(await readCrowdReview(pool, destinations), batchKey));
+  log(
+    `crowds: ${proposals.length} of ${candidates.length} places have a proposed curve, ${rejected.length} rejected; review ${file}, then approve with --opt approve=${batchKey}`,
+  );
+  return 0;
+}
+
 export async function main(argv: readonly string[], log = console.log): Promise<number> {
   loadEnv();
   const args = parseCliArgs(argv);
@@ -129,9 +185,7 @@ export async function main(argv: readonly string[], log = console.log): Promise<
     if (args.command === 'hours') {
       if (args.kind !== 'places' || pool === null)
         throw new Error('hours runs on places with DATABASE_URL set');
-      const destinations = (
-        args.options['destinations'] ?? 'bali,kyoto,iceland,mexico-city,lisbon,cusco,da-nang'
-      ).split(',');
+      const destinations = (args.options['destinations'] ?? PLACES_DESTINATIONS).split(',');
       const now = new Date();
       const candidates = await poisWithoutHours(pool, destinations);
       const proposals = await researchHours(candidates, {
@@ -145,6 +199,29 @@ export async function main(argv: readonly string[], log = console.log): Promise<
         `hours: ${proposals.length} of ${candidates.length} POIs have proposed hours waiting for verification`,
       );
       return 0;
+    }
+    if (args.command === 'facts') {
+      if (args.kind !== 'places' || pool === null)
+        throw new Error('facts runs on places with DATABASE_URL set');
+      const gateway = gatewayFromEnv();
+      const search = searchFromEnv();
+      return await placeFactsCommand(
+        pool,
+        {
+          destinations: (args.options['destinations'] ?? PLACES_DESTINATIONS).split(','),
+          batch: args.batch,
+          approve: args.options['approve'],
+          approverEmail: process.env['ADMIN_CLI_EMAIL'],
+          deps: gateway === null || search === null ? null : { gateway, search },
+          now: new Date(),
+        },
+        log,
+      );
+    }
+    if (args.command === 'crowds') {
+      if (args.kind !== 'places' || pool === null)
+        throw new Error('crowds runs on places with DATABASE_URL set');
+      return await crowdCurves(pool, args, log);
     }
     if (args.command === 'validate' && args.all) {
       const results = validateCommitted(args.kind);

@@ -107,6 +107,10 @@ msgstr "Fits"
 msgid "setup.mustDos.pill.fitsDay"
 msgstr "Fits day {day}"
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.resolving"
+msgstr "Getting this place ready…"
+
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.keep"
 msgstr "Keep it just as you typed it"
@@ -115,9 +119,17 @@ msgstr "Keep it just as you typed it"
 msgid "setup.addMustDo.loading"
 msgstr "Looking for places"
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.searching"
+msgstr "Looking further"
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.lottery"
 msgstr "Lottery"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.title"
+msgstr "More places"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
@@ -131,6 +143,10 @@ msgstr "No signal, so no new places. Keep your own words and it sends when you�
 msgid "setup.addMustDo.offlineSaved"
 msgstr "No signal: these are the places on your phone. Your pick sends when you’re back."
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.offline"
+msgstr "No signal. Try again when you’re back online."
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.line.empty"
 msgstr "Nobody’s added one yet. Start with yours."
@@ -138,6 +154,10 @@ msgstr "Nobody’s added one yet. Start with yours."
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
 msgstr "One must-do each"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.attribution"
+msgstr "Powered by Foursquare"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.remind"
@@ -155,6 +175,10 @@ msgstr "Sends when you’re back online"
 msgid "setup.mustDos.doneLine"
 msgstr "Setup’s done. {guideName} starts the draft from here."
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.unavailable"
+msgstr "This place can’t be saved: CritterPass keeps only places from open map data. Keep it in your own words instead."
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.tight"
 msgstr "Tight"
@@ -162,3 +186,7 @@ msgstr "Tight"
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pendingA11y"
 msgstr "Waiting to send"
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.loading"
+msgstr "We’re still gathering places in {place}. Try this one again in a few minutes."

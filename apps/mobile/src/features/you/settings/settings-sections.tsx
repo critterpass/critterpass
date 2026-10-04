@@ -7,6 +7,7 @@ import type { Chattiness } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { View, type ViewStyle } from 'react-native';
 
+import { useMapsAppRow, type MapsApp } from '@/features/go';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
 
@@ -29,6 +30,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly helpShare: boolean;
   readonly soundEffects: boolean;
   readonly haptics: boolean;
+  /** Which maps app Start opens; absent or null where there is no choice (Android). */
+  readonly mapsApp?: MapsApp | null;
   /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
   readonly language: string;
   /** "On the App Store" / "On Google Play", under Rate CritterPass. */
@@ -51,6 +54,7 @@ export interface SettingsHandlers {
   readonly onOfflineTrips: () => void;
   readonly onSoundEffects: (next: boolean) => void;
   readonly onHaptics: (next: boolean) => void;
+  readonly onMapsApp?: (next: MapsApp) => void;
   readonly onLanguage: () => void;
   readonly onSignOut: () => void;
   readonly onRate: (() => void) | null;
@@ -66,6 +70,7 @@ export function useSettingsSections(
   handlers: SettingsHandlers,
 ): readonly SettingsSection[] {
   const { t } = useLingui();
+  const mapsApp = useMapsAppRow(values.mapsApp ?? null, handlers.onMapsApp ?? (() => undefined));
   const chattiness: readonly { value: Chattiness; label: string }[] = [
     { value: 'quiet', label: t({ id: 'you.settings.chatty.quiet', message: 'Quiet' }) },
     { value: 'normal', label: t({ id: 'you.settings.chatty.normal', message: 'Normal' }) },
@@ -230,6 +235,7 @@ export function useSettingsSections(
       values.haptics,
       handlers.onHaptics,
     ),
+    'maps-app': mapsApp,
     language: {
       key: 'language',
       kind: 'value',

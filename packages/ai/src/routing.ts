@@ -29,7 +29,10 @@ import {
 /** The Jev version decision thresholds were tuned against; never the moving `jev-latest` alias. */
 export const JEV_MODEL = 'jev-1.13.0';
 
-export const MODEL_IDS: Readonly<Record<AiTier, string>> = {
+/** Tiers a route runs on; `gemini` is the vision fallback (./providers/gemini.ts), never a route's. */
+export type RouteTier = Exclude<AiTier, 'gemini'>;
+
+export const MODEL_IDS: Readonly<Record<RouteTier, string>> = {
   fast: 'deepseek-flash',
   pro: 'deepseek-v4-pro',
   jev: JEV_MODEL,
@@ -57,7 +60,7 @@ export type Delivery = 'stream' | 'call' | 'batch';
 export interface RouteConfig {
   readonly route: AiRoute;
   readonly provider: AiProvider;
-  readonly tier: AiTier;
+  readonly tier: RouteTier;
   readonly model: string;
   /** Tool allow-list class; `null` = no tools at all. */
   readonly caller: AiCaller | null;
@@ -208,6 +211,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'micro.line': fast(null, 128),
   'tips.phrase': fast(null, 256),
   'season.research': fast(null, 2048, { output: 'structured' }),
+  'hours.research': fast(null, 1024, { output: 'structured', temperature: 0 }),
+  'facts.research': fast(null, 1536, { output: 'structured', temperature: 0 }),
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'explore.place_qna': fast(null, 512, { output: 'structured' }),
@@ -254,6 +259,12 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   }),
   'help.checklist': fast(null, 1024, { output: 'structured', temperature: 0.3 }),
   'sos.summary': fast(null, 256, { output: 'structured', temperature: 0.2 }),
+  // Planning: words into search filters, while the screen already shows name results.
+  'search.parse': fast(null, 400, { output: 'structured', temperature: 0 }),
+  // Planning: up to ten place mentions read from a post's text or a screenshot's OCR lines.
+  'links.extract_places': fast(null, 1536, { output: 'structured', temperature: 0 }),
+  // Planning: the guide picks and words two of code's options for a crew split on a place.
+  'places.compromise': pro(null, 4096, 'low', { output: 'structured', cacheLayers: PLAIN_LAYERS }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

@@ -4,9 +4,7 @@
  * member's becomes a change set for the crew; both show on the day at once from the queue.
  */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Linking } from 'react-native';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -16,24 +14,16 @@ import { toast } from '@/motion/island-toast';
 import { AddItemSheet } from './add-item-sheet';
 import type { DayRowState } from './day-list';
 import { DayView } from './day-view';
-import { dayFit, type FitWarning } from './fit-check';
+import { dayFit } from './fit-check';
 import { clockRange } from './format';
-import { ItemDetailSheet } from './item-detail-sheet';
-import { dayItems, type DayItem } from './plan-model';
-import { addOp, moveToDayOp, removeOp, resizeOp, type DaySlot } from './plan-ops';
-import { mapsUrl, placeRoute } from './routes';
-import { DayTimeline, guideOf, useDayOverlays } from '../timeline/day-timeline';
-import { ItemComments } from '../collab/item-comments';
+import { ItemSheetHost } from './item-sheet-host';
+import { DayTimeline, useDayOverlays } from '../timeline/day-timeline';
 import { itemAnchor, usePlanPresence } from '../collab/use-presence';
-import { useDayEditing } from './use-day-editing';
-import type { EditOutcome } from './use-plan-editor';
-import { useTripPlan } from './use-trip-plan';
+import { announceEdit, fitWarningText, useDayEditing } from './use-day-editing';
 import { useFormats } from '@/lib/i18n/formats';
-
-function openInMaps(item: DayItem): void {
-  if (item.place === null) return;
-  void Linking.openURL(mapsUrl(item.title, item.place.lat, item.place.lng));
-}
+import { type DayItem, dayItems } from '@/data/plan/plan-model';
+import { addOp, type DaySlot } from '@/data/plan/plan-ops';
+import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 export function DayScreen({
   tripId,
@@ -62,15 +52,7 @@ export function DayScreen({
     plan.trip !== null && plan.trip.status !== 'cancelled' && plan.trip.status !== 'ended';
   const members = plan.members.map((member) => member.uid);
 
-  const titleOf = (id: string | undefined, all: readonly DayItem[]) =>
-    all.find((item) => item.stableId === id)?.title ?? '';
-  const warningText = (warning: FitWarning, all: readonly DayItem[]) =>
-    warning.code === 'OVERLAP'
-      ? t({ id: 'plan.day.fit.overlap', message: `Overlaps ${titleOf(warning.relatedId, all)}` })
-      : t({
-          id: 'plan.day.fit.travel',
-          message: `${warning.minutes ?? 0} min short to get here from ${titleOf(warning.relatedId, all)}`,
-        });
+  const warningText = fitWarningText;
   const warnings = day?.date == null ? [] : dayFit(items, day.date, members);
   const states = new Map<string, DayRowState>(
     items.map((item) => {
@@ -94,18 +76,7 @@ export function DayScreen({
       .filter(Boolean)
       .join(' · ');
   };
-  const announce = (outcome: EditOutcome) => {
-    if (outcome.kind === 'proposed') {
-      impact('success');
-      toast.show({
-        id: 'plan-proposed',
-        title: t({ id: 'plan.day.proposedToast', message: 'Sent to the crew' }),
-        subtitle: t({ id: 'plan.day.proposedLine', message: 'It changes once they say yes.' }),
-      });
-    } else if (outcome.kind === 'applied') {
-      impact('success');
-    }
-  };
+  const announce = announceEdit;
   const open = items.find((item) => item.stableId === openId) ?? null;
   // The open item went (someone else removed it, or a link named one that's gone): say so.
   const gone = openId !== null && plan.loaded && open === null;
@@ -174,60 +145,14 @@ export function DayScreen({
         footer={planning ? overlays.banner : undefined}
       />
       {open === null ? null : (
-        <ItemDetailSheet
+        <ItemSheetHost
           key={openId}
+          plan={plan}
           item={open}
-          dayNos={plan.state.days.map((candidate) => candidate.day_no)}
-          members={plan.members}
-          canApply={plan.canApply}
-          {...(open === null
-            ? {}
-            : {
-                comments: (
-                  <ItemComments
-                    tripId={tripId}
-                    uid={plan.uid}
-                    item={open}
-                    members={plan.members}
-                    guide={guideOf(plan.trip?.guide_slug ?? null)}
-                  />
-                ),
-              })}
-          actions={{
-            onClose: () => setOpenId(null),
-            onSave: (start, end, confirmLocked) => {
-              if (open === null) return;
-              void editor
-                .submit([resizeOp(open, slot, start, end)], { confirmLocked })
-                .then(announce);
-              setOpenId(null);
-            },
-            onMoveToDay: (target, confirmLocked) => {
-              const to = plan.state.days.find((candidate) => candidate.day_no === target);
-              if (open === null || to?.date == null) return;
-              void editor
-                .submit([moveToDayOp(open, { dayNo: target, date: to.date })], { confirmLocked })
-                .then(announce);
-              setOpenId(null);
-            },
-            onRemove: (confirmLocked) => {
-              if (open === null) return;
-              void editor.submit([removeOp(open)], { confirmLocked }).then(announce);
-              setOpenId(null);
-            },
-            onSkipForMe: () => {
-              if (open === null) return;
-              void editor.skipForMe(open).then(() =>
-                toast.show({
-                  id: 'plan-skipped',
-                  title: t({ id: 'plan.day.skippedToast', message: 'Skipped, just for you' }),
-                }),
-              );
-              setOpenId(null);
-            },
-            onOpenPlace: (poiId) => router.push(placeRoute(poiId)),
-            onOpenMaps: () => open !== null && openInMaps(open),
-          }}
+          slot={slot}
+          editor={editor}
+          announce={announce}
+          onClose={() => setOpenId(null)}
         />
       )}
       {adding && day?.date != null ? (

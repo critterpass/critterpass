@@ -163,6 +163,8 @@ route is listed in its `ROUTE_SHOTS` table with the screenshots that show it, or
 reach it. Gaps don't fail CI (other areas add screens at their own pace); they show in every sweep
 comment, so add the missing steps to the sweep when a new screen or route appears there.
 
+Section 7 planning screens (`7a-1` … `7i-2`) name shots `<lang>-7x-n-<state>` like every design id (`en-7b-1-day`, `vi-7f-1-add`); a state the design does not draw keeps the nearest 7x id plus a state suffix (`en-7b-1-member-suggest`), never an old `3d`/`3e` id.
+
 ## Release gate (happy paths)
 
 `e2e/happy/` holds one flow per user journey, each run end to end against **staging** with real

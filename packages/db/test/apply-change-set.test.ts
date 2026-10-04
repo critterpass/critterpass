@@ -29,9 +29,12 @@ afterAll(async () => {
   await container.stop();
 });
 
+/** The member who drafted it sends it (a draft is theirs alone); the organiser approves it. */
 async function approve(fx: PlanFixture, changeSetId: string): Promise<void> {
-  await withUser(db.pool, fx.organiserId, anonymousActor().device, async (tx) => {
+  await withUser(db.pool, fx.memberId, anonymousActor().device, async (tx) => {
     await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
+  });
+  await withUser(db.pool, fx.organiserId, anonymousActor().device, async (tx) => {
     await tx.query("UPDATE change_sets SET status = 'approved' WHERE id = $1", [changeSetId]);
   });
 }

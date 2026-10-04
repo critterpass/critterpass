@@ -10,9 +10,9 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
-import { placeNamesOf } from '../../stop-name';
 import { rememberPickedPlace } from '../picked-places';
-import { VERSION_PLACES_SQL } from '../queries';
+import { placeNamesOf } from '@/data/plan/plan-model';
+import { VERSION_PLACES_SQL } from '@/data/plan/queries';
 
 jest.mock(
   '@powersync/common',

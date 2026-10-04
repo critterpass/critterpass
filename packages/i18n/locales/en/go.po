@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 10:01+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/go/use-go-offer.ts
+msgid "go.button.airport"
+msgstr "{city} airport ({iata})"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.minutes"
+msgstr "{count} min"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.hours"
+msgstr "{hours}H{rest}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEta"
+msgstr "A car about {eta} min away"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutMinutes"
+msgstr "about {count} min"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.aboutHours"
+msgstr "about {hours}H{rest}"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.appleMaps"
+msgstr "Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.billion"
+msgstr "B"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.mapsApp"
+msgstr "Directions in"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.drive"
+msgstr "Drive"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.locating"
+msgstr "Finding where you are…"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.routing"
+msgstr "Getting the route…"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.label"
+msgstr "Go"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.eyebrow"
+msgstr "GO"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.labelTo"
+msgstr "Go · {detail}"
+
+#: ../../apps/mobile/src/features/go/maps-app-row.tsx
+msgid "go.settings.googleMaps"
+msgstr "Google Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabFare"
+msgstr "Grab {fare}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabHere"
+msgstr "Grab runs here"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.modeLabel"
+msgstr "How you go"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.thousand"
+msgstr "K"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noLocation"
+msgstr "Location is off, so there’s no line from you. Start still gives directions."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.money.million"
+msgstr "M"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.straight"
+msgstr "No road route right now. Times are straight-line estimates."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.offline"
+msgstr "No signal, so no route line. Start still gives directions."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabLink"
+msgstr "Opens Grab with the drop-off filled in"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.ride"
+msgstr "Ride"
+
+#: ../../apps/mobile/src/ui/buttons/GoButton.tsx
+msgid "go.button.hint"
+msgstr "Shows the route from where you are, then directions in your maps app"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startApple"
+msgstr "Start in Apple Maps"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.startGoogle"
+msgstr "Start in Google Maps"
+
+#: ../../apps/mobile/src/features/go/go-screen.tsx
+msgid "go.preview.missing"
+msgstr "This place isn’t on your phone yet. Try again once it has synced."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.walk"
+msgstr "Walk"

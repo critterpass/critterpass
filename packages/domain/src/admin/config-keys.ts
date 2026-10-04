@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { APP_CLIP_FLAG_KEY } from '../links/wire';
 import { AVATAR_HASH_MATCH_CONFIG_KEY } from '../pass/wire';
 import { flagAudienceSchema } from './flag-audience';
+import { PLANNING_CONFIG_KEYS } from '../planning/config';
 import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
 import { serviceKeys } from './service-keys';
 import { adminRoleSchema, type AdminRole } from './roles';
@@ -192,6 +193,7 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     critical: false,
     description: 'Live camera behind the encounter scene; off shows the illustrated scene',
   },
+  ...PLANNING_CONFIG_KEYS,
   ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
   ...serviceKeys(),
 };

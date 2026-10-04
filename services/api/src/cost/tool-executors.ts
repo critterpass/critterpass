@@ -1,120 +1,130 @@
 /**
- * The guide's cost and fit tools (docs/api-contracts.md §6). The guide only words these numbers:
- * `cost_quote` prices proposed plan changes for the asking member with `@cp/cost-engine`, and
- * `fit_check` checks a place against the trip's dates, the place's hours and the current plan
- * with `@cp/planner`. Both run as the asking member, so RLS keeps other members' share calcs and
- * any private budget out of reach, and neither output has a field that could carry them.
+ * The guide's cost and fit tools (docs/api-contracts.md §6, docs/api-contracts-planning.md). The
+ * guide only words these numbers: `cost_quote` prices proposed plan changes for the asking member
+ * with `@cp/cost-engine`, and `fit_check` asks the planning fit engine (the one the places and plan
+ * screens use) when a place fits, so the guide quotes the same day, slot and reasons the crew sees.
+ * Both run as the asking member, so RLS keeps other members' share calcs, any private budget and
+ * an organiser's draft out of reach, and neither output has a field that could carry them.
  */
 import type { ToolContext, ToolRegistry } from '@cp/ai';
 import { withUser } from '@cp/db';
-import { DomainError, hoursSchema, toLocalWallTime, type Hours } from '@cp/domain';
-import { localMinute, preDraftFit, type FitStatus, type LocalWindow } from '@cp/planner';
+import {
+  DomainError,
+  hoursSchema,
+  toLocalWallTime,
+  visitMinutes,
+  type DayFit,
+  type FitGrade,
+  type FitReason,
+} from '@cp/domain';
+import { preDraftFit } from '@cp/planner';
 import type pg from 'pg';
 
+import { DEFAULT_FIT_DEPS } from '../planning/fit/routes';
+import { fitForTrip } from '../planning/fit/service';
 import { loadPlanCostContext, previewCostOps, toChangeSetOps } from './preview';
 
-/** How long a place visit is assumed to take when checking whether it fits. */
-export const FIT_VISIT_MINUTES = 120;
 const DAY_MS = 86_400_000;
+const MAX_REASONS = 12;
 
 function readAs<T>(pool: pg.Pool, context: ToolContext, fn: (tx: pg.PoolClient) => Promise<T>) {
   return withUser(pool, context.uid, 'guide', fn);
 }
 
-function tripDates(start: string, end: string): string[] {
-  const dates: string[] = [];
-  for (let t = Date.parse(start); t <= Date.parse(end); t += DAY_MS) {
-    dates.push(new Date(t).toISOString().slice(0, 10));
-  }
-  return dates;
-}
-
 interface FitInput {
   readonly trip_id: string;
   readonly poi_id: string;
+  /** A plan day number; unset = the best day. */
   readonly day?: number | undefined;
 }
 
-interface FitOutput {
-  readonly status: 'fits' | 'tight' | 'no';
-  readonly day: number | null;
-  readonly reason_code: string;
+/** What the guide may quote: the day, the slot in the trip's local time, and the reason codes. */
+export interface FitCheckOutput {
+  readonly grade: FitGrade;
+  readonly day_no: number | null;
+  /** HH:MM, local to the trip. */
+  readonly starts_at: string | null;
+  readonly ends_at: string | null;
+  readonly reasons: readonly FitReason[];
 }
 
-async function checkFit(tx: pg.PoolClient, input: FitInput): Promise<FitOutput> {
-  const trip = await tx.query<{
-    start_date: string | null;
-    end_date: string | null;
-    tz: string | null;
-    current_version_id: string | null;
-  }>(
-    `SELECT t.start_date::text AS start_date, t.end_date::text AS end_date,
-            coalesce(t.tz, d.tz) AS tz, t.current_version_id
+const clock = (iso: string, tz: string): string =>
+  toLocalWallTime(new Date(iso), tz).time.slice(0, 5);
+
+function fromDay(day: DayFit, tz: string): FitCheckOutput {
+  return {
+    grade: day.grade,
+    day_no: day.day_no,
+    starts_at: day.slot === null ? null : clock(day.slot.starts_at, tz),
+    ends_at: day.slot === null ? null : clock(day.slot.ends_at, tz),
+    reasons: day.reasons,
+  };
+}
+
+/** Before a plan exists there are no days to place it on: only the trip's dates and the hours. */
+async function preDraftCheck(tx: pg.PoolClient, input: FitInput): Promise<FitCheckOutput> {
+  const trip = await tx.query<{ start_date: string | null; end_date: string | null }>(
+    'SELECT start_date::text AS start_date, end_date::text AS end_date FROM trips WHERE id = $1',
+    [input.trip_id],
+  );
+  const poi = await tx.query<{ hours: unknown; category: string; time_needed_min: number | null }>(
+    `SELECT hours, category, (editorial->>'time_needed_min')::int AS time_needed_min
+       FROM pois WHERE id = $1`,
+    [input.poi_id],
+  );
+  const place = poi.rows[0];
+  if (!place) throw new DomainError('NOT_FOUND', { reason: 'poi_not_found' });
+  const none = { day_no: null, starts_at: null, ends_at: null };
+  const parsed = hoursSchema.safeParse(place.hours);
+  const t = trip.rows[0];
+  if (
+    !parsed.success ||
+    Object.keys(parsed.data.weekly).length === 0 ||
+    !t?.start_date ||
+    !t.end_date
+  ) {
+    return { grade: 'possible', ...none, reasons: [{ code: 'hours_unknown', params: {} }] };
+  }
+  const dates: string[] = [];
+  for (let at = Date.parse(t.start_date); at <= Date.parse(t.end_date); at += DAY_MS) {
+    dates.push(new Date(at).toISOString().slice(0, 10));
+  }
+  const durationMin = visitMinutes({
+    category: place.category,
+    timeNeededMin: place.time_needed_min,
+  });
+  const status = preDraftFit({ hours: parsed.data, durationMin, dates });
+  const grade: FitGrade = status === 'fits' ? 'good' : status === 'clash' ? 'no' : 'possible';
+  return { grade, ...none, reasons: [] };
+}
+
+async function checkFit(tx: pg.PoolClient, input: FitInput): Promise<FitCheckOutput> {
+  const trip = await tx.query<{ tz: string; current_version_id: string | null }>(
+    `SELECT coalesce(t.tz, d.tz, 'UTC') AS tz, t.current_version_id
        FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,
     [input.trip_id],
   );
   const t = trip.rows[0];
   if (!t) throw new DomainError('NOT_FOUND', { reason: 'trip_not_found' });
-  const poi = await tx.query<{ hours: unknown; timezone: string | null }>(
-    'SELECT hours, timezone FROM pois WHERE id = $1',
-    [input.poi_id],
+  if (t.current_version_id === null) return preDraftCheck(tx, input);
+  const { fits } = await fitForTrip(
+    tx,
+    { tripId: input.trip_id, poiIds: [input.poi_id] },
+    DEFAULT_FIT_DEPS,
   );
-  const place = poi.rows[0];
-  if (!place) throw new DomainError('NOT_FOUND', { reason: 'poi_not_found' });
-  if (!t.start_date || !t.end_date)
-    return { status: 'tight', day: null, reason_code: 'DATES_UNKNOWN' };
-  const parsed = hoursSchema.safeParse(place.hours);
-  const hours: Hours | null = parsed.success ? parsed.data : null;
-  if (!hours || Object.keys(hours.weekly).length === 0) {
-    return { status: 'tight', day: null, reason_code: 'HOURS_UNKNOWN' };
+  const fit = fits[0];
+  if (!fit) throw new DomainError('NOT_FOUND', { reason: 'poi_not_found' });
+  const empty = { day_no: null, starts_at: null, ends_at: null };
+  if (input.day !== undefined) {
+    const day = fit.days.find((entry) => entry.day_no === input.day);
+    return day === undefined ? { grade: 'no', ...empty, reasons: [] } : fromDay(day, t.tz);
   }
-  const tz = place.timezone ?? t.tz ?? 'UTC';
-  const dates = tripDates(t.start_date, t.end_date);
-  // Day numbers exist only once the crew can see a plan; before that the fit is dates and hours.
-  const busy: Record<string, LocalWindow[]> = {};
-  if (t.current_version_id) {
-    const items = await tx.query<{ starts_at: Date; ends_at: Date; tz: string | null }>(
-      `SELECT starts_at, ends_at, tz FROM plan_items
-        WHERE version_id = $1 AND starts_at IS NOT NULL AND ends_at IS NOT NULL`,
-      [t.current_version_id],
-    );
-    for (const item of items.rows) {
-      const itemTz = item.tz ?? tz;
-      const { date } = toLocalWallTime(item.starts_at, itemTz);
-      (busy[date] ??= []).push({
-        startMin: localMinute(item.starts_at, itemTz),
-        endMin: Math.max(
-          localMinute(item.ends_at, itemTz),
-          localMinute(item.starts_at, itemTz) + 1,
-        ),
-      });
-    }
-  }
-  const candidates =
-    t.current_version_id && input.day !== undefined ? dates.slice(input.day - 1, input.day) : dates;
-  if (candidates.length === 0) return { status: 'no', day: null, reason_code: 'DAY_OUTSIDE_TRIP' };
-  const fitOn = (days: readonly string[], withPlan: boolean): FitStatus =>
-    preDraftFit({
-      hours,
-      durationMin: FIT_VISIT_MINUTES,
-      dates: days,
-      ...(withPlan ? { busy } : {}),
-    });
-  const status = fitOn(candidates, true);
-  if (status === 'clash') {
-    const closed = fitOn(candidates, false) === 'clash';
-    return { status: 'no', day: null, reason_code: closed ? 'CLOSED_AT_TIME' : 'OVERLAP' };
-  }
-  let day: number | null = null;
-  if (t.current_version_id) {
-    const first = candidates.findIndex((d) => fitOn([d], true) !== 'clash');
-    day = first < 0 ? null : dates.indexOf(candidates[first] as string) + 1;
-  }
-  return {
-    status: status === 'fits' ? 'fits' : 'tight',
-    day,
-    reason_code: status === 'fits' ? 'OK' : 'TIGHT',
-  };
+  const best =
+    fit.best === null ? undefined : fit.days.find((day) => day.day_id === fit.best?.day_id);
+  if (best !== undefined) return fromDay(best, t.tz);
+  // No day works: every day's reasons, so the guide can say why.
+  const reasons = fit.days.flatMap((day) => day.reasons).slice(0, MAX_REASONS);
+  return { grade: 'no', ...empty, reasons };
 }
 
 export function registerCostToolExecutors(registry: ToolRegistry, pool: pg.Pool): void {

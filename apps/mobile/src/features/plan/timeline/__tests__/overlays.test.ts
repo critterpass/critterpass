@@ -7,12 +7,12 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { LAB_DATE, LAB_ITEMS, LAB_MEMBERS, LAB_TZ, WALK } from '../../day/dev/lab-fixtures';
-import { instantOnDay } from '../../day/plan-model';
-import type { ChangesetRow } from '../../day/queries';
 import { PT_PER_MINUTE } from '../geometry';
 import { ghostFor } from '../ghost';
 import { placeCursors } from '../remote-cursors';
 import { rainWindow } from '../weather';
+import { instantOnDay } from '@/data/plan/plan-model';
+import { type ChangesetRow } from '@/data/plan/queries';
 
 function hour(h: number, chance: number, mm = 0) {
   return {

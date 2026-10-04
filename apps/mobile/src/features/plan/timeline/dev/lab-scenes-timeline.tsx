@@ -25,12 +25,12 @@ import {
   TERRACES,
   WALK,
 } from '../../day/dev/lab-fixtures';
-import { minutesOnDay, type DayItem } from '../../day/plan-model';
 import { GuideBanner } from '../guide-banner';
 import { RainBand } from '../rain-band';
 import { placeCursors, RemoteCursors } from '../remote-cursors';
 import { TimelineEditor, type TimelineEditorProps } from '../timeline-editor';
 import type { Preview } from '../timeline-model';
+import { type DayItem, minutesOnDay } from '@/data/plan/plan-model';
 
 const noop = () => undefined;
 const DAY = { dayNo: 3, date: LAB_DATE };

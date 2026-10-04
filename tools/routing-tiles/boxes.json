@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-10-03",
+  "boxes": [
+    {
+      "slug": "bali",
+      "reason": "live",
+      "bbox": [114.4, -8.9, 115.75, -8.05]
+    },
+    {
+      "slug": "cusco",
+      "reason": "live",
+      "bbox": [-72.3, -13.7, -71.7, -13.2]
+    },
+    {
+      "slug": "da-nang",
+      "reason": "live",
+      "bbox": [107.95, 15.84, 108.36, 16.21]
+    },
+    {
+      "slug": "iceland",
+      "reason": "live",
+      "bbox": [-22.35, 63.7, -19.5, 64.85]
+    },
+    {
+      "slug": "id-labuan-bajo",
+      "reason": "live",
+      "bbox": [119.8572, -8.5319, 119.9299, -8.46]
+    },
+    {
+      "slug": "id-yogyakarta",
+      "reason": "live",
+      "bbox": [110.2772, -7.888, 110.4522, -7.7147]
+    },
+    {
+      "slug": "is-reykjavik",
+      "reason": "live",
+      "bbox": [-22.0926, 64.0804, -21.7919, 64.2116]
+    },
+    {
+      "slug": "jp-osaka",
+      "reason": "live",
+      "bbox": [135.3523, 34.5711, 135.6506, 34.8164]
+    },
+    {
+      "slug": "jp-tokyo",
+      "reason": "live",
+      "bbox": [139.598, 35.5421, 139.9298, 35.8116]
+    },
+    {
+      "slug": "kyoto",
+      "reason": "live",
+      "bbox": [135.6, 34.85, 135.9, 35.15]
+    },
+    {
+      "slug": "lisbon",
+      "reason": "live",
+      "bbox": [-9.55, 38.6, -9, 38.85]
+    },
+    {
+      "slug": "ma-marrakech",
+      "reason": "active_trip",
+      "bbox": [-8.07, 31.58, -7.93, 31.68]
+    },
+    {
+      "slug": "mexico-city",
+      "reason": "live",
+      "bbox": [-99.35, 19.1, -98.85, 19.6]
+    },
+    {
+      "slug": "mx-cancun",
+      "reason": "live",
+      "bbox": [-86.9514, 21.0512, -86.7337, 21.2543]
+    },
+    {
+      "slug": "mx-guadalajara",
+      "reason": "live",
+      "bbox": [-103.456, 20.562, -103.2208, 20.7821]
+    },
+    {
+      "slug": "mx-oaxaca",
+      "reason": "live",
+      "bbox": [-96.8067, 16.9828, -96.6441, 17.1382]
+    },
+    {
+      "slug": "mx-tulum",
+      "reason": "live",
+      "bbox": [-87.5035, 20.173, -87.4221, 20.2493]
+    },
+    {
+      "slug": "pt-algarve",
+      "reason": "live",
+      "bbox": [-8.99, 36.95, -7.6, 37.25]
+    },
+    {
+      "slug": "pt-porto",
+      "reason": "live",
+      "bbox": [-8.7112, 41.0743, -8.5095, 41.2261]
+    },
+    {
+      "slug": "th-bangkok",
+      "reason": "active_trip",
+      "bbox": [100.3548, 13.6177, 100.6322, 13.8872]
+    },
+    {
+      "slug": "vn-da-lat",
+      "reason": "live",
+      "bbox": [108.3632, 11.8675, 108.5119, 12.013]
+    },
+    {
+      "slug": "vn-ha-long",
+      "reason": "live",
+      "bbox": [106.95, 20.88, 107.15, 21]
+    },
+    {
+      "slug": "vn-ha-noi",
+      "reason": "live",
+      "bbox": [105.7097, 20.8936, 105.9984, 21.1631]
+    },
+    {
+      "slug": "vn-hoi-an",
+      "reason": "live",
+      "bbox": [108.268, 15.8181, 108.3959, 15.9411]
+    },
+    {
+      "slug": "vn-hue",
+      "reason": "live",
+      "bbox": [107.4889, 16.3705, 107.6837, 16.5574]
+    },
+    {
+      "slug": "vn-mekong",
+      "reason": "live",
+      "bbox": [105.7, 9.97, 105.85, 10.1]
+    },
+    {
+      "slug": "vn-phong-nha",
+      "reason": "live",
+      "bbox": [106.2163, 17.5936, 106.3295, 17.7014]
+    },
+    {
+      "slug": "vn-phu-quoc",
+      "reason": "live",
+      "bbox": [103.8894, 10.1481, 104.0282, 10.2846]
+    },
+    {
+      "slug": "vn-sai-gon",
+      "reason": "live",
+      "bbox": [106.645, 10.7253, 106.7548, 10.8331]
+    },
+    {
+      "slug": "vn-sa-pa",
+      "reason": "live",
+      "bbox": [103.78, 22.29, 103.9, 22.38]
+    }
+  ]
+}

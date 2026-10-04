@@ -1,7 +1,8 @@
 /**
  * The calendar sheets as members use them: the connect sheet's rows per state (the Google and
- * Outlook rows only when their flags are on), and marking days by hand, which queues
- * `set_availability` with manual days (and days taken back) and reopens as it was left.
+ * Outlook rows only when their flags are on), and marking days by hand with the Free / Maybe /
+ * Busy tool, which queues `set_availability` with manual days (and days taken back) and reopens
+ * as it was left.
  */
 jest.mock(
   '@powersync/common',
@@ -117,14 +118,18 @@ describe('calendar connect sheet', () => {
 });
 
 describe('marking days by hand', () => {
-  it('cycles a day free, busy, maybe, and saves the marks as manual days', async () => {
+  it('paints days with the chosen tool and saves the marks as manual days', async () => {
     const done = jest.fn();
     await mount(<ManualDaysSheet tripId={TRIP} onDismiss={done} tz="Asia/Tokyo" />);
     const day = await screen.findByTestId('manual-day-2026-10-05');
     await fireEvent.press(day);
+    await fireEvent.press(screen.getByTestId('manual-tool-busy'));
     await fireEvent.press(screen.getByTestId('manual-day-2026-10-06'));
-    await fireEvent.press(screen.getByTestId('manual-day-2026-10-06'));
+    await fireEvent.press(screen.getByTestId('manual-tool-maybe'));
+    await fireEvent.press(screen.getByTestId('manual-day-2026-10-07'));
+    await fireEvent.press(screen.getByTestId('manual-day-2026-10-07'));
     expect(screen.getByLabelText('October 6, Busy')).toBeTruthy();
+    expect(screen.getByLabelText('October 7, Not marked')).toBeTruthy();
     // Days before today cannot be marked.
     expect(screen.queryByTestId('manual-day-2026-10-01')).toBeNull();
     await fireEvent.press(screen.getByTestId('manual-days-save'));
@@ -160,8 +165,7 @@ describe('marking days by hand', () => {
 
     await mount(<ManualDaysSheet tripId={TRIP} onDismiss={noop} tz="Asia/Tokyo" />);
     await waitFor(() => expect(screen.getByLabelText('October 5, Free')).toBeTruthy());
-    for (let i = 0; i < 3; i += 1)
-      await fireEvent.press(screen.getByTestId('manual-day-2026-10-05'));
+    await fireEvent.press(screen.getByTestId('manual-day-2026-10-05'));
     expect(screen.getByLabelText('October 5, Not marked')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('manual-days-save'));
     await waitFor(async () =>
