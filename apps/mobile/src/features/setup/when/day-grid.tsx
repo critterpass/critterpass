@@ -5,7 +5,7 @@
  * outline. Hold a day and drag to sweep across days; a quick sideways swipe turns the month.
  * Taps and screen readers go through each day's own button, which the caller renders.
  */
-import { useRef, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -25,6 +25,7 @@ const HOLD_MS = 220;
 /** Sideways travel (pt) or speed (pt/s) that turns the month. */
 const SWIPE_PT = 48;
 const SWIPE_SPEED = 600;
+const SETTLE_MS = tokens.motion.duration.fast;
 
 export interface BandEdges {
   readonly first: boolean;
@@ -92,52 +93,55 @@ export function DayGrid({
   const styles = useStyles();
   const theme = useTheme();
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const last = useRef<string | null>(null);
+  // The cell (row × 7 + column) the drag is over, kept on the UI thread so a day is reported once.
+  const over = useSharedValue(-1);
   const shift = useSharedValue(0);
   const yellow = theme.semantic.action.primary;
+  const { width, height } = size;
+  const rows = weeks.length;
 
-  const dateAt = (x: number, y: number): string | null => {
-    if (size.width <= 0 || size.height <= 0 || weeks.length === 0) return null;
-    const row = Math.min(
-      weeks.length - 1,
-      Math.max(0, Math.floor(y / (size.height / weeks.length))),
-    );
-    const column = Math.min(COLUMNS - 1, Math.max(0, Math.floor(x / (size.width / COLUMNS))));
-    return weeks[row]?.[column] ?? null;
+  const cellAt = (x: number, y: number): number => {
+    'worklet';
+    if (width <= 0 || height <= 0 || rows === 0) return -1;
+    const row = Math.min(rows - 1, Math.max(0, Math.floor(y / (height / rows))));
+    const column = Math.min(COLUMNS - 1, Math.max(0, Math.floor(x / (width / COLUMNS))));
+    return row * COLUMNS + column;
   };
-  const begin = (x: number, y: number) => {
-    const date = dateAt(x, y);
-    last.current = date;
+  const dateOf = (cell: number) => weeks[Math.floor(cell / COLUMNS)]?.[cell % COLUMNS] ?? null;
+  const begin = (cell: number) => {
+    const date = dateOf(cell);
     if (date === null || onDrag === undefined) return;
     impact('tick');
     onDrag.begin(date);
   };
-  const move = (x: number, y: number) => {
-    const date = dateAt(x, y);
-    if (date === null || date === last.current || onDrag === undefined) return;
-    last.current = date;
+  const move = (cell: number) => {
+    const date = dateOf(cell);
+    if (date === null || onDrag === undefined) return;
     impact('tick');
     onDrag.move(date);
   };
-  const end = () => {
-    if (last.current !== null) onDrag?.end();
-    last.current = null;
-  };
+  const end = () => onDrag?.end();
   const swipe = (step: 1 | -1) => onSwipe?.(step);
 
   const drag = Gesture.Pan()
-    .enabled(onDrag !== undefined && size.width > 0)
+    .enabled(onDrag !== undefined && width > 0)
     .activateAfterLongPress(HOLD_MS)
     .onStart((event) => {
       'worklet';
-      scheduleOnRN(begin, event.x, event.y);
+      const cell = cellAt(event.x, event.y);
+      over.value = cell;
+      if (cell >= 0) scheduleOnRN(begin, cell);
     })
     .onUpdate((event) => {
       'worklet';
-      scheduleOnRN(move, event.x, event.y);
+      const cell = cellAt(event.x, event.y);
+      if (cell < 0 || cell === over.value) return;
+      over.value = cell;
+      scheduleOnRN(move, cell);
     })
     .onEnd(() => {
       'worklet';
+      over.value = -1;
       scheduleOnRN(end);
     });
   const turn = Gesture.Pan()
@@ -150,7 +154,7 @@ export function DayGrid({
     })
     .onEnd((event) => {
       'worklet';
-      shift.value = withTiming(0, { duration: tokens.motion.duration.fast });
+      shift.value = withTiming(0, { duration: SETTLE_MS });
       const far = Math.abs(event.translationX) >= SWIPE_PT;
       const fast = Math.abs(event.velocityX) >= SWIPE_SPEED;
       if (far || fast) scheduleOnRN(swipe, event.translationX < 0 ? 1 : -1);
@@ -182,7 +186,7 @@ export function DayGrid({
           {weeks.map((week, row) => (
             <View key={`r${row}`} style={styles.week}>
               {week.map((date, column) => {
-                if (date === null) return <View key={`b${row}-${column}`} style={styles.slot} />;
+                if (date === null) return <View key={row * COLUMNS + column} style={styles.slot} />;
                 const band = bands?.(date) ?? { fill: null, ghost: null };
                 return (
                   <View key={date} style={styles.slot}>

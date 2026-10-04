@@ -4,6 +4,7 @@
  * a tap inside a range moves its nearer end, and the domain's trip length bounds what can be
  * locked. The best windows and the ghost come from the per-date free counts only.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- rule codes and date keys, never copy. */
 import { TRIP_LENGTH_MAX_DAYS, TRIP_LENGTH_MIN_DAYS } from '@cp/domain';
 
 import { dateValue, type HeatDay, type HeatMonth } from './model';
