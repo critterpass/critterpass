@@ -2,7 +2,9 @@
  * A proposal opened on the phone (`/proposal/{id}`): the member's own version, or, for the
  * organiser, the RSVP tracker (the organiser reads a member's version with `as`). Opening it once
  * records an open for the crew-level counts only; the member's savings choices travel with I'M IN
- * to the boarding screen, and ASK {GUIDE} opens the private objection sheet.
+ * to the boarding screen, MAYBE answers here, "I can't make it" asks first on the pass, and ASK
+ * {GUIDE} opens the private objection sheet. An answer given on this phone shows at once, before
+ * its row syncs back.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -13,14 +15,13 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { Sheet } from '@/ui/sheet/Sheet';
-import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { toast } from '@/motion/island-toast';
 
-import { recordProposalOpenCommand } from '../data/commands';
+import { boardOutcome } from '../board/model';
+import { rememberAnswer, standingAnswer } from '../data/answered-here';
+import { recordProposalOpenCommand, setRsvpCommand, setRsvpQueuedCommand } from '../data/commands';
 import { instantDate } from '../data/format';
-import { reasonWhy, type Pick } from '../data/picks';
-import { useGroupPicks, usePicks } from '../data/picks';
+import { pickTag, reasonWhy, useGroupPicks, usePicks, type Pick } from '../data/picks';
 import {
   useFindProposalTrip,
   useHype,
@@ -30,12 +31,14 @@ import {
 } from '../data/proposal';
 import { useSavings } from '../data/savings';
 import { useProposalTrip } from '../data/trip';
+import { useHasWishes } from '../data/wishes';
 import { ObjectionSheet } from '../objection/objection-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
 import { HypeBar } from './hype-bar';
 import { ShareCard } from './share-card';
+import { WhySheet } from './why-sheet';
 import { YourVersionView } from './your-version-view';
 
 export function YourVersionScreen(props: { readonly proposalId: string; readonly as?: string }) {
@@ -49,8 +52,10 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const reactions = useReactions(props.proposalId);
   const locale = useLocale();
   const open = useCommand(recordProposalOpenCommand);
+  const rsvpNow = useCommand(setRsvpCommand);
+  const rsvpQueued = useCommand(setRsvpQueuedCommand);
   const [chosen, setChosen] = useState<readonly string[]>([]);
-  const theme = useTheme();
+  const [, setAnsweredHere] = useState(0);
   const [why, setWhy] = useState<Pick | null>(null);
   const [asking, setAsking] = useState(false);
   const opened = useRef(false);
@@ -68,6 +73,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
     version?.currency ?? null,
   );
   const organiserView = trip?.isOrganiser === true && props.as === undefined;
+  const hasWishes = useHasWishes(tripId, viewer);
 
   useEffect(() => {
     if (organiserView) router.replace(proposalRoutes.tracker(props.proposalId));
@@ -96,14 +102,29 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const chip = versionChip(locale, proposal.freeCancelUntil, proposal.replyBy);
   const base = version?.shareMinor ?? trip.shareMinor;
   const currency = version?.currency ?? trip.currency;
-  const answered =
-    person?.rsvp === 'in'
-      ? t({ id: 'proposal.version.youreIn', message: 'You’re in. See you there.' })
-      : person?.rsvp === 'waitlisted'
-        ? t({ id: 'proposal.version.waitlisted', message: 'You’re on the waitlist.' })
-        : person?.rsvp === 'out'
-          ? t({ id: 'proposal.version.out', message: 'You said you can’t make it.' })
-          : null;
+  const preview = props.as !== undefined && props.as !== trip.me;
+  const reader = { uid: viewer, hasWishes, guideName };
+  // Only the reader's own answer is theirs to see changed here; a preview shows none.
+  const answer = preview ? null : standingAnswer(person?.rsvp, props.proposalId);
+  const sayMaybe = async () => {
+    const payload = { proposal_id: props.proposalId, status: 'maybe' as const, option_ids: chosen };
+    let outcome = boardOutcome(await rsvpNow.send(payload));
+    if (outcome.kind === 'unreachable') outcome = boardOutcome(await rsvpQueued.send(payload));
+    if (outcome.kind === 'refused' || outcome.kind === 'unreachable') {
+      toast.show({
+        id: 'proposal-board-refused',
+        title: t({ id: 'proposal.board.refused', message: 'Your reply didn’t go through' }),
+        subtitle: t({ id: 'proposal.board.refusedSub', message: 'Try again in a moment.' }),
+      });
+      return;
+    }
+    rememberAnswer(props.proposalId, 'maybe');
+    setAnsweredHere((n) => n + 1);
+    toast.show({
+      id: 'proposal-answered-maybe',
+      title: t({ id: 'proposal.board.maybeDone', message: 'You said maybe' }),
+    });
+  };
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const planHref = hrefFor('3e-1', { tripId: trip.tripId });
   const board = (ids: readonly string[]) => {
@@ -114,7 +135,9 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
     <>
       <YourVersionView
         name={person?.name ?? ''}
-        preview={props.as !== undefined && props.as !== trip.me}
+        preview={preview}
+        personalised={!group && hasWishes}
+        organiser={organiser?.uid === viewer ? '' : (organiser?.name ?? '')}
         guide={trip.guide}
         chip={chip}
         pending={version === null || version.status === 'pending'}
@@ -124,6 +147,8 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
         picks={picks}
         when={(pick) => stopWhen(locale, pick)}
+        // The crew's shared picks carry tags about the stop, never a claim about the reader.
+        tag={(pick) => pickTag(pick, group ? { ...reader, hasWishes: true } : reader)}
         share={
           base === null || currency === null || !proposal.showCost ? null : (
             <ShareCard
@@ -141,6 +166,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         hype={
           <HypeBar
             hype={hype}
+            organiser={organiser?.name ?? ''}
             latest={
               latest === undefined || reactor === undefined
                 ? null
@@ -148,7 +174,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
             }
           />
         }
-        answered={answered}
+        answer={answer}
         onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         onPick={(pick) => {
           if (!group) {
@@ -161,27 +187,17 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           if (day !== undefined) router.push(day);
         }}
         onIn={() => board(chosen)}
+        onMaybe={() => void sayMaybe()}
+        onOut={() => router.push(proposalRoutes.decline(props.proposalId))}
         onAsk={() => setAsking(true)}
-        onOut={
-          person?.rsvp === 'in' ? () => router.push(proposalRoutes.decline(props.proposalId)) : null
-        }
       />
       {why === null ? null : (
-        <Sheet title={why.title} detents={['medium']} onDismiss={() => setWhy(null)}>
-          {why.dayNo === null ? null : (
-            <Text variant="caption" color={theme.semantic.text.secondary}>
-              {[t({ id: 'proposal.version.day', message: `Day ${why.dayNo}` }), why.dayTheme]
-                .filter(Boolean)
-                .join(' · ')}
-            </Text>
-          )}
-          <Text variant="body">{reasonWhy(why.reasonTag, guideName)}</Text>
-          {why.note === null || why.note === '' ? null : (
-            <Text variant="voice" color={theme.semantic.action.primary}>
-              {why.note}
-            </Text>
-          )}
-        </Sheet>
+        <WhySheet
+          pick={why}
+          when={stopWhen(locale, why)}
+          reason={reasonWhy(why, reader)}
+          onDismiss={() => setWhy(null)}
+        />
       )}
       {asking ? (
         <ObjectionSheet

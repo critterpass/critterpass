@@ -1,10 +1,8 @@
 /**
- * Every proposal lab scene by name, for the (dev) proposal lab and its screenshot flows, in the
- * order the flows visit them: the builder (3f-1), your version (3f-3), not sure yet (3f-4), slide
- * to board (3f-5) and who's in (3f-6), each drawn from the pure views with fixed data. Labels,
- * money and dates come from the catalog and the formatters the real screens use, so a capture in
- * another language proves the copy; only what the server would send (names, places, the guide's
- * own lines) is fixture text.
+ * Every proposal lab scene by name, for the (dev) proposal lab and its screenshot flows: the
+ * builder (3f-1), your version (3f-3), not sure yet (3f-4), slide to board (3f-5) and who's in
+ * (3f-6), each drawn from the pure views with fixed data. Labels, money and dates come from the
+ * catalog and the real formatters; only what the server would send is fixture text.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
@@ -48,6 +46,7 @@ import {
   LAB_SAVINGS,
   LAB_SUGGESTIONS,
   LAB_VERSIONS,
+  labTag,
 } from './lab-fixtures';
 
 const noop = () => undefined;
@@ -105,6 +104,9 @@ const version = (locale: string, sheet: ReactNode = null, group = false) => (
       fallbackNote={null}
       picks={group ? LAB_GROUP_PICKS : LAB_PICKS}
       when={(pick) => stopWhen(locale, pick)}
+      tag={labTag}
+      personalised
+      organiser="Winston"
       share={
         <ShareCard
           locale={locale}
@@ -121,12 +123,13 @@ const version = (locale: string, sheet: ReactNode = null, group = false) => (
           latest={{ name: 'Minh', kind: 'six_am' }}
         />
       }
-      answered={null}
+      answer={null}
       onBack={noop}
       onPick={noop}
       onIn={noop}
+      onMaybe={noop}
+      onOut={noop}
       onAsk={noop}
-      onOut={null}
     />
     {sheet}
   </>

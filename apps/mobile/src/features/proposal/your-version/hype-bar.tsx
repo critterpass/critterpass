@@ -1,10 +1,11 @@
 /**
  * CREW HYPE (3f-3): the crew-level hype percentage and one line built only from what people chose
- * to post: the latest public reply ("Jordan replied “6AM??”"), how many boarded and how many
- * reacted (the bar is the share of recipients who did either; it is left out at 0%). Nobody's
- * opens or views are ever shown.
+ * to post: the latest public reply ("Jordan replied “OKAY WOW”"), how many of the crew are in and
+ * how many reacted (the bar is the share of recipients who boarded or reacted; it and its figure
+ * are left out at 0%). The organiser sent the plan, so she counts as in: with nobody else in yet
+ * the line says so instead of "0 of 1". Nobody's opens or views are ever shown.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
 import { GrowBar } from '@/ui/data/LinearBar';
@@ -46,9 +47,26 @@ export function reactionWords(kind: string): string {
 export interface HypeBarProps {
   readonly hype: Hype | null;
   readonly latest: { readonly name: string; readonly kind: string } | null;
+  /** The organiser's first name: she is in from the moment she sends the plan. */
+  readonly organiser?: string;
 }
 
-export function HypeBar({ hype, latest }: HypeBarProps) {
+/** Who is in, counting the organiser, in words that stay true for a crew of two. */
+export function crewInLine(boarded: number, recipients: number, organiser: string): string {
+  if (boarded === 0) {
+    return organiser === ''
+      ? t({ id: 'proposal.hype.nobodyYet', message: 'Nobody has answered yet.' })
+      : t({ id: 'proposal.hype.onlyOrganiser', message: `Only ${organiser} is in so far.` });
+  }
+  const going = boarded + 1;
+  const crew = recipients + 1;
+  return t({
+    id: 'proposal.hype.crewIn',
+    message: plural(crew, { other: `${going} of # in the crew are in.` }),
+  });
+}
+
+export function HypeBar({ hype, latest, organiser = '' }: HypeBarProps) {
   const styles = useStyles();
   const theme = useTheme();
   const pct = hype?.pct ?? 0;
@@ -59,9 +77,7 @@ export function HypeBar({ hype, latest }: HypeBarProps) {
   }
   // The bar measures who boarded or reacted, so the line says those, never opens.
   if (hype !== null && hype.recipients > 0) {
-    const boarded = hype.boarded;
-    const recipients = hype.recipients;
-    parts.push(t({ id: 'proposal.hype.boarded', message: `${boarded} of ${recipients} boarded.` }));
+    parts.push(crewInLine(hype.boarded, hype.recipients, organiser));
     if (hype.reacted > 0) {
       const reacted = hype.reacted;
       parts.push(t({ id: 'proposal.hype.reacted', message: `${reacted} reacted.` }));
@@ -74,9 +90,11 @@ export function HypeBar({ hype, latest }: HypeBarProps) {
         <View style={styles.grow}>
           <Text variant="eyebrow">{t({ id: 'proposal.hype.title', message: 'Crew hype' })}</Text>
         </View>
-        <Text variant="title" color={theme.semantic.action.primary}>
-          {t({ id: 'proposal.hype.pct', message: `${pct}%` })}
-        </Text>
+        {pct === 0 ? null : (
+          <Text variant="title" color={theme.semantic.action.primary}>
+            {t({ id: 'proposal.hype.pct', message: `${pct}%` })}
+          </Text>
+        )}
       </View>
       {pct === 0 ? null : (
         <View style={styles.track} testID="version-hype-bar">
