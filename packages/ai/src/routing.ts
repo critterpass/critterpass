@@ -265,6 +265,13 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'links.extract_places': fast(null, 1536, { output: 'structured', temperature: 0 }),
   // Planning: the guide picks and words two of code's options for a crew split on a place.
   'places.compromise': pro(null, 4096, 'low', { output: 'structured', cacheLayers: PLAIN_LAYERS }),
+  // A destination's well-known places by name, from what the model knows; code matches them to rows.
+  'places.pick': pro(null, 8192, 'low', {
+    output: 'structured',
+    thinking: 'disabled',
+    temperature: 0,
+    cacheLayers: PLAIN_LAYERS,
+  }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
