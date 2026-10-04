@@ -1,47 +1,61 @@
 appId: app.critterpass.dev
 ---
-# Swipe together (3d-2): the deck, WHY THIS?, the match stamp, a solo traveller, the deck being
-# built, the finished summary, an ended session, offline, long Vietnamese names (no photos: the
-# category doodles), a place's own photo with its licence credit, and a generic stock photo
-# labelled as not the place, prefixed `${PREFIX}`.
+# Swipe together (7g-2): the deck, WHY THIS?, a solo traveller, the deck being built, an ended
+# session, offline, long Vietnamese names (no photos: the category doodles), a place's own photo
+# with its licence credit and a generic stock photo labelled as not the place; then a match going
+# to Ideas with the faces of everyone who said yes, the finished deck listing its matches as Ideas,
+# and a Vietnamese crew's match with long names. Prefixed `${PREFIX}`.
 - runFlow:
     file: scene.yaml
-    env: { SCENE: swipe, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-swipe' }
+    env: { SCENE: swipe, READY: explore-swipe-card, SHOT: '${PREFIX}-7g-2-swipe' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: swipe-why, READY: explore-swipe-why-sheet, SHOT: '${PREFIX}-3d-2-why-this' }
+    env: { SCENE: swipe-why, READY: explore-swipe-why-sheet, SHOT: '${PREFIX}-7g-2-why-this' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: swipe-match, READY: explore-swipe-match, SHOT: '${PREFIX}-3d-2-match' }
+    env: { SCENE: swipe-solo, READY: explore-swipe-card, SHOT: '${PREFIX}-7g-2-solo' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: swipe-solo, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-solo' }
+    env: { SCENE: swipe-building, READY: explore-swipe-building, SHOT: '${PREFIX}-7g-2-building' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: swipe-building, READY: explore-swipe-building, SHOT: '${PREFIX}-3d-2-building' }
+    env: { SCENE: swipe-ended, READY: explore-swipe-summary, SHOT: '${PREFIX}-7g-2-session-ended' }
 - runFlow:
     file: scene.yaml
-    env:
-      { SCENE: swipe-summary, READY: explore-swipe-summary, SHOT: '${PREFIX}-3d-2-deck-finished' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: swipe-ended, READY: explore-swipe-summary, SHOT: '${PREFIX}-3d-2-session-ended' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: swipe-offline, READY: explore-swipe-offline, SHOT: '${PREFIX}-3d-2-offline' }
+    env: { SCENE: swipe-offline, READY: explore-swipe-offline, SHOT: '${PREFIX}-7g-2-offline' }
 - runFlow:
     file: scene.yaml
     env:
-      { SCENE: swipe-da-nang, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-da-nang-long-names' }
+      { SCENE: swipe-da-nang, READY: explore-swipe-card, SHOT: '${PREFIX}-7g-2-da-nang-long-names' }
 - runFlow:
     file: scene.yaml
     env:
-      { SCENE: swipe-photo, READY: explore-swipe-photo-credit, SHOT: '${PREFIX}-3d-2-place-photo' }
+      { SCENE: swipe-photo, READY: explore-swipe-photo-credit, SHOT: '${PREFIX}-7g-2-place-photo' }
 - runFlow:
     file: scene.yaml
     env:
       {
         SCENE: swipe-photo-generic,
         READY: explore-photo-generic,
-        SHOT: '${PREFIX}-3d-2-generic-photo',
+        SHOT: '${PREFIX}-7g-2-generic-photo',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: swipe-idea-match, READY: explore-swipe-match-voters, SHOT: '${PREFIX}-7g-2-match' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: swipe-idea-summary,
+        READY: explore-swipe-see-ideas,
+        SHOT: '${PREFIX}-7g-2-deck-finished',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: swipe-idea-match-da-nang,
+        READY: explore-swipe-match-voters,
+        SHOT: '${PREFIX}-7g-2-match-long-names',
       }

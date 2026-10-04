@@ -152,6 +152,10 @@ msgid "trip.hub.swipeDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetailIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr ""
 

@@ -197,6 +197,10 @@ msgstr ""
 msgid "explore.guide.ponLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.tokekLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.solo"
 msgstr ""

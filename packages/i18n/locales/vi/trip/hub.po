@@ -152,6 +152,10 @@ msgid "trip.hub.swipeDetail"
 msgstr "Cả nhóm cùng quẹt, chỗ nào hợp sẽ vào lịch trình"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetailIdeas"
+msgstr "Cả nhóm cùng quẹt, chỗ nào trùng sẽ vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr "Khám phá {destination}"
 

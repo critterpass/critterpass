@@ -11,6 +11,7 @@ import { SPLIT_SCENES } from '../split/dev/split-scenes';
 import { PLACE_SCENES } from './place-scenes';
 import { SAVED_SCENES } from './saved-scenes';
 import { SWIPE_SCENES } from './swipe-scenes';
+import { TRIP_EXPLORE_SCENES } from '../trip-explore/dev/trip-explore-scenes';
 
 export const EXPLORE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DESTINATION_SCENES,
@@ -20,6 +21,7 @@ export const EXPLORE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...SAVED_SCENES,
   ...MAP_SCENES,
   ...SWIPE_SCENES,
+  ...TRIP_EXPLORE_SCENES,
 };
 
 export const EXPLORE_LAB_SCENE_NAMES: readonly string[] = Object.keys(EXPLORE_LAB_SCENES);

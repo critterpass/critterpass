@@ -1,8 +1,9 @@
 /**
  * Swipe together for a trip: joins the open session (or starts one), shows the deck the guide
  * ranked with each place's own photo, sends each swipe, and stamps a match when enough of the crew
- * said yes. The verdicts this phone gave are kept on the phone; everyone's yes votes and the
- * matches come from the synced trip.
+ * said yes. A match goes to the trip's Ideas with everyone who said yes (an earlier match keeps the
+ * day it was suggested for). The verdicts this phone gave are kept on the phone; everyone's yes
+ * votes and the matches come from the synced trip.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -10,6 +11,8 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
+import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
 
 import { SwipeView, type SwipeStage } from '../components/swipe-view';
@@ -20,6 +23,7 @@ import { usePlannedPlaces } from '../map-queries';
 import { useTripCrew } from '../place-queries';
 import { socialPill, swipeMeta } from '../swipe-copy';
 import { deckState, nextMatch, othersYes, whyLines } from '../swipe-model';
+import { matchOutcome, type MatchOutcome } from '../trip-explore/swipe-outcome';
 
 export interface SwipeScreenProps {
   readonly tripId: string;
@@ -36,6 +40,9 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const sync = useSyncStatus();
   const [whyOpen, setWhyOpen] = useState(false);
   const [stamped, setStamped] = useState<ReadonlySet<string>>(new Set());
+  const { redesign } = usePlanningSwitch();
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+  const ideasHref = useScreenHref('7f-2', { tripId });
   const { row, deck, places, swiped, matches } = session;
   const photos = usePlacePhotos(deck.map((card) => card.poi_id));
 
@@ -43,6 +50,14 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const state = useMemo(() => deckState(deck, swiped, inPlan), [deck, swiped, inPlan]);
   const guide = guideFor(row?.guide_slug);
   const nameOf = (poiId: string) => places.get(poiId)?.name ?? '';
+  const outcomes = useMemo(
+    () => new Map<string, MatchOutcome>(matches.map((m) => [m.id, matchOutcome(m, redesign)])),
+    [matches, redesign],
+  );
+  const votersOf = (userIds: readonly string[]) =>
+    crew
+      .filter((member) => userIds.includes(member.uid))
+      .map((member) => ({ key: member.uid, name: member.name, joinIndex: member.joinIndex }));
 
   // Matches made before this page opened are history, not news: only new ones get the stamp.
   const [seeded, setSeeded] = useState(false);
@@ -50,20 +65,33 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
     setSeeded(true);
     setStamped(new Set(matches.map((match) => match.id)));
   }
-  const match = seeded ? nextMatch(matches, stamped) : null;
+  const next = seeded ? nextMatch(matches, stamped) : null;
+  const match = next === null ? null : (matches.find((entry) => entry.id === next.id) ?? null);
+  const outcome = match === null ? null : (outcomes.get(match.id) ?? null);
   useEffect(() => {
-    if (match === null) return;
+    if (match === null || outcome === null) return;
     const place = places.get(match.poiId)?.name ?? '';
-    const day = match.dayNo;
+    const guideName = guide.name;
+    const day = outcome.kind === 'suggested' ? outcome.dayNo : 0;
     toast.show({
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast id, never copy.
       id: `explore-swipe-match-${match.id}`,
       title:
-        day === null
-          ? t({ id: 'explore.swipe.toastMatch', message: `${place} is a match` })
-          : t({ id: 'explore.swipe.toastSuggested', message: `${place} suggested for Day ${day}` }),
+        outcome.kind === 'idea'
+          ? t({
+              id: 'explore.swipe.toastIdea',
+              message: `${place} is in Ideas. ${guideName} will find it a day.`,
+            })
+          : outcome.kind === 'suggested'
+            ? t({
+                id: 'explore.swipe.toastSuggested',
+                message: `${place} suggested for Day ${day}`,
+              })
+            : t({ id: 'explore.swipe.toastMatch', message: `${place} is a match` }),
     });
-  }, [match, places, t]);
+    // Once per match: a later idea row for the same match does not toast again.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [match?.id]);
 
   const face = (index: number) => {
     const card = state.remaining[index];
@@ -99,7 +127,13 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
               id: entry.id,
               name: nameOf(entry.poiId),
               dayNo: entry.dayNo,
+              outcome: outcomes.get(entry.id),
+              voters: votersOf(entry.userIds)
+                .map((member) => member.name)
+                .filter((name) => name !== '')
+                .join(' + '),
             })),
+            onIdeas: ideasHref === undefined ? undefined : () => router.push(ideasHref),
           }
         : {
             kind: 'deck',
@@ -142,6 +176,8 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
           : {
               placeName: nameOf(match.poiId),
               dayNo: match.dayNo,
+              outcome: outcome ?? undefined,
+              voters: votersOf(match.userIds),
               onDone: () => setStamped((current) => new Set(current).add(match.id)),
             }
       }
