@@ -1,6 +1,6 @@
 ---
 title: Dates picker that shows its selection and picks any days
-status: in progress
+status: done
 owner: one lane
 ---
 # Dates picker polish
