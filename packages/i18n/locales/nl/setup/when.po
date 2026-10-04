@@ -192,6 +192,10 @@ msgstr ""
 msgid "setup.when.cta.lock"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.offline"
 msgstr ""
@@ -241,7 +245,7 @@ msgid "setup.when.pickAnyway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOther"
+msgid "setup.when.pickOtherDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
@@ -270,10 +274,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.howTo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.ghost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx

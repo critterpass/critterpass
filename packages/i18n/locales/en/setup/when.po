@@ -192,6 +192,10 @@ msgstr "From your calendar."
 msgid "setup.when.cta.lock"
 msgstr "Lock {range}"
 
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr "Lock it, or tap another last day."
+
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.offline"
 msgstr "Locking needs signal. Try again in a moment."
@@ -241,8 +245,8 @@ msgid "setup.when.pickAnyway"
 msgstr "Pick a week anyway"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOther"
-msgstr "Pick another week"
+msgid "setup.when.pickOtherDays"
+msgstr "Pick other days"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.titleDays"
@@ -271,10 +275,6 @@ msgstr "Syncing your calendar"
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.howTo"
 msgstr "Tap the first day and the last, or hold a day and drag."
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.ghost"
-msgstr "Tap the outlined last day to take it, or tap another day."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"

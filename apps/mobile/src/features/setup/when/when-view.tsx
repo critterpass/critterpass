@@ -177,7 +177,8 @@ export function WhenView({
 
   const best = model.best;
   const range = best === null ? null : rangeLabel(locale, best.start, best.end);
-  const everyone = countWord(model.total);
+  // The pill counts in numerals, as the render does ("all 6 free").
+  const everyone = model.total;
   return (
     <SetupShell
       {...shell}
@@ -200,7 +201,7 @@ export function WhenView({
               testID="when-cta"
             />
             <TextLink
-              label={t({ id: 'setup.when.pickOther', message: 'Pick another week' })}
+              label={t({ id: 'setup.when.pickOtherDays', message: 'Pick other days' })}
               onPress={actions.onPickWeek}
               testID="when-pick-week"
             />

@@ -192,6 +192,10 @@ msgstr "Từ lịch của bạn."
 msgid "setup.when.cta.lock"
 msgstr "Chốt {range}"
 
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr "Chốt luôn, hoặc chạm một ngày cuối khác."
+
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.offline"
 msgstr "Cần có mạng để chốt. Thử lại sau chút nhé."
@@ -241,8 +245,8 @@ msgid "setup.when.pickAnyway"
 msgstr "Vẫn chọn một tuần"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOther"
-msgstr "Chọn tuần khác"
+msgid "setup.when.pickOtherDays"
+msgstr "Chọn ngày khác"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.titleDays"
@@ -271,10 +275,6 @@ msgstr "Đang đồng bộ lịch"
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.howTo"
 msgstr "Chạm ngày đầu và ngày cuối, hoặc giữ một ngày rồi kéo."
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.ghost"
-msgstr "Chạm ngày cuối có viền để lấy luôn, hoặc chạm ngày khác."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"

@@ -147,14 +147,15 @@ export interface BestWindow {
 }
 
 /**
- * Up to `limit` windows of the planned length that most of the crew can make, starting no
- * earlier than `from`: the most free first (the earlier on a tie), never overlapping, never one
- * nobody can make.
+ * Up to `limit` windows of the planned length that at least half the crew can make every day of,
+ * starting no earlier than `from`: the most free first (the earlier on a tie), never overlapping.
+ * When none reaches half, only the single best window (never one nobody can make).
  */
 export function bestWindows(
   free: ReadonlyMap<string, number>,
   lengthDays: number,
   from: string,
+  total: number,
   limit = 3,
 ): BestWindow[] {
   const length = clampLength(lengthDays);
@@ -176,7 +177,8 @@ export function bestWindows(
     );
     if (!overlaps) picked.push(candidate);
   }
-  return picked;
+  const half = picked.filter((window) => window.free * 2 >= total);
+  return half.length > 0 ? half : picked.slice(0, 1);
 }
 
 /** The days a pick draws: the closed range, else the ghost after a first tap. */

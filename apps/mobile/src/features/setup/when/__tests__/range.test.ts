@@ -2,7 +2,7 @@
  * The day picker's rules: a first tap anchors, a second closes the range (either order), the
  * anchor again takes the ghost, a tap inside moves the nearer end, a drag sweeps or moves an end,
  * the domain's length bounds what can be locked, the ghost leaves off a last day that would drop
- * someone, and the best windows rank by who can make every day.
+ * someone, and the best windows rank by who can make every day (half the crew at least).
  */
 import { describe, expect, it } from '@jest/globals';
 
@@ -150,21 +150,28 @@ describe('the ghost suggestion', () => {
 });
 
 describe('best windows', () => {
-  it('ranks windows by who can make every day (earliest on a tie), never overlapping', () => {
-    const windows = bestWindows(FREE, 6, '2027-05-01');
-    expect(windows[0]).toEqual({ range: { start: '2027-05-03', end: '2027-05-08' }, free: 6 });
-    expect(windows[1]).toEqual({ range: { start: '2027-05-20', end: '2027-05-25' }, free: 5 });
-    expect(windows).toHaveLength(3);
-    expect(freeAllDays(FREE, windows[2]!.range)).toBe(windows[2]!.free);
+  it('ranks windows half the crew can make by who can make every day, never overlapping', () => {
+    const windows = bestWindows(FREE, 6, '2027-05-01', 6);
+    expect(windows).toEqual([
+      { range: { start: '2027-05-03', end: '2027-05-08' }, free: 6 },
+      { range: { start: '2027-05-20', end: '2027-05-25' }, free: 5 },
+    ]);
+    expect(windows.every((w) => freeAllDays(FREE, w.range) === w.free)).toBe(true);
+  });
+
+  it('offers only the single best window when none reaches half the crew', () => {
+    expect(bestWindows(FREE, 6, '2027-05-01', 12)).toEqual([
+      { range: { start: '2027-05-03', end: '2027-05-08' }, free: 6 },
+    ]);
   });
 
   it('starts no earlier than today and skips windows nobody can make', () => {
-    expect(bestWindows(FREE, 6, '2027-05-04').every((w) => w.range.start >= '2027-05-04')).toBe(
+    expect(bestWindows(FREE, 6, '2027-05-04', 6).every((w) => w.range.start >= '2027-05-04')).toBe(
       true,
     );
-    expect(bestWindows(freeByDate(heatMonths(rows({ '2027-05-01': 0 }))), 1, '2027-05-01')).toEqual(
-      [],
-    );
+    expect(
+      bestWindows(freeByDate(heatMonths(rows({ '2027-05-01': 0 }))), 1, '2027-05-01', 6),
+    ).toEqual([]);
   });
 });
 

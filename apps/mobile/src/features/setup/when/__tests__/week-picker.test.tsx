@@ -1,8 +1,8 @@
 /**
  * The day picker as an organiser uses it: it opens on the suggested week's month and turns back to
  * this month (so a trip starting this week can still be picked), a first and a last tap lock that
- * range, the ghost after a first tap is taken by tapping that day again, days before today can't be
- * picked, and Clear starts over.
+ * range, the ghost after a first tap locks as it stands (another tap re-picks its last day), days
+ * before today can't be picked, and Clear starts over.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -61,16 +61,18 @@ describe('picking days', () => {
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-06'));
   });
 
-  it('suggests the planned length after the first tap and takes it on a second', async () => {
+  it('locks the suggested planned length after one tap, or re-picks its last day', async () => {
     const onLock = jest.fn();
     await renderSetup(picker(onLock, '2026-10-01'));
     await fireEvent.press(screen.getByTestId('picker-today'));
     await fireEvent.press(await screen.findByTestId('heat-pick-2026-10-02'));
     expect(screen.getByTestId('picker-ghost')).toBeTruthy();
-    expect(screen.queryByTestId('picker-lock')).toBeNull();
-    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-02'));
-    await fireEvent.press(await screen.findByTestId('picker-lock'));
+    await fireEvent.press(screen.getByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-04'));
+    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-07'));
+    expect(screen.queryByTestId('picker-ghost')).toBeNull();
+    await fireEvent.press(screen.getByTestId('picker-lock'));
+    await waitFor(() => expect(onLock).toHaveBeenLastCalledWith('2026-10-02', '2026-10-07'));
   });
 
   it('can’t pick a day before today, and clears back to nothing picked', async () => {

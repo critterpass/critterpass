@@ -1,8 +1,9 @@
 /**
  * Picking the trip's days by hand (undesigned; "Pick another week" / "Pick a week anyway"): up to
  * three best windows as chips, the same heatmap to tap a first and last day on (or hold and drag),
- * a ghost of the planned length after the first tap that one more tap takes, and the length, who
- * can make every day of it and Lock, live under the calendar. Only counts, never anyone's days.
+ * a ghost of the planned length after the first tap that Lock takes as it stands (another tap
+ * re-picks its last day), and the length, who can make every day of it and Lock, live under the
+ * calendar. Only counts, never anyone's days.
  */
 import { t } from '@lingui/core/macro';
 import { useMemo, useRef, useState } from 'react';
@@ -88,8 +89,8 @@ export function WeekPicker({
   const firstDate = months[0]?.days[0]?.date ?? '';
   const lastDate = months.at(-1)?.days.at(-1)?.date ?? null;
   const chips = useMemo(
-    () => bestWindows(free, lengthDays, today ?? firstDate),
-    [free, lengthDays, today, firstDate],
+    () => bestWindows(free, lengthDays, today ?? firstDate, total),
+    [free, lengthDays, today, firstDate, total],
   );
   const [pick, setPick] = useState<RangePick>(initialPick ?? EMPTY_PICK);
   // A chip turns the calendar to its month; the key remounts the grid on that page.
@@ -97,7 +98,8 @@ export function WeekPicker({
   const drag = useRef<Drag | null>(null);
   const ghost = pick.anchor === null ? null : ghostRange(free, pick.anchor, lengthDays, lastDate);
   const shown = shownRange(pick, ghost);
-  const picked = pick.range;
+  // The ghost locks as it stands; another tap still re-picks its last day.
+  const picked = shown;
   const problem = picked === null ? null : rangeProblem(picked);
   const open = (date: string) => today === undefined || date >= today;
   const clampOpen = (date: string) => (today !== undefined && date < today ? today : date);
@@ -153,7 +155,7 @@ export function WeekPicker({
                     chip.free,
                     total,
                   )}
-                  selected={sameRange(picked, chip.range)}
+                  selected={sameRange(pick.range, chip.range)}
                   tilt={0}
                   onPress={() => choose(chip.range)}
                   testID={`picker-best-${index}`}
@@ -166,7 +168,7 @@ export function WeekPicker({
             months={months}
             startIndex={focus.month}
             total={total}
-            window={picked}
+            window={pick.range}
             anchor={pick.anchor}
             ghost={ghost}
             today={today}
@@ -179,7 +181,7 @@ export function WeekPicker({
               <Row justify="space-between" align="center">
                 <Text
                   variant="title"
-                  color={picked === null ? theme.semantic.text.secondary : undefined}
+                  color={pick.range === null ? theme.semantic.text.secondary : undefined}
                   testID="picker-length"
                 >
                   {lengthAndRange(locale, shown.start, shown.end, rangeLength(shown))}
@@ -191,11 +193,11 @@ export function WeekPicker({
                 />
               </Row>
             )}
-            {picked === null && ghost !== null ? (
+            {pick.range === null && ghost !== null ? (
               <Text variant="bodySm" color={theme.semantic.text.secondary} testID="picker-ghost">
                 {t({
-                  id: 'setup.when.picker.ghost',
-                  message: 'Tap the outlined last day to take it, or tap another day.',
+                  id: 'setup.when.picker.ghostLock',
+                  message: 'Lock it, or tap another last day.',
                 })}
               </Text>
             ) : null}

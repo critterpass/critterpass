@@ -31,8 +31,8 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: calendar-manual-days-busy }
-# The picker by hand: a first tap shows the ghost (no lock yet), a last tap closes the range and
-# brings the lock, a best-window chip takes its week, and Clear starts over.
+# The picker by hand: a first tap shows the ghost and Lock takes it as it stands, a last tap
+# re-picks the end, a best-window chip takes its week, and Clear starts over.
 - runFlow:
     file: open-scene.yaml
     env: { SCENE: when-week-picker }
@@ -46,8 +46,13 @@ appId: app.critterpass.dev
     visible:
       id: 'picker-ghost'
     timeout: 5000
-- assertNotVisible:
-    id: 'picker-lock'
+- runFlow:
+    when:
+      true: ${PREFIX == 'en'}
+    commands:
+      - assertVisible:
+          id: 'picker-lock'
+          text: '(?i)lock apr 16\D.*'
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-when-picker-first-tap
 - tapOn:
