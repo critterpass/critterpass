@@ -10,6 +10,8 @@ appId: app.critterpass.dev
       id: 'trip-hub-swipe'
     direction: DOWN
     timeout: 30000
+    visibilityPercentage: 100
+    centerElement: true
     optional: true
 - takeScreenshot: ${SHOT}-hub-swipe-row
 - tapOn:
