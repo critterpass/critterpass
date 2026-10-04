@@ -16,7 +16,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { impact, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -105,8 +105,8 @@ export function FlightHero(props: FlightHeroProps) {
       </Animated.View>
       <Animated.View style={[styles.guide, wiggle]} pointerEvents="none">
         <Sticker
-          kind={GUIDE_STICKERS[props.guide].kind}
-          name={GUIDE_STICKERS[props.guide].name}
+          kind={guideSticker(props.guide).kind}
+          name={guideSticker(props.guide).name}
           size={GUIDE_SIZE}
         />
       </Animated.View>

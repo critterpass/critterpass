@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -173,7 +173,7 @@ export function DayView(props: DayViewProps) {
         ) : props.items.length === 0 ? (
           <EmptyState
             guide="tokek"
-            guideName={GUIDE_STICKERS.tokek.name}
+            guideName={guideSticker('tokek').name}
             title={t({ id: 'plan.day.freeTitle', message: 'Free day' })}
             line={t({
               id: 'plan.day.freeLine',

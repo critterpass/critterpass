@@ -81,6 +81,7 @@ const TRIP: DraftTripData = {
   budget: null,
   rooms: null,
   bands: null,
+  transport: [],
 };
 
 describe('pre-draft closure check', () => {

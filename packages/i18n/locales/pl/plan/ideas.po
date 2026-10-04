@@ -32,6 +32,14 @@ msgid "plan.ideas.placeSome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSome"
 msgstr ""
 
@@ -181,18 +189,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.emptyLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.guide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
-msgid "plan.placing.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.placeFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx

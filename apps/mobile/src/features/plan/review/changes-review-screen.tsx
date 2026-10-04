@@ -22,6 +22,7 @@ import { toast } from '@/motion/island-toast';
 import { announceUndo } from '../day/edit-copy';
 import { dayName } from '../day/format';
 import { dayRoute } from '../day/routes';
+import { usePlanGuide } from '../plan-guide';
 import { planRoutes } from '../overview/routes';
 import {
   addNowLabel,
@@ -71,6 +72,7 @@ export function ChangesReviewScreen({
   readonly tripId: string;
   readonly changesetId: string;
 }) {
+  const guideName = usePlanGuide().name;
   const locale = useLocale();
   const view = useChangeset(tripId, changesetId);
   const actions = useChangesetActions(changesetId);
@@ -224,6 +226,7 @@ export function ChangesReviewScreen({
         tripId,
         explained,
         stopName,
+        guideName,
         onExplain: (ideaId) => setExplained((current) => new Set([...current, ideaId])),
         onOpen: (href) => router.push(href),
       })}

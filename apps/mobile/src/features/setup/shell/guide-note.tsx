@@ -4,7 +4,7 @@
  */
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 export function guideName(guide: GuideId): string {
-  return GUIDE_STICKERS[guide].name;
+  return guideSticker(guide).name;
 }
 
 export function GuideNote({
@@ -45,7 +45,7 @@ export function GuideNote({
 }) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const sticker = <Sticker kind={info.kind} name={info.name} size={STICKER_PT} />;
   if (note) {
     return (

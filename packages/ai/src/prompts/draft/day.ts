@@ -5,191 +5,24 @@
  * broke them. Every id is checked against the lists; the planner times, prices and checks the rest.
  */
 import type { DraftDay } from '@cp/domain';
-import {
-  dayWindow,
-  scheduleDay,
-  mealSlots,
-  minuteOfDate,
-  visitOrder,
-  type DayChoice,
-  type RepairReason,
-  type WishTime,
-} from '@cp/planner';
+import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@cp/planner';
 
-import type { GatewayInput } from '../../client';
 import { parseStructuredText, textOf } from '../../structured';
-import {
-  aliases,
-  clockText,
-  crewLine,
-  personaSystem,
-  placeLine,
-  placeNames,
-  weekdayOf,
-  type DraftModel,
-  type DraftPlanInput,
-} from './context';
-import { DAY_FORMAT, dayReplySchema, proseProblem, type StopReply } from './schema';
-import { stopBudget } from './budget';
+import { hopCap } from './areas';
+import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
+import { withinCapacity } from './day-capacity';
+import { buildDayRequest, type DayContext, type DayRepair } from './day-request';
+import { dayReplySchema, proseProblem, type StopReply } from './schema';
 import { type SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
-import { withinCapacity } from './day-capacity';
 
 export { withinCapacity } from './day-capacity';
-
-export const DAY_PROMPT_VERSION = 'draft-day@1';
-
-const TASK = [
-  '# Task',
-  '',
-  "Plan one day of the crew's trip: pick the stops in the order to visit them.",
-  '',
-  '- Every must-do listed for the day is a stop, with its must_do_id. Other stops have must_do_id null.',
-  '- Use only ids from the lists; never invent one. The planned activities already fill the day: use a',
-  '  spare one only in place of a planned one, never on top.',
-  '- Add lunch when the day runs through 11:30–14:30 and dinner when it runs through 18:00–21:30, from',
-  '  the meal list (kind "meal"): a place marked "for lunch" only at lunch, "for dinner" only at dinner.',
-  '- The planner times the stops in your order: from the start of the day, adding travel, waiting',
-  '  for a place to open and for meal times. So order them so each starts before its "start by" time,',
-  '  and leave out what does not fit.',
-  '- Stay within the stop limit and keep neighbouring stops close together.',
-  '- Each note is one short line in your voice about that stop, words only: no numbers, times, prices, digits or links.',
-  '- A must-do marked with a time of day (sunrise, night, full day) is held to it by the planner:',
-  '  put a sunrise one first, a night one last, and plan the rest of the day around it.',
-].join('\n');
-
-export interface DayRepair {
-  readonly reasons: readonly RepairReason[];
-  /** The day as the planner timed it last time. */
-  readonly previous: DraftDay;
-}
-
-export interface DayContext {
-  readonly day: SkeletonDay;
-  /** Activity ids used on other days (never offered here). */
-  readonly usedElsewhere: ReadonlySet<string>;
-}
-
-function timeNote(when: WishTime | null): string {
-  if (when === null || when === 'any') return '';
-  return ` | at ${when.replaceAll('_', ' ')}`;
-}
-
-function lists(input: DraftPlanInput, context: DayContext): string[] {
-  const { day } = context;
-  const place = (id: string) => input.pois.get(id);
-  const anchors = [
-    ...day.mustDoIds.flatMap((m) => {
-      const slot = input.pools.mustDos.find((s) => s.mustDoId === m);
-      return slot === undefined ? [] : [slot.poiId];
-    }),
-    ...day.poiIds,
-  ];
-  /** Rides of more than half an hour from the rest of the day are called out. */
-  const far = (id: string) => {
-    const legs = anchors
-      .filter((a) => a !== id)
-      .map((a) => input.travel(a, id))
-      .filter((m): m is number => m !== null);
-    const nearest = legs.length === 0 ? 0 : Math.min(...legs);
-    return nearest > 30 ? ` | about ${nearest} min from the day's other places` : '';
-  };
-  const line = (id: string) => {
-    const poi = place(id);
-    return poi === undefined ? null : `${placeLine(input, poi, day.date)}${far(id)}`;
-  };
-  const mustDos = day.mustDoIds.flatMap((mustDoId) => {
-    const slot = input.pools.mustDos.find((s) => s.mustDoId === mustDoId);
-    const poi = slot === undefined ? undefined : place(slot.poiId);
-    return poi === undefined
-      ? []
-      : [
-          `- must_do_id ${aliases(input).mustDo(mustDoId)} → ${placeLine(input, poi, day.date).slice(2)}${timeNote(whenOf(input, mustDoId))}`,
-        ];
-  });
-  const planned = new Set(day.poiIds);
-  const spare = day.spareIds.filter((id) => !planned.has(id) && !context.usedElsewhere.has(id));
-  const mealLine = (id: string) => {
-    const poi = place(id);
-    if (poi === undefined) return [];
-    const fits = mealSlots(poi, day.date);
-    return fits.length === 0
-      ? []
-      : [`${placeLine(input, poi, day.date)} | for ${fits.join(' or ')}${far(id)}`];
-  };
-  const section = (title: string, ids: readonly string[]) => [
-    `## ${title}`,
-    ...(ids.map(line).filter((l): l is string => l !== null).length > 0
-      ? ids.map(line).filter((l): l is string => l !== null)
-      : ['- none']),
-  ];
-  return [
-    '## Must-dos for this day',
-    ...(mustDos.length > 0 ? mustDos : ['- none']),
-    ...section('Activities planned for this day', day.poiIds),
-    ...section('Spare activities', spare),
-    '## Meal places',
-    ...(day.mealIds.length > 0 ? day.mealIds.flatMap((id) => mealLine(id)) : ['- none']),
-  ];
-}
-
-export function buildDayRequest(
-  input: DraftPlanInput,
-  context: DayContext,
-  repair?: DayRepair,
-): GatewayInput {
-  const { day } = context;
-  const index = day.dayNo - 1;
-  const window = dayWindow(input.frame, index);
-  const limit = stopBudget(window.endMin - window.startMin);
-  const edge =
-    index === 0
-      ? ' It is the landing day.'
-      : index === input.frame.dates.length - 1
-        ? ' The crew flies home after it.'
-        : '';
-  const header = [
-    `Destination: ${input.destination}. Day ${day.dayNo} of ${input.frame.dates.length}: ${weekdayOf(day.date)} ${day.date}.`,
-    `Theme: ${day.theme}, around ${day.area}.${edge}`,
-    `The day runs ${clockText(window.startMin)}–${clockText(window.endMin)}: at most ${limit} stops, meals included.`,
-    crewLine(input),
-  ];
-  const fix =
-    repair === undefined
-      ? []
-      : [
-          '',
-          '## Your last plan for this day broke these rules; fix them',
-          ...repair.reasons.map((reason) => `- ${reason.text}`),
-          'How the planner timed your last plan:',
-          ...(repair.previous.items.length > 0
-            ? repair.previous.items.map((item) => {
-                const poi = input.pois.get(item.poi_id ?? '');
-                const at = (iso: string) =>
-                  clockText(minuteOfDate(new Date(iso), day.date, input.frame.tz));
-                return `- ${at(item.starts_at)}–${at(item.ends_at)} ${poi?.name ?? 'unknown place'} (${aliases(input).place(item.poi_id ?? 'none')})`;
-              })
-            : ['- no stops']),
-          'Keep what worked. If the day is too full, leave stops out rather than squeezing them in.',
-        ];
-  return {
-    system: personaSystem(input.guide, TASK),
-    messages: [
-      {
-        role: 'user',
-        content: [
-          ...header,
-          '',
-          ...lists(input, context),
-          ...fix,
-          '',
-          `Plan the day: at most ${limit} stops, meals included.`,
-        ].join('\n'),
-      },
-    ],
-    outputFormat: DAY_FORMAT,
-  };
-}
+export {
+  buildDayRequest,
+  DAY_PROMPT_VERSION,
+  type DayContext,
+  type DayRepair,
+} from './day-request';
 
 export interface ParsedStops {
   readonly choices: DayChoice[];
@@ -219,14 +52,7 @@ export function toChoices(input: DraftPlanInput, stops: readonly StopReply[]): P
     const poi = input.pois.get(stop.poi_id);
     return {
       poiId: stop.poi_id,
-      kind:
-        poi === undefined
-          ? stop.kind === 'meal'
-            ? 'meal'
-            : 'activity'
-          : poi.category === 'food'
-            ? 'meal'
-            : 'activity',
+      kind: poi === undefined ? (stop.kind === 'meal' ? 'meal' : 'activity') : stopKind(poi),
       mustDoId: slot?.mustDoId ?? null,
       note: noteOk ? note : null,
     };
@@ -249,11 +75,26 @@ export function withMustDos(
     const slot = input.pools.mustDos.find((s) => s.mustDoId === mustDoId);
     const poi = slot === undefined ? undefined : input.pois.get(slot.poiId);
     if (poi === undefined) return [];
-    return [
-      { poiId: poi.id, kind: poi.category === 'food' ? 'meal' : 'activity', mustDoId, note: null },
-    ];
+    return [{ poiId: poi.id, kind: stopKind(poi), mustDoId, note: null }];
   });
   return [...choices, ...missing];
+}
+
+/**
+ * A must-do's place belongs to the day the must-do is on: a stop at it on another day is not the
+ * must-do and would be a second visit, so it is left out. One place is one stop a day.
+ */
+function ownStops(
+  input: DraftPlanInput,
+  day: SkeletonDay,
+  picked: readonly DayChoice[],
+): DayChoice[] {
+  const seen = new Set<string>();
+  return picked.filter((choice) => {
+    if (seen.has(choice.poiId)) return false;
+    seen.add(choice.poiId);
+    return choice.mustDoId === null || day.mustDoIds.includes(choice.mustDoId);
+  });
 }
 
 export function scheduleChoices(
@@ -263,7 +104,11 @@ export function scheduleChoices(
   attempt: string,
 ): DraftDay {
   const window = dayWindow(input.frame, day.dayNo - 1);
-  const choices = withMustDos(input, day, withinCapacity(day, window, picked)).map((choice) =>
+  const choices = withMustDos(
+    input,
+    day,
+    withinCapacity(day, window, ownStops(input, day, picked), input.pois),
+  ).map((choice) =>
     choice.mustDoId === null ? choice : { ...choice, when: whenOf(input, choice.mustDoId) },
   );
   const order = visitOrder({
@@ -272,6 +117,8 @@ export function scheduleChoices(
     pois: input.pois,
     window,
     travel: input.travel,
+    hopCapMin: hopCap(input),
+    mealPlaces: input.pools.eateries,
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({

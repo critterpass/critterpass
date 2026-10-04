@@ -21,6 +21,7 @@ import {
   tallyLine,
 } from '../changes-copy';
 import { calmSummary } from '../changes-state-copy';
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { ChangesReviewView, type ChangeRow } from '../changes-review-view';
 import { ChangesTotals } from '../changes-totals';
 import type { LeftForYou } from '../data/use-review-extras';
@@ -150,7 +151,7 @@ function ChangesScene({
               line: leftLine(idea, stopName),
               explainer:
                 explained && idea.reason === 'needs_move'
-                  ? needsMoveExplainer(stopName(id(905)))
+                  ? needsMoveExplainer(stopName(id(905)), NO_TRIP_GUIDE.name)
                   : null,
               onSee: noop,
             }))

@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import type { InviteTagsResponse } from '@cp/domain';
 
-import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -33,7 +33,7 @@ export function TagSuggestion({
 }) {
   const styles = useStyles();
   const guide = guideOf(suggestion.guide);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const words = suggestion.tags.map((tag) => tagWords(tag).full).join(' · ');
   return (
     <View style={styles.root} testID="composer-suggestion">

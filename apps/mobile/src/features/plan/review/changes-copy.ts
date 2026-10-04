@@ -186,15 +186,15 @@ export function leftLine(idea: LeftForYou, stopName: (stableId: string) => strin
 }
 
 /** What SEE says for an idea that needs a stop moved (undesigned: the explainer under its row). */
-export function needsMoveExplainer(stop: string | null): string {
+export function needsMoveExplainer(stop: string | null, guideName: string): string {
   return stop === null
     ? t({
         id: 'plan.review.left.explainPlain',
-        message: 'Tokek never moves a stop for an idea. Move one on the day plan, then add it.',
+        message: `${guideName} never moves a stop for an idea. Move one on the day plan, then add it.`,
       })
     : t({
         id: 'plan.review.left.explain',
-        message: `Tokek never moves a stop for an idea. Move ${stop} on the day plan, then add it.`,
+        message: `${guideName} never moves a stop for an idea. Move ${stop} on the day plan, then add it.`,
       });
 }
 

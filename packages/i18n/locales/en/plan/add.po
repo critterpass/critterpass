@@ -158,7 +158,7 @@ msgstr "No free time that day"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
-msgstr "No signal: Tokek works out the reasons once you’re back."
+msgstr "No signal: {guideName} works out the reasons once you’re back."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.nowhere"
@@ -223,10 +223,6 @@ msgstr "SUGGEST FOR {dayLabel} ANYWAY"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "The crew votes on this before it goes in. You’ll hear back."
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
-msgid "plan.add.guide"
-msgstr "Tokek"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

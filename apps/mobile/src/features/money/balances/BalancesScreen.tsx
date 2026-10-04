@@ -9,7 +9,7 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -56,7 +56,7 @@ export function MoneyNoTrip({ crew }: { readonly crew: boolean }) {
       <View style={[styles.content, { paddingBottom: inset }]}>
         <EmptyState
           guide="tokek"
-          guideName={GUIDE_STICKERS.tokek.name}
+          guideName={guideSticker('tokek').name}
           title={
             crew
               ? t({ id: 'money.noTrip.title', message: 'No trip to split yet' })

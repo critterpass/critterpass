@@ -22,6 +22,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 
+import { usePlanGuide } from '../plan-guide';
 import { saveIdeaCommand } from '../ideas/commands';
 import { ideasRoute } from '../ideas/routes';
 import { AddBlock } from './add-block';
@@ -73,6 +74,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
+  const guide = usePlanGuide().name;
   const editor = useDayEditing(plan);
   const saveIdea = useCommand(saveIdeaCommand);
   const { subject } = useAddSubject(tripId, placeId);
@@ -139,7 +141,6 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     preset.after === undefined;
   const anyway = existing === null && server.fit !== null && shown?.grade === 'no' && !nowhere;
   const stays = isWhereItIs(choice, existing);
-  const guide = plan.trip?.guide_name ?? t({ id: 'plan.add.guide', message: 'Tokek' });
   const best = server.fit?.best ?? null;
   const guidePick =
     best === null || choice === null || existing !== null || best.day_no === choice.dayNo
@@ -266,7 +267,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
           ? []
           : reasonTiles(shown, day === null ? '' : monthOf(day.date), stopName)
       }
-      note={server.status === 'offline' && server.fit === null ? offlineNote() : null}
+      note={server.status === 'offline' && server.fit === null ? offlineNote(guide) : null}
       who={
         <WhoGoing
           members={members}

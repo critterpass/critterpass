@@ -24,6 +24,7 @@ import { toast } from '@/motion/island-toast';
 import { PhotoCredit, type DayChip } from '@/ui/planning';
 
 import { stopOfPlace } from '../add/add-model';
+import { usePlanGuide } from '../plan-guide';
 import { addRoute } from '../add/routes';
 import { dayName } from '../day/format';
 import { planRoutes } from '../overview/routes';
@@ -58,6 +59,7 @@ const removedToastId = (ideaId: string) => `plan-idea-removed-${ideaId}`;
 export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const saved = useTripIdeas(tripId);
   const { loaded } = saved;
   const start = useCommand(startIdeaPlacementOnline);
@@ -158,7 +160,10 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     if (jobId === undefined) {
       toast.show({
         id: 'plan-ideas-place-failed',
-        title: t({ id: 'plan.ideas.placeFailed', message: 'Tokek couldn’t start placing them' }),
+        title: t({
+          id: 'plan.ideas.placeFailed',
+          message: `${guideName} couldn’t start placing them`,
+        }),
         subtitle: t({ id: 'plan.ideas.placeFailedLine', message: 'Try again with signal.' }),
       });
       return;
@@ -224,7 +229,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   return (
     <>
       <IdeasView
-        body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length)}
+        body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length, guideName)}
         days={chips}
         dropTarget={drag.dragging === null ? undefined : { overDayNo: drag.overDayNo }}
         chipsRef={drag.chipsRef}
@@ -240,7 +245,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         empty={
           loaded && ideas.length === 0
             ? {
-                guide: plan.trip?.guide_name ?? t({ id: 'plan.ideas.guide', message: 'Tokek' }),
+                guide: guideName,
                 line: emptyLine(),
                 find:
                   searchHref === undefined

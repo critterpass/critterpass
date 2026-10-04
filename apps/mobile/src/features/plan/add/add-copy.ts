@@ -275,10 +275,10 @@ export function moveLabel(dayLabel: string, time: string): string {
   return t({ id: 'plan.add.cta.move', message: `MOVE IT TO ${dayLabel} · ${time}` });
 }
 
-export function offlineNote(): string {
+export function offlineNote(guideName: string): string {
   return t({
     id: 'plan.add.offline',
-    message: 'No signal: Tokek works out the reasons once you’re back.',
+    message: `No signal: ${guideName} works out the reasons once you’re back.`,
   });
 }
 

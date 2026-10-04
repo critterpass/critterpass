@@ -16,6 +16,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useMotionMode } from '@/motion/motion-mode';
 import { toast } from '@/motion/island-toast';
 
+import { usePlanGuide } from '../../plan-guide';
 import { sentToast } from '../check-copy';
 import { dismissWeatherOnline } from '../commands';
 import { useCheckContext } from '../data/use-check-context';
@@ -47,6 +48,7 @@ const minuteOf = (clock: string) => Number(clock.slice(0, 2)) * 60 + Number(cloc
 
 export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonly dayId: string }) {
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const editor = useDayEditing(plan);
   const ctx = useCheckContext(plan);
   const locale = useLocale();
@@ -135,6 +137,7 @@ export function RainScreen({ tripId, dayId }: { readonly tripId: string; readonl
         month,
         rain: answer?.rain?.source ?? null,
         crowds: answer?.crowds?.source ?? null,
+        guideName,
       })}
       state={answer === null ? 'loading' : rows.length === 0 ? 'none' : 'ready'}
       chart={

@@ -224,10 +224,6 @@ msgstr ""
 msgid "plan.add.voteNote"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
-msgid "plan.add.guide"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"
 msgstr ""

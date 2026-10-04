@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { resolveDropoutCommand, setKeepInChatCommand } from '../data/commands';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
@@ -73,7 +73,7 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
       name={name}
       joinIndex={person?.joinIndex ?? 0}
       guide={trip.guide}
-      guideName={GUIDE_STICKERS[trip.guide].name}
+      guideName={guideSticker(trip.guide).name}
       replyLine={dropoutReplyLine(locale, name, row.created_at)}
       rows={rows}
       share={

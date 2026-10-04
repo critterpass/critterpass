@@ -20,6 +20,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { usePlanGuide } from '../../plan-guide';
 import { RouteSketch } from './route-sketch';
 
 export interface OrderRow {
@@ -117,6 +118,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 export function LessDrivingView(props: LessDrivingViewProps) {
+  const guideName = usePlanGuide().name;
   const styles = useStyles();
   const theme = useTheme();
   const appear = props.reducedMotion
@@ -142,8 +144,7 @@ export function LessDrivingView(props: LessDrivingViewProps) {
             <Text variant="body" singleLine={false}>
               {t({
                 id: 'plan.check.lessDriving.none',
-                message:
-                  'This order is already the shortest Tokek can find without moving anything booked.',
+                message: `This order is already the shortest ${guideName} can find without moving anything booked.`,
               })}
             </Text>
             {props.onOpenCheck === undefined ? null : (

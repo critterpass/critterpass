@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Toggle } from '@/ui/inputs/Toggle';
 import { Avatar } from '@/ui/people/Avatar';
@@ -98,7 +98,7 @@ export function DropoutView(props: DropoutViewProps) {
   const theme = useTheme();
   const ink = theme.semantic.text.onAccent;
   const { name } = props;
-  const guide = GUIDE_STICKERS[props.guide];
+  const guide = guideSticker(props.guide);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-dropout">
       <View style={styles.header}>

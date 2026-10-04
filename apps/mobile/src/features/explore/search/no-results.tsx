@@ -11,7 +11,7 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { makeStyles, Text, useTheme } from '@/ui';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
@@ -138,7 +138,7 @@ export interface NoResultsProps {
 export function NoResults(props: NoResultsProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   const area = props.area;
   const nearest = props.answer.nearest;
   const limit = props.limitMinutes;

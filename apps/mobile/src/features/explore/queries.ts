@@ -4,6 +4,7 @@
  * place is saved (a queued save or unsave shows at once) and how a queued command settled.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { useLiveRows } from './data/live-rows';
@@ -16,22 +17,28 @@ export interface DestinationRow {
   readonly currency: string | null;
   readonly best_months: string | null;
   readonly tz: string | null;
+  /** `live` once the destination has a checked set of picks. */
+  readonly coverage: string | null;
   readonly guide_slug: string | null;
 }
 
-const DESTINATION_SQL = `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz,
-    (SELECT s.guide_slug FROM critter_sets s
-      WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug
+const PLACE_GUIDE_SQL = `(SELECT s.guide_slug FROM critter_sets s
+      WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1)`;
+const destinationSql = (
+  perCity: boolean,
+) => `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz, d.coverage,
+    ${destinationGuideSql(perCity, 'd.critter_key', PLACE_GUIDE_SQL)} AS guide_slug
   FROM destinations d WHERE d.id = ? OR d.slug = ? LIMIT 1`;
-const DESTINATION_TABLES = ['destinations', 'critter_sets'];
+const DESTINATION_TABLES = ['destinations', 'critter_sets', ...DESTINATION_GUIDE_TABLES];
 
 /** The destination by id or slug; `loaded` turns true once the catalogue has answered. */
 export function useDestinationRow(ref: string | null): {
   readonly row: DestinationRow | null;
   readonly loaded: boolean;
 } {
+  const perCity = useGuidesPerCity();
   const live = useLiveRows<DestinationRow>(
-    DESTINATION_SQL,
+    destinationSql(perCity),
     ref === null || ref === '' ? null : [ref, ref],
     DESTINATION_TABLES,
   );
@@ -169,14 +176,21 @@ export interface GuideDestination {
   readonly guide_slug: string | null;
 }
 
-const GUIDE_DESTINATIONS_SQL = `SELECT d.id, d.slug, d.name, s.guide_slug FROM critter_sets s
+const guideDestinationsSql = (perCity: boolean) => `SELECT d.id, d.slug, d.name,
+    ${destinationGuideSql(perCity, 'd.critter_key', 's.guide_slug')} AS guide_slug
+  FROM critter_sets s
     JOIN destinations d ON d.id = s.destination_id WHERE s.guide_slug IS NOT NULL`;
-const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations'];
+const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations', ...DESTINATION_GUIDE_TABLES];
 
 /** Every destination with a guide of its own, from the synced catalogue. */
 export function useGuideDestinations(): {
   readonly rows: readonly GuideDestination[];
   readonly loaded: boolean;
 } {
-  return useLiveRows<GuideDestination>(GUIDE_DESTINATIONS_SQL, [], GUIDE_DESTINATIONS_TABLES);
+  const perCity = useGuidesPerCity();
+  return useLiveRows<GuideDestination>(
+    guideDestinationsSql(perCity),
+    [],
+    GUIDE_DESTINATIONS_TABLES,
+  );
 }

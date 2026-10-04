@@ -13,6 +13,7 @@ import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useDayEditing } from '@/features/plan/day/use-day-editing';
 import { toast } from '@/motion/island-toast';
 
+import { usePlanGuide } from '../../plan-guide';
 import { backTripLabel } from '../check-copy';
 import { askMemberOnline } from '../commands';
 import { useCheckContext } from '../data/use-check-context';
@@ -25,6 +26,7 @@ import { useBalance } from './use-balance';
 
 export function BalanceScreen({ tripId }: { readonly tripId: string }) {
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const editor = useDayEditing(plan);
   const ctx = useCheckContext(plan);
   const ask = useCommand(askMemberOnline);
@@ -113,7 +115,10 @@ export function BalanceScreen({ tripId }: { readonly tripId: string }) {
                       .then((result) => {
                         setBusy(null);
                         if (result.kind === 'applied')
-                          toast.show({ id: 'plan-balance-asked', ...copy.askedToast(zero.name) });
+                          toast.show({
+                            id: 'plan-balance-asked',
+                            ...copy.askedToast(zero.name, guideName),
+                          });
                       });
                   },
           },
@@ -121,7 +126,7 @@ export function BalanceScreen({ tripId }: { readonly tripId: string }) {
             mine === undefined
               ? null
               : mine.status === 'open'
-                ? copy.waitingLine(zero.name)
+                ? copy.waitingLine(zero.name, guideName)
                 : mine.status === 'declined'
                   ? copy.declinedLine(zero.name)
                   : copy.acceptedLine(zero.name),

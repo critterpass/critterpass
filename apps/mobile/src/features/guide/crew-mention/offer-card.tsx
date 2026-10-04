@@ -16,6 +16,7 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { ChatCardProps } from '@/features/crew';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { guideColour } from '@/ui/avatar/guides';
 
 import { guideAvatarId } from '../chat/components/guide-header';
 import { useLiveQuery } from '../chat/data/live-rows';
@@ -181,7 +182,7 @@ export function GuideOfferCard({ message }: ChatCardProps) {
   return (
     <OfferCardView
       text={message.body}
-      color={theme.guide[guideAvatarId(row.slug ?? 'tokek')]}
+      color={guideColour(guideAvatarId(row.slug ?? 'tokek'))}
       state={offerState(row, now.getTime())}
       slotsLeft={Math.max(0, row.slots_total - row.slots_taken)}
       taken={row.slots_taken}

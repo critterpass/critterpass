@@ -158,7 +158,7 @@ msgstr "Hôm đó không còn giờ trống"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.offline"
-msgstr "Không có sóng: Tokek sẽ tính lý do khi bạn có mạng lại."
+msgstr "Không có sóng: {guideName} sẽ tính lý do khi bạn có mạng lại."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.line.nowhere"
@@ -223,10 +223,6 @@ msgstr "VẪN ĐỀ XUẤT CHO {dayLabel}"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "Cả nhóm sẽ bỏ phiếu trước khi thêm vào. Bạn sẽ được báo kết quả."
-
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
-msgid "plan.add.guide"
-msgstr "Tokek"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -40,7 +40,7 @@ export function SettledTokekReveal({
   const theme = useTheme();
   const { t } = useLingui();
   const bob = useLoop('bob', { active: settled });
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   const line = settled
     ? t({ id: 'money.settle.settledLine', message: 'All square. Everyone gets the Settled Tokek.' })
     : t({

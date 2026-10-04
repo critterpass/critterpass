@@ -19,7 +19,7 @@ import { format, upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Stack } from '@/ui/layout/Stack';
@@ -69,7 +69,7 @@ export function FoundCrewCard({ model }: { readonly model: TicketModel }) {
     transform: [{ translateY: (1 - land.value) * -40 }, { rotate: `${(1 - land.value) * 20}deg` }],
   }));
 
-  const guide = GUIDE_STICKERS[guideOf(model.guideSlug)];
+  const guide = guideSticker(guideOf(model.guideSlug));
   const inviter = model.inviterFirstName ?? '';
   const crew = model.crewName ?? '';
   const count = model.members.length;

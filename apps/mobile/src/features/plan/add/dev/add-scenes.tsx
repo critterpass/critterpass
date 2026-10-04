@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import type { DayChip, FitGrade } from '@/ui/planning';
 
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { AddBlock } from '../add-block';
 import {
   addLabel,
@@ -112,7 +113,7 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
             ? inPlanLine(label, '18:00')
             : note === 'nowhere'
               ? nowhereLine()
-              : pickedLine('Tokek')
+              : pickedLine(NO_TRIP_GUIDE.name)
         }
         days={days}
         dayNo={note === 'nowhere' ? null : 6}
@@ -146,7 +147,7 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
         }
         whyTitle={note === 'nowhere' ? '' : whyTitle('08:00')}
         reasons={note === 'nowhere' ? [] : reasonTiles(day, month)}
-        note={note === 'offline' ? offlineNote() : null}
+        note={note === 'offline' ? offlineNote(NO_TRIP_GUIDE.name) : null}
         who={
           <WhoGoing
             members={CREW}

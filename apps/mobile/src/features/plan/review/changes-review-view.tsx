@@ -15,11 +15,11 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { PlanGuideSticker } from '../plan-guide';
 import { NeedsYouList, type NeedsYouRow } from './needs-you-list';
 import { Tick } from './tick';
 
@@ -153,7 +153,7 @@ export function ChangesReviewView(props: ChangesReviewViewProps) {
           )}
         </View>
         <View style={styles.hero}>
-          <Sticker kind="gecko" name="Tokek" size={64} />
+          <PlanGuideSticker size={64} />
           <View style={styles.heroText}>
             <Text variant="h1" singleLine={false} testID="plan-review-title">
               {props.title}

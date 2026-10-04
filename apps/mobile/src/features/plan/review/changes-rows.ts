@@ -56,6 +56,8 @@ export function needsYouRows(input: {
   readonly tripId: string;
   readonly explained: ReadonlySet<string>;
   readonly stopName: (stableId: string) => string | null;
+  /** The trip's guide, named in the explainer. */
+  readonly guideName: string;
   readonly onExplain: (ideaId: string) => void;
   readonly onOpen: (href: Href) => void;
 }): NeedsYouRow[] {
@@ -66,7 +68,9 @@ export function needsYouRows(input: {
       key: idea.ideaId,
       name: idea.name.toUpperCase(),
       line: leftLine(idea, stopName),
-      explainer: input.explained.has(idea.ideaId) ? needsMoveExplainer(stop) : null,
+      explainer: input.explained.has(idea.ideaId)
+        ? needsMoveExplainer(stop, input.guideName)
+        : null,
       onSee: () => {
         if (idea.reason === 'needs_move') {
           input.onExplain(idea.ideaId);

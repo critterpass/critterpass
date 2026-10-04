@@ -78,6 +78,14 @@ msgstr ""
 msgid "plan.review.forYou"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.left.explainPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.guideDays"
 msgstr ""
@@ -465,14 +473,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.warn.mustDo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
-msgid "plan.review.left.explainPlain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
