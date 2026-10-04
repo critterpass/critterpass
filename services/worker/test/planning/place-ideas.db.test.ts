@@ -62,7 +62,7 @@ beforeAll(async () => {
     `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category,
                              locked_reason)
      VALUES ($1, $2, $3, $4, '2026-10-15T00:00Z', '2026-10-15T12:00Z', 'Asia/Makassar', 'other',
-             'booked')`,
+             'booking')`,
     [versionId, days[0]!.id, tripId, randomUUID()],
   );
   await db.pool.query('UPDATE trips SET current_version_id = $1 WHERE id = $2', [
