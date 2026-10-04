@@ -244,6 +244,10 @@ msgid "vote.newPoll.option"
 msgstr "Answer {0}"
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.idleOwnGuides"
+msgstr "Any city in the world. Each has a guide of its own; some are still learning their place."
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.idle"
 msgstr "Any city in the world. Guides cover some; a guest covers the rest."
 
@@ -347,10 +351,15 @@ msgstr "Final: {both}"
 msgid "vote.board.goToFinal"
 msgstr "Go to final"
 
-#. placeholder {0}: GUEST.name
+#. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.guestGuide"
 msgstr "Guest guide: {0}"
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.learningLine"
+msgstr "I'm still learning {0}. Nobody has checked my picks here yet."
 
 #. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
 #. placeholder {1}: tie.memberCount
@@ -656,6 +665,11 @@ msgstr "You're offline. Search comes back with the connection."
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 msgid "vote.pitch.offline"
 msgstr "You're offline. Search comes back with the connection."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.yourGuide"
+msgstr "Your guide: {0}"
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.trip"

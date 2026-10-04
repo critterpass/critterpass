@@ -47,10 +47,15 @@ export interface GuideFacts {
   readonly colour: string;
   /** No guide lives here: the guest guide covers it. */
   readonly guest: boolean;
+  /** The place's own guide, where nobody has checked its picks yet (no curated set). */
+  readonly learning: boolean;
 }
 
-/** The guide of a destination from its catalogue slug; the guest guide when it has none. */
-export function guideFor(slug: string | null | undefined): GuideFacts {
+/**
+ * The guide of a destination from its catalogue slug; the guest guide when it has none. `curated`
+ * is whether the destination has a checked set of picks (unknown counts as checked).
+ */
+export function guideFor(slug: string | null | undefined, curated = true): GuideFacts {
   const id: GuideStickerId = isGuideStickerId(slug) ? slug : GUEST_GUIDE;
   const sticker = guideSticker(id);
   return {
@@ -59,6 +64,7 @@ export function guideFor(slug: string | null | undefined): GuideFacts {
     kind: sticker.kind,
     colour: guideColour(id),
     guest: id !== slug,
+    learning: id === slug && !curated,
   };
 }
 

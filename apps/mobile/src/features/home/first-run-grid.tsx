@@ -14,6 +14,7 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { impact } from '@/motion/feedback';
+import { useGuidesPerCity } from '@/data/guides';
 import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -140,6 +141,7 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const locale = useLocale();
+  const perCity = useGuidesPerCity();
   const gap = theme.space['10'];
   const cellWidth = Math.floor((width - gap * (COLUMNS - 1)) / COLUMNS);
   const openSearch = () => {
@@ -156,10 +158,17 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
       <DashedRow
         testID="home-somewhere-else"
         title={upper(t({ id: 'home.firstRun.elsewhere', message: 'Somewhere else' }), locale)}
-        body={t({
-          id: 'home.firstRun.elsewhereBody',
-          message: 'No guide there yet. Tokek will cover until one moves in.',
-        })}
+        body={
+          perCity
+            ? t({
+                id: 'home.firstRun.elsewhereOwnGuide',
+                message: 'Every city has a guide of its own. Some are still learning their place.',
+              })
+            : t({
+                id: 'home.firstRun.elsewhereBody',
+                message: 'No guide there yet. Tokek will cover until one moves in.',
+              })
+        }
         mark={<Text variant="h3">+</Text>}
         onPress={openSearch}
       />

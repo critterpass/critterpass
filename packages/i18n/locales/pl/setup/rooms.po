@@ -169,10 +169,6 @@ msgid "setup.rooms.noStaysLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
-msgid "setup.rooms.noStaysTitle"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.evenSplit"
 msgstr ""
 
@@ -190,6 +186,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.noDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts

@@ -99,7 +99,7 @@ msgstr "A place taken out of Ideas"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.add"
-msgstr "Add {0} to the plan"
+msgstr "Add {name} to the plan"
 
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.chip.all"
@@ -227,7 +227,7 @@ msgstr "Show"
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.hidden.showA11y"
-msgstr "Show {0} again"
+msgstr "Show {name} again"
 
 #: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx

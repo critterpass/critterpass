@@ -17,6 +17,8 @@ export interface DestinationRow {
   readonly currency: string | null;
   readonly best_months: string | null;
   readonly tz: string | null;
+  /** `live` once the destination has a checked set of picks. */
+  readonly coverage: string | null;
   readonly guide_slug: string | null;
 }
 
@@ -24,7 +26,7 @@ const PLACE_GUIDE_SQL = `(SELECT s.guide_slug FROM critter_sets s
       WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1)`;
 const destinationSql = (
   perCity: boolean,
-) => `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz,
+) => `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz, d.coverage,
     ${destinationGuideSql(perCity, 'd.critter_key', PLACE_GUIDE_SQL)} AS guide_slug
   FROM destinations d WHERE d.id = ? OR d.slug = ? LIMIT 1`;
 const DESTINATION_TABLES = ['destinations', 'critter_sets', ...DESTINATION_GUIDE_TABLES];

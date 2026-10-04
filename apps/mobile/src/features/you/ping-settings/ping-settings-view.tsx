@@ -185,7 +185,7 @@ export function PingSettingsView(props: PingSettingsViewProps) {
     {
       key: 'guide-tips',
       title: t({ id: 'you.pings.guideTips', message: 'Guide tips' }),
-      subtitle: t({ id: 'you.pings.guideTipsLine', message: 'From Tokek, Pon and the rest' }),
+      subtitle: t({ id: 'you.pings.guideTipsLine', message: 'From the guide of each trip' }),
       tile: {
         colour: theme.color.yellow,
         art: <Sticker kind={tokek.kind} name={tokek.name} size={TILE - 8} />,

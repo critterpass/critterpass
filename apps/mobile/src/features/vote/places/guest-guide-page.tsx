@@ -14,7 +14,8 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { patterns, useLoop } from '@/motion';
-import { guideSticker } from '@/ui/avatar/guides';
+import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
+import { DEFAULT_GUIDE_ID, guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
@@ -28,6 +29,7 @@ import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { useLiveRows } from '../data/live-rows';
 import { useDestinationSlug } from '../data/use-destination-slug';
 import { useMyUid } from '../data/use-my-uid';
 import { useMyCrews, usePlaceSave } from '../data/use-place-save';
@@ -38,7 +40,23 @@ import { CrewPicker } from './crew-picker';
 import { LocalsStrip } from './locals-strip';
 import { SoloConfirm } from './solo-confirm';
 
-const GUEST = guideSticker('tokek');
+/** The guest guide, who covers a place with no guide of its own. */
+const GUEST_ID = DEFAULT_GUIDE_ID;
+
+const CITY_GUIDE_TABLES = ['destinations', ...DESTINATION_GUIDE_TABLES];
+
+/** The place's own guide while guides go by city (null: the guest guide covers it). */
+function useCityGuide(placeId: string): string | null {
+  const perCity = useGuidesPerCity();
+  const { rows } = useLiveRows<{ guide: string | null }>(
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- SQL, never copy.
+    `SELECT ${destinationGuideSql(perCity, 'd.critter_key', 'NULL')} AS guide FROM destinations d WHERE d.id = ?`,
+    [placeId],
+    CITY_GUIDE_TABLES,
+  );
+  const slug = rows[0]?.guide ?? null;
+  return isGuideStickerId(slug) ? slug : null;
+}
 
 /** Smallest size the hero name shrinks to (a 13-letter city on a 360 pt phone). */
 const HERO_NAME_FLOOR = 40;
@@ -133,6 +151,8 @@ export function GuestGuidePage({
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const { state, retry } = useGuestBrief(placeId, crewId);
+  const cityGuide = useCityGuide(placeId);
+  const guide = guideSticker(cityGuide ?? GUEST_ID);
   const photo = heroAt(useDestinationMedia(useDestinationSlug(placeId)).items);
   const crews = useMyCrews(useMyUid());
   const hop = useLoop('hop');
@@ -205,7 +225,7 @@ export function GuestGuidePage({
                 testID="guest-photo"
               />
               <Animated.View style={[{ alignSelf: 'flex-end' }, hop]}>
-                <LiveSticker kind={GUEST.kind} name={GUEST.name} size={88} drawOn={false} />
+                <LiveSticker kind={guide.kind} name={guide.name} size={88} drawOn={false} />
               </Animated.View>
               {/* One line per word, and a floor low enough that a long single-word city
                   ("CHEFCHAOUEN") shrinks to fit instead of breaking mid-word or cutting off. */}
@@ -221,28 +241,37 @@ export function GuestGuidePage({
               </Text>
               <Text variant="label" color={theme.semantic.text.onAccent}>
                 {upper(
-                  t({ id: 'vote.guest.guestGuide', message: `Guest guide: ${GUEST.name}` }),
+                  cityGuide === null
+                    ? t({ id: 'vote.guest.guestGuide', message: `Guest guide: ${guide.name}` })
+                    : t({ id: 'vote.guest.yourGuide', message: `Your guide: ${guide.name}` }),
                   i18n.locale,
                 )}
               </Text>
               <GuideLine
-                guide="tokek"
-                name={GUEST.name}
-                line={t({
-                  id: 'vote.guest.line',
-                  message: "Not my island, but I've done my homework.",
-                })}
+                guide={guide.id}
+                name={guide.name}
+                line={
+                  cityGuide === null
+                    ? t({
+                        id: 'vote.guest.line',
+                        message: "Not my island, but I've done my homework.",
+                      })
+                    : t({
+                        id: 'vote.guest.learningLine',
+                        message: `I'm still learning ${place.name}. Nobody has checked my picks here yet.`,
+                      })
+                }
                 bubble
               />
             </View>
             <Facts place={place} />
             <LocalsStrip locals={place.locals} />
-            <BriefFacts state={state} guideName={GUEST.name} onRetry={retry} />
+            <BriefFacts state={state} guideName={guide.name} onRetry={retry} />
             {mode === 'solo' ? (
               <SoloConfirm
                 placeId={placeId}
                 placeName={place.name}
-                guideName={GUEST.name}
+                guideName={guide.name}
                 crewId={crewId}
                 onCancel={() => setMode('actions')}
               />

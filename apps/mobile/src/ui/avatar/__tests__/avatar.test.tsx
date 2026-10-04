@@ -63,6 +63,7 @@ describe('AvatarPicker', () => {
   });
 });
 
+/* eslint-disable critterpass/no-literal-style -- a guide's accent is data (its synced row, its critter's dex colours): these are the rows' values */
 describe('guide stickers', () => {
   afterEach(() => applyGuideRows([]));
 
