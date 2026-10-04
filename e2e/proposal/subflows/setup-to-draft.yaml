@@ -46,40 +46,7 @@ appId: app.critterpass.dev
                 timeout: 10000
       - tapOn:
           id: 'calendar-by-hand'
-      - extendedWaitUntil:
-          visible:
-            id: 'manual-days-month'
-          timeout: 10000
-      # Next month: every day of it is ahead of today. Seven days in a row, each tapped once: free.
-      - tapOn:
-          id: 'manual-days-next'
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 8
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 9
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 10
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 11
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 12
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 13
-      - tapOn:
-          id: 'manual-day-.*'
-          index: 14
-      - tapOn:
-          id: 'manual-days-save'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'manual-days-month'
-          timeout: 15000
+      - runFlow: ../../happy/subflows/mark-week-by-hand.yaml
       # The saved days reach the crew's counts, and the organiser has a way on.
       - extendedWaitUntil:
           visible:

@@ -6,3 +6,76 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.titleDays"
+msgstr "{count} ngày"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.title"
+msgstr "{place}, {count} ngày"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.checkDetail"
+msgstr "Đã đối chiếu giờ mở cửa, đường lái xe và đặt chỗ."
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.dayTitle"
+msgstr "Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasFit"
+msgstr "Có ý tưởng hợp ngày này"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.road"
+msgstr "Trên xe: khoảng {before} → {after}"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.title"
+msgstr "Chuyển {name}?"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStop"
+msgstr "Chuyển một điểm dừng sang ngày khác"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.move"
+msgstr "Chuyển"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickDay"
+msgstr "Chuyển sang ngày…"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickStop"
+msgstr "Chuyển điểm dừng nào?"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.empty"
+msgstr "Ngày này không còn gì"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.nothingYet"
+msgstr "chưa có gì"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.ok"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.see"
+msgstr "Xem"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.share"
+msgstr "Chia sẻ"
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.suggest"
+msgstr "Đề xuất với cả nhóm"

@@ -47,3 +47,5 @@ export function useDayEditing(plan: TripPlan) {
     },
   );
 }
+
+export { announceEdit, fitWarningText } from './edit-copy';

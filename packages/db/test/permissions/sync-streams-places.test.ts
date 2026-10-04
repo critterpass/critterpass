@@ -15,6 +15,19 @@ let otherDestinationId: string;
 let activePoiId: string;
 let closedPoiId: string;
 let regionId: string;
+/** POIs the trip points at, by how it points at them (see beforeAll). */
+let refs: Record<
+  | 'imported'
+  | 'stop'
+  | 'hiddenStop'
+  | 'mergedStop'
+  | 'dayTripStop'
+  | 'oldStop'
+  | 'draftStop'
+  | 'idea'
+  | 'droppedIdea',
+  string
+>;
 
 const SERVER_ONLY_POI_COLUMNS = ['fts', 'location', 'geofence', 'source_ids', 'merged_into_id'];
 
@@ -51,10 +64,52 @@ beforeAll(async () => {
     const closed = await insertPoi(dest, 'Closed POI', 'closed');
     await insertPoi(dest, 'Hidden POI', 'hidden');
     // An open-data import row nobody has curated stays server-side, searchable over HTTP only.
-    await insertPoi(dest, 'Imported POI', 'active', 'auto');
+    const imported = await insertPoi(dest, 'Imported POI', 'active', 'auto');
     const duplicate = await insertPoi(dest, 'Duplicate POI', 'active');
     await tx.query('UPDATE pois SET merged_into_id = $1 WHERE id = $2', [active, duplicate]);
     await insertPoi(other.rows[0]!.id, 'Elsewhere POI', 'active');
+    // Places the trip points at. Open-data rows unless noted; the fixture's own idea already
+    // points at the editorial Matrix Probe POI, so that one is referenced twice.
+    const stop = await insertPoi(dest, 'Searched stop', 'active', 'auto');
+    const hiddenStop = await insertPoi(dest, 'Stop hidden later', 'hidden', 'auto');
+    const mergedStop = await insertPoi(dest, 'Stop merged later', 'active', 'auto');
+    await tx.query('UPDATE pois SET merged_into_id = $1 WHERE id = $2', [active, mergedStop]);
+    const dayTripStop = await insertPoi(other.rows[0]!.id, 'Day trip stop', 'active', 'auto');
+    const oldStop = await insertPoi(dest, 'Stop of a superseded version', 'active', 'auto');
+    const draftStop = await insertPoi(dest, 'Must-do in a draft', 'active', 'auto');
+    const idea = await insertPoi(dest, 'Linked idea', 'active', 'auto');
+    const droppedIdea = await insertPoi(dest, 'Removed idea', 'active', 'auto');
+    const addStops = async (visibility: string, status: string, poiIds: readonly string[]) => {
+      const version = await tx.query<{ id: string }>(
+        `INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, $2, $3) RETURNING id`,
+        [fixture.tripId, visibility, status],
+      );
+      const versionId = version.rows[0]!.id;
+      const day = await tx.query<{ id: string }>(
+        'INSERT INTO plan_days (version_id, trip_id, day_no) VALUES ($1, $2, 1) RETURNING id',
+        [versionId, fixture.tripId],
+      );
+      for (const poiId of poiIds) {
+        await tx.query(
+          `INSERT INTO plan_items (version_id, day_id, trip_id, poi_id, category)
+           VALUES ($1, $2, $3, $4, 'sightseeing')`,
+          [versionId, day.rows[0]!.id, fixture.tripId, poiId],
+        );
+      }
+    };
+    await addStops('crew', 'current', [stop, hiddenStop, mergedStop, dayTripStop, active]);
+    await addStops('crew', 'superseded', [oldStop]);
+    await addStops('organiser', 'draft', [draftStop]);
+    for (const [poiId, deleted] of [
+      [idea, false],
+      [droppedIdea, true],
+    ] as const) {
+      await tx.query(
+        `INSERT INTO trip_ideas (trip_id, poi_id, name, category, lat, lng, sources, deleted_at)
+         VALUES ($1, $2, 'Idea', 'other', 1, 1, ARRAY['link'], CASE WHEN $3 THEN now() END)`,
+        [fixture.tripId, poiId, deleted],
+      );
+    }
     const region = await tx.query<{ id: string }>(
       'SELECT id FROM map_regions WHERE destination_id = $1',
       [dest],
@@ -66,6 +121,17 @@ beforeAll(async () => {
       active,
       closed,
       region: region.rows[0]!.id,
+      refs: {
+        imported,
+        stop,
+        hiddenStop,
+        mergedStop,
+        dayTripStop,
+        oldStop,
+        draftStop,
+        idea,
+        droppedIdea,
+      },
     };
   });
   destinationId = seeded.dest;
@@ -73,6 +139,7 @@ beforeAll(async () => {
   activePoiId = seeded.active;
   closedPoiId = seeded.closed;
   regionId = seeded.region;
+  refs = seeded.refs;
 }, 240_000);
 
 afterAll(async () => {
@@ -82,14 +149,40 @@ afterAll(async () => {
 describe('trip_pack stream', () => {
   const params = (): Record<string, string> => ({ trip_id: harness.fixture.tripId });
 
-  it.each(['member', 'organiser'] as const)(
-    "syncs the trip destination's visible editorial POIs and map region to %s",
-    async (actor) => {
-      const ids = idsByTable(await harness.rows('trip_pack', actor, params()));
-      expect(ids['pois']).toEqual([activePoiId, closedPoiId].sort());
-      expect(ids['map_regions']).toEqual([regionId]);
-    },
-  );
+  /** Distinct POI ids: a POI sent by two queries is one row on the phone, keyed by id. */
+  const poiIds = async (actor: 'member' | 'organiser'): Promise<string[]> => {
+    const rows = await harness.rows('trip_pack', actor, params());
+    return [...new Set(idsByTable(rows)['pois'])].sort();
+  };
+  const crewPlaces = (): string[] => [
+    activePoiId,
+    closedPoiId,
+    refs.stop,
+    refs.hiddenStop,
+    refs.mergedStop,
+    refs.dayTripStop,
+    refs.idea,
+  ];
+
+  it("syncs the destination's editorial POIs and every place the crew plan and ideas point at to a member", async () => {
+    expect(await poiIds('member')).toEqual(crewPlaces().sort());
+    const ids = idsByTable(await harness.rows('trip_pack', 'member', params()));
+    expect(ids['map_regions']).toEqual([regionId]);
+  });
+
+  it("adds an organiser-only draft's stops for an organiser", async () => {
+    expect(await poiIds('organiser')).toEqual([...crewPlaces(), refs.draftStop].sort());
+  });
+
+  it('leaves out superseded stops, removed ideas and open-data POIs nobody references', async () => {
+    for (const actor of ['member', 'organiser'] as const) {
+      const ids = await poiIds(actor);
+      expect(ids).not.toContain(refs.oldStop);
+      expect(ids).not.toContain(refs.droppedIdea);
+      expect(ids).not.toContain(refs.imported);
+    }
+    expect(await poiIds('member')).not.toContain(refs.draftStop);
+  });
 
   it.each(['outsider', 'exMember', 'anonymous'] as const)(
     'syncs zero rows to %s',

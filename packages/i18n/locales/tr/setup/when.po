@@ -27,6 +27,10 @@ msgstr ""
 msgid "setup.when.line.all"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.length"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
 msgstr ""
@@ -39,8 +43,8 @@ msgstr ""
 msgid "setup.when.option.pick"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.days"
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.lengthRange"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
@@ -71,12 +75,20 @@ msgstr ""
 msgid "setup.ask.privacy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipSome"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.partTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.windowPill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.picker.chipAll"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
@@ -87,12 +99,28 @@ msgstr ""
 msgid "setup.when.windowPillSolo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.tooLong"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
@@ -117,6 +145,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.clear"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
@@ -160,6 +192,10 @@ msgstr ""
 msgid "setup.when.cta.lock"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.ghostLock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.offline"
 msgstr ""
@@ -174,10 +210,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.pick.partial"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.nextMonth"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
@@ -196,14 +228,6 @@ msgstr ""
 msgid "setup.when.line.none"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.longer"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.shorter"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncedLine"
 msgstr ""
@@ -216,20 +240,16 @@ msgstr ""
 msgid "setup.ask.words"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.pickAnyway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOther"
+msgid "setup.when.pickOtherDays"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
-msgid "setup.when.prevMonth"
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.titleDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
@@ -238,6 +258,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.monthHint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
@@ -249,7 +273,7 @@ msgid "setup.when.own.syncing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.line"
+msgid "setup.when.picker.howTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
@@ -274,6 +298,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reasonSolo.seasonPeak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/month-pager.tsx
+msgid "setup.when.today"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx

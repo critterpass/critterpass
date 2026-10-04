@@ -6,3 +6,76 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.titleDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.checkDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.dayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasFit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.road"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.move.pickStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.nothingYet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.ok"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.see"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
+msgid "plan.allDays.preview.suggest"
+msgstr ""

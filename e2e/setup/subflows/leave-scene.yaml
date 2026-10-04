@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Leaves an open trip setup scene for the dev list, as scene.yaml does after its screenshot.
+# Android: the system back (the corner sits under the status bar there); iOS: the corner button.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# A scene with the keyboard up spends the first back on closing it.
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'setup-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      visible:
+        id: 'setup-scene-back'
+    commands:
+      - tapOn:
+          id: 'setup-scene-back'
+# A scene with a sheet up hides everything outside the sheet from iOS's accessibility tree, the
+# back control included; it still takes a tap where it sits (top right, under the status bar).
+# Nothing of the lab in the tree (no back control, no list row) means that sheet is up.
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'setup-scene-.*'
+    commands:
+      - tapOn:
+          point: 94%, 9%

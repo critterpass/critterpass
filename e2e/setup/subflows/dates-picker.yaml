@@ -1,0 +1,144 @@
+appId: app.critterpass.dev
+---
+# The dates step's picking, prefixed with the language (`${PREFIX}`): the designed 3c-3 and 3c-4
+# with the chosen week as a band, the day picker's states and the by-hand grid on each tool (as
+# lab scenes), then the picker and the grid used by hand. Days are tapped by their ids (April 2027
+# is the scenes' month); text is checked in English only.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-3-when }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-4-no-week-fits }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-week-picker }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-picker-range }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-picker-ghost }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-picker-too-long }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: calendar-manual-days }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: calendar-manual-days-maybe }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: calendar-manual-days-busy }
+# The picker by hand: a first tap shows the ghost and Lock takes it as it stands, a last tap
+# re-picks the end, a best-window chip takes its week, and Clear starts over.
+- runFlow:
+    file: open-scene.yaml
+    env: { SCENE: when-week-picker }
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- tapOn:
+    id: 'heat-pick-2027-04-16'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-ghost'
+    timeout: 5000
+- runFlow:
+    when:
+      true: ${PREFIX == 'en'}
+    commands:
+      - assertVisible:
+          id: 'picker-lock'
+          text: '(?i)lock apr 16\D.*'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-when-picker-first-tap
+- tapOn:
+    id: 'heat-pick-2027-04-19'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 5000
+- runFlow:
+    when:
+      true: ${PREFIX == 'en'}
+    commands:
+      - assertVisible:
+          id: 'picker-length'
+          text: '4 days .*'
+      - assertVisible:
+          id: 'picker-lock'
+          text: '(?i)lock apr 16\D.*'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-when-picker-picked
+- tapOn:
+    id: 'picker-best-0'
+- runFlow:
+    when:
+      true: ${PREFIX == 'en'}
+    commands:
+      - assertVisible:
+          id: 'picker-lock'
+          text: '(?i)lock apr 2\D.*'
+- tapOn:
+    id: 'picker-clear'
+- assertNotVisible:
+    id: 'picker-lock'
+- runFlow: leave-scene.yaml
+# Two months: the grid swipes to May.
+- runFlow:
+    file: open-scene.yaml
+    env: { SCENE: when-picker-too-long }
+- extendedWaitUntil:
+    visible:
+      id: 'picker-too-long'
+    timeout: 10000
+- assertNotVisible:
+    id: 'picker-lock'
+- swipe:
+    from:
+      id: 'picker-grid'
+    direction: LEFT
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'heat-pick-2027-05-10'
+    timeout: 5000
+- takeScreenshot: ${PREFIX}-when-picker-next-month
+- runFlow: leave-scene.yaml
+# Marking by hand: Busy paints a day, painting it again clears it, and the grid swipes a month on.
+- runFlow:
+    file: open-scene.yaml
+    env: { SCENE: calendar-manual-days }
+- extendedWaitUntil:
+    visible:
+      id: 'manual-days-grid'
+    timeout: 10000
+- tapOn:
+    id: 'manual-tool-busy'
+- tapOn:
+    id: 'manual-day-2026-10-14'
+- runFlow:
+    when:
+      true: ${PREFIX == 'en'}
+    commands:
+      - assertVisible: 'October 14, Busy'
+      - tapOn:
+          id: 'manual-day-2026-10-14'
+      - assertVisible: 'October 14, Not marked'
+      - tapOn:
+          id: 'manual-day-2026-10-14'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-calendar-manual-days-painted
+- swipe:
+    from:
+      id: 'manual-days-grid'
+    direction: LEFT
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'manual-day-2026-11-10'
+    timeout: 5000
+- runFlow: leave-scene.yaml

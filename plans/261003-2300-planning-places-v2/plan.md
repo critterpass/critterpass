@@ -34,7 +34,7 @@ critical_path_tasks: 35
 | 4 | [Fit engine, place signals and the plan check job](./phase-04-fit-engine-plan-analysis.md) | fit/gaps/check data | 7 | 2 | 2 | done |
 | 5 | [Planning UI kit, map layers and shared app data](./phase-05-planning-ui-kit-shared-data.md) | kit for all | 6 | 2 | 2 | done (#608) |
 | 6 | [Planning AI routes](./phase-06-planning-ai-routes.md) | 7d-2, 7d-3, 7e-1/7e-3 (routes) | 6 | 2 | 2 | done (#601, #606) |
-| 7 | [Add to plan, Ideas, placing them and the review](./phase-07-add-to-plan-ideas-review.md) | 7f-1, 7f-2, 7h-6, 7h-7 | 8 | 1, 3, 4, 5 | 3 | pending |
+| 7 | [Add to plan, Ideas, placing them and the review](./phase-07-add-to-plan-ideas-review.md) | 7f-1, 7f-2, 7h-6, 7h-7 | 8 | 1, 3, 4, 5 | 3 | done (#613, #622) |
 | 8 | [Place detail and crew can't agree](./phase-08-place-detail-crew-split.md) | 7e-1, 7e-2, 7e-3 | 9 | 1, 3, 4, 5, 6 | 3 | in review (#620) |
 | 9 | [Search, plain words, add from a link, and offline search](./phase-09-search-links-offline.md) | 7d-1…7d-4, 7i-2 | 10 | 1, 3, 4, 5, 6 | 3 | pending |
 | 10 | [Trip map, day plan, all days and the empty trip](./phase-10-trip-map-day-plan.md) | 7a-1…7a-3, 7b-1…7b-3, 7i-1 | 9 | 1, 3, 4, 5 | 3 | pending |
