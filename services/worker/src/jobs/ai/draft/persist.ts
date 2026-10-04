@@ -5,7 +5,7 @@
  * trip moves on to review; a trip no longer drafting (the organiser cancelled) saves nothing.
  */
 import type { DraftPlanInput, RepairOutcome } from '@cp/ai';
-import { writeBookedPlanItems } from '@cp/db';
+import { dropReplacedDraft, writeBookedPlanItems } from '@cp/db';
 import { closedOn, itineraryMetrics, mustDosKept } from '@cp/planner';
 import type {
   ClosureRecord,
@@ -157,6 +157,17 @@ export async function insertDays(
   }
 }
 
+async function isUntouchedEmptyPlan(tx: pg.PoolClient, versionId: string): Promise<boolean> {
+  const { rows } = await tx.query<{ untouched: boolean }>(
+    `SELECT v.origin = 'dates' AND NOT EXISTS (
+              SELECT 1 FROM plan_items i WHERE i.version_id = v.id AND i.booking_id IS NULL
+            ) AS untouched
+       FROM itinerary_versions v WHERE v.id = $1`,
+    [versionId],
+  );
+  return rows[0]?.untouched === true;
+}
+
 export type PersistOutcome = { readonly versionId: string; readonly created: boolean } | null;
 
 export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promise<PersistOutcome> {
@@ -172,13 +183,17 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   const trip = trips[0];
   if (trip === undefined || trip.status !== 'drafting') return null;
   const metrics = draftMetrics(save);
+  // The trip's days before any draft are an empty plan: one nobody put a stop on is not a draft
+  // worth keeping in the history, so the guide's draft takes its place rather than follows it.
+  const untouched =
+    trip.draft_version_id !== null && (await isUntouchedEmptyPlan(tx, trip.draft_version_id));
   const { rows } = await tx.query<{ id: string }>(
     `INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor, currency,
-       created_by_job_id, metrics, coverage)
-     VALUES ($1, $2, 'organiser', 'draft', $3, $4, $5, $6, $7) RETURNING id`,
+       created_by_job_id, metrics, coverage, origin)
+     VALUES ($1, $2, 'organiser', 'draft', $3, $4, $5, $6, $7, 'guide') RETURNING id`,
     [
       save.trip.tripId,
-      trip.draft_version_id,
+      untouched ? null : trip.draft_version_id,
       metrics.cost_pp_minor,
       metrics.currency,
       save.jobId,
@@ -200,6 +215,9 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
     save.trip.tripId,
     versionId,
   ]);
+  if (untouched && trip.draft_version_id !== null) {
+    await dropReplacedDraft(tx, trip.draft_version_id);
+  }
   return { versionId, created: true };
 }
 

@@ -9,6 +9,7 @@ describe('legsJobFor', () => {
   it.each([
     'draft.ready',
     'draft.version_restored',
+    'draft.ops_applied',
     'redraft.kept',
     'proposal.sent',
     'proposal.locked',

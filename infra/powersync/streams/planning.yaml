@@ -1,7 +1,7 @@
 # Planning and places streams (docs/data-model-sync-and-privacy.md §4). Ideas, stances, the plan
 # check and stored legs of crew versions ride the trip stream to the trip's crew (app.is_trip_member,
-# legs and issues also by app.is_version_visible); legs of an organiser-only version ride trip_draft
-# to organisers. A person's hidden places and the private asks they made or received ride their own
+# legs and issues also by app.is_version_visible); legs and check issues of an organiser-only
+# version ride trip_draft to organisers. A person's hidden places and the private asks they made or received ride their own
 # `me` stream: neither ever reaches the trip stream. Unsent change set drafts are filtered in
 # core.yaml; a guide's draft reaches organisers here. Legs and issues ride only the versions phones
 # read (core.yaml explains why a lookup over every version must not grow with each edit).
@@ -68,6 +68,13 @@ streams:
     queries:
       - |
         SELECT * FROM plan_legs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN live_drafts
+      # What the plan check found on the organiser's own draft, before the crew sees the plan.
+      - |
+        SELECT * FROM plan_check_issues
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
