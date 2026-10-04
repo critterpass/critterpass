@@ -3,7 +3,7 @@
  * (the push sender and the persona the guide's lines are written in) and zone, plus members' first
  * names and a short date range ("Apr 2–4").
  */
-import { GUIDE_SLUGS, type PersonaId } from '@cp/ai';
+import { isPersonaId, type PersonaId } from '@cp/ai';
 import type pg from 'pg';
 
 import type { NotificationSender } from '../notify/register';
@@ -59,7 +59,7 @@ export async function setupFacts(
     place: row.place ?? row.crew,
     tz: row.tz,
     guide,
-    persona: (GUIDE_SLUGS as readonly string[]).includes(slug) ? (slug as PersonaId) : 'guest',
+    persona: slug !== 'guest' && isPersonaId(slug) ? slug : 'guest',
   };
 }
 

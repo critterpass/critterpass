@@ -1,15 +1,33 @@
 /**
- * Persona pack shape (the live guides + the guest guide). Packs live in `packages/ai/personas/*.json`
- * as the repo fallback and, once approved through the content pipeline, in `persona_packs`
- * (style / lexicon / voice_settings jsonb). Keys are snake_case in both places.
+ * Persona pack shape. Every critter is the guide of its city, so a persona id is any guide slug
+ * (or `guest`). The guides with a written pack keep it in `packages/ai/personas/*.json` as the
+ * repo fallback and, once approved through the content pipeline, in `persona_packs`
+ * (style / lexicon / voice_settings jsonb); every other guide speaks from a pack built from its
+ * critter's facts (`./template`). Keys are snake_case in both places.
  */
+import { guideFactsBySlug } from '@cp/critter-art/guides';
 import { guideColourSchema, personaPackStatusSchema } from '@cp/domain';
 import { z } from 'zod';
 
+/** The guides with a pack written in this repo. */
 export const GUIDE_SLUGS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'] as const;
 export const PERSONA_IDS = [...GUIDE_SLUGS, 'guest'] as const;
-export const personaIdSchema = z.enum(PERSONA_IDS);
-export type PersonaId = z.infer<typeof personaIdSchema>;
+export type WrittenPersonaId = (typeof PERSONA_IDS)[number];
+/** A written pack's id, or the slug of any other critter's guide. */
+export type PersonaId = WrittenPersonaId | (string & {});
+
+export function isWrittenPersonaId(id: string): id is WrittenPersonaId {
+  return (PERSONA_IDS as readonly string[]).includes(id);
+}
+
+export function isPersonaId(slug: string): boolean {
+  return isWrittenPersonaId(slug) || guideFactsBySlug(slug) !== undefined;
+}
+
+/** Accepts the slug of any guide; a slug no critter folds to is refused. */
+export const personaIdSchema: z.ZodType<PersonaId> = z
+  .string()
+  .refine(isPersonaId, { message: 'not a guide' });
 
 export const CHATTINESS_LEVELS = ['quiet', 'normal', 'chatty'] as const;
 export const chattinessLevelSchema = z.enum(CHATTINESS_LEVELS);
@@ -63,6 +81,14 @@ export const personaPackSchema = z
         hedge: z.string().min(1),
       })
       .nullable(),
+    /**
+     * Set on a guide nobody has written for yet: it is its city's own guide, still learning the
+     * place, and frames what it shares with this hedge.
+     */
+    learning: z
+      .object({ hedge: z.string().min(1) })
+      .nullable()
+      .optional(),
   })
   .strict()
   .superRefine((pack, ctx) => {

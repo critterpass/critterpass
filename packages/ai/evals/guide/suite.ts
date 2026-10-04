@@ -10,7 +10,7 @@ import type Anthropic from '@anthropic-ai/sdk';
 import { createGateway, type Gateway, type GatewayInput } from '../../src/client';
 import { wrapAllUntrusted } from '../../src/context/wrap-untrusted';
 import { GatewayError } from '../../src/errors';
-import { REPO_PACKS } from '../../src/persona/loader';
+import { resolvePersonaPack } from '../../src/persona/resolve';
 import type { PersonaPack } from '../../src/persona/schema';
 import { resolveRoute } from '../../src/routing';
 import {
@@ -158,7 +158,7 @@ async function converse(
 
 export async function runGuideCase(vars: GuideVars, options: RunCaseOptions): Promise<EvalOutput> {
   const route = resolveRoute(vars.route);
-  const pack = REPO_PACKS[vars.persona ?? 'tokek'];
+  const pack = resolvePersonaPack(vars.persona ?? 'tokek');
   const live = options.mode === 'live' && vars.seeded !== true;
   const transports = transportsFor(vars, options, route.model);
   let captured: Record<string, unknown> | undefined;

@@ -7,7 +7,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 import {
   BRIEFING_FORMAT,
@@ -55,7 +55,7 @@ export interface BriefingPromptInput {
 export function buildBriefingRequest(input: BriefingPromptInput): GatewayInput {
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[input.guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(input.guide)) },
       { type: 'text', text: TASK },
     ],
     messages: [

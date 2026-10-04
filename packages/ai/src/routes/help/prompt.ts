@@ -10,7 +10,7 @@ import type { ChecklistStep, HelpProblem } from '@cp/domain';
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 
 export const HELP_CHECKLIST_ROUTE = 'help.checklist' as const;
@@ -87,7 +87,7 @@ export function buildHelpChecklistRequest(input: HelpChecklistPromptInput): Gate
   const system: GatewayInput['system'] = [
     ...(input.guide === null
       ? []
-      : [{ type: 'text' as const, text: renderPersonaBlock(REPO_PACKS[input.guide]) }]),
+      : [{ type: 'text' as const, text: renderPersonaBlock(resolvePersonaPack(input.guide)) }]),
     { type: 'text', text: TASK },
   ];
   return {
