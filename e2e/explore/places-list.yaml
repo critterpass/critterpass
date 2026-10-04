@@ -5,7 +5,8 @@ appId: app.critterpass.dev
 # Swiping a suggestion right saves it to Ideas (it moves to SAVED, NOT IN A DAY) and UNDO puts it
 # back; swiping left hides it and UNDO brings it back. The sort menu lists the orders and the hidden
 # places. MAP goes back with the same chip on.
-# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub → Explore Bali → all places.
+# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub →
+# PLAN (the trip map) → ≡ LIST.
 - runFlow: ../home/subflows/fresh-install.yaml
 - runFlow: ../home/subflows/onboard.yaml
 - runFlow:
@@ -19,25 +20,17 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub-header-.*'
     timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-explore'
-    direction: DOWN
-    timeout: 15000
+# PLAN opens the trip map; its ≡ LIST is the places list.
 - tapOn:
-    id: 'trip-hub-explore'
-# Explore in the trip lists "all places": the places list.
+    id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'explore-trip'
+      id: 'trip-map-list'
     timeout: 45000
-- scrollUntilVisible:
-    element:
-      id: 'explore-trip-all-places'
-    direction: DOWN
-    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
 - tapOn:
-    id: 'explore-trip-all-places'
+    id: 'trip-map-list'
 - extendedWaitUntil:
     visible:
       id: 'places-list'
