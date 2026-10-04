@@ -5,6 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
 
+import { goAirportLabel } from '@/features/go';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { alarmText } from '../../alarm/alarm-copy';
@@ -191,6 +192,7 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
       overrides={{
         now: AT_0440,
         leaveBy: airportLeaveBy(),
+        goDetail: goAirportLabel('Tân Sơn Nhất', 'SGN'),
         forecast: '26°',
         pack: [],
         timeline: DA_NANG_FIRST_DAY,

@@ -48,19 +48,20 @@ describe('what leads the day-of screen', () => {
     expect(dayRelation('2026-10-03', '2026-10-01')).toBe('other');
   });
 
-  it("sends GO to the leave-by's stop, else to today's next stop with a place", () => {
+  it("offers GO to the leave-by first, then to today's next stop with a place", () => {
     const TRIP = 'trip-1';
     const leaveBy = baturLeaveBy();
-    expect(dayOfGo(leaveBy, null, TRIP, true)).toEqual({ kind: 'leave_by', leaveById: leaveBy.id });
     const withPlace = [{ ...stop('18:00', 'Che bo'), poiId: 'poi-che' }];
     const lead = dayLead(withPlace, true, at('15:00'));
-    expect(dayOfGo(null, lead, TRIP, true)).toEqual({
-      kind: 'place',
-      poiId: 'poi-che',
-      tripId: TRIP,
+    expect(dayOfGo(leaveBy, lead, TRIP, true)).toEqual({
+      leaveBy: { kind: 'leave_by', leaveById: leaveBy.id },
+      stop: { kind: 'place', poiId: 'poi-che', tripId: TRIP },
     });
-    expect(dayOfGo(null, dayLead(DAY, true, at('15:00')), TRIP, true)).toBeNull();
-    expect(dayOfGo(null, dayLead(withPlace, true, at('21:00')), TRIP, true)).toBeNull();
-    expect(dayOfGo(leaveBy, lead, TRIP, false)).toBeNull();
+    expect(dayOfGo(null, dayLead(DAY, true, at('15:00')), TRIP, true)).toEqual({
+      leaveBy: null,
+      stop: null,
+    });
+    expect(dayOfGo(null, dayLead(withPlace, true, at('21:00')), TRIP, true).stop).toBeNull();
+    expect(dayOfGo(leaveBy, lead, TRIP, false)).toEqual({ leaveBy: null, stop: null });
   });
 });

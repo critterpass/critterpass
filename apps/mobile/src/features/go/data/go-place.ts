@@ -27,10 +27,14 @@ export interface GoPlace {
   readonly lng: number;
   readonly tripId: string | null;
   readonly destinationSlug: string | null;
+  /** Set when the place is an airport: the button names it ("Đà Nẵng airport (DAD)"). */
+  readonly airport?: { readonly iata: string; readonly city: string } | undefined;
 }
 
 export interface AirportPoint {
+  readonly iata: string;
   readonly name: string;
+  readonly city: string;
   readonly lat: number;
   readonly lng: number;
 }
@@ -118,7 +122,15 @@ function placeOf(row: PlaceRow, tripId: string | null, airportAt: AirportLookup)
   }
   const airport = row.dep_airport ? airportAt(row.dep_airport) : null;
   if (airport === null) return null;
-  return { poiId: null, ...airport, tripId, destinationSlug: row.trip_slug ?? null };
+  return {
+    poiId: null,
+    name: airport.name,
+    lat: airport.lat,
+    lng: airport.lng,
+    tripId,
+    destinationSlug: row.trip_slug ?? null,
+    airport: { iata: airport.iata, city: airport.city },
+  };
 }
 
 export async function loadGoPlace(
