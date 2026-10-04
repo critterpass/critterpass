@@ -5,9 +5,9 @@
  * votes, approvals, RSVP follow-ups, payments); an unknown kind still gets a readable row.
  */
 import type { I18n, MessageDescriptor } from '@lingui/core';
-import { msg } from '@lingui/core/macro';
+import { msg, plural } from '@lingui/core/macro';
 
-import { INBOX_KIND, type InboxAction } from '@cp/domain';
+import { IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import type { CardTone } from '@/ui/cards/tone';
 import type { DoodleName } from '@/ui/icons/generated';
@@ -96,9 +96,27 @@ function nudgeAbout(reason: string, ctx: InboxRenderContext): string {
   }
 }
 
+function placedLine(item: InboxItem, ctx: InboxRenderContext): string {
+  const guide = guideName(item);
+  const count = Number(item.data['count'] ?? 0);
+  return say(
+    ctx,
+    msg({
+      id: 'home.inbox.ideasPlaced.title',
+      message: plural(count, {
+        one: `${guide} found a spot for # idea`,
+        other: `${guide} found a spot for # ideas`,
+      }),
+    }),
+  );
+}
+
 let registered = false;
 
-/** Home's own kinds: crewmates joining, invite opens, nudges, the guide's changes, fare drops. */
+/**
+ * Home's own kinds: crewmates joining, invite opens, nudges, the guide's changes and placed
+ * ideas, fare drops.
+ */
 export function registerHomeInboxRenderers(): void {
   if (registered) return;
   registered = true;
@@ -153,6 +171,23 @@ export function registerHomeInboxRenderers(): void {
         : say(ctx, msg({ id: 'home.inbox.guideDid', message: `${guide} ${summary}` }));
     },
     actionLabel: (_action, _item, ctx) => say(ctx, msg({ id: 'home.inbox.undo', message: 'Undo' })),
+  });
+
+  // The guide finished placing the reader's ideas: their review waits until it is sent or applied.
+  registerInboxRenderer(IDEAS_INBOX_KIND.placed, {
+    card: (item, ctx) => ({
+      title: placedLine(item, ctx),
+      body: say(
+        ctx,
+        msg({
+          id: 'home.inbox.ideasPlaced.body',
+          message: 'Look them over before they go in the plan.',
+        }),
+      ),
+    }),
+    line: placedLine,
+    actionLabel: (_action, _item, ctx) =>
+      say(ctx, msg({ id: 'home.inbox.ideasPlaced.open', message: 'Review' })),
   });
 
   registerInboxRenderer(INBOX_KIND.tipPriceDrop, {

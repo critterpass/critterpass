@@ -34,6 +34,7 @@ import { ChatHeader } from './chat-header';
 import { ChatComposer, FormerMemberBar, type ChatComposerHandle } from './composer';
 import { dayKey } from './timeline-rows';
 import { buildTimelineRows } from './timeline-rows';
+import { ChatStart } from './chat-start';
 import { EmptyChat, guideIdOf } from './empty-chat';
 import type { MentionCandidate } from './mention-picker';
 import { MessageList } from './message-list';
@@ -189,6 +190,11 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
                 rows={rows}
                 today={today}
                 renderMessage={renderMessage}
+                header={
+                  timeline.hasOlder ? null : (
+                    <ChatStart guideSlug={info.guide?.slug ?? null} crewName={info.crewName} />
+                  )
+                }
                 footer={
                   <>
                     {mediaControls.uploads}
