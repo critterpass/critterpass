@@ -40,6 +40,10 @@ export const itineraryVersions = pgTable('itinerary_versions', {
   metrics: jsonb('metrics'),
   /** Must-dos made, flags, closures, stays and named places (`draftCoverageSchema`). */
   coverage: jsonb('coverage'),
+  /** What made the version: `dates` (the empty plan), `hand`, `guide` or `restore`. */
+  origin: text('origin'),
+  /** When the plan check last ran on this organiser-only draft. */
+  checkedAt: timestamp('checked_at', { withTimezone: true, mode: 'date' }),
 });
 
 export const planDays = pgTable('plan_days', {
