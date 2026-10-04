@@ -6,3 +6,151 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.inView"
+msgstr "{count, plural, other {# địa điểm trong khung nhìn}}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.two"
+msgstr "{first} + {second}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.names.more"
+msgstr "{first}, {second} + {more}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.suggested"
+msgstr "{guide} gợi ý"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.fromStay"
+msgstr "{kind} · cách {stayName} {minutes} phút"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.minutesOn"
+msgstr "{kind} · thêm {minutes} phút"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.carousel.count"
+msgstr "{position} / {count} trong khung nhìn · gần nhất trước"
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.list"
+msgstr "≡ Danh sách"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.map"
+msgstr "◎ Bản đồ"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.add"
+msgstr "Thêm {name} vào lịch trình"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.all"
+msgstr "Tất cả"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.beaches"
+msgstr "Bãi biển"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.trip"
+msgstr "Lớn nhất trước: hợp với ngày của bạn"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.destination"
+msgstr "Lớn nhất trước: những gì nhóm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.closedToday"
+msgstr "Hôm nay đóng cửa"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.loading"
+msgstr "Đang tải địa điểm"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.plan"
+msgstr "Trong lịch trình"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.inPlan"
+msgstr "Trong lịch trình · ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.museums"
+msgstr "Bảo tàng"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nature"
+msgstr "Thiên nhiên"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.card.nextDoor"
+msgstr "Ngay cạnh"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.nightlife"
+msgstr "Về đêm"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.none"
+msgstr "Không có địa điểm trong khung nhìn"
+
+#: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
+msgid "places.card.openToday"
+msgstr "Mở cửa {from}–{to}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.chip.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.label.savedBy"
+msgstr "{who} đã lưu"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.search"
+msgstr "Tìm ở {place}, hoặc hỏi {guide}"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.shopping"
+msgstr "Mua sắm"
+
+#: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.showList"
+msgstr "Xem dạng danh sách"
+
+#: ../../apps/mobile/src/features/explore/places/places-header.tsx
+msgid "places.showMap"
+msgstr "Xem bản đồ"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.temples"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.group.wellness"
+msgstr "Thư giãn"
+
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.noneHint"
+msgstr "Thu nhỏ bản đồ hoặc chọn bộ lọc khác."

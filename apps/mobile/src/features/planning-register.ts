@@ -15,5 +15,6 @@ import './plan/hub/register';
 import './explore/place-detail/register';
 import './explore/split/register';
 import '@/features/explore/search/register';
+import './explore/places/register';
 
 startPlanningSwitchFeed();
