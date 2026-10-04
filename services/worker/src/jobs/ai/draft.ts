@@ -12,7 +12,6 @@ import {
   createTavilySearch,
   gatewayModel,
   recordUsage,
-  writeDraftSummary,
   type AssertRouteOn,
   type Gateway,
   type Telemetry,
@@ -28,6 +27,7 @@ import type pg from 'pg';
 
 import { defineAgentJob, type AgentJobDefinition } from '../../ai/job-runner';
 import type { AnyJobDefinition } from '../../boss';
+import type { PlacePickDeps } from '../../places/pick/run';
 import { webClosureCheck } from './draft/closures';
 import { registerDraftPushes } from './draft/pushes';
 import { daysStage } from './draft/fan-out';
@@ -39,7 +39,8 @@ import {
   prefetched,
   type DraftModelFactory,
 } from './draft/job-context';
-import { persistDraft, allMustDosMade, type DraftToSave } from './draft/persist';
+import { persistDraft, type DraftToSave } from './draft/persist';
+import { draftSummary, ensurePlacePicks } from './draft/place-picks';
 import { noClosureCheck, prefetch, type ClosureCheck } from './draft/prefetch';
 import { outlineStage } from './draft/skeleton';
 import {
@@ -61,6 +62,7 @@ export interface DraftJobDeps {
   readonly model?: DraftModelFactory | undefined;
   readonly closures?: ClosureCheck;
   readonly slots?: SlotCheck;
+  readonly placePicks?: PlacePickDeps | undefined;
 }
 
 export function gatewayDraftModel(gateway: Pick<Gateway, 'callModel'>) {
@@ -81,6 +83,8 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         run: async (ctx) => {
           await hint(ctx, 'read_profiles', 'running');
           const { trip } = await load(ctx);
+          // A destination without a curated set is drafted from its picks: make them first.
+          await ensurePlacePicks(ctx.pool, deps.placePicks, trip.destinationId, ctx.logger);
           const label = readProfilesLabel(trip);
           await hint(ctx, 'read_profiles', 'done', label);
           return { label, crew_id: trip.crewId, members: trip.members.length };
@@ -190,13 +194,8 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             closures: prefetched(ctx),
             slotAvailable: await slots(trip, checked.itinerary, input),
           };
-          const summary = await writeDraftSummary(modelFor(deps.model, ctx), {
-            guide: input.guide,
-            destination: trip.destination.split(',')[0] ?? trip.destination,
-            themes: checked.itinerary.days.map((d) => d.theme),
-            allMustDos: allMustDosMade(save),
-            names: [...input.pois.values()].map((p) => p.name),
-          });
+          const themes = checked.itinerary.days.map((d) => d.theme);
+          const summary = await draftSummary(modelFor(deps.model, ctx), save, themes, ctx.logger);
           const saved = await withSystem(ctx.pool, async (tx) => {
             const outcome = await persistDraft(tx, save);
             if (outcome !== null) {
@@ -257,6 +256,7 @@ export interface DraftJobsDeps {
   readonly assertRouteOn: AssertRouteOn;
   readonly telemetry?: Telemetry | undefined;
   readonly closures?: ClosureCheck;
+  readonly placePicks?: PlacePickDeps | undefined;
 }
 
 /**
@@ -283,7 +283,11 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
       ? undefined
       : webClosureCheck({ search: createTavilySearch({ apiKey: env.TAVILY_API_KEY }), gateway }));
   return [
-    draftJob({ model, ...(closures === undefined ? {} : { closures }) }),
+    draftJob({
+      model,
+      placePicks: deps.placePicks,
+      ...(closures === undefined ? {} : { closures }),
+    }),
     redraftJob({ model }),
   ];
 }

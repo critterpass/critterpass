@@ -74,6 +74,10 @@ export const pois = pgTable('pois', {
   fts: tsvector('fts'),
   status: text('status').notNull().default('active'),
   curation: text('curation').notNull().default('auto'),
+  /** Machine pick order in a destination without a curated set (1 = first); null = not picked. */
+  pickRank: integer('pick_rank'),
+  /** How it was picked: `named` (a well-known place the model named) or `fill` (open-data quality). */
+  pickSource: text('pick_source'),
   mergedIntoId: uuid('merged_into_id'),
   geofence: geographyPolygon('geofence'),
   visitRadiusM: integer('visit_radius_m'),
@@ -169,6 +173,8 @@ export const llmPois = llm.table('pois', {
   curation: text('curation').notNull(),
   mustSee: boolean('must_see').notNull(),
   whyGo: text('why_go'),
+  /** The machine pick order (see `pois.pick_rank`). */
+  pickRank: integer('pick_rank'),
 });
 
 registerTablePrivacy('pois', { class: 'C0' });

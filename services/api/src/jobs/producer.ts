@@ -53,7 +53,11 @@ import { enqueueCountdownRecompute } from '../commands/home';
 import { enqueueGuideMention } from '../commands/guide/mention';
 import { enqueueInboxFanout } from '../commands/inbox';
 import { queueSetupRecomputes } from '../commands/setup/membership-hook';
-import { onDemandIngestHook, PLACES_INGEST_QUEUE } from '../places/on-demand-ingest';
+import {
+  onDemandIngestHook,
+  PLACES_INGEST_QUEUE,
+  PLACES_PICK_QUEUE,
+} from '../places/on-demand-ingest';
 
 /** Queues api commands send to: created here if the worker hasn't yet, so any deploy order works. */
 export const PRODUCER_QUEUES: readonly string[] = [
@@ -89,6 +93,7 @@ export const PRODUCER_QUEUES: readonly string[] = [
   SUPPLIER_QUEUES.replyParse,
   DISRUPTION_QUEUES.react,
   PLACES_INGEST_QUEUE,
+  PLACES_PICK_QUEUE,
   PLANNING_QUEUES.legs,
   PLANNING_QUEUES.check,
 ];
@@ -170,6 +175,7 @@ export function routeNotificationsFromApiEvents(): void {
   onEventAppended(enqueueCountdownRecompute);
   onEventAppended(queueSetupRecomputes);
   onEventAppended(enqueueGuideMention);
-  // A pitch or a trip in a destination with few places queues that destination's ingest.
+  // A pitch or a trip in a destination with few places queues that destination's ingest; one
+  // with places but nothing recommended yet queues its picks.
   onEventAppended(onDemandIngestHook);
 }
