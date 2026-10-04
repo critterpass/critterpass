@@ -1,0 +1,122 @@
+name: map regions
+
+# Builds one destination's region pack (the detailed PMTiles a map draws over the world tiles) with
+# planetiler on this runner instead of any laptop: the Geofabrik extract and planetiler's own
+# sources are well over a gigabyte. The pack is always kept as a workflow artifact. A dispatched
+# run also publishes it on the cp-tiles bucket over R2's S3 API (an Object Read & Write token works
+# there only), as `<slug>/tiles-v<n>.pmtiles` under the first version that is not taken: nothing on
+# the bucket is ever replaced or deleted. The worker's `places.map_region_register` job then finds
+# the file at its public address and writes the destination's `map_regions` row, so no database
+# credential lives here. Without the two R2_TILES_* secrets the publish step is skipped and says
+# so; the pack can still be put up from a laptop (docs/runbooks/add-a-destination.md). Pull
+# requests that touch the build make the two smallest packs as a check and publish nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      destination:
+        description: destination slug (destinations.slug)
+        required: true
+      bounds:
+        description: minLon,minLat,maxLon,maxLat (empty = the box in tools/maps/destinations.ts)
+        default: ''
+      geofabrik_region:
+        description: Geofabrik path such as asia/vietnam (empty = the one in tools/maps/destinations.ts)
+        default: ''
+      publish:
+        description: publish the pack on the cp-tiles bucket
+        type: boolean
+        default: true
+  pull_request:
+    paths:
+      - tools/maps/build-pmtiles.ts
+      - tools/maps/destinations.ts
+      - .github/workflows/map-regions.yml
+
+concurrency:
+  group: map-regions-${{ github.event_name == 'pull_request' && github.head_ref || inputs.destination }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        destination: ${{ github.event_name == 'pull_request' && fromJSON('["vn-da-lat","vn-hoi-an"]') || fromJSON(format('["{0}"]', inputs.destination)) }}
+    env:
+      DESTINATION: ${{ matrix.destination }}
+      BOUNDS: ${{ inputs.bounds }}
+      GEOFABRIK_REGION: ${{ inputs.geofabrik_region }}
+      TILES_BUCKET: cp-tiles
+      TILES_PUBLIC_BASE_URL: https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev
+      PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.publish }}
+      HAS_R2_TOKEN: ${{ secrets.R2_TILES_ACCESS_KEY_ID != '' && secrets.R2_TILES_SECRET_ACCESS_KEY != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 21 }
+      - run: pnpm install --frozen-lockfile --filter @cp/maps...
+      - name: Build the pack
+        run: |
+          case "$DESTINATION" in *[!a-z0-9-]* | '') echo "not a destination slug: $DESTINATION" >&2; exit 1 ;; esac
+          args=(--destination "$DESTINATION" --out "$RUNNER_TEMP/pack/$DESTINATION.pmtiles")
+          if [ -n "$BOUNDS" ] && [ -n "$GEOFABRIK_REGION" ]; then
+            args+=(--bounds "$BOUNDS" --geofabrik-region "$GEOFABRIK_REGION")
+          fi
+          pnpm --filter @cp/maps build:pmtiles "${args[@]}"
+          test -s "$RUNNER_TEMP/pack/$DESTINATION.pmtiles"
+          {
+            echo "$DESTINATION: $(stat -c %s "$RUNNER_TEMP/pack/$DESTINATION.pmtiles") bytes"
+            echo "sha256: $(sha256sum "$RUNNER_TEMP/pack/$DESTINATION.pmtiles" | cut -d' ' -f1)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: region-pack-${{ matrix.destination }}
+          path: ${{ runner.temp }}/pack/${{ matrix.destination }}.pmtiles
+          compression-level: 0
+          retention-days: 14
+      - name: Publishing is off
+        if: env.PUBLISH == 'true' && env.HAS_R2_TOKEN != 'true'
+        run: |
+          echo "Not published: the R2_TILES_ACCESS_KEY_ID and R2_TILES_SECRET_ACCESS_KEY secrets are not set. The pack is in the region-pack-$DESTINATION artifact." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish on the tiles bucket
+        if: env.PUBLISH == 'true' && env.HAS_R2_TOKEN == 'true'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_TILES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_TILES_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          AWS_ENDPOINT_URL: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          # R2 does not take the checksum trailers aws cli v2 sends by default.
+          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+        run: |
+          pack="$RUNNER_TEMP/pack/$DESTINATION.pmtiles"
+          size=$(stat -c %s "$pack")
+          # The first version nobody has published: a 404 at its public address.
+          key=''
+          for n in $(seq 1 50); do
+            candidate="$DESTINATION/tiles-v$n.pmtiles"
+            code=$(curl -s -o /dev/null -I -w '%{http_code}' --max-time 20 "$TILES_PUBLIC_BASE_URL/$candidate")
+            if [ "$code" = 404 ]; then key="$candidate"; break; fi
+            if [ "$code" != 200 ]; then echo "cannot tell whether $candidate exists (HTTP $code)" >&2; exit 1; fi
+          done
+          if [ -z "$key" ]; then echo "no free version for $DESTINATION" >&2; exit 1; fi
+          # If-None-Match makes the bucket itself refuse to replace an object that is there.
+          aws s3api put-object --bucket "$TILES_BUCKET" --key "$key" --body "$pack" \
+            --content-type application/octet-stream --if-none-match '*' > /dev/null
+          published=''
+          for _ in $(seq 1 12); do
+            published=$(curl -s -I --max-time 20 "$TILES_PUBLIC_BASE_URL/$key" | tr -d '\r' | awk 'tolower($1) == "content-length:" { print $2 }')
+            [ "$published" = "$size" ] && break
+            sleep 5
+          done
+          if [ "$published" != "$size" ]; then echo "$key is not served with $size bytes (got '$published')" >&2; exit 1; fi
+          echo "Published $TILES_PUBLIC_BASE_URL/$key ($size bytes). The worker registers it for the app within the hour." | tee -a "$GITHUB_STEP_SUMMARY"

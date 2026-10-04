@@ -213,27 +213,59 @@ The api serves the published release only.
   The batch waits in `blocked` until a person verifies each new record against its source. Check
   that the positions match the facility; the model places pins from the address.
 
-## 6. Offline region pack
+## 6. Region pack
 
-1. Add the extract to `tools/maps/destinations.ts` (Geofabrik region and the bounds).
-2. Build it. This needs Java 21. Check `df -h /` first: the downloads alone (the country
-   extract, water polygons and Natural Earth) take about 1.6 GB, and the temp work is deleted
-   afterwards. With less than about 4 GB free, keep planetiler's temporary storage in memory. Đà
-   Nẵng was built that way in 6 minutes into a 5.7 MB pack of 502 tiles, z0–14:
+A destination's detailed map tiles (`<slug>/tiles-v<n>.pmtiles` on the `cp-tiles` bucket, plus a
+`map_regions` row). Without one the app still draws the destination's maps, on the world tiles
+alone, and says a detailed map is on its way. To see which destinations people are planning trips
+to that have no pack yet (read-only):
+
+```sh
+railway run --service api --environment staging -- pnpm --dir <worktree>/tools/maps \
+  missing:regions
+```
+
+1. Choose the box. Start from the place's own box (`destinations.place_bounds`, printed by
+   `missing:regions`) and widen it to the day trips people make from the town: Đà Lạt's pack
+   reaches Lang Biang, Liên Khương airport and the falls. Record it in
+   `tools/maps/destinations.ts` (a guest place goes in `GUEST_PLACE_EXTRACTS`) with its Geofabrik
+   region. A town-sized box makes a pack of a few megabytes; Bali and Iceland are about 40 MB.
+2. Build and publish it on a GitHub runner (about 4 minutes for a Vietnamese town):
+
+   ```sh
+   gh workflow run map-regions.yml -f destination=vn-da-lat
+   # a place with no entry in destinations.ts yet:
+   gh workflow run map-regions.yml -f destination=<slug> -f bounds=<minLon,minLat,maxLon,maxLat> \
+     -f geofabrik_region=<asia/vietnam>
+   ```
+
+   The run keeps the pack as the `region-pack-<slug>` artifact and, when the `R2_TILES_ACCESS_KEY_ID`
+   and `R2_TILES_SECRET_ACCESS_KEY` repository secrets are set (an R2 token with Object Read &
+   Write on `cp-tiles` only), puts it on the bucket under the first free version. It never
+   replaces or deletes an object: a rebuilt pack becomes `tiles-v2`, and so on. The worker's
+   `places.map_region_register` job (three times an hour) finds the file at its public address and
+   writes the `map_regions` row; nothing else is needed.
+3. Without those secrets, or to publish from a laptop: download the artifact into
+   `tools/maps/.output/` and upload it. This needs `wrangler` logged in; with `DATABASE_DIRECT_URL`
+   it also writes the row at once. A version that is already published is refused.
+
+   ```sh
+   gh run download <run id> -n region-pack-<slug> -D <worktree>/tools/maps/.output
+   railway run --service api --environment staging -- pnpm --dir <worktree>/tools/maps \
+     upload:r2 --destination <slug>
+   ```
+
+4. Building on a laptop is the last resort: it needs Java 21 and downloads about 1.6 GB (the
+   country extract, water polygons and Natural Earth) from hosts that can be very slow from
+   Vietnam. Check `df -h /` first; the temp work is deleted afterwards. With less than about 4 GB
+   free, keep planetiler's temporary storage in memory. Đà Nẵng was built that way in 6 minutes
+   into a 5.7 MB pack of 502 tiles, z0–14:
 
    ```sh
    cd <worktree>/tools/maps
    PLANETILER_JAVA=/opt/homebrew/opt/openjdk@21/bin/java \
    PLANETILER_EXTRA_ARGS="--storage=ram --nodemap_storage=ram --free_water_polygons_after_read=true --free_natural_earth_after_read=true --free_lake_centerlines_after_read=true --free_osm_after_read=true" \
      pnpm build:pmtiles --destination da-nang --max-heap-mb 4096
-   ```
-
-3. Upload to R2 and register the `map_regions` row. This needs `wrangler` logged in and
-   `DATABASE_DIRECT_URL`:
-
-   ```sh
-   railway run --service api --environment staging -- pnpm --dir <worktree>/tools/maps \
-     upload:r2 --destination da-nang
    ```
 
 ## 7. Guide content
