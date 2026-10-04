@@ -42,7 +42,7 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'space-between',
     gap: th.space['12'],
   },
-  toggle: { width: 160 },
+  toggle: { flexShrink: 0 },
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
   more: {
     flexDirection: 'row',
@@ -55,7 +55,8 @@ const useStyles = makeStyles((th) => ({
 export function PlainResults(props: PlainResultsProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const count = props.rows.length;
+  // Every place found, the louder or further ones included ("6 PLACES" over three rows and "3 more").
+  const count = props.rows.length + (props.showingSoftMisses ? 0 : props.softMisses);
   if (props.loading && count === 0) return <Skeleton preset="list" repeat={3} />;
   const softMisses = props.softMisses;
   return (

@@ -11,6 +11,8 @@ import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
+import { weekdayOfDate } from './weekday-names';
+
 export type SearchScope = 'map' | 'day' | 'place' | 'explore';
 
 export interface SearchDay {
@@ -45,13 +47,6 @@ function guideOf(slug: string | null | undefined): GuideId {
     : 'tokek';
 }
 
-export function weekdayOf(date: string | null, locale: string): string | null {
-  if (date === null) return null;
-  const at = new Date(`${date}T00:00:00Z`);
-  if (Number.isNaN(at.getTime())) return null;
-  return at.toLocaleDateString(locale, { weekday: 'short', timeZone: 'UTC' });
-}
-
 export function useSearchTrip(tripId: string): SearchTrip {
   const plan = useTripPlan(tripId);
   const { i18n } = useLingui();
@@ -65,8 +60,10 @@ export function useSearchTrip(tripId: string): SearchTrip {
           id: day.id,
           dayNo: day.day_no,
           date: day.date,
-          weekday: weekdayOf(day.date, locale),
+          weekday: weekdayOfDate(day.date),
         })),
+    // `locale`: the weekday names are worded again when the app's language changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [plan.dayRows, locale],
   );
   const itemTitles = useMemo(

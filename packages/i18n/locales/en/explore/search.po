@@ -256,6 +256,10 @@ msgstr "For day {no}"
 msgid "search.scope.day"
 msgstr "For day {no} · {weekday}"
 
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.fri"
+msgstr "Fri"
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.from.link"
 msgstr "From a link"
@@ -363,6 +367,10 @@ msgstr "Map"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.market"
 msgstr "Markets"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.mon"
+msgstr "Mon"
 
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.eyebrow"
@@ -484,6 +492,10 @@ msgstr "Reading it…"
 msgid "search.chip.remove"
 msgstr "Remove {label}"
 
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sat"
+msgstr "Sat"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
 msgstr "Saturday"
@@ -544,6 +556,10 @@ msgstr "Spa"
 msgid "search.chip.category.health"
 msgstr "Spa and wellness"
 
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.sun"
+msgstr "Sun"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.sunset"
 msgstr "Sunset"
@@ -580,6 +596,10 @@ msgstr "The plan"
 msgid "search.link.error.private"
 msgstr "This post is private or gone."
 
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.thu"
+msgstr "Thu"
+
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.related"
 msgstr "Try {term} instead"
@@ -587,6 +607,10 @@ msgstr "Try {term} instead"
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.retry"
 msgstr "Try again"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.tue"
+msgstr "Tue"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.price"
@@ -599,6 +623,10 @@ msgstr "Vegetarian"
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.waterfalls"
 msgstr "Waterfalls"
+
+#: ../../apps/mobile/src/features/explore/search/weekday-names.ts
+msgid "search.weekday.wed"
+msgstr "Wed"
 
 #: ../../apps/mobile/src/features/explore/search/drop-pin-sheet.tsx
 msgid "search.pin.name"

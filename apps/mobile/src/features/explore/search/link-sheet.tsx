@@ -16,6 +16,7 @@ import { Skeleton } from '@/ui/states/Skeleton';
 
 import { fromWhere, guideReadLine, stopLine } from './link-copy';
 import type { LinkImportState } from './link-import-model';
+import { GuideSticker } from './guide-sticker';
 import { MatchRow } from './match-row';
 
 const PLAY = '▶';
@@ -70,7 +71,7 @@ export function LinkSheet(props: LinkSheetProps) {
   const day = props.dayLabel ?? '';
   return (
     <Sheet
-      title={title}
+      header={<Text variant="eyebrow">{title}</Text>}
       onDismiss={props.onClose}
       accessibilityLabel={title}
       testID="search-link-sheet"
@@ -141,7 +142,12 @@ export function LinkSheet(props: LinkSheetProps) {
           </View>
         )}
         {props.tip === null ? null : (
-          <GuideLine guide={props.guide} name={props.guideName} line={props.tip} />
+          <GuideLine
+            guide={props.guide}
+            name={props.guideName}
+            line={props.tip}
+            sticker={<GuideSticker guide={props.guide} />}
+          />
         )}
         <View style={styles.actions}>
           {chosen === 0 ? null : (

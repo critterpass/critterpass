@@ -24,7 +24,7 @@ import { SearchView } from '../search-view';
 import { plainExamples, TypedExamples } from '../typed-examples';
 import { WorksOfflineChips } from '../works-offline-chips';
 import { plainRows } from '../plain-section';
-import { BALI_DAYS, header, LAB_SEARCH_TRIP, LAB_TRIP, SAYAN_PLACES, WED } from './search-fixtures';
+import { baliDays, header, labSearchTrip, LAB_TRIP, SAYAN_PLACES, WED } from './search-fixtures';
 
 const noop = () => undefined;
 
@@ -111,7 +111,7 @@ function PlainScene() {
   const note = notWed
     ? excludeLine(
         { code: 'day_has_meal', params: { day_ids: [WED], stable_id: LAB_TRIP.locavore } },
-        BALI_DAYS,
+        baliDays(),
         new Map([[LAB_TRIP.locavore, 'Locavore']]),
       )
     : null;
@@ -119,7 +119,7 @@ function PlainScene() {
     <SearchView header={header('quiet dinner near the villa, open late')} scope={null}>
       <ChipBlock
         chips={chips}
-        words={{ days: BALI_DAYS, placeName: () => null }}
+        words={{ days: baliDays(), placeName: () => null }}
         note={note}
         guide="tokek"
         guideName="Tokek"
@@ -128,7 +128,7 @@ function PlainScene() {
       <PlainResults
         rows={plainRows(
           notWed ? SAYAN_PLACES : [...SAYAN_PLACES.slice(0, 1), ...SAYAN_PLACES.slice(1).reverse()],
-          LAB_SEARCH_TRIP,
+          labSearchTrip(),
         )}
         loading={false}
         softMisses={3}

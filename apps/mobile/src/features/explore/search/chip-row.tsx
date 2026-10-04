@@ -12,6 +12,7 @@ import { makeStyles, Text, useTheme } from '@/ui';
 import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 
+import { GuideSticker } from './guide-sticker';
 import { chipKey } from './plain-filters';
 import type { SearchDay } from './use-search-trip';
 
@@ -228,7 +229,14 @@ export function ChipBlock({ chips, words, note, guide, guideName, onRemove }: Ch
           );
         })}
       </View>
-      {note === null ? null : <GuideLine guide={guide} name={guideName} line={note} />}
+      {note === null ? null : (
+        <GuideLine
+          guide={guide}
+          name={guideName}
+          line={note}
+          sticker={<GuideSticker guide={guide} />}
+        />
+      )}
     </View>
   );
 }

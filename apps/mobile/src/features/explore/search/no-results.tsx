@@ -15,6 +15,7 @@ import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 
+import { GuideSticker } from './guide-sticker';
 import type { PlainAnswer, WayOut } from './plain-filters';
 
 const CHEVRON = '›';
@@ -154,7 +155,7 @@ export function NoResults(props: NoResultsProps) {
                 ]}
               >
                 <View style={styles.rowBody}>
-                  <Text variant="rowTitle">{words.title}</Text>
+                  <Text variant="title">{words.title}</Text>
                   <Text variant="bodySm" color={theme.semantic.text.secondary}>
                     {words.line}
                   </Text>
@@ -176,6 +177,7 @@ export function NoResults(props: NoResultsProps) {
               id: 'search.none.askLine',
               message: 'Or ask me. I’ll dig into it with you.',
             })}
+            sticker={<GuideSticker guide={props.guide} />}
           />
         </View>
         <PillButton

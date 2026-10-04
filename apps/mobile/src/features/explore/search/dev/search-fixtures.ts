@@ -5,18 +5,24 @@ import type { PlaceFit } from '@cp/domain';
 
 import type { PlainPlace } from '../plain-filters';
 import type { SearchDay, SearchTrip } from '../use-search-trip';
+import { weekdayOfDate } from '../weekday-names';
 
 export const WED = '0199a3f0-0000-7000-8000-00000000da03';
 
 export const LAB_TRIP = { locavore: '0199a3f0-0000-7000-8000-00000000c0ca' };
 
-export const BALI_DAYS: readonly SearchDay[] = [
-  { id: '0199a3f0-0000-7000-8000-00000000da01', dayNo: 1, date: '2026-10-12', weekday: 'Mon' },
-  { id: '0199a3f0-0000-7000-8000-00000000da02', dayNo: 2, date: '2026-10-13', weekday: 'Tue' },
-  { id: WED, dayNo: 3, date: '2026-10-14', weekday: 'Wed' },
-  { id: '0199a3f0-0000-7000-8000-00000000da04', dayNo: 4, date: '2026-10-15', weekday: 'Thu' },
-  { id: '0199a3f0-0000-7000-8000-00000000da06', dayNo: 6, date: '2026-10-17', weekday: 'Sat' },
+const DAY_DATES: readonly [string, number, string][] = [
+  ['0199a3f0-0000-7000-8000-00000000da01', 1, '2026-10-12'],
+  ['0199a3f0-0000-7000-8000-00000000da02', 2, '2026-10-13'],
+  [WED, 3, '2026-10-14'],
+  ['0199a3f0-0000-7000-8000-00000000da04', 4, '2026-10-15'],
+  ['0199a3f0-0000-7000-8000-00000000da06', 6, '2026-10-17'],
 ];
+
+/** The lab trip's days, their weekdays in the app's language (read at render). */
+export function baliDays(): SearchDay[] {
+  return DAY_DATES.map(([id, dayNo, date]) => ({ id, dayNo, date, weekday: weekdayOfDate(date) }));
+}
 
 export function header(value: string): SearchHeaderProps {
   return {
@@ -31,30 +37,32 @@ export function header(value: string): SearchHeaderProps {
   };
 }
 
-export const LAB_SEARCH_TRIP: SearchTrip = {
-  loaded: true,
-  destinationId: null,
-  destination: 'Bali',
-  destinationSlug: 'bali',
-  guide: 'tokek',
-  guideName: 'Tokek',
-  days: BALI_DAYS,
-  versionId: null,
-  organiser: true,
-  tz: 'Asia/Makassar',
-  itemTitles: new Map([[LAB_TRIP.locavore, 'Locavore']]),
-  placeNames: new Map(),
-};
+export function labSearchTrip(): SearchTrip {
+  return {
+    loaded: true,
+    destinationId: null,
+    destination: 'Bali',
+    destinationSlug: 'bali',
+    guide: 'tokek',
+    guideName: 'Tokek',
+    days: baliDays(),
+    versionId: null,
+    organiser: true,
+    tz: 'Asia/Makassar',
+    itemTitles: new Map([[LAB_TRIP.locavore, 'Locavore']]),
+    placeNames: new Map(),
+  };
+}
 
 function fitsOn(dayNo: number, date: string, start: string, firstNight: boolean): PlaceFit {
-  const day = BALI_DAYS.find((entry) => entry.dayNo === dayNo) ?? BALI_DAYS[0];
+  const day = DAY_DATES.find((entry) => entry[1] === dayNo);
   const slot = { starts_at: `${date}T${start}:00+08:00`, ends_at: `${date}T21:00:00+08:00` };
   return {
     poi_id: null,
-    best: { day_id: day?.id ?? WED, day_no: dayNo, grade: 'good', slot },
+    best: { day_id: day?.[0] ?? WED, day_no: dayNo, grade: 'good', slot },
     days: [
       {
-        day_id: day?.id ?? WED,
+        day_id: day?.[0] ?? WED,
         day_no: dayNo,
         grade: 'good',
         slot,

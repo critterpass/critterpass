@@ -3,15 +3,17 @@
  * a clear × while there is text, and Cancel. Return asks the text in plain words.
  */
 import { t } from '@lingui/core/macro';
+import { useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { useInputFont } from '@/ui/inputs/use-input-font';
 import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { makeStyles, MIN_TOUCH_TARGET, Text, useTheme } from '@/ui';
+
+import { useFieldFont } from './use-field-font';
 
 const CROSS = '×';
 
@@ -29,6 +31,8 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.semantic.bg.raised,
   },
   input: { flex: 1, minHeight: 48, paddingVertical: 0 },
+  inputBox: { flex: 1, justifyContent: 'center' },
+  shown: { position: 'absolute', start: 0, end: 0 },
   clear: { minWidth: MIN_TOUCH_TARGET, minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
 }));
 
@@ -55,7 +59,11 @@ export function SearchHeader(props: SearchHeaderProps) {
     message: `Search ${destination}, or ask ${guideName}`,
   });
   const focused = value === '';
-  const font = useInputFont();
+  const font = useFieldFont();
+  const [editing, setEditing] = useState(props.autoFocus ?? true);
+  // Not being edited, the query shows from its start with a tail ellipsis (7d-2, 7d-4), drawn over
+  // the input, which stays underneath for the tap.
+  const showStart = !editing && value !== '';
   return (
     <View style={styles.row}>
       <View
@@ -69,22 +77,44 @@ export function SearchHeader(props: SearchHeaderProps) {
         <View style={{ opacity: props.dimmed === true ? 0.4 : 1 }}>
           <Sticker kind={sticker.kind} name={sticker.name} pose="idle" size={30} />
         </View>
-        <TextInput
-          value={value}
-          onChangeText={props.onChangeText}
-          onSubmitEditing={props.onSubmit}
-          placeholder={placeholder}
-          placeholderTextColor={theme.semantic.text.secondary}
-          accessibilityLabel={placeholder}
-          returnKeyType="search"
-          autoCorrect={false}
-          spellCheck={false}
-          autoComplete="off"
-          textContentType="none"
-          autoFocus={props.autoFocus ?? true}
-          style={[styles.input, font, { color: theme.semantic.text.primary }]}
-          testID="search-field"
-        />
+        <View style={styles.inputBox}>
+          <TextInput
+            value={value}
+            onChangeText={props.onChangeText}
+            onSubmitEditing={props.onSubmit}
+            placeholder={placeholder}
+            placeholderTextColor={theme.semantic.text.secondary}
+            accessibilityLabel={placeholder}
+            returnKeyType="search"
+            autoCorrect={false}
+            spellCheck={false}
+            autoComplete="off"
+            textContentType="none"
+            autoFocus={props.autoFocus ?? true}
+            onFocus={() => setEditing(true)}
+            onBlur={() => setEditing(false)}
+            allowFontScaling={false}
+            style={[
+              styles.input,
+              font,
+              { color: showStart ? 'transparent' : theme.semantic.text.primary },
+            ]}
+            testID="search-field"
+          />
+          {showStart ? (
+            <Text
+              variant="bodyLg"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={styles.shown}
+              pointerEvents="none"
+              importantForAccessibility="no"
+              testID="search-field-query"
+            >
+              {value}
+            </Text>
+          ) : null}
+        </View>
         {value === '' ? null : (
           <PressScale
             widthClass="narrow"
