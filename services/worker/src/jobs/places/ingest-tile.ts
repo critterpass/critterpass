@@ -20,13 +20,20 @@ import { ingestTargets } from '../../places/ingest-all';
 import {
   finishDestinationRun,
   ingestTile,
+  type TileProgress,
   type TileRunSources,
 } from '../../places/ingest-tile-run';
 import type { IngestTile } from '../../places/ingest-tiles';
 
 export const PLACES_INGEST_TILE_QUEUE = 'places.ingest_tile';
 
-const HOUR = 3_600;
+const MINUTE = 60;
+
+/**
+ * A `finish` job's expiry: London's OSM read and apply took 9 minutes; the extract download and
+ * scan each stop at their own limits well before this.
+ */
+export const FINISH_EXPIRE_SECONDS = 40 * MINUTE;
 
 export const PLACES_INGEST_TILE_SPEC: QueueSpec = {
   ...DEFAULT_QUEUE_SPEC,
@@ -35,8 +42,9 @@ export const PLACES_INGEST_TILE_SPEC: QueueSpec = {
   retryLimit: 3,
   retryDelay: 60,
   retryBackoff: false,
-  // A tile takes minutes; `finish` reads a country-sized OSM extract when no smaller one covers the box.
-  expireInSeconds: HOUR,
+  // London's tiles took 74 s on average and 162 s at most; a slow step fails at its own limit
+  // (`src/places/step-timeout.ts`) before this. `finish` jobs carry `FINISH_EXPIRE_SECONDS`.
+  expireInSeconds: 15 * MINUTE,
 };
 
 const tileSchema = z.object({
@@ -129,7 +137,10 @@ async function finishWhenLast(
     priority: data.priority,
     startedAt: data.startedAt,
   };
-  await boss.send(PLACES_INGEST_TILE_QUEUE, finish, { priority: data.priority + 1 });
+  await boss.send(PLACES_INGEST_TILE_QUEUE, finish, {
+    priority: data.priority + 1,
+    expireInSeconds: FINISH_EXPIRE_SECONDS,
+  });
   return true;
 }
 
@@ -175,11 +186,23 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
         logger.warn({ slug, runId }, 'places ingest tile skipped: destination has no place bounds');
         return { slug, runId, skipped: 'no_place_bounds' };
       }
+      const progress: TileProgress = (step, details) =>
+        logger.info(
+          { slug, runId, stage: data.stage, tile: data.index, step, ...details },
+          'places ingest tile step',
+        );
 
       if (data.stage === 'sources') {
         if (data.tile === undefined) throw new Error('a sources tile job needs its tile');
         try {
-          const result = await ingestTile(pool, target, data.tile, data.fsqRunId, sources);
+          const result = await ingestTile(
+            pool,
+            target,
+            data.tile,
+            data.fsqRunId,
+            sources,
+            progress,
+          );
           const finishQueued = await finishWhenLast(boss, data, job.id);
           return { slug, runId, tile: data.index, of: data.tiles, ...result, finishQueued };
         } catch (error) {
@@ -201,6 +224,7 @@ export function placesIngestTileJob(sources: TileRunSources = {}): AnyJobDefinit
         target,
         { fsqRunId: data.fsqRunId, releaseFsqRows: failedTiles === 0 },
         sources,
+        progress,
       );
       const minutes = Math.round((Date.now() - Date.parse(data.startedAt)) / 60_000);
       const summary = {

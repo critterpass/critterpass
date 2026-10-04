@@ -1,6 +1,6 @@
 /**
  * The OSM side of place ingest without the network: picking the Geofabrik extract for a
- * destination's bounds from a recorded slice of Geofabrik's index (2026-10-03), and mapping one
+ * destination's bounds from a recorded slice of Geofabrik's index (2026-10-03, Europe 2026-10-04), and mapping one
  * joined OSM element into a place row.
  */
 import { readFileSync } from 'node:fs';
@@ -25,6 +25,13 @@ describe('pickRegion', () => {
     expect(
       pickRegion(regions, { minLat: 15.84, maxLat: 16.21, minLng: 107.95, maxLng: 108.36 })?.id,
     ).toBe('vietnam');
+  });
+
+  it('takes a country region over a continent for a box across a border', () => {
+    // Strasbourg's box reaches over the Rhine into Kehl: only all of Europe covers both banks.
+    expect(
+      pickRegion(regions, { minLat: 48.5047, maxLat: 48.6646, minLng: 7.6299, maxLng: 7.8716 })?.id,
+    ).toBe('alsace');
   });
 
   it('finds nothing for a box no extract covers', () => {
