@@ -3,7 +3,8 @@
  * as a sight, as a hotel and as a museum, a temple under five spellings. Two rows are the same
  * place when their names say the same thing once accents and generic words are dropped and they
  * lie within 300 m (2 km for beaches and nature, which run long), or when one name's words are all
- * in the other's (at least two words), they are within 75 m of each other and the longer name adds
+ * in the other's (at least two words), they are within 75 m of each other (2 km for beaches and
+ * nature) and the longer name adds
  * no word for another business ("Kamo River Guesthouse" is not the Kamo River). The first row in
  * search order answers for the place; a hotel listing gives way to a row of the same name that is
  * not one (the sight, not its guest rooms).
@@ -59,11 +60,10 @@ export function sameSearchPlace(
   const keyB = placeNameKey(b.name, destination);
   if (keyA === '' || keyB === '') return false;
   const apart = metres(a, b);
-  if (keyA === keyB) {
-    const long = LONG.has(a.category) && LONG.has(b.category);
-    return apart <= (long ? LONG_SAME_NAME_M : SAME_NAME_M);
-  }
-  if (apart > PART_NAME_M) return false;
+  const long = LONG.has(a.category) && LONG.has(b.category);
+  if (keyA === keyB) return apart <= (long ? LONG_SAME_NAME_M : SAME_NAME_M);
+  // A mountain or a beach is pinned wherever each source put it ("Mount Batur Volcano").
+  if (apart > (long ? LONG_SAME_NAME_M : PART_NAME_M)) return false;
   const wordsA = keyA.split(' ');
   const wordsB = keyB.split(' ');
   return wordsA.length <= wordsB.length ? within(wordsA, wordsB) : within(wordsB, wordsA);

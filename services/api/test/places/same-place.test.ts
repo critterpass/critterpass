@@ -57,6 +57,13 @@ describe('one row per place in a search answer', () => {
     expect(onePerPlace([pick, cafe], 'Đà Lạt')).toEqual([pick, cafe]);
   });
 
+  it('merges a mountain pinned in three spots under three names', () => {
+    const batur = at('Mount Batur', 'nature', -8.242, 115.375);
+    const long = at('Mount Batur, Bali, Indonesia', 'nature', -8.239, 115.377);
+    const volcano = at('Mount Batur Volcano', 'nature', -8.245, 115.372);
+    expect(onePerPlace([batur, long, volcano], 'Bali')).toEqual([batur]);
+  });
+
   it('keeps neighbours with different names', () => {
     const a = at('Tanah Lot Sunset Terrace', 'food', -8.6212, 115.0868);
     const b = at('Tanah Lot Art Market', 'market', -8.6213, 115.0869);

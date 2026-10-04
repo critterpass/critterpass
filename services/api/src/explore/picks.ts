@@ -3,11 +3,14 @@
  * picks where nothing is curated), must-sees first, then by how many of the crew's (or the
  * viewer's) taste tags each one carries, then in the recommended order. Commission-neutral: nothing a
  * partner pays for moves an organic pick; the sponsored slot is added separately and labelled.
- * Rows that are one place (a beach under three sources) are picked once.
+ * Rows that are one place (a beach under three sources, a mountain under three names) are picked
+ * once.
  */
 import { recommendedOrderSql, recommendedSql } from '@cp/db';
 import { distinctPlaces } from '@cp/domain';
 import type pg from 'pg';
+
+import { onePerPlace } from '../places/same-place';
 
 export const PICKS_LIMIT = 8;
 /** Rows read per pick: room for the duplicates dropped before the limit. */
@@ -62,7 +65,8 @@ export async function readPicks(
       LIMIT $3`,
     [destinationId, taste, PICKS_LIMIT * READ_PER_PICK],
   );
-  return distinctPlaces(rows, rows[0]?.destination ?? '')
+  const destination = rows[0]?.destination ?? '';
+  return onePerPlace(distinctPlaces(rows, destination), destination)
     .slice(0, PICKS_LIMIT)
     .map(({ lat: _lat, lng: _lng, destination: _destination, ...pick }) => pick);
 }

@@ -7,7 +7,7 @@ appId: app.critterpass.dev
 #   1. Search by name; a place nobody recommends opened and added; plain words (typed, and the
 #      guide's own example); a link typed into the field; a name that finds nothing; an address.
 #   2. A kind browsed; the places list on that kind, IN THE PLAN, SAVED with nothing saved; the map.
-#   3. Explore in the trip, and Đà Lạt's page (a destination that runs on automatic picks).
+#   3. Explore in the trip, Đà Lạt's page (a curated set) and Busan's (automatic picks only).
 #   4. The same screens read in Vietnamese.
 - runFlow:
     file: search-places-subflows/locked-bali-plan.yaml
@@ -339,7 +339,7 @@ appId: app.critterpass.dev
     timeout: 15000
     optional: true
 - takeScreenshot: search-places-24-explore-picks-and-kinds
-# Đà Lạt's page: a destination with automatic picks and no curated set.
+# Đà Lạt's page: a curated set with must-sees.
 - runFlow:
     file: ../../screens/sweep/subflows/open-link.yaml
     env:
@@ -359,6 +359,25 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: search-places-26-da-lat-picks
+# Busan runs on automatic picks, with no curated set.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/kr-busan
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-26b-busan-automatic-picks
 
 # 4. In Vietnamese: the developer gallery switches the running app.
 - repeat:
@@ -406,6 +425,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: search-places-27-vi-da-lat-picks
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/kr-busan
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-27b-vi-busan-automatic-picks
 - runFlow: search-places-subflows/back-to-trip-map.yaml
 - runFlow: search-places-subflows/search-again.yaml
 - hideKeyboard
