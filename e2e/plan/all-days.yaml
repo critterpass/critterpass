@@ -23,6 +23,14 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-all-days'
@@ -55,6 +63,14 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd:
           timeout: 2000
 # Move a stop without dragging: the lab opens on Tuesday held (its "Move a stop"), a stop, then the day it goes to.
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-all-days-move'
@@ -98,6 +114,14 @@ appId: app.critterpass.dev
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 2000
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-all-days-member'
@@ -195,6 +219,14 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-all-days'
