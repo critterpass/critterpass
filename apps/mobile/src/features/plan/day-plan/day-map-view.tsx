@@ -143,6 +143,7 @@ export function DayMapView({
           places={places}
           days={days}
           chosenDayNo={day.dayNo}
+          logo={false}
           pickedStop={
             stop === null ? null : pickedStopOf({ kind: 'stop', id: stop.stableId }, day, locale)
           }

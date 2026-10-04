@@ -162,7 +162,7 @@ export function PlanMap(props: PlanMapProps) {
             </Text>
           </View>
         ) : (
-          <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style}>
+          <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style} logo={false}>
             <Camera
               key={day ?? 'all'}
               initialViewState={
