@@ -132,7 +132,6 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
             }))}
             bounds={bounds}
             size={size}
-            coveredBottom={CAPTION_BAND}
           />
         </View>
         {size.width > 0 ? (
