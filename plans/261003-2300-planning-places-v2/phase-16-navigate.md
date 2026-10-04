@@ -1,7 +1,7 @@
 ---
 phase: 16
 title: GO — the route from here, then directions in the maps app
-status: pending
+status: in progress
 depends_on: [3, 15]
 wave: 3
 screens: [7e-1, 7b-1, 7a-2, day-of next stop, leave-by push]
@@ -39,20 +39,24 @@ Founder, 2026-10-04 09:20: "would we able to have Navigate feature with the rout
 - Session required. Body `{from: {lat, lng}, to: {lat, lng}}`. Answers walk and drive, each `{minutes, meters, shape}`: the shape is encoded polyline precision 5, simplified like stored legs (reuse the `@cp/domain` polyline helpers from phase 15). Also `approx`, and the source. Straight-line fallback when the router is down or off graph, with `shape: null`.
 - Per-user rate limit with the existing limiter (about 60 an hour). Coordinates are never logged; check the request logger does not log bodies.
 - Additive route: nothing existing changes. Tests: routed answer from recorded Valhalla fixtures, the off-graph fallback, auth required, rate limit. Contract doc entry in `docs/api-contracts.md`.
+- Status: done — 9a5a73dc3
 
 ### T2 App: GO button and the preview
 - `GoButton`, the preview screen (map, your dot, the place, route line for the selected mode, mode toggle with minutes, Grab row when available, Start and Ride), the maps app preference and its Settings row, and copy in EN and VI.
 - A lab scene per state: routed, no permission, offline, router fallback (straight, "about"), no Grab.
 - Tests: the handoff URL builder per platform and mode; the preview model's states.
+- Status: done — 7552b2d27 (+ 8f97a32a1, c1d9822d4)
 
 ### T3 Entry points
 - Do now: the day-of next-stop card, and the leave-by push (tapping it opens the preview for that stop).
 - After phase 8's PR (#620) merges: the place page's GO.
 - After phase 10's PR (#617) merges: the day plan stops and the trip map's day sheet.
 - Explore's place card comes with phase 12.
+- Status: in progress — 70f4f139f (day-of, leave-by push), d16dbe352 (place page); the day plan and trip map wait for #617
 
 ### T4 Device check
 - Android `mode=compare` for the preview lab scenes (EN, VI), and one real-data flow: Home → a trip's day-of → GO → preview, with the redesign override on where needed.
+- Status: done — 6df605d2e (Android compare on #624; the real-data day-of flow needs a seed with a trip in progress)
 
 ## Done when
 
