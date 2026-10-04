@@ -35,16 +35,51 @@ interface Held {
 
 const held = new Map<string, Held>();
 
-const ACTED_SQL = `SELECT 1 AS acted FROM commands
-  WHERE (envelope LIKE ?1 OR envelope LIKE ?2)
-    AND NOT (cmd = 'save_idea' AND envelope LIKE '%"source":"search"%')
-  LIMIT 1`;
+const ABOUT_SQL = `SELECT cmd, envelope FROM commands
+  WHERE envelope LIKE ?1 OR envelope LIKE ?2`;
+
+export interface QueuedCommand {
+  readonly cmd: string;
+  /** The queued envelope as stored (JSON text). */
+  readonly envelope: string;
+}
+
+/** The save this + made itself: `save_idea` for that idea, from search. */
+export function isProvisionalSave(command: QueuedCommand, ideaId: string): boolean {
+  if (command.cmd !== 'save_idea') return false;
+  try {
+    const payload = (JSON.parse(command.envelope) as { payload?: Record<string, unknown> }).payload;
+    return payload?.['idea_id'] === ideaId && payload['source'] === 'search';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Whether a save is taken back out of Ideas when she returns from the sheet. Only when this + made
+ * the save (the place was not hers or the crew's before) and she chose nothing: no command about
+ * the place or the idea was queued, then or since, other than that save itself. Adding it to a
+ * day, "Just save it for later", a swipe or the heart all count as choosing.
+ */
+export function takesBackSave(input: {
+  /** This + made the save; false when the place was already in Ideas or on the phone. */
+  readonly createdByThisAdd: boolean;
+  readonly ideaId: string;
+  /** A command about it was seen in the queue while the sheet was open. */
+  readonly sawChoice: boolean;
+  /** The queued commands that mention the place or the idea now. */
+  readonly queued: readonly QueuedCommand[];
+}): boolean {
+  if (!input.createdByThisAdd || input.sawChoice) return false;
+  return input.queued.every((command) => isProvisionalSave(command, input.ideaId));
+}
 
 /** Whether a command other than the provisional save itself is about the place or its idea. */
 export function actedOn(db: Pick<Db, 'getAll'>, ideaId: string, poiId: string): Promise<boolean> {
-  return db.getAll<{ acted: number }>(ACTED_SQL, [`%${ideaId}%`, `%${poiId}%`]).then(
-    (rows) => rows.length > 0,
-    () => false,
+  return db.getAll<QueuedCommand>(ABOUT_SQL, [`%${ideaId}%`, `%${poiId}%`]).then(
+    (rows) => !takesBackSave({ createdByThisAdd: true, ideaId, sawChoice: false, queued: rows }),
+    // Unreadable queue: never remove what may be wanted.
+    () => true,
   );
 }
 
