@@ -300,12 +300,13 @@ describe('content.publish', () => {
   it('sets and clears the must-see flag and leaves the other editorial fields alone', async () => {
     await harness.pool.query(
       `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, editorial)
-       SELECT id, name, 'nature', -8.4312, 115.2793, jsonb_build_object('fsq_os', ref), editorial::jsonb
-       FROM destinations, (VALUES
+       SELECT d.id, seed.name, 'nature', -8.4312, 115.2793, jsonb_build_object('fsq_os', seed.ref),
+         seed.editorial::jsonb
+       FROM destinations d, (VALUES
          ('Tegallalang Rice Terrace', 'terrace', '{"entry_short": "Ticket", "must_see": true}'),
          ('Campuhan Ridge Walk', 'ridge', '{"entry_short": "Free"}'),
          ('Tegenungan Waterfall', 'falls', '{"must_see": true}')
-       ) AS seed(name, ref, editorial) WHERE slug = 'bali'`,
+       ) AS seed(name, ref, editorial) WHERE d.slug = 'bali'`,
     );
     const item = (
       id: string,
