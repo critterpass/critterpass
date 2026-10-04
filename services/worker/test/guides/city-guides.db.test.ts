@@ -58,12 +58,27 @@ const tripGuide = async (tripId: string) =>
     )
   ).slug;
 
+const STATUS_PATH = [
+  'setup',
+  'drafting',
+  'draft_review',
+  'proposed',
+  'confirmed',
+  'pre_trip',
+  'in_trip',
+  'post_trip',
+];
+
+/** A trip to the destination, walked through the real status transitions up to `status`. */
 async function tripTo(destinationId: string, status: string, guide: string): Promise<string> {
   const { id } = await one<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id, guide_id)
-     VALUES ($1, $2, $3, (SELECT id FROM guides WHERE slug = $4)) RETURNING id`,
-    [crewId, status, destinationId, guide],
+     VALUES ($1, 'setup', $2, (SELECT id FROM guides WHERE slug = $3)) RETURNING id`,
+    [crewId, destinationId, guide],
   );
+  for (const next of STATUS_PATH.slice(1, STATUS_PATH.indexOf(status) + 1)) {
+    await q('UPDATE trips SET status = $2 WHERE id = $1', [id, next]);
+  }
   return id;
 }
 
