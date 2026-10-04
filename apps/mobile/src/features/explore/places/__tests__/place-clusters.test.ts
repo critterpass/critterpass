@@ -8,7 +8,7 @@ import { describe, expect, it } from '@jest/globals';
 import { STREET_ZOOM, type PlaceDot } from '@/ui/map/planning/place-dots';
 
 import { GATHER_PX, gatherDots } from '../place-clusters';
-import { leadDay, routeDays } from '../plan-routes';
+import { leadDay, openingFrame, routeDays } from '../plan-routes';
 
 const dot = (id: string, lat: number, lng: number, extra: Partial<PlaceDot> = {}): PlaceDot => ({
   id,
@@ -100,5 +100,19 @@ describe('the plan as routes', () => {
     expect(leadDay(routes, null, '2026-10-14')).toBe(3);
     expect(leadDay(routes, null, '2026-09-01')).toBe(1);
     expect(leadDay([], null, '2026-09-01')).toBeNull();
+  });
+});
+
+describe('where the map opens', () => {
+  it('frames the crew places without a far outlier, else every place', () => {
+    const ubud = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
+      lat: -8.5 + i * 0.001,
+      lng: 115.26 + i * 0.001,
+    }));
+    const far = { lat: -8.24, lng: 115.37 };
+    const frame = openingFrame([...ubud, far], []);
+    expect(frame?.[1][1]).toBeLessThan(-8.49);
+    expect(openingFrame([far], ubud)?.[0][0]).toBeGreaterThan(115.26);
+    expect(openingFrame([], [])).toBeNull();
   });
 });

@@ -87,3 +87,27 @@ export function leadDay(
   if (picked !== undefined) return picked.dayNo;
   return (days.find((day) => day.date === today) ?? days[0])?.dayNo ?? null;
 }
+
+/**
+ * Where the map opens without a picked place: the crew's own places (the stay, the plan's stops,
+ * the saved places) when there are a few, else every place, without the outliers (the middle 70 %
+ * on each axis), so a day trip far away doesn't shrink the town the crew spends its days in.
+ */
+export function openingFrame(
+  core: readonly { readonly lat: number; readonly lng: number }[],
+  all: readonly { readonly lat: number; readonly lng: number }[],
+): [readonly [number, number], readonly [number, number]] | null {
+  const points = core.length >= 3 ? core : all;
+  if (points.length === 0) return null;
+  const cut = (values: number[]) => {
+    const sorted = [...values].sort((a, b) => a - b);
+    const at = (share: number) => sorted[Math.floor(share * (sorted.length - 1))] ?? 0;
+    return [at(0.15), at(0.85)] as const;
+  };
+  const [south, north] = cut(points.map((point) => point.lat));
+  const [west, east] = cut(points.map((point) => point.lng));
+  return [
+    [west, south],
+    [east, north],
+  ];
+}

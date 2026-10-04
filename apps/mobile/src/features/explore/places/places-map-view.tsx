@@ -6,7 +6,7 @@
  */
 import { resolveMemberStyle } from '@cp/design-tokens';
 import type { LngLatBounds } from '@maplibre/maplibre-react-native';
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -20,7 +20,7 @@ import type { GuideFacts } from '../format';
 import { centreOf, type Point } from '../map-model';
 import { useLabelSync } from './label-sync';
 import { gatherDots } from './place-clusters';
-import { leadDay, type PlanRouteDay } from './plan-routes';
+import { leadDay, openingFrame, type PlanRouteDay } from './plan-routes';
 import { PlacesCarousel } from './places-carousel';
 import { labelSubtitle } from './places-copy';
 import { PlacesHeader } from './places-header';
@@ -144,7 +144,21 @@ export function PlacesMapView(props: PlacesMapViewProps) {
   });
 
   const focused = places.find((place) => place.id === label.focusedId) ?? null;
-  const { flyToPlace } = camera;
+  const { flyToPlace, fitPoints } = camera;
+  // Opened without a place, the map frames the crew's own places once they are here.
+  const framed = useRef(props.placeId !== undefined && props.placeId !== null);
+  const stay = props.stay;
+  useEffect(() => {
+    if (framed.current || places.length === 0 || region.bounds === null) return;
+    const core = [
+      ...(stay === null ? [] : [stay.at]),
+      ...places.filter((place) => place.standing !== 'suggested'),
+    ];
+    const frame = openingFrame(core, places);
+    if (frame === null) return;
+    framed.current = true;
+    fitPoints(frame, { top: insets.top + HEADER_PT, bottom: insets.bottom + PEEK_PT });
+  }, [places, stay, region.bounds, fitPoints, insets.top, insets.bottom]);
   useEffect(() => {
     if (focused === null) return;
     flyToPlace([focused.lng, focused.lat], {
