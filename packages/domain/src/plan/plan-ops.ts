@@ -62,6 +62,10 @@ export const applyPlanOpsPayloadSchema = z.object({
 });
 export type ApplyPlanOpsPayload = z.infer<typeof applyPlanOpsPayloadSchema>;
 
+/** The same edits on the organiser's private draft: `base_version` is the trip's draft. */
+export const applyDraftOpsPayloadSchema = applyPlanOpsPayloadSchema;
+export type ApplyDraftOpsPayload = ApplyPlanOpsPayload;
+
 export interface PlanStateDay {
   readonly day_no: number;
   /** Local calendar date (`YYYY-MM-DD`); null while the trip's dates are open. */
