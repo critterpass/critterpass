@@ -11,6 +11,7 @@ import {
   createSqlRouteCache,
   createValhallaClient,
   type PlanningTravel,
+  type ValhallaClient,
 } from '@cp/suppliers';
 import type pg from 'pg';
 
@@ -46,11 +47,11 @@ export async function legsEventHook(
 
 export function workerPlanningTravel(
   pool: pg.Pool,
-  valhallaUrl: string | undefined,
+  valhalla: ValhallaClient | null,
   onError?: (error: unknown) => void,
 ): PlanningTravel {
   return createPlanningTravel({
-    valhalla: valhallaUrl === undefined ? null : createValhallaClient({ baseUrl: valhallaUrl }),
+    valhalla,
     cache: createSqlRouteCache((sql, params) =>
       withSystem(pool, (tx) => tx.query(sql, [...params])),
     ),
@@ -71,8 +72,17 @@ export function planLegsJobs(deps: JobRegistryDeps): AnyJobDefinition[] {
       ttlDays: 30,
     });
   }
-  const travel = workerPlanningTravel(deps.pool, deps.env.VALHALLA_URL, (error) =>
+  // One client, so the minutes and the road shapes share the router's circuit breaker.
+  const valhalla =
+    deps.env.VALHALLA_URL === undefined
+      ? null
+      : createValhallaClient({ baseUrl: deps.env.VALHALLA_URL });
+  const travel = workerPlanningTravel(deps.pool, valhalla, (error) =>
     deps.logger.warn({ err: error }, 'planning travel fell back to straight-line'),
   );
-  return [planLegsJob(travel)];
+  return [
+    planLegsJob(travel, valhalla, (error) =>
+      deps.logger.warn({ err: error }, 'a leg road shape fell back to a straight line'),
+    ),
+  ];
 }

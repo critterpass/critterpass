@@ -40,6 +40,7 @@ const indexSchema = z.object({
     z.object({
       properties: z.object({
         id: z.string(),
+        parent: z.string().optional(),
         urls: z.object({ pbf: z.url().optional() }).optional(),
       }),
       geometry: geometrySchema.nullable(),
@@ -49,6 +50,8 @@ const indexSchema = z.object({
 
 export interface GeofabrikRegion {
   readonly id: string;
+  /** A continent (or Russia): a top-level extract of tens of gigabytes. */
+  readonly topLevel: boolean;
   readonly pbfUrl: string;
   readonly polygons: readonly Polygon[];
   /** Area of the boundary's bounding box in square degrees: the "smallest extract" measure. */
@@ -93,6 +96,7 @@ export function parseGeofabrikIndex(body: unknown): GeofabrikRegion[] {
     }
     regions.push({
       id: feature.properties.id,
+      topLevel: feature.properties.parent === undefined,
       pbfUrl,
       polygons,
       extent: (maxX - minX) * (maxY - minY),
@@ -109,7 +113,10 @@ const COVERAGE_SLACK = 0.1;
  * The extract for the bounds: among extracts holding the box's centre, the smallest one that
  * covers nearly as much of the box (the centres of a 5 x 5 grid) as the best-covering one. Box corners
  * often sit in the sea outside a regional boundary, so full containment would always pick the
- * whole country. Null when no extract holds the centre.
+ * whole country. A top-level extract (a continent, tens of gigabytes) is never picked: a box across
+ * a border (Strasbourg and Kehl) would otherwise pick all of Europe, so it takes its own side's
+ * region and leaves the other bank to Overture and FSQ OS. Null when no other extract holds the
+ * centre.
  */
 export function pickRegion(
   regions: readonly GeofabrikRegion[],
@@ -126,7 +133,7 @@ export function pickRegion(
   }
   const centre = [(bbox.minLng + bbox.maxLng) / 2, (bbox.minLat + bbox.maxLat) / 2] as const;
   const candidates = regions
-    .filter((region) => regionContains(region, centre[0], centre[1]))
+    .filter((region) => !region.topLevel && regionContains(region, centre[0], centre[1]))
     .map((region) => ({
       region,
       covered: points.filter(([lng, lat]) => regionContains(region, lng, lat)).length,
@@ -155,25 +162,58 @@ async function loadIndex(fetcher: typeof fetch): Promise<GeofabrikRegion[]> {
   return indexCache;
 }
 
-async function downloadExtract(region: GeofabrikRegion, fetcher: typeof fetch): Promise<string> {
+/** Larger extracts are not fetched: the whole of France is 4.5 GB, more than a worker can scan in time. */
+export const MAX_EXTRACT_BYTES = 3 * 1024 ** 3;
+/** Longest an extract download may take; about a gigabyte a minute from the staging worker. */
+export const DOWNLOAD_TIMEOUT_MS = 10 * 60_000;
+
+/** Hears which extract a read picked, and when it is on disk or was too large to fetch. */
+export type OsmExtractListener = (event: {
+  readonly step: 'picked' | 'downloaded' | 'too_large';
+  readonly region: string;
+  readonly bytes?: number;
+}) => void;
+
+/** The extract's local file, or null when it is larger than `MAX_EXTRACT_BYTES`. */
+async function downloadExtract(
+  region: GeofabrikRegion,
+  fetcher: typeof fetch,
+  listener: OsmExtractListener | undefined,
+): Promise<string | null> {
   if (lastDownload?.url === region.pbfUrl) return lastDownload.file;
   await releaseOsmExtract();
   await mkdir(DOWNLOAD_DIR, { recursive: true });
   const file = path.join(DOWNLOAD_DIR, `${region.id.replaceAll('/', '_')}.osm.pbf`);
-  const response = await fetcher(region.pbfUrl, { headers: { 'User-Agent': USER_AGENT } });
+  const signal = AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS);
+  const response = await fetcher(region.pbfUrl, {
+    headers: { 'User-Agent': USER_AGENT },
+    signal,
+  });
   if (!response.ok || response.body === null) {
     throw new Error(`geofabrik download ${response.status} for ${region.id}`);
+  }
+  const bytes = Number(response.headers.get('content-length') ?? NaN);
+  if (bytes > MAX_EXTRACT_BYTES) {
+    await response.body.cancel();
+    listener?.({ step: 'too_large', region: region.id, bytes });
+    return null;
   }
   try {
     await pipeline(
       Readable.fromWeb(response.body as WebReadableStream<Uint8Array>),
       createWriteStream(file),
+      { signal },
     );
   } catch (error) {
     await rm(file, { force: true });
     throw error;
   }
   lastDownload = { url: region.pbfUrl, file };
+  listener?.({
+    step: 'downloaded',
+    region: region.id,
+    ...(Number.isFinite(bytes) ? { bytes } : {}),
+  });
   return file;
 }
 
@@ -181,17 +221,21 @@ let queue: Promise<unknown> = Promise.resolve();
 
 /**
  * Runs `read` with the local path of the extract covering the bounds (null when no Geofabrik extract
- * covers them), downloading it unless it is the one already on disk. Runs one at a time, so a
- * second ingest never deletes the file the first is still reading.
+ * covers them or it is too large to fetch), downloading it unless it is the one already on disk.
+ * Runs one at a time, so a second ingest never deletes the file the first is still reading; the
+ * download's time limit keeps one stalled read from holding the ones behind it.
  */
 export function withOsmExtract<T>(
   bbox: BoundingBox,
   read: (file: string | null) => Promise<T>,
   fetcher: typeof fetch = globalThis.fetch,
+  listener?: OsmExtractListener,
 ): Promise<T> {
   const run = queue.then(async () => {
     const region = pickRegion(await loadIndex(fetcher), bbox);
-    return read(region === null ? null : await downloadExtract(region, fetcher));
+    if (region === null) return read(null);
+    listener?.({ step: 'picked', region: region.id });
+    return read(await downloadExtract(region, fetcher, listener));
   });
   queue = run.catch(() => undefined);
   return run;

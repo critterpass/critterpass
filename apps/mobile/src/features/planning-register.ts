@@ -11,4 +11,7 @@ import '@/features/plan/add/register';
 import '@/features/plan/ideas/register';
 import '@/features/plan/review/register';
 
+import './explore/place-detail/register';
+import './explore/split/register';
+
 startPlanningSwitchFeed();

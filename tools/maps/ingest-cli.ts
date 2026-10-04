@@ -11,7 +11,8 @@
  *   pnpm --filter @cp/maps ingest -- --enqueue [--except da-nang]
  *     # the worker's `places.ingest` fan-out: one FSQ OS export, then one job per destination
  *   pnpm --filter @cp/maps ingest -- --enqueue --only vn-hoi-an,vn-hue [--fsq-run <run id>]
- *     # those, on the worker; with --fsq-run they read FSQ OS from that stored export run
+ *     # those, on the worker; with --fsq-run they read FSQ OS from that stored export run, without
+ *     # it the worker first exports each one's FSQ OS rows in restartable chunks
  *
  * `--backfill-bounds` uses the region-pack bounds in `./destinations.ts` for the guide
  * destinations and the Overture locality point for the rest (services/worker/src/places/

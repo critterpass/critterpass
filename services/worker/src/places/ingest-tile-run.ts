@@ -38,6 +38,7 @@ import {
   type IngestTile,
 } from './ingest-tiles';
 import { applyOsmPlaces, type OsmApplyResult } from './osm-apply';
+import type { OsmExtractListener } from './osm-extract';
 import { readOsmPlaces, type OsmPlaceRow } from './osm-reader';
 import type { DestinationPlaceBounds } from './place-bounds';
 import {
@@ -54,7 +55,27 @@ export interface TileRunSources {
   /** Replaces FSQ OS entirely; otherwise a run reads its stored export rows. */
   readonly readFsqOsPlaces?: PlaceSourceReader;
   /** Defaults to the Geofabrik reader only when Overture is also read for real. */
-  readonly readOsmPlaces?: (bbox: BoundingBox) => Promise<readonly OsmPlaceRow[]>;
+  readonly readOsmPlaces?: (
+    bbox: BoundingBox,
+    onExtract?: OsmExtractListener,
+  ) => Promise<readonly OsmPlaceRow[]>;
+}
+
+/** Hears each step of a tile or finish as it starts and ends, so a stalled job shows its step. */
+export type TileProgress = (step: string, details: Readonly<Record<string, unknown>>) => void;
+
+/** Runs one step between a start and an end progress line; the end line carries its duration. */
+async function step<T>(
+  progress: TileProgress | undefined,
+  name: string,
+  run: () => Promise<T>,
+  summary: (result: T) => Record<string, unknown> = () => ({}),
+): Promise<T> {
+  progress?.(name, { phase: 'start' });
+  const started = Date.now();
+  const result = await run();
+  progress?.(name, { phase: 'done', ms: Date.now() - started, ...summary(result) });
+  return result;
 }
 
 /**
@@ -121,6 +142,7 @@ export async function ingestTile(
   tile: IngestTile,
   fsqRunId: string | undefined,
   sources: TileRunSources = {},
+  progress?: TileProgress,
 ): Promise<TileResult> {
   const box = readBox(tile, target.bbox);
   const readOverture = sources.readOverturePlaces ?? readOverturePlaces;
@@ -130,20 +152,31 @@ export async function ingestTile(
     readFsq = (await fsqRunReader(pool, fsqRunId, target.slug)) ?? (() => Promise.resolve([]));
   }
   // One source at a time: each read holds its own DuckDB instance and memory budget.
-  const overture = uniqueBySourceId(await readOverture(box)).sort(bySourceId);
-  const fsq = uniqueBySourceId(await readFsq(box)).sort(bySourceId);
+  const rows = (list: readonly PlaceSourceRow[]) => ({ rows: list.length });
+  const overture = uniqueBySourceId(
+    await step(progress, 'overture read', () => readOverture(box), rows),
+  ).sort(bySourceId);
+  const fsq = uniqueBySourceId(await step(progress, 'fsq read', () => readFsq(box), rows)).sort(
+    bySourceId,
+  );
 
   const conflated = conflatePlaces(fsq.map(toCandidate), overture.map(toCandidate)).filter((poi) =>
     inTile(tile, poi.lat, poi.lng),
   );
-  const counts = await upsertConflated(
-    pool,
-    {
-      destinationId: target.id,
-      bbox: target.bbox,
-      ...(target.tz !== null ? { timezone: target.tz } : {}),
-    },
-    conflated,
+  const counts = await step(
+    progress,
+    'upsert',
+    () =>
+      upsertConflated(
+        pool,
+        {
+          destinationId: target.id,
+          bbox: target.bbox,
+          ...(target.tz !== null ? { timezone: target.tz } : {}),
+        },
+        conflated,
+      ),
+    (result) => ({ ...result }),
   );
   const inside = (row: PlaceSourceRow) => inTile(tile, row.lat, row.lng);
   return {
@@ -170,16 +203,29 @@ export async function finishDestinationRun(
   target: DestinationPlaceBounds,
   options: { readonly fsqRunId: string | undefined; readonly releaseFsqRows: boolean },
   sources: TileRunSources = {},
+  progress?: TileProgress,
 ): Promise<FinishResult> {
   const readOsm =
     sources.readOsmPlaces ?? (sources.readOverturePlaces === undefined ? readOsmPlaces : undefined);
-  const osm =
-    readOsm === undefined
-      ? null
-      : await applyOsmPlaces(pool, target.id, target.tz, await readOsm(target.bbox));
-  if (options.fsqRunId !== undefined && options.releaseFsqRows) {
-    await releaseRunRows(pool, options.fsqRunId, target.slug);
+  let osm: OsmApplyResult | null = null;
+  if (readOsm !== undefined) {
+    const places = await step(
+      progress,
+      'osm read',
+      () => readOsm(target.bbox, (event) => progress?.(`osm extract ${event.step}`, { ...event })),
+      (list) => ({ rows: list.length }),
+    );
+    osm = await step(
+      progress,
+      'osm apply',
+      () => applyOsmPlaces(pool, target.id, target.tz, places),
+      (result) => ({ ...result }),
+    );
   }
-  const activeCount = await countActivePois(pool, target.id);
+  const { fsqRunId } = options;
+  if (fsqRunId !== undefined && options.releaseFsqRows) {
+    await step(progress, 'fsq release', () => releaseRunRows(pool, fsqRunId, target.slug));
+  }
+  const activeCount = await step(progress, 'active count', () => countActivePois(pool, target.id));
   return { osm, activeCount, sparseCoverage: activeCount < SPARSE_COVERAGE_THRESHOLD };
 }

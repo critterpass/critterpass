@@ -3,7 +3,8 @@
  * (organiser drafts, proposals, the current plan), so the day plan shows "CAR · 1H10" and
  * "5 STOPS · 2H40 IN THE CAR" offline. Routing happens outside any transaction; each version's
  * legs are then written in one short transaction with `plan.legs_updated` (the plan check listens)
- * and a `legs.updated` hint for open screens. A run that changes nothing writes nothing.
+ * and a `legs.updated` hint for open screens. Each routed leg also keeps the road it follows, for
+ * the maps. A run that changes nothing writes nothing.
  */
 import { withSystem } from '@cp/db';
 import {
@@ -18,6 +19,7 @@ import type pg from 'pg';
 import { defineJob, type AnyJobDefinition } from '../../../boss';
 import { computeVersionLegs } from './compute';
 import { loadTripLegsInput } from './load';
+import type { LegRouter } from './shapes';
 import { dropStaleVersionLegs, writeVersionLegs } from './write';
 
 export interface TripLegsResult {
@@ -27,10 +29,13 @@ export interface TripLegsResult {
   readonly approx: number;
 }
 
+/** Routes the trip's legs through `travel`; `router` (our Valhalla, or none) draws their roads. */
 export async function refreshTripLegs(
   pool: pg.Pool,
   travel: PlanningTravel,
   tripId: string,
+  router: LegRouter | null = null,
+  onError?: (error: unknown) => void,
 ): Promise<TripLegsResult> {
   const input = await withSystem(pool, (tx) => loadTripLegsInput(tx, tripId));
   if (input === null) return { versions: 0, legs: 0, changed: 0, approx: 0 };
@@ -38,7 +43,11 @@ export async function refreshTripLegs(
   let changed = 0;
   let approx = 0;
   for (const version of input.versions) {
-    const computed = await computeVersionLegs(travel, version.days, input.driveFactor);
+    const computed = await computeVersionLegs(travel, version.days, input.driveFactor, {
+      router,
+      stored: input.storedShapes,
+      ...(onError === undefined ? {} : { onError }),
+    });
     legs += computed.length;
     approx += computed.filter((leg) => leg.approx).length;
     const written = await withSystem(pool, (tx) =>
@@ -50,14 +59,18 @@ export async function refreshTripLegs(
   return { versions: input.versions.length, legs, changed, approx };
 }
 
-export function planLegsJob(travel: PlanningTravel): AnyJobDefinition {
+export function planLegsJob(
+  travel: PlanningTravel,
+  router: LegRouter | null = null,
+  onError?: (error: unknown) => void,
+): AnyJobDefinition {
   return defineJob({
     queue: PLANNING_QUEUES.legs,
     spec: planningQueueSpecs(DEFAULT_QUEUE_SPEC)[PLANNING_QUEUES.legs],
     schema: planLegsJobSchema,
     singletonKey: (data) => `legs:${data.trip_id}`,
     async handler(data, { pool }) {
-      return { ...(await refreshTripLegs(pool, travel, data.trip_id)) };
+      return { ...(await refreshTripLegs(pool, travel, data.trip_id, router, onError)) };
     },
   });
 }

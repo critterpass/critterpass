@@ -32,16 +32,19 @@ export function useAddToDay(input: {
   readonly place: (PlaceToAdd & { readonly name: string }) | null;
   /** Everyone the change touches when it goes to the crew. */
   readonly crew: readonly string[];
+  /** The slot to add at, when the page names its own (the fit's best); else the suggested slot. */
+  readonly slot?: PlaceContextWire['suggested_slot'] | undefined;
 }): AddToDay {
   const { t } = useLingui();
   const { context, place, crew } = input;
+  const chosen = input.slot;
   const apply = useCommand(addPlaceToPlanCommand);
   const create = useCommand(proposePlaceCommand);
   const send = useCommand(sendChangesetCommand);
   const [added, setAdded] = useState<{ day: number; proposed: boolean } | null>(null);
 
   const add = useCallback(() => {
-    const slot = context?.suggested_slot ?? null;
+    const slot = chosen !== undefined ? chosen : (context?.suggested_slot ?? null);
     const base = context?.base_version ?? null;
     if (context === null || place === null || slot === null || base === null) return;
     const stableId = generateStableId();
@@ -107,7 +110,7 @@ export function useAddToDay(input: {
       });
       return undefined;
     })();
-  }, [apply, context, create, crew, place, send, t]);
+  }, [apply, chosen, context, create, crew, place, send, t]);
 
   return {
     addedDay: added?.day ?? null,

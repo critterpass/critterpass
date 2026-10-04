@@ -261,6 +261,11 @@ function isMarginAbove(image: RgbaImage, bandTop: number, span: number, colour: 
   return same >= (bandTop - from) * 0.9;
 }
 
+/** The keyboard's own tray, at its left edge just under its first row (below the rounded corner). */
+function keyboardSurface(image: RgbaImage, top: number): Rgb {
+  return pixel(image, image.width * 0.005, Math.min(image.height - 1, top + image.height * 0.01));
+}
+
 export function findKeyboardBand(image: RgbaImage): ScreenFinding | null {
   const top = keyboardTop(image);
   if (top === null) return null;
@@ -269,6 +274,9 @@ export function findKeyboardBand(image: RgbaImage): ScreenFinding | null {
   while (y > top - image.height * 0.02 && uniformColour(image, y) === null) y -= 1;
   const bandColour = uniformColour(image, y);
   if (bandColour === null) return null;
+  // iOS 26 draws the empty suggestion strip above the keys in the tray's own tint, which reads as
+  // not quite neutral: that strip is the keyboard, not a gap above it.
+  if (colourDistance(bandColour, keyboardSurface(image, top)) <= LIMITS.sameColour) return null;
   let bottom = y;
   while (y > 0) {
     const colour = uniformColour(image, y - 1);

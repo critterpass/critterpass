@@ -3,7 +3,8 @@
  * routes them inside the private network where Valhalla is. A trip that already has a run waiting
  * is counted, not queued again (the queue's `singleton` policy limits active runs per key, not
  * waiting ones). Runs start spread over time (`perMinute`, after the usual 30 s debounce) so a
- * thousand trips never land on the router at once.
+ * thousand trips never land on the router at once. `missingShapes` narrows it to trips with a
+ * routed leg whose road shape is not stored yet; the run recomputes and rewrites every leg.
  */
 import { sendInTx, withSystem } from '@cp/db';
 import { PLAN_LEGS_DEBOUNCE_SECONDS, PLANNING_QUEUES } from '@cp/domain';
@@ -25,7 +26,12 @@ const BATCH = 100;
 
 export async function queueLegsBackfill(
   pool: pg.Pool,
-  options: { readonly dryRun?: boolean; readonly perMinute?: number } = {},
+  options: {
+    readonly dryRun?: boolean;
+    readonly perMinute?: number;
+    /** Only trips with a routed leg that has no road shape yet. */
+    readonly missingShapes?: boolean;
+  } = {},
 ): Promise<LegsBackfillResult> {
   const perMinute = Math.max(1, options.perMinute ?? 60);
   const trips = await withSystem(pool, async (tx) => {
@@ -39,8 +45,11 @@ export async function queueLegsBackfill(
         WHERE t.phase IN ('planning', 'pre', 'in')
           AND EXISTS (SELECT 1 FROM itinerary_versions v
                        WHERE v.trip_id = t.id AND v.status = ANY($1::text[]))
+          AND (NOT $2::boolean OR EXISTS (SELECT 1 FROM plan_legs l
+                                  WHERE l.trip_id = t.id AND l.source = 'valhalla'
+                                    AND l.shape IS NULL))
         ORDER BY t.id`,
-      [LIVE_VERSION_STATUSES],
+      [LIVE_VERSION_STATUSES, options.missingShapes === true],
     );
     return rows;
   });

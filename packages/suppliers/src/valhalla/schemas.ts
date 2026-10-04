@@ -10,7 +10,8 @@ const summarySchema = z.object({ time: z.number(), length: z.number() });
 export const routeResponseSchema = z.object({
   trip: z.object({
     summary: summarySchema,
-    legs: z.array(z.object({ summary: summarySchema })),
+    /** `shape`: the leg's encoded polyline (precision 6); absent from error-shaped answers. */
+    legs: z.array(z.object({ summary: summarySchema, shape: z.string().optional() })),
     locations: z.array(z.object({ original_index: z.number().int().optional() })),
   }),
 });

@@ -1,13 +1,14 @@
 /**
  * What the legs job reads for a trip: its live plan versions (organiser drafts, proposals and the
  * current plan), each version's days with their stops in time order, the night's stay per day and
- * the destination's drive factor. A stop is any item with a place (curated or a dropped pin) that
+ * the destination's drive factor, and the road shapes its legs already have. A stop is any item with a place (curated or a dropped pin) that
  * is not the stay itself and not cancelled.
  */
 import { tripStay } from '@cp/db';
 import type pg from 'pg';
 
 import type { DayStop, LegPoint, PlannedDay } from './pairs';
+import { storedShapeKey, type StoredShapes } from './shapes';
 
 export const LIVE_VERSION_STATUSES = ['draft', 'proposed', 'current'] as const;
 
@@ -15,6 +16,8 @@ export interface TripLegsInput {
   readonly tripId: string;
   readonly driveFactor: number;
   readonly versions: readonly { readonly versionId: string; readonly days: PlannedDay[] }[];
+  /** Road shapes the trip's legs already have, reused while a leg's mode and metres hold. */
+  readonly storedShapes: StoredShapes;
 }
 
 interface DayRow {
@@ -94,5 +97,27 @@ export async function loadTripLegsInput(
     }
     result.push({ versionId, days: planned });
   }
-  return { tripId, driveFactor: trip.drive_factor ?? 1, versions: result };
+  const { rows: shaped } = await tx.query<{
+    from_key: string;
+    to_key: string;
+    mode: string;
+    meters: number;
+    shape: string;
+  }>(
+    `SELECT from_key, to_key, mode, meters, shape FROM plan_legs
+      WHERE trip_id = $1 AND shape IS NOT NULL`,
+    [tripId],
+  );
+  const storedShapes = new Map(
+    shaped.map((row) => [
+      storedShapeKey({
+        fromKey: row.from_key,
+        toKey: row.to_key,
+        mode: row.mode,
+        meters: row.meters,
+      }),
+      row.shape,
+    ]),
+  );
+  return { tripId, driveFactor: trip.drive_factor ?? 1, versions: result, storedShapes };
 }
