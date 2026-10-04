@@ -3,11 +3,8 @@
  * view, an id is never read twice, a place with no asset is simply missing, and a read that gets no
  * answer leaves the rows without photos until they are asked for again.
  */
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('expo-file-system', () => require('@/ui/media/test-support/memory-file-system'));
-
 import { mediaListResponseSchema, type MediaAsset } from '@cp/domain';
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react-native';
 import type { ReactNode } from 'react';
 
