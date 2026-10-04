@@ -3,6 +3,7 @@
  * and the organiser's own plan before and beside the guide's (its days, her edits).
  */
 import type { CommandRegistry } from '../_framework/registry';
+import { applyDraftOpsCommand } from './apply-draft-ops';
 import { cancelDraftCommand } from './cancel-draft';
 import { ensurePlanDaysCommand } from './ensure-plan-days';
 import { keepRedraftCommand } from './keep-redraft';
@@ -19,4 +20,5 @@ export function registerDraftCommands(registry: CommandRegistry): void {
   registry.register(revertRedraftCommand);
   registry.register(restoreDraftVersionCommand);
   registry.register(ensurePlanDaysCommand);
+  registry.register(applyDraftOpsCommand);
 }
