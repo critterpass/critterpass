@@ -176,6 +176,8 @@ describe('POST /v1/pitches', () => {
       text: sections.headline,
     });
     expect(deepseek.requests).toHaveLength(0);
+    // Back to a crew that all reads English, as the other cases assume.
+    await harness.pool.query('UPDATE users SET locale = NULL WHERE id = $1', [reader.uid]);
   });
 
   it('pitches afresh once a quoted fare moves, and from the template without a model', async () => {
