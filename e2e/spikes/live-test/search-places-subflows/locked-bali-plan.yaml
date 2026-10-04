@@ -47,6 +47,17 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'pitch-search'
+# A name typed in full: the city itself, without far look-alikes.
+- inputText: 'Da Lat'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-da-lat-search
+- eraseText: 10
 - inputText: 'bali'
 - extendedWaitUntil:
     visible:
@@ -162,6 +173,9 @@ appId: app.critterpass.dev
       id: 'add-must-do-place-.*|add-must-do-none'
     timeout: 20000
     optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-must-do-search
 - tapOn:
     id: 'add-must-do-keep'
 - extendedWaitUntil:

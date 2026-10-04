@@ -140,6 +140,35 @@ appId: app.critterpass.dev
           timeout: 5000
           optional: true
       - takeScreenshot: search-places-08-added-from-row
+# A + she backs out of: the sheet closes and nothing is left in Ideas (SAVED stays empty below).
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Warung Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 20000
+    optional: true
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-row-add-0'
+    commands:
+      - tapOn:
+          id: 'search-row-add-0'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+          timeout: 30000
+          optional: true
+      - takeScreenshot: search-places-08b-add-sheet-to-back-out-of
+      - back
+      - extendedWaitUntil:
+          visible:
+            id: 'search-places-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: search-places-08c-backed-out
 # The row she added, searched again: marked as in the plan.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'Tanah Lot'
@@ -166,7 +195,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: search-places-10-plain-words-answer
-- hideKeyboard
 - scroll
 - takeScreenshot: search-places-11-plain-words-lower
 # The guide's own example.
@@ -309,19 +337,7 @@ appId: app.critterpass.dev
 - takeScreenshot: search-places-22-all-places
 
 # 3. Explore in the trip, from the hub.
-- runFlow: search-places-subflows/back-to-trip-map.yaml
-- back
-- waitForAnimationToEnd:
-    timeout: 4000
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-explore'
-    direction: DOWN
-    timeout: 20000
-    optional: true
-- tapOn:
-    id: 'trip-hub-explore'
-    optional: true
+- runFlow: search-places-subflows/open-trip-explore.yaml
 - extendedWaitUntil:
     visible:
       id: 'explore-trip'
@@ -481,7 +497,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 4000
-- hideKeyboard
+# Asking lets go of the keyboard by itself: hiding it again would press back and leave the search.
 - takeScreenshot: search-places-31-vi-plain-words
 - runFlow: search-places-subflows/search-again.yaml
 - hideKeyboard
@@ -505,19 +521,7 @@ appId: app.critterpass.dev
     timeout: 6000
     optional: true
 - takeScreenshot: search-places-32-vi-browse-food
-- runFlow: search-places-subflows/back-to-trip-map.yaml
-- back
-- waitForAnimationToEnd:
-    timeout: 4000
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-explore'
-    direction: DOWN
-    timeout: 20000
-    optional: true
-- tapOn:
-    id: 'trip-hub-explore'
-    optional: true
+- runFlow: search-places-subflows/open-trip-explore.yaml
 - extendedWaitUntil:
     visible:
       id: 'explore-trip'
