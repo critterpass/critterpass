@@ -45,6 +45,7 @@ export function previewOf(
     const slot = reorder.schedule.find((entry) => entry.stableId === second);
     return {
       savedMin: reorder.beforeMin - reorder.afterMin,
+      estimated: !reorder.checked,
       movedTo:
         second === null || slot === undefined
           ? null

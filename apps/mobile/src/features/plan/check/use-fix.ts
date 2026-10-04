@@ -13,7 +13,7 @@ import { useCallback, useState } from 'react';
 import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 
-import { applyCheckFixOnline } from './commands';
+import { applyCheckFixOnline, keepCheckIssueCommand } from './commands';
 import { checkRoutes } from './routes';
 
 export type FixAction =
@@ -44,6 +44,8 @@ export type FixOutcome =
   | { readonly kind: 'applied'; readonly actionId: string }
   | { readonly kind: 'sent'; readonly changeSetId: string }
   | { readonly kind: 'stale' }
+  /** The move leaves less time than the real drive: refused, the plan untouched. */
+  | { readonly kind: 'unfit' }
   | { readonly kind: 'failed' };
 
 function detailReason(detail: unknown): string | null {
@@ -69,6 +71,7 @@ export function fixOutcome(result: SendResult): FixOutcome {
   }
   if (result.kind === 'rejected') {
     const reason = detailReason(result.detail);
+    if (result.code === 'STATE_INVALID' && reason === 'fix_would_clash') return { kind: 'unfit' };
     if (result.code === 'STATE_INVALID' && (reason === 'stale_issue' || reason === 'no_fix')) {
       return { kind: 'stale' };
     }
@@ -77,13 +80,16 @@ export function fixOutcome(result: SendResult): FixOutcome {
   return { kind: 'failed' };
 }
 
-/** Cards that leave the list: a fix that landed, or an issue the plan moved past. */
+/**
+ * Cards that leave the list: a fix that landed, or an issue the plan moved past. A fix that did
+ * not go through, or that the real drive leaves no room for, keeps its card.
+ */
 export function cardsAfter(
   gone: ReadonlySet<string>,
   issueId: string,
   outcome: FixOutcome,
 ): ReadonlySet<string> {
-  if (outcome.kind === 'failed') return gone;
+  if (outcome.kind === 'failed' || outcome.kind === 'unfit') return gone;
   return new Set([...gone, issueId]);
 }
 
@@ -91,12 +97,21 @@ export interface FixRunner {
   readonly gone: ReadonlySet<string>;
   readonly busy: string | null;
   readonly fix: (issue: PlanCheckIssue) => Promise<FixOutcome>;
+  /**
+   * "Keep it as it is": the card leaves at once. An organiser's keep is sent, so the check leaves
+   * the issue out for the whole crew until the stops around it change; a member's is theirs alone.
+   */
+  readonly keep: (issue: PlanCheckIssue, organiser: boolean) => void;
+  /** A fix landed on this plan version: the check is about to run again. */
+  readonly fixedOn: string | null;
 }
 
 export function useFix(versionId: string | null): FixRunner {
   const apply = useCommand(applyCheckFixOnline);
   const [gone, setGone] = useState<ReadonlySet<string>>(new Set());
   const [busy, setBusy] = useState<string | null>(null);
+  const keeper = useCommand(keepCheckIssueCommand);
+  const [fixedOn, setFixedOn] = useState<string | null>(null);
   const fix = useCallback(
     async (issue: PlanCheckIssue): Promise<FixOutcome> => {
       if (versionId === null) return { kind: 'stale' };
@@ -106,6 +121,7 @@ export function useFix(versionId: string | null): FixRunner {
           await apply.send({ issue_id: issue.id, base_version: issue.version_id }),
         );
         setGone((current) => cardsAfter(current, issue.id, outcome));
+        if (outcome.kind === 'applied') setFixedOn(issue.version_id);
         return outcome;
       } finally {
         setBusy(null);
@@ -113,5 +129,12 @@ export function useFix(versionId: string | null): FixRunner {
     },
     [apply, versionId],
   );
-  return { gone, busy, fix };
+  const keep = useCallback(
+    (issue: PlanCheckIssue, organiser: boolean) => {
+      setGone((current) => new Set([...current, issue.id]));
+      if (organiser) void keeper.send({ issue_id: issue.id, base_version: issue.version_id });
+    },
+    [keeper],
+  );
+  return { gone, busy, fix, keep, fixedOn };
 }
