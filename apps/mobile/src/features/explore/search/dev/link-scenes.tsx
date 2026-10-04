@@ -4,6 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ImportCandidate, ImportEvent } from '@cp/domain';
+import { router } from 'expo-router';
 import { useReducer, useState, type ReactNode } from 'react';
 
 import { categoryWord } from '../chip-row';
@@ -102,7 +103,7 @@ function LinkScene({
             onPutOnDay={noop}
             onScreenshot={noop}
             onRetry={noop}
-            onClose={noop}
+            onClose={() => router.back()}
           />
           {pick ? (
             <PickOneSheet
