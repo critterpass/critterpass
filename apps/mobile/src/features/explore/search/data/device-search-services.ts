@@ -14,7 +14,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import type { PlaceApiRead } from '@/data/places/more-places';
 
 import { readScreenshot, type ScreenshotOcr } from '../screenshot-import';
-import type { SearchServices } from './search-services';
+import type { GuideAsk, SearchServices } from './search-services';
 
 const READ_TIMEOUT_MS = 10_000;
 
@@ -101,6 +101,43 @@ async function streamImport(
 }
 
 /** The device services; `ocr` is the app's `cp-ocr` (null where the native module is missing). */
+async function askGuide(
+  threadId: string,
+  body: GuideAsk,
+  signal: AbortSignal,
+): ReturnType<SearchServices['askGuide']> {
+  try {
+    const response = await expoFetch(`${resolveApiBaseUrl()}/v1/guide/threads/${threadId}/turns`, {
+      method: 'POST',
+      headers: {
+        ...(await sessionHeaders()),
+        'content-type': 'application/json',
+        accept: 'text/event-stream',
+      },
+      body: JSON.stringify(body),
+      signal,
+    });
+    if (!response.ok || response.body === null) {
+      const error = (await response.json().catch(() => null)) as {
+        error?: { code?: unknown; detail?: { thread_id?: unknown } };
+      } | null;
+      const existing = error?.error?.detail?.thread_id;
+      return error?.error?.code === 'STATE_INVALID' && typeof existing === 'string'
+        ? { kind: 'thread', threadId: existing }
+        : { kind: 'failed' };
+    }
+    // The answer lands in the thread through sync; reading to the end is waiting for it.
+    const reader = response.body.getReader();
+    for (;;) {
+      const { done } = await reader.read();
+      if (done) break;
+    }
+    return { kind: 'answered' };
+  } catch {
+    return { kind: 'failed' };
+  }
+}
+
 export const deviceSearchServices = (ocr: ScreenshotOcr | null): SearchServices => ({
   getJson: (path) => request(path, { method: 'GET' }),
   postJson: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
@@ -122,4 +159,5 @@ export const deviceSearchServices = (ocr: ScreenshotOcr | null): SearchServices 
     }
   },
   readScreenshot: () => readScreenshot(ocr),
+  askGuide,
 });

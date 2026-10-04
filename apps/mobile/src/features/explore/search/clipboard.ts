@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- host names and storage keys, never copy. */
 import type { ImportPlatform } from '@cp/domain';
 
-import { searchStore } from './data/search-store';
+import { searchStore } from '@/data/places/search-store';
 
 export type LinkPlatform = Exclude<ImportPlatform, 'screenshot' | 'web'>;
 

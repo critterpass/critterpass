@@ -13,6 +13,12 @@ import type { ScreenshotRead } from '../screenshot-import';
 export type ImportBody =
   { readonly url: string } | { readonly text: string; readonly kind: 'screenshot' };
 
+export interface GuideAsk {
+  readonly text: string;
+  readonly thread_mode: 'group' | 'private';
+  readonly context: { readonly trip_id: string };
+}
+
 export interface SearchServices {
   /** `GET` an api path (`/v1/...`). */
   readonly getJson: (path: string) => Promise<PlaceApiRead>;
@@ -29,6 +35,20 @@ export interface SearchServices {
   readonly readClipboard: () => Promise<string | null>;
   /** Whether the clipboard holds a URL, asked without reading it (iOS shows no paste alert). */
   readonly clipboardHasUrl: () => Promise<boolean>;
+  /**
+   * Asks the guide a question on a thread (the guide's own turn route), waiting for the whole
+   * answer: `answered`, the thread the server already has for this trip (ask again there), or
+   * a failure.
+   */
+  readonly askGuide: (
+    threadId: string,
+    body: GuideAsk,
+    signal: AbortSignal,
+  ) => Promise<
+    | { readonly kind: 'answered' }
+    | { readonly kind: 'thread'; readonly threadId: string }
+    | { readonly kind: 'failed' }
+  >;
   /** Picks a screenshot and reads its text on the phone. */
   readonly readScreenshot: () => Promise<ScreenshotRead>;
 }
@@ -44,6 +64,7 @@ const unavailable: SearchServices = {
   readClipboard: () => Promise.resolve(null),
   clipboardHasUrl: () => Promise.resolve(false),
   readScreenshot: () => Promise.resolve({ kind: 'unavailable' }),
+  askGuide: () => Promise.resolve({ kind: 'failed' }),
 };
 
 const SearchServicesContext = createContext<SearchServices>(unavailable);

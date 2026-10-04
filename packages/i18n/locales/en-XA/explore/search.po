@@ -55,12 +55,20 @@ msgstr ""
 msgid "search.exclude.full"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/use-queued-plain-question.ts
+msgid "search.queued.pingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.found"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chips.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.waits"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
@@ -71,12 +79,20 @@ msgstr ""
 msgid "search.plain.drive"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.walk"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.pin.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.places"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
@@ -152,12 +168,20 @@ msgstr ""
 msgid "search.examples.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.bookings"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
@@ -264,6 +288,14 @@ msgstr ""
 msgid "search.link.from.googleMaps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.fromNoDate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.eyebrow"
 msgstr ""
@@ -356,6 +388,10 @@ msgstr ""
 msgid "search.chip.category.nightlife"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.banner"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.notDays"
 msgstr ""
@@ -376,6 +412,10 @@ msgstr ""
 msgid "search.none.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.count"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr ""
@@ -386,6 +426,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.openAsOf"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
@@ -416,8 +460,16 @@ msgstr ""
 msgid "search.chip.category.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queuedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.attribution"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queued"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
@@ -446,6 +498,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
@@ -512,6 +568,10 @@ msgstr ""
 msgid "search.none.nearestPlace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.plan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr ""
@@ -550,6 +610,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.widen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx

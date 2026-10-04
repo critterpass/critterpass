@@ -55,6 +55,10 @@ msgstr "{day} đã có {title} rồi, nên mình xem các tối khác của bạ
 msgid "search.exclude.full"
 msgstr "{day} kín lịch rồi, nên mình xem các ngày khác của bạn."
 
+#: ../../apps/mobile/src/features/explore/search/use-queued-plain-question.ts
+msgid "search.queued.pingTitle"
+msgstr "{guideName} đã trả lời"
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.found"
 msgstr "{guideName} tìm thấy"
@@ -62,6 +66,10 @@ msgstr "{guideName} tìm thấy"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chips.eyebrow"
 msgstr "{guideName} hiểu là"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.waits"
+msgstr "Thay đổi của {guideName} chờ có sóng"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.minutes"
@@ -71,6 +79,10 @@ msgstr "{m} phút"
 msgid "search.plain.drive"
 msgstr "{minutes} phút"
 
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.walk"
+msgstr "{minutes} phút đi bộ"
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} phút đi bộ"
@@ -78,6 +90,10 @@ msgstr "{minutes} phút đi bộ"
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.pin.saved"
 msgstr "{name} đã vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.places"
+msgstr "{places} địa điểm"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.ask"
@@ -152,6 +168,10 @@ msgstr "Hỏi"
 msgid "search.examples.eyebrow"
 msgstr "Hỏi bằng lời thường"
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.back"
+msgstr "Có sóng lại · {guideName} đã trả lời"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr "Biển"
@@ -159,6 +179,10 @@ msgstr "Biển"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.beach"
 msgstr "Biển"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.bookings"
+msgstr "Đặt chỗ"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.breakfast"
@@ -264,6 +288,14 @@ msgstr "Từ Apple Maps"
 msgid "search.link.from.googleMaps"
 msgstr "Từ Google Maps"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.from"
+msgstr "Từ {saved} chỗ nhóm đã lưu và {curated} chỗ {guideName} lưu cho {destination} ngày {date}."
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.fromNoDate"
+msgstr "Từ {saved} chỗ nhóm đã lưu và {curated} chỗ {guideName} lưu cho {destination}."
+
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.eyebrow"
 msgstr "Từ bộ nhớ tạm"
@@ -356,6 +388,10 @@ msgstr "Giờ mới"
 msgid "search.chip.category.nightlife"
 msgstr "Về đêm"
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.banner"
+msgstr "Mất sóng · dùng những gì đã lưu"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.notDays"
 msgstr "Trừ {days}"
@@ -376,6 +412,10 @@ msgstr "Không có gì như vậy ở đây"
 msgid "search.none.title"
 msgstr "Không có gì như vậy gần {area}"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.count"
+msgstr "Kết quả ngoại tuyến · {count}"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr "Mở"
@@ -387,6 +427,10 @@ msgstr "Mở sau {time}"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
 msgstr "Mở đến {time}"
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.openAsOf"
+msgstr "đang mở, tính đến {syncedOn}"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.askLine"
@@ -416,9 +460,17 @@ msgstr "Chọn một"
 msgid "search.chip.category.other"
 msgstr "Địa điểm"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queuedLine"
+msgstr "Hỏi bằng lời cần có sóng. {guideName} giữ câu hỏi của bạn và trả lời khi có sóng."
+
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.attribution"
 msgstr "Powered by Foursquare"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queued"
+msgstr "Đang chờ · {queued}"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.quiet"
@@ -447,6 +499,10 @@ msgstr "Lưu {chosen} chỗ vào Ý tưởng"
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.saved"
 msgstr "Lưu ✓"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.saved"
+msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.noPicker"
@@ -512,6 +568,10 @@ msgstr "Gần nhất là {name} ở {area}, cách {away}."
 msgid "search.none.nearestPlace"
 msgstr "Gần nhất là {name}, cách {away}."
 
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.plan"
+msgstr "Kế hoạch"
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "Bài này đã ẩn hoặc bị xoá."
@@ -551,6 +611,10 @@ msgstr "“{label}” là chỗ nào?"
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.widen"
 msgstr "Nới ra {span}"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works"
+msgstr "Vẫn dùng được khi mất sóng"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.worksWith"

@@ -55,6 +55,10 @@ msgstr "{day}’s already {title}, so I looked at your other nights."
 msgid "search.exclude.full"
 msgstr "{day}’s full, so I looked at your other days."
 
+#: ../../apps/mobile/src/features/explore/search/use-queued-plain-question.ts
+msgid "search.queued.pingTitle"
+msgstr "{guideName} answered"
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.found"
 msgstr "{0} found"
@@ -62,6 +66,10 @@ msgstr "{0} found"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chips.eyebrow"
 msgstr "{guideName} read it as"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.waits"
+msgstr "{guideName}’s changes wait"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.minutes"
@@ -71,6 +79,10 @@ msgstr "{m} min"
 msgid "search.plain.drive"
 msgstr "{minutes} min"
 
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.walk"
+msgstr "{minutes} min walk"
+
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.walk"
 msgstr "{minutes} min walk"
@@ -78,6 +90,10 @@ msgstr "{minutes} min walk"
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.pin.saved"
 msgstr "{name} is in Ideas"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.places"
+msgstr "{places} places"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.ask"
@@ -152,6 +168,10 @@ msgstr "Ask"
 msgid "search.examples.eyebrow"
 msgstr "Ask in plain words"
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.back"
+msgstr "Back online · {guideName} answered"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.beaches"
 msgstr "Beaches"
@@ -159,6 +179,10 @@ msgstr "Beaches"
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.category.beach"
 msgstr "Beaches"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.bookings"
+msgstr "Bookings"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.meal.breakfast"
@@ -264,6 +288,14 @@ msgstr "From Apple Maps"
 msgid "search.link.from.googleMaps"
 msgstr "From Google Maps"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.from"
+msgstr "From your {saved} saved places and the {curated} {guideName} saved for {destination} on {date}."
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.fromNoDate"
+msgstr "From your {saved} saved places and the {curated} {guideName} saved for {destination}."
+
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.eyebrow"
 msgstr "From your clipboard"
@@ -356,6 +388,10 @@ msgstr "New time"
 msgid "search.chip.category.nightlife"
 msgstr "Nightlife"
 
+#: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
+msgid "search.offline.banner"
+msgstr "No signal · working from what’s saved"
+
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.notDays"
 msgstr "Not {days}"
@@ -376,6 +412,10 @@ msgstr "Nothing like that here"
 msgid "search.none.title"
 msgstr "Nothing like that near {area}"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.count"
+msgstr "Offline results · {count}"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.openIdeas"
 msgstr "Open"
@@ -387,6 +427,10 @@ msgstr "Open past {time}"
 #: ../../apps/mobile/src/features/explore/search/plain-section.tsx
 msgid "search.plain.openTill"
 msgstr "Open till {time}"
+
+#: ../../apps/mobile/src/features/explore/search/offline-section.tsx
+msgid "search.offline.openAsOf"
+msgstr "open, as of {syncedOn}"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.askLine"
@@ -416,9 +460,17 @@ msgstr "Pick one"
 msgid "search.chip.category.other"
 msgstr "Places"
 
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queuedLine"
+msgstr "Plain words need signal. {guideName} kept your question and answers at the first bar."
+
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.attribution"
 msgstr "Powered by Foursquare"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.queued"
+msgstr "Queued · {queued}"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.quiet"
@@ -447,6 +499,10 @@ msgstr "Save {chosen} to Ideas"
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.saved"
 msgstr "Save ✓"
+
+#: ../../apps/mobile/src/features/explore/search/offline-results.tsx
+msgid "search.offline.saved"
+msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.noPicker"
@@ -512,6 +568,10 @@ msgstr "The closest is {name} in {area}, {away} away."
 msgid "search.none.nearestPlace"
 msgstr "The closest is {name}, {away} away."
 
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works.plan"
+msgstr "The plan"
+
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.private"
 msgstr "This post is private or gone."
@@ -551,6 +611,10 @@ msgstr "Which is “{label}”?"
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.widen"
 msgstr "Widen to {span}"
+
+#: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
+msgid "search.offline.works"
+msgstr "Works offline"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.worksWith"

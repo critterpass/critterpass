@@ -16,6 +16,7 @@ import {
   type LivePlace,
 } from '@/data/places/more-places';
 import type { PlaceCandidate } from '@/data/places/match-places';
+import { useOnline } from '@/data/places/server-name-search';
 import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
@@ -26,11 +27,14 @@ import { ClipboardCard } from './clipboard-card';
 import type { ClipboardLink } from './clipboard';
 import { useSearchServices } from './data/search-services';
 import { NameResults } from './name-results';
+import { OfflineBanner } from './offline-banner';
+import { OfflineSection } from './offline-section';
 import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
 import { SearchView } from './search-view';
 import { plainExamples, TypedExamples } from './typed-examples';
 import { useClipboardLink } from './use-clipboard-link';
+import { useQueuedPlainQuestion } from './use-queued-plain-question';
 import { useScopePlace, useSearchTrip, type SearchTrip } from './use-search-trip';
 
 export interface SearchScreenProps extends SearchParams {
@@ -97,11 +101,13 @@ export function SearchScreen(props: SearchScreenProps) {
     setQuery(text);
     setAsked(null);
   };
-  const ask = (question: string) => {
-    const trimmed = question.trim();
+  const ask = (words: string) => {
+    const trimmed = words.trim();
     if (trimmed === '') return;
     setQuery(trimmed);
     setAsked(trimmed);
+    // Plain words need signal: with none, the guide keeps the question for the first bar.
+    if (!online) question.ask(trimmed);
   };
   const near =
     parseNear(props.near) ??
@@ -126,6 +132,8 @@ export function SearchScreen(props: SearchScreenProps) {
     ),
   });
   const clipboard = useClipboardLink(typed === '');
+  const online = useOnline();
+  const question = useQueuedPlainQuestion({ tripId, online, guideName: trip.guideName });
 
   const go = (href: Href | undefined) => {
     if (href !== undefined) router.push(href);
@@ -159,8 +167,14 @@ export function SearchScreen(props: SearchScreenProps) {
         destination: trip.destination,
         guide: trip.guide,
         guideName: trip.guideName,
+        dimmed: !online,
       }}
       scope={scopeLabel(props, trip, place?.name ?? null)}
+      banner={
+        !online || question.answered ? (
+          <OfflineBanner answered={online && question.answered} guideName={trip.guideName} />
+        ) : null
+      }
       overlay={
         pinning ? (
           <DropPinSheet
@@ -181,7 +195,16 @@ export function SearchScreen(props: SearchScreenProps) {
         ) : null
       }
     >
-      {asked !== null ? (
+      {!online && typed !== '' ? (
+        <OfflineSection
+          search={search}
+          trip={trip}
+          area={place?.name ?? trip.destination}
+          from={near}
+          queued={question.queued}
+          onOpen={(key) => openPlace(poiRef(key))}
+        />
+      ) : asked !== null ? (
         <PlainBlock
           key={asked}
           question={asked}
