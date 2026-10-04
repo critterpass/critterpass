@@ -190,6 +190,21 @@ appId: app.critterpass.dev
 - scroll
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-07-linh-invite-friends-lower
+- scrollUntilVisible:
+    element:
+      id: 'composer-mode'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    text: '(?i)a link to share'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: collaboration-07b-linh-invite-link-tab
+- scroll
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-07c-linh-invite-link-tab-lower
 
 # ── Part 2. Minh: never opened the app, has a six-letter code from a chat.
 - retry:
@@ -299,6 +314,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-17-minh-trips-no-proposal-yet
+# The hub's big button, before anything was sent to him.
+- tapOn:
+    id: 'trip-hub-planning-cta'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- takeScreenshot: collaboration-17b-minh-see-the-plan-before-proposal
 - runFlow: subflows/home.yaml
 - runFlow:
     file: subflows/look-around.yaml
@@ -322,44 +344,26 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-21-linh-trip-hub-draft-waiting
+# SEE THE PLAN is the hub's one big button: it opens the trip map, where the guide's note says the
+# draft is still hers alone. REVIEW on that note is the way back to the draft.
 - tapOn:
     id: 'trip-hub-planning-cta'
-    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-22-linh-see-the-plan
+- tapOn:
+    text: '(?i)review'
 - extendedWaitUntil:
     visible:
       id: 'draft-review'
     timeout: 30000
-    optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: collaboration-22-linh-back-on-draft
-# If the hub did not lead to the draft, its PLAN tile is the next thing she would try.
-- runFlow:
-    when:
-      notVisible:
-        id: 'draft-review'
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: 'trip-hub-tile-plan'
-          direction: DOWN
-          timeout: 20000
-          optional: true
-      - tapOn:
-          id: 'trip-hub-tile-plan'
-          optional: true
-      - waitForAnimationToEnd:
-          timeout: 10000
-      - takeScreenshot: collaboration-22b-linh-plan-tile-instead
-      - tapOn:
-          id: 'trip-map-draft'
-          optional: true
-      - extendedWaitUntil:
-          visible:
-            id: 'draft-review'
-          timeout: 30000
-          optional: true
-      - takeScreenshot: collaboration-22c-linh-draft-from-plan
+- takeScreenshot: collaboration-22b-linh-back-on-draft
 - scrollUntilVisible:
     element:
       id: 'draft-propose'
