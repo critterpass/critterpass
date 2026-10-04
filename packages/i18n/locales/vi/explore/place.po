@@ -17,13 +17,43 @@ msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
 msgid "explore.place.rating"
 msgstr "{0} / 10"
 
+#. placeholder {0}: String(stay.minutes)
+#. placeholder {1}: stay.name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.fromStay"
+msgstr "{0} phút từ {1}"
+
+#. placeholder {0}: row.name
+#. placeholder {1}: row.destination_name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.shareText"
+msgstr "{0}, {1}. Đáng ghé không?"
+
+#. placeholder {0}: capital(said[0] ?? '', input.locale)
+#. placeholder {1}: said[1] ?? ''
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.two"
+msgstr "{0}, và {1}."
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.when"
+msgstr "{day} lúc {time}"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.guidePick"
 msgstr "{guideName} chọn"
 
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarMeta"
+msgstr "{kind} · {minutes} phút"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.fromStay"
 msgstr "{minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.minOn"
+msgstr "Thêm {minutes} phút"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
@@ -46,12 +76,28 @@ msgid "explore.crew.keenMore"
 msgstr "{names} và {more} người nữa thích nơi này."
 
 #: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.savedMore"
+msgstr "{names} và {more} người nữa đã lưu."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
 msgid "explore.crew.keen"
 msgstr "{names} thích nơi này."
 
 #: ../../apps/mobile/src/features/explore/components/crew-row.tsx
 msgid "explore.crew.keenOne"
 msgstr "{names} thích nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.saved"
+msgstr "{names} đã lưu."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.alsoAfter"
+msgstr "{weekday} sau {afterName} cũng được."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.also"
+msgstr "{weekday} cũng được."
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
 msgid "explore.save.save"
@@ -61,6 +107,28 @@ msgstr "♡ Lưu"
 msgid "explore.save.saved"
 msgstr "♥ Đã lưu"
 
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.unidea"
+msgstr "Bỏ một nơi khỏi Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/place-detail/commands.ts
+msgid "explore.detail.queued.idea"
+msgstr "Một nơi đã lưu vào Ý tưởng"
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearbyAdd"
+msgstr "Thêm {0} sau điểm này"
+
+#. placeholder {0}: place.name
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similarAdd"
+msgstr "Thêm {0} vào kế hoạch"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.addTo"
+msgstr "Thêm vào {weekday} · {time}"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.toDay"
 msgstr "Thêm vào ngày {day} · {time}"
@@ -69,22 +137,49 @@ msgstr "Thêm vào ngày {day} · {time}"
 msgid "explore.add.reason"
 msgstr "Thêm {name} từ Khám phá"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.offline"
+msgstr "Cần kết nối để thêm"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.offline"
 msgstr "Cần có mạng để thêm"
+
+#. placeholder {0}: props.guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.chat"
+msgstr "Hỏi {0} về nơi này"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.chat"
 msgstr "Hỏi {0} về nơi này"
 
+#: ../../apps/mobile/src/features/explore/place-detail/collapsing-header.tsx
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.peak"
+msgstr "Đông nhất lúc {busiest}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearbyBy"
+msgstr "Do {0} chọn"
+
 #: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
 msgid "explore.place.call"
 msgstr "Gọi"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.closed"
+msgstr "Đóng cửa"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.closedNow"
@@ -94,9 +189,31 @@ msgstr "đang đóng cửa"
 msgid "explore.place.closedForGood"
 msgstr "đã đóng cửa vĩnh viễn"
 
+#. placeholder {0}: stances.want.length
+#. placeholder {1}: stances.ratherNot.length
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.split"
+msgstr "Cả nhóm chia {0}–{1}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busySeen"
+msgstr "các nhóm thấy đông từ {at} giờ"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noFit"
+msgstr "Chưa hợp với ngày nào"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.entry"
+msgstr "Vé"
+
 #: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
 msgid "explore.hero.back"
 msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.loading"
+msgstr "Đang tìm lúc phù hợp"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.free"
@@ -114,13 +231,29 @@ msgstr "Đã hiểu"
 msgid "explore.place.missingOffline"
 msgstr "Lần đầu mình cần có mạng. Sau đó nơi này có sẵn cả khi không có mạng."
 
+#: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
+msgid "explore.detail.similar"
+msgstr "Nếu bạn thích nơi này"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDay"
+msgstr "Ngày {day}"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.inDay"
 msgstr "Trong ngày {day}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.inDayAt"
+msgstr "Ngày {day} · {time}"
+
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTaste"
 msgstr "Hợp với sở thích của nhóm: {tag}."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.busy"
+msgstr "thường đông từ khoảng {at} giờ"
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyNear"
@@ -134,13 +267,37 @@ msgstr "Đây là một trong những nơi phải đến của {guideName}."
 msgid "explore.swipe.whyNone"
 msgstr "Đây là một trong những nơi {guideName} giữ cho điểm đến này."
 
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.quiet"
+msgstr "vắng đến {at} giờ"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.hoursUnknown"
+msgstr "chưa rõ giờ mở cửa"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.hoursUnknown"
+msgstr "Chưa rõ giờ mở cửa nên mình chưa xếp được."
+
+#: ../../apps/mobile/src/features/explore/place-detail/know-before.tsx
+msgid "explore.detail.know"
+msgstr "Cần biết trước khi đi"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.mustDo"
 msgstr "Phải đi · {mustDoOwner}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
+msgid "explore.detail.nearby"
+msgstr "Gần đó, đi tiếp"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.full"
 msgstr "Kế hoạch hết chỗ trống"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
+msgstr "Chưa có kế hoạch để thêm"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
@@ -154,6 +311,14 @@ msgstr "Ảnh minh hoạ"
 msgid "explore.offers.offline"
 msgstr "Cần có mạng để xem ưu đãi."
 
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.open"
+msgstr "Mở cửa"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.open"
+msgstr "Mở cửa từ {from} đến {to}"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.open24"
 msgstr "mở cửa 24 giờ"
@@ -162,19 +327,43 @@ msgstr "mở cửa 24 giờ"
 msgid "explore.place.openNow"
 msgstr "đang mở cửa"
 
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.other"
+msgstr "Ngày khác ›"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.planTrip"
+msgstr "Lên chuyến đi ở đây"
+
 #. placeholder {0}: attribution.name
 #: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
 msgid "explore.place.poweredBy"
 msgstr "Cung cấp bởi {0}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.bars.quiet"
+msgstr "Vắng đến {quiet}, đông nhất lúc {busiest}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.rain"
+msgstr "dễ mưa {from}–{to}"
 
 #. placeholder {0}: rating.toFixed(1)
 #: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
 msgid "explore.place.ratingLabel"
 msgstr "Được chấm {0} trên 10"
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.unsave"
+msgstr "Bỏ khỏi Ý tưởng"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.unsave"
 msgstr "Bỏ lưu"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.after"
+msgstr "ngay sau {afterName}"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.save"
@@ -184,9 +373,22 @@ msgstr "Lưu cho chuyến đi"
 msgid "explore.place.save"
 msgstr "Lưu nơi này"
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.save"
+msgstr "Lưu vào Ý tưởng"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
 msgstr "Đã lưu"
+
+#. placeholder {0}: firstNames.join(' + ')
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-screen.tsx
+msgid "explore.detail.savedBy"
+msgstr "{0} đã lưu"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
+msgid "explore.detail.savedIdea"
+msgstr "Đã lưu. Có trong Ý tưởng rồi."
 
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.map"
@@ -200,9 +402,17 @@ msgstr "Xem ưu đãi"
 msgid "explore.offers.body"
 msgstr "Xem các đối tác đặt chỗ của chúng tôi có gì cho {placeName}, theo lời của chính họ."
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
+msgid "explore.detail.share"
+msgstr "Chia sẻ nơi này"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.share"
 msgstr "Chia sẻ nơi này"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.suggestFor"
+msgstr "Đề xuất {weekday} · {time}"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.suggest"
@@ -211,6 +421,10 @@ msgstr "Đề xuất cho ngày {day} · {time}"
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.suggested"
 msgstr "Đã đề xuất cho ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.takes"
+msgstr "Mất"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.refused"
@@ -236,6 +450,10 @@ msgstr "Vé và tour"
 msgid "explore.offers.disclosure"
 msgstr "Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ. Điều đó không bao giờ thay đổi thứ hạng chúng tôi xếp."
 
+#: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
+msgid "explore.detail.tile.wear"
+msgstr "Trang phục"
+
 #: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
 msgid "explore.place.website"
 msgstr "Trang web"
@@ -244,6 +462,14 @@ msgstr "Trang web"
 msgid "explore.place.visitorTips"
 msgstr "Du khách nói gì"
 
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.eyebrow"
+msgstr "Lúc phù hợp"
+
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTitle"
 msgstr "Vì sao là {placeName}?"
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.why.freeDay"
+msgstr "Ngày trống của bạn"

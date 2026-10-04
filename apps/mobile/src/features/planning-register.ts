@@ -8,4 +8,6 @@
  */
 import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
 
+import './explore/place-detail/register';
+
 startPlanningSwitchFeed();
