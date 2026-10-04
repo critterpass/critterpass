@@ -1,0 +1,94 @@
+appId: app.critterpass.dev
+# Signal comes back even when a step fails, so the next flow on this device starts online.
+onFlowComplete:
+  - setAirplaneMode: disabled
+---
+# The day plan and the whole trip in airplane mode (Android only: Maestro's airplane mode cannot
+# cut the iOS simulator's network): the plan, its legs and the saved
+# places draw from what is on the phone, with no network at all.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- setAirplaneMode: enabled
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-day-plan'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-day-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7b-1-day-plan-offline
+- scrollUntilVisible:
+    element:
+      id: 'stop-3-note'
+    direction: DOWN
+    timeout: 10000
+- takeScreenshot: en-7b-1-day-plan-offline-legs
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-trip-map-whole-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-trip-map-whole-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-full'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-7a-3-trip-map-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- setAirplaneMode: disabled
