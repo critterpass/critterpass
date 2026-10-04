@@ -9,10 +9,15 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
 }));
 
-export function ProposalConfirm(props: ConfirmSheetProps) {
+export function ProposalConfirm(props: ConfirmSheetProps & { readonly fit?: boolean }) {
   const styles = useStyles();
   return (
-    <Sheet detents={['medium']} onDismiss={props.onCancel} accessibilityLabel={props.title}>
+    <Sheet
+      // A longer list of consequences takes the height it needs instead of half the screen.
+      detents={props.fit === true ? ['fit'] : ['medium']}
+      onDismiss={props.onCancel}
+      accessibilityLabel={props.title}
+    >
       <View style={styles.body}>
         <ConfirmSheet {...props} />
       </View>

@@ -131,7 +131,7 @@ export function lockCopy(state: LockState): {
     case 'ready':
       return { label: t({ id: 'proposal.lock.cta', message: 'Lock it in' }), note: null };
     case 'alone':
-      return { label: t({ id: 'proposal.alone.lock', message: 'Lock it in' }), note: null };
+      return { label: t({ id: 'proposal.lock.cta', message: 'Lock it in' }), note: null };
     case 'nobody_in':
       return {
         label: null,
@@ -140,11 +140,8 @@ export function lockCopy(state: LockState): {
           message: 'You can lock the trip in once someone says they’re in.',
         }),
       };
+    // "The trip is on" is said once, by the locked-in card above the footer.
     case 'locked':
-      return {
-        label: null,
-        note: t({ id: 'proposal.lock.locked', message: 'Locked in. The trip is confirmed.' }),
-      };
     case 'not_sent':
       return { label: null, note: null };
   }
@@ -170,4 +167,53 @@ export function dropoutShare(
     before: wholeMoney(locale, change.before, currency),
     each: signedMoney(locale, change.delta, currency),
   };
+}
+
+/**
+ * What locking changes, for the lock sheet: who is going, what happens to a maybe and to someone
+ * who never answered, and what stays possible afterwards (suggesting changes, joining later),
+ * with the one thing that does not: it cannot be unlocked.
+ */
+export function lockConsequences(state: LockState): string[] {
+  if (state.kind !== 'ready' && state.kind !== 'alone') return [];
+  const after = [
+    t({
+      id: 'proposal.lock.stillEdit',
+      message: 'The plan stays open: everyone going can still suggest changes.',
+    }),
+    t({
+      id: 'proposal.lock.stillJoin',
+      message: 'Friends who join the crew later can still take a seat.',
+    }),
+    t({
+      id: 'proposal.lock.noUndo',
+      message: 'A lock can’t be undone. Someone who drops out later frees their seat.',
+    }),
+  ];
+  if (state.kind === 'alone') {
+    return [
+      t({
+        id: 'proposal.lock.aloneGoing',
+        message: 'Everyone else said they can’t make it, so it’s just you. The trip is confirmed.',
+      }),
+      ...after,
+    ];
+  }
+  const going = state.going + 1;
+  const { maybes, silent } = state;
+  return [
+    t({ id: 'proposal.lock.going', message: `${going} going, the trip is confirmed.` }),
+    ...(maybes > 0
+      ? [
+          t({
+            id: 'proposal.lock.maybes',
+            message: `${maybes} maybe go on the waitlist for a freed seat.`,
+          }),
+        ]
+      : []),
+    ...(silent > 0
+      ? [t({ id: 'proposal.lock.silent', message: `${silent} who haven’t answered are out.` })]
+      : []),
+    ...after,
+  ];
 }
