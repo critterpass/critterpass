@@ -48,6 +48,13 @@ export const workerEnvSchema = z.object({
   WEATHERAPI_FORECAST_DAYS: z.coerce.number().int().min(1).max(14).default(3),
   /** Marine forecast days the plan allows (free 1, Starter 3, Pro+ 5). */
   WEATHERAPI_MARINE_DAYS: z.coerce.number().int().min(1).max(7).default(1),
+  /** Public base URL of the `cp-tiles` bucket, the same value the api reads: region packs found
+   *  there (`<slug>/tiles-v<n>.pmtiles`) get their `map_regions` row from
+   *  src/places/map-region-register.ts. */
+  TILES_BASE_URL: z.preprocess(
+    emptyAsUndefined,
+    z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
+  ),
   /** Overrides the Overture release path in src/places/source-readers.ts. */
   OVERTURE_RELEASE: optionalString,
   /** Foursquare Places Portal token: the POI ingest reads FSQ OS Places from its Iceberg catalog. */

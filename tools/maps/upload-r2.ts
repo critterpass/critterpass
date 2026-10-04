@@ -7,7 +7,10 @@
  *
  * A destination pmtiles upload also upserts its `map_regions` row (destination_id, pmtiles_key,
  * bytes, version) so `/v1/map/regions/{destination_id}` (services/api/src/places/map-regions.ts)
- * has a manifest to serve — reads `DATABASE_DIRECT_URL`, same convention as `ingest-cli.ts`.
+ * has a manifest to serve — reads `DATABASE_DIRECT_URL`, same convention as `ingest-cli.ts`. A
+ * pack that is already published is refused, never replaced. This is the path from a laptop; the
+ * `map regions` workflow publishes over R2's S3 API instead, and the worker's
+ * `places.map_region_register` job writes the row for anything it finds on the bucket.
  */
 import { createPool, withSystem } from '@cp/db';
 import { spawnSync } from 'node:child_process';
@@ -188,6 +191,15 @@ async function main(): Promise<void> {
   }
   const pmtilesPath = path.join(outputRoot, `${destination}.pmtiles`);
   const key = `${destination}/tiles-${args.version}.pmtiles`;
+  // A published pack is never replaced (installed apps and downloads in flight read it): a rebuilt
+  // pack goes up beside it under the next version.
+  const head = await fetch(publicUrlFor(key), { method: 'HEAD' });
+  if (head.ok) {
+    throw new Error(`tiles upload-r2: ${key} is already published; pass the next --version`);
+  }
+  if (head.status !== 404) {
+    throw new Error(`tiles upload-r2: cannot tell whether ${key} exists (${String(head.status)})`);
+  }
   putObject(pmtilesPath, key);
   const bytes = statSync(pmtilesPath).size;
   await upsertMapRegion(destination, key, bytes, args.version);

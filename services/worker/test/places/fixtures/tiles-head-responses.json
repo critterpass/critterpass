@@ -1,0 +1,23 @@
+{
+  "recorded": "HEAD requests against the cp-tiles public URL, 2026-10-04",
+  "found": {
+    "url": "https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev/vn-da-lat/tiles-v1.pmtiles",
+    "status": 200,
+    "headers": {
+      "content-type": "application/octet-stream",
+      "content-length": "3026388",
+      "accept-ranges": "bytes",
+      "etag": "\"07f5fdccfb095a8e287bfa09b1f50c13\"",
+      "last-modified": "Sun, 04 Oct 2026 12:30:35 GMT",
+      "server": "cloudflare"
+    }
+  },
+  "absent": {
+    "url": "https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev/vn-da-lat/tiles-v2.pmtiles",
+    "status": 404,
+    "headers": {
+      "content-type": "text/plain;charset=UTF-8",
+      "server": "cloudflare"
+    }
+  }
+}

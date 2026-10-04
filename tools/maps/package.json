@@ -13,7 +13,8 @@
     "build:glyphs": "tsx build-glyphs.ts",
     "build:sprites": "tsx build-sprites.ts",
     "build:pmtiles": "tsx build-pmtiles.ts",
-    "upload:r2": "tsx upload-r2.ts"
+    "upload:r2": "tsx upload-r2.ts",
+    "missing:regions": "tsx missing-regions.ts"
   },
   "dependencies": {
     "@cp/db": "workspace:*",
