@@ -74,7 +74,7 @@ function Where({
   );
 }
 
-function NearMapScene() {
+function NearMapScene({ noPack = false }: { readonly noPack?: boolean }) {
   const theme = useTheme();
   return (
     <Scaffold variant="dark" edges={['top']} testID="critters-near-map-scene">
@@ -86,7 +86,9 @@ function NearMapScene() {
             { ...spot('monkey', 'Monkey Forest', -8.5188, 115.2585, 0), tier: null },
           ]}
           position={UBUD}
-          slug="bali"
+          // Without a pack: a slug the tiles host has never heard of.
+          slug={noPack ? 'lab-no-region-pack' : 'bali'}
+          placeName="Bali"
           foundLabel="All found"
           height={320}
           testID="critters-near-map"
@@ -100,4 +102,5 @@ export const WHERE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3l-3-where-rare': () => <Where where={RARE} requirement="Three water temples" />,
   '3l-3-where-legendary': () => <Where where={LEGENDARY} requirement="All six at the top" />,
   '3l-2-near-map': () => <NearMapScene />,
+  'near-map-no-pack': () => <NearMapScene noPack />,
 };

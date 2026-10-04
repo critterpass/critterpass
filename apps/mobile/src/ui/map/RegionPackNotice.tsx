@@ -11,13 +11,15 @@ import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
 
 const useStyles = makeStyles((t) => ({
-  row: {
+  over: {
     position: 'absolute',
     left: 0,
     right: 0,
     alignItems: 'center',
     paddingHorizontal: t.space['20'],
   },
+  // Under a map too small to carry the line over its pins.
+  under: { alignItems: 'center', paddingTop: t.space['8'] },
   pill: {
     maxWidth: '100%',
     paddingHorizontal: t.space['12'],
@@ -30,12 +32,13 @@ const useStyles = makeStyles((t) => ({
 export interface RegionPackNoticeProps {
   /** The destination's name, as the app shows it. */
   readonly place: string;
-  /** How far above the map's foot the line sits, in points. */
-  readonly bottom: number;
+  /** How far above the map's foot the line sits, in points. Unset, the line is laid out in the
+   *  flow instead, for a small framed map that puts it underneath. */
+  readonly bottom?: number | undefined;
 }
 
 /** The height of the map's mark and attribution row, with the gap kept above it. */
-const ORNAMENT_ROW = 44;
+const ORNAMENT_ROW = 52;
 const ABOVE_SHEET = 12;
 
 /**
@@ -65,7 +68,11 @@ export function RegionPackNotice({ place, bottom }: RegionPackNoticeProps) {
   const theme = useTheme();
   const { t } = useLingui();
   return (
-    <View style={[styles.row, { bottom }]} pointerEvents="none" testID="map-region-pack-notice">
+    <View
+      style={bottom === undefined ? styles.under : [styles.over, { bottom }]}
+      pointerEvents="none"
+      testID="map-region-pack-notice"
+    >
       <View style={styles.pill}>
         <Text
           variant="caption"
