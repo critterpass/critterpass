@@ -2,7 +2,8 @@
  * Place job queues (docs/api-contracts-async.md §2.3): the Foursquare id match for curated POIs that
  * open data did not link to Foursquare. Monthly for every destination (new curated POIs, and misses
  * older than the retry window), or on demand for one destination from the console. Beside it, the
- * open-data ingest and the registration of region map packs found on the tiles bucket.
+ * open-data ingest, the registration of region map packs found on the tiles bucket, and the
+ * machine picks for a destination without a curated set (`places.pick`).
  */
 import { z } from 'zod';
 
@@ -15,6 +16,7 @@ export const PLACES_QUEUES = {
   foursquareMatch: 'places.fsq_match',
   ingest: 'places.ingest',
   mapRegionRegister: 'places.map_region_register',
+  pick: 'places.pick',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -42,6 +44,13 @@ export const PLACES_QUEUE_SPECS = {
     expireInSeconds: 10 * 60,
     cron: { expr: '7,27,47 * * * *', tz: 'UTC' },
   },
+  // Keyed by destination slug: one run at a time per destination, and one more waiting behind it.
+  'places.pick': {
+    policy: 'stately',
+    retryLimit: 2,
+    retryDelay: 60,
+    expireInSeconds: 10 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -60,6 +69,7 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.fsq_match': 'Links curated places to their Foursquare ids for live place details',
     'places.ingest': "Plans a destination's open-data place tiles, or every destination's monthly",
     'places.map_region_register': 'Registers region map packs that appeared on the tiles bucket',
+    'places.pick': 'Picks the places to suggest in a destination without a curated set',
   };
 
 export const foursquareMatchJobSchema = z.object({
@@ -67,3 +77,16 @@ export const foursquareMatchJobSchema = z.object({
   destination: z.string().min(1).optional(),
 });
 export type FoursquareMatchJob = z.infer<typeof foursquareMatchJobSchema>;
+
+export const placesPickJobSchema = z.object({
+  /** The destination's slug. */
+  destination: z.string().min(1),
+  /** Pick again even when the destination already has picks (an operator's re-run). */
+  force: z.boolean().optional(),
+});
+export type PlacesPickJob = z.infer<typeof placesPickJobSchema>;
+
+/** The `places.pick` singleton key: one run per destination at a time. */
+export function placesPickKey(slug: string): string {
+  return `pick:${slug}`;
+}

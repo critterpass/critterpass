@@ -1,8 +1,8 @@
 /**
  * Content batch commands (docs/api-contracts.md §4.17). Reviewers keep or reject items and reject
  * whole batches with notes (fed into the next generation run); the owner approves, which merges the
- * batch into the live release of its kind (rejected items keep their live version; a media batch
- * with place photos also drops the live place photos it does not carry) and queues
+ * batch into the live release of its kind (rejected items keep their live version; a media item
+ * re-stated with no subjects takes its live asset down) and queues
  * `content.publish`; the owner can also roll a kind back to an earlier release, which the same job
  * publishes in one transaction.
  */
@@ -57,43 +57,20 @@ async function enqueuePublish(tx: pg.PoolClient, releaseId: string): Promise<voi
   await sendInTx(tx, CONTENT_PUBLISH_QUEUE, { release_id: releaseId }, { singletonKey: releaseId });
 }
 
-const isPlaceSubject = (subject: string) => subject.startsWith('poi:');
-
 /**
- * The live media items a place batch leaves standing. A batch with place photos carries every
- * place photo it keeps (the content factory's carry rule), so a live photo of a place that the
- * batch lacks was dropped on purpose: it loses its places, and goes when nothing else is left.
- * A batch of destination media alone lays over the live release like any other kind.
+ * The live release with the batch laid over it: kept items replace or add, rejected ones stay
+ * live, and nothing else that is live changes. A media batch takes a live asset down by
+ * re-stating it with no subjects: such an item never reaches the merged release, whatever its
+ * other fields say.
  */
-export function liveMediaKept(
-  live: readonly ContentItem<'media'>[],
-  batch: readonly ContentItem<'media'>[],
-): ContentItem<'media'>[] {
-  if (!batch.some((item) => item.subjects.some(isPlaceSubject))) return [...live];
-  const carried = new Set(batch.map((item) => itemRef('media', item)));
-  return live.flatMap((item) => {
-    if (carried.has(itemRef('media', item))) return [item];
-    const subjects = item.subjects.filter((subject) => !isPlaceSubject(subject));
-    return subjects.length === 0 ? [] : [{ ...item, subjects }];
-  });
-}
-
-/** The live release with the batch laid over it: kept items replace or add, rejected ones stay live. */
 async function mergedItems(tx: pg.PoolClient, row: ReleaseRow): Promise<unknown[]> {
   const batch = loadRelease(row.artifact, row.kind);
   const live = await tx.query<{ artifact: unknown }>(
     "SELECT artifact FROM content_releases WHERE kind = $1 AND status = 'published'",
     [row.kind],
   );
-  const published =
-    live.rows[0] === undefined ? [] : loadRelease(live.rows[0].artifact, row.kind).items;
   const liveItems =
-    row.kind === 'media'
-      ? liveMediaKept(
-          published as readonly ContentItem<'media'>[],
-          batch.items as readonly ContentItem<'media'>[],
-        )
-      : published;
+    live.rows[0] === undefined ? [] : loadRelease(live.rows[0].artifact, row.kind).items;
   const rejected = await tx.query<{ item_ref: string }>(
     "SELECT item_ref FROM ops.content_reviews WHERE release_id = $1 AND verdict = 'reject'",
     [row.id],
@@ -102,7 +79,12 @@ async function mergedItems(tx: pg.PoolClient, row: ReleaseRow): Promise<unknown[
   const merged = new Map(liveItems.map((item) => [itemRef(row.kind, item), item as unknown]));
   for (const item of batch.items) {
     const ref = itemRef(row.kind, item);
-    if (!rejectedRefs.has(ref)) merged.set(ref, item);
+    if (rejectedRefs.has(ref)) continue;
+    if (row.kind === 'media' && (item as ContentItem<'media'>).subjects.length === 0) {
+      merged.delete(ref);
+    } else {
+      merged.set(ref, item);
+    }
   }
   return parseItems(row.kind, [...merged.values()]);
 }

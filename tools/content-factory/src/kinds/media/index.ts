@@ -6,7 +6,8 @@
  * files. `--opt subjects=da-nang,bali` limits the batch; `--opt lead=<id>,<id>` ranks those
  * candidates first, so a subject's hero is the first kept photo. `--opt places=da-nang` instead
  * proposes each curated place's own photo from Wikimedia Commons, else a labelled generic one
- * (see place-batch.ts), and renders a review page per destination (review-page.ts).
+ * (see place-batch.ts), states the live items it changes or takes down, and renders a review page
+ * per destination (review-page.ts).
  */
 import path from 'node:path';
 
@@ -125,9 +126,11 @@ export const mediaKind: KindModule<'media'> = {
         proposals: batch.proposals,
         unanswered: batch.unanswered,
         suggestedDrops: batch.suggestedDrops,
+        removed: batch.removed,
+        changed: batch.changed,
       });
       const units = batch.items.map((item) => ({ id: item.id, input: item }));
-      return { units, carried: batch.carried, options: ctx.options };
+      return { units, options: ctx.options };
     }
     if (deps.pexelsKey === undefined && deps.pixabayKey === undefined) {
       throw new Error('media search needs PEXELS_API_KEY or PIXABAY_API_KEY');
@@ -141,10 +144,7 @@ export const mediaKind: KindModule<'media'> = {
     return { units, options: ctx.options };
   },
   assemble: (_ctx, brief) =>
-    Promise.resolve([
-      ...brief.units.map((unit) => mediaItemSchema.parse(unit.input)),
-      ...(brief.carried ?? []).map((item) => mediaItemSchema.parse(item)),
-    ]),
+    Promise.resolve(brief.units.map((unit) => mediaItemSchema.parse(unit.input))),
   validators: {
     items: [
       {
@@ -180,23 +180,6 @@ export const mediaKind: KindModule<'media'> = {
       },
     ],
     batch: [
-      {
-        id: 'keeps-the-destination-media',
-        severity: 'fail',
-        check: ({ items }) => {
-          const subjects = items.flatMap((i) => i.subjects);
-          return subjects.some((s) => s.startsWith('poi:')) &&
-            !subjects.some((s) => s.startsWith('destination:'))
-            ? [
-                {
-                  ref: null,
-                  message:
-                    'publishing replaces every media asset: carry the live destination media',
-                },
-              ]
-            : [];
-        },
-      },
       {
         id: 'every-subject-has-a-photo',
         severity: 'warn',

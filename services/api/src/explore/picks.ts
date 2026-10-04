@@ -1,9 +1,11 @@
 /**
- * A destination's first-timer picks: its curated (editorial) places, must-sees first, then by how
- * many of the crew's (or the viewer's) taste tags each one carries. Commission-neutral: nothing a
+ * A destination's first-timer picks: its recommended places (the curated set, or the machine
+ * picks where nothing is curated), must-sees first, then by how many of the crew's (or the
+ * viewer's) taste tags each one carries, then in the recommended order. Commission-neutral: nothing a
  * partner pays for moves an organic pick; the sponsored slot is added separately and labelled.
  * Rows that are one place (a beach under three sources) are picked once.
  */
+import { recommendedOrderSql, recommendedSql } from '@cp/db';
 import { distinctPlaces } from '@cp/domain';
 import type pg from 'pg';
 
@@ -54,9 +56,9 @@ export async function readPicks(
             cardinality(ARRAY(SELECT lower(t) FROM unnest(p.tags) t
                                INTERSECT SELECT unnest($2::text[]))) AS taste_matches
        FROM pois p
-      WHERE p.destination_id = $1 AND p.curation = 'editorial' AND p.status = 'active'
+      WHERE p.destination_id = $1 AND ${recommendedSql('p')} AND p.status = 'active'
         AND p.merged_into_id IS NULL AND p.category <> 'stay'
-      ORDER BY must_see DESC, taste_matches DESC, p.name, p.id
+      ORDER BY must_see DESC, taste_matches DESC, ${recommendedOrderSql('p')}, p.name, p.id
       LIMIT $3`,
     [destinationId, taste, PICKS_LIMIT * READ_PER_PICK],
   );

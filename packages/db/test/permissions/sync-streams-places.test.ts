@@ -14,6 +14,7 @@ let destinationId: string;
 let otherDestinationId: string;
 let activePoiId: string;
 let closedPoiId: string;
+let pickedPoiId: string;
 let regionId: string;
 /** POIs the trip points at, by how it points at them (see beforeAll). */
 let refs: Record<
@@ -63,8 +64,21 @@ beforeAll(async () => {
     };
     const closed = await insertPoi(dest, 'Closed POI', 'closed');
     await insertPoi(dest, 'Hidden POI', 'hidden');
-    // An open-data import row nobody has curated stays server-side, searchable over HTTP only.
+    // An open-data import row nobody has curated or picked stays server-side, searchable over HTTP
+    // only.
     const imported = await insertPoi(dest, 'Imported POI', 'active', 'auto');
+    // Machine picks of a destination without a curated set are recommended like editorial rows;
+    // a hidden or merged pick is not sent.
+    const picked = await insertPoi(dest, 'Picked POI', 'active', 'auto');
+    const hiddenPick = await insertPoi(dest, 'Hidden pick', 'hidden', 'auto');
+    const mergedPick = await insertPoi(dest, 'Merged pick', 'active', 'auto');
+    for (const [rank, id] of [picked, hiddenPick, mergedPick].entries()) {
+      await tx.query("UPDATE pois SET pick_rank = $2, pick_source = 'fill' WHERE id = $1", [
+        id,
+        rank + 1,
+      ]);
+    }
+    await tx.query('UPDATE pois SET merged_into_id = $1 WHERE id = $2', [active, mergedPick]);
     const duplicate = await insertPoi(dest, 'Duplicate POI', 'active');
     await tx.query('UPDATE pois SET merged_into_id = $1 WHERE id = $2', [active, duplicate]);
     await insertPoi(other.rows[0]!.id, 'Elsewhere POI', 'active');
@@ -120,6 +134,7 @@ beforeAll(async () => {
       other: other.rows[0]!.id,
       active,
       closed,
+      picked,
       region: region.rows[0]!.id,
       refs: {
         imported,
@@ -138,6 +153,7 @@ beforeAll(async () => {
   otherDestinationId = seeded.other;
   activePoiId = seeded.active;
   closedPoiId = seeded.closed;
+  pickedPoiId = seeded.picked;
   regionId = seeded.region;
   refs = seeded.refs;
 }, 240_000);
@@ -157,6 +173,7 @@ describe('trip_pack stream', () => {
   const crewPlaces = (): string[] => [
     activePoiId,
     closedPoiId,
+    pickedPoiId,
     refs.stop,
     refs.hiddenStop,
     refs.mergedStop,
@@ -164,7 +181,7 @@ describe('trip_pack stream', () => {
     refs.idea,
   ];
 
-  it("syncs the destination's editorial POIs and every place the crew plan and ideas point at to a member", async () => {
+  it("syncs the destination's recommended POIs (editorial or picked) and every place the crew plan and ideas point at to a member", async () => {
     expect(await poiIds('member')).toEqual(crewPlaces().sort());
     const ids = idsByTable(await harness.rows('trip_pack', 'member', params()));
     expect(ids['map_regions']).toEqual([regionId]);
@@ -197,13 +214,25 @@ describe('trip_pack stream', () => {
       for (const column of SERVER_ONLY_POI_COLUMNS) expect(row).not.toHaveProperty(column);
     }
   });
+
+  it('sends the pick rank so the phone can order a destination without a curated set', async () => {
+    const rows = (await harness.rows('trip_pack', 'member', params())).get('pois') ?? [];
+    const rank = (id: string) => rows.find((row) => row['id'] === id)?.['pick_rank'];
+    expect(rank(pickedPoiId)).toBe(1);
+    expect(rank(activePoiId)).toBeNull();
+    for (const row of rows) expect(row).not.toHaveProperty('pick_source');
+  });
 });
 
 describe('explore stream', () => {
-  it.each(STREAM_ACTORS)("syncs any destination's visible editorial POIs to %s", async (actor) => {
-    const ids = idsByTable(await harness.rows('explore', actor, { destination_id: destinationId }));
-    expect(ids['pois']).toEqual([activePoiId, closedPoiId].sort());
-  });
+  it.each(STREAM_ACTORS)(
+    "syncs any destination's visible recommended POIs (editorial or picked) to %s",
+    async (actor) => {
+      const rows = await harness.rows('explore', actor, { destination_id: destinationId });
+      expect(idsByTable(rows)['pois']).toEqual([activePoiId, closedPoiId, pickedPoiId].sort());
+      expect(rows.get('pois')?.find((row) => row['id'] === pickedPoiId)?.['pick_rank']).toBe(1);
+    },
+  );
 
   it('is scoped to the requested destination', async () => {
     const ids = idsByTable(

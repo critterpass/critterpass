@@ -183,4 +183,31 @@ describe('GET /v1/trips/{id}/places/suggest', () => {
     const fresh = (await allPages(a.organiser)).flatMap((page) => page.places);
     expect(fresh.map((entry) => entry.poi_id)).toContain(late);
   });
+
+  it('suggests the machine picks of a destination with no curated set', async () => {
+    const ids = async () =>
+      (await allPages(a.organiser))
+        .flatMap((page) => page.places)
+        .map((entry) => entry.poi_id)
+        .sort();
+    const curated = await ids();
+    expect(curated.length).toBeGreaterThan(0);
+    // The same places as open data the pick job chose, and one more nobody picked.
+    await harness.pool.query(
+      `UPDATE pois p SET curation = 'auto', pick_rank = r.n, pick_source = 'fill'
+         FROM (SELECT id, (row_number() OVER (ORDER BY name, id))::int AS n FROM pois
+                WHERE destination_id = $1 AND curation = 'editorial') r
+        WHERE p.id = r.id`,
+      [kyoto],
+    );
+    const { rows } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng)
+       VALUES ($1, 'Unpicked shrine', 'temple_shrine', 35.001, 135.771) RETURNING id`,
+      [kyoto],
+    );
+    clearSuggestCache();
+    const picked = await ids();
+    expect(picked).toEqual(curated);
+    expect(picked).not.toContain(rows[0]!.id);
+  });
 });

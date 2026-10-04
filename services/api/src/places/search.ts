@@ -11,6 +11,7 @@
  * are never hidden from a name search or removed: trips and editorial reference POI ids. Editorial
  * places come first, then rows both sources list, then by confidence.
  */
+import { LOW_CONFIDENCE, LOW_QUALITY, QUALITY_SCORE } from '@cp/db';
 import { knownHours, openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
 import type pg from 'pg';
 
@@ -20,21 +21,12 @@ const MAX_LIMIT = 50;
  *  (tz-aware, overnight-span-aware) is not expressible as a single SQL predicate. */
 const OPEN_AT_CANDIDATE_MULTIPLIER = 5;
 
-/** Overture confidence under which an auto row FSQ does not also list counts as low quality. */
-export const LOW_CONFIDENCE = 0.5;
-
 /**
- * True for an auto-curated, Overture-only row whose confidence is under `LOW_CONFIDENCE`. This and
- * `QUALITY_SCORE` are repeated verbatim in the `pois_destination_browse_idx` migration: the planner
- * uses that index for a no-query browse only while the texts match.
+ * The open-data quality fragments are shared with the worker's pick job (`@cp/db`). They are
+ * repeated verbatim in the `pois_destination_browse_idx` migration: the planner uses that index
+ * for a no-query browse only while the texts match.
  */
-export const LOW_QUALITY = `(p.curation <> 'editorial' AND NOT (p.source_ids ? 'fsq_os') AND coalesce(p.confidence < ${LOW_CONFIDENCE}, false))`;
-
-/**
- * Non-editorial quality in about [0, 4]: listed by FSQ OS, by both sources, a mapped category, and
- * Overture's confidence (an unknown score counts as middling).
- */
-export const QUALITY_SCORE = `((p.source_ids ? 'fsq_os')::int + (p.source_ids ? 'fsq_os' AND p.source_ids ? 'overture')::int + (p.category <> 'other')::int + coalesce(p.confidence, 0.5))`;
+export { LOW_CONFIDENCE, LOW_QUALITY, QUALITY_SCORE };
 
 /** Weight of `QUALITY_SCORE` next to text relevance: a tie-breaker, never louder than the match. */
 const QUALITY_WEIGHT_WITH_QUERY = 0.05;

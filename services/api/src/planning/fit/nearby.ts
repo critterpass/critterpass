@@ -1,8 +1,9 @@
 /**
- * Curated places near a place, by travel minutes from it: the 25 nearest in a straight line,
+ * Recommended places (curated, or picked where nothing is) near a place, by travel minutes from it: the 25 nearest in a straight line,
  * then one batched travel call from the place to them, nearest first. Places the caller hid are
  * left out.
  */
+import { recommendedSql } from '@cp/db';
 import { legKey, type FitStop } from '@cp/planner';
 import type pg from 'pg';
 
@@ -39,7 +40,7 @@ export async function nearbyPlaces(
     lng: number;
   }>(
     `SELECT p.id, p.name, p.category, p.lat, p.lng FROM pois p
-      WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
+      WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
         AND p.merged_into_id IS NULL AND p.id <> $2 AND p.category NOT IN ('stay', 'transit')
         AND NOT EXISTS (SELECT 1 FROM place_hides h WHERE h.poi_id = p.id AND h.user_id = app.uid())
       ORDER BY power(p.lat - $3, 2) + power((p.lng - $4) * cos(radians($3)), 2)
