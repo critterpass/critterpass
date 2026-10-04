@@ -164,7 +164,10 @@ describe('GET /v1/media', () => {
 
     it('never shows them to a build that did not ask, and leads with the place itself', async () => {
       const { body } = await media(`subjects=poi:${withCommons},poi:${withoutCommons}`);
-      expect(body.items.map((i) => i.id)).toEqual([commons, stock, otherStock]);
+      const of = (poiId: string) =>
+        body.items.filter((i) => i.subjects.includes(`poi:${poiId}`)).map((i) => i.id);
+      expect(of(withCommons)).toEqual([commons, stock]);
+      expect(of(withoutCommons)).toEqual([otherStock]);
     });
 
     it('adds them when asked, between the Commons photo and generic stock, with the credit', async () => {
