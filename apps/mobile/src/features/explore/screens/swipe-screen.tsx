@@ -1,8 +1,8 @@
 /**
  * Swipe together for a trip: joins the open session (or starts one), shows the deck the guide
  * ranked with each place's own photo, sends each swipe, and stamps a match when enough of the crew
- * said yes. A match goes to the trip's Ideas with everyone who said yes (an earlier match keeps the
- * day it was suggested for). The verdicts this phone gave are kept on the phone; everyone's yes
+ * said yes. Every yes saves the place to the trip's Ideas under the swiper's name at once; a match
+ * adds everyone else who said yes (an earlier match keeps the day it was suggested for). The verdicts this phone gave are kept on the phone; everyone's yes
  * votes and the matches come from the synced trip.
  */
 import { format } from '@cp/i18n';
@@ -34,13 +34,13 @@ export interface SwipeScreenProps {
 export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
-  const session = useSwipeSession(tripId, sessionId);
+  const { redesign } = usePlanningSwitch();
+  const session = useSwipeSession(tripId, sessionId, { saveYes: redesign });
   const crew = useTripCrew(tripId);
   const planned = usePlannedPlaces(tripId);
   const sync = useSyncStatus();
   const [whyOpen, setWhyOpen] = useState(false);
   const [stamped, setStamped] = useState<ReadonlySet<string>>(new Set());
-  const { redesign } = usePlanningSwitch();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const ideasHref = useScreenHref('7f-2', { tripId });
   const { row, deck, places, swiped, matches } = session;
@@ -123,6 +123,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
             kind: 'summary',
             ended: ended && !state.finished,
             yesCount: Object.values(swiped).filter((verdict) => verdict === 'yes').length,
+            savedToIdeas: redesign,
             matches: matches.map((entry) => ({
               id: entry.id,
               name: nameOf(entry.poiId),

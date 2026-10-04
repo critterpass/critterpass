@@ -4,6 +4,8 @@
  * from the session's presence channel, and what this phone has swiped (kept on the device, since
  * a "no" is never synced back). Swipes queue offline; a match they make shows when it syncs. Each
  * match says where it went: the trip's Ideas (its idea, once synced) or an earlier change set.
+ * With `saveYes` (the planning screens on), every yes also saves the place to the trip's Ideas under
+ * the swiper's name at once, whoever else has swiped; undoing that yes takes them back out.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and storage keys, never copy. */
 import { generateUuidV7 } from '@cp/domain';
@@ -21,12 +23,16 @@ import {
   undoSwipeCommand,
 } from '../commands';
 import { useLiveRows } from '../data/live-rows';
+import { removeIdeaCommand, saveIdeaCommand } from '../place-detail/commands';
 import { useMyUid } from '../queries';
 import {
+  ideaToTakeBack,
   lastSwiped,
   parseDeck,
   withoutSwipe,
   withSwipe,
+  yesSaves,
+  type DeckIdea,
   type MatchRow,
   type Swiped,
   type Verdict,
@@ -59,6 +65,8 @@ const MATCH_SQL = `SELECT m.id, m.poi_id, m.day_no, m.change_set_id, m.user_ids,
     (SELECT i.id FROM trip_ideas i WHERE i.trip_id = m.trip_id AND i.poi_id = m.poi_id
       AND i.deleted_at IS NULL LIMIT 1) AS idea_id
   FROM swipe_matches m WHERE m.session_id = ? ORDER BY m.created_at, m.id`;
+const IDEAS_SQL = `SELECT id, poi_id, backer_ids FROM trip_ideas
+  WHERE trip_id = ? AND deleted_at IS NULL AND poi_id IS NOT NULL`;
 const PLACES_SQL = `SELECT id, name, category, price_level FROM pois
   WHERE id IN (SELECT value FROM json_each(?))`;
 
@@ -98,7 +106,12 @@ export interface DeckPlace {
   readonly price_level: number | null;
 }
 
-export function useSwipeSession(tripId: string, sessionRef: string) {
+export function useSwipeSession(
+  tripId: string,
+  sessionRef: string,
+  options: { readonly saveYes?: boolean } = {},
+) {
+  const saveYes = options.saveYes === true;
   const me = useMyUid();
   const session = useLiveRows<SessionRow>(
     SESSION_SQL,
@@ -119,12 +132,30 @@ export function useSwipeSession(tripId: string, sessionRef: string) {
     'swipe_matches',
     'trip_ideas',
   ]).rows;
+  const ideaRows = useLiveRows<{ id: string; poi_id: string; backer_ids: string | null }>(
+    IDEAS_SQL,
+    saveYes ? [tripId] : null,
+    ['trip_ideas'],
+  ).rows;
+  const ideas = useMemo(
+    (): DeckIdea[] =>
+      ideaRows.map((row) => ({
+        id: row.id,
+        poiId: row.poi_id,
+        backerIds: textArray(row.backer_ids),
+      })),
+    [ideaRows],
+  );
+  // Ideas this phone asked for by place, until their rows sync back.
+  const sentIdeas = useRef<Record<string, string>>({});
   const live = usePresence('swipe', sessionId);
 
   const start = useCommand(startSwipeSessionCommand);
   const vote = useCommand(swipeVoteCommand);
   const undo = useCommand(undoSwipeCommand);
   const end = useCommand(endSwipeSessionCommand);
+  const saveIdea = useCommand(saveIdeaCommand);
+  const removeIdea = useCommand(removeIdeaCommand);
 
   // No open session for the trip yet: opening the page starts one (a second start joins it).
   const started = useRef(false);
@@ -154,20 +185,33 @@ export function useSwipeSession(tripId: string, sessionRef: string) {
   const voteSend = vote.send;
   const undoSend = undo.send;
   const endSend = end.send;
+  const saveIdeaSend = saveIdea.send;
+  const removeIdeaSend = removeIdea.send;
   const swipe = useCallback(
     (poiId: string, verdict: Verdict) => {
       if (sessionId === null) return;
       keep(withSwipe(swiped.map, poiId, verdict));
       void voteSend({ session_id: sessionId, place_id: poiId, verdict });
+      if (saveYes && yesSaves(verdict, poiId, me, ideas)) {
+        const ideaId = generateUuidV7();
+        sentIdeas.current = { ...sentIdeas.current, [poiId]: ideaId };
+        void saveIdeaSend({ idea_id: ideaId, trip_id: tripId, poi_id: poiId, source: 'swipe' });
+      }
     },
-    [keep, sessionId, swiped.map, voteSend],
+    [ideas, keep, me, saveIdeaSend, saveYes, sessionId, swiped.map, tripId, voteSend],
   );
   const undoLast = useCallback(() => {
     const last = lastSwiped(swiped.map);
     if (sessionId === null || last === null) return;
     keep(withoutSwipe(swiped.map, last));
     void undoSend({ session_id: sessionId, place_id: last });
-  }, [keep, sessionId, swiped.map, undoSend]);
+    // A yes this phone saved comes back out of Ideas with it (only the swiper's own save).
+    const ideaId =
+      saveYes && swiped.map[last] === 'yes'
+        ? ideaToTakeBack(last, me, ideas, sentIdeas.current)
+        : null;
+    if (ideaId !== null) void removeIdeaSend({ idea_id: ideaId });
+  }, [ideas, keep, me, removeIdeaSend, saveYes, sessionId, swiped.map, undoSend]);
   const endSession = useCallback(() => {
     if (sessionId !== null) void endSend({ session_id: sessionId });
   }, [endSend, sessionId]);

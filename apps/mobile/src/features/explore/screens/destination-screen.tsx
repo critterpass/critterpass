@@ -34,9 +34,16 @@ import { guideTagline, heroChips } from '../guide-copy';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { useSoloTrip } from '../hooks/use-solo-trip';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
-import { useDestinationRow, useMyCrews, useNames, useSeasonMonths, useViewer } from '../queries';
+import {
+  useDestinationRow,
+  useLocalPicks,
+  useMyCrews,
+  useNames,
+  useSeasonMonths,
+  useViewer,
+} from '../queries';
 import { exploreRoutes } from '../routes';
-import { pickEntries } from '../sponsored-model';
+import { pickEntries, picksOrLocal, PICKS_SHOWN } from '../sponsored-model';
 
 export interface DestinationScreenProps {
   /** Destination id or slug. */
@@ -78,7 +85,13 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const solo = useSoloTrip({ placeId: id, placeName: name, crewId });
   const photo = heroAt(useDestinationMedia(slug).items);
 
-  const organic = useMemo(() => pickEntries(data?.picks ?? []), [data?.picks]);
+  // The guide's read gives the picks; when it sent none or did not load, the recommended places
+  // this phone holds draw the row, so a place with places never reads as unwritten.
+  const localPicks = useLocalPicks(id, PICKS_SHOWN);
+  const organic = useMemo(
+    () => picksOrLocal(pickEntries(data?.picks ?? []), localPicks),
+    [data?.picks, localPicks],
+  );
   const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
   const sponsoredEvents = useSponsoredEvents(paid?.placementId ?? null, 'picks');
   const pickMedia = useSubjectMedia(

@@ -19,11 +19,15 @@ export interface DestinationRow {
   readonly guide_slug: string | null;
 }
 
+// The guide of the city's own critter first (where guides go by city, the same guide search and
+// the pitch name), then the guide of the place it belongs to.
 const DESTINATION_SQL = `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz,
-    (SELECT s.guide_slug FROM critter_sets s
-      WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug
+    coalesce(
+      (SELECT g.slug FROM guides g WHERE g.critter_key = d.critter_key LIMIT 1),
+      (SELECT s.guide_slug FROM critter_sets s
+        WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1)) AS guide_slug
   FROM destinations d WHERE d.id = ? OR d.slug = ? LIMIT 1`;
-const DESTINATION_TABLES = ['destinations', 'critter_sets'];
+const DESTINATION_TABLES = ['destinations', 'critter_sets', 'guides'];
 
 /** The destination by id or slug; `loaded` turns true once the catalogue has answered. */
 export function useDestinationRow(ref: string | null): {
@@ -36,6 +40,46 @@ export function useDestinationRow(ref: string | null): {
     DESTINATION_TABLES,
   );
   return { row: live.rows[0] ?? null, loaded: live.loaded };
+}
+
+/**
+ * The recommended places this phone holds for a destination, in the order every reader shares: the
+ * editors' must-sees, the rest of the curated set, then the automatic picks by rank. Stays are
+ * never picks.
+ */
+const LOCAL_PICKS_SQL = `SELECT id AS poiId, name, category FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL AND category <> 'stay'
+    AND (curation = 'editorial' OR pick_rank IS NOT NULL)
+  ORDER BY (curation = 'editorial' AND json_extract(editorial, '$.must_see') = 1) DESC,
+    (curation = 'editorial') DESC, pick_rank IS NULL, pick_rank, name, id
+  LIMIT ?`;
+
+export interface LocalPick {
+  readonly poiId: string;
+  readonly name: string;
+  readonly category: string;
+}
+
+export function useLocalPicks(destinationId: string | null, limit: number): readonly LocalPick[] {
+  return useLiveRows<LocalPick>(
+    LOCAL_PICKS_SQL,
+    destinationId === null ? null : [destinationId, limit],
+    ['pois'],
+  ).rows;
+}
+
+const KINDS_SQL = `SELECT category, count(*) AS n FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL GROUP BY category`;
+
+/** How many places of each category this phone holds for a destination. */
+export function usePlaceKindCounts(
+  destinationId: string | null,
+): readonly { readonly category: string; readonly n: number }[] {
+  return useLiveRows<{ category: string; n: number }>(
+    KINDS_SQL,
+    destinationId === null ? null : [destinationId],
+    ['pois'],
+  ).rows;
 }
 
 export interface SeasonMonthRow {

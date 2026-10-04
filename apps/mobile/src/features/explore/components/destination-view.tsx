@@ -32,8 +32,9 @@ export interface DestinationViewProps {
   readonly loading: boolean;
   readonly offline: boolean;
   /**
-   * `limited`: a guest-guide place with no curve or picks; `writing`: a guide's own place whose
-   * curve and picks are not written yet; `unavailable`: they did not load.
+   * Only when the page has neither a month curve nor picks to draw. `limited`: a guest-guide
+   * place; `writing`: a guide's own place whose curve is not written yet; `unavailable`: the
+   * guide's read did not load and the phone holds no places for it.
    */
   readonly notice: 'limited' | 'writing' | 'unavailable' | null;
   readonly months: {
@@ -158,7 +159,7 @@ export function DestinationView(props: DestinationViewProps) {
               <Text variant="body">
                 {t({
                   id: 'explore.dest.writing',
-                  message: `${guide.name} is still writing up ${hero.name}: the picks and the month-by-month crowds land here. The places are already on the map.`,
+                  message: `${guide.name} is still writing up ${hero.name}: the month-by-month crowds land here. The places are already on the map.`,
                 })}
               </Text>
             </View>
@@ -187,7 +188,7 @@ export function DestinationView(props: DestinationViewProps) {
               <Text variant="body">
                 {t({
                   id: 'explore.limited.body',
-                  message: `No guide lives in ${hero.name} yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
+                  message: `No guide lives in ${hero.name} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and ${guide.name} plans the trip all the same.`,
                 })}
               </Text>
             </View>

@@ -11,7 +11,7 @@ msgstr ""
 #. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.writing"
-msgstr "{0} vẫn đang viết về {1}: các gợi ý và độ đông theo tháng sẽ nằm ở đây. Các địa điểm đã có trên bản đồ."
+msgstr "{0} vẫn đang viết về {1}: độ đông theo từng tháng sẽ hiện ở đây. Các địa điểm đã có trên bản đồ."
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
@@ -155,7 +155,7 @@ msgstr "Hiện chưa có giá vé cho {month}. Thử lại sau ít phút nhé."
 #. placeholder {1}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.limited.body"
-msgstr "Chưa có hướng dẫn viên nào sống ở {0}, nên độ đông theo tháng và các gợi ý chưa được viết. Chuyến bay, tiền tệ và những tháng đẹp nhất thì đã có, và {1} vẫn lên kế hoạch cho chuyến đi."
+msgstr "Chưa có hướng dẫn viên nào sống ở {0}, nên độ đông theo từng tháng chưa được viết. Chuyến bay, tiền tệ và những tháng đẹp nhất thì đã có, và {1} vẫn lên kế hoạch cho chuyến đi như thường."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.guestLine"

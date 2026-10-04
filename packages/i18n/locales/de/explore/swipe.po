@@ -62,6 +62,10 @@ msgid "explore.swipe.matchSuggested"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneCount"
 msgstr ""
 
@@ -110,6 +114,10 @@ msgid "explore.swipe.no"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.openIdeas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.seeIdeas"
 msgstr ""
 
@@ -127,6 +135,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.savedNoMatches"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx

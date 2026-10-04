@@ -67,6 +67,8 @@ export function useNextGap(tripId: string): {
   /** The plan has at least one timed item. */
   readonly hasPlan: boolean;
   readonly gap: PlanGap | null;
+  /** How many people the plan's free time is counted for (one when she travels alone). */
+  readonly people: number;
 } {
   const trip = useLiveRows<{ version_id: string | null; tz: string; drive_factor: number }>(
     TRIP_SQL,
@@ -117,5 +119,5 @@ export function useNextGap(tripId: string): {
   const loaded =
     trip.loaded && people.loaded && (versionId === null || (days.loaded && items.loaded));
   const hasPlan = items.rows.some((row) => row.starts_at !== null);
-  return { loaded, hasPlan, gap };
+  return { loaded, hasPlan, gap, people: people.rows.length };
 }
