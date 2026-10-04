@@ -53,6 +53,11 @@ const querySchema = z.object({
 const SEARCHES_PER_UID_RULE = { windowSeconds: 60, max: 120 };
 /** Below this similarity a row is not a match (prefix matches always are). */
 const MIN_SCORE = 0.3;
+/**
+ * A row must also score this share of the best match: "Da Lat" typed in full is Đà Lạt, not the
+ * Lake District, while a typo with no exact match still finds its nearest names.
+ */
+const NEAR_BEST = 0.6;
 
 interface Row {
   id: string;
@@ -89,12 +94,13 @@ export async function searchDestinations(
          FROM destinations d
          LEFT JOIN critter_sets s ON s.id = d.critter_set_id
          CROSS JOIN q
-        WHERE d.critter_set_id IS NULL OR s.id IS NOT NULL)
-     SELECT id, name, country, code, coverage, guide, city_guide, set_id FROM scored
-      WHERE score >= $2
+        WHERE d.critter_set_id IS NULL OR s.id IS NOT NULL),
+     matched AS (SELECT *, max(score) OVER () AS best FROM scored WHERE score >= $2)
+     SELECT id, name, country, code, coverage, guide, city_guide, set_id FROM matched
+      WHERE score >= best * $4
       ORDER BY score DESC, (coverage = 'live') DESC, name
       LIMIT $3`,
-    [q, MIN_SCORE, limit],
+    [q, MIN_SCORE, limit, NEAR_BEST],
   );
   const setIds = [...new Set(rows.flatMap((row) => (row.set_id === null ? [] : [row.set_id])))];
   const locals = await tx.query<{ key: string; set_id: string; city: string }>(
