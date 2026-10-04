@@ -42,11 +42,19 @@ msgid "explore.swipe.toastMatch"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
 msgid "explore.swipe.toastSuggested"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchIdea"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
@@ -69,12 +77,20 @@ msgstr ""
 msgid "explore.place.free"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdeaVoters"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.matchDismiss"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
 msgid "explore.swipe.match"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowIdea"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
@@ -91,6 +107,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
 msgid "explore.swipe.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.seeIdeas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx

@@ -2,7 +2,8 @@
  * The trip map's sheet at half (7a-2): one day as a timeline under its date, stop count and time
  * in the car, with ALL DAYS to pull the sheet up to the whole trip. A stop tap opens its marker on
  * the map (the only label) and eases the camera to it; VOTE opens the decision, SWAP? the rain
- * swap and FILL IT the ideas for a free slot once those screens are registered.
+ * swap and FILL IT the ideas for a free slot once those screens are registered; GO, on the next
+ * stop while that day is today, the route from here.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -15,6 +16,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { freeGaps } from './day-gaps';
+import { nextGoStop } from './next-stop';
 import { dateLine, stopsLine } from './format';
 import type { TripMapSheetProps } from './sheet-props';
 import { StopList } from './stop-list';
@@ -47,6 +49,10 @@ export function DaySheet(
       me: model.me,
     });
   }, [day, locale, model.members, model.me, route, tz]);
+  const goStop = useMemo(
+    () => (day === null ? null : nextGoStop(day, model.now ?? new Date(), tz)),
+    [day, model.now, tz],
+  );
   if (day === null) return null;
   const n = day.dayNo;
   const stops = stopsLine(day.stops.length, route.legs);
@@ -93,6 +99,7 @@ export function DaySheet(
             me: model.me,
             guide: model.guide,
             notes: false,
+            go: goStop === null ? [] : [goStop],
             picked: props.picked,
             titleOf: (id) => titles.get(id) ?? '',
             onOpenStop: (row) => props.onOpenStop(row.stop.stableId),

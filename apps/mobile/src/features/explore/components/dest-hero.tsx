@@ -1,18 +1,20 @@
 /**
  * The destination hero: the guide's colour flooded to the top edge, the way back, SAVE, the place
  * name in the mega face, who the guide is and their line, then the facts as chips (flight time
- * from home, the exchange rate, the best months). The guide walks in from the edge as a ghosted
- * sticker, sits, and bobs; reduced motion shows it seated.
+ * from home, the exchange rate, the best months). The guide walks in from the edge, sits, and
+ * bobs: as a ghosted sticker, or (the destination guide with the planning screens on) as the
+ * guide's own sticker sitting on the hero. Reduced motion shows it seated.
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -29,6 +31,8 @@ import type { GuideFacts } from '../format';
 import { SaveButton } from './save-button';
 
 const GHOST_SIZE = 132;
+/** The seated guide: the render's sticker, a little larger than the ghost. */
+const SEATED_SIZE = 140;
 /** The ghosted guide: paper at a third, as the render draws it over the hero colour. */
 const GHOST_ALPHA = '55';
 const WALK_FROM = 160;
@@ -46,6 +50,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['8'],
   },
   ghost: { position: 'absolute', end: t.space['12'], bottom: t.space['32'] },
+  seated: { position: 'absolute', end: t.space['16'], bottom: t.space['32'] + t.space['16'] },
   line: { maxWidth: '62%' },
   chips: { gap: t.space['6'], marginTop: t.space['4'], alignItems: 'flex-start' },
 }));
@@ -65,14 +70,24 @@ export interface DestHeroProps {
   /** Where back goes, as the eyebrow names it ("Explore", or the country on a guest page). */
   readonly backLabel: string;
   readonly onBack: () => void;
-  readonly saved: boolean;
-  readonly onToggleSave: () => void;
+  /** SAVE for the destination; absent when `trailing` takes its place. */
+  readonly saved?: boolean | undefined;
+  readonly onToggleSave?: (() => void) | undefined;
+  /** Drawn where SAVE sits (inside a trip: the crew's saved count). */
+  readonly trailing?: ReactNode;
   /** Already worded facts, in display order. */
   readonly chips: readonly string[];
   readonly photo: MediaAsset | null;
+  /**
+   * `ghost`: the paper silhouette; `seated`: the guide's own sticker. Absent follows the planning
+   * switch: seated on the destination guide (7g-3) while `planning.redesign` is on.
+   */
+  readonly guideArt?: 'ghost' | 'seated' | undefined;
+  /** Space under the last line, in place of the hero's own (a bar that overlaps its bottom edge). */
+  readonly bottomRoom?: number | undefined;
 }
 
-function GhostGuide({ guide }: { readonly guide: GuideFacts }) {
+function WalkingGuide({ guide, seated }: { readonly guide: GuideFacts; readonly seated: boolean }) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
@@ -86,16 +101,20 @@ function GhostGuide({ guide }: { readonly guide: GuideFacts }) {
   }, [reduced]);
   const walk = useAnimatedStyle(() => ({ transform: [{ translateX: offset.value }] }));
   return (
-    <Animated.View style={[styles.ghost, walk]} pointerEvents="none">
+    <Animated.View style={[seated ? styles.seated : styles.ghost, walk]} pointerEvents="none">
       <Animated.View style={bob}>
-        <Sticker
-          kind={guide.kind}
-          name={guide.name}
-          size={GHOST_SIZE}
-          variant="mask"
-          maskColor={`${theme.color.paper.base}${GHOST_ALPHA}`}
-          sticker={null}
-        />
+        {seated ? (
+          <Sticker kind={guide.kind} name={guide.name} size={SEATED_SIZE} />
+        ) : (
+          <Sticker
+            kind={guide.kind}
+            name={guide.name}
+            size={GHOST_SIZE}
+            variant="mask"
+            maskColor={`${theme.color.paper.base}${GHOST_ALPHA}`}
+            sticker={null}
+          />
+        )}
       </Animated.View>
     </Animated.View>
   );
@@ -107,6 +126,7 @@ export function DestHero(props: DestHeroProps) {
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const { guide } = props;
+  const { redesign } = usePlanningSwitch();
   const who = guide.guest
     ? t({ id: 'explore.hero.guestGuide', message: `Guest guide: ${guide.name}` })
     : t({ id: 'explore.hero.yourGuide', message: `Your guide: ${guide.name}` });
@@ -115,16 +135,23 @@ export function DestHero(props: DestHeroProps) {
       style={[
         styles.hero,
         { backgroundColor: guide.colour, paddingTop: insets.top + theme.space['8'] },
+        props.bottomRoom === undefined ? null : { paddingBottom: props.bottomRoom },
       ]}
       testID="explore-hero"
     >
       <SurfaceToneProvider value="accent">
         {props.photo === null ? <Halftone /> : null}
         <MediaLayer media={props.photo} surface="accent" accent={guide.colour} creditAt="bottom" />
-        <GhostGuide guide={guide} />
+        <WalkingGuide
+          guide={guide}
+          seated={(props.guideArt ?? (redesign ? 'seated' : 'ghost')) === 'seated'}
+        />
         <Row justify="space-between" align="center">
           <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
-          <SaveButton saved={props.saved} onToggle={props.onToggleSave} />
+          {props.trailing ??
+            (props.onToggleSave === undefined ? null : (
+              <SaveButton saved={props.saved ?? false} onToggle={props.onToggleSave} />
+            ))}
         </Row>
         {/* A short name stays on one line at the size that fits ("ĐÀ NẴNG" as wide as "KYOTO"); a
             longer one takes a line per word, with a floor low enough that a long single word
@@ -144,11 +171,13 @@ export function DestHero(props: DestHeroProps) {
         <Text variant="voice" color={theme.semantic.text.onAccent} style={styles.line}>
           {props.tagline}
         </Text>
-        <View style={styles.chips} testID="explore-hero-facts">
-          {props.chips.map((chip) => (
-            <InfoPill key={chip}>{upper(chip, i18n.locale)}</InfoPill>
-          ))}
-        </View>
+        {props.chips.length === 0 ? null : (
+          <View style={styles.chips} testID="explore-hero-facts">
+            {props.chips.map((chip) => (
+              <InfoPill key={chip}>{upper(chip, i18n.locale)}</InfoPill>
+            ))}
+          </View>
+        )}
       </SurfaceToneProvider>
     </View>
   );

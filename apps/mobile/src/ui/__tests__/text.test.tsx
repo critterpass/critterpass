@@ -107,6 +107,26 @@ describe('Text', () => {
     expect(flat(screen.getByTestId('title')).fontSize).toBeCloseTo(44 * 0.7, 5);
   });
 
+  it('fits a name to the one line its caller asks for instead of cutting it', async () => {
+    const screen = await renderText(
+      <Text variant="displayMega" autoFit autoFitMinSize={40} numberOfLines={1} testID="name">
+        ĐÀ NẴNG
+      </Text>,
+    );
+    await layout(screen.getByTestId('name'), CONTENT_WIDTH);
+    // Laid out unlimited while fitting, so a platform that reports a cut line whole still shows
+    // the second line.
+    expect(screen.getByTestId('name').props.numberOfLines).toBeUndefined();
+    const first = flat(screen.getByTestId('name')).fontSize ?? 0;
+    const wrapped = { nativeEvent: { lines: [{ text: 'ĐÀ ' }, { text: 'NẴNG' }] } };
+    await fireEvent(screen.getByTestId('name'), 'textLayout', wrapped);
+    expect(flat(screen.getByTestId('name')).fontSize ?? 0).toBeLessThan(first);
+    await fireEvent(screen.getByTestId('name'), 'textLayout', {
+      nativeEvent: { lines: [{ text: 'ĐÀ NẴNG' }] },
+    });
+    expect(screen.getByTestId('name').props.numberOfLines).toBeUndefined();
+  });
+
   it('uppercases at render with the locale casing rules', async () => {
     const tr = await renderText(<Text variant="label">istanbul</Text>, 'tr');
     expect(tr.getByText('İSTANBUL')).toBeTruthy();

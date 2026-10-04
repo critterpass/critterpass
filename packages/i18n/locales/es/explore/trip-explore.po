@@ -6,3 +6,111 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: es\n"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFreeWhile"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapFree"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCountLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pairIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.picksTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSavedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapWhen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.savedCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.stayIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.fillIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickInDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeJoin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsEmptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.pickAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeStart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.swipeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapEveryone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapsFullTitle"
+msgstr ""

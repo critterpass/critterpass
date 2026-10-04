@@ -152,6 +152,10 @@ msgid "trip.hub.swipeDetail"
 msgstr "Everyone swipes, the matches go in the plan"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetailIdeas"
+msgstr "Everyone swipes, the matches go to Ideas"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr "Explore {destination}"
 
