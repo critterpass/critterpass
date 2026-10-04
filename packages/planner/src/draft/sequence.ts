@@ -4,13 +4,14 @@
  * stretch or twice in one, a place would miss the time of day it is for, a stop would be a hop too
  * far, or the crew would wait an hour with nothing planned), the planner tries the other orders of
  * the same stops and takes the workable one closest to the guide's (fewest broken stops, then the
- * least waiting, then the fewest swapped pairs, then the earliest finish). The stops themselves
+ * fewest morning places left for later in the day, then the least waiting, then the fewest swapped
+ * pairs, then the earliest finish). The stops themselves
  * never change here: dropping or swapping a place is the guide's call, in the repair pass.
  */
 import { ceilGrid, spansOn } from './day-minutes';
 import { longHops } from './hops';
 import { DINNER, LUNCH, mealAt, mealSlotAt } from './meal-slots';
-import { placeWindow } from './place-time';
+import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
 import { defaultDurationMin } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
@@ -40,6 +41,8 @@ interface Timeline {
   readonly broken: number;
   /** Minutes spent waiting for a place to open, a meal stretch or a time of day. */
   readonly idle: number;
+  /** Morning places that start after the morning. */
+  readonly late: number;
   readonly end: number;
 }
 
@@ -48,6 +51,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let previous: string | null = null;
   let broken = 0;
   let idle = 0;
+  let late = 0;
   const meals = new Set<string>();
   for (const choice of order) {
     const poi = input.pois.get(choice.poiId);
@@ -78,6 +82,9 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     // Held to its time of day: too late for it is broken; running past the usual end is not.
     if (held !== null && start > held.toMin) broken += 1;
     if (own !== null && start > own.toMin) broken += 1;
+    if (held === null && choice.kind !== 'meal' && start > MORNING_ENDS_MIN) {
+      late += placeTime(poi) === 'morning' ? 1 : 0;
+    }
     if (choice.kind === 'meal') {
       const slot = mealAt(start);
       // An untimed meal outside every stretch, or a second one in the same stretch.
@@ -100,7 +107,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       input.hopCapMin,
     ).length;
   }
-  return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), end: at };
+  return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), late, end: at };
 }
 
 /**
@@ -146,22 +153,23 @@ export interface PlannedOrder {
 
 /**
  * The order to visit `choices` in: the guide's own order when it works, else the order with the
- * fewest broken stops, then the least waiting, then the fewest swapped pairs, then the earliest
- * finish.
+ * fewest broken stops, then the fewest late morning places, then the least waiting, then the
+ * fewest swapped pairs, then the earliest finish.
  */
 export function bestOrder(input: SequenceInput): PlannedOrder {
   const identity = input.choices.map((_, index) => index);
   const own = timeline(input, input.choices);
-  if ((own.broken === 0 && own.idle === 0) || input.choices.length > MAX_SEARCHED_STOPS) {
+  const fine = own.broken === 0 && own.idle === 0 && own.late === 0;
+  if (fine || input.choices.length > MAX_SEARCHED_STOPS) {
     return { order: identity, broken: own.broken };
   }
   let best: { order: number[]; key: readonly number[] } | null = null;
   for (const order of permutations([...identity])) {
-    const { broken, idle, end } = timeline(
+    const { broken, idle, late, end } = timeline(
       input,
       order.map((index) => input.choices[index] as DayChoice),
     );
-    const key = [broken, idle, inversions(order), end];
+    const key = [broken, late, idle, inversions(order), end];
     if (best === null || before(key, best.key)) best = { order, key };
   }
   return best === null

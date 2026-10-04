@@ -176,7 +176,7 @@ export function aliases(input: Pick<DraftPlanInput, 'pois' | 'frame'>): Aliases 
 }
 
 const TIME_LABEL: Readonly<Record<PlaceTime, string>> = {
-  morning: 'a morning place',
+  morning: 'best in the morning',
   sunset: 'for the sunset',
   evening: 'an evening place',
   after_dark: 'for after dark',

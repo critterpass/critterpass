@@ -1,9 +1,12 @@
 /**
  * The time of day a place is for, read from what its row says: a bar or a night market is for
  * after dark, a beach our editors recommend "at sunset" is for the sunset, a market "in the
- * morning when vendors are fresh" for the morning. The planner keeps any stop at such a place
- * inside that time (a must-do with its own time of day keeps that instead, see ./wish-time), so a
- * draft never sends a crew to a bar at ten in the morning or to the lit-up bridge in daylight.
+ * morning when vendors are fresh" for the morning. The planner keeps any stop at a sunset, evening
+ * or after-dark place inside that time (a must-do with its own time of day keeps that instead, see
+ * ./wish-time), so a draft never sends a crew to a bar at ten in the morning or to the lit-up
+ * bridge in daylight. The morning is a preference, not a rule: where most places are "best early",
+ * holding each to the morning would leave every afternoon empty, so the planner only puts morning
+ * places first when it orders a day (./sequence).
  *
  * Evening times follow the sun at the place on the date (`solarDay`), within clock bounds so a
  * far-north summer does not push the evening to midnight. A line that names two times of day
@@ -99,7 +102,7 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
   const sunset = sunsetMin(poi, date);
   switch (time) {
     case 'morning':
-      return { fromMin: 0, toMin: 11 * 60 };
+      return { fromMin: 0, toMin: MORNING_ENDS_MIN };
     case 'sunset': {
       // There before the sun goes, and still there when it does.
       const fromMin = ceilGrid(sunset - clamp(poi.durationMin, 45, 90));
@@ -116,14 +119,17 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
   }
 }
 
+/** A stop at a morning place that starts after this local minute is later than the place is best. */
+export const MORNING_ENDS_MIN = 11 * 60;
+
 /**
  * The minutes a stop at `poi` may start between on `date` because of the time of day the place is
- * for; null when it has none, or when its own opening hours leave no start inside that time (the
- * hours win, and the stop is planned like any other).
+ * for; null when it has none or is only better in the morning, or when its own opening hours leave
+ * no start inside that time (the hours win, and the stop is planned like any other).
  */
 export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
   const time = placeTime(poi);
-  if (time === null) return null;
+  if (time === null || time === 'morning') return null;
   const window = timeOfDayWindow(time, poi, date);
   if (poi.hours === null || poi.hoursGuessed === true) return window;
   const visit = ceilGrid(poi.durationMin);

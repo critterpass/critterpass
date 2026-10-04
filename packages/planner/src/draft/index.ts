@@ -58,7 +58,7 @@ export {
   type SequenceInput,
 } from './sequence';
 export { dishOf, foodRole, sameDish, stopKind, type FoodRole } from './food-role';
-export { hopCapMin, longHops, withinReach, type Hop } from './hops';
+export { hopCapMin, longHops, roadBudgetMin, withinReach, type Hop } from './hops';
 export {
   BREAKFAST,
   DINNER,
@@ -80,6 +80,7 @@ export {
   type HonestNotes,
 } from './note-sense';
 export {
+  MORNING_ENDS_MIN,
   placeTime,
   placeWindow,
   sunsetMin,
