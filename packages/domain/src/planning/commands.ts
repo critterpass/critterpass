@@ -28,10 +28,14 @@ export const saveIdeaResultSchema = z.object({
 });
 export type SaveIdeaResult = z.infer<typeof saveIdeaResultSchema>;
 
-export const removeIdeaPayloadSchema = z.strictObject({ idea_id: z.uuid() });
+export const removeIdeaPayloadSchema = z.strictObject({
+  idea_id: z.uuid(),
+  /** An organiser removes the idea for every backer; without it the caller only leaves. */
+  for_everyone: z.boolean().optional(),
+});
 export const removeIdeaResultSchema = z.object({
   idea_id: z.uuid(),
-  /** True when the idea itself went (last backer, or an organiser removed it). */
+  /** True when the idea itself went (last backer, or an organiser removed it for everyone). */
   removed: z.boolean(),
   backer_ids: z.array(z.uuid()),
 });
@@ -88,6 +92,20 @@ export const applyCheckFixResultSchema = z.discriminatedUnion('applied', [
 ]);
 export type ApplyCheckFixResult = z.infer<typeof applyCheckFixResultSchema>;
 
+/** "Keep it as it is": an organiser turns a fix down, and the issue stays quiet. */
+export const keepCheckIssuePayloadSchema = z.strictObject({
+  issue_id: z.uuid(),
+  /** The plan version the person saw the issue on. */
+  base_version: z.uuid(),
+});
+export const keepCheckIssueResultSchema = z.object({
+  issue_id: z.uuid(),
+  /** The check's counts without the issue. */
+  fix_count: z.number().int().min(0),
+  know_count: z.number().int().min(0),
+});
+export type KeepCheckIssueResult = z.infer<typeof keepCheckIssueResultSchema>;
+
 export const MEMBER_ASK_MAX_IDEAS = 3;
 export const askMemberAboutSavesPayloadSchema = z.strictObject({
   ask_id: z.uuid().optional(),
@@ -142,6 +160,7 @@ export const PLANNING_COMMANDS = {
     result: postPlaceDecisionResultSchema,
   },
   apply_check_fix: { payload: applyCheckFixPayloadSchema, result: applyCheckFixResultSchema },
+  keep_check_issue: { payload: keepCheckIssuePayloadSchema, result: keepCheckIssueResultSchema },
   ask_member_about_saves: {
     payload: askMemberAboutSavesPayloadSchema,
     result: askMemberAboutSavesResultSchema,

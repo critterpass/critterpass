@@ -8,7 +8,7 @@
  * - `/onboarding/invite/code` (3a-11): optional `notice` (`invalid`) and `pasted` (the link).
  * - `/` (Home): optional `crewId` to focus, `notice` for a one-line toast (see `LinkNotice`).
  */
-import type { AttributionVia, LinkState, LinkTarget } from '@cp/domain';
+import { currentAppPath, type AttributionVia, type LinkState, type LinkTarget } from '@cp/domain';
 
 export const HOME_ROUTE = '/';
 export const INVITE_TICKET_ROUTE = '/onboarding/invite/ticket';
@@ -68,7 +68,8 @@ export function routeForTarget(target: LinkTarget, facts: LinkFacts): string {
     case 'locals':
       return href('/critters', { place: target.slug });
     case 'app':
-      return `/${target.path}`;
+      // Pushes and inbox rows sent earlier name the trip hub and its day by their former paths.
+      return currentAppPath(`/${target.path}`);
   }
 }
 

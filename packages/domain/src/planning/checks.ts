@@ -117,6 +117,24 @@ export const planCheckIssueSchema = z.intersection(
 );
 export type PlanCheckIssue = z.infer<typeof planCheckIssueSchema>;
 
+/**
+ * An issue the organiser chose to keep as it is: what it is about, the stops around it when the
+ * check last read the plan (null until then), who set it and when. It holds while those
+ * neighbours stay the same.
+ */
+export const planCheckQuietSchema = z.object({
+  kind: checkIssueKindSchema,
+  stable_ids: z.array(z.uuid()),
+  day_no: z.number().int().positive().nullable(),
+  booking_id: z.string().min(1).max(100).nullable(),
+  around: z.string().nullable(),
+  by: z.uuid(),
+  at: z.iso.datetime({ offset: true }),
+});
+export type PlanCheckQuiet = z.infer<typeof planCheckQuietSchema>;
+/** The most marks a trip keeps; the oldest go first. */
+export const PLAN_CHECK_QUIET_MAX = 60;
+
 /** A `plan_checks` row: one per trip, the latest run. */
 export const planCheckSchema = z.object({
   trip_id: z.uuid(),
@@ -127,5 +145,7 @@ export const planCheckSchema = z.object({
   know_count: z.number().int().min(0),
   runs_on: z.iso.date().nullable(),
   runs_today: z.number().int().min(0),
+  /** Absent on rows synced before the column existed. */
+  quiet: z.array(planCheckQuietSchema).optional(),
 });
 export type PlanCheck = z.infer<typeof planCheckSchema>;

@@ -1,6 +1,7 @@
 /**
  * Foreground presentation: a push arriving while the app is open shows as a banner, except a chat
- * push for the conversation already on screen, which the chat itself is showing. iOS asks
+ * push for the conversation already on screen, which the chat itself is showing, and the
+ * placed-ideas ping while the placing screen or the review it opens is on screen. iOS asks
  * expo-notifications' handler per notification; Android's messaging service renders natively, so
  * it is told which conversation is on screen instead (the same crew id).
  */
@@ -33,8 +34,14 @@ function pathOf(link: string): string {
   return `/${rest.replace(/^\/+/, '')}`;
 }
 
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a notification key, never copy.
+const IDEAS_PLACED = 'ideas_placed';
+/** The placing screen and the review of placed ideas, with or without the `/trip` prefix. */
+const PLACING_ROUTE = /^\/(?:trip\/)?[^/?#]+\/(?:ideas\/placing|review)\/[^/?#]+/;
+
 export function shouldPresentInForeground(tap: PushTap | null, pathname: string): boolean {
   if (tap === null) return true;
+  if (tap.type === IDEAS_PLACED && PLACING_ROUTE.test(pathname)) return false;
   const conversation = conversationOfTap(tap);
   return conversation === null || conversation !== activeConversationOf(pathname);
 }

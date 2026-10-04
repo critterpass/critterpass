@@ -1,7 +1,8 @@
 /**
  * Queues the plan check from the api's own transactions, as the worker's hook does for the events
  * it appends: a crew plan change, applied ops or change set, an idea saved or removed, a stance.
- * Each waits 45 seconds so a burst of edits folds into one run; a private draft is never checked.
+ * Each waits 45 seconds so a burst of edits folds into one run. The organiser's private draft is
+ * checked too, while the crew has no plan: what the check finds there stays with organisers.
  */
 import { onEventAppended, sendInTx } from '@cp/db';
 import { PLAN_CHECK_DEBOUNCE_SECONDS, PLANNING_QUEUES, type PlanCheckJob } from '@cp/domain';
@@ -17,6 +18,12 @@ const TRIGGERS: Readonly<Record<string, PlanCheckJob['trigger']>> = {
   // A draft becomes the crew's plan without a new version: sending it and locking it in.
   'proposal.sent': 'plan',
   'proposal.locked': 'plan',
+  // The organiser's private draft is checked before the crew sees it: when the guide delivers it,
+  // when she keeps a redraft or brings an earlier draft back, and when she edits it by hand.
+  'draft.ready': 'plan',
+  'redraft.kept': 'plan',
+  'draft.version_restored': 'plan',
+  'draft.ops_applied': 'plan',
   'plan.legs_updated': 'legs',
   'trip_idea.saved': 'ideas',
   'trip_idea.removed': 'ideas',

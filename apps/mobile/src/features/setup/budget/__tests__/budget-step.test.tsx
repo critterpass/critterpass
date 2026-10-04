@@ -146,10 +146,11 @@ describe('organiser, from four maxes', () => {
   });
 });
 
-describe('organiser of a crew settling in dong', () => {
+// Won has no step of its own: it is the round amount nearest $50, which needs a dollar rate.
+describe('organiser of a crew settling in won', () => {
   const PAIR = SIX.slice(4);
-  const DONG_ONLY = [['EUR', 'VND', '32500']] as const;
-  const STEP = 1_300_000;
+  const WON_ONLY = [['EUR', 'KRW', '1480']] as const;
+  const STEP = 50_000;
   const offStep = { reason: 'off_step', step_minor: STEP };
 
   /** `lock_budget_target` answering each send in turn (the last answer repeats). */
@@ -173,7 +174,7 @@ describe('organiser of a crew settling in dong', () => {
 
   it('waits, priced, with no knob until the server has said the step', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
-    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     const services = apiReads({});
     await renderBudget(
       stack,
@@ -194,8 +195,8 @@ describe('organiser of a crew settling in dong', () => {
   it('locks on the step the band read hands out below four maxes', async () => {
     const { targets, transport } = answering([applied]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
-    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
-    const detail = { maxes_count: 0, member_count: 2, currency: 'VND', step_minor: STEP };
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
+    const detail = { maxes_count: 0, member_count: 2, currency: 'KRW', step_minor: STEP };
     await renderBudget(
       stack,
       apiReads({
@@ -216,8 +217,8 @@ describe('organiser of a crew settling in dong', () => {
     await seedBudget(stack, {
       people: PAIR,
       aggregate: null,
-      currency: 'VND',
-      fx: [...DONG_ONLY, ['EUR', 'USD', '1.25']],
+      currency: 'KRW',
+      fx: [...WON_ONLY, ['EUR', 'USD', '1.25']],
     });
     // The next day's rows so far: the dollar alone.
     await stack.db.execute(
@@ -228,7 +229,7 @@ describe('organiser of a crew settling in dong', () => {
     await screen.findByTestId('budget-track');
     await fireEvent.press(screen.getByTestId('budget-lock'));
     await waitFor(() => expect(targets).toHaveLength(1));
-    // $50 is 1,300,000 ₫ at these rates: the knob sits on that grid, not on a dollar-sized one.
+    // $50 is ₩59,200 at these rates, so the step is ₩50,000: not a dollar-sized grid.
     expect(targets[0]).toBeGreaterThanOrEqual(STEP);
     expect((targets[0] ?? 1) % STEP).toBe(0);
   });
@@ -248,7 +249,7 @@ describe('organiser of a crew settling in dong', () => {
       },
     ]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
-    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     await screen.findByTestId('budget-track');
     await fireEvent.press(screen.getByTestId('budget-lock'));
@@ -259,7 +260,7 @@ describe('organiser of a crew settling in dong', () => {
   it('takes up the step a refused lock answers with and sends it once more', async () => {
     const { targets, transport } = answering([refusal(offStep), applied]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
-    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     await screen.findByTestId('budget-track');
     await fireEvent.press(screen.getByTestId('budget-lock'));
@@ -278,7 +279,7 @@ describe('organiser of a crew settling in dong', () => {
   it('shows the failed line only when the second send is refused too', async () => {
     const { targets, transport } = answering([refusal(offStep)]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
-    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'KRW', fx: WON_ONLY });
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     await screen.findByTestId('budget-track');
     await fireEvent.press(screen.getByTestId('budget-lock'));

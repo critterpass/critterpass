@@ -145,7 +145,7 @@ const CATALOGUE = [
   spec('guide_availability_ask', 'budgeted', 'cp.setup_ask', 'cp_guide', 'guide'),
   spec('availability_reply', 'budgeted', 'cp.generic', 'cp_trip', 'member', { private: true }),
   spec('draft_ready', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { onlyIfBackgrounded: true, collapse: 'draft:{trip_id}' }),
-  spec('ideas_placed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { ...passive, onlyIfBackgrounded: true, collapse: 'ideas:{trip_id}' }),
+  spec('ideas_placed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { ...passive, collapse: 'ideas:{trip_id}' }),
   spec('check_ask_member', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'ask:{ask_id}'),
   spec('proposal_version', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.9 }),
   spec('scheduled_resend', 'budgeted', 'cp.generic', 'cp_trip', 'guide'),
