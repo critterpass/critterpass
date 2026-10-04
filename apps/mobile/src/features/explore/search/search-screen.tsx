@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids, never copy. */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { matchPlaceRef } from './search-navigation';
 import {
@@ -22,75 +22,33 @@ import { useTripPlaceSearch } from '@/data/places/use-trip-place-search';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
 
-import { wantsAddresses } from './address-rule';
+import { looksLikeAddress, wantsAddresses } from './address-rule';
 import { AddressSection } from './address-section';
 import { BrowseGrid, type BrowseTile } from './browse-grid';
 import { DropPinSheet } from './drop-pin-sheet';
 import { ClipboardCard } from './clipboard-card';
-import type { ClipboardLink } from './clipboard';
+import { typedLink } from './clipboard';
+import { fetchSearchPlaces } from './data/fetch-search-places';
 import { useSearchServices } from './data/search-services';
 import { NameResults } from './name-results';
 import { OfflineBanner } from './offline-banner';
 import { OfflineSection } from './offline-section';
 import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
+import { onePerPlace, rowWords } from './search-rows';
+import { parseNear, poiRef, scopeLabel } from './search-scope';
 import { SearchView } from './search-view';
+import { TypedLinkCard } from './typed-link-card';
 import { plainExamples, TypedExamples } from './typed-examples';
+import { useAddPlace } from './use-add-place';
 import { useAddresses, useDestinationCentre, type AddressPoint } from './use-addresses';
 import { useClipboardLink } from './use-clipboard-link';
+import { usePhoneAddresses } from './use-phone-addresses';
 import { useQueuedPlainQuestion } from './use-queued-plain-question';
-import { useScopePlace, useSearchTrip, type SearchTrip } from './use-search-trip';
+import { useScopePlace, useSearchTrip } from './use-search-trip';
 
 export interface SearchScreenProps extends SearchParams {
   readonly tripId: string;
-}
-
-function parseNear(value: string | undefined): { lat: number; lng: number } | null {
-  if (value === undefined) return null;
-  const [lat, lng] = value.split(',').map(Number);
-  return lat === undefined || lng === undefined || Number.isNaN(lat) || Number.isNaN(lng)
-    ? null
-    : { lat, lng };
-}
-
-function scopeLabel(
-  props: SearchScreenProps,
-  trip: SearchTrip,
-  place: string | null,
-): string | null {
-  switch (props.scope) {
-    case 'map':
-      return t({ id: 'search.scope.map', message: 'In this area' });
-    case 'day': {
-      const day = trip.days.find((entry) => entry.id === props.dayId);
-      if (day === undefined) return null;
-      const no = day.dayNo;
-      const weekday = day.weekday;
-      return weekday === null
-        ? t({ id: 'search.scope.dayNo', message: `For day ${no}` })
-        : t({ id: 'search.scope.day', message: `For day ${no} · ${weekday}` });
-    }
-    case 'place':
-      return place === null ? null : t({ id: 'search.scope.place', message: `Near ${place}` });
-    case 'explore':
-    case undefined:
-      return null;
-  }
-}
-
-/** A search row for a place known only by its id. */
-function poiRef(poiId: string): PlaceCandidate {
-  return {
-    id: poiId,
-    poiId,
-    name: '',
-    nameLocal: null,
-    category: null,
-    lat: null,
-    lng: null,
-    tags: [],
-    source: 'server',
-  };
 }
 
 export function SearchScreen(props: SearchScreenProps) {
@@ -114,9 +72,17 @@ export function SearchScreen(props: SearchScreenProps) {
     setAsked(null);
     setChips(null);
   };
+  // A link in the field is added from, never searched by name or looked up as an address.
+  const link = typedLink(query);
+  const searched = link === null ? query : '';
   const ask = (words: string) => {
     const trimmed = words.trim();
     if (trimmed === '') return;
+    const asLink = typedLink(trimmed);
+    if (asLink !== null) {
+      router.push(searchRoutes.link(tripId, { url: asLink.url }));
+      return;
+    }
     setQuery(trimmed);
     if (trimmed !== asked) setChips(null);
     setAsked(trimmed);
@@ -128,24 +94,33 @@ export function SearchScreen(props: SearchScreenProps) {
     (place !== null && place.lat !== null && place.lng !== null
       ? { lat: place.lat, lng: place.lng }
       : null);
+  const nearKey = near === null ? null : `${String(near.lat)},${String(near.lng)}`;
+  // `nearKey` stands for `near`: the same point in a new object is the same fetcher.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const fetchPlaces = useMemo(() => fetchSearchPlaces(near), [nearKey]);
   const search = useTripPlaceSearch({
     destinationId: trip.destinationId,
     tripId,
-    query,
+    query: searched,
     near,
+    fetchPlaces,
   });
-  const photos = usePlaceTilePhotos(
-    search.rows.flatMap((row) => (row.poiId === null ? [] : [row.poiId])),
+  const rows = useMemo(() => onePerPlace(search.rows), [search.rows]);
+  const rowIds = useMemo(
+    () => rows.flatMap((row) => (row.poiId === null ? [] : [row.poiId])),
+    [rows],
   );
-  const typed = query.trim();
-  const found = search.state === 'searching' || search.more ? null : search.rows.length;
+  const photos = usePlaceTilePhotos(rowIds);
+  const knownAddresses = usePhoneAddresses(rowIds);
+  const typed = searched.trim();
+  const found = search.state === 'searching' || search.more ? null : rows.length;
   const live = useLivePlaces({
     getJson: services.getJson,
     destinationId: trip.destinationId,
     query: typed,
     wanted: wantsLivePlaces(typed, found, search.offline),
   });
-  const clipboard = useClipboardLink(typed === '');
+  const clipboard = useClipboardLink(query.trim() === '');
   const online = useOnline();
   const centre = useDestinationCentre(trip.destinationId);
   const addressState = useAddresses({
@@ -178,8 +153,18 @@ export function SearchScreen(props: SearchScreenProps) {
   };
   const openPlace = (target: PlaceCandidate) =>
     go(matchPlaceRef(tripId, trip.destinationId, target, 'open'));
-  const addPlace = (target: PlaceCandidate) =>
-    go(matchPlaceRef(tripId, trip.destinationId, target, 'add'));
+  const add = useAddPlace({
+    tripId,
+    destinationId: trip.destinationId,
+    dayId: props.scope === 'day' ? props.dayId : undefined,
+  });
+  const addPlace = (target: PlaceCandidate) => {
+    if (target.poiId === null) return;
+    add({ poiId: target.poiId, name: target.name });
+  };
+  const dropPin = () => setPinning({ start: null, name: typed });
+  const askGuide = (words: string) => go(hrefFor('3j-1', { tripId, q: words }));
+  const addressFirst = looksLikeAddress(typed);
   const pickLive = (picked: LivePlace) => {
     if (trip.destinationId === null) return;
     void resolveLivePlace(services.getJson, trip.destinationId, picked).then((pick) => {
@@ -187,12 +172,14 @@ export function SearchScreen(props: SearchScreenProps) {
     });
   };
   const browse = (tile: BrowseTile) => {
-    const list = hrefFor('7c-3', { tripId, category: tile.category });
-    if (list === undefined) type(tile.word);
+    const list =
+      tile.filter === null ? undefined : hrefFor('7c-3', { tripId, filter: tile.filter });
+    // A kind the list has no filter for (coffee, waterfalls) is asked for in words.
+    if (list === undefined) ask(tile.label());
     else router.push(list);
   };
-  const addFromLink = (link: ClipboardLink) =>
-    router.push(searchRoutes.link(tripId, { url: link.url }));
+  const addFromLink = (from: { readonly url: string }) =>
+    router.push(searchRoutes.link(tripId, { url: from.url }));
   const freeWeekday = trip.days.find((day) => day.weekday !== null)?.weekday ?? null;
 
   return (
@@ -206,6 +193,7 @@ export function SearchScreen(props: SearchScreenProps) {
         guide: trip.guide,
         guideName: trip.guideName,
         dimmed: !online,
+        asked: asked !== null,
       }}
       scope={scopeLabel(props, trip, place?.name ?? null)}
       banner={
@@ -234,7 +222,9 @@ export function SearchScreen(props: SearchScreenProps) {
         ) : null
       }
     >
-      {!online && typed !== '' ? (
+      {link !== null ? (
+        <TypedLinkCard link={link} guideName={trip.guideName} onAdd={() => addFromLink(link)} />
+      ) : !online && typed !== '' ? (
         <OfflineSection
           search={search}
           trip={trip}
@@ -250,12 +240,13 @@ export function SearchScreen(props: SearchScreenProps) {
           tripId={tripId}
           trip={trip}
           area={place?.name ?? trip.destination}
+          whole={place === null}
           onOpen={(poiId) => openPlace(poiRef(poiId))}
-          onAdd={(poiId) => addPlace(poiRef(poiId))}
+          onAdd={(poiId, name) => add({ poiId, name })}
           onDropPin={() => setPinning({ start: null, name: '' })}
           addresses={addresses}
           onChips={setChips}
-          onAsk={() => go(hrefFor('3j-1', { tripId, q: asked }))}
+          onAsk={() => askGuide(asked)}
         />
       ) : typed === '' ? (
         <>
@@ -272,16 +263,30 @@ export function SearchScreen(props: SearchScreenProps) {
         </>
       ) : (
         <>
+          {addressFirst ? addresses : null}
           <NameResults
-            rows={search.rows}
+            rows={rows}
             state={search.state}
             live={live}
             photos={photos}
             onOpen={openPlace}
             onAdd={addPlace}
             onPickLive={pickLive}
+            words={(row) =>
+              rowWords(row, {
+                destination: trip.destination,
+                from: near ?? centre,
+                addresses: knownAddresses,
+                planDays: trip.planDays,
+              })
+            }
+            notFound={{
+              guideName: trip.guideName,
+              onDropPin: dropPin,
+              onAsk: () => askGuide(typed),
+            }}
           />
-          {addresses}
+          {addressFirst ? null : addresses}
         </>
       )}
     </SearchView>

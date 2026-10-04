@@ -20,6 +20,8 @@ export interface PlainRow {
   readonly meta: string | undefined;
   readonly icon: DoodleName;
   readonly fitLine: { readonly text: string; readonly tone: FitTone } | undefined;
+  /** Already on a day of the plan: the row says which, and has no +. */
+  readonly inPlan?: boolean | undefined;
 }
 
 export interface PlainResultsProps {
@@ -27,11 +29,13 @@ export interface PlainResultsProps {
   /** The places' photos by row key (the POI id), as they arrive. */
   readonly photos?: PlaceTilePhotos | undefined;
   readonly loading: boolean;
+  /** "CLOSE TO THAT" over places that match most of what was asked, in place of the count. */
+  readonly heading?: string | undefined;
   readonly softMisses: number;
   readonly showingSoftMisses: boolean;
   readonly onSoftMisses: () => void;
   readonly onOpen: (key: string) => void;
-  readonly onAdd: (key: string) => void;
+  readonly onAdd: (key: string, title: string) => void;
   /** MAP opens the places map in results mode; absent until that screen is registered. */
   readonly onMap: (() => void) | undefined;
 }
@@ -66,10 +70,11 @@ export function PlainResults(props: PlainResultsProps) {
     <View style={{ gap: theme.space['14'] }} testID="search-plain-results">
       <View style={styles.head}>
         <Text variant="h3" testID="search-plain-count">
-          {t({
-            id: 'search.plain.count',
-            message: plural(count, { one: '# place', other: '# places' }),
-          })}
+          {props.heading ??
+            t({
+              id: 'search.plain.count',
+              message: plural(count, { one: '# place', other: '# places' }),
+            })}
         </Text>
         {props.onMap === undefined ? null : (
           <View style={styles.toggle}>
@@ -100,13 +105,19 @@ export function PlainResults(props: PlainResultsProps) {
             fitLine={row.fitLine}
             onPress={() => props.onOpen(row.key)}
             trailing={
-              <AddButton
-                accessibilityLabel={addLabel(row.title)}
-                onPress={() => props.onAdd(row.key)}
-                testID={`search-plain-add-${String(index)}`}
-              />
+              row.inPlan === true ? undefined : (
+                <AddButton
+                  accessibilityLabel={addLabel(row.title)}
+                  onPress={() => props.onAdd(row.key, row.title)}
+                  testID={`search-plain-add-${String(index)}`}
+                />
+              )
             }
-            testID={`search-plain-row-${String(index)}`}
+            testID={
+              row.inPlan === true
+                ? `search-plain-in-plan-${String(index)}`
+                : `search-plain-row-${String(index)}`
+            }
           />
         ))}
       </View>

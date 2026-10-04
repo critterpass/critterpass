@@ -6,7 +6,9 @@
 import { router } from 'expo-router';
 import { useEffect, type ReactNode } from 'react';
 
-import { useScreenHref } from '@/lib/navigation/screen-registry';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
+
+import { chipLabel } from './chip-row';
 
 import { NoResults } from './no-results';
 import { filtersFor } from './plain-filters';
@@ -20,8 +22,10 @@ export interface PlainBlockProps {
   readonly trip: SearchTrip;
   /** "Ubud": where the search looked, for "NOTHING LIKE THAT NEAR UBUD". */
   readonly area: string;
+  /** The search looked at the whole destination, not around a place. */
+  readonly whole?: boolean | undefined;
   readonly onOpen: (poiId: string) => void;
-  readonly onAdd: (poiId: string) => void;
+  readonly onAdd: (poiId: string, name: string) => void;
   readonly onDropPin: () => void;
   readonly onAsk: () => void;
   /** Street addresses for the question, shown under the places or above the ways out. */
@@ -32,7 +36,7 @@ export interface PlainBlockProps {
 
 export function PlainBlock(props: PlainBlockProps) {
   const { question, tripId, trip } = props;
-  const { state, remove, relax } = usePlainSearch({
+  const { state, remove, relax, retry } = usePlainSearch({
     tripId,
     destinationId: trip.destinationId,
     question,
@@ -42,21 +46,36 @@ export function PlainBlock(props: PlainBlockProps) {
   useEffect(() => {
     if (chipCount !== null) onChips?.(chipCount);
   }, [chipCount, onChips]);
-  const map = useScreenHref('7c-1', { tripId, mode: 'results', q: question });
+  // The places map in results mode: the answer's own places and its chips, as that screen reads.
+  const mapRegistered = useScreenHref('7c-1', { tripId }) !== undefined;
+  const words = {
+    days: trip.days,
+    placeName: (poiId: string) => trip.placeNames.get(poiId) ?? null,
+  };
+  const openMap = (placeIds: readonly string[]) => {
+    const href = hrefFor('7c-1', {
+      tripId,
+      results: placeIds.join(','),
+      chips: state.chips.map((chip) => chipLabel(chip, words)).join('|'),
+    });
+    if (href !== undefined) router.push(href);
+  };
   return (
     <PlainSection
       state={state}
       trip={trip}
-      words={{ days: trip.days, placeName: (poiId) => trip.placeNames.get(poiId) ?? null }}
+      words={words}
+      onRetry={retry}
       onRemove={remove}
       onOpen={props.onOpen}
       onAdd={props.onAdd}
-      onMap={map === undefined ? undefined : () => router.push(map)}
+      onMap={mapRegistered ? openMap : undefined}
       after={props.addresses}
       empty={(answer) => (
         <NoResults
           answer={answer}
           area={props.area}
+          whole={props.whole}
           limitMinutes={state.filters.max_minutes?.minutes ?? null}
           guide={trip.guide}
           guideName={trip.guideName}

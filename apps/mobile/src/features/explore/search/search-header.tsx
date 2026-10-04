@@ -3,8 +3,8 @@
  * a clear × while there is text, and Cancel. Return asks the text in plain words.
  */
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Keyboard, TextInput, View } from 'react-native';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -47,6 +47,11 @@ export interface SearchHeaderProps {
   readonly autoFocus?: boolean;
   /** The guide greys out with no signal (7i-2). */
   readonly dimmed?: boolean;
+  /**
+   * The text was asked (Return, or a tapped example): the field lets go of the keyboard, so the
+   * question reads from its start instead of scrolled to its tail.
+   */
+  readonly asked?: boolean;
 }
 
 export function SearchHeader(props: SearchHeaderProps) {
@@ -64,6 +69,11 @@ export function SearchHeader(props: SearchHeaderProps) {
   // Not being edited, the query shows from its start with a tail ellipsis (7d-2, 7d-4), drawn over
   // the input, which stays underneath for the tap.
   const showStart = !editing && value !== '';
+  const asked = props.asked === true;
+  useEffect(() => {
+    // Dismissing the keyboard blurs the field.
+    if (asked) Keyboard.dismiss();
+  }, [asked, value]);
   return (
     <View style={styles.row}>
       <View

@@ -39,6 +39,8 @@ export interface SearchTrip {
   readonly itemTitles: ReadonlyMap<string, string>;
   /** The plan's place names by place id ("≤ 15 min from Tanah Lot"). */
   readonly placeNames: ReadonlyMap<string, string>;
+  /** The weekday (else the day number) a place is planned on, by place id. */
+  readonly planDays: ReadonlyMap<string, string>;
 }
 
 function guideOf(slug: string | null | undefined): GuideId {
@@ -76,6 +78,17 @@ export function useSearchTrip(tripId: string): SearchTrip {
       ),
     [plan.itemRows],
   );
+  const planDays = useMemo(() => {
+    const byNo = new Map(days.map((day) => [day.dayNo, day.weekday ?? String(day.dayNo)]));
+    const planned = new Map<string, string>();
+    for (const item of plan.itemRows) {
+      if (item.poi_id === null || item.status === 'cancelled' || item.category === 'stay') continue;
+      if (!planned.has(item.poi_id)) {
+        planned.set(item.poi_id, byNo.get(item.day_no) ?? String(item.day_no));
+      }
+    }
+    return planned;
+  }, [plan.itemRows, days]);
   return {
     loaded: plan.loaded,
     destinationId: plan.trip?.destination_id ?? null,
@@ -89,6 +102,7 @@ export function useSearchTrip(tripId: string): SearchTrip {
     tz: plan.trip?.tz ?? 'UTC',
     itemTitles,
     placeNames: plan.places,
+    planDays,
   };
 }
 
