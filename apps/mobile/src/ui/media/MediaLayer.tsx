@@ -44,8 +44,15 @@ export interface MediaLayerProps {
   readonly lowData?: boolean;
   /** The hero's halftone over the photo (at half strength); off where the hero has none. @default true */
   readonly dots?: boolean;
+  /**
+   * `colour` draws the photo as it is (a small card's picture, with no text over it); `duotone`
+   * tints it to the accent under a hero's text. @default 'duotone'
+   */
+  readonly tone?: 'duotone' | 'colour';
   /** The corner the licence credit sits in. @default 'bottom' */
   readonly creditAt?: 'top' | 'bottom';
+  /** The side the credit starts from; a small card's reads from the start. @default 'end' */
+  readonly creditAlign?: 'start' | 'end';
   readonly testID?: string;
 }
 
@@ -64,9 +71,25 @@ const DOTS_OVER_PHOTO = 0.5;
 /** A low-data slot loads a smaller still (it is tinted and dotted anyway). */
 const LOW_DATA_SCALE = 0.5;
 
+/** The credit's inset from the layer's sides, and its own padding (the styles below). */
+const CREDIT_INSET = 12 + 6;
+/** A caption letter's average width, for telling whether a credit fits its line. */
+const CREDIT_CHAR_PT = 5.8;
+
+/**
+ * The credit a layer this wide shows on its one line: the whole line when it fits, else the author
+ * alone (the credit's first part; the whole credit is on the place page). Unmeasured, the whole.
+ */
+export function creditFor(credit: string, widthPt: number | null): string {
+  if (widthPt === null) return credit;
+  if (credit.length * CREDIT_CHAR_PT <= widthPt - 2 * CREDIT_INSET) return credit;
+  return credit.split(' · ')[0] ?? credit;
+}
+
 const useStyles = makeStyles((t) => ({
   credit: {
     position: 'absolute',
+    start: t.space['12'],
     end: t.space['12'],
     paddingHorizontal: t.space['6'],
     opacity: 0.85,
@@ -89,7 +112,8 @@ function Still({
   readonly uri: string;
   readonly width: number;
   readonly height: number;
-  readonly matrix: number[];
+  /** The duotone; null draws the photo in its own colours. */
+  readonly matrix: number[] | null;
   readonly opacity: number;
   readonly animate: boolean;
   /** On the dark scaffold the band, with its dark halftone, fades into it at both edges. */
@@ -110,13 +134,13 @@ function Still({
       <Group opacity={opacity}>
         {placeholder === null ? null : (
           <Image image={placeholder} fit="cover" {...frame}>
-            <ColorMatrix matrix={matrix} />
+            {matrix === null ? null : <ColorMatrix matrix={matrix} />}
           </Image>
         )}
         {image === null ? null : (
           <Group opacity={fade}>
             <Image image={image} fit="cover" {...frame}>
-              <ColorMatrix matrix={matrix} />
+              {matrix === null ? null : <ColorMatrix matrix={matrix} />}
             </Image>
           </Group>
         )}
@@ -167,7 +191,9 @@ export function MediaLayer({
   motion = 'still',
   lowData = false,
   dots = true,
+  tone = 'duotone',
   creditAt = 'bottom',
+  creditAlign = 'end',
   testID,
 }: MediaLayerProps) {
   const theme = useTheme();
@@ -214,11 +240,11 @@ export function MediaLayer({
             uri={saved ?? still.url}
             width={size.width}
             height={size.height}
-            matrix={matrix}
+            matrix={tone === 'colour' ? null : matrix}
             opacity={treatment.opacity}
             animate={!reduced}
-            fadeTo={surface === 'dark' ? treatment.base : null}
-            scrim={treatment.scrim}
+            fadeTo={surface === 'dark' && tone === 'duotone' ? treatment.base : null}
+            scrim={tone === 'duotone' ? treatment.scrim : null}
             dots={dots}
           />
         ) : null}
@@ -236,10 +262,14 @@ export function MediaLayer({
           variant="caption"
           color={creditColour}
           numberOfLines={1}
-          style={[styles.credit, creditAt === 'top' ? { top: 6 } : { bottom: 6 }]}
+          style={[
+            styles.credit,
+            { textAlign: creditAlign === 'start' ? 'left' : 'right' },
+            creditAt === 'top' ? { top: 6 } : { bottom: 6 },
+          ]}
           testID={testID === undefined ? undefined : `${testID}-credit`}
         >
-          {media.credit}
+          {creditFor(media.credit, size?.width ?? null)}
         </Text>
       ) : null}
     </>

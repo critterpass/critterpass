@@ -16,6 +16,7 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon, categoryLabel } from '../category';
+import { isGenericPhoto } from '../place-photo';
 import { GenericPhotoLabel } from './generic-photo-label';
 import { SponsoredTag, WhySponsoredLink } from './sponsored-card';
 
@@ -31,10 +32,26 @@ const useStyles = makeStyles((t) => ({
     overflow: 'hidden',
   },
   photo: { height: PHOTO_HEIGHT, alignItems: 'center', justifyContent: 'center' },
+  // Ink under the photo's line (its credit, or "Not this place"), so it reads on any photo.
+  caption: {
+    position: 'absolute',
+    start: 0,
+    end: 0,
+    bottom: 0,
+    height: 26,
+    backgroundColor: t.semantic.bg.base,
+    opacity: 0.6,
+  },
   name: { padding: t.space['10'], paddingBottom: t.space['14'] },
   open: { flex: 1 },
   footer: { paddingHorizontal: t.space['10'], paddingBottom: t.space['12'] },
 }));
+
+/** Whether the photo carries a line of words at its foot. */
+function captioned(photo: MediaAsset | null): boolean {
+  if (photo === null) return false;
+  return isGenericPhoto(photo) || photo.attribution_required;
+}
 
 export interface PickCard {
   readonly id: string;
@@ -81,7 +98,16 @@ export function PicksRow({ picks, onOpen, accent, footer }: PicksRowProps) {
             >
               <View style={styles.photo}>
                 <Hatch />
-                <MediaLayer media={pick.photo} surface="dark" accent={accent} dots={false} />
+                <MediaLayer
+                  media={pick.photo}
+                  surface="dark"
+                  accent={accent}
+                  tone="colour"
+                  dots={false}
+                  creditAlign="start"
+                  creditAt={isGenericPhoto(pick.photo) ? 'top' : 'bottom'}
+                />
+                {captioned(pick.photo) ? <View style={styles.caption} /> : null}
                 <GenericPhotoLabel photo={pick.photo} />
                 {pick.photo === null ? (
                   <Icon

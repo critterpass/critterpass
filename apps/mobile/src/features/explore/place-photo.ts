@@ -5,6 +5,8 @@
  */
 import type { MediaAsset } from '@cp/domain';
 
+import { isGenericPlacePhoto } from '@/data/media/place-photo-store';
+
 import { poiSubject } from './format';
 
 /** The hero (first, the read is in rank order) of each place's own assets, by POI id. */
@@ -23,5 +25,5 @@ export function photosByPlace(
 
 /** A stock photo standing in for the place: shown with the "not this place" label. */
 export function isGenericPhoto(photo: MediaAsset | null | undefined): boolean {
-  return photo !== null && photo !== undefined && photo.source !== 'wikimedia';
+  return photo !== null && photo !== undefined && isGenericPlacePhoto(photo);
 }
