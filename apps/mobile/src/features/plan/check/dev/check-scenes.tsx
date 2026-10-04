@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { AskCard } from '../ask-card';
 import * as words from '../check-copy';
 import { CheckView } from '../check-view';
@@ -57,7 +58,11 @@ function Check({
       }
       body={words.checkBody(8)}
       notice={
-        state === 'running' ? words.runningNotice() : state === 'clear' ? words.clearNotice() : null
+        state === 'running'
+          ? words.runningNotice(NO_TRIP_GUIDE.name)
+          : state === 'clear'
+            ? words.clearNotice(NO_TRIP_GUIDE.name)
+            : null
       }
       cards={cards}
       know={state === 'clear' || state === 'running' ? [] : v.know}
@@ -183,7 +188,12 @@ function Rain() {
       onBack={noop}
       chip={recheckChip('2026-10-11', locale)}
       title={rainTitle(spokenHour('13:00', locale), spokenHour('10:00', locale))}
-      source={sourceLine({ month: lab.october(locale), rain: 'normals', crowds: 'editorial' })}
+      source={sourceLine({
+        month: lab.october(locale),
+        rain: 'normals',
+        crowds: 'editorial',
+        guideName: NO_TRIP_GUIDE.name,
+      })}
       state="ready"
       chart={lab.chart(unticked)}
       rows={rows}
@@ -283,7 +293,7 @@ function Balance({ asked = false }: { asked?: boolean }) {
           busy: false,
           onPress: asked ? null : noop,
         },
-        status: asked ? balance.waitingLine('Dev') : null,
+        status: asked ? balance.waitingLine('Dev', NO_TRIP_GUIDE.name) : null,
       }}
     />
   );

@@ -7,9 +7,9 @@
 import type { ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { canonicalSeed, critters, type Pose } from '@cp/critter-art';
+import type { Pose } from '@cp/critter-art';
 
-import { GUIDE_DEX_IDS, GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -22,10 +22,9 @@ import { Text } from '@/ui/text/Text';
 import type { GuideTripContext } from '../data/use-guide-context';
 import { LAB_TRIP, LabSheet, answer, live, question } from './lab-scenes-chat';
 
-const CHAVA = GUIDE_STICKERS.chava;
+const CHAVA = guideSticker('chava');
 const GUIDE = { slug: CHAVA.id, name: CHAVA.name };
-const DEX = critters.find((critter) => critter.id === GUIDE_DEX_IDS.chava);
-const SEED = DEX === undefined ? 7 : canonicalSeed(DEX);
+const SEED = CHAVA.seed;
 
 const POSES: readonly Pose[] = ['idle', 'wave', 'cheer', 'think', 'point', 'sleep'];
 /** Chat avatars, list rows, the FAB and inline cards. */

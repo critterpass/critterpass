@@ -5,19 +5,14 @@
  * part of the SOS and ends with it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and tile URLs, never copy. */
-import criterpassDarkStyleJson from '../../../../assets/map-style/critterpass-dark.json';
 import { useLiveRows } from '../data/live-rows';
 import type { SosModel } from '../sos/sos-model';
 import { useSos } from '../sos/use-sos';
 import { mapCentre, straightLine, type Point } from './walking-route';
-
-const WORLD_URL = (
-  (criterpassDarkStyleJson as { sources: Record<string, { url?: string }> }).sources['world']
-    ?.url ?? ''
-).replace(/^pmtiles:\/\//u, '');
+import { plainTilesUrl, useRegionTiles } from '@/ui/map/region-pack';
 
 const SLUG_SQL = `
-  SELECT d.slug, t.destination_id FROM trips t JOIN destinations d ON d.id = t.destination_id
+  SELECT d.slug, d.name, t.destination_id FROM trips t JOIN destinations d ON d.id = t.destination_id
    WHERE t.id = ?`;
 /** The trip's city: the middle of its synced places, else of its curated facilities. */
 const CITY_SQL = `
@@ -37,19 +32,23 @@ export interface SessionMap {
   /** Walking minutes to the sender, once this person said they are going and the server counted. */
   readonly etaMin: number | null;
   readonly distanceM: number | null;
-  readonly regionSourceUrl: string | undefined;
+  /** The region pack when the destination has one, the world tiles otherwise (`CpMap`'s form). */
+  readonly regionSourceUrl: string;
+  /** The destination has no region pack yet: the map says so, by the destination's name. */
+  readonly regionPackAwaited: boolean;
+  readonly destinationName: string | null;
   /** The incident is over (or was never alerted): the map has nothing live to show. */
   readonly ended: boolean;
 }
 
 export function useSessionMap(sosId: string | null): SessionMap {
   const sos = useSos(sosId);
-  const dest = useLiveRows<{ slug: string | null; destination_id: string | null }>(
-    SLUG_SQL,
-    sos.row === null ? null : [sos.row.trip_id],
-    ['trips', 'destinations'],
-  ).rows[0];
-  const slug = dest?.slug ?? null;
+  const dest = useLiveRows<{
+    slug: string | null;
+    name: string | null;
+    destination_id: string | null;
+  }>(SLUG_SQL, sos.row === null ? null : [sos.row.trip_id], ['trips', 'destinations']).rows[0];
+  const tiles = useRegionTiles(dest?.slug ?? null, null);
   const cityRow = useLiveRows<{ lat: number | null; lng: number | null }>(
     CITY_SQL,
     dest?.destination_id == null ? null : [dest.destination_id],
@@ -70,8 +69,9 @@ export function useSessionMap(sosId: string | null): SessionMap {
     zoom: framed?.zoom ?? 15,
     etaMin: me?.etaMin ?? null,
     distanceM: sos.distanceM,
-    regionSourceUrl:
-      slug === null || WORLD_URL === '' ? undefined : WORLD_URL.replace('/world/', `/${slug}/`),
+    regionSourceUrl: plainTilesUrl(tiles),
+    regionPackAwaited: tiles.awaited,
+    destinationName: dest?.name ?? null,
     ended: model !== null && model.state !== 'open',
   };
 }

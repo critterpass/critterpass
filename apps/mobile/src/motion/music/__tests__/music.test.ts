@@ -11,7 +11,7 @@ import {
 import { crossfadeFraction, musicEngine } from '../crossfade';
 import { musicLevel, resetMusicLevelForTests, updateMusicLevelFromSample } from '../levels';
 import { music } from '../index';
-import { MUSIC_ASSET_MODULES, themeFor } from '../themes';
+import { MUSIC_ASSET_MODULES, themedGuideFor, themeFor } from '../themes';
 
 beforeEach(async () => {
   await resetFeedbackPrefsForTests();
@@ -59,6 +59,31 @@ describe('themes', () => {
       music.play('tokek');
       music.play('chava');
       expect(musicEngine.playingGuideId).toBeNull();
+    } finally {
+      if (bundled !== undefined) MUSIC_ASSET_MODULES.chava = bundled;
+    }
+  });
+});
+
+describe('the theme a guide plays', () => {
+  it('is its own when it has one', () => {
+    expect(themedGuideFor('pon', ['tokek'])).toBe('pon');
+  });
+
+  it("is its country's themed guide when it has none of its own", () => {
+    expect(themedGuideFor('ngua', ['curua', 'rong', 'chava'])).toBe('chava');
+  });
+
+  it("is nothing when no guide of its country has one, never a stranger's", () => {
+    expect(themedGuideFor('ngua', ['curua', 'rong'])).toBeUndefined();
+    expect(themedGuideFor('nobody')).toBeUndefined();
+  });
+
+  it('skips a theme that cannot play', () => {
+    const bundled = MUSIC_ASSET_MODULES.chava;
+    delete MUSIC_ASSET_MODULES.chava;
+    try {
+      expect(themedGuideFor('chava', ['tokek'])).toBe('tokek');
     } finally {
       if (bundled !== undefined) MUSIC_ASSET_MODULES.chava = bundled;
     }

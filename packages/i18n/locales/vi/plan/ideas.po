@@ -9,7 +9,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.body"
-msgstr "{count, plural, other {# nơi đã lưu mà chưa có trong ngày nào. Kéo một nơi vào một ngày, hoặc để Tokek xếp giúp.}}"
+msgstr "{count, plural, other {# nơi đã lưu mà chưa có trong ngày nào. Kéo một nơi vào một ngày, hoặc để {guideName} xếp giúp.}}"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
@@ -31,6 +31,14 @@ msgstr "{fitting, plural, other {Cả # nơi đều vừa mà không phải dờ
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeSome"
 msgstr "{fitting, plural, other {# nơi vừa mà không phải dời gì đã đặt.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.failed"
+msgstr "Lần này {guideName} chưa xếp được."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr "{guideName} chưa bắt đầu xếp được"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSome"
@@ -58,7 +66,7 @@ msgstr "Một nơi đã bỏ khỏi Ý tưởng"
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.foot"
-msgstr "Khoảng mười giây. Cứ đi nếu muốn, Tokek sẽ báo bạn."
+msgstr "Khoảng mười giây. Cứ đi nếu muốn, {guideName} sẽ báo bạn."
 
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
@@ -143,18 +151,6 @@ msgstr "Đang xếp đường các ngày"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.emptyLine"
 msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cùng nhau, chúng sẽ hiện ở đây."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.guide"
-msgstr "Tokek"
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
-msgid "plan.placing.failed"
-msgstr "Lần này Tokek chưa xếp được."
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.placeFailed"
-msgstr "Tokek chưa bắt đầu xếp được"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"

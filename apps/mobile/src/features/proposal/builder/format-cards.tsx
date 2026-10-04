@@ -11,7 +11,7 @@ import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -111,7 +111,7 @@ type FaceProps = Pick<FormatCardsProps, 'guide' | 'destination' | 'headline' | '
 function Face({ format, ...props }: FaceProps & { readonly format: ProposalFormat }) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const ink = theme.semantic.text.onAccent;
   if (format === 'trailer') {
     return (

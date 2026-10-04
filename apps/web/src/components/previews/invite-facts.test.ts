@@ -1,7 +1,14 @@
 import { linkPreviewSchema } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
-import { countdownLabel, estimateEach, guideKind, memberStubs, tripDates } from './invite-facts';
+import {
+  countdownLabel,
+  estimateEach,
+  guideKind,
+  guideSticker,
+  memberStubs,
+  tripDates,
+} from './invite-facts';
 
 const preview = linkPreviewSchema.parse({
   kind: 'invite',
@@ -26,8 +33,17 @@ const preview = linkPreviewSchema.parse({
 describe('invite facts', () => {
   it('maps the guide to its sticker, Tokek by default', () => {
     expect(guideKind('pon')).toBe('tanuki');
+    expect(guideKind('chava')).toBe('langur');
     expect(guideKind(null)).toBe('gecko');
     expect(guideKind('someone-new')).toBe('gecko');
+  });
+
+  it("draws a city's guide as its own critter, and keeps share cards to baked art", () => {
+    expect(guideSticker('ngua')).toEqual({ kind: 'cp-006', seed: 6 });
+    expect(guideSticker('pon').kind).toBe('tanuki');
+    expect(guideSticker(null)).toEqual({ kind: 'gecko', seed: undefined });
+    expect(guideSticker('someone-new').kind).toBe('gecko');
+    expect(guideKind('ngua')).toBe('gecko');
   });
 
   it('turns members into initials with their colour and ring', () => {

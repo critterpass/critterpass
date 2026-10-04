@@ -69,10 +69,10 @@ export function placingTitle(count: number): string {
   });
 }
 
-export function placingFoot(): string {
+export function placingFoot(guideName: string): string {
   return t({
     id: 'plan.placing.foot',
-    message: 'About ten seconds. Leave if you like, Tokek will ping you.',
+    message: `About ten seconds. Leave if you like, ${guideName} will ping you.`,
   });
 }
 
@@ -83,6 +83,9 @@ export function nothingFoot(): string {
   });
 }
 
-export function failedFoot(): string {
-  return t({ id: 'plan.placing.failed', message: 'Tokek couldn’t place them this time.' });
+export function failedFoot(guideName: string): string {
+  return t({
+    id: 'plan.placing.failed',
+    message: `${guideName} couldn’t place them this time.`,
+  });
 }

@@ -13,7 +13,7 @@ import { upper } from '@cp/i18n';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { StackMember } from '@/ui/people/AvatarStack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -108,7 +108,7 @@ export function ReviewView(props: ReviewViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const sticker = GUIDE_STICKERS[props.guide.id];
+  const sticker = guideSticker(props.guide.id);
   const tagColour =
     props.tag?.tone === 'info'
       ? theme.semantic.state.info

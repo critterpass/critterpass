@@ -5,7 +5,7 @@
  * leave-by pushes take their words from `leaveByPushCopy`: a time to leave, or a time to be there
  * when no trip to the place was counted.
  */
-import { TRIP_DAY_PUSH } from '@cp/domain';
+import { TRIP_DAY_PUSH, tripDayPath, tripHubPath } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -62,7 +62,7 @@ export function registerTripDayNotifications(): void {
         sender: { kind: 'member', id: sleeper, name: await firstName(tx, sleeper) },
         crewId: facts.crew_id,
         tripId: facts.trip_id,
-        deepLink: `/hub/${facts.trip_id}/day/${facts.local_date}`,
+        deepLink: tripDayPath(facts.trip_id, facts.local_date),
         collapseVars: { leave_by_id: str(routed, 'leave_by_id') ?? '' },
       };
     },
@@ -84,7 +84,7 @@ export function registerTripDayNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: facts.crew_id,
         tripId: facts.trip_id,
-        deepLink: `/hub/${facts.trip_id}/day/${facts.local_date}`,
+        deepLink: tripDayPath(facts.trip_id, facts.local_date),
         classContext: { remote: true },
         collapseVars: { leave_by_id: str(routed, 'leave_by_id') ?? '' },
       };
@@ -146,7 +146,7 @@ export function registerTripDayNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: first.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
-        deepLink: `/hub/${str(routed, 'trip_id') ?? ''}`,
+        deepLink: tripHubPath(str(routed, 'trip_id') ?? ''),
         collapseVars: { trip_id: str(routed, 'trip_id') ?? '' },
       };
     },

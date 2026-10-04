@@ -172,6 +172,10 @@ msgstr "{word} form, not found yet"
 msgid "common.critter.formLocked"
 msgstr "{word}, locked: {need}"
 
+#: ../../apps/mobile/src/ui/map/RegionPackNotice.tsx
+msgid "common.map.regionPackOnItsWay"
+msgstr "A detailed map of {place} is on its way."
+
 #: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
 msgid "common.monetize.activeMonths"
 msgstr "Active: {active}"

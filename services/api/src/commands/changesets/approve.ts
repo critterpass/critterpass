@@ -18,18 +18,14 @@ import {
 import { asSystemRole } from '../../admin/command';
 import { tripOrganiserIds } from '../../plan/access';
 import {
-  advance,
-  applyToGroup,
-  closeVote,
   lockChangeSet,
   outcomeOf,
   publishPlan,
-  rejectChangeSet,
   requireVisibleChangeSet,
   tallyOfPoll,
 } from '../../plan/changeset-store';
+import { castFirstBallot, settleVote } from '../../plan/changeset-vote';
 import { verdict } from '../../plan/decider-policy';
-import { bookingImpactOf } from '../../plan/providers';
 import { defineCommand } from '../_framework/define-command';
 
 export const approveChangesetCommand = defineCommand({
@@ -42,7 +38,7 @@ export const approveChangesetCommand = defineCommand({
   authorize: (tx, payload) => requireVisibleChangeSet(tx, payload.changeset_id),
   handle: async (tx, payload, ctx): Promise<ChangesetOutcome> => {
     const now = ctx.clock.serverNow;
-    let row = await lockChangeSet(tx, payload.changeset_id);
+    const row = await lockChangeSet(tx, payload.changeset_id);
     const pollId = row.poll_id;
     if (pollId === null) throw new DomainError('STATE_INVALID', { reason: 'not_sent' });
     const state = await asSystemRole(tx, () => loadPollState(tx, pollId, 'update'));
@@ -74,12 +70,14 @@ export const approveChangesetCommand = defineCommand({
       }
       tieBreak = payload.decision;
     } else if (mine === undefined) {
-      // As the voter: RLS (`app.can_vote`) is the backstop for eligibility and the deadline.
-      await tx.query(
-        `INSERT INTO ballots (poll_id, option_id, crew_id, user_id, source, op_id, cast_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        [pollId, optionId, row.crew_id, ctx.uid, ballotSourceForVia(ctx.via), ctx.opId, now],
-      );
+      await castFirstBallot(tx, row, {
+        pollId,
+        optionId,
+        uid: ctx.uid,
+        via: ctx.via,
+        opId: ctx.opId,
+        now,
+      });
     } else {
       await tx.query(
         `UPDATE ballots SET option_id = $3, source = $4, op_id = $5, cast_at = $6
@@ -102,26 +100,12 @@ export const approveChangesetCommand = defineCommand({
       crewId: row.crew_id,
       tripId: row.trip_id,
     });
-    const after = await asSystemRole(tx, () => loadPollState(tx, pollId));
-    const tally = tallyOfPoll(after ?? state);
-    const result = verdict({
-      ...facts,
-      yes: tally.yes,
-      no: tally.no,
+    const result = await settleVote(tx, row, {
+      pollId,
+      rules: facts,
+      uid: ctx.uid,
       ...(tieBreak === undefined ? {} : { tieBreak }),
     });
-    if (result === 'approve') {
-      await closeVote(tx, row, 'approve', 'decider', ctx.uid);
-      row = await advance(tx, row, ['approved'], {
-        kind: tieBreak === undefined ? 'vote' : 'organiser',
-        uid: ctx.uid,
-      });
-      const impact = await bookingImpactOf(tx, row);
-      if (!impact.needsOrganiser) await applyToGroup(tx, row, { kind: 'system', id: null });
-    } else if (result === 'reject') {
-      await closeVote(tx, row, 'reject', 'decider', ctx.uid);
-      await rejectChangeSet(tx, row, ctx.uid);
-    }
     const outcome = await outcomeOf(tx, row.id);
     await publishPlan(tx, row.trip_id, PLAN_RT.changesetTally, {
       change_set_id: row.id,

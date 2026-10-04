@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# A city's own guide (Ngựa of Đà Lạt): its poses at every sticker size, an empty state and a guide
+# line, then the guide sheet, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: city-guide-states, READY: city-guide-states, SHOT: '${PREFIX}-city-guide-states' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: city-guide-chat, READY: guide-conversation, SHOT: '${PREFIX}-city-guide-chat' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: city-guide-thinking, READY: guide-thinking, SHOT: '${PREFIX}-city-guide-thinking' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: city-guide-empty, READY: guide-empty, SHOT: '${PREFIX}-city-guide-empty' }

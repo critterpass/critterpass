@@ -187,6 +187,7 @@ export function PlacesMapView(props: PlacesMapViewProps) {
             initialCenter={[centre.lng, centre.lat]}
             initialZoom={initialZoom}
             destinationSlug={props.destinationSlug}
+            placeName={props.destinationName}
             localRegionUri={props.localRegionUri}
             stay={props.stay === null ? null : [props.stay.at.lng, props.stay.at.lat]}
             cameraRef={camera.cameraRef}

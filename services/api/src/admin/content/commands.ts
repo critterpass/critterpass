@@ -145,6 +145,12 @@ export function contentCommands(): readonly AnyAdminCommand[] {
       }),
       async handle(tx, payload, ctx) {
         const row = await lockRelease(tx, payload.batch_id);
+        if (row.status === 'approved') {
+          // Approved but never live: its publish job ran out of attempts. Approving it again
+          // queues the publish once more and changes nothing else.
+          await enqueuePublish(tx, row.id);
+          return { release_id: row.id, version: row.version };
+        }
         if (row.status === 'blocked') {
           throw new DomainError('STATE_INVALID', { reason: 'blocked' });
         }

@@ -74,12 +74,14 @@ export {
   type KillSwitchReaderOptions,
 } from './kill-switches';
 export { poolMaxEnv, POOL_MAX_LIMIT } from './pool-env';
+export * from './guides';
 export * from './polls';
 export * from './pitches';
 export * from './trips/status';
 export * from './proposals/lock';
 export * from './proposals/booked-plan-items';
 export * from './planning/stay';
+export * from './planning/replaced-draft';
 export * from './planning/split-decision';
 export * from './places/geocode-local';
 export * from './places/foursquare-photos';

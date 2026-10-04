@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { IconButton } from '@/ui/buttons/IconButton';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { CloseButton } from '@/ui/sheet/CloseButton';
@@ -60,7 +60,7 @@ export function StoryView(props: StoryViewProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const [index, setIndex] = useState(props.initialIndex ?? 0);
-  const art = GUIDE_STICKERS[props.guide];
+  const art = guideSticker(props.guide);
   const playing = props.cards[index];
   // The stamp card is paper: the header is set in ink over it.
   const ink = playing?.card === 'stamp' ? theme.color.paper.ink : undefined;

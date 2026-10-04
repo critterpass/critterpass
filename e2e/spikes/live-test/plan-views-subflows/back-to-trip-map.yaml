@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# Gets the walk back onto the trip map from wherever a step left it: system back until the tab bar
+# shows (a sheet, the keyboard or a pushed screen closes first), then TRIPS → PLAN when the map is
+# not what came up, and the sheet lowered to its peek.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - tapOn:
+          id: 'tab-trips'
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map'
+          timeout: 30000
+          optional: true
+- repeat:
+    while:
+      visible:
+        id: 'trip-map-half|trip-map-full'
+    times: 2
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-wait'
+    timeout: 3000
+    optional: true

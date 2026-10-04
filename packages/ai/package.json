@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",
+    "@cp/critter-art": "workspace:*",
     "@cp/domain": "workspace:*",
     "@cp/planner": "workspace:*",
     "zod": "catalog:"

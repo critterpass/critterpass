@@ -16,13 +16,8 @@ import pacoPreviewM4a from '../../../assets/music/paco-preview.m4a';
 import chavaM4a from '../../../assets/music/chava.m4a';
 import chavaPreviewM4a from '../../../assets/music/chava-preview.m4a';
 
-// Guide ids, mirroring sound.tokens.json's `music.<id>`/`voice.<id>` keys, never rendered copy.
-export const GUIDE_IDS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'] as const;
-export type GuideId = (typeof GUIDE_IDS)[number];
-
-function isGuideId(value: string): value is GuideId {
-  return (GUIDE_IDS as readonly string[]).includes(value);
-}
+/** A guide's slug. Any guide may be asked for; only the ones below have a theme. */
+export type GuideId = string;
 
 /**
  * Bundled guide theme loops, keyed by guide id: every theme (Tokek, Pon, Lundi, Ajo, Sardi, Paco, Chà Vá),
@@ -33,7 +28,7 @@ function isGuideId(value: string): value is GuideId {
  * map) still gates `themeFor`/`availableThemes` — Ajo/Sardi/Paco/Chà Vá stay pending a founder listening
  * pass even though their files are already bundled.
  */
-export const MUSIC_ASSET_MODULES: Partial<Record<GuideId, AudioSource>> = {
+export const MUSIC_ASSET_MODULES: Partial<Record<string, AudioSource>> = {
   tokek: tokekM4a,
   pon: ponM4a,
   lundi: lundiM4a,
@@ -43,7 +38,7 @@ export const MUSIC_ASSET_MODULES: Partial<Record<GuideId, AudioSource>> = {
   chava: chavaM4a,
 };
 
-export const MUSIC_SAMPLE_MODULES: Partial<Record<GuideId, AudioSource>> = {
+export const MUSIC_SAMPLE_MODULES: Partial<Record<string, AudioSource>> = {
   tokek: tokekPreviewM4a,
   pon: ponPreviewM4a,
   lundi: lundiPreviewM4a,
@@ -60,7 +55,14 @@ export interface ThemeInfo {
   readonly sampleAsset: AudioSource | undefined;
 }
 
-/** A guide's theme, or `undefined` for an unrecognised id. `available` requires both the manifest row and a bundled asset module (a stale manifest claiming availability with no real file never crashes playback). */
+/** The guides a theme was composed for, mirroring sound.tokens.json's `music.<id>` keys. */
+export const GUIDE_IDS: readonly GuideId[] = Object.keys(MUSIC_ASSET_MODULES);
+
+function isGuideId(value: string): boolean {
+  return GUIDE_IDS.includes(value);
+}
+
+/** A guide's own theme, or `undefined` for a guide without one. `available` requires both the manifest row and a bundled asset module (a stale manifest claiming availability with no real file never crashes playback). */
 export function themeFor(guideId: string): ThemeInfo | undefined {
   if (!isGuideId(guideId)) return undefined;
   const row = manifest.guides.find((guide) => guide.guideId === guideId);
@@ -79,4 +81,16 @@ export function availableThemes(): ThemeInfo[] {
   return GUIDE_IDS.map((guideId) => themeFor(guideId)).filter(
     (theme): theme is ThemeInfo => theme !== undefined && theme.available,
   );
+}
+
+/**
+ * The guide whose theme plays for `guideId`: its own when it has one that can play, else the first
+ * of `sameCountry` (the other guides of its country) that has, else none: a guide nobody composed
+ * for is silent rather than borrowing a stranger's theme.
+ */
+export function themedGuideFor(
+  guideId: GuideId,
+  sameCountry: readonly GuideId[] = [],
+): GuideId | undefined {
+  return [guideId, ...sameCountry].find((id) => themeFor(id)?.available === true);
 }

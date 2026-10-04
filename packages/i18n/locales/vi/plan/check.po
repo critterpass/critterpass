@@ -25,8 +25,7 @@ msgstr "{0, select, one {TOKEK CÓ MỘT GỢI Ý} two {TOKEK CÓ HAI GỢI Ý} 
 #. placeholder {0}: word(count)
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.free"
-msgstr ""
-"{0, select, two {HAI NGƯỜI\n"
+msgstr "{0, select, two {HAI NGƯỜI\n"
 "ĐANG RẢNH} three {BA NGƯỜI\n"
 "ĐANG RẢNH} four {BỐN NGƯỜI\n"
 "ĐANG RẢNH} five {NĂM NGƯỜI\n"
@@ -78,17 +77,16 @@ msgid "plan.check.body"
 msgstr "{days, plural, other {Giờ mở cửa, đường đi, đặt chỗ và những điểm mọi người đã lưu, cho cả # ngày. Không có gì thay đổi cho đến khi bạn đồng ý.}}"
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
-msgid "plan.check.clash.body"
-msgstr "{first} kết thúc lúc {end}. {second} bắt đầu lúc {start}."
+msgid "plan.check.clash.noGap"
+msgstr "Lái xe {drive} mà không có phút nào ở giữa. {first} xong lúc {end}, {second} bắt đầu lúc {start}."
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
-msgid "plan.check.clash.title"
-msgstr "{first} chồng giờ với {second}"
+msgid "plan.check.clash.tight"
+msgstr "Lái xe {drive}, chỉ trống {free}. {first} xong lúc {end}, {second} bắt đầu lúc {start}."
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.title.both"
-msgstr ""
-"{first},\n"
+msgstr "{first},\n"
 "{second}"
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
@@ -102,6 +100,26 @@ msgstr "{fix, plural, other {# CẦN SỬA}}"
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.done.swapped"
 msgstr "Đã đổi {from} thành {to}."
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.askedToast"
+msgstr "{guideName} đã hỏi riêng {name}"
+
+#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
+msgid "plan.check.balance.waiting"
+msgstr "{guideName} đã hỏi {name}. Đang chờ trả lời."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.staleLine"
+msgstr "{guideName} đang kiểm tra lại."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.running"
+msgstr "{guideName} đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.keptLine"
+msgstr "{guideName} sẽ không nhắc lại, trừ khi các điểm quanh đó thay đổi."
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.and"
@@ -195,15 +213,19 @@ msgstr "điểm {name} đã lưu"
 msgid "plan.check.gap.busy"
 msgstr "{names} ở {place} đến {until}."
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.nearer"
 msgstr "Thay bằng {nearer}, trên đường về"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.moveTo"
 msgstr "{place} lúc {time}"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fix.moveToWas"
+msgstr "{place} lúc {time} (trước là {was})"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorderMove"
 msgstr "{place} lúc {time}, bớt {less} lái xe"
 
@@ -275,9 +297,17 @@ msgstr "Một đặt chỗ được huỷ miễn phí đến {date}."
 msgid "plan.check.know.holdPlain"
 msgstr "Một đặt chỗ được giữ đến {date}."
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.tooFar"
+msgstr "một nơi gần hơn"
+
 #: ../../apps/mobile/src/features/plan/check/data/use-check-context.ts
 msgid "plan.check.aStop"
 msgstr "một điểm dừng"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.other"
+msgstr "vào giờ phù hợp hơn"
 
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.addOne"
@@ -313,7 +343,7 @@ msgstr "Sau"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.clear"
-msgstr "Ổn cả. Giờ mở cửa, đường đi và đặt chỗ đều khớp. Tokek sẽ kiểm tra lại mỗi khi kế hoạch thay đổi."
+msgstr "Ổn cả. Giờ mở cửa, đường đi và đặt chỗ đều khớp. {guideName} sẽ kiểm tra lại mỗi khi kế hoạch thay đổi."
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.ask"
@@ -353,8 +383,7 @@ msgstr "VỪA KIỂM TRA XONG"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.title.checking"
-msgstr ""
-"ĐANG KIỂM TRA\n"
+msgstr "ĐANG KIỂM TRA\n"
 "KẾ HOẠCH"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
@@ -413,11 +442,15 @@ msgstr "Việc phải làm của mọi người đều đã vào, các điểm �
 msgid "plan.check.balance.uneven"
 msgstr "Việc phải làm của mọi người đều đã vào. Các điểm đã lưu chưa đều."
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.fill"
+msgstr "Thêm điểm"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.fillGap"
 msgstr "Lấp khoảng trống"
 
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix"
 msgstr "Sửa"
 
@@ -445,13 +478,17 @@ msgstr "THEO DỰ BÁO"
 msgid "plan.check.tag.pace"
 msgstr "Ngày kín lịch"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.goAt"
 msgstr "Đi lúc {to}, trước khi đông"
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.inCar"
 msgstr "trên xe"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.indoors"
+msgstr "trong nhà lúc trời mưa"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.why.indoors"
@@ -481,23 +518,39 @@ msgstr "Giữ nguyên"
 msgid "plan.check.gap.keepFree"
 msgstr "ĐỂ TRỐNG"
 
+#: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
+msgid "plan.check.rain.keepDay"
+msgstr "GIỮ NGUYÊN NGÀY NÀY"
+
+#: ../../apps/mobile/src/features/plan/check/commands.ts
+msgid "plan.check.queued.keep"
+msgstr "Giữ nguyên một điểm dừng"
+
 #: ../../apps/mobile/src/features/plan/check/commands.ts
 msgid "plan.check.queued.dismissWeather"
 msgstr "Giữ nguyên ngày này"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.kept"
+msgstr "Đã giữ nguyên"
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.mon"
 msgstr "T2"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.move"
+msgstr "Dời giờ"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.dryAt"
 msgstr "Dời sang {to}, lúc trời khô"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.swapPlain"
 msgstr "Dời sang giờ hợp hơn"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.generic"
 msgstr "Dời sang giờ phù hợp"
 
@@ -508,6 +561,14 @@ msgstr "Việc phải làm: {title}"
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.mustDoIn"
 msgstr "Việc phải làm: {title} ✓"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.nearer"
+msgstr "Gần hơn"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.reorder"
+msgstr "thứ tự mới, bớt lái xe"
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-screen.tsx
 msgid "plan.check.lessDriving.applied"
@@ -566,6 +627,10 @@ msgstr "Chỉ hai người thấy."
 msgid "plan.check.ask.private"
 msgstr "Chỉ hai người thấy. Không có gì bị dời để lấy chỗ."
 
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.titleOverlap"
+msgstr "Trùng giờ: {first} và {second}"
+
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.why.quietAfter"
 msgstr "Vắng hơn khi qua giờ cao điểm."
@@ -584,13 +649,12 @@ msgstr "MƯA LÚC {rainAt} GIỜ"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.titleBoth"
-msgstr ""
-"MƯA LÚC {rainAt} GIỜ,\n"
+msgstr "MƯA LÚC {rainAt} GIỜ,\n"
 "ĐÔNG LÚC {busyAt} GIỜ"
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceNormals"
-msgstr "Mưa là cơn mưa thường gặp vào {month}; Tokek sẽ xem dự báo thật ba ngày trước."
+msgstr "Mưa là cơn mưa thường gặp vào {month}; {guideName} sẽ xem dự báo thật ba ngày trước."
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.sourceForecast"
@@ -600,17 +664,24 @@ msgstr "Mưa lấy theo dự báo."
 msgid "plan.check.rain.recheck"
 msgstr "KIỂM TRA LẠI {label}"
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.reorder"
+msgstr "Xếp lại"
+
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.title"
-msgstr ""
-"CÙNG NGÀY,\n"
+msgstr "CÙNG NGÀY,\n"
 "ĐỠ LÁI XE"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorder"
 msgstr "Cùng ngày, bớt {less} lái xe"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fix.reorderAbout"
+msgstr "Cùng ngày, bớt khoảng {less} lái xe"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.reorderPlain"
 msgstr "Cùng ngày, đỡ lái xe hơn"
 
@@ -635,15 +706,23 @@ msgstr "Gửi cả nhóm xem trước"
 msgid "plan.check.toast.sent"
 msgstr "Đã gửi cả nhóm"
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.clash"
+msgstr "để kịp lái xe tới"
+
+#: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
+msgid "plan.check.lessDriving.estimate"
+msgstr "Một vài quãng lái xe ở đây là ước tính. {guideName} sẽ kiểm tra lại ngày này khi bạn dùng thứ tự mới."
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.else"
 msgstr "Chọn khác"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.nearerPlain"
 msgstr "Chọn chỗ gần hơn"
 
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.suggest"
 msgstr "Đề xuất"
 
@@ -655,7 +734,11 @@ msgstr "Đề xuất thứ tự này"
 msgid "plan.check.weekday.sun"
 msgstr "CN"
 
-#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.swap"
+msgstr "Đổi giờ"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
 msgid "plan.check.fix.swapWith"
 msgstr "Đổi chỗ với {other}"
 
@@ -668,8 +751,16 @@ msgid "plan.check.toast.failed"
 msgstr "Chưa gửi được"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.unfit"
+msgstr "Cách dời này hóa ra không kịp"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.failed"
 msgstr "Lần kiểm tra này chưa xong. Sẽ chạy lại sau lần thay đổi tới."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.unfitLine"
+msgstr "Quãng lái xe dài hơn khoảng trống còn lại. Chưa có gì thay đổi."
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.rain.forecast"
@@ -687,33 +778,29 @@ msgstr "Chặng dài nhất mất {longest}."
 msgid "plan.check.toast.stale"
 msgstr "Kế hoạch đã đổi sau lần kiểm tra này"
 
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.plain"
+msgstr "Không đủ thời gian để đi từ {first} đến {second}."
+
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.overlap"
+msgstr "Hai điểm trùng nhau {over}. {first} xong lúc {end}, {second} bắt đầu lúc {start}."
+
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"
-msgstr "Thứ tự này đã là ngắn nhất Tokek tìm được mà không dời chỗ nào đã đặt."
+msgstr "Thứ tự này đã là ngắn nhất {guideName} tìm được mà không dời chỗ nào đã đặt."
 
 #: ../../apps/mobile/src/features/plan/check/format.ts
 msgid "plan.check.weekday.thu"
 msgstr "T5"
 
+#: ../../apps/mobile/src/features/plan/check/issue-copy.ts
+msgid "plan.check.clash.titleTight"
+msgstr "Sát giờ: {first} → {second}"
+
 #: ../../apps/mobile/src/features/plan/check/check-view.tsx
 msgid "plan.check.toKnow"
 msgstr "Cần biết"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.askedToast"
-msgstr "Tokek đã hỏi riêng {name}"
-
-#: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
-msgid "plan.check.balance.waiting"
-msgstr "Tokek đã hỏi {name}. Đang chờ trả lời."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.toast.staleLine"
-msgstr "Tokek đang kiểm tra lại."
-
-#: ../../apps/mobile/src/features/plan/check/check-copy.ts
-msgid "plan.check.running"
-msgstr "Tokek đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.tag.tooFar"
@@ -722,6 +809,10 @@ msgstr "Quá xa"
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/rain-copy.ts
 msgid "plan.check.rain.why.trade"
 msgstr "Đổi chỗ cho nhau để có chỗ."
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.trades"
+msgstr "đổi chỗ với một điểm khác"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.backTrip"
@@ -752,10 +843,21 @@ msgstr "TRƯỚC LÀ {time}"
 msgid "plan.check.weekday.wed"
 msgstr "T4"
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.dry"
+msgstr "lúc trời tạnh"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.closed"
+msgstr "lúc nơi này mở cửa"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.reason.quiet"
+msgstr "lúc vắng khách"
+
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 msgid "plan.check.balance.title"
-msgstr ""
-"ĐIỂM CỦA AI\n"
+msgstr "ĐIỂM CỦA AI\n"
 "ĐÃ VÀO LỊCH"
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts

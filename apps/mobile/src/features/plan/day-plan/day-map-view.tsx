@@ -11,6 +11,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { MapLabel, usePlanningCamera } from '@/ui/map/planning';
+import { useRegionTiles } from '@/ui/map/region-pack';
+import { NOTICE_ROOM } from '@/ui/map/RegionPackNotice';
 import { DayChips, FilterChipRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { BackButton } from '@/ui/shell/BackButton';
@@ -109,19 +111,24 @@ export function DayMapView({
     [model, filter],
   );
   const covered = { top: insets.top + 110, bottom: STRIP + insets.bottom + 24 };
+  // The line a destination without a region pack shows sits above the cards: the camera keeps the
+  // stay and the fitted stops clear of it while it shows.
+  const tiles = useRegionTiles(model.destinationSlug, model.regionUri);
+  const noted = tiles.awaited && model.destination !== null;
+  const clear = noted ? { ...covered, bottom: covered.bottom + NOTICE_ROOM } : covered;
   useEffect(() => {
     if (size.height === 0 || day === null || !ready) return;
-    camera.fitPoints(viewPoints(model, day), covered);
-    // A new day or size moves the camera, not a re-read of the plan.
+    camera.fitPoints(viewPoints(model, day), clear);
+    // A new day or size moves the camera (or the line appearing), not a re-read of the plan.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day?.dayNo, size.height, ready]);
+  }, [day?.dayNo, size.height, ready, noted]);
   if (day === null) return null;
 
   const stop = rows[current]?.stop ?? null;
   const settle = (index: number) => {
     setCurrent(index);
     const place = rows[index]?.stop.place;
-    if (place != null) camera.flyToPlace([place.lng, place.lat], { zoom: 14, covered });
+    if (place != null) camera.flyToPlace([place.lng, place.lat], { zoom: 14, covered: clear });
   };
   // The leg into each card: "Walk", or how long the drive is.
   const shortLegs = rows.map((_, index) => {
@@ -138,6 +145,8 @@ export function DayMapView({
           center={day.stay === null ? (model.center ?? [0, 0]) : [day.stay.lng, day.stay.lat]}
           zoom={13}
           destinationSlug={model.destinationSlug}
+          placeName={model.destination}
+          coveredBottom={covered.bottom}
           regionUri={model.regionUri}
           stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}
           places={places}

@@ -1,7 +1,8 @@
 /**
  * A destination's landmarks: the Wikidata items in and just around its area a visitor expects to
- * find, World Heritage sites and the sights (bridges, beaches, mountains, temples, museums) that
- * Wikipedias in at least seven languages write about. Open data names its places freely, so the
+ * find, World Heritage sites and the sights (bridges, beaches, mountains, lakes, temples, museums)
+ * that Wikipedias in at least seven languages write about, or in two where few reach seven (a
+ * highland town such as Đà Lạt). Open data names its places freely, so the
  * place each landmark is comes from the place-photo matcher (media/place-match): near the item,
  * with a name that says the same. The curated set always holds it, under the category the item's
  * type gives (a bridge is not a museum). A landmark beyond the importer's area, such as the Mỹ Sơn
@@ -13,10 +14,17 @@ import type pg from 'pg';
 
 import { getJson, type SourceHttp } from '../media/http';
 import { matchPlace, tellingWords, words, type WikidataPoint } from '../media/place-match';
+import { HAS_CONTENT_REF } from './pins';
 
-/** Day trips just past the city's edge: Mỹ Sơn lies 9 km beyond Đà Nẵng's box, Huế 28 km. */
-const DAY_TRIP_MARGIN_KM = 20;
+/**
+ * Day trips just past the city's edge: Mỹ Sơn lies 9 km beyond Đà Nẵng's box and the Pongour
+ * falls 20 km beyond Đà Lạt's; Huế, 28 km out, is a destination of its own.
+ */
+const DAY_TRIP_MARGIN_KM = 25;
 const MIN_SITELINKS = 7;
+/** With fewer landmarks than this at seven sitelinks, the destination takes its sights from two. */
+const FEW_LANDMARKS = 12;
+const MIN_SITELINKS_WHERE_FEW = 2;
 /** One in ten of a 400-place set, so landmarks never crowd out a city's food and temples. */
 const MAX_LANDMARKS = 40;
 /** The widest distance the matcher accepts (beaches and nature). */
@@ -44,6 +52,7 @@ const CLASSES: readonly (readonly [string, PoiCategory | null])[] = [
   ['Q33506', 'museum'],
   ['Q40080', 'beach'],
   ['Q37654', 'market'],
+  ['Q330284', 'market'], // marketplace
   ['Q8502', 'nature'], // mountain
   ['Q46831', 'nature'], // mountain range
   ['Q133056', 'nature'], // mountain pass
@@ -52,6 +61,11 @@ const CLASSES: readonly (readonly [string, PoiCategory | null])[] = [
   ['Q35509', 'nature'], // cave
   ['Q22698', 'nature'], // park
   ['Q54050', 'nature'], // hill
+  ['Q23397', 'nature'], // lake
+  ['Q131681', 'nature'], // reservoir
+  ['Q34038', 'nature'], // waterfall
+  ['Q39816', 'nature'], // valley
+  ['Q55488', null], // railway station
   ['Q12280', 'other'], // bridge
   ['Q676050', 'other'], // old town
   ['Q839954', 'other'], // archaeological site
@@ -111,7 +125,7 @@ export async function wikidataLandmarks(
   FILTER NOT EXISTS { ?item wdt:P31/wdt:P279* wd:Q56061 }
   BIND(EXISTS { ?item wdt:P1435 wd:Q9259 } AS ?whs)
   OPTIONAL { VALUES (?class ?kind) { ${values} } ?item wdt:P31/wdt:P279* ?class }
-  FILTER(?whs || (?links >= ${String(MIN_SITELINKS)} && BOUND(?kind)))
+  FILTER(?whs || (?links >= ${String(MIN_SITELINKS_WHERE_FEW)} && BOUND(?kind)))
   OPTIONAL { ?item rdfs:label ?en0 FILTER(LANG(?en0) = "en") }
   OPTIONAL { ?item rdfs:label ?local0 FILTER(LANG(?local0) = "${language}") }
   OPTIONAL { ?item rdfs:label|skos:altLabel ?label FILTER(LANG(?label) IN ("en", "${language}")) }
@@ -122,7 +136,7 @@ export async function wikidataLandmarks(
   const body = await getJson<{ results: { bindings: SparqlRow[] } }>(http, url, {
     headers: { accept: 'application/sparql-results+json' },
   });
-  return body.results.bindings
+  const found = body.results.bindings
     .flatMap((row): Landmark[] => {
       const name = row.en?.value ?? row.local?.value;
       if (name === undefined) return [];
@@ -147,8 +161,9 @@ export async function wikidataLandmarks(
         Number(b.worldHeritage) - Number(a.worldHeritage) ||
         b.sitelinks - a.sitelinks ||
         a.id.localeCompare(b.id),
-    )
-    .slice(0, MAX_LANDMARKS);
+    );
+  const known = found.filter((l) => l.worldHeritage || l.sitelinks >= MIN_SITELINKS);
+  return (known.length >= FEW_LANDMARKS ? known : found).slice(0, MAX_LANDMARKS);
 }
 
 export interface LandmarkCandidate {
@@ -204,14 +219,17 @@ export function namePattern(landmark: Landmark): string | null {
     const folded = words(label).join(' ');
     if (folded !== '') phrases.add(folded);
   }
+  // Open data also writes the town as one word.
+  for (const phrase of [...phrases]) phrases.add(phrase.replaceAll('da lat', 'dalat'));
   return phrases.size === 0 ? null : `\\m(${[...phrases].join('|')})\\M`;
 }
 
-/** The destination's area as a box, or null when it has no geofence. */
+/** The destination's area (its geofence, else the box its places are imported in) as a box. */
 export async function destinationBox(pool: pg.Pool, destinationId: string): Promise<Box | null> {
   const { rows } = await pool.query<Box>(
     `SELECT ST_YMin(e) AS south, ST_XMin(e) AS west, ST_YMax(e) AS north, ST_XMax(e) AS east
-     FROM (SELECT ST_Envelope(geofence::geometry) AS e FROM destinations WHERE id = $1) box
+     FROM (SELECT ST_Envelope(COALESCE(geofence, place_bounds)::geometry) AS e
+           FROM destinations WHERE id = $1) box
      WHERE e IS NOT NULL`,
     [destinationId],
   );
@@ -219,8 +237,9 @@ export async function destinationBox(pool: pg.Pool, destinationId: string): Prom
 }
 
 /**
- * Matches each landmark to a POI of the destination; `outside` are the landmarks with no POI that
- * lie beyond the destination's geofence, where the importer brings nothing in.
+ * Matches each landmark to a POI of the destination a release can name (./pins); `outside` are
+ * the landmarks with no POI that lie beyond the destination's area, where the importer brings
+ * nothing in.
  */
 export async function landmarkPlaces(
   pool: pg.Pool,
@@ -235,6 +254,7 @@ export async function landmarkPlaces(
     `SELECT l.n::int AS n, p.id, p.name, p.category, p.lat, p.lng, p.curation = 'editorial' AS editorial
      FROM unnest($2::float8[], $3::float8[], $4::text[]) WITH ORDINALITY AS l(lat, lng, pattern, n)
      JOIN pois p ON p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
+       AND ${HAS_CONTENT_REF}
        AND ST_DWithin(p.location, ST_SetSRID(ST_MakePoint(l.lng, l.lat), 4326)::geography, $5)
        AND app.unaccent_immutable(lower(p.name)) ~ l.pattern`,
     [
@@ -254,7 +274,7 @@ export async function landmarkPlaces(
   const found = new Set(matched.map((m) => m.landmark.id));
   const unmatched = landmarks.filter((landmark) => !found.has(landmark.id));
   const covered = await pool.query<{ covered: boolean }>(
-    `SELECT COALESCE(ST_Covers(d.geofence, ST_SetSRID(ST_MakePoint(l.lng, l.lat), 4326)::geography), true) AS covered
+    `SELECT COALESCE(ST_Covers(COALESCE(d.geofence, d.place_bounds), ST_SetSRID(ST_MakePoint(l.lng, l.lat), 4326)::geography), true) AS covered
      FROM unnest($2::float8[], $3::float8[]) WITH ORDINALITY AS l(lat, lng, n)
      CROSS JOIN destinations d WHERE d.id = $1 ORDER BY l.n`,
     [destinationId, unmatched.map((l) => l.lat), unmatched.map((l) => l.lng)],
@@ -263,7 +283,7 @@ export async function landmarkPlaces(
   return { matched, outside };
 }
 
-/** The landmarks of a destination with a geofence, matched to its POIs (none without one). */
+/** The landmarks of a destination with an area, matched to its POIs (none without one). */
 export async function destinationLandmarks(
   pool: pg.Pool,
   destinationId: string,

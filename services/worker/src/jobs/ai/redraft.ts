@@ -14,7 +14,7 @@ import {
   DRAFT_QUEUES,
   DRAFT_RT,
   REDRAFT_COUNTER_RT,
-  REDRAFT_REASONS,
+  REDRAFT_REASON_KEYS,
   type RedraftResult,
 } from '@cp/domain';
 import { itineraryMetrics, redraftDiff, redraftMetrics } from '@cp/planner';
@@ -27,6 +27,7 @@ import {
   type AgentStepContext,
 } from '../../ai/job-runner';
 import { load, modelFor, type DraftModelFactory } from './draft/job-context';
+import { holdDay } from './draft/held-stops';
 import { staysPpMinor } from './draft/plan-input';
 import { candidateCoverage, loadBaseDraft, saveCandidate } from './draft/redraft-store';
 import { draftChannel } from './draft/steps';
@@ -34,7 +35,7 @@ import { draftChannel } from './draft/steps';
 const redraftInputSchema = z.object({
   trip_id: z.uuid(),
   day: z.number().int().positive(),
-  reasons: z.array(z.enum(REDRAFT_REASONS)),
+  reasons: z.array(z.enum(REDRAFT_REASON_KEYS)),
   note: z.string().nullable(),
   base_version: z.uuid(),
 });
@@ -80,7 +81,7 @@ function inputOf(ctx: AgentStepContext) {
 
 async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
   const input = inputOf(ctx);
-  const { trip, input: plan } = await load(ctx);
+  const { trip, input: plan, held } = await load(ctx);
   const base = await loadBaseDraft(
     ctx.pool,
     ctx.agentJob.userId ?? '',
@@ -88,9 +89,10 @@ async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
     trip.crewId,
     input.base_version,
     plan.travel,
+    new Set(held.map((stop) => stop.item.stable_id)),
   );
   if (base === null) throw new Error('base_version_gone');
-  const outcome = await runRedraft(modelFor(deps.model, ctx), {
+  const redone = await runRedraft(modelFor(deps.model, ctx), {
     ...plan,
     base: base.itinerary,
     dayNo: input.day,
@@ -98,6 +100,8 @@ async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
     note: input.note,
     chat: base.chat,
   });
+  // The stops she added by hand on the day stay exactly as she placed them, whatever came back.
+  const outcome = { ...redone, day: holdDay(redone.day, held, plan.travel).day };
   return { trip, plan, base: base.itinerary, outcome };
 }
 

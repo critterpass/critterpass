@@ -88,7 +88,11 @@ export async function startExploreWorld(
   });
   const plan = await seedCurrentPlan(pool, a.tripId);
   await withSystem(pool, (tx) =>
-    tx.query('UPDATE plan_items SET poi_id = $1 WHERE stable_id = $2', [stay, plan.walk]),
+    // The item is itself the stay: a visit to a stay place would be a stop, not where they sleep.
+    tx.query("UPDATE plan_items SET poi_id = $1, category = 'stay' WHERE stable_id = $2", [
+      stay,
+      plan.walk,
+    ]),
   );
   return {
     harness,

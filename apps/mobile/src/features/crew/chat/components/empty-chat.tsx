@@ -6,7 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView } from 'react-native';
 
-import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { makeStyles } from '@/ui/theme';
@@ -33,7 +33,7 @@ export function EmptyChat({
 }) {
   const styles = useStyles();
   const guide = guideIdOf(guideSlug);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   return (
     <ScrollView
       contentContainerStyle={styles.content}

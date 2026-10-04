@@ -4,7 +4,8 @@
  * this one, so the rules lean towards no match: the item lies within 1.5 km (3 km for beaches and
  * nature), one of the place's names (the parts around brackets, dashes and commas) and one of the
  * item's labels share most of the words that set the name apart (not a place type, not the city),
- * and every place type in the place's name (pagoda, museum, beach) is in the item's labels too.
+ * every place type in the place's name (pagoda, museum, beach) is in the item's labels too, and a
+ * type all of the item's labels carry is in the place's name.
  * An item that is a venue named after something (a museum, a market, a station) only matches a
  * place named as that venue, and a temple never matches the beach or hill it is named after.
  * Between equally good items the closer name wins, then the nearer item.
@@ -66,6 +67,7 @@ export function words(text: string): string[] {
     .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .replace(/\bdalat\b/gu, 'da lat')
     .trim()
     .split(' ')
     .filter(Boolean);
@@ -76,7 +78,7 @@ export function tellingWords(text: string): string[] {
   return words(text).filter((word) => !PLAIN.has(word) && !TYPE_WORDS.has(word));
 }
 
-function typesOf(tokens: readonly string[]): Set<string> {
+export function typesOf(tokens: readonly string[]): Set<string> {
   const joined = ` ${tokens.join(' ')} `;
   const found = new Set<string>();
   for (const [type, phrases] of Object.entries(TYPES)) {
@@ -134,6 +136,10 @@ export function nameScore(
   const placeTypes = typesOf(words(name));
   const labelTypes = typesOf(labels.flatMap((text) => [...words(text), '|']));
   if (![...placeTypes].every((type) => labelTypes.has(type))) return 0;
+  // An item every label calls a church is not a ward that shares its name.
+  const always = labels.map((text) => typesOf(words(text)));
+  const needed = [...(always[0] ?? [])].filter((type) => always.every((types) => types.has(type)));
+  if (!needed.every((type) => placeTypes.has(type))) return 0;
   // A museum, market or station named after the place is not the place.
   if ([...typesOf([...b])].some((type) => VENUES.has(type) && !placeTypes.has(type))) return 0;
   if (identical) return [...a].some((word) => !PLAIN.has(word)) ? 1 : 0;

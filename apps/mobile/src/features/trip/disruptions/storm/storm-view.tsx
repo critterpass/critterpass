@@ -10,7 +10,7 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -102,8 +102,8 @@ export function StormView(props: StormViewProps) {
               guideName={props.guideName}
               sticker={
                 <Sticker
-                  kind={GUIDE_STICKERS[props.guide].kind}
-                  name={GUIDE_STICKERS[props.guide].name}
+                  kind={guideSticker(props.guide).kind}
+                  name={guideSticker(props.guide).name}
                   pose="sleep"
                   size={EMPTY_STICKER}
                 />
@@ -177,8 +177,8 @@ export function StormView(props: StormViewProps) {
           </Stack>
           <View style={styles.guide} pointerEvents="none">
             <Sticker
-              kind={GUIDE_STICKERS[props.guide].kind}
-              name={GUIDE_STICKERS[props.guide].name}
+              kind={guideSticker(props.guide).kind}
+              name={guideSticker(props.guide).name}
               size={GUIDE_SIZE}
             />
           </View>

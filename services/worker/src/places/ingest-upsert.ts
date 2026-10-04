@@ -4,7 +4,8 @@
  * multi-row `UPDATE ... FROM (VALUES ...)` for existing ones — replacing what used to be a `SELECT`
  * plus an `INSERT`/`UPDATE` per POI (tens of thousands of sequential round trips at a metro-wide
  * bbox). Idempotent: a rerun with the same source id(s) updates the existing row rather than
- * inserting a duplicate. Without an overlay this run, an existing row's
+ * inserting a duplicate, and a row whose open-data fields have not changed is not rewritten at all,
+ * so a monthly rerun leaves those rows and their indexes alone. Without an overlay this run, an existing row's
  * editorial/tags/hours/curation are left exactly as they were: a later plain re-ingest must never
  * erase a previous editorial pass, and a rerun that misses one source (FSQ OS unavailable) keeps the
  * source ids it already had.
@@ -25,7 +26,7 @@ import {
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
-import { buildValuesClause } from './batch-sql';
+import { allowIndexMaintenance, buildValuesClause } from './batch-sql';
 import type { ConflatedPoi } from './conflate';
 import { findExistingPois, idsForStoredRow, lookupExisting } from './existing-pois';
 
@@ -195,7 +196,13 @@ async function updatePoiRows(
      FROM (VALUES ${clause})
        AS v(id, name, category, lat, lng, address, source_ids, has_overlay, editorial, tags, hours,
             hours_verified_at, curation, confidence, website, phone, brand)
-     WHERE p.id = v.id`,
+     WHERE p.id = v.id
+       AND (v.has_overlay
+            OR (p.name, p.category, p.lat, p.lng, p.address, p.source_ids, p.confidence, p.website,
+                p.phone, p.brand)
+               IS DISTINCT FROM
+               (v.name, v.category, v.lat, v.lng, v.address, p.source_ids || v.source_ids,
+                v.confidence, v.website, v.phone, v.brand))`,
     params,
   );
 }
@@ -227,6 +234,7 @@ export async function batchUpsertConflatedPois(
   );
 
   return withSystem(pool, async (tx) => {
+    await allowIndexMaintenance(tx);
     const existingByKey = await findExistingPois(tx, pois);
     const toInsert: PreparedPoiRow[] = [];
     const toUpdate: (PreparedPoiRow & { existingId: string })[] = [];

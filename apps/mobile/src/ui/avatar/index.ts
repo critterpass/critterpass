@@ -8,8 +8,12 @@ export {
 export { AvatarPicker, type AvatarPickerProps } from './AvatarPicker';
 export {
   GUIDE_AVATAR_IDS,
-  GUIDE_STICKERS,
+  guideColour,
+  guideIdOr,
+  guideSticker,
+  isGuideStickerId,
   type GuideAvatarId,
+  type GuideStickerId,
   type GuideStickerInfo,
 } from './guides';
 export { PhotoAvatar, type PhotoAvatarProps } from './PhotoAvatar';

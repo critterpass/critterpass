@@ -20,7 +20,7 @@ import { userTurnWithData, wrapAllUntrusted } from '../../src/context/wrap-untru
 import { GatewayError } from '../../src/errors';
 import { applyTurnDirectives } from '../../src/persona/chattiness';
 import { buildSystemBlocks } from '../../src/persona/layering';
-import { REPO_PACKS } from '../../src/persona/loader';
+import { resolvePersonaPack } from '../../src/persona/resolve';
 import type { PersonaPack } from '../../src/persona/schema';
 import { resolveRoute } from '../../src/routing';
 import { parseStructuredText, textOf } from '../../src/structured';
@@ -102,7 +102,7 @@ function toolExchange(vars: CaseVars): Anthropic.Messages.MessageParam[] {
 
 export function buildRequest(vars: CaseVars): { input: GatewayInput; pack: PersonaPack | null } {
   const route = resolveRoute(vars.route);
-  const pack = vars.persona === undefined ? null : REPO_PACKS[vars.persona];
+  const pack = vars.persona === undefined ? null : resolvePersonaPack(vars.persona);
   const untrusted = (vars.untrusted ?? []).map(({ label, ...item }) =>
     label === undefined ? item : { ...item, label },
   );

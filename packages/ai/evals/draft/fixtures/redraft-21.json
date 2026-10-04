@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "e560ecd5-45b6-4eb8-b7bf-92f8b56d4318",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Slow Start, Sea Breeze\",\n  \"summary\": \"A gentle day that begins late, stays close to the water, and ends with a quiet sunset by the bay.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow morning still deserves sand between the toes. An Bang is my kind of welcome mat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crew of one, plate of chicken rice, zero rush. This is how you do a late lunch in area B.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little green pause after eating, close by and easy on the legs. Even a langur approves of shade.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We drift over to the bay for the golden hour. Phạm Văn Đồng beach knows how to end a day.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and noodle-warm. Mì Quảng Nhung keeps the evening simple and tasty.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1297,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 352,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

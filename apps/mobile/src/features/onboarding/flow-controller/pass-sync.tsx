@@ -15,7 +15,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 import { AccountClosedGate } from '@/features/you';
 import { mirrorStickerAvatar, type AppGroupImageWriter } from '@/ui/avatar/app-group-mirror';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 import { msg } from '@lingui/core/macro';
 
@@ -88,7 +88,7 @@ export function PassSync({ writeAppGroupImage }: PassSyncProps) {
     const guide = draft.avatar.kind === 'critter' ? guideOfForm(draft.avatar.form_id) : null;
     if (guide !== null && writeAppGroupImage !== undefined) {
       try {
-        mirrorStickerAvatar(GUIDE_STICKERS[guide].kind, getDefaultSkiaEngine(), writeAppGroupImage);
+        mirrorStickerAvatar(guideSticker(guide).kind, getDefaultSkiaEngine(), writeAppGroupImage);
       } catch {
         // The extension falls back to initials; the pass itself is unaffected.
       }

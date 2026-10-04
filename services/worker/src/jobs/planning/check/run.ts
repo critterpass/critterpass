@@ -1,13 +1,17 @@
 /**
- * One plan check run, in one transaction: read the crew's plan once, run the rules, keep issues
+ * One plan check run, in one transaction: read the plan once (the crew's, or the organiser's
+ * private draft before the crew has one), run the rules, keep issues
  * that still hold under their own ids (matched by fingerprint), work out every idea's fit against
- * the same context, record the run against the trip's daily cap, and hint open screens. No model
- * is called, and nothing is metered: this is deterministic system work.
+ * the same context, record the run against the trip's daily cap, and hint open screens. An issue
+ * the organiser chose to keep as it is stays out of the list and the counts while the stops around
+ * it are the same. A version whose legs are not stored yet is not checked: the run waits for them
+ * (`legs-ready.ts`). No model is called, and nothing is metered: this is deterministic system work.
  */
 import { outbox, withSystem } from '@cp/db';
 import {
   channelName,
   knownHours,
+  planCheckQuietSchema,
   PLANNING_RT,
   toLocalWallTime,
   type PlanCheckJob,
@@ -18,12 +22,14 @@ import {
   crowdWeeks,
   fitPlace,
   isOutdoorCategory,
+  splitQuiet,
   type CrowdCurveRow,
   type RankedIssue,
 } from '@cp/planner';
 import type pg from 'pg';
 
 import { loadCheck, readCheckTrip, type LoadedCheck } from './context';
+import { legsPending } from './legs-ready';
 
 export type PlanCheckOutcome =
   | {
@@ -32,7 +38,7 @@ export type PlanCheckOutcome =
       readonly know: number;
       readonly ideas: number;
     }
-  | { readonly outcome: 'skipped'; readonly reason: 'inactive' | 'daily_cap' };
+  | { readonly outcome: 'skipped'; readonly reason: 'inactive' | 'daily_cap' | 'legs_pending' };
 
 async function writeIssues(
   tx: pg.PoolClient,
@@ -78,10 +84,34 @@ async function writeIssues(
   }
 }
 
+/** The issues still to show, and the quiet marks that still hold on the plan as it is. */
+function withoutQuiet(issues: readonly RankedIssue[], stored: unknown, loaded: LoadedCheck) {
+  const marks = planCheckQuietSchema.array().safeParse(stored);
+  return splitQuiet(
+    issues,
+    (issue) => ({
+      kind: issue.kind,
+      stableIds: issue.stableIds,
+      dayNo: issue.stableIds.length > 0 ? null : issue.dayNo,
+      bookingId: issue.kind === 'booking_note' ? String(issue.params['booking_id']) : null,
+    }),
+    (marks.success ? marks.data : []).map((mark) => ({
+      ...mark,
+      stableIds: mark.stable_ids,
+      dayNo: mark.day_no,
+      bookingId: mark.booking_id,
+    })),
+    loaded.context.days,
+  );
+}
+
 /** Every live idea's fit, against the same context the rules read. */
 async function writeIdeaFits(tx: pg.PoolClient, loaded: LoadedCheck, now: Date): Promise<number> {
   const versionId = loaded.trip.versionId;
-  if (versionId === null) return 0;
+  // Ideas sync to the whole crew: a fit worked out on the organiser's private draft would tell a
+  // member the draft exists and where its free time is. Her screens ask for fits on her draft
+  // when they open (the fit route reads the plan the caller sees).
+  if (versionId === null || loaded.trip.privateDraft) return 0;
   const { rows } = await tx.query<{
     id: string;
     poi_id: string;
@@ -145,10 +175,13 @@ export async function runPlanCheck(
   return withSystem(pool, async (tx) => {
     const trip = await readCheckTrip(tx, job.trip_id);
     if (trip === null) return { outcome: 'skipped', reason: 'inactive' };
+    if (trip.versionId !== null && (await legsPending(tx, trip.id, trip.versionId, now))) {
+      return { outcome: 'skipped', reason: 'legs_pending' };
+    }
     const today = toLocalWallTime(now, trip.tz).date;
     const previous = (
-      await tx.query<{ runs_on: string | null; runs_today: number }>(
-        `SELECT to_char(runs_on, 'YYYY-MM-DD') AS runs_on, runs_today FROM plan_checks
+      await tx.query<{ runs_on: string | null; runs_today: number; quiet: unknown }>(
+        `SELECT to_char(runs_on, 'YYYY-MM-DD') AS runs_on, runs_today, quiet FROM plan_checks
           WHERE trip_id = $1 FOR UPDATE`,
         [trip.id],
       )
@@ -156,9 +189,14 @@ export async function runPlanCheck(
     const runsToday = previous?.runs_on === today ? previous.runs_today : 0;
     const loaded = await loadCheck(tx, trip, now);
     if (job.trigger !== 'daily' && runsToday >= loaded.maxRunsPerDay) {
+      // No run is coming today: the check stops saying it is waiting for one.
+      await tx.query(
+        "UPDATE plan_checks SET status = 'done' WHERE trip_id = $1 AND status = 'queued'",
+        [trip.id],
+      );
       return { outcome: 'skipped', reason: 'daily_cap' };
     }
-    const issues =
+    const found =
       trip.versionId === null
         ? []
         : checkPlan({
@@ -168,20 +206,49 @@ export async function runPlanCheck(
             thresholds: loaded.thresholds,
             now,
           });
+    const { live: issues, marks } = withoutQuiet(found, previous?.quiet ?? [], loaded);
+    const quiet = marks.map(({ kind, stable_ids, day_no, booking_id, around, by, at }) => ({
+      kind,
+      stable_ids,
+      day_no,
+      booking_id,
+      around,
+      by,
+      at,
+    }));
     const fix = issues.filter((issue) => issue.severity === 'fix').length;
     const know = issues.length - fix;
     if (trip.versionId !== null) await writeIssues(tx, trip.id, trip.versionId, issues);
     const ideas = await writeIdeaFits(tx, loaded, now);
+    // The trip-wide row is the crew's: a private draft's run counts against the day's runs and
+    // says nothing else there. Its issues are the draft's own, and the draft carries the stamp.
+    const shown = trip.privateDraft
+      ? { versionId: null, fix: 0, know: 0, quiet: previous?.quiet ?? [] }
+      : { versionId: trip.versionId, fix, know, quiet };
     await tx.query(
-      `INSERT INTO plan_checks (trip_id, version_id, status, checked_at, fix_count, know_count, runs_on, runs_today)
-       VALUES ($1, $2, 'done', $3, $4, $5, $6, $7)
+      `INSERT INTO plan_checks (trip_id, version_id, status, checked_at, fix_count, know_count, runs_on, runs_today, quiet)
+       VALUES ($1, $2, 'done', $3, $4, $5, $6, $7, $8)
        ON CONFLICT (trip_id) DO UPDATE SET version_id = EXCLUDED.version_id, status = 'done',
          checked_at = EXCLUDED.checked_at, fix_count = EXCLUDED.fix_count,
          know_count = EXCLUDED.know_count, runs_on = EXCLUDED.runs_on,
-         runs_today = EXCLUDED.runs_today, updated_at = now()`,
-      [trip.id, trip.versionId, now, fix, know, today, runsToday + 1],
+         runs_today = EXCLUDED.runs_today, quiet = EXCLUDED.quiet, updated_at = now()`,
+      [
+        trip.id,
+        shown.versionId,
+        now,
+        shown.fix,
+        shown.know,
+        today,
+        runsToday + 1,
+        JSON.stringify(shown.quiet),
+      ],
     );
-    if (trip.versionId !== null) {
+    if (trip.privateDraft) {
+      await tx.query('UPDATE itinerary_versions SET checked_at = $2 WHERE id = $1', [
+        trip.versionId,
+        now,
+      ]);
+    } else if (trip.versionId !== null) {
       await outbox(tx, channelName('trip_plan', trip.id), PLANNING_RT.checkUpdated, {
         version: trip.versionId,
         fix_count: fix,

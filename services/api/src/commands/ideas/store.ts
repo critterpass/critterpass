@@ -206,8 +206,8 @@ export interface LeftIdea {
 }
 
 /**
- * The person leaves the idea's backers; with nobody left, or `removeAll` (an organiser), the idea
- * is removed (`deleted_at`), which takes it off every phone.
+ * The person leaves the idea's backers; with nobody left, or `removeAll` (an organiser removing it
+ * for everyone), the idea is removed (`deleted_at`), which takes it off every phone.
  */
 export async function leaveIdea(
   tx: pg.PoolClient,

@@ -1,0 +1,83 @@
+appId: app.critterpass.dev
+---
+# The trip map of a destination with no region pack: the line that says a detailed map is on its
+# way sits above the sheet, and the camera keeps the stay and the day's stops clear of it, at peek
+# and with a day open, in English and in Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-plan-views-lab
+      SCENE: plan-views-lab-trip-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-trip-map-without-region-pack
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-plan-views-lab
+      SCENE: plan-views-lab-trip-map-day-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-trip-map-day-without-region-pack
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-plan-views-lab
+      SCENE: plan-views-lab-trip-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'Bản đồ chi tiết của Bali sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-trip-map-without-region-pack

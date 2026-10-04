@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -31,7 +31,7 @@ export function TrailerSlide({ guide, eyebrow, headline, body }: TrailerSlidePro
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   return (
     <View style={[styles.slide, { backgroundColor: theme.color.rust.darkened }]}>
       <View style={styles.art} importantForAccessibility="no-hide-descendants">

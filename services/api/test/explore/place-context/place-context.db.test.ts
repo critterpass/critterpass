@@ -139,6 +139,8 @@ describe('place context for the planning page', () => {
       expect(body).toHaveProperty(key);
     }
     expect(body['add_mode']).toBe('apply');
+    // The plan her plan screens show is the crew's here; a draft only before there is one.
+    expect(body['plan_version']).toEqual({ id: body['base_version'], kind: 'crew' });
   });
 
   it('gives fact tiles, the tip and what to know only from our own data', async () => {

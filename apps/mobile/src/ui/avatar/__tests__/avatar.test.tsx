@@ -5,13 +5,18 @@ jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-doub
 jest.mock('../../sticker/Sticker', () => require('../test-support/sticker-double'));
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
-import { describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
+
+import { guideAccentOnPaper } from '@cp/critter-art/guides';
+import { tokens } from '@cp/design-tokens';
+
+import { applyGuideRows } from '@/lib/navigation/active-guide';
 
 import { renderUi } from '../../test-support/render';
 import { UserAvatar, visibleAvatar, type AvatarView } from '../Avatar';
 import { AvatarPicker } from '../AvatarPicker';
-import { GUIDE_AVATAR_IDS, GUIDE_STICKERS, isGuideStickerId } from '../guides';
+import { GUIDE_AVATAR_IDS, guideIdOr, guideSticker, isGuideStickerId } from '../guides';
 import { PhotoAvatar } from '../PhotoAvatar';
 
 const pending: AvatarView = {
@@ -47,7 +52,7 @@ describe('AvatarPicker', () => {
     await renderUi(<AvatarPicker selected="tokek" onPick={onPick} testID="pick" />);
     expect(GUIDE_AVATAR_IDS).toHaveLength(6);
     expect(
-      screen.getByRole('radio', { name: GUIDE_STICKERS.tokek.name }).props.accessibilityState,
+      screen.getByRole('radio', { name: guideSticker('tokek').name }).props.accessibilityState,
     ).toMatchObject({
       selected: true,
     });
@@ -58,11 +63,77 @@ describe('AvatarPicker', () => {
   });
 });
 
+/* eslint-disable critterpass/no-literal-style -- a guide's accent is data (its synced row, its critter's dex colours): these are the rows' values */
 describe('guide stickers', () => {
-  it('draws every guide from its dex entry, Chà Vá of Đà Nẵng included', () => {
-    expect(GUIDE_STICKERS.tokek).toEqual({ id: 'tokek', name: 'Tokek', kind: 'gecko' });
-    expect(GUIDE_STICKERS.chava).toEqual({ id: 'chava', name: 'Chà Vá', kind: 'langur' });
-    expect(isGuideStickerId('chava')).toBe(true);
+  afterEach(() => applyGuideRows([]));
+
+  it('draws each designed guide from its dex entry in its token colour', () => {
+    const drawn = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'].map((id) => {
+      const { name, kind, seed, accent, onPaper } = guideSticker(id);
+      return { id, name, kind, seed, accent, onPaper };
+    });
+    const palette: Record<string, unknown> = { ...tokens.guide };
+    const onPaper: Record<string, string> = tokens.guide.onPaper;
+    expect(drawn).toEqual(
+      [
+        ['tokek', 'Tokek', 'gecko'],
+        ['pon', 'Pon', 'tanuki'],
+        ['lundi', 'Lundi', 'puffin'],
+        ['ajo', 'Ajo', 'axolotl'],
+        ['sardi', 'Sardi', 'sardine'],
+        ['paco', 'Paco', 'alpaca'],
+        ['chava', 'Chà Vá', 'langur'],
+      ].map(([id = '', name, kind]) => ({
+        id,
+        name,
+        kind,
+        seed: 7,
+        accent: palette[id],
+        onPaper: onPaper[id],
+      })),
+    );
+  });
+
+  it("draws a city's guide from the dex before its row has synced", () => {
+    expect(guideSticker('ngua')).toEqual({
+      id: 'ngua',
+      name: 'Ngựa',
+      kind: 'cp-006',
+      seed: 6,
+      accent: '#ff8fbf',
+      onPaper: guideAccentOnPaper('#ff8fbf'),
+    });
+    expect(isGuideStickerId('ngua')).toBe(true);
+    expect(guideIdOr('ngua')).toBe('ngua');
+  });
+
+  it("takes a guide's name, critter and accent from its synced row", () => {
+    applyGuideRows([{ slug: 'ngua', name: 'Ngựa Hoa', critterKey: 'cp-008', accent: '#aabbcc' }]);
+    expect(guideSticker('ngua')).toMatchObject({
+      name: 'Ngựa Hoa',
+      kind: 'cp-008',
+      seed: 8,
+      accent: '#aabbcc',
+      onPaper: guideAccentOnPaper('#aabbcc'),
+    });
+  });
+
+  it('draws a row whose critter this build has no art for as the default guide, under its own name', () => {
+    applyGuideRows([
+      { slug: 'newcomer', name: 'Newcomer', critterKey: 'cp-999', accent: '#aabbcc' },
+    ]);
+    expect(guideSticker('newcomer')).toMatchObject({
+      id: 'newcomer',
+      name: 'Newcomer',
+      kind: 'gecko',
+      accent: '#aabbcc',
+    });
+  });
+
+  it('falls back to Tokek only for a slug that is neither a row nor a critter', () => {
+    expect(guideSticker('nobody')).toEqual(guideSticker('tokek'));
+    expect(guideSticker(null).id).toBe('tokek');
+    expect(guideIdOr('nobody')).toBe('tokek');
     expect(isGuideStickerId('toString')).toBe(false);
     expect(isGuideStickerId(null)).toBe(false);
   });

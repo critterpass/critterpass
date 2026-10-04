@@ -9,7 +9,7 @@ import { View } from 'react-native';
 
 import type { InboxAction } from '@cp/domain';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction, type InlineActionKind } from '@/ui/buttons/InlineAction';
 import { ActionCard } from '@/ui/cards/ActionCard';
 import { cardBackground } from '@/ui/cards/tone';
@@ -63,7 +63,7 @@ export function InboxActionCard({
   const { t } = useLingui();
   const copy = renderer.card?.(item, ctx) ?? { title: renderer.line(item, ctx) };
   const guide = guideOr(typeof item.data['guide'] === 'string' ? item.data['guide'] : null);
-  const sticker = GUIDE_STICKERS[guide];
+  const sticker = guideSticker(guide);
   const tone = renderer.tone ?? 'blue';
   const primary: InlineActionKind = tone === 'orange' ? 'nudge' : 'choice';
   const leading = (

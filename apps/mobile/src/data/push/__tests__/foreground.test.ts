@@ -69,6 +69,20 @@ describe('foreground presentation', () => {
     expect(shouldPresentInForeground(null, `/crew/${CREW}/chat`)).toBe(true);
   });
 
+  it('shows the placed-ideas ping anywhere but the placing screen and its review', () => {
+    const placed = chat({
+      type: 'ideas_placed',
+      crewId: null,
+      deeplink: `/trip/${CREW}/review/${OTHER}`,
+    });
+    expect(shouldPresentInForeground(placed, `/${CREW}/ideas`)).toBe(true);
+    expect(shouldPresentInForeground(placed, `/${CREW}/explore`)).toBe(true);
+    expect(shouldPresentInForeground(placed, '/')).toBe(true);
+    expect(shouldPresentInForeground(placed, `/${CREW}/ideas/placing/${OTHER}`)).toBe(false);
+    expect(shouldPresentInForeground(placed, `/${CREW}/review/${OTHER}`)).toBe(false);
+    expect(shouldPresentInForeground(placed, `/trip/${CREW}/review/${OTHER}`)).toBe(false);
+  });
+
   it('maps the decision to a banner, list entry and sound together, never the badge', () => {
     expect(foregroundBehavior(true)).toEqual({
       shouldShowBanner: true,

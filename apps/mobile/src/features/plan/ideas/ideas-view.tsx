@@ -10,10 +10,11 @@ import { ScrollView, View } from 'react-native';
 
 import { PressScale } from '@/ui/press/PressScale';
 import { DayChips, TokekNote, type DayChip } from '@/ui/planning';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+import { PlanGuideSticker, usePlanGuide } from '../plan-guide';
 
 const ARROW = '→';
 
@@ -63,6 +64,7 @@ export interface IdeasViewProps {
 }
 
 export function IdeasView({ chipsRef, ...props }: IdeasViewProps) {
+  const guide = usePlanGuide();
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
@@ -128,7 +130,7 @@ export function IdeasView({ chipsRef, ...props }: IdeasViewProps) {
                 testID="plan-ideas-place"
               >
                 <View style={styles.place}>
-                  <Sticker kind="gecko" name="Tokek" size={44} />
+                  <PlanGuideSticker size={44} />
                   <View style={styles.placeBody}>
                     <Text variant="title" color={theme.semantic.text.onAccent}>
                       {t({ id: 'plan.ideas.placeThem', message: 'PLACE THEM FOR ME' })}
@@ -149,7 +151,7 @@ export function IdeasView({ chipsRef, ...props }: IdeasViewProps) {
           </>
         ) : (
           <TokekNote
-            guide="tokek"
+            guide={guide.id}
             name={props.empty.guide}
             line={props.empty.line}
             testID="plan-ideas-empty"

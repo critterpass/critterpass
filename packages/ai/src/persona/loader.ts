@@ -1,7 +1,8 @@
 /**
- * Persona resolution: the latest approved release in `persona_packs` (read through
- * llm.persona_packs) wins; otherwise the repo pack ships. A release that fails validation never
- * reaches a prompt: the repo pack is used and the rejection is reported to the caller.
+ * Persona loading for chat: the latest approved release in `persona_packs` (read through
+ * llm.persona_packs) wins; otherwise the guide's own pack ships (`./resolve`: the repo pack, or
+ * the pack built from its critter's facts). A release that fails validation never reaches a
+ * prompt: the guide's own pack is used and the rejection is reported to the caller.
  */
 import ajo from '../../personas/ajo.json' with { type: 'json' };
 import chava from '../../personas/chava.json' with { type: 'json' };
@@ -12,9 +13,14 @@ import pon from '../../personas/pon.json' with { type: 'json' };
 import sardi from '../../personas/sardi.json' with { type: 'json' };
 import tokek from '../../personas/tokek.json' with { type: 'json' };
 
-import { personaPackSchema, type PersonaId, type PersonaPack } from './schema';
+import {
+  personaPackSchema,
+  type PersonaId,
+  type PersonaPack,
+  type WrittenPersonaId,
+} from './schema';
 
-const RAW_REPO_PACKS: Readonly<Record<PersonaId, unknown>> = {
+const RAW_REPO_PACKS: Readonly<Record<WrittenPersonaId, unknown>> = {
   tokek,
   pon,
   lundi,
@@ -25,10 +31,10 @@ const RAW_REPO_PACKS: Readonly<Record<PersonaId, unknown>> = {
   guest,
 };
 
-export function parseRepoPacks(): Readonly<Record<PersonaId, PersonaPack>> {
+export function parseRepoPacks(): Readonly<Record<WrittenPersonaId, PersonaPack>> {
   return Object.fromEntries(
     Object.entries(RAW_REPO_PACKS).map(([id, raw]) => [id, personaPackSchema.parse(raw)]),
-  ) as Record<PersonaId, PersonaPack>;
+  ) as Record<WrittenPersonaId, PersonaPack>;
 }
 
 /** Validated once at module load: a malformed repo pack fails the process at boot. */
@@ -63,28 +69,4 @@ export function personaFromRelease(id: PersonaId, row: ApprovedPersonaRow) {
     local_words: record(row.lexicon)['local_words'],
     voice_id: record(row.voice_settings)['voice_id'] ?? null,
   });
-}
-
-export interface LoadedPersona {
-  readonly pack: PersonaPack;
-  readonly origin: 'release' | 'repo';
-  /** Why an approved release was not used, when one existed. */
-  readonly rejected?: string;
-}
-
-export async function loadPersonaPack(
-  id: PersonaId,
-  source?: PersonaReleaseSource,
-): Promise<LoadedPersona> {
-  const repo = REPO_PACKS[id];
-  // The guest guide is a mode of the base guide's pack, versioned with the repo only.
-  if (source === undefined || repo.guest_mode !== null) return { pack: repo, origin: 'repo' };
-  const row = await source(id);
-  if (row === null) return { pack: repo, origin: 'repo' };
-  const parsed = personaFromRelease(id, row);
-  if (!parsed.success) {
-    const rejected = `release ${row.version}: ${parsed.error.issues.map((i) => `${i.path.join('.')} ${i.message}`).join('; ')}`;
-    return { pack: repo, origin: 'repo', rejected };
-  }
-  return { pack: parsed.data, origin: 'release' };
 }

@@ -3,14 +3,9 @@
  * the day's colour through its places, and numbered pins in that colour; tapping a pin opens the
  * item on its day. The destination's region pack draws the map offline once it is downloaded.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids, never copy. */
 import { t } from '@lingui/core/macro';
-import {
-  Camera,
-  Map as MapLibreMap,
-  ViewAnnotation,
-  type StyleSpecification,
-} from '@maplibre/maplibre-react-native';
+import { Camera, Map as MapLibreMap, ViewAnnotation } from '@maplibre/maplibre-react-native';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
@@ -19,24 +14,20 @@ import { tokens } from '@cp/design-tokens';
 import type { LegPaths } from '@/data/legs/version-leg-paths';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { FilterChip } from '@/ui/chips/FilterChip';
+import { regionMapStyle, useRegionTiles } from '@/ui/map/region-pack';
+import { RegionPackNotice } from '@/ui/map/RegionPackNotice';
 import { RouteLine } from '@/ui/map/RouteLine';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import criterpassDarkStyleJson from '../../../../assets/map-style/critterpass-dark.json';
 import { dayTileColour } from '../overview/model/day-colour';
 import type { PlanDay, PlanItem } from '../overview/model/plan-model';
 import { planMapModel, type MapPin } from './model/views-model';
 
-const darkStyle = criterpassDarkStyleJson as unknown as StyleSpecification;
-const WORLD_URL = (darkStyle.sources['world'] as { url: string }).url;
 const MAP_HEIGHT = 440;
 const PIN = 28;
-
-/** The destination's published region tiles, beside the world tiles. */
-function regionTilesUrl(slug: string): string {
-  return WORLD_URL.replace(/^pmtiles:\/\//, '').replace('/world/', `/${slug}/`);
-}
+/** Above the attribution button at the foot of the map's box. */
+const NOTICE_BOTTOM = 44;
 
 const useStyles = makeStyles((th) => ({
   wrap: { gap: th.space['12'] },
@@ -74,6 +65,8 @@ export interface PlanMapProps {
   readonly days: readonly PlanDay[];
   readonly items: readonly PlanItem[];
   readonly destinationSlug: string | null;
+  /** The destination's name, for the line a destination without a region pack shows. */
+  readonly destinationName?: string | null | undefined;
   /** The downloaded region (`file://…pmtiles`), used instead of the network. */
   readonly localRegionUri: string | null;
   /** Offline without the region downloaded: the map can't draw. */
@@ -115,18 +108,8 @@ export function PlanMap(props: PlanMapProps) {
     () => planMapModel(props.items, day, props.legPaths),
     [props.items, day, props.legPaths],
   );
-  const style = useMemo((): StyleSpecification => {
-    const region =
-      props.localRegionUri !== null
-        ? `pmtiles://${props.localRegionUri}`
-        : props.destinationSlug === null
-          ? WORLD_URL
-          : `pmtiles://${regionTilesUrl(props.destinationSlug)}`;
-    return {
-      ...darkStyle,
-      sources: { ...darkStyle.sources, region: { type: 'vector', url: region } },
-    };
-  }, [props.localRegionUri, props.destinationSlug]);
+  const tiles = useRegionTiles(props.destinationSlug, props.localRegionUri);
+  const style = useMemo(() => regionMapStyle(tiles.sourceUrl), [tiles.sourceUrl]);
   const padding = { top: 48, bottom: 48, left: 40, right: 40 };
   return (
     <View style={styles.wrap} testID="plan-map">
@@ -200,6 +183,9 @@ export function PlanMap(props: PlanMapProps) {
               {t({ id: 'plan.map.empty', message: 'Nothing on this day has a place yet.' })}
             </Text>
           </View>
+        ) : null}
+        {!props.offlineUnavailable && tiles.awaited && props.destinationName ? (
+          <RegionPackNotice place={props.destinationName} bottom={NOTICE_BOTTOM} />
         ) : null}
       </View>
       {props.onDownload ? (

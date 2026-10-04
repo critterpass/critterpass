@@ -1,8 +1,10 @@
 /**
  * What the legs job reads for a trip: its live plan versions (organiser drafts, proposals and the
  * current plan), each version's days with their stops in time order, the night's stay per day and
- * the destination's drive factor, and the road shapes its legs already have. A stop is any item with a place (curated or a dropped pin) that
- * is not the stay itself and not cancelled.
+ * the destination's drive factor, and the road shapes its legs already have. A stop is any item
+ * with a place (curated or a dropped pin) that is not the stay itself and not cancelled. The item's
+ * own kind says whether it is the stay: a visit to a place the catalogue files as a stay (a famous
+ * villa) is a stop like any other, and only an item without a kind goes by its place.
  */
 import { tripStay } from '@cp/db';
 import type pg from 'pg';
@@ -34,9 +36,11 @@ interface StopRow {
   readonly lng: number;
 }
 
+/** `onlyVersionId` narrows the read to one live version (the plan check asks about its own). */
 export async function loadTripLegsInput(
   tx: pg.PoolClient,
   tripId: string,
+  onlyVersionId: string | null = null,
 ): Promise<TripLegsInput | null> {
   const { rows: trips } = await tx.query<{ drive_factor: number | null }>(
     `SELECT d.drive_factor FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
@@ -47,8 +51,9 @@ export async function loadTripLegsInput(
   if (trip === undefined) return null;
   const { rows: versions } = await tx.query<{ id: string }>(
     `SELECT id FROM itinerary_versions WHERE trip_id = $1 AND status = ANY($2::text[])
+        AND ($3::uuid IS NULL OR id = $3)
       ORDER BY created_at, id`,
-    [tripId, LIVE_VERSION_STATUSES],
+    [tripId, LIVE_VERSION_STATUSES, onlyVersionId],
   );
   const versionIds = versions.map((version) => version.id);
   const { rows: days } = await tx.query<DayRow>(
@@ -62,7 +67,7 @@ export async function loadTripLegsInput(
             coalesce(p.lng, (i.custom_place ->> 'lng')::float8) AS lng
        FROM plan_items i LEFT JOIN pois p ON p.id = i.poi_id
       WHERE i.version_id = ANY($1::uuid[]) AND i.status IS DISTINCT FROM 'cancelled'
-        AND i.category IS DISTINCT FROM 'stay' AND p.category IS DISTINCT FROM 'stay'
+        AND coalesce(i.category, p.category) IS DISTINCT FROM 'stay'
         AND coalesce(p.lat, (i.custom_place ->> 'lat')::float8) IS NOT NULL
         AND coalesce(p.lng, (i.custom_place ->> 'lng')::float8) IS NOT NULL
       ORDER BY i.version_id, i.day_id, i.starts_at NULLS LAST, i.stable_id`,

@@ -14,6 +14,7 @@ import { toast } from '@/motion/island-toast';
 
 import { fixerPaths, readReorder, useFixerRead } from '../data/fixer-api';
 import { useCheckContext } from '../data/use-check-context';
+import { noteDayFixed } from '../fixed-days';
 import { dayTag, driveTitle } from '../format';
 import { planOpsOf } from '../plan-ops';
 import { checkRoutes } from '../routes';
@@ -106,6 +107,8 @@ export function LessDrivingScreen({
   const done = (outcome: { kind: string }) => {
     setBusy(false);
     if (outcome.kind === 'unavailable') return;
+    // The day's cards leave the check at once; it runs again on the new order.
+    if (outcome.kind === 'applied') noteDayFixed(dayId);
     toast.show({
       id: 'plan-less-driving-done',
       title:
@@ -127,6 +130,7 @@ export function LessDrivingScreen({
       afterStops={points(answer?.afterOrder ?? [])}
       stay={stay}
       rows={rows}
+      estimate={answer?.found === true && !answer.checked}
       primary={{
         label: plan.canApply
           ? t({ id: 'plan.check.lessDriving.use', message: 'Use this order' })
