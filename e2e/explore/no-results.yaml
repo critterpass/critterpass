@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# Nothing found (7d-4) from the search lab: the guide thinking, the line on the closest match, the
+# three ways out with what each gives, and ASK. English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-4, READY: search-way-out-pin, SHOT: en-7d-4-no-results }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7d-4, READY: search-way-out-pin, SHOT: vi-7d-4-no-results }

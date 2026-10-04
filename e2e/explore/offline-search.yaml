@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Search with no signal (7i-2) from the search lab: the banner, the saved places with walking
+# minutes, the queued question and what works offline; then the banner flipped green once the
+# answer landed. English, then Vietnamese.
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: en }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7i-2, READY: search-queued-card, SHOT: en-7i-2-offline }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7i-2-back-online, READY: search-back-online, SHOT: en-7i-2-back-online }
+- runFlow:
+    file: subflows/search-lab-open.yaml
+    env: { LOCALE: vi }
+- runFlow:
+    file: subflows/search-lab-scene.yaml
+    env: { SCENE: 7i-2, READY: search-queued-card, SHOT: vi-7i-2-offline }

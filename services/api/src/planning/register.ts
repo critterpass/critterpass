@@ -17,6 +17,8 @@ import { stanceCommands } from '../commands/stances';
 import { splitModule } from './split';
 import { placeContextTravel } from '../explore/place-context';
 import { ideasModule } from './ideas/register';
+import { searchModule } from './search';
+import { importsModule } from './imports';
 
 export interface PlanningDeps {
   readonly app: OpenAPIHono<AppEnv>;
@@ -36,6 +38,8 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   splitModule,
   placeContextTravel,
   ideasModule,
+  searchModule,
+  importsModule,
 ];
 
 export function registerPlanning(

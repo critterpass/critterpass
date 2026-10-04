@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# A fresh launch into the search lab (apps/mobile/src/app/(dev)/search-lab.tsx) in ${LOCALE}: the dev
+# gallery switches the running app's language (not saved), then back through the developer tools.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: ${LOCALE}
+- runFlow: ../../screens/sweep/subflows/back.yaml
+# The step back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# Slow: a fast swipe on iOS flings the list past the row before it is read.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-search-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-search-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'search-lab-7d-1'
+    timeout: 15000

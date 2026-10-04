@@ -1,12 +1,15 @@
 /**
  * Asking the guide from the sheet. A question streams its answer in at once; asked offline it
- * waits on the device ("I'll answer when you're back online", not metered until it is sent) and
- * goes out, in order, when the connection returns. A failed stream keeps the question with a
+ * waits on the device ("I'll answer when you're back online", not metered until it is sent), kept
+ * through an app kill in the phone's question queue (shared with search's plain words), and goes
+ * out, in order, when the connection returns. A failed stream keeps the question with a
  * retry (the server released the meter); a spent meter ends the ask with the 4b-1 details.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, never copy. */
-import type { GuideThreadMode } from '@cp/domain';
+import { generateUuidV7, type GuideThreadMode } from '@cp/domain';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { questionQueue, useQueuedQuestions } from '@/data/places/question-queue';
 
 import { GuideStreamError } from './guide-frames';
 import { useGuideServices } from './guide-services';
@@ -32,9 +35,6 @@ export interface TurnTarget {
   readonly online: boolean;
 }
 
-/** Questions asked offline, per thread, kept while the app runs (closing the sheet keeps them). */
-const waiting = new Map<string, string[]>();
-
 export function quotaOf(detail: Record<string, unknown>): QuotaSpent {
   const holders = detail['crew_pass_holders'] ?? detail['crewPassHolders'];
   const reset = detail['reset_at'] ?? detail['resetAt'];
@@ -51,19 +51,26 @@ export function quotaOf(detail: Record<string, unknown>): QuotaSpent {
 export function useGuideTurn(target: TurnTarget) {
   const services = useGuideServices();
   const [live, setLive] = useState<LiveTurn | null>(null);
-  const [queueVersion, setQueueVersion] = useState(0);
   const [quota, setQuota] = useState<{ question: string; spent: QuotaSpent } | null>(null);
   const [threadOverride, setThreadOverride] = useState<string | null>(null);
   const abort = useRef<AbortController | null>(null);
   const counter = useRef(0);
   const threadId = threadOverride ?? target.threadId;
-  // Read on every render; `queueVersion` changes whenever this hook edits the list.
-  const queued = queueVersion >= 0 ? (waiting.get(threadId) ?? []) : [];
+  const waiting = useQueuedQuestions();
+  const queued = waiting
+    .filter(
+      (entry) =>
+        entry.state === 'queued' &&
+        entry.tripId === target.tripId &&
+        (entry.threadId === null || entry.threadId === threadId),
+    )
+    .map((entry) => entry.text);
 
   useEffect(() => () => abort.current?.abort(), []);
 
   const run = useCallback(
-    async (question: string, firstThread: string): Promise<void> => {
+    /** Resolves true when the answer streamed in. */
+    async (question: string, firstThread: string): Promise<boolean> => {
       abort.current?.abort();
       const controller = new AbortController();
       abort.current = controller;
@@ -85,9 +92,9 @@ export function useGuideTurn(target: TurnTarget) {
             controller.signal,
           );
           update((state) => failTurn(state, 'AI_UNAVAILABLE', true));
-          return;
+          return true;
         } catch (error) {
-          if (controller.signal.aborted) return;
+          if (controller.signal.aborted) return false;
           const failure = error instanceof GuideStreamError ? error : new GuideStreamError(null);
           const existing = failure.detail['thread_id'];
           if (failure.code === 'STATE_INVALID' && typeof existing === 'string' && attempt === 0) {
@@ -98,13 +105,14 @@ export function useGuideTurn(target: TurnTarget) {
           if (failure.code === 'QUOTA_EXHAUSTED') {
             setLive(null);
             setQuota({ question, spent: quotaOf(failure.detail) });
-            return;
+            return false;
           }
           const retryable = failure.status === null || failure.status >= 500;
           update((state) => failTurn(state, failure.code, retryable));
-          return;
+          return false;
         }
       }
+      return false;
     },
     [services, target.mode, target.tripId],
   );
@@ -114,13 +122,17 @@ export function useGuideTurn(target: TurnTarget) {
       const question = text.trim();
       if (question === '') return;
       if (!target.online) {
-        waiting.set(threadId, [...(waiting.get(threadId) ?? []), question]);
-        setQueueVersion((version) => version + 1);
+        questionQueue().enqueue({
+          id: generateUuidV7(),
+          tripId: target.tripId,
+          threadId,
+          text: question,
+        });
         return;
       }
       void run(question, threadId);
     },
-    [run, target.online, threadId],
+    [run, target.online, target.tripId, threadId],
   );
 
   // Back online: the questions asked offline go out one after another.
@@ -130,11 +142,14 @@ export function useGuideTurn(target: TurnTarget) {
   const liveKey = live?.key ?? 0;
   useEffect(() => {
     if (!target.online || busy) return;
-    const [first, ...rest] = waiting.get(threadId) ?? [];
-    if (first === undefined) return;
-    waiting.set(threadId, rest);
-    void run(first, threadId);
-  }, [target.online, busy, liveKey, threadId, run]);
+    const first = questionQueue().take({ threadId, tripId: target.tripId });
+    if (first === null) return;
+    // The live turn now holds the question (with its retry); the queue lets it go.
+    void run(first.text, threadId).then((answered) => {
+      if (answered) questionQueue().answered(first.id);
+      else questionQueue().remove(first.id);
+    });
+  }, [target.online, target.tripId, busy, liveKey, threadId, run, waiting]);
 
   const retry = useCallback(() => {
     if (live !== null) void run(live.question, threadId);
