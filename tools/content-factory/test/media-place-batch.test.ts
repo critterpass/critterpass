@@ -7,13 +7,18 @@ import { mkdtempSync, readFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
-import { poiRefSubject, type ContentItem } from '@cp/content';
+import { buildRelease, poiRefSubject, type ContentItem } from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
 import { committedItems } from '../src/committed';
 import { GENERIC_TITLE } from '../src/kinds/media/generic';
 import { getJson } from '../src/kinds/media/http';
-import { curatedPlaces, genericPhotos, type PlaceProposal } from '../src/kinds/media/place-batch';
+import {
+  curatedPlaces,
+  genericPhotos,
+  suggestedDrops,
+  type PlaceProposal,
+} from '../src/kinds/media/place-batch';
 import type { MediaPlace } from '../src/kinds/media/places';
 import { needsALook, renderPlacePages } from '../src/kinds/media/review-page';
 
@@ -194,5 +199,44 @@ describe('the review page of a destination', () => {
     expect(html.slice(html.indexOf('<h2>No photo'))).toContain('Trench');
     expect(html).not.toContain('wikimedia-photo-3');
     expect(html).toContain('pixabay: tacos');
+    expect(html).not.toContain('suggested to drop');
+  });
+
+  it('leads with the live photos suggested to drop, where they are shown today', async () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'media-pages-'));
+    const generic = {
+      ...photo('2', [poiRefSubject(cafe.ref)], `${GENERIC_TITLE}cup of coffee`),
+      id: 'pixabay-photo-5116219',
+      source: 'pixabay' as const,
+      source_id: '5116219',
+    };
+    const live = buildRelease({
+      kind: 'media',
+      version: 4,
+      items: [generic, photo('3', ['destination:kyoto'], 'Kyoto')],
+      generated_by: {
+        batch_key: 'live',
+        route: null,
+        model: null,
+        generated_at: '2026-10-03T00:00:00Z',
+      },
+      approved_by: null,
+    });
+    const drops = suggestedDrops(live, [temple, cafe, bar]);
+    expect(drops).toEqual([
+      { id: 'pixabay-photo-5116219', reason: 'off-subject', destinations: ['kyoto'] },
+    ]);
+    await renderPlacePages(
+      [generic],
+      { proposals, unanswered: [], suggestedDrops: drops },
+      new Map(),
+      dir,
+      '2026-10-04-media-01',
+    );
+    const html = readFileSync(path.join(dir, 'places-kyoto.html'), 'utf8');
+    const first = html.slice(html.indexOf('<h2>Live today'), html.indexOf('<h2>The place itself'));
+    expect(first).toContain('pixabay-photo-5116219');
+    expect(first).toContain('Suggested to drop: off-subject');
+    expect(first).toContain('Kaikado Cafe');
   });
 });

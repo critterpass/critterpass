@@ -10,6 +10,7 @@ import { poiRefSubject, type ContentItem, mediaItemSchema } from '@cp/content';
 import { isGenericTitle } from './generic';
 import { getJson, type SourceHttp } from './http';
 import { matchPlace, type PlaceMatch, type WikidataPlace } from './place-match';
+import { REJECTED_MATCHES } from './rejected';
 import { commonsCandidate, commonsFiles, type CommonsRules } from './wikimedia';
 
 /** A curated place as the committed places batches carry it. */
@@ -145,18 +146,24 @@ export interface PlacePhoto {
 /**
  * The photo of every place a Wikidata item stands for, as candidates (a file several places
  * share carries all their subjects). Places without a match, or whose file has no reusable
- * licence or is too small, get nothing.
+ * licence or is too small, get nothing; an item a reviewer turned down for a place is never its
+ * match.
  */
 export async function placePhotos(
   http: SourceHttp,
   places: readonly MediaPlace[],
+  rejected: Readonly<Record<string, readonly string[]>> = REJECTED_MATCHES,
 ): Promise<PlacePhoto[]> {
   const matched: { place: MediaPlace; match: PlaceMatch }[] = [];
   for (const destination of [...new Set(places.map((p) => p.destination))]) {
     const own = places.filter((p) => p.destination === destination);
     const items = await wikidataAround(http, own);
     for (const place of own) {
-      const match = matchPlace(place, items);
+      const not = rejected[place.ref] ?? [];
+      const match = matchPlace(
+        place,
+        not.length === 0 ? items : items.filter((item) => !not.includes(item.id)),
+      );
       if (match !== null) matched.push({ place, match });
     }
   }

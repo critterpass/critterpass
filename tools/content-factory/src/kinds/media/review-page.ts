@@ -4,7 +4,8 @@
  * with the places it stands for, whether it is the place itself or a labelled generic picture, and
  * its source, licence and credit. Photos of the place itself come first, the ones to look at
  * twice (a loose name match, or an item far from the place) marked; the places left without a
- * photo are counted by category at the end.
+ * photo are counted by category at the end. Live photos a later look would drop lead the page of
+ * the destination that shows them, so the owner can judge them.
  */
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -13,12 +14,13 @@ import { poiRefSubject, type ContentItem } from '@cp/content';
 import { createCanvas, loadImage } from '@napi-rs/canvas';
 
 import { GENERIC_TITLE, isGenericTitle } from './generic';
-import type { PlaceProposal } from './place-batch';
+import type { PlaceProposal, SuggestedDrop } from './place-batch';
 
 /** What a place batch's brief leaves for its review pages. */
 export interface PlaceReview {
   readonly proposals: readonly PlaceProposal[];
   readonly unanswered: readonly string[];
+  readonly suggestedDrops?: readonly SuggestedDrop[];
 }
 
 const THUMB_W = 400;
@@ -63,6 +65,7 @@ function card(
   item: ContentItem<'media'>,
   proposals: readonly PlaceProposal[],
   image: string | null,
+  drop?: string,
 ): string {
   const generic = isGenericTitle(item.title);
   const places = proposals
@@ -78,8 +81,10 @@ function card(
     ? `<span class="tag generic">Generic, labelled “Not this place”: ${escape((item.title ?? '').slice(GENERIC_TITLE.length))}</span>`
     : '<span class="tag own">The place itself</span>';
   const check = proposals.some(needsALook) ? '<span class="tag check">Look twice</span>' : '';
+  const why =
+    drop === undefined ? '' : `<span class="tag check">Suggested to drop: ${escape(drop)}</span>`;
   return `<div class="card">${image === null ? '' : `<img loading="lazy" alt="" src="${image}">`}<div>
-${kind}${check}${places}
+${kind}${check}${why}${places}
 <div class="meta">Source: <a href="${escape(item.source_url)}">${escape(item.source)}</a> · Licence: <a href="${escape(item.licence_url)}">${escape(item.licence)}</a></div>
 <div class="meta">Credit: ${escape(item.credit)}</div>
 <div class="meta">${escape(item.id)}</div></div></div>`;
@@ -88,7 +93,7 @@ ${kind}${check}${places}
 /** Writes `places-<destination>.html` into `outDir` and returns the file names. */
 export async function renderPlacePages(
   items: readonly ContentItem<'media'>[],
-  { proposals, unanswered }: PlaceReview,
+  { proposals, unanswered, suggestedDrops = [] }: PlaceReview,
   previews: ReadonlyMap<string, Buffer>,
   outDir: string,
   batchKey: string,
@@ -102,7 +107,12 @@ export async function renderPlacePages(
     const local = proposals.filter((p) => p.place.destination === destination);
     const bySubject = new Map(local.map((p) => [poiRefSubject(p.place.ref), p]));
     const count = (outcome: string) => local.filter((p) => p.outcome === outcome).length;
-    const cards: Record<'own' | 'generic', string[]> = { own: [], generic: [] };
+    const cards: Record<'own' | 'generic' | 'drop', string[]> = { own: [], generic: [], drop: [] };
+    const drops = new Map(
+      suggestedDrops
+        .filter((drop) => drop.destinations.includes(destination))
+        .map((drop) => [drop.id, drop.reason]),
+    );
     const shown = items
       .map((item) => ({
         item,
@@ -115,6 +125,8 @@ export async function renderPlacePages(
       const bytes = previews.get(item.id);
       const image = bytes === undefined ? null : await thumbnail(bytes);
       cards[isGenericTitle(item.title) ? 'generic' : 'own'].push(card(item, places, image));
+      const drop = drops.get(item.id);
+      if (drop !== undefined) cards.drop.push(card(item, places, image, drop));
     }
     const none = new Map<string, string[]>();
     for (const p of local.filter((l) => l.outcome === 'none')) {
@@ -135,7 +147,11 @@ export async function renderPlacePages(
 <tr><td>The place itself (Wikimedia Commons)</td><td>${String(count('own'))} places, ${String(cards.own.length)} photos</td></tr>
 <tr><td>Generic, labelled “Not this place” (Pexels, Pixabay)</td><td>${String(count('generic'))} places, ${String(cards.generic.length)} photos</td></tr>
 <tr><td>No photo (the category doodle)</td><td>${String(count('none'))} places</td></tr></table></div>
-${thinner}
+${thinner}${
+      cards.drop.length === 0
+        ? ''
+        : `\n<h2>Live today, suggested to drop</h2><div class="sum meta">These ${String(cards.drop.length)} photos are in the live release and in this batch. They stay unless you say to drop them.</div><div class="grid">${cards.drop.join('\n')}</div>`
+    }
 <h2>The place itself</h2><div class="grid">${cards.own.join('\n')}</div>
 <h2>Generic, labelled “Not this place”</h2><div class="grid">${cards.generic.join('\n')}</div>
 <h2>No photo</h2><div class="sum">${noneRows}</div>

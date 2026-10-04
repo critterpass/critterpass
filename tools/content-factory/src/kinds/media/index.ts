@@ -124,6 +124,7 @@ export const mediaKind: KindModule<'media'> = {
       writeJson(path.join(batchPaths('media', ctx.batchKey).dir, PROPOSALS_FILE), {
         proposals: batch.proposals,
         unanswered: batch.unanswered,
+        suggestedDrops: batch.suggestedDrops,
       });
       const units = batch.items.map((item) => ({ id: item.id, input: item }));
       return { units, carried: batch.carried, options: ctx.options };

@@ -21,7 +21,7 @@ import { pexelsPhotos } from './pexels';
 import { pixabayPhotos } from './pixabay';
 import type { PlaceMatch } from './place-match';
 import { placePhotos, type MediaPlace } from './places';
-import { REJECTED_GENERIC } from './rejected';
+import { LIVE_SUGGESTED_TO_DROP, turnedDown } from './rejected';
 
 export interface StockKeys {
   readonly pexelsKey: string | undefined;
@@ -156,7 +156,7 @@ export async function genericPhotos(
         if (
           candidate !== undefined &&
           !taken.has(candidate.id) &&
-          REJECTED_GENERIC[candidate.id] === undefined &&
+          !turnedDown(candidate.id) &&
           Math.max(candidate.width, candidate.height) >= MIN_PX
         ) {
           found.push(candidate);
@@ -202,6 +202,26 @@ export interface PlaceBatch {
   readonly proposals: readonly PlaceProposal[];
   /** The stock searches a source did not answer, so the review knows what is thinner. */
   readonly unanswered: readonly string[];
+  /** Live photos suggested to drop, with the destinations whose places show them today. */
+  readonly suggestedDrops: readonly SuggestedDrop[];
+}
+
+export interface SuggestedDrop {
+  readonly id: string;
+  readonly reason: string;
+  readonly destinations: readonly string[];
+}
+
+/** The live release's photos on the suggested-to-drop list, by the destinations showing them. */
+export function suggestedDrops(artifact: unknown, places: readonly MediaPlace[]): SuggestedDrop[] {
+  if (artifact === undefined || artifact === null) return [];
+  const destinationOf = new Map(places.map((p) => [poiRefSubject(p.ref), p.destination]));
+  return loadRelease(artifact, 'media').items.flatMap((item) => {
+    const reason = LIVE_SUGGESTED_TO_DROP[item.id];
+    if (reason === undefined) return [];
+    const destinations = [...new Set(item.subjects.flatMap((s) => destinationOf.get(s) ?? []))];
+    return [{ id: item.id, reason, destinations }];
+  });
 }
 
 /** The curated places a batch works over: the committed batches', or a live or exported release's. */
@@ -223,9 +243,8 @@ export async function placeBatch(
   if (carrySource === undefined) {
     throw new Error('a place batch replaces the live media: pass --opt carry=live or carry=<file>');
   }
-  const carried = new Map(
-    carriedItems(await liveItems(carrySource, 'media'), places).map((item) => [item.id, item]),
-  );
+  const live = await liveItems(carrySource, 'media');
+  const carried = new Map(carriedItems(live, places).map((item) => [item.id, item]));
   const byId = new Map<string, ContentItem<'media'>>();
   const matches = new Map<string, PlaceMatch>();
   for (const { place, match, item } of await placePhotos(http, places)) {
@@ -272,5 +291,6 @@ export async function placeBatch(
     outcomes: new Map(proposals.map((p) => [p.place.ref, p.outcome])),
     proposals,
     unanswered,
+    suggestedDrops: suggestedDrops(live, places),
   };
 }
