@@ -36,7 +36,13 @@ export interface PlainResultsProps {
 const CHEVRON = '›';
 
 const useStyles = makeStyles((th) => ({
-  head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  head: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: th.space['12'],
+  },
+  toggle: { width: 160 },
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
   more: {
     flexDirection: 'row',
@@ -62,19 +68,21 @@ export function PlainResults(props: PlainResultsProps) {
           })}
         </Text>
         {props.onMap === undefined ? null : (
-          <Segmented
-            segments={[
-              { value: 'list', label: t({ id: 'search.plain.list', message: 'List' }) },
-              { value: 'map', label: t({ id: 'search.plain.map', message: 'Map' }) },
-            ]}
-            value="list"
-            onChange={(value) => {
-              if (value === 'map') props.onMap?.();
-            }}
-            label={t({ id: 'search.plain.view', message: 'Show as' })}
-            selectedTone="cream"
-            testID="search-plain-view"
-          />
+          <View style={styles.toggle}>
+            <Segmented
+              segments={[
+                { value: 'list', label: t({ id: 'search.plain.list', message: 'List' }) },
+                { value: 'map', label: t({ id: 'search.plain.map', message: 'Map' }) },
+              ]}
+              value="list"
+              onChange={(value) => {
+                if (value === 'map') props.onMap?.();
+              }}
+              label={t({ id: 'search.plain.view', message: 'Show as' })}
+              selectedTone="cream"
+              testID="search-plain-view"
+            />
+          </View>
         )}
       </View>
       <View style={[styles.card, { opacity: props.loading ? 0.6 : 1 }]}>

@@ -480,6 +480,10 @@ msgstr "Yên tĩnh"
 msgid "search.link.reading"
 msgstr "Đang đọc…"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.remove"
+msgstr "Bỏ {label}"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
 msgstr "thứ Bảy"
@@ -620,6 +624,6 @@ msgstr "Vẫn dùng được khi mất sóng"
 msgid "search.link.worksWith"
 msgstr "Dùng được với Instagram, Maps, YouTube và ảnh chụp màn hình"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.tip"
 msgstr "{weekday} của bạn hợp với mấy chỗ này."

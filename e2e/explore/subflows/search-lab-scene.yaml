@@ -20,7 +20,8 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
-      - hideKeyboard
+      # Android's hideKeyboard is a back press when no keyboard is up: back alone closes the
+      # keyboard or the scene, and a second back follows when the list isn't showing yet.
       - back
       - waitForAnimationToEnd:
           timeout: 3000

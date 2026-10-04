@@ -81,36 +81,44 @@ function LinkScene({
   const [pick, setPick] = useState(picking);
   const chosen = chosenPlaces(state).length;
   return (
-    <SearchView header={{ ...header(''), autoFocus: false }} scope={null}>
-      <LinkSheet
-        state={state}
-        guide="tokek"
-        guideName="Tokek"
-        kindWord={kindWord}
-        tip={state.status === 'done' ? tipLine('Sat') : null}
-        dayLabel={state.status === 'done' ? 'Sat 17' : null}
-        chosen={chosen}
-        saving={false}
-        onToggle={(label) => dispatch({ type: 'toggle', label })}
-        onPick={() => setPick(true)}
-        onSearch={noop}
-        onSave={noop}
-        onPutOnDay={noop}
-        onScreenshot={noop}
-        onRetry={noop}
-        onClose={noop}
-      />
-      {pick ? (
-        <PickOneSheet
-          label="the swing with the view"
-          candidates={SWINGS}
-          onPick={(poiId) => {
-            dispatch({ type: 'pick', label: 'the swing with the view', poiId });
-            setPick(false);
-          }}
-          onClose={() => setPick(false)}
-        />
-      ) : null}
+    <SearchView
+      header={{ ...header(''), autoFocus: false }}
+      scope={null}
+      overlay={
+        <>
+          <LinkSheet
+            state={state}
+            guide="tokek"
+            guideName="Tokek"
+            kindWord={kindWord}
+            tip={state.status === 'done' ? tipLine('Sat') : null}
+            dayLabel={state.status === 'done' ? 'Sat 17' : null}
+            chosen={chosen}
+            saving={false}
+            onToggle={(label) => dispatch({ type: 'toggle', label })}
+            onPick={() => setPick(true)}
+            onSearch={noop}
+            onSave={noop}
+            onPutOnDay={noop}
+            onScreenshot={noop}
+            onRetry={noop}
+            onClose={noop}
+          />
+          {pick ? (
+            <PickOneSheet
+              label="the swing with the view"
+              candidates={SWINGS}
+              onPick={(poiId) => {
+                dispatch({ type: 'pick', label: 'the swing with the view', poiId });
+                setPick(false);
+              }}
+              onClose={() => setPick(false)}
+            />
+          ) : null}
+        </>
+      }
+    >
+      {null}
     </SearchView>
   );
 }

@@ -61,7 +61,7 @@ msgstr "{guideName} answered"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.found"
-msgstr "{0} found"
+msgstr "{guideName} found"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chips.eyebrow"
@@ -138,7 +138,7 @@ msgstr "a waterfall without the crowds, {day}"
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.row.add"
-msgstr "Add {0}"
+msgstr "Add {name}"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.pinLine"
@@ -158,7 +158,7 @@ msgstr "Add to Ideas"
 
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.addedToast"
-msgstr "Added to {0}"
+msgstr "Added to {shown}"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.ask"
@@ -254,7 +254,7 @@ msgstr "For day {no}"
 
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.scope.day"
-msgstr "For day {no} · {0}"
+msgstr "For day {no} · {weekday}"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.from.link"
@@ -442,7 +442,7 @@ msgstr "Or browse"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.putOnDay"
-msgstr "Or put them on {0}"
+msgstr "Or put them on {day}"
 
 #: ../../apps/mobile/src/features/explore/search/chip-row.tsx
 msgid "search.chip.attr.outdoor"
@@ -479,6 +479,10 @@ msgstr "Quiet"
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.reading"
 msgstr "Reading it…"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.remove"
+msgstr "Remove {label}"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
@@ -602,7 +606,7 @@ msgstr "What is it called?"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.rain"
-msgstr "what to do in {0} when it rains"
+msgstr "what to do in {destination} when it rains"
 
 #: ../../apps/mobile/src/features/explore/search/pick-one-sheet.tsx
 msgid "search.link.pickTitle"
@@ -620,6 +624,6 @@ msgstr "Works offline"
 msgid "search.link.worksWith"
 msgstr "Works with Instagram, Maps, YouTube and screenshots"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.tip"
 msgstr "Your {weekday} works for these."

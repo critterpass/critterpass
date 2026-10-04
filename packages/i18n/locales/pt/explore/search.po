@@ -480,6 +480,10 @@ msgstr ""
 msgid "search.link.reading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.remove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
 msgstr ""
@@ -620,6 +624,6 @@ msgstr ""
 msgid "search.link.worksWith"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.tip"
 msgstr ""
