@@ -10,7 +10,9 @@
  * (`build-pmtiles.ts --destination <slug> --bounds <minLon,minLat,maxLon,maxLat> --geofabrik-region
  * <region>`). A guest place gets an entry in `GUEST_PLACE_EXTRACTS` once its pack is built, so the
  * box it was built from is on record; start from its `destinations.place_bounds` and widen it to the day trips
- * (`missing-regions.ts` lists the places that still need one).
+ * (`missing-regions.ts` lists the places that still need one). Packs the scheduled `map regions`
+ * run builds by itself take the box the api gives it (the place's box widened by 30 km) and are
+ * not listed here.
  */
 export interface DestinationExtract {
   /** Must match a real `destinations.slug` row. */
@@ -84,6 +86,43 @@ export const GUEST_PLACE_EXTRACTS: readonly DestinationExtract[] = [
     // The old town and its beaches, Mỹ Sơn in the west and Cù Lao Chàm offshore.
     geofabrikRegion: 'asia/vietnam',
     bounds: '108.10,15.72,108.56,16.00',
+  },
+  // The eight below: the place's own box widened by the 30 km day-trip reach.
+  {
+    slug: 'vn-ha-noi',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '105.4207,20.6241,106.2874,21.4326',
+  },
+  {
+    slug: 'vn-ha-long',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '106.6613,20.6105,107.4387,21.2695',
+  },
+  {
+    slug: 'vn-sa-pa',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '103.4886,22.0205,104.1914,22.6495',
+  },
+  { slug: 'vn-hue', geofabrikRegion: 'asia/vietnam', bounds: '107.2077,16.1010,107.9649,16.8269' },
+  {
+    slug: 'vn-sai-gon',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '106.3706,10.4558,107.0292,11.1026',
+  },
+  {
+    slug: 'vn-mekong',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '105.4263,9.7005,106.1237,10.3695',
+  },
+  {
+    slug: 'vn-phu-quoc',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '103.6155,9.8786,104.3021,10.5541',
+  },
+  {
+    slug: 'vn-phong-nha',
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '105.9334,17.3241,106.6124,17.9709',
   },
 ];
 
