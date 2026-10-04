@@ -26,7 +26,8 @@ import { planMapModel, type MapPin } from './model/views-model';
 
 const MAP_HEIGHT = 440;
 const PIN = 28;
-const NOTICE_BOTTOM = 12;
+/** Above the attribution button at the foot of the map's box. */
+const NOTICE_BOTTOM = 44;
 
 const useStyles = makeStyles((th) => ({
   wrap: { gap: th.space['12'] },

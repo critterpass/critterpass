@@ -10,5 +10,7 @@ export const PLANNING_MAP_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map': () => <TripMapScene />,
   perf: () => <PlanningMapPerfScene />,
   'no-pack': () => <NoRegionPackScene />,
+  'no-pack-city': () => <NoRegionPackScene name="city" />,
+  'no-pack-long': () => <NoRegionPackScene name="longest" />,
   kit: () => <PlanningKitScene />,
 };

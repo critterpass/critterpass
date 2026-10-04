@@ -14,16 +14,15 @@ import {
 import { useMemo, type ReactNode, type RefObject } from 'react';
 import { StyleSheet, View, type NativeSyntheticEvent } from 'react-native';
 import type { CameraRef } from '@maplibre/maplibre-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { RegionPackNotice } from '../RegionPackNotice';
+import { noticeBottom, RegionPackNotice } from '../RegionPackNotice';
 import { useRegionTiles } from '../region-pack';
 import { makeStyles } from '../../theme';
 import { planningMapStyle } from './map-style';
 import { StayMarker } from './stay-marker';
 
 const ORNAMENT_SIDE = 12;
-/** The "detailed map is on its way" line clears the map's mark and attribution button. */
-const NOTICE_LIFT = 36;
 
 export interface MapRegion {
   readonly center: LngLat;
@@ -39,6 +38,8 @@ export interface PlanningMapCanvasProps {
   readonly destinationSlug: string | null;
   /** The destination's name; with it, a destination without a pack says its map is on its way. */
   readonly placeName?: string | null | undefined;
+  /** How much of the map's foot a sheet covers: that line sits above it. */
+  readonly coveredBottom?: number | undefined;
   /** The region file downloaded to this phone (`file://…pmtiles`), used instead of the network. */
   readonly localRegionUri?: string | null | undefined;
   readonly stay?: LngLat | null | undefined;
@@ -69,6 +70,7 @@ export function PlanningMapCanvas({
   initialZoom = 13,
   destinationSlug,
   placeName,
+  coveredBottom,
   localRegionUri = null,
   stay,
   cameraRef,
@@ -81,6 +83,7 @@ export function PlanningMapCanvas({
   logo = !compact,
 }: PlanningMapCanvasProps) {
   const styles = useStyles();
+  const insets = useSafeAreaInsets();
   const tiles = useRegionTiles(destinationSlug, localRegionUri);
   const style = useMemo(() => planningMapStyle(tiles.sourceUrl), [tiles.sourceUrl]);
   const onRegionDidChange = (event: NativeSyntheticEvent<ViewStateChangeEvent>) => {
@@ -108,7 +111,10 @@ export function PlanningMapCanvas({
         {stay === null || stay === undefined ? null : <StayMarker lngLat={stay} />}
       </MapLibreMap>
       {tiles.awaited && !compact && placeName ? (
-        <RegionPackNotice place={placeName} bottom={ornamentBottom + NOTICE_LIFT} />
+        <RegionPackNotice
+          place={placeName}
+          bottom={noticeBottom({ ornamentBottom, insetBottom: insets.bottom, coveredBottom })}
+        />
       ) : null}
     </View>
   );

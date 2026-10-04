@@ -12,7 +12,14 @@ import { PlanningMapCanvas } from '../planning-map-canvas';
 
 const DA_LAT: [number, number] = [108.4583, 11.9404];
 
-export function NoRegionPackScene() {
+/** A short name, a long one and one of about thirty characters, which wraps. */
+const NAMES = {
+  town: 'Đà Lạt',
+  city: 'Thành phố Hồ Chí Minh',
+  longest: 'Thành phố Phan Rang – Tháp Chàm',
+} as const;
+
+export function NoRegionPackScene({ name = 'town' }: { readonly name?: keyof typeof NAMES }) {
   const cameraRef = useRef<CameraRef | null>(null);
   return (
     <View style={StyleSheet.absoluteFill} testID="planning-map-lab-no-pack-scene">
@@ -20,7 +27,7 @@ export function NoRegionPackScene() {
         initialCenter={DA_LAT}
         initialZoom={11}
         destinationSlug="lab-no-region-pack"
-        placeName="Đà Lạt"
+        placeName={NAMES[name]}
         stay={DA_LAT}
         cameraRef={cameraRef}
       />

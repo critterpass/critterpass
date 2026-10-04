@@ -38,6 +38,8 @@ export interface TripMapLayersProps {
   readonly zoom: number;
   readonly destinationSlug: string | null;
   readonly placeName: string | null;
+  /** How much of the map's foot the sheet covers. */
+  readonly coveredBottom: number;
   readonly regionUri: string | null;
   readonly stay: readonly [number, number] | null;
   readonly places: readonly MapPlace[];
@@ -63,6 +65,7 @@ export function TripMapLayers(props: TripMapLayersProps) {
       initialZoom={props.zoom}
       destinationSlug={props.destinationSlug}
       placeName={props.placeName}
+      coveredBottom={props.coveredBottom}
       localRegionUri={props.regionUri}
       stay={props.stay === null ? null : [props.stay[0], props.stay[1]]}
       cameraRef={camera.cameraRef}

@@ -139,6 +139,7 @@ export function DayMapView({
           zoom={13}
           destinationSlug={model.destinationSlug}
           placeName={model.destination}
+          coveredBottom={covered.bottom}
           regionUri={model.regionUri}
           stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}
           places={places}

@@ -14,10 +14,11 @@ import {
 } from '@maplibre/maplibre-react-native';
 import { useMemo, useState, type RefObject } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { clusterBounds, clusterPlaces, type MapPlace } from '@/ui/map/clusterPlaces';
 import { regionMapStyle, useRegionTiles } from '@/ui/map/region-pack';
-import { RegionPackNotice } from '@/ui/map/RegionPackNotice';
+import { noticeBottom, RegionPackNotice } from '@/ui/map/RegionPackNotice';
 import { RouteLine } from '@/ui/map/RouteLine';
 import { YouDot } from '@/ui/map/YouDot';
 import { useTheme } from '@/ui/theme';
@@ -32,8 +33,6 @@ export const OPENING_ZOOM = 12;
 /** Name capsules are wide: places nearer than this on screen share one bubble. */
 const GATHER_PX = 96;
 const ORNAMENT_SIDE = 12;
-/** The "detailed map is on its way" line clears the map's mark and attribution button. */
-const NOTICE_LIFT = 36;
 
 export interface CanvasPlace {
   readonly id: string;
@@ -69,6 +68,7 @@ const styles = StyleSheet.create({ sprite: { width: 48, height: 48 } });
 
 export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanvasProps) {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
   const [zoom, setZoom] = useState(OPENING_ZOOM);
   const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
   const tiles = useRegionTiles(props.destinationSlug, props.localRegionUri);
@@ -185,7 +185,10 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
       {tiles.awaited && props.destinationName !== '' ? (
         <RegionPackNotice
           place={props.destinationName}
-          bottom={props.ornamentBottom + NOTICE_LIFT}
+          bottom={noticeBottom({
+            ornamentBottom: props.ornamentBottom,
+            insetBottom: insets.bottom,
+          })}
         />
       ) : null}
     </>
