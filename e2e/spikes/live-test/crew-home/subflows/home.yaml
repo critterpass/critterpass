@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# Home, from wherever the walk is: the app link, the one-time "Open" prompt, then the header.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000

@@ -44,12 +44,32 @@ msgstr ""
 msgid "chat.photo.many"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.two"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpMaybe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpWaitlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
@@ -62,6 +82,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.left"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLocked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
@@ -447,6 +471,10 @@ msgstr ""
 msgid "chat.voice.deniedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLockedAuto"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
 msgstr ""
@@ -503,6 +531,10 @@ msgstr ""
 msgid "chat.voice.label"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.waiting"
 msgstr ""
@@ -529,4 +561,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.titlePlain"
 msgstr ""

@@ -13,6 +13,10 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, cùng {1}"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr "{count, plural, other {{guide} đã xếp chỗ cho # ý tưởng}}"
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr "{count} ngày"
@@ -169,6 +173,10 @@ msgstr "Đang tải trang chủ"
 msgid "home.inbox.loading"
 msgstr "Đang tải hộp thư"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr "Xem qua trước khi đưa vào kế hoạch."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr "Đánh dấu đã đọc"
@@ -240,6 +248,10 @@ msgstr "kế hoạch đã xong {progress} phần trăm"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Kế hoạch {progress}%"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
+msgstr "Xem lại"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"

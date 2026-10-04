@@ -13,6 +13,10 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr ""
@@ -169,6 +173,10 @@ msgstr ""
 msgid "home.inbox.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr ""
@@ -239,6 +247,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx

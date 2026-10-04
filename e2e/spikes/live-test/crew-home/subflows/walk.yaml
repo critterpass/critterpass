@@ -1,0 +1,584 @@
+appId: app.critterpass.dev
+---
+# Two first-time travellers taking turns on one phone, on staging, in ${LOCALE}: Linh (the
+# organiser) drafts three days in Đà Nẵng two weeks out, invites, and sends the plan; Minh joins
+# from the splash with the crew code and answers; Linh locks the trip. At every return to Home the
+# strip under the trip card must say what is theirs to do (home-turn-<state>), and the inbox, the
+# crew chat and the hub are captured beside it. Frames: crew-home-${LOCALE}-<nn>-<what>.
+
+# ── Linh, set-up: account, the new planning screens on, crew, place, dates, one must-do, draft.
+- runFlow:
+    file: ../../../../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- runFlow: ../../../../_shared/planning-redesign-on.yaml
+- runFlow:
+    file: locale.yaml
+    env:
+      LANDS: 'dev-tools-entry'
+- runFlow:
+    file: ../../../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang gang'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow:
+    file: ../../../../happy/subflows/pick-dates-from-today.yaml
+    env:
+      START_OFFSET_DAYS: '14'
+      SHOTS: crew-home-${LOCALE}-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- tapOn:
+    id: 'budget-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Mi Quang for breakfast'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)mi quang for breakfast.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
+# She leaves the wait: Home says the guide is drafting, with the wait one tap away.
+- runFlow: home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-guide_drafting|home-turn-finish_draft'
+    timeout: 60000
+- takeScreenshot: crew-home-${LOCALE}-01-linh-home-while-drafting
+# The draft job takes a few minutes on staging: Home turns to "your draft is ready" by itself.
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-finish_draft'
+    timeout: 600000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-02-linh-home-draft-ready-alone
+- assertNotVisible:
+    id: 'home-countdown'
+# One tap from Home to her unsent draft.
+- tapOn:
+    id: 'home-turn-button'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-03-linh-draft-one-tap-from-home
+
+# ── Linh wants to send it to her friends; nobody has joined: inviting is the main action.
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-alone'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-04-linh-nobody-to-send-to
+- tapOn:
+    id: 'build-invite'
+- extendedWaitUntil:
+    visible:
+      id: 'composer-code'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-05-linh-invite-link-and-code
+- scroll
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-06-linh-invite-lower
+# The trip's hub: her draft is one tap away there too.
+- runFlow: home.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-planning-cta'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: crew-home-${LOCALE}-07-linh-hub-draft-ready
+
+# ── Minh: never opened the app, has a six-letter code from a chat.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../../../../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 60000
+- runFlow:
+    file: locale.yaml
+    env:
+      LANDS: 'onboarding-invite-code'
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 30000
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-name'
+    timeout: 20000
+- tapOn:
+    id: 'invite-edit-name'
+- inputText: 'Minh'
+- tapOn:
+    id: 'invite-edit-home'
+- inputText: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-SGN'
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-edit-home-SGN'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-picked'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-done'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 10000
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 20000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: crew-home-${LOCALE}-08-minh-manifest
+- runFlow: home.yaml
+# Set-up, not Minh's doing: the new planning screens stay on for this phone.
+- runFlow: ../../../../_shared/planning-redesign-on.yaml
+# Before anything is sent he reads one true message, on Home, the hub and the plan.
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-plan_coming'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-09-minh-home-plan-coming
+- assertNotVisible:
+    id: 'home-turn-button'
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-10-minh-before-the-plan
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-planning-note'
+    timeout: 30000
+- assertNotVisible:
+    id: 'trip-hub-planning-cta'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-11-minh-hub-plan-tile
+- runFlow: home.yaml
+
+# ── Linh comes back: Minh joined, so the step is to send the plan.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: crew-home-${LOCALE}-12-linh-home-send-the-plan
+- assertVisible:
+    id: 'home-turn-send_plan'
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-13-linh-minh-joined
+# SEND THE PLAN opens her draft (or the proposal she had started building).
+- tapOn:
+    id: 'home-turn-button'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review|proposal-build'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'draft-review'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'draft-propose'
+          timeout: 30000
+      - tapOn:
+          id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-build'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'build-preview-.*'
+    timeout: 180000
+    optional: true
+# PREVIEW AS MINH: the picks in the plan's order, with tags that are true for him.
+- tapOn:
+    id: 'build-preview-.*'
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: crew-home-${LOCALE}-14-linh-preview-as-minh
+- runFlow:
+    when:
+      notVisible:
+        id: 'build-send'
+    file: ../../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+    timeout: 20000
+- tapOn:
+    id: 'build-send'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-sent'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'sent-tracker'
+    timeout: 300000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-15-linh-sent
+- tapOn:
+    id: 'sent-tracker'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-16-linh-who-s-in-nobody-yet
+# Back from Who's in never lands on the private draft again.
+- runFlow: ../../../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: crew-home-${LOCALE}-17-linh-back-from-who-s-in
+- assertNotVisible:
+    id: 'draft-review'
+- runFlow: home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-waiting_for_answers'
+    timeout: 60000
+- takeScreenshot: crew-home-${LOCALE}-18-linh-home-waiting-for-answers
+
+# ── Minh comes back to a plan waiting for his answer.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: crew-home-${LOCALE}-19-minh-home-answer-the-plan
+- assertVisible:
+    id: 'home-turn-answer'
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-20-minh-plan-waiting
+- tapOn:
+    id: 'home-turn-button'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- takeScreenshot: crew-home-${LOCALE}-21-minh-trailer-first-slide
+- runFlow:
+    when:
+      visible:
+        id: 'proposal-trailer'
+    commands:
+      - tapOn:
+          id: 'trailer-quick'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: crew-home-${LOCALE}-22-minh-trailer-quick-replies
+      - tapOn:
+          id: 'trailer-react-okay_wow'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: crew-home-${LOCALE}-23-minh-trailer-reacted
+      - tapOn:
+          id: 'trailer-maybe'
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'version-pick-0'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-24-minh-the-plan-three-answers
+- tapOn:
+    id: 'version-pick-0'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: crew-home-${LOCALE}-25-minh-why-this-stop
+- runFlow:
+    when:
+      visible:
+        id: 'version-why'
+    file: ../../../../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'version-hype'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-26-minh-the-plan-lower
+- tapOn:
+    id: 'version-in'
+- extendedWaitUntil:
+    visible:
+      id: 'board-slide'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-27-minh-slide-to-board
+- swipe:
+    from:
+      id: 'board-knob'
+    direction: RIGHT
+    duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-28-minh-boarded
+- tapOn:
+    id: 'board-done'
+# His version says he is in, with the way to change it, at once.
+- extendedWaitUntil:
+    visible:
+      id: 'version-answered'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-29-minh-version-you-re-in
+- runFlow: home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-answered'
+    timeout: 60000
+- takeScreenshot: crew-home-${LOCALE}-30-minh-home-after-in
+- assertNotVisible:
+    id: 'home-countdown'
+
+# ── Linh comes back: replies are in, the step is to lock.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: crew-home-${LOCALE}-31-linh-home-replies-in
+- assertVisible:
+    id: 'home-turn-lock'
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-32-linh-minh-is-in
+- tapOn:
+    id: 'home-turn-button'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-33-linh-who-s-in
+- tapOn:
+    id: 'tracker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock-confirm'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-34-linh-what-locking-changes
+- tapOn: '(?iu)yes, lock it in|ừ, chốt luôn'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-confirmed'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: crew-home-${LOCALE}-35-linh-locked-said-once
+- runFlow: home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- takeScreenshot: crew-home-${LOCALE}-36-linh-home-locked-countdown
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-37-linh-after-the-lock
+
+# ── Minh on the locked trip.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: crew-home-${LOCALE}-38-minh-home-trip-locked
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-39-minh-trip-locked

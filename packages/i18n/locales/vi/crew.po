@@ -64,6 +64,10 @@ msgstr "Một người bạn"
 msgid "crew.composer.friend"
 msgstr "Một người bạn"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeHint"
+msgstr "Bạn bè mở CritterPass, chạm \"Vào bằng mã\" rồi nhập mã này."
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.link"
 msgstr "Link để chia sẻ"
@@ -72,11 +76,11 @@ msgstr "Link để chia sẻ"
 msgid "crew.composer.note"
 msgstr "Đôi lời về bạn ấy"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewNamed"
 msgstr "Một chỗ cho {invitee}"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewGeneric"
 msgstr "Một chỗ trong nhóm"
 
@@ -101,6 +105,10 @@ msgstr "Tất cả"
 msgid "crew.referral.at"
 msgstr "Khi đủ {0} con dấu"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.codeCopied"
+msgstr "Đã chép mã"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.collector"
 msgstr "Bìa Collector"
@@ -108,6 +116,10 @@ msgstr "Bìa Collector"
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.message"
 msgstr "Vào {crewName} trên CritterPass đi: {url}"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeCopy"
+msgstr "Chép mã"
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.copy"
@@ -121,9 +133,13 @@ msgstr "Chép link"
 msgid "crew.referral.covers"
 msgstr "Bìa pass"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewCrew"
 msgstr "Nhóm"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
+msgstr "Mã nhóm"
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLabel"
@@ -356,7 +372,7 @@ msgstr "Chọn từ danh bạ"
 msgid "crew.referral.shareMessage"
 msgstr "Lên kế hoạch đi chơi cùng mình trên CritterPass nhé: {url}"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewA11y"
 msgstr "Xem trước vé mời"
 
@@ -492,7 +508,7 @@ msgstr "Bạn ấy rời các chuyến đi của nhóm; chỗ trống sẽ dành
 msgid "crew.members.removeAccess"
 msgstr "Bạn ấy sẽ không còn thấy chat, kế hoạch và chi tiêu của nhóm ngay lập tức."
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewHead"
 msgstr "Bạn ấy sẽ thấy"
 
@@ -528,7 +544,7 @@ msgstr "Mời ai"
 msgid "crew.referral.back"
 msgstr "Bạn"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.you"
 msgstr "Bạn"
 

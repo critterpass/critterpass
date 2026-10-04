@@ -29,6 +29,10 @@ msgstr "{count} · khoảng {length} trên xe"
 msgid "plan.tripMap.gap.some"
 msgstr "{count} người rảnh · {who}, đến {until}"
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.inCrew"
+msgstr "{crew} người trong nhóm"
+
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.dateDayOf"
 msgstr "{date} · Ngày {n}/{of}"
@@ -263,6 +267,10 @@ msgstr "Chợ"
 msgid "plan.tripMap.empty.swipeLine"
 msgstr "Chỗ hợp ý được giữ lại"
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingMeanwhile"
+msgstr "Trong lúc chờ, cứ lưu những nơi bạn muốn đi. Chúng nằm sẵn trong Ý tưởng."
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.museums"
 msgstr "Bảo tàng"
@@ -384,6 +392,10 @@ msgstr "Cùng lướt chọn"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.temples"
 msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingTitle"
+msgstr "Kế hoạch sắp tới rồi"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.wholeTrip"

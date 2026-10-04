@@ -13,6 +13,10 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, with {1}"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr "{count, plural, one {{guide} found a spot for # idea} other {{guide} found a spot for # ideas}}"
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr "{count}d"
@@ -169,6 +173,10 @@ msgstr "Loading your home"
 msgid "home.inbox.loading"
 msgstr "Loading your inbox"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr "Look them over before they go in the plan."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr "Mark all read"
@@ -240,6 +248,10 @@ msgstr "plan {progress} percent done"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Plan {progress}%"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
+msgstr "Review"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"

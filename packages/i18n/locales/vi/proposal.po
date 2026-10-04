@@ -17,11 +17,6 @@ msgstr "{0} (bạn)"
 msgid "proposal.dropout.each"
 msgstr "{0} mỗi người"
 
-#. placeholder {0}: state.going + 1
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.going"
-msgstr "{0} người đi, chuyến đi được xác nhận."
-
 #. placeholder {0}: tally.in
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.in"
@@ -43,19 +38,15 @@ msgid "proposal.version.pending"
 msgstr "{0} vẫn đang viết bản này. Chút nữa là có ở đây."
 
 #. placeholder {0}: props.guideName
+#. placeholder {1}: person.name
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
-msgid "proposal.sent.pending"
-msgstr "{0} đang viết bản của bạn ấy"
+msgid "proposal.sent.pendingFor"
+msgstr "{0} đang viết bản của {1}"
 
 #. placeholder {0}: tally.maybe
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.maybe"
 msgstr "{0} có thể"
-
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.maybes"
-msgstr "{0} người còn phân vân sẽ vào danh sách chờ, có chỗ trống là được mời."
 
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
@@ -107,11 +98,6 @@ msgstr "{0} gợi ý"
 msgid "proposal.tracker.waiting"
 msgstr "{0} người đang chờ chỗ"
 
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.silent"
-msgstr "{0} người chưa trả lời sẽ tính là không đi."
-
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subGroup"
@@ -132,6 +118,11 @@ msgstr "{0}: đề xuất"
 msgid "proposal.board.egg"
 msgstr "Trứng của {0} sẽ nở khi bạn hạ cánh"
 
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.readyFor"
+msgstr "Bản của {0} đã sẵn sàng"
+
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.seatsAfter"
 msgstr "{after}, hủy trong đơn đặt khi bạn áp dụng"
@@ -140,13 +131,17 @@ msgstr "{after}, hủy trong đơn đặt khi bạn áp dụng"
 msgid "proposal.build.eachAmount"
 msgstr "{amount} mỗi người"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.some"
+msgstr "{answered}/{recipients} người đã trả lời."
+
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} chỗ"
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
-msgid "proposal.hype.boarded"
-msgstr "{boarded} trên {recipients} người đã lên máy bay."
+msgid "proposal.hype.crewIn"
+msgstr "{crew, plural, other {{going}/# người trong nhóm đã nhận lời.}}"
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
@@ -160,6 +155,18 @@ msgstr "Kế hoạch {destination}"
 msgid "proposal.confirmed.going"
 msgstr "{going} người đi"
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.going"
+msgstr "{0} người đi, chuyến đi được xác nhận."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.drafting"
+msgstr "{guide} đang soạn chuyến đi cho bạn."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.plain"
+msgstr "{guideName} đưa mục này vào kế hoạch cho cả nhóm."
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu gửi nhé."
@@ -168,13 +175,37 @@ msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu g�
 msgid "proposal.build.subShared"
 msgstr "{guideName} đã viết một bản chung cho cả nhóm. Chọn kiểu gửi nhé."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybes"
+msgstr "{0} người còn phân vân sẽ vào danh sách chờ, có chỗ trống là được mời."
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.out"
+msgstr "{name} không đi được"
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.title"
 msgstr "{name} không đi được"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.maybe"
+msgstr "{name} nói có thể"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.in"
+msgstr "{name} đi"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.waitlisted"
+msgstr "{name} vào danh sách chờ"
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.chip"
 msgstr "{name} đã trả lời"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received"
+msgstr "{name} đã gửi kế hoạch đi {place}"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.dropout.reply"
@@ -192,9 +223,25 @@ msgstr "{name}, đây là bản của bạn"
 msgid "proposal.version.titlePreview"
 msgstr "Bản của {name}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planComing"
+msgstr "{organiser} vẫn đang lên kế hoạch. Xong là bạn nhận được ở đây."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.fromBy"
+msgstr "{organiser} đã gửi kế hoạch. Trả lời trước {date} nhé."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.from"
+msgstr "{organiser} đã gửi kế hoạch. Bạn đi chứ?"
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.pct"
 msgstr "{pct}%"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.locked"
+msgstr "Chuyến {place} đã chốt. Đi thôi."
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.reacted"
@@ -203,6 +250,14 @@ msgstr "{reacted} người đã thả cảm xúc."
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
 msgstr "{seat} người là hơi đông"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silent"
+msgstr "{0} người chưa trả lời sẽ tính là không đi."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.sendPlan"
+msgstr "{waiting, plural, other {Bản nháp đã xong. # người bạn đang chờ kế hoạch.}}"
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.offItem"
@@ -224,6 +279,10 @@ msgstr "6 GIỜ SÁNG??"
 msgid "proposal.queued.suggestion"
 msgstr "Một gợi ý của hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.noUndo"
+msgstr "Đã chốt thì không gỡ được. Ai rút sau này sẽ nhường lại chỗ."
+
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.planItem"
 msgstr "Một điểm trong kế hoạch"
@@ -240,6 +299,10 @@ msgstr "Lời nhắc quyết định"
 msgid "proposal.seat.bodyCap"
 msgstr "Cả {cap} chỗ đã có người."
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.bodyBy"
+msgstr "Trả lời trước {date}."
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.applied"
 msgstr "Đã áp dụng. Phần chia đã được tính lại."
@@ -252,10 +315,9 @@ msgstr "Áp dụng thay đổi"
 msgid "proposal.queued.resolve"
 msgstr "Đang áp dụng việc chia lại"
 
-#. placeholder {0}: info.name
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
-msgid "proposal.version.ask"
-msgstr "Hỏi {0}"
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.body"
+msgstr "Bạn đi chứ?"
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.asked"
@@ -313,6 +375,10 @@ msgstr "Không đi được · xem thay đổi"
 msgid "proposal.dropout.changeStay"
 msgstr "Đổi đặt chỗ trên {supplier}; chúng tôi không bao giờ đổi thay bạn"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.change"
+msgstr "Đổi câu trả lời"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
 msgstr "Kiểm tra kết nối rồi thử lại nhé."
@@ -337,7 +403,7 @@ msgstr "Chưa chốt được"
 msgid "proposal.alone.failed"
 msgstr "Chưa chốt được"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.crew"
 msgstr "Cả nhóm thích"
 
@@ -346,21 +412,23 @@ msgid "proposal.hype.title"
 msgstr "Độ hóng của nhóm"
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
-msgid "proposal.board.airline"
-msgstr "CritterPass Air"
+msgid "proposal.board.crewPass"
+msgstr "Vé nhóm"
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.dates"
 msgstr "Ngày đi"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup"
+msgstr "Tiếp theo là ngày đi, ngân sách và việc phải làm."
+
 #. placeholder {0}: stop.dayNo
-#. placeholder {0}: why.dayNo
 #: ../../apps/mobile/src/features/proposal/labels.ts
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Ngày {0}"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.day"
 msgstr "Ngày {dayNo}"
 
@@ -380,13 +448,21 @@ msgstr "Hết chỗ rồi."
 msgid "proposal.sent.done"
 msgstr "Mọi bản đã viết xong và gửi đi."
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.alone"
-msgstr "Mọi người khác đều báo không đi được, nên chỉ còn mình bạn. Chuyến đi được chốt, và bạn bè vào sau sẽ theo kế hoạch này."
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.aloneGoing"
+msgstr "Mọi người khác đều nói không đi được, nên chỉ có bạn. Chuyến đi được xác nhận."
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.allIn"
+msgstr "Mọi người đã trả lời. Chốt chuyến đi để xác nhận nhé."
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr "Phần của mỗi người"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.finishDraft.button"
+msgstr "Hoàn tất bản nháp"
 
 #. placeholder {0}: instantDate(locale, freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -421,11 +497,19 @@ msgstr "Nhóm miễn phí tối đa {cap} người. {who} đứng đầu hàng c
 msgid "proposal.crowd.body"
 msgstr "Nhóm miễn phí tối đa {cap} người. Boost {destination} thì {who} có chỗ, và cả nhóm có bản đồ trực tiếp cùng số lần soạn lại không giới hạn."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.stillJoin"
+msgstr "Bạn bè vào nhóm sau vẫn có thể nhận chỗ."
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.gate"
 msgstr "Cổng: có"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.soloNote"
+msgstr "Đi một mình? Chốt luôn là chuyến đi bắt đầu. Bạn bè tham gia sau sẽ theo kế hoạch này."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.value"
 msgstr "Đáng tiền"
 
@@ -441,6 +525,21 @@ msgstr "Hướng dẫn viên chọn · {0}"
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.reaction.laugh"
 msgstr "Ha!"
+
+#. placeholder {0}: props.organiser
+#. placeholder {1}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subPlain"
+msgstr "Đây là kế hoạch {0} và {1} cùng soạn. Chạm vào mục bất kỳ để xem vì sao có nó."
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subPlainNoName"
+msgstr "Đây là kế hoạch {0} soạn cho cả nhóm. Chạm vào mục bất kỳ để xem vì sao có nó."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.cant"
+msgstr "Mình không đi được"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.confirm"
@@ -478,6 +577,10 @@ msgstr "Mình đi"
 msgid "proposal.reaction.imIn"
 msgstr "ĐI LUÔN"
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.inAfterAll"
+msgstr "Mình đi được rồi"
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.inAt"
 msgstr "Mình đi với giá {amount}"
@@ -487,29 +590,41 @@ msgid "proposal.seat.offer"
 msgstr "Có chỗ trống là bạn được mời đầu tiên. Bạn không bị tự động thêm vào đâu."
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.invite"
-msgstr "Mời bạn bè trước"
+msgid "proposal.alone.inviteFriends"
+msgstr "Mời bạn bè"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr "Mời ai đó vào nhóm trước đã. Chưa có ai để gửi cả."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.inviteTitle"
+msgstr "Mời bạn bè trước đã"
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.value"
 msgstr "Bỏ ra ít mà được nhiều."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.theirMustDo"
+msgstr "Đây là việc phải làm của {name} trong chuyến này."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.crewMustDo"
+msgstr "Đây là một việc phải làm của nhóm."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.taste"
 msgstr "Hợp với những gì bạn chọn ở phần cái này hay cái kia, nên {guideName} đưa vào."
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.body"
-msgstr "Hiện chỉ có mình bạn đi {destination}, nên chưa có ai để gửi đề xuất. Chốt kế hoạch là chuyến đi bắt đầu. Bạn bè tham gia sau sẽ theo kế hoạch này."
+msgid "proposal.alone.inviteBody"
+msgstr "Hiện chỉ có mình bạn đi {destination}, nên chưa có ai để gửi kế hoạch. Mời bạn bè, rồi gửi khi họ đã vào nhóm."
 
 #. placeholder {0}: props.dates
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.bodyDates"
-msgstr "Hiện chỉ có mình bạn đi {destination}, {0}, nên chưa có ai để gửi đề xuất. Chốt kế hoạch là chuyến đi bắt đầu. Bạn bè tham gia sau sẽ theo kế hoạch này."
+msgid "proposal.alone.inviteBodyDates"
+msgstr "Hiện chỉ có mình bạn đi {destination}, {0}, nên chưa có ai để gửi kế hoạch. Mời bạn bè, rồi gửi khi họ đã vào nhóm."
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.title"
@@ -540,35 +655,37 @@ msgstr "Đang tải đề xuất"
 msgid "proposal.loading"
 msgstr "Đang tải đề xuất"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock.button"
+msgstr "Chốt luôn"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.cta"
 msgstr "Chốt luôn"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.alone.lock"
-msgstr "Chốt kế hoạch"
+msgid "proposal.alone.lockAlone"
+msgstr "Chốt đi một mình"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.title"
 msgstr "Chốt danh sách nhóm?"
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.alone.title"
-msgstr "Chốt kế hoạch nhé?"
+msgid "proposal.lock.titleAlone"
+msgstr "Chốt kế hoạch?"
 
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.locked"
-msgstr "Đã chốt. Chuyến đi được xác nhận."
-
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.done"
-msgstr "Đã chốt. Chuyến đi được xác nhận."
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.locked"
+msgstr "Đã chốt. Chuyến đi bắt đầu."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.done"
 msgstr "Đã chốt. Chuyến đi bắt đầu."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.maybe"
+msgstr "Có thể"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.maybe"
@@ -578,17 +695,17 @@ msgstr "Có thể"
 msgid "proposal.board.maybe"
 msgstr "Có thể"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
-msgid "proposal.why.crew"
-msgstr "Hầu hết cả nhóm đều muốn mục này."
-
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.groupMustDo"
 msgstr "Phải đi"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "Chưa trả lời"
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.nobodyYet"
+msgstr "Chưa ai trả lời."
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.dismiss"
@@ -601,6 +718,11 @@ msgstr "Chưa gửi"
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.a11y"
 msgstr "Chưa chắc"
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.askFirst"
+msgstr "Còn phân vân? Hỏi {0}"
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.nothing"
@@ -626,7 +748,7 @@ msgstr "ÔI WOW"
 msgid "proposal.reaction.fire"
 msgstr "Cháy quá"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onThePlan"
 msgstr "Có trong kế hoạch"
 
@@ -646,7 +768,11 @@ msgstr "Một bản cho bạn của bạn, do {guideName} viết"
 msgid "proposal.build.personalOff"
 msgstr "Một bản chung cho cả nhóm"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.onlyOrganiser"
+msgstr "Mới có {organiser} đi."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onlyHere"
 msgstr "Chỉ có ở đây"
 
@@ -699,6 +825,14 @@ msgstr "Đề xuất"
 msgid "proposal.trailer.react"
 msgstr "Trả lời nhanh"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.open"
+msgstr "Đọc rồi trả lời"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.button"
+msgstr "Đọc rồi trả lời"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr "Sẵn sàng gửi"
@@ -706,6 +840,10 @@ msgstr "Sẵn sàng gửi"
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.released"
 msgstr "trả phòng"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock"
+msgstr "Mọi người đã trả lời: {going}/{crew} người đi. Chốt chuyến đi để xác nhận."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.replyBy"
@@ -745,6 +883,10 @@ msgstr "Nói là có thể"
 msgid "proposal.share.saved"
 msgstr "Tiết kiệm"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.drafting.button"
+msgstr "Xem bản nháp"
+
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.wholePlan"
 msgstr "Xem toàn bộ kế hoạch"
@@ -752,6 +894,14 @@ msgstr "Xem toàn bộ kế hoạch"
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.organiser"
 msgstr "Xem ai đi rồi."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.version"
+msgstr "Xem bản của bạn"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.sendPlan.button"
+msgstr "Gửi kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.send"
@@ -773,6 +923,10 @@ msgstr "Đã gửi"
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.sent"
 msgstr "Đã gửi {0}"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.button"
+msgstr "Thiết lập chuyến đi"
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
@@ -835,6 +989,10 @@ msgstr "Cả nhóm trả lời trước khi chuyến đi bắt đầu."
 msgid "proposal.card.locked"
 msgstr "Cả nhóm đã chốt."
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.vote"
+msgstr "Nhóm đang chọn nơi đi."
+
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.board.outDone"
 msgstr "Cả nhóm đã biết bạn không đi được"
@@ -847,17 +1005,45 @@ msgstr "Ngày đi"
 msgid "proposal.objection.plan"
 msgstr "Kế hoạch"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.plain"
+msgstr "Kế hoạch đi {place} đã có"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.plainBy"
+msgstr "Kế hoạch đã có. Trả lời trước {date} nhé."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.plain"
+msgstr "Kế hoạch đã có. Bạn đi chứ?"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingBy"
+msgstr "Kế hoạch đã gửi. {answered}/{total} người đã trả lời, hạn {date}."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waiting"
+msgstr "Kế hoạch đã gửi. {answered}/{total} người đã trả lời."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planComing.plain"
+msgstr "Kế hoạch vẫn đang được soạn. Xong là bạn nhận được ở đây."
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.stillEdit"
+msgstr "Kế hoạch vẫn mở: ai đi cũng có thể đề xuất thay đổi."
+
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.title"
 msgstr "Chuyến đi đã đủ người"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.waitlisted"
+msgstr "Chuyến đi đã đủ người. Bạn đang chờ một chỗ."
+
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.title"
 msgstr "Chuyến đi đã chốt"
-
-#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
-msgid "proposal.sent.ready"
-msgstr "Bản của bạn ấy đã sẵn sàng"
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.keepSub"
@@ -867,6 +1053,15 @@ msgstr "Họ vẫn nhận được ảnh và bản tổng kết"
 msgid "proposal.build.alreadySent"
 msgstr "Đề xuất này đã gửi đi rồi."
 
+#. placeholder {0}: ticket.from
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.notAFlightFrom"
+msgstr "Vé này giữ chỗ của bạn trong chuyến đi, không phải vé máy bay: {0} là sân bay nhà bạn."
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.notAFlight"
+msgstr "Vé này giữ chỗ của bạn trong chuyến đi, không phải vé máy bay."
+
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
 msgid "proposal.build.trailer"
 msgstr "Trailer"
@@ -875,12 +1070,13 @@ msgstr "Trailer"
 msgid "proposal.card.a11y"
 msgstr "Đề xuất chuyến đi"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.failedSub"
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.board.refusedSub"
 msgstr "Thử lại sau chút nhé."
 
-#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
-msgid "proposal.board.refusedSub"
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failedSub"
 msgstr "Thử lại sau chút nhé."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
@@ -908,6 +1104,14 @@ msgstr "Ai ở lại nhóm chat"
 msgid "proposal.dropout.back"
 msgstr "Ai đi"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.open"
+msgstr "Ai đi?"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waiting.button"
+msgstr "Ai đi?"
+
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.track"
 msgstr "Ai đi?"
@@ -924,7 +1128,7 @@ msgstr "Ai đi?"
 msgid "proposal.lock.confirmYes"
 msgstr "Ừ, chốt luôn"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.mustDo"
 msgstr "Bạn đã thêm mục này vào việc phải làm lúc chuẩn bị."
 
@@ -932,25 +1136,46 @@ msgstr "Bạn đã thêm mục này vào việc phải làm lúc chuẩn bị."
 msgid "proposal.lock.nobody"
 msgstr "Có người nói đi thì bạn mới chốt chuyến được."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.onlyHere"
 msgstr "Chỉ ở đây mới có."
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.maybeDone"
 msgstr "Bạn đã nói có thể"
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.maybe"
+msgstr "Bạn đã nói có thể. Chốt đi hay không trước khi chuyến đi được chốt nhé."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.saidMaybe"
+msgstr "Bạn đã nói có thể. Khi nào chắc thì trả lời đi hay không nhé."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.out"
+msgstr "Bạn đã nói không đi được."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.out"
 msgstr "Bạn đã nói không đi được."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.taste"
 msgstr "Bạn sẽ mê"
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.youreIn"
 msgstr "Bạn có tên rồi. Hẹn gặp ở đó nhé."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.inPlain"
+msgstr "Bạn có tên rồi. Chuyến đi được xác nhận khi đã chốt."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.in"
+msgstr "Bạn có tên rồi. Đang chờ {organiser} chốt chuyến đi."
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.position"
@@ -960,7 +1185,7 @@ msgstr "Bạn đứng thứ {position} trong danh sách chờ."
 msgid "proposal.build.offline"
 msgstr "Bạn đang ngoại tuyến. Hướng dẫn viên cần có mạng để viết lại các bản."
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.waitlisted"
 msgstr "Bạn đang trong danh sách chờ."
 
@@ -968,7 +1193,11 @@ msgstr "Bạn đang trong danh sách chờ."
 msgid "proposal.seat.waiting"
 msgstr "Bạn đang trong danh sách chờ."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.finishDraft"
+msgstr "Bản nháp đã xong. Chỉ mình bạn thấy cho tới khi gửi."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.mustDo"
 msgstr "Việc phải làm của bạn"
 
@@ -977,6 +1206,7 @@ msgid "proposal.queued.option"
 msgstr "Lựa chọn riêng của bạn"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.refused"
 msgstr "Câu trả lời của bạn chưa gửi được"
 
