@@ -6,3 +6,132 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.thinking"
+msgstr ""
+
+#. placeholder {0}: String(stay.minutes)
+#. placeholder {1}: stay.name
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.costEach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.costCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.back"
+msgstr ""
+
+#. placeholder {0}: String(want.length)
+#. placeholder {1}: String(ratherNot.length)
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.posted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteLong"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.ratherNot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.say"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.suggestSecond"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.noteSeen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-view.tsx
+msgid "explore.split.ways"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.update"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.want"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
+msgid "explore.split.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/commands.ts
+msgid "explore.split.queued.stance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-model.ts
+msgid "explore.split.silentYou"
+msgstr ""
