@@ -14,6 +14,9 @@ const TRIGGERS: Readonly<Record<string, PlanCheckJob['trigger']>> = {
   'plan.version_created': 'plan',
   'plan.ops_applied': 'plan',
   'change_set.applied': 'plan',
+  // A draft becomes the crew's plan without a new version: sending it and locking it in.
+  'proposal.sent': 'plan',
+  'proposal.locked': 'plan',
   'plan.legs_updated': 'legs',
   'trip_idea.saved': 'ideas',
   'trip_idea.removed': 'ideas',

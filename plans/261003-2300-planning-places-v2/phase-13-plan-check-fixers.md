@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: Plan check and its fixers
-status: in progress
+status: in review (#630)
 depends_on: [1, 3, 4, 5, 7]
 wave: 4
 screens: [7h-1, 7h-2, 7h-3, 7h-4, 7h-5]
@@ -90,55 +90,55 @@ Reuse / extend / new: reuse `scheduleDay`, lock rules, `suggestWeatherMove`, the
 - Steps: 1. Reorder with fixed booked stops and windows. 2. Swaps (rain + crowds, travel-aware). 3. Too-far alternative via fit + nearby candidates passed in. 4. Register; summaries as params.
 - Tests: `pnpm --filter @cp/planner test -- reorder swaps fixers` (property tests, 60 s budget: a booked stop's time never changes; reorder never increases drive minutes; swaps never put an outdoor block into a wetter hour)
 - Done when: Bali Tuesday goes 2h10 → 1h05 with the cooking class fixed; Wednesday's three swaps match 7h-4.
-- Status: todo
+- Status: done — 8947fa230
 
 ### T2 — Fixer routes and commands
 - Files: `services/api/src/planning/fixers/**`, `services/api/src/commands/checks/{apply-check-fix,ask-member-about-saves,answer-member-ask}.ts`, `services/api/test/{planning/fixers,commands/checks}/**`
 - Steps: 1. Reorder and swaps routes with chart data. 2. Fix-all into one draft. 3. `apply_check_fix` with guide-action inverse (undo from the trip feed) and the member path. 4. `ask_member_about_saves` + `answer_member_ask` with the private line and inbox action.
 - Tests: `pnpm test:remote @cp/api -- commands/checks planning/fixers` (organiser applies + undo restores; member gets a change set; a non-organiser cannot ask; the ask never reaches another member's streams)
 - Done when: undoing a one-liner from the trip feed restores the plan version's items.
-- Status: todo
+- Status: done — 4a3e05b5c
 
 ### T3 — Plan check screen (7h-1)
 - Files: `apps/mobile/src/features/plan/check/{check-screen,issue-card,issue-copy,use-fix}.ts(x)`, `apps/mobile/src/app/(trip)/[tripId]/check/index.tsx`, `packages/i18n/locales/{en,vi}/plan/check.*`
 - Steps: 1. Header, headline, cards dealt worst first (stagger; reduce motion = fade). 2. Issue copy from params. 3. FIX paths. 4. FIX ALL → review. 5. Balance row for organisers. 6. Register `7h-1`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/check/use-fix` (organiser vs member path; stale issue refreshes)
 - Done when: the trip map's CHECK and the whole-trip SEE open this screen with the seed's 3 + 2.
-- Status: todo
+- Status: done — f1aef17af
 
 ### T4 — Less driving (7h-3)
 - Files: `apps/mobile/src/features/plan/check/less-driving/**`, `apps/mobile/src/app/(trip)/[tripId]/check/less-driving/[dayId].tsx`
 - Steps: 1. Count-down and before/after sketches. 2. Rows with locks and WAS badges, spring re-sort. 3. Use / send. 4. Register `7h-3`.
 - Tests: none beyond typecheck (the engine is tested in T1)
 - Done when: USE THIS ORDER applies and the day plan shows the new order with new legs.
-- Status: todo
+- Status: done — 704c0a553
 
 ### T5 — Rain and crowds (7h-4)
 - Files: `apps/mobile/src/features/plan/check/rain-crowds/**`, `apps/mobile/src/app/(trip)/[tripId]/check/rain/[dayId].tsx`
 - Steps: 1. Chart with band, crowds, NOW/SWAPPED lanes; pulse on the clash. 2. Swap ticks slide blocks. 3. Source line per the crowd decision. 4. Weather change set shown as swaps; dismissal. 5. Register `7h-4`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/check/rain-crowds/use-swaps` (ticks → ops; weather change set merge)
 - Done when: the day plan's "SEE" under the ridge walk opens this screen and USE ALL 3 applies.
-- Status: todo
+- Status: done — 85d002d92
 
 ### T6 — Fill a gap (7h-2)
 - Files: `apps/mobile/src/features/plan/check/fill-gap/**`, `apps/mobile/src/app/(trip)/[tripId]/check/gap.tsx`
 - Steps: 1. Sheet over the trip map with the gap params. 2. Ideas, chips, CTA following the pick. 3. Map preview via `usePlanningMapPreview`. 4. Add for the free people; "Something else" → search. 5. Register `7h-2`.
 - Tests: none beyond typecheck (gap ideas tested in phase 4)
 - Done when: FILL IT on Wed 16:00 adds coffee + market for the four free people.
-- Status: todo
+- Status: done — 125aa311a
 
 ### T7 — Balance the crew (7h-5)
 - Files: `apps/mobile/src/features/plan/check/balance/**`, `apps/mobile/src/app/(trip)/[tripId]/check/balance.tsx`
 - Steps: 1. Organiser gate (route and entry). 2. Numbers on the phone from synced must-dos, idea backers and plan items (or the server route if the founder chooses it). 3. Suggestions for anyone at zero. 4. ADD BOTH / ASK FIRST. 5. Register `7h-5`.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/check/balance/model` (saves counted once per place; must-do ✓ only when placed; non-organiser gets nothing)
 - Done when: Dev goes from 0 to 2 of 3 after ADD BOTH; ASK sends Dev an inbox action and nothing to crew chat.
-- Status: todo
+- Status: done — 8fee64108
 
 ### T8 — Device flows and undesigned states
 - Files: `e2e/plan/{plan-check,less-driving,rain-crowds,fill-gap,balance}.yaml`, `docs/undesigned-states.md`
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/plan/plan-check.yaml,e2e/plan/less-driving.yaml,e2e/plan/rain-crowds.yaml,e2e/plan/fill-gap.yaml" -f mode=compare -f pr=<n> -f shards=1`; `balance.yaml` separately (two accounts)
 - Done when: sheets reviewed; `ui-reviewed` applied.
-- Status: todo
+- Status: done — 213f7899a (sheets posted on #630; the review and `ui-reviewed` are the controller's)
 
 ## Device flows
 
