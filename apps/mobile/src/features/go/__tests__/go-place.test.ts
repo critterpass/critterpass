@@ -96,9 +96,12 @@ describe('GO from a flight leave-by', () => {
       poiId: null,
       tripId: TRIP,
       destinationSlug: 'da-nang',
-      airport: { iata: 'DAD', city: 'Da Nang' },
+      airport: { iata: 'DAD', city: 'Đà Nẵng' },
     });
     expect(place?.name).toMatch(/Da Nang/u);
+    // Vietnam's airports carry their own names; the rest keep the bundled list's city.
+    expect(bundledAirportAt('sgn')?.city).toBe('Tân Sơn Nhất');
+    expect(bundledAirportAt('SIN')?.city).toBe('Singapore');
     expect(place?.lat).toBeCloseTo(16.04, 1);
     expect(place?.lng).toBeCloseTo(108.2, 1);
     await expect(

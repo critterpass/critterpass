@@ -191,7 +191,7 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
       overrides={{
         now: AT_0440,
         leaveBy: airportLeaveBy(),
-        goDetail: 'Ho Chi Minh City airport (SGN)',
+        goDetail: 'Tân Sơn Nhất airport (SGN)',
         forecast: '26°',
         pack: [],
         timeline: DA_NANG_FIRST_DAY,
