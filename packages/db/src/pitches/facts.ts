@@ -50,13 +50,17 @@ interface PlaceRow {
   country: string | null;
   coverage: 'live' | 'guest';
   guide: string | null;
+  /** The guide of the destination's own critter, while guides go by city. */
+  city_guide: string | null;
   set_id: string | null;
   month_hints: { crowd: number }[] | null;
 }
 
 async function loadPlace(tx: pg.PoolClient, placeId: string): Promise<PlaceRow | undefined> {
   const { rows } = await tx.query<PlaceRow>(
-    `SELECT d.id, d.name, d.country, d.coverage, s.guide_slug AS guide, s.id AS set_id, s.month_hints
+    `SELECT d.id, d.name, d.country, d.coverage, s.guide_slug AS guide, s.id AS set_id, s.month_hints,
+            (SELECT g.slug FROM guides g
+              WHERE g.critter_key = d.critter_key AND app.guides_per_city()) AS city_guide
        FROM destinations d LEFT JOIN critter_sets s ON s.id = d.critter_set_id
       WHERE d.id = $1`,
     [placeId],
@@ -220,7 +224,7 @@ export async function loadPitchFacts(
       name: place.name,
       country: place.country,
       coverage: place.coverage,
-      guide: place.coverage === 'live' ? (place.guide ?? 'tokek') : 'tokek',
+      guide: place.city_guide ?? (place.coverage === 'live' ? (place.guide ?? 'tokek') : 'tokek'),
     },
     crew: { name: crews[0]?.name ?? '', size: Math.max(1, members.length) },
     month: Number(month.slice(5, 7)),

@@ -1,0 +1,205 @@
+appId: app.critterpass.dev
+---
+# The crew live map, the SOS session map and the critter spots map in a destination with no region
+# pack: each draws on the world tiles alone and says a detailed map is on its way, above its panel
+# or card, in English and in Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-live-map
+      SCENE: live-map-scene-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-screen'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'A detailed map of Bali is on its way.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-live-map-without-region-pack
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-help-lab
+      SCENE: help-lab-sos-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'sos-map-screen'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'A detailed map of Đà Lạt is on its way.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-sos-map-without-region-pack
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-critters-lab
+      SCENE: critters-lab-near-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'critters-near-map-scene'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'A detailed map of Bali is on its way.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-critter-spots-without-region-pack
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-live-map
+      SCENE: live-map-scene-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-screen'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'Bản đồ chi tiết của Bali sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-live-map-without-region-pack
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-help-lab
+      SCENE: help-lab-sos-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'sos-map-screen'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'Bản đồ chi tiết của Đà Lạt sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-sos-map-without-region-pack
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-critters-lab
+      SCENE: critters-lab-near-map-no-pack
+- extendedWaitUntil:
+    visible:
+      id: 'critters-near-map-scene'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 30000
+- assertVisible: 'Bản đồ chi tiết của Bali sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-critter-spots-without-region-pack

@@ -196,7 +196,7 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
   'guides.per_city': {
     group: 'limits',
     schema: z.boolean(),
-    isPublic: false,
+    isPublic: true,
     critical: true,
     description:
       "A trip's guide is the critter of its destination's city; off gives every city its country's guide",

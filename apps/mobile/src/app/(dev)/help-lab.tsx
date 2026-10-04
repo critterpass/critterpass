@@ -22,7 +22,7 @@ export default function HelpLab() {
           onPress={() => router.push(HELP_ROUTES.hub)}
           testID="help-lab-live"
         />
-        {HELP_SCENE_NAMES.map((name) => (
+        {[...HELP_SCENE_NAMES, 'sos-map-no-pack'].map((name) => (
           <ListCard
             key={name}
             title={name}
