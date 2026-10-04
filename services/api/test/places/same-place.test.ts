@@ -1,0 +1,57 @@
+import { describe, expect, it } from 'vitest';
+
+import { onePerPlace, sameSearchPlace } from '../../src/places/same-place';
+
+const at = (name: string, category: string, lat: number, lng: number) => ({
+  name,
+  category,
+  lat,
+  lng,
+});
+
+describe('one row per place in a search answer', () => {
+  const pick = at('Biệt Thự Hằng Nga - Crazy House Đà Lạt', 'other', 11.9347, 108.4307);
+  const hotel = at('The Crazy House', 'stay', 11.9348, 108.4308);
+  const museum = at('Hang Nga Crazy House', 'museum', 11.9346, 108.4306);
+
+  it('answers a villa, its hotel listing and its museum listing as the first of them', () => {
+    expect(onePerPlace([pick, hotel, museum], 'Đà Lạt')).toEqual([pick]);
+  });
+
+  it('keeps the first row whatever its kind when the names only overlap', () => {
+    expect(onePerPlace([hotel, museum], 'Đà Lạt')).toEqual([hotel]);
+  });
+
+  it('lets a sight of the same name take its hotel listing’s position', () => {
+    const sight = at('Crazy House', 'museum', 11.9347, 108.4307);
+    const cafe = at('Windmills Cafe', 'food', 11.94, 108.44);
+    expect(onePerPlace([hotel, cafe, sight], 'Đà Lạt')).toEqual([sight, cafe]);
+  });
+
+  it('keeps two places of one name that lie far apart', () => {
+    const temple = at('Pura Dalem Ubud', 'temple_shrine', -8.5035, 115.2587);
+    const far = at('Pura Dalem Ubud', 'museum', -8.56, 115.28);
+    expect(onePerPlace([temple, far], 'Bali')).toEqual([temple, far]);
+  });
+
+  it('merges one name across kinds within a few hundred metres', () => {
+    const temple = at('Tanah Lot', 'temple_shrine', -8.6212, 115.0868);
+    const other = at('Tanah Lot', 'other', -8.6205, 115.0875);
+    expect(sameSearchPlace(temple, other, 'Bali')).toBe(true);
+  });
+
+  it('does not merge on one shared word or on a name the destination alone makes', () => {
+    const warung = at('Warung', 'food', -8.5, 115.26);
+    const made = at('Warung Made', 'food', -8.5, 115.26);
+    expect(sameSearchPlace(warung, made, 'Bali')).toBe(false);
+    expect(sameSearchPlace(at('Bali', 'other', 0, 0), at('Bali', 'other', 0, 0), 'Bali')).toBe(
+      false,
+    );
+  });
+
+  it('keeps neighbours with different names', () => {
+    const a = at('Tanah Lot Sunset Terrace', 'food', -8.6212, 115.0868);
+    const b = at('Tanah Lot Art Market', 'market', -8.6213, 115.0869);
+    expect(onePerPlace([a, b], 'Bali')).toEqual([a, b]);
+  });
+});

@@ -111,6 +111,7 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
             limit: query.limit ?? 20,
             fit: trip.fit === '1',
             relax: trip.relax === '1',
+            ...(trip.words === undefined || trip.words === '' ? {} : { words: trip.words }),
           },
           planned,
         ),
