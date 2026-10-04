@@ -12,7 +12,7 @@ import type { GuideThreadMode } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
-import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Sticker } from '@/ui/sticker/Sticker';
 
@@ -77,7 +77,7 @@ export function GuideHeader({
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
-  const sticker = GUIDE_STICKERS[guideAvatarId(guideSlug)];
+  const sticker = guideSticker(guideAvatarId(guideSlug));
   return (
     <Stack gap="8" testID="guide-header">
       <Row style={styles.root}>

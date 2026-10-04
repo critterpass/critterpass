@@ -8,7 +8,7 @@ import Animated from 'react-native-reanimated';
 
 import { SLAP_STAGGER_MS, useSlap } from '@/motion/patterns/slap';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideAvatarId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 /**
@@ -42,7 +42,7 @@ export function Floater({
   index = 0,
 }: (typeof FLOATERS)[number] & { readonly waiting?: boolean; readonly index?: number }) {
   const float = useLoop('float', { offset });
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const vertical: ViewStyle =
     bottom === undefined ? { top: `${(y ?? 0) * 100}%` } : { bottom: `${bottom * 100}%` };
   return (

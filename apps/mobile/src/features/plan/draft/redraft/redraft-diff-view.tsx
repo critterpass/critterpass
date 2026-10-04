@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { TypingDots } from '@/ui/chat/TypingDots';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -82,8 +82,7 @@ export interface RedraftDiffViewProps {
 
 function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: number | null }) {
   const styles = useStyles();
-  const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const n = dayNo ?? 0;
   return (
@@ -94,7 +93,7 @@ function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: n
           ? t({ id: 'planDraft.diff.thinkingAny', message: `${guideName} is redrafting` })
           : t({ id: 'planDraft.diff.thinking', message: `${guideName} is redrafting day ${n}` })}
       </Text>
-      <TypingDots color={theme.guide[guide]} />
+      <TypingDots color={guideColour(guide)} />
     </View>
   );
 }
@@ -112,7 +111,7 @@ function Outcome({
 }) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   return (
     <View style={styles.centre} testID="redraft-outcome">
       <Sticker kind={info.kind} name={info.name} pose="think" size={THINKING} />
@@ -135,7 +134,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
   const { guide, phase, dayNo } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const n = dayNo ?? 0;
   const old = props.baseTitle ?? '';

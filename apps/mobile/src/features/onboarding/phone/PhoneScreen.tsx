@@ -17,7 +17,7 @@ import { deviceLastUid } from '@/data/app-session/last-uid-store';
 import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { CodeBoxes } from '@/ui/inputs/CodeBoxes';
@@ -129,7 +129,7 @@ export function PhoneScreen() {
     return undefined;
   }, [flow.state, returning, analytics, services]);
 
-  const lundi = GUIDE_STICKERS.lundi;
+  const lundi = guideSticker('lundi');
   return (
     <>
       <Scaffold variant="dark" edges={['top', 'bottom']} testID="onboarding-phone">

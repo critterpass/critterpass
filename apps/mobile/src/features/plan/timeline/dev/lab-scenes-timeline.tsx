@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { toast } from '@/motion/island-toast';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Text } from '@/ui/text/Text';
 
 import { labDay } from '../../day/dev/lab-scenes-day';
@@ -172,7 +172,7 @@ const cursors =
   );
 const banner = () => (
   <GuideBanner
-    guide={GUIDE_STICKERS.tokek}
+    guide={guideSticker('tokek')}
     line={t({
       id: 'plan.timeline.bannerRain',
       message: `Rain till ${'15:00'}. Move ${'Ridge walk'}?`,

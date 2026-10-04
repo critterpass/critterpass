@@ -9,7 +9,7 @@ import { View } from 'react-native';
 
 import { screenCredits, type PlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { makeStyles, Text, useTheme } from '@/ui';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { PhotoCredit, PlaceRow, PlanningTag } from '@/ui/planning';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -67,7 +67,7 @@ export function OfflineResults(props: OfflineResultsProps) {
   const destination = props.destination;
   const date = props.syncedOn;
   const queued = props.queued;
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   return (
     <View style={{ gap: theme.space['12'] }} testID="search-offline-results">
       <View style={styles.head}>

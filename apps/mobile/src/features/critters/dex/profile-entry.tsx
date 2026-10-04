@@ -3,7 +3,7 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { Pressable } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideAvatarId } from '@/ui/avatar/guides';
 import { Avatar } from '@/ui/people/Avatar';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { touchSlop } from '@/ui/theme';
@@ -21,7 +21,7 @@ const PROFILE_FACE = 32;
 
 /** A 32 pt face with a full-size touch target around it, so the title line keeps its height. */
 export function ProfileEntry({ entry }: { readonly entry: DexProfileEntry }) {
-  const guide = entry.guide === null ? null : GUIDE_STICKERS[entry.guide];
+  const guide = entry.guide === null ? null : guideSticker(entry.guide);
   return (
     <Pressable
       onPress={entry.onOpen}

@@ -20,6 +20,7 @@ import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 import { PhotoCredit, type DayChip } from '@/ui/planning';
 
+import { usePlanGuide } from '../plan-guide';
 import { addRoute } from '../add/routes';
 import { ideaIcon } from './idea-icon';
 import { IdeaRow } from './idea-row';
@@ -40,6 +41,7 @@ const IDEAS_FILTER = { filter: 'ideas' } as const;
 export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
   const plan = useTripPlan(tripId);
+  const guideName = usePlanGuide().name;
   const { ideas, loaded } = useTripIdeas(tripId);
   const start = useCommand(startIdeaPlacementOnline);
   const [starting, setStarting] = useState(false);
@@ -91,7 +93,10 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     if (jobId === undefined) {
       toast.show({
         id: 'plan-ideas-place-failed',
-        title: t({ id: 'plan.ideas.placeFailed', message: 'Tokek couldn’t start placing them' }),
+        title: t({
+          id: 'plan.ideas.placeFailed',
+          message: `${guideName} couldn’t start placing them`,
+        }),
         subtitle: t({ id: 'plan.ideas.placeFailedLine', message: 'Try again with signal.' }),
       });
       return;
@@ -151,7 +156,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
 
   return (
     <IdeasView
-      body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length)}
+      body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length, guideName)}
       days={chips}
       dropTarget={drag.dragging === null ? undefined : { overDayNo: drag.overDayNo }}
       chipsRef={drag.chipsRef}
@@ -167,7 +172,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       empty={
         loaded && ideas.length === 0
           ? {
-              guide: plan.trip?.guide_name ?? t({ id: 'plan.ideas.guide', message: 'Tokek' }),
+              guide: guideName,
               line: emptyLine(),
             }
           : null

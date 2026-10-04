@@ -5,7 +5,7 @@
  */
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { CountUp } from '@/ui/data/CountUp';
 import { Icon } from '@/ui/icons/Icon';
@@ -86,7 +86,7 @@ export function RouteCard({
 }: RouteCardProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   const reached = useCardTimeline([300, ...stopTimes(stops.length)]);
   const rolling = reached > 0;
   return (
