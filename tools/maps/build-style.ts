@@ -31,7 +31,8 @@ export const TILES_PUBLIC_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f19
 const DEFAULT_REGION_PLACEHOLDER = `pmtiles://${TILES_PUBLIC_BASE_URL}/kyoto/tiles-v1.pmtiles`;
 
 const ARCHIVO_FONT = 'Archivo-W100-700 Regular';
-const CAVEAT_FONT = 'Caveat-600 Regular';
+/** Hand-drawn place names. Borel covers Latin and every Vietnamese letter ("Đà Nẵng"). */
+const HAND_DRAWN_FONT = 'Borel-400 Regular';
 
 export function buildCritterpassDarkStyle(): StyleSpecification {
   const mapBase = tokens.color.map.base;
@@ -99,8 +100,8 @@ export function buildCritterpassDarkStyle(): StyleSpecification {
         maxzoom: 9,
         layout: {
           'text-field': ['get', 'name'],
-          'text-font': [CAVEAT_FONT],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 0, 10, 8, 20],
+          'text-font': [HAND_DRAWN_FONT],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 0, 8, 8, 16],
         },
         paint: { 'text-color': paperBright, 'text-halo-color': mapBase, 'text-halo-width': 1.5 },
       },
@@ -212,8 +213,8 @@ export function buildCritterpassDarkStyle(): StyleSpecification {
         filter: ['in', ['get', 'class'], ['literal', ['city', 'town']]],
         layout: {
           'text-field': ['coalesce', ['get', 'name:latin'], ['get', 'name']],
-          'text-font': [CAVEAT_FONT],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 6, 16, 12, 26],
+          'text-font': [HAND_DRAWN_FONT],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 6, 13, 12, 20],
         },
         paint: { 'text-color': paperBright, 'text-halo-color': mapBase, 'text-halo-width': 1.5 },
       },

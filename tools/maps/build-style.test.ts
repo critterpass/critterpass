@@ -20,6 +20,17 @@ describe('buildCritterpassDarkStyle', () => {
     expect(style.sprite).toContain('r2.dev/sprite/sprite');
   });
 
+  it('draws every label in a fontstack that has Vietnamese glyph ranges on the bucket', () => {
+    const fonts = buildCritterpassDarkStyle().layers.flatMap((layer) => {
+      const font = layer.type === 'symbol' ? layer.layout?.['text-font'] : undefined;
+      return font === undefined ? [] : [font];
+    });
+    expect(fonts.length).toBeGreaterThan(0);
+    for (const font of fonts) {
+      expect([['Archivo-W100-700 Regular'], ['Borel-400 Regular']]).toContainEqual(font);
+    }
+  });
+
   it('rejects a style with an invalid layer reference', () => {
     const style = buildCritterpassDarkStyle();
     const broken = {

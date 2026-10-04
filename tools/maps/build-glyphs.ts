@@ -1,10 +1,11 @@
 /**
  * Generates real SDF glyph PBF ranges (MapLibre's `{fontstack}/{range}.pbf` layout) for the two
- * fontstacks `build-style.ts` references: Archivo Bold (road/POI labels) and Caveat SemiBold (the
- * hand-drawn place-name accent). Wraps `@kartore/glyphore`, a real SDF-PBF generator, against the
- * actual shipped TTFs: Archivo from `apps/mobile/assets/fonts`, and Caveat from `tools/maps/fonts`,
- * since the app no longer bundles it (the guide voice moved to Borel; map labels keep Caveat
- * until their glyphs are regenerated and uploaded). Generalises
+ * fontstacks `build-style.ts` references: Archivo Bold (road/POI labels) and Borel (the hand-drawn
+ * place-name accent, Latin and full Vietnamese). Wraps `@kartore/glyphore`, a real SDF-PBF
+ * generator, against the TTFs the app bundles in `apps/mobile/assets/fonts`. Caveat SemiBold
+ * (`tools/maps/fonts`) is still generated: the style used it for place names before Borel, it
+ * lacks most Vietnamese letters, and installed builds with the older style still request its
+ * ranges, so its files stay in the bucket. Generalises
  * `tools/spikes/tiles/generate-fonts.ts` from a spike-local output path to this package's, no
  * behaviour change.
  */
@@ -17,10 +18,11 @@ const MAPS_FONTS_DIR = path.resolve(import.meta.dirname, 'fonts');
 
 // glyphore derives each fontstack's on-disk folder name from the TTF's own name table (family +
 // style), not from this list — `build-style.ts`'s `text-font` values must match those derived
-// names exactly: "Archivo-W100-700 Regular" and "Caveat-600 Regular" (verified by running this
-// script during the tiles spike; see docs/decisions/20260927-maplibre-pmtiles-on-r2.md).
+// names exactly: "Archivo-W100-700 Regular", "Borel-400 Regular" and "Caveat-600 Regular"
+// (verified by running this script; see docs/decisions/20260927-maplibre-pmtiles-on-r2.md).
 const FONTS: readonly string[] = [
   path.join(MOBILE_FONTS_DIR, 'Archivo-W100-700.ttf'),
+  path.join(MOBILE_FONTS_DIR, 'Borel-400.ttf'),
   path.join(MAPS_FONTS_DIR, 'Caveat-600.ttf'),
 ];
 

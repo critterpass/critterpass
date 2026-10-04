@@ -69,8 +69,8 @@
       "maxzoom": 9,
       "layout": {
         "text-field": ["get", "name"],
-        "text-font": ["Caveat-600 Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 0, 10, 8, 20]
+        "text-font": ["Borel-400 Regular"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 0, 8, 8, 16]
       },
       "paint": {
         "text-color": "#fffdf6",
@@ -220,8 +220,8 @@
       "filter": ["in", ["get", "class"], ["literal", ["city", "town"]]],
       "layout": {
         "text-field": ["coalesce", ["get", "name:latin"], ["get", "name"]],
-        "text-font": ["Caveat-600 Regular"],
-        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 16, 12, 26]
+        "text-font": ["Borel-400 Regular"],
+        "text-size": ["interpolate", ["linear"], ["zoom"], 6, 13, 12, 20]
       },
       "paint": {
         "text-color": "#fffdf6",
