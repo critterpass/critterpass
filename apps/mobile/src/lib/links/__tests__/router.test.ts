@@ -41,6 +41,10 @@ describe('routeIncomingUrl after onboarding', () => {
     ['https://critterpass.app/locals/bali', '/critters?place=bali'],
     ['https://critterpass.app/app/vote/123', '/vote/123'],
     ['critterpass://trip/abc/day/2', '/trip/abc/day/2'],
+    [`critterpass://trips/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
+    [`critterpass://hub/${TRIP}`, `/trips/${TRIP}`],
+    [`critterpass://hub/${TRIP}/day/2026-10-17`, `/trips/${TRIP}/day/2026-10-17`],
+    [`critterpass://hub/${TRIP}/offline`, `/hub/${TRIP}/offline`],
     [
       'critterpass-dev://i/BAX6XA',
       '/onboarding/invite/ticket?code=BAX6XA&kind=invite&state=active',

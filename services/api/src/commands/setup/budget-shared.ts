@@ -31,9 +31,9 @@ export async function loadBudgetEstimates(
 }
 
 /**
- * $50 in the crew currency (two significant digits). With no rate for that currency there is no
- * step: `null`, never a dollar-sized one (5,000 minor units is $50 but only 5,000 ₫). A dollar
- * crew needs no rate.
+ * The knob's step in the crew currency: an amount people say out loud (500k ₫, ¥5,000, $50), or
+ * the round amount nearest $50 for a currency without a step of its own. Such a currency with no
+ * rate has no step: `null`, never a dollar-sized one (5,000 minor units is $50 but only 5,000 ₫).
  */
 export function budgetStep(estimates: BudgetEstimates): bigint | null {
   try {
@@ -45,7 +45,7 @@ export function budgetStep(estimates: BudgetEstimates): bigint | null {
 
 /**
  * The currency and step every target is held to: the published row's, else the estimates'. Both
- * are public price facts (the crew currency and $50 in it), so the band read may hand them to the
+ * are public facts (the crew currency and its step), so the band read may hand them to the
  * app at any crew size. The step is `null` while the crew currency has no rate.
  */
 export function lockGrid(

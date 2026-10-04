@@ -145,6 +145,10 @@ export const planChecks = pgTable('plan_checks', {
   knowCount: integer('know_count').notNull().default(0),
   runsOn: date('runs_on', { mode: 'string' }),
   runsToday: integer('runs_today').notNull().default(0),
+  /** Issues kept as they are: quiet marks (packages/domain planCheckQuietSchema). */
+  quiet: jsonb('quiet')
+    .notNull()
+    .default(sql`'[]'::jsonb`),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

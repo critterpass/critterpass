@@ -201,7 +201,7 @@ export const SYNCED_TABLE_COLUMNS = {
   plan_check_issues:
     'trip_id version_id kind severity day_id stable_ids params fix rank:integer fingerprint created_at updated_at',
   plan_checks:
-    'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer created_at updated_at',
+    'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer quiet created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at i18n',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id custom_place provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',

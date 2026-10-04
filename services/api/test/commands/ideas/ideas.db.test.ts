@@ -218,15 +218,50 @@ describe('the ♡ on a place page and remove_idea', () => {
     expect(live).toHaveLength(0);
   });
 
-  it('lets a backer leave, refuses a member who never backed it, and lets an organiser remove it', async () => {
+  it('lets a backer leave, an organiser included, and removes it for everyone only when an organiser asks', async () => {
     const [, first, second] = crew.members as [SignedIn, SignedIn, SignedIn];
     const idea = (await ideas()).find((row) => row.name === 'Kinkaku-ji')!;
-    const left = await harness.run(first, 'remove_idea', { idea_id: idea.id });
+    const remove = (who: SignedIn, forEveryone?: boolean) =>
+      harness.run(who, 'remove_idea', {
+        idea_id: idea.id,
+        ...(forEveryone === undefined ? {} : { for_everyone: forEveryone }),
+      });
+    const left = await remove(first);
     expect(resultOf(left)).toEqual({ idea_id: idea.id, removed: false, backer_ids: [second.uid] });
-    const denied = await harness.run(first, 'remove_idea', { idea_id: idea.id });
-    expect(errorOf(denied)).toMatchObject({ code: 'FORBIDDEN', detail: { reason: 'not_backer' } });
-    const removed = await harness.run(crew.organiser, 'remove_idea', { idea_id: idea.id });
-    expect(resultOf<{ removed: boolean }>(removed).removed).toBe(true);
+    expect(errorOf(await remove(first))).toMatchObject({
+      code: 'FORBIDDEN',
+      detail: { reason: 'not_backer' },
+    });
+
+    // The organiser's own un-save takes back her save and nobody else's.
+    const backed = await harness.run(crew.organiser, 'save_idea', {
+      trip_id: crew.tripId,
+      poi_id: temple,
+      source: 'save',
+    });
+    expect(resultOf<{ idea_id: string }>(backed).idea_id).toBe(idea.id);
+    expect(resultOf(await remove(crew.organiser))).toEqual({
+      idea_id: idea.id,
+      removed: false,
+      backer_ids: [second.uid],
+    });
+    expect(errorOf(await remove(crew.organiser, false))).toMatchObject({
+      code: 'FORBIDDEN',
+      detail: { reason: 'not_backer' },
+    });
+
+    expect(errorOf(await remove(second, true))).toMatchObject({
+      code: 'FORBIDDEN',
+      detail: { reason: 'organiser_only' },
+    });
+    expect((await ideas()).find((row) => row.id === idea.id)?.deleted_at).toBeNull();
+    const removed = await remove(crew.organiser, true);
+    expect(resultOf(removed)).toEqual({
+      idea_id: idea.id,
+      removed: true,
+      backer_ids: [second.uid],
+    });
+    expect((await ideas()).find((row) => row.id === idea.id)?.deleted_at).not.toBeNull();
     const saved = await harness.run(first, 'save_idea', {
       trip_id: crew.tripId,
       poi_id: temple,

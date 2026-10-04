@@ -4,7 +4,7 @@
  */
 import { z } from 'zod';
 
-import { REDRAFT_REASONS } from './commands';
+import { REDRAFT_REASON_KEYS } from './commands';
 
 export const DRAFT_EVENT_TYPES = [
   'draft.requested',
@@ -44,7 +44,7 @@ export const DRAFT_EVENT_PAYLOADS = {
   }),
   'redraft.requested': redraft.extend({
     day_no: z.number().int().positive(),
-    reasons: z.array(z.enum(REDRAFT_REASONS)),
+    reasons: z.array(z.enum(REDRAFT_REASON_KEYS)),
     free: z.boolean(),
   }),
   'redraft.delivered': redraft.extend({ outcome: z.enum(['changed', 'identical']) }),
