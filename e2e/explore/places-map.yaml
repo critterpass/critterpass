@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 # fade) and its count in the chip row; ≡ LIST shows the same places as rows. A picked place (7c-2)
 # is shot in the lab scenes (map.yaml, map-vi.yaml): dots and bubbles are drawn on the map, outside
 # the view tree a flow can tap, and the place page no longer links to the map.
-# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub → Explore Bali.
+# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub → Explore Bali → all places.
 - runFlow: ../home/subflows/fresh-install.yaml
 - runFlow: ../home/subflows/onboard.yaml
 - runFlow:
@@ -26,17 +26,25 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'trip-hub-explore'
+# Explore in the trip lists "all places": the places list.
 - extendedWaitUntil:
     visible:
-      id: 'explore-(picks|months|writing)'
+      id: 'explore-trip'
     timeout: 45000
 - scrollUntilVisible:
     element:
-      id: 'explore-open-map'
+      id: 'explore-trip-all-places'
     direction: DOWN
-    timeout: 10000
+    timeout: 30000
 - tapOn:
-    id: 'explore-open-map'
+    id: 'explore-trip-all-places'
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 30000
+# ◎ MAP shows the same places on the map.
+- tapOn:
+    id: 'places-to-map'
 - extendedWaitUntil:
     visible:
       id: 'places-peek-count'
