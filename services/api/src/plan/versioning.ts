@@ -19,12 +19,14 @@ import {
   type PlanEdit,
   type PlanOp,
   type PlanOpsHint,
+  type PlanPush,
   type PlanState,
   type PlanStateItem,
 } from '@cp/domain';
 import type pg from 'pg';
 
 import { asSystemRole } from '../admin/command';
+import { writePushes } from './pushes';
 
 const COST_RECOMPUTE_QUEUE = 'cost.recompute';
 
@@ -162,6 +164,8 @@ export interface CommitInput {
   /** The plan ops for the realtime hint (null: the crew waits for sync). */
   readonly ops: readonly PlanOp[] | null;
   readonly changeSetId?: string;
+  /** The later stops this edit pushed for one stop of its own (`apply_plan_ops.pushed`). */
+  readonly pushed?: PlanPush | null;
 }
 
 function hintOps(ops: readonly PlanOp[] | null): readonly PlanOp[] | null {
@@ -256,6 +260,7 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
       baseVersionId,
     ]);
     await writeVersionRows(tx, { versionId: id, tripId: head.tripId, baseVersionId, next });
+    await writePushes(tx, id, input, loadPlanState);
     await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [head.tripId, id]);
     return id;
   });

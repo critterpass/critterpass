@@ -240,6 +240,38 @@ describe('a visit to a place filed as a stay', () => {
   });
 });
 
+describe('POST /v1/trips/{id}/plan/opening-check', () => {
+  it('names a stop pushed past its closing time, and is NOT_FOUND to an outsider', async () => {
+    const date = plan.dates[0] as string;
+    const body = {
+      stops: [
+        {
+          key: 'late',
+          poi_id: places[3],
+          starts_at: `${date}T19:00:00+09:00`,
+          ends_at: `${date}T20:00:00+09:00`,
+        },
+        {
+          key: 'fine',
+          poi_id: places[4],
+          starts_at: `${date}T10:00:00+09:00`,
+          ends_at: `${date}T11:00:00+09:00`,
+        },
+      ],
+    };
+    const request = (who: SignedIn, tripId: string) =>
+      harness.request(`/v1/trips/${tripId}/plan/opening-check`, {
+        method: 'POST',
+        headers: { cookie: who.cookie, 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+    const answer = await request(a.organiser, a.tripId);
+    expect(answer.status).toBe(200);
+    expect(await answer.json()).toEqual({ closed: [{ key: 'late', closes: '18:00' }] });
+    expect((await request(b.organiser, a.tripId)).status).toBe(404);
+  });
+});
+
 describe('nearby places and gap ideas', () => {
   it('lists curated places near a place by minutes, nearest first', async () => {
     const { status, body } = await get(
