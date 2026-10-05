@@ -13,7 +13,8 @@ appId: app.critterpass.dev
 # can wait for.
 - runFlow: ../happy/fresh-solo-confirm.yaml
 
-# English: the overview's day themes, a day, and one stop's note from the guide.
+# English: the trip map's day theme, the day plan's stops with the guide's notes under them, and
+# one stop's sheet.
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
@@ -29,27 +30,46 @@ appId: app.critterpass.dev
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'trip-map|day-plan'
     timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: en-3e-1-guide-text
-- tapOn:
-    id: 'plan-day-1'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 30000
+      - tapOn:
+          id: 'trip-map-day-chips-1'
+          optional: true
+      - waitForAnimationToEnd
+      - takeScreenshot: en-7a-1-guide-text
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'day-plan'
+    timeout: 20000
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-[0-9]+'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: en-3e-2-guide-text
+- takeScreenshot: en-7b-1-guide-text
 - tapOn:
-    id: 'plan-day-row-.*'
+    id: 'stop-[0-9]+'
     index: 0
 - extendedWaitUntil:
     visible:
       id: 'plan-item-place|plan-item-save|plan-item-skip'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: en-3e-2-guide-text-item
+- takeScreenshot: en-7b-1-guide-text-item
 
 # Vietnamese: switched in the running app (kept in memory: it survives links, not a relaunch).
 - runFlow:
@@ -90,24 +110,43 @@ appId: app.critterpass.dev
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'trip-map|day-plan'
     timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: vi-3e-1-guide-text
-- tapOn:
-    id: 'plan-day-1'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 30000
+      - tapOn:
+          id: 'trip-map-day-chips-1'
+          optional: true
+      - waitForAnimationToEnd
+      - takeScreenshot: vi-7a-1-guide-text
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'day-plan'
+    timeout: 20000
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-[0-9]+'
     timeout: 20000
 - waitForAnimationToEnd
-- takeScreenshot: vi-3e-2-guide-text
+- takeScreenshot: vi-7b-1-guide-text
 - tapOn:
-    id: 'plan-day-row-.*'
+    id: 'stop-[0-9]+'
     index: 0
 - extendedWaitUntil:
     visible:
       id: 'plan-item-place|plan-item-save|plan-item-skip'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: vi-3e-2-guide-text-item
+- takeScreenshot: vi-7b-1-guide-text-item

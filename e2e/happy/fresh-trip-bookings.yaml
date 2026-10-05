@@ -242,6 +242,10 @@ appId: app.critterpass.dev
     text: '(?i).*4 saved.*'
 - tapOn:
     id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map|day-plan'
+    timeout: 30000
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: bookings-plan

@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
-# From Home on a fresh trip: TRIPS, the plan's day cards, the first day's stops and the first
-# stop's sheet. ${LANG} prefixes the screenshots.
+# From Home on a fresh trip: TRIPS, PLAN (the trip map, or the day plan when PLAN opens on the day),
+# day 1's stops on the day plan, each named by its place, and the first stop's sheet. ${LANG}
+# prefixes the screenshots.
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
@@ -26,26 +27,44 @@ appId: app.critterpass.dev
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'trip-map|day-plan'
     timeout: 60000
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: ${LANG}-fresh-day-list
-# The overview shows a card per day; its first day opens the day's stops.
-- tapOn:
-    id: 'plan-day-1'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: ${LANG}-fresh-trip-map
+      - tapOn:
+          id: 'trip-map-day-chips-1'
+          optional: true
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-row-.*'
+      id: 'day-plan'
+    timeout: 30000
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-[0-9]+'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-fresh-day-stops
 - tapOn:
-    id: 'plan-day-row-.*'
+    id: 'stop-[0-9]+'
     index: 0
 - extendedWaitUntil:
     visible:
-      id: 'plan-item-place|plan-item-move-.*'
+      id: 'plan-item-place|plan-item-sheet-panel|plan-item-sheet'
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-fresh-day-item
