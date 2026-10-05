@@ -16,6 +16,8 @@ export interface PlaceRowIdentity {
   readonly category: string;
   readonly lat: number;
   readonly lng: number;
+  /** In the curated set or a machine pick, when the caller knows. */
+  readonly recommended?: boolean;
 }
 
 const SAME_NAME_M = 300;
@@ -69,6 +71,28 @@ export function sameSearchPlace(
   return wordsA.length <= wordsB.length ? within(wordsA, wordsB) : within(wordsB, wordsA);
 }
 
+/** Kinds of place there is one of: a sight, not a business that may have branches. */
+const SIGHT_KINDS = new Set(['temple_shrine', 'beach', 'nature', 'museum']);
+
+/**
+ * An open-data row that only repeats a recommended sight's name ("Tanah Lot" pinned a few
+ * kilometres from Tanah Lot Temple, or on the far coast) is the same sight badly pinned, wherever
+ * it lies in the destination: the recommended row, listed before it, answers. Only sights: a spa
+ * or a restaurant of the same name elsewhere is a real second branch, and a row filed as a
+ * business (a warung named after the temple) is a real business.
+ */
+function repeatsRecommended(
+  listed: PlaceRowIdentity,
+  row: PlaceRowIdentity,
+  destination: string,
+): boolean {
+  if (listed.recommended !== true || row.recommended !== false) return false;
+  if (!SIGHT_KINDS.has(listed.category)) return false;
+  if (!SIGHT_KINDS.has(row.category) && row.category !== 'other') return false;
+  const words = placeNameKey(row.name, destination).split(' ').filter(Boolean);
+  return within(words, placeNameKey(listed.name, destination).split(' '));
+}
+
 /**
  * `rows` in order with one row per place. A later row of a place already listed is dropped, unless
  * the listed row is a hotel listing (`stay`) and the later one has the same name and is not: then
@@ -77,6 +101,7 @@ export function sameSearchPlace(
 export function onePerPlace<T extends PlaceRowIdentity>(rows: readonly T[], destination = ''): T[] {
   const kept: T[] = [];
   for (const row of rows) {
+    if (kept.some((other) => repeatsRecommended(other, row, destination))) continue;
     const at = kept.findIndex((other) => sameSearchPlace(other, row, destination));
     const listed = kept[at];
     if (listed === undefined) kept.push(row);

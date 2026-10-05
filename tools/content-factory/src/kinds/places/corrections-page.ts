@@ -4,13 +4,12 @@
  * the map object its point was checked against and the records that fold into it.
  */
 import {
-  correctionCounts,
-  FAR_M,
   metresBetween,
   type BeforeRow,
   type CorrectionsFile,
   type PlaceCorrection,
 } from './corrections';
+import { correctionCounts, FAR_M } from './corrections-counts';
 
 const escape = (text: string) =>
   text.replace(
@@ -66,10 +65,15 @@ function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>
   const after = place.stated
     ? `${escape(name)}${local === null ? '' : ` (${escape(local)})`} · ${escape(category)} · ${state(true, mustSee)}`
     : 'unchanged (stays outside the recommended set; only its duplicates are stated)';
-  const off =
-    place.checked.off_m > FAR_M
-      ? `<b class="warn">${distance(place.checked.off_m)} from it</b>`
-      : `${distance(place.checked.off_m)} from it`;
+  const checked = place.checked;
+  const where =
+    checked === undefined
+      ? 'not re-checked (a correction to the name alone)'
+      : `checked against ${escape(checked.source)}, ${
+          checked.off_m > FAR_M
+            ? `<b class="warn">${distance(checked.off_m)} from it</b>`
+            : `${distance(checked.off_m)} from it`
+        }`;
   const merged = place.merge.map(({ ref }) => {
     const row = rows.get(ref);
     if (row === undefined) throw new Error(`${ref} is not in the snapshot`);
@@ -86,7 +90,7 @@ function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>
   }</p>
 <p><span class="k">After</span> ${after}</p>
 <p><span class="k">Why</span> ${escape(place.why)}</p>${noteLines(place, kept)}
-<p><span class="k">Point</span> ${mapLink(kept, point(kept))} · checked against ${escape(place.checked.source)}, ${off}</p>
+<p><span class="k">Point</span> ${mapLink(kept, point(kept))} · ${where}</p>
 <p class="id">${escape(place.keep)} · ${escape(kept.id ?? 'no row yet')}</p>${
     merged.length === 0
       ? ''
@@ -99,7 +103,9 @@ export function renderCorrectionsReview(
   before: readonly BeforeRow[],
 ): string {
   const rows = new Map(before.map((row) => [row.ref, row]));
-  const destinations = [...new Set(file.places.map((place) => place.destination))];
+  const destinations = [
+    ...new Set([...file.places, ...file.hidden].map((entry) => entry.destination)),
+  ];
   const sections = destinations.map((destination) => {
     const places = file.places.filter((place) => place.destination === destination);
     const counts = correctionCounts(places, before);
@@ -114,6 +120,12 @@ export function renderCorrectionsReview(
       .map((place) => {
         const kept = rows.get(place.keep);
         return `<li>${escape(place.name ?? kept?.name ?? place.stored_name)} <span class="meta">${escape(place.category ?? kept?.category ?? '')}</span></li>`;
+      });
+    const hidden = file.hidden
+      .filter((entry) => entry.destination === destination)
+      .map((entry) => {
+        const row = rows.get(entry.ref);
+        return `<li><b>${escape(entry.stored_name)}</b>: ${escape(entry.why)} ${row === undefined ? '' : mapLink(row, point(row))} <span class="id">${escape(row?.id ?? entry.ref)}</span></li>`;
       });
     const noted = file.left_alone.filter((entry) => entry.destination === destination);
     const leftAlone = noted
@@ -132,10 +144,12 @@ export function renderCorrectionsReview(
 <tr><td>Places that had a recommended record over 2 km off</td><td>${counts.movedPoints}</td></tr>
 <tr><td>Records that join the recommended set</td><td>${counts.added}</td></tr>
 <tr><td>Must-sees this batch flags or restates</td><td>${counts.mustSees}</td></tr>
-<tr><td>Essentials</td><td>${counts.essentials}</td></tr></table>
+<tr><td>Essentials</td><td>${counts.essentials}</td></tr>
+<tr><td>Records hidden</td><td>${hidden.length}</td></tr></table>
 ${essentials.length === 0 ? '' : `<h3>Essentials · ${essentials.length}</h3><p class="meta">The places a first visit is built around (<code>editorial.essential</code>); each is a must-see too.</p><ul class="cols">${essentials.join('')}</ul>`}
 <h3>Must-sees this batch flags or restates · ${mustSees.length}</h3><ul class="cols">${mustSees.join('')}</ul>
 ${places.map((place) => placeBlock(place, rows)).join('')}
+${hidden.length === 0 ? '' : `<h3>Hidden by this batch · ${hidden.length}</h3><p class="meta">Each is pinned far from the place it names and the catalogue has no record at the place to merge it into. Publishing sets the record to hidden and takes it out of the recommended set; it refuses if a trip points at one.</p><ul>${hidden.join('')}</ul>`}
 ${toHide.length === 0 ? '' : `<h3>Recommended records to hide in the console · ${toHide.length}</h3><p class="meta">Pinned far from the place they name, with no record at the place to merge them into (it lies outside the destination's map, or the catalogue has none). A release cannot take a record out of the set.</p><ul>${toHide.join('')}</ul>`}
 ${leftAlone.length === 0 ? '' : `<h3>Found and left alone · ${leftAlone.length}</h3><ul>${leftAlone.join('')}</ul>`}`;
   });

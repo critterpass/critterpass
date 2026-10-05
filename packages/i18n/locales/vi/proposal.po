@@ -53,11 +53,6 @@ msgstr "{0} đang viết bản của {1}"
 msgid "proposal.tracker.maybe"
 msgstr "{0} có thể"
 
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
-msgstr "{0} người còn phân vân sẽ vào danh sách chờ, có chỗ trống là được mời."
-
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReply"
@@ -107,11 +102,6 @@ msgstr "{0} gợi ý"
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waiting"
 msgstr "{0} người đang chờ chỗ"
-
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
-msgstr "{0} người chưa trả lời sẽ tính là không đi."
 
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -190,6 +180,10 @@ msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu g�
 msgid "proposal.build.subShared"
 msgstr "{guideName} đã viết một bản chung cho cả nhóm. Chọn kiểu gửi nhé."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybesCount"
+msgstr "{maybes, plural, other {# người còn phân vân sẽ vào danh sách chờ, có chỗ trống là được mời.}}"
+
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
 msgid "proposal.inbox.answered.out"
 msgstr "{name} không đi được"
@@ -261,6 +255,10 @@ msgstr "{reacted} người đã thả cảm xúc."
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
 msgstr "{seat} người là hơi đông"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silentCount"
+msgstr "{silent, plural, other {# người chưa trả lời sẽ tính là không đi.}}"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.sendPlan"

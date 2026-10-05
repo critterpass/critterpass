@@ -89,6 +89,17 @@ describe('what the sheet says before SAVE', () => {
       blocked: false,
       line: '1 later stop moves by 1 h',
     });
+    // Where a longer push ends up is named, not only counted.
+    const evening = [temple, palace, lunch, stop('dinner', '12:00', '13:00')];
+    const late = retime(
+      evening,
+      { stableId: 'palace', start: at('11:00'), end: at('12:30') },
+      SLOT,
+      HALF_HOUR,
+    );
+    expect(retimePreview(late, 'en-GB', null).line).toBe(
+      '2 later stops move by 1 h 30. dinner would start at 13:30.',
+    );
   });
 });
 

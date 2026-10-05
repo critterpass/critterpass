@@ -24,10 +24,11 @@ import { toast } from '@/motion/island-toast';
 import { ItemComments } from '../collab/item-comments';
 import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { guideOf } from '../timeline/day-timeline';
+import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
-import { retimePreview } from './retime-copy';
+import { gapLine, retimePreview } from './retime-copy';
 import { mapsUrl, placeRoute, reviewRoute } from './routes';
 import { StopDayActions } from './stop-day-actions';
 
@@ -113,6 +114,16 @@ export function ItemSheetHost({
     const result = timed(change);
     return result?.ok === true ? result.ops : [];
   };
+  // Taking the stop off its day: later stops that sit later than they belong move back earlier.
+  const here = dayItems(plan.state, item.dayNo, plan.display, tz);
+  const straightHere = travelMinutes(here);
+  const gap = closeGap(
+    here,
+    item.stableId,
+    slot,
+    travel ?? ((from, next) => straightHere(from.stableId, next.stableId) ?? 0),
+    outOfPlaceOn(slot.date, tz),
+  );
   const suggestionId = plan.proposed.has(item.stableId)
     ? openSuggestion(plan, item.stableId)
     : null;
@@ -135,6 +146,7 @@ export function ItemSheetHost({
       members={plan.members}
       canApply={plan.canApply}
       priceLevel={price.rows[0]?.price_level ?? null}
+      removeLine={gapLine(gap)}
       mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
       suggestion={
         suggestionId === null
@@ -168,7 +180,10 @@ export function ItemSheetHost({
         const result = timed(change);
         if (result === null) return { line: null, blocked: false };
         const toDay = change.dayNo === item.dayNo ? null : (dayLabels.get(change.dayNo) ?? null);
-        return retimePreview(result, locale, toDay);
+        const there = retimePreview(result, locale, toDay);
+        const back =
+          toDay === null || there.blocked ? null : gapLine(gap, dayLabels.get(item.dayNo));
+        return back === null ? there : { ...there, line: `${there.line ?? ''} ${back}`.trim() };
       }}
       comments={
         <ItemComments
@@ -193,13 +208,13 @@ export function ItemSheetHost({
           const end = times?.end ?? item.end;
           const others =
             start === null || end === null ? [] : pushes({ start, end, dayNo: target });
-          void editor.submit([moveToDayOp({ ...item, start, end }, to), ...others], {
+          void editor.submit([moveToDayOp({ ...item, start, end }, to), ...others, ...gap.ops], {
             confirmLocked,
           });
           onClose();
         },
         onRemove: (confirmLocked) => {
-          void editor.submit([removeOp(item)], { confirmLocked });
+          void editor.submit([removeOp(item), ...gap.ops], { confirmLocked });
           onClose();
         },
         onSkipForMe: skipForMe,

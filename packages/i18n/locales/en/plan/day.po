@@ -50,6 +50,10 @@ msgid "plan.edit.removedMany"
 msgstr "{count, plural, one {# stop removed} other {# stops removed}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.lastAt"
+msgstr "{count}. {stop} would start at {at}."
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hours"
 msgstr "{hours} h"
 
@@ -65,6 +69,14 @@ msgstr "{label} {0}. Pick a time"
 #: ../../apps/mobile/src/features/plan/day/late-entry.tsx
 msgid "plan.day.late.minutes"
 msgstr "{minutes} min"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlierBy"
+msgstr "{moved, plural, one {# later stop moves {by} earlier.} other {# later stops move {by} earlier.}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlier"
+msgstr "{moved, plural, one {# later stop moves earlier.} other {# later stops move earlier.}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.minutes"
@@ -306,6 +318,10 @@ msgstr "Nothing planned. Sleep in, or add something."
 msgid "plan.edit.nowAt"
 msgstr "Now {range}"
 
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.onDay"
+msgstr "On {day}: {line}"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr "Open in maps"
@@ -426,8 +442,8 @@ msgstr "Someone pinned it where it is."
 msgid "plan.day.item.goneLine"
 msgstr "Someone removed it while you had it open."
 
-#. placeholder {0}: clock(locale, effect.useStart)
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
 msgstr "Start at {0} instead"
 

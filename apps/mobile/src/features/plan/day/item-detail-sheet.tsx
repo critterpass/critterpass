@@ -22,11 +22,11 @@ import { ActionPill } from '@/ui/plan/ActionPill';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
-import { clock } from './format';
 import { ItemConfirm } from './item-confirm';
 import { ItemFacts, Section } from './item-facts';
+import { SheetFoot } from './sheet-foot';
 import { TimeRangeField } from './time-range-field';
 import { type DayItem } from '@/data/plan/plan-model';
 import { type PlanMember } from '@/data/plan/use-trip-plan';
@@ -35,14 +35,6 @@ const useStyles = makeStyles((th) => ({
   fill: { flex: 1 },
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['16'] },
   label: { marginBottom: th.space['4'] },
-  foot: {
-    gap: th.space['8'],
-    paddingHorizontal: th.size.gutter,
-    paddingTop: th.space['12'],
-    paddingBottom: th.space['8'],
-    borderTopWidth: th.space['2'] / 2,
-    borderTopColor: th.color.divider,
-  },
 }));
 
 /** What a change would do to the rest of the day, before it is saved. */
@@ -85,6 +77,7 @@ export function ItemDetailSheet({
   actions,
   dayLabels,
   mustDoMine = false,
+  removeLine = null,
   priceLevel = null,
   suggestion = null,
   preview,
@@ -101,6 +94,8 @@ export function ItemDetailSheet({
   readonly dayLabels?: ReadonlyMap<number, string>;
   /** The must-do is the reader's own. */
   readonly mustDoMine?: boolean;
+  /** What taking the stop off does to the rest of its day ("3 later stops move 1 h earlier"). */
+  readonly removeLine?: string | null;
   /** The place's price level (0 = known to be free); null = not known. */
   readonly priceLevel?: number | null;
   /** A change to this stop the crew is still deciding on. */
@@ -112,7 +107,6 @@ export function ItemDetailSheet({
   }) => ChangePreview;
 }) {
   const styles = useStyles();
-  const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
   const [times, setTimes] = useState<{ start: number; end: number } | null>(null);
@@ -249,41 +243,17 @@ export function ItemDetailSheet({
               testID="plan-item-remove"
             />
           </SheetScrollView>
-          <View style={styles.foot}>
-            {effect.line === null ? null : (
-              <Text
-                variant="bodySm"
-                color={
-                  effect.blocked ? theme.semantic.state.warning : theme.semantic.text.secondary
-                }
-                testID="plan-item-preview"
-              >
-                {effect.line}
-              </Text>
-            )}
-            {effect.useStart === undefined || start === null || end === null ? null : (
-              <TextLink
-                label={t({
-                  id: 'plan.day.item.useStart',
-                  message: `Start at ${clock(locale, effect.useStart)} instead`,
-                })}
-                onPress={() =>
-                  setTimes({
-                    start: effect.useStart ?? start,
-                    end: (effect.useStart ?? start) + (end - start),
-                  })
-                }
-                testID="plan-item-use-start"
-              />
-            )}
-            <PillButton
-              label={saveLabel}
-              disabled={!changed || effect.blocked}
-              onPress={() => run({ kind: 'save' }, false)}
-              block
-              testID="plan-item-save"
-            />
-          </View>
+          <SheetFoot
+            effect={effect}
+            saveLabel={saveLabel}
+            canSave={changed && !effect.blocked}
+            onUseStart={(from) =>
+              start === null || end === null
+                ? undefined
+                : setTimes({ start: from, end: from + (end - start) })
+            }
+            onSave={() => run({ kind: 'save' }, false)}
+          />
         </View>
       ) : (
         <View style={styles.body}>
@@ -292,6 +262,7 @@ export function ItemDetailSheet({
             removing={confirming.kind === 'remove'}
             canApply={canApply}
             mustDoMine={mustDoMine}
+            alsoMoves={confirming.kind === 'remove' ? removeLine : null}
             solo={members.length <= 1}
             onConfirm={() => run(confirming, true)}
             onCancel={() => setConfirming(null)}

@@ -111,6 +111,12 @@ describe('name search where the guide runs on machine picks', () => {
     expect(results.map((item) => item.area)).toEqual([null, 'Hòa Bình']);
   });
 
+  it('puts the pick first when the city is typed after the name', async () => {
+    await seed({ name: 'Crazy House Da Lat Tours', category: 'other', lat: 11.96, lng: 108.46 });
+    const results = await search('Crazy House Da Lat');
+    expect(results[0]?.name).toBe('Biệt Thự Hằng Nga - Crazy House Đà Lạt');
+  });
+
   it('still finds a place nobody recommends by its name', async () => {
     const results = await search('Crazy House Coffee');
     expect(results[0]).toMatchObject({ name: 'Crazy House Coffee', recommended: false });

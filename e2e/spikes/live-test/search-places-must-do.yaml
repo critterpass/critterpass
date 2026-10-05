@@ -1,0 +1,173 @@
+appId: app.critterpass.dev
+---
+# The must-do search in set-up, on real staging: a fresh account pitches Đà Lạt, locks it in, sets
+# dates, budget and rooms as offered, and types "Crazy House" as a must-do. The villa is listed as
+# a sight, a hotel and a museum: the answer is one row, the sight, first. Stops there (no draft).
+- runFlow:
+    file: ../../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Lat with Linh'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+# The crew's join code, for flows that bring a second account onto the trip (iOS copies the spoken
+# label, "Crew code E 2 X …": the code is its last six characters).
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+# A name typed in full: the city itself, without far look-alikes.
+- inputText: 'Da Lat'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: search-places-must-do-00-da-lat-search
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open.
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+# One place on the board: the organiser locks it in, and it wins.
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# Two weeks from today in Vietnam, five days: the first and the last day tapped by their dates.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + 14 * 86400000); output.pickDate = d.toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- runFlow:
+    file: ../../happy/subflows/pick-days.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 3
+- waitForAnimationToEnd
+- takeScreenshot: search-places-must-do-00-dates
+- tapOn:
+    id: 'picker-lock'
+# The budget, in đồng, locked as the guide suggests it.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- assertVisible:
+    id: 'budget-track'
+    text: '.*₫.*'
+- waitForAnimationToEnd
+- takeScreenshot: search-places-must-do-00-budget
+- tapOn:
+    id: 'budget-lock'
+# Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: search-places-must-do-00-rooms
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Crazy House'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-must-do-01-crazy-house
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: search-places-must-do-02-crazy-house-rows
