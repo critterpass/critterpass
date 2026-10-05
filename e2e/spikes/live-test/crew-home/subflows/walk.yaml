@@ -666,6 +666,28 @@ appId: app.critterpass.dev
       id: 'plan-add-confirm'
     timeout: 20000
     optional: true
+# The button is live once the guide has placed the stop on a day.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+      enabled: true
+    timeout: 60000
+    optional: true
+# A day the stop does not fit on keeps the button off: the last day's chip is tried instead.
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-add-confirm'
+        enabled: true
+    commands:
+      - tapOn:
+          point: 80%, 33%
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+            enabled: true
+          timeout: 30000
+          optional: true
 - waitForAnimationToEnd
 - takeScreenshot: crew-home-${LOCALE}-40-minh-suggests-a-stop
 - tapOn:
