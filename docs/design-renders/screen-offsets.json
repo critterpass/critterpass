@@ -165,41 +165,6 @@
 "end": 282058
 },
 {
-"label": "3d-1 Destination guide",
-"start": 282058,
-"end": 293814
-},
-{
-"label": "3d-2 Swipe together",
-"start": 293814,
-"end": 302153
-},
-{
-"label": "3d-3 Place detail",
-"start": 302153,
-"end": 309806
-},
-{
-"label": "3d-4 Map",
-"start": 309806,
-"end": 323455
-},
-{
-"label": "3e-1 Trip plan",
-"start": 323455,
-"end": 335382
-},
-{
-"label": "3e-2 Day planning",
-"start": 335382,
-"end": 343546
-},
-{
-"label": "3e-3 Review changes",
-"start": 343546,
-"end": 354583
-},
-{
 "label": "3f-1 Build the proposal",
 "start": 354583,
 "end": 362683
