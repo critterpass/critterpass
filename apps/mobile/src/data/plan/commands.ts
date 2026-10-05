@@ -43,6 +43,12 @@ export const applyDraftOpsCommand: ClientCommandSpec<ApplyPlanOpsPayload> = {
 
 export const APPLY_DRAFT_OPS = applyDraftOpsCommand.name;
 
+/** Gives a trip with locked dates and no plan its days (./use-plan-days.ts). Nothing to list. */
+export const ensurePlanDaysCommand = defineClientCommand<{ trip_id: string }>({
+  name: 'ensure_plan_days',
+  offline: true,
+});
+
 /** The organiser adds a place straight to the plan from the place's own screen. */
 export const addPlaceToPlanCommand: ClientCommandSpec<ApplyPlanOpsPayload> = {
   ...applyPlanOpsCommand,
@@ -110,6 +116,12 @@ function online<Payload>(spec: ClientCommandSpec<Payload>): ClientCommandSpec<Pa
 /** Takes back the plan version one of my own edits made; asked online, as the toast waits on it. */
 export const undoPlanEditOnline: ClientCommandSpec<UndoPlanEditPayload> = {
   name: 'undo_plan_edit',
+  offline: false,
+};
+
+/** Takes the plan she built by hand to review without a guide draft; the screen waits on it. */
+export const reviewHandPlanOnline: ClientCommandSpec<{ trip_id: string; base_version: string }> = {
+  name: 'review_hand_plan',
   offline: false,
 };
 

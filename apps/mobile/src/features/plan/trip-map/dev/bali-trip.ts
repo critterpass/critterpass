@@ -224,7 +224,7 @@ export function labEmptyModel(): TripMapModel {
 
 /** Her own draft of the trip, checked, before the crew has seen any plan. */
 export function labDraftModel(): TripMapModel {
-  return labTripModel({ draft: true });
+  return labTripModel({ draft: true, draftStage: 'review' });
 }
 
 /**
@@ -235,6 +235,8 @@ export function labEmptyDaysModel(): TripMapModel {
   const full = labTripModel();
   return labTripModel({
     draft: true,
+    draftStage: 'building',
+    draftVersionId: uuid(9001),
     days: full.days.map((day) => ({
       ...day,
       theme: null,

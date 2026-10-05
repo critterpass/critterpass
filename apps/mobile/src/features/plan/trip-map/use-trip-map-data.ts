@@ -10,6 +10,7 @@ import { usePlanCheck, type PlanCheckView } from '@/data/checks/use-plan-check';
 import { useTripIdeas, type TripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { usePendingReviews, type PendingReview } from '@/data/plan/use-pending-reviews';
+import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
 import { useRegionPack } from '@/data/places/useRegionPack';
 import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
@@ -33,7 +34,7 @@ export interface TripMapData {
   readonly reviews: readonly PendingReview[];
   readonly curated: readonly CuratedPlace[];
   readonly regionUri: string | null;
-  /** Nothing in the plan and nothing saved: the four ways to start (7i-1). */
+  /** Nothing in the plan and nothing saved, or no plan I can see: the ways to start (7i-1). */
   readonly empty: boolean;
   readonly guide: { readonly id: GuideId; readonly name: string };
   /** Today in the trip's zone while the trip runs; null before and after. */
@@ -97,6 +98,8 @@ export function useTripDays(plan: TripPlan): {
 
 export function useTripMapData(tripId: string): TripMapData {
   const plan = useTripPlan(tripId, { version: 'draft-or-current' });
+  // An organiser opening a trip that has dates and no plan yet: its days are asked for.
+  useEnsurePlanDays(plan);
   const { days, check } = useTripDays(plan);
   const ideas = useTripIdeas(tripId);
   const pending = usePendingReviews(tripId);
@@ -120,7 +123,11 @@ export function useTripMapData(tripId: string): TripMapData {
       reviews: pending.reviews,
       curated: curated.rows,
       regionUri: pack.status === 'downloaded' ? pack.localPmtilesUri : null,
-      empty: planned === 0 && ideas.ideas.length === 0 && ideas.placedCount === 0,
+      // Nothing planned and nothing saved, or no plan this person can see yet (a member before
+      // the plan is shared, whatever they have saved): the sheet says how things start.
+      empty:
+        (planned === 0 && ideas.ideas.length === 0 && ideas.placedCount === 0) ||
+        (plan.loaded && plan.versionId === null),
       guide: guideFor(plan),
       today: inTrip ? todayIn(tz) : null,
       readOnly: isReadOnly(plan),
