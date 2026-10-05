@@ -61,10 +61,12 @@ export function nextCheckIn(checkIn: CheckIn | null, now: Date, newId: () => str
 }
 
 let storage: ReturnType<typeof createMMKV> | null = null;
-const store = () => (storage ??= createMMKV({ id: 'cp-stop-check-ins' }));
+/** The app's default store, like the other small choices this phone keeps. */
+const store = () => (storage ??= createMMKV());
+const KEY = 'cp.stop.checkIn';
 
 export function useStopCheckIn(tripId: string, stableId: string, poiId: string | null) {
-  const [raw, setRaw] = useMMKVString(`${tripId}:${stableId}`, store());
+  const [raw, setRaw] = useMMKVString(`${KEY}:${tripId}:${stableId}`, store());
   const { send } = useCommand(checkInCommand);
   const checkIn = parseCheckIn(raw);
   const state = checkInState(checkIn);

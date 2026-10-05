@@ -20,6 +20,13 @@ appId: app.critterpass.dev
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 3
+# The length chips can push the summary line under the lock on a short screen: bring it up.
+- scrollUntilVisible:
+    element:
+      id: 'picker-length'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
 - assertVisible:
     id: 'picker-length'
     text: '3 days .*'
