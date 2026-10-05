@@ -11,8 +11,11 @@
  * and per trip) are exactly what the real run will do, and a table that cannot be moved is named
  * before anything is written. Running it again moves nothing.
  */
-import { createPool, withSystem } from '@cp/db';
+import { createPool, registerJobProducer, withSystem } from '@cp/db';
 import type pg from 'pg';
+import { PgBoss } from 'pg-boss';
+
+import { BOSS_SCHEMA } from '../boss/boss';
 
 import { followMergedPlaces, type FollowResult } from './follow-merges';
 
@@ -61,9 +64,24 @@ async function main(): Promise<void> {
   const connectionString = process.env['DATABASE_URL'];
   if (connectionString === undefined) throw new Error('DATABASE_URL is required');
   const pool = createPool({ connectionString, max: 1 });
+  // The legs and check runs are queued in the same transaction as the move (and rolled back with
+  // it on a dry run), so this process sends jobs like the worker does.
+  const boss = new PgBoss({
+    connectionString,
+    schema: BOSS_SCHEMA,
+    createSchema: false,
+    options: '-c role=app_system',
+    application_name: 'cp-places-follow',
+    max: 1,
+    supervise: false,
+    schedule: false,
+  });
   try {
+    await boss.start();
+    registerJobProducer(boss);
     await followMerges(pool, { dryRun: process.argv.includes('--dry-run') });
   } finally {
+    await boss.stop({ graceful: false }).catch(() => undefined);
     await pool.end();
   }
 }

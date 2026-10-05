@@ -116,9 +116,8 @@ const idea = (tripId: string, poiId: string, backer: string, source: string) =>
 
 beforeAll(async () => {
   harness = await startJobsHarness();
-  // The queues exist; nothing works them here, the test runs the legs job itself.
+  // The queues exist and take sends; their runs wait out the debounce, past the end of this file.
   await harness.startRuntime([planLegsJob(travel), planCheckJob()]);
-  await harness.stopAll();
   people = [await insertUser(harness.pool), await insertUser(harness.pool)];
   destinationId = await one(
     `INSERT INTO destinations (slug, name, coverage, tz)
@@ -126,7 +125,10 @@ beforeAll(async () => {
   );
 }, 240_000);
 
-afterAll(() => harness?.close());
+afterAll(async () => {
+  await harness?.stopAll();
+  await harness?.close();
+});
 
 describe('publishing a places release that merges a record', () => {
   it('moves the stop, the must-do and the idea to the kept record and has the legs made again', async () => {
