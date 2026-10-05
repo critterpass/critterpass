@@ -19,6 +19,7 @@ import { DraftLoading, type DraftLoadingProps } from './draft-loading';
 import { DraftReviewView, type DraftReviewViewProps } from './draft-review-view';
 import { MemberPlanning } from './member-planning';
 import { NoDraft } from './no-draft';
+import type { HistoryEntry } from '../data/use-draft-version';
 import { VersionHistorySheet } from './version-history-sheet';
 
 const noop = () => undefined;
@@ -70,6 +71,27 @@ function scene(
   };
 }
 
+const earlier = (
+  id: string,
+  createdAt: string,
+  origin: HistoryEntry['origin'],
+  costPpMinor: number,
+): HistoryEntry => ({
+  id,
+  createdAt,
+  current: id === 'v-3',
+  origin,
+  days: 8,
+  costPpMinor,
+  currency: 'USD',
+});
+
+const OWN_PLAN_HISTORY: readonly HistoryEntry[] = [
+  earlier('v-3', '2027-02-10T09:40:00Z', { kind: 'changed' }, 131_000),
+  earlier('v-2', '2027-02-10T09:12:00Z', { kind: 'first' }, 138_000),
+  earlier('v-1', '2027-02-09T21:05:00Z', { kind: 'own' }, 21_000),
+];
+
 export const REVIEW_SCENES: readonly DraftScene[] = [
   scene('3c-9-draft', {}),
   scene('draft-booked', {}, REVIEW_BOOKED),
@@ -120,6 +142,26 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
                   currency: 'USD',
                 },
               ]}
+              onRestore={noop}
+              onClose={exitScene}
+            />
+          </>
+        )}
+      />
+    ),
+  },
+  {
+    // She built a plan by hand, the guide drafted around it, and she changed the draft since.
+    name: 'draft-history-own-plan',
+    render: () => (
+      <InLocale
+        render={(locale) => (
+          <>
+            <DraftReviewView {...reviewProps(locale)} hasHistory />
+            <VersionHistorySheet
+              guideName="Pon"
+              locale={locale}
+              entries={OWN_PLAN_HISTORY}
               onRestore={noop}
               onClose={exitScene}
             />

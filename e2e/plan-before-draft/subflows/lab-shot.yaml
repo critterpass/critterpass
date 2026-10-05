@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# From home or the developer tools list: opens the plan views lab's scene ${SCENE}, takes the
+# screenshot ${SHOT}, and backs out to the developer tools list (or home), leaving the app's
+# language as it was.
+- runFlow:
+    file: ../../plan/subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-plan-views-lab
+      SCENE: plan-views-lab-${SCENE}
+# The map's tiles and the sheet's settle.
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+# Android back lowers a raised map sheet one snap before it leaves the screen; the lab's own list
+# is one more back away.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-plan-views-lab'
+    times: 6
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+      # An iOS edge swipe can carry past the tools list to home: back into the tools from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'

@@ -18,7 +18,7 @@ import { DayPlanView } from '../../day-plan/day-plan-view';
 import { estimatedRoute } from '../day-route';
 import type { TripMapModel } from '../sheet-props';
 import { TripMapView } from '../trip-map-view';
-import { labEmptyModel, labTripModel } from './bali-trip';
+import { labDraftModel, labEmptyDaysModel, labEmptyModel, labTripModel } from './bali-trip';
 
 const noop = () => undefined;
 
@@ -37,6 +37,7 @@ function TripMapScene({
   empty = false,
   today = false,
   noPack = false,
+  before,
 }: {
   readonly snap: MapSheetSnap;
   readonly empty?: boolean;
@@ -44,9 +45,17 @@ function TripMapScene({
   readonly today?: boolean;
   /** The destination has no region pack: a slug the tiles host has never heard of. */
   readonly noPack?: boolean;
+  /** Before the crew has a plan: her own draft, or the trip's days with nothing on them yet. */
+  readonly before?: 'draft' | 'days';
 }) {
   const [model] = useState(() => ({
-    ...(empty ? labEmptyModel() : labTripModel()),
+    ...(before === 'draft'
+      ? labDraftModel()
+      : before === 'days'
+        ? labEmptyDaysModel()
+        : empty
+          ? labEmptyModel()
+          : labTripModel()),
     ...(today ? { now: ON_DAY_3 } : {}),
     ...(noPack ? { destinationSlug: 'lab-no-region-pack' } : {}),
   }));
@@ -66,8 +75,21 @@ function TripMapScene({
   );
 }
 
-function DayPlanScene({ today = false }: { readonly today?: boolean }) {
-  const [model] = useState(() => ({ ...labTripModel(), ...(today ? { now: ON_DAY_3 } : {}) }));
+function DayPlanScene({
+  today = false,
+  before,
+}: {
+  readonly today?: boolean;
+  readonly before?: 'draft' | 'days';
+}) {
+  const [model] = useState(() => ({
+    ...(before === 'draft'
+      ? labDraftModel()
+      : before === 'days'
+        ? labEmptyDaysModel()
+        : labTripModel()),
+    ...(today ? { now: ON_DAY_3 } : {}),
+  }));
   const { setDayNo, day, route } = useLabDay(model);
   if (day === null) return null;
   return (
@@ -171,6 +193,13 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map-nothing-saved': () => <TripMapScene snap="half" empty />,
   'trip-map-no-pack': () => <TripMapScene snap="peek" noPack />,
   'trip-map-day-no-pack': () => <TripMapScene snap="half" noPack />,
+  // Before the crew has a plan: the trip's days with nothing on them, and her draft with the
+  // check's tags on its days.
+  'trip-map-days-before-draft': () => <TripMapScene snap="half" before="days" />,
+  'trip-map-own-draft': () => <TripMapScene snap="peek" before="draft" />,
+  'trip-map-own-draft-day': () => <TripMapScene snap="half" before="draft" />,
+  'day-plan-days-before-draft': () => <DayPlanScene before="days" />,
+  'day-plan-own-draft': () => <DayPlanScene before="draft" />,
   'day-plan': () => <DayPlanScene />,
   'day-plan-today': () => <DayPlanScene today />,
   'day-plan-map-open': () => <DayMapScene />,

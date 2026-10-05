@@ -25,6 +25,7 @@ import {
 } from '../data/redraft';
 import { useRedraft } from '../data/use-redraft';
 import { draftRoutes } from '../routes';
+import { putBackToast } from './outcome-copy';
 import { RedraftDiffView } from './redraft-diff-view';
 
 /** The guide's thinking beat lasts at least this long, however fast the job was. */
@@ -98,19 +99,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   const onPutBack = () => {
     setLeaving(true);
     void revert.send({ redraft_id: redraftId });
-    toast.show({
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
-      id: `redraft-reverted-${redraftId}`,
-      title: t({ id: 'planDraft.diff.revertedToast', message: `Day ${n} is back as it was.` }),
-      ...(trip.quota.limit === null
-        ? {}
-        : {
-            subtitle: t({
-              id: 'planDraft.diff.revertedSub',
-              message: 'You have that redraft back.',
-            }),
-          }),
-    });
+    toast.show(putBackToast(redraftId, n, trip.quota.limit !== null));
     back();
   };
   return (

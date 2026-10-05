@@ -1,6 +1,9 @@
 /** Change a day (3c-11), the last free redraft (4f-3) and the redraft diff (3c-12), for the scenes. */
 /* eslint-disable lingui/no-unlocalized-strings -- scene names and fixture text, never copy. */
 import type { RedraftReasonKey } from '@cp/domain';
+import { useEffect } from 'react';
+
+import { toast } from '@/motion';
 
 import { counterLine } from '../data/quota-copy';
 import { changeCards, metricChips } from '../data/redraft';
@@ -12,6 +15,7 @@ import { reviewProps } from '../review/scenes';
 import { BoostOffer } from './boost-offer';
 import { ChangeDayView, type ChangeDayViewProps } from './change-day-view';
 import { LastRedraftView } from './last-redraft-interstitial';
+import { putBackToast } from './outcome-copy';
 import { RedraftDiffView, type DiffPhase } from './redraft-diff-view';
 
 const noop = () => undefined;
@@ -47,6 +51,14 @@ function changeDay(props: Partial<ChangeDayViewProps>) {
       )}
     />
   );
+}
+
+function PutBackScene() {
+  useEffect(() => {
+    toast.show(putBackToast('scene', 4, true));
+    return () => toast.dismiss();
+  }, []);
+  return <InLocale render={(locale) => <DraftReviewView {...reviewProps(locale)} />} />;
 }
 
 function diff(name: string, phase: DiffPhase, changes = CHANGES): DraftScene {
@@ -123,4 +135,6 @@ export const REDRAFT_SCENES: readonly DraftScene[] = [
   diff('redraft-identical', 'identical'),
   diff('redraft-failed', 'failed'),
   diff('redraft-small-shifts', 'ready', SHIFT_CHANGES),
+  // Back on the draft after putting a redraft back: the redraft is hers again.
+  { name: 'redraft-put-back', render: () => <PutBackScene /> },
 ];

@@ -221,3 +221,34 @@ export function labEmptyModel(): TripMapModel {
     empty: true,
   });
 }
+
+/** Her own draft of the trip, checked, before the crew has seen any plan. */
+export function labDraftModel(): TripMapModel {
+  return labTripModel({ draft: true });
+}
+
+/**
+ * The trip's days before any draft: dates locked, nothing placed yet, a few places saved to Ideas.
+ * The days are hers to fill by hand, or for the guide to draft.
+ */
+export function labEmptyDaysModel(): TripMapModel {
+  const full = labTripModel();
+  return labTripModel({
+    draft: true,
+    days: full.days.map((day) => ({
+      ...day,
+      theme: null,
+      items: [],
+      stops: [],
+      pace: 0,
+      vote: null,
+      booked: false,
+      issues: [],
+      tag: null,
+    })),
+    ideas: full.ideas.slice(0, 3),
+    placedCount: 0,
+    planned: new Set(),
+    check: { fixes: 0, know: 0, done: true },
+  });
+}
