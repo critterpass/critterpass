@@ -4,7 +4,8 @@
  * losing guide takes it well, and the organiser gets "SET UP KYOTO" while everyone else learns who
  * has the setup. Opening it files `mark_reveal_seen`, so each person sees it once on any device.
  * Viewers who missed the vote or whose pick lost get their own line; reduced motion stills the rays,
- * drops the confetti and fades the finished screen in.
+ * drops the confetti and fades the finished screen in. A place the organiser locked in before
+ * anyone voted is not a vote that was won or missed: it shows as locked in, with no score.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -12,7 +13,7 @@ import { useEffect, useRef } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
@@ -60,20 +61,29 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   const loserGuide =
     loser === undefined
       ? null
-      : GUIDE_STICKERS[guideOr(loser.refId === null ? null : places.get(loser.refId)?.guide)];
+      : guideSticker(guideOr(loser.refId === null ? null : places.get(loser.refId)?.guide));
   const colour = winnerPlace?.colour ?? theme.color.orange;
   const ink = theme.semantic.text.onAccent;
-  const missed = poll.eligibleIds.includes(me) && poll.myOptionId === null;
+  // Nobody voted: the organiser locked the place in, so there is no score and nothing to miss.
+  const lockedIn = poll.votedCount === 0;
+  const missed = !lockedIn && poll.eligibleIds.includes(me) && poll.myOptionId === null;
   const lost = poll.myOptionId !== null && poll.myOptionId !== winner.id;
   const tie = poll.tieBreak;
-  const score = t({ id: 'vote.reveal.wins', message: `Wins ${pollScore(poll)}` });
+  const score = lockedIn
+    ? t({ id: 'vote.reveal.lockedIn', message: 'Locked in' })
+    : t({ id: 'vote.reveal.wins', message: `Wins ${pollScore(poll)}` });
+  const lockedBy = organiser
+    ? t({ id: 'vote.reveal.lockedByYou', message: 'You picked it' })
+    : organiserName === null
+      ? t({ id: 'vote.reveal.lockedByOrganiser', message: 'The organiser picked it' })
+      : t({ id: 'vote.reveal.lockedBy', message: `${organiserName} picked it` });
   const setUp = () => {
     if (poll.tripId === null) return;
     const href = voteRoutes.tripSetup(poll.tripId);
     if (href === undefined) router.back();
     else router.replace(href);
   };
-  const rows = poll.options.map((option) => ({
+  const rows = (lockedIn ? [] : poll.options).map((option) => ({
     id: option.id,
     name: upper(nameOf(option, places), i18n.locale),
     votes: option.votes,
@@ -91,27 +101,46 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
     <RevealStage
       colour={colour}
       photo={winnerPlace?.slug === undefined ? null : heroAt(media.get(winnerPlace.slug) ?? [])}
-      eyebrow={upper(t({ id: 'vote.reveal.header', message: 'Where next? · Final' }), i18n.locale)}
-      voted={upper(
-        t({
-          id: 'vote.reveal.voted',
-          message: `${poll.votedCount} of ${poll.eligibleIds.length} voted`,
-        }),
+      eyebrow={upper(
+        lockedIn
+          ? t({ id: 'vote.reveal.headerLocked', message: 'Where next? · Decided' })
+          : t({ id: 'vote.reveal.header', message: 'Where next? · Final' }),
         i18n.locale,
       )}
-      guide={GUIDE_STICKERS[guideOr(winnerPlace?.guide)]}
+      voted={upper(
+        lockedIn
+          ? lockedBy
+          : t({
+              id: 'vote.reveal.voted',
+              message: `${poll.votedCount} of ${poll.eligibleIds.length} voted`,
+            }),
+        i18n.locale,
+      )}
+      guide={guideSticker(guideOr(winnerPlace?.guide))}
       name={upper(winnerName, i18n.locale)}
       score={upper(score, i18n.locale)}
       tallySummary={[
         `${winnerName}. ${score}`,
-        ...poll.options.map(
+        ...(lockedIn ? [] : poll.options).map(
           (option) =>
             `${nameOf(option, places)}, ${t({ id: 'vote.showdown.votes', message: `${option.votes} votes` })}`,
         ),
       ].join('; ')}
       rows={rows}
       notes={
-        tie === null && !missed && !lost ? undefined : (
+        lockedIn ? (
+          <Text variant="bodySm" testID="reveal-locked-in">
+            {organiser
+              ? t({
+                  id: 'vote.reveal.lockedNoteYou',
+                  message: `No vote needed: you locked ${winnerName} in. Next, the dates.`,
+                })
+              : t({
+                  id: 'vote.reveal.lockedNote',
+                  message: `No vote this time: ${winnerName} was locked in for the crew.`,
+                })}
+          </Text>
+        ) : tie === null && !missed && !lost ? undefined : (
           <>
             {tie === null ? null : (
               <Text variant="bodySm" testID="reveal-tie">

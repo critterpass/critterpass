@@ -36,6 +36,10 @@ msgid "places.label.suggested"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.sort.picks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.length.hours"
 msgstr ""
 
@@ -52,19 +56,31 @@ msgid "places.card.minutesOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.distance.km"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.plan.summaryMore"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
-msgid "places.toast.hidden"
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.distance.m"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
-msgid "places.toast.saved"
+msgid "places.toast.hiddenShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/use-swipe-actions.ts
+msgid "places.toast.savedShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.carousel.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.plan.dayDated"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -125,6 +141,10 @@ msgstr ""
 msgid "places.card.closedToday"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.plan.day"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.loading"
 msgstr ""
@@ -145,12 +165,20 @@ msgstr ""
 msgid "places.swipe.hide"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.inPlanNoDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 msgid "places.chip.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.group.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.row.inPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -170,6 +198,14 @@ msgid "places.group.nature"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.sort.nearestStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.sort.nearestMiddle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.card.nextDoor"
 msgstr ""
 
@@ -177,8 +213,24 @@ msgstr ""
 msgid "places.group.nightlife"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.noneTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
 msgid "places.peek.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.planTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.noneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.savedTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/use-carousel-entries.ts
@@ -229,6 +281,14 @@ msgstr ""
 msgid "places.hidden.showA11y"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/places/places-peek.tsx
+msgid "places.peek.showAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.showAll"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/places/places-carousel.tsx
 #: ../../apps/mobile/src/features/explore/places/places-header.tsx
 #: ../../apps/mobile/src/features/explore/places/places-peek.tsx
@@ -239,16 +299,12 @@ msgstr ""
 msgid "places.showMap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.sort.az"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.sort.fit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/places/sort-menu.tsx
-msgid "places.sort.nearest"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
@@ -257,6 +313,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts
 msgid "places.weekday.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.savedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-copy.ts
+msgid "places.hint.swipe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/places/places-empty.tsx
+msgid "places.empty.planLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/places/places-copy.ts

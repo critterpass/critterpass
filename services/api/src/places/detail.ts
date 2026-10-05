@@ -5,12 +5,12 @@
  * mounts (a live answer for this view only, never stored; straight-line when none is mounted).
  */
 import {
-  editorialOverlaySchema,
   EMPTY_HOURS,
   knownHours,
   nextOpen,
   openAt,
   poiCategorySchema,
+  readEditorialOverlay,
   straightLineEtaProvider,
   DomainError,
   type EditorialOverlay,
@@ -24,6 +24,10 @@ import { tripLocalDate, tripStay } from '../planning/stay';
 
 export interface PlaceDetailResult {
   readonly id: string;
+  /** The destination that owns the place, for a phone that does not hold the place itself. */
+  readonly destinationId: string;
+  /** The zone its hours are in: the place's own, else its destination's. */
+  readonly timezone: string | null;
   readonly name: string;
   readonly nameLocal: string | null;
   readonly category: PoiCategory;
@@ -47,6 +51,7 @@ export interface PlaceDetailResult {
 
 interface PlaceDetailRow {
   readonly id: string;
+  readonly destination_id: string;
   readonly name: string;
   readonly name_local: string | null;
   readonly category: string;
@@ -77,7 +82,7 @@ export async function getPlaceDetail(
   options: GetPlaceDetailOptions = {},
 ): Promise<PlaceDetailResult> {
   const { rows } = await tx.query<PlaceDetailRow>(
-    `SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
+    `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
             p.editorial, p.hours, p.hours_verified_at, p.timezone, d.tz AS destination_tz,
             lc.is_open_now, lc.closed_permanently, lc.checked_at AS live_checked_at
      FROM pois p
@@ -97,6 +102,8 @@ export async function getPlaceDetail(
 
   const result: PlaceDetailResult = {
     id: row.id,
+    destinationId: row.destination_id,
+    timezone: tz,
     name: row.name,
     nameLocal: row.name_local,
     category: poiCategorySchema.parse(row.category),
@@ -105,7 +112,7 @@ export async function getPlaceDetail(
     address: row.address,
     priceLevel: row.price_level,
     tags: row.tags,
-    editorial: editorialOverlaySchema.parse(row.editorial),
+    editorial: readEditorialOverlay(row.editorial),
     hours: hours ?? EMPTY_HOURS,
     hoursVerifiedAt: row.hours_verified_at?.toISOString() ?? null,
     openNow,

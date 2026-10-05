@@ -91,7 +91,8 @@ export const poiLicenceSchema = z
   })
   .strict();
 
-export const poiEditorialSchema = z
+/** The lines of a place's editorial note; `poiEditorialSchema` adds the rule between the flags. */
+export const poiEditorialFields = z
   .object({
     why_go: z.string().min(1).max(200),
     best_time: z.string().min(1).max(80),
@@ -102,8 +103,27 @@ export const poiEditorialSchema = z
       .max(24 * 60),
     crowd_hint: z.string().min(1).max(80),
     etiquette: z.string().min(1).max(160).nullable(),
+    /**
+     * A sight the destination is known for (a pinned place or a landmark). Publishing writes it to
+     * `pois.editorial.must_see`; an item without it leaves the place's flag as it is.
+     */
+    must_see: z.boolean().optional(),
+    /**
+     * One of the dozen or so must-sees a first visit to the destination is built around (at most
+     * `MAX_ESSENTIALS` a destination). Publishing writes it to `pois.editorial.essential`, key by
+     * key like `must_see`: an item without it leaves the flag as it is, `false` clears it.
+     */
+    essential: z.boolean().optional(),
   })
   .strict();
+
+export const poiEditorialSchema = poiEditorialFields.refine(
+  (editorial) => editorial.essential !== true || editorial.must_see === true,
+  { message: 'an essential place is also a must-see', path: ['essential'] },
+);
+
+/** The most places of one destination that may be flagged essential. */
+export const MAX_ESSENTIALS = 15;
 
 export const poiItemSchema = z
   .object({

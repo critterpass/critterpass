@@ -116,8 +116,21 @@ export interface Track {
   readonly stepMinor: number;
 }
 
-/** The track's length when nothing is priced yet: sixty steps ($3,000 in USD). */
-const FALLBACK_STEPS = 60;
+/**
+ * With nothing priced (no fare, no reviewed cost of the place) the track is sized from the trip's
+ * length in the crew's own spoken step, so it reads as money someone would say for those days:
+ * up to six steps a day (₫3,000,000 or $300 a day), starting at two (₫1,000,000 or $100 a day).
+ */
+const UNPRICED_STEPS_PER_DAY = 6;
+const UNPRICED_START_STEPS_PER_DAY = 2;
+/** The trip length assumed before the dates are locked. */
+const UNPRICED_DEFAULT_DAYS = 3;
+const UNPRICED_MAX_DAYS = 30;
+
+function unpricedDays(days: number | null): number {
+  if (days === null || !Number.isFinite(days) || days < 1) return UNPRICED_DEFAULT_DAYS;
+  return Math.min(UNPRICED_MAX_DAYS, Math.round(days));
+}
 
 export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimates | null {
   if (source === null) return null;
@@ -128,21 +141,60 @@ export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimate
   }
 }
 
-/** The knob's track in `stepMinor` steps (see `./lock-step` for where the step comes from). */
+/**
+ * The knob's track in `stepMinor` steps (see `./lock-step` for where the step comes from). `days`
+ * is the trip's length, used only when nothing is priced.
+ */
 export function trackOf(
   band: BandView,
   estimates: BudgetEstimates | null,
   stepMinor: number,
+  days: number | null = null,
 ): Track {
   const low = estimates === null ? null : crewFeasibleLow(estimates);
-  const minMinor = low === null ? 0 : Math.floor(Number(low.amountMinor) / stepMinor) * stepMinor;
+  const floor = low === null ? 0 : Math.floor(Number(low.amountMinor) / stepMinor) * stepMinor;
+  // Unpriced: the track starts one step in, so the knob can never rest on a budget of nothing.
+  const minMinor = floor > 0 || band.kind !== 'waiting' ? floor : stepMinor;
   const maxMinor =
     band.kind !== 'waiting'
       ? band.trackHighMinor
-      : minMinor > 0
-        ? Math.ceil((minMinor * 5) / 2 / stepMinor) * stepMinor
-        : stepMinor * FALLBACK_STEPS;
+      : floor > 0
+        ? Math.ceil((floor * 5) / 2 / stepMinor) * stepMinor
+        : stepMinor * UNPRICED_STEPS_PER_DAY * unpricedDays(days);
   return { minMinor, maxMinor: Math.max(maxMinor, minMinor + stepMinor), stepMinor };
+}
+
+/** True when the track came from the trip's length alone: nothing is priced and no band shows. */
+export function isUnpriced(band: BandView, estimates: BudgetEstimates | null): boolean {
+  if (band.kind !== 'waiting') return false;
+  const low = estimates === null ? null : crewFeasibleLow(estimates);
+  return low === null || Number(low.amountMinor) <= 0;
+}
+
+/**
+ * The track stretched to hold an amount typed above its end. Only where no band limits the pick
+ * (below four maxes): with a band, the top of the track is the crew's and stays put.
+ */
+export function widenTrack(track: Track, band: BandView, amountMinor: number | null): Track {
+  if (amountMinor === null || band.kind !== 'waiting' || amountMinor <= track.maxMinor) {
+    return track;
+  }
+  return { ...track, maxMinor: Math.ceil(amountMinor / track.stepMinor) * track.stepMinor };
+}
+
+/**
+ * A typed amount in whole units of the currency ("4.000.000", "4,000,000", "4000000", "1,350.50")
+ * as minor units, or null when it holds no number. Separators are the reader's own, so anything
+ * that is not a digit is dropped; a trailing one- or two-digit part after a separator is read as
+ * cents only for a currency that has them.
+ */
+export function typedAmountMinor(text: string, currency: string): number | null {
+  const digits = fractionDigits(currency);
+  const whole = digits > 0 ? text.trim().replace(/[.,]\d{1,2}$/u, '') : text;
+  const number = whole.replace(/\D/gu, '');
+  if (number === '') return null;
+  const value = Number(number) * 10 ** digits;
+  return Number.isSafeInteger(value) && value > 0 ? value : null;
 }
 
 export function snap(valueMinor: number, track: Track): number {
@@ -150,11 +202,25 @@ export function snap(valueMinor: number, track: Track): number {
   return Math.round(clamped / track.stepMinor) * track.stepMinor;
 }
 
-/** Where the knob starts: a locked target, else the middle of the band, else a third along. */
-export function initialTarget(band: BandView, track: Track, locked: number | null): number {
-  if (locked !== null) return snap(locked, track);
+/**
+ * Where the knob starts: a locked target, else the middle of the band, else (priced) a third
+ * along, else (nothing priced) two steps a day of the trip.
+ */
+export function initialTarget(
+  band: BandView,
+  track: Track,
+  locked: number | null,
+  unpricedForDays: number | null | undefined = undefined,
+): number {
+  if (locked !== null) return snap(locked, widenTrack(track, band, locked));
   if (band.kind === 'band') {
     return snap(Math.floor((band.lowMinor + band.highMinor) / 2), track);
+  }
+  if (unpricedForDays !== undefined) {
+    return snap(
+      track.stepMinor * UNPRICED_START_STEPS_PER_DAY * unpricedDays(unpricedForDays),
+      track,
+    );
   }
   return snap(track.minMinor + (track.maxMinor - track.minMinor) / 3, track);
 }

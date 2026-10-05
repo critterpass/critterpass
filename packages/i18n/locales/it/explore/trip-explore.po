@@ -32,6 +32,10 @@ msgid "explore.trip.picksTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.pickSavedToast"
 msgstr ""
 
@@ -49,6 +53,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.stayIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindsTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
@@ -109,6 +117,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts

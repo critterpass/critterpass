@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { EmptyState } from '@/ui/states/EmptyState';
 
@@ -123,7 +123,7 @@ export interface InviteProblemProps {
 }
 
 export function InviteProblem({ kind, inviterFirstName, crewName, action }: InviteProblemProps) {
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   const inviter =
     inviterFirstName ?? t({ id: 'onboarding.invite.problem.someone', message: 'whoever sent it' });
   const crew = crewName ?? t({ id: 'onboarding.invite.problem.theCrew', message: 'The crew' });

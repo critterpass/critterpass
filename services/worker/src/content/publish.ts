@@ -4,7 +4,8 @@
  * with the release's items, the previously live release of the kind becomes `superseded`, and
  * clients are told to refetch on the `catalog` channel. Help releases also queue `content.embed`,
  * and a places release queues a forced `places.pick` for each destination it wrote to, so one that
- * now has a curated set loses its machine picks and one still short of it is picked again.
+ * now has a curated set loses its machine picks and one still short of it is picked again; the
+ * rows of trips and people that name a record it merged follow it to the kept one (`follow-merges.ts`).
  * A release the job must refuse (a card without native review, an unverified safety record) is
  * marked blocked with the reason instead of being retried. A rollback re-approves an older release and runs this same job, so restoring a
  * version is the same one-transaction swap.
@@ -18,6 +19,7 @@ import { z } from 'zod';
 import { defineJob, enqueueInTx, type AnyJobDefinition } from '../boss/define-job';
 import { queuePlacePick } from '../jobs/places/pick';
 import { contentEmbedJob } from './embed';
+import { followMergedPlaces, type FollowResult } from './follow-merges';
 import { WRITERS, PublishRefusedError } from './writers';
 import { writePersonas, writePlaces } from './writers-guides-places';
 import { writeMedia } from './writers-media';
@@ -30,6 +32,8 @@ export interface PublishResult {
   readonly items: number;
   /** The destinations (slugs) a places release wrote to. */
   readonly destinations?: readonly string[];
+  /** What followed the release's merges to the kept records. */
+  readonly follows?: FollowResult;
 }
 
 export async function publishRelease(tx: pg.PoolClient, releaseId: string): Promise<PublishResult> {
@@ -55,6 +59,7 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
     );
   }
   let destinations: string[] | undefined;
+  let follows: FollowResult | undefined;
   const writer = WRITERS[row.kind] as
     | ((tx: pg.PoolClient, items: readonly unknown[], releaseId: string) => Promise<void>)
     | undefined;
@@ -64,6 +69,8 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
   else if (row.kind === 'places') {
     const places = loadRelease(row.artifact, 'places').items;
     await writePlaces(tx, places);
+    // Trips, lists and answers that name a record this release merged follow it to the kept one.
+    follows = await followMergedPlaces(tx);
     destinations = [...new Set(places.map((place) => place.destination))].sort();
   } else if (row.kind === 'media')
     await writeMedia(tx, loadRelease(row.artifact, 'media').items, releaseId);
@@ -90,6 +97,7 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
     version: row.version,
     items: release.items.length,
     ...(destinations === undefined ? {} : { destinations }),
+    ...(follows === undefined ? {} : { follows }),
   };
 }
 

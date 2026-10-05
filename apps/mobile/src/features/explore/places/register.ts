@@ -9,12 +9,21 @@ import { planningRedesign } from '@/lib/navigation/planning-switch';
 import { registerScreens, type ScreenParams } from '@/lib/navigation/screen-registry';
 
 import { exploreRoutes } from '../routes';
-import { parseFilter } from './places-model';
+import { categoryGroupOf, parseFilter } from './places-model';
 import { placesRoutes, type PlacesParams } from './routes';
+
+/** The list's filter: its own key, else the group a raw category (`temple_shrine`) belongs to. */
+export function filterParam(params: ScreenParams): string | undefined {
+  const category = params['category'];
+  return (
+    params['filter'] ??
+    (category === undefined ? undefined : (categoryGroupOf(category) ?? undefined))
+  );
+}
 
 function placesParams(params: ScreenParams): PlacesParams {
   return {
-    filter: parseFilter(params['filter']),
+    filter: parseFilter(filterParam(params)),
     placeId: params['placeId'],
     results: params['results'],
     chips: params['chips'],

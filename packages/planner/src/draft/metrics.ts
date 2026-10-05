@@ -104,10 +104,10 @@ export function redraftMetrics(input: RedraftMetricsInput): RedraftMetrics {
 export function metricChipLabels(metrics: RedraftMetrics): string[] {
   const transit =
     metrics.transit_delta_min < 0
-      ? `${-metrics.transit_delta_min} MIN LESS ON TRAINS`
+      ? `${-metrics.transit_delta_min} MIN LESS TRAVEL`
       : metrics.transit_delta_min > 0
-        ? `${metrics.transit_delta_min} MIN MORE ON TRAINS`
-        : 'SAME TIME ON TRAINS';
+        ? `${metrics.transit_delta_min} MIN MORE TRAVEL`
+        : 'SAME TRAVEL TIME';
   const pace = { slower: 'SLOWER PACE', same: 'SAME PACE', faster: 'FULLER PACE' }[metrics.pace];
   const mustDos =
     metrics.must_dos_kept === metrics.must_dos_total

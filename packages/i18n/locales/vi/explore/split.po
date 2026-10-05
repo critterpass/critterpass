@@ -40,6 +40,10 @@ msgstr "Cả {going}"
 msgid "explore.split.back"
 msgstr "Quay lại"
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.inChat"
+msgstr "Đã vào chat nhóm · Mở"
+
 #: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
 msgid "explore.split.noteLabel"
 msgstr "Bằng lời của bạn (không bắt buộc)"
@@ -52,6 +56,10 @@ msgstr "Đã gửi vào chat nhóm để bỏ phiếu."
 msgid "explore.split.noteLong"
 msgstr "Tối đa 140 ký tự"
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWaysSaid"
+msgstr "Chưa có cách nào hợp cả nhóm. Vào chat nhóm bàn thêm nhé."
+
 #: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.noWays"
@@ -60,6 +68,10 @@ msgstr "Chưa có cách nào. Nói bạn nghĩ sao rồi mình xem lại."
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.refusedBody"
 msgstr "Chưa gửi gì cả. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.openChat"
+msgstr "Mở chat nhóm"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.vote"

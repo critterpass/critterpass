@@ -3,7 +3,8 @@
  * saved it, and a drag handle. Holding the row (320 ms) lifts it; it follows the finger and tells
  * the screen which day chip it is over only when that changes; letting go over a chip opens Add to
  * plan on that day, anywhere else it springs home. A tap opens the place. Screen readers get "Add
- * to a day…", which opens Add to plan without dragging; the handle does the same for a tap.
+ * to a day…", which opens Add to plan without dragging; a tap on the handle offers that and the
+ * ways to remove the idea.
  */
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
@@ -52,8 +53,10 @@ export interface IdeaRowProps {
   readonly onDrop: (ideaId: string, index: number) => void;
   readonly onCancel: () => void;
   readonly onOpen: () => void;
-  /** Add to plan without dragging (the handle, the screen reader's action). */
+  /** Add to plan without dragging (the screen reader's action). */
   readonly onAddToDay: () => void;
+  /** The handle's tap: what can be done with the idea (add to a day, remove). */
+  readonly onMore: () => void;
 }
 
 export function IdeaRow(props: IdeaRowProps) {
@@ -118,10 +121,12 @@ export function IdeaRow(props: IdeaRowProps) {
   }));
   const press = usePress({ widthClass: 'wide', onPress: props.onOpen });
   const addLabel = t({ id: 'plan.ideas.addToDay', message: 'Add to a day…' });
+  const moreLabel = t({ id: 'plan.ideas.more', message: 'Add to a day, or remove' });
   const label = [props.name, props.fitLine?.text].filter((part) => part !== undefined).join(', ');
   const onAction = (event: AccessibilityActionEvent) => {
     if (event.nativeEvent.actionName === 'activate') props.onOpen();
     if (event.nativeEvent.actionName === 'addToDay') props.onAddToDay();
+    if (event.nativeEvent.actionName === 'more') props.onMore();
   };
   return (
     <GestureDetector gesture={pan}>
@@ -133,6 +138,7 @@ export function IdeaRow(props: IdeaRowProps) {
         accessibilityActions={[
           { name: 'activate', label: props.name },
           { name: 'addToDay', label: addLabel },
+          { name: 'more', label: moreLabel },
         ]}
         onAccessibilityAction={onAction}
         testID={`plan-idea-${ideaId}`}
@@ -149,8 +155,8 @@ export function IdeaRow(props: IdeaRowProps) {
               trailing={
                 <PressScale
                   widthClass="narrow"
-                  accessibilityLabel={addLabel}
-                  onPress={props.onAddToDay}
+                  accessibilityLabel={moreLabel}
+                  onPress={props.onMore}
                   testID={`plan-idea-handle-${ideaId}`}
                 >
                   <Text variant="label" color={theme.semantic.text.secondary}>

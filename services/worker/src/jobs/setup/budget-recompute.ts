@@ -86,8 +86,8 @@ export async function recomputeBudget(
     const source = inputs.rows[0]?.inputs;
     if (source === undefined) return { outcome: 'missing' };
     const estimates = budgetEstimates(source);
-    // $50 in the crew currency. With no rate for that currency there is no step, and so no band:
-    // never a dollar-sized grid in another currency (a dollar crew needs no rate).
+    // The crew currency's own step, or the round amount nearest $50. A currency with neither a
+    // step of its own nor a rate has no step, and so no band: never a dollar-sized grid.
     let step: bigint | null;
     try {
       step = bandStepMinor(estimates.currency, estimates.fx);

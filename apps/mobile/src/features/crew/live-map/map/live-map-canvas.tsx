@@ -8,7 +8,7 @@
  * redraws when an avatar loads or a pin glides, and the style swap when the destination's tiles
  * arrive drops every snapshot, so nothing showed. `Marker` places real views on the map there.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
+
 import { tokens } from '@cp/design-tokens';
 import {
   Camera,
@@ -16,26 +16,17 @@ import {
   Map as MapLibreMap,
   Marker,
   ViewAnnotation,
-  type StyleSpecification,
 } from '@maplibre/maplibre-react-native';
 import { useEffect, useMemo, useRef, type ReactElement } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 
+import { regionMapStyle } from '@/ui/map/region-pack';
 import { RouteLine } from '@/ui/map/RouteLine';
 import { YouDot } from '@/ui/map/YouDot';
 
-import criterpassDarkStyleJson from '../../../../../assets/map-style/critterpass-dark.json';
 import type { VisibleTrail } from '../data/use-trails';
 import { TrailLayer } from './trail-layer';
 import { useGlide, type GlidePoint } from './use-glide';
-
-const darkStyle = criterpassDarkStyleJson as unknown as StyleSpecification;
-const WORLD_URL = (darkStyle.sources['world'] as { url: string }).url;
-
-/** The destination's published region tiles, beside the world tiles (`<base>/<slug>/tiles-v1`). */
-export function regionTilesUrl(slug: string): string {
-  return WORLD_URL.replace(/^pmtiles:\/\//, '').replace('/world/', `/${slug}/`);
-}
 
 export interface CanvasPin {
   readonly key: string;
@@ -74,7 +65,7 @@ export function LiveMapCanvas({
   center,
   bounds,
   padding,
-  regionSourceUrl,
+  regionSource,
   pins,
   trails,
   joinIndexOf,
@@ -89,7 +80,8 @@ export function LiveMapCanvas({
   readonly bounds: [number, number, number, number] | null;
   /** Keeps the framed points clear of the header and the panel. */
   readonly padding: { top: number; bottom: number; left: number; right: number };
-  readonly regionSourceUrl?: string | undefined;
+  /** The `region` source's tiles (`useRegionTiles`): the destination's pack, else the world's. */
+  readonly regionSource: string;
   readonly pins: readonly CanvasPin[];
   readonly trails: readonly VisibleTrail[];
   readonly joinIndexOf: (uid: string) => number;
@@ -105,19 +97,7 @@ export function LiveMapCanvas({
   readonly onMeetupDragged?: ((point: { lat: number; lng: number }) => void) | undefined;
   readonly onMeetupDragStart?: (() => void) | undefined;
 }) {
-  const style = useMemo(
-    (): StyleSpecification => ({
-      ...darkStyle,
-      sources: {
-        ...darkStyle.sources,
-        region: {
-          type: 'vector',
-          url: regionSourceUrl === undefined ? WORLD_URL : `pmtiles://${regionSourceUrl}`,
-        },
-      },
-    }),
-    [regionSourceUrl],
-  );
+  const style = useMemo(() => regionMapStyle(regionSource), [regionSource]);
   const camera = useRef<CameraRef>(null);
   // Re-frame once the panel has measured itself (its height is the bottom padding).
   useEffect(() => {

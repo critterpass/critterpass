@@ -19,6 +19,8 @@ const TIMEOUT_MS = 10_000;
 
 export interface ReorderAnswer {
   readonly found: boolean;
+  /** Every drive of the new order is a routed one; false = some are estimates. */
+  readonly checked: boolean;
   readonly beforeOrder: readonly string[];
   readonly beforeMin: number;
   readonly afterOrder: readonly string[];
@@ -97,6 +99,7 @@ export function readReorder(body: unknown): ReorderAnswer {
   const after = obj(root['after']);
   return {
     found: root['found'] === true,
+    checked: root['checked'] !== false,
     beforeOrder: list(before['order']).map(str),
     beforeMin: num(before['drive_min']),
     afterOrder: list(after['order']).map(str),

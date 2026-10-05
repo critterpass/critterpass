@@ -13,22 +13,22 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import type { DayChip, FitGrade } from '@/ui/planning';
 
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { AddBlock } from '../add-block';
 import {
   addLabel,
-  alreadyLine,
   blockDetail,
   dayHeader,
   leaveLine,
   lengthLabel,
   moveLabel,
   nearbyLine,
-  nowhereNote,
   offlineNote,
   pickedLine,
   reasonTiles,
   whyTitle,
 } from '../add-copy';
+import { inPlanLine, nowhereLine, saveToIdeasLabel } from '../add-states-copy';
 import { AddSheetView } from '../add-sheet-view';
 import { WhoGoing } from '../who-going';
 
@@ -108,46 +108,46 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
       <View style={{ flex: 1 }} />
       <AddSheetView
         name="TIRTA EMPUL"
-        line={pickedLine('Tokek')}
-        days={days}
-        dayNo={6}
-        onDay={noop}
-        dayHeader={dayHeader(label, day)}
-        block={
-          <AddBlock
-            leave={leaveLine(day, 480)}
-            time="08:00"
-            length={lengthLabel(90)}
-            name="TIRTA EMPUL"
-            detail={blockDetail(day)}
-            editingTime={false}
-            onTime={noop}
-            start={480}
-            end={570}
-            onTimeChange={noop}
-            nearby={
-              note === undefined && !already
-                ? {
-                    time: '09:45',
-                    text: nearbyLine('Gunung Kawi', 10),
-                    picked: false,
-                    onToggle: noop,
-                  }
-                : null
-            }
-          />
-        }
-        whyTitle={whyTitle('08:00')}
-        reasons={reasonTiles(day, month)}
-        note={
+        line={
           already
-            ? alreadyLine(label)
+            ? inPlanLine(label, '18:00')
             : note === 'nowhere'
-              ? nowhereNote()
-              : note === 'offline'
-                ? offlineNote()
-                : null
+              ? nowhereLine()
+              : pickedLine(NO_TRIP_GUIDE.name)
         }
+        days={days}
+        dayNo={note === 'nowhere' ? null : 6}
+        onDay={noop}
+        dayHeader={note === 'nowhere' ? '' : dayHeader(label, day)}
+        block={
+          note === 'nowhere' ? null : (
+            <AddBlock
+              leave={leaveLine(day, 480)}
+              time="08:00"
+              length={lengthLabel(90)}
+              name="TIRTA EMPUL"
+              detail={blockDetail(day)}
+              editingTime={false}
+              onTime={noop}
+              start={480}
+              end={570}
+              onTimeChange={noop}
+              nearby={
+                note === undefined && !already
+                  ? {
+                      time: '09:45',
+                      text: nearbyLine('Gunung Kawi', 10),
+                      picked: false,
+                      onToggle: noop,
+                    }
+                  : null
+              }
+            />
+          )
+        }
+        whyTitle={note === 'nowhere' ? '' : whyTitle('08:00')}
+        reasons={note === 'nowhere' ? [] : reasonTiles(day, month)}
+        note={note === 'offline' ? offlineNote(NO_TRIP_GUIDE.name) : null}
         who={
           <WhoGoing
             members={CREW}
@@ -157,11 +157,17 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
             onToggle={noop}
           />
         }
-        cta={already ? moveLabel(label, '08:00') : addLabel(label, '08:00', organiser)}
+        cta={
+          already
+            ? moveLabel(label, '08:00')
+            : note === 'nowhere'
+              ? saveToIdeasLabel()
+              : addLabel(label, '08:00', organiser)
+        }
         busy={false}
         disabled={false}
         onAdd={noop}
-        onSaveLater={noop}
+        onSaveLater={note === 'nowhere' ? null : noop}
       />
     </Scaffold>
   );

@@ -47,6 +47,8 @@ export type PlainAction =
   | { readonly type: 'remove'; readonly key: string }
   /** A way out (7d-4): its filters, rerun without the model. */
   | { readonly type: 'relax'; readonly filters: SearchFilter }
+  /** The same filters again, after a search that failed. */
+  | { readonly type: 'retry' }
   | { readonly type: 'answered'; readonly round: number; readonly answer: PlainAnswer }
   | { readonly type: 'failed'; readonly round: number; readonly offline: boolean };
 
@@ -104,6 +106,9 @@ export function plainReducer(state: PlainState, action: PlainAction): PlainState
         search: 'loading',
         answer: null,
       };
+    case 'retry':
+      if (state.parse !== 'done') return state;
+      return { ...state, round: state.round + 1, search: 'loading' };
     case 'answered':
       if (action.round !== state.round) return state;
       return { ...state, search: 'ready', answer: action.answer };
@@ -158,16 +163,19 @@ export function usePlainSearch(input: {
   const { round, filters, parse } = state;
   useEffect(() => {
     if (parse !== 'done') return;
-    void services.getJson(plainSearchQuery(filters, { tripId, destinationId })).then((read) => {
-      if (read.kind === 'ok')
-        dispatch({ type: 'answered', round, answer: readPlainAnswer(read.body) });
-      else dispatch({ type: 'failed', round, offline: read.kind === 'offline' });
-    });
-  }, [services, tripId, destinationId, round, filters, parse]);
+    void services
+      .getJson(plainSearchQuery(filters, { tripId, destinationId }, question))
+      .then((read) => {
+        if (read.kind === 'ok')
+          dispatch({ type: 'answered', round, answer: readPlainAnswer(read.body) });
+        else dispatch({ type: 'failed', round, offline: read.kind === 'offline' });
+      });
+  }, [services, tripId, destinationId, round, filters, parse, question]);
 
   return {
     state,
     remove: (key: string) => dispatch({ type: 'remove', key }),
     relax: (filters: SearchFilter) => dispatch({ type: 'relax', filters }),
+    retry: () => dispatch({ type: 'retry' }),
   };
 }

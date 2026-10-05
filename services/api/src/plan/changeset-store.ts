@@ -143,6 +143,7 @@ export async function outcomeOf(tx: pg.PoolClient, id: string): Promise<Changese
           ? 0
           : yesNeeded(state.poll.decider_policy, eligible, state.poll.threshold),
       eligible,
+      closes_at: state?.poll.closes_at?.toISOString() ?? null,
       result_version_id: row.result_version_id,
     };
   });

@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: Guide rows, the destination link and assignment (server)
-status: pending
+status: done
 depends_on: []
 tasks: 4
 owns:
@@ -50,22 +50,22 @@ mount_points:
 - Migration: the two `guides` columns, the `destinations` column, the sync function for guide rows, the backfill, grants and the permission test for the new columns. `pois`-style care is not needed (small tables), but every statement is idempotent.
 - `@cp/critter-art` guides module: fold, guide facts by slug and by key. `@cp/design-tokens`: the contrast helpers exported.
 - Tests: the fold agrees between SQL and TypeScript for all 151 names, slugs are unique and match `^[a-z]{2,16}$`; every accent passes the contrast rule on the dark base and its paper variant on paper; the seven keep slug, name and colour.
-- Status: pending
+- Status: done — 68946c85c
 
 ### T2 Assignment and the switch
 - `guides.per_city` in the ops config catalogue, default off.
 - Both writers read the destination's critter when it is on. Database tests: a generated city destination (Đà Lạt → `ngua`), a set home destination (Đà Nẵng → `chava`), a destination with no critter, and the switch off.
-- Status: pending
+- Status: done — 7ccd212d5
 
 ### T3 Trips that have not started
 - Worker job plus operator CLI (the `places.pick` CLI is the pattern). Database test: a planning trip moves, an in-trip and a finished trip stay.
-- Status: pending
+- Status: done — 6da4c1940
 
 ### T4 Persona resolver
 - Template pack builder and the resolver; every `REPO_PACKS[...]` lookup and `personaIdSchema` fallback goes through it.
 - Tests: a template pack for Ngựa validates against the pack schema, carries the hedge and never says Tokek; the seven resolve to their repo packs unchanged; an unknown slug falls back to Tokek. Run the persona eval on the template for three guides and record the scores in the report.
 - Docs: the decision row, the data-model rows.
-- Status: pending
+- Status: done — 98c5a71ca
 
 ## Done when
 

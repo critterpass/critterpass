@@ -39,6 +39,7 @@ export function PlanMapTab({
       legPaths={legPaths}
       items={items}
       destinationSlug={data.trip?.destination_slug ?? null}
+      destinationName={data.trip?.destination_name ?? null}
       localRegionUri={downloaded}
       offlineUnavailable={sync.phase === 'offline' && downloaded === null}
       onDownload={

@@ -1,6 +1,6 @@
 /**
- * "OR BROWSE" (7d-1): six kinds of place as tiles; a tile opens the places list (7c-3) with that
- * category, or, before the list is registered, searches the kind on the phone.
+ * "OR BROWSE" (7d-1): six kinds of place as tiles; a tile opens the places list (7c-3) filtered to
+ * that kind, or asks for the kind in words where the list has no filter for it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- category keys and folded search words, never copy. */
 import type { PoiCategory } from '@cp/domain';
@@ -15,6 +15,11 @@ import { PressScale } from '@/ui/press/PressScale';
 export interface BrowseTile {
   readonly key: string;
   readonly category: PoiCategory;
+  /**
+   * The places list's own filter for this kind; null where the list has no such group (coffee is
+   * food there, a waterfall is nature), so the tile asks for the kind in words instead.
+   */
+  readonly filter: string | null;
   /** The folded word the phone's search reads for it ("coffee"). */
   readonly word: string;
   readonly icon: DoodleName;
@@ -25,6 +30,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'food',
     category: 'food',
+    filter: 'food',
     word: 'food',
     icon: 'food',
     label: () => t({ id: 'search.browse.food', message: 'Food' }),
@@ -32,6 +38,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'temples',
     category: 'temple_shrine',
+    filter: 'temples',
     word: 'temple',
     icon: 'temple',
     label: () => t({ id: 'search.browse.temples', message: 'Temples' }),
@@ -39,6 +46,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'waterfalls',
     category: 'nature',
+    filter: null,
     word: 'waterfall',
     icon: 'wave',
     label: () => t({ id: 'search.browse.waterfalls', message: 'Waterfalls' }),
@@ -46,6 +54,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'beaches',
     category: 'beach',
+    filter: 'beaches',
     word: 'beach',
     icon: 'sun',
     label: () => t({ id: 'search.browse.beaches', message: 'Beaches' }),
@@ -53,6 +62,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'coffee',
     category: 'food',
+    filter: null,
     word: 'coffee',
     icon: 'food',
     label: () => t({ id: 'search.browse.coffee', message: 'Coffee' }),
@@ -60,6 +70,7 @@ export const BROWSE_TILES: readonly BrowseTile[] = [
   {
     key: 'spa',
     category: 'health',
+    filter: 'wellness',
     word: 'spa',
     icon: 'spark',
     label: () => t({ id: 'search.browse.spa', message: 'Spa' }),

@@ -36,6 +36,8 @@ interface DayResult {
   readonly fit: DayFit;
   readonly slot: GradedSlot | null;
   readonly fullness: number;
+  /** A travel day (arrival, departure) is only the best day when no full day takes the place. */
+  readonly travelDay: boolean;
 }
 
 function noReasons(day: FitDay, opens: boolean): FitReason[] {
@@ -88,6 +90,7 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
       },
       slot: null,
       fullness: model.items.length,
+      travelDay: day.kind !== 'full',
     };
   }
   const { candidate } = slot;
@@ -108,6 +111,7 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
     },
     slot,
     fullness: model.items.length,
+    travelDay: day.kind !== 'full',
   };
 }
 
@@ -116,13 +120,17 @@ const GRADE_RANK: Readonly<Record<FitGrade, number>> = { good: 0, possible: 1, n
 const driveMinutes = (result: DayResult): number =>
   (result.slot?.candidate.legIn?.minutes ?? 0) + (result.slot?.candidate.legOut?.minutes ?? 0);
 
-/** The earliest good slot on the least full day, ties to fewer drive minutes. */
+/**
+ * The best grade, on a full day before the day the crew arrives or leaves, then the least full
+ * day, ties to fewer drive minutes.
+ */
 function bestOf(results: readonly DayResult[]): PlaceFit['best'] {
   const ranked = results
     .filter((result) => result.fit.grade !== 'no' && result.fit.slot !== null)
     .sort(
       (a, b) =>
         GRADE_RANK[a.fit.grade] - GRADE_RANK[b.fit.grade] ||
+        Number(a.travelDay) - Number(b.travelDay) ||
         a.fullness - b.fullness ||
         driveMinutes(a) - driveMinutes(b) ||
         a.fit.day_no - b.fit.day_no,

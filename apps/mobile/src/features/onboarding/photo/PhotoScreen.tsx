@@ -22,7 +22,7 @@ import { requestWithPrimer } from '@/lib/permissions';
 import { feedback } from '@/motion/feedback';
 import { useLoop } from '@/motion/use-loop';
 import { useMotionMode } from '@/motion/motion-mode';
-import { AvatarPicker, GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar';
+import { AvatarPicker, guideSticker, type GuideAvatarId } from '@/ui/avatar';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -134,7 +134,7 @@ export function PhotoScreen() {
     if (next.step !== 'photo') router.push(routeForStep(next.step));
   };
 
-  const guide = selected === null ? null : GUIDE_STICKERS[selected];
+  const guide = selected === null ? null : guideSticker(selected);
   return (
     <>
       <OnboardingPage

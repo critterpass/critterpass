@@ -14,7 +14,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
-import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
@@ -53,7 +53,7 @@ function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly end
   ).rows[0];
   const unit = unitRow?.distance_unit === 'imperial' ? 'imperial' : 'metric';
   const guide = guideOf(data.guideSlug);
-  const guideName = data.guideName ?? GUIDE_STICKERS[guide].name;
+  const guideName = data.guideName ?? guideSticker(guide).name;
   const legendaryHref = useScreenHref('3l-9');
   const { model } = data;
   const recapId = data.recapId;

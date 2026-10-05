@@ -11,7 +11,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { feedback, toast, useMotionMode } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import { signupQuestCommand } from './commands';
@@ -37,7 +37,7 @@ export function QuestsScreen() {
   const reveals = useRewardReveal(id, motionMode !== 'full');
   const signup = useCommand(signupQuestCommand);
   const guide = guideOfSlug(guideSlug);
-  const art = GUIDE_STICKERS[guide];
+  const art = guideSticker(guide);
   const toasted = useRef(new Set<string>());
 
   useEffect(() => {

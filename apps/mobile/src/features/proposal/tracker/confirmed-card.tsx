@@ -5,7 +5,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
+import { guideSticker, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -34,7 +34,7 @@ export interface ConfirmedCardProps {
 export function ConfirmedCard(props: ConfirmedCardProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   const ink = theme.semantic.text.onAccent;
   const going = props.going;
   return (

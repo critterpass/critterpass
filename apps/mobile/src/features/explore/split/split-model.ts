@@ -143,3 +143,28 @@ export function optionTags(option: SplitOptionView, crewSize: number, locale: st
       : t({ id: 'explore.split.going', message: `${going} going` }),
   ].filter((tag): tag is string => tag !== null);
 }
+
+export type SplitFooter =
+  /** SUGGEST and the vote link, as the options allow. */
+  | { readonly kind: 'post' }
+  /** A way is in crew chat (or there is none to post): one button, into the chat. */
+  | { readonly kind: 'chat'; readonly reason: 'posted' | 'no_ways' }
+  | { readonly kind: 'none' };
+
+/**
+ * What the foot of the screen offers: after a post, only the way into crew chat (never a second
+ * post); with no ways to offer, the chat once she has said where she stands; else the buttons.
+ */
+export function splitFooter(input: {
+  readonly posted: boolean;
+  readonly loading: boolean;
+  readonly options: number;
+  readonly said: boolean;
+  readonly canChat: boolean;
+}): SplitFooter {
+  if (input.posted) return input.canChat ? { kind: 'chat', reason: 'posted' } : { kind: 'none' };
+  if (input.options > 0) return { kind: 'post' };
+  if (input.loading || !input.said || !input.canChat) return { kind: 'none' };
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a state key, never copy.
+  return { kind: 'chat', reason: 'no_ways' };
+}

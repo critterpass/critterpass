@@ -176,10 +176,27 @@ export type WhenMode =
   /** Counts exist but no option yet (the server is still working them out). */
   | 'computing'
   /** Nobody has shared a single day yet. */
-  | 'empty';
+  | 'empty'
+  /** Days are in, but the only week everyone can make starts too soon to suggest: pick by hand. */
+  | 'pick';
 
-export function whenMode(options: readonly WindowOption[], synced: number): WhenMode {
-  if (options.some((option) => option.kind === 'best')) return 'best';
+/** The window worth suggesting: the server's best, unless it starts before `earliest`. */
+export function suggestedBest(
+  options: readonly WindowOption[],
+  earliest: string | null,
+): WindowOption | null {
+  const best = options.find((option) => option.kind === 'best') ?? null;
+  return best !== null && earliest !== null && best.start < earliest ? null : best;
+}
+
+export function whenMode(
+  options: readonly WindowOption[],
+  synced: number,
+  earliest: string | null = null,
+): WhenMode {
+  if (options.some((option) => option.kind === 'best')) {
+    return suggestedBest(options, earliest) === null ? 'pick' : 'best';
+  }
   if (options.length > 0) return 'no_fit';
   return synced === 0 ? 'empty' : 'computing';
 }

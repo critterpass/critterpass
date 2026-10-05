@@ -31,6 +31,8 @@ export const editorialOverlaySchema = z
     tips: z.array(z.string().min(1)).optional(),
     photos: z.array(editorialPhotoSchema).optional(),
     must_see: z.boolean().optional(),
+    /** One of the few must-sees a first visit is built around; set only with `must_see`. */
+    essential: z.boolean().optional(),
     /** Content factory editorial, written from open data only. */
     why_go: z.string().min(1).optional(),
     best_time: z.string().min(1).optional(),
@@ -50,3 +52,21 @@ export const editorialOverlaySchema = z
 export type EditorialOverlay = z.infer<typeof editorialOverlaySchema>;
 
 export const EMPTY_EDITORIAL_OVERLAY: EditorialOverlay = {};
+
+const OVERLAY_KEYS: ReadonlySet<string> = new Set(Object.keys(editorialOverlaySchema.shape));
+
+/**
+ * Reads a stored overlay (`pois.editorial`). A stored note is data we read, not input we
+ * validate: a line stored as null counts as absent and a key this version does not know is
+ * ignored, so neither an older publish nor a newer one takes a reader down. What remains is
+ * parsed as `editorialOverlaySchema`, so a known line of the wrong type still fails.
+ */
+export function readEditorialOverlay(value: unknown): EditorialOverlay {
+  if (value === null || value === undefined) return {};
+  if (typeof value !== 'object' || Array.isArray(value)) return editorialOverlaySchema.parse(value);
+  return editorialOverlaySchema.parse(
+    Object.fromEntries(
+      Object.entries(value).filter(([key, line]) => OVERLAY_KEYS.has(key) && line !== null),
+    ),
+  );
+}

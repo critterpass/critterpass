@@ -45,6 +45,7 @@ const crew: TripCrew = {
   crewName: 'The Bali Six',
   destinationId: null,
   destinationSlug: null,
+  destinationName: 'Bali',
   status: 'in_trip',
   startDate: '2026-10-15',
   endDate: '2026-10-19',

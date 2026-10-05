@@ -3,14 +3,19 @@
  * picker for another day), the chips (SAVED on, the guide's picks, other days, categories), and
  * the stops as a strip along the bottom: swiping it moves the one label from stop to stop. Saved
  * places the plan check found on the way say how far off the route they are ("ON THE WAY · +3 MIN").
+ * The map opens on the day's stops and fits them again when they change (an edit), so it never
+ * shows an empty map; a tapped pin is labelled, and its label opens the stop or the place.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import type { LngLatBounds } from '@maplibre/maplibre-react-native';
+import { useMemo, useState } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { MapLabel, usePlanningCamera } from '@/ui/map/planning';
+import { useRegionTiles } from '@/ui/map/region-pack';
+import { NOTICE_ROOM } from '@/ui/map/RegionPackNotice';
 import { DayChips, FilterChipRow } from '@/ui/planning';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { BackButton } from '@/ui/shell/BackButton';
@@ -23,10 +28,12 @@ import { lengthLabel, modeLabel } from '../trip-map/format';
 import { categoryChips, mapPlaces, type MapFilter } from '../trip-map/map-places';
 import { dayChips } from '../trip-map/sheet-copy';
 import { buildStopRows } from '../trip-map/stop-rows';
-import { pickedStopOf, viewPoints } from '../trip-map/trip-map-camera';
+import { todayOf } from '../trip-map/next-stop';
+import { fitSignature, openingCamera, pickedStopOf, viewPoints } from '../trip-map/trip-map-camera';
 import { DAY_CHIP, filterChips, nextFilter } from '../trip-map/trip-map-filters';
 import { TripMapLayers } from '../trip-map/trip-map-layers';
 import type { TripMapModel } from '../trip-map/sheet-props';
+import { useFitCamera } from '../trip-map/use-fit-camera';
 import { DayPill } from './day-pill';
 import { onTheWay } from './on-the-way';
 import { StopStrip } from './stop-strip';
@@ -55,6 +62,8 @@ export interface DayMapViewProps {
   readonly versionId: string | null;
   readonly onBack: () => void;
   readonly onOpenStop: (stableId: string) => void;
+  /** Opens a tapped place's page. */
+  readonly onOpenPlace?: ((placeId: string) => void) | undefined;
 }
 
 export function DayMapView({
@@ -65,6 +74,7 @@ export function DayMapView({
   versionId,
   onBack,
   onOpenStop,
+  onOpenPlace,
 }: DayMapViewProps) {
   const { t } = useLingui();
   const locale = useLocale();
@@ -76,7 +86,8 @@ export function DayMapView({
   const [current, setCurrent] = useState(0);
   const [picking, setPicking] = useState(false);
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const [ready, setReady] = useState(false);
+  const [bounds, setBounds] = useState<LngLatBounds | null>(null);
+  const [placeId, setPlaceId] = useState<string | null>(null);
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const rows = useMemo(
     () =>
@@ -109,19 +120,30 @@ export function DayMapView({
     [model, filter],
   );
   const covered = { top: insets.top + 110, bottom: STRIP + insets.bottom + 24 };
-  useEffect(() => {
-    if (size.height === 0 || day === null || !ready) return;
-    camera.fitPoints(viewPoints(model, day), covered);
-    // A new day or size moves the camera, not a re-read of the plan.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day?.dayNo, size.height, ready]);
+  // The line a destination without a region pack shows sits above the cards: the camera keeps the
+  // stay and the fitted stops clear of it while it shows.
+  const tiles = useRegionTiles(model.destinationSlug, model.regionUri);
+  const noted = tiles.awaited && model.destination !== null;
+  const clear = noted ? { ...covered, bottom: covered.bottom + NOTICE_ROOM } : covered;
+  const points = useMemo(() => (day === null ? [] : viewPoints(model, day)), [model, day]);
+  useFitCamera(camera, {
+    fitKey: `${fitSignature(day)}|${String(size.height)}|${String(noted)}`,
+    ready: size.height > 0 && bounds !== null,
+    points,
+    covered: clear,
+    bounds,
+  });
+  // The map opens already on the day's stops: the first fit can be lost while the style loads.
+  const [opening] = useState(() => openingCamera(points, Dimensions.get('window'), covered));
   if (day === null) return null;
 
   const stop = rows[current]?.stop ?? null;
+  const pickedPlace = places.find((place) => place.id === placeId) ?? null;
   const settle = (index: number) => {
+    setPlaceId(null);
     setCurrent(index);
     const place = rows[index]?.stop.place;
-    if (place != null) camera.flyToPlace([place.lng, place.lat], { zoom: 14, covered });
+    if (place != null) camera.flyToPlace([place.lng, place.lat], { zoom: 14, covered: clear });
   };
   // The leg into each card: "Walk", or how long the drive is.
   const shortLegs = rows.map((_, index) => {
@@ -135,9 +157,14 @@ export function DayMapView({
       <View style={StyleSheet.absoluteFill} onLayout={(event) => setSize(event.nativeEvent.layout)}>
         <TripMapLayers
           camera={camera}
-          center={day.stay === null ? (model.center ?? [0, 0]) : [day.stay.lng, day.stay.lat]}
-          zoom={13}
+          center={
+            opening?.center ??
+            (day.stay === null ? (model.center ?? [0, 0]) : [day.stay.lng, day.stay.lat])
+          }
+          zoom={opening?.zoom ?? 13}
           destinationSlug={model.destinationSlug}
+          placeName={model.destination}
+          coveredBottom={covered.bottom}
           regionUri={model.regionUri}
           stay={day.stay === null ? null : [day.stay.lng, day.stay.lat]}
           places={places}
@@ -145,14 +172,34 @@ export function DayMapView({
           chosenDayNo={day.dayNo}
           logo={false}
           pickedStop={
-            stop === null ? null : pickedStopOf({ kind: 'stop', id: stop.stableId }, day, locale)
+            stop === null || pickedPlace !== null
+              ? null
+              : pickedStopOf({ kind: 'stop', id: stop.stableId }, day, locale)
           }
-          pickedPlace={null}
+          pickedPlace={pickedPlace}
           onPick={(picked) => {
+            if (picked?.kind === 'place') {
+              const place = places.find((one) => one.id === picked.id);
+              setPlaceId(picked.id);
+              if (place !== undefined) {
+                camera.flyToPlace([place.lng, place.lat], { zoom: 14, covered: clear });
+              }
+              return;
+            }
+            setPlaceId(null);
             const index = rows.findIndex((row) => row.stop.stableId === picked?.id);
             if (index >= 0) settle(index);
           }}
-          onRegion={() => setReady(true)}
+          onOpenPicked={
+            pickedPlace !== null
+              ? onOpenPlace === undefined
+                ? undefined
+                : () => onOpenPlace(pickedPlace.id)
+              : stop === null
+                ? undefined
+                : () => onOpenStop(stop.stableId)
+          }
+          onRegion={(region) => setBounds(region.bounds)}
         >
           {onTheWay(model.ideas, day.dayNo, versionId).map((idea) => (
             <MapLabel
@@ -216,7 +263,7 @@ export function DayMapView({
         >
           <View style={styles.picker}>
             <DayChips
-              days={dayChips(model.days, locale)}
+              days={dayChips(model.days, locale, todayOf(model.now ?? new Date(), model.tz))}
               selectedDayNo={day.dayNo}
               onSelect={(n) => {
                 onDayNo(n);

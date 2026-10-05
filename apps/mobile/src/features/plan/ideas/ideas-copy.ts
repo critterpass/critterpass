@@ -1,13 +1,12 @@
 /** Ideas' words (7f-2): how many are saved, the PLACE THEM FOR ME line, and the empty note. */
 import { plural, t } from '@lingui/core/macro';
 
-export function bodyText(count: number): string {
+export function bodyText(count: number, guideName: string): string {
   return t({
     id: 'plan.ideas.body',
     message: plural(count, {
-      one: "One saved place that isn't in a day yet. Drag it onto a day, or let Tokek place it.",
-      other:
-        "# saved places that aren't in a day yet. Drag one onto a day, or let Tokek place them.",
+      one: `One saved place that isn't in a day yet. Drag it onto a day, or let ${guideName} place it.`,
+      other: `# saved places that aren't in a day yet. Drag one onto a day, or let ${guideName} place them.`,
     }),
   });
 }
@@ -53,4 +52,23 @@ export function emptyBody(): string {
 
 export function backToIdeas(): string {
   return t({ id: 'plan.placing.backToIdeas', message: 'Back to Ideas' });
+}
+
+/** A saved place that is already a stop: the row says where instead of where it would fit. */
+export function inPlanFitLine(dayLabel: string): string {
+  return t({ id: 'plan.ideas.inPlan', message: `Already in the plan · ${dayLabel}` });
+}
+
+export function removedToast(forEveryone: boolean): string {
+  return forEveryone
+    ? t({ id: 'plan.ideas.removedAll', message: 'Removed from Ideas for everyone' })
+    : t({ id: 'plan.ideas.removedMine', message: 'Removed from your saved places' });
+}
+
+export function undoLabel(): string {
+  return t({ id: 'plan.ideas.undo', message: 'UNDO' });
+}
+
+export function findPlacesLabel(): string {
+  return t({ id: 'plan.ideas.findPlaces', message: 'Find places to save' });
 }

@@ -1,12 +1,14 @@
 /**
  * The guide of what the person is in right now, for the tab bar's guide button and anything else
- * that draws "the guide" outside a trip's own screens: the guide of the Home crew's trip under way,
- * else of its next confirmed trip. Read from the same synced `trips` rows Home's cards draw their
- * guide from, so the button and the next-trip card never disagree.
+ * that draws "the guide" outside a trip's own screens (the inbox's empty state): the guide of the
+ * trip Home is showing, which is the Home crew's trip under way, else its next trip, planned or
+ * locked. Read from the same synced `trips` rows Home's card draws its guide from, so the button,
+ * the card and the chat it opens never disagree. Before any trip has a guide it is the default.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { useContext, useEffect, useState } from 'react';
 
+import { feedGuides } from '@/data/guides';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { ActiveGuide } from '@/lib/navigation/active-guide';
@@ -21,17 +23,18 @@ export interface TripGuideRow {
   readonly guide_slug: string | null;
 }
 
-/** Trips the crew has locked in and not yet finished. */
-const LOCKED_IN: readonly string[] = ['in_trip', 'pre_trip', 'confirmed'];
+/** Trips that are over or called off: Home no longer shows them as the next one. */
+const OVER: readonly string[] = ['post_trip', 'archived', 'cancelled'];
 
 /**
- * The trip under way wins; else the locked-in trip that starts first. A trip still being voted on,
- * set up or drafted has no say (its guide can still change), and neither has one whose guide the
- * app has no sticker for: both leave the default guide.
+ * The trip under way wins; else the trip that starts first, whether it is still being planned or
+ * already locked in (a trip with no dates yet comes last). A trip with no guide yet (still voting
+ * on its place) or one whose guide this phone does not know has no say: the next one does, and
+ * with none the default guide stays.
  */
 export function currentTripGuide(trips: readonly TripGuideRow[]): ActiveGuide | null {
   const current = trips
-    .filter((trip) => LOCKED_IN.includes(trip.status))
+    .filter((trip) => !OVER.includes(trip.status) && isGuideId(trip.guide_slug))
     .sort((a, b) => {
       const under = Number(b.status === 'in_trip') - Number(a.status === 'in_trip');
       if (under !== 0) return under;
@@ -40,15 +43,15 @@ export function currentTripGuide(trips: readonly TripGuideRow[]): ActiveGuide | 
       if (b.start_date === null) return -1;
       return a.start_date.localeCompare(b.start_date);
     })[0];
-  return current !== undefined && isGuideId(current.guide_slug)
-    ? { guideId: current.guide_slug }
-    : null;
+  return current === undefined || current.guide_slug === null
+    ? null
+    : { guideId: current.guide_slug };
 }
 
-/** The locked-in trips of the Home crew (the chosen one, else the first joined). */
+/** The trips of the Home crew (the chosen one, else the first joined) that are not over. */
 export const TRIP_GUIDE_SQL = `SELECT t.id, t.status, t.start_date, g.slug AS guide_slug
   FROM trips t LEFT JOIN guides g ON g.id = t.guide_id
-  WHERE t.status IN ('in_trip', 'pre_trip', 'confirmed') AND t.crew_id = (
+  WHERE t.status NOT IN ('post_trip', 'archived', 'cancelled') AND t.crew_id = (
     SELECT m.crew_id FROM crew_members m JOIN crews c ON c.id = m.crew_id
     WHERE m.status = 'active' AND m.user_id = (SELECT value FROM local_state WHERE id = ?)
     ORDER BY coalesce(m.crew_id = (SELECT s.active_crew_id FROM user_settings s
@@ -73,6 +76,8 @@ export function useCurrentTripGuide(): ActiveGuide | null {
     readonly db: unknown;
     readonly rows: readonly TripGuideRow[];
   } | null>(null);
+  // The shell is where every session's guide rows and the per-city switch start arriving.
+  useEffect(() => (db === null ? undefined : feedGuides(db)), [db]);
   useEffect(() => {
     if (db === null) return undefined;
     return watchQuery<TripGuideRow>(

@@ -89,12 +89,14 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
           <>
             <DraftReviewView {...reviewProps(locale)} hasHistory />
             <VersionHistorySheet
+              guideName="Pon"
               locale={locale}
               entries={[
                 {
                   id: 'v-3',
                   createdAt: '2027-02-10T09:40:00Z',
                   current: true,
+                  origin: { kind: 'redraft', dayNo: 2 },
                   days: 8,
                   costPpMinor: 131_000,
                   currency: 'USD',
@@ -103,6 +105,7 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
                   id: 'v-2',
                   createdAt: '2027-02-10T09:12:00Z',
                   current: false,
+                  origin: { kind: 'changed' },
                   days: 8,
                   costPpMinor: 138_000,
                   currency: 'USD',
@@ -111,6 +114,7 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
                   id: 'v-1',
                   createdAt: '2027-02-09T21:05:00Z',
                   current: false,
+                  origin: { kind: 'first' },
                   days: 8,
                   costPpMinor: 142_000,
                   currency: 'USD',

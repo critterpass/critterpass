@@ -32,6 +32,10 @@ msgid "explore.trip.picksTitle"
 msgstr "Gợi ý của {guide} cho lần đầu đến"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindLabel"
+msgstr "{kind} · {count}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.pickSavedToast"
 msgstr "{place} đã vào Ý tưởng."
 
@@ -50,6 +54,10 @@ msgstr "♥ Đã lưu"
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.stayIdea"
 msgstr "Về chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindsTitle"
+msgstr "Xem theo loại"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapsBy"
@@ -110,6 +118,10 @@ msgstr "Cả nhóm đều rảnh"
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.back"
 msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapSolo"
+msgstr "Bạn rảnh"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapsFullTitle"

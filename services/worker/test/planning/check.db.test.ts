@@ -1,8 +1,9 @@
 /**
  * The plan check job on a real database: an edit that makes a clash becomes a fix issue with a
  * one-tap retime, an unchanged issue keeps its id, reverting the edit clears it, ideas get their
- * fit, the daily cap holds back all but the daily run, plan changes queue one debounced run, and
- * nothing in the job's module graph reaches the AI gateway.
+ * fit, an issue the organiser kept as it is stays out until a stop next to it changes, the daily
+ * cap holds back all but the daily run, plan changes queue one debounced run, and nothing in the
+ * job's module graph reaches the AI gateway.
  */
 import { randomUUID } from 'node:crypto';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -128,6 +129,51 @@ describe('plan check job', () => {
   it('reverting the edit clears the issue', async () => {
     await moveForest('13:15', '14:15');
     await runPlanCheck(db.pool, { trip_id: tripId, trigger: 'plan' }, NOW);
+    expect(await issues()).toEqual([]);
+  });
+
+  it('leaves a kept issue out of the list and the count until a stop next to it changes', async () => {
+    const run = () => runPlanCheck(db.pool, { trip_id: tripId, trigger: 'plan' }, NOW);
+    const quiet = async () =>
+      (
+        await db.pool.query<{
+          quiet: { kind: string; around: string | null }[];
+          fix_count: number;
+        }>('SELECT quiet, fix_count FROM plan_checks WHERE trip_id = $1', [tripId])
+      ).rows[0]!;
+    await moveForest('12:00', '13:00');
+    expect(await run()).toMatchObject({ fix: 1 });
+    // The mark as `keep_check_issue` leaves it: the neighbours are read on the next run.
+    await db.pool.query(
+      `UPDATE plan_checks SET quiet = jsonb_build_array(jsonb_build_object(
+         'kind', 'clash', 'stable_ids', jsonb_build_array($2::text, $3::text), 'day_no', NULL,
+         'booking_id', NULL, 'around', NULL, 'by', $4::text, 'at', '2026-10-04T02:00:00.000Z'))
+        WHERE trip_id = $1`,
+      [tripId, cooking, forest, randomUUID()],
+    );
+    expect(await run()).toMatchObject({ fix: 0 });
+    expect(await issues()).toEqual([]);
+    const held = await quiet();
+    expect(held.fix_count).toBe(0);
+    expect(held.quiet).toHaveLength(1);
+    expect(held.quiet[0]?.around).toContain(forest);
+    expect(await run()).toMatchObject({ fix: 0 });
+    expect((await quiet()).quiet).toEqual(held.quiet);
+
+    // A stop added right after the forest walk: the plan around the issue is no longer the same.
+    const added = randomUUID();
+    await db.pool.query(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, category)
+       SELECT version_id, day_id, trip_id, $2, $3, $4, tz, category FROM plan_items WHERE stable_id = $1`,
+      [forest, added, at('2026-10-13', '15:00'), at('2026-10-13', '16:00')],
+    );
+    expect(await run()).toMatchObject({ fix: 1 });
+    expect((await issues()).map((issue) => issue.kind)).toContain('clash');
+    expect((await quiet()).quiet).toEqual([]);
+
+    await db.pool.query('DELETE FROM plan_items WHERE stable_id = $1', [added]);
+    await moveForest('13:15', '14:15');
+    await run();
     expect(await issues()).toEqual([]);
   });
 

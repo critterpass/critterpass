@@ -10,10 +10,11 @@ import { View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { KeyboardFooter, useTheme } from '@/ui';
+import { KeyboardFooter } from '@/ui';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
+import { guideColour } from '@/ui/avatar/guides';
 
 import type { ChatMessage } from '../data/rows';
 import { useChatInfo } from '../data/use-chat-info';
@@ -34,6 +35,7 @@ import { ChatHeader } from './chat-header';
 import { ChatComposer, FormerMemberBar, type ChatComposerHandle } from './composer';
 import { dayKey } from './timeline-rows';
 import { buildTimelineRows } from './timeline-rows';
+import { ChatStart } from './chat-start';
 import { EmptyChat, guideIdOf } from './empty-chat';
 import type { MentionCandidate } from './mention-picker';
 import { MessageList } from './message-list';
@@ -58,7 +60,6 @@ export function ChatScreen() {
 
 export function CrewChat({ crewId }: { readonly crewId: string }) {
   const styles = useStyles();
-  const theme = useTheme();
   const me = useMyUid();
   const info = useChatInfo(crewId, me);
   const timeline = useMessages(crewId, me);
@@ -90,7 +91,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const typing = useChatTyping(crewId, namesByUid);
   const former = info.myStatus === 'former';
   const guideName = info.guide?.name ?? null;
-  const guideColor = info.guide?.colour ?? theme.guide[guideIdOf(info.guide?.slug)];
+  const guideColor = info.guide?.colour ?? guideColour(guideIdOf(info.guide?.slug));
   const candidates = useMemo<MentionCandidate[]>(
     () => [
       ...(info.guide === null
@@ -189,6 +190,11 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
                 rows={rows}
                 today={today}
                 renderMessage={renderMessage}
+                header={
+                  timeline.hasOlder ? null : (
+                    <ChatStart guideSlug={info.guide?.slug ?? null} crewName={info.crewName} />
+                  )
+                }
                 footer={
                   <>
                     {mediaControls.uploads}

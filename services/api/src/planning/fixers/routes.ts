@@ -1,7 +1,8 @@
 /**
  * The plan check's fixer routes (docs/api-contracts-planning.md, routes): Less driving (7h-3),
  * Rain and crowds (7h-4) and the too-far swap for one day, worked out on the plan as the caller
- * sees it, and FIX ALL, which gathers chosen issues into one draft for the review (7h-7).
+ * sees it and timed on real travel (`road-timed.ts`), and FIX ALL, which gathers chosen issues
+ * into one draft for the review (7h-7).
  * Participants only; anyone else gets `NOT_FOUND`. Deterministic: no model, no meter.
  */
 import { withUser } from '@cp/db';
@@ -17,6 +18,7 @@ import { requireCommandSession } from '../../commands/_framework/session';
 import { loadCheckInput, type FixerDeps, type LoadedCheckInput } from './check-input';
 import { draftCheckChangeSet } from './draft';
 import { gatherOps, readIssue } from './fix-ops';
+import { roadsOf, settle } from './road-timed';
 import { tooFarCandidates } from './too-far-candidates';
 import { reorderWire, swapsWire, tooFarWire, type WeatherSet } from './wire';
 
@@ -70,7 +72,8 @@ export function registerFixerRoutes(
     const body = await read(c.req.raw.headers, async (tx) => {
       const check = await loadCheckInput(tx, id, dayId, fixers);
       const day = dayOf(check, dayId);
-      return reorderWire(day, check.input.context.tz, reorderDay(check.input, dayId));
+      const settled = await settle(roadsOf(check, fixers), (input) => reorderDay(input, dayId));
+      return reorderWire(day, check.input.context.tz, settled?.fix ?? null, settled?.checked);
     });
     c.header('Cache-Control', 'private, no-store');
     return c.json(body);
@@ -95,8 +98,22 @@ export function registerFixerRoutes(
       const check = await loadCheckInput(tx, id, dayId, fixers);
       const day = dayOf(check, dayId);
       const { candidates, names } = await tooFarCandidates(tx, check.trip.destinationId, day);
-      const alternative = tooFarAlternative(check.input, dayId, candidates);
-      return tooFarWire(alternative, new Map([...check.names, ...names]));
+      const settled = await settle(
+        roadsOf(check, fixers),
+        (input) => {
+          const alternative = tooFarAlternative(input, dayId, candidates);
+          return alternative === null ? null : { ...alternative, ops: [alternative.op] };
+        },
+        (swap) => {
+          const point = candidates.find((entry) => entry.poiId === swap.poiId)?.point;
+          return point === undefined ? undefined : new Map([[swap.stableId, point]]);
+        },
+      );
+      return tooFarWire(
+        settled?.fix ?? null,
+        new Map([...check.names, ...names]),
+        settled?.checked,
+      );
     });
     c.header('Cache-Control', 'private, no-store');
     return c.json(body);
@@ -116,7 +133,7 @@ export function registerFixerRoutes(
         }
         issues.push(issue);
       }
-      const ops = await gatherOps(tx, issues, check);
+      const ops = await gatherOps(tx, issues, check, roadsOf(check, fixers));
       if (ops.length === 0) throw new DomainError('STATE_INVALID', { reason: 'no_fix' });
       return { change_set_id: await draftCheckChangeSet(tx, { tripId: id, uid, ops }) };
     });

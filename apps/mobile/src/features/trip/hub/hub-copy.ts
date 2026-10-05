@@ -107,7 +107,14 @@ export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): str
 }
 
 /** The trip's latest step in the traveller's words, from the status it moved to. */
-export function statusLine(status: string | null): string {
+export function statusLine(status: string | null, organiser = true): string {
+  // A draft is the organiser's alone until she sends it: a member only hears a plan is coming.
+  if (status === 'draft_review' && !organiser) {
+    return t({
+      id: 'trip.hub.ticker.status.planning',
+      message: 'The plan is still being worked on',
+    });
+  }
   switch (status) {
     case 'voting':
       return t({ id: 'trip.hub.ticker.status.voting', message: 'The vote is open' });
@@ -119,7 +126,7 @@ export function statusLine(status: string | null): string {
     case 'redrafting':
       return t({ id: 'trip.hub.ticker.status.drafting', message: 'The plan is being drafted' });
     case 'draft_review':
-      return t({ id: 'trip.hub.ticker.status.review', message: 'The draft is ready to review' });
+      return t({ id: 'trip.hub.ticker.status.yourDraft', message: 'Your draft is ready' });
     case 'proposed':
       return t({ id: 'trip.hub.ticker.status.proposed', message: 'The plan is out to the crew' });
     case 'confirmed':
@@ -145,6 +152,7 @@ export function statusLine(status: string | null): string {
 export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>>(
   rows: readonly Row[],
   status: string | null,
+  organiser = true,
 ): { readonly row: Row; readonly text: string }[] {
   const said = new Set<string>();
   const lines: { row: Row; text: string }[] = [];
@@ -154,7 +162,7 @@ export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>
       if (step) continue;
       step = true;
     }
-    const text = row.verb === 'moved' ? statusLine(status) : activityLine(row);
+    const text = row.verb === 'moved' ? statusLine(status, organiser) : activityLine(row);
     if (said.has(text)) continue;
     said.add(text);
     lines.push({ row, text });

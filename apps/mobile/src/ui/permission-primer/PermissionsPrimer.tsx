@@ -14,7 +14,7 @@ import {
 
 import { PillButton } from '../buttons/PillButton';
 import { TextLink } from '../buttons/TextLink';
-import { GUIDE_STICKERS } from '../avatar/guides';
+import { guideSticker } from '../avatar/guides';
 import { type GuideId, GuideLine } from '../people/GuideLine';
 import { BackEyebrow } from '../shell/BackEyebrow';
 import { Sticker } from '../sticker/Sticker';
@@ -123,7 +123,7 @@ export function PermissionsPrimer({
         <GuideLine
           guide={guide}
           name={guideName}
-          sticker={<Sticker kind={GUIDE_STICKERS[guide].kind} name={guideName} size={44} />}
+          sticker={<Sticker kind={guideSticker(guide).kind} name={guideName} size={44} />}
           line={t({
             id: 'permissions.primer.guideLine',
             message: 'Say no to any of them. I’ll ask again when it actually matters.',

@@ -7,7 +7,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import {
   RECAP_AWARD_LINE_MAX,
   RECAP_AWARD_TITLE_MAX,
@@ -57,7 +57,7 @@ export function buildRecapCopyRequest(input: RecapCopyInput): GatewayInput {
   const cards = input.cards.map((card) => `- ${card}: ${CARD_BRIEF[card] ?? ''}`).join('\n');
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[input.guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(input.guide)) },
       { type: 'text', text: TASK },
     ],
     messages: [

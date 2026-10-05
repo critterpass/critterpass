@@ -23,7 +23,7 @@ import { parse } from 'yaml';
 import { z } from 'zod';
 
 import { createGateway } from '../../src/client';
-import { REPO_PACKS } from '../../src/persona/loader';
+import { resolvePersonaPack } from '../../src/persona/resolve';
 import { personaIdSchema } from '../../src/persona/schema';
 import {
   translateGuideLines,
@@ -137,7 +137,11 @@ async function run(c: TranslateCase, options: TranslateSuiteOptions): Promise<Tr
     fetch: transport(c, options),
     maxAttempts: 1,
   });
-  return translateGuideLines(gateway, { pack: REPO_PACKS[c.guide], locale: c.locale, lines });
+  return translateGuideLines(gateway, {
+    pack: resolvePersonaPack(c.guide),
+    locale: c.locale,
+    lines,
+  });
 }
 
 export function gradeTranslate(c: TranslateCase, result: TranslateResult): string[] {

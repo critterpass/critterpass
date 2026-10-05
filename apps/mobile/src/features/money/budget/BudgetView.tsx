@@ -10,7 +10,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -246,7 +246,7 @@ export function BudgetView(props: BudgetViewProps) {
             name={guide.name}
             sticker={
               <Sticker
-                kind={GUIDE_STICKERS[guide.id].kind}
+                kind={guideSticker(guide.id).kind}
                 name={guide.name}
                 size={44}
                 pose="point"

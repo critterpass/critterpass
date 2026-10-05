@@ -6,7 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -31,7 +31,7 @@ export interface DraftLoadingProps {
 
 export function DraftLoading({ trip, onBack }: DraftLoadingProps) {
   const styles = useStyles();
-  const guideName = trip === null ? null : GUIDE_STICKERS[trip.guide].name;
+  const guideName = trip === null ? null : guideSticker(trip.guide).name;
   const destination = trip?.destination ?? '';
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="draft-loading">

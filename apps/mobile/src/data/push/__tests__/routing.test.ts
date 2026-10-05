@@ -116,6 +116,29 @@ describe('routing a tap', () => {
     );
   });
 
+  it('opens the trip hub and its day from a trip push, sent before or after the paths moved', async () => {
+    for (const root of ['hub', 'trips']) {
+      await expect(
+        routeForTap(tap({ type: 'trip_rsvp', deeplink: `/${root}/${CREW}` })),
+      ).resolves.toBe(`/trips/${CREW}`);
+      await expect(
+        routeForTap(tap({ type: 'crew_knock', deeplink: `/${root}/${CREW}/day/2026-10-17` })),
+      ).resolves.toBe(`/trips/${CREW}/day/2026-10-17`);
+    }
+  });
+
+  it('opens GO from the leave-by alarm, with the day-of screen to fall back to', async () => {
+    for (const root of ['hub', 'trips']) {
+      const href = await routeForTap(
+        tap({ type: 'leave_by_alarm', deeplink: `/${root}/${CREW}/day/2026-10-17` }),
+      );
+      const params = new URLSearchParams(href.split('?')[1]);
+      expect(href.startsWith('/go?')).toBe(true);
+      expect(params.get('trip')).toBe(CREW);
+      expect(params.get('fallback')).toBe(`/trips/${CREW}/day/2026-10-17`);
+    }
+  });
+
   it('navigates once per notification, however many times it is reported', async () => {
     const opened: string[] = [];
     const router = createTapRouter({ navigate: (href) => opened.push(href) });

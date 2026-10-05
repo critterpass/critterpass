@@ -13,6 +13,7 @@ import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { dayTileColour } from '@/features/plan/overview/day-card';
 
+import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { CREW, useLabDays } from '../../add/dev/add-scenes';
 import { labStopName } from '../../review/dev/changes-scenes';
 import type { ChipLayout, ChipRowFrame } from '../drag-hit';
@@ -30,7 +31,14 @@ import {
 } from '../placing/placing-copy';
 import { PlacingView, type PlacingLine } from '../placing/placing-view';
 import { INITIAL_PLACING, PLACING_STEPS, type PlacingState } from '../placing/progress';
-import { backToIdeas, bodyText, emptyBody, emptyLine, placeLine } from '../ideas-copy';
+import {
+  backToIdeas,
+  bodyText,
+  emptyBody,
+  emptyLine,
+  findPlacesLabel,
+  placeLine,
+} from '../ideas-copy';
 
 const noop = () => undefined;
 const TZ = 'Asia/Makassar';
@@ -167,12 +175,20 @@ function IdeasScene({
   ]);
   return (
     <IdeasView
-      body={empty ? emptyBody() : bodyText(IDEAS.length)}
+      body={empty ? emptyBody() : bodyText(IDEAS.length, NO_TRIP_GUIDE.name)}
       days={dragging ? days.map((day) => ({ ...day, fit: grades.get(day.dayNo) ?? 'no' })) : days}
       dropTarget={dragging ? { overDayNo: 6 } : undefined}
       chipsRef={{ current: null }}
       place={empty ? null : { line: placeLine(6, 2), busy: false, onPress: noop }}
-      empty={empty ? { guide: 'Tokek', line: emptyLine() } : null}
+      empty={
+        empty
+          ? {
+              guide: 'Tokek',
+              line: emptyLine(),
+              find: { label: findPlacesLabel(), onPress: noop },
+            }
+          : null
+      }
       rows={IDEAS.map((idea, index) => (
         <IdeaRow
           key={idea.name}
@@ -190,6 +206,7 @@ function IdeasScene({
           onCancel={noop}
           onOpen={noop}
           onAddToDay={noop}
+          onMore={noop}
         />
       ))}
       scrolls={lifted !== undefined}
@@ -240,7 +257,11 @@ function PlacingScene({ outcome }: { readonly outcome?: 'nothing' | 'failed' }) 
       pins={pins}
       lines={lines}
       foot={
-        outcome === 'failed' ? failedFoot() : outcome === 'nothing' ? nothingFoot() : placingFoot()
+        outcome === 'failed'
+          ? failedFoot(NO_TRIP_GUIDE.name)
+          : outcome === 'nothing'
+            ? nothingFoot()
+            : placingFoot(NO_TRIP_GUIDE.name)
       }
       outcome={outcome === undefined ? null : { action: backToIdeas(), onAction: noop }}
       onLeave={noop}

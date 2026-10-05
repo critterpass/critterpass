@@ -25,8 +25,8 @@ Today a guide is one of seven slugs repeated in about fifteen closed lists, and 
 
 | # | Phase | Depends on | Status |
 |---|---|---|---|
-| 1 | [Guide rows, the destination link and assignment (server)](phase-01-guide-rows-link-assignment.md) | – | pending |
-| 2 | [The app draws and names any guide from its row](phase-02-app-guide-from-data.md) | 1 | pending |
+| 1 | [Guide rows, the destination link and assignment (server)](phase-01-guide-rows-link-assignment.md) | – | done |
+| 2 | [The app draws and names any guide from its row](phase-02-app-guide-from-data.md) | 1 | in progress |
 | 3 | [Native surfaces draw city guides](phase-03-native-surfaces.md) | 2, next native build | pending |
 | 4 | [Written personas, voices and themes](phase-04-written-personas-voices-themes.md) | 1 | pending |
 

@@ -41,7 +41,7 @@ export const packageDeps = {
   'cost-engine': ['domain'],
   planner: ['domain', 'cost-engine'],
   entitlements: ['domain'],
-  ai: ['domain', 'planner', 'cost-engine', 'content'],
+  ai: ['domain', 'planner', 'cost-engine', 'content', 'critter-art'],
   suppliers: ['domain'],
   i18n: [],
   content: ['domain', 'critter-art'],

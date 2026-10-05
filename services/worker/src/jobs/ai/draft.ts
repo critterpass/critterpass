@@ -54,7 +54,7 @@ import {
   staysLabel,
 } from './draft/steps';
 import { stayRows, type SlotCheck, noSlotCheck } from './draft/suppliers';
-import { checkStage } from './draft/validate-repair';
+import { checkStage, keptWithJob } from './draft/validate-repair';
 import { redraftJob } from './redraft';
 
 export interface DraftJobDeps {
@@ -159,7 +159,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 2,
         run: async (ctx) => {
           await hint(ctx, 'validate', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
+          const { trip, input, held } = await load(ctx, prefetched(ctx));
           const skeleton = (ctx.results.skeleton as { skeleton: SkeletonPlan }).skeleton;
           const drafted = ctx.results.days as DraftedDays;
           const outcome = await checkStage(
@@ -167,18 +167,11 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             input,
             skeleton,
             drafted.itinerary,
+            held,
           );
           const label = foodLabel(trip);
           await hint(ctx, 'validate', 'done', label);
-          return {
-            label,
-            itinerary: outcome.itinerary,
-            first_ok: outcome.first.ok,
-            first: { ok: outcome.first.ok, violations: [], costPpMinor: outcome.first.costPpMinor },
-            loops: outcome.loops,
-            dropped: outcome.dropped,
-            left: outcome.final.violations.map((v) => v.code),
-          };
+          return { label, itinerary: outcome.itinerary, ...keptWithJob(outcome) };
         },
       },
       {
@@ -186,7 +179,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         maxTries: 3,
         run: async (ctx) => {
           await hint(ctx, 'persist', 'running');
-          const { trip, input } = await load(ctx, prefetched(ctx));
+          const { trip, input, held } = await load(ctx, prefetched(ctx));
           const checked = ctx.results.validate as Pick<
             RepairOutcome,
             'itinerary' | 'first' | 'loops' | 'dropped'
@@ -196,6 +189,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             trip,
             input,
             outcome: checked,
+            held,
             stays: stayRows(trip),
             closures: prefetched(ctx),
             slotAvailable: await slots(trip, checked.itinerary, input),

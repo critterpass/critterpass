@@ -15,7 +15,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
-import { useTheme } from '@/ui';
+import { guideColour } from '@/ui/avatar/guides';
 
 import { rateGuideAnswerCommand } from '../data/guide-commands';
 import { useLiveQuery } from '../data/live-rows';
@@ -114,7 +114,6 @@ export function GuideSheet(props: GuideSheetProps) {
 }
 
 function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: GuideSheetProps) {
-  const theme = useTheme();
   const context = useGuideContext(tripId);
   const trip = context.trip;
   const shared = trip !== null && trip.crewSize > 1;
@@ -133,7 +132,7 @@ function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: G
   // A question handed over from search (`q`) waits in the composer for the person to send.
   const { q } = useLocalSearchParams<{ q?: string }>();
   const [draft, setDraft] = useState(q ?? '');
-  const color = theme.guide[guideAvatarId(context.guideSlug)];
+  const color = guideColour(guideAvatarId(context.guideSlug));
   const modeLine = useModeLine(mode, trip);
   const quickActions = useQuickActions(trip?.tripId ?? null);
   const nameRows = useLiveQuery<NameRow>(

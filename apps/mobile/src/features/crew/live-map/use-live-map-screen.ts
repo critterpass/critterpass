@@ -209,6 +209,7 @@ export function useLiveMapScreen(tripId: string): LiveMapModel {
     crewName: crew?.crewName ?? '',
     destinationId: crew?.destinationId ?? null,
     destinationSlug: crew?.destinationSlug ?? null,
+    destinationName: crew?.destinationName ?? null,
     gate: live.gate,
     offline: live.offline,
     updatedAt: live.state.updatedAt,

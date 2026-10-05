@@ -1,0 +1,1494 @@
+{
+  "at": 1791117476777,
+  "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Flinks+%3Fwhs+%28SAMPLE%28%3Flat0%29+AS+%3Flat%29+%28SAMPLE%28%3Flng0%29+AS+%3Flng%29%0A++%28GROUP_CONCAT%28DISTINCT+%3Fkind%3B+separator%3D%22%7C%22%29+AS+%3Fkinds%29+%28SAMPLE%28%3Fen0%29+AS+%3Fen%29+%28SAMPLE%28%3Flocal0%29+AS+%3Flocal%29%0A++%28GROUP_CONCAT%28DISTINCT+%3Flabel%3B+separator%3D%22%7C%22%29+AS+%3Flabels%29+WHERE+%7B%0A++SERVICE+wikibase%3Abox+%7B+%3Fitem+wdt%3AP625+%3Floc+.%0A++++bd%3AserviceParam+wikibase%3AcornerSouthWest+%22Point%28107.7163+15.6154%29%22%5E%5Egeo%3AwktLiteral+.%0A++++bd%3AserviceParam+wikibase%3AcornerNorthEast+%22Point%28108.5937+16.4346%29%22%5E%5Egeo%3AwktLiteral+.+%7D%0A++%3Fitem+wikibase%3Asitelinks+%3Flinks+.%0A++FILTER+NOT+EXISTS+%7B+%3Fitem+wdt%3AP31%2Fwdt%3AP279*+wd%3AQ56061+%7D%0A++BIND%28EXISTS+%7B+%3Fitem+wdt%3AP1435+wd%3AQ9259+%7D+AS+%3Fwhs%29%0A++OPTIONAL+%7B+VALUES+%28%3Fclass+%3Fkind%29+%7B+%28wd%3AQ1370598+%22temple_shrine%22%29+%28wd%3AQ33506+%22museum%22%29+%28wd%3AQ40080+%22beach%22%29+%28wd%3AQ37654+%22market%22%29+%28wd%3AQ330284+%22market%22%29+%28wd%3AQ8502+%22nature%22%29+%28wd%3AQ46831+%22nature%22%29+%28wd%3AQ133056+%22nature%22%29+%28wd%3AQ34763+%22nature%22%29+%28wd%3AQ23442+%22nature%22%29+%28wd%3AQ35509+%22nature%22%29+%28wd%3AQ22698+%22nature%22%29+%28wd%3AQ54050+%22nature%22%29+%28wd%3AQ23397+%22nature%22%29+%28wd%3AQ131681+%22nature%22%29+%28wd%3AQ34038+%22nature%22%29+%28wd%3AQ39816+%22nature%22%29+%28wd%3AQ55488+%22sight%22%29+%28wd%3AQ12280+%22other%22%29+%28wd%3AQ676050+%22other%22%29+%28wd%3AQ839954+%22other%22%29+%28wd%3AQ875157+%22other%22%29+%28wd%3AQ570116+%22sight%22%29+%7D+%3Fitem+wdt%3AP31%2Fwdt%3AP279*+%3Fclass+%7D%0A++FILTER%28%3Fwhs+%7C%7C+%28%3Flinks+%3E%3D+2+%26%26+BOUND%28%3Fkind%29%29%29%0A++OPTIONAL+%7B+%3Fitem+rdfs%3Alabel+%3Fen0+FILTER%28LANG%28%3Fen0%29+%3D+%22en%22%29+%7D%0A++OPTIONAL+%7B+%3Fitem+rdfs%3Alabel+%3Flocal0+FILTER%28LANG%28%3Flocal0%29+%3D+%22vi%22%29+%7D%0A++OPTIONAL+%7B+%3Fitem+rdfs%3Alabel%7Cskos%3AaltLabel+%3Flabel+FILTER%28LANG%28%3Flabel%29+IN+%28%22en%22%2C+%22vi%22%29%29+%7D%0A++BIND%28geof%3Alatitude%28%3Floc%29+AS+%3Flat0%29+BIND%28geof%3Alongitude%28%3Floc%29+AS+%3Flng0%29%0A%7D+GROUP+BY+%3Fitem+%3Flinks+%3Fwhs",
+  "body": {
+    "head": {
+      "vars": ["item", "links", "whs", "lat", "lng", "kinds", "en", "local", "labels"]
+    },
+    "results": {
+      "bindings": [
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q386184"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "12"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.95242"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.52037"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Chàm Islands"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cù lao Chàm"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Chàm Islands|Cù lao Chàm|Cham Islands|Cù Lao Chàm"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q391406"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "53"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "true"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.76324"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.124446"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine|other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Mỹ Sơn"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Thánh địa Mỹ Sơn"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Mỹ Sơn|Thánh địa Mỹ Sơn|Mỹ Sơn|Monuments Čams De L'Annam|My Son sanctuary|My Son Santuary|Tháp Mỹ Sơn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1091054"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "15"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.87719"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.325968055"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine|other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Japanese Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Chùa Cầu"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Japanese Bridge|Chùa Cầu|Chùa Cầu|Japanese Covered Bridge|Lai Viễn|Lai Viễn Kiều"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1477078"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "14"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.1875"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.13083333"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Hai Van Pass"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Đèo Hải Vân"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hai Van Pass|Đèo Hải Vân|Hải Vân|Col des Nuages"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q3096350"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "9"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0716"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2092"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "sight"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Da Nang Railway Station"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Ga Đà Nẵng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang Railway Station|Ga Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5004763"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "9"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.99555556"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "107.99416667"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Bà Nà Hills"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bà Nà"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Bà Nà Hills|Bà Nà|Ba Na Hills"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5305270"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "19"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.06111111"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.22666667"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Dragon River Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Rồng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Dragon River Bridge|Cầu Rồng|Dragon Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6755207"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "11"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.26"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Ngũ Hành Sơn"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Ngũ Hành Sơn"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Ngũ Hành Sơn|Ngũ Hành Sơn|Marble Mountains (Vietnam)|Ngu Hanh Son"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6940790"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "11"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.059894"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222641"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Museum of Cham Sculpture"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Nghệ thuật điêu khắc Chăm Đà Nẵng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Cham Sculpture|Bảo tàng Nghệ thuật điêu khắc Chăm Đà Nẵng|Bảo tàng Chàm|Bảo tàng Chăm|Bảo tàng Nghệ thuật Điêu khăc Chămpa Đà Nẵng|Viện Bảo tàng Chàm"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6941009"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "5"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877005"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.326415"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Museum of Sa Huynh Culture"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Văn hóa Sa Huỳnh"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Sa Huynh Culture|Bảo tàng Văn hóa Sa Huỳnh"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6941034"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "5"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877233"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.329677"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Museum of Trade Ceramics"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Gốm sứ Mậu dịch"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Trade Ceramics|Bảo tàng Gốm sứ Mậu dịch"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7560606"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "11"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.12388889"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.27861111"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Sơn Trà Mountain"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Núi Sơn Trà"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sơn Trà Mountain|Núi Sơn Trà|Sơn Trà|Son Tra Mountain|núi Khỉ|bán đảo Sơn Trà"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7710360"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.066356"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.182378"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "sight"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Thanh Khe Railway Station"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Ga Thanh Khê"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Thanh Khe Railway Station|Ga Thanh Khê"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7798648"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "8"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0919"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Thuận Phước Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Thuận Phước"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Thuận Phước Bridge|Cầu Thuận Phước|Thuan Phuoc Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7833322"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "8"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.050277777"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.229444444"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Tran Thi Ly Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Trần Thị Lý"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Tran Thi Ly Bridge|Cầu Trần Thị Lý"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10752400"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "12"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.07227778"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.22672222"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Han River Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Sông Hàn"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Han River Bridge|Cầu Sông Hàn|Cầu sông Hàn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10752410"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "3"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.035466"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.236068"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Tiên Sơn Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Tiên Sơn"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Tiên Sơn Bridge|Cầu Tiên Sơn|Tuyen Son Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10796763"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "7"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.070277777"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.246388888"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "beach"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "My Khe Beach"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Mỹ Khê"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "My Khe Beach|Mỹ Khê|Bãi Tắm Mỹ Khê"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10800905"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "5"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0666845"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2231498"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Da Nang Cathedral"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Nhà thờ chính tòa Đà Nẵng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang Cathedral|Nhà thờ chính tòa Đà Nẵng|Nhà thờ Con Gà Đà Nẵng|Nhà thờ Thánh Tâm Chúa Giêsu"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10825862"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "4"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.707"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2249"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Đồng Dương"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Tháp Đồng Dương"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Đồng Dương|Tháp Đồng Dương|Dong Duong|Phật viện Đồng Dương"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q14489975"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "4"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.06838"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.08423"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Danang Hi-tech Park"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Khu công nghệ cao Đà Nẵng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Danang Hi-tech Park|Khu công nghệ cao Đà Nẵng|DHTP|Da Nang Hi-Tech Park|Danang IT Park|Da Nang IT Park|Khu CNTT Đà Nẵng|IT Park Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q16984144"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.92103611"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.1563889"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Hill 55"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hill 55"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q18164670"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "3"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0487"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.218"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Zone 5 Military Museum"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Quân khu 5, Đà Nẵng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Zone 5 Military Museum|Bảo tàng Quân khu 5, Đà Nẵng|Zone 5 Military Museum, Danang"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q18277260"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "3"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.099"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.277"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Linh Ung Pagoda"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Chùa Linh Ứng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Chùa Linh Ứng|Linh Ung Pagoda"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q24959045"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.865527"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.376184"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Cua Dai Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Cửa đại"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Cua Dai Bridge|Cầu Cửa đại"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q30744118"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "8"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877233"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.334205"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Precious Heritage Art Gallery Museum"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Nghệ thuật Di sản vô giá"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Precious Heritage Art Gallery Museum|Bảo tàng Nghệ thuật Di sản vô giá"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q31641028"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.65"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.1"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Núi Chòm"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Núi Chòm"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q31644605"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.16667"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "107.83333"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Nui Bach Ma"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Núi Bạch Mã"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Nui Bach Ma|Núi Bạch Mã|Dãy Bạch Mã"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q32176308"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.062705"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.204812"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "March 29 Park"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Công viên 29 tháng 3"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "March 29 Park|Công viên 29 tháng 3"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q55954790"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "24"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.99486"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "107.99625"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Golden Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Vàng"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Golden Bridge|Cầu Vàng|Cầu Vàng|Da Nang Golden Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q56320631"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.87944"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.335"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "temple_shrine"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Quan Cong Temple"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Quan Cong Temple"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q65164322"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.051056"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.228806"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "other"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Nguyen Van Troi Bridge"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Cầu Nguyễn Văn Trỗi"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Nguyen Van Troi Bridge|Cầu Nguyễn Văn Trỗi"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q107717331"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "2"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.24"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.059722222"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "nature"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Lap An lagoon"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Đầm Lập An"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Lap An lagoon|Đầm Lập An|Dam Lap An|Lập An lagoon|Đầm An Cư|Đầm Lăng Cô"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q114397271"
+          },
+          "links": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+            "type": "literal",
+            "value": "5"
+          },
+          "whs": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+            "type": "literal",
+            "value": "false"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.879"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.329"
+          },
+          "kinds": {
+            "type": "literal",
+            "value": "museum"
+          },
+          "en": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "Hoi An Museum"
+          },
+          "local": {
+            "xml:lang": "vi",
+            "type": "literal",
+            "value": "Bảo tàng Hội An"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hoi An Museum|Bảo tàng Hội An"
+          }
+        }
+      ]
+    }
+  }
+}

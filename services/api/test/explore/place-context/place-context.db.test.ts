@@ -95,11 +95,12 @@ const context = async (poi: string, who = world.a.organiser, trip = world.a.trip
 };
 
 describe('place context for the planning page', () => {
-  it('fits the free day at opening, before the rush, with the bars lit over the slot', async () => {
+  // Day 3 is free, but it is the day the crew leaves: the full day before it is the better answer.
+  it('fits a full day at opening, before the rush, with the bars lit over the slot', async () => {
     const { status, body } = await context(spring, world.a.members[1]);
     expect(status).toBe(200);
     const fits = body.when_it_fits!;
-    expect(fits.best).toMatchObject({ day_no: 3, start: '08:00', end: '09:30' });
+    expect(fits.best).toMatchObject({ day_no: 2, start: '08:00', end: '09:30' });
     expect(fits.best!.reasons.map((r) => r.code)).toContain('busy_from');
     expect(fits.bars).toMatchObject({ from: 8, to: 17, lit: { from: 8, to: 10 } });
     expect(fits.bars.hourly).toEqual(rushFromTen.slice(8, 17));
@@ -139,6 +140,8 @@ describe('place context for the planning page', () => {
       expect(body).toHaveProperty(key);
     }
     expect(body['add_mode']).toBe('apply');
+    // The plan her plan screens show is the crew's here; a draft only before there is one.
+    expect(body['plan_version']).toEqual({ id: body['base_version'], kind: 'crew' });
   });
 
   it('gives fact tiles, the tip and what to know only from our own data', async () => {

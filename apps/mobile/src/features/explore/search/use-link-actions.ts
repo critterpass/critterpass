@@ -2,7 +2,8 @@
  * What add from a link does with the places ticked (7d-3): SAVE {n} TO IDEAS saves each to the
  * trip's Ideas with only the link kept (`source: link`, `source_url`), and "Or put them on Sat 17"
  * adds them on that day at the slots the fit engine finds (an organiser's edit applies, a member's
- * is proposed). Either way the link is remembered on this phone so it is not offered again.
+ * is proposed); a place the day has no room for is saved to Ideas instead of being dropped.
+ * Either way the link is remembered on this phone so it is not offered again.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- api paths and wire values, never copy. */
 import {
@@ -21,6 +22,7 @@ import { usePlanEditor, type EditOutcome } from '@/data/plan/use-plan-editor';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 import { markImported } from './clipboard';
+import { splitBySlot } from './link-import-model';
 import { saveIdeaCommand } from './commands';
 import { useSearchServices } from './data/search-services';
 
@@ -33,6 +35,17 @@ function fitsOf(body: unknown): PlaceFit[] {
     return parsed.success ? [parsed.data] : [];
   });
 }
+
+export type PutOnDayResult =
+  | { readonly kind: 'failed' }
+  | {
+      readonly kind: 'done';
+      /** How the day's edit went; `none` when no place had a slot on the day. */
+      readonly outcome: 'applied' | 'proposed' | 'none';
+      readonly placed: readonly ImportCandidate[];
+      /** Places the day had no room for, saved to Ideas instead. */
+      readonly ideas: readonly ImportCandidate[];
+    };
 
 function minutesOf(iso: string, tz: string): number {
   const [hours = 0, minutes = 0] = toLocalWallTime(new Date(iso), tz).time.split(':').map(Number);
@@ -55,65 +68,80 @@ export function useLinkActions(tripId: string, sourceUrl: string | null) {
   );
   const [busy, setBusy] = useState(false);
 
-  const saveToIdeas = async (places: readonly ImportCandidate[]): Promise<number> => {
+  const sendToIdeas = async (places: readonly ImportCandidate[]): Promise<ImportCandidate[]> => {
+    const results = await Promise.all(
+      places.map((place) =>
+        save.send({
+          idea_id: generateUuidV7(),
+          trip_id: tripId,
+          poi_id: place.poi_id,
+          source: 'link',
+          ...(sourceUrl === null ? {} : { source_url: sourceUrl }),
+        }),
+      ),
+    );
+    return places.filter((_, index) => {
+      const kind = results[index]?.kind;
+      return kind === 'queued' || kind === 'applied';
+    });
+  };
+
+  /** The places that were saved (a refused or unsent save is left out). */
+  const saveToIdeas = async (places: readonly ImportCandidate[]): Promise<ImportCandidate[]> => {
     setBusy(true);
     try {
-      const results = await Promise.all(
-        places.map((place) =>
-          save.send({
-            idea_id: generateUuidV7(),
-            trip_id: tripId,
-            poi_id: place.poi_id,
-            source: 'link',
-            ...(sourceUrl === null ? {} : { source_url: sourceUrl }),
-          }),
-        ),
-      );
-      if (sourceUrl !== null) markImported(sourceUrl);
-      return results.filter((result) => result.kind !== 'rejected').length;
+      const saved = await sendToIdeas(places);
+      if (sourceUrl !== null && saved.length > 0) markImported(sourceUrl);
+      return saved;
     } finally {
       setBusy(false);
     }
   };
 
+  /**
+   * Places with a slot on the day go on it; the ones the day has no room for are saved to Ideas
+   * instead, and the answer names both. `failed` when the slots could not be read or the edit
+   * did not go through: nothing was changed.
+   */
   const putOnDay = async (
     places: readonly ImportCandidate[],
     dayNo: number,
-  ): Promise<EditOutcome> => {
+  ): Promise<PutOnDayResult> => {
     const day = plan.dayRows.find((row) => row.day_no === dayNo);
     const tz = plan.trip?.tz ?? null;
-    if (day === undefined || day.date === null || tz === null) return { kind: 'unavailable' };
+    if (day === undefined || day.date === null || tz === null) return { kind: 'failed' };
     setBusy(true);
     try {
       const read = await services.postJson(`/v1/trips/${tripId}/fit`, {
         poi_ids: places.map((place) => place.poi_id),
         day_id: day.id,
       });
-      const fits = read.kind === 'ok' ? fitsOf(read.body) : [];
-      if (fits.length === 0) return { kind: 'unavailable' };
-      const ops = places.flatMap((place) => {
-        const slot = fits
-          .find((fit) => fit.poi_id === place.poi_id)
-          ?.days.find((entry) => entry.day_id === day.id)?.slot;
-        if (slot === null || slot === undefined) return [];
-        return [
-          addOp(
-            { date: day.date ?? '', dayNo },
-            {
-              title: null,
-              poiId: place.poi_id,
-              category: place.category,
-              start: minutesOf(slot.starts_at, tz),
-              end: minutesOf(slot.ends_at, tz),
-              tz,
-            },
+      if (read.kind !== 'ok') return { kind: 'failed' };
+      const { slotted, unslotted } = splitBySlot(places, fitsOf(read.body), day.id);
+      let outcome: EditOutcome['kind'] | 'none' = 'none';
+      if (slotted.length > 0) {
+        const edit = await editor.submit(
+          slotted.map(({ place, startsAt, endsAt }) =>
+            addOp(
+              { date: day.date ?? '', dayNo },
+              {
+                title: null,
+                poiId: place.poi_id,
+                category: place.category,
+                start: minutesOf(startsAt, tz),
+                end: minutesOf(endsAt, tz),
+                tz,
+              },
+            ),
           ),
-        ];
-      });
-      if (ops.length === 0) return { kind: 'unavailable' };
-      const outcome = await editor.submit(ops);
-      if (outcome.kind !== 'unavailable' && sourceUrl !== null) markImported(sourceUrl);
-      return outcome;
+        );
+        if (edit.kind === 'unavailable') return { kind: 'failed' };
+        outcome = edit.kind;
+      }
+      const ideas = await sendToIdeas(unslotted);
+      if (outcome === 'none' && ideas.length === 0) return { kind: 'failed' };
+      if (sourceUrl !== null) markImported(sourceUrl);
+      return { kind: 'done', outcome, placed: slotted.map((slot) => slot.place), ideas };
     } finally {
       setBusy(false);
     }

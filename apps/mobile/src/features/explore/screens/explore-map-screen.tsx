@@ -187,6 +187,7 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
                 onSelect={setSelectedId}
                 centre={centre}
                 destinationSlug={row?.slug ?? null}
+                destinationName={row?.name ?? ''}
                 localRegionUri={pack.uri}
                 you={where.kind === 'here' ? where.at : null}
                 guide={guide}

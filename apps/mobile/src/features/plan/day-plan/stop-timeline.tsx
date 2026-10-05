@@ -23,8 +23,10 @@ import { isPhysicalSpring, springConfig } from '@/motion/easing';
 import { impact } from '@/motion/feedback';
 import { makeStyles } from '@/ui/theme';
 
-import { StopBlock, type StopListContext } from '../trip-map/stop-list';
-import type { StopRow } from '../trip-map/stop-rows';
+import type { DayItem } from '@/data/plan/plan-model';
+
+import { MineList, StayEdge, StopBlock, type StopListContext } from '../trip-map/stop-list';
+import type { StayRows, StopRow } from '../trip-map/stop-rows';
 
 const LIFT_MS = 320;
 const spring = isPhysicalSpring(tokens.motion.spring.snappy)
@@ -226,10 +228,16 @@ export function StopTimeline({
   rows,
   context,
   drag,
+  stay,
+  mine,
 }: {
   readonly rows: readonly StopRow[];
   readonly context: StopListContext;
   readonly drag: TimelineDrag | null;
+  /** When to leave the stay and when the day is back at it. */
+  readonly stay?: StayRows | undefined;
+  /** The stops only I have on the day, listed under the crew's. */
+  readonly mine?: readonly { readonly time: string; readonly stop: DayItem }[] | undefined;
 }) {
   const styles = useStyles();
   const shared = useShared();
@@ -243,6 +251,7 @@ export function StopTimeline({
   }, [order]);
   return (
     <View style={styles.list} testID="day-plan-timeline">
+      {stay?.leave == null ? null : <StayEdge kind="leave" edge={stay.leave} />}
       {rows.map((row, index) => (
         <Block
           key={row.stop.stableId}
@@ -254,6 +263,8 @@ export function StopTimeline({
           context={context}
         />
       ))}
+      {stay?.back == null ? null : <StayEdge kind="back" edge={stay.back} />}
+      <MineList rows={mine ?? []} />
     </View>
   );
 }

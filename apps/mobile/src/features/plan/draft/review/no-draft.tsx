@@ -4,7 +4,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -17,7 +17,7 @@ export interface NoDraftProps {
 }
 
 export function NoDraft({ guide, failed, onDraft }: NoDraftProps) {
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="draft-empty">

@@ -5,7 +5,6 @@
  * watched once and settles into the recap page.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -17,7 +16,7 @@ import { useAnalytics } from '@/lib/analytics/use-analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback } from '@/motion';
 import { music } from '@/motion/music';
-import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
+import { guideColour, guideIdOr, guidesOfSameCountry, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
@@ -44,7 +43,7 @@ const SETTINGS_SQL =
   'SELECT distance_unit, talk_out_loud, signature_media_key FROM user_settings WHERE user_id = ?';
 
 function guideOf(slug: string | null | undefined): GuideId {
-  return slug != null && isGuideStickerId(slug) ? slug : 'tokek';
+  return guideIdOr(slug);
 }
 
 function RecapStory({ tripId }: { readonly tripId: string }) {
@@ -66,15 +65,16 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   const [voice, setVoice] = useState<boolean | null>(null);
   const [sheet, setSheet] = useState<'mvp' | 'signature' | null>(null);
   const guide = guideOf(data.trip?.guide_slug);
-  const guideName = data.trip?.guide_name ?? GUIDE_STICKERS[guide].name;
+  const guideName = data.trip?.guide_name ?? guideSticker(guide).name;
   const opened = useRef(false);
 
   // The guide's theme under the story, while it plays.
+  const themed = music.themedGuideFor(guide, guidesOfSameCountry(guide)) ?? null;
   useEffect(() => {
-    if (music.themeFor(guide)?.available !== true) return undefined;
-    music.crossfadeTo(guide);
+    if (themed === null) return undefined;
+    music.crossfadeTo(themed);
     return () => music.stop();
-  }, [guide]);
+  }, [themed]);
 
   // The first open signs the crew's stamps; a repeat open changes nothing on the server.
   useEffect(() => {
@@ -87,8 +87,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   const summary = useMemo(() => storySummary(data), [data]);
   const unit = settings?.distance_unit === 'imperial' ? 'imperial' : 'metric';
   const cards = useMemo(
-    () =>
-      buildStoryCards({ data, summary, live, guide, ground: tokens.guide[guide], locale, unit }),
+    () => buildStoryCards({ data, summary, live, guide, ground: guideColour(guide), locale, unit }),
     [data, summary, live, guide, locale, unit],
   );
 
@@ -105,7 +104,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   };
 
   const voiceOn = voice ?? settings?.talk_out_loud === 1;
-  const theme = music.themeFor(guide)?.available === true ? themeName(guide) : null;
+  const theme = themed === null ? null : themeName(themed);
   const choices = data.awards
     .filter((award) => !award.optedOut)
     .map((award) => ({

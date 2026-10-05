@@ -62,6 +62,10 @@ msgid "explore.swipe.matchSuggested"
 msgstr "{placeName} được đề xuất cho Ngày {dayNo}. Trưởng nhóm sẽ duyệt."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneSaved"
+msgstr "{yesCount, plural, other {Đã lưu # địa điểm vào Ý tưởng dưới tên bạn.}}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneCount"
 msgstr "{yesCount, plural, other {Bạn đã đồng ý với # địa điểm.}}"
 
@@ -110,6 +114,10 @@ msgid "explore.swipe.no"
 msgstr "Không chọn nơi này"
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.openIdeas"
+msgstr "Mở Ý tưởng"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.seeIdeas"
 msgstr "Xem trong Ý tưởng"
 
@@ -128,6 +136,10 @@ msgstr "Chạm để quẹt tiếp"
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
 msgstr "Hết bộ thẻ rồi"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.savedNoMatches"
+msgstr "Chúng đã nằm trong Ý tưởng dưới tên bạn. Khi trùng ý, những người khác sẽ được thêm vào."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.endedTitle"

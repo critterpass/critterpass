@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Sticker } from '../sticker/Sticker';
 import { PressScale } from '../press/PressScale';
 import { makeStyles, useTheme } from '../theme';
-import { GUIDE_AVATAR_IDS, GUIDE_STICKERS, type GuideAvatarId } from './guides';
+import { GUIDE_AVATAR_IDS, guideSticker, type GuideAvatarId } from './guides';
 
 export interface AvatarPickerProps {
   readonly selected: GuideAvatarId | null;
@@ -37,7 +37,7 @@ export function AvatarPicker({ selected, onPick, labelFor, testID }: AvatarPicke
   return (
     <View style={styles.grid} testID={testID} accessibilityRole="radiogroup">
       {GUIDE_AVATAR_IDS.map((id) => {
-        const guide = GUIDE_STICKERS[id];
+        const guide = guideSticker(id);
         const isSelected = selected === id;
         return (
           <View key={id} style={styles.cell}>

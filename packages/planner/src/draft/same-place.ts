@@ -2,7 +2,8 @@
  * One place, several rows. The curated set lists some places more than once ("Chùa Linh Ứng (Linh
  * Ung Pagoda)" and "Linh Ứng Pagoda"; "Hải Vân Pass" four times), and the guide must not be
  * offered the same place twice. Two rows are the same place when they sit within about 150 m of
- * each other and their names overlap, or when they carry exactly the same name and are not food
+ * each other and their names overlap, or when they carry the same name (exactly, or once kind
+ * words and short forms are evened out, within a few kilometres) and are not food
  * (a chain has many branches; a mountain pass has one). The row kept is a must-do's own place,
  * else the must-see one, else the better described, else the plainest name ("Marble Mountains"
  * before "Marble Mountains Elevator"), else the one nearest the others (a stray pin is the
@@ -15,7 +16,7 @@ import type { DraftPoi } from './types';
 const SAME_PLACE_M = 150;
 const NAME_OVERLAP = 0.6;
 
-function metresBetween(a: DraftPoi, b: DraftPoi): number {
+export function metresBetween(a: DraftPoi, b: DraftPoi): number {
   const rad = Math.PI / 180;
   const x = (b.lng - a.lng) * rad * Math.cos(((a.lat + b.lat) / 2) * rad);
   const y = (b.lat - a.lat) * rad;
@@ -27,6 +28,29 @@ interface Named {
   /** Every name the row carries as its own, each as one string. */
   readonly names: readonly string[];
   readonly tokens: ReadonlySet<string>;
+  /** The leading name without kind words, short forms spelt out; null under two words. */
+  readonly core: string | null;
+}
+
+const LOOKALIKE_M = 8000;
+/** Words that say what kind of place a sight is, in the languages our rows use. */
+const KIND_WORDS: ReadonlySet<string> = new Set([
+  'the',
+  'pura',
+  'candi',
+  'temple',
+  'shrine',
+  'chua',
+  'pagoda',
+  'church',
+]);
+const SHORT_FORMS: Readonly<Record<string, string>> = { gn: 'gunung', mt: 'mount' };
+
+function coreName(alias: readonly string[] | undefined): string | null {
+  const words = (alias ?? [])
+    .map((word) => SHORT_FORMS[word] ?? word)
+    .filter((word) => !KIND_WORDS.has(word));
+  return words.length < 2 ? null : words.join(' ');
 }
 
 function overlap(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
@@ -39,6 +63,10 @@ function overlap(a: ReadonlySet<string>, b: ReadonlySet<string>): number {
 function samePlace(a: Named, b: Named): boolean {
   if (a.poi.category !== 'food' && b.poi.category !== 'food') {
     if (a.names.some((name) => b.names.includes(name))) return true;
+    // "Gn Kawi Temple" and "Pura Gunung Kawi": one name once the word for the kind of place is
+    // off and the short forms are spelt out. Nobody visits both on one trip.
+    const near = metresBetween(a.poi, b.poi) <= LOOKALIKE_M;
+    if (near && a.core !== null && a.core === b.core) return true;
   }
   return metresBetween(a.poi, b.poi) <= SAME_PLACE_M && overlap(a.tokens, b.tokens) >= NAME_OVERLAP;
 }
@@ -67,6 +95,7 @@ export function collapseSamePlaces(
       poi,
       names: aliases.filter((alias) => alias.length >= 2).map((alias) => alias.join(' ')),
       tokens: new Set(aliases.flat()),
+      core: coreName(aliases[0]),
     };
   });
   const parent = named.map((_, index) => index);
@@ -120,4 +149,44 @@ export function collapseSamePlaces(
     for (const poi of sorted) if (!kept.has(poi.id)) keptFor.set(poi.id, head.id);
   }
   return { kept: pois.filter((poi) => kept.has(poi.id)), mentions, keptFor };
+}
+
+/** A row this close to another, carrying its name, is the same spot under another listing. */
+const TWIN_M = 100;
+const FILLER: ReadonlySet<string> = new Set(['the', 'a', 'an']);
+
+/**
+ * The row a must-do picked from search is planned at. Search can hand back a stay or a shop that
+ * shares a sight's name and doorstep ("The Crazy House", filed as a guesthouse, beside the villa
+ * everybody means). When a recommended row (curated, or one of the destination's well-known
+ * picks) sits on the same spot and carries every word of the picked row's name, the stop goes
+ * there; a row that is itself recommended is never swapped.
+ */
+export function knownPlaceFor(
+  own: DraftPoi,
+  places: readonly DraftPoi[],
+  ignore: readonly (readonly string[])[] = [],
+): DraftPoi {
+  if (own.editorial || own.mustSee) return own;
+  const words = (poi: DraftPoi) => {
+    const aliases = nameAliases(poi.name, ignore);
+    return new Set([...aliases.primary, ...aliases.secondary].flat());
+  };
+  const mine = [...words(own)].filter((word) => !FILLER.has(word));
+  if (mine.length === 0) return own;
+  const twins = places.filter((poi) => {
+    if (poi.id === own.id || !(poi.editorial || poi.mustSee)) return false;
+    if (poi.category === 'stay' || poi.category === 'transit') return false;
+    if (metresBetween(own, poi) > TWIN_M) return false;
+    const theirs = words(poi);
+    return mine.every((word) => theirs.has(word));
+  });
+  twins.sort(
+    (a, b) =>
+      Number(b.mustSee) - Number(a.mustSee) ||
+      Number(b.editorial) - Number(a.editorial) ||
+      (b.detail ?? 0) - (a.detail ?? 0) ||
+      (a.id < b.id ? -1 : 1),
+  );
+  return twins[0] ?? own;
 }

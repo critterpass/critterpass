@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { TypingDots } from '@/ui/chat/TypingDots';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
@@ -67,7 +67,10 @@ export interface RedraftDiffViewProps {
   readonly tz: string;
   readonly phase: DiffPhase;
   readonly dayNo: number | null;
+  /** The guide's own summary (written in English: passed only to a reader of English). */
   readonly summary: string | null;
+  /** The changes left ticked would put two stops at the same time: keeping waits. */
+  readonly clash?: boolean;
   readonly cards: readonly ChangeCardModel[];
   readonly chips: readonly MetricChip[];
   readonly off: ReadonlySet<string>;
@@ -82,8 +85,7 @@ export interface RedraftDiffViewProps {
 
 function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: number | null }) {
   const styles = useStyles();
-  const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const n = dayNo ?? 0;
   return (
@@ -94,7 +96,7 @@ function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: n
           ? t({ id: 'planDraft.diff.thinkingAny', message: `${guideName} is redrafting` })
           : t({ id: 'planDraft.diff.thinking', message: `${guideName} is redrafting day ${n}` })}
       </Text>
-      <TypingDots color={theme.guide[guide]} />
+      <TypingDots color={guideColour(guide)} />
     </View>
   );
 }
@@ -112,7 +114,7 @@ function Outcome({
 }) {
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   return (
     <View style={styles.centre} testID="redraft-outcome">
       <Sticker kind={info.kind} name={info.name} pose="think" size={THINKING} />
@@ -135,7 +137,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
   const { guide, phase, dayNo } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const n = dayNo ?? 0;
   const old = props.baseTitle ?? '';
@@ -204,11 +206,19 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
               </Text>
             </View>
           </View>
-          {props.summary === null ? null : (
-            <Text variant="body" color={theme.semantic.text.secondary}>
-              {props.summary}
-            </Text>
-          )}
+          <Text variant="body" color={theme.semantic.text.secondary} testID="redraft-summary">
+            {props.summary ??
+              t({
+                id: 'planDraft.diff.summaryPlain',
+                message: `Here’s what ${guideName} would change.`,
+              })}
+          </Text>
+          <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'planDraft.diff.howTo',
+              message: 'Untick a change to leave that stop as it was.',
+            })}
+          </Text>
           {props.cards.map((card, index) => (
             <ChangeCard
               key={card.key}
@@ -223,10 +233,24 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
           <MetricChips chips={props.chips} locale={props.locale} />
         </ScrollView>
         <View style={styles.footer}>
+          {props.clash === true ? (
+            <Text
+              variant="bodySm"
+              color={theme.semantic.state.warning}
+              style={styles.centred}
+              testID="redraft-clash"
+            >
+              {t({
+                id: 'planDraft.diff.clash',
+                message:
+                  'Leaving that one out would put two stops at the same time. Tick it again, or put the whole day back and ask differently.',
+              })}
+            </Text>
+          ) : null}
           <PillButton
             label={t({ id: 'planDraft.diff.keep', message: 'Keep it' })}
             onPress={props.onKeep}
-            disabled={!kept}
+            disabled={!kept || props.clash === true}
             loading={props.sending}
             sheen
             testID="redraft-keep"

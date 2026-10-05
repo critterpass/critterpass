@@ -11,7 +11,7 @@ import { Pressable, View } from 'react-native';
 import type { InboxAction } from '@cp/domain';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -55,8 +55,9 @@ export function EarlierRow({ item, renderer, ctx, onUndo, onOpen }: EarlierRowPr
   const undo = item.actions.find((action) => action.style === 'undo');
   const canUndo =
     undo !== undefined && !item.resolved && item.undoUntil !== null && item.undoUntil > ctx.now;
-  const guide =
-    GUIDE_STICKERS[guideOr(typeof item.data['guide'] === 'string' ? item.data['guide'] : null)];
+  const guide = guideSticker(
+    guideOr(typeof item.data['guide'] === 'string' ? item.data['guide'] : null),
+  );
   const lead =
     item.source === 'guide' || item.actorId === null ? (
       <Sticker kind={guide.kind} name={guide.name} size={LEAD} />

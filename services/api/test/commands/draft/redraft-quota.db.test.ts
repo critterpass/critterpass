@@ -2,7 +2,8 @@
  * Redrafts on the real stack: only an organiser asks, against the draft they are looking at; with
  * one redraft left, ten requests at once get exactly one through; keeping a delivered redraft (a
  * change toggled off stays as it was) adopts it and counts it; the spent quota answers
- * `REDRAFT_LIMIT`; an unlimited trip is still held to the silent daily cap.
+ * `REDRAFT_LIMIT`; an unlimited trip is still held to the silent daily cap; a redraft put back gives
+ * its unit back but still counted against that cap.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -214,5 +215,74 @@ describe('request_redraft', () => {
       [crew.organiser.uid],
     );
     expect(errorOf(await request(crew.organiser)).code).toBe('RATE_LIMITED');
+  });
+});
+
+describe('revert_redraft', () => {
+  it('gives the redraft back when she puts it back, and still counts it against the daily cap', async () => {
+    const other = await buildSetupCrew(harness, 1);
+    const locked = await harness.run(other.organiser, 'lock_trip_dates', {
+      trip_id: other.tripId,
+      start: day(41),
+      end: day(43),
+    });
+    expect(locked.status, JSON.stringify(locked.body)).toBe(200);
+    const draft = await seedDraft(other.tripId);
+    for (const status of ['drafting', 'draft_review']) {
+      await harness.pool.query('UPDATE trips SET status = $2 WHERE id = $1', [
+        other.tripId,
+        status,
+      ]);
+    }
+    await harness.pool.query('UPDATE trips SET draft_version_id = $2 WHERE id = $1', [
+      other.tripId,
+      draft,
+    ]);
+    const used = async () => {
+      const { rows } = await harness.pool.query<{ trip: number; today: number }>(
+        `SELECT coalesce((SELECT count FROM usage_counters WHERE subject_kind = 'trip'
+                   AND subject_id = $1 AND metric = 'redrafts' AND period_key = 'lifetime'), 0)::int AS trip,
+                coalesce((SELECT sum(count) FROM fair_use_counters
+                           WHERE user_id = $2 AND metric = 'redrafts'), 0)::int AS today`,
+        [other.tripId, other.organiser.uid],
+      );
+      return rows[0];
+    };
+
+    const asked = await harness.run(other.organiser, 'request_redraft', {
+      trip_id: other.tripId,
+      day: 2,
+      reasons: ['slower'],
+      base_version: draft,
+    });
+    expect(asked.status, JSON.stringify(asked.body)).toBe(200);
+    const { redraft_id: redraftId } = resultOf<{ redraft_id: string }>(asked);
+    expect(await used()).toEqual({ trip: 1, today: 1 });
+
+    const candidate = await seedDraft(other.tripId, draft);
+    const result: RedraftResult = {
+      redraft_id: redraftId,
+      day_no: 2,
+      base_version_id: draft,
+      candidate_version_id: candidate,
+      outcome: 'changed',
+      title: 'A slower day',
+      summary: 'Fewer rushes between stops.',
+      changes: [],
+      metrics: null,
+    };
+    await harness.pool.query(
+      "UPDATE agent_jobs SET status = 'succeeded', result_ref = $2 WHERE id = $1",
+      [redraftId, JSON.stringify(result)],
+    );
+    const back = await harness.run(other.organiser, 'revert_redraft', { redraft_id: redraftId });
+    expect(back.status, JSON.stringify(back.body)).toBe(200);
+    expect(await used()).toEqual({ trip: 0, today: 1 });
+    const { rows } = await harness.pool.query(
+      `SELECT (SELECT status FROM redraft_reservations WHERE agent_job_id = $2) AS reservation,
+              status, draft_version_id AS draft FROM trips WHERE id = $1`,
+      [other.tripId, redraftId],
+    );
+    expect(rows[0]).toEqual({ reservation: 'released', status: 'draft_review', draft });
   });
 });

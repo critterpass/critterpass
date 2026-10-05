@@ -120,7 +120,8 @@ describe('trip hub for a trip still choosing its place', () => {
     await renderHub(undefined, (stack) => seedFreshVote(stack.db, stack.uid), FRESH_TRIP);
     await waitFor(() => expect(screen.getByTestId('trip-hub')).toBeTruthy());
     expect(screen.getByText('WHERE NEXT?')).toBeTruthy();
-    expect(screen.getByText('1 GOING')).toBeTruthy();
+    // Nobody is going anywhere yet: while the trip is being planned the header counts the crew.
+    await waitFor(() => expect(screen.getByText('1 IN THE CREW')).toBeTruthy());
     await waitFor(() =>
       expect(screen.getAllByText(/KHANH PITCHED A PLACE/u).length).toBeGreaterThan(0),
     );

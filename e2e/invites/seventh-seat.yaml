@@ -7,6 +7,12 @@ appId: app.critterpass.dev
 # this saved account.
 - launchApp
 - openLink: critterpass-dev://crew/${CREW_ID}/invite
+# The composer opens on the link and the crew code; a named seat is its second tab.
+- extendedWaitUntil:
+    visible:
+      id: 'composer-mode'
+    timeout: 10000
+- tapOn: '(?i)a friend'
 - extendedWaitUntil:
     visible:
       id: 'composer-name'

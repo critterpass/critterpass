@@ -1,9 +1,11 @@
 /**
- * The change set lifecycle on the real stack: a member drafts and sends a change to the crew, the
- * affected members vote from any surface through `approve_changeset` (a repeated yes counts once),
+ * The change set lifecycle on the real stack: a member drafts and sends a change to the crew
+ * (sending is their own yes, and the answer says when the vote closes), the other affected members
+ * vote from any surface through `approve_changeset` (a repeated yes counts once),
  * the majority applies it as a new plan version; a change set drafted on the same item before that
  * goes stale and can never apply; a supplier hold pulls the vote's deadline in; and enough noes
- * keep the plan. Only the author sends or toggles; nobody outside the crew sees a change set.
+ * keep the plan. Only the author sends or toggles; nobody outside the crew sees a change set. An
+ * organiser puts their own draft straight into the plan; a member cannot.
  */
 import { NO_HOLDS, registerHoldExpiryProvider, type ChangesetOutcome } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -115,7 +117,20 @@ describe('change set lifecycle', () => {
     ).toBe('NOT_FOUND');
 
     const sent = resultOf<ChangesetOutcome>(await send(m1, first));
-    expect(sent).toMatchObject({ status: 'voting', needed: 3, eligible: 4, yes: 0 });
+    // Sending is the author's yes; everyone else still needs the same three of four.
+    expect(sent).toMatchObject({ status: 'voting', needed: 3, eligible: 4, yes: 1, no: 0 });
+    const { rows: poll } = await harness.pool.query<{ closes_at: Date; author_voted: boolean }>(
+      `SELECT p.closes_at, EXISTS (SELECT 1 FROM ballots b WHERE b.poll_id = p.id AND b.user_id = $2)
+              AS author_voted
+         FROM polls p WHERE p.id = $1`,
+      [sent.poll_id, m1.uid],
+    );
+    expect(poll[0]?.author_voted).toBe(true);
+    expect(sent.closes_at).toBe(poll[0]?.closes_at.toISOString());
+    expect(new Date(sent.closes_at ?? 0).getTime()).toBeGreaterThan(Date.now());
+    // Sent again, it answers as it stands: one yes, not two.
+    expect(resultOf<ChangesetOutcome>(await send(m1, first)).yes).toBe(1);
+    expect(resultOf<ChangesetOutcome>(await vote(m1, first, 'yes')).yes).toBe(1);
     const { rows: armed } = await harness.pool.query(
       `SELECT 1 FROM scheduled_events WHERE kind = 'plan.changeset_expiry' AND ref_id = $1
        UNION ALL SELECT 1 FROM messages WHERE type = 'changeset' AND ref_id = $1`,
@@ -123,10 +138,10 @@ describe('change set lifecycle', () => {
     );
     expect(armed).toHaveLength(2);
 
-    expect(resultOf<ChangesetOutcome>(await vote(m2, first, 'yes')).yes).toBe(1);
-    expect(resultOf<ChangesetOutcome>(await vote(m2, first, 'yes')).yes).toBe(1);
-    expect(resultOf<ChangesetOutcome>(await vote(m3, first, 'yes')).status).toBe('voting');
-    const applied = resultOf<ChangesetOutcome>(await vote(org, first, 'yes'));
+    expect(resultOf<ChangesetOutcome>(await vote(m2, first, 'yes')).yes).toBe(2);
+    const twice = resultOf<ChangesetOutcome>(await vote(m2, first, 'yes'));
+    expect(twice).toMatchObject({ status: 'voting', yes: 2 });
+    const applied = resultOf<ChangesetOutcome>(await vote(m3, first, 'yes'));
     expect(applied).toMatchObject({ status: 'applied', yes: 3 });
     expect(await current()).toBe(applied.result_version_id);
     expect(errorOf(await vote(m1, first, 'no')).code).toBe('VOTE_CLOSED');
@@ -156,5 +171,38 @@ describe('change set lifecycle', () => {
     const kept = resultOf<ChangesetOutcome>(await vote(org, id, 'no'));
     expect(kept.status).toBe('rejected');
     expect(await current()).toBe(before);
+  });
+
+  it("puts an organiser's own draft straight into the plan, and never a member's by the member", async () => {
+    const before = await current();
+    const mine = await draft(m1, plan.museum, 13, 1);
+    expect(
+      errorOf(await harness.run(m1, 'apply_changeset', { changeset_id: mine, scope: 'group' })),
+    ).toMatchObject({ code: 'FORBIDDEN', detail: { reason: 'organiser_only' } });
+    expect(await current()).toBe(before);
+
+    const hers = await draft(org, plan.museum, 16, 1);
+    const applied = resultOf<ChangesetOutcome>(
+      await harness.run(org, 'apply_changeset', { changeset_id: hers, scope: 'group' }),
+    );
+    expect(applied).toMatchObject({ status: 'applied', poll_id: null, yes: 0, needed: 0 });
+    expect(applied.result_version_id).not.toBe(before);
+    expect(await current()).toBe(applied.result_version_id);
+    const { rows } = await harness.pool.query<{ approved_by_kind: string; approved_by: string }>(
+      'SELECT approved_by_kind, approved_by FROM change_sets WHERE id = $1',
+      [hers],
+    );
+    expect(rows[0]).toEqual({ approved_by_kind: 'organiser', approved_by: org.uid });
+
+    const empty = await draft(org, plan.museum, 17, 1);
+    await harness.run(org, 'set_changeset_item', {
+      changeset_id: empty,
+      change_id: plan.museum,
+      accepted: false,
+    });
+    expect(
+      errorOf(await harness.run(org, 'apply_changeset', { changeset_id: empty, scope: 'group' })),
+    ).toMatchObject({ code: 'STATE_INVALID', detail: { reason: 'nothing_accepted' } });
+    expect(await current()).toBe(applied.result_version_id);
   });
 });

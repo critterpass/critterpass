@@ -13,6 +13,22 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, with {1}"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.added"
+msgstr "{change} is in the plan"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.removed"
+msgstr "{change} is off the plan"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr "{count, plural, one {{guide} found a spot for # idea} other {{guide} found a spot for # ideas}}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMany"
+msgstr "{count, plural, one {{name} wants # change to the plan} other {{name} wants # changes to the plan}}"
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr "{count}d"
@@ -61,6 +77,10 @@ msgstr "{guide} will nudge {name} at {at}, when they open things."
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr "{guideName}, asleep"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr "{name} joined {crew}"
@@ -72,6 +92,18 @@ msgstr "{name} nudged you"
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.line"
 msgstr "{name} nudged you"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedAdd"
+msgstr "{name} wants to add {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedRemove"
+msgstr "{name} wants to drop {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMove"
+msgstr "{name} wants to move {change}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.title"
@@ -92,6 +124,14 @@ msgstr "All"
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.title"
 msgstr "All caught up"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.searchBody"
+msgstr "Any city or region. A guide comes along wherever you go."
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.nearHome"
+msgstr "Close to home"
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.failed"
@@ -141,6 +181,10 @@ msgstr "How'd it go?"
 msgid "home.inbox.title"
 msgstr "Inbox"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.body"
+msgstr "It goes in when the crew says yes."
+
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
 msgstr "It's back on your list."
@@ -169,6 +213,10 @@ msgstr "Loading your home"
 msgid "home.inbox.loading"
 msgstr "Loading your inbox"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr "Look them over before they go in the plan."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr "Mark all read"
@@ -193,6 +241,10 @@ msgstr "Next up"
 msgid "home.nextUp.eyebrow"
 msgstr "Next up · {day}"
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr "Next: {time} · {name}"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr "No guide there yet. Tokek will cover until one moves in."
@@ -205,13 +257,17 @@ msgstr "Nothing from the crew yet."
 msgid "home.inbox.guidesEmpty"
 msgstr "Nothing from the guides yet."
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
+msgstr "Nothing more on the plan today."
+
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
-msgstr "Nothing needs you right now. Tokek will wake you if {watching} changes."
+msgstr "Nothing needs you right now. {guideName} will wake you if {watching} changes."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.line"
-msgstr "Nothing needs you right now. Tokek will wake you when something does."
+msgstr "Nothing needs you right now. {guideName} will wake you when something does."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.awake"
@@ -221,13 +277,9 @@ msgstr "Nothing needs you yet. Back to sleep."
 msgid "home.noTrip.line"
 msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
-msgstr "Open the trip"
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
-msgstr "Pick a guide to start a trip. Your crew can vote on it later."
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
+msgstr "Open today"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
@@ -240,6 +292,22 @@ msgstr "plan {progress} percent done"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Plan {progress}%"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
+msgstr "Review"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.search"
+msgstr "Search a place"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it later."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.open"
+msgstr "See the change"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"
@@ -269,9 +337,9 @@ msgstr "Something needs you"
 msgid "home.inbox.generic"
 msgstr "Something new for you"
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhere"
-msgstr "Somewhere else"
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.startCrew"
+msgstr "Start a crew"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"
@@ -289,13 +357,33 @@ msgstr "That trip is over"
 msgid "home.inbox.nudge.vote"
 msgstr "The crew is waiting on your vote."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.keptOne"
+msgstr "The crew said no to {change}. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.kept"
+msgstr "The crew said no. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.applied"
+msgstr "The crew said yes. The plan changed."
+
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr "The nudge didn't go through. Try again."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.moved"
+msgstr "The plan now has {change}"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.full"
 msgstr "The trip is full. You’re number {position} in line for a seat."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.ranOut"
+msgstr "The vote ran out. The plan stays as it was."
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
@@ -317,13 +405,9 @@ msgstr "This one has closed."
 msgid "home.countdown.today"
 msgstr "Today"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
-msgstr "Today · Day {day}"
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
-msgstr "Tokek, asleep"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
+msgstr "Today · Day {dayNo} of {dayCount}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -383,6 +467,5 @@ msgid "home.nudge.relayLink"
 msgstr "Your crew is saving you a spot on CritterPass. {url}"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr "Your next trip"

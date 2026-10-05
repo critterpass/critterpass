@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { weekdayOfDate } from './weekday-names';
@@ -39,12 +39,12 @@ export interface SearchTrip {
   readonly itemTitles: ReadonlyMap<string, string>;
   /** The plan's place names by place id ("≤ 15 min from Tanah Lot"). */
   readonly placeNames: ReadonlyMap<string, string>;
+  /** The weekday (else the day number) a place is planned on, by place id. */
+  readonly planDays: ReadonlyMap<string, string>;
 }
 
 function guideOf(slug: string | null | undefined): GuideId {
-  return slug !== null && slug !== undefined && slug in GUIDE_STICKERS
-    ? (slug as GuideId)
-    : 'tokek';
+  return guideIdOr(slug);
 }
 
 export function useSearchTrip(tripId: string): SearchTrip {
@@ -76,19 +76,31 @@ export function useSearchTrip(tripId: string): SearchTrip {
       ),
     [plan.itemRows],
   );
+  const planDays = useMemo(() => {
+    const byNo = new Map(days.map((day) => [day.dayNo, day.weekday ?? String(day.dayNo)]));
+    const planned = new Map<string, string>();
+    for (const item of plan.itemRows) {
+      if (item.poi_id === null || item.status === 'cancelled' || item.category === 'stay') continue;
+      if (!planned.has(item.poi_id)) {
+        planned.set(item.poi_id, byNo.get(item.day_no) ?? String(item.day_no));
+      }
+    }
+    return planned;
+  }, [plan.itemRows, days]);
   return {
     loaded: plan.loaded,
     destinationId: plan.trip?.destination_id ?? null,
     destination: plan.trip?.destination_name ?? '',
     destinationSlug: plan.trip?.destination_slug ?? null,
     guide,
-    guideName: GUIDE_STICKERS[guide].name,
+    guideName: guideSticker(guide).name,
     days,
     versionId: plan.versionId,
     organiser: plan.organiser,
     tz: plan.trip?.tz ?? 'UTC',
     itemTitles,
     placeNames: plan.places,
+    planDays,
   };
 }
 

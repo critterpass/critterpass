@@ -5,7 +5,7 @@
  * trip moves on to review; a trip no longer drafting (the organiser cancelled) saves nothing.
  */
 import type { DraftPlanInput, RepairOutcome } from '@cp/ai';
-import { writeBookedPlanItems } from '@cp/db';
+import { dropReplacedDraft, writeBookedPlanItems } from '@cp/db';
 import { closedOn, itineraryMetrics, mustDosKept } from '@cp/planner';
 import type {
   ClosureRecord,
@@ -17,6 +17,7 @@ import type {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { carryBaseRows, type HeldStop } from './held-stops';
 import type { DraftTripData } from './load';
 import { staysPpMinor, tripDates } from './plan-input';
 
@@ -27,6 +28,8 @@ export interface DraftToSave {
   readonly outcome: Pick<RepairOutcome, 'itinerary' | 'first' | 'loops' | 'dropped'>;
   readonly stays: readonly StayRow[];
   readonly closures: readonly ClosureRecord[];
+  /** Stops the organiser placed by hand on the draft this one replaces (./held-stops.ts). */
+  readonly held?: readonly HeldStop[];
   /** Extra per-item flags (a supplier's own availability answer). */
   readonly slotAvailable: readonly string[];
 }
@@ -66,12 +69,12 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
     }
   }
   const dates = tripDates(trip);
+  // A must-do she placed herself was never the guide's to place: it counts as made.
+  const asked = new Set(input.frame.mustDos.map((m) => m.id));
+  const hers = trip.mustDos.filter((m) => !asked.has(m.id) && placed.has(m.id)).length;
+  const total = input.frame.mustDos.length + hers;
   return {
-    must_dos: {
-      total: input.frame.mustDos.length,
-      made: input.frame.mustDos.length - missing.length,
-      missing,
-    },
+    must_dos: { total, made: total - missing.length, missing },
     flags,
     closures: [...save.closures],
     stays: [...save.stays],
@@ -157,6 +160,17 @@ export async function insertDays(
   }
 }
 
+async function isUntouchedEmptyPlan(tx: pg.PoolClient, versionId: string): Promise<boolean> {
+  const { rows } = await tx.query<{ untouched: boolean }>(
+    `SELECT v.origin = 'dates' AND NOT EXISTS (
+              SELECT 1 FROM plan_items i WHERE i.version_id = v.id AND i.booking_id IS NULL
+            ) AS untouched
+       FROM itinerary_versions v WHERE v.id = $1`,
+    [versionId],
+  );
+  return rows[0]?.untouched === true;
+}
+
 export type PersistOutcome = { readonly versionId: string; readonly created: boolean } | null;
 
 export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promise<PersistOutcome> {
@@ -172,13 +186,17 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   const trip = trips[0];
   if (trip === undefined || trip.status !== 'drafting') return null;
   const metrics = draftMetrics(save);
+  // The trip's days before any draft are an empty plan: one nobody put a stop on is not a draft
+  // worth keeping in the history, so the guide's draft takes its place rather than follows it.
+  const untouched =
+    trip.draft_version_id !== null && (await isUntouchedEmptyPlan(tx, trip.draft_version_id));
   const { rows } = await tx.query<{ id: string }>(
     `INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor, currency,
-       created_by_job_id, metrics, coverage)
-     VALUES ($1, $2, 'organiser', 'draft', $3, $4, $5, $6, $7) RETURNING id`,
+       created_by_job_id, metrics, coverage, origin)
+     VALUES ($1, $2, 'organiser', 'draft', $3, $4, $5, $6, $7, 'guide') RETURNING id`,
     [
       save.trip.tripId,
-      trip.draft_version_id,
+      untouched ? null : trip.draft_version_id,
       metrics.cost_pp_minor,
       metrics.currency,
       save.jobId,
@@ -189,6 +207,17 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   const versionId = rows[0]?.id;
   if (versionId === undefined) throw new Error('draft version insert returned no id');
   await insertDays(tx, save.trip.tripId, versionId, save.outcome.itinerary);
+  if (trip.draft_version_id !== null && !untouched) {
+    // Her stops keep everything the planner's items do not carry, and their places their names.
+    await carryBaseRows(tx, trip.draft_version_id, versionId);
+    await tx.query(
+      `UPDATE itinerary_versions v
+          SET coverage = jsonb_set(v.coverage, '{places}',
+                coalesce(b.coverage->'places', '{}'::jsonb) || coalesce(v.coverage->'places', '{}'::jsonb))
+         FROM itinerary_versions b WHERE v.id = $1 AND b.id = $2`,
+      [versionId, trip.draft_version_id],
+    );
+  }
   // Bookings already in the wallet sit on the draft as anchored items from the start.
   await writeBookedPlanItems(tx, save.trip.tripId, versionId);
   if (trip.draft_version_id !== null) {
@@ -200,6 +229,9 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
     save.trip.tripId,
     versionId,
   ]);
+  if (untouched && trip.draft_version_id !== null) {
+    await dropReplacedDraft(tx, trip.draft_version_id);
+  }
   return { versionId, created: true };
 }
 

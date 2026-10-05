@@ -4,7 +4,7 @@
  */
 import { z } from 'zod';
 
-import { REDRAFT_REASONS } from './commands';
+import { REDRAFT_REASON_KEYS } from './commands';
 
 export const DRAFT_EVENT_TYPES = [
   'draft.requested',
@@ -12,6 +12,7 @@ export const DRAFT_EVENT_TYPES = [
   'draft.failed',
   'draft.cancelled',
   'draft.version_restored',
+  'draft.ops_applied',
   'redraft.requested',
   'redraft.delivered',
   'redraft.kept',
@@ -34,9 +35,16 @@ export const DRAFT_EVENT_PAYLOADS = {
     version_id: z.uuid(),
     from_version_id: z.uuid(),
   }),
+  // The organiser changed her private draft by hand. Never an activity, never a push.
+  'draft.ops_applied': z.object({
+    trip_id: z.uuid(),
+    version_id: z.uuid(),
+    base_version_id: z.uuid(),
+    op_count: z.number().int().nonnegative(),
+  }),
   'redraft.requested': redraft.extend({
     day_no: z.number().int().positive(),
-    reasons: z.array(z.enum(REDRAFT_REASONS)),
+    reasons: z.array(z.enum(REDRAFT_REASON_KEYS)),
     free: z.boolean(),
   }),
   'redraft.delivered': redraft.extend({ outcome: z.enum(['changed', 'identical']) }),

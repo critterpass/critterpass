@@ -10,7 +10,7 @@ import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
@@ -29,7 +29,7 @@ import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
 import type { ReviewModel } from '../data/version';
 import { ClosureNotes } from './closure-notes';
-import { CoverageStrip, OverBudget } from './coverage-strip';
+import { CoverageStrip, OverBudget, type MissedMustDo } from './coverage-strip';
 import { DraftDayRow } from './draft-day-row';
 import { StaleBanner } from './stale-banner';
 import { StayRows } from './stay-rows';
@@ -83,6 +83,8 @@ export interface DraftReviewViewProps {
   readonly onBack: () => void;
   readonly onPropose: (() => void) | undefined;
   readonly onChangeDay: (free: boolean) => void;
+  /** Opens the fix for a must-do that did not make the draft. */
+  readonly onFixMiss?: ((miss: MissedMustDo) => void) | undefined;
   readonly onOpenDay: ((dayNo: number) => void) | undefined;
   readonly onOpenRedraft: () => void;
   readonly onHistory: () => void;
@@ -94,7 +96,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const bob = useLoop('bob');
-  const info = GUIDE_STICKERS[guide];
+  const info = guideSticker(guide);
   const guideName = info.name;
   const destination = props.destination;
   const dates = props.dates;
@@ -135,10 +137,16 @@ export function DraftReviewView(props: DraftReviewViewProps) {
           </Animated.View>
         </View>
         <Text variant="body" color={theme.semantic.text.secondary} testID="draft-sub">
-          {t({
-            id: 'planDraft.review.sub',
-            message: `${dates}, ${cost} each. Fix anything before the crew sees it.`,
-          })}
+          {model.costPpMinor > 0
+            ? t({
+                id: 'planDraft.review.sub',
+                message: `${dates}, ${cost} each. Fix anything before the crew sees it.`,
+              })
+            : // Nothing in the draft is priced: say so, never "0 each".
+              t({
+                id: 'planDraft.review.subNoCost',
+                message: `${dates}. No cost estimate yet. Fix anything before the crew sees it.`,
+              })}
         </Text>
         {props.offline ? <OfflinePill /> : null}
         {openRedraft === null ? null : (
@@ -173,7 +181,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
             onRedraft={() => props.onChangeDay(model.lateMustDo)}
           />
         ) : null}
-        <CoverageStrip model={model.mustDos} />
+        <CoverageStrip model={model.mustDos} onFix={props.onFixMiss} />
         {overBy > 0 ? <OverBudget amount={wholeMoney(locale, overBy, model.currency)} /> : null}
         <View style={styles.days} testID="draft-days">
           {model.days.map((day, index) => (
@@ -182,7 +190,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
               day={day}
               index={index}
               locale={locale}
-              colour={theme.guide[guide]}
+              colour={guideColour(guide)}
               onPress={
                 props.onOpenDay === undefined ? undefined : () => props.onOpenDay?.(day.dayNo)
               }

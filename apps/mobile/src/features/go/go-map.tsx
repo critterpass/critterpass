@@ -2,31 +2,23 @@
  * The GO preview's map: you as the blue dot, the place as a labelled pin, and the route between
  * them along the roads (a wide yellow line) or as a
  * straight stand-in (a thin one). The camera frames both ends,
- * or the place alone before a position is known. The destination's region tiles draw it offline.
+ * or the place alone before a position is known. The destination's region pack draws under them
+ * when it has one, the world tiles otherwise.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
 import { tokens } from '@cp/design-tokens';
 import type { LngLat } from '@cp/domain';
-import {
-  Camera,
-  Map as MapLibreMap,
-  Marker,
-  type StyleSpecification,
-} from '@maplibre/maplibre-react-native';
+import { Camera, Map as MapLibreMap, Marker } from '@maplibre/maplibre-react-native';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
+import { regionMapStyle, useRegionTiles } from '@/ui/map/region-pack';
 import { RouteLine } from '@/ui/map/RouteLine';
 import { YouDot } from '@/ui/map/YouDot';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
-import criterpassDarkStyleJson from '../../../assets/map-style/critterpass-dark.json';
 import type { GoPoint } from './maps-handoff';
-
-const darkStyle = criterpassDarkStyleJson as unknown as StyleSpecification;
-const WORLD_URL = (darkStyle.sources['world'] as { url: string }).url;
 
 export interface GoMapProps {
   readonly place: GoPoint & { readonly label: string };
@@ -61,16 +53,8 @@ export function GoMap({
   bottomInset,
 }: GoMapProps) {
   const styles = useStyles();
-  const style = useMemo((): StyleSpecification => {
-    const region =
-      destinationSlug === null
-        ? WORLD_URL
-        : `pmtiles://${WORLD_URL.replace(/^pmtiles:\/\//u, '').replace('/world/', `/${destinationSlug}/`)}`;
-    return {
-      ...darkStyle,
-      sources: { ...darkStyle.sources, region: { type: 'vector', url: region } },
-    };
-  }, [destinationSlug]);
+  const tiles = useRegionTiles(destinationSlug, null);
+  const style = useMemo(() => regionMapStyle(tiles.sourceUrl), [tiles.sourceUrl]);
   const points: readonly LngLat[] = [
     [place.lng, place.lat],
     ...(you === null ? [] : [[you.lng, you.lat] as const]),

@@ -20,7 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideColour, guideSticker } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Egg } from '@/ui/critters/Egg';
 import { SplitFlap } from '@/ui/data/SplitFlap';
@@ -82,7 +82,7 @@ export function BoardView(props: BoardViewProps) {
   const reduced = useReducedImpactMotion();
   // The pass is drawn without a back control (3f-5); the system back still leaves it.
   useNoBackByDesign();
-  const info = GUIDE_STICKERS[props.guide];
+  const info = guideSticker(props.guide);
   // The egg drops in only when boarding happens on this screen, not when it opens boarded.
   const [openedBoarded] = useState(props.boarded);
   const eggDropsIn = !reduced && !openedBoarded;
@@ -115,7 +115,7 @@ export function BoardView(props: BoardViewProps) {
         <Animated.View style={passStyle}>
           <Ticket
             kind="crew"
-            headStart={t({ id: 'proposal.board.airline', message: 'CritterPass Air' })}
+            headStart={t({ id: 'proposal.board.crewPass', message: 'Crew pass' })}
             headEnd={t({ id: 'proposal.board.gate', message: 'Gate: yes' })}
             from={{ code: ticket.from }}
             to={{ code: ticket.to }}
@@ -153,13 +153,30 @@ export function BoardView(props: BoardViewProps) {
             testID="board-ticket"
           />
         </Animated.View>
+        {/* The pass borrows a boarding pass's look; it must not read as a flight someone booked. */}
+        <Text
+          variant="caption"
+          color={theme.semantic.text.secondary}
+          singleLine={false}
+          testID="board-pass-note"
+        >
+          {ticket.from === '—'
+            ? t({
+                id: 'proposal.board.notAFlight',
+                message: 'This saves your seat on the trip. It is not a flight booking.',
+              })
+            : t({
+                id: 'proposal.board.notAFlightFrom',
+                message: `This saves your seat on the trip. It is not a flight booking: ${ticket.from} is your home airport.`,
+              })}
+        </Text>
         {props.boarded ? (
           <Animated.View
             style={styles.egg}
             {...(eggDropsIn ? { entering: FadeInDown.delay(500).springify() } : {})}
             testID="board-egg"
           >
-            <Egg state="wobbling" color={theme.guide[props.guide]} size={64} />
+            <Egg state="wobbling" color={guideColour(props.guide)} size={64} />
             <Text variant="label" color={theme.semantic.action.primary}>
               {t({
                 id: 'proposal.board.egg',

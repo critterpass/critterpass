@@ -32,6 +32,14 @@ msgid "plan.ideas.placeSome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
+msgid "plan.placing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+msgid "plan.ideas.placeFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.needsYouSome"
 msgstr ""
 
@@ -59,8 +67,24 @@ msgstr ""
 msgid "plan.placing.foot"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.more"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.inPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.inPlanLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
@@ -73,6 +97,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.dropOnADay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.findPlaces"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
@@ -103,6 +131,10 @@ msgstr ""
 msgid "plan.placing.needsYouPending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.move"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeNone"
 msgstr ""
@@ -131,6 +163,22 @@ msgstr ""
 msgid "plan.ideas.placeThem"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.removeAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedMine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.routing"
 msgstr ""
@@ -144,17 +192,9 @@ msgid "plan.ideas.emptyLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.guide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
-msgid "plan.placing.failed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
-msgid "plan.ideas.placeFailed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.undo"
 msgstr ""

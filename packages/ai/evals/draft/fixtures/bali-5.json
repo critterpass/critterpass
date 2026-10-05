@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "11017b7c-3e8d-4a96-bdb3-6c14612aeb50",
+        "id": "444dcdc3-8be7-46b9-8015-85a8ac4ebb38",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Seminyak\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"Seminyak\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p8\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and splurge dinner\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p7\", \"p12\", \"p6\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gentle morning before flight\",\n      \"area\": \"Seminyak\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area B (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud ease-in\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples and terraces\",\n      \"area\": \"Area D and B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p5\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Soft farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 66,
+          "input_tokens": 110,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
+          "cache_read_input_tokens": 2048,
           "output_tokens": 194,
           "service_tier": "standard"
         }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "8dcd1a8c-f083-433f-8c07-56784b752979",
+        "id": "a20557ac-7a17-42d0-93ce-060b0841a05e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A soft green ridge walk, easy on the legs and kind on the soul.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 3,
+          "input_tokens": 310,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 6,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 43,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "f5e604b3-691b-4fc3-9239-dc24d0622845",
+        "id": "a9562a49-a9ed-448c-b508-30fbd6a792a3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The sun won’t wait, so we start where the sand meets the sea and let the landing day melt away.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"I know a guy who swears the sunset tastes better with a cold drink in hand at Potato Head.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"After the beach club buzz, Alchemy keeps the night owls glowing with something green and good.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the stalls before the day cools, and haggle with a grin.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A long, slow splurge of a meal with plenty of green on the plate.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you) for a proper local bite, loud and easy.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 81,
+          "input_tokens": 90,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 134,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 122,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "a96eb87c-7b31-47c3-84be-bc02166d4a3a",
+        "id": "66957d38-013f-4305-9e55-faefe91ac4ee",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old caves and carvings, a little mystery before the heat.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick royal wander, the palace is right in the heart of Ubud.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Terima kasih (thank you (Indonesian)) for the local flavours, Warung Biah Biah keeps it easy.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Green steps of rice, the sun won’t wait for the perfect photo.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge dinner, Locavore NXT is where the night gets fancy.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The terraces ripple like a green ocean, and the morning light makes every step worth it.\",\"must_do_id\":null},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright, breezy spot with plates that wake up even the sleepiest crew.\",\"must_do_id\":null},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Soft sand, salty air, and a horizon that knows how to put on a show.\",\"must_do_id\":\"m1\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Music, cocktails, and a pool that glows once the stars come out.\",\"must_do_id\":null}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 81,
+          "input_tokens": 438,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 279,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 191,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "1fe5b380-87a3-43a6-93d1-fed207228000",
+        "id": "dccddc6c-7c94-4f09-834a-37a3de8c36aa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset ease, Ubud culture, one last lazy morning — every must-do made it, terima kasih (thank you (Indonesian))."
+            "text": "Bali: easy Ubud start, rice terraces and Seminyak sun, then a soft goodbye — all your must-dos made it in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 194,
+          "input_tokens": 191,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 29,
+          "output_tokens": 31,
           "service_tier": "standard"
         }
       }

@@ -40,6 +40,15 @@ export function checkPlan(input: CheckInput): RankedIssue[] {
 
 export { fingerprintOf } from './fingerprint';
 export {
+  aroundOf,
+  quietKey,
+  splitQuiet,
+  type QuietDay,
+  type QuietMark,
+  type QuietSplit,
+  type QuietSubject,
+} from './quiet';
+export {
   MIN_SAVING_MIN,
   PLAN_CHECK_FIXERS,
   tooFarAlternative,
@@ -57,7 +66,14 @@ export {
   type SwapBlock,
   type SwapReason,
 } from '../swaps/index';
-export { feasibleStart, retimeOp } from './retime';
+export {
+  feasibleStart,
+  retimeOp,
+  settleClash,
+  suitsPlace,
+  type ClashMove,
+  type MovedStop,
+} from './retime';
 export {
   DEFAULT_CHECK_THRESHOLDS,
   type CheckBooking,

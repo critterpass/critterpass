@@ -14,7 +14,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';
@@ -86,7 +86,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   if (trip === undefined || proposal === undefined || config === null || !stays.loaded) {
     return <ProposalLoading testID="build-loading" />;
   }
-  const guideName = trip === null ? '' : GUIDE_STICKERS[trip.guide].name;
+  const guideName = trip === null ? '' : guideSticker(trip.guide).name;
   const outId =
     sentId ?? (proposal !== null && proposal.status !== 'building' ? proposal.id : null);
   if (trip !== null && outId !== null) {
@@ -102,7 +102,14 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         guideName={guideName}
         recipients={trip.recipients}
         versions={versions}
-        onTracker={() => router.replace(proposalRoutes.tracker(outId))}
+        onTracker={() => {
+          // The private draft is retired once the plan is out: nothing is left under Who's in
+          // that leads back to "only you see this".
+          // The stack is back to its first screen (the draft, when she came from it), which
+          // the tracker then replaces.
+          if (router.canDismiss()) router.dismissAll();
+          router.replace(proposalRoutes.tracker(outId));
+        }}
       />
     );
   }
@@ -139,7 +146,6 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         locking={lockAlone.pending}
         onBack={back}
         onLock={() => void onLock()}
-
         onInvite={() => router.push(`/crew/${trip.crewId}/invite`)}
       />
     );

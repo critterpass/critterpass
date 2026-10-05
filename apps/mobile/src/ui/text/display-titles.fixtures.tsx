@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import { GUIDE_STICKERS } from '../avatar/guides';
+import { guideSticker } from '../avatar/guides';
 import { CountdownCard } from '../cards/CountdownCard';
 import { InfoPill } from '../chips/InfoPill';
 import { registerFixture } from '../gallery/registry';
@@ -26,7 +26,7 @@ const FIRST_DAY = new Date('2026-10-01T12:00:00Z');
 function DaNangHero() {
   const { i18n } = useLingui();
   const locale = useLocale();
-  const guide = GUIDE_STICKERS.chava;
+  const guide = guideSticker('chava');
   const day = format.date(locale, FIRST_DAY, { month: 'short', day: 'numeric', timeZone: 'UTC' });
   return (
     <CountdownCard

@@ -23,7 +23,7 @@ export {
   type WishMatches,
 } from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
-export { collapseSamePlaces, type Collapsed } from './same-place';
+export { collapseSamePlaces, knownPlaceFor, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
@@ -41,12 +41,8 @@ export {
   DEFAULT_DEPARTURE_MIN,
   defaultDurationMin,
   DEPARTURE_BUFFER_MIN,
-  DINNER,
   GRID_MIN,
   instantAt,
-  LUNCH,
-  LUNCH_BEFORE_MIN,
-  mealSlotAt,
   minuteOfDate,
   scheduleDay,
   stopPriceMinor,
@@ -56,14 +52,56 @@ export {
 export {
   bestOrder,
   MAX_SEARCHED_STOPS,
-  mealSlots,
-  mealsInWindow,
   spansOn,
   visitOrder,
   type PlannedOrder,
   type SequenceInput,
 } from './sequence';
+export { dishOf, foodRole, sameDish, sharesDish, stopKind, type FoodRole } from './food-role';
+export {
+  dinnerIsRideHome,
+  hopCapMin,
+  longHops,
+  longRideMin,
+  RIDE_HOME_MAX_MIN,
+  roadBudgetMin,
+  withinReach,
+  type Hop,
+} from './hops';
+export {
+  BREAKFAST,
+  DINNER,
+  DINNER_LAST_START_MIN,
+  LUNCH,
+  LUNCH_LAST_START_MIN,
+  mealAt,
+  mealDuration,
+  mealSlotAt,
+  mealSlots,
+  mealsInWindow,
+  type MealSlot,
+} from './meal-slots';
+export {
+  ASSUMED_ARRIVAL_NOTE,
+  ASSUMED_DEPARTURE_NOTE,
+  noteNamesAnotherTime,
+  withAssumedTravelNotes,
+  withHonestNotes,
+  type HonestNotes,
+  withNoteLine,
+} from './note-sense';
+export {
+  MORNING_ENDS_MIN,
+  placeTime,
+  placeWindow,
+  sunsetMin,
+  timeOfDayWindow,
+  type PlaceTime,
+  type PlaceWindow,
+} from './place-time';
 export { straightLineMatrix } from './travel';
+export { homeBase, nearHome } from './home';
+export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';
 export type {
   Chronotype,
   CostBands,

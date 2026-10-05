@@ -1,7 +1,8 @@
 /**
- * `remove_idea` (docs/api-contracts-planning.md): the caller stops backing an idea. The last
- * backer leaving, or an organiser, removes the idea from the trip; another member who never
- * backed it is refused.
+ * `remove_idea` (docs/api-contracts-planning.md): the caller stops backing an idea, organiser or
+ * not; the last backer leaving removes the idea from the trip, and someone who never backed it is
+ * refused. Taking an idea away from every backer is its own request (`for_everyone`), an
+ * organiser's only.
  */
 import { DomainError, removeIdeaPayloadSchema, type RemoveIdeaResult } from '@cp/domain';
 import type pg from 'pg';
@@ -37,19 +38,20 @@ export const removeIdeaCommand = defineCommand({
   authorize: async (tx, payload, ctx) => {
     const idea = await visibleIdea(tx, payload.idea_id);
     const access = await requireTripMember(tx, idea.trip_id);
-    if (!access.organiser && !idea.backer_ids.includes(ctx.uid)) {
+    if (payload.for_everyone === true) {
+      if (!access.organiser) throw new DomainError('FORBIDDEN', { reason: 'organiser_only' });
+    } else if (!idea.backer_ids.includes(ctx.uid)) {
       throw new DomainError('FORBIDDEN', { reason: 'not_backer' });
     }
   },
   handle: async (tx, payload, ctx): Promise<RemoveIdeaResult> => {
     const idea = await visibleIdea(tx, payload.idea_id);
-    const access = await requireTripMember(tx, idea.trip_id);
     const left = await leaveIdea(tx, {
       tripId: idea.trip_id,
       crewId: idea.crew_id,
       uid: ctx.uid,
       ideaId: payload.idea_id,
-      removeAll: access.organiser,
+      removeAll: payload.for_everyone === true,
     });
     return { idea_id: left.ideaId, removed: left.removed, backer_ids: left.backerIds };
   },
