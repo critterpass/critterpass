@@ -107,7 +107,10 @@ export function fixOutcome(result: SendResult): FixOutcome {
     if (result.code === 'STATE_INVALID' && reason === 'draft_running') {
       return { kind: 'guideWorking' };
     }
-    if (result.code === 'STATE_INVALID' && reason === 'plan_shared') return { kind: 'shared' };
+    // The draft went to the crew, or the trip moved on past its draft: the fix is not hers to send.
+    if (result.code === 'STATE_INVALID' && (reason === 'plan_shared' || reason === 'trip_status')) {
+      return { kind: 'shared' };
+    }
   }
   return { kind: 'failed' };
 }

@@ -63,6 +63,8 @@ export interface DayOfViewProps {
   readonly offline: boolean;
   readonly alarmNote: AlarmNote | null;
   readonly onImUp: () => void;
+  /** Today is shown and the trip has a tomorrow: its page (its leave-by, its alarm). */
+  readonly onTomorrow?: (() => void) | undefined;
   /** Opens the day plan for the day shown (legs, the map, adding and moving stops). */
   readonly onDayPlan?: (() => void) | undefined;
   /** GO to the next stop: the route from here, then directions in the maps app. */
@@ -282,6 +284,13 @@ export function DayOfView(props: DayOfViewProps) {
               block
               onPress={props.onDayPlan}
               testID="trip-day-to-plan"
+            />
+          )}
+          {props.onTomorrow === undefined ? null : (
+            <TextLink
+              label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })}
+              onPress={props.onTomorrow}
+              testID="trip-day-to-tomorrow"
             />
           )}
         </View>

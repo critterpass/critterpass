@@ -25,6 +25,7 @@ import {
   labNoPlanYetModel,
   labTripModel,
 } from './bali-trip';
+import { LEGS_COMING_SCENES } from './legs-coming-scenes';
 
 const noop = () => undefined;
 
@@ -215,4 +216,5 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'all-days': () => <AllDaysScene />,
   'all-days-move': () => <AllDaysScene menuOpen />,
   'all-days-member': () => <AllDaysScene member menuOpen />,
+  ...LEGS_COMING_SCENES,
 };

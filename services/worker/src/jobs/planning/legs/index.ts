@@ -24,7 +24,11 @@ import { planLegsJob } from './job';
  * Queues the trip's debounced `plan.legs` run on its newest plan version: what a plan event asks
  * for, and what a correction to the places its stops point at asks for too.
  */
-export async function queueTripLegs(tx: pg.PoolClient, tripId: string): Promise<void> {
+export async function queueTripLegs(
+  tx: pg.PoolClient,
+  tripId: string,
+  startAfter: number = PLAN_LEGS_DEBOUNCE_SECONDS,
+): Promise<void> {
   const { rows } = await tx.query<{ version_id: string | null }>(
     `SELECT coalesce(t.current_version_id,
                      (SELECT v.id FROM itinerary_versions v
@@ -39,9 +43,20 @@ export async function queueTripLegs(tx: pg.PoolClient, tripId: string): Promise<
     tx,
     PLANNING_QUEUES.legs,
     { trip_id: tripId, version_id: versionId },
-    { singletonKey: `legs:${tripId}`, startAfter: PLAN_LEGS_DEBOUNCE_SECONDS },
+    { singletonKey: `legs:${tripId}`, startAfter },
   );
 }
+
+/**
+ * A draft the guide delivers, a redraft she keeps and an earlier draft she brings back are opened
+ * the moment they land, and none of them comes in a burst: their legs are routed at once instead
+ * of after the debounce that folds a run of hand edits.
+ */
+const LEGS_AT_ONCE: ReadonlySet<string> = new Set([
+  'draft.ready',
+  'redraft.kept',
+  'draft.version_restored',
+]);
 
 /** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
 export async function legsEventHook(
@@ -49,7 +64,7 @@ export async function legsEventHook(
   event: { readonly type: string; readonly tripId: string | null },
 ): Promise<void> {
   if (legsJobFor(event) === null || event.tripId === null) return;
-  await queueTripLegs(tx, event.tripId);
+  await queueTripLegs(tx, event.tripId, LEGS_AT_ONCE.has(event.type) ? 0 : undefined);
 }
 
 export function workerPlanningTravel(

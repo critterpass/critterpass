@@ -51,9 +51,18 @@ const correctionSchema = z
     essential: z.boolean().optional(),
     /** The editorial note of a record the recommended set did not hold before. */
     note: noteSchema.optional(),
-    /** Lines of the kept record's live note to replace (a claim checked against a source). */
+    /**
+     * Lines of the kept record's live note to replace (a claim checked against a source), the
+     * visit length among them.
+     */
     revise: noteSchema
-      .pick({ why_go: true, best_time: true, crowd_hint: true, etiquette: true })
+      .pick({
+        why_go: true,
+        best_time: true,
+        time_needed_min: true,
+        crowd_hint: true,
+        etiquette: true,
+      })
       .partial()
       .optional(),
     /** The claim a revision answers: what the note said, what the source says, and the source. */
@@ -211,6 +220,7 @@ function revised(
     ...editorial,
     ...(revise.why_go === undefined ? {} : { why_go: revise.why_go }),
     ...(revise.best_time === undefined ? {} : { best_time: revise.best_time }),
+    ...(revise.time_needed_min === undefined ? {} : { time_needed_min: revise.time_needed_min }),
     ...(revise.crowd_hint === undefined ? {} : { crowd_hint: revise.crowd_hint }),
     ...(revise.etiquette === undefined ? {} : { etiquette: revise.etiquette }),
   };

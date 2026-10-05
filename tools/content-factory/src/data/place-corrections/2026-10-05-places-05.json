@@ -1,0 +1,321 @@
+{
+  "batch": "2026-10-05-places-05",
+  "checked_at": "2026-10-05T15:30:00+07:00",
+  "places": [
+    {
+      "destination": "da-nang",
+      "keep": "overture:b3b9719e-6f66-42b8-977c-efa6dca57933",
+      "stored_name": "Bà Nà Hills",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 420,
+        "best_time": "A whole day: go up on the first cable cars, before the queues"
+      },
+      "claim": {
+        "said": "240 minutes",
+        "finding": "Wikipedia: a 5.8 km cable car (one of six) to a hill station at 1,500 m; the Golden Bridge, the French Village and the Fantasy Park are all at the top. A first visit that rides up, walks the bridge and the village and sees the park takes the day; tours from Đà Nẵng run 8:00 to 17:00.",
+        "source": "https://en.wikipedia.org/wiki/Ba_Na_Hills"
+      },
+      "why": "Visit length 240 to 420 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b22df935-e10a-43c7-aade-6e1de5322f3c",
+      "stored_name": "Hội An Ancient Town",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 240,
+        "best_time": "Half a day: late afternoon into the evening, for the lanterns"
+      },
+      "claim": {
+        "said": "180 minutes",
+        "finding": "Wikivoyage: the lantern boats run 16:00 to 22:00, and the town ticket covers five of the old houses, halls and museums. Walking the streets, two or three of those sights and the river at dusk is half a day; the houses and halls are also listed on their own.",
+        "source": "https://en.wikivoyage.org/wiki/Hoi_An"
+      },
+      "why": "Visit length 180 to 240 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b6aaa228-5e0a-4642-b3a7-0a082afcac57",
+      "stored_name": "Marble Mountains",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150
+      },
+      "claim": {
+        "said": "90 minutes",
+        "finding": "Wikivoyage (Hội An): \"well worth a morning or afternoon trip\"; the largest mountain has temples and caves (Huyền Không, Âm Phủ). Climbing Thủy Sơn and seeing the caves takes two to three hours.",
+        "source": "https://en.wikivoyage.org/wiki/Hoi_An"
+      },
+      "why": "Visit length 90 to 150 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q391406",
+      "stored_name": "Mỹ Sơn",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150,
+        "best_time": "Half a day from Hội An with the ride: go at opening, before the heat"
+      },
+      "claim": {
+        "said": "120 minutes",
+        "finding": "Wikivoyage: group tours from Hội An last about 6 hours with only about an hour at the ruins, which it calls too short. Two to two and a half hours on site, with the ride of about an hour each way, is half a day.",
+        "source": "https://en.wikivoyage.org/wiki/My_Son"
+      },
+      "why": "Visit length 120 to 150 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q386184",
+      "stored_name": "Chàm Islands",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 360,
+        "best_time": "A whole day from Hội An: boats leave around 8:00 and return mid-afternoon"
+      },
+      "claim": {
+        "said": "240 minutes",
+        "finding": "Wikivoyage: day tours pick up at 07:00, sail at 08:00 (30 minutes by speedboat, 1¼ hours by wooden boat), visit the pagoda, the market and a snorkelling beach with lunch, and return around 15:00.",
+        "source": "https://en.wikivoyage.org/wiki/Cham_Islands"
+      },
+      "why": "Visit length 240 to 360 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5e6d91fd5bc03b0008a4b012",
+      "stored_name": "Sơn Trà Peninsula",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 180,
+        "best_time": "Most of a morning or an afternoon round the peninsula"
+      },
+      "why": "Visit length 240 to 180 minutes. Estimate: the loop road, the Lady Buddha at Linh Ứng and Bàn Cờ peak by motorbike or car take three hours; no source with a length could be reached. The two sights are also listed on their own.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f3489554-d23a-4359-8aba-b3ef0f000b98",
+      "stored_name": "Hải Vân Pass",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 60,
+        "best_time": "Ridden as half a day from Đà Nẵng, or on the way to Huế"
+      },
+      "claim": {
+        "said": "30 minutes",
+        "finding": "Wikivoyage: \"a great day trip from Da Nang (or Hoi An)\" by motorbike. The place is the top of the pass (Hải Vân Quan); an hour there with the ride as travel.",
+        "source": "https://en.wikivoyage.org/wiki/Da_Nang"
+      },
+      "why": "Visit length 30 to 60 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:796b8445-d0f9-47d3-b63b-d34133aa2149",
+      "stored_name": "Hội An Memories Land",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150,
+        "best_time": "Evening: arrive by 19:00 for the show at 20:00"
+      },
+      "why": "Visit length 90 to 150 minutes. Estimate: the evening show lasts about an hour and the park is walked before it; no source with a length could be reached.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c14c83ca5eb76b0d839c2b7",
+      "stored_name": "An Bàng Beach",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 120
+      },
+      "why": "Visit length 90 to 120 minutes. Estimate, as My Khe and the other beaches: two hours.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:e30e15394f714de94514fa4a",
+      "stored_name": "Datanla Falls",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150,
+        "best_time": "Morning: the coaster queues grow from mid-morning"
+      },
+      "claim": {
+        "said": "60 minutes",
+        "finding": "Vietnamese Wikipedia: a 1,000 m alpine coaster takes visitors down to the falls and back, and a rope course has opened beside them. The falls, the coaster both ways and its queues come to two and a half hours; canyoning there makes it half a day.",
+        "source": "https://vi.wikipedia.org/wiki/Th%C3%A1c_Datanla"
+      },
+      "why": "Visit length 60 to 150 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2abc4a5b-6668-4341-b6df-68fc163094ad",
+      "stored_name": "Valley of Love",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150
+      },
+      "claim": {
+        "said": "90 minutes",
+        "finding": "Vietnamese Wikipedia: the valley and the Mộng Mơ hill are now one park (TTC World), with the lake, gardens and rides. Two and a half hours for a first visit.",
+        "source": "https://vi.wikipedia.org/wiki/Thung_l%C5%A9ng_T%C3%ACnh_Y%C3%AAu"
+      },
+      "why": "Visit length 90 to 150 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e6adf53483bf2d9e66ed137",
+      "stored_name": "Trúc Lâm Zen Monastery",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 90,
+        "best_time": "Morning, with the cable car from Robin Hill"
+      },
+      "claim": {
+        "said": "60 minutes",
+        "finding": "Wikivoyage: best reached by the cable car over the pine forest; the monastery and its gardens look over Tuyền Lâm lake. The ride, the monastery and the lake shore take an hour and a half.",
+        "source": "https://en.wikivoyage.org/wiki/Da_Lat"
+      },
+      "why": "Visit length 60 to 90 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q3217169",
+      "stored_name": "Langbiang",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 180,
+        "best_time": "Half the morning: up by jeep, or walk 1.5 to 2 hours"
+      },
+      "claim": {
+        "said": "180 minutes",
+        "finding": "Vietnamese Wikipedia: the jeep takes 15 minutes to the Radar hill (walking 1.5 to 2 hours); the higher Bà peak is a harder walk. Three hours is right for the jeep, the top and the village below.",
+        "source": "https://vi.wikipedia.org/wiki/N%C3%BAi_Lang_Biang"
+      },
+      "why": "Visit length kept at 180 minutes; the note now says how long the trip around it takes.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:48bf4cae-b700-432b-b3cf-8112504f691e",
+      "stored_name": "Mount Batur",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 360,
+        "best_time": "Most of a morning: start walking around 4am for sunrise, down by 9 to 10am"
+      },
+      "claim": {
+        "said": "240 minutes",
+        "finding": "Wikivoyage: an easy climb of about 2 hours with a required guide; pre-dawn climbs timed for sunrise are the norm. With the wait at the top and the descent it is six hours, after a pick-up in the night.",
+        "source": "https://en.wikivoyage.org/wiki/Kintamani"
+      },
+      "why": "Visit length 240 to 360 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c3446883896e21eee47eb90",
+      "stored_name": "Pura Luhur Uluwatu",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150,
+        "best_time": "From 4:30pm: the cliff temple at sunset, then the Kecak dance at 6pm"
+      },
+      "claim": {
+        "said": "90 minutes",
+        "finding": "Wikivoyage: the Kecak dance is performed at the temple daily from 18:00 to 19:00 and tickets sell out. The temple walk before it and the dance come to two and a half hours.",
+        "source": "https://en.wikivoyage.org/wiki/Uluwatu"
+      },
+      "why": "Visit length 90 to 150 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:58faa34ac21cb16c175808a7",
+      "stored_name": "Kelingking Beach",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 90,
+        "best_time": "A whole day from Bali by fast boat, with the other west-coast sights"
+      },
+      "claim": {
+        "said": "90 minutes",
+        "finding": "Wikivoyage: most visitors come on day trips from Bali by fast boat. The viewpoint is an hour and a half (the climb down to the beach is longer); Nusa Penida as a whole is a day.",
+        "source": "https://en.wikivoyage.org/wiki/Nusa_Penida"
+      },
+      "why": "Visit length kept at 90 minutes; the note now says how long the trip around it takes.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:c00e0b55-37a6-46e5-84da-ee7276c527fa",
+      "stored_name": "Tegallalang Rice Terraces",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 90
+      },
+      "why": "Visit length 45 to 90 minutes. Estimate: walking down into the terraces and back up takes an hour and a half; no source with a length could be reached.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:4e3434e3-df15-4602-b663-d5b9fa66cb10",
+      "stored_name": "Tanah Lot Temple",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 90
+      },
+      "claim": {
+        "said": "60 minutes",
+        "finding": "Wikivoyage: the temple stands on a rock a few metres offshore, past a maze of souvenir shops, with a footpath to the cliffs south of it for the views; busiest before sunset. An hour and a half.",
+        "source": "https://en.wikivoyage.org/wiki/Tanah_Lot"
+      },
+      "why": "Visit length 60 to 90 minutes.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c136bf0b7b9c928947ea937",
+      "stored_name": "Lempuyang Temple",
+      "stated": true,
+      "revise": {
+        "time_needed_min": 150,
+        "best_time": "Early: the queue for the gate photograph can take an hour or more"
+      },
+      "why": "Visit length 60 to 150 minutes. Estimate: the gate of the lower temple, its photograph queue and the shuttle up; no source with a length could be reached.",
+      "merge": []
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "bali",
+      "name": "42 must-sees kept at their stored length",
+      "why": "The stored length fits a first visit: Agung Rai Museum Of Art (ARMA) (90); Angel's Billabong (45); Babi Guling Ibu Oka 3 (45); Bali Botanic Garden (120); Besakih Temple (150); Broken Beach (45); Campuhan Ridge Walk (75); Diamond Beach (90); GWK Cultural Park (120); Goa Gajah (60); Goa Lawah Temple (30); Gunung Kawi Temple (60); Handara Gate (30); Jatiluwih Rice Terraces (120); Jimbaran Beach (120); Kanto Lampo Waterfall (60); Kertha Gosa (45); Kuta Beach (120); Melasti Beach (120); Mount Agung (30); Museum Puri Lukisan (60); Naughty Nuri's Warung (75); Nusa Dua Beach (120); Pandawa Beach (120); Penglipuran Village (75); Rock Bar (120); Sacred Monkey Forest Sanctuary (90); Saraswati Temple (30); Sekumpul Waterfall (180); Sukawati Art Market (75); Taman Ayun Temple (60); Taman Ujung Water Palace (45); Tegenungan Waterfall (60); Tirta Empul Temple (90); Tirta Gangga (75); Tukad Cepung Waterfall (105); Twin Lakes Viewpoint (75); Ubud Art Market (60); Ubud Palace (60); Ulun Danu Batur Temple (60); Ulun Danu Beratan Temple (90); Waterbom Bali (240)."
+    },
+    {
+      "destination": "da-nang",
+      "name": "33 must-sees kept at their stored length",
+      "why": "The stored length fits a first visit: Bàn Cờ Peak (45); Bánh Mì Phượng (20); Bánh Xèo Bà Dưỡng (30); Cantonese Assembly Hall (40); Carp-Dragon Statue (15); Con Market (60); Da Nang Cathedral (30); Danang Museum (45); Dragon Bridge (25); East Sea Park (50); French Village (120); Fujian Assembly Hall (20); Golden Bridge (60); Han Market (60); Han River Bridge (15); Huyền Không Cave (40); Hội An Market (45); Japanese Covered Bridge (30); Linh Ứng Pagoda (Lady Buddha) (45); Museum of Cham Sculpture (90); Museum of Trade Ceramics (45); My Khe Beach (120); Mì Quảng Bà Mua (45); Nhà hàng Madame Lân (60); Non Nước Beach (90); Non Nước Stone Carving Village (60); Phùng Hưng Old House (40); Quan Công Temple (20); Sun Wheel (45); Tam Thai Pagoda (60); Thanh Hà Terracotta Park (45); Thuận Phước Bridge (30); Tấn Ký Old House (30)."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "59 must-sees kept at their stored length",
+      "why": "The stored length fits a first visit: An Cafe (45); Artist Alley Restaurant (60); Bicycle Up (30); Bánh tráng nướng Dì Đinh (15); Bùi Văn Ngọ Coffee (30); Bảo Đại Summer Palace (Dinh III) (45); Châu Sơn Monastery (60); Chè Hé (20); Crazy House (60); Da Lat Mountain View (30); Dalat Nights Café (30); Domaine De Marie (30); Elephant Waterfalls (90); Fresh Garden (45); Golden Valley (60); Gougah Waterfall (60); Góc Hà Thành (60); Horizon Coffee (30); In The Forest Đà Lạt (45); K'Ho Coffee (45); Kong cafe Dalat (45); Lake of Sighs (45); Lam Dong Museum (60); Le Chalet Dalat Cafe & Bistro (60); Le Rabelais (90); Linh Phước Pagoda (60); Linh Sơn Pagoda (30); Liên Hoa Bakery (15); Lululola (90); Là Việt Coffee (30); Lâm Viên Square (30); Lưng Chừng (30); Lẩu Bò Ba Toa Quán Gỗ (60); Mây Lang Thang (60); Mộng Mơ Hill (90); Nem Nướng Bà Hùng (45); One More Cafe (30); Panorama Dalat Cafe (30); Pongour Waterfall (90); Prenn Pass (30); Prenn Waterfall (90); Quán Hoa Sữa (15); Still Cafe (45); The Married Beans (30); Tiệm Cà Phê Cheo Veooo (30); Tiệm Cà Phê Túi Mơ To (30); Tiệm cà phê Nhà Bên Suối (30); Trại Mát Station (30); Tuyền Lâm Lake (90); Vạn Hạnh Zen Monastery (40); Xuân Hương Lake (60); Đa Phú Hill (60); Đa Phước Cao Đài Temple (30); Đà Lạt Cathedral (30); Đà Lạt Flower Garden (45); Đà Lạt Market (60); Đà Lạt Night Market (75); Đà Lạt Railway Station (45); Đơn Dương Lake (45)."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Golden Bridge, French Village (inside Bà Nà Hills); the houses and halls of Hội An",
+      "why": "Kept as they are: they lie inside a place whose length now covers them. A plan that holds both counts the time twice; see the report."
+    }
+  ]
+}

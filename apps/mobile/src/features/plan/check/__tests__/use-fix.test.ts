@@ -92,6 +92,6 @@ describe('what FIX does', () => {
     const shared = refused('plan_shared');
     expect(shared).toEqual({ kind: 'shared' });
     expect([...cardsAfter(new Set(), id(10), shared)]).toEqual([id(10)]);
-    expect(refused('trip_status')).toEqual({ kind: 'failed' });
+    expect(refused('trip_status')).toEqual({ kind: 'shared' });
   });
 });
