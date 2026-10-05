@@ -231,26 +231,29 @@ env:
     visible:
       id: 'day-plan'
     timeout: 15000
-# All days: the stop is on day 2.
+# All days, then day 2: the stop is on day 2.
 - tapOn:
     id: 'day-plan-all-days'
 - extendedWaitUntil:
     visible:
       id: 'all-days'
     timeout: 20000
+- takeScreenshot: plan-all-days-moved
+# The card cuts its stop names short, so day 2's own plan reads the stop by name.
+- tapOn:
+    id: 'all-days-card-2'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
 - scrollUntilVisible:
     element:
-      id: 'all-days-card-2'
+      text: '(?iu).*${output.added}.*'
     direction: DOWN
-    timeout: 15000
-- assertVisible:
-    id: 'all-days-card-2'
-    containsDescendants:
-      - text: '(?iu).*${output.added}.*'
-- takeScreenshot: plan-all-days-moved
+    timeout: 30000
+- takeScreenshot: plan-day-2-moved
 
 # A place page: ♡ saves it, and Ideas lists it.
-- runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
