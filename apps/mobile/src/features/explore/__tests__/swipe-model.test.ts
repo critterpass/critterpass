@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   deckState,
+  ideaToTakeBack,
   lastSwiped,
   nextMatch,
   othersYes,
@@ -9,6 +10,7 @@ import {
   whyLines,
   withoutSwipe,
   withSwipe,
+  yesSaves,
 } from '../swipe-model';
 
 const id = (n: number) => `00000000-0000-4000-8000-00000000000${String(n)}`;
@@ -108,5 +110,31 @@ describe('why this', () => {
       { kind: 'crewSaved', count: 2 },
       { kind: 'nearStay', meters: 450 },
     ]);
+  });
+});
+
+describe('a yes swiped alone', () => {
+  const ideas = [
+    { id: 'idea-1', poiId: 'tanah-lot', backerIds: ['linh'] },
+    { id: 'idea-2', poiId: 'uluwatu', backerIds: ['an'] },
+  ];
+
+  it('saves the place to Ideas, whoever else has swiped', () => {
+    expect(yesSaves('yes', 'tegenungan', 'linh', ideas)).toBe(true);
+  });
+
+  it('adds the swiper to an idea a crewmate saved', () => {
+    expect(yesSaves('yes', 'uluwatu', 'linh', ideas)).toBe(true);
+  });
+
+  it('saves nothing for a no, or for a place the swiper already backs', () => {
+    expect(yesSaves('no', 'tegenungan', 'linh', ideas)).toBe(false);
+    expect(yesSaves('yes', 'tanah-lot', 'linh', ideas)).toBe(false);
+  });
+
+  it("takes back only the swiper's own save when the yes is undone", () => {
+    expect(ideaToTakeBack('tanah-lot', 'linh', ideas, {})).toBe('idea-1');
+    expect(ideaToTakeBack('uluwatu', 'linh', ideas, {})).toBeNull();
+    expect(ideaToTakeBack('tegenungan', 'linh', ideas, { tegenungan: 'sent-1' })).toBe('sent-1');
   });
 });

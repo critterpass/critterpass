@@ -1,6 +1,6 @@
 /**
  * The search screen's frame (7d-1…7d-4, 7i-2): the offline banner when there is no signal, the
- * field with Cancel, the scope it searches in, and the body for what was typed. Props only, so the
+ * field with its back arrow, the scope it searches in, and the body for what was typed. Props only, so the
  * (dev) lab shows each state with fixture data.
  */
 import type { ReactNode } from 'react';

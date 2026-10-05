@@ -126,7 +126,6 @@ function ListScene() {
       onOpen={noop}
       onAdd={noop}
       onSplit={noop}
-      onPlan={noop}
       onSearch={noop}
       onMap={noop}
       onBack={noop}

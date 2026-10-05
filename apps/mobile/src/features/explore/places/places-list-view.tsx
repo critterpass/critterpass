@@ -16,20 +16,27 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { useTheme } from '@/ui/theme';
 
 import type { GuideFacts } from '../format';
-import { centreOf, type Point } from '../map-model';
+import { centreOf, distanceMeters, type Point } from '../map-model';
 import { minutesBetween } from './label-sync';
-import { listItems, type ListItem } from './list-items';
-import { placeGroups, type SortMode } from './place-groups';
+import { listItems, planDays, type ListItem } from './list-items';
+import type { PlaceFacts } from './place-facts';
+import { listOrder, placeGroups, type SortMode } from './place-groups';
 import {
   bestTimeLine,
+  inPlanLine,
+  planDayTitle,
   planGroupTitle,
   rowMeta,
   savedGroupTitle,
+  sortLabel,
   suggestsGroupTitle,
+  swipeHint,
 } from './places-copy';
+import { PlacesEmpty } from './places-empty';
 import { PlacesHeader } from './places-header';
 import { GroupTitle, PlaceListRow, PlanSummaryRow, RowGap } from './places-list-rows';
-import { placeCounts, type HubPlace, type PlacesFilter } from './places-model';
+import { passesFilter, placeCounts, type HubPlace, type PlacesFilter } from './places-model';
+import type { PlanRouteDay } from './plan-routes';
 import { SortMenu, type HiddenEntry } from './sort-menu';
 import type { SwipeAction } from './swipe-actions';
 import type { CrewMember } from './use-places-data';
@@ -38,6 +45,12 @@ export interface PlacesListViewProps {
   readonly inTrip: boolean;
   readonly places: readonly HubPlace[];
   readonly crew: readonly CrewMember[];
+  /** The plan's days as routes: the IN THE PLAN filter lists their stops in order. */
+  readonly routes?: readonly PlanRouteDay[] | undefined;
+  /** Each place's standing in the recommended order and its area, by place id. */
+  readonly facts?: ReadonlyMap<string, PlaceFacts> | undefined;
+  /** Whether the swipe hint still helps (nothing was saved by a swipe yet). */
+  readonly showSwipeHint?: boolean | undefined;
   readonly stay: { readonly name: string; readonly at: Point } | null;
   readonly destinationName: string;
   readonly guide: GuideFacts;
@@ -67,7 +80,6 @@ export interface PlacesListViewProps {
   readonly onOpen: (place: HubPlace, sponsored: boolean) => void;
   readonly onAdd?: ((poiId: string) => void) | undefined;
   readonly onSplit?: ((poiId: string) => void) | undefined;
-  readonly onPlan?: (() => void) | undefined;
   readonly onSearch: () => void;
   readonly onMap: () => void;
   readonly onBack: () => void;
@@ -79,23 +91,49 @@ export function PlacesListView(props: PlacesListViewProps) {
   const { places, filter, fits, lines, weekdays, crew } = props;
   const [sort, setSort] = useState<SortMode>(props.inTrip ? 'fit' : 'nearest');
   const from = props.stay?.at ?? centreOf(places);
-  const groups = useMemo(
+  const { facts, routes } = props;
+  const ranks = useMemo(
     () =>
-      placeGroups({
-        places,
-        filter,
-        sort,
-        fits,
-        suggestOrder: props.suggestTotal === null ? null : props.suggestOrder,
-        from,
-      }),
-    [places, filter, sort, fits, props.suggestTotal, props.suggestOrder, from],
+      new Map(
+        [...(facts ?? [])].flatMap(([id, fact]) =>
+          fact.rank === null ? [] : [[id, fact.rank] as const],
+        ),
+      ),
+    [facts],
   );
+  const suggestOrder = props.suggestTotal === null ? null : props.suggestOrder;
+  const groups = useMemo(
+    () => placeGroups({ places, filter, sort, fits, suggestOrder, from, ranks }),
+    [places, filter, sort, fits, suggestOrder, from, ranks],
+  );
+  const order = listOrder({ sort, suggestOrder, fits, ranks, from });
+  // The server's count answers its own ranking; in any other order the phone's rows are counted.
+  const suggestCount =
+    order === 'fit' ? (props.suggestTotal ?? groups.suggests.length) : groups.suggests.length;
   const items = useMemo(
-    () => listItems(groups, props.sponsored?.poiId ?? null),
-    [groups, props.sponsored?.poiId],
+    () =>
+      listItems(
+        groups,
+        props.sponsored?.poiId ?? null,
+        filter === 'plan' ? planDays(routes ?? [], groups.plan) : undefined,
+      ),
+    [groups, props.sponsored?.poiId, filter, routes],
   );
   const counts = useMemo(() => placeCounts(places), [places]);
+  const shown = useMemo(
+    () => places.filter((place) => passesFilter(place, filter)).length,
+    [places, filter],
+  );
+  const orderFacts = {
+    guide: props.guide.name,
+    stay: props.stay?.name ?? null,
+    destination: props.destinationName,
+  };
+  const sortLabels: Record<SortMode, string> = {
+    fit: sortLabel(listOrder({ sort: 'fit', suggestOrder, fits, ranks, from }), orderFacts),
+    nearest: sortLabel(from === null ? 'az' : 'nearest', orderFacts),
+    az: sortLabel('az', orderFacts),
+  };
   const byUid = useMemo(() => new Map(crew.map((member) => [member.uid, member])), [crew]);
   const saversOf = useCallback(
     (place: HubPlace): StackMember[] =>
@@ -140,12 +178,24 @@ export function PlacesListView(props: PlacesListViewProps) {
           ? savedGroupTitle(groups.saved.length)
           : item.group === 'plan'
             ? planGroupTitle(groups.plan.length)
-            : suggestsGroupTitle(props.guide.name, props.suggestTotal ?? groups.suggests.length);
+            : suggestsGroupTitle(props.guide.name, suggestCount);
       return <GroupTitle title={title} testID={`places-group-${item.group}`} />;
     }
-    if (item.kind === 'plan') return <PlanSummaryRow places={groups.plan} onPress={props.onPlan} />;
+    if (item.kind === 'day') {
+      return (
+        <GroupTitle
+          title={planDayTitle(item.dayNo, item.date, weekdays.get(item.dayNo) ?? null, item.count)}
+          testID={`places-plan-day-${String(item.dayNo)}`}
+        />
+      );
+    }
+    if (item.kind === 'plan') {
+      // The summary opens the plan's own filter: the stops by day, here in the list.
+      return <PlanSummaryRow places={groups.plan} onPress={() => props.onFilter('plan')} />;
+    }
     const { place } = item;
     const poiId = place.poiId;
+    const fact = facts?.get(poiId ?? place.id);
     const { onAdd, onSplit, onAction, sponsored } = props;
     return (
       <>
@@ -154,11 +204,25 @@ export function PlacesListView(props: PlacesListViewProps) {
           meta={rowMeta(
             place.category,
             props.stay === null ? null : minutesBetween(props.stay.at, place),
+            fact?.area ?? null,
+            order === 'nearest' && from !== null ? distanceMeters(from, place) : null,
           )}
+          planned={
+            place.standing === 'plan'
+              ? inPlanLine(
+                  place.dayNo,
+                  place.dayNo === null ? null : (weekdays.get(place.dayNo) ?? null),
+                )
+              : undefined
+          }
           photo={poiId === null ? undefined : props.photos?.get(poiId)}
           savers={saversOf(place)}
           fit={lineFor(place)}
-          onOpen={() => props.onOpen(place, item.sponsored)}
+          onOpen={
+            poiId === null && place.standing === 'plan'
+              ? undefined
+              : () => props.onOpen(place, item.sponsored)
+          }
           onAdd={onAdd === undefined || poiId === null ? undefined : () => onAdd(poiId)}
           onSplit={onSplit === undefined || poiId === null ? undefined : () => onSplit(poiId)}
           onAction={
@@ -197,7 +261,13 @@ export function PlacesListView(props: PlacesListViewProps) {
         <SortMenu
           sort={sort}
           onSort={setSort}
-          count={counts.all}
+          labels={sortLabels}
+          hint={
+            props.showSwipeHint === true && props.onAction !== undefined && items.length > 0
+              ? swipeHint()
+              : undefined
+          }
+          count={shown}
           inTrip={props.inTrip}
           hidden={props.hidden}
           onUnhide={props.onUnhide}
@@ -209,6 +279,9 @@ export function PlacesListView(props: PlacesListViewProps) {
           <PhotoCredit credits={credits} />
         </View>
       )}
+      {items.length === 0 && (filter === 'saved' || filter === 'plan') ? (
+        <PlacesEmpty kind={filter} guide={props.guide} onShowAll={() => props.onFilter('all')} />
+      ) : null}
       <FlatList
         data={items}
         keyExtractor={(item) => item.key}

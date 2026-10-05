@@ -65,6 +65,42 @@ export function classifyLink(text: string | null): ClipboardLink | null {
   return { url: url.toString(), platform, display };
 }
 
+export interface TypedLink {
+  readonly url: string;
+  /** A platform Add from a link reads, or any other web page. */
+  readonly platform: LinkPlatform | 'web';
+  readonly display: string;
+}
+
+/** Hosts people paste without `https://` (a share sheet's short link, a typed address). */
+const BARE_LINK =
+  /(?:^|\s)((?:www\.)?(?:[a-z0-9-]+\.)*(?:tiktok\.com|instagram\.com|instagr\.am|youtube\.com|youtu\.be|maps\.app\.goo\.gl|goo\.gl|maps\.apple\.com|google\.[a-z.]{2,6})\/[^\s<>"']+|www\.[a-z0-9-]+(?:\.[a-z0-9-]+)+\/[^\s<>"']+)/iu;
+
+function shortOf(url: URL): string {
+  const bare = `${hostOf(url)}${url.pathname}`.replace(/\/$/u, '');
+  return bare.length > DISPLAY_MAX ? `${bare.slice(0, DISPLAY_MAX - 1)}…` : bare;
+}
+
+/**
+ * The link in what was typed or pasted into the search field, when the text is one: any web
+ * address with its scheme, alone or among a share sheet's words, or a post or map link pasted
+ * without one. A link is added from, never searched for by name or as a street address.
+ */
+export function typedLink(text: string): TypedLink | null {
+  const withScheme = URL_PATTERN.exec(text)?.[0];
+  const bare = withScheme === undefined ? BARE_LINK.exec(text)?.[1] : undefined;
+  const raw = withScheme ?? (bare === undefined ? undefined : `https://${bare}`);
+  if (raw === undefined) return null;
+  let url: URL;
+  try {
+    url = new URL(raw.replace(/[).,!?]+$/u, ''));
+  } catch {
+    return null;
+  }
+  if (!url.hostname.includes('.')) return null;
+  return { url: url.toString(), platform: platformOf(url) ?? 'web', display: shortOf(url) };
+}
+
 /** FNV-1a over the link without its query noise, so the same post copied twice hashes the same. */
 export function linkHash(url: string): string {
   let parsed: string;
