@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "74639fb5-de77-4e26-8f3d-cf3c672ba1d5",
+        "id": "40b5d0f6-1f3a-4043-95ac-419aae8f65f4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Unexpected Bali\",\n  \"summary\": \"From cheeky monkeys to holy springs, this day surprises with a soulful temple dip and a beach club after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew asked for nature, so the monkeys deliver chaos and charm in equal measure.\",\n      \"start_by\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: a temple spring dip that feels more like a reset button than a tourist stop.\",\n      \"start_by\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end where the night owls wake up, with a sunset-to-stars beach club scene.\",\n      \"start_by\": \"21:00\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Hidden Falls and Holy Waters\",\n  \"summary\": \"A day of surprises, from a tucked-away waterfall to a sacred spring, with a relaxed beach evening to end it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The waterfall stays. It is the kind of tucked-away wonder the crew did not know they needed.\",\n      \"note\": \"Rise and shine, the sun won’t wait. We start here before the path gets busy.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise stop: a holy spring with a calm, cleansing ritual. Very different from the waterfall, and a side of Bali most visitors miss.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end with a long, easy beach evening. No club, no crowd, just sand and sea air.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 62,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 243,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 260,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "1d6947a7-c82a-427c-a1a6-9fbe02b55521",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Waterfall Mornings, Beach Club Nights\",\n  \"summary\": \"A day that starts with a hidden waterfall and ends with a beach club after dark, with a long, lazy afternoon on the sand in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The crew asked for surprise, so we start where the sun hits the canyon just right. Rise and shine, the water is cool and the walk is worth it.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow afternoon on the sand. The sun won’t wait, so we let the beach do the talking.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a beach club after dark. I know a guy who says the lights and the waves make a different kind of Bali.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 37,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 266,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "06a86838-22aa-4352-9be3-d61e533714b5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning at Tukad Cepung, evening by the sea"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 275,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 15,
           "service_tier": "standard"
         }
       }

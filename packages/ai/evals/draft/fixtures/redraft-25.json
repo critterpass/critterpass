@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1bfa9d23-1abb-46d0-854b-a81c86205c90",
+        "id": "0e377b2b-aa1a-4dc4-bb9a-74e00fbda955",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Đà Lạt chậm rãi quanh hồ\",\n  \"summary\": \"Một ngày nhẹ nhàng quanh khu trung tâm, vừa đi vừa nghỉ, ăn ngon và ngắm phố về đêm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mở màn bằng vòng quanh hồ cho tỉnh ngủ, gió mát không cần vội.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hoa nở rực rỡ ngay gần hồ, đi chậm để mắt kịp ngắm từng luống.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi xuống ăn nem nướng đúng kiểu, vừa lạ miệng vừa ấm bụng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ gần đó, ghé xem kiến trúc xưa mà không mất công đi xa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán vừa cà phê vừa ăn tối, khỏi phải chạy lòng vòng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khu phố lên đèn ngay cạnh chỗ ăn, thả bộ chơi cho hết đêm.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Đà Lạt gần gũi, nhẹ tênh\",\n  \"summary\": \"Một ngày quanh hồ và phố trung tâm, đi bộ thong thả, ăn ngon và kết thúc bằng cà phê đêm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bắt đầu muộn nên ra hồ cho thoáng, ngắm nước và hít không khí núi.\"\n    },\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ăn trưa ngay gần hồ, món bánh căn nóng hổi vừa túi tiền.\"\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vườn hoa gần đó, đi chậm rãi ngắm màu sắc, không cần xe cộ gì.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi xuống ăn nem nướng đúng kiểu ngồi bàn, ấm bụng.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cà phê đêm cho cú đêm, ngồi một chỗ nghe phố núi về khuya.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 52,
+          "input_tokens": 1384,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2560,
-          "output_tokens": 536,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 412,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "df6f3d45-2c65-43f3-b326-e25280141bee",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt một vòng quanh hồ\",\n  \"summary\": \"Một ngày thong thả bên hồ Xuân Hương và khu chợ đêm, không vội, không xa, chỉ có gió mát và những món ngon quanh quẩn vài bước chân.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đi bộ một vòng hồ cho tỉnh ngủ, ngắm mặt nước lấp lánh mà chẳng cần đi đâu xa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi xuống ăn nem nướng nóng hổi, chậm rãi cuốn từng cuốn, đúng kiểu ngon quá (so tasty) của dân địa phương.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dạo vườn hoa gần hồ, chỗ này nhẹ nhàng, nhiều góc chụp ảnh mà không tốn sức.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi xuống cho đàng hoàng, cà phê hay món bistro đều ấm bụng trước khi ra chợ đêm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p144\",\n      \"note\": \"Giữ lại điểm này vì tối ở Đà Lạt phải có chỗ nhộn nhịp, đi bộ từ quán ăn qua đây là vừa đẹp.\",\n      \"must_do_id\": \"p144\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 133,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 534,
           "service_tier": "standard"
         }
       }

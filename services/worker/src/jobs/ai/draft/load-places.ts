@@ -7,7 +7,7 @@
  */
 import { recommendedOrderSql, recommendedSql, withSystem } from '@cp/db';
 import { hoursSchema } from '@cp/domain';
-import { defaultDurationMin, nameTokens, withOpenDataDefaults, type DraftPoi } from '@cp/planner';
+import { derivedDurationMin, nameTokens, withOpenDataDefaults, type DraftPoi } from '@cp/planner';
 import type pg from 'pg';
 
 /**
@@ -92,7 +92,10 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     durationMin:
       typeof editorial.time_needed_min === 'number' && editorial.time_needed_min > 0
         ? Math.round(editorial.time_needed_min)
-        : defaultDurationMin(row.category),
+        : derivedDurationMin(row.category, row.tags ?? [], [
+            text(editorial.why_go),
+            text(editorial.best_time),
+          ]),
     editorial: row.curation === 'editorial',
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.

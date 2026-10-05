@@ -11,6 +11,7 @@ import { ScrollView, View } from 'react-native';
 
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -64,6 +65,8 @@ export interface BuilderViewProps {
   readonly offline: boolean;
   /** Why SEND is off, or null when it can go. */
   readonly blocked: string | null;
+  /** What the plan check still says to fix, with the way to it; null when nothing. */
+  readonly issues?: { readonly line: string; readonly onOpen: (() => void) | undefined } | null;
   readonly sending: boolean;
   readonly onBack: () => void;
   readonly onFormat: (format: ProposalFormat) => void;
@@ -196,6 +199,20 @@ export function BuilderView(props: BuilderViewProps) {
       </ScrollView>
       <FooterFade />
       <View style={styles.footer}>
+        {props.issues == null ? null : (
+          <View testID="build-issues">
+            <Text variant="caption" color={theme.semantic.state.warning} singleLine={false}>
+              {props.issues.line}
+            </Text>
+            {props.issues.onOpen === undefined ? null : (
+              <TextLink
+                label={t({ id: 'proposal.issues.open', message: 'Open the plan check' })}
+                onPress={props.issues.onOpen}
+                testID="build-issues-open"
+              />
+            )}
+          </View>
+        )}
         {props.blocked === null ? null : (
           <Text variant="caption" color={theme.semantic.text.secondary} testID="build-blocked">
             {props.blocked}

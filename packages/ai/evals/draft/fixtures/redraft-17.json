@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1e93b24e-e26d-4e50-8648-6b6130f6fb71",
+        "id": "d67cd9c4-c142-452d-9e7d-0f83db1deae3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower wander through the city\",\n  \"summary\": \"Trade pyramids for plazas and leafy walks, with a long lunch and an early dinner that keep everyone well fed.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper of the day, so we start with Aztec echoes before the crowds thicken.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle midday table nearby, with plenty of vegetarian plates for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy reset after lunch, where the city softens and the photo lovers can wander.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early, easy dinner before the evening closes in, still friendly to non-meat eaters.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slower Spin Around the City\",\n  \"summary\": \"A relaxed day mixing history, a leafy stroll and a market wander, with meals that suit everyone.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The old stones stay on the list, a must-see slice of the city's deep history.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A handy lunch nearby with good vegetarian plates, keeping the day easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk through Roma Norte for a fresh look at local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause in Chapultepec, a calm change from the old stones.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Coyoacán market stays, a lively must-see for street food and local colour.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed dinner in Roma Norte with vegetarian options to end the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 21,
+          "input_tokens": 18,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 278,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 418,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "5ee4d49d-6c85-4c15-bee3-3d18d7be92d3",
+        "id": "a85aa88a-4ebb-4888-8cde-d03c138e3181",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"title\":\"A slower, greener Mexico City\",\"summary\":\"A gentler day swapping pyramids and fine dining for leafy walks, a floating garden, and two easy meals that keep everyone well fed.\",\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The one keeper, and rightly so: history with a capital H, right in the old heart.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A soft, shady reset after the stones of the past; perfect for a crew that likes to wander without a deadline.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright, casual lunch with proper vegetarian plates, timed before the kitchen closes.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"An easy stroll through Roma Norte for the photographers and culture lovers among you.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long, leafy dinner to end the day; vegetarian options keep the whole crew happy.\"}]}"
+            "text": "{\n  \"title\": \"Centro Roots and a Coyoacán Market\",\n  \"summary\": \"A slower day split between the old centre and Coyoacán, keeping the essential Templo Mayor and the market while swapping the rest for easier nearby stops.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The essential Aztec heart of the city stays first, before the centre warms up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegetarian-friendly lunch right in the same centre area, no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Coyoacán market stays as the crew's street-food and local-life stop.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed early dinner in Roma Norte, open well before the evening rush.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 138,
+          "input_tokens": 41,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 244,
+          "output_tokens": 315,
           "service_tier": "standard"
         }
       }

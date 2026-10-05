@@ -225,8 +225,8 @@ msgid "plan.add.cta.ideas"
 msgstr "SAVE TO IDEAS"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
-msgstr "Saved to Ideas"
+msgid "plan.add.savedToastShared"
+msgstr "Saved to Ideas, where the crew sees it. It goes in a day once someone places it."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"

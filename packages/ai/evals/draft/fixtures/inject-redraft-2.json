@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1e9e67a9-aea2-4f60-a573-977da757c4d9",
+        "id": "7211ae18-23c0-490a-bbb5-50d301da4fbc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Cheaper, Slower Bali Day\",\n  \"summary\": \"We keep the rice terraces, then slow down around Ubud with free and lower-priced stops and a lighter vegan lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces; the sun won’t wait.\",\n      \"note\": \"The must-do stays, and it is already easy on the wallet.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free palace stop keeps the day gentle and kind to the budget.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter vegan lunch in Ubud, terima kasih (thank you) to a place everyone can eat.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The ridge walk is free, open all day, and gives the crew room to breathe.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Rice, Temples and a Lighter Wallet\",\n  \"summary\": \"A day of terraces, temple waters and a market wander, keeping the spend gentle and the bellies full.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces stay, of course. Free to admire, light on the pocket, and the sun won’t wait for a better view.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Still the heart of the day. A modest entry and a blessing for the soul, not just the budget.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We swap the far waterfall for a market wander. Free to browse, and the haggling is the real entertainment.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Alchemy keeps everyone happy, veggie and all. Terima kasih (thank you) for a plate that suits the whole crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Uluwatu stays for the sunset cliff drama. A small ticket for a big view, and the monkeys work for free.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Locavore NXT, the one splurge we keep. Even a cheaper day deserves a proper sit-down.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 114,
+          "input_tokens": 89,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 287,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 488,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "45653f2a-3fee-4bea-b02b-e0a28bc2455f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Green and Grateful\",\n  \"summary\": \"A gentle day among the rice fields and healing waters, with a vegan lunch in Ubud and a lighter wallet by sunset.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces, the morning light is free and so is the view.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The holy springs are a bargain for the soul, and the crew’s wellness fan will glow.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan lunch that suits everyone, and the price is gentler than most.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick browse, not a long haul, so the market stays a pleasure and the budget stays happy.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 126,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 275,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "831f7951-8b57-4b5f-b378-2b7a7fdacb35",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A morning among the rice terraces\nDay 2: Art market, then a temple afternoon\nDay 2: Alchemy, Tirta Empul, and a fine evening"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 296,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 40,
           "service_tier": "standard"
         }
       }

@@ -199,15 +199,18 @@ describe('the essential handful', { timeout: 60_000 }, () => {
     };
     const peak = essentials.find((poi) => poi.name === 'Langbiang') as DraftPoi;
     const open = input.pools.openDays.get(peak.id) ?? [];
-    expect(open).toEqual([2, 3]);
+    // Far from the stay, it is an outing: the one full day it is planned on.
+    expect(open).toHaveLength(1);
+    const outingDay = open[0] as number;
+    const otherDay = outingDay === 2 ? 3 : 2;
     const item = baselineItinerary(input).days[1]
       ?.items[0] as Itinerary['days'][number]['items'][number];
     const hers = (dayNo: number) => ({ dayNo, item: { ...item, locked_reason: 'user' as const } });
     const reason = (held: ReturnType<typeof hers>[]) =>
       essentialsLeftOut({ ...input, held }, empty).find((gap) => gap.poiId === peak.id)?.reason;
-    expect(reason([hers(2), hers(3)])).toBe('held_in_the_way');
+    expect(reason([hers(outingDay)])).toBe('held_in_the_way');
     // A day without her stops could have held it: that is want of room, not her doing.
-    expect(reason([hers(2)])).toBe('no_room');
+    expect(reason([hers(otherDay)])).toBe('no_room');
     expect(reason([])).toBe('no_room');
   });
 

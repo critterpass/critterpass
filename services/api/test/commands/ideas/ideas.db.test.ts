@@ -298,3 +298,62 @@ describe('hide_place', () => {
     expect(events).toHaveLength(0);
   });
 });
+
+describe('a place saved to Ideas after the lock', () => {
+  it('is said once in crew chat, naming the place and who saved it; a swipe stays quiet', async () => {
+    const [, first, second] = crew.members as [SignedIn, SignedIn, SignedIn];
+    const { rows: before } = await harness.pool.query<{ status: string }>(
+      'SELECT status FROM trips WHERE id = $1',
+      [crew.tripId],
+    );
+    const path = ['voting', 'won', 'setup', 'drafting', 'draft_review', 'proposed', 'confirmed'];
+    for (const status of path.slice(path.indexOf(before[0]!.status) + 1)) {
+      await harness.pool.query('UPDATE trips SET status = $2 WHERE id = $1', [crew.tripId, status]);
+    }
+    const ginkaku = await poi(
+      (
+        await harness.pool.query<{ destination_id: string }>(
+          'SELECT destination_id FROM trips WHERE id = $1',
+          [crew.tripId],
+        )
+      ).rows[0]!.destination_id,
+      'Ginkaku-ji',
+      35.027,
+      135.798,
+    );
+    const lines = async () =>
+      (
+        await harness.pool.query<{ ref_id: string; body: string }>(
+          "SELECT ref_id, body FROM messages WHERE crew_id = $1 AND ref_kind = 'idea_saved' ORDER BY seq",
+          [crew.crewId],
+        )
+      ).rows;
+    const save = (who: SignedIn, source: string) =>
+      harness.run(who, 'save_idea', { trip_id: crew.tripId, poi_id: ginkaku, source });
+    expect((await save(first, 'save')).status).toBe(200);
+    // A second backer of the same place adds no second line.
+    expect((await save(second, 'save')).status).toBe(200);
+    expect(await lines()).toEqual([{ ref_id: first.uid, body: 'Ginkaku-ji' }]);
+    const fromSwipe = await poi(
+      (
+        await harness.pool.query<{ destination_id: string }>(
+          'SELECT destination_id FROM trips WHERE id = $1',
+          [crew.tripId],
+        )
+      ).rows[0]!.destination_id,
+      'Daitoku-ji',
+      35.044,
+      135.746,
+    );
+    expect(
+      (
+        await harness.run(first, 'save_idea', {
+          trip_id: crew.tripId,
+          poi_id: fromSwipe,
+          source: 'swipe',
+        })
+      ).status,
+    ).toBe(200);
+    expect(await lines()).toHaveLength(1);
+  });
+});

@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8defb03a-c405-4e41-ba77-56b5030b7a8a",
+        "id": "95f67950-9086-4ec7-8c9a-3888f3d70fee",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty, Easy Lisbon Day\",\n  \"summary\": \"A slower day built around a proper museum visit, a relaxed Alfama wander, and plenty of good eating from lunch through dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-see of the day, kept right where it belongs. Take your time with the art.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, because a slower day still needs a good meal. The garden setting is a treat.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the old lanes. No rush, just the city doing its thing.\",\n      \"start_by\": \"23:59\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with real Portuguese soul. Small plates, big flavour, and a proper end to the day.\",\n      \"start_by\": \"21:45\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"A slower day mixing two must-see museums with a proper sit-down meal and a sweet Belém stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Still the big culture fix, and it keeps us near the good eating later.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down meal with veggie options, because today is about food.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The ocean giants stay, even if it means a little ride across town.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pastries please! The crew asked, and Belém delivers the classics.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 52,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 324,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 267,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "80dc59eb-96f3-448d-8ade-ec681699ad85",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: An ocean morning, then custard tarts"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 141,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

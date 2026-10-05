@@ -39,7 +39,8 @@ export interface HubFlight {
 
 export type HubHeader =
   | { readonly phase: 'planning' }
-  | { readonly phase: 'pre'; readonly target: Date }
+  /** `byAir`: the viewer has a flight booked out, so the countdown is to its take-off. */
+  | { readonly phase: 'pre'; readonly target: Date; readonly byAir: boolean }
   | { readonly phase: 'travel'; readonly target: Date; readonly flight: HubFlight }
   | { readonly phase: 'in'; readonly day: number; readonly days: number }
   | { readonly phase: 'post'; readonly homeSince: string };
@@ -91,7 +92,7 @@ export function hubHeader(
     };
   }
   const target = input.countdownTargetAt === null ? start : new Date(input.countdownTargetAt);
-  return { phase: 'pre', target: target ?? now };
+  return { phase: 'pre', target: target ?? now, byAir: flights.length > 0 };
 }
 
 /** "17D 05:26:29" (days, then hours:minutes:seconds), tabular. */
