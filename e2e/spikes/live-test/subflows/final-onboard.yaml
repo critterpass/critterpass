@@ -1,0 +1,136 @@
+appId: app.critterpass.dev
+---
+# A fresh install walked through onboarding in the phone's own language (English), home airport
+# Ho Chi Minh City, permissions later. Frames ${P}-01…12. Ends on first-run Home.
+- runFlow: ../../../happy/subflows/fresh-install.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-01-splash
+# Onboarding, as far as she must go.
+- repeat:
+    while:
+      notVisible:
+        id: 'onboarding-name-field'
+    times: 3
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'onboarding-open'
+          commands:
+            - waitForAnimationToEnd:
+                timeout: 3000
+            - tapOn:
+                id: 'onboarding-open'
+      - extendedWaitUntil:
+          visible:
+            id: 'onboarding-name-field'
+          timeout: 10000
+          optional: true
+- takeScreenshot: ${P}-02-name
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Linh'
+- takeScreenshot: ${P}-03-name-typed
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-04-photo
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-photo-next'
+    commands:
+      - tapOn:
+          id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-05-taste
+- repeat:
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- takeScreenshot: ${P}-06-taste-done
+- tapOn:
+    id: 'taste-done'
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-07-home-airport
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Ho Chi'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SGN'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${P}-08-home-airport-search
+      - tapOn:
+          id: 'home-row-SGN'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-.*'
+      selected: true
+    timeout: 10000
+- takeScreenshot: ${P}-09-home-airport-picked
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-10-pass-issued
+- tapOn:
+    id: 'onboarding-issued-save'
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-11-save-sheet
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${P}-12-permissions
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000

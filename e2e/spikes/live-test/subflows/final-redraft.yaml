@@ -1,0 +1,125 @@
+appId: app.critterpass.dev
+---
+# One CHANGE A DAY from the draft: day ${DAY}, her words ${NOTE} only (no reason chip), typed as
+# she would. Frames ${SHOT}-…: the sheet, her words, the wait, the last-free question if it shows
+# (answered USE IT), the answer read to its end, then KEEP IT (or back, when nothing changed) and
+# the day as it now reads. PLAIN is the same words without marks, typed only if the marks fail.
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-0-footer
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: ${'change-day-' + DAY}
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-1-sheet
+- tapOn:
+    id: ${'change-day-' + DAY}
+- scrollUntilVisible:
+    element:
+      id: 'change-day-note'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'change-day-note'
+- inputText:
+    text: ${NOTE}
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-2-her-words
+# Should the phone's driver fail to type the marks, the field stays empty and the hint stays: she
+# writes it without them (PLAIN), and the frame before says so.
+- runFlow:
+    when:
+      visible:
+        id: 'change-day-hint'
+    commands:
+      - takeScreenshot: ${SHOT}-2x-marks-not-typed
+      - tapOn:
+          id: 'change-day-note'
+      - inputText: ${PLAIN}
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOT}-2y-typed-plain
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-3-ready
+- evalScript: ${output.t0 = Date.now()}
+- tapOn:
+    id: 'change-day-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-thinking|redraft-diff|redraft-outcome|last-redraft-use'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOT}-4-submitted
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      - takeScreenshot: ${SHOT}-4b-last-free-question
+      - tapOn:
+          id: 'last-redraft-use'
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff|redraft-outcome'
+    timeout: 600000
+- evalScript: ${output.secs = Math.round((Date.now() - output.t0) / 1000)}
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-5-answer-after-${output.secs}s
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-6-scrolled
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-7-scrolled
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-8-end
+- runFlow:
+    when:
+      true: ${KEEP == 'yes'}
+    commands:
+      - tapOn:
+          id: 'redraft-keep'
+          optional: true
+- runFlow:
+    when:
+      true: ${KEEP != 'yes'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'redraft-put-back'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'redraft-put-back'
+          optional: true
+- tapOn:
+    id: 'redraft-outcome-back'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-9-draft-after
+- runFlow:
+    file: final-read-day.yaml
+    env:
+      DAY: ${DAY}
+      SHOT: ${SHOT}-day
+      MAP: 'no'

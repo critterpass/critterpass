@@ -1,0 +1,109 @@
+appId: app.critterpass.dev
+---
+# The founder's own trip, read in Vietnamese on staging: onboarding in the phone's English, the app
+# switched to Tiếng Việt in its own Language setting (reported to the server), Đà Lạt for one,
+# Thu 22 to Sun 25 Oct 2026, a must-do in her words (typed with its marks) and one of the guide's
+# examples, the draft read day by day, then three redrafts in her words: rain with marks, rain
+# without marks, slower with less walking (the last free one asks first). Frames final-vi-<nn>.
+- runFlow:
+    file: subflows/final-onboard.yaml
+    env:
+      P: final-vi
+- runFlow:
+    file: subflows/final-app-language.yaml
+    env:
+      P: final-vi
+      LANG_ID: vi
+- runFlow:
+    file: subflows/final-setup.yaml
+    env:
+      P: final-vi
+      QUERY: 'Da Lat'
+      DAYS: 4
+      PICK_DATE: '2026-10-22'
+      BUDGET: '5000000'
+
+# Must-dos: one of the guide's examples (they show only while the list is empty), then one in her
+# own words, typed with its marks.
+- tapOn:
+    id: 'must-dos-example-0'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-48-must-dos-example-added
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText:
+    text: 'Ăn bánh căn buổi sáng'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-49-must-do-own-words
+- runFlow:
+    when:
+      notVisible:
+        id: 'add-must-do-keep'
+    commands:
+      - tapOn:
+          id: 'add-must-do-field'
+      - inputText: 'An banh can buoi sang'
+      - extendedWaitUntil:
+          visible:
+            id: 'add-must-do-keep'
+          timeout: 20000
+      - takeScreenshot: final-vi-49b-must-do-typed-plain
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: final-vi-50-must-dos-two
+
+- runFlow:
+    file: subflows/final-draft.yaml
+    env:
+      P: final-vi
+      DAYS: 4
+
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-70-rain-marks
+      DAY: 3
+      NOTE: 'Trời hay mưa, cho mình chỗ trong nhà'
+      PLAIN: 'troi hay mua, cho minh cho trong nha'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-80-rain-plain
+      DAY: 2
+      NOTE: 'troi hay mua, cho minh cho trong nha'
+      PLAIN: 'troi hay mua, cho minh cho trong nha'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-85-slower
+      DAY: 2
+      NOTE: 'chậm hơn, ít đi bộ'
+      PLAIN: 'cham hon, it di bo'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-after.yaml
+    env:
+      P: final-vi

@@ -1,0 +1,92 @@
+appId: app.critterpass.dev
+---
+# From the draft: day ${DAY} opened and read to its end (frames ${SHOT}-a…d), its first stop
+# tapped (-e), its map opened when MAP is 'yes' (-m), and back on the draft (-f).
+- scrollUntilVisible:
+    element:
+      id: ${'draft-day-' + DAY}
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: ${'draft-day-' + DAY}
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: ${'draft-day-' + DAY}
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}-a-opened
+# The legs settle (routed times replace estimates) a few seconds after the day opens.
+- extendedWaitUntil:
+    visible:
+      id: 'never-there'
+    timeout: 8000
+    optional: true
+- takeScreenshot: ${SHOT}-a2-after-8s
+- runFlow:
+    when:
+      true: ${MAP == 'yes'}
+    commands:
+      - tapOn:
+          id: 'day-plan-mini-map'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'day-map'
+          timeout: 15000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: ${SHOT}-m-day-map
+      - runFlow:
+          when:
+            visible:
+              id: 'day-map'
+          commands:
+            - back
+            - waitForAnimationToEnd
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-b-scrolled
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-c-scrolled
+- swipe:
+    direction: UP
+    duration: 600
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-d-end
+- runFlow:
+    when:
+      notVisible:
+        id: 'draft-review'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'plan-day-row-.*'
+          direction: UP
+          timeout: 8000
+          optional: true
+      - tapOn:
+          id: 'plan-day-row-.*'
+          index: 0
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: ${SHOT}-e-stop-tapped
+- repeat:
+    while:
+      notVisible:
+        id: 'draft-review'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd
+- takeScreenshot: ${SHOT}-f-back-on-draft
