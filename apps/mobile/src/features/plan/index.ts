@@ -1,10 +1,9 @@
 /** The plan area's public surface for other areas. */
 export { dayRoute, decideRoute } from './day/routes';
 export { useTripPlan, type PlanMember, type TripPlan } from '@/data/plan/use-trip-plan';
-export { PlanScreen } from './overview/plan-screen';
 export { PlanShareSlot, registerPlanShareSlot } from './overview/share-slot';
 export { planRoutes } from './overview/routes';
-export { ReviewScreen } from './review/review-screen';
+export { ChangesReviewScreen } from './review/changes-review-screen';
 export {
   ChangesetChatCard,
   ChangesetChatCardView,

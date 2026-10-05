@@ -1,5 +1,5 @@
 /**
- * What PLAN opens in each switch state, which day a day-first hub lands on, and where the old and
+ * What PLAN opens for each hub value, which day a day-first hub lands on, and where the old and
  * new screen ids and the push links resolve once the planning screens have registered.
  */
 import { describe, expect, it } from '@jest/globals';
@@ -16,14 +16,11 @@ import { dayParam, sheetParam } from '../routes';
 const TRIP = '0199b000-0000-7000-8000-00000000b001';
 
 describe('plan hub', () => {
-  it('opens the earlier overview while the redesign is off, whatever the hub says', () => {
-    expect(planEntry({ redesign: false, hub: 'map' })).toBe('overview');
-    expect(planEntry({ redesign: false, hub: 'day' })).toBe('overview');
-  });
-
-  it('opens the trip map or the day plan as the hub says once it is on', () => {
-    expect(planEntry({ redesign: true, hub: 'map' })).toBe('map');
-    expect(planEntry({ redesign: true, hub: 'day' })).toBe('day');
+  it('opens the day plan for a day-first hub and the trip map for anything else', () => {
+    expect(planEntry('day')).toBe('day');
+    expect(planEntry('map')).toBe('map');
+    expect(planEntry('days')).toBe('map');
+    expect(planEntry('')).toBe('map');
   });
 
   it('lands a day-first hub on today, else the first day with stops, else day 1', () => {

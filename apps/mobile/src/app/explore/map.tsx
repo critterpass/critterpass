@@ -1,13 +1,12 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 
-import { ExploreMapScreen, LocalFirstGate } from '@/features/explore';
+import { LocalFirstGate } from '@/features/explore';
 import { PlacesListScreen, PlacesMapScreen, type PlacesFilter } from '@/features/explore/places';
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 
 /**
  * A destination's map with its places, filters and cards, and the list view of the same: the
- * places map (7c-1…7c-3) while `planning.redesign` is on, the earlier map (3d-4) while it is off.
+ * places map (7c-1…7c-3).
  */
 export default function ExploreMapRoute() {
   const { destination, tripId, placeId } = useLocalSearchParams<{
@@ -15,14 +14,9 @@ export default function ExploreMapRoute() {
     tripId?: string;
     placeId?: string;
   }>();
-  const { redesign } = usePlanningSwitch();
   return (
     <LocalFirstGate>
-      {redesign ? (
-        <DestinationPlaces destination={destination ?? ''} tripId={tripId} placeId={placeId} />
-      ) : (
-        <ExploreMapScreen destination={destination ?? ''} tripId={tripId} placeId={placeId} />
-      )}
+      <DestinationPlaces destination={destination ?? ''} tripId={tripId} placeId={placeId} />
     </LocalFirstGate>
   );
 }

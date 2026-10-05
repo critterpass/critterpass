@@ -1,8 +1,7 @@
 /**
- * The planning place page (7e-1, 7e-2) with `planning.redesign` on: the place from the device (so
- * a saved destination's places open offline), and inside a trip when it fits, its fact tiles,
- * what is nearby and similar and where the crew stands, from the api. ADD opens Add to plan at the
- * slot it names once that screen is in the app, and adds there directly until then.
+ * The place page (7e-1, 7e-2): the place from the device (so a saved destination's places open
+ * offline), and inside a trip when it fits, its fact tiles, what is nearby and similar and where
+ * the crew stands, from the api. ADD opens Add to plan (7f-1) at the slot it names.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and wire values, never copy. */
 import { buildLink, LINK_ENVIRONMENT_CONFIG, toLocalWallTime } from '@cp/domain';
@@ -22,7 +21,6 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { useExploreStream } from '../data/use-explore-stream';
 import { usePlaceLive } from '../data/use-place-live';
 import { guideFor, poiSubject } from '../format';
-import { useAddToDay } from '../hooks/use-add-to-day';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { liveFacts } from '../place-live';
 import { useTripCrew, useTripFacts, type PoiRow } from '../place-queries';
@@ -85,21 +83,6 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   });
   const nameOf = (uid: string) => crew.find((member) => member.uid === uid);
   const best = context?.fits?.best ?? null;
-  const adding = useAddToDay({
-    context,
-    place: { poiId: placeId, category: row.category, tz, name: row.name },
-    crew: useMemo(() => crew.map((member) => member.uid), [crew]),
-    slot:
-      best === null
-        ? null
-        : {
-            day_no: best.day_no,
-            date: best.date,
-            starts_at: best.starts_at,
-            ends_at: best.ends_at,
-            reason: 'free_gap',
-          },
-  });
   // The context could not be read with signal: the day is still hers to choose.
   const unread = context === null && read.status === 'missing' && !offline;
   const found = detailCta({
@@ -107,7 +90,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
     status: read.status === 'loading' ? 'loading' : offline ? 'offline' : 'ready',
     tz,
     locale,
-    addedDay: adding.addedDay,
+    addedDay: null,
   });
   const cta = unread ? ({ kind: 'noFit' } as const) : found;
 
@@ -158,7 +141,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
     if (cta.kind === 'add') {
       const href = pick({ dayId: cta.day.day_id, start: cta.day.start });
       if (href !== undefined) return onPhone(() => router.push(href));
-      return adding.add();
+      return undefined;
     }
     if (cta.kind === 'inPlan' && tripId !== null) {
       const href =
@@ -279,7 +262,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
           cta.kind !== 'add' &&
           cta.kind !== 'inPlan' &&
           !(cta.kind === 'noFit' && otherDays !== undefined),
-        busy: adding.busy || (tripId !== null && cta.kind === 'loading'),
+        busy: tripId !== null && cta.kind === 'loading',
         onPress: press,
       }}
       onChat={chatHref === undefined ? undefined : () => router.push(chatHref)}
