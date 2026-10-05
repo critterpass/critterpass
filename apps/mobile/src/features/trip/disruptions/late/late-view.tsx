@@ -1,9 +1,10 @@
 /**
- * The running-late screen (3k-9) from props: the map behind (the place and your own dot; no map
- * offline, the sheet alone), the back and ETA pills, and the sheet. A late member gets the
+ * The running-late screen (3k-9) from props: the map behind (the place and your own dot, on the
+ * destination's own tiles; no map offline, the sheet alone), the back and ETA pills, and the sheet. A late member gets the
  * planner's options as radio rows with one button that names the pick; whoever waits for them is
  * told who is late and when the item starts for them. A resolved disruption says so.
  */
+import { tokens } from '@cp/design-tokens';
 import type { LateOption, LateOptionKind } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -55,13 +56,27 @@ export interface LateViewProps {
   readonly sending: boolean;
   readonly onBack: () => void;
   readonly onChoose: (option: LateOptionKind) => void;
+  /** An option's line as the screen worked it out itself, in place of the planner's. */
+  readonly details?: Partial<Record<LateOptionKind, string>> | undefined;
 }
 
 const EMPTY_STICKER = 120;
+/** About the sheet's height: the map keeps the place in view above it. */
+export const LATE_SHEET_INSET = 420;
 
 const useStyles = makeStyles((th) => ({
   fill: { flex: 1 },
-  mapLayer: { position: 'absolute', top: 0, bottom: 0, start: 0, end: 0 },
+  // The map's own night colour until its tiles draw, so the pills above always have a ground.
+  mapLayer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    start: 0,
+    end: 0,
+    backgroundColor: tokens.color.map.base,
+  },
+  // A solid ground under the back pill: it reads on any map, loaded or not.
+  backPill: { backgroundColor: th.semantic.bg.sunken, borderRadius: th.radius.pill },
   header: { paddingHorizontal: th.size.gutter },
   sheet: {
     backgroundColor: th.semantic.bg.sunken,
@@ -77,6 +92,7 @@ function Options(props: {
   readonly model: LateModel;
   readonly selected: LateOptionKind | null;
   readonly onSelect: (option: LateOptionKind) => void;
+  readonly details?: Partial<Record<LateOptionKind, string>> | undefined;
 }) {
   const styles = useStyles();
   const locale = useLocale();
@@ -87,7 +103,7 @@ function Options(props: {
         <RadioCard
           key={option.id}
           title={optionTitle(option)}
-          description={optionDetail(option, locale)}
+          description={props.details?.[option.id] ?? optionDetail(option, locale)}
           selected={props.selected === option.id}
           onSelect={() => props.onSelect(option.id)}
           trailing={
@@ -105,14 +121,17 @@ function Options(props: {
 /** The map screen's back pill is its way back (the pill, not the eyebrow, sits on a map). */
 function BackPill({ onBack }: { readonly onBack: () => void }) {
   useBackAffordance();
+  const styles = useStyles();
   return (
-    <PillButton
-      label={`← ${backLabel()}`}
-      variant="secondary"
-      size="sm"
-      onPress={onBack}
-      testID="late-back"
-    />
+    <View style={styles.backPill}>
+      <PillButton
+        label={`← ${backLabel()}`}
+        variant="secondary"
+        size="sm"
+        onPress={onBack}
+        testID="late-back"
+      />
+    </View>
   );
 }
 
@@ -195,7 +214,12 @@ export function LateView(props: LateViewProps) {
                 <Text variant="body" color={theme.semantic.text.secondary} singleLine={false}>
                   {props.reason}
                 </Text>
-                <Options model={model} selected={selected} onSelect={setPicked} />
+                <Options
+                  model={model}
+                  selected={selected}
+                  onSelect={setPicked}
+                  details={props.details}
+                />
                 <PillButton
                   label={settled ? lines.chosen : ctaLabel(option)}
                   block

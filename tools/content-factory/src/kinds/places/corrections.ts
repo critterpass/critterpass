@@ -19,6 +19,7 @@ import { z } from 'zod';
 
 import { curatedDestinations, placeFacts } from '../../data/place-facts';
 import { FACTORY_DIR, readJson } from '../../work';
+import { newRecordSchema, withNewRecords } from './corrections-new-records';
 import { LICENCES } from './pois';
 
 type Poi = ContentItem<'places'>;
@@ -84,6 +85,8 @@ export const correctionsFileSchema = z
     batch: z.string().min(1),
     checked_at: z.iso.datetime({ offset: true }),
     places: z.array(correctionSchema).min(1),
+    /** Places the catalogue does not hold yet; each is the kept record of a place above. */
+    new_records: z.array(newRecordSchema).default([]),
     /** Faults found and left as they are, with the reason, for the review page. */
     left_alone: z.array(
       z
@@ -105,8 +108,8 @@ export type CorrectionsFile = z.infer<typeof correctionsFileSchema>;
 
 export const beforeRowSchema = z
   .object({
-    /** `pois.id`, for whoever follows a correction up in the database. */
-    id: z.uuid(),
+    /** `pois.id`, for whoever follows a correction up in the database; null for a new record. */
+    id: z.uuid().nullable(),
     ref: refSchema,
     destination: z.string().min(1),
     name: z.string().min(1),
@@ -144,10 +147,9 @@ export function loadCorrections(
   root = FACTORY_DIR,
 ): { file: CorrectionsFile; before: BeforeRow[] } {
   const paths = correctionsPaths(batchKey, root);
-  return {
-    file: correctionsFileSchema.parse(readJson<unknown>(paths.corrections)),
-    before: beforeFileSchema.parse(readJson<unknown>(paths.before)).rows,
-  };
+  const file = correctionsFileSchema.parse(readJson<unknown>(paths.corrections));
+  const snapshot = beforeFileSchema.parse(readJson<unknown>(paths.before)).rows;
+  return { file, before: withNewRecords(snapshot, file.new_records) };
 }
 
 /** Every record a corrections file names: the kept ones, then their duplicates. */

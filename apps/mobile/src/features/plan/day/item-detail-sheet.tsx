@@ -73,6 +73,7 @@ export function ItemDetailSheet({
   members,
   canApply,
   comments,
+  lead,
   actions,
   dayLabels,
   mustDoMine = false,
@@ -86,6 +87,8 @@ export function ItemDetailSheet({
   readonly members: readonly PlanMember[];
   readonly canApply: boolean;
   readonly comments?: ReactNode;
+  /** What leads the sheet on the day itself (the stop's on-the-day actions). */
+  readonly lead?: ReactNode;
   readonly actions: ItemDetailActions;
   /** Each day named by its date ("Sat, Oct 17"); a day without one reads "Day 3". */
   readonly dayLabels?: ReadonlyMap<number, string>;
@@ -166,6 +169,7 @@ export function ItemDetailSheet({
             contentContainerStyle={styles.body}
             testID="plan-item-scroll"
           >
+            {lead}
             {item.lock === 'booking' ? <StatusChip status="booked" /> : null}
             {suggestion === null ? null : (
               <ListCard

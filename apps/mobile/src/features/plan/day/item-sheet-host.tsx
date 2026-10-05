@@ -30,6 +30,7 @@ import { dayName } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
 import { gapLine, retimePreview } from './retime-copy';
 import { mapsUrl, placeRoute, reviewRoute } from './routes';
+import { StopDayActions } from './stop-day-actions';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -127,6 +128,15 @@ export function ItemSheetHost({
     ? openSuggestion(plan, item.stableId)
     : null;
   const suggester = plan.members.find((member) => member.uid === plan.proposed.get(item.stableId));
+  const skipForMe = () => {
+    void editor.skipForMe(item).then(() =>
+      toast.show({
+        id: 'plan-skipped',
+        title: t({ id: 'plan.day.skippedToast', message: 'Skipped, just for you' }),
+      }),
+    );
+    onClose();
+  };
 
   return (
     <ItemDetailSheet
@@ -154,6 +164,17 @@ export function ItemSheetHost({
                 router.push(reviewRoute(tripId, suggestionId));
               },
             }
+      }
+      lead={
+        <StopDayActions
+          tripId={tripId}
+          item={item}
+          date={slot.date}
+          tz={tz}
+          onClose={onClose}
+          onSkipForMe={skipForMe}
+          solo={plan.members.length <= 1}
+        />
       }
       preview={(change) => {
         const result = timed(change);
@@ -196,15 +217,7 @@ export function ItemSheetHost({
           void editor.submit([removeOp(item), ...gap.ops], { confirmLocked });
           onClose();
         },
-        onSkipForMe: () => {
-          void editor.skipForMe(item).then(() =>
-            toast.show({
-              id: 'plan-skipped',
-              title: t({ id: 'plan.day.skippedToast', message: 'Skipped, just for you' }),
-            }),
-          );
-          onClose();
-        },
+        onSkipForMe: skipForMe,
         onOpenPlace: (poiId) => {
           const href = placeRoute(poiId, tripId);
           if (href !== undefined) router.push(href);

@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# The on-trip walks' start, read in English: a fresh account's three-day Đà Nẵng trip that starts
+# today, drafted by the guide and locked in alone, the new planning screens turned on for this
+# phone, on Home. ${SHOTS} prefixes the set-up's screenshots.
+- runFlow:
+    file: ../../../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: ${SHOTS}
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+- runFlow: ../../../_shared/planning-redesign-on.yaml
+- waitForAnimationToEnd:
+    timeout: 5000

@@ -75,6 +75,10 @@ msgstr "{guideName} reads it and finds the places in it."
 msgid "search.offline.works.waits"
 msgstr "{guideName}’s changes wait"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindBelow"
+msgstr "{kind}, nearest first"
+
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.kilometres"
 msgstr "{km} km"
@@ -311,6 +315,10 @@ msgstr "Drop a pin"
 msgid "search.none.pin"
 msgstr "Drop a pin"
 
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddressLine"
+msgstr "Drop a pin where it is, or ask {guideName} to look for it."
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
 msgstr "Food"
@@ -469,6 +477,10 @@ msgstr "More places"
 msgid "search.chip.category.museum"
 msgstr "Museums"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.alike"
+msgstr "Names a bit like it"
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nature"
 msgstr "Nature"
@@ -484,6 +496,10 @@ msgstr "New time"
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nightlife"
 msgstr "Nightlife"
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneNamed"
+msgstr "No place called “{typed}”"
 
 #: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
 msgid "search.name.none"
@@ -508,6 +524,10 @@ msgstr "Nothing changed. Try again, or save them to Ideas."
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.nothingCopied"
 msgstr "Nothing copied yet. Copy a link first, or type it in."
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddress"
+msgstr "Nothing found at that address"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.leadPlain"
@@ -605,6 +625,10 @@ msgstr "Pick one, then move the pin to the exact spot."
 msgid "search.chip.category.other"
 msgstr "Places"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindPlaces"
+msgstr "Places"
+
 #: ../../apps/mobile/src/features/explore/search/offline-results.tsx
 msgid "search.offline.queuedLine"
 msgstr "Plain words need signal. {guideName} kept your question and answers at the first bar."
@@ -688,6 +712,10 @@ msgstr "Show as"
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.dinner"
 msgstr "somewhere quiet for dinner near the stay, open late"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinnerNoStay"
+msgstr "somewhere quiet for dinner, open late"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.spa"

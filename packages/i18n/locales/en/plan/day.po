@@ -66,6 +66,10 @@ msgstr "{hours} h {rest}"
 msgid "plan.day.time.pick"
 msgstr "{label} {0}. Pick a time"
 
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.minutes"
+msgstr "{minutes} min"
+
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.backEarlierBy"
 msgstr "{moved, plural, one {# later stop moves {by} earlier.} other {# later stops move {by} earlier.}}"
@@ -179,6 +183,19 @@ msgstr "Day {dayNo} / {dayCount}"
 msgid "plan.edit.daysReordered"
 msgstr "Days reordered"
 
+#. placeholder {0}: at(checkIn.leftAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.doneAt"
+msgstr "Done at {0}"
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.done"
+msgstr "Done at a stop"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.done"
+msgstr "Done here"
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.earlier"
 msgstr "Earlier by 15 minutes"
@@ -203,9 +220,18 @@ msgstr "Free"
 msgid "plan.day.freeTitle"
 msgstr "Free day"
 
+#. placeholder {0}: at(checkIn.arrivedAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.hereSince"
+msgstr "Here since {0}"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.placeDetail"
 msgstr "Hours, photos and how to get there"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.here"
+msgstr "I’m here"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
@@ -347,6 +373,10 @@ msgstr "Removed from {from}"
 msgid "plan.edit.removed"
 msgstr "Removed from the plan"
 
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.label"
+msgstr "Running late?"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.save"
 msgstr "Save"
@@ -375,9 +405,17 @@ msgstr "Sends when you’re back"
 msgid "plan.day.proposedToast"
 msgstr "Sent to the crew"
 
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr "Skip it, just me"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skip"
 msgstr "Skip it, just me"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skipSolo"
+msgstr "Skip this stop"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skipSolo"
@@ -541,6 +579,10 @@ msgstr "You asked for this one."
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.item.suggestedByYou"
 msgstr "You suggested a change"
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.here"
+msgstr "You're here"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"

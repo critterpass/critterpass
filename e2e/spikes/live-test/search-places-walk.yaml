@@ -140,22 +140,24 @@ appId: app.critterpass.dev
           timeout: 5000
           optional: true
       - takeScreenshot: search-places-08-added-from-row
-# A + she backs out of: the sheet closes and nothing is left in Ideas (SAVED stays empty below).
+# A + she backs out of, on a place only the server holds (the rows after the first): the sheet
+# closes and nothing is left in Ideas (SAVED stays empty below).
 - runFlow: search-places-subflows/search-again.yaml
-- inputText: 'Warung Tanah Lot'
+- inputText: 'Tanah Lot Bali'
 - extendedWaitUntil:
     visible:
-      id: 'search-row-add-0'
+      id: 'search-row-add-.*'
     timeout: 20000
     optional: true
 - hideKeyboard
 - runFlow:
     when:
       visible:
-        id: 'search-row-add-0'
+        id: 'search-row-add-.*'
     commands:
       - tapOn:
-          id: 'search-row-add-0'
+          id: 'search-row-add-.*'
+          index: 1
       - extendedWaitUntil:
           visible:
             id: 'plan-add-confirm'
@@ -211,6 +213,20 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: search-places-12-example-answer
+# The guide's first example too.
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- tapOn:
+    id: 'search-example-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-close-results|search-no-results|search-plain-failed'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-12b-first-example-answer
 # A link in the one field there is.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'https://www.tiktok.com/@balibites/video/7419283746152837461'
@@ -238,7 +254,17 @@ appId: app.critterpass.dev
       - back
       - waitForAnimationToEnd:
           timeout: 3000
-# A name that finds nothing.
+# A name that finds nothing (no word of it names a kind of place).
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Zzyqx Qqqv'
+- extendedWaitUntil:
+    visible:
+      id: 'search-name-none'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15-name-finds-nothing
+# A warung's name nobody has: the words say so first; places to eat follow under their own heading.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'Zzyqx Warung Qqq'
 - extendedWaitUntil:
@@ -247,7 +273,32 @@ appId: app.critterpass.dev
     timeout: 30000
     optional: true
 - hideKeyboard
-- takeScreenshot: search-places-15-name-finds-nothing
+- takeScreenshot: search-places-15b-named-warung-not-found
+# A real name misspelt: the words say so, the near names follow under their own heading.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lott'
+- extendedWaitUntil:
+    visible:
+      id: 'search-name-none'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15c-misspelt-name
+# A name with the island after it: the place on top and no card.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lot Bali'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-.*'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 6000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15d-name-with-the-island
 # An address from a friend's message.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'Jalan Hanoman 10 Ubud'
@@ -260,6 +311,19 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: search-places-16-address
+# An address in another city: the section stays away rather than offer a wrong country, and the
+# screen is never blank while it waits.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: '12 Tran Phu'
+- extendedWaitUntil:
+    visible:
+      id: 'search-addresses'
+    timeout: 12000
+    optional: true
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: search-places-16b-address-elsewhere
 
 # 2. A kind of place.
 - runFlow: search-places-subflows/search-again.yaml

@@ -12,6 +12,7 @@ import {
   useVisitConsentRequested,
   visitConsentDismissedAt,
 } from '@/lib/location';
+import { isCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
 
 import { useTabBarCovered } from '../sheet/tab-bar-cover';
 import { VisitConsentSheet } from './VisitConsentSheet';
@@ -25,11 +26,14 @@ export interface VisitConsentHostProps {
 
 /** The traveller is typing: the keyboard is up or a text field has focus. */
 const isTyping = () => Keyboard.isVisible() || TextInput.State.currentlyFocusedInput() !== null;
+/** Something else has the screen, or is about to: a sheet, the keyboard, the arrival hatch. */
+const taken = (covered: boolean) => covered || isTyping() || isCeremonyPending();
 
 /**
  * Asks for visit detection once, at a calm moment: a trip day, nothing decided, "Not now" never
  * answered, the traveller resting on the trip's own screen with no sheet or ceremony over it and
- * no text field in use. After "Not now" the sheet opens only when asked for (the trip screen's row). Until the
+ * no text field in use, and never while the arrival hatch is waiting to play or playing (one thing
+ * at a time: the ceremony first). After "Not now" the sheet opens only when asked for (the trip screen's row). Until the
  * answer is "Turn on", no visit is recorded.
  */
 export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitConsentHostProps) {
@@ -42,7 +46,7 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
     coveredNow.current = covered;
   }, [covered]);
   const restedOnTripSurface = useRestedOnTripSurface({
-    busy: () => coveredNow.current || isTyping(),
+    busy: () => taken(coveredNow.current),
   });
   const [open, setOpen] = useState(false);
   const [answered, setAnswered] = useState(false);
@@ -54,7 +58,7 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
     dismissed,
     restedOnTripSurface,
     // Read again at the moment of asking: the rest may have ended well before the session ran.
-    busy: covered || isTyping(),
+    busy: taken(covered),
   });
   const offered = shouldOfferVisitConsent({ tripDaySessionRunning, decided, dismissed });
 

@@ -237,6 +237,10 @@ msgid "trip.list.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.noneYet"
 msgstr ""
 
@@ -250,10 +254,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.noneTomorrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.noneFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "76d3cbc1-b825-481a-b310-e65f95987878",
+        "id": "f5814e5c-e79b-4eb4-83f4-7c9a6741d508",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Golden Circle Sunday\",\n  \"summary\": \"A gentler pace through Iceland's iconic sights, with time to breathe at Geysir and a quiet evening back in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we must not miss — give the steam and spout the unhurried hour it deserves.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down Laugavegur for a bit of city life, coffee and window-shopping at a stroll.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly bite before the street winds down for the evening.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian options, a warm end to an easy day.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Sunday in Reykjavik\",\n  \"summary\": \"A gentle day with time to breathe at Geysir and a long wander through Þingvellir, with meals in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see, and rightly so — the earth puts on a show here, and we give it the unhurried hour it deserves.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the long, quiet walk through the rift valley — slower days call for a place that asks nothing but your boots and your breath.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, easy lunch with proper vegetarian plates, and coffee for the one who asked for it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays, because even a slow day ends hungry — and this kitchen knows how to feed a vegetarian well.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 730,
+          "input_tokens": 90,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 276,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 343,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "a71b959d-6ac9-4151-bc0d-486841c1fbf9",
+        "id": "b95eac22-675e-42a5-af53-5b54d845e5db",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Gentle Golden Circle Sunday\",\n  \"summary\": \"A slower Sunday with one kept wonder, one added stop nearby, and proper meals in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-see geyser stays, with plenty of time to watch it blow its top.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy lighthouse stroll nearby keeps the day light and salty.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly lunch before the afternoon winds down.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian options, and no long hop this time.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Gentle Geysir Sunday\",\n  \"summary\": \"A slower day out to the geysers, with a long, easy wander and a proper meal back in town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop that must stay, and a fine one at that. We give it the time it deserves, watching the water think about it before it leaps.\",\n      \"note\": \"The one stop that must stay, and a fine one at that. We give it the time it deserves, watching the water think about it before it leaps.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner after the steam and spray, with plenty of green things on the plate for our vegetarian crew.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 125,
+          "input_tokens": 139,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 287,
+          "output_tokens": 220,
           "service_tier": "standard"
         }
       }

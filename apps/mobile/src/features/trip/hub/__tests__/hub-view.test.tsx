@@ -98,11 +98,11 @@ describe('trip hub', () => {
     expect(screen.getByTestId('trip-briefing-loading')).toBeTruthy();
     await scene('3k-1-briefing-none');
     expect(
-      screen.getByText("Nothing needs you today. I'll check again tomorrow morning."),
+      screen.getByText("Nothing new from me today. I'll check again tomorrow morning."),
     ).toBeTruthy();
     await scene('3k-1-briefing-starts');
     expect(
-      screen.getByText('Nothing needs you today. My morning briefings start Sep 12.'),
+      screen.getByText('Nothing from me yet. My morning briefings start Sep 12.'),
     ).toBeTruthy();
     await scene('3k-1-briefing-failed');
     expect(screen.getByTestId('trip-briefing-failed')).toBeTruthy();

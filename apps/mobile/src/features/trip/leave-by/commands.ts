@@ -8,6 +8,7 @@ import type {
   CheckPackingItemPayload,
   MirrorAlarmStatePayload,
   RemovePackingItemPayload,
+  ReportRunningLatePayload,
   SetReadinessPayload,
   SnoozeLeaveByPayload,
 } from '@cp/domain';
@@ -57,4 +58,14 @@ export const removePackingItemCommand = defineClientCommand<RemovePackingItemPay
 export const mirrorAlarmStateCommand = defineClientCommand<MirrorAlarmStatePayload>({
   name: 'mirror_alarm_state',
   offline: true,
+});
+
+/** "Running late" said in the app: the rest of the trip is told, and the stop's options open. */
+export const reportRunningLateCommand = defineClientCommand<ReportRunningLatePayload>({
+  name: 'report_running_late',
+  offline: true,
+  summarize: (payload) => {
+    const minutes = payload.minutes;
+    return msg({ id: 'trip.dayOf.queued.late', message: `Running ${minutes} min late` });
+  },
 });
