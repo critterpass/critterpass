@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# One tap, timed: a frame just before, the tap (not waiting for the screen to settle, so a slow
+# screen cannot hold the walk inside the tap), then while ${UNTIL} has not shown a frame every 10 s
+# for at most a minute, and a frame once it has. Maestro's log stamps each step, so the frames and
+# the log together say how long the tap took and what the screen showed meanwhile. ${SHOT} prefixes
+# the frames; ${TAP} is the id tapped.
+- takeScreenshot: ${SHOT + '-0-before'}
+- tapOn:
+    id: ${TAP}
+    waitToSettleTimeoutMs: 500
+    retryTapIfNoChange: false
+    optional: true
+- evalScript: ${output.tick = 0}
+- repeat:
+    while:
+      notVisible:
+        id: ${UNTIL}
+    times: 6
+    commands:
+      - evalScript: ${output.tick = output.tick + 10}
+      - extendedWaitUntil:
+          visible:
+            id: 'live-walk-settle'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: ${SHOT + '-waiting-' + output.tick + 's'}
+- takeScreenshot: ${SHOT + '-1-arrived'}
