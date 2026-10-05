@@ -2,17 +2,16 @@ appId: app.critterpass.dev
 env:
   # Curated Đà Nẵng places: the first one a search for each lets her add or save is taken, so a
   # change in ranking or in what the guide drafted never leaves the flow without a row.
-  ADD_QUERY: 'Marble Beach'
-  # The row added: picked by its name, never by its place in the list (a hotel can rank first). A
-  # beach the guide rarely drafts in, so its row still has its +.
-  ADD_TEXT: '(?i)marble beach'
+  # A word any city answers with many rows; the first row with a + is added, and its name (read
+  # from Add to plan) is followed through the rest of the journey.
+  ADD_QUERY: 'cafe'
   SAVE_QUERY: 'Han Market'
 ---
 # Release gate: a brand-new traveller plans on her own trip, with no demo world
 # (subflows/trip-under-way.yaml: a trip to Đà Nẵng that started today). PLAN opens the trip map;
-# day 1 at half opens the day plan; its add bar searches a curated place, Add to plan says where it
-# goes and ADD puts it on the day, named by its place. Its sheet moves it to day 2, and all days
-# shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan check opens.
+# day 1 at half opens the day plan; its add bar searches "cafe" and takes the first row it can
+# add, Add to plan says where it goes and ADD puts it on the day, named by its place. Its sheet
+# moves it to day 2, and all days shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan check opens.
 # After a relaunch, day 2's plan still shows the moved stop. Every outcome is the server's answer on
 # screen: the stop and the idea are found by the names the app showed when they were picked.
 - runFlow:
@@ -114,21 +113,13 @@ env:
 - inputText: ${ADD_QUERY}
 - extendedWaitUntil:
     visible:
-      text: ${ADD_TEXT}
+      id: 'search-row-add-[0-9]+'
     timeout: 120000
 - hideKeyboard
-- scrollUntilVisible:
-    element:
-      text: ${ADD_TEXT}
-    direction: DOWN
-    timeout: 30000
 - takeScreenshot: plan-search
 - tapOn:
     id: 'search-row-add-[0-9]+'
-    childOf:
-      id: 'search-row-[0-9]+'
-      containsDescendants:
-        - text: ${ADD_TEXT}
+    index: 0
 - extendedWaitUntil:
     visible:
       id: 'plan-add-confirm'

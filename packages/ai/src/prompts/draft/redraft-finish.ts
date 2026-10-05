@@ -3,9 +3,10 @@
  * not put right give way and meals are filled; on a rain redraft a stop left in the open air goes
  * indoors; a hole the new day is left with is filled again, unless she asked for a slower or
  * lighter day (then its note says the hours are free because she asked); an essential the day
- * lost is put back, moved to another day or reported; the notes are finished the way a draft's
+ * lost is put back, moved to another day or reported; a slower day is then held to fewer stops
+ * than it had (./redraft-pace); the notes are finished the way a draft's
  * are; a title that no longer matches the day (or was kept though its sights changed) is written
- * again; and the summary says what moved, what left the trip, and when "less walking" could not
+ * again (so is one promising a late morning on a day that starts early); and the summary says what moved, what left the trip, and when "less walking" could not
  * be done.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
@@ -17,6 +18,7 @@ import { plannerLines, withFinalNotes } from './final-notes';
 import { walkedMetres, wantsLessWalking } from './redraft-asks';
 import { keepEssentials } from './redraft-essentials';
 import type { RedraftPlanInput } from './redraft-input';
+import { asksSlower, lateTitleEarlyDay, slowerDay } from './redraft-pace';
 import { indoorsInstead, isOutdoors, wantsIndoors } from './redraft-rain';
 import { retitleDays } from './retitle';
 import { settle } from './settle';
@@ -91,12 +93,13 @@ export async function finishRedraft(
     fillThin: false,
   });
   const dry = indoorsInstead(input, skeleton, settled.itinerary);
-  const slower = input.reasons.some((reason) => reason === 'slower' || reason === 'lighter_day');
+  const slower = asksSlower(input);
   const full = slower ? dry : refilled(input, skeleton, base, dry);
   const kept = keepEssentials(input, skeleton, base, full);
+  const paced = slower ? slowerDay(input, skeleton, base, kept.itinerary) : kept.itinerary;
   const aligned = {
-    ...kept.itinerary,
-    days: kept.itinerary.days.map((d) => (d.day_no === input.dayNo ? alignStableIds(base, d) : d)),
+    ...paced,
+    days: paced.days.map((d) => (d.day_no === input.dayNo ? alignStableIds(base, d) : d)),
   };
   const dayIn = (plan: Itinerary) => plan.days.find((d) => d.day_no === input.dayNo) as DraftDay;
   const only = (plan: Itinerary) => withDay(aligned, dayIn(plan));
@@ -107,7 +110,8 @@ export async function finishRedraft(
   const was = new Set(placesOf(base));
   const now = new Set(placesOf(dayIn(noted)));
   const sightsChanged = [...was].some((id) => !now.has(id)) || [...now].some((id) => !was.has(id));
-  const stale = sightsChanged && dayIn(noted).theme === base.theme;
+  const stale =
+    (sightsChanged && dayIn(noted).theme === base.theme) || lateTitleEarlyDay(input, dayIn(noted));
   const renamed = await retitleDays(model, input, noted, {
     only: [input.dayNo],
     also: stale ? [input.dayNo] : [],

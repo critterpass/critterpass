@@ -4,7 +4,8 @@
  * trip without a word. So each one the new day lacks is put back on the day when nothing she
  * asked is against it (a surprise keeps the lake it started with); else it goes to another day
  * that takes it as it stands, nothing there giving way; and one no day takes is reported, so the
- * new version says the redraft took it out.
+ * new version says the redraft took it out. No placement may leave a stop of the day it lands on
+ * outside its known hours (a palace pushed past closing to make room).
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import { alignStableIds, isKept, opensDay, withinReach, type DraftPoi } from '@cp/planner';
@@ -15,6 +16,7 @@ import { placeOne } from './place-essential';
 import type { RedraftPlanInput } from './redraft-input';
 import { isOutdoors, wantsIndoors } from './redraft-rain';
 import type { SkeletonDay } from './skeleton';
+import { validate } from './validate';
 
 export interface EssentialsKept {
   readonly itinerary: Itinerary;
@@ -38,6 +40,28 @@ function askedAgainst(input: RedraftPlanInput, poi: DraftPoi, here: readonly str
   if (reasons.has('cheaper') && (poi.priceLevel ?? 0) >= 2) return true;
   const near = here.length === 0 || withinReach(poi.id, here, input.travel, Math.round(cap / 2));
   return (reasons.has('less_travel') || reasons.has('less_train')) && !near;
+}
+
+const CLOSED: ReadonlySet<string> = new Set(['CLOSED_AT_TIME', 'CLOSED_ON_DATE']);
+
+/** The stops of day `dayNo` that the plan puts outside their hours. */
+function closedStops(input: RedraftPlanInput, plan: Itinerary, dayNo: number): Set<string> {
+  return new Set(
+    validate(input, plan)
+      .violations.filter((v) => v.dayNo === dayNo && CLOSED.has(v.code))
+      .map((v) => v.poiId ?? v.stableId ?? ''),
+  );
+}
+
+/** Whether `next` keeps every stop of day `dayNo` that was open in `was` within its hours. */
+export function noNewClosures(
+  input: RedraftPlanInput,
+  was: Itinerary,
+  next: Itinerary,
+  dayNo: number,
+): boolean {
+  const before = closedStops(input, was, dayNo);
+  return [...closedStops(input, next, dayNo)].every((id) => before.has(id));
 }
 
 function outlineOf(day: DraftDay): SkeletonDay {
@@ -72,22 +96,21 @@ export function keepEssentials(
   let itinerary = start;
   const moved: { poiId: string; dayNo: number }[] = [];
   const leftOut: string[] = [];
-  const slower = input.reasons.some((reason) => reason === 'slower' || reason === 'lighter_day');
   for (const poi of lost) {
     const now = dayOf(itinerary);
     const here = placeIds(now);
     if (!askedAgainst(input, poi, here)) {
-      // A slower day takes it only in another stop's seat: it may not grow again.
+      // A slower day may grow here: the planner trims it afterwards, never the essential.
       const back = placeOne(input, [skeleton], itinerary, poi, 0);
       const made = back === null ? undefined : dayOf(back);
       const ids = new Set(placeIds(made));
-      const grew = (made?.items.length ?? 0) > (now?.items.length ?? 0);
       // Still a new day: no essential it held gave way, and something on it is new.
       const sound =
         made !== undefined &&
         here.every((id) => !essential.has(id) || ids.has(id)) &&
         [...ids].some((id) => !was.has(id)) &&
-        !(slower && grew);
+        back !== null &&
+        noNewClosures(input, itinerary, back, input.dayNo);
       if (back !== null && sound) {
         itinerary = back;
         continue;
@@ -96,7 +119,11 @@ export function keepEssentials(
     const others = itinerary.days.filter((day) => day.day_no !== input.dayNo).map(outlineOf);
     const elsewhere = placeOne(input, others, itinerary, poi, 1, true);
     const dayNo = elsewhere?.days.find((day) => placeIds(day).includes(poi.id))?.day_no;
-    if (elsewhere === null || dayNo === undefined) {
+    if (
+      elsewhere === null ||
+      dayNo === undefined ||
+      !noNewClosures(input, itinerary, elsewhere, dayNo)
+    ) {
       leftOut.push(poi.id);
       continue;
     }

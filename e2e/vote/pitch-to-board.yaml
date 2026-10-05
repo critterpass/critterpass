@@ -63,8 +63,13 @@ appId: app.critterpass.dev
     timeout: 10000
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
-    timeout: 30000
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
+    timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: 3b-3
 - tapOn:

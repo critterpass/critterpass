@@ -33,10 +33,15 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'pitch-result-0'
-# The guide's pitch streams in; its quote is the last section.
+# The guide's pitch streams in; ADD TO THE VOTE turns on when it ends (its quote is optional).
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - tapOn:
     id: 'pitch-add'

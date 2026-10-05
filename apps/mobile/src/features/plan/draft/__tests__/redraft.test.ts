@@ -67,6 +67,23 @@ describe('redraft change cards', () => {
     expect(cards[2]).toMatchObject({ after: null, reason: 'A free evening.' });
   });
 
+  it('shows a stop moved to another day as moved, never paired as taken out', () => {
+    const cards = changeCards(
+      [
+        { ...change('remove', 'm', snap('nara', '09:00'), snap('nara', '14:00')), moved_to_day: 1 },
+        change('add', 'a', null, snap('path', '09:00')),
+      ],
+      PLACES,
+    );
+    expect(cards).toHaveLength(2);
+    const moved = cards.find((card) => card.key === 'm');
+    expect(moved).toMatchObject({ kind: 'change', movedToDay: 1, before: { name: 'Nara Park' } });
+    expect(cards.find((card) => card.key === 'a')).toMatchObject({
+      before: null,
+      movedToDay: null,
+    });
+  });
+
   it('folds two or more small time shifts into one summary card, but not a single one', () => {
     const shifts = [
       change('retime', 't1', snap('tea', '15:00'), snap('tea', '15:20')),
