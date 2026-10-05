@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Live walk, adding to the plan alone, read in Vietnamese: a fresh account on real staging with a locked Bali
+# plan adds a place from a day, takes it back, and looks at where a bar and a sunset temple are
+# suggested for. The planning screens are turned on for this phone only.
+- runFlow:
+    file: plan-edits-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-add-vi-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: plan-edits-subflows/in-vietnamese.yaml
+- runFlow:
+    file: plan-edits-subflows/add-and-undo.yaml
+    env:
+      SHOTS: plan-add-vi

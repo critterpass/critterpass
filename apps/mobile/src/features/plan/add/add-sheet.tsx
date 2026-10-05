@@ -22,7 +22,7 @@ import { impact } from '@/motion/feedback';
 import { usePlanGuide } from '../plan-guide';
 import { AddBlock } from './add-block';
 import { whyTiles, type WhyInput } from './add-kind-copy';
-import { addIntoDay, looseBlock, needsTiming, openStartOn } from './add-into-day';
+import { openStartOn, settleAdd, useStartOf } from './add-into-day';
 import {
   blockDetail,
   dayHeader,
@@ -111,17 +111,15 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     preset.after === undefined &&
     preset.startMin === undefined;
   const openStart = (dayNo: number) => openStartOn(plan, dayNo, tz);
-  const choice = picked ?? initialChoice(server.fit, preset, days, tz, existing, openStart);
-  const day = days.find((entry) => entry.dayNo === choice?.dayNo) ?? null;
+  const first = picked ?? initialChoice(server.fit, preset, days, tz, existing, openStart);
+  const day = days.find((entry) => entry.dayNo === first?.dayNo) ?? null;
   const at =
-    choice?.timePicked === true && day !== null
-      ? new Date(instantOnDay(day.date, choice.startMin, tz))
+    first?.timePicked === true && day !== null
+      ? new Date(instantOnDay(day.date, first.startMin, tz))
       : undefined;
   const local = useLocalFit(server.context, fitPlace, { at });
-  const shown = choice === null ? null : shownDayFit(choice, server.fit, local);
-  const length = lengthMin ?? (choice === null ? 90 : blockLength(server.fit, choice.dayNo));
-  const dayLabel = day === null ? '' : labelOf(day.dayNo);
-  const time = choice === null ? '' : clockOf(choice.startMin);
+  const shown = first === null ? null : shownDayFit(first, server.fit, local);
+  const length = lengthMin ?? (first === null ? 90 : blockLength(server.fit, first.dayNo));
   const members = plan.members.map((member) => ({
     key: member.uid,
     name: member.name,
@@ -137,16 +135,22 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     preset.dayNo === undefined &&
     preset.after === undefined;
   const anyway = existing === null && server.fit !== null && shown?.grade === 'no' && !nowhere;
+  // The suggestion and the refusal come from one rule: what the sheet opens on can be added.
+  const { choice, into } = settleAdd({
+    plan,
+    day,
+    tz,
+    locale,
+    first,
+    shown,
+    subject,
+    stableId: stableIds[0],
+    lengthMin: length,
+    skip: existing !== null || nowhere || waiting,
+  });
   const stays = isWhereItIs(choice, existing);
-  // A time the fit did not choose, or one that only fits if a stop moves, is timed against that
-  // day before it is added: the stop in the way is pushed, never sat on.
-  const loose =
-    existing === null &&
-    !nowhere &&
-    !waiting &&
-    (choice?.timePicked === true || needsTiming(shown));
-  const block = looseBlock(loose ? choice : null, subject, stableIds[0], length);
-  const into = addIntoDay({ plan, day, tz, locale, block });
+  const dayLabel = day === null ? '' : labelOf(day.dayNo);
+  const time = choice === null ? '' : clockOf(choice.startMin);
   const best = server.fit?.best ?? null;
   const guidePick =
     best === null || choice === null || existing !== null || best.day_no === choice.dayNo
@@ -278,6 +282,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
           onToggle={(uid) => setOut((current) => toggledOut(current, uid, members.length))}
         />
       }
+      useStart={useStartOf(into, (start) => choice !== null && setPicked(pickTime(choice, start)))}
       voteNote={plan.canApply || nowhere || waiting ? null : voteNote()}
       cta={words.cta}
       busy={busy || editor.pending}
