@@ -45,9 +45,15 @@ appId: app.critterpass.dev
     id: 'pitch-result-0'
 # The guide's pitch is written live. When it does not come through, the sheet says so and offers
 # TRY AGAIN: captured, then asked once more, as a traveller would.
+# ADD TO THE VOTE turns on once the pitch has ended, written or failed.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote|pitch-error'
+      id: 'pitch-card|pitch-error'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - runFlow:
     when:
@@ -59,7 +65,12 @@ appId: app.critterpass.dev
           id: 'pitch-retry'
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - waitForAnimationToEnd
 - tapOn:
