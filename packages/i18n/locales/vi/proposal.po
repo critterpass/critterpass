@@ -148,6 +148,18 @@ msgstr "{before} chỗ"
 msgid "proposal.turn.planVote"
 msgstr "{by} muốn đổi kế hoạch. Đang chờ bạn đồng ý."
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting"
+msgstr "{count, plural, other {Nhóm đã lưu # nơi vào Ý tưởng, đang chờ bạn xếp vào ngày.}}"
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.send"
+msgstr "{count, plural, other {Kiểm tra kế hoạch còn # điều cần sửa. Cả nhóm sẽ thấy kế hoạch như hiện tại.}}"
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.lock"
+msgstr "{count, plural, other {Kiểm tra kế hoạch còn # điều cần sửa. Bạn vẫn chốt được và sửa sau.}}"
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr "{crew, plural, other {{going}/# người trong nhóm đã nhận lời.}}"
@@ -271,6 +283,10 @@ msgstr "{who} rút khỏi điểm này"
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.move"
 msgstr "{who} chuyển phòng"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingMaybe"
+msgstr "{who} nói có thể. Chưa ai nói đi."
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.withdrawn"
@@ -697,8 +713,8 @@ msgid "proposal.lock.titleAlone"
 msgstr "Chốt kế hoạch?"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.locked"
-msgstr "Đã chốt. Chuyến đi bắt đầu."
+msgid "proposal.turn.lockedIn"
+msgstr "Đã chốt. Chuyến đi đã được xác nhận."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.done"
@@ -817,6 +833,10 @@ msgstr "Mở kế hoạch"
 msgid "proposal.objection.openPlan"
 msgstr "Mở kế hoạch"
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.issues.open"
+msgstr "Mở kiểm tra kế hoạch"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr "Người tổ chức"
@@ -919,6 +939,10 @@ msgstr "Tiết kiệm"
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
 msgstr "Cứ nói trong chat nhóm, hoặc nói với {organiser}. Bạn vẫn có thể từ từ quyết định."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting.button"
+msgstr "Xem Ý tưởng"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.planVote.button"

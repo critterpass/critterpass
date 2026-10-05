@@ -148,6 +148,18 @@ msgstr ""
 msgid "proposal.turn.planVote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.lock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr ""
@@ -270,6 +282,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingMaybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
@@ -697,7 +713,7 @@ msgid "proposal.lock.titleAlone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.locked"
+msgid "proposal.turn.lockedIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
@@ -817,6 +833,10 @@ msgstr ""
 msgid "proposal.objection.openPlan"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.issues.open"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr ""
@@ -918,6 +938,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts

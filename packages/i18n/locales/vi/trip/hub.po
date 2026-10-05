@@ -216,6 +216,10 @@ msgstr "Hạ cánh {time}"
 msgid "trip.hub.leaveByToday"
 msgstr "Xuất phát lúc"
 
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.leavingIn"
+msgstr "Khởi hành sau"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.loading"
 msgstr "Đang tải bản tin của {guideName}"

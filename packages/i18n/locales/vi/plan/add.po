@@ -221,8 +221,8 @@ msgid "plan.add.cta.ideas"
 msgstr "LƯU VÀO Ý TƯỞNG"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
-msgstr "Đã lưu vào Ý tưởng"
+msgid "plan.add.savedToastShared"
+msgstr "Đã lưu vào Ý tưởng, cả nhóm đều thấy. Có người xếp vào ngày là nó vào kế hoạch."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
