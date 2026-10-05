@@ -11,6 +11,7 @@ import {
   type BeforeRow,
   type PlaceCorrection,
 } from '../src/kinds/places/corrections';
+import { outOfReach, withNewRecords } from '../src/kinds/places/corrections-new-records';
 import { placesKind } from '../src/kinds/places/pois';
 import { runValidators } from '../src/validators/registry';
 import { FACTORY_DIR, readJson } from '../src/work';
@@ -299,6 +300,7 @@ describe('committed corrections batches', () => {
         'places',
       );
       expect(artifact.items).toEqual(items);
+      expect(outOfReach(file.new_records)).toEqual([]);
       expect(runValidators('places', items, placesKind.validators).counts.fail).toBe(0);
       // Every must-see is a record the batch leaves visible.
       for (const item of items.filter((poi) => poi.editorial.must_see === true)) {
@@ -306,4 +308,82 @@ describe('committed corrections batches', () => {
       }
     },
   );
+});
+
+describe('a place the catalogue does not hold yet', () => {
+  const lagoon = {
+    destination: 'iceland',
+    ref: 'overture:1f85bbe3-eb4a-4009-b165-a34704a51610',
+    name: 'Blue Lagoon',
+    name_local: 'Bláa lónið',
+    category: 'nature' as const,
+    lat: 63.88038,
+    lng: -22.44756,
+    address: null,
+  };
+  const place: PlaceCorrection = {
+    destination: 'iceland',
+    keep: lagoon.ref,
+    stored_name: 'Blue Lagoon',
+    stated: true,
+    must_see: true,
+    essential: true,
+    note: {
+      why_go: 'A geothermal lagoon in a lava field.',
+      best_time: 'First slot of the day',
+      time_needed_min: 180,
+      crowd_hint: 'Timed tickets sell out',
+      etiquette: null,
+      tags: ['wellness'],
+    },
+    why: 'The box now reaches it.',
+    checked: { source: 'OpenStreetMap way 69991144', lat: 63.88005, lng: -22.44935, off_m: 95 },
+    merge: [],
+  };
+
+  it('is created at its stated point, under the id the ingest will store it by', () => {
+    const [item] = correctionItems([place], withNewRecords([], [lagoon]));
+    expect(item).toMatchObject({
+      ref: lagoon.ref,
+      destination: 'iceland',
+      name: 'Blue Lagoon',
+      name_local: 'Bláa lónið',
+      category: 'nature',
+      lat: 63.88038,
+      lng: -22.44756,
+      tz: 'Atlantic/Reykjavik',
+      licence: { source: 'overture', source_id: '1f85bbe3-eb4a-4009-b165-a34704a51610' },
+      editorial: { must_see: true, essential: true, time_needed_min: 180 },
+      merge_into: null,
+    });
+  });
+
+  it('gives way to the stored record once the ingest has created it', () => {
+    const stored = row(lagoon.ref, {
+      destination: 'iceland',
+      name: 'Blue Lagoon Iceland',
+      lat: 63.8801,
+      lng: -22.4491,
+      tz: 'Atlantic/Reykjavik',
+      curated: false,
+      must_see: false,
+      item: null,
+    });
+    const before = withNewRecords([stored], [lagoon]);
+    expect(before).toEqual([stored]);
+    expect(correctionItems([{ ...place, name: 'Blue Lagoon' }], before)[0]).toMatchObject({
+      name: 'Blue Lagoon',
+      lat: 63.8801,
+      lng: -22.4491,
+    });
+  });
+
+  it('is refused beyond the map pack and routing area of its destination', () => {
+    expect(outOfReach([lagoon])).toEqual([]);
+    expect(
+      outOfReach([
+        { ...lagoon, destination: 'cusco', name: 'Machu Picchu', lat: -13.1631, lng: -72.545 },
+      ]),
+    ).toEqual(["Machu Picchu lies 27 km outside cusco's map pack and routing area"]);
+  });
 });

@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# What she can do on the day itself, walked in Vietnamese by a fresh account on real staging (a
+# three-day Đà Nẵng trip that starts today, locked in alone, the planning screens on for this phone
+# only). The steps and what each frame proves are in subflows/on-trip-day-actions.yaml.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: day-actions-vi-00-setup
+- runFlow:
+    file: subflows/on-trip-day-actions.yaml
+    env:
+      SHOTS: day-actions-vi

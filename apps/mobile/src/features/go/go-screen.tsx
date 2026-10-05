@@ -23,6 +23,7 @@ import { useGoPreview } from './use-go-preview';
 const PLATFORM = Platform.OS === 'ios' ? 'ios' : 'android';
 
 export function openGrab(grab: GrabRow): void {
+  // Grab's own fare comes with its own link; the rest open the app, else its web page.
   if (grab.kind === 'fare') {
     void Linking.openURL(grab.url).catch(() => undefined);
     return;
@@ -75,6 +76,7 @@ export function GoScreen({ target }: { readonly target: GoTarget | null }) {
       onMode={data.setMode}
       mapsApp={app}
       onStart={() => void Linking.openURL(mapsDirectionsUrl(place, mode, app)).catch(() => false)}
+      onRetry={data.retryLocate}
       onRide={() => {
         if (state.grab !== null) openGrab(state.grab);
       }}

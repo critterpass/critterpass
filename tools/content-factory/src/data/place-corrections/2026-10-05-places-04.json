@@ -1,0 +1,174 @@
+{
+  "batch": "2026-10-05-places-04",
+  "checked_at": "2026-10-05T12:05:00+07:00",
+  "places": [
+    {
+      "destination": "iceland",
+      "keep": "overture:1f85bbe3-eb4a-4009-b165-a34704a51610",
+      "stored_name": "Blue Lagoon",
+      "stated": true,
+      "name": "Blue Lagoon",
+      "name_local": "Bláa lónið",
+      "category": "nature",
+      "must_see": true,
+      "essential": true,
+      "note": {
+        "why_go": "A milky-blue geothermal lagoon in a black lava field on the Reykjanes peninsula, 20 km from Keflavík airport: Iceland's best-known bath.",
+        "best_time": "First slot of the day or the evening; on the way to or from the airport",
+        "time_needed_min": 180,
+        "crowd_hint": "Entry is by timed ticket and sells out: book days ahead",
+        "etiquette": "Shower without a swimsuit before bathing. Eruptions nearby have closed it at short notice: check on the day.",
+        "tags": ["wellness", "easy_pace", "photo_spots", "splurge"]
+      },
+      "why": "Iceland's most visited sight lay 5 km west of the destination's box. The box now takes in the Reykjanes peninsula, so the lagoon is an ordinary place of the destination: must-see and the fifteenth essential.",
+      "checked": {
+        "source": "OpenStreetMap way 69991144 “Bláa lónið” (leisure=resort)",
+        "lat": 63.88005,
+        "lng": -22.44935,
+        "off_m": 95
+      },
+      "merge": []
+    },
+    {
+      "destination": "iceland",
+      "keep": "overture:b33db53d-5c35-4c97-b0bd-33db986d9121",
+      "stored_name": "Keflavík International Airport",
+      "stated": true,
+      "name": "Keflavík International Airport",
+      "name_local": "Keflavíkurflugvöllur",
+      "category": "transit",
+      "note": {
+        "why_go": "Iceland's international airport, 50 km south-west of Reykjavík; the Flybus coach to Reykjavík runs in connection with every flight.",
+        "best_time": "Allow 45 minutes by road from Reykjavík",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest in the early-morning and mid-afternoon flight banks",
+        "etiquette": null,
+        "tags": ["easy_pace"]
+      },
+      "why": "Visitors land here, and it lay outside the box. The recommended record of the airport was pinned at the BSÍ bus terminal in Reykjavík (batch 02 lists it to hide); this is the airport itself. Recommended, not a must-see.",
+      "checked": {
+        "source": "OpenStreetMap relation 6584878 “Keflavíkurflugvöllur” (aeroway=aerodrome)",
+        "lat": 63.98501,
+        "lng": -22.6267,
+        "off_m": 1157
+      },
+      "merge": []
+    },
+    {
+      "destination": "mexico-city",
+      "keep": "overture:80c71e77-c07c-47f6-b427-e362dd474eab",
+      "stored_name": "Teotihuacán",
+      "stated": true,
+      "name": "Teotihuacán",
+      "name_local": "Zona Arqueológica de Teotihuacán",
+      "category": "museum",
+      "must_see": true,
+      "essential": true,
+      "note": {
+        "why_go": "The ruined city of Teotihuacán, 50 km north-east: the Pyramids of the Sun and the Moon along the 2 km Avenue of the Dead. A half-day trip.",
+        "best_time": "At opening (8:00): there is almost no shade and it is hot by midday",
+        "time_needed_min": 210,
+        "crowd_hint": "Tour groups arrive from 9:30; Sundays are the busiest",
+        "etiquette": "Carry water, a hat and sunscreen. Climb only where it is open (in 2026 the Moon's first platform).",
+        "tags": ["history", "culture", "photo_spots", "early_starts"]
+      },
+      "why": "The day trip most first visits make lay 10 km beyond the box. The box now reaches it, so the site is an ordinary place of the destination: must-see and essential. One place, not three: the pyramids and the avenue are one ticket and one walk, and a plan reads better with one stop of three and a half hours than with three stops a few hundred metres apart. Opening hours, the midday heat and the climbing rule are from Wikivoyage's Teotihuacán guide (read 5 October 2026).",
+      "checked": {
+        "source": "OpenStreetMap way 251373335 “Pirámide del Sol” (historic=ruins); the record sits on the Avenue of the Dead beside it",
+        "lat": 19.69269,
+        "lng": -98.84461,
+        "off_m": 140
+      },
+      "merge": []
+    },
+    {
+      "destination": "mexico-city",
+      "keep": "fsq_os:4b0586fff964a520587a22e3",
+      "stored_name": "Jardín Centenario (Coyoacán)",
+      "stated": true,
+      "essential": false,
+      "why": "A proposal, for the controller to decide: Mexico City holds 15 essentials, the most allowed, and Teotihuacán becomes one. This garden gives way: it is a 30-minute stop, the shortest of the fifteen, and Coyoacán keeps an essential 700 m away in the Frida Kahlo Museum. It stays a must-see. The other candidates were Torre Latinoamericana (a viewing deck beside Bellas Artes) and La Ciudadela Craft Market (the only market among the essentials, which is why it was kept).",
+      "checked": {
+        "source": "OpenStreetMap way 54235991 “Plaza Jardín Centenario” (leisure=garden)",
+        "lat": 19.34926,
+        "lng": -99.16367,
+        "off_m": 36
+      },
+      "merge": []
+    }
+  ],
+  "new_records": [
+    {
+      "destination": "iceland",
+      "ref": "overture:1f85bbe3-eb4a-4009-b165-a34704a51610",
+      "name": "Blue Lagoon",
+      "name_local": "Bláa lónið",
+      "category": "nature",
+      "lat": 63.88038,
+      "lng": -22.44756,
+      "address": "Norðurljósavegur 9, Grindavík"
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:b33db53d-5c35-4c97-b0bd-33db986d9121",
+      "name": "Keflavík International Airport",
+      "name_local": "Keflavíkurflugvöllur",
+      "category": "transit",
+      "lat": 63.99534,
+      "lng": -22.62386,
+      "address": "Keflavíkurflugvöllur, Reykjanesbær"
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "overture:80c71e77-c07c-47f6-b427-e362dd474eab",
+      "name": "Teotihuacán",
+      "name_local": "Zona Arqueológica de Teotihuacán",
+      "category": "museum",
+      "lat": 19.69319,
+      "lng": -98.84584,
+      "address": "San Juan Teotihuacán, Estado de México"
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "iceland",
+      "name": "Seljalandsfoss (9 km south of the box)",
+      "why": "Left outside. It is the first stop of the south-coast day (Skógafoss, Reynisfjara), which waits for the day-trip areas; one waterfall 120 km from Reykjavík does not make a day by itself. Taking it in is one number (south edge 63.70 to 63.58) if wanted."
+    },
+    {
+      "destination": "iceland",
+      "name": "Landmannalaugar, Snæfellsnes, the south coast past Seljalandsfoss",
+      "why": "Far outside (78 km and more): they wait for the day-trip areas."
+    },
+    {
+      "destination": "mexico-city",
+      "name": "Ex-convento de San Agustín, Acolman; Felipe Ángeles airport",
+      "why": "Now inside the box (the monastery is on the road to Teotihuacán, the airport 16 km north of the old edge). No place is added for them in this batch: the ingest of the widened box brings their records, and a later batch can recommend them. Their mis-pinned doubles are on the list to hide."
+    },
+    {
+      "destination": "mexico-city",
+      "name": "Paso de Cortés (Izta-Popo)",
+      "why": "43 km outside: left."
+    },
+    {
+      "destination": "lisbon",
+      "name": "Palace of Mafra",
+      "why": "Now inside the box (it lay 10 km north of the old edge; Ericeira comes with it). No place is added in this batch: the ingest of the widened box brings the record (Overture holds “Palácio Nacional de Mafra, Portugal” at the palace), and a later batch can recommend it."
+    },
+    {
+      "destination": "cusco",
+      "name": "Church of San Pedro Apóstol, Andahuaylillas",
+      "why": "Now inside the box (it lay 2 km east of the old edge; Huaro comes with it). No place is added in this batch: the ingest brings the record (Overture holds “Parroquia de San Pedro Apóstol de Andahuaylillas” on the square), and a later batch can recommend it."
+    },
+    {
+      "destination": "cusco",
+      "name": "Machu Picchu, Rainbow Mountain, Humantay Lake",
+      "why": "27 km and more outside, and no road reaches Machu Picchu: they wait for the day-trip areas."
+    },
+    {
+      "destination": "da-nang",
+      "name": "VinWonders Nam Hội An",
+      "why": "Left outside Đà Nẵng's box: it lies inside Hội An's own pack, and Đà Nẵng's box is also its arrival geofence, which a wider box would change."
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "kind": "places",
+  "version": 1,
+  "items": [
+    {
+      "ref": "overture:1f85bbe3-eb4a-4009-b165-a34704a51610",
+      "destination": "iceland",
+      "name": "Blue Lagoon",
+      "name_local": "Bláa lónið",
+      "category": "nature",
+      "lat": 63.88038,
+      "lng": -22.44756,
+      "address": "Norðurljósavegur 9, Grindavík",
+      "tz": "Atlantic/Reykjavik",
+      "tags": [
+        "wellness",
+        "easy_pace",
+        "photo_spots",
+        "splurge"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "1f85bbe3-eb4a-4009-b165-a34704a51610",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A milky-blue geothermal lagoon in a black lava field on the Reykjanes peninsula, 20 km from Keflavík airport: Iceland's best-known bath.",
+        "best_time": "First slot of the day or the evening; on the way to or from the airport",
+        "time_needed_min": 180,
+        "crowd_hint": "Entry is by timed ticket and sells out: book days ahead",
+        "etiquette": "Shower without a swimsuit before bathing. Eruptions nearby have closed it at short notice: check on the day.",
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null
+    },
+    {
+      "ref": "overture:b33db53d-5c35-4c97-b0bd-33db986d9121",
+      "destination": "iceland",
+      "name": "Keflavík International Airport",
+      "name_local": "Keflavíkurflugvöllur",
+      "category": "transit",
+      "lat": 63.99534,
+      "lng": -22.62386,
+      "address": "Keflavíkurflugvöllur, Reykjanesbær",
+      "tz": "Atlantic/Reykjavik",
+      "tags": [
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "b33db53d-5c35-4c97-b0bd-33db986d9121",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Iceland's international airport, 50 km south-west of Reykjavík; the Flybus coach to Reykjavík runs in connection with every flight.",
+        "best_time": "Allow 45 minutes by road from Reykjavík",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest in the early-morning and mid-afternoon flight banks",
+        "etiquette": null
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null
+    },
+    {
+      "ref": "overture:80c71e77-c07c-47f6-b427-e362dd474eab",
+      "destination": "mexico-city",
+      "name": "Teotihuacán",
+      "name_local": "Zona Arqueológica de Teotihuacán",
+      "category": "museum",
+      "lat": 19.69319,
+      "lng": -98.84584,
+      "address": "San Juan Teotihuacán, Estado de México",
+      "tz": "America/Mexico_City",
+      "tags": [
+        "history",
+        "culture",
+        "photo_spots",
+        "early_starts"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "80c71e77-c07c-47f6-b427-e362dd474eab",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "The ruined city of Teotihuacán, 50 km north-east: the Pyramids of the Sun and the Moon along the 2 km Avenue of the Dead. A half-day trip.",
+        "best_time": "At opening (8:00): there is almost no shade and it is hot by midday",
+        "time_needed_min": 210,
+        "crowd_hint": "Tour groups arrive from 9:30; Sundays are the busiest",
+        "etiquette": "Carry water, a hat and sunscreen. Climb only where it is open (in 2026 the Moon's first platform).",
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null
+    },
+    {
+      "ref": "fsq_os:4b0586fff964a520587a22e3",
+      "destination": "mexico-city",
+      "name": "Jardín Centenario (Coyoacán)",
+      "name_local": "Jardín Centenario",
+      "category": "nature",
+      "lat": 19.349242606880264,
+      "lng": -99.1640132735548,
+      "address": "Jardín Centenario S/N",
+      "tz": "America/Mexico_City",
+      "tags": [
+        "nature",
+        "local_life",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4b0586fff964a520587a22e3",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "A leafy central garden for a quiet break and people-watching near Coyoacán's historic core.",
+        "best_time": "Late afternoon when it cools down",
+        "time_needed_min": 30,
+        "crowd_hint": "Busy on weekends with families",
+        "etiquette": null,
+        "must_see": true,
+        "essential": false
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-10-05-places-04",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-10-05T12:05:00+07:00"
+  },
+  "approved_by": null,
+  "checksum": "5e330cd05ce5f965f16265588cfba102a0c8a122c6f2e83870ca24f9f50a8900"
+}
