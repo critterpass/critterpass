@@ -21,6 +21,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { withSystem } from '../../src/tx';
 import { insertCrewMember, insertUser } from '../helpers/actors';
 import {
+  evaluateStream,
   startStreamHarness,
   STREAM_ACTORS,
   streamQueries,
@@ -262,19 +263,23 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     expect(tripStreams).toEqual(
       expect.arrayContaining(['trip', 'trip_pack', 'trip_me', 'trip_draft']),
     );
-    // Each subquery's result count; a lookup keyed by the caller beyond the membership check (their
-    // own recap views or organiser seat) differs between two callers and is left out.
+    // Each subquery's result count. A membership check is the subquery that reads the caller's
+    // crew_members row itself; the lookups around it (the trip guard, a trip's referenced places)
+    // only contain one. Lookups of the caller's own recap views or organiser seat differ between
+    // two callers by design and are left out of the comparison.
+    const MEMBERSHIP = 'SELECT crew_id FROM crew_members';
+    const OWN_ROWS = /FROM (recap_views|trip_participants)\b/;
     const costs = async (userId: string) => {
       const membership: number[] = [];
-      const shared: string[] = [];
+      const lookups: string[] = [];
       for (const query of parameterQueries(harness, userId, harness.fixture.tripId, tripStreams)) {
         const { rowCount } = await harness.db.pool.query(query.text, [...query.values]);
         const results = rowCount ?? 0;
-        if (query.text.includes('FROM crew_members')) membership.push(results);
-        else if (!query.values.includes(userId))
-          shared.push(`${query.stream} ${String(results)} ← ${query.text}`);
+        if (query.text.startsWith(MEMBERSHIP)) membership.push(results);
+        else if (!OWN_ROWS.test(query.text))
+          lookups.push(`${query.stream} ${String(results)} ← ${query.text}`);
       }
-      return { membership, shared };
+      return { membership, lookups };
     };
     const busy = await costs(busyMember);
     const member = await costs(harness.fixture.actors.member);
@@ -282,7 +287,19 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     expect(busy.membership.length).toBeGreaterThan(0);
     expect(new Set(busy.membership)).toEqual(new Set([1]));
     expect(busy.membership).toEqual(member.membership);
-    expect(busy.shared).toEqual(member.shared);
+    expect(busy.lookups).toEqual(member.lookups);
+    // And the trip still reaches them: its row, and its destination's pack.
+    const parameters = { trip_id: harness.fixture.tripId };
+    const trip = await evaluateStream(harness.db.pool, harness.config, 'trip', {
+      userId: busyMember,
+      parameters,
+    });
+    expect((trip.get('trips') ?? []).map((row) => row['id'])).toEqual([harness.fixture.tripId]);
+    const pack = await evaluateStream(harness.db.pool, harness.config, 'trip_pack', {
+      userId: busyMember,
+      parameters,
+    });
+    expect(pack.get('crowd_forecasts') ?? []).toHaveLength(CANDIDATES);
   });
 
   it("syncs a destination's crowd forecasts by the destination the trigger copies", async () => {
