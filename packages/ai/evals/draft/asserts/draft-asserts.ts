@@ -130,7 +130,17 @@ export function gradeRedraft(
   for (const day of outcome.itinerary.days) {
     if (day.day_no === dayNo) continue;
     const before = base.days.find((d) => d.day_no === day.day_no);
-    if (JSON.stringify(before) !== JSON.stringify(day)) failures.push(`day ${day.day_no} changed`);
+    // An essential the redraft took off its day may move onto another; nothing else may change.
+    const moved = new Set(outcome.moved.filter((m) => m.dayNo === day.day_no).map((m) => m.poiId));
+    const was = new Set((before?.items ?? []).map((item) => item.poi_id));
+    const changed =
+      JSON.stringify(before) !== JSON.stringify(day) &&
+      (moved.size === 0 ||
+        day.items.some(
+          (item) => item.kind !== 'meal' && !was.has(item.poi_id) && !moved.has(item.poi_id ?? ''),
+        ) ||
+        (before?.items ?? []).some((item) => !day.items.some((i) => i.poi_id === item.poi_id)));
+    if (changed) failures.push(`day ${day.day_no} changed`);
   }
   const kept = new Set(outcome.day.items.map((i) => i.must_do_id));
   const lost = baseDay.items.filter((i) => i.must_do_id !== null && !kept.has(i.must_do_id));

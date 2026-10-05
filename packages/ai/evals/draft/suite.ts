@@ -17,7 +17,7 @@ import { createGateway } from '../../src/client';
 import type { DraftModel, DraftPlanInput } from '../../src/prompts/draft/context';
 import { runDraftPlan } from '../../src/prompts/draft/pipeline';
 import { runRedraft } from '../../src/prompts/draft/redraft';
-import { templateSummary, writeDraftSummary } from '../../src/prompts/draft/summary';
+import { longVisitsOf, templateSummary, writeDraftSummary } from '../../src/prompts/draft/summary';
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
 import { jsonResponse } from '../lib/transports';
@@ -34,7 +34,10 @@ import {
 import { gradeDayRules } from './asserts/day-rules-asserts';
 import { gradeDraftLanguage, gradeEssentials, gradeLanguage } from './asserts/language-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
+import { gradePlanRules, gradeRedraftRules } from './asserts/plan-rules-asserts';
 import { baselineItinerary } from './baseline';
+import { withBaseDay } from './base-day';
+import { pooled } from './pool';
 import {
   CREWS,
   INJECTION_DRAFTS,
@@ -155,6 +158,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
       allMustDos,
       names: [...input.pois.values()].map((poi) => poi.name),
       ...(crew.locale === undefined ? {} : { locale: crew.locale }),
+      longVisits: longVisitsOf(result.input, result.itinerary),
     });
     const fromModel =
       text !==
@@ -190,6 +194,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           ...gradeDraftLanguage(crew.locale, result.itinerary, text),
           ...gradeMustSees(result.input, result.itinerary, crew.expect_core_min),
           ...(crew.expect_full_days ? gradeHoles(result.input, result.itinerary) : []),
+          ...(crew.expect_plan_rules ? gradePlanRules(result.input, result, text) : []),
         ],
         `${output} || ${text}`,
       ),
@@ -211,7 +216,10 @@ async function redraftCase(
   const crew = CREWS.find((c) => c.id === redraft.crew);
   if (crew === undefined) throw new Error(`no crew ${redraft.crew}`);
   const input: DraftPlanInput = planInput(crew);
-  const base = baselineItinerary(input);
+  const base =
+    redraft.base_day === undefined
+      ? baselineItinerary(input)
+      : withBaseDay(input, baselineItinerary(input), redraft.day, redraft.base_day);
   const { model, save } = caseModel(redraft.id, options);
   try {
     const outcome = await runRedraft(model, {
@@ -239,6 +247,7 @@ async function redraftCase(
           ...gradeHeld(input, outcome.itinerary),
           ...gradeLanguage(redraft.locale, outcome),
           ...gradeRain(input, redraft.note, outcome),
+          ...gradeRedraftRules(input, base, redraft.day, redraft, outcome),
         ],
         output,
       ),
@@ -248,24 +257,6 @@ async function redraftCase(
     save();
     return { report: report(redraft.id, [`failed: ${String(error)}`], ''), firstPassClean: null };
   }
-}
-
-async function pooled<T, R>(
-  items: readonly T[],
-  size: number,
-  run: (item: T) => Promise<R>,
-): Promise<R[]> {
-  const results: R[] = new Array<R>(items.length);
-  let next = 0;
-  const worker = async () => {
-    while (next < items.length) {
-      const index = next;
-      next += 1;
-      results[index] = await run(items[index] as T);
-    }
-  };
-  await Promise.all(Array.from({ length: Math.max(1, size) }, worker));
-  return results;
 }
 
 export async function runDraftSuite(
