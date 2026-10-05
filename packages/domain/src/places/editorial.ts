@@ -6,6 +6,8 @@
  */
 import { z } from 'zod';
 
+import { appLocaleSchema } from '../locale/app-locale';
+
 export const editorialPhotoSchema = z
   .object({
     media_key: z.string().min(1),
@@ -25,6 +27,27 @@ export const placeKnowSchema = z
   .strict();
 
 export type PlaceKnow = z.infer<typeof placeKnowSchema>;
+
+/** The lines of a note that a translation may carry; the rest is the same in every language. */
+export const editorialTextSchema = z
+  .object({
+    why_go: z.string().min(1),
+    best_time: z.string().min(1),
+    crowd_hint: z.string().min(1),
+    etiquette: z.string().min(1),
+    entry_short: z.string().min(1).max(12),
+    dress_short: z.string().min(1).max(12),
+    know_before: z.array(placeKnowSchema).max(5),
+  })
+  .partial()
+  .strict();
+
+export type EditorialText = z.infer<typeof editorialTextSchema>;
+
+/** The note in other app languages than English, by app locale (`vi`, `zh-Hans`). */
+export const editorialTranslationsSchema = z.partialRecord(appLocaleSchema, editorialTextSchema);
+
+export type EditorialTranslations = z.infer<typeof editorialTranslationsSchema>;
 
 export const editorialOverlaySchema = z
   .object({
@@ -46,6 +69,8 @@ export const editorialOverlaySchema = z
     entry_short: z.string().min(1).max(12).optional(),
     dress_short: z.string().min(1).max(12).optional(),
     know_before: z.array(placeKnowSchema).max(5).optional(),
+    /** The note's lines in other languages; read through `localizedEditorial`. */
+    i18n: editorialTranslationsSchema.optional(),
   })
   .strict();
 
@@ -64,9 +89,45 @@ const OVERLAY_KEYS: ReadonlySet<string> = new Set(Object.keys(editorialOverlaySc
 export function readEditorialOverlay(value: unknown): EditorialOverlay {
   if (value === null || value === undefined) return {};
   if (typeof value !== 'object' || Array.isArray(value)) return editorialOverlaySchema.parse(value);
+  const known = Object.entries(value).filter(
+    ([key, line]) => OVERLAY_KEYS.has(key) && line !== null,
+  );
   return editorialOverlaySchema.parse(
     Object.fromEntries(
-      Object.entries(value).filter(([key, line]) => OVERLAY_KEYS.has(key) && line !== null),
+      known.map(([key, line]) => (key === 'i18n' ? [key, readTranslations(line)] : [key, line])),
     ),
   );
+}
+
+const TEXT_KEYS: ReadonlySet<string> = new Set(Object.keys(editorialTextSchema.shape));
+
+/** Stored translations, as leniently as the note: an unknown language or line is ignored. */
+function readTranslations(value: unknown): EditorialTranslations {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).flatMap(([locale, text]) => {
+      if (!appLocaleSchema.safeParse(locale).success) return [];
+      if (typeof text !== 'object' || text === null || Array.isArray(text)) return [];
+      const lines = Object.entries(text as Record<string, unknown>).filter(
+        ([key, line]) => TEXT_KEYS.has(key) && line !== null,
+      );
+      const parsed = editorialTextSchema.safeParse(Object.fromEntries(lines));
+      return parsed.success ? [[locale, parsed.data]] : [];
+    }),
+  );
+}
+
+/**
+ * The note as a reader of `locale` sees it: each line in their language where the note has it,
+ * else in English, line by line. The one place this rule lives.
+ */
+export function localizedEditorial(
+  editorial: EditorialOverlay,
+  locale: string,
+): Omit<EditorialOverlay, 'i18n'> {
+  const { i18n, ...english } = editorial;
+  const text = appLocaleSchema.safeParse(locale).success
+    ? i18n?.[locale as keyof EditorialTranslations]
+    : undefined;
+  return text === undefined ? english : { ...english, ...text };
 }
