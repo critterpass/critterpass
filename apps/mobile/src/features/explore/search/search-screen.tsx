@@ -36,7 +36,7 @@ import { OfflineBanner } from './offline-banner';
 import { OfflineSection } from './offline-section';
 import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
-import { onePerPlace, rowWords } from './search-rows';
+import { onePerPlace } from './search-rows';
 import { parseNear, poiRef, scopeLabel } from './search-scope';
 import { SearchView } from './search-view';
 import { TypedLinkCard } from './typed-link-card';
@@ -258,7 +258,11 @@ export function SearchScreen(props: SearchScreenProps) {
             onPasted={clipboard.onPasted}
           />
           <TypedExamples
-            examples={plainExamples({ destination: trip.destination, freeWeekday })}
+            examples={plainExamples({
+              destination: trip.destination,
+              freeWeekday,
+              stay: trip.hasStay,
+            })}
             onAsk={ask}
           />
           <BrowseGrid onBrowse={browse} />
@@ -274,14 +278,14 @@ export function SearchScreen(props: SearchScreenProps) {
             onOpen={openPlace}
             onAdd={addPlace}
             onPickLive={pickLive}
-            words={(row) =>
-              rowWords(row, {
-                destination: trip.destination,
-                from: near ?? centre,
-                addresses: knownAddresses,
-                planDays: trip.planDays,
-              })
-            }
+            context={{
+              destination: trip.destination,
+              from: near ?? centre,
+              addresses: knownAddresses,
+              planDays: trip.planDays,
+            }}
+            asked={search.more || search.state === 'searching' ? undefined : typed}
+            addressFound={addressState.kind === 'done' && addressState.addresses.length > 0}
             notFound={{
               guideName: trip.guideName,
               onDropPin: dropPin,

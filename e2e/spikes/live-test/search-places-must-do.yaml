@@ -1,17 +1,15 @@
 appId: app.critterpass.dev
 ---
-# Set-up for the search and places walk, not part of it: a fresh account from Ho Chi Minh City starts a
-# crew of one, pitches Bali and locks it in, sets the trip up two weeks out for five days with the
-# budget and rooms as offered and one must-do (Tirta Empul), has the guide draft it and locks the
-# plan in alone. The steps are e2e/happy/subflows/trip-under-way.yaml's, with five days instead of
-# three. It ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots.
+# The must-do search in set-up, on real staging: a fresh account pitches Đà Lạt, locks it in, sets
+# dates, budget and rooms as offered, and types "Crazy House" as a must-do. The villa is listed as
+# a sight, a hotel and a museum: the answer is one row, the sight, first. Stops there (no draft).
 - runFlow:
-    file: ../../../happy/subflows/fresh-account.yaml
+    file: ../../happy/subflows/fresh-account.yaml
     env:
       HOME_IATA: SGN
       HOME_QUERY: 'Ho Chi'
 - runFlow:
-    file: ../../../screens/sweep/subflows/open-link.yaml
+    file: ../../screens/sweep/subflows/open-link.yaml
     env:
       URL: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -20,7 +18,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'start-crew-name'
-- inputText: 'Bali with Linh'
+- inputText: 'Da Lat with Linh'
 - hideKeyboard
 - tapOn:
     id: 'start-crew-create'
@@ -56,9 +54,7 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: ${SHOTS}-da-lat-search
-- eraseText: 10
-- inputText: 'bali'
+- takeScreenshot: search-places-must-do-00-da-lat-search
 - extendedWaitUntil:
     visible:
       id: 'pitch-result-0'
@@ -78,7 +74,7 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'pitch-add'
-    file: ../../../onboarding/subflows/back.yaml
+    file: ../../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'destination-board'
@@ -113,17 +109,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'when-pick-week'
 - runFlow:
-    file: ../../../happy/subflows/pick-days.yaml
+    file: ../../happy/subflows/pick-days.yaml
     env:
       PICK_DATE: ${output.pickDate}
-      PICK_DAYS: 5
-# How many days the trip ends up with does not matter to this walk: the lock is what it needs.
-- extendedWaitUntil:
-    visible:
-      id: 'picker-lock'
-    timeout: 10000
+      PICK_DAYS: 3
 - waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-dates
+- takeScreenshot: search-places-must-do-00-dates
 - tapOn:
     id: 'picker-lock'
 # The budget, in đồng, locked as the guide suggests it.
@@ -139,28 +130,22 @@ appId: app.critterpass.dev
     id: 'budget-track'
     text: '.*₫.*'
 - waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-budget
+- takeScreenshot: search-places-must-do-00-budget
 - tapOn:
     id: 'budget-lock'
-# Rooms: a crew of one has nothing to decide and the step is passed for it; when it does show,
-# LOOKS GOOD accepts the rooms as offered.
+# Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock|must-dos-add'
+      id: 'setup-rooms-lock'
     timeout: 30000
-- runFlow:
-    when:
-      visible:
-        id: 'setup-rooms-lock'
-    commands:
-      - waitForAnimationToEnd
-      - takeScreenshot: ${SHOTS}-rooms
-      - scrollUntilVisible:
-          element:
-            id: 'setup-rooms-lock'
-          timeout: 10000
-      - tapOn:
-          id: 'setup-rooms-lock'
+- waitForAnimationToEnd
+- takeScreenshot: search-places-must-do-00-rooms
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'
@@ -173,62 +158,16 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'add-must-do-field'
-- evalScript: ${output.mustDo = 'Tirta Empul'}
-- inputText: ${output.mustDo}
-# Kept as typed, once the place search has answered (places, or none) and the row stops moving.
+- inputText: 'Crazy House'
 - extendedWaitUntil:
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
     timeout: 20000
     optional: true
 - waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-must-do-01-crazy-house
+- hideKeyboard
+- waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: ${SHOTS}-must-do-search
-- tapOn:
-    id: 'add-must-do-keep'
-- extendedWaitUntil:
-    visible:
-      text: ${'(?i)' + output.mustDo + '.*'}
-    timeout: 15000
-- scrollUntilVisible:
-    element:
-      id: 'must-dos-draft'
-    timeout: 10000
-- waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-must-dos
-- tapOn:
-    id: 'must-dos-draft'
-- extendedWaitUntil:
-    visible:
-      id: 'drafting-screen'
-    timeout: 30000
-# The draft job (outline, every day, checks) takes a few minutes on staging.
-- extendedWaitUntil:
-    visible:
-      id: 'draft-review'
-    timeout: 600000
-- waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-draft-review
-- runFlow:
-    when:
-      true: ${typeof STOP_AT_DRAFT === 'undefined' || STOP_AT_DRAFT !== 'yes'}
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: 'draft-propose'
-          timeout: 15000
-      - tapOn:
-          id: 'draft-propose'
-      # Nobody to pitch it to: lock it in alone.
-      - extendedWaitUntil:
-          visible:
-            id: 'build-lock-alone'
-          timeout: 30000
-      - waitForAnimationToEnd
-      - takeScreenshot: ${SHOTS}-lock-alone
-      - tapOn:
-          id: 'build-lock-alone'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'build-lock-alone'
-          timeout: 60000
+- takeScreenshot: search-places-must-do-02-crazy-house-rows
