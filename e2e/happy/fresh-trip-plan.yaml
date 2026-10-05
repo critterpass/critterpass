@@ -373,12 +373,21 @@ env:
 - takeScreenshot: plan-check
 
 # After a relaunch, day 2's plan still shows the moved stop.
+# The app reopens where she left it (the plan check): back out to the tabs, then TRIPS.
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'plan-check-title|tab-trips'
     timeout: 60000
-- runFlow: subflows/dismiss-visit-offer.yaml
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
 - tapOn:
     id: 'tab-trips'
 - scrollUntilVisible:
