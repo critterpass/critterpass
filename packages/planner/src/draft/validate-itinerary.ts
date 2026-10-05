@@ -66,6 +66,8 @@ export interface ValidateItineraryInput {
   readonly mealPlaces?: readonly DraftPoi[];
   /** The longest ride between two stops of a day (./hops); without it hops are not checked. */
   readonly hopCapMin?: number;
+  /** The place the crew sleeps near (./home): the ride out to a day's first stop then counts. */
+  readonly homeId?: string | null;
 }
 
 export interface ValidationResult {
@@ -209,6 +211,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       travel: input.travel,
       mealPlaces: input.mealPlaces,
       hopCapMin: input.hopCapMin,
+      homeId: input.homeId,
     }),
   );
   const feasibility = checkFeasibility({

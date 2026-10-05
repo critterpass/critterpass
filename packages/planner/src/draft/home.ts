@@ -5,6 +5,7 @@
  * town at half past one on the day they go home.
  */
 import { foodRole } from './food-role';
+import { hopCapMin } from './hops';
 import type { DraftPoi, TravelMatrix } from './types';
 
 /** Places sampled for the middle, taken evenly across the list. */
@@ -47,14 +48,45 @@ export function nearHome(
   places: readonly DraftPoi[],
   travel: TravelMatrix,
   reachMin: number,
+  whole = false,
 ): ReadonlySet<string> | null {
   const home = homeBase(places, travel);
   if (home === null) return null;
-  // Half the reach first (a short hop from the door); the whole of it where little is that near.
-  for (const reach of [Math.round(reachMin / 2), reachMin]) {
+  // Half the reach first (a short hop from the door); the whole of it where little is that near,
+  // or when asked (`whole`: the day the crew lands has an afternoon, not a morning to pack in).
+  for (const reach of whole ? [reachMin] : [Math.round(reachMin / 2), reachMin]) {
     const near = places.filter((poi) => (travel(home.id, poi.id) ?? 0) <= reach);
     const sights = near.filter((poi) => foodRole(poi) === null);
     if (sights.length >= MIN_NEAR_HOME) return new Set(near.map((poi) => poi.id));
   }
   return null;
+}
+
+/**
+ * Takes the first and the last day off the open days of every place too far from home for them
+ * (must-dos aside: `exempt`): the day the crew leaves keeps to a short hop from the door, the day
+ * it lands to one ride (no mountain an hour out, straight off the plane). A one-day trip is left.
+ */
+export function keepEdgeDaysNearHome(
+  openDays: Map<string, number[]>,
+  places: readonly DraftPoi[],
+  travel: TravelMatrix,
+  lastDay: number,
+  exempt: ReadonlySet<string>,
+): void {
+  if (lastDay < 2) return;
+  const cap = hopCapMin(places, travel);
+  const edges = [
+    { day: lastDay, near: nearHome(places, travel, cap) },
+    { day: 1, near: nearHome(places, travel, cap, true) },
+  ];
+  for (const { day: edge, near } of edges) {
+    if (near === null) continue;
+    for (const [poiId, days] of openDays) {
+      if (near.has(poiId) || exempt.has(poiId) || !days.includes(edge)) continue;
+      const rest = days.filter((day) => day !== edge);
+      if (rest.length > 0) openDays.set(poiId, rest);
+      else openDays.delete(poiId);
+    }
+  }
 }

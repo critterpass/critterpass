@@ -23,8 +23,7 @@
  * seats to them unless somebody typed their names.
  */
 import { foodRole } from './food-role';
-import { nearHome } from './home';
-import { hopCapMin } from './hops';
+import { keepEdgeDaysNearHome } from './home';
 import { mealSlots, mealsInWindow } from './meal-slots';
 import { placeWindow } from './place-time';
 import { collapseSamePlaces } from './same-place';
@@ -225,18 +224,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     const open = days.length === 0 && mustDoPlaces.has(poi.id) ? daysOpen(poi, false) : days;
     if (open.length > 0) openDays.set(poi.id, open);
   }
-  // The day the crew leaves stays near where it sleeps: nothing a long ride out is open then.
-  const lastDay = frame.dates.length;
-  const travel = straightLineMatrix(byId);
-  const home = lastDay < 2 ? null : nearHome(input.pois, travel, hopCapMin(input.pois, travel));
-  if (home !== null) {
-    for (const [poiId, days] of openDays) {
-      if (home.has(poiId) || mustDoPlaces.has(poiId) || !days.includes(lastDay)) continue;
-      const rest = days.filter((day) => day !== lastDay);
-      if (rest.length > 0) openDays.set(poiId, rest);
-      else openDays.delete(poiId);
-    }
-  }
+  // The days the crew lands and leaves stay near where it sleeps (./home).
+  keepEdgeDaysNearHome(
+    openDays,
+    input.pois,
+    straightLineMatrix(byId),
+    frame.dates.length,
+    mustDoPlaces,
+  );
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();
@@ -272,11 +267,12 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     ),
     wellKnown: 0,
   };
-  // Eight a day: where visits are short (half an hour at a church), a day takes many.
-  const activityLimit = Math.min(48, Math.max(24, days * 8));
   const sights = open.filter(
     (poi) => foodRole(poi) === null && poi.category !== 'stay' && poi.category !== 'transit',
   );
+  // Eight a day (where visits are short, a day takes many), and a seat for every must-see sight.
+  const mustSees = sights.filter((poi) => poi.mustSee).length;
+  const activityLimit = Math.min(48, Math.max(24, days * 8, mustSees + days * 2));
   const breaks = pick(
     open.filter((poi) => foodRole(poi) === 'light'),
     days,
@@ -285,7 +281,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   const activities = pick([...sights, ...breaks], activityLimit, {
     ...ranking,
     wellKnown: Math.floor(activityLimit / 3),
-    mustSees: Math.floor((activityLimit * 2) / 3),
+    mustSees: Math.max(mustSees, Math.floor((activityLimit * 2) / 3)),
   });
   const eateries = pick(
     open.filter(
@@ -294,7 +290,6 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     MAX_EATERIES,
     { ...ranking, mustSees: Math.floor(MAX_EATERIES / 4) },
   );
-  // The head of the meal list keeps its spread across kinds and across the city.
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
   return { mustDos, unplaceable, activities, sights, meals, eateries, openDays };
 }

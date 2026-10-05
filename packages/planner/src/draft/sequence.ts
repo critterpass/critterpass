@@ -10,7 +10,7 @@
  */
 import { ceilGrid, spansOn } from './day-minutes';
 import { dinnerIsRideHome, longHops } from './hops';
-import { DINNER, LUNCH, mealAt, mealSlotAt, servingOn } from './meal-slots';
+import { DINNER, LUNCH, mealAt, mealDuration, mealSlotAt, servingOn } from './meal-slots';
 import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
@@ -34,6 +34,8 @@ export interface SequenceInput {
   readonly travel: TravelMatrix;
   /** The longest ride between two stops that is still one part of the map (./hops). */
   readonly hopCapMin?: number;
+  /** The place the crew sleeps near (./home): the ride out to the first stop then counts. */
+  readonly homeId?: string | null;
   /** The destination's zone, for stops that keep their own times (default: the place's own). */
   readonly tz?: string;
   /** Meal places that suit the crew: with none near the day, its dinner is a ride home (./hops). */
@@ -85,7 +87,13 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     // A stop held to its time of day waits for it; nothing else starts before the usual day.
     const held = heldWindow(poi, input.date, choice.when);
     const untimedMeal = choice.kind === 'meal' && held === null;
-    if (untimedMeal) start = Math.max(start, mealSlotAt(start, meals.has('lunch')).startMin);
+    if (untimedMeal) {
+      const from =
+        choice.mealSlot === 'dinner'
+          ? DINNER.startMin
+          : mealSlotAt(start, meals.has('lunch')).startMin;
+      start = Math.max(start, from);
+    }
     if (held === null) start = Math.max(start, input.window.startMin);
     else if (previous === null || start < held.fromMin) {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
@@ -122,7 +130,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     }
     idle += Math.max(0, start - Math.max(reached, input.window.startMin));
     if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
-    at = start + duration;
+    at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration) : duration);
     if (
       at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
     )
@@ -140,7 +148,13 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
         input.travel,
         input.hopCapMin,
       );
-    broken += longHops(ids, input.travel, input.hopCapMin, rideHome ? dinnerAt : undefined).length;
+    broken += longHops(
+      ids,
+      input.travel,
+      input.hopCapMin,
+      rideHome ? dinnerAt : undefined,
+      input.homeId,
+    ).length;
   }
   return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), late, end: at };
 }

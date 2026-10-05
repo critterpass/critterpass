@@ -15,7 +15,7 @@ import { fillMeals } from './complete-days';
 import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay } from './day';
 import { withFinalNotes } from './final-notes';
-import { settle, trimForMustDos } from './settle';
+import { settle, trimForMustDos, withoutUnservedMeals } from './settle';
 import type { SkeletonPlan } from './skeleton';
 import { validate } from './validate';
 
@@ -85,7 +85,8 @@ export async function validateAndRepair(
       filled += refed.added;
     }
   }
-  const first = validate(input, itinerary);
+  // A meal the planner could not place itself is not asked of the guide either: the day says so.
+  const first = withoutUnservedMeals(validate(input, itinerary));
   const passes = [passOf(0, first)];
   let current = first;
   let loops = 0;

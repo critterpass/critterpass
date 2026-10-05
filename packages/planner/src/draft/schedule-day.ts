@@ -14,7 +14,7 @@ import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '
 import { localMinute } from '../feasibility/grid';
 import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
-import { DINNER, mealAt, mealShare, mealSlotAt } from './meal-slots';
+import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import type {
@@ -241,7 +241,10 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     const held = poi === undefined ? null : heldWindow(poi, input.date, choice.when);
     // An untimed meal waits for its stretch: lunch while there is time for one, else dinner.
     if (choice.kind === 'meal' && held === null) {
-      start = Math.max(start, mealSlotAt(start, lunched).startMin);
+      start = Math.max(
+        start,
+        choice.mealSlot === 'dinner' ? DINNER.startMin : mealSlotAt(start, lunched).startMin,
+      );
     }
     if (held === null) start = Math.max(start, input.window.startMin);
     else if (previous === null || start < held.fromMin) {
@@ -269,7 +272,9 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     // A booking or a stop placed by hand keeps its own times, whatever comes before it.
     const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz);
     if (fixed !== null) start = fixed.startMin;
-    const end = fixed === null ? start + duration : fixed.endMin;
+    const length =
+      choice.kind === 'meal' && poi !== undefined ? mealDuration(poi, start, duration) : duration;
+    const end = fixed === null ? start + length : fixed.endMin;
     const tz = poi?.tz ?? input.tz;
     items.push({
       stable_id: choice.stableId ?? input.idFor(choice, index),

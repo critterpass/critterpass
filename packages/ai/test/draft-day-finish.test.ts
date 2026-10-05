@@ -62,7 +62,11 @@ describe('a day title', { timeout: 60_000 }, () => {
   it('is kept while the day holds what it names', () => {
     expect(titleFits(input, { ...day2, theme: 'A slow day in the hills' })).toBe(true);
     const first = input.pois.get(sights[0]?.poi_id ?? '') as DraftPoi;
-    expect(titleFits(input, { ...day2, theme: `A morning at ${first.name}` })).toBe(true);
+    expect(titleFits(input, { ...day2, theme: `A stop at ${first.name}` })).toBe(true);
+    // A morning is over by early afternoon, and an evening has a stop in it.
+    const ends = Math.max(...day2.items.map((item) => Date.parse(item.ends_at)));
+    const late = ends > Date.parse(`${day2.date}T06:30:00Z`);
+    expect(titleFits(input, { ...day2, theme: 'An easy morning' })).toBe(!late);
   });
 
   it('is written again when it promises a kind of place or names a place the day lacks', () => {
@@ -123,10 +127,9 @@ describe('the last notes', { timeout: 60_000 }, () => {
 });
 
 describe('variety', () => {
+  const plain = input.pools.sights.filter((poi) => !poi.mustSee && foodRole(poi) === null);
   const temples = input.pools.sights.filter((poi) => poi.category === 'temple_shrine');
-  const others = input.pools.sights.filter(
-    (poi) => poi.category !== 'temple_shrine' && foodRole(poi) === null,
-  );
+  const others = plain.filter((poi) => poi.category !== 'temple_shrine');
 
   it('stops a day at three of a kind while another kind is offered', () => {
     const three = temples.slice(0, MAX_SAME_KIND).map((poi) => poi.id);
@@ -139,14 +142,16 @@ describe('variety', () => {
     expect(byVariety(input, [fourth], three, three)).toEqual([fourth]);
   });
 
-  it('takes the kind the day lacks first, then one the trip has not had', () => {
-    const [a, b] = temples as [DraftPoi, DraftPoi];
-    const fresh = others.find((poi) => kindOf(poi) !== kindOf(others[0] as DraftPoi)) as DraftPoi;
+  it('takes a must-see first, then the kind the day lacks, then one the trip has not had', () => {
     const first = others[0] as DraftPoi;
-    // The trip has had a temple and the first other kind; `fresh` is a kind it has not had.
-    const order = byVariety(input, [b, first, fresh], [a.id], [a.id, first.id]);
-    expect(order[0]?.id).toBe(fresh.id);
-    expect(order[order.length - 1]?.id).toBe(b.id);
+    const same = others.find((poi) => kindOf(poi) === kindOf(first) && poi !== first) as DraftPoi;
+    const fresh = others.find((poi) => kindOf(poi) !== kindOf(first)) as DraftPoi;
+    const famous = input.pools.sights.find(
+      (poi) => poi.mustSee && kindOf(poi) === kindOf(first),
+    ) as DraftPoi;
+    // The day holds one of `first`'s kind; the trip has had that kind only.
+    const order = byVariety(input, [same, fresh, famous], [first.id], [first.id]);
+    expect(order.map((poi) => poi.id)).toEqual([famous.id, fresh.id, same.id]);
   });
 });
 

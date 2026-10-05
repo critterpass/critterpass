@@ -121,7 +121,7 @@ export function trimForMustDos(
 
 /**
  * Plans each dropped must-do on another day its place is open, the lightest first, when that day
- * stays as clean as it was. Returns the must-dos that found a day.
+ * stays as clean as it was (its other stops giving way if they must). Returns the must-dos that found a day.
  */
 function rehome(
   input: DraftPlanInput,
@@ -161,8 +161,17 @@ function rehome(
         ),
       };
       const before = dayViolations(validate(input, itinerary), day.day_no);
-      if (dayViolations(validate(input, candidate), day.day_no) > before) continue;
-      itinerary = candidate;
+      // A day too full for it gives up stops nobody asked for before the must-do is given up.
+      const made = [
+        candidate,
+        trimForMustDos(input, [outline], candidate, validate(input, candidate)),
+      ].find(
+        (plan) =>
+          dayViolations(validate(input, plan), day.day_no) <= before &&
+          plan.days.some((d) => d.items.some((item) => item.must_do_id === mustDoId)),
+      );
+      if (made === undefined) continue;
+      itinerary = made;
       placed.add(mustDoId);
       break;
     }
@@ -179,7 +188,7 @@ export interface Settled {
   readonly filled: number;
 }
 
-const withoutUnservedMeals = (result: ValidationResult): ValidationResult => {
+export const withoutUnservedMeals = (result: ValidationResult): ValidationResult => {
   const violations = result.violations.filter((v) => v.code !== 'MEAL_MISSING');
   return { ...result, violations, ok: violations.length === 0 };
 };

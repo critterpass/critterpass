@@ -20,10 +20,11 @@ import {
   type DraftPlanInput,
 } from './context';
 import { heldLines } from './held';
+import { coreMustSees } from './must-sees';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
-export const SKELETON_PROMPT_VERSION = 'draft-skeleton@4';
+export const SKELETON_PROMPT_VERSION = 'draft-skeleton@5';
 
 const TASK = [
   '# Task',
@@ -35,6 +36,8 @@ const TASK = [
   '',
   '- Put every must-do on exactly one day, and only on a day the list says it is open.',
   '- Never put one place on two days. Use only ids from the lists; never invent one.',
+  '- Places marked MUST-SEE are what people come here for: give every one of them a day before',
+  '  any other place, as many as the days hold, each on a day with the others of its area.',
   '- Spread the places evenly: no day with one stop beside a day with five.',
   '- Match the crew: their tastes, early birds and night owls, and their pace.',
   '- Every place has an area letter. Keep a day inside one area, or two that the Areas list says',
@@ -92,9 +95,11 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
     });
     return `- ${wishHandle(input, wish.id)}${who} | may be: ${places.length > 0 ? places.join('; ') : 'none of our places'}`;
   });
+  const core = new Set(coreMustSees(input));
   const activities = pools.activities.map((poi) => {
     const open = pools.openDays.get(poi.id) ?? [];
-    return `${placeLine(input, poi, null, areas.of(poi.id))} | open on days ${open.join(', ')}`;
+    const first = core.has(poi.id) ? ' | MUST-SEE: place it' : '';
+    return `${placeLine(input, poi, null, areas.of(poi.id))} | open on days ${open.join(', ')}${first}`;
   });
   const held = frame.dates.flatMap((date, index) =>
     heldLines(input, index + 1, date).map((line) => `- Day ${index + 1}: ${line.slice(2)}`),

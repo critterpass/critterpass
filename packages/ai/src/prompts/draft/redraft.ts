@@ -6,15 +6,7 @@
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import {
-  alignStableIds,
-  choicesOfDay,
-  dayWindow,
-  isKept,
-  redraftDiff,
-  type DayChoice,
-  type ValidationResult,
-} from '@cp/planner';
+import { alignStableIds, dayWindow, redraftDiff, type ValidationResult } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -37,8 +29,16 @@ import {
   plannedRedraft,
   redraftDay,
   redraftSkeletonDay,
+  withKept,
   type RedraftPlanInput,
 } from './redraft-input';
+import {
+  indoorsInstead,
+  isOutdoors,
+  leftOutdoors,
+  RAIN_TARGET,
+  wantsIndoors,
+} from './redraft-rain';
 import { languageLine, REASON_TEXT, reasonTarget } from './redraft-reasons';
 import { validate } from './repair';
 import { withFinalNotes } from './final-notes';
@@ -98,14 +98,17 @@ export function buildRedraftRequest(
           : '';
     const area = poi === undefined ? undefined : areas.of(poi.id);
     const where = area === undefined ? '' : ` | area ${area}`;
-    return `- ${poi?.name ?? 'a stop'} (${alias.place(item.poi_id ?? 'none')}) | ${item.kind}${where}${price}${must}${keep}`;
+    const air = poi !== undefined && wantsIndoors(input) && isOutdoors(poi) ? ' | outdoors' : '';
+    return `- ${poi?.name ?? 'a stop'} (${alias.place(item.poi_id ?? 'none')}) | ${item.kind}${where}${air}${price}${must}${keep}`;
   });
   const neighbours = input.base.days
     .filter((d) => Math.abs(d.day_no - day.day_no) === 1)
     .map((d) => `- Day ${d.day_no}: ${d.theme}`);
   const place = (id: string) => {
     const poi = input.pois.get(id);
-    return poi === undefined ? [] : [placeLine(input, poi, day.date, areas.of(poi.id))];
+    if (poi === undefined) return [];
+    const open = wantsIndoors(input) && isOutdoors(poi) ? ' | outdoors' : '';
+    return [`${placeLine(input, poi, day.date, areas.of(poi.id))}${open}`];
   };
   const meals = [
     ...new Set([
@@ -119,6 +122,7 @@ export function buildRedraftRequest(
     crewLine(input),
     ...languageLine(input.locale),
     `Reasons: ${input.reasons.map((r) => REASON_TEXT[r]).join('; ') || 'see the organiser note'}.`,
+    ...(wantsIndoors(input) ? [`- ${RAIN_TARGET}`] : []),
     ...input.reasons.map(
       (r) =>
         `- ${reasonTarget(r, { day, frame: input.frame, hopCapMin: areas.capMin, mealsOffered: meals.length > 0 })}`,
@@ -177,27 +181,6 @@ export function buildRedraftRequest(
     messages: [userTurnWithData(text, data)],
     outputFormat: REDRAFT_FORMAT,
   };
-}
-
-/**
- * The reply's stops with the day's locked ones kept: a booking or a stop the organiser placed by
- * hand stays locked when the guide names it, and goes back in when the guide left it out (a
- * must-do is put back by the scheduler).
- */
-function withKept(base: DraftDay, choices: readonly DayChoice[]): DayChoice[] {
-  const locked = choicesOfDay({
-    items: base.items.filter((item) => item.must_do_id === null && isKept(item)),
-  });
-  const lockOf = new Map(locked.map((choice) => [choice.poiId, choice.lockedReason ?? null]));
-  const named = new Set(choices.map((choice) => choice.poiId));
-  return [
-    ...choices.map((choice) =>
-      lockOf.has(choice.poiId)
-        ? { ...choice, lockedReason: lockOf.get(choice.poiId) ?? null }
-        : choice,
-    ),
-    ...locked.filter((choice) => !named.has(choice.poiId)),
-  ];
 }
 
 export interface RedraftOutcome {
@@ -260,7 +243,12 @@ export async function runRedraft(
     const own = ownViolations(validate(input, withDay(input.base, day)), base);
     // The same day back answers nothing: the guide is asked once more, told so.
     const same = own.length === 0 && redraftDiff(base, day).length === 0;
-    if (own.length === 0 && !same) break;
+    const wet = own.length === 0 ? leftOutdoors(input, day) : [];
+    if (own.length === 0 && !same && wet.length === 0) break;
+    if (wet.length > 0 && !same) {
+      fix = wet.map((poi) => `rain: ${poi.name} is outdoors; swap it for a place under a roof`);
+      continue;
+    }
     if (same) {
       fix = ['the day is the same as before: change at least one stop that is not marked KEEP'];
       continue;
@@ -280,11 +268,11 @@ export async function runRedraft(
     validate(input, withDay(input.base, outcome.day)),
     { dayNo: input.dayNo, fillThin: false },
   );
+  // A stop left in the open air on a rain redraft goes indoors when a place offered fits.
+  const dry = indoorsInstead(input, skeleton, settled.itinerary);
   const settledDays = {
-    ...settled.itinerary,
-    days: settled.itinerary.days.map((d) =>
-      d.day_no === input.dayNo ? alignStableIds(base, d) : d,
-    ),
+    ...dry,
+    days: dry.days.map((d) => (d.day_no === input.dayNo ? alignStableIds(base, d) : d)),
   };
   // The day's notes and title are finished the way a draft's are; the other days stay as they were.
   const finished = withFinalNotes(input, settledDays).itinerary.days.find(

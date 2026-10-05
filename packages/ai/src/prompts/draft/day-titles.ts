@@ -6,11 +6,13 @@
  * again from the day's own stops.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { foodRole, isKept, nameTokens, type DraftPoi } from '@cp/planner';
+import { foodRole, isKept, minuteOfDate, nameTokens, type DraftPoi } from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
 
 const TITLE_MAX = 60;
+const MORNING_TITLE_ENDS_MIN = 13 * 60 + 30;
+const EVENING_TITLE_FROM_MIN = 17 * 60 + 30;
 const NAME_MAX = 30;
 
 /** Whether a stop (its place and the words of its name) is the kind of place a title word means. */
@@ -76,16 +78,24 @@ function stopsOf(input: Pick<DraftPlanInput, 'pois'>, day: DraftDay): DraftPoi[]
 }
 
 /** Whether the day holds everything its title names. */
-export function titleFits(input: Pick<DraftPlanInput, 'pois'>, day: DraftDay): boolean {
+export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: DraftDay): boolean {
   const stops = stopsOf(input, day);
   if (stops.length === 0) return true;
   const own = new Map(stops.map((poi) => [poi.id, new Set(nameTokens(poi.name))]));
   const names = new Set([...own.values()].flatMap((words) => [...words]));
   const known = placeWords(input);
   const raw = day.theme.split(/[^\p{L}\p{N}]+/u).filter((word) => word.length > 0);
+  const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
+  const ends = Math.max(...day.items.map((item) => at(item.ends_at)));
+  const lastStart = Math.max(...day.items.map((item) => at(item.starts_at)));
   return raw.every((word, index) => {
     const token = nameTokens(word)[0];
     if (token === undefined) return true;
+    // A morning is over by early afternoon; an evening or a night has a stop in it.
+    if (token === 'morning') return ends <= MORNING_TITLE_ENDS_MIN;
+    if (token === 'evening' || token === 'night' || token === 'nightcap') {
+      return lastStart >= EVENING_TITLE_FROM_MIN;
+    }
     const kind = KINDS[token];
     if (kind !== undefined) {
       return stops.some((poi) => kind(poi, own.get(poi.id) ?? new Set<string>()));
@@ -133,7 +143,7 @@ export function titleFrom(input: Pick<DraftPlanInput, 'pois' | 'locale'>, day: D
 }
 
 export function withFittingTitles(
-  input: Pick<DraftPlanInput, 'pois' | 'locale'>,
+  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'frame'>,
   itinerary: Itinerary,
 ): { readonly itinerary: Itinerary; readonly retitled: number } {
   let retitled = 0;

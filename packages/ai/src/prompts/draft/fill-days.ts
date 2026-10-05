@@ -22,6 +22,7 @@ import { stopBudget } from './budget';
 import { hopCap } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst, type Attempt } from './complete-days';
 import type { DraftPlanInput } from './context';
+import { coreMustSees } from './must-sees';
 import type { SkeletonDay } from './skeleton';
 import { byVariety } from './variety';
 
@@ -136,6 +137,13 @@ export function fillThinDays(
       // The pool first; then any sight we know near the day, so a hole beside a part of the map
       // the pool passed over is still filled.
       const nearby = [
+        ...nearFirst(
+          input,
+          coreMustSees(input)
+            .map((id) => input.pois.get(id))
+            .filter((poi): poi is DraftPoi => poi !== undefined && openToday(poi)),
+          here,
+        ),
         ...nearFirst(input, input.pools.activities.filter(openToday), here).slice(0, NEARBY_TRIED),
         ...nearFirst(input, input.pools.sights.filter(openToday), here).slice(0, NEARBY_TRIED),
       ].map((poi) => poi.id);
@@ -150,9 +158,15 @@ export function fillThinDays(
           (poi): poi is DraftPoi =>
             poi !== undefined && !used.has(poi.id) && !(hasBreak && foodRole(poi) === 'light'),
         );
+      // The trip's core must-sees first, in their order: a hole is theirs before anyone's.
+      const core = coreMustSees(input);
+      const rank = (poi: DraftPoi) => {
+        const at = core.indexOf(poi.id);
+        return at === -1 ? core.length : at;
+      };
       const candidates = byVariety(
         input,
-        offered,
+        [...offered].sort((a, b) => rank(a) - rank(b)),
         here,
         [...used].filter((id): id is string => id !== null),
       );

@@ -27,12 +27,14 @@ import type { DraftPlanInput } from './context';
 import { withFittingTitles } from './day-titles';
 
 /** A stretch this long with nothing planned is said to be free. */
-const FREE_HOURS_MIN = 180;
+const FREE_HOURS_MIN = 120;
 
 /** The planner's own lines, in the languages a draft is read in. */
 export interface PlannerLines {
   readonly longRide: string;
   readonly freeTime: string;
+  /** On a stop left in the open air on a day redrafted for rain. */
+  readonly outdoors: string;
   readonly noMeal: { readonly lunch: string; readonly dinner: string };
   readonly arrival: string;
   readonly departure: string;
@@ -41,6 +43,7 @@ export interface PlannerLines {
 const EN: PlannerLines = {
   longRide: "Getting here is the day's long ride.",
   freeTime: 'Nothing we know nearby fits the hours after this: they are yours.',
+  outdoors: 'This one is in the open air and nothing indoors is near: take a raincoat.',
   noMeal: {
     lunch: 'No place we know nearby for lunch: eat where you like.',
     dinner: 'No place we know nearby for dinner: eat where you like.',
@@ -51,6 +54,7 @@ const EN: PlannerLines = {
 
 const VI: PlannerLines = {
   longRide: 'Đây là chặng đi dài nhất trong ngày.',
+  outdoors: 'Điểm này ở ngoài trời và quanh đây chưa có chỗ nào trong nhà: nhớ mang áo mưa.',
   freeTime: 'Quanh đây chưa có điểm nào vừa với mấy tiếng sau chặng này: khoảng đó là của bạn.',
   noMeal: {
     lunch: 'Chúng tôi chưa biết quán nào gần đây cho bữa trưa: bạn cứ ăn ở đâu tùy thích.',

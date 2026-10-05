@@ -1,8 +1,8 @@
 /**
  * Variety in a day and across a trip. A day carries at most three stops of one kind (four temples
  * in a row is a day nobody remembers) as long as places of another kind are on its list; and when
- * the planner picks a place itself, it takes first the kind the day lacks, then a kind the trip
- * has not had yet, a must-see before the rest.
+ * the planner picks a place itself, it takes a must-see before the rest, and among equals the
+ * kind the day lacks, then a kind the trip has not had yet.
  */
 import { foodRole, type DraftPoi } from '@cp/planner';
 
@@ -37,8 +37,8 @@ export function oneTooMany(
 
 /**
  * `candidates` in the order the planner should try them for a day holding `dayIds` on a trip
- * holding `tripIds`: kinds the day has least of first, then kinds new to the trip, then
- * must-sees, then as they came. One of a kind too many is left out while another kind is offered.
+ * holding `tripIds`: must-sees first, then kinds the day has least of, then kinds new to the
+ * trip, then as they came. One of a kind too many is left out while another kind is offered.
  */
 export function byVariety(
   input: Pick<DraftPlanInput, 'pois'>,
@@ -56,10 +56,12 @@ export function byVariety(
       seen: inTrip.has(kindOf(poi)) ? 1 : 0,
     }))
     .sort(
+      // Among must-sees the order they came in stands (the caller ranks them); the rest by kind.
       (a, b) =>
+        Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
+        (a.poi.mustSee ? a.rank - b.rank : 0) ||
         a.day - b.day ||
         a.seen - b.seen ||
-        Number(b.poi.mustSee) - Number(a.poi.mustSee) ||
         a.rank - b.rank,
     );
   const fresh = ranked.filter((entry) => entry.day < MAX_SAME_KIND);

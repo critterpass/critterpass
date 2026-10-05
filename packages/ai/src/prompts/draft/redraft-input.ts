@@ -4,10 +4,11 @@
  * is offered decides how far the day travels), and the frame it is timed in.
  */
 import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
-import { withinReach, type DraftPoi } from '@cp/planner';
+import { choicesOfDay, isKept, withinReach, type DayChoice, type DraftPoi } from '@cp/planner';
 
 import { areasOf } from './areas';
 import type { DraftPlanInput } from './context';
+import { isOutdoors, wantsIndoors } from './redraft-rain';
 import { frameFor } from './redraft-reasons';
 import type { SkeletonDay } from './skeleton';
 
@@ -38,6 +39,7 @@ export function redraftSkeletonDay(input: RedraftPlanInput): SkeletonDay {
   const open = (id: string) => (input.pools.openDays.get(id) ?? []).includes(day.day_no);
   const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
   const { capMin } = areasOf(input);
+  const rain = wantsIndoors(input);
   const ring = (poi: DraftPoi) =>
     withinReach(poi.id, here, input.travel, Math.round(capMin / 2))
       ? 0
@@ -47,8 +49,9 @@ export function redraftSkeletonDay(input: RedraftPlanInput): SkeletonDay {
   const nearFirst = (pois: readonly DraftPoi[]) =>
     pois
       .filter((poi) => !elsewhere.has(poi.id) && open(poi.id))
-      .map((poi, rank) => ({ poi, rank, ring: ring(poi) }))
-      .sort((a, b) => a.ring - b.ring || a.rank - b.rank)
+      .map((poi, rank) => ({ poi, rank, ring: ring(poi), air: rain && isOutdoors(poi) ? 1 : 0 }))
+      // On a rain redraft the places under a roof come first.
+      .sort((a, b) => a.air - b.air || a.ring - b.ring || a.rank - b.rank)
       .map((entry) => entry.poi.id);
   return {
     dayNo: day.day_no,
@@ -74,4 +77,25 @@ function usedElsewhere(input: RedraftPlanInput): Set<string> {
 export function plannedRedraft(input: RedraftPlanInput): RedraftPlanInput {
   const frame = frameFor(input.frame, input.dayNo, input.reasons);
   return frame === input.frame ? input : { ...input, frame };
+}
+
+/**
+ * The reply's stops with the day's locked ones kept: a booking or a stop the organiser placed by
+ * hand stays locked when the guide names it, and goes back in when the guide left it out (a
+ * must-do is put back by the scheduler).
+ */
+export function withKept(base: DraftDay, choices: readonly DayChoice[]): DayChoice[] {
+  const locked = choicesOfDay({
+    items: base.items.filter((item) => item.must_do_id === null && isKept(item)),
+  });
+  const lockOf = new Map(locked.map((choice) => [choice.poiId, choice.lockedReason ?? null]));
+  const named = new Set(choices.map((choice) => choice.poiId));
+  return [
+    ...choices.map((choice) =>
+      lockOf.has(choice.poiId)
+        ? { ...choice, lockedReason: lockOf.get(choice.poiId) ?? null }
+        : choice,
+    ),
+    ...locked.filter((choice) => !named.has(choice.poiId)),
+  ];
 }

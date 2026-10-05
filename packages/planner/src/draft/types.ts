@@ -7,7 +7,11 @@
  */
 import type { ClosureRecord, DraftDay, DraftItem, Hours, LockedReason } from '@cp/domain';
 
+import { localMinute } from '../feasibility/grid';
 import type { WishTime } from './wish-time';
+
+/** A meal that starts from half past five is a dinner (see ./meal-slots). */
+const DINNER_FROM_MIN = 17 * 60 + 30;
 
 export interface DraftPoi {
   readonly id: string;
@@ -89,6 +93,8 @@ export interface DayChoice {
    * and times the rest of the day around it.
    */
   readonly fixed?: { readonly startsAt: string; readonly endsAt: string } | null;
+  /** A meal that is the day's dinner: it waits for dinner time even on a day with no lunch. */
+  readonly mealSlot?: 'dinner';
   /** The id the stop already has, kept when the day is timed again. */
   readonly stableId?: string;
 }
@@ -117,6 +123,10 @@ export function choicesOfDay(day: Pick<DraftDay, 'items'>): DayChoice[] {
     lockedReason: item.locked_reason,
     ...(isTheirs(item)
       ? { fixed: { startsAt: item.starts_at, endsAt: item.ends_at }, stableId: item.stable_id }
+      : {}),
+    // A dinner stays a dinner when its day is timed again.
+    ...(item.kind === 'meal' && localMinute(new Date(item.starts_at), item.tz) >= DINNER_FROM_MIN
+      ? { mealSlot: 'dinner' as const }
       : {}),
   }));
 }

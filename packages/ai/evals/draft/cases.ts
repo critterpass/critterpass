@@ -102,6 +102,8 @@ export const crewCaseSchema = z.object({
     .default([]),
   /** Every day between the first and last must have lunch, dinner and at least four stops. */
   expect_full_days: z.boolean().default(false),
+  /** How many of the trip's core must-sees the draft must hold at least. */
+  expect_core_min: z.int().min(0).default(0),
   /** Stops the organiser placed by hand before the draft: local "HH:MM" on day `day`. */
   held: z
     .array(

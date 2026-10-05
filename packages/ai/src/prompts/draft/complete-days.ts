@@ -85,6 +85,8 @@ export function addOne(
   baseline?: Faults,
   /** Where in the day's order the new stop goes (default: last; the planner may still reorder). */
   position?: number,
+  /** The meal the new stop is for (a dinner waits for dinner time on a day with no lunch). */
+  slot?: 'lunch' | 'dinner',
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
@@ -96,6 +98,7 @@ export function addOne(
       kind: stopKind(poi),
       mustDoId: null,
       note: editorsLine(input, poi),
+      ...(slot === 'dinner' ? { mealSlot: 'dinner' as const } : {}),
     });
     const activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null);
     const next = scheduleChoices(
@@ -167,7 +170,18 @@ export function fillMeals(
       const lands = (before: Faults, after: Faults) =>
         after.hard <= before.hard && after.meals < before.meals;
       const key = `meal-${outline.dayNo}-${slot}`;
-      let next = addOne(input, outline, itinerary, candidates.slice(0, 12), lands, key);
+      let next = addOne(
+        input,
+        outline,
+        itinerary,
+        candidates.slice(0, 12),
+        lands,
+        key,
+        undefined,
+        undefined,
+        undefined,
+        slot,
+      );
       if (next === null) {
         const baseline = dayFaults(input, itinerary, outline.dayNo);
         const giveWay = day.items
@@ -191,6 +205,8 @@ export function fillMeals(
             `${key}-for-${item.stable_id}`,
             undefined,
             baseline,
+            undefined,
+            slot,
           );
           if (next !== null) break;
         }

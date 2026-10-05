@@ -78,6 +78,16 @@ export function mealShare(startMin: number): number {
   return slot === 'breakfast' ? 0.2 : slot === 'dinner' ? 0.45 : 0.35;
 }
 
+const SIT_DOWN: ReadonlySet<string> = new Set(['sit_down_dining', 'sit_down']);
+/** A sit-down dinner is not eaten in half an hour, whatever the row says of a visit. */
+const SIT_DOWN_DINNER_MIN = 60;
+
+/** How long a meal at `poi` lasts when it starts at `startMin`, given its usual `duration`. */
+export function mealDuration(poi: DraftPoi, startMin: number, duration: number): number {
+  const dinner = mealAt(startMin) === 'dinner' && poi.tags.some((tag) => SIT_DOWN.has(tag));
+  return dinner ? Math.max(duration, SIT_DOWN_DINNER_MIN) : duration;
+}
+
 const SERVING = new WeakMap<readonly DraftPoi[], Map<string, readonly DraftPoi[]>>();
 
 /** Of `places`, those that serve `slot` on `date` (kept per list: orders are tried by the thousand). */

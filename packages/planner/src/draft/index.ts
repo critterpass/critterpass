@@ -75,6 +75,7 @@ export {
   LUNCH,
   LUNCH_LAST_START_MIN,
   mealAt,
+  mealDuration,
   mealSlotAt,
   mealSlots,
   mealsInWindow,

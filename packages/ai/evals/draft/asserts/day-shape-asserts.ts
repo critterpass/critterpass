@@ -10,6 +10,9 @@ import { dayWindow, isKept, mealAt, mealSlots, mealsInWindow, minuteOfDate } fro
 
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import { titleFits } from '../../../src/prompts/draft/day-titles';
+import { plannerLines } from '../../../src/prompts/draft/final-notes';
+import { coreMustSees } from '../../../src/prompts/draft/must-sees';
+import { isOutdoors, wantsIndoors } from '../../../src/prompts/draft/redraft-rain';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
 import { plannedRedraft, type RedraftOutcome } from '../../../src/prompts/draft/redraft';
 import type { CrewCase } from '../cases';
@@ -203,4 +206,54 @@ export function gradeLanguage(locale: string | undefined, outcome: RedraftOutcom
       ? [`language: ${what} is in English: "${text.slice(0, 60)}"`]
       : [],
   );
+}
+
+/** The draft holds enough of the places people come for, and no unexplained hole on a full day. */
+export function gradeMustSees(
+  input: DraftPlanInput,
+  itinerary: Itinerary,
+  atLeast: number,
+): string[] {
+  if (atLeast === 0) return [];
+  const core = new Set(coreMustSees(input));
+  const held = itinerary.days.flatMap((d) => d.items).filter((item) => core.has(item.poi_id ?? ''));
+  return held.length >= atLeast
+    ? []
+    : [`must-sees: only ${held.length} of the trip's core ${core.size} (at least ${atLeast})`];
+}
+
+/** No two hours with nothing planned before dinner on a full day, unless the day says so. */
+export function gradeHoles(input: DraftPlanInput, itinerary: Itinerary): string[] {
+  const { tz } = input.frame;
+  const free = plannerLines(input.locale).freeTime;
+  return itinerary.days.flatMap((day, index) => {
+    if (index === 0 || index === itinerary.days.length - 1) return [];
+    return day.items.flatMap((item, at) => {
+      const next = day.items[at + 1];
+      if (next === undefined) return [];
+      const from = minuteOfDate(new Date(item.ends_at), day.date, tz);
+      const to = minuteOfDate(new Date(next.starts_at), day.date, tz);
+      if (to > 20 * 60 + 30 || to - from - next.travel_min < 120) return [];
+      return (item.note ?? '').includes(free)
+        ? []
+        : [
+            `day ${day.day_no}: ${to - from - next.travel_min} minutes empty before ${Math.floor(to / 60)}:${String(to % 60).padStart(2, '0')}`,
+          ];
+    });
+  });
+}
+
+/** A day redrafted for rain keeps no stop in the open air without saying nothing indoors is near. */
+export function gradeRain(
+  input: DraftPlanInput,
+  note: string | null,
+  outcome: RedraftOutcome,
+): string[] {
+  if (!wantsIndoors({ note })) return [];
+  const line = plannerLines(input.locale).outdoors;
+  return outcome.day.items.flatMap((item) => {
+    const poi = input.pois.get(item.poi_id ?? '');
+    if (poi === undefined || isKept(item) || !isOutdoors(poi)) return [];
+    return (item.note ?? '').includes(line) ? [] : [`rain: ${poi.name} is outdoors, unexplained`];
+  });
 }

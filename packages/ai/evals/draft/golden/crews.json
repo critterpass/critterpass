@@ -1692,7 +1692,8 @@
         "place_ids": ["01a1053c-38c1-7f29-ae9a-963cb786e38b"]
       }
     ],
-    "expect_full_days": true
+    "expect_full_days": true,
+    "expect_core_min": 10
   },
   {
     "id": "dalat-held-1",

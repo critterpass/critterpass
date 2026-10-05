@@ -8,10 +8,11 @@ import type { DraftDay } from '@cp/domain';
 import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@cp/planner';
 
 import { parseStructuredText, textOf } from '../../structured';
-import { hopCap } from './areas';
+import { homeOf, hopCap } from './areas';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
 import { heldChoices } from './held';
 import { withinCapacity } from './day-capacity';
+import { coreMustSees } from './must-sees';
 import { buildDayRequest, type DayContext, type DayRepair } from './day-request';
 import { dayReplySchema, proseProblem, type StopReply } from './schema';
 import { type SkeletonDay } from './skeleton';
@@ -134,6 +135,7 @@ export function scheduleChoices(
     travel: input.travel,
     hopCapMin: hopCap(input),
     mealPlaces: input.pools.eateries,
+    homeId: homeOf(input),
     tz: input.frame.tz,
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
@@ -169,5 +171,13 @@ export async function draftOneDay(
   const raw = parseStructuredText(textOf(result.message));
   const reply = dayReplySchema.parse(raw);
   const parsed = toChoices(input, reply.stops);
-  return { ...parsed, day: scheduleChoices(input, context.day, parsed.choices, key) };
+  // A must-see planned for the day is the planner's to keep, like a must-do: one the reply left
+  // out goes back in (and gives way again only if the day cannot take it).
+  const named = new Set(parsed.choices.map((choice) => choice.poiId));
+  const core = new Set(coreMustSees(input));
+  const kept = context.day.poiIds
+    .filter((id) => core.has(id) && !named.has(id))
+    .map((poiId): DayChoice => ({ poiId, kind: 'activity', mustDoId: null, note: null }));
+  const choices = [...parsed.choices, ...kept];
+  return { ...parsed, day: scheduleChoices(input, context.day, choices, key) };
 }

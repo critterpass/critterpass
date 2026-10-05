@@ -139,9 +139,9 @@ describe('the day the crew leaves', () => {
     expect(nearHome(places.slice(0, 7), travel, 40)).toBeNull();
   });
 
-  it('opens a place far from home on every day but the last', () => {
+  it('opens a place far from home on neither the day the crew lands nor the day it leaves', () => {
     const pools = candidatePools({ pois: places, frame: FRAME, tastes: {} });
-    expect(pools.openDays.get(id(83))).toEqual([1, 2]);
+    expect(pools.openDays.get(id(83))).toEqual([2]);
     expect(pools.openDays.get(id(80))).toEqual([1, 2, 3]);
     // A must-do there is the crew's call, whatever the day.
     const asked = candidatePools({

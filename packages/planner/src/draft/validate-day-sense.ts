@@ -66,6 +66,8 @@ export interface DaySenseInput {
   /** Meal places the crew can eat at; without them a missing meal is not reported. */
   readonly mealPlaces?: readonly DraftPoi[] | undefined;
   readonly hopCapMin?: number | undefined;
+  /** The place the crew sleeps near (./home); with it the ride out to a day's first stop counts. */
+  readonly homeId?: string | null | undefined;
 }
 
 const at = (
@@ -165,7 +167,13 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
       input.travel,
       input.hopCapMin,
     );
-  const hops = longHops(ids, input.travel, input.hopCapMin, rideHome ? dinnerAt : undefined);
+  const hops = longHops(
+    ids,
+    input.travel,
+    input.hopCapMin,
+    rideHome ? dinnerAt : undefined,
+    input.homeId,
+  );
   return hops.flatMap((hop) => {
     const far = day.stops[hop.index];
     const before = day.stops[hop.index - 1];
