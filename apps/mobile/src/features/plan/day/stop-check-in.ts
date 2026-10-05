@@ -7,11 +7,21 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names and storage keys, never copy. */
 import { generateUuidV7, type RecordVisitPayload } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
-import { useCallback, useMemo, useState } from 'react';
-import { createMMKV, useMMKVListener, useMMKVString } from 'react-native-mmkv';
+import { useCallback } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
+import { checkInState, nextCheckIn, parseCheckIn, useCheckInValue } from '@/data/plan/said-stops';
+
+export {
+  checkInState,
+  nextCheckIn,
+  parseCheckIn,
+  useCheckIns,
+  useSaidStops,
+  type CheckIn,
+  type CheckInState,
+} from '@/data/plan/said-stops';
 
 export const checkInCommand = defineClientCommand<RecordVisitPayload>({
   name: 'record_visit',
@@ -22,51 +32,8 @@ export const checkInCommand = defineClientCommand<RecordVisitPayload>({
       : msg({ id: 'plan.day.stop.queued.done', message: 'Done at a stop' }),
 });
 
-export interface CheckIn {
-  readonly visitId: string;
-  readonly arrivedAt: string;
-  readonly leftAt: string | null;
-}
-
-export type CheckInState = 'ahead' | 'here' | 'done';
-
-export function checkInState(checkIn: CheckIn | null): CheckInState {
-  if (checkIn === null) return 'ahead';
-  return checkIn.leftAt === null ? 'here' : 'done';
-}
-
-/** What the phone keeps, read back; anything else reads as not checked in. */
-export function parseCheckIn(raw: string | undefined): CheckIn | null {
-  if (raw === undefined) return null;
-  try {
-    const value = JSON.parse(raw) as Partial<CheckIn>;
-    return typeof value.visitId === 'string' && typeof value.arrivedAt === 'string'
-      ? { visitId: value.visitId, arrivedAt: value.arrivedAt, leftAt: value.leftAt ?? null }
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * The next thing said: arriving opens a visit, done closes the same one. `leftAt` is never before
- * the arrival (a phone whose clock stepped back still closes the visit).
- */
-export function nextCheckIn(checkIn: CheckIn | null, now: Date, newId: () => string): CheckIn {
-  if (checkIn === null || checkIn.leftAt !== null) {
-    return { visitId: newId(), arrivedAt: now.toISOString(), leftAt: null };
-  }
-  const left = Math.max(now.getTime(), Date.parse(checkIn.arrivedAt));
-  return { ...checkIn, leftAt: new Date(left).toISOString() };
-}
-
-let storage: ReturnType<typeof createMMKV> | null = null;
-/** The app's default store, like the other small choices this phone keeps. */
-const store = () => (storage ??= createMMKV());
-const KEY = 'cp.stop.checkIn';
-
 export function useStopCheckIn(tripId: string, stableId: string, poiId: string | null) {
-  const [raw, setRaw] = useMMKVString(`${KEY}:${tripId}:${stableId}`, store());
+  const [raw, setRaw] = useCheckInValue(tripId, stableId);
   const { send } = useCommand(checkInCommand);
   const checkIn = parseCheckIn(raw);
   const state = checkInState(checkIn);
@@ -88,28 +55,4 @@ export function useStopCheckIn(tripId: string, stableId: string, poiId: string |
     });
   }, [raw, setRaw, send, tripId, poiId]);
   return { checkIn, state, advance };
-}
-
-/**
- * What this phone said at the trip's stops, by stable id, kept up as she says more: the day plan
- * and the day-of screen read a stop she marked done as over, and one she is at as on now.
- */
-export function useSaidStops(tripId: string | null): ReadonlyMap<string, 'here' | 'done'> {
-  const prefix = `${KEY}:${tripId ?? ''}:`;
-  const [version, setVersion] = useState(0);
-  useMMKVListener((key) => {
-    if (key.startsWith(prefix)) setVersion((n) => n + 1);
-  }, store());
-  return useMemo(() => {
-    const said = new Map<string, 'here' | 'done'>();
-    if (tripId === null) return said;
-    for (const key of store().getAllKeys()) {
-      if (!key.startsWith(prefix)) continue;
-      const state = checkInState(parseCheckIn(store().getString(key)));
-      if (state !== 'ahead') said.set(key.slice(prefix.length), state);
-    }
-    return said;
-    // `version` re-reads the store after a change.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prefix, tripId, version]);
 }
