@@ -17,6 +17,7 @@ import {
   spawnRuleItemSchema,
   windowCalendarLabel,
   windowMonths,
+  poiEditorialSchema,
 } from '../src';
 
 const at = '2026-09-28T00:00:00.000Z';
@@ -169,6 +170,23 @@ describe('places, phrases, safety and help', () => {
     expect(placeIndexItemSchema.safeParse({ ...place, currency: 'XYZ' }).success).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, tz: 'Mars/Olympus' }).success).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, guide: null }).success).toBe(false);
+  });
+
+  it('lets only a must-see be essential', () => {
+    const note = {
+      why_go: 'A holy spring temple.',
+      best_time: 'Early morning',
+      time_needed_min: 90,
+      crowd_hint: 'Busy by mid-morning',
+      etiquette: null,
+    };
+    const parse = (flags: object) => poiEditorialSchema.safeParse({ ...note, ...flags }).success;
+    expect(parse({ must_see: true, essential: true })).toBe(true);
+    // Clearing the tier needs no must-see beside it, and neither flag has to be stated.
+    expect(parse({ essential: false })).toBe(true);
+    expect(parse({})).toBe(true);
+    expect(parse({ essential: true })).toBe(false);
+    expect(parse({ must_see: false, essential: true })).toBe(false);
   });
 
   const card = {

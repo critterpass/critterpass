@@ -31,6 +31,8 @@ export const editorialOverlaySchema = z
     tips: z.array(z.string().min(1)).optional(),
     photos: z.array(editorialPhotoSchema).optional(),
     must_see: z.boolean().optional(),
+    /** One of the few must-sees a first visit is built around; set only with `must_see`. */
+    essential: z.boolean().optional(),
     /** Content factory editorial, written from open data only. */
     why_go: z.string().min(1).optional(),
     best_time: z.string().min(1).optional(),
