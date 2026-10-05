@@ -189,11 +189,15 @@ env:
     id: 'plan-item-move-2'
 - waitForAnimationToEnd:
     timeout: 3000
-# Its own time taken on day 2: the sheet offers the first start that works.
-- runFlow:
-    when:
+# Its own time taken on day 2: the sheet offers the first start that works, and the offer goes once
+# it is taken (the footer settles after the note wraps, so a tap that lands early is tried again).
+- waitForAnimationToEnd:
+    timeout: 3000
+- repeat:
+    while:
       visible:
         id: 'plan-item-use-start'
+    times: 3
     commands:
       - tapOn:
           id: 'plan-item-use-start'
