@@ -138,10 +138,11 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     preset.after === undefined;
   const anyway = existing === null && server.fit !== null && shown?.grade === 'no' && !nowhere;
   const stays = isWhereItIs(choice, existing);
-  // A time the fit did not choose is timed against that day before it is added.
+  // A time the fit did not choose, or one that only fits if a stop moves, is timed against that
+  // day before it is added: the stop in the way is pushed, never sat on.
   const loose =
     choice !== null && existing === null && !nowhere && !waiting && subject !== null
-      ? choice.timePicked || shown === null || shown.grade === 'no'
+      ? choice.timePicked || shown === null || shown.grade === 'no' || shown.needs_move != null
       : false;
   const into = addIntoDay({
     plan,
