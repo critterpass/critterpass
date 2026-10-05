@@ -9,6 +9,7 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useCommand } from '@/data/commands/use-command';
 import { useTyping } from '@/data/realtime/use-typing';
 
@@ -40,7 +41,14 @@ export function AddMustDoSheet({ tripId }: { readonly tripId: string }) {
     () => tripDates(trip?.startDate ?? null, trip?.endDate ?? null),
     [trip?.startDate, trip?.endDate],
   );
-  const search = useMustDoSearch({ services, destinationId: data.destinationId, query, dates });
+  const readsLocal = useReadsLocalNames(data.destinationId);
+  const search = useMustDoSearch({
+    services,
+    destinationId: data.destinationId,
+    query,
+    dates,
+    readsLocal,
+  });
   const more = useMorePlaces({ services, destinationId: data.destinationId, query, search });
   const [note, setNote] = useState<LivePickNote | null>(null);
   const self = trip?.members.find((member) => member.uid === trip.me);

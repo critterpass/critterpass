@@ -56,7 +56,8 @@ export function DayPlanScreen({
   const finding = useOpenOnDate(tripId, date, model.days, data.loaded);
   const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(item ?? null);
-  const backToTrip = useBackToTrip(tripId);
+  const back = useBackToTrip(tripId);
+  const backToTrip = back.onBack;
   // Day-of for today (when to leave, who is up), once that screen has joined the registry.
   const dayOf = hrefFor('3k-2', { tripId });
   const [adding, setAdding] = useState(false);
@@ -140,6 +141,7 @@ export function DayPlanScreen({
               }
         }
         onBack={backToTrip}
+        backTo={back.target}
         // Back to day-of when it is underneath (the day was opened from it), else onto it.
         onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}
@@ -161,6 +163,7 @@ export function DayPlanScreen({
           slot={slot}
           editor={editor}
           announce={announceEdit}
+          travel={travel}
           onClose={() => setOpenId(null)}
         />
       )}

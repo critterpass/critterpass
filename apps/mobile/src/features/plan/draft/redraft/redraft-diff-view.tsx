@@ -24,6 +24,8 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import type { ChangeCard as ChangeCardModel, MetricChip } from '../data/redraft';
 import { ChangeCard } from './change-card';
 import { MetricChips } from './metric-chips';
+import type { LeftOut } from '../data/left-out';
+import { LeftOutRows } from '../review/coverage-strip';
 
 const STICKER = 84;
 const THINKING = 150;
@@ -80,6 +82,8 @@ export interface RedraftDiffViewProps {
   readonly onKeep: () => void;
   readonly onPutBack: () => void;
   readonly onBack: () => void;
+  /** Essential places the redraft takes out of the trip. */
+  readonly takenOut?: readonly LeftOut[] | undefined;
   readonly onBoost: (() => void) | undefined;
 }
 
@@ -230,6 +234,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
               onToggle={() => props.onToggle(card.key)}
             />
           ))}
+          <LeftOutRows rows={props.takenOut ?? []} takenOut />
           <MetricChips chips={props.chips} locale={props.locale} />
         </ScrollView>
         <View style={styles.footer}>

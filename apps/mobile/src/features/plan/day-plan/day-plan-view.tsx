@@ -27,6 +27,7 @@ import { tokens } from '@cp/design-tokens';
 import { freeGaps } from '../trip-map/day-gaps';
 import type { DayRoute } from '../trip-map/day-route';
 import { dateLine, dayOfTrip, stopsLine } from '../trip-map/format';
+import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, todayOf, usePlanClock } from '../trip-map/next-stop';
 import { dayChips } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
@@ -34,8 +35,12 @@ import { buildStopRows, mineRows, stayRows } from '../trip-map/stop-rows';
 import type { TripDay } from '../trip-map/trip-days';
 import { AddBar } from './add-bar';
 import { MiniMap } from './mini-map';
+import type { BackTarget } from './back-to-trip';
+import { backLabel } from './back-label';
 import { StopTimeline, type TimelineDrag } from './stop-timeline';
 
+/** A day's title wraps until it is whole (the guide writes up to a short sentence). */
+const TITLE_LINES = 6;
 /** A pinch that ends below this scale zooms out to all days. */
 const PINCH_OUT = 0.8;
 
@@ -47,6 +52,8 @@ const useStyles = makeStyles((t) => ({
   titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: t.space['12'] },
   title: { flex: 1, minWidth: 0 },
   dateCol: { alignItems: 'flex-end', gap: t.space['4'] },
+  // On its own line: beside the title it took the title's room ("RIVER LIGHTS AND EAS…").
+  rain: { alignItems: 'flex-start' },
 }));
 
 export interface DayPlanViewProps {
@@ -62,6 +69,8 @@ export interface DayPlanViewProps {
   readonly drag: TimelineDrag | null;
   readonly picked?: string | null | undefined;
   readonly onBack: () => void;
+  /** Where back lands, which its label names. */
+  readonly backTo?: BackTarget | undefined;
   /** Opens day-of (when to leave, who is up, the pack list); offered on today's day. */
   readonly onDayOf?: (() => void) | undefined;
   readonly onAllDays: () => void;
@@ -79,8 +88,10 @@ export function DayPlanView(props: DayPlanViewProps) {
   const theme = useTheme();
   const { model, day, route } = props;
   const now = usePlanClock(model.now);
-  const progress = useMemo(() => dayProgress(day, now, model.tz), [day, now, model.tz]);
-  const goStop = nextGoStop(day, now, model.tz);
+  const said = useSaidStops(model.tripId);
+  const hereSince = useHereSince(model.tripId, model.tz, locale);
+  const progress = useMemo(() => dayProgress(day, now, model.tz, said), [day, now, model.tz, said]);
+  const goStop = nextGoStop(day, now, model.tz, said);
   const rows = useMemo(
     () =>
       buildStopRows({
@@ -95,8 +106,9 @@ export function DayPlanView(props: DayPlanViewProps) {
         members: model.members,
         me: model.me,
         progress,
+        here: hereSince,
       }),
-    [locale, day, route, model.members, model.me, model.tz, progress],
+    [locale, day, route, model.members, model.me, model.tz, progress, hereSince],
   );
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   const n = day.dayNo;
@@ -117,7 +129,7 @@ export function DayPlanView(props: DayPlanViewProps) {
           <View style={styles.head}>
             <View style={styles.headStart}>
               <BackEyebrow
-                label={t({ id: 'plan.dayPlan.back', message: 'Trip' })}
+                label={backLabel(props.backTo ?? 'tripMap')}
                 onPress={props.onBack}
                 testID="day-plan-back"
               />
@@ -132,13 +144,15 @@ export function DayPlanView(props: DayPlanViewProps) {
               onPress={props.onAllDays}
               testID="day-plan-all-days"
             />
-            <PillButton
-              size="sm"
-              variant="secondary"
-              label={t({ id: 'plan.dayPlan.share', message: 'Share' })}
-              onPress={props.onShare}
-              testID="day-plan-share"
-            />
+            {model.draft ? null : (
+              <PillButton
+                size="sm"
+                variant="secondary"
+                label={t({ id: 'plan.dayPlan.share', message: 'Share' })}
+                onPress={props.onShare}
+                testID="day-plan-share"
+              />
+            )}
           </View>
           <DayChips
             days={dayChips(model.days, locale, todayOf(now, model.tz))}
@@ -147,7 +161,13 @@ export function DayPlanView(props: DayPlanViewProps) {
             testID="day-plan-day-chips"
           />
           <View style={styles.titleRow}>
-            <Text variant="h1" style={styles.title} testID="day-plan-title">
+            <Text
+              variant="h1"
+              style={styles.title}
+              numberOfLines={TITLE_LINES}
+              singleLine={false}
+              testID="day-plan-title"
+            >
               {day.theme ?? t({ id: 'plan.dayPlan.dayTitle', message: `Day ${n}` })}
             </Text>
             <View style={styles.dateCol}>
@@ -159,11 +179,13 @@ export function DayPlanView(props: DayPlanViewProps) {
               <Text variant="caption" color={theme.semantic.text.secondary}>
                 {dayOfTrip(n, model.days.length)}
               </Text>
-              {props.rain === null ? null : (
-                <PlanningTag label={props.rain} color={tokens.color.blue} testID="day-plan-rain" />
-              )}
             </View>
           </View>
+          {props.rain === null ? null : (
+            <View style={styles.rain}>
+              <PlanningTag label={props.rain} color={tokens.color.blue} testID="day-plan-rain" />
+            </View>
+          )}
           {model.draft ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary}>
               {t({ id: 'plan.dayPlan.draft', message: 'Your draft. Only you can see it.' })}
@@ -205,6 +227,7 @@ export function DayPlanView(props: DayPlanViewProps) {
                 me: model.me,
                 guide: model.guide,
                 organiser: model.organiser,
+                byHand: model.draft,
                 notes: true,
                 go: goStop === null ? [] : [goStop],
                 handle: props.drag !== null,

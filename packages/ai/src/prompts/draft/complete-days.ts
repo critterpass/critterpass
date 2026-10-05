@@ -14,6 +14,7 @@ import {
   stopKind,
   withinReach,
   type DraftPoi,
+  type WishTime,
 } from '@cp/planner';
 
 import { hopCap } from './areas';
@@ -21,6 +22,7 @@ import { placeNames, type DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import { proseProblem } from './schema';
 import type { SkeletonDay } from './skeleton';
+import { misplacedOpeners } from './openers';
 import { validate } from './validate';
 
 /**
@@ -89,6 +91,8 @@ export function addOne(
   position?: number,
   /** The meal the new stop is for (a dinner waits for dinner time on a day with no lunch). */
   slot?: 'lunch' | 'dinner',
+  /** The time of day the new stop is held to (an evening out stays after dinner). */
+  when?: WishTime,
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
@@ -101,6 +105,7 @@ export function addOne(
       mustDoId: null,
       note: editorsLine(input, poi),
       ...(slot === 'dinner' ? { mealSlot: 'dinner' as const } : {}),
+      ...(when === undefined ? {} : { when }),
     });
     const activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null);
     const next = scheduleChoices(
@@ -121,6 +126,8 @@ export function addOne(
       ),
     });
     const made = candidate.days.find((d) => d.day_no === outline.dayNo) ?? next;
+    // `finish` may have timed the day again: the stop added must still be on it.
+    if (!made.items.some((item) => item.poi_id === poi.id)) continue;
     if (accept(before, dayFaults(input, candidate, outline.dayNo), made)) return candidate;
   }
   return null;
@@ -168,9 +175,13 @@ export function fillMeals(
       const candidates = [...new Set([...ringed, ...listed])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
       );
-      // The meal lands and nothing else breaks for it.
-      const lands = (before: Faults, after: Faults) =>
-        after.hard <= before.hard && after.meals < before.meals;
+      // The meal lands and nothing else breaks for it, nor pushes a stop that opens the day off
+      // its morning.
+      const opened = misplacedOpeners(input, day).length;
+      const lands = (before: Faults, after: Faults, made: DraftDay) =>
+        after.hard <= before.hard &&
+        after.meals < before.meals &&
+        misplacedOpeners(input, made).length <= opened;
       const key = `meal-${outline.dayNo}-${slot}`;
       let next = addOne(
         input,

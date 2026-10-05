@@ -3,14 +3,24 @@
  * editors): the places a first visit should hold. They lead the trip's core must-sees, so the
  * outline, the day stage and the fills all place them first; once the days are settled, one still
  * missing is put on a day that can take it, a stop nobody asked for giving way if it must; and one
- * the draft leaves out is reported with the reason, so nobody has to guess why it is not there.
+ * the draft leaves out is reported with the reason, so nobody has to guess why it is not there. One
+ * inside a long visit on the draft (a bridge at a hill resort) is seen on that visit.
  */
-import type { Itinerary } from '@cp/domain';
-import { foodRole, isKept, RIDE_HOME_MAX_MIN, type DraftPoi } from '@cp/planner';
+import type { DraftDay, Itinerary } from '@cp/domain';
+import {
+  DINNER,
+  foodRole,
+  isKept,
+  minuteOfDate,
+  opensDay,
+  RIDE_HOME_MAX_MIN,
+  type DraftPoi,
+} from '@cp/planner';
 
-import { homeOf } from './areas';
-import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
+import { homeOf, hopCap, insideVisit, spanOf } from './areas';
+import { misplacedOpeners } from './openers';
 import type { DraftPlanInput } from './context';
+import { placeOne } from './place-essential';
 import type { SkeletonDay } from './skeleton';
 
 /** Why an essential place is not in a draft. */
@@ -21,8 +31,16 @@ export type EssentialGap =
   | 'too_far'
   /** Not offered for this draft: the organiser holds it herself or took it out. */
   | 'not_offered'
-  /** A day it could go on holds stops the organiser placed, and it fits around them on none. */
+  /** Every day it could go on holds stops the organiser placed, and it fits around them on none. */
   | 'held_in_the_way'
+  /** It is an outing far from the stay, and the trip has no full day left for it. */
+  | 'needs_a_day'
+  /** A redraft of its day took it out, and no other day had room. */
+  | 'redrafted_out'
+  /** Every day it could go on is full of other essentials and long visits. */
+  | 'days_full'
+  /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
+  | 'mornings_taken'
   /** Every day it could go on is full of stops the planner may not move. */
   | 'no_room';
 
@@ -42,6 +60,22 @@ function held(itinerary: Itinerary): Set<string> {
   return new Set(itinerary.days.flatMap((day) => day.items.map((item) => item.poi_id ?? '')));
 }
 
+/**
+ * The long visit on the draft that takes in `poi` (the resort a bridge is inside), if any: such
+ * an essential is seen on that visit, not left out.
+ */
+export function visitTakingIn(
+  input: Pick<DraftPlanInput, 'pois' | 'pools' | 'travel'>,
+  itinerary: Itinerary,
+  poi: DraftPoi,
+): DraftPoi | null {
+  for (const id of held(itinerary)) {
+    const anchor = input.pois.get(id);
+    if (anchor !== undefined && insideVisit(input, poi, anchor)) return anchor;
+  }
+  return null;
+}
+
 /** The essentials the draft does not hold, each with why. */
 export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): EssentialLeftOut[] {
   const there = held(itinerary);
@@ -52,29 +86,114 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
     ...input.pools.mustDos.map((slot) => slot.poiId),
   ]);
   const hers = new Set((input.held ?? []).map((stop) => stop.dayNo));
+  const outingDays = new Set(input.pools.outings.map((o) => o.dayNo));
+  const noDay = new Set(
+    // A short outing with no day of its own may share a town day: it needs a day only when every
+    // day it could go on is another outing's.
+    input.pools.outings
+      .filter(
+        (outing) =>
+          outing.dayNo === null &&
+          (!outing.short ||
+            outing.poiIds.every((id) =>
+              (input.pools.openDays.get(id) ?? []).every((dayNo) => outingDays.has(dayNo)),
+            )),
+      )
+      .flatMap((o) => o.poiIds),
+  );
   return essentialsOf(input)
-    .filter((poi) => !there.has(poi.id))
+    .filter((poi) => !there.has(poi.id) && visitTakingIn(input, itinerary, poi) === null)
     .map((poi): EssentialLeftOut => {
       const open = input.pools.openDays.get(poi.id) ?? [];
       const ride = home === null ? 0 : (input.travel(home, poi.id) ?? 0);
-      const reason: EssentialGap =
-        ride > RIDE_HOME_MAX_MIN
+      const reason: EssentialGap = noDay.has(poi.id)
+        ? 'needs_a_day'
+        : ride > RIDE_HOME_MAX_MIN
           ? 'too_far'
           : open.length === 0
             ? 'closed'
             : !offered.has(poi.id)
               ? 'not_offered'
-              : open.some((dayNo) => hers.has(dayNo))
+              : open.every((dayNo) => hers.has(dayNo))
                 ? 'held_in_the_way'
-                : 'no_room';
+                : open.every((dayNo) => morningTaken(input, itinerary, dayNo, poi))
+                  ? 'mornings_taken'
+                  : open.every((dayNo) => fullOfSights(input, itinerary, dayNo))
+                    ? 'days_full'
+                    : 'no_room';
       return { poiId: poi.id, reason };
     });
 }
 
 /**
+ * Whether day `dayNo` holds nothing that could give way to an essential: every sight on it before
+ * dinner is an essential, the crew's own, a light stop or a long visit.
+ */
+function fullOfSights(input: DraftPlanInput, itinerary: Itinerary, dayNo: number): boolean {
+  const day = itinerary.days.find((d) => d.day_no === dayNo);
+  // The evening's stops never stand in the way of a sight: they are after dinner.
+  const sights = (day?.items ?? []).filter(
+    (item) =>
+      item.kind !== 'meal' &&
+      day !== undefined &&
+      minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) < DINNER.startMin,
+  );
+  return (
+    sights.length > 0 &&
+    sights.every((item) => {
+      const poi = input.pois.get(item.poi_id ?? '');
+      return (
+        poi === undefined ||
+        poi.essential === true ||
+        isKept(item) ||
+        foodRole(poi) === 'light' ||
+        spanOf(input, poi) !== null
+      );
+    })
+  );
+}
+
+/** Whether `poi` must open its day and day `dayNo` is opened by a place that needs it more. */
+function morningTaken(
+  input: DraftPlanInput,
+  itinerary: Itinerary,
+  dayNo: number,
+  poi: DraftPoi,
+): boolean {
+  const reach = { homeId: homeOf(input), hopCapMin: hopCap(input), travel: input.travel };
+  if (!opensDay(poi, reach)) return false;
+  const day = itinerary.days.find((d) => d.day_no === dayNo);
+  const probe = day === undefined ? [] : misplacedOpeners(input, withStop(day, poi));
+  return probe.some((item) => item.poi_id === poi.id);
+}
+
+/** `day` with `poi` added as its first stop, for asking whether it could open it. */
+function withStop(day: DraftDay, poi: DraftPoi): DraftDay {
+  const first = day.items[0];
+  const stop = {
+    ...(first ?? { tz: 'UTC', currency: 'USD', travel_min: 0, note: null }),
+    stable_id: `probe-${poi.id}`,
+    kind: 'activity' as const,
+    poi_id: poi.id,
+    starts_at: first?.starts_at ?? `${day.date}T00:00:00Z`,
+    ends_at: first?.starts_at ?? `${day.date}T00:00:00Z`,
+    must_do_id: null,
+    booking_id: null,
+    locked_reason: null,
+    cost_model: 'per_person' as const,
+    amount_minor: 0,
+  };
+  return { ...day, items: [stop, ...day.items] };
+}
+
+/** Rounds of placing: an essential that made way for a longer one gets a turn of its own. */
+const ROUNDS = 3;
+
+/**
  * Puts each essential the settled draft still lacks on a day it is open, the day whose stops it
- * sits nearest first: added when the day stays as clean, else in the seat of a stop that is
- * neither the crew's own nor an essential (the last such stop first).
+ * sits nearest first: added when the day stays as clean; else in the seat of a stop that is
+ * neither the crew's own nor an essential (the last such stop first); else in the seat of a
+ * shorter essential, which is then placed again on another day in the next round.
  */
 export function placeEssentials(
   input: DraftPlanInput,
@@ -82,58 +201,22 @@ export function placeEssentials(
   start: Itinerary,
 ): { readonly itinerary: Itinerary; readonly added: number } {
   let itinerary = start;
-  let added = 0;
-  const essential = new Set(essentialsOf(input).map((poi) => poi.id));
-  for (const { poiId, reason } of essentialsLeftOut(input, start)) {
-    const poi = input.pois.get(poiId);
-    if (poi === undefined || (reason !== 'no_room' && reason !== 'held_in_the_way')) continue;
-    const open = input.pools.openDays.get(poiId) ?? [];
-    const days = itinerary.days
-      .filter((day) => open.includes(day.day_no))
-      .map((day) => {
-        const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
-        return { day, near: nearFirst(input, [poi], here).length > 0 ? 0 : 1 };
-      })
-      .sort((a, b) => a.near - b.near || a.day.items.length - b.day.items.length);
-    let placed: Itinerary | null = null;
-    for (const { day } of days) {
-      const outline = outlines.find((d) => d.dayNo === day.day_no);
-      if (outline === undefined) continue;
-      const fed = (candidate: Itinerary) => fillMeals(input, [outline], candidate).itinerary;
-      const clean = (
-        before: { hard: number; meals: number },
-        after: { hard: number; meals: number },
-      ) => after.hard <= before.hard && after.meals <= before.meals;
-      const key = `essential-${day.day_no}-${poiId}`;
-      // Last in the day's order, or first (a place a ride out of town opens the day).
-      const tryOn = (plan: Itinerary, tag: string, baseline?: { hard: number; meals: number }) =>
-        addOne(input, outline, plan, [poi], clean, `${key}-${tag}`, fed, baseline) ??
-        addOne(input, outline, plan, [poi], clean, `${key}-${tag}-first`, fed, baseline, 0);
-      placed = tryOn(itinerary, 'add');
-      if (placed !== null) break;
-      const baseline = dayFaults(input, itinerary, day.day_no);
-      const giveWay = day.items
-        .filter(
-          (item) => !isKept(item) && item.kind === 'activity' && !essential.has(item.poi_id ?? ''),
-        )
-        .reverse();
-      for (const item of giveWay) {
-        const lighter = {
-          ...itinerary,
-          days: itinerary.days.map((d) =>
-            d.day_no === day.day_no
-              ? { ...d, items: d.items.filter((i) => i.stable_id !== item.stable_id) }
-              : d,
-          ),
-        };
-        placed = tryOn(lighter, `for-${item.stable_id}`, baseline);
-        if (placed !== null) break;
+  const before = essentialsLeftOut(input, start).length;
+  for (let round = 0; round < ROUNDS; round += 1) {
+    let moved = false;
+    for (const gap of essentialsLeftOut(input, itinerary)) {
+      const poi = input.pois.get(gap.poiId);
+      if (poi === undefined || !['no_room', 'held_in_the_way', 'days_full'].includes(gap.reason)) {
+        continue;
       }
-      if (placed !== null) break;
+      const placed = placeOne(input, outlines, itinerary, poi, round);
+      if (placed === null) continue;
+      itinerary = placed;
+      moved = true;
     }
-    if (placed === null) continue;
-    itinerary = placed;
-    added += 1;
+    if (!moved) break;
   }
-  return { itinerary, added };
+  // Never worse off than it started: a round that only shuffled is undone.
+  const after = essentialsLeftOut(input, itinerary).length;
+  return after < before ? { itinerary, added: before - after } : { itinerary: start, added: 0 };
 }

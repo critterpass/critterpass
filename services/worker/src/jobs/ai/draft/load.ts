@@ -54,6 +54,11 @@ export interface DraftTripData {
     readonly freeCancelUntil: string | null;
   } | null;
   readonly bands: { readonly foodPpDayMinor: number; readonly funPpDayMinor: number } | null;
+  /**
+   * The destination's own languages: those of its set of the dex, else of its country's set (a
+   * destination's slug leads with its country code, `vn-da-lat`). Empty when neither is known.
+   */
+  readonly languages?: readonly string[];
   /** When each flight or train shared with the crew leaves and lands (ISO instants). */
   readonly transport: readonly {
     readonly startsAt: string | null;
@@ -170,6 +175,12 @@ export async function loadDraftTrip(
         ORDER BY starts_at, id`,
       [tripId],
     );
+    const languages = await tx.query<{ languages: string[] }>(
+      `SELECT s.languages FROM critter_sets s JOIN destinations d ON d.id = $1
+        WHERE s.destination_id = d.id OR s.country = upper(split_part(d.slug, '-', 1))
+        ORDER BY (s.destination_id = d.id) DESC NULLS LAST, s.code LIMIT 1`,
+      [context.destination_id],
+    );
     const inputs = await tx.query<{ inputs: BudgetEstimateSource }>(
       'SELECT app.setup_budget_inputs($1) AS inputs',
       [tripId],
@@ -180,6 +191,7 @@ export async function loadDraftTrip(
       budget: budget.rows[0],
       rooms: rooms.rows[0],
       transport: transport.rows,
+      languages: languages.rows[0]?.languages ?? [],
       inputs: inputs.rows[0]?.inputs,
     };
   });
@@ -243,6 +255,7 @@ export async function loadDraftTrip(
             foodPpDayMinor: Number(index.foodPpDayMinor),
             funPpDayMinor: Number(index.funPpDayMinor),
           },
+    languages: rest.languages,
     transport: rest.transport.map((row) => ({
       startsAt: row.starts_at?.toISOString() ?? null,
       endsAt: row.ends_at?.toISOString() ?? null,

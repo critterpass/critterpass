@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "75e26e54-1f6d-4280-abf1-6ce5bc16a977",
+        "id": "826cb240-b6f5-41f2-834c-fa2da862496c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A calmer Kyoto cluster\",\n  \"summary\": \"A slower Tuesday around the Kinkaku-ji area, with one temple, a bamboo stroll and a quiet vegan lunch, all close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the anchor of the day, and the only temple worth the shoes-off moment this morning.\",\n      \"note\": \"The golden pavilion stays; everything else today stays within a short ride of it.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, open-all-day bamboo wander that keeps the day gentle and the travel light.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch right beside the bamboo, so nobody has to choose between the crew's vegetarian rule and a proper meal.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Golden Temple and Quiet Streets\",\n  \"summary\": \"A slow, close-knit day around Kinkaku-ji and Ginkaku-ji, with a vegan lunch between temples and no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch right beside the temples. Fancier than street food, but it keeps the day short.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The silver one, a short ride from the gold. Two temples, no fuss.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1173,
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 250,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "a0bd06fa-63ed-4152-981e-4048744985a2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Temples, a museum, and an evening alley"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 239,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 248,
+          "output_tokens": 14,
           "service_tier": "standard"
         }
       }

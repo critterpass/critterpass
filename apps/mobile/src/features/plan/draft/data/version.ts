@@ -18,6 +18,7 @@ import {
 } from '@cp/domain';
 
 import { parseJson } from './rows';
+import { leftOutOf, type LeftOut } from './left-out';
 
 export interface VersionRow {
   readonly id: string;
@@ -132,10 +133,16 @@ export interface ReviewModel {
   readonly lateMustDo: boolean;
   /** Their titles, for the note the free redraft opens with. */
   readonly lateMustDoTitles: readonly string[];
+  /** The destination's essential places this draft does not hold, with why. */
+  readonly leftOut?: readonly LeftOut[] | undefined;
 }
 
 function coverageOf(row: VersionRow): DraftCoverage | null {
-  const parsed = draftCoverageSchema.safeParse(parseJson<unknown>(row.coverage, null));
+  // The essentials left out are read on their own (./left-out.ts): a reason a newer server adds
+  // must not cost the review everything else the coverage says.
+  const raw = parseJson<Record<string, unknown> | null>(row.coverage, null);
+  const { essentials_left_out: _leftOut, ...rest } = raw ?? {};
+  const parsed = draftCoverageSchema.safeParse(raw === null ? null : rest);
   return parsed.success ? parsed.data : null;
 }
 
@@ -263,6 +270,7 @@ export function buildReview(input: {
     closures,
     stale: built === undefined ? [] : setupChanges(built, setup),
     lateMustDo: late.length > 0,
+    leftOut: leftOutOf(parseJson<unknown>(version.coverage, null)),
     lateMustDoTitles: late.flatMap((id) => {
       const title = mustDo.get(id)?.title ?? '';
       return title === '' ? [] : [title];

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "14783418-29f0-4e31-8903-011526e2e77f",
+        "id": "32bc5d68-68d7-402c-9b0d-ff054dbc13cf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Food-Loving Cusco Afternoon\",\n  \"summary\": \"We trade a packed schedule for a slower, tastier wander through Cusco, with a market-style lunch, a sweet museum stop, and a proper evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We begin in San Blas, where the little lanes and food stalls wake up the appetite before lunch.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom gets his market wish in spirit here, a laid-back lunch spot with honest local flavours and no fuss.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate museum stays, because a food day without a little cacao would be a crime.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"We finish with a proper sit-down dinner at Cicciolina, where the day slows into a warm, well-fed evening.\",\n      \"start_by\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Cusco Flavours and Sights\",\n  \"summary\": \"A relaxed afternoon and evening in Cusco, pairing a chocolate museum with market-style lunch and a proper dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course. Sweet learning before the savoury part of our day.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, market-fresh lunch stop with plenty of vegetarian choices for our crew.\",\n      \"start_by\": \"21:00\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner to end the day, with good vegetarian options and a warm room.\",\n      \"start_by\": \"20:45\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 860,
+          "input_tokens": 1,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 321,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 249,
           "service_tier": "standard"
         }
       }

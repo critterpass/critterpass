@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "6c112fcf-6300-4cf3-ae19-c0f11d6f5bf0",
+        "id": "d2230e0e-286f-4c86-8689-af30489af891",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco close and easy\",\n  \"summary\": \"A relaxed Sunday around the old centre, with market colours, a sweet stop and meals beside the plazas.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The crew loves local life and a bargain, so we start with the market's bustle and street snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander for the easy pace and photo lovers, right beside the market.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays close to the plaza, with good options for the whole crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little museum stop, short and indoors, to keep the afternoon unhurried.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral adds history and a photo moment, still a short stroll from everything else.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a thrifty favourite, close to the day's other stops.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco Close to Home\",\n  \"summary\": \"A relaxed Sunday around the city centre, with market life, the grand plaza and a proper sit-down meal, all within a short stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start here for the morning bustle and cheap local bites, and because it sits right beside everything else today.\",\n      \"note\": \"We start here for the morning bustle and cheap local bites, and because it sits right beside everything else today.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short wander from the market, this is the postcard heart of Cusco and costs nothing but a little awe.\",\n      \"note\": \"A short wander from the market, this is the postcard heart of Cusco and costs nothing but a little awe.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is right by the plaza, so nobody has to chase a long ride on a full stomach.\",\n      \"note\": \"Lunch is right by the plaza, so nobody has to chase a long ride on a full stomach.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After lunch we slip into the cathedral for a little shade and a lot of history, still in the same few blocks.\",\n      \"note\": \"After lunch we slip into the cathedral for a little shade and a lot of history, still in the same few blocks.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is the easy-going, budget-friendly pick, and it keeps our evening close to the centre.\",\n      \"note\": \"Dinner is the easy-going, budget-friendly pick, and it keeps our evening close to the centre.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 85,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 419,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 483,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "88658cff-2823-4988-81a6-5518fcf08423",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Salt pans, terraces, and a market afternoon\nDay 3: A morning at the salt mines\nDay 4: Moray, the whole morning\nDay 5: Cusco Cathedral and the square\nDay 6: San Pedro Market morning\nDay 7: A café kind of day\nDay 8: The whole day at Machu Picchu"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 155,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 80,
           "service_tier": "standard"
         }
       }

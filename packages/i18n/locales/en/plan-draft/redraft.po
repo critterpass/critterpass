@@ -108,7 +108,7 @@ msgstr "Day {n} is {title} now."
 msgid "planDraft.diff.identical"
 msgstr "Day {n} is already the best I can do. That one didn’t count."
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedToast"
 msgstr "Day {n} is back as it was."
 
@@ -197,10 +197,6 @@ msgid "planDraft.onlyYou"
 msgstr "Only you see this"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
-msgid "planDraft.change.optional"
-msgstr "Optional"
-
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.hint"
 msgstr "Pick a reason or write a few words."
 
@@ -284,6 +280,10 @@ msgstr "What should change?"
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.which"
 msgstr "Which day?"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.diff.revertedSub"
+msgstr "You have that redraft back."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.settled"

@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# The draft's history when the organiser started the plan herself ("The plan you started" under the
+# guide's first draft and her later change), and the draft after she puts a redraft back (the toast
+# says the redraft is hers again), in English then Vietnamese, from the fixed developer scenes.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: draft
+      READY: draft-scene-list
+- runFlow:
+    file: subflows/draft-shot.yaml
+    env:
+      SCENE: draft-history-own-plan
+      SHOT: en-draft-history-own-plan
+- runFlow:
+    file: subflows/draft-shot.yaml
+    env:
+      SCENE: redraft-put-back
+      SHOT: en-redraft-put-back
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-draft'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-scene-list'
+    timeout: 20000
+- runFlow:
+    file: subflows/draft-shot.yaml
+    env:
+      SCENE: draft-history-own-plan
+      SHOT: vi-draft-history-own-plan
+- runFlow:
+    file: subflows/draft-shot.yaml
+    env:
+      SCENE: redraft-put-back
+      SHOT: vi-redraft-put-back

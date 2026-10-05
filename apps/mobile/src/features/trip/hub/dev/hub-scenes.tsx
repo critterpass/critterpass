@@ -35,7 +35,7 @@ const noop = () => undefined;
 const say = (id: string, values?: Record<string, unknown>) => i18n._(id, values);
 
 function Hub({
-  header = { phase: 'pre', target: WHEELS_UP },
+  header = { phase: 'pre', target: WHEELS_UP, byAir: true },
   briefing = { kind: 'ready', lines: LINES, staleDate: null },
   money = { minor: 18_600, sign: 1 },
   bookings = 9,

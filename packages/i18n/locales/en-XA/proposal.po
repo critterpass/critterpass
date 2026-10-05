@@ -53,11 +53,6 @@ msgstr ""
 msgid "proposal.tracker.maybe"
 msgstr ""
 
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
-msgstr ""
-
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReply"
@@ -108,11 +103,6 @@ msgstr ""
 msgid "proposal.tracker.waiting"
 msgstr ""
 
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
-msgstr ""
-
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subGroup"
@@ -158,6 +148,18 @@ msgstr ""
 msgid "proposal.turn.planVote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.lock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr ""
@@ -188,6 +190,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybesCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
@@ -251,7 +257,7 @@ msgid "proposal.hype.pct"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
-msgid "proposal.inbox.locked"
+msgid "proposal.inbox.lockedIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
@@ -260,6 +266,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silentCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
@@ -272,6 +282,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingMaybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
@@ -374,6 +388,10 @@ msgstr ""
 msgid "proposal.crowd.boost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.budget"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.chip.out"
 msgstr ""
@@ -430,12 +448,12 @@ msgstr ""
 msgid "proposal.board.crewPass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
-msgid "proposal.board.dates"
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.when"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.setup"
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.dates"
 msgstr ""
 
 #. placeholder {0}: stop.dayNo
@@ -699,7 +717,7 @@ msgid "proposal.lock.titleAlone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.locked"
+msgid "proposal.turn.lockedIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
@@ -720,6 +738,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.groupMustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.mustDos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
@@ -819,6 +841,10 @@ msgstr ""
 msgid "proposal.objection.openPlan"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.issues.open"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr ""
@@ -910,6 +936,10 @@ msgstr ""
 msgid "proposal.dropout.moveTo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.rooms"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr ""
@@ -920,6 +950,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting.button"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
@@ -975,6 +1009,10 @@ msgstr ""
 msgid "proposal.turn.setup.button"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.ready"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
 msgstr ""
@@ -1022,6 +1060,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.laterTonight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.left"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx

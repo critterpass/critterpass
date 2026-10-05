@@ -1,8 +1,9 @@
 /**
  * What each earlier draft was, so the list of drafts reads as a story rather than as clock times:
  * the guide's first draft, a later draft, a day redrafted (the redraft whose result became that
- * draft), or a draft changed some other way (by hand, or put back). Read from the drafting jobs'
- * results; a draft no job accounts for is "changed". Also which one is the current draft.
+ * draft), a draft changed some other way (by hand, or put back), or the plan she started herself
+ * before any draft. Read from the drafting jobs' results and from what the server says made the
+ * version; a draft no job accounts for is "changed". Also which one is the current draft.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- kinds and wire keys, never copy. */
 export type DraftOrigin =
@@ -12,11 +13,15 @@ export type DraftOrigin =
   | { readonly kind: 'redraft'; readonly dayNo: number | null }
   /** A redraft she looked at and put back: never part of the draft, still there to take. */
   | { readonly kind: 'put_back'; readonly dayNo: number | null }
-  | { readonly kind: 'changed' };
+  | { readonly kind: 'changed' }
+  /** The plan she started herself, on the trip's empty days, before any draft of the guide's. */
+  | { readonly kind: 'own' };
 
 export interface HistoryVersion {
   readonly id: string;
   readonly parentId: string | null;
+  /** What made the version, where the server says (`dates`: the trip's empty days; `hand`). */
+  readonly origin?: string | null;
 }
 
 export interface HistoryJob {
@@ -70,10 +75,16 @@ export function draftOrigins(
         : [],
     ),
   );
-  const oldest = versions[versions.length - 1]?.id;
+  // The trip's empty days are not a draft, and a plan she built by hand is not the guide's.
+  const hers = (version: HistoryVersion) => version.origin === 'hand';
+  const oldest = versions.filter((v) => v.origin !== 'dates' && !hers(v)).at(-1)?.id;
   const listed = new Map<string, DraftOrigin>();
   for (const version of versions) {
-    if (keptInPart.has(version.id)) continue;
+    if (keptInPart.has(version.id) || version.origin === 'dates') continue;
+    if (hers(version)) {
+      listed.set(version.id, { kind: version.parentId === null ? 'own' : 'changed' });
+      continue;
+    }
     const origin = made.get(version.id) ?? made.get(version.parentId ?? '');
     const own = made.has(version.id) || origin?.kind === 'redraft' ? origin : undefined;
     // The trip's first draft is the guide's, whether or not its job is still on the phone.

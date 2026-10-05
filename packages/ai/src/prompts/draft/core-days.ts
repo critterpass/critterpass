@@ -6,11 +6,11 @@ import { withinReach } from '@cp/planner';
 import { hopCap } from './areas';
 import type { DraftPlanInput } from './context';
 import { coreMustSees } from './must-sees';
-import { anchorsOf, type OutlineDay } from './skeleton-days';
+import { anchorsOf, fits, type OutlineDay } from './skeleton-days';
 
 /**
- * Gives each core must-see the guide left out a day: the one whose stops it sits nearest (then
- * the lightest), among the days it is open. Then puts every day's core must-sees first.
+ * Gives each core must-see the guide left out a day: one it still fits on, the one whose stops it
+ * sits nearest (then the lightest), among the days it is open. Then puts every day's core must-sees first.
  */
 export function placeCore(
   input: DraftPlanInput,
@@ -34,8 +34,12 @@ export function placeCore(
     };
     const day = days
       .filter((d) => open.includes(d.dayNo))
-      .map((d) => ({ d, ring: ring(d) }))
-      .sort((a, b) => a.ring - b.ring || load(a.d) - load(b.d) || a.d.dayNo - b.d.dayNo)[0];
+      .map((d) => ({ d, ring: ring(d), room: fits(input, d, [...d.poiIds, id]) ? 0 : 1 }))
+      // A day it still fits on first: a day that is full would only trim it off again.
+      .sort(
+        (a, b) =>
+          a.room - b.room || a.ring - b.ring || load(a.d) - load(b.d) || a.d.dayNo - b.d.dayNo,
+      )[0];
     if (day === undefined) continue;
     day.d.poiIds.push(id);
     taken.add(id);

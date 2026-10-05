@@ -4,6 +4,7 @@
  * on the drafting screen, and giving the trip back to setup when the draft finally fails.
  */
 import {
+  withHeldStops,
   withWishAnswers,
   type DraftModel,
   type DraftPlanInput,
@@ -19,7 +20,6 @@ import { z } from 'zod';
 import type { AgentStepContext } from '../../../ai/job-runner';
 
 import {
-  forPlanner,
   heldMustDoIds,
   heldPlaceIds,
   loadHeldStops,
@@ -31,6 +31,7 @@ import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
+import { loadRoutedPairs } from './road-minutes';
 import { skeletonRoute } from './skeleton';
 import { publishDone, publishStep } from './steps';
 
@@ -120,15 +121,13 @@ export async function load(
   const mustDos = trip.mustDos.filter(
     (m) => !made.has(m.id) && !(m.poiId !== null && taken.has(m.poiId)),
   );
-  const planned = forPlanner(there.held, trip.tz);
-  const known = await loadDraftPlaces(ctx.pool, trip.destinationId, [
+  const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
     ...mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
     ...wished.places.values(),
     ...wished.offered,
     ...there.ideaPlaces,
     ...heldPlaceIds(there.held),
   ]);
-  const places = [...known, ...planned.pins];
   const asked = buildPlanInput({ ...trip, mustDos }, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
@@ -136,7 +135,11 @@ export async function load(
     wished,
     ignoreNames,
     prefer: there.ideaPlaces,
-    notOffered: new Set([...taken, ...planned.pins.map((pin) => pin.id)]),
+    notOffered: taken,
+    routed: await loadRoutedPairs(
+      ctx.pool,
+      places.map((poi) => poi.id),
+    ),
   });
   // Once the outline has run, every later step plans with the guide's answers to the wishes. A
   // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
@@ -144,13 +147,12 @@ export async function load(
   const answers =
     outline?.wishAnswers ??
     (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
-  // What is put back after the check is each stop as she placed it; the planner's copy differs
-  // only in what it needs to plan (a pin's stand-in place, which stop is the day's meal).
-  const input = {
-    ...withWishAnswers(asked, answers),
-    held: withMealKinds(planned.held, asked.pois, asked.frame),
-    locale: there.locale,
-  };
+  // The planner is handed her stops as she placed them (it gives a stop on a dropped pin a place
+  // of its own for the draft); which of them is the day's meal is worked out here.
+  const input = withHeldStops(
+    { ...withWishAnswers(asked, answers), locale: there.locale },
+    withMealKinds(there.held, asked.pois, asked.frame),
+  );
   return { trip, input, held: there.held };
 }
 

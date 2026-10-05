@@ -159,6 +159,25 @@ describe('chat poll card', () => {
     await new Promise((resolve) => setTimeout(resolve, 300));
     expect(await queued(s, 'cast_ballot')).toEqual([]);
   });
+
+  it('shows a place locked in before anyone voted without a bar, a count or a win', async () => {
+    const s = await open();
+    await seedPoll(s, {
+      status: 'closed',
+      winnerOptionId: RAMEN,
+      options: [
+        { id: TACOS, label: 'Tacos' },
+        { id: RAMEN, label: 'Ramen' },
+      ],
+      ballots: [],
+    });
+    await renderVote(<ChatPollCard message={message} mine={false} />, s);
+    await until(() => screen.queryByTestId('poll-result-line') !== null);
+    expect(screen.getByTestId('poll-result-line')).toHaveTextContent(/Locked in/u);
+    expect(screen.queryByText(/won/u)).toBeNull();
+    expect(screen.getByLabelText('Ramen, winner')).toBeTruthy();
+    expect(screen.queryByTestId('poll-option-1')).toBeNull();
+  });
 });
 
 describe('new poll sheet', () => {

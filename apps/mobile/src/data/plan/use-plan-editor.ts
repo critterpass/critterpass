@@ -1,5 +1,9 @@
 /**
- * The one way the plan screens change the plan. An organiser's edit goes out as `apply_plan_ops`
+ * The one way the plan screens change the plan. Before the crew has a plan an organiser edits her
+ * own draft the same way (`apply_draft_ops` on the draft she sees): nothing is proposed to anyone,
+ * and UNDO sends the edit that puts the draft back (./inverse-ops.ts).
+ *
+ * Once the crew has one: An organiser's edit goes out as `apply_plan_ops`
  * against the version they saw; a member's edit becomes a change set sent to the crew with the
  * default decider policy. Both wait in the offline queue.
  *
@@ -22,11 +26,13 @@ import { useRejectedCommands } from '@/data/status/use-rejected-commands';
 
 import {
   applyChangesetCommand,
+  applyDraftOpsCommand,
   applyPlanOpsCommand,
   createChangesetCommand,
   sendChangesetCommand,
   undoPlanEditOnline,
 } from './commands';
+import { inverseOps } from './inverse-ops';
 import type { DayItem } from './plan-model';
 import { opTargets, removeOp, toChangeSetOps, type ChangeReasons } from './plan-ops';
 import type { TripPlan } from './use-trip-plan';
@@ -37,6 +43,8 @@ interface InFlightEdit {
   readonly ops: readonly PlanOp[];
   readonly confirmLocked: boolean;
   readonly retried: boolean;
+  /** An edit of the organiser's own draft. */
+  readonly draft: boolean;
 }
 
 /** Queued organiser edits by op id, so a conflict can be rebased while the app runs. */
@@ -51,8 +59,30 @@ function latestOpId(opId: string): string {
   return id;
 }
 
+/** What puts her draft back after each edit of it, by the id the edit was sent under. */
+const draftUndo = new Map<string, readonly PlanOp[]>();
+
 const UNDO_ATTEMPTS = 4;
 const UNDO_RETRY_MS = 1200;
+
+const SYNC_POLL_MS = 150;
+const SYNC_WAIT_MS = 6000;
+
+/** Resolves once the trip's current version on this phone is `versionId` (or the wait runs out). */
+async function planSynced(
+  db: { getAll<T>(sql: string, params?: unknown[]): Promise<T[]> },
+  tripId: string,
+  versionId: string,
+): Promise<void> {
+  for (let waited = 0; waited < SYNC_WAIT_MS; waited += SYNC_POLL_MS) {
+    const rows = await db.getAll<{ v: string | null }>(
+      'SELECT current_version_id AS v FROM trips WHERE id = ?',
+      [tripId],
+    );
+    if (rows[0]?.v === versionId) return;
+    await new Promise((resolve) => setTimeout(resolve, SYNC_POLL_MS));
+  }
+}
 
 export type EditOutcome =
   | { readonly kind: 'applied'; readonly opId: string }
@@ -75,6 +105,7 @@ function detailOf(detail: unknown): Record<string, unknown> {
 export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: PlanEditorEvents) {
   const { db } = useLocalFirst();
   const apply = useCommand(applyPlanOpsCommand);
+  const applyDraft = useCommand(applyDraftOpsCommand);
   const create = useCommand(createChangesetCommand);
   const send = useCommand(sendChangesetCommand);
   const applySet = useCommand(applyChangesetCommand);
@@ -138,13 +169,15 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
       options: { readonly confirmLocked?: boolean } = {},
     ): Promise<EditOutcome> => {
       const { plan: current } = latest.current;
-      const base = current.trip?.current_version_id ?? null;
+      const base = current.versionId;
       if (current.trip === null || base === null || ops.length === 0) {
         return { kind: 'unavailable' };
       }
-      if (!current.canApply) return propose(ops, current.state);
+      const onDraft = current.mode === 'draft';
+      if (!current.canApply) return onDraft ? { kind: 'unavailable' } : propose(ops, current.state);
       const confirmLocked = options.confirmLocked ?? false;
-      const result = await apply.send({
+      const back = onDraft ? inverseOps(ops, current.state) : null;
+      const result = await (onDraft ? applyDraft : apply).send({
         trip_id: current.trip.id,
         base_version: base,
         ops: [...ops],
@@ -156,27 +189,48 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
         ops,
         confirmLocked,
         retried: false,
+        draft: onDraft,
       });
+      if (back !== null) draftUndo.set(result.opId, back);
       return { kind: 'applied', opId: result.opId };
     },
-    [apply, propose],
+    [apply, applyDraft, propose],
   );
 
   /** Takes back an applied edit of mine; an edit still on its way up is waited for briefly. */
   const undo = useCallback(
     async (opId: string): Promise<UndoOutcome> => {
-      const tripId = latest.current.plan.trip?.id ?? null;
+      const { plan: current } = latest.current;
+      const tripId = current.trip?.id ?? null;
       if (tripId === null) return 'unavailable';
+      const back = draftUndo.get(opId);
+      if (back !== undefined) {
+        if (current.mode !== 'draft' || current.versionId === null) return 'moved_on';
+        draftUndo.delete(opId);
+        await applyDraft.send({
+          trip_id: tripId,
+          base_version: current.versionId,
+          ops: [...back],
+          confirm_locked: true,
+        });
+        return 'undone';
+      }
       for (let attempt = 0; attempt < UNDO_ATTEMPTS; attempt += 1) {
         const result = await takeBack.send({ trip_id: tripId, op_id: latestOpId(opId) });
-        if (result.kind === 'applied') return 'undone';
+        if (result.kind === 'applied') {
+          // Said once the plan on this phone is the restored one, so every screen that reads it
+          // (the day, a search row's "In the plan") already shows it back as it was.
+          const restored = (result.result as { version_id?: unknown } | null)?.version_id;
+          if (typeof restored === 'string') await planSynced(db, tripId, restored);
+          return 'undone';
+        }
         if (result.kind === 'unavailable') return 'unavailable';
         if (result.kind !== 'rejected' || result.code !== 'NOT_FOUND') return 'moved_on';
         await new Promise((resolve) => setTimeout(resolve, UNDO_RETRY_MS));
       }
       return 'unavailable';
     },
-    [takeBack],
+    [takeBack, applyDraft, db],
   );
 
   const whoChanged = useCallback(
@@ -195,7 +249,7 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
     [db],
   );
 
-  const version = plan.trip?.current_version_id ?? null;
+  const version = plan.versionId;
   const loaded = plan.loaded;
   useEffect(() => {
     for (const rejection of rejected.items) {
@@ -213,7 +267,7 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
           ? null
           : rebaseOps(edit.ops, planOpsToEdits(edit.ops), edit.baseState, current.synced);
         if (rebased !== null && rebased.ok && version !== null) {
-          void apply
+          void (edit.draft ? applyDraft : apply)
             .send({
               trip_id: edit.tripId,
               base_version: version,
@@ -239,7 +293,7 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
         on.onLocked(opTargets(edit.ops));
       }
     }
-  }, [rejected, version, loaded, apply, propose, whoChanged]);
+  }, [rejected, version, loaded, apply, applyDraft, propose, whoChanged]);
 
   return { submit, propose, skipForMe, undo, pending: apply.pending || create.pending };
 }

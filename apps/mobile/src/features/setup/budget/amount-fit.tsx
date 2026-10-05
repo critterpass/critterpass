@@ -60,32 +60,36 @@ export function nextLevel(level: number, width: number, available: number): numb
 interface Fit {
   readonly key: string;
   readonly level: number;
-  /** Measured glyph widths at `level`. */
-  readonly widths: Readonly<Record<string, number>>;
 }
 
 /**
  * `face` for the amount, `settled` once the measured amount fits it (or the floor is reached),
  * `onAvailable` for the box the amount sits in, and `measurer`: the hidden glyphs to render.
+ *
+ * A glyph's width belongs to its face alone, so measured widths are kept for good: another
+ * track, currency or card width starts again from the hero face but never waits for a glyph
+ * that is already on screen to be laid out a second time (it would not be, and the amount
+ * would stay hidden).
  */
 export function useAmountFace(locale: string, prefix: string, wholeMax: number) {
   const amount = longestAmount(locale, prefix, wholeMax);
   const [available, setAvailable] = useState(0);
   const key = `${amount.prefix}${amount.grouped}|${available}`;
-  const [fit, setFit] = useState<Fit>({ key, level: 0, widths: {} });
-  // Another track, currency or card width starts again from the hero face.
-  const current = fit.key === key ? fit : { key, level: 0, widths: {} };
-  const width = amountWidth(amount, current.widths);
-  const next = width === null || available <= 0 ? null : nextLevel(current.level, width, available);
-  if (next !== null && next !== current.level) setFit({ key, level: next, widths: {} });
-  else if (fit !== current) setFit(current);
+  const [fit, setFit] = useState<Fit>({ key, level: 0 });
+  /** Face → glyph → width. */
+  const [measured, setMeasured] = useState<Readonly<Record<string, Record<string, number>>>>({});
+  const current = fit.key === key ? fit : { key, level: 0 };
   const face: AmountFace = AMOUNT_FACES[current.level] ?? 'h2';
+  const width = amountWidth(amount, measured[face] ?? {});
+  const next = width === null || available <= 0 ? null : nextLevel(current.level, width, available);
+  if (next !== null && next !== current.level) setFit({ key, level: next });
+  else if (fit !== current) setFit(current);
   const settled = next !== null && next === current.level;
   const onGlyph = (glyph: string, glyphWidth: number) =>
-    setFit((now) =>
-      now.key !== key || now.level !== current.level || now.widths[glyph] === glyphWidth
+    setMeasured((now) =>
+      now[face]?.[glyph] === glyphWidth
         ? now
-        : { ...now, widths: { ...now.widths, [glyph]: glyphWidth } },
+        : { ...now, [face]: { ...now[face], [glyph]: glyphWidth } },
     );
   const measurer = settled ? null : (
     <View

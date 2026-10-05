@@ -1,0 +1,8 @@
+appId: app.critterpass.dev
+---
+# Đà Lạt's places as a Vietnamese reader sees them (search-places-subflows/da-lat-names.yaml).
+- runFlow:
+    file: search-places-subflows/da-lat-names.yaml
+    env:
+      LOCALE: vi
+      SHOTS: da-lat-names-vi

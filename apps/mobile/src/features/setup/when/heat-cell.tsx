@@ -3,7 +3,8 @@
  * (.10 → 1.0 in six steps scaled to the crew), the date and "n/N" under it. Inside the chosen
  * range the tint gives way to the yellow band behind it and the ink turns dark, so the selection
  * reads at a glance while each day's count stays. Screen readers hear "{date}, {n} of {N} free",
- * whether it's selected, and which end of the range it is.
+ * whether it's selected, and which end of the range it is. A trip of one has nobody to count, so
+ * its days carry no fraction; a day already past is a plain dimmed day in every case.
  */
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
@@ -38,7 +39,20 @@ export function heatCellLabel(
   free: number,
   total: number,
   edges: BandEdges | null,
+  counted = true,
 ): string {
+  if (!counted) {
+    if (edges?.first === true && edges.last) {
+      return t({ id: 'setup.when.cellA11yOnlyPlain', message: `${when}, first and last day` });
+    }
+    if (edges?.first === true) {
+      return t({ id: 'setup.when.cellA11yFirstPlain', message: `${when}, first day` });
+    }
+    if (edges?.last === true) {
+      return t({ id: 'setup.when.cellA11yLastPlain', message: `${when}, last day` });
+    }
+    return when;
+  }
   if (edges?.first === true && edges.last) {
     return t({
       id: 'setup.when.cellA11yOnly',
@@ -76,7 +90,8 @@ export function HeatCell({ day, total, band, label, onPress, closed = false }: H
   const theme = useTheme();
   const inBand = band !== null;
   const everyone = total > 0 && day.free >= total;
-  const target = inBand ? 0 : heatStep(day.free, total);
+  // A day already past has no heat: it is not a day anyone can be free on.
+  const target = inBand || closed ? 0 : heatStep(day.free, total);
   const opacity = useSharedValue(target);
   useEffect(() => {
     // The band shows at once; heat steps ease as each calendar lands (low-tier phones just switch).
@@ -100,9 +115,11 @@ export function HeatCell({ day, total, band, label, onPress, closed = false }: H
       <Text variant="title" color={ink}>
         {String(day.day)}
       </Text>
-      <Text variant="caption" color={ink}>
-        {`${day.free}/${total}`}
-      </Text>
+      {closed || total <= 1 ? null : (
+        <Text variant="caption" color={ink}>
+          {`${day.free}/${total}`}
+        </Text>
+      )}
     </View>
   );
   if (!pressable) return face;

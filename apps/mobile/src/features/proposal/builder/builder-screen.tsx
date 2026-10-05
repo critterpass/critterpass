@@ -10,6 +10,7 @@ import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -18,6 +19,7 @@ import { guideSticker } from '@/ui/avatar/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';
+import { fixesLine, useFixesToMake } from '../data/known-issues';
 import { useCurrentProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
@@ -34,7 +36,7 @@ import {
   sameConfig,
   sendPlan,
 } from './model';
-import type { BuilderConfig } from './model';
+import { proposalIdOf, toWire, type BuilderConfig } from './model';
 import { ReplyBySheet } from './reply-by-sheet';
 import { SendProgress } from './send-progress';
 
@@ -58,6 +60,8 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   );
   const locale = useLocale();
   const offline = useSyncStatus().phase === 'offline';
+  const fixes = useFixesToMake(tripId);
+  const checkHref = useScreenHref('7h-1', { tripId });
   const create = useCommand(createProposalCommand);
   const send = useCommand(sendProposalCommand);
   const lockAlone = useCommand(lockInPlanCommand);
@@ -166,6 +170,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       .filter((d) => new Date(d).getTime() > facts.now.getTime() + 2 * 3_600_000)
       .sort()[0] ?? null;
   const shared = versions.find((v) => v.slides.length > 0);
+  const issuesLine = fixesLine(fixes, false);
 
   const onSend = async () => {
     if (plan.kind === 'blocked') return;
@@ -230,6 +235,14 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         recipients={trip.recipients.length}
         offline={offline}
         blocked={blockedReason(plan)}
+        issues={
+          issuesLine === null
+            ? null
+            : {
+                line: issuesLine,
+                onOpen: checkHref === undefined ? undefined : () => router.push(checkHref),
+              }
+        }
         sending={sending || create.pending}
         onBack={back}
         onFormat={(format) => setConfig({ ...config, format })}
@@ -259,21 +272,6 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       ) : null}
     </>
   );
-}
-
-function proposalIdOf(result: unknown): string | null {
-  const id = (result as { proposal_id?: unknown } | null)?.proposal_id;
-  return typeof id === 'string' ? id : null;
-}
-
-function toWire(config: BuilderConfig) {
-  return {
-    format: config.format,
-    show_cost: config.showCost,
-    personal: config.personal,
-    ...(config.replyBy === null ? {} : { reply_by: config.replyBy }),
-    options: [],
-  };
 }
 
 function blockedReason(plan: ReturnType<typeof sendPlan>): string | null {

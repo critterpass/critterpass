@@ -75,6 +75,10 @@ msgstr "{guideName} sẽ đọc và tìm các địa điểm trong đó."
 msgid "search.offline.works.waits"
 msgstr "Thay đổi của {guideName} chờ có sóng"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindBelow"
+msgstr "{kind}, gần nhất trước"
+
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.kilometres"
 msgstr "{km} km"
@@ -311,6 +315,10 @@ msgstr "Thả ghim"
 msgid "search.none.pin"
 msgstr "Thả ghim"
 
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddressLine"
+msgstr "Thả ghim đúng chỗ đó, hoặc nhờ {guideName} tìm giúp."
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
 msgstr "Ăn uống"
@@ -469,6 +477,10 @@ msgstr "Thêm địa điểm"
 msgid "search.chip.category.museum"
 msgstr "Bảo tàng"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.alike"
+msgstr "Những tên hơi giống"
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nature"
 msgstr "Thiên nhiên"
@@ -484,6 +496,10 @@ msgstr "Giờ mới"
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nightlife"
 msgstr "Về đêm"
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneNamed"
+msgstr "Không có chỗ nào tên “{typed}”"
 
 #: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
 msgid "search.name.none"
@@ -508,6 +524,10 @@ msgstr "Chưa có gì thay đổi. Thử lại, hoặc lưu vào Ý tưởng."
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.nothingCopied"
 msgstr "Chưa có gì được sao chép. Sao chép link trước, hoặc gõ vào."
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddress"
+msgstr "Không tìm thấy gì ở địa chỉ đó"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.leadPlain"
@@ -605,6 +625,10 @@ msgstr "Chọn một địa chỉ rồi kéo ghim đến đúng chỗ."
 msgid "search.chip.category.other"
 msgstr "Địa điểm"
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindPlaces"
+msgstr "Địa điểm"
+
 #: ../../apps/mobile/src/features/explore/search/offline-results.tsx
 msgid "search.offline.queuedLine"
 msgstr "Hỏi bằng lời cần có sóng. {guideName} giữ câu hỏi của bạn và trả lời khi có sóng."
@@ -688,6 +712,10 @@ msgstr "Xem dạng"
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.dinner"
 msgstr "chỗ ăn tối yên tĩnh gần chỗ ở, mở khuya"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinnerNoStay"
+msgstr "chỗ ăn tối yên tĩnh, mở khuya"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.spa"

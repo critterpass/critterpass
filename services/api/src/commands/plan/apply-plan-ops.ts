@@ -38,6 +38,7 @@ export const applyPlanOpsCommand = defineCommand({
       source: 'ops',
       opCount: payload.ops.length,
       ops: payload.ops,
+      pushed: payload.pushed ?? null,
     });
     return { version_id: versionId };
   },

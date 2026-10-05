@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8cd915ec-1277-48f2-b8e1-6c6cc8ba1bd3",
+        "id": "bd1593b6-dfa0-4b63-8dcc-8f8e5766aea3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Day in Mexico City\",\n  \"summary\": \"A slower, food-filled day around the Roma Norte and Chapultepec area, with a market-style lunch and a proper vegetarian dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through Roma Norte to work up an appetite and soak in the local life.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed lunch with plenty of vegetarian choices, perfect after our stroll.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause in Bosque de Chapultepec to digest and enjoy the greenery.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian dinner to end the day on a high note.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Sabores del Centro\",\n  \"summary\": \"A relaxed day around the historic centre, mixing markets, museums and a proper meal at a gentler pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the old city, and it opens early enough for our history lovers.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Roma Norte to work up an appetite and catch the local life.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with solid vegetarian choices, close to our walk.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy green pause in Chapultepec before the evening meal.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The big dinner stop, a fancy vegetarian-friendly send-off for the day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 793,
+          "input_tokens": 53,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 257,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 302,
           "service_tier": "standard"
         }
       }

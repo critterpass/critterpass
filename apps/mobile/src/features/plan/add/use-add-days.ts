@@ -1,18 +1,22 @@
 /**
- * The trip's dated days as Add to plan shows them: each named by its date ("SAT, OCT 17"), the
- * chips with their fit dots, and the month the weather reasons name.
+ * The trip's dated days as Add to plan shows them: each named by its date ("SAT 17 OCT"), the
+ * chips (weekday over date) with their fit dots, and the month the weather reasons name.
  */
 import type { DayFit } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { dayName } from '@/features/plan/day/format';
-import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
+import { dayTileColour } from '@/features/plan/overview/day-card';
+import { chipWeekday, dayOfMonth } from '@/features/plan/trip-map/format';
 import type { DayChip } from '@/ui/planning';
 
 import type { AddDay } from './add-model';
 
 export function useAddDays(plan: TripPlan, locale: string) {
+  // An organiser adding to a trip that has dates and no plan yet: its days are asked for.
+  useEnsurePlanDays(plan);
   const days: AddDay[] = useMemo(
     () =>
       plan.dayRows.flatMap((row) =>
@@ -27,7 +31,8 @@ export function useAddDays(plan: TripPlan, locale: string) {
   const chips = (grades: ReadonlyMap<number, DayFit['grade']>): DayChip[] =>
     days.map((entry) => ({
       dayNo: entry.dayNo,
-      weekday: weekdayOf(entry.date, locale),
+      weekday: chipWeekday(locale, entry.date),
+      dateLabel: dayOfMonth(entry.date),
       color: dayTileColour(entry.dayNo),
       fit: grades.get(entry.dayNo),
       accessibilityLabel: labelOf(entry.dayNo),

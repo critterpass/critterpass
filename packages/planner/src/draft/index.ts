@@ -23,7 +23,7 @@ export {
   type WishMatches,
 } from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
-export { collapseSamePlaces, knownPlaceFor, type Collapsed } from './same-place';
+export { collapseSamePlaces, knownPlaceFor, metresBetween, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
@@ -59,8 +59,12 @@ export {
 } from './sequence';
 export { dishOf, foodRole, sameDish, sharesDish, stopKind, type FoodRole } from './food-role';
 export {
+  detourMin,
   dinnerIsRideHome,
   hopCapMin,
+  MEAL_DETOUR_MAX_MIN,
+  mealAcrossTown,
+  mealDetours,
   longHops,
   longRideMin,
   RIDE_HOME_MAX_MIN,
@@ -99,8 +103,10 @@ export {
   type PlaceTime,
   type PlaceWindow,
 } from './place-time';
-export { straightLineMatrix } from './travel';
+export { estimatedMinutes, routedPairKey, straightLineMatrix, type RoutedPairs } from './travel';
+export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
 export { homeBase, nearHome } from './home';
+export { planOutings, type Outing } from './outings';
 export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';
 export type {
   Chronotype,
@@ -136,3 +142,11 @@ export {
   type ValidateItineraryInput,
   type ValidationResult,
 } from './validate-itinerary';
+export {
+  derivedDurationMin,
+  FULL_DAY_VISIT_MIN,
+  HALF_DAY_VISIT_MIN,
+  partOfVisit,
+  visitSpan,
+  type VisitSpan,
+} from './long-visits';

@@ -119,6 +119,10 @@ msgstr "Next"
 msgid "trip.dayOf.nextUp"
 msgstr "Next up"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloNotUp"
+msgstr "Not up yet"
+
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.empty"
 msgstr "Nothing on the list yet."
@@ -167,9 +171,17 @@ msgstr "Remove {label}"
 msgid "trip.alarm.note.exactAction"
 msgstr "Ring on the minute"
 
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.late"
+msgstr "Running {minutes} min late"
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr "See the day plan"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toTomorrow"
+msgstr "See tomorrow"
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.snooze"
@@ -215,6 +227,10 @@ msgstr "Trip"
 msgid "trip.alarm.note.deniedAction"
 msgstr "Turn alarms on"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloUpDetail"
+msgstr "Up and ready. Leave on time."
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.whyAction"
 msgstr "Why not an alarm?"
@@ -237,6 +253,10 @@ msgstr "You're not on this one. Sleep in."
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.up"
+msgstr "You're up"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloUp"
 msgstr "You're up"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "751c5228-d74d-44bc-b885-784f1e1ba06b",
+        "id": "054025d2-b248-4593-8d8c-f3d9aacd155e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, greener Mexico City day\",\n  \"summary\": \"We trade pyramids and fine dining for leafy walks, a floating garden, and easy vegetarian meals around the city's calmer corners.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper: those Aztec stones still stop me in my gills, so we start here while the light is soft.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle midday refuel nearby, with plenty of vegetarian plates for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy wander instead of a long pyramid trip, because today asks for breathing room.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner that keeps things easy and meat-free, with time to linger.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow Roma Norte stroll to close the day, all open hours and good corners for photos.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Templo Mayor and Roma Norte\",\n  \"summary\": \"A slower day in the historic centre and Roma Norte, with time to wander and eat well.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The Aztec heart of the city stays on the day, as it should.\",\n      \"start_by\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk through Roma Norte to stretch the legs and catch the local rhythm.\",\n      \"start_by\": \"open_all_day\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed lunch with plenty of vegetarian plates, close to the walk.\",\n      \"start_by\": \"16:45\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Lalo! keeps the evening easy and the crew well fed.\",\n      \"start_by\": \"16:45\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 789,
+          "input_tokens": 49,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 326,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 290,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "41b12bee-1e5b-4780-840c-b412213cbedd",
+        "id": "33be9eb5-6fdf-4863-8767-70f6e0634c37",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower spin through the city\",\n  \"summary\": \"A gentler day swapping most stops for leafy walks, a floating market, and easy vegetarian meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Keeping the Aztec heart of the city, because some stones deserve a second look.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through Roma Norte for street corners, coffee smells, and photo-ready facades.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, easy lunch with plenty of vegetarian plates and no rush.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chapultepec gives us green shade and a slower rhythm after lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Xochimilco adds a splash of colour and local life to the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, fancy vegetarian-friendly dinner to end the day on a high note.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Centro y Canales\",\n  \"summary\": \"A slower day with the Templo Mayor kept, then a long lunch and an afternoon on the Xochimilco canals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one sight we keep: the old heart of the city still beats here.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, leafy lunch with proper vegetarian plates before we drift south.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A swap for the pyramids: bright boats, mariachi and the slow water instead.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 44,
+          "input_tokens": 72,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 365,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 239,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "b4fb30d9-95f1-47d5-8c5e-4090eb56c485",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning at Templo Mayor, then Xochimilco all afternoon"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 208,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 16,
           "service_tier": "standard"
         }
       }

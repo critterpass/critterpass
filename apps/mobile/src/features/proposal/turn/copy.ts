@@ -6,7 +6,7 @@
 import { plural, t } from '@lingui/core/macro';
 
 import { instantDate } from '../data/format';
-import type { Turn } from './model';
+import type { SetupStep, Turn } from './model';
 
 export interface TurnCopy {
   readonly line: string;
@@ -82,6 +82,30 @@ function answeredCopy(turn: Extract<Turn, { kind: 'answered' }>, names: TurnName
   }
 }
 
+/** "Budget, rooms and must-dos come next." naming the set-up steps still to do. */
+function setupLine(left: readonly SetupStep[], locale: string): string {
+  const words = left.map((step) => {
+    switch (step) {
+      case 'when':
+        return t({ id: 'proposal.turn.setup.when', message: 'dates' });
+      case 'budget':
+        return t({ id: 'proposal.turn.setup.budget', message: 'budget' });
+      case 'rooms':
+        return t({ id: 'proposal.turn.setup.rooms', message: 'rooms' });
+      case 'must_dos':
+        return t({ id: 'proposal.turn.setup.mustDos', message: 'must-dos' });
+    }
+  });
+  if (words.length === 0) {
+    return t({
+      id: 'proposal.turn.setup.ready',
+      message: 'Set-up is done. The guide drafts next.',
+    });
+  }
+  const list = new Intl.ListFormat(locale, { type: 'conjunction' }).format(words);
+  return t({ id: 'proposal.turn.setup.left', message: `Still to set up: ${list}.` });
+}
+
 export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
   const { guide, organiser } = names;
   switch (turn.kind) {
@@ -92,7 +116,7 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
       };
     case 'setup':
       return {
-        line: t({ id: 'proposal.turn.setup', message: 'Dates, budget and must-dos come next.' }),
+        line: setupLine(turn.left, names.locale),
         button: t({ id: 'proposal.turn.setup.button', message: 'Set up the trip' }),
       };
     case 'guide_drafting':
@@ -144,6 +168,18 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
       return answeredCopy(turn, names);
     case 'waiting_for_answers': {
       const { answered, total } = turn;
+      if (turn.going === 0 && turn.maybeNames.length > 0) {
+        const who = new Intl.ListFormat(names.locale, { type: 'conjunction' }).format(
+          turn.maybeNames,
+        );
+        return {
+          line: t({
+            id: 'proposal.turn.waitingMaybe',
+            message: `${who} said maybe. Nobody is in yet.`,
+          }),
+          button: t({ id: 'proposal.turn.waiting.button', message: "Who's in?" }),
+        };
+      }
       const date = turn.replyBy === null ? '' : instantDate(names.locale, turn.replyBy);
       return {
         line:
@@ -171,7 +207,7 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
     }
     case 'locked':
       return {
-        line: t({ id: 'proposal.turn.locked', message: 'Locked in. The trip is on.' }),
+        line: t({ id: 'proposal.turn.lockedIn', message: 'Locked in. The trip is confirmed.' }),
         button: null,
       };
     case 'plan_vote': {
@@ -188,6 +224,19 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
                 message: `${by} wants to change the plan. It waits for your yes.`,
               }),
         button: t({ id: 'proposal.turn.planVote.button', message: 'See the change' }),
+      };
+    }
+    case 'ideas_waiting': {
+      const { count } = turn;
+      return {
+        line: t({
+          id: 'proposal.turn.ideasWaiting',
+          message: plural(count, {
+            one: 'The crew saved # place to Ideas. It waits for you to put it in a day.',
+            other: 'The crew saved # places to Ideas. They wait for you to put them in a day.',
+          }),
+        }),
+        button: t({ id: 'proposal.turn.ideasWaiting.button', message: 'See Ideas' }),
       };
     }
     case 'none':

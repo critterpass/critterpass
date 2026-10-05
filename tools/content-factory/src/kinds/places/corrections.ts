@@ -14,11 +14,12 @@
 import path from 'node:path';
 
 import { poiEditorialFields, poiItemSchema, tasteTagSchema, type ContentItem } from '@cp/content';
-import { poiCategorySchema } from '@cp/domain';
+import { editorialTranslationsSchema, poiCategorySchema } from '@cp/domain';
 import { z } from 'zod';
 
 import { curatedDestinations, placeFacts } from '../../data/place-facts';
 import { FACTORY_DIR, readJson } from '../../work';
+import { newRecordSchema, withNewRecords } from './corrections-new-records';
 import { LICENCES } from './pois';
 
 type Poi = ContentItem<'places'>;
@@ -50,21 +51,39 @@ const correctionSchema = z
     essential: z.boolean().optional(),
     /** The editorial note of a record the recommended set did not hold before. */
     note: noteSchema.optional(),
-    /** Lines of the kept record's live note to replace (a claim checked against a source). */
+    /**
+     * Lines of the kept record's live note to replace (a claim checked against a source), the
+     * visit length among them.
+     */
     revise: noteSchema
-      .pick({ why_go: true, best_time: true, crowd_hint: true, etiquette: true })
+      .pick({
+        why_go: true,
+        best_time: true,
+        time_needed_min: true,
+        crowd_hint: true,
+        etiquette: true,
+      })
       .partial()
       .optional(),
+    /**
+     * The note's lines in other languages, by app locale. A language stated here replaces that
+     * language's lines on the live item; the other languages stay.
+     */
+    i18n: editorialTranslationsSchema.optional(),
     /** The claim a revision answers: what the note said, what the source says, and the source. */
     claim: z
       .object({ said: z.string().min(1), finding: z.string().min(1), source: z.url() })
       .strict()
       .optional(),
     why: z.string().min(1),
-    /** The map object the kept point was checked against, and how far the point is from it. */
+    /**
+     * The map object the kept point was checked against, and how far the point is from it. Absent
+     * only where the correction is to the name alone.
+     */
     checked: z
       .object({ source: z.string().min(1), lat: z.number(), lng: z.number(), off_m: z.number() })
-      .strict(),
+      .strict()
+      .optional(),
     merge: z.array(
       z
         .object({
@@ -84,6 +103,24 @@ export const correctionsFileSchema = z
     batch: z.string().min(1),
     checked_at: z.iso.datetime({ offset: true }),
     places: z.array(correctionSchema).min(1),
+    /** Places the catalogue does not hold yet; each is the kept record of a place above. */
+    new_records: z.array(newRecordSchema).default([]),
+    /**
+     * Recommended records the release hides: pinned far from the place they name, with no record
+     * at the place to merge them into.
+     */
+    hidden: z
+      .array(
+        z
+          .object({
+            destination: z.string().min(1),
+            ref: refSchema,
+            stored_name: z.string().min(1),
+            why: z.string().min(1),
+          })
+          .strict(),
+      )
+      .default([]),
     /** Faults found and left as they are, with the reason, for the review page. */
     left_alone: z.array(
       z
@@ -105,8 +142,8 @@ export type CorrectionsFile = z.infer<typeof correctionsFileSchema>;
 
 export const beforeRowSchema = z
   .object({
-    /** `pois.id`, for whoever follows a correction up in the database. */
-    id: z.uuid(),
+    /** `pois.id`, for whoever follows a correction up in the database; null for a new record. */
+    id: z.uuid().nullable(),
     ref: refSchema,
     destination: z.string().min(1),
     name: z.string().min(1),
@@ -119,6 +156,8 @@ export const beforeRowSchema = z
     curated: z.boolean(),
     must_see: z.boolean(),
     essential: z.boolean().default(false),
+    /** Stops, ideas and must-dos of trips that point at the record. */
+    trip_refs: z.number().int().min(0).default(0),
     /** Content ref of the record it already redirects to. */
     merged_into: refSchema.nullable(),
     /** The record's item in the live release, when it has one. */
@@ -144,15 +183,18 @@ export function loadCorrections(
   root = FACTORY_DIR,
 ): { file: CorrectionsFile; before: BeforeRow[] } {
   const paths = correctionsPaths(batchKey, root);
-  return {
-    file: correctionsFileSchema.parse(readJson<unknown>(paths.corrections)),
-    before: beforeFileSchema.parse(readJson<unknown>(paths.before)).rows,
-  };
+  const file = correctionsFileSchema.parse(readJson<unknown>(paths.corrections));
+  const snapshot = beforeFileSchema.parse(readJson<unknown>(paths.before)).rows;
+  return { file, before: withNewRecords(snapshot, file.new_records) };
 }
 
-/** Every record a corrections file names: the kept ones, then their duplicates. */
-export function correctionRefs(places: readonly PlaceCorrection[]): string[] {
-  return [...places.map((p) => p.keep), ...places.flatMap((p) => p.merge.map((m) => m.ref))];
+/** Every record a corrections file names: the kept ones, their duplicates, then the hidden. */
+export function correctionRefs(file: Pick<CorrectionsFile, 'places' | 'hidden'>): string[] {
+  return [
+    ...file.places.map((p) => p.keep),
+    ...file.places.flatMap((p) => p.merge.map((m) => m.ref)),
+    ...file.hidden.map((h) => h.ref),
+  ];
 }
 
 /** Metres between two points (haversine). */
@@ -183,6 +225,7 @@ function revised(
     ...editorial,
     ...(revise.why_go === undefined ? {} : { why_go: revise.why_go }),
     ...(revise.best_time === undefined ? {} : { best_time: revise.best_time }),
+    ...(revise.time_needed_min === undefined ? {} : { time_needed_min: revise.time_needed_min }),
     ...(revise.crowd_hint === undefined ? {} : { crowd_hint: revise.crowd_hint }),
     ...(revise.etiquette === undefined ? {} : { etiquette: revise.etiquette }),
   };
@@ -264,6 +307,7 @@ export function correctionItems(
         },
         merge_into: null,
         possible_duplicate_of: null,
+        ...(place.i18n === undefined ? {} : { i18n: { ...base.i18n, ...place.i18n } }),
       });
     }
     // A duplicate is hidden once merged; where it never had a note it borrows the kept record's.
@@ -294,70 +338,4 @@ export function correctionItems(
     }
   }
   return poiItemSchema.array().parse(items);
-}
-
-export interface CorrectionCounts {
-  readonly places: number;
-  readonly merges: number;
-  /** Recommended records folded into another record. */
-  readonly recommendedMerges: number;
-  readonly kindChanges: number;
-  readonly renames: number;
-  /** Places that had a recommended record over 2 km from the kept one. */
-  readonly movedPoints: number;
-  readonly mustSees: number;
-  readonly essentials: number;
-  /** Records that join the recommended set. */
-  readonly added: number;
-}
-
-export const FAR_M = 2_000;
-
-/** What a destination's corrections come to, for the review page and the report. */
-export function correctionCounts(
-  places: readonly PlaceCorrection[],
-  before: readonly BeforeRow[],
-): CorrectionCounts {
-  const rows = new Map(before.map((row) => [row.ref, row]));
-  const at = (ref: string) => {
-    const found = rows.get(ref);
-    if (found === undefined) throw new Error(`${ref} is not in the snapshot`);
-    return found;
-  };
-  let merges = 0;
-  let recommendedMerges = 0;
-  let kindChanges = 0;
-  let renames = 0;
-  let movedPoints = 0;
-  let mustSees = 0;
-  let essentials = 0;
-  let added = 0;
-  for (const place of places) {
-    const kept = at(place.keep);
-    // A record restated only to carry a new note already redirects to the kept one: not counted.
-    const duplicates = place.merge
-      .map((m) => at(m.ref))
-      .filter((d) => d.merged_into !== place.keep);
-    merges += duplicates.length;
-    recommendedMerges += duplicates.filter((d) => d.curated && d.merged_into === null).length;
-    if (place.stated && place.category !== undefined && place.category !== kept.category) {
-      kindChanges += 1;
-    }
-    if (place.stated && place.name !== undefined && place.name !== kept.name) renames += 1;
-    if (duplicates.some((d) => d.curated && metresBetween(d, kept) > FAR_M)) movedPoints += 1;
-    if (place.must_see === true) mustSees += 1;
-    if (place.essential === true) essentials += 1;
-    if (place.stated && !kept.curated) added += 1;
-  }
-  return {
-    places: places.length,
-    merges,
-    recommendedMerges,
-    kindChanges,
-    renames,
-    movedPoints,
-    mustSees,
-    essentials,
-    added,
-  };
 }

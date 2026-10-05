@@ -27,6 +27,9 @@ export interface GoPlace {
   readonly lng: number;
   readonly tripId: string | null;
   readonly destinationSlug: string | null;
+  /** The place's street address and its destination's name, for the maps app; null for an airport. */
+  readonly address?: string | null | undefined;
+  readonly city?: string | null | undefined;
   /** Set when the place is an airport: the button names it ("Đà Nẵng airport (DAD)"). */
   readonly airport?: { readonly iata: string; readonly city: string } | undefined;
 }
@@ -45,11 +48,12 @@ export type AirportLookup = (iata: string) => AirportPoint | null;
 /** A leave-by that went off this long ago still counts as the one its push was about. */
 const NEXT_LEAVE_BY_GRACE_MS = 2 * 60 * 60_000;
 
-const PLACE_SQL = `SELECT p.id AS poi_id, p.name, p.lat, p.lng, d.slug
+const PLACE_SQL = `SELECT p.id AS poi_id, p.name, p.lat, p.lng, p.address, d.name AS city, d.slug
   FROM pois p LEFT JOIN destinations d ON d.id = p.destination_id
   WHERE p.id = ? AND p.lat IS NOT NULL`;
 /** The leave-by's stop and, for a flight leg, its departure airport (as the push names it). */
-const LEAVE_BY_COLUMNS = `l.trip_id, p.id AS poi_id, p.name, p.lat, p.lng,
+const LEAVE_BY_COLUMNS = `l.trip_id, p.id AS poi_id, p.name, p.lat, p.lng, p.address,
+  (SELECT d.name FROM destinations d WHERE d.id = p.destination_id) AS city,
   (SELECT s.dep_airport FROM flight_segments s
     WHERE s.booking_id = i.booking_id AND julianday(s.sched_dep_at) = julianday(l.starts_at)
     ORDER BY s.segment_no LIMIT 1) AS dep_airport,
@@ -71,6 +75,8 @@ interface PlaceRow {
   readonly lat: number | null;
   readonly lng: number | null;
   readonly slug: string | null;
+  readonly address?: string | null;
+  readonly city?: string | null;
   readonly trip_id?: string | null;
   readonly trip_slug?: string | null;
   readonly dep_airport?: string | null;
@@ -118,6 +124,8 @@ function placeOf(row: PlaceRow, tripId: string | null, airportAt: AirportLookup)
       lng: row.lng,
       tripId,
       destinationSlug: row.slug ?? row.trip_slug ?? null,
+      address: row.address ?? null,
+      city: row.city ?? null,
     };
   }
   const airport = row.dep_airport ? airportAt(row.dep_airport) : null;

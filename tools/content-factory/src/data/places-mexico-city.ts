@@ -66,12 +66,21 @@ export const MEXICO_CITY_PINS: readonly PinnedPlace[] = [
     lng: -99.1624,
     essential: true,
   },
+  // The day trip most first visits make: the pyramids and the Avenue of the Dead as one place.
+  {
+    name: 'Teotihuacán',
+    nameLocal: 'Zona Arqueológica de Teotihuacán',
+    lat: 19.6932,
+    lng: -98.8458,
+    category: 'museum',
+    essential: true,
+  },
+  // A must-see that gave its place among the essentials to Teotihuacán.
   {
     name: 'Jardín Centenario (Coyoacán)',
     nameLocal: 'Jardín Centenario',
     lat: 19.3492,
     lng: -99.164,
-    essential: true,
   },
   { name: 'Plaza Garibaldi', lat: 19.4407, lng: -99.1393, category: 'nightlife', essential: true },
   {

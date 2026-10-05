@@ -26,7 +26,8 @@ import {
   type FitPlace,
 } from './context';
 import { buildDayModel } from './day-model';
-import { gradeCandidate, pickSlot, type GradedSlot } from './grade';
+import { gradeCandidate, inOwnTime, pickSlot, type GradedSlot } from './grade';
+import { kindWindows } from './kind-time';
 import { crowdDay, quietExists } from './reasons';
 import { candidates, opensLongEnough } from './slot';
 
@@ -72,6 +73,7 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
     quiet: quietExists(crowd, spans, day, visitMin, thresholds.busyLevel),
     outdoor: place.outdoor,
     food: place.category === 'food',
+    kind: kindWindows(place, day.date, context.tz, visitMin),
     split: place.stances ?? null,
     thresholds,
     meals: context.meals ?? DEFAULT_MEAL_WINDOWS,
@@ -117,18 +119,24 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
 
 const GRADE_RANK: Readonly<Record<FitGrade, number>> = { good: 0, possible: 1, no: 2 };
 
+/** 0 when the day has the place inside its own hours of the day. */
+const ownTime = (result: DayResult): number =>
+  result.slot !== null && inOwnTime(result.slot) ? 0 : 1;
+
 const driveMinutes = (result: DayResult): number =>
   (result.slot?.candidate.legIn?.minutes ?? 0) + (result.slot?.candidate.legOut?.minutes ?? 0);
 
 /**
- * The best grade, on a full day before the day the crew arrives or leaves, then the least full
- * day, ties to fewer drive minutes.
+ * A day that takes the place in its own hours of the day (the sunset, a meal), then the best
+ * grade, on a full day before the day the crew arrives or leaves, then the least full day, ties to
+ * fewer drive minutes.
  */
 function bestOf(results: readonly DayResult[]): PlaceFit['best'] {
   const ranked = results
     .filter((result) => result.fit.grade !== 'no' && result.fit.slot !== null)
     .sort(
       (a, b) =>
+        ownTime(a) - ownTime(b) ||
         GRADE_RANK[a.fit.grade] - GRADE_RANK[b.fit.grade] ||
         Number(a.travelDay) - Number(b.travelDay) ||
         a.fullness - b.fullness ||
@@ -186,6 +194,13 @@ export {
   type WeatherSource,
 } from './context';
 export { dayGaps, findGaps, type DayGap } from './gaps';
+export {
+  kindTimeOf,
+  kindWindows,
+  minutesOutside,
+  type KindTime,
+  type KindWindows,
+} from './kind-time';
 export { gapIdeas, type GapCandidate } from './gap-ideas';
 export {
   assembleFitContext,

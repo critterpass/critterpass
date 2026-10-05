@@ -3,7 +3,7 @@
  * screens and the (dev) lab scenes both read them from here, so a lab capture in any language
  * shows the copy and the formatting the real screens use.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 
 import {
   clock,
@@ -215,6 +215,7 @@ export function lockConsequences(state: LockState): string[] {
   }
   // The messages keep the placeholders their translations were written with (an expression is
   // numbered, a bare name is not): a renamed variable would blank the count in every language.
+  const { maybes, silent } = state;
   return [
     t({
       id: 'proposal.lock.going',
@@ -223,16 +224,22 @@ export function lockConsequences(state: LockState): string[] {
     ...(state.maybes > 0
       ? [
           t({
-            id: 'proposal.lock.maybes',
-            message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
+            id: 'proposal.lock.maybesCount',
+            message: plural(maybes, {
+              one: '# maybe goes on the waitlist for a freed seat.',
+              other: '# maybes go on the waitlist for a freed seat.',
+            }),
           }),
         ]
       : []),
     ...(state.silent > 0
       ? [
           t({
-            id: 'proposal.lock.silent',
-            message: `${state.silent} who haven’t answered are out.`,
+            id: 'proposal.lock.silentCount',
+            message: plural(silent, {
+              one: '# friend who hasn’t answered is out.',
+              other: '# friends who haven’t answered are out.',
+            }),
           }),
         ]
       : []),

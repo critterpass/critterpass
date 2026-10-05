@@ -16,6 +16,7 @@ import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay } from './day';
 import { essentialsLeftOut, type EssentialLeftOut } from './essentials';
 import { withFinalNotes } from './final-notes';
+import { retitleDays } from './retitle';
 import { settle, trimForMustDos, withoutUnservedMeals } from './settle';
 import type { SkeletonPlan } from './skeleton';
 import { validate } from './validate';
@@ -162,7 +163,11 @@ export async function validateAndRepair(
   filled += settled.filled;
   const { dropped } = settled;
   if (loops > 0 || dropped.length > 0) passes.push(passOf(loops + 1, current));
-  const noted = withFinalNotes(input, itinerary);
+  // A title the settled day no longer matches is the guide's to write again, before the planner
+  // falls back on the names of the day's stops.
+  const early = withFinalNotes(input, itinerary, { retitle: false });
+  const renamed = await retitleDays(model, input, early.itinerary);
+  const noted = withFinalNotes(input, renamed.itinerary);
   return {
     itinerary: noted.itinerary,
     first,
@@ -173,8 +178,8 @@ export async function validateAndRepair(
     proseRejected,
     passes,
     filled,
-    notesRemoved: noted.removed,
-    retitled: noted.retitled,
+    notesRemoved: early.removed + noted.removed,
+    retitled: renamed.retitled + noted.retitled,
     essentialsLeftOut: essentialsLeftOut(input, noted.itinerary),
   };
 }

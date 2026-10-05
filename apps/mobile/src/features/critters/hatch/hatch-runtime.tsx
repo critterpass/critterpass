@@ -2,7 +2,9 @@
  * Session watcher for the trip egg: once an egg has hatched (the flight landed, the phone arrived
  * or another device hatched it) and this device hasn't played the ceremony, it opens 3l-1 at the
  * next calm moment: the app in front, the viewer resting on a tab root for a moment, never over a
- * boarding pass, an alarm, SOS, a sheet, a flow in progress or onboarding. It plays once per egg.
+ * boarding pass, an alarm, SOS, a sheet, a flow in progress or onboarding, and never while a sheet
+ * is open on that tab root or the viewer is typing. It plays once per egg. While it waits or plays,
+ * nothing else rises by itself (the visit offer waits its turn).
  *
  * Arrival: from the trip's first day, while the egg is still whole, a position the location engine
  * already has (it never asks for permission here) inside the destination's area hatches it with
@@ -12,8 +14,13 @@
 import { router, usePathname } from 'expo-router';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
+import { Keyboard, TextInput } from 'react-native';
+
 import { useCommand } from '@/data/commands/use-command';
 import { countryOf } from '@/lib/location';
+import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
+import { useTabBarCovered } from '@/ui/sheet/tab-bar-cover';
+import { isTouchQuiet } from '@/lib/interaction/touch-quiet';
 
 import { useInFront } from '../data/app-front';
 import { hatchEggCommand } from '../data/commands';
@@ -25,15 +32,28 @@ import { deviceTimeZone, eggCardFor, hatchSeen, useHatchSeenVersion } from './ha
 
 /** How long the viewer must rest on a calm screen before the ceremony opens. */
 export const CALM_MS = 1500;
+/** How long the screen must have been left alone: the ceremony never lands on a tap just made. */
+export const HATCH_QUIET_MS = 3000;
 
 /** How often a whole egg re-checks the latest position while the trip is under way. */
 const ARRIVAL_CHECK_MS = 60_000;
 
-const CALM_PATHS = [/^\/$/u, /^\/pass$/u, /^\/trips$/u, /^\/trips\/[^/]+$/u];
+const CALM_PATHS = [/^\/trips$/u, /^\/trips\/[^/]+$/u];
 
-/** A tab root with nothing over it: the only places the hatch may open by itself. */
+/**
+ * The trip's own screen with nothing over it (the trips tab, a trip's hub): the only places the
+ * hatch may open by itself. Home and the pass are where she goes to do something else.
+ */
 export function isCalmPath(pathname: string): boolean {
   return CALM_PATHS.some((pattern) => pattern.test(pathname));
+}
+
+/** The viewer is typing: the keyboard is up or a text field has focus. */
+const isTyping = () => Keyboard.isVisible() || TextInput.State.currentlyFocusedInput() !== null;
+
+/** The moment is still calm when the wait ends: on a calm path, not typing, no touch for a while. */
+export function calmNow(pathname: string, now: number = Date.now()): boolean {
+  return isCalmPath(pathname) && !isTyping() && isTouchQuiet(HATCH_QUIET_MS, now);
 }
 
 const arrivedAsked = new Set<string>();
@@ -55,17 +75,36 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
 
   const unseenEgg = egg?.kind === 'unseen' ? egg.eggId : null;
   const unseenTrip = egg?.kind === 'unseen' ? egg.tripId : null;
+  // A sheet open on the screen in front: she is in the middle of something.
+  const covered = useTabBarCovered();
+  const pathNow = useRef(pathname);
+  useLayoutEffect(() => {
+    pathNow.current = pathname;
+  });
   useEffect(() => {
-    if (unseenEgg === null || unseenTrip === null || !active || !isCalmPath(pathname)) {
+    setCeremonyPending(unseenEgg !== null);
+    return () => setCeremonyPending(false);
+  }, [unseenEgg]);
+  useEffect(() => {
+    if (unseenEgg === null || unseenTrip === null || !active || covered || !isCalmPath(pathname)) {
       return undefined;
     }
     if (opened.current === unseenEgg) return undefined;
-    const timer = setTimeout(() => {
-      opened.current = unseenEgg;
-      router.push(hatchRoute(unseenTrip));
-    }, CALM_MS);
+    let timer: ReturnType<typeof setTimeout>;
+    const wait = () => {
+      timer = setTimeout(() => {
+        // Read again at the moment of opening: she may have just tapped or moved on.
+        if (!calmNow(pathNow.current)) {
+          wait();
+          return;
+        }
+        opened.current = unseenEgg;
+        router.push(hatchRoute(unseenTrip));
+      }, CALM_MS);
+    };
+    wait();
     return () => clearTimeout(timer);
-  }, [unseenEgg, unseenTrip, active, pathname]);
+  }, [unseenEgg, unseenTrip, active, covered, pathname]);
 
   const whole = rows.find((t) => awaitsArrival(t, now(), deviceTimeZone()));
   const wholeEgg = whole?.egg_id ?? null;

@@ -4,7 +4,10 @@
  * plan with their day and start.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { shownPlaceName } from '@cp/domain';
 import { useMemo } from 'react';
+
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 
 import { useLiveRows } from './data/live-rows';
 import type { MapPoi } from './map-model';
@@ -43,6 +46,7 @@ export function useDestinationPois(destinationId: string | null): {
     destinationId === null ? null : [destinationId],
     POIS_TABLES,
   );
+  const readsLocal = useReadsLocalNames(destinationId);
   const places = useMemo(
     () =>
       live.rows.map((row): MapPoi => {
@@ -51,10 +55,12 @@ export function useDestinationPois(destinationId: string | null): {
           why_go?: unknown;
           best_time?: unknown;
         } | null;
+        // The name the reader sees first; the other one stays for search and a second line.
+        const named = shownPlaceName({ name: row.name, nameLocal: row.name_local }, readsLocal);
         return {
           id: row.id,
-          name: row.name,
-          nameLocal: row.name_local,
+          name: named.shown,
+          nameLocal: named.other,
           category: row.category,
           lat: row.lat,
           lng: row.lng,
@@ -67,7 +73,7 @@ export function useDestinationPois(destinationId: string | null): {
               : null,
         };
       }),
-    [live.rows],
+    [live.rows, readsLocal],
   );
   return { places, loaded: live.loaded };
 }

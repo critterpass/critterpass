@@ -51,6 +51,10 @@ msgstr ""
 msgid "explore.panel.crewCount"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.onTheVote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr ""
@@ -190,6 +194,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.seeVote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

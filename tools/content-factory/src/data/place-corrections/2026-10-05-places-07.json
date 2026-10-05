@@ -1,0 +1,4541 @@
+{
+  "batch": "2026-10-05-places-07",
+  "checked_at": "2026-10-05T17:30:00+07:00",
+  "places": [
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d83d6ab2-ff65-43d7-979f-7f9396c749c2",
+      "stored_name": "444 Cocktail",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhâm nhi cocktail ở quán bar trên đường Đống Đa.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Càng về khuya càng đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:6940069afa9f2a0284192232",
+      "stored_name": "53 Củ Khoai Lang Nướng Kem",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử một quán ăn địa phương trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Ăn vặt buổi chiều",
+          "crowd_hint": "Ghé nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f1775521-7269-4dcb-9859-0edf13e6a789",
+      "stored_name": "7Farm Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé một điểm tham quan địa phương ở Đà Lạt.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bc128dc4-10b5-4eef-b26f-1e9caa6ef8c5",
+      "stored_name": "9611 Kafé",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn trên đường Hàn Thuyên.",
+          "best_time": "Giờ ăn",
+          "crowd_hint": "Có thể đông vào buổi trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:80766b79-1d49-4a48-9331-426a8bd5602e",
+      "stored_name": "Acoustic Bar Đà Lạt _ Calla Lily",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán chơi đêm trên đường Hà Huy Tập.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Khách đông về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bce1c2e7-194d-41bc-af48-12d911a3b4cf",
+      "stored_name": "Amazing Swing",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dành thời gian giữa thiên nhiên.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Lúc đông lúc vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:64195a253dc9790e87360089",
+      "stored_name": "Amélie Pâtisserie et Café",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê kiêm tiệm bánh ngọt trên đường Nguyễn Chí Thanh.",
+          "best_time": "Uống trà chiều",
+          "crowd_hint": "Có thể đông sau giờ trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:72ff7a59-ee1f-41a8-9b21-2fbed0f3048d",
+      "stored_name": "Ẩm Thực Bazan - Gà Nướng Cơm Lam",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn trên đường Hùng Vương.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b051e100-b1a9-4714-ac43-d50b5e4d2f6c",
+      "stored_name": "An coffee farm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem cà phê được trồng ở một nông trại tại Lâm Hà.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Thường yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:563c3fb9cd10987f6a2b8324",
+      "stored_name": "Anna's Coffee House",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Đống Đa.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:efaeb6c1-83ce-4ba0-b726-6f6ea8a1c259",
+      "stored_name": "Art Garden Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Không gian nghệ thuật trên đường Đào Duy Từ.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5bfa018d-3c97-40a7-82f4-9e0179145aae",
+      "stored_name": "Bà Liên - Bánh Bèo Chén",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn trên đường Bùi Thị Xuân.",
+          "best_time": "Bữa trưa",
+          "crowd_hint": "Đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c5ee63a1-b5b9-4ab9-92f0-96bfd0d1a57f",
+      "stored_name": "Bánh căn 07 Tăng Bạt Hổ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh căn, những chiếc bánh bột gạo nhỏ đổ trong khuôn tí hon, ở quán quen trên đường Tăng Bạt Hổ.",
+          "best_time": "Buổi sáng hoặc đầu giờ trưa",
+          "crowd_hint": "Có thể đông người địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9c0159fa-cb89-4869-8d8f-6c65d55a5082",
+      "stored_name": "Bánh Căn A Tý",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức bánh căn, món điểm tâm quen thuộc của Đà Lạt, trên đường Trần Hưng Đạo.",
+          "best_time": "Sáng sớm, ăn điểm tâm",
+          "crowd_hint": "Quán nhỏ, khách ra vào nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:65b668ef-559b-4400-8a71-0f2b211aee5d",
+      "stored_name": "Bánh Căn Cô Chín",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tìm đến quán bánh căn nép trong hẻm đường Phạm Ngũ Lão, nơi dân địa phương ưa chuộng.",
+          "best_time": "Cuối buổi sáng, trước giờ trưa đông khách",
+          "crowd_hint": "Quán trong hẻm, ít chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:63d3398d191200490c727b39",
+      "stored_name": "Bánh căn Cô Dưỡng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé ăn bánh căn ở quán bình dân trên đường Đào Duy Từ.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Được dân công sở gần đó ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b997cf92-02e5-420a-8a09-749156dcb4dd",
+      "stored_name": "Bánh căn cô Loan Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh căn, món ăn vặt quen thuộc của Đà Lạt, ở quán bình dân trên đường Xô Viết Nghệ Tĩnh.",
+          "best_time": "Buổi sáng, trước trưa",
+          "crowd_hint": "Có thể kín chỗ vào giờ ăn sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:68e75e4739c32b7d5c86baa6",
+      "stored_name": "Bánh Canh Cua Má Báy",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Làm ấm người với tô bánh canh cua sánh đặc ở quán trên đường Yersin.",
+          "best_time": "Buổi trưa, cho một bữa no",
+          "crowd_hint": "Giờ trưa cao điểm phải chờ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c38a8ed7-f2b5-4c64-a04d-7c83685cbd0d",
+      "stored_name": "Bánh căn Hiếu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh căn Đà Lạt ở quán bình dân trên đường Yersin.",
+          "best_time": "Giữa buổi sáng, vắng hơn",
+          "crowd_hint": "Quán nhỏ, thường đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4c4acd3dbad7a593f0f0efaa",
+      "stored_name": "Bánh canh Xuân An",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Húp tô bánh canh sợi to sánh đặc ở quán trên đường Nhà Chung.",
+          "best_time": "Bữa trưa hoặc tối sớm",
+          "crowd_hint": "Bình dân; khách ra vào nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e8364e36-629d-470c-80d6-936262fba418",
+      "stored_name": "Bánh căn Ngọc",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh căn ở quán trên đường Ba Tháng Tư.",
+          "best_time": "Bữa sáng hoặc cuối buổi sáng",
+          "crowd_hint": "Khách quen địa phương hay ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:cdea9b0d-2261-4820-a186-d13c6a1e10d4",
+      "stored_name": "Bánh Căn Ngộ-Xóm Lèo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh căn ở khu Xóm Lèo, quán quen trên đường Huỳnh Tấn Phát.",
+          "best_time": "Buổi sáng, khi mẻ bánh đầu tiên vừa ra",
+          "crowd_hint": "Không khí xóm, ít chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e8ef045f5b90ec6783b5e74",
+      "stored_name": "Bánh Căn Nhà Chung",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh căn gần đường Nhà Chung.",
+          "best_time": "Bữa sáng hoặc giữa trưa",
+          "crowd_hint": "Quán nhỏ, thường đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:57f85981-aa8c-4aef-b051-1fdaee0827d8",
+      "stored_name": "Bánh Căn Nhà Yến",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé ăn bánh căn kiểu Đà Lạt ở quán trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Buổi sáng, trước trưa",
+          "crowd_hint": "Có thể đông vào giờ ăn sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c692e15e-b410-4624-bcda-99100388b253",
+      "stored_name": "Bánh Cuốn Nị Bánh Cuốn Thịt Nướng ĐL",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh cuốn ăn kèm thịt nướng ở quán trên đường Hai Bà Trưng.",
+          "best_time": "Bữa trưa hoặc tối sớm",
+          "crowd_hint": "Đông khách; có thể phải chờ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:65806f02-6615-40d7-8f7e-d2db8bb16266",
+      "stored_name": "Bánh cuốn nóng - Cháo hến Cô Hoá",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Làm ấm người với bánh cuốn nóng hoặc cháo hến ở quán trên đường Phan Đình Phùng.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Không khí quán ăn bình dân"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:607a47618e0b39510cfd8fe5",
+      "stored_name": "Bánh Mì 47",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua ổ bánh mì ở quầy trên đường Hoàng Diệu.",
+          "best_time": "Buổi sáng hoặc giữa trưa",
+          "crowd_hint": "Ghé nhanh; hàng chờ đi nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8bb00d90-ff5f-41b9-aa73-f8cb802ce523",
+      "stored_name": "Bánh mì Bảo Bảo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua ổ bánh mì ở quán trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, ăn nhanh.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:4cf9535c-c3fb-4469-aae6-3300453ffdfc",
+      "stored_name": "Bánh Mì Chảo 303",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh mì chảo, bánh mì ăn kèm chảo topping chiên nóng, trên đường Hai Bà Trưng.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:65003ccf8a7d4e25a8f1d08f",
+      "stored_name": "Bánh Mì Chảo Tasty",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé quán trên đường Hai Bà Trưng ăn một bữa bánh mì chảo.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:71ffaf0b-5385-48b8-8cfc-bae184d31667",
+      "stored_name": "Bánh Mì Hà",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn ổ bánh mì truyền thống ở quán trên đường Nhà Chung.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5a97444c-fcad-41de-af3a-32d2403be708",
+      "stored_name": "Bánh Mì Hoàng Long",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé mua bánh mì ở quán trong hẻm đường Nguyễn Văn Cừ.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:73b8905c-3e5d-44ad-ac5a-cbc2e668f210",
+      "stored_name": "Bánh mì thịt nướng Chú Luân",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức bánh mì thịt nướng ở xe trên đường Huyền Trân Công Chúa.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ac93aa75-e869-417b-a4f0-828b5fc9eb86",
+      "stored_name": "Bánh Mì Xíu Mại",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh mì xíu mại ở quán trên đường Hoàng Diệu.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6dced2dc-36f0-4b32-af41-5079c6518ac8",
+      "stored_name": "Bánh Mì Xíu Mại",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh mì xíu mại ở quán đầu hẻm đường Phan Đình Phùng.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f9df107e-83bc-4c9f-bd5c-dced428fa14e",
+      "stored_name": "Bánh Mì Xíu Mại 21",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé ăn bánh mì xíu mại ở quán trên đường Nguyễn Công Trứ.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:87f2c9fa-06f8-4ef3-8799-0bbeae52fd2b",
+      "stored_name": "Bánh Mì Xíu Mại 79",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh mì xíu mại ở quán trên đường Ba Tháng Hai.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d92c443f-51f8-4e10-86ef-500b2433ae5f",
+      "stored_name": "Bánh mì xíu mại Chén",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé ăn bánh mì xíu mại ở quán trên đường Lê Quý Đôn.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8e6f4205-6a64-4b8b-8075-5f79b85cdfd0",
+      "stored_name": "Bánh mì xíu mại Cô Tuy - Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tìm đến xe bánh mì xíu mại trên đường Hai Bà Trưng.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7eca2f69-5c9e-48a0-bab0-dda06df16d03",
+      "stored_name": "Bánh Mì Xíu Mại Xôi Muội Quán",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh mì xíu mại ở quán trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Buổi trưa hoặc đầu giờ chiều, cho một bữa nhanh gọn.",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:52db8e5311d2ade68889a8ad",
+      "stored_name": "Bánh Tráng Nướng 112 Nguyễn Văn Trỗi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm bánh tráng nướng, đặc sản Đà Lạt, ở quán ven đường này.",
+          "best_time": "Buổi tối, khi các hàng ăn vặt bày ra.",
+          "crowd_hint": "Giờ cao điểm buổi tối phải chờ một chút."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:0f166149-c043-4189-b3b1-36071fee2bb2",
+      "stored_name": "Bánh tráng nướng 54",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh tráng nướng phủ nhân mặn ở xe này.",
+          "best_time": "Chiều muộn đến tối.",
+          "crowd_hint": "Người địa phương hay ghé sau giờ làm."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:cfc406cc-7005-4f75-ae01-938787f35d30",
+      "stored_name": "Bánh Tráng Nướng Cô Lụa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn bánh tráng nướng, món ăn đường phố quen thuộc của Đà Lạt, ở hàng này.",
+          "best_time": "Buổi tối.",
+          "crowd_hint": "Có thể đông vào giờ ăn tối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c52962c6-7a6b-492f-a8d8-542b8f677ff6",
+      "stored_name": "Bánh tráng nướng phô mai",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức bánh tráng nướng phủ phô mai ở hàng ăn vặt này.",
+          "best_time": "Buổi tối, lúc đông khách nhất.",
+          "crowd_hint": "Gần giờ ăn tối thường đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5ae5c1d6d1a402002c674160",
+      "stored_name": "Bánh Ướt Lòng Gà",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm bánh ướt lòng gà: bánh ướt ăn kèm lòng gà.",
+          "best_time": "Buổi sáng, khi bánh vừa tráng.",
+          "crowd_hint": "Người địa phương hay ăn sáng ở đây."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:01d8de4a-82ea-4ad8-bcd1-bdf4f5b792e3",
+      "stored_name": "Bánh Ướt Lòng Gà 70",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh ướt lòng gà, món điểm tâm của người địa phương.",
+          "best_time": "Sáng sớm.",
+          "crowd_hint": "Có thể đông trước 9 giờ sáng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6c4c3813-237d-47db-bdfb-4902ff251445",
+      "stored_name": "Bánh Xèo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi bánh xèo giòn nhân tôm, thịt và giá.",
+          "best_time": "Bữa trưa hoặc tối.",
+          "crowd_hint": "Đông vừa phải vào giờ ăn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:01cfebf8-3352-498d-a8c2-9f13eae00ee6",
+      "stored_name": "Bảo Đại Palace II (Dinh II)",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tham quan dinh nghỉ mát của vị vua cuối cùng của Việt Nam, với các phòng bày trí theo thời đó và khu vườn.",
+          "best_time": "Sáng sớm, tránh các đoàn khách",
+          "crowd_hint": "Có thể đông vào buổi trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:17f8576a-d0b8-42f3-acfa-6523a632e6ea",
+      "stored_name": "Bảo Đại Waterfall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé khu du lịch thác Bảo Đại với thác nước và hồ.",
+          "best_time": "Từ sáng đến đầu giờ chiều",
+          "crowd_hint": "Có thể đông đoàn khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7e6d53d1-5eba-4e8d-a588-898d91acccfc",
+      "stored_name": "Bệnh viện Đa khoa tỉnh Lâm Đồng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nơi khám chữa bệnh khi cần trong chuyến đi Đà Lạt.",
+          "best_time": "Cấp cứu 24/7; phòng khám ngoại trú thường làm ban ngày.",
+          "crowd_hint": "Thường đông; nên chuẩn bị chờ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d4e94f52-33d1-42a7-95a2-876d5730ac1d",
+      "stored_name": "Bệnh viện Hoàn Mỹ Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bệnh viện tư để khám chữa bệnh trong thời gian ở Đà Lạt.",
+          "best_time": "Ban ngày, nếu có hẹn khám.",
+          "crowd_hint": "Thường vắng hơn bệnh viện công."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b3020a53-c716-4505-8f66-c0b9e6bea8e2",
+      "stored_name": "Bến Xe Thành Bưởi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bến xe để đi các tỉnh thành khác từ Đà Lạt.",
+          "best_time": "Sáng sớm hoặc chiều muộn.",
+          "crowd_hint": "Gần giờ xe chạy thường phải xếp hàng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e6059431f6ef7d079cbd4a1",
+      "stored_name": "Bê Thui 371",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng bữa ở quán ăn trên đường Phan Đình Phùng.",
+          "best_time": "Ngoài giờ cao điểm cho đỡ đông",
+          "crowd_hint": "Quán ăn bình dân, có thể kín chỗ vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:0308daa1-3341-4247-ac27-f9120dfcdbed",
+      "stored_name": "Bia tươi BAY",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống bia tươi, ăn món nhắm trên đường Hai Bà Trưng.",
+          "best_time": "Buổi tối, lúc quán nhộn nhịp",
+          "crowd_hint": "Hợp đi nhóm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:65e1c747088dea2884b8483c",
+      "stored_name": "Bông Lan Trứng Nướng Kimi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé mua bánh nướng ở tiệm này.",
+          "best_time": "Buổi sáng, khi bánh còn mới",
+          "crowd_hint": "Tiệm bánh nhỏ của người địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7b9f9d02-98a1-4cf9-94bd-408501156ee3",
+      "stored_name": "Bò Nhúng Dứa Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử lẩu bò của Đà Lạt ở quán này.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Đông vào bữa tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:db8cb122-ada1-4c52-a5ff-cc5344e9dd45",
+      "stored_name": "Book & Vinyl Home Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lựa sách và đĩa than ở tiệm này.",
+          "best_time": "Buổi chiều, thong thả xem đồ",
+          "crowd_hint": "Tiệm nhỏ dành cho người mê, yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:90c431c2-a18e-4c3e-bfbf-843280fff680",
+      "stored_name": "Buffet Lẩu - Nướng Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Buffet lẩu và nướng ăn thả ga trên đường Nhà Chung.",
+          "best_time": "Giờ buffet trưa hoặc tối",
+          "crowd_hint": "Đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:6795eecdf5626f32661e4215",
+      "stored_name": "Buffet Rau Robinson",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Buffet rau ở quán trên đường Đống Đa.",
+          "best_time": "Buổi trưa, khi rau còn tươi",
+          "crowd_hint": "Bình dân, giá phải chăng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:99ca4999-0c5a-4ce7-97c2-d04efc6d9096",
+      "stored_name": "Bún bò dì bê",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bún bò ở quán này.",
+          "best_time": "Giờ trưa",
+          "crowd_hint": "Quán bún được nhiều người ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:4f024db4-84bb-4a0c-b270-a0fc3920c0e9",
+      "stored_name": "Bún Bò Thố Đá Hoa Dó",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bún bò thố đá trên đường Nguyễn Du.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Quán nhỏ ấm cúng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ef970f9a-ca82-43bd-bc3e-5fa89672d1d6",
+      "stored_name": "Cacao Villa Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Sản phẩm và trải nghiệm ca cao ở biệt thự này.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Điểm chuyên biệt, yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:70933eeb-e384-4f8e-9d82-678c2bfa7973",
+      "stored_name": "Cafe Hoàng Việt Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống ly cà phê Việt trên đường Phan Đình Phùng.",
+          "best_time": "Giữa buổi sáng hoặc sau bữa trưa",
+          "crowd_hint": "Quán nhỏ ven đường, cuối tuần có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:17652960-bc7b-43ee-9ac5-4bf82dd1eeea",
+      "stored_name": "Cafe Sóc Nâu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê giản dị trên đường Trần Nhân Tông, nghỉ chân yên tĩnh.",
+          "best_time": "Giữa buổi sáng, trước giờ trưa đông khách",
+          "crowd_hint": "Quán của người địa phương, không quá đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:43e65910-5f2b-40f1-af63-122bb17a47be",
+      "stored_name": "Cafe Tỏi Đen Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Trần Hưng Đạo, ở trung tâm Đà Lạt.",
+          "best_time": "Giữa buổi chiều, tránh giờ trưa",
+          "crowd_hint": "Đường trung tâm, người qua lại vừa phải."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:35660dcc-5e1c-442e-a3da-53acefe5d78f",
+      "stored_name": "Cafe Tùng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê ở khu Hòa Bình, ghé nghỉ chân uống cà phê.",
+          "best_time": "Cuối buổi sáng hoặc đầu giờ chiều",
+          "crowd_hint": "Khu trung tâm, có lúc nhộn nhịp."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9e01062e-7efb-40c3-b1a9-4f6000b263ea",
+      "stored_name": "CamLy garden - Vườn sen đá Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm sen đá và cây cảnh ở khu vườn trên đường Trịnh Hoài Đức.",
+          "best_time": "Sáng sớm, khi nắng dịu",
+          "crowd_hint": "Thường vắng, cuối tuần đông hơn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e94f9abe-8999-403b-ae4f-4bdecc5d376f",
+      "stored_name": "Cam Ly Waterfall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Con thác nhỏ ở rìa phía tây thành phố; dòng suối mang nước thải của thành phố và thường bốc mùi, nên chỉ đáng ghé nhìn qua.",
+          "best_time": "Sáng sớm hoặc chiều muộn",
+          "crowd_hint": "Ít khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2d018fe3-d0b8-42eb-8207-cfe888be4fb9",
+      "stored_name": "Cà Phê Chồn Trại Hầm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê chồn ở quán trên đường Hoàng Hoa Thám.",
+          "best_time": "Giữa buổi sáng, tránh buổi chiều đông khách",
+          "crowd_hint": "Quán nhỏ, dễ kín chỗ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c7c6427d-17ce-4890-a667-007b44646f4a",
+      "stored_name": "Cà Phê H36",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống ly cà phê ở quán bình dân trên đường Trần Phú.",
+          "best_time": "Cuối buổi sáng",
+          "crowd_hint": "Quán ven đường, khách địa phương ra vào đều."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b0aab0d2-5902-439a-b804-3c8ca8e7fbee",
+      "stored_name": "Cà phê Nhớ Hoài",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngồi ở quán cà phê từng là bối cảnh chính của phim Em và Trịnh.",
+          "best_time": "Cuối buổi sáng, trước bữa trưa",
+          "crowd_hint": "Người mê phim hay ghé, không quá đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:63ad70071d384650d7c49900",
+      "stored_name": "Cà phê Trứng Cô Ba",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi ly cà phê trứng ở quán trên đường Hai Bà Trưng.",
+          "best_time": "Giữa buổi chiều, tránh giờ trưa xếp hàng",
+          "crowd_hint": "Nổi tiếng cà phê trứng, giờ cao điểm có thể phải xếp hàng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:641d9fece90b2a6c085d8dd3",
+      "stored_name": "Chạm Cafe & Kem Bơ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê hoặc ăn kem bơ ở quán trong khu Hòa Bình.",
+          "best_time": "Cuối buổi sáng hoặc sau bữa tối",
+          "crowd_hint": "Ngay trung tâm, người qua lại đều."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:40aa5b81-1646-47bf-961d-83d2d8eccd51",
+      "stored_name": "Chân Bê Lẩu Quán",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn lẩu ở quán trên đường Ngô Quyền.",
+          "best_time": "Đầu buổi tối, để có bàn",
+          "crowd_hint": "Đông vào giờ ăn tối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9652c780-136d-4768-b875-2feb504b5b5d",
+      "stored_name": "Chè Bơ CK THÍCH",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi chè và món tráng miệng ở quán trên đường Hồ Xuân Hương.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Ghé nhanh, có thể phải xếp hàng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:dbbd0ddc-e747-4c29-bb2a-9b2f11b9f94f",
+      "stored_name": "Chè Hẻm Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn trên đường Trần Hưng Đạo, ăn vặt món địa phương nhanh gọn.",
+          "best_time": "Ăn vặt lúc nào cũng được",
+          "crowd_hint": "Bình dân, thường có khách đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:61d2f58a6df268558ac9caa5",
+      "stored_name": "Chill Chill Eatery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé dùng bữa ở quán trên đường Đặng Thái Thân.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông vừa phải vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a31d2e51-8c91-4447-a5d1-4b78dbd3752b",
+      "stored_name": "Chip Chip - bánh căn",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh căn ở quán trên đường Tăng Bạt Hổ.",
+          "best_time": "Buổi sáng hoặc đầu giờ chiều",
+          "crowd_hint": "Đông vào giờ ăn sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3cb3c98d-7219-4849-ad82-3e8044abfb17",
+      "stored_name": "Chợ Nông Sản Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem nông sản tươi và hàng nông nghiệp của vùng Đà Lạt.",
+          "best_time": "Buổi sáng, khi nông sản tươi nhất",
+          "crowd_hint": "Sáng sớm đông người địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3d294d2a-628a-4884-8418-5d5f39ed46b3",
+      "stored_name": "Chùa Liên Trì",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Viếng ngôi chùa trên đường Kim Đồng để tĩnh tâm.",
+          "best_time": "Sáng các ngày trong tuần, tránh đông",
+          "crowd_hint": "Yên tĩnh ngoài giờ tụng kinh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4efebd5293adc82457bcbb0e",
+      "stored_name": "Chùa Tàu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngôi chùa theo lối kiến trúc Hoa ở khu Khe Sanh.",
+          "best_time": "Buổi sáng hoặc chiều muộn",
+          "crowd_hint": "Thường yên tĩnh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:69575fc50a1e727e1c357479",
+      "stored_name": "Cơm Gà Xối Mỡ Bà Quý",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cơm gà xối mỡ trên đường Lê Văn Tám.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:0f75366f-e54b-4bfd-a0fd-d3495fe95cfe",
+      "stored_name": "Cơm Niêu Hoàng Cung",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi cơm niêu ở quán trên đường Đống Đa.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Buổi tối nhộn nhịp"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:698c22a15c114c662a2aa61a",
+      "stored_name": "Cơm Niêu Thương Nhớ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cơm niêu trên đường Hồ Tùng Mậu.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Bình dân, khách đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a3241c02-d16f-4cca-aec1-88499c31b1d7",
+      "stored_name": "Cơm Tấm Cô Ba Nè",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cơm tấm ở quán trên đường Nguyễn Công Trứ.",
+          "best_time": "Bữa trưa",
+          "crowd_hint": "Quán cơm trưa của người địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8ec2a6ec-94e5-48ad-bbd1-5909ea1bffd6",
+      "stored_name": "Cơm Tấm Sườn Mỡ  Mỹ Xuyên ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Cơm tấm sườn ở quán trên đường Kim Đồng.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Khách đều vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:61d4533f405aac31f1e1e079",
+      "stored_name": "Cộng Cà Phê",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê Việt ở quán trên đường Phan Đình Phùng.",
+          "best_time": "Giữa buổi sáng hoặc giữa buổi chiều.",
+          "crowd_hint": "Có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3494fa74-526a-40af-800d-0916b88356e2",
+      "stored_name": "Công viên Ánh Sáng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đi dạo trong khoảng xanh rộng rãi dọc đường Ánh Sáng.",
+          "best_time": "Sáng sớm hoặc chiều muộn.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3f691e9a-1d7a-4d73-95c1-dcaa504031b0",
+      "stored_name": "Cửa Tiệm: Cà Phê Trong Rừng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé quán cà phê trên đường Hà Huy Tập, phường 3.",
+          "best_time": "Giữa buổi chiều.",
+          "crowd_hint": "Quán của người địa phương."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:efaad3d8-c36f-4f0a-a74a-7745f1d16394",
+      "stored_name": "Cù Lần Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem trưng bày về văn hóa và nghề thủ công của đồng bào dân tộc thiểu số địa phương.",
+          "best_time": "Buổi chiều, khi vắng hơn",
+          "crowd_hint": "Cuối tuần có thể đông",
+          "etiquette": "Hỏi trước khi chụp ảnh người dân."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:afdebb4d-fcf2-496f-a12b-4cb89d7feda9",
+      "stored_name": "Đặc sản Đà Lạt - Hoa Hường",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua đặc sản Đà Lạt ở sạp trong chợ Đà Lạt.",
+          "best_time": "Buổi sáng, khi chợ nhộn nhịp.",
+          "crowd_hint": "Sạp trong chợ, có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f1ce685a-ce3d-4e6f-a018-ee8c3989533f",
+      "stored_name": "DalaLand",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dành thời gian ở điểm vui chơi trên đường Yersin.",
+          "best_time": "Cuối buổi sáng hoặc đầu giờ chiều.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d8838579-c350-4d2c-99d9-dc4e2714d6f1",
+      "stored_name": "Da Lat BUS Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đón xe buýt liên tỉnh ở bến trên đường Phan Bội Châu.",
+          "best_time": "Sáng sớm, giờ xe xuất bến.",
+          "crowd_hint": "Đông vào giờ xe chạy."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4da6ab7504377705c2fcf9fb",
+      "stored_name": "Đà Lạt Cable Car Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đi cáp treo từ ga đồi Robin.",
+          "best_time": "Những buổi sáng trời trong.",
+          "crowd_hint": "Cuối tuần có thể phải xếp hàng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:df3336ab-12cb-4382-869e-42087af64e10",
+      "stored_name": "Đà Lạt Children’s Prison",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm trại giam thiếu niên cũ, nay là di tích lịch sử quốc gia ghi lại quá khứ của nơi này.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Yên tĩnh, chủ yếu khách địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:689755b07c5fbf6aedc72481",
+      "stored_name": "Dalat Eiffel Tower",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé công trình trên đường Trần Phú, phường 3.",
+          "best_time": "Lúc nào trời còn sáng.",
+          "crowd_hint": "Dừng nhanh chụp ảnh."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5fed6c43987d4c53f1e3b3e6",
+      "stored_name": "Dalat Fairytale Land",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dành thời gian ở điểm tham quan thiên nhiên trên đường Hoàng Văn Thụ.",
+          "best_time": "Buổi sáng hoặc chiều muộn.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f2ef2307-70f4-45f5-becd-6b5560bd7a76",
+      "stored_name": "Đà Lạt Intercity Bus Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đón xe khách đường dài đi các tỉnh ở bến xe trung tâm.",
+          "best_time": "Sáng sớm, giờ những chuyến đầu tiên.",
+          "crowd_hint": "Đông trước các dịp lễ lớn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d3c984ce-5019-486b-a0bf-f3991f09fb10",
+      "stored_name": "Đà Lạt Organic Farm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm một nông trại hữu cơ ở Đà Lạt.",
+          "best_time": "Buổi sáng, để xem việc đồng áng hằng ngày",
+          "crowd_hint": "Thường yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a38cec86-f751-438d-a47c-7bbc9c4ea431",
+      "stored_name": "Da Lat Pedagogy College",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm tòa trường học thời Pháp, khuôn viên cũ của trường Lycée Yersin.",
+          "best_time": "Ban ngày, để ngắm kiến trúc",
+          "crowd_hint": "Yên tĩnh ngoài giờ học"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1a2d66bc-5aa1-4a5b-b3e6-dd577164a4c2",
+      "stored_name": "Đà Lạt Succulent Garden",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo khu vườn sen đá ở Đà Lạt.",
+          "best_time": "Buổi sáng, khi nắng dịu trên cây",
+          "crowd_hint": "Vườn nhỏ, hiếm khi đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:69816f46fc03b0051d0e9a76",
+      "stored_name": "Đậm Đà Lạt Coffee Roasters",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức cà phê rang tại chỗ ở xưởng rang.",
+          "best_time": "Nghỉ chân uống cà phê lúc nào cũng được",
+          "crowd_hint": "Được người mê cà phê ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:580c4c87d67c3294615842f3",
+      "stored_name": "Datanla High Rope Course",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử sức với trò leo dây mạo hiểm trên cao giữa rừng.",
+          "best_time": "Buổi sáng, trước khi trời nóng",
+          "crowd_hint": "Đi nhóm có thể đặt trước"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5025b6af-e2d9-456a-8a03-4f0ecf91f657",
+      "stored_name": "Delight Park Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Vui chơi ở khu giải trí trên đường Hồ Xuân Hương.",
+          "best_time": "Buổi chiều, khi các trò chơi mở cửa",
+          "crowd_hint": "Cuối tuần nhiều gia đình"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:cae6ff86-bbf1-4cb0-aa7c-33d83e0421f6",
+      "stored_name": "Dê Núi Langbiang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử các món dê vùng núi Langbiang.",
+          "best_time": "Buổi tối, ăn bữa tối",
+          "crowd_hint": "Đông vào giờ ăn tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2abd03a7-b91b-4d03-851b-38e6584060c2",
+      "stored_name": "Dê Quay Bombo Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm dê quay ở quán địa phương.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Kín chỗ vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:dcae9e75-304f-4442-b4e6-55366add3d38",
+      "stored_name": "Điểm dã ngoại Suối Vàng - Suối Bạc",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dã ngoại bên suối Vàng và suối Bạc.",
+          "best_time": "Mùa khô, hợp đi dã ngoại",
+          "crowd_hint": "Nhiều gia đình địa phương ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b359e4fb-0084-4aae-8965-8249ce6c75f1",
+      "stored_name": "Dimsum A Tấu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi dimsum ở quán địa phương.",
+          "best_time": "Bữa sáng muộn hoặc trưa",
+          "crowd_hint": "Khách ra vào đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e855d600-8b03-417d-9b3a-fc47f40aa971",
+      "stored_name": "Dinh I Palace",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm dinh thự cổ nay là bảo tàng.",
+          "best_time": "Buổi sáng, tránh nắng chiều",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b21832e4-e9f7-4b47-bf79-10dfbedc647e",
+      "stored_name": "Dinh Tỉnh Trưởng Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm dinh Tỉnh trưởng cũ, công trình thời Pháp trên đường Lý Tự Trọng.",
+          "best_time": "Sáng các ngày trong tuần",
+          "crowd_hint": "Hiếm khi đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5967afd6-ccc0-452e-aa27-637fe5644816",
+      "stored_name": "Đồi Cỏ Hồng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm cỏ hồng phủ sườn đồi ở phường 4.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Chiều muộn đông người chụp ảnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a3f38a65-627a-4f39-b2ad-9e2eb25c68cd",
+      "stored_name": "Đồi cỏ hồng Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm đồi cỏ hồng ở khu Thung lũng Vàng.",
+          "best_time": "Sáng các ngày trong tuần",
+          "crowd_hint": "Cuối tuần có thể đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e6ec0431-0863-41b6-ab80-4aad87eb424a",
+      "stored_name": "Đồi hoa hướng dương Nam Hồ Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm cánh đồng hoa hướng dương trên sườn đồi khu Nam Hồ.",
+          "best_time": "Buổi sáng, ánh sáng đẹp nhất",
+          "crowd_hint": "Mùa hoa nở có thể đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:674d9c1e4a4a6e6bf515ede6",
+      "stored_name": "Drinkery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bar ở trung tâm cho những ly rượu buổi tối, không khí sôi động.",
+          "best_time": "Buổi tối, sau 8 giờ",
+          "crowd_hint": "Đông dần về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:01c19cf5-0568-45aa-8019-d5ffd280d5b6",
+      "stored_name": "Drunkmate Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cocktail trên đường Hùng Vương với đồ uống pha chế công phu.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Khách đều sau bữa tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2d919e2d-8823-4caa-aadd-e603806b500e",
+      "stored_name": "DuSam Craft Beer and Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bia thủ công và cà phê ở quán kết hợp bar và cà phê này.",
+          "best_time": "Buổi tối, lúc quán sôi động.",
+          "crowd_hint": "Cuối tuần có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:67cdc814-179e-4ada-8bd6-6561a060e2ee",
+      "stored_name": "Elixer Cocktail Bar Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhâm nhi cocktail ở quán bar khu Cam Ly.",
+          "best_time": "Sau bữa tối đến khuya.",
+          "crowd_hint": "Cuối tuần sôi động."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:67444fca509a475b3fdb4760",
+      "stored_name": "Émai Italian Restaurant & Gardens",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng món Ý trong khu vườn.",
+          "best_time": "Cho bữa trưa hoặc tối thong thả.",
+          "crowd_hint": "Bàn ngoài vườn được nhiều người chọn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5d9dd7a0f6332c00080adb42",
+      "stored_name": "Fox’s Den",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn với vài ly ở quán bar này.",
+          "best_time": "Khuya.",
+          "crowd_hint": "Cuối tuần có thể kín chỗ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8423104e-59ca-4a58-94b7-a81f88691c23",
+      "stored_name": "Futa Buslines Terminal, Dalat City",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bến chính của xe Futa nối Đà Lạt với các tỉnh thành khác.",
+          "best_time": "Đến sớm trước giờ xe chạy.",
+          "crowd_hint": "Đông vào mùa cao điểm đi lại."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:fab02947-6722-446e-9f18-1f477127bb57",
+      "stored_name": "Gà Nướng Cơm Lam 368",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử gà nướng cơm lam ở quán địa phương này.",
+          "best_time": "Giờ ăn tối.",
+          "crowd_hint": "Được cả người địa phương lẫn khách du lịch ưa chuộng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:57e738dd-66cc-4d65-80c9-fceac57e9016",
+      "stored_name": "Gà Nướng Cơm Lam Như Ý",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm gà nướng và cơm lam ở quán bình dân này.",
+          "best_time": "Buổi tối, ăn bữa tối.",
+          "crowd_hint": "Giờ cao điểm phải chờ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1c80c273-a1b4-428c-bd9c-7385cfe12042",
+      "stored_name": "Gạo Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức cà phê ở quán trên đường Thiện Mỹ.",
+          "best_time": "Nghỉ chân buổi sáng hoặc chiều.",
+          "crowd_hint": "Ấm cúng, thường không quá đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f018bd53-9392-4ab0-9edc-12a0e89c5d02",
+      "stored_name": "Gemination Eatery and Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống và ăn nhẹ ở quán kết hợp quán ăn và bar này.",
+          "best_time": "Từ tối đến đêm.",
+          "crowd_hint": "Cuối tuần sôi động."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:fb07c404-24fc-4968-8610-812aa97059fb",
+      "stored_name": "Gốc Đa Quán",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng các món Việt kiểu cơm nhà ở quán do gia đình làm.",
+          "best_time": "Bữa trưa hoặc tối.",
+          "crowd_hint": "Quán quen của người địa phương, có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8f896c60-1b09-4b8e-8494-fc25e0eb5aab",
+      "stored_name": "Gốm Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trong khu biệt thự cổ đường Nguyễn Viết Xuân.",
+          "best_time": "Giữa buổi sáng hoặc buổi chiều.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ee89f28d-e132-41c4-8378-d90455b4ba72",
+      "stored_name": "Gốm thủ công Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem đồ gốm thủ công của Đà Lạt trên đường Phạm Hồng Thái.",
+          "best_time": "Giữa buổi sáng, khi các cửa hàng đã mở.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bdfa494b-d92d-4c4f-94b3-fe656244b648",
+      "stored_name": "Hải Sản Ốc Út Như Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm hải sản và các món ốc trên đường Đống Đa.",
+          "best_time": "Buổi tối, giờ người địa phương đi ăn.",
+          "crowd_hint": "Được người địa phương ưa chuộng, có thể đông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8e63af8f-cb05-4270-a375-91e04946b990",
+      "stored_name": "Hầm Rượu Vang Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm chuyên về rượu vang trên đường Hùng Vương.",
+          "best_time": "Buổi chiều, thong thả xem.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9264905f-3b26-4f8d-9ad4-a3a06b71f07f",
+      "stored_name": "HÈM - Bia xịn mồi ngon",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bia thủ công và đồ nhắm trên đường An Dương Vương.",
+          "best_time": "Buổi tối, đi uống.",
+          "crowd_hint": "Sôi động hơn về khuya."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bcc1a952-312a-4f9d-9e09-a4b4b492eb35",
+      "stored_name": "Highlands Coffee Lam Vien Square",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Cà phê chuỗi ở quảng trường Lâm Viên, gần đường Trần Quốc Toản.",
+          "best_time": "Nghỉ chân uống cà phê lúc nào cũng được.",
+          "crowd_hint": "Đông vào giờ cao điểm."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8b561d05-8d96-4fa1-9184-93137423d1be",
+      "stored_name": "Hoa Hồng Ngoại Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Vườn hoa hồng gần sân bay Cam Ly.",
+          "best_time": "Buổi sáng, khi hoa còn tươi.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c4944271-ed2d-41a7-a7ad-f8cf7b140f36",
+      "stored_name": "HOA THÔNG Brewing CO",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bia thủ công trong hẻm đường Đinh Tiên Hoàng.",
+          "best_time": "Buổi tối.",
+          "crowd_hint": "Không gian nhỏ, dễ kín chỗ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d24043c0-0824-4b50-982c-55aab2401eae",
+      "stored_name": "Hồng Treo Gió Hoshigaki",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử hồng treo gió trên đường Bạch Đằng.",
+          "best_time": "Buổi sáng hoặc chiều.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e364e0ac-8b15-4bc1-aaa7-af68bc076835",
+      "stored_name": "Honolulu Beer Club",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bia trên đường Nguyễn Chí Thanh.",
+          "best_time": "Từ tối đến khuya.",
+          "crowd_hint": "Sôi động về đêm."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:54e67d9e-7d30-4c4d-a040-3bb0ff9f84a6",
+      "stored_name": "Hồ Trên Mây",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đồ ăn thức uống ngay tại ga cáp treo.",
+          "best_time": "Trước hoặc sau khi đi cáp treo.",
+          "crowd_hint": "Đông khi các đoàn khách dừng chân."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a561ac97-279e-494d-a314-290122233f3f",
+      "stored_name": "Hột vịt lộn bà cụ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử hột vịt lộn, món ăn quen của người địa phương, ở hàng ven đường.",
+          "best_time": "Buổi tối, giờ người địa phương ăn vặt",
+          "crowd_hint": "Ghé nhanh, không có chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:56623ea1-5b86-431c-8957-eb2cc97e8ca7",
+      "stored_name": "Hủ tiếu dì sáu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn tô hủ tiếu ở quán địa phương này.",
+          "best_time": "Giờ trưa",
+          "crowd_hint": "Được người địa phương ưa chuộng, chờ một chút"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:92b0d8af-3371-49f2-9083-51c5178a8271",
+      "stored_name": "Hủ Tiếu Gà Hồng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm hủ tiếu gà ở hàng này.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Quán bình dân, thường đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5fe09860-523d-4926-9f5e-d3d6da0212dc",
+      "stored_name": "Hủ Tíu Hồng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Gọi tô hủ tiếu ở hàng bán lâu năm này.",
+          "best_time": "Giờ trưa",
+          "crowd_hint": "Bình dân, phục vụ nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:64a7f89dc037505b388b5f72",
+      "stored_name": "Indiagate Indian Restaurant",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng món Ấn ở trung tâm Đà Lạt.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Cuối tuần nên đặt bàn trước"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1f75a0ae-aa81-4213-9b9c-896845091d62",
+      "stored_name": "Indochinois cafe & wine",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn với ly vang hoặc cà phê trong không gian thoải mái.",
+          "best_time": "Buổi tối uống vang, buổi chiều uống cà phê",
+          "crowd_hint": "Yên hơn các quán bar sôi động, hợp để trò chuyện"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:96c2bea6-caa5-444a-ab52-93b7ba993636",
+      "stored_name": "KapiCafe Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê ở KapiCafe.",
+          "best_time": "Buổi sáng hoặc giữa buổi chiều",
+          "crowd_hint": "Quán quen của người địa phương, cuối tuần nên đến sớm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6fa8397c-b71d-4d7b-bb43-25e3cb27902c",
+      "stored_name": "Kem Bơ Côcô Lala",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử kem bơ béo mịn ở quán tráng miệng này.",
+          "best_time": "Buổi chiều hoặc tối",
+          "crowd_hint": "Món ăn vặt được ưa chuộng, xếp hàng nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:76624061-e5d5-4ff2-a305-9671786a6419",
+      "stored_name": "Kem Bơ Cơm tấm Mơ ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn kem bơ hoặc cơm tấm ở quán bình dân này.",
+          "best_time": "Bữa trưa hoặc tráng miệng buổi chiều",
+          "crowd_hint": "Thực đơn đa dạng, khách địa phương đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c373dd34-4f2d-43e6-bd42-39f890ef11c2",
+      "stored_name": "Kem Bơ Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức kem bơ ở trung tâm thành phố.",
+          "best_time": "Tráng miệng khi đi dạo buổi tối",
+          "crowd_hint": "Mua mang đi nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e66c798d-1526-46b6-8659-9ff5fb3605b5",
+      "stored_name": "Kem bơ Thạch Thảo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn bình dân trên đường Nguyễn Văn Trỗi, ghé ăn nhanh.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Quán nhỏ, chỉ ghé chốc lát"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5f9ba825551ee9255ba92683",
+      "stored_name": "Kem Phụng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán trên đường Nguyễn Văn Trỗi, ghé ăn vặt nhanh.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Người qua đường hay ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:304198ce-c930-4db9-8118-745e0ead9a63",
+      "stored_name": "Khói Café Cầu Hồng Kông Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm dừng chân trên đường Phù Đổng Thiên Vương.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Lúc đông lúc vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f94fc0de-d761-4f1e-83f3-59f74396dbcb",
+      "stored_name": "Khu du lịch Lavender Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu du lịch trên đường Hoàng Văn Thụ.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Có thể có đoàn khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:695b8cfb-a412-4500-b1d0-959f2ae6a2e8",
+      "stored_name": "Kít Bia Craft",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán chơi đêm trên đường Phan Bội Châu cho một buổi tối đi chơi.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Sôi động hơn vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:eb071c93-7510-4d83-bd1e-c8fd9416d232",
+      "stored_name": "Kitsune mochi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán trên đường Hai Bà Trưng, ghé ăn nhanh.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Quán nhỏ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:445bbc76-ca32-4f0f-983f-6d3d46aed3f2",
+      "stored_name": "Kombi Land",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan ở khu Mimosa.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Lúc đông lúc vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7db6e83a-0172-4411-9533-77fd8f93cfc3",
+      "stored_name": "La Maritza Show",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Sân thượng của khách sạn Golden Sun trên đường Bà Huyện Thanh Quan.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Buổi tối đông khách hơn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e27b4c0f-aa8d-483a-9b0e-971bd697c202",
+      "stored_name": "Làng An Crafts",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Lý Tự Trọng.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:828b5cde-53d6-4b42-95d3-ed37333b092b",
+      "stored_name": "Lặng Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngồi uống cà phê Việt trên một con phố yên tĩnh.",
+          "best_time": "Giữa buổi sáng, nghỉ chân thong thả",
+          "crowd_hint": "Thường yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:50d702dde4b01e0c6ab2d137",
+      "stored_name": "L'angfarm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Một điểm địa phương trên đường Tăng Bạt Hổ.",
+          "best_time": "Giờ mở cửa",
+          "crowd_hint": "Thường không ồn ào"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c7047b81-0861-4203-91b0-6334fe456eae",
+      "stored_name": "Langfarm Center",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo quanh vườn và ruộng rẫy ở ven thành phố.",
+          "best_time": "Buổi sáng, khi trời mát",
+          "crowd_hint": "Cuối tuần nhiều gia đình"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7b7c9c9e-ca35-4dc5-9aef-f44066d5f7e0",
+      "stored_name": "Làng Nấm Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm khu trồng nấm trên đường Cam Ly.",
+          "best_time": "Buổi sáng, khi trời mát",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:404440db-b253-4a5e-8fa2-2b287372bbb2",
+      "stored_name": "Lasay wine bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn với ly vang trên một con phố trung tâm Đà Lạt.",
+          "best_time": "Buổi tối, sau bữa tối",
+          "crowd_hint": "Đông dần về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:17c5b37b-74f1-4285-8c5c-79e0e892ea7e",
+      "stored_name": "Last Stop Bar Da Lat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống một ly ở quán bar bình dân trong trung tâm.",
+          "best_time": "Khuya, khi không khí sôi động hơn",
+          "crowd_hint": "Cuối tuần có thể ồn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:261f0e11-be88-460b-a389-066f381649e8",
+      "stored_name": "LAS VEGAS Beer Club",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống bia, giao lưu trên đường Hai Bà Trưng.",
+          "best_time": "Ban đêm, lúc nhộn nhịp nhất",
+          "crowd_hint": "Thường có nhóm đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:22bf59f0-736b-47b1-a8a5-76584c57568d",
+      "stored_name": "Lạt Spirits",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử rượu nấu tại địa phương trong một con hẻm nhỏ.",
+          "best_time": "Buổi tối, nhâm nhi thong thả",
+          "crowd_hint": "Không gian nhỏ, ấm cúng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:da089f8d-16bb-4805-85c2-08f12e638a84",
+      "stored_name": "Lẩu Atisô Bếp Chú Đạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn lẩu atisô trên đường Đoàn Thị Điểm.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:29fd0bac-fa1f-4fc8-94f0-5376f2b3f7bd",
+      "stored_name": "Lẩu Bò Ba Toa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn lẩu bò ở quán trên đường Bùi Thị Xuân.",
+          "best_time": "Buổi tối, khi trời se lạnh",
+          "crowd_hint": "Có thể kín chỗ vào bữa tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ca3f3287-35fe-428c-b914-8aa1088b696b",
+      "stored_name": "Lẩu bò Sáu Hit I",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu bò trên đường Phù Đổng Thiên Vương, bữa ăn no ấm kiểu địa phương.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Có thể đông vào giờ ăn tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ae8fc69c-3159-437d-b858-a0cee5dac718",
+      "stored_name": "Lẩu bò Văn Hiệp Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu bò trên đường Quang Trung, món ấm bụng ở Đà Lạt.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8441bb2c-aa84-4ce8-9c73-951824e1280e",
+      "stored_name": "Lẩu Buffet Rau Đà Lạt Lagim",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Buffet lẩu rau trên đường Phan Bội Châu, rau địa phương ăn thả ga.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Giờ cao điểm có thể xếp hàng lấy buffet"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1407c96a-e4d4-4271-81ba-822841eb0f17",
+      "stored_name": "Lẩu Cá Tầm Đế Vương",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu cá tầm ở quán trên đường Hùng Vương, mở đến khuya.",
+          "best_time": "Khuya",
+          "crowd_hint": "Sôi động hơn khi trời tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:cc73c271-2f88-4b0f-b698-06aa5098ef4c",
+      "stored_name": "Lẩu Cá Tầm Ngư Sơn",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu cá tầm trên đường Trần Nhật Duật, món đặc trưng của Đà Lạt.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Đông như giờ ăn tối thường lệ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:27c22697-df78-467a-8419-c2b7184a7644",
+      "stored_name": "Lẩu gà Đà Lạt - Tía Lơ Ngơ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà Đà Lạt trên đường Trần Lê.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Có thể đông sau khi trời tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:16b367cf-5015-4f12-929a-7932465d3d0e",
+      "stored_name": "Lẩu Gà Lá Dít",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Yersin.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Giờ cao điểm có thể phải chờ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:34c1f1fb-ee4b-4555-ae77-78db8c9a931c",
+      "stored_name": "Lẩu Gà Lá É 3/4",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường 3/4.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông như giờ ăn tối thường lệ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bb1c671f-6cb5-4124-8010-0cd048cee2f5",
+      "stored_name": "Lẩu gà lá é 39",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Lê Đại Hành.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Có thể kín chỗ vào bữa tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5abe33f99ef8ef11768843ab",
+      "stored_name": "Lẩu gà lá é 668",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Chu Văn An.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:76bb77aa-884b-42d4-95a8-55787ad9c267",
+      "stored_name": "Lẩu Gà Lá É Alida",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Triệu Việt Vương.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Có thể đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8a860386-0342-4c28-a520-92413cb64369",
+      "stored_name": "Lẩu gà lá é Phú Yên",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Bùi Thị Xuân.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông như giờ ăn tối thường lệ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1ae65256-7fba-4e5d-84cb-e1d3ebf96910",
+      "stored_name": "Lẩu Gà Lá É Tao Ngộ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường 3/4.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông như giờ ăn tối thường lệ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:655f36f1d3a1052bfe8d7ba0",
+      "stored_name": "Lẩu Gà Lá É Tao Ngộ (Bùi Thị Xuân)",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu gà lá é trên đường Bùi Thị Xuân.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Có thể đông sau 7 giờ tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e8c2ccdf-3866-4833-8cf8-0c16267c62f4",
+      "stored_name": "Lẩu Khế Duy Hương - Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lẩu khế trên đường Hai Bà Trưng.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Đông vào giờ ăn tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:606a6e98ad952e1c3113df51",
+      "stored_name": "Là Việt Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê Việt rang ở quán trên đường Trần Quý Cáp.",
+          "best_time": "Giữa buổi sáng",
+          "crowd_hint": "Khách địa phương ra vào đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c3b2cdfa-2cec-419d-b0f0-dffa7dd4e136",
+      "stored_name": "Le Cafe de la Poste",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Trần Phú, ghé uống cà phê hoặc ăn nhẹ.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Được khách du lịch ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f32fb066-8284-4de9-ad11-0332080f0839",
+      "stored_name": "Léguda Buffet Rau Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng buffet trong khu du lịch Cáp Treo.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Nhiều đoàn và gia đình"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:95d1de7a-041f-46aa-803b-faa20399b83d",
+      "stored_name": "Le Jardin cafe - Yersin",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Yersin, nghỉ chân yên tĩnh.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Thường yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:60b3620b-7bad-4844-9335-54a0419088c4",
+      "stored_name": "Le Petit Jardin Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Tô Hiệu, uống cà phê và nghỉ ngơi thong thả.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Quán nhỏ, dễ kín chỗ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:54b23b9b498e21d894f28eaa",
+      "stored_name": "Linh Quang Pagoda",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngôi chùa yên tĩnh trên đường Hai Bà Trưng, ghé tĩnh tâm chốc lát.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Thường thanh tịnh",
+          "etiquette": "Che vai và đầu gối; cởi giày nếu vào chánh điện."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:554fe379-6af2-4be0-beae-cb00c9b0b986",
+      "stored_name": "Lost In Dalat Bar and Dreams",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bar trên đường Hai Bà Trưng cho những ly rượu buổi tối, không khí sôi động.",
+          "best_time": "Sau 9 giờ tối",
+          "crowd_hint": "Cuối tuần đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b0214e33-c29a-4c93-8bfb-6c75503f3c01",
+      "stored_name": "Marché Đà Lạt - Beer Garden",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Vườn bia ở khu Hòa Bình, ghé uống buổi tối.",
+          "best_time": "Buổi tối, khi trời mát",
+          "crowd_hint": "Tối cuối tuần sôi động"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3880329d-d5c5-4074-a6a3-d913f49fbfd7",
+      "stored_name": "Marché - Entertainment Complex",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu vui chơi giải trí trên đường Nguyễn Thị Minh Khai với nhiều hoạt động.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Hợp nhóm bạn và gia đình"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5b3e279790d1ed002c9c6d6e",
+      "stored_name": "Maze Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống buổi tối ở một quán bar tại Đà Lạt.",
+          "best_time": "Khuya",
+          "crowd_hint": "Không khí quán bar sôi động"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:484f1232-238c-443a-b59c-33cda0b7c56c",
+      "stored_name": "Meander Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê đặc sản hoặc matcha trên đường Hoàng Diệu.",
+          "best_time": "Buổi sáng hoặc đầu giờ chiều",
+          "crowd_hint": "Được người mê cà phê ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:05402a73-81e9-42d0-9959-acada1a1d738",
+      "stored_name": "Mew Roastery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm cà phê đặc sản ở xưởng rang trên đường Võ Trường Toản.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Không gian nhỏ, ít chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c1471a64-116c-4f10-98fd-96665e07380a",
+      "stored_name": "MiA Strawberry",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tham quan vườn dâu công nghệ cao ở làng hoa Vạn Thành.",
+          "best_time": "Buổi sáng, trước khi trời nóng",
+          "crowd_hint": "Cuối tuần đông gia đình"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:6945413bb423746b58cbfe16",
+      "stored_name": "Miến Gà Tường Vy",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn miến gà ở quán bình dân trên đường Nguyễn Chí Thanh.",
+          "best_time": "Bữa trưa hoặc tối sớm",
+          "crowd_hint": "Quán cơm trưa của người địa phương, đông lúc trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1f7a56e6-d0f9-4669-9713-0ae0d364e559",
+      "stored_name": "Milo dầm TL",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử Milo dầm ở quán quen trên đường Hà Huy Tập.",
+          "best_time": "Buổi chiều hoặc sau bữa tối",
+          "crowd_hint": "Đông sau giờ tan học và buổi tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:6a5dc7d73d670f6c0ddb20f2",
+      "stored_name": "Mì Quảng Thắng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn mì Quảng ở quán bình dân trên đường Nguyễn Lương Bằng.",
+          "best_time": "Bữa trưa",
+          "crowd_hint": "Đông vào giữa trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:66bc5d21-c22f-4c19-b792-dcee41219abf",
+      "stored_name": "MISTY Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhâm nhi cocktail ở quán bar trên đường Phan Đình Phùng.",
+          "best_time": "Từ đầu buổi tối đến khuya",
+          "crowd_hint": "Không gian nhỏ, nên đến trước giờ đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:74630602-8e85-4fba-b8b7-7cae778139ba",
+      "stored_name": "Mizu Bar Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống buổi tối ở quán bar trên đường Hoàng Diệu.",
+          "best_time": "Khuya",
+          "crowd_hint": "Vắng hơn vào tối các ngày trong tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5cb87e0fa30619002c904fb2",
+      "stored_name": "Moi Craft Beer",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bia thủ công trên đường Trương Công Định.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Dân mê bia tụ về buổi tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:65406ca39252d51057e7482d",
+      "stored_name": "Moto Laurie Cafe & Bistro",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê hoặc ăn bữa kiểu bistro trên đường Ngô Thì Sỹ.",
+          "best_time": "Cuối buổi sáng hoặc bữa trưa",
+          "crowd_hint": "Bình dân, khách địa phương đều"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4f3a4f88e4b0e3d3daf416e0",
+      "stored_name": "Nem nướng Bà Hùng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử nem nướng ở quán địa phương này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:98821112-2200-48fb-8dd7-e6b6fbfe0e07",
+      "stored_name": "Nem Nướng Hạnh Tâm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn nem nướng ở quán bình dân này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5f2a2521-c1c0-40aa-b101-fe367b9e21b4",
+      "stored_name": "Nem Nướng Hà Tốt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử nem nướng làm theo công thức gia truyền ở quán này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:df4f85df-48d3-4f9a-8822-7cf6c9882091",
+      "stored_name": "Nem nướng Ninh Hoà",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử nem nướng ở đây.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:52063ff411d220fdfdd4e48b",
+      "stored_name": "Nem Nướng Tân Long",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn nem nướng ở quán quen của người địa phương này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:66dd6d77-53d8-49ef-9912-b8c45291af0e",
+      "stored_name": "Nem nướng Út Huệ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử nem nướng ở quán này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ae0b9fdf-33a1-49aa-8599-c1b58e245052",
+      "stored_name": "Nem Nướng Văn Chung",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn nem nướng ở đây.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5b5aa3366f0aa2002cf88474",
+      "stored_name": "New Alpine Coaster",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé điểm thiên nhiên này để ngắm cảnh ngoài trời.",
+          "best_time": "Sáng các ngày trong tuần, ít khách hơn",
+          "crowd_hint": "Đông hơn vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ed39ba6b-f704-4331-968a-d1084ff52949",
+      "stored_name": "Nguyệt Ca",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua ly sữa đậu nành, sữa đậu xanh, sữa bí đỏ hoặc sữa bắp mát lành.",
+          "best_time": "Lúc nào cũng được",
+          "crowd_hint": "Phục vụ nhanh; có thể xếp hàng ngắn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5ca2f07f2db4a9002cdd0c9f",
+      "stored_name": "Nhà Dâu Ichigo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá khu thiên nhiên này ở Đà Lạt.",
+          "best_time": "Sáng sớm, khi trời mát",
+          "crowd_hint": "Vắng hơn vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:622883b0-ddf9-49b5-8ef3-298232cb8b3e",
+      "stored_name": "Nhà Hàng Cơm Niêu Mặt Hồ ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cơm niêu ở đây.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:532ff899-b47a-47cd-a842-fdd8aa8dbf9e",
+      "stored_name": "Nhà Hàng Ngon Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng bữa ở nhà hàng này tại Đà Lạt.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông như nhà hàng thường lệ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:47376f3b-07db-444e-ad83-3e980c666166",
+      "stored_name": "Nhà hàng Thủy Tạ Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng bữa ở nhà hàng này.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ca253e29-c9ce-4d28-8650-fd9fee9e8632",
+      "stored_name": "Nhà Thuốc FPT Long Châu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua thuốc thông thường và vật dụng y tế ở nhà thuốc trên đường Ngô Gia Tự.",
+          "best_time": "Trong giờ mở cửa thường lệ",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e1d4424d1640dd25204aa7b",
+      "stored_name": "Nhật Ly Restaurant",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử các món Việt ở nhà hàng trên đường Phan Đình Phùng.",
+          "best_time": "Giờ ăn, khi không khí nhộn nhịp",
+          "crowd_hint": "Có thể đông vào giờ cao điểm bữa ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:36dd2970-3a08-4267-a44b-ff4776177651",
+      "stored_name": "Nhà Vườn Hoa Hồng Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm vườn hồng và các khu trưng bày hoa ở điểm dừng gần Dankia.",
+          "best_time": "Buổi sáng, ánh sáng đẹp nhất",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:cc5d35ba-226c-4416-b41a-3935c3515415",
+      "stored_name": "NObar Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống và giao lưu ở quán bar trên đường Trương Công Định.",
+          "best_time": "Buổi tối, sau bữa tối",
+          "crowd_hint": "Có thể sôi động về đêm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3e9e6f5e-f8ae-46d2-bff5-176e81d4565a",
+      "stored_name": "Nữ Hoàng Atiso",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Mua sản phẩm atisô của địa phương ở cửa hàng trên đường Nguyễn Tử Lực.",
+          "best_time": "Lúc nào trong giờ mở cửa",
+          "crowd_hint": "Tiệm nhỏ, thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:815820df-8ecc-4039-aa2f-b1d370b3fcef",
+      "stored_name": "Ốc Ròm Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử các món ốc và hải sản ở quán trên đường Triệu Việt Vương.",
+          "best_time": "Buổi tối, đúng kiểu ăn vặt đường phố",
+          "crowd_hint": "Được người địa phương ưa chuộng, buổi tối đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:61f542960b3dca039c7a35ab",
+      "stored_name": "On The Rocks Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức cocktail và đồ uống buổi tối ở quán bar trên đường Trương Công Định.",
+          "best_time": "Khuya",
+          "crowd_hint": "Có thể đông về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3396d48b-5c55-44fb-b015-01a94e51dc92",
+      "stored_name": "Palace Club",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhảy và nghe nhạc ở câu lạc bộ trên đường Trần Phú.",
+          "best_time": "Tối cuối tuần, lúc sôi động nhất",
+          "crowd_hint": "Cuối tuần sôi động"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bccfb667-f0d0-4e35-a082-1df30ce9a8d5",
+      "stored_name": "Paradise Cocktail and View",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cocktail và đồ uống buổi tối ở quán bar trên đường Đặng Thái Thân.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Có thể sôi động về đêm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:03ca01eb-6e2d-4717-bcac-4f906415f8fa",
+      "stored_name": "Phi Long Sand Painting Da Lat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem tranh cát và có thể mua quà lưu niệm ở cửa hàng trên đường Vạn Hạnh.",
+          "best_time": "Lúc nào trong giờ mở cửa",
+          "crowd_hint": "Tiệm nhỏ, thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:aaa6f029-caf8-4770-a4d1-8cb0d9aa91c6",
+      "stored_name": "Phim Trường 3D World Da Lat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Chụp ảnh với các tác phẩm tranh 3D ở bảo tàng trên đường Lê Thị Hồng Gấm.",
+          "best_time": "Sáng các ngày trong tuần, tránh đông",
+          "crowd_hint": "Có thể đông vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2025ba28-ef63-46e7-9c53-5c32cb760498",
+      "stored_name": "Phở 126 Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán phở ở số 23/18, phường Xuân Hương, cho một bữa ăn đơn giản kiểu địa phương.",
+          "best_time": "Buổi sáng, ăn phở điểm tâm",
+          "crowd_hint": "Người địa phương ghé ăn sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:6987dba3ef33dc39d2e6e8a7",
+      "stored_name": "Phở Bát Đàn",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở trên đường Hoàng Văn Thụ, tô phở đơn giản.",
+          "best_time": "Buổi sáng hoặc giữa trưa",
+          "crowd_hint": "Quán nhỏ; khách ra vào nhanh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d2dbac49-15b9-4796-aeee-bb1ca0ae4701",
+      "stored_name": "Phở Bò Nam Quang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở bò ở quán trên đường Hoàng Diệu cho một bữa no kiểu địa phương.",
+          "best_time": "Bữa sáng hoặc đầu giờ trưa",
+          "crowd_hint": "Đông nhất vào giờ ăn sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:96132861-2671-43cb-b87a-2b984169b189",
+      "stored_name": "Phở Bò Tái Lăn",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở tái lăn trên đường Thông Thiên Học, tô phở bò ăn nhanh.",
+          "best_time": "Giữa buổi sáng, sau đợt đông đầu tiên",
+          "crowd_hint": "Được khách quen địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2a548d9e-7dbb-4cc6-91e6-6e0a68c1d707",
+      "stored_name": "Phở gà Phố Cổ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán phở gà trên đường Hai Bà Trưng cho tô phở thanh nhẹ hơn.",
+          "best_time": "Buổi sáng hoặc trưa",
+          "crowd_hint": "Khách đều quanh giờ trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:64f57a68e1af290dcbb6d57b",
+      "stored_name": "Phở Hiếu",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở trên đường Nguyễn Văn Trỗi, tô phở bình dân.",
+          "best_time": "Buổi sáng hoặc giữa trưa",
+          "crowd_hint": "Khách địa phương vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9a5d2273-bf38-4625-a0f8-202ab631eb32",
+      "stored_name": "Phòng trà Cung Đàn Xưa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phòng trà buổi tối trên đường Lê Hồng Phong, nghe nhạc và thưởng thức đồ uống.",
+          "best_time": "Buổi tối, theo chương trình phòng trà thường lệ",
+          "crowd_hint": "Yên hơn các hộp đêm chật kín"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ac056e34-4d99-45f7-87d5-a39c7ed46752",
+      "stored_name": "Phở Nguyễn Gia",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở ở số 33 Ngô Quyền cho một bữa ăn đơn giản kiểu địa phương.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Quán nhỏ, đông vào giờ cao điểm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:21e0857c-79af-4e6b-98f8-ce019c69036e",
+      "stored_name": "Phở Thố Chu Gia",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Phở thố trên đường Thông Thiên Học, tô phở no bụng.",
+          "best_time": "Buổi sáng hoặc giữa trưa",
+          "crowd_hint": "Ấm áp, đông khách vào những ngày se lạnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:a6b3efce-0580-4ccb-8e86-8a39d3496a53",
+      "stored_name": "Phuc Long Coffee & Tea",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Chuỗi cà phê và trà Việt quen thuộc trên đường Trần Phú, đồ uống chất lượng ổn định.",
+          "best_time": "Giữa buổi sáng hoặc giữa buổi chiều",
+          "crowd_hint": "Giờ cao điểm đông khách mua mang đi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:10795ca3-30ad-4f7f-afd8-431d4606a75d",
+      "stored_name": "Phương Trang Bus Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đón xe khách liên tỉnh ở bến xe phục vụ các tuyến chính khắp Việt Nam.",
+          "best_time": "Buổi sáng có nhiều chuyến.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9a3da1a0-5ae2-47ca-aefa-59b8b13942dd",
+      "stored_name": "Pinhatt Peak",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Leo qua rừng thông trên đỉnh núi gần Đà Lạt.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Vắng ngoài các ngày cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:08d041ef-b85f-4570-aa3a-168bb7a99b0a",
+      "stored_name": "Pink Valley Da Lat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm dừng ngoài trời ở Thung lũng Hồng, Vạn Thành, Suối Hến, để chụp ảnh và hít thở không khí trong lành.",
+          "best_time": "Buổi sáng, trước nắng trưa",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:27181542-cbfb-4912-b6e8-1377b184ec07",
+      "stored_name": "Pint Beer",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bia bình dân ở Maika Dalat Center trên đường Phan Bội Châu.",
+          "best_time": "Buổi tối, sau bữa tối",
+          "crowd_hint": "Đông dần sau 8 giờ tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f2379b7c-27c3-4a1d-b936-85e7aa5b4b0e",
+      "stored_name": "Pinus Take Away",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quầy đồ ăn mang đi trên đường Nguyễn Văn Cừ, ăn nhanh gọn.",
+          "best_time": "Bữa trưa hoặc đầu giờ chiều",
+          "crowd_hint": "Ngoài giờ cao điểm chờ không lâu"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5fb73aabc1e8c76652f7c021",
+      "stored_name": "Puppy Farm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm thiên nhiên ở Đà Lạt để ngắm cảnh ngoài trời và hít thở không khí trong lành.",
+          "best_time": "Sáng sớm, trước khi trời nóng",
+          "crowd_hint": "Vắng ngoài cuối tuần và ngày lễ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:64367e92c397685bcbf31fc1",
+      "stored_name": "Q Coffee Roastery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xưởng rang cà phê trên đường Tô Ngọc Vân, cà phê mới rang.",
+          "best_time": "Giữa buổi sáng, sau đợt đông đầu tiên",
+          "crowd_hint": "Không gian nhỏ, dễ kín chỗ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:95aff846-2329-41bc-98fa-b4818471a08a",
+      "stored_name": "Quán 27 - Lầu Bò Ba Toa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán lẩu bò trên đường Hoàng Diệu.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Đông vào buổi tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:01a08f16-ecbd-49ae-b7a0-3b28563937ba",
+      "stored_name": "Quán ăn Tài Ký",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn giản dị trên đường Bùi Thị Xuân cho một bữa bình dân.",
+          "best_time": "Bữa trưa hoặc tối sớm",
+          "crowd_hint": "Quán quen của người địa phương, giờ cao điểm nên đến sớm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:28ee1ba8-0ada-4374-a7c3-3e9d84d8aa15",
+      "stored_name": "Quán bánh canh Phan Rang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bánh canh kiểu Phan Rang trên đường Bà Triệu.",
+          "best_time": "Giờ trưa",
+          "crowd_hint": "Quán nhỏ, có thể phải ngồi chung bàn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c0703de8-61ad-455f-8e8e-ef65dd90edba",
+      "stored_name": "Quán Gà Đồi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bình dân trên đường Lê Hồng Phong, ăn gà và uống vài ly.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Sôi động hơn về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:fa5e7308-b996-49ed-a634-14174f0461bf",
+      "stored_name": "Quán Mì Quảng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán mì Quảng trên đường Nhà Chung.",
+          "best_time": "Giờ trưa",
+          "crowd_hint": "Đông vào giữa trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:54f00396498e38495b688cf8",
+      "stored_name": "Quán Ốc 33 Chi Nhánh 3",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ốc và hải sản trên đường Hai Bà Trưng.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Sôi động khi trời tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b1afc1d2-38c5-42c7-94f3-8b32379b36c9",
+      "stored_name": "Quán Phở Bò Bắc Huỳnh",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán phở bò trên đường Chi Lăng.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Khách ra vào nhanh, giờ cao điểm kín chỗ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f77710f1-b2de-41a6-9895-377d95d2628c",
+      "stored_name": "Quán phở Uyên",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán phở trên đường Xô Viết Nghệ Tĩnh.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9baff1ff-2d15-4510-84a8-711be4a12f96",
+      "stored_name": "Quán Sữa Đậu Nành Hiền",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa đậu nành trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Ghé nhanh, bình dân"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:23f8ea91-7617-4dc1-993f-6d7340a99196",
+      "stored_name": "Rain Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bar ở Đà Lạt để uống vài ly.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông dần về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1f19da8d-2174-4d39-a71c-d2becd8811d5",
+      "stored_name": "Rain Nightclub Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Hộp đêm trên đường Lê Hồng Phong để nhảy và uống.",
+          "best_time": "Khuya",
+          "crowd_hint": "Đông về khuya"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:80d4781b-785d-4024-877d-b5bf27e114ce",
+      "stored_name": "Restaurant Halal food Kampung Melayu đà lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đồ ăn halal trong không gian kiểu Mã Lai trên đường Yersin.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông vừa phải vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7f0f25d3-22c5-43cf-be3a-a1687109f1fa",
+      "stored_name": "Sartorista Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cocktail trên đường Phan Đình Phùng với đồ uống pha chế công phu.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Buổi tối đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:698c0cbd1d2b6f08319d3e06",
+      "stored_name": "Sculpture Tunnel",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đi bộ qua đường hầm điêu khắc giữa không gian thiên nhiên.",
+          "best_time": "Buổi sáng hoặc chiều muộn",
+          "crowd_hint": "Thường ít khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:811a6d29-115d-4bb6-b7df-5b90ff26cf25",
+      "stored_name": "Sense Coffee Acoustic Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê mở khuya có nhạc acoustic.",
+          "best_time": "Buổi tối, khi nhạc bắt đầu",
+          "crowd_hint": "Sôi động khi trời tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:53eacaae-2436-458e-9126-506947b53f4b",
+      "stored_name": "Sơn Pacamara Roastery and Coffee Shop",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xưởng rang kiêm quán cà phê trên đường Hoàng Văn Thụ.",
+          "best_time": "Buổi sáng, cà phê vừa pha",
+          "crowd_hint": "Đông vào buổi sáng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:53bcd768-bdde-4ec0-9756-a10d3b4492a3",
+      "stored_name": "Statue of Golden Buddha",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm tượng Phật vàng trưng bày trong bảo tàng.",
+          "best_time": "Lúc nào trong giờ mở cửa",
+          "crowd_hint": "Ít đến vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8b27c714-00f6-4a1d-8616-cfa3919fcab2",
+      "stored_name": "Stop And Go Art Space",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Không gian nghệ thuật trên đường Lý Tự Trọng, trưng bày tác phẩm.",
+          "best_time": "Ngày thường, tránh các buổi sự kiện",
+          "crowd_hint": "Phần lớn thời gian yên tĩnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:294b3015-524a-43af-92b1-d02716d76c14",
+      "stored_name": "Sữa Chua Đà Lạt 1992",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa chua Đà Lạt trên đường Huyền Trân Công Chúa.",
+          "best_time": "Ăn vặt buổi chiều",
+          "crowd_hint": "Giờ cao điểm có thể xếp hàng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f200cc54-3702-4380-a236-4cbdb3fb01a3",
+      "stored_name": "Sữa Cô Lan Đà Lạt Chính Gốc ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa Đà Lạt trên đường Nguyễn Chí Thanh.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f84dcf1a-64ae-48d8-9564-ec93c4c6769a",
+      "stored_name": "Sữa Tùng Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa trên đường Phan Đình Phùng.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Đông vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:361f3c4d-7797-4261-8ca0-934ee3cfd14c",
+      "stored_name": "Sương Bánh Mì Xíu Mại",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bánh mì xíu mại trên đường Ánh Sáng.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Khách ra vào nhanh, có thể xếp hàng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:69e1d84861553e5cd3eaf020",
+      "stored_name": "Tam Gia Quán - Lẩu Gà Lá É",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng lẩu gà lá é trên đường Phạm Ngũ Lão.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Ấm cúng, kín chỗ vào bữa tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:4ce43477-c9b1-434a-a75d-0f2e3f90811c",
+      "stored_name": "Tavern - Những ngày xưa cũ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán chơi đêm trên đường Triệu Việt Vương để uống vài ly.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Sôi động sau 8 giờ tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:21a80694-9ad5-4a1b-86fe-94dfad58f8c5",
+      "stored_name": "Tây Nguyên Quán",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán có heo sữa quay và lẩu bò kiểu Trùng Khánh.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d6565470-8d5f-414c-8d13-304292754779",
+      "stored_name": "Thái Phiên Flower Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn các món địa phương ở khu Thái Phiên.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Đông vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4d9a91b45e52224b0c2230e3",
+      "stored_name": "Thanh Thủy Restaurant",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dùng bữa nhìn ra hồ Xuân Hương.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b23fab93-ef13-4666-8432-5bdf65079d82",
+      "stored_name": "The Balcony Speakeasy Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn với cocktail ở quán bar kiểu speakeasy.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:50477691-e0a7-4316-951b-1d2deb4a4237",
+      "stored_name": "The B Coffee and Specialties",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê đặc sản và đồ ăn kiểu quán cà phê.",
+          "best_time": "Buổi sáng hoặc chiều",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2184da08-11d2-47cd-b8b3-af040ec78470",
+      "stored_name": "THEJ Hidden Arcade Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhâm nhi cocktail ở quán bar trên đường Nguyễn Văn Trỗi.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c7786c23-c068-4505-95c4-e02d7d950c19",
+      "stored_name": "The Leo Lounge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức đồ uống ở lounge trên đường Đống Đa.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:687a512655a3da065d43d98b",
+      "stored_name": "The Liquid Lab Coffee & Cocktail Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê hoặc cocktail ở quán kết hợp cả hai.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:4a49984f-cac4-4fe8-887d-08591b71adac",
+      "stored_name": "The Valley Lounge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống vài ly ở lounge gần hồ Xuân Hương.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d4285171-4138-4793-8517-706c9f05fe06",
+      "stored_name": "Thung Lũng Hồng Vạn Thành",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu du lịch trên đường Vạn Hạnh.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:70ddc91f-959a-490b-b129-7c6b867df85b",
+      "stored_name": "Tiệm Bánh Căn Bên Đồi",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử bánh căn, món bột gạo của miền Trung, ở quán gần khu du lịch cáp treo.",
+          "best_time": "Ăn vặt cuối buổi sáng hoặc đầu giờ trưa",
+          "crowd_hint": "Có thể đông vào giờ ăn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:df4b34ce-c8bb-480d-aefc-95d454d72a44",
+      "stored_name": "Tiệm Chay Nhỏ - Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé tiệm chay nhỏ trên đường Quang Trung ăn món không thịt.",
+          "best_time": "Bữa trưa hoặc tối sớm",
+          "crowd_hint": "Tiệm nhỏ; ít chỗ ngồi."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d7ccba97-f1ec-495a-ac4d-c8c83fec0e87",
+      "stored_name": "Tiệm Coffee Rừng Ngoại Ô",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán trong hẻm 75 Hùng Vương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Quán khuất; ít chỗ ngồi."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:67bd1928-accf-40db-a0d6-93ec9ae274e9",
+      "stored_name": "Tiệm Gà Hạnh Phúc",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn gà nướng, cơm lam và lẩu gà ở quán trên đường Hoàng Diệu.",
+          "best_time": "Bữa tối, khi lẩu đắt khách",
+          "crowd_hint": "Đông vào bữa tối; ngồi chung bàn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6a05104b-c8bf-4027-b69f-dec957d57f7f",
+      "stored_name": "Tiệm Gốm Tako Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem đồ gốm ở tiệm nhỏ trong con hẻm đường Trần Phú.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Tiệm yên tĩnh; thong thả xem."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:46e054fb-9f1b-49e8-8cf0-6af888683aed",
+      "stored_name": "Trạm Men - Bia thủ công thượng hạng & Ẩm thực tinh tế",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống bia thủ công và ăn món chế biến tinh tế ở quán đêm trên đường Phan Đình Phùng.",
+          "best_time": "Buổi tối, sau 7 giờ",
+          "crowd_hint": "Sôi động hơn về khuya; đến sớm để có chỗ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:37205c7a-e280-4235-a0fa-f5dc64327ea1",
+      "stored_name": "Trần Lệ Xuân Villa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem trưng bày ở bảo tàng trên đường Yết Kiêu.",
+          "best_time": "Sáng các ngày trong tuần, tránh đông",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c8045459-d5a1-4973-b44a-22f99d6e6555",
+      "stored_name": "Tùng Bách Gardens Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo trong khuôn viên khu vườn trên đường Phan Chu Trinh.",
+          "best_time": "Sáng sớm hoặc chiều muộn, khi trời mát",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:52aadb0f-3fe3-4b51-ac37-bd19a23a133c",
+      "stored_name": "Vạn Thành Flower Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm làng hoa, xem các vườn ươm và tìm hiểu nghề trồng hoa địa phương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3940e5c7-0ed9-4966-a1cd-0f6a958339cd",
+      "stored_name": "V Club Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bar trên đường Lê Đại Hành, uống và giao lưu buổi tối.",
+          "best_time": "Buổi tối, sau 8 giờ",
+          "crowd_hint": "Đông dần sau 9 giờ tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7905871e-d307-488e-83cd-353d6465d2de",
+      "stored_name": "Veronica Sky Bar",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán bar trên đường Lê Đại Hành cho một buổi tối đi chơi.",
+          "best_time": "Từ hoàng hôn đến khuya",
+          "crowd_hint": "Tối thứ Sáu và thứ Bảy thường đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:177bb5bb-a873-4363-b3fb-0a0badf5c2c4",
+      "stored_name": "Villacafé Pensee d'Art",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán trên đường Đặng Thái Thân, ghé ăn nhẹ hoặc uống nước.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e525e61b-de10-4380-b073-6960ccde01b4",
+      "stored_name": "Villa Hoa Như - Ngôi nhà xưa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm dừng chân trên đường Trịnh Hoài Đức, một phần đời sống thường ngày ở Đà Lạt.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Hiếm khi đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d04c989e-84b5-4c42-bcac-aa7feec2b205",
+      "stored_name": "Vịt Nướng Vân Đình Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán ăn trên đường Mạc Đĩnh Chi.",
+          "best_time": "Bữa trưa hoặc tối",
+          "crowd_hint": "Khách địa phương vào giờ ăn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5b05f6b1-4270-49f3-9a77-55081d8b9da1",
+      "stored_name": "V Lounge Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm nghỉ chân trên đường Trần Phú.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5f0172ae-1c66-456a-a868-aa593feccb9e",
+      "stored_name": "Vườn Dâu Công Nghệ Cao Bình Yên",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Mai Hắc Đế.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c414d279-1fa7-4acc-a4b5-3a64b04d50fb",
+      "stored_name": "Vườn dâu thủy canh Đức Tín Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Mai Anh Đào.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5d007ae0-806f-465b-994e-e20cc7ead1f0",
+      "stored_name": "Vườn Hoa Hồng Kiệt Giang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Thăng Long.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ac8a0a4d-384f-400a-b173-5f36c60d5bec",
+      "stored_name": "Vườn Lan Phạm Vân",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Đống Đa.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:977742bd-6217-4861-8384-481e40c269e2",
+      "stored_name": "Vườn Lan Thanh Trúc Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm tham quan trên đường Trịnh Hoài Đức.",
+          "best_time": "Ban ngày",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6ad61de9-17a9-473f-b693-9d574a6b4dc4",
+      "stored_name": "Whiskeypedia Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống một ly buổi tối ở quán bar trên đường Nam Kỳ Khởi Nghĩa.",
+          "best_time": "Buổi tối, sau bữa tối",
+          "crowd_hint": "Đầu buổi tối vắng hơn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:442e99e6-fdf2-4e74-91a7-ea2bde769216",
+      "stored_name": "Windmills Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán trên đường Phan Đình Phùng.",
+          "best_time": "Giữa buổi sáng hoặc buổi chiều",
+          "crowd_hint": "Giờ cao điểm có thể kín chỗ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:447c7640-25b8-4b07-8d9b-2e27dddc2152",
+      "stored_name": "Xíu Mại Cô Tâm",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn món địa phương ở quán trên đường Khởi Nghĩa Bắc Sơn.",
+          "best_time": "Bữa sáng hoặc trưa",
+          "crowd_hint": "Quán nhỏ, nên đến sớm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4cede7400acea35d2befe6ae",
+      "stored_name": "XQ Historical Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem trưng bày dệt may và thủ công ở bảo tàng này.",
+          "best_time": "Cuối buổi sáng",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:96b892d5-c6b3-4f86-9c47-059539a1d451",
+      "stored_name": "Yaourt 71",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử sữa chua và món tráng miệng ở quán trên đường An Bình.",
+          "best_time": "Ăn vặt buổi chiều",
+          "crowd_hint": "Quán nhỏ, dễ kín chỗ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5688cc3a-2a50-489b-b7c3-3a81a02fd12a",
+      "stored_name": "Yaourt Pho Mai Da Lat - Co Dung",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé ăn tráng miệng trên đường Tự Phước.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Quán nhỏ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8a74653b-c582-44f1-aa20-19996a56ba05",
+      "stored_name": "Zoodoo Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem trưng bày động vật và hiện vật bảo tàng ở công viên trên đường Lang Biang.",
+          "best_time": "Sáng các ngày trong tuần",
+          "crowd_hint": "Cuối tuần có thể đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    }
+  ],
+  "left_alone": []
+}

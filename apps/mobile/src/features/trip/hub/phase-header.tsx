@@ -103,7 +103,9 @@ function usePhaseLine(header: HubHeader, now: Date): { label: string; value: str
   if (header.phase === 'pre' || header.phase === 'travel') {
     const label =
       header.phase === 'pre'
-        ? t({ id: 'trip.hub.wheelsUp', message: 'Wheels up in' })
+        ? header.byAir
+          ? t({ id: 'trip.hub.wheelsUp', message: 'Wheels up in' })
+          : t({ id: 'trip.hub.leavingIn', message: 'Leaving in' })
         : header.target.getTime() === header.flight.departsAt.getTime()
           ? t({ id: 'trip.hub.takeOff', message: 'Take off in' })
           : t({ id: 'trip.hub.landIn', message: 'Land in' });

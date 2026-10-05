@@ -76,6 +76,11 @@ export interface StopListContext {
   readonly go?: readonly string[] | undefined;
   /** I apply fixes myself (an organiser); a member's pill says "Suggest". */
   readonly organiser?: boolean | undefined;
+  /**
+   * Her own draft: the guide's fixes are sent for the crew's plan, so a stop offers none here (a
+   * tap opens its sheet, where she changes it herself).
+   */
+  readonly byHand?: boolean | undefined;
   /** The stops can be held and dragged (the day plan): a grip at the end of each says so. */
   readonly handle?: boolean | undefined;
 }
@@ -126,7 +131,8 @@ export function StopBlock({
 }) {
   const { t } = useLingui();
   const styles = useStyles();
-  const fixer = useFixer(context.tripId, row.issue, context.dayNo);
+  const offered = useFixer(context.tripId, row.issue, context.dayNo);
+  const fixer = context.byHand === true ? null : offered;
   const action =
     row.vote !== null ? (
       <PillButton

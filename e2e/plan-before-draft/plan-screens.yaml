@@ -1,0 +1,91 @@
+appId: app.critterpass.dev
+---
+# A plan before the draft, on the plan views lab's Bali trip: the trip's days with nothing on them
+# yet (the trip map's sheet and the day plan), then the organiser's own draft with the plan check's
+# tags on its days (the trip map at peek and on a day, and the day plan), and the trip map of a
+# member with places saved and no plan to see yet, in English then Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-days-before-draft
+      SHOT: en-days-before-draft-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: day-plan-days-before-draft
+      SHOT: en-days-before-draft-day-plan
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-no-plan-yet
+      SHOT: en-no-plan-yet-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-own-draft
+      SHOT: en-own-draft-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-own-draft-day
+      SHOT: en-own-draft-trip-map-day
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: day-plan-own-draft
+      SHOT: en-own-draft-day-plan
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-days-before-draft
+      SHOT: vi-days-before-draft-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: day-plan-days-before-draft
+      SHOT: vi-days-before-draft-day-plan
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-no-plan-yet
+      SHOT: vi-no-plan-yet-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-own-draft
+      SHOT: vi-own-draft-trip-map
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-own-draft-day
+      SHOT: vi-own-draft-trip-map-day
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: day-plan-own-draft
+      SHOT: vi-own-draft-day-plan

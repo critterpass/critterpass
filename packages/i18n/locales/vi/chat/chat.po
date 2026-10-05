@@ -92,6 +92,14 @@ msgstr "{name} đã chốt chuyến đi"
 msgid "chat.system.renamed"
 msgstr "{name} đã đổi tên nhóm thành {body}"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSaved"
+msgstr "{name} đã lưu {body} vào Ý tưởng"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSavedPlain"
+msgstr "{name} đã lưu một nơi vào Ý tưởng"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
 msgstr "{people} · {guideName} cũng ở đây"

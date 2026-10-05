@@ -29,3 +29,6 @@ export {
   type DeviceCalendarEvent,
 } from './views/data/calendar-export';
 export { useDayReading, type DayReading, type DayStopReading } from './trip-map/day-reading';
+export { LateEntry } from './day/late-entry';
+export { lateStep, saidLateRoute } from './day/said-late';
+export { useSaidLate, type SaidLateView } from './day/use-said-late';

@@ -5,7 +5,8 @@
  *
  * The first day waits for the usual arrival and the last ends for the usual departure, unless
  * the plan's own items say otherwise (a flight item blocks the day by itself). The arrival day
- * never opens before its own first stop: the crew's day starts when the plan says it does.
+ * never opens before its own first stop: the crew's day starts when the plan says it does. A
+ * day that has already begun (`now`) opens now.
  */
 import {
   ARRIVAL_BUFFER_MIN,
@@ -64,6 +65,8 @@ export interface FitContextRows {
   readonly monthFactors: ReadonlyMap<number, number>;
   readonly thresholds?: Partial<FitThresholds>;
   readonly travel?: FitTravel;
+  /** Now: on a day that has begun, nothing is fitted before it. */
+  readonly now?: Date;
 }
 
 function toItem(row: FitItemRow): FitItem | null {
@@ -105,17 +108,22 @@ export function assembleFitContext(rows: FitContextRows): FitContext {
         .map((item) => minuteOfDate(item.startsAt, day.date, rows.tz)),
     );
     const landed = Math.max(DAY_FROM, ceilGrid(DEFAULT_ARRIVAL_MIN + ARRIVAL_BUFFER_MIN));
+    // A day that has begun: what is left of it starts now.
+    const nowMin =
+      rows.now === undefined ? -1 : ceilGrid(minuteOfDate(rows.now, day.date, rows.tz));
     return {
       dayId: day.day_id,
       dayNo: day.day_no,
       date: day.date,
       kind,
-      fromMin:
+      fromMin: Math.max(
+        nowMin >= 0 && nowMin < 1440 ? nowMin : 0,
         kind === 'arrival'
           ? Number.isFinite(firstStop)
             ? Math.max(landed, firstStop)
             : landed
           : DAY_FROM,
+      ),
       toMin:
         kind === 'departure'
           ? Math.min(DAY_TO, DEFAULT_DEPARTURE_MIN - DEPARTURE_BUFFER_MIN)

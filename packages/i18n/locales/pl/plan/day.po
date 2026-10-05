@@ -50,6 +50,10 @@ msgid "plan.edit.removedMany"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.lastAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hours"
 msgstr ""
 
@@ -60,6 +64,18 @@ msgstr ""
 #. placeholder {0}: clock(locale, value)
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlierBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlier"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
@@ -167,6 +183,19 @@ msgstr ""
 msgid "plan.edit.daysReordered"
 msgstr ""
 
+#. placeholder {0}: at(checkIn.leftAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.doneAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.done"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.earlier"
 msgstr ""
@@ -191,8 +220,17 @@ msgstr ""
 msgid "plan.day.freeTitle"
 msgstr ""
 
+#. placeholder {0}: at(checkIn.arrivedAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.hereSince"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.placeDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.here"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -201,6 +239,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.removeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.removeLineSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.justYou"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
@@ -240,6 +286,10 @@ msgstr ""
 msgid "plan.day.reason.moved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
 msgstr ""
@@ -266,6 +316,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.nowAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.onDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
@@ -319,6 +373,10 @@ msgstr ""
 msgid "plan.edit.removed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.save"
 msgstr ""
@@ -351,6 +409,18 @@ msgstr ""
 msgid "plan.day.item.skip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skipSolo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr ""
@@ -370,6 +440,16 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/day/day-screen.tsx
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
+msgstr ""
+
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
+msgid "plan.day.item.useStart"
+msgstr ""
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
@@ -503,6 +583,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.item.suggestedByYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.here"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx

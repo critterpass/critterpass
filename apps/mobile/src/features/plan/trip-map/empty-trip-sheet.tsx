@@ -6,9 +6,11 @@
  * floats over the map where the stay will be. A member whose organiser is already drafting or
  * reviewing reads one true message instead ("Linh is still working on the plan. You'll get it
  * here."), with no card asking for a draft that exists (undesigned, logged), and the head counts
- * the crew, not people "going", until a plan has gone out.
+ * the crew, not people "going", until a plan has gone out. Someone with places saved and no plan to
+ * see yet reads "No plan yet" and that their places wait in Ideas (undesigned, logged).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
@@ -108,20 +110,35 @@ export function EmptyTripSheet({ model }: { readonly model: TripMapModel }) {
     .join(' · ');
   const guide = model.guide.name;
   const organiser = model.organiser;
+  // Places already saved while there is no plan to see (a member before the plan is shared).
+  const saved = model.ideas.length;
   return (
     <View style={styles.body} testID="trip-map-empty">
       <Text variant="eyebrow" color={theme.semantic.text.secondary}>
         {head}
       </Text>
       <Text variant="h1" singleLine={false} testID="trip-map-empty-title">
-        {planComing === null
-          ? t({ id: 'plan.tripMap.empty.title', message: 'Nothing saved yet' })
-          : t({ id: 'plan.tripMap.empty.comingTitle', message: 'The plan is on its way' })}
+        {planComing !== null
+          ? t({ id: 'plan.tripMap.empty.comingTitle', message: 'The plan is on its way' })
+          : saved > 0
+            ? t({ id: 'plan.tripMap.empty.noPlanTitle', message: 'No plan yet' })
+            : t({ id: 'plan.tripMap.empty.title', message: 'Nothing saved yet' })}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
-        {planComing === null
-          ? t({ id: 'plan.tripMap.empty.line', message: 'Four ways to start. Most crews mix two.' })
-          : planComing.line}
+        {planComing !== null
+          ? planComing.line
+          : saved > 0
+            ? t({
+                id: 'plan.tripMap.empty.noPlanLine',
+                message: plural(saved, {
+                  one: 'One place is saved in Ideas. It goes onto a day once there is a plan.',
+                  other: '# places are saved in Ideas. They go onto days once there is a plan.',
+                }),
+              })
+            : t({
+                id: 'plan.tripMap.empty.line',
+                message: 'Four ways to start. Most crews mix two.',
+              })}
       </Text>
       {planComing === null ? null : (
         <Text variant="bodySm" color={theme.semantic.text.secondary}>

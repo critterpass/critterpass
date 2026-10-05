@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f495ba39-edf9-4567-ab9d-81a8bd428c9e",
+        "id": "3f0e47c1-2bdb-439a-b18d-e7ce79a931dc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slow Saturday in Mexico City\",\n  \"summary\": \"A gentle day with just the Roma Norte walk and Templo Mayor, leaving plenty of time to wander, rest, and soak in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte wander, but now we take it slow and let the streets set the pace.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor stays as our one big dose of history, with no rush to leave.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Roma Norte, sin prisa\",\n  \"summary\": \"A slow morning and a long wander through Roma Norte, with the rest of the day left open for whatever the crew feels like.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do of the day, taken at a lazy pace so the crew can soak up the local life and photo spots without rushing.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 79,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 187,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 123,
           "service_tier": "standard"
         }
       }

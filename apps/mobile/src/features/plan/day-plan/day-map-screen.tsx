@@ -12,6 +12,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { ItemSheetHost } from '../day/item-sheet-host';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { useChosenDay } from '../trip-map/chosen-day';
+import { legTravel } from './reschedule';
 import { useDayRoute } from '../trip-map/day-route';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { useBackToTrip } from './back-to-trip';
@@ -30,7 +31,7 @@ export function DayMapScreen({
   const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(null);
   const editor = useDayEditing(data.plan);
-  const backToTrip = useBackToTrip(tripId);
+  const backToTrip = useBackToTrip(tripId).onBack;
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(data.plan.versionId, day);
   if (!data.loaded) return null;
@@ -59,6 +60,7 @@ export function DayMapScreen({
           slot={{ dayNo, date: day.date ?? '' }}
           editor={editor}
           announce={announceEdit}
+          travel={legTravel(route.legs)}
           onClose={() => setOpenId(null)}
         />
       )}

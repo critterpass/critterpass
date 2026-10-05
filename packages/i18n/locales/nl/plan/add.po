@@ -59,6 +59,10 @@ msgstr ""
 msgid "plan.add.length.minutes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.leave.car"
 msgstr ""
@@ -100,6 +104,22 @@ msgstr ""
 msgid "plan.add.why.before"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.afterDark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.sunset"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.evening"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.morning"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"
 msgstr ""
@@ -134,6 +154,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.saveLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.justYou"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
@@ -201,11 +225,16 @@ msgid "plan.add.cta.ideas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
+msgid "plan.add.savedToastShared"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
+msgstr ""
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.useStart"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
@@ -222,6 +251,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlanAny"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.meal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx

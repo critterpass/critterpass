@@ -10,10 +10,23 @@ appId: app.critterpass.dev
           file: ../../../../proposal/subflows/switch-account.yaml
           env:
             TARGET: ${TARGET}
+# The app can come back on the tab it was last on (the Trips tab after a hub visit) rather than
+# Home: the person taps Home, as anyone would.
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat|tab-home'
+    timeout: 90000
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-header-chat'
+    commands:
+      - tapOn:
+          id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'
-    timeout: 90000
+    timeout: 30000
 - runFlow:
     file: locale.yaml
     env:

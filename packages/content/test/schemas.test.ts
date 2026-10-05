@@ -18,6 +18,7 @@ import {
   windowCalendarLabel,
   windowMonths,
   poiEditorialSchema,
+  poiItemSchema,
 } from '../src';
 
 const at = '2026-09-28T00:00:00.000Z';
@@ -170,6 +171,43 @@ describe('places, phrases, safety and help', () => {
     expect(placeIndexItemSchema.safeParse({ ...place, currency: 'XYZ' }).success).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, tz: 'Mars/Olympus' }).success).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, guide: null }).success).toBe(false);
+  });
+
+  it('lets a place be hidden only when it is neither merged nor a must-see', () => {
+    const poi = {
+      ref: 'overture:far',
+      destination: 'cusco',
+      name: 'Machu Picchu',
+      name_local: null,
+      category: 'museum',
+      lat: -13.5192,
+      lng: -71.9751,
+      address: null,
+      tz: 'America/Lima',
+      tags: ['history'],
+      hours: null,
+      licence: {
+        source: 'overture',
+        source_id: 'far',
+        licence: 'CDLA-Permissive-2.0',
+        attribution: 'Overture Maps Foundation',
+      },
+      editorial: {
+        why_go: 'An Inca citadel.',
+        best_time: 'Early morning',
+        time_needed_min: 240,
+        crowd_hint: 'Busy all day',
+        etiquette: null,
+      },
+      merge_into: null,
+      possible_duplicate_of: null,
+    };
+    const parse = (over: object) => poiItemSchema.safeParse({ ...poi, ...over }).success;
+    expect(parse({})).toBe(true);
+    expect(parse({ hide: true })).toBe(true);
+    expect(parse({ hide: false })).toBe(false);
+    expect(parse({ hide: true, merge_into: 'overture:kept' })).toBe(false);
+    expect(parse({ hide: true, editorial: { ...poi.editorial, must_see: true } })).toBe(false);
   });
 
   it('lets only a must-see be essential', () => {

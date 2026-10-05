@@ -52,6 +52,7 @@ export function curatedPlaces(
       (item) =>
         destinations.includes(item.destination) &&
         item.merge_into === null &&
+        item.hide !== true &&
         subjectOf(item.ref) !== null,
     )
     .map((item) => ({

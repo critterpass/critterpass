@@ -13,6 +13,12 @@ export const applyCheckFixOnline = defineClientCommand<{ issue_id: string; base_
   offline: false,
 });
 
+/** The same one-tap fix on an organiser's own draft, before the crew has a plan. */
+export const applyDraftCheckFixOnline = defineClientCommand<{
+  issue_id: string;
+  base_version: string;
+}>({ name: 'apply_draft_check_fix', offline: false });
+
 /** An organiser's "Keep it as it is": it waits in the offline queue like any plan edit. */
 export const keepCheckIssueCommand = defineClientCommand<{
   issue_id: string;

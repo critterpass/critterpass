@@ -21,6 +21,7 @@ import {
 } from '../src/prompts/draft/final-notes';
 import { buildRedraftRequest } from '../src/prompts/draft/redraft';
 import { settle } from '../src/prompts/draft/settle';
+import { readsLocalNames, shownName } from '../src/prompts/draft/shown-names';
 import type { SkeletonDay } from '../src/prompts/draft/skeleton';
 import { validate } from '../src/prompts/draft/validate';
 import { byVariety, kindOf, MAX_SAME_KIND, oneTooMany } from '../src/prompts/draft/variety';
@@ -86,7 +87,7 @@ describe('a day title', { timeout: 60_000 }, () => {
   });
 
   it('tells a church from a pagoda', () => {
-    const church = named('Nhà thờ Con Gà');
+    const church = named('Đà Lạt Cathedral');
     const only = scheduleChoices(
       input,
       { ...outlineOf(day2), mustDoIds: [], poiIds: [church.id] },
@@ -262,5 +263,110 @@ describe('a redraft for a reader of another language', () => {
     expect(request()).not.toContain('summary and note in');
     expect(plannerLines('vi').longRide).not.toBe(plannerLines('en').longRide);
     expect(plannerLines('fr')).toBe(plannerLines(undefined));
+  });
+});
+
+describe('a title is true to its day', { timeout: 60_000 }, () => {
+  // A day with a lake before lunch and a waterfall after it.
+  const lake = named('Xuân Hương Lake');
+  const falls = named('Datanla Falls');
+  const eatery = input.pools.eateries[0] as DraftPoi;
+  const dayOf = (order: DraftPoi[]) =>
+    scheduleChoices(
+      input,
+      {
+        ...outlineOf(day2),
+        mustDoIds: [],
+        poiIds: order.filter((p) => p !== eatery).map((p) => p.id),
+      },
+      order.map((poi) => ({
+        poiId: poi.id,
+        kind: poi === eatery ? ('meal' as const) : ('activity' as const),
+        mustDoId: null,
+        note: null,
+      })),
+      'title',
+    );
+  // Timed by hand so the test says when each is: the lake at nine, lunch at noon, the falls at two.
+  const timed = dayOf([lake, eatery, falls]);
+  const hours: Record<string, [string, string]> = {
+    [lake.id]: ['02:00', '03:00'],
+    [eatery.id]: ['05:00', '06:00'],
+    [falls.id]: ['07:00', '08:00'],
+  };
+  const lakeFirst = {
+    ...timed,
+    items: [lake, eatery, falls].map((poi, at) => {
+      const item = timed.items.find((i) => i.poi_id === poi.id) as (typeof timed.items)[number];
+      const [from, to] = hours[poi.id] as [string, string];
+      return {
+        ...item,
+        starts_at: `${timed.date}T${from}:00.000Z`,
+        ends_at: `${timed.date}T${to}:00.000Z`,
+        travel_min: at === 0 ? 0 : 15,
+      };
+    }),
+  };
+
+  it('in the order it names things, and in the half of the day it puts them', () => {
+    const fits = (theme: string) => titleFits(input, { ...lakeFirst, theme });
+    expect(fits('Sáng hồ, chiều thác')).toBe(true);
+    expect(fits('Sáng thác, chiều hồ')).toBe(false);
+    expect(fits('Morning lake, afternoon waterfall')).toBe(true);
+    expect(fits('Waterfall, then the lake')).toBe(false);
+    // By name, in either language: Datanla is after Xuân Hương, not before.
+    expect(fits('Xuân Hương and Datanla')).toBe(true);
+    expect(fits('Datanla and Xuân Hương')).toBe(false);
+    expect(fits('Hồ Xuân Hương và Thác Datanla')).toBe(true);
+  });
+
+  it('and calls a day easy only when no ride in it is long', () => {
+    // The waterfall is the day's long visit: the title names it.
+    expect(titleFits(input, { ...lakeFirst, theme: 'Chiều thác Đà Lạt nhẹ nhàng' })).toBe(
+      lakeFirst.items.every((item) => item.travel_min <= 25),
+    );
+    const far = {
+      ...lakeFirst,
+      items: lakeFirst.items.map((item, at) => (at === 2 ? { ...item, travel_min: 33 } : item)),
+    };
+    expect(titleFits(input, { ...far, theme: 'Chiều thác Đà Lạt nhẹ nhàng' })).toBe(false);
+    expect(titleFits(input, { ...far, theme: 'An easy day by the lake and the falls' })).toBe(
+      false,
+    );
+    expect(titleFits(input, { ...far, theme: 'A day by the lake and the falls' })).toBe(true);
+  });
+});
+
+describe('the name a place is shown under', () => {
+  const valley = named('Valley of Love');
+
+  it('is the local one for an organiser who reads the destination’s language', () => {
+    expect(valley.nameLocal).toBe('Thung lũng Tình Yêu');
+    const reader = (locale?: string, destinationLanguages: string[] = ['vi']) => ({
+      ...(locale === undefined ? {} : { locale }),
+      destinationLanguages,
+    });
+    expect(shownName(reader('vi'), valley)).toBe('Thung lũng Tình Yêu');
+    expect(shownName(reader('vi-VN'), valley)).toBe('Thung lũng Tình Yêu');
+    expect(shownName(reader('en'), valley)).toBe('Valley of Love');
+    expect(shownName(reader(), valley)).toBe('Valley of Love');
+    // A Vietnamese reader in Bali reads the English-first names: Indonesian is not hers.
+    expect(shownName(reader('vi', ['id']), valley)).toBe('Valley of Love');
+    expect(readsLocalNames(reader('pt', ['pt-BR']))).toBe(true);
+    expect(shownName(reader('vi'), { name: 'Bicycle Up', nameLocal: null })).toBe('Bicycle Up');
+    // A title written by code names places as she reads them.
+    const title = titleFrom(
+      { ...input, locale: 'vi' },
+      {
+        ...day2,
+        items: day2.items
+          .filter((item) => item.kind === 'activity')
+          .slice(0, 1)
+          .map((item) => ({ ...item, poi_id: valley.id })),
+      },
+    );
+    // A long visit's day is named for it: "Buổi sáng ở Thung lũng Tình Yêu".
+    expect(title).toContain('Thung lũng Tình Yêu');
+    expect(title).not.toContain('Valley of Love');
   });
 });

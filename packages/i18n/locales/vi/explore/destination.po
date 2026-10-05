@@ -51,6 +51,10 @@ msgstr "{month}, rẻ nhất"
 msgid "explore.panel.crewCount"
 msgstr "{others} người trong nhóm"
 
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.onTheVote"
+msgstr "{placeName} đã vào bình chọn của {crewName}."
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr "{transfers, plural, other {# điểm dừng từ {origin}}}"
@@ -191,6 +195,10 @@ msgstr "Giới thiệu cho nhóm"
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
 msgstr "Địa điểm, tìm kiếm và nơi đang mở cửa"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.seeVote"
+msgstr "Xem bình chọn"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.seen"
