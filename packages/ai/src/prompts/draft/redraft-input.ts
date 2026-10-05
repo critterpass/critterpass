@@ -7,6 +7,7 @@ import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
 import { choicesOfDay, isKept, withinReach, type DayChoice, type DraftPoi } from '@cp/planner';
 
 import { areasOf } from './areas';
+import { noteReasons } from './redraft-asks';
 import type { DraftPlanInput } from './context';
 import { isOutdoors, wantsIndoors } from './redraft-rain';
 import { frameFor } from './redraft-reasons';
@@ -73,10 +74,15 @@ function usedElsewhere(input: RedraftPlanInput): Set<string> {
   );
 }
 
-/** The redraft's input as the planner times and checks it (a later start opens the day later). */
+/**
+ * The redraft's input as the planner times and checks it: the reasons her note asks for in words
+ * join the chips, and a later start opens the day later.
+ */
 export function plannedRedraft(input: RedraftPlanInput): RedraftPlanInput {
-  const frame = frameFor(input.frame, input.dayNo, input.reasons);
-  return frame === input.frame ? input : { ...input, frame };
+  const added = noteReasons(input.note).filter((reason) => !input.reasons.includes(reason));
+  const reasons = added.length === 0 ? input.reasons : [...input.reasons, ...added];
+  const frame = frameFor(input.frame, input.dayNo, reasons);
+  return frame === input.frame && reasons === input.reasons ? input : { ...input, reasons, frame };
 }
 
 /**
