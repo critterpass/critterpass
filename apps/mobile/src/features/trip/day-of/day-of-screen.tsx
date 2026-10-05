@@ -70,6 +70,10 @@ const PACKING_SQL = `SELECT id, day, owner_id, label, checked, suggested_by, del
 const WEATHER_SQL = `SELECT elevation_m, hourly FROM weather_snapshots
   WHERE destination_id = ? AND date = ?`;
 
+/** The date after `date` ("2026-10-06" after "2026-10-05"). */
+const tomorrowOf = (date: string) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
+
 function useNow(everyMs: number): Date {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -226,6 +230,11 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
             ? {}
             : { onPress: () => router.push(dayRoute(tripId, planDayNo, entry.id)) }),
       }))}
+      onTomorrow={
+        relation === 'today' && tripRow?.end_date != null && tomorrowOf(today) <= tripRow.end_date
+          ? () => router.push(tripDayRoute(tripId, tomorrowOf(today)))
+          : undefined
+      }
       onDayPlan={planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo))}
       offline={sync.phase === 'offline'}
       alarmNote={
