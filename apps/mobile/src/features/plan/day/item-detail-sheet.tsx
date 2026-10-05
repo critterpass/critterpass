@@ -24,6 +24,7 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { clock } from './format';
 import { ItemConfirm } from './item-confirm';
 import { ItemFacts, Section } from './item-facts';
 import { TimeRangeField } from './time-range-field';
@@ -50,6 +51,8 @@ export interface ChangePreview {
   readonly line: string | null;
   /** The change can't be saved as it is. */
   readonly blocked: boolean;
+  /** The first start that would work, offered in one tap when the chosen one is taken. */
+  readonly useStart?: number;
 }
 
 export interface ItemDetailActions {
@@ -237,6 +240,21 @@ export function ItemDetailSheet({
                 {effect.line}
               </Text>
             )}
+            {effect.useStart === undefined || start === null || end === null ? null : (
+              <TextLink
+                label={t({
+                  id: 'plan.day.item.useStart',
+                  message: `Start at ${clock(locale, effect.useStart)} instead`,
+                })}
+                onPress={() =>
+                  setTimes({
+                    start: effect.useStart ?? start,
+                    end: (effect.useStart ?? start) + (end - start),
+                  })
+                }
+                testID="plan-item-use-start"
+              />
+            )}
             <PillButton
               label={saveLabel}
               disabled={!changed || effect.blocked}
@@ -253,6 +271,7 @@ export function ItemDetailSheet({
             removing={confirming.kind === 'remove'}
             canApply={canApply}
             mustDoMine={mustDoMine}
+            solo={members.length <= 1}
             onConfirm={() => run(confirming, true)}
             onCancel={() => setConfirming(null)}
           />

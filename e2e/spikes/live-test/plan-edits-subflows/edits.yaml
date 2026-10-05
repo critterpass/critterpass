@@ -296,28 +296,17 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: ${SHOTS}-16-move-picked-day-5
-# If its own time is taken on that day the sheet says so: an evening hour from the picker instead.
-- scrollUntilVisible:
-    element:
-      id: 'plan-time-start-pick'
-    direction: UP
-    timeout: 10000
-    optional: true
-- tapOn:
-    id: 'plan-time-start-pick'
-    optional: true
-- scrollUntilVisible:
-    element:
-      id: 'plan-time-start-hour-20'
-    direction: DOWN
-    timeout: 8000
-    optional: true
-- tapOn:
-    id: 'plan-time-start-hour-20'
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 3000
-- takeScreenshot: ${SHOTS}-16a-move-day-5-evening
+# If its own time is taken on that day the sheet says so and offers the first start that works.
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-use-start'
+    commands:
+      - tapOn:
+          id: 'plan-item-use-start'
+      - waitForAnimationToEnd:
+          timeout: 3000
+- takeScreenshot: ${SHOTS}-16a-move-day-5-ready
 - tapOn:
     id: 'plan-item-save'
     optional: true

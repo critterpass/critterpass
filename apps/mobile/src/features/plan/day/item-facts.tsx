@@ -70,6 +70,8 @@ export function ItemFacts({
   useMoneyDisplay();
   const shown = (minor: number, currency: string) =>
     displayWithHome(money(locale, minor, currency), minor, currency, locale);
+  // A trip of one: no "each", no "everyone".
+  const solo = members.length <= 1;
   const going = members.filter((member) => item.attendeeIds.includes(member.uid));
   const kind = costKind(item.amountMinor, priceLevel, item.poiId !== null);
   const cost =
@@ -79,20 +81,26 @@ export function ItemFacts({
         ? t({ id: 'plan.day.item.costFree', message: 'Free' })
         : kind === 'unknown' || item.amountMinor === null || item.currency === null
           ? t({ id: 'plan.day.item.costUnknown', message: 'No estimate yet' })
-          : item.costModel === 'per_person'
-            ? t({
-                id: 'plan.day.item.costEach',
-                message: `${shown(item.amountMinor, item.currency)} each`,
-              })
-            : t({
-                id: 'plan.day.item.costGroup',
-                message: `${shown(item.amountMinor, item.currency)} for the group`,
-              });
+          : solo
+            ? shown(item.amountMinor, item.currency)
+            : item.costModel === 'per_person'
+              ? t({
+                  id: 'plan.day.item.costEach',
+                  message: `${shown(item.amountMinor, item.currency)} each`,
+                })
+              : t({
+                  id: 'plan.day.item.costGroup',
+                  message: `${shown(item.amountMinor, item.currency)} for the group`,
+                });
   return (
     <>
       <Section label={t({ id: 'plan.day.item.who', message: 'Who’s going' })}>
         {going.length === 0 ? (
-          <Text variant="body">{t({ id: 'plan.day.item.everyone', message: 'Everyone' })}</Text>
+          <Text variant="body">
+            {solo
+              ? t({ id: 'plan.day.item.justYou', message: 'Just you' })
+              : t({ id: 'plan.day.item.everyone', message: 'Everyone' })}
+          </Text>
         ) : (
           <Row gap="8" align="center">
             <AvatarStack
