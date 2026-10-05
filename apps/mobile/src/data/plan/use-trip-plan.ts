@@ -13,7 +13,7 @@ import {
   type CreateChangesetPayload,
   type PlanState,
 } from '@cp/domain';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
@@ -142,7 +142,31 @@ export function replayQueued(
   return { state, touched };
 }
 
+/**
+ * The plan, held steady while the trip moves to a new version. Every change that makes one (an
+ * edit, an undo, a skip "just me", a fix) swaps the version the rows are read from, and its rows
+ * arrive a moment later: in between the plan would read as not loaded and every screen on it would
+ * blank (the day plan dropped its whole view, its map with it, and came back on a map with nothing
+ * drawn). Until the new version's rows are in, the last plan read stays on screen.
+ */
 export function useTripPlan(tripId: string | null, options: TripPlanOptions = {}): TripPlan {
+  const read = useTripPlanRows(tripId, options);
+  // The last loaded plan, kept as React keeps any value from an earlier render.
+  const [last, setLast] = useState<TripPlan | null>(null);
+  // Only a plan with a version is kept: with none, its empty rows are new on every render.
+  if (read.loaded && read.versionId !== null && read !== last) setLast(read);
+  return holdThroughSwitch(last, read);
+}
+
+/** `next`, or `previous` while `next` is the same trip's plan still loading another version. */
+export function holdThroughSwitch(previous: TripPlan | null, next: TripPlan): TripPlan {
+  if (next.loaded || previous === null || !previous.loaded) return next;
+  const sameTrip = next.trip !== null && next.trip.id === previous.trip?.id;
+  const switching = next.versionId !== null && next.versionId !== previous.versionId;
+  return sameTrip && switching ? previous : next;
+}
+
+function useTripPlanRows(tripId: string | null, options: TripPlanOptions): TripPlan {
   const choice = options.version ?? 'current';
   const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
   const uid = uidRows.rows[0]?.value ?? null;
