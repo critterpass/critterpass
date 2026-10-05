@@ -280,6 +280,10 @@ msgstr "The draft didn’t finish"
 msgid "planDraft.stale.mustDos"
 msgstr "the must-dos"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.own"
+msgstr "The plan you started"
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.rooms"
 msgstr "the rooms"

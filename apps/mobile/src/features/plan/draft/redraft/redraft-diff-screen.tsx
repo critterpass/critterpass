@@ -1,8 +1,8 @@
 /**
  * The redraft screen wired to the phone: the redraft's job and diff, the trip's quota and the
  * organiser's per-change toggles. KEEP IT makes the redrafted day part of the private draft (the
- * changes toggled off stay as they were); "Put … back" discards it. Either one counts against the
- * quota; a redraft that failed or could not beat the day gave its unit back.
+ * changes toggled off stay as they were) and counts against the quota; "Put … back" discards it and
+ * gives the redraft back, as does one that failed or could not beat the day.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -102,6 +102,14 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
       // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
       id: `redraft-reverted-${redraftId}`,
       title: t({ id: 'planDraft.diff.revertedToast', message: `Day ${n} is back as it was.` }),
+      ...(trip.quota.limit === null
+        ? {}
+        : {
+            subtitle: t({
+              id: 'planDraft.diff.revertedSub',
+              message: 'You have that redraft back.',
+            }),
+          }),
     });
     back();
   };

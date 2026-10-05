@@ -285,6 +285,10 @@ msgstr ""
 msgid "planDraft.change.which"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.revertedSub"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.settled"
 msgstr ""

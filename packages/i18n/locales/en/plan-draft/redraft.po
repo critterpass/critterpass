@@ -285,6 +285,10 @@ msgstr "What should change?"
 msgid "planDraft.change.which"
 msgstr "Which day?"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.revertedSub"
+msgstr "You have that redraft back."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.settled"
 msgstr "You’ve kept or put back this redraft already."

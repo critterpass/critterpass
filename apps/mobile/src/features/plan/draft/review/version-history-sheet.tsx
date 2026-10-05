@@ -65,6 +65,8 @@ function originLabel(origin: DraftOrigin, guideName: string): string {
     }
     case 'changed':
       return t({ id: 'planDraft.history.changed', message: 'Changed by you' });
+    case 'own':
+      return t({ id: 'planDraft.history.own', message: 'The plan you started' });
   }
 }
 
