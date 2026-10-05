@@ -11,8 +11,9 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
-- scrollUntilVisible:
-    element:
+# The section sits near the top of the list, under the demo data buttons.
+- extendedWaitUntil:
+    visible:
       id: 'dev-planning-redesign-source-default'
     timeout: 30000
 - assertVisible:
