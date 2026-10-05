@@ -150,11 +150,26 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'when-pick-week'
+- evalScript: ${output.pickLast = new Date(Date.parse(output.pickDate + 'T12:00:00Z') + 2 * 86400000).toISOString().slice(0, 10)}
 - runFlow:
-    file: ../../../happy/subflows/pick-days.yaml
+    when:
+      visible:
+        id: 'picker-clear'
+    commands:
+      - tapOn:
+          id: 'picker-clear'
+- runFlow:
+    file: pick-day-any-language.yaml
     env:
       PICK_DATE: ${output.pickDate}
-      PICK_DAYS: 3
+- runFlow:
+    file: pick-day-any-language.yaml
+    env:
+      PICK_DATE: ${output.pickLast}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-00-dates
 - tapOn:
