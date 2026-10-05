@@ -15,7 +15,7 @@
  * - Ideas: one idea per place and trip; the kept one takes the other's backers and sources.
  * - Must-dos: one per place, trip and owner.
  * - Lists with one row per person or trip and place (saves, hidden places, stances, swipe answers,
- *   matches, crew notes) keep one; history rows (visits, meetups, rides, expenses, encounters)
+ *   matches, crew notes) keep one; history rows (visits, meetups, ride quotes, vendor threads, expenses, encounters)
  *   are simply moved.
  *
  * Runs as the system inside the caller's transaction, each table under its own savepoint so one
@@ -32,6 +32,11 @@ interface Follower {
   readonly key: readonly string[] | null;
   readonly trip: boolean;
   readonly where?: string;
+  /**
+   * False where the system may not delete (a derived row per trip and place): a row whose kept
+   * place already has one is left where it is.
+   */
+  readonly drop?: boolean;
 }
 
 const FOLLOWERS: readonly Follower[] = [
@@ -46,12 +51,12 @@ const FOLLOWERS: readonly Follower[] = [
   { table: 'place_stances', column: 'poi_id', key: ['trip_id', 'user_id'], trip: true },
   { table: 'swipe_votes', column: 'poi_id', key: ['session_id', 'user_id'], trip: true },
   { table: 'swipe_yes_votes', column: 'poi_id', key: ['session_id', 'user_id'], trip: true },
-  { table: 'swipe_matches', column: 'poi_id', key: ['session_id'], trip: true },
-  { table: 'place_qna_summaries', column: 'poi_id', key: ['trip_id'], trip: true },
+  { table: 'swipe_matches', column: 'poi_id', key: ['session_id'], trip: true, drop: false },
+  { table: 'place_qna_summaries', column: 'poi_id', key: ['trip_id'], trip: true, drop: false },
   { table: 'place_tips', column: 'poi_id', key: null, trip: false },
   { table: 'visits', column: 'poi_id', key: null, trip: true },
   { table: 'meetups', column: 'poi_id', key: null, trip: true },
-  { table: 'rides', column: 'poi_id', key: null, trip: true },
+  { table: 'ops.vendor_threads', column: 'poi_id', key: null, trip: true },
   { table: 'ride_quotes', column: 'from_poi_id', key: null, trip: true },
   { table: 'ride_quotes', column: 'to_poi_id', key: null, trip: true },
   { table: 'expenses', column: 'poi_id', key: null, trip: true },
@@ -86,22 +91,27 @@ function followerSql(follower: Follower): string {
       ) SELECT 'moved' AS what, trip_id FROM followed`;
   }
   const same = key.map((col) => `o.${col} IS NOT DISTINCT FROM t.${col}`).join(' AND ');
-  return `${MERGED}, moving AS (
+  const moving = `moving AS (
       SELECT t.id, m.kept, ${trip} AS trip_id,
-             row_number() OVER (PARTITION BY ${key.map((col) => `t.${col}`).join(', ')}, m.kept
-                                ORDER BY t.id) AS n
+             (row_number() OVER (PARTITION BY ${key.map((col) => `t.${col}`).join(', ')}, m.kept
+                                 ORDER BY t.id) > 1
+              OR EXISTS (SELECT 1 FROM ${table} o
+                          WHERE o.${column} = m.kept AND o.id <> t.id AND ${same})) AS taken
         FROM ${table} t JOIN merged m ON m.id = t.${column} ${where}
-    ), gone AS (
-      DELETE FROM ${table} t USING moving m
-       WHERE t.id = m.id
-         AND (m.n > 1 OR EXISTS (SELECT 1 FROM ${table} o
-                                  WHERE o.${column} = m.kept AND o.id <> t.id AND ${same}))
-      RETURNING t.id
-    ), followed AS (
+    )`;
+  const followed = `followed AS (
       UPDATE ${table} t SET ${column} = m.kept FROM moving m
-       WHERE t.id = m.id AND NOT EXISTS (SELECT 1 FROM gone g WHERE g.id = t.id)
+       WHERE t.id = m.id AND NOT m.taken
       RETURNING t.id
-    )
+    )`;
+  if (follower.drop === false) {
+    return `${MERGED}, ${moving}, ${followed}
+      SELECT 'moved' AS what, m.trip_id FROM followed f JOIN moving m ON m.id = f.id`;
+  }
+  return `${MERGED}, ${moving}, gone AS (
+      DELETE FROM ${table} t USING moving m WHERE t.id = m.id AND m.taken
+      RETURNING t.id
+    ), ${followed}
     SELECT 'moved' AS what, m.trip_id FROM followed f JOIN moving m ON m.id = f.id
     UNION ALL
     SELECT 'dropped', m.trip_id FROM gone g JOIN moving m ON m.id = g.id`;
