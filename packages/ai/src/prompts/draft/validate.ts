@@ -6,7 +6,7 @@
 import type { Itinerary } from '@cp/domain';
 import { validateItinerary, type ValidationResult } from '@cp/planner';
 
-import { hopCap } from './areas';
+import { homeOf, hopCap } from './areas';
 import type { DraftPlanInput } from './context';
 
 export function requiredMustDoIds(input: DraftPlanInput): string[] {
@@ -29,6 +29,7 @@ export function validate(input: DraftPlanInput, itinerary: Itinerary): Validatio
     requiredMustDoIds: requiredMustDoIds(input),
     mealPlaces: input.pools.eateries,
     hopCapMin: hopCap(input),
+    homeId: homeOf(input),
   });
   known.set(itinerary, result);
   return result;

@@ -10,6 +10,10 @@ export type ListKind = 'picks' | 'map_carousel' | 'search';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
 export const MAP_CAROUSEL: ListKind = 'map_carousel';
 
+/** How many picks a row shows, and under how many of the server's the phone's own top it up. */
+export const PICKS_SHOWN = 8;
+const PICKS_TOP_UP_UNDER = 4;
+
 export interface SponsoredSlot {
   readonly placementId: string;
   readonly partner: string;
@@ -24,16 +28,18 @@ export interface PickEntry {
 }
 
 /**
- * The server's list as cards: the guide's must-sees in the order given, one sponsored card at most
- * and never first. With no must-sees there are no picks (and so no sponsored card either).
+ * The server's list as cards, in the order given, one sponsored card at most and never first.
+ * Where the guide marks must-sees, only those are picks (the row is never padded out with the rest
+ * of the curated set); a destination that runs on automatic picks marks none, so its picks are the
+ * recommended places as ranked. With no organic place there is no row (and no sponsored card).
  */
 export function pickEntries(entries: readonly PicksEntryWire[]): PickEntry[] {
+  const marked = entries.some((entry) => entry.kind === 'organic' && entry.item.must_see);
   const cards: PickEntry[] = [];
   let sponsored = false;
   for (const entry of entries) {
     if (entry.kind === 'organic') {
-      // Only what the guide marks as a must-see is a pick: the row is never padded out.
-      if (!entry.item.must_see) continue;
+      if (marked && !entry.item.must_see) continue;
       cards.push({
         poiId: entry.item.poi_id,
         name: entry.item.name,
@@ -51,6 +57,29 @@ export function pickEntries(entries: readonly PicksEntryWire[]): PickEntry[] {
     }
   }
   return cards;
+}
+
+/**
+ * The picks a page draws: the server's, and when it sent none (or could not be reached) the
+ * recommended places this phone holds, `skip` left out (places already in the plan), `limit` kept.
+ */
+export function picksOrLocal(
+  server: readonly PickEntry[],
+  local: readonly Omit<PickEntry, 'sponsored'>[],
+  options: { readonly skip?: ReadonlySet<string>; readonly limit?: number } = {},
+): PickEntry[] {
+  const skip = options.skip ?? new Set<string>();
+  const kept = server.filter((pick) => !skip.has(pick.poiId));
+  const organic = kept.filter((pick) => pick.sponsored === null);
+  const limit = options.limit ?? PICKS_SHOWN;
+  if (organic.length >= Math.min(limit, PICKS_TOP_UP_UNDER)) return kept;
+  const seen = new Set(kept.map((pick) => pick.poiId));
+  const more = local
+    .filter((place) => !skip.has(place.poiId) && !seen.has(place.poiId))
+    .slice(0, Math.max(0, limit - organic.length))
+    .map((place) => ({ ...place, sponsored: null }));
+  // A sponsored card never leads: with no organic card from the server it is dropped.
+  return organic.length === 0 ? more : [...kept, ...more];
 }
 
 /** Puts a slot the app fetched itself into a list it built, third (or last in a shorter list). */

@@ -62,6 +62,10 @@ msgid "explore.swipe.matchSuggested"
 msgstr "{placeName} is suggested for Day {dayNo}. The organiser okays it."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneSaved"
+msgstr "{yesCount, plural, one {# place saved to Ideas under your name.} other {# places saved to Ideas under your name.}}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneCount"
 msgstr "{yesCount, plural, one {You said yes to # place.} other {You said yes to # places.}}"
 
@@ -110,6 +114,10 @@ msgid "explore.swipe.no"
 msgstr "No to this one"
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.openIdeas"
+msgstr "Open Ideas"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.seeIdeas"
 msgstr "See them in Ideas"
 
@@ -128,6 +136,10 @@ msgstr "Tap to keep swiping"
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
 msgstr "That's the deck"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.savedNoMatches"
+msgstr "They are yours in Ideas already. A match adds the others to them."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.endedTitle"

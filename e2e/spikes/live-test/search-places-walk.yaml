@@ -1,0 +1,542 @@
+appId: app.critterpass.dev
+---
+# Live walk: finding a place and getting it into a locked five-day Bali plan, then Explore. Real
+# staging, a fresh account, no demo seed; the planning screens are turned on for this phone only.
+# Shots are `search-places-<nn>-<what>`; a step the app refuses is optional, so the walk goes on
+# and the frames still come out.
+#   1. Search by name; a place nobody recommends opened and added; plain words (typed, and the
+#      guide's own example); a link typed into the field; a name that finds nothing; an address.
+#   2. A kind browsed; the places list on that kind, IN THE PLAN, SAVED with nothing saved; the map.
+#   3. Explore in the trip, Đà Lạt's page (a curated set) and Busan's (automatic picks only).
+#   4. The same screens read in Vietnamese.
+- runFlow:
+    file: search-places-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: search-places-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: search-places-subflows/back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+
+# 1. Search, by name.
+- runFlow: search-places-subflows/search-again.yaml
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: search-places-01-search-empty
+- inputText: 'Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: search-places-02-tanah-lot-by-name
+# A place the guide does not recommend: opened, then added from its page.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'DFC Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: search-places-03-not-recommended-rows
+- hideKeyboard
+- tapOn:
+    id: 'search-row-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail|explore-place-failed|explore-place-missing'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: search-places-04-not-recommended-page
+- runFlow:
+    when:
+      visible:
+        id: 'place-detail-cta'
+    commands:
+      - tapOn:
+          id: 'place-detail-cta'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+          timeout: 30000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: search-places-05-add-sheet-from-page
+      - scrollUntilVisible:
+          element:
+            id: 'plan-add-confirm'
+          direction: DOWN
+          timeout: 8000
+          optional: true
+      - tapOn:
+          id: 'plan-add-confirm'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'search-places-wait'
+          timeout: 5000
+          optional: true
+      - takeScreenshot: search-places-06-added-from-page
+# The same from a row's +: the place is not on the phone until it is saved.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lot Sunset'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 20000
+    optional: true
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-row-add-0'
+    commands:
+      - tapOn:
+          id: 'search-row-add-0'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+          timeout: 30000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 4000
+      - takeScreenshot: search-places-07-add-sheet-from-row
+      - scrollUntilVisible:
+          element:
+            id: 'plan-add-confirm'
+          direction: DOWN
+          timeout: 8000
+          optional: true
+      - tapOn:
+          id: 'plan-add-confirm'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'search-places-wait'
+          timeout: 5000
+          optional: true
+      - takeScreenshot: search-places-08-added-from-row
+# A + she backs out of: the sheet closes and nothing is left in Ideas (SAVED stays empty below).
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Warung Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 20000
+    optional: true
+- hideKeyboard
+- runFlow:
+    when:
+      visible:
+        id: 'search-row-add-0'
+    commands:
+      - tapOn:
+          id: 'search-row-add-0'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+          timeout: 30000
+          optional: true
+      - takeScreenshot: search-places-08b-add-sheet-to-back-out-of
+      - back
+      - extendedWaitUntil:
+          visible:
+            id: 'search-places-wait'
+          timeout: 6000
+          optional: true
+      - takeScreenshot: search-places-08c-backed-out
+# The row she added, searched again: marked as in the plan.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: search-places-09-rows-after-adding
+# In plain words.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'quiet dinner by the beach, open late'
+- pressKey: Enter
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-close-results|search-no-results|search-plain-failed'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-10-plain-words-answer
+- scroll
+- takeScreenshot: search-places-11-plain-words-lower
+# The guide's own example.
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- tapOn:
+    id: 'search-example-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-close-results|search-no-results|search-plain-failed'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-12-example-answer
+# A link in the one field there is.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'https://www.tiktok.com/@balibites/video/7419283746152837461'
+- extendedWaitUntil:
+    visible:
+      id: 'search-link-offer'
+    timeout: 10000
+    optional: true
+- takeScreenshot: search-places-13-link-in-the-field
+- pressKey: Enter
+- extendedWaitUntil:
+    visible:
+      id: 'search-link-sheet|search-link-title|search-link-stopped'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-14-link-flow
+# The link sheet sits over the search: close it before typing again.
+- runFlow:
+    when:
+      visible:
+        id: 'search-link-sheet'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+# A name that finds nothing.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Zzyqx Warung Qqq'
+- extendedWaitUntil:
+    visible:
+      id: 'search-name-none'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15-name-finds-nothing
+# An address from a friend's message.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Jalan Hanoman 10 Ubud'
+- extendedWaitUntil:
+    visible:
+      id: 'search-addresses'
+    timeout: 25000
+    optional: true
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: search-places-16-address
+
+# 2. A kind of place.
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'search-browse-food'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'search-browse-food'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: search-places-17-browse-food
+- scroll
+- takeScreenshot: search-places-18-browse-food-lower
+- tapOn:
+    id: 'places-to-map'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-peek|places-peek-empty'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 8000
+    optional: true
+- takeScreenshot: search-places-19-food-on-the-map
+- tapOn:
+    id: 'places-to-list'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 20000
+    optional: true
+- tapOn:
+    text: '(?i)^in the plan.*'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-plan-day-1'
+    timeout: 10000
+    optional: true
+- takeScreenshot: search-places-20-in-the-plan-by-day
+- tapOn:
+    text: '(?i)^saved.*'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-empty-saved'
+    timeout: 10000
+    optional: true
+- takeScreenshot: search-places-21-saved-empty
+- tapOn:
+    text: '(?i)^all( [0-9]+)?$'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 4000
+    optional: true
+- takeScreenshot: search-places-22-all-places
+
+# 3. Explore in the trip, from the hub.
+- runFlow: search-places-subflows/open-trip-explore.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip-(gap-when|gaps-full|gaps-empty)'
+    timeout: 30000
+    optional: true
+- takeScreenshot: search-places-23-explore-in-trip
+- scrollUntilVisible:
+    element:
+      id: 'explore-trip-kinds'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- takeScreenshot: search-places-24-explore-picks-and-kinds
+# Đà Lạt's page: a curated set with must-sees.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- takeScreenshot: search-places-25-da-lat
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-26-da-lat-picks
+# Busan runs on automatic picks, with no curated set.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/kr-busan
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-26b-busan-automatic-picks
+
+# 4. In Vietnamese: the developer gallery switches the running app.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-home'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'dev-tools-entry'
+    optional: true
+- runFlow:
+    file: ../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-27-vi-da-lat-picks
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/kr-busan
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'explore-picks'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: search-places-27b-vi-busan-automatic-picks
+- runFlow: search-places-subflows/back-to-trip-map.yaml
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- takeScreenshot: search-places-28-vi-search-empty
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'Tanah Lot'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 5000
+    optional: true
+- takeScreenshot: search-places-29-vi-tanah-lot
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'https://www.tiktok.com/@balibites/video/7419283746152837461'
+- extendedWaitUntil:
+    visible:
+      id: 'search-link-offer'
+    timeout: 10000
+    optional: true
+- takeScreenshot: search-places-30-vi-link-in-the-field
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'quan an yen tinh gan bien, mo khuya'
+- pressKey: Enter
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-close-results|search-no-results|search-plain-failed'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+# Asking lets go of the keyboard by itself: hiding it again would press back and leave the search.
+- takeScreenshot: search-places-31-vi-plain-words
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'search-browse-food'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'search-browse-food'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: search-places-32-vi-browse-food
+- runFlow: search-places-subflows/open-trip-explore.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip-(gap-when|gaps-full|gaps-empty)'
+    timeout: 30000
+    optional: true
+- takeScreenshot: search-places-33-vi-explore-in-trip
+- scrollUntilVisible:
+    element:
+      id: 'explore-trip-kinds'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- takeScreenshot: search-places-34-vi-explore-picks-and-kinds

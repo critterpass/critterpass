@@ -8,20 +8,16 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { redraftReasonKeySchema, type Itinerary } from '@cp/domain';
+import { redraftReasonKeySchema } from '@cp/domain';
 import {
   candidatePools,
-  dayWindow,
   destinationPhrases,
+  instantAt,
   knownPlaceFor,
   resolveWishes,
-  scheduleDay,
-  stopKind,
   straightLineMatrix,
   timeWords,
-  visitOrder,
   withOpenDataDefaults,
-  type DayChoice,
   type DraftPoi,
   type TripFrame,
 } from '@cp/planner';
@@ -106,6 +102,20 @@ export const crewCaseSchema = z.object({
     .default([]),
   /** Every day between the first and last must have lunch, dinner and at least four stops. */
   expect_full_days: z.boolean().default(false),
+  /** How many of the trip's core must-sees the draft must hold at least. */
+  expect_core_min: z.int().min(0).default(0),
+  /** Stops the organiser placed by hand before the draft: local "HH:MM" on day `day`. */
+  held: z
+    .array(
+      z.object({
+        day: z.int().positive(),
+        poi_id: z.uuid(),
+        start: z.string(),
+        end: z.string(),
+        kind: z.enum(['activity', 'meal']),
+      }),
+    )
+    .default([]),
 });
 export type CrewCase = z.infer<typeof crewCaseSchema>;
 
@@ -116,6 +126,8 @@ export const redraftCaseSchema = z.object({
   reasons: z.array(redraftReasonKeySchema),
   note: z.string().nullable(),
   chat: z.array(z.object({ author: z.string(), text: z.string() })),
+  /** The language the organiser reads (the redraft writes in it). */
+  locale: z.string().optional(),
 });
 export type RedraftCase = z.infer<typeof redraftCaseSchema>;
 
@@ -233,13 +245,43 @@ export function planInput(
   for (const member of crew.members) {
     for (const tag of member.tastes) tastes[tag] = (tastes[tag] ?? 0) + 1;
   }
+  // Her own stops, as the draft job passes them: kept out of what the guide is offered.
+  const minuteOf = (time: string) => {
+    const [h = 0, m = 0] = time.split(':').map(Number);
+    return h * 60 + m;
+  };
+  const held = crew.held.map((stop, i) => {
+    const date = frame.dates[stop.day - 1] as string;
+    const at = (time: string) => instantAt(date, minuteOf(time), city.tz).toISOString();
+    return {
+      dayNo: stop.day,
+      item: {
+        stable_id: derivedUuid(`${crew.id}:held:${i}`),
+        kind: stop.kind,
+        poi_id: stop.poi_id,
+        starts_at: at(stop.start),
+        ends_at: at(stop.end),
+        tz: city.tz,
+        must_do_id: null,
+        booking_id: null,
+        locked_reason: 'user' as const,
+        cost_model: 'per_person' as const,
+        amount_minor: 0,
+        currency: 'USD',
+        travel_min: 0,
+        note: null,
+      },
+    };
+  });
+  const heldPlaces = new Set(crew.held.map((stop) => stop.poi_id));
   return {
     guide: city.guide,
     destination: city.destination,
     frame,
     pois,
+    ...(held.length > 0 ? { held } : {}),
     pools: candidatePools({
-      pois: [...pois.values()],
+      pois: [...pois.values()].filter((poi) => !heldPlaces.has(poi.id)),
       frame,
       tastes,
       include: wished.offered,
@@ -259,65 +301,4 @@ export function planInput(
     idFor: (key) => derivedUuid(`${crew.id}:${key}`),
     skeletonRoute,
   };
-}
-
-/**
- * A plain draft built by code, the base a redraft case starts from: must-dos on the lightest day
- * they are open, then the pool's activities and a lunch and dinner place, scheduled by the planner.
- */
-export function baselineItinerary(input: DraftPlanInput): Itinerary {
-  const { frame, pools } = input;
-  const used = new Set<string>();
-  const byDay: DayChoice[][] = frame.dates.map(() => []);
-  for (const slot of pools.mustDos) {
-    const day = [...slot.openDays].sort(
-      (a, b) => (byDay[a - 1]?.length ?? 0) - (byDay[b - 1]?.length ?? 0),
-    )[0];
-    if (day === undefined) continue;
-    const poi = input.pois.get(slot.poiId);
-    byDay[day - 1]?.push({
-      poiId: slot.poiId,
-      kind: stopKind(poi),
-      mustDoId: slot.mustDoId,
-      note: null,
-    });
-    used.add(slot.poiId);
-  }
-  const days = frame.dates.map((date, index) => {
-    const choices = byDay[index] ?? [];
-    const open = (id: string) =>
-      (pools.openDays.get(id) ?? []).includes(index + 1) && !used.has(id);
-    const window = dayWindow(frame, index);
-    const room = Math.max(0, Math.floor((window.endMin - window.startMin) / 150) - choices.length);
-    for (const poi of pools.activities.filter((p) => open(p.id)).slice(0, Math.min(2, room))) {
-      choices.push({ poiId: poi.id, kind: 'activity', mustDoId: null, note: null });
-      used.add(poi.id);
-    }
-    const meal = pools.meals.find((p) => open(p.id));
-    if (meal !== undefined && window.endMin - window.startMin >= 240) {
-      choices.splice(Math.min(1, choices.length), 0, {
-        poiId: meal.id,
-        kind: 'meal',
-        mustDoId: null,
-        note: null,
-      });
-      used.add(meal.id);
-    }
-    // In the order the planner would visit them (an after-dark must-do last, not first).
-    const order = visitOrder({ date, choices, pois: input.pois, window, travel: input.travel });
-    return scheduleDay({
-      dayNo: index + 1,
-      date,
-      theme: `Day in ${input.destination.split(',')[0] ?? 'town'}`,
-      choices: order.map((at) => choices[at] as DayChoice),
-      pois: input.pois,
-      window,
-      travel: input.travel,
-      bands: input.bands,
-      currency: frame.currency,
-      tz: frame.tz,
-      idFor: (choice, i) => input.idFor(`base:${index + 1}:${i}:${choice.poiId}`),
-    });
-  });
-  return { currency: frame.currency, days };
 }

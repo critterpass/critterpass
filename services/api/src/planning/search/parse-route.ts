@@ -17,6 +17,7 @@ import { validationHook } from '../../commands/_framework/doors';
 import { requireCommandSession, type SessionResolver } from '../../commands/_framework/session';
 import { searchDigest } from './digest';
 import { bumpPlanningFairUse } from './fair-use';
+import { withWeekdayIntent } from './weekday-intent';
 
 export interface SearchParseRouteDeps {
   readonly pool: pg.Pool;
@@ -63,7 +64,7 @@ export function registerSearchParseRoute(
         { question: q, digest },
         { usage: { userId: uid, crewId, tripId: id } },
       );
-      result = outcome.result;
+      result = withWeekdayIntent(q, outcome.result, digest.days);
     }
     c.header('Cache-Control', 'private, no-store');
     return c.json(result);

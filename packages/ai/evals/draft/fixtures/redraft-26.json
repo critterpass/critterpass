@@ -1,0 +1,53 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "a8104ab7-43d3-457d-bd44-3be7247e665a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, mình đi trong nhà\",\n  \"summary\": \"Trời mưa thì mình đổi hết sang chỗ có mái che, vẫn nhẹ nhàng từ trưa tới tối, ăn no rồi cà phê ấm trong nhà.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa đầu tiên trong ngày mưa, bánh căn nóng hổi ăn trong quán là chuẩn bài.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh Bảo Đại III có mái che kín, vừa tránh mưa vừa nghe chuyện xưa, hợp với người thích đi chậm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lam Dong Museum chiều mưa là chỗ trú lý tưởng, tha hồ ngắm hiện vật mà không ướt giày.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối tới Nem Nướng Bà Hùng, ngồi trong nhà cuốn nem nóng, ngon quá (so tasty) là phải nói ngay.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì Lululola là chỗ ngồi ấm, cà phê thơm, hợp với cú đêm muốn thư giãn trong nhà.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 117,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 521,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "3f059c4b-2f57-4175-b046-1f986b3484bd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, mình cứ đi trong nhà\",\n  \"summary\": \"Trời hay mưa nên cả ngày mình trốn dưới mái hiên, ăn no rồi ghé bảo tàng và quán cà phê ấm áp, không vội gì hết.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa đầu tiên trong ngày mưa, ngồi trong quán ăn bánh căn nóng hổi cho ấm bụng. Ngon quá (so tasty) là phải nói ngay với cô chủ.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Trời mưa thì vào Lam Dong Museum ngắm đồ cổ và nghe chuyện Đà Lạt xưa, khô ráo lại vừa đúng kiểu đi chậm mình thích.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mây Lang Thang là chỗ trốn mưa buổi tối lý tưởng, cà phê ấm, nhạc nhẹ, ngồi tới khuya cũng được.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến thì nem nướng Bà Hùng, ngồi trong nhà cuốn rau chấm tương, mưa ngoài kia cứ để nó rơi.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 18,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 488,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

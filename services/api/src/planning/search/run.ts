@@ -16,6 +16,7 @@ import {
 } from '../fit/context';
 import { fitForTrip, type FitDeps } from '../fit/service';
 import { anchorStops, type SearchMinutes } from './anchor';
+import { closeTo, type DroppedPart } from './close';
 import { evaluate, MEASURED_LIMIT, type Evaluated, type SearchContext } from './evaluate';
 import { closesAt } from './hours';
 import { waysOut, type Nearest, type WayOut } from './relax';
@@ -34,6 +35,8 @@ export interface TripSearchInput {
   readonly limit: number;
   readonly fit: boolean;
   readonly relax: boolean;
+  /** The question as typed. */
+  readonly words?: string;
 }
 
 export interface TripSearchItem extends PlaceSearchResultItem {
@@ -48,6 +51,11 @@ export interface TripSearchResponse {
   readonly soft_misses: readonly TripSearchItem[];
   readonly ways_out?: readonly WayOut[];
   readonly nearest?: Nearest | null;
+  /** Nothing matched all of it: what matches once the weakest parts are dropped, and which. */
+  readonly close?: {
+    readonly results: readonly TripSearchItem[];
+    readonly dropped: readonly DroppedPart[];
+  };
 }
 
 interface TripDay {
@@ -127,6 +135,7 @@ async function context(
     straight: { driveFactor, walkMaxM },
     ...(input.near === undefined ? {} : { near: input.near }),
     ...(input.category === undefined ? {} : { category: input.category }),
+    ...(input.words === undefined ? {} : { words: input.words }),
   };
   return { ctx, days };
 }
@@ -140,10 +149,17 @@ export async function tripSearch(
   const evaluated = await evaluate(ctx, input.filter);
   const results = evaluated.filter((place) => place.misses.length === 0).slice(0, input.limit);
   const softMisses = evaluated.filter((place) => place.misses.length === 1).slice(0, input.limit);
+  const rerun = async (filter: SearchFilter) =>
+    (await evaluate(ctx, filter)).filter((place) => place.misses.length === 0);
+  const close =
+    input.relax && results.length === 0 ? await closeTo(input.filter, evaluated, rerun) : null;
+  const closeResults = close === null ? [] : close.results.slice(0, input.limit);
 
   const fits = new Map<string, PlaceFit>();
   if (input.fit && input.tripId !== undefined) {
-    const ids = [...results, ...softMisses].map((place) => place.item.id).slice(0, MEASURED_LIMIT);
+    const ids = [
+      ...new Set([...results, ...softMisses, ...closeResults].map((place) => place.item.id)),
+    ].slice(0, MEASURED_LIMIT);
     if (ids.length > 0) {
       const excluded = new Set(input.filter.exclude_day_ids ?? []);
       const { fits: all } = await fitForTrip(tx, { tripId: input.tripId, poiIds: ids }, deps.fit);
@@ -169,8 +185,13 @@ export async function tripSearch(
     soft_misses: softMisses.map(toItem),
   };
   if (!input.relax || results.length > 0) return response;
-  const rerun = async (filter: SearchFilter) =>
-    (await evaluate(ctx, filter)).filter((place) => place.misses.length === 0);
   const relaxed = await waysOut(input.filter, evaluated, input.limit, rerun);
-  return { ...response, ways_out: relaxed.ways_out, nearest: relaxed.nearest };
+  return {
+    ...response,
+    ways_out: relaxed.ways_out,
+    nearest: relaxed.nearest,
+    ...(close === null
+      ? {}
+      : { close: { results: closeResults.map(toItem), dropped: close.dropped } }),
+  };
 }

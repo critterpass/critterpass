@@ -1,7 +1,8 @@
 /**
  * Add from a link (7d-3) as a screen over search: imports the link (or, for a screenshot, picks
  * one and reads it on the phone first), lets the traveller tick, pick and save, and words the tip
- * for the day the places share.
+ * for the day the places share. Opened with no link it asks for one to be pasted. Saving and
+ * "put them on the day" both end with what happened, by name.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design screen ids and param keys, never copy. */
 import { poiCategorySchema } from '@cp/domain';
@@ -16,7 +17,8 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { categoryWord } from './chip-row';
 import { useSearchServices, type ImportBody } from './data/search-services';
 import { chosenPlaces, sharedBestDay } from './link-import-model';
-import { tipLine } from './link-copy';
+import { dayEndWords, dayFailedWords, savedEndWords, tipLine } from './link-copy';
+import { LinkPaste } from './link-paste';
 import { LinkSheet } from './link-sheet';
 import { PickOneSheet } from './pick-one-sheet';
 import { searchRoutes } from './routes';
@@ -43,14 +45,16 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
   const [picking, setPicking] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const { state, dispatch, retry } = useLinkImport(tripId, body);
-  const actions = useLinkActions(tripId, url);
+  const sourceUrl = body !== null && 'url' in body ? body.url : url;
+  const actions = useLinkActions(tripId, sourceUrl);
 
   const addScreenshot = () => {
     setProblem(null);
     void services.readScreenshot().then((read) => {
       if (read.kind === 'text') setBody({ text: read.text, kind: 'screenshot' });
       else if (read.kind === 'cancelled') {
-        if (body === null) router.back();
+        // Opened for a screenshot and none picked: there is nothing here to come back to.
+        if (body === null && screenshot) router.back();
       } else if (read.kind === 'no_text') {
         setProblem(
           t({ id: 'search.link.noText', message: 'I couldn’t read any words in that screenshot.' }),
@@ -82,14 +86,13 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
   );
 
   const saveToIdeas = () => {
-    const count = places.length;
     void actions.saveToIdeas(places).then((saved) => {
-      if (saved === 0) return;
+      const words = savedEndWords(saved, places);
       const ideas = hrefFor('7f-2', { tripId });
       toast.show({
         id: 'search-link-saved',
-        title: t({ id: 'search.link.savedToast', message: `${count} saved to Ideas` }),
-        ...(ideas === undefined
+        ...words,
+        ...(ideas === undefined || saved.length === 0
           ? {}
           : {
               action: {
@@ -98,24 +101,35 @@ export function LinkScreen({ tripId, url, screenshot }: LinkScreenProps) {
               },
             }),
       });
-      router.back();
+      if (saved.length > 0) router.back();
     });
   };
   const putOnDay = () => {
     if (bestDay === null) return;
-    void actions.putOnDay(places, bestDay).then((outcome) => {
-      if (outcome.kind === 'unavailable') return;
-      const shown = dayLabel ?? '';
+    const shown = dayLabel ?? '';
+    void actions.putOnDay(places, bestDay).then((end) => {
       toast.show({
         id: 'search-link-day',
-        title:
-          outcome.kind === 'applied'
-            ? t({ id: 'search.link.addedToast', message: `Added to ${shown}` })
-            : t({ id: 'search.link.proposedToast', message: 'Sent to the crew to approve' }),
+        ...(end.kind === 'failed' ? dayFailedWords(shown) : dayEndWords(end, shown)),
       });
-      router.back();
+      if (end.kind === 'done') router.back();
     });
   };
+
+  if (body === null) {
+    return (
+      <LinkPaste
+        problem={problem}
+        readClipboard={services.readClipboard}
+        onAdd={(link) => {
+          setProblem(null);
+          setBody({ url: link });
+        }}
+        onScreenshot={addScreenshot}
+        onClose={() => router.back()}
+      />
+    );
+  }
 
   return (
     <>

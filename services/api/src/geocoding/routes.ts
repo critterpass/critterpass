@@ -25,6 +25,46 @@ const LOOKUPS_PER_UID_RULE: RateLimitRule = { windowSeconds: 60, max: 30 };
 export const DEFAULT_MAPBOX_GEOCODE_MONTHLY_CAP = 2000;
 /** With a `near` point the caller wants somewhere to stand: streets and house numbers only. */
 const ADDRESS_FEATURE_TYPES = ['address', 'street'] as const;
+/**
+ * With a `near` point, an address further than this is not an answer: Mapbox only leans towards
+ * the point, so a street it does not know in Ubud comes back as its namesake in another country.
+ */
+export const ADDRESS_REACH_KM = 300;
+/**
+ * How long our own lookup may take when the caller is after an address: it searches every place
+ * we hold by name, which on a full catalogue can outlast the app's patience for the whole answer.
+ */
+const LOCAL_LOOKUP_BUDGET_MS = 2500;
+
+/** Whether `point` lies within `ADDRESS_REACH_KM` of `near`. */
+export function withinReach(
+  near: { readonly lat: number; readonly lng: number },
+  point: { readonly lat: number; readonly lng: number },
+): boolean {
+  const rad = Math.PI / 180;
+  const h =
+    Math.sin(((point.lat - near.lat) * rad) / 2) ** 2 +
+    Math.cos(near.lat * rad) *
+      Math.cos(point.lat * rad) *
+      Math.sin(((point.lng - near.lng) * rad) / 2) ** 2;
+  return 2 * 6371 * Math.asin(Math.sqrt(h)) <= ADDRESS_REACH_KM;
+}
+
+/** Our own matches, or none when the lookup outlasts its budget (the address search goes on). */
+async function localWithinBudget(tx: pg.PoolClient, query: string): Promise<GeocodeResult[]> {
+  await tx.query('SAVEPOINT local_lookup');
+  try {
+    await tx.query(`SET LOCAL statement_timeout = ${String(LOCAL_LOOKUP_BUDGET_MS)}`);
+    const found = [...(await geocodeForwardLocal(tx, query))];
+    await tx.query('RELEASE SAVEPOINT local_lookup');
+    return found;
+  } catch (error) {
+    // 57014: cancelled by the statement timeout.
+    if ((error as { code?: unknown }).code !== '57014') throw error;
+    await tx.query('ROLLBACK TO SAVEPOINT local_lookup');
+    return [];
+  }
+}
 
 export interface GeocodingRouteDeps {
   readonly pool: pg.Pool;
@@ -142,10 +182,11 @@ export function registerGeocodingRoutes(app: OpenAPIHono<AppEnv>, deps: Geocodin
     if (!parsed.success) throw new DomainError('VALIDATION', { reason: 'bad_geocode_query' });
     const { q: query, near, limit } = parsed.data;
 
+    const address = looksLikeAddress(query);
     const localResults = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
-      geocodeForwardLocal(tx, query),
+      address && near !== undefined ? localWithinBudget(tx, query) : geocodeForwardLocal(tx, query),
     );
-    const wantsMapbox = localResults.length === 0 || looksLikeAddress(query);
+    const wantsMapbox = localResults.length === 0 || address;
     if (!wantsMapbox || deps.mapboxToken === undefined) return c.json({ results: localResults });
 
     const cap = deps.mapboxMonthlyCap ?? DEFAULT_MAPBOX_GEOCODE_MONTHLY_CAP;
@@ -167,6 +208,7 @@ export function registerGeocodingRoutes(app: OpenAPIHono<AppEnv>, deps: Geocodin
       );
       mapboxResults = found
         .filter((result) => result.formattedAddress !== '')
+        .filter((result) => near === undefined || withinReach(near, result))
         .map((result) => ({
           source: 'mapbox',
           label: result.formattedAddress,

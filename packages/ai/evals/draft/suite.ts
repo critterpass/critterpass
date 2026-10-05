@@ -21,10 +21,20 @@ import { templateSummary, writeDraftSummary } from '../../src/prompts/draft/summ
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
 import { jsonResponse } from '../lib/transports';
-import { gradeFullDays, gradeMustDos, gradeRedraftReasons } from './asserts/day-shape-asserts';
-import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import {
-  baselineItinerary,
+  gradeDayFinish,
+  gradeFullDays,
+  gradeHeld,
+  gradeHoles,
+  gradeLanguage,
+  gradeMustSees,
+  gradeRain,
+  gradeMustDos,
+  gradeRedraftReasons,
+} from './asserts/day-shape-asserts';
+import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
+import { baselineItinerary } from './baseline';
+import {
   CREWS,
   INJECTION_DRAFTS,
   planInput,
@@ -170,6 +180,10 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
             mustDoId(crew, i),
           ),
           ...(crew.expect_full_days ? gradeFullDays(result.input, result) : []),
+          ...gradeDayFinish(result.input, result.itinerary),
+          ...gradeHeld(result.input, result.itinerary),
+          ...gradeMustSees(result.input, result.itinerary, crew.expect_core_min),
+          ...(crew.expect_full_days ? gradeHoles(result.input, result.itinerary) : []),
         ],
         `${output} || ${text}`,
       ),
@@ -200,6 +214,7 @@ async function redraftCase(
       dayNo: redraft.day,
       reasons: redraft.reasons,
       note: redraft.note,
+      ...(redraft.locale === undefined ? {} : { locale: redraft.locale }),
       chat: redraft.chat.map((line, i) => ({
         id: `chat-${i}`,
         author: line.author,
@@ -215,6 +230,9 @@ async function redraftCase(
         [
           ...gradeRedraft(input, base, redraft.day, outcome),
           ...gradeRedraftReasons(input, base, redraft.day, redraft.reasons, outcome),
+          ...gradeHeld(input, outcome.itinerary),
+          ...gradeLanguage(redraft.locale, outcome),
+          ...gradeRain(input, redraft.note, outcome),
         ],
         output,
       ),

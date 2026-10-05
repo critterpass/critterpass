@@ -9,20 +9,17 @@
  * was assumed about arriving and leaving.
  */
 import type { Itinerary } from '@cp/domain';
-import {
-  repairTargets,
-  withAssumedTravelNotes,
-  withHonestNotes,
-  type ValidationResult,
-} from '@cp/planner';
+import { repairTargets, type ValidationResult } from '@cp/planner';
 
 import { fillMeals } from './complete-days';
 import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay } from './day';
-import { settle, trimForMustDos } from './settle';
+import { withFinalNotes } from './final-notes';
+import { settle, trimForMustDos, withoutUnservedMeals } from './settle';
 import type { SkeletonPlan } from './skeleton';
 import { validate } from './validate';
 
+export { withFinalNotes } from './final-notes';
 export { trimForMustDos } from './settle';
 export { requiredMustDoIds, validate } from './validate';
 
@@ -42,6 +39,8 @@ export interface RepairOutcome {
   readonly filled: number;
   /** Lines taken off because they named a meal or time of day their stop is not at. */
   readonly notesRemoved: number;
+  /** Days whose title no longer matched their stops and was written again from them. */
+  readonly retitled: number;
 }
 
 export interface RepairPass {
@@ -61,21 +60,6 @@ function passOf(pass: number, result: ValidationResult): RepairPass {
       dayNo: v.dayNo,
       poiId: v.poiId ?? null,
     })),
-  };
-}
-
-/**
- * The finishing touches every stage shares: notes that name a time their stop is not at come off,
- * and the stops at the trip's edges say what was assumed about arriving and leaving.
- */
-export function withFinalNotes(
-  input: DraftPlanInput,
-  itinerary: Itinerary,
-): { readonly itinerary: Itinerary; readonly removed: number } {
-  const honest = withHonestNotes(itinerary, input.pois, input.frame.tz);
-  return {
-    itinerary: withAssumedTravelNotes(honest.itinerary, input.frame),
-    removed: honest.removed,
   };
 }
 
@@ -101,7 +85,8 @@ export async function validateAndRepair(
       filled += refed.added;
     }
   }
-  const first = validate(input, itinerary);
+  // A meal the planner could not place itself is not asked of the guide either: the day says so.
+  const first = withoutUnservedMeals(validate(input, itinerary));
   const passes = [passOf(0, first)];
   let current = first;
   let loops = 0;
@@ -186,5 +171,6 @@ export async function validateAndRepair(
     passes,
     filled,
     notesRemoved: noted.removed,
+    retitled: noted.retitled,
   };
 }

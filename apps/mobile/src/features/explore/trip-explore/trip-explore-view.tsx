@@ -1,7 +1,8 @@
 /**
  * Explore in a trip (7g-1), drawn from plain values: the destination hero with the way back to the
  * trip and the crew's saved count, the search docked under it (pinned to the top once the page
- * scrolls past it), FOR YOUR GAPS, the guide's picks with where each stands, and SWIPE TOGETHER.
+ * scrolls past it), FOR YOUR GAPS, the guide's picks with where each stands, the kinds of place to
+ * browse, and SWIPE TOGETHER for a crew of two or more.
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
@@ -30,6 +31,7 @@ import { PicksRow, type PickCard } from '../components/picks-row';
 import * as copy from './copy';
 import { DOCKED_SEARCH_HEIGHT, DockedSearch } from './docked-search';
 import { GapsCard, type GapsCardState } from './gaps-card';
+import { KindsRow, type KindTile } from './kinds-row';
 import { PickStateChip } from './pick-state-chip';
 import { SwipeTogetherCard } from './swipe-together-card';
 import type { PickState, SwipeLive } from './trip-explore-model';
@@ -55,11 +57,16 @@ export interface TripExploreViewProps {
   readonly onAllPlaces?: (() => void) | undefined;
   readonly onOpenPick?: ((pick: PickCard) => void) | undefined;
   readonly onSavePick: (pick: TripPick) => void;
-  readonly swipe: {
-    readonly deckSize: number;
-    readonly live: SwipeLive;
-    readonly onPress: () => void;
-  };
+  /** The kinds of place here with their counts; none while the places have not synced. */
+  readonly kinds: readonly KindTile[];
+  /** Absent for someone travelling alone: there is nobody to swipe with. */
+  readonly swipe?:
+    | {
+        readonly deckSize: number;
+        readonly live: SwipeLive;
+        readonly onPress: () => void;
+      }
+    | undefined;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -177,7 +184,8 @@ export function TripExploreView(props: TripExploreViewProps) {
               />
             </View>
           )}
-          <SwipeTogetherCard {...props.swipe} />
+          <KindsRow kinds={props.kinds} />
+          {props.swipe === undefined ? null : <SwipeTogetherCard {...props.swipe} />}
         </View>
       </Animated.ScrollView>
       {pinned ? (

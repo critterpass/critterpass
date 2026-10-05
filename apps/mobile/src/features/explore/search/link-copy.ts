@@ -113,3 +113,92 @@ export function stopLine(error: LinkImportState['error']): { text: string; retry
 export function tipLine(weekday: string): string {
   return t({ id: 'search.link.tip', message: `Your ${weekday} works for these.` });
 }
+
+const NAMES_SHOWN = 2;
+
+/** "Tanah Lot, Tegenungan +1": the first names, then how many more. */
+export function namesLine(places: readonly { readonly name: string }[]): string {
+  const shown = places.slice(0, NAMES_SHOWN).map((place) => place.name);
+  const more = places.length - shown.length;
+  const names = shown.join(', ');
+  return more > 0 ? `${names} +${String(more)}` : names;
+}
+
+export interface EndWords {
+  readonly title: string;
+  readonly subtitle?: string;
+}
+
+/** What "Or put them on Sat 17" did: what went on the day, and what went to Ideas instead. */
+export function dayEndWords(
+  end: {
+    readonly outcome: 'applied' | 'proposed' | 'none';
+    readonly placed: readonly { readonly name: string }[];
+    readonly ideas: readonly { readonly name: string }[];
+  },
+  day: string,
+): EndWords {
+  const placed = namesLine(end.placed);
+  const ideas = namesLine(end.ideas);
+  if (end.outcome === 'none') {
+    return {
+      title: t({ id: 'search.link.end.noRoom', message: `No room on ${day}` }),
+      subtitle: t({ id: 'search.link.end.ideasInstead', message: `Saved to Ideas: ${ideas}` }),
+    };
+  }
+  const title =
+    end.outcome === 'applied'
+      ? t({ id: 'search.link.addedToast', message: `Added to ${day}` })
+      : t({ id: 'search.link.proposedToast', message: 'Sent to the crew to approve' });
+  return {
+    title,
+    subtitle:
+      end.ideas.length === 0
+        ? placed
+        : t({
+            id: 'search.link.end.placedAndIdeas',
+            message: `${placed}. No room for ${ideas}: saved to Ideas.`,
+          }),
+  };
+}
+
+/** "Or put them on Sat 17" did not go through: nothing changed. */
+export function dayFailedWords(day: string): EndWords {
+  return {
+    title: t({ id: 'search.link.end.dayFailed', message: `Couldn’t put them on ${day}` }),
+    subtitle: t({
+      id: 'search.link.end.dayFailedLine',
+      message: 'Nothing changed. Try again, or save them to Ideas.',
+    }),
+  };
+}
+
+/** What SAVE TO IDEAS did: how many were saved, by name, and any that were not. */
+export function savedEndWords(
+  saved: readonly { readonly name: string }[],
+  chosen: readonly { readonly name: string }[],
+): EndWords {
+  const count = saved.length;
+  if (count === 0) {
+    return {
+      title: t({ id: 'search.link.end.saveFailed', message: 'Couldn’t save them' }),
+      subtitle: t({
+        id: 'search.link.end.saveFailedLine',
+        message: 'Nothing was saved. Try again.',
+      }),
+    };
+  }
+  const missed = chosen.filter((place) => !saved.includes(place));
+  const names = namesLine(saved);
+  const missedNames = namesLine(missed);
+  return {
+    title: t({ id: 'search.link.savedToast', message: `${count} saved to Ideas` }),
+    subtitle:
+      missed.length === 0
+        ? names
+        : t({
+            id: 'search.link.end.savedSome',
+            message: `${names}. Couldn’t save ${missedNames}.`,
+          }),
+  };
+}

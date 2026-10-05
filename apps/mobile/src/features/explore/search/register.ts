@@ -19,6 +19,10 @@ registerScreens({
   '7d-3': (params) =>
     searchRoutes.link(
       params['tripId'] ?? '',
-      params['url'] === undefined ? { screenshot: true } : { url: params['url'] },
+      params['url'] !== undefined
+        ? { url: params['url'] }
+        : params['screenshot'] === '1'
+          ? { screenshot: true }
+          : { paste: true },
     ),
 });

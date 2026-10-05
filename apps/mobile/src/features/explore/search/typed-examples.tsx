@@ -120,7 +120,7 @@ export function plainExamples(input: {
       id: 'search.examples.dinner',
       message: 'somewhere quiet for dinner near the stay, open late',
     }),
-    t({ id: 'search.examples.crowds', message: `a waterfall without the crowds, ${day}` }),
+    t({ id: 'search.examples.crowds', message: `a waterfall without the crowds, on ${day}` }),
     t({
       id: 'search.examples.rain',
       message: `what to do in ${destination} when it rains`,

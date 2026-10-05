@@ -8,6 +8,7 @@
  * outline also answers the must-dos members typed by hand (./wish-answers.ts). The request itself
  * is built in ./skeleton-request.ts.
  */
+import { placeCore } from './core-days';
 import { assignMeals, assignSpares, keepWhatFits, topUpDays } from './skeleton-days';
 import { checkWishAnswers, whenOf, withWishAnswers, type WishAnswer } from './wish-answers';
 
@@ -84,7 +85,8 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
           }
           continue;
         }
-        if (taken.has(poiId)) continue;
+        // A place goes only on a day it is open (and, on the last day, near where the crew leaves).
+        if (taken.has(poiId) || !(pools.openDays.get(poiId) ?? []).includes(dayNo)) continue;
         taken.add(poiId);
         poiIds.push(poiId);
       }
@@ -145,6 +147,9 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
     last.mustDoIds.splice(last.mustDoIds.indexOf(mustDoId), 1);
     earlier.mustDoIds.push(mustDoId);
   }
+  // The must-sees the guide left out go on the day they sit best with, and lead every day's
+  // list: what fits is kept in that order, so a must-see is never the stop that loses its seat.
+  placeCore(input, days, taken);
   // What the outline gave a day must fit its hours and sit together; light days are topped up.
   const planned = days.reduce((sum, day) => sum + day.poiIds.length, 0);
   keepWhatFits(input, days, taken);
