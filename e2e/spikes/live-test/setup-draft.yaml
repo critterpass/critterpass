@@ -313,9 +313,6 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-32-board-lock-in
 - tapOn:
     id: 'board-lock-in'
-- waitForAnimationToEnd:
-    timeout: 3000
-- takeScreenshot: setup-draft-33-after-lock-in-tap
 - extendedWaitUntil:
     visible:
       id: 'reveal-set-up'
@@ -896,7 +893,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-85-draft-after-put-back
 
-# The third time: the last free redraft asks first. She reads it and backs out.
+# The third time: the last free redraft asks first. She reads it and closes it.
 - scrollUntilVisible:
     element:
       id: 'draft-change-day'
@@ -932,7 +929,34 @@ appId: app.critterpass.dev
     timeout: 8000
     optional: true
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-89-draft-after-backing-out
+# Closing the question returns her to the sheet, with the day and the reason she chose.
+- takeScreenshot: setup-draft-89-back-on-the-sheet
+- tapOn:
+    id: 'change-day-close'
+    optional: true
+- extendedWaitUntil:
+    notVisible:
+      id: 'change-day-submit'
+    timeout: 8000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-89b-draft-after-closing-the-sheet
+# Opened again, the sheet still holds what she chose.
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-submit'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: setup-draft-89c-sheet-reopened-with-her-choices
+- tapOn:
+    id: 'change-day-close'
+- extendedWaitUntil:
+    notVisible:
+      id: 'change-day-submit'
+    timeout: 8000
+    optional: true
 
 # Earlier drafts, and the way back to Home with the plan still private.
 - scrollUntilVisible:

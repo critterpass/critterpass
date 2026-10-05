@@ -1,6 +1,7 @@
 /** The last-free-redraft interstitial wired to the phone: the redraft it holds, the quota, the boost. */
 import type { RedraftReasonKey } from '@cp/domain';
 
+import { forgetChangeDayAsk } from '../data/change-day-ask';
 import { useDraftTrip } from '../data/draft-trip';
 import { redraftBoost } from '../boost-slot';
 import { LastRedraftView } from './last-redraft-interstitial';
@@ -17,7 +18,10 @@ export interface LastRedraftSheetProps {
 
 export function LastRedraftSheet({ tripId, day, reasons, note, free }: LastRedraftSheetProps) {
   const trip = useDraftTrip(tripId);
-  const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null);
+  // The change-a-day sheet is under this question: closing it returns there, sending leaves both.
+  const redraft = useSendRedraft(tripId, trip?.draftVersionId ?? null, 1, () =>
+    forgetChangeDayAsk(tripId),
+  );
   if (trip === undefined || trip === null) return null;
   const boost = redraftBoost();
   const limit = trip.quota.limit ?? trip.quota.used + 1;

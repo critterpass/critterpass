@@ -1,6 +1,7 @@
 /**
- * Every private draft of the trip, newest first: when it was made, how many days and what it
- * costs each. The current one is marked; any earlier one can be restored (it becomes the draft
+ * Every private draft of the trip, newest first, named by what it was (the guide's first draft, a
+ * day redrafted, a draft changed by hand) with when it was made, how many days and what it costs
+ * each on the second line. The current one is marked; any earlier one can be restored (it becomes the draft
  * again, still private). Undesigned: built from the sheet, rows and pill buttons.
  */
 import { t } from '@lingui/core/macro';
@@ -13,6 +14,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { estimateMoney } from '../data/format';
+import type { DraftOrigin } from '../data/history';
 import type { HistoryEntry } from '../data/use-draft-version';
 import { clockOption } from '@/lib/i18n/formats';
 
@@ -43,8 +45,26 @@ function madeAt(locale: string, iso: string): string {
 }
 /* eslint-enable lingui/no-unlocalized-strings */
 
+function originLabel(origin: DraftOrigin, guideName: string): string {
+  switch (origin.kind) {
+    case 'first':
+      return t({ id: 'planDraft.history.first', message: `${guideName}’s first draft` });
+    case 'drafted':
+      return t({ id: 'planDraft.history.drafted', message: `${guideName} drafted it again` });
+    case 'redraft': {
+      const n = origin.dayNo;
+      return n === null
+        ? t({ id: 'planDraft.history.redraftAny', message: 'A day redrafted' })
+        : t({ id: 'planDraft.history.redraft', message: `Day ${n} redrafted` });
+    }
+    case 'changed':
+      return t({ id: 'planDraft.history.changed', message: 'Changed by you' });
+  }
+}
+
 export interface VersionHistorySheetProps {
   readonly entries: readonly HistoryEntry[];
+  readonly guideName: string;
   readonly locale: string;
   readonly onRestore: (entry: HistoryEntry) => void;
   readonly onClose: () => void;
@@ -52,6 +72,7 @@ export interface VersionHistorySheetProps {
 
 export function VersionHistorySheet({
   entries,
+  guideName,
   locale,
   onRestore,
   onClose,
@@ -76,15 +97,13 @@ export function VersionHistorySheet({
           return (
             <View key={entry.id} style={styles.row} testID={`draft-history-${entry.id}`}>
               <View style={styles.grow}>
-                <Text variant="title">
-                  {t({ id: 'planDraft.history.made', message: `Draft of ${when}` })}
-                </Text>
+                <Text variant="title">{originLabel(entry.origin, guideName)}</Text>
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
                   {cost === null
-                    ? t({ id: 'planDraft.history.days', message: `${days} days` })
+                    ? t({ id: 'planDraft.history.whenDays', message: `${when} · ${days} days` })
                     : t({
-                        id: 'planDraft.history.daysCost',
-                        message: `${days} days · ${cost} each`,
+                        id: 'planDraft.history.whenDaysCost',
+                        message: `${when} · ${days} days · ${cost} each`,
                       })}
                 </Text>
               </View>

@@ -19,18 +19,14 @@ msgstr "{dates}, mỗi người {cost}. Sửa gì thì sửa trước khi cả n
 msgid "planDraft.review.subNoCost"
 msgstr "{dates}. Chưa có ước tính chi phí. Sửa gì thì sửa trước khi cả nhóm thấy."
 
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.days"
-msgstr "{days} ngày"
-
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.daysCost"
-msgstr "{days} ngày · mỗi người {cost}"
-
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.back"
 msgstr "Chuẩn bị {destination}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.drafted"
+msgstr "{guideName} soạn lại từ đầu"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 msgid "planDraft.loading.slow"
@@ -43,6 +39,10 @@ msgstr "{guideName} đang soạn lại một ngày."
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.title"
 msgstr "Bản nháp của {guideName}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.first"
+msgstr "Bản nháp đầu tiên của {guideName}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
 msgid "planDraft.stay.line"
@@ -80,6 +80,18 @@ msgstr "{wd} · {name} lúc {at}, {next}"
 msgid "planDraft.day.free"
 msgstr "{wd} · Không xếp gì, cố ý đấy"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.whenDays"
+msgstr "{when} · {days} ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.whenDaysCost"
+msgstr "{when} · {days} ngày · mỗi người {cost}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.redraftAny"
+msgstr "Soạn lại một ngày"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
@@ -104,6 +116,10 @@ msgstr "Lập đề xuất"
 msgid "planDraft.coverage.fitIn"
 msgstr "Đổi một ngày để xếp vào"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.changed"
+msgstr "Bạn đã sửa"
+
 #: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
 msgid "planDraft.closure.line"
 msgstr "Đóng cửa {when}: {area}"
@@ -120,6 +136,10 @@ msgstr "Hiện tại"
 msgid "planDraft.day.a11y"
 msgstr "Ngày {n}"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.redraft"
+msgstr "Soạn lại ngày {n}"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.redraftReadyDay"
 msgstr "Ngày {redraftDay} soạn lại xong rồi."
@@ -127,10 +147,6 @@ msgstr "Ngày {redraftDay} soạn lại xong rồi."
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.draft"
 msgstr "Lên nháp chuyến đi"
-
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.made"
-msgstr "Bản nháp lúc {when}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
 msgid "planDraft.history.restored"

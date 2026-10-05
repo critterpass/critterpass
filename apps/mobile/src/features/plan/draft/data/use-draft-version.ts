@@ -8,6 +8,8 @@
 import { useMemo } from 'react';
 
 import { guideText } from '@/lib/i18n/guide-text';
+
+import { currentDraftId, draftOrigins, type DraftOrigin } from './history';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import type { DraftTrip } from './draft-trip';
@@ -25,6 +27,8 @@ export interface HistoryEntry {
   readonly id: string;
   readonly createdAt: string;
   readonly current: boolean;
+  /** What this draft was (the first draft, a redrafted day, …). */
+  readonly origin: DraftOrigin;
   readonly days: number;
   readonly costPpMinor: number | null;
   readonly currency: string | null;
@@ -59,7 +63,7 @@ const HISTORY_SQL = `SELECT v.id, v.created_at, v.cost_pp_minor, v.currency,
   WHERE v.trip_id = ? AND v.visibility = 'organiser' AND v.status IN ('draft', 'superseded')
   ORDER BY v.created_at DESC`;
 const JOBS_SQL = `SELECT id, kind, status, input_hash, result_ref FROM agent_jobs
-  WHERE trip_id = ? AND kind IN ('draft', 'redraft') ORDER BY created_at DESC LIMIT 6`;
+  WHERE trip_id = ? AND kind IN ('draft', 'redraft') ORDER BY created_at DESC LIMIT 24`;
 const RESERVED_SQL = `SELECT agent_job_id FROM redraft_reservations WHERE trip_id = ? AND status = 'reserved'`;
 
 interface HistoryRow {
@@ -132,6 +136,9 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   }, [jobs.rows, reserved.rows]);
 
   const draftJob = jobs.rows.find((row) => row.kind === 'draft');
+  const versionIds = history.rows.map((row) => row.id);
+  const origins = draftOrigins(versionIds, jobs.rows);
+  const currentId = currentDraftId(versionIds, versionId);
   return {
     loaded:
       trip !== undefined &&
@@ -141,7 +148,8 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
     history: history.rows.map((row) => ({
       id: row.id,
       createdAt: row.created_at,
-      current: row.id === versionId,
+      current: row.id === currentId,
+      origin: origins.get(row.id) ?? { kind: 'changed' },
       days: row.days,
       costPpMinor: row.cost_pp_minor,
       currency: row.currency,

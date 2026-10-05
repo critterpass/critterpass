@@ -19,18 +19,14 @@ msgstr "{dates}, {cost} each. Fix anything before the crew sees it."
 msgid "planDraft.review.subNoCost"
 msgstr "{dates}. No cost estimate yet. Fix anything before the crew sees it."
 
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.days"
-msgstr "{days} days"
-
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.daysCost"
-msgstr "{days} days · {cost} each"
-
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.back"
 msgstr "{destination} setup"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.drafted"
+msgstr "{guideName} drafted it again"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 msgid "planDraft.loading.slow"
@@ -43,6 +39,10 @@ msgstr "{guideName} is redrafting a day."
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.title"
 msgstr "{guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.first"
+msgstr "{guideName}’s first draft"
 
 #: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
 msgid "planDraft.stay.line"
@@ -80,6 +80,18 @@ msgstr "{wd} · {name} at {at}, {next}"
 msgid "planDraft.day.free"
 msgstr "{wd} · Nothing booked, on purpose"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.whenDays"
+msgstr "{when} · {days} days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.whenDaysCost"
+msgstr "{when} · {days} days · {cost} each"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.redraftAny"
+msgstr "A day redrafted"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Ask {guideName} to change a day"
@@ -104,6 +116,10 @@ msgstr "Build the proposal"
 msgid "planDraft.coverage.fitIn"
 msgstr "Change a day to fit it"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.changed"
+msgstr "Changed by you"
+
 #: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
 msgid "planDraft.closure.line"
 msgstr "Closed {when}: {area}"
@@ -120,6 +136,10 @@ msgstr "Current"
 msgid "planDraft.day.a11y"
 msgstr "Day {n}"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.redraft"
+msgstr "Day {n} redrafted"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.redraftReadyDay"
 msgstr "Day {redraftDay}, redrafted, is ready."
@@ -127,10 +147,6 @@ msgstr "Day {redraftDay}, redrafted, is ready."
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.draft"
 msgstr "Draft my trip"
-
-#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
-msgid "planDraft.history.made"
-msgstr "Draft of {when}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
 msgid "planDraft.history.restored"

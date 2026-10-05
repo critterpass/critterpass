@@ -14,6 +14,7 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { restoreDraftVersionCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
@@ -166,6 +167,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
       {history ? (
         <VersionHistorySheet
           entries={draft.history}
+          guideName={guideSticker(trip.guide).name}
           locale={locale}
           onRestore={onRestore}
           onClose={() => setHistory(false)}
