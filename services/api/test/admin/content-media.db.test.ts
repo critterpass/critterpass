@@ -102,6 +102,11 @@ async function approved(batchId: string): Promise<Record<string, string[]>> {
     [batchId],
   );
   const merged = loadRelease(rows[0]!.artifact, 'media');
+  // Only one release of a kind may wait to publish; these tests read the merge alone, so the
+  // approved batch leaves the queue and the next one is laid over the same live release.
+  await harness.pool.query("UPDATE content_releases SET status = 'blocked' WHERE id = $1", [
+    batchId,
+  ]);
   return Object.fromEntries(
     merged.items.map((item) => [item.source_id, [item.title ?? '', ...item.subjects]]),
   );
