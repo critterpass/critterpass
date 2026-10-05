@@ -34,6 +34,18 @@ const BUCKET_FILTER: Readonly<Record<PickBucket, string>> = {
   shopping: `p.category = 'shopping'`,
 };
 
+/** The kinds of place any bucket holds; the others are never read for the fill. */
+const FILL_CATEGORIES = [
+  'temple_shrine',
+  'museum',
+  'nature',
+  'beach',
+  'food',
+  'market',
+  'nightlife',
+  'shopping',
+];
+
 const COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address,
   ${QUALITY_SCORE}::float8 AS quality`;
 
@@ -148,29 +160,50 @@ export async function matchNamedPlaces(
   return matched;
 }
 
+/**
+ * How many of a destination's best open-data rows the fill looks at. A metro's catalogue holds
+ * a few hundred thousand rows; reading each one per bucket ran past the statement timeout. The
+ * fill reads the best rows once, in the order `pois_destination_browse_idx` keeps them, and
+ * splits them into buckets: a bucket's places below the best ten thousand would never
+ * make the list anyway.
+ */
+export const FILL_SCAN = 10_000;
+
+const BUCKET_OF = `CASE ${PICK_BUCKETS.map(
+  (bucket) => `WHEN ${BUCKET_FILTER[bucket]} THEN '${bucket}'`,
+).join(' ')} END`;
+
 /** Each bucket's best open-data rows: quality first, then the rows that say more about themselves. */
 export async function loadFill(
   tx: pg.PoolClient,
   destinationId: string,
   perBucket: number,
+  scan: number = FILL_SCAN,
 ): Promise<Record<PickBucket, PickCandidate[]>> {
-  const fill = {} as Record<PickBucket, PickCandidate[]>;
-  for (const bucket of PICK_BUCKETS) {
-    const { rows } = await tx.query<Row>(
-      `SELECT ${COLUMNS}
+  const { rows } = await tx.query<Row & { bucket: PickBucket }>(
+    `WITH best AS (
+       SELECT ${COLUMNS}, ${BUCKET_OF} AS bucket,
+              (jsonb_path_exists(p.hours, '$.weekly.*[*]'))::int + (p.website IS NOT NULL)::int
+                + (p.phone IS NOT NULL)::int AS detail
          FROM pois p
         WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
           AND p.curation <> 'editorial' AND NOT ${LOW_QUALITY} AND p.brand IS NULL
-          AND ${BUCKET_FILTER[bucket]}
-        ORDER BY ${QUALITY_SCORE} DESC,
-                 (jsonb_path_exists(p.hours, '$.weekly.*[*]'))::int + (p.website IS NOT NULL)::int
-                   + (p.phone IS NOT NULL)::int DESC,
-                 p.id
-        LIMIT $2`,
-      [destinationId, perBucket],
-    );
-    fill[bucket] = rows.map(candidateOf);
-  }
+          AND p.category = ANY($3::text[])
+        ORDER BY (p.curation = 'editorial') DESC, ${QUALITY_SCORE} DESC
+        LIMIT $4
+     ), ranked AS (
+       SELECT best.*,
+              row_number() OVER (PARTITION BY bucket ORDER BY quality DESC, detail DESC, id) AS n
+         FROM best WHERE bucket IS NOT NULL
+     )
+     SELECT * FROM ranked WHERE n <= $2 ORDER BY bucket, n`,
+    [destinationId, perBucket, FILL_CATEGORIES, scan],
+  );
+  const fill = Object.fromEntries(PICK_BUCKETS.map((bucket) => [bucket, []])) as unknown as Record<
+    PickBucket,
+    PickCandidate[]
+  >;
+  for (const row of rows) fill[row.bucket].push(candidateOf(row));
   return fill;
 }
 
