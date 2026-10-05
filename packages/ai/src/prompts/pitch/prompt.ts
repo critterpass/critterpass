@@ -5,7 +5,9 @@
  * tags, curated alternatives), wrapped as data; private budgets and supplier content are never
  * among them. The reply streams one JSON object per line so each section can be shown as soon as
  * it is complete; every section is validated against the facts (numbers and months only from
- * them) and dropped otherwise, and the dropped ones are asked for once more.
+ * them) and dropped otherwise, and the dropped ones are asked for once more. For a reader of
+ * another language each line also carries the same words in that language (`local`), checked the
+ * same way; the English stays the stored source the crew's other readers translate from.
  */
 import { PITCH_MAX_REASONS, validatePitchText, type PitchFacts, type PitchLine } from '@cp/domain';
 import { z } from 'zod';
@@ -15,19 +17,47 @@ import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
 import { resolvePersonaPack } from '../../persona/resolve';
 import { personaIdSchema, type PersonaId } from '../../persona/schema';
+import { translateLanguageName } from '../../routes/translate/prompt';
 import { textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
 
 export const PITCH_ROUTE = 'pitch.place' as const;
 export const PITCH_PROMPT_VERSION = 'pitch@1';
 
-export type PitchModelSection = PitchLine;
+export type PitchModelSection = PitchLine & {
+  /** The same line in the reader's language, when one was asked for and it validated. */
+  readonly local?: string;
+};
 
+const local = z.string().optional();
 const lineSchema = z.discriminatedUnion('s', [
-  z.object({ s: z.literal('headline'), text: z.string() }),
-  z.object({ s: z.literal('reason'), text: z.string(), tag: z.string().nullable().optional() }),
-  z.object({ s: z.literal('quote'), text: z.string() }),
+  z.object({ s: z.literal('headline'), text: z.string(), local }),
+  z.object({
+    s: z.literal('reason'),
+    text: z.string(),
+    tag: z.string().nullable().optional(),
+    local,
+  }),
+  z.object({ s: z.literal('quote'), text: z.string(), local }),
 ]);
+
+/** True for the language the guide writes its source text in. */
+function isSource(locale: string | undefined): boolean {
+  return locale === undefined || locale.toLowerCase().startsWith('en');
+}
+
+/** The extra rule for a reader of another language: every line also in theirs. */
+function readerTask(locale: string): string {
+  const language = translateLanguageName(locale);
+  return [
+    '# Reader language',
+    '',
+    `The person reading this reads ${language}. Give every line a "local" field: the same line in ${language},`,
+    'natural, never a word-for-word copy, within the same length limit. Numbers and prices exactly as in',
+    `"text"; write any month as a word in ${language}, never as a number. Place names as a local reader knows them.`,
+    'Example: {"s":"quote","text":"<English>","local":"<the same in the reader language>"}',
+  ].join('\n');
+}
 
 const TASK = [
   '# Task',
@@ -115,11 +145,15 @@ export function describeFacts(facts: PitchFacts): string {
   });
 }
 
-export function buildPitchRequest(facts: PitchFacts): GatewayInput {
+/** `readerLocale`: the asker's app language; another than English adds the `local` lines. */
+export function buildPitchRequest(facts: PitchFacts, readerLocale?: string): GatewayInput {
   return {
     system: [
       { type: 'text', text: renderPersonaBlock(resolvePersonaPack(pitchPersona(facts))) },
       { type: 'text', text: TASK },
+      ...(readerLocale === undefined || isSource(readerLocale)
+        ? []
+        : [{ type: 'text' as const, text: readerTask(readerLocale) }]),
     ],
     messages: [
       userTurnWithData('Pitch it.', [
@@ -153,9 +187,18 @@ export function parsePitchLine(line: string, facts: PitchFacts): PitchModelSecti
   const section = result.data;
   const text = validatePitchText(section.s, section.text, facts);
   if (text === null) return null;
-  if (section.s !== 'reason') return { s: section.s, text };
+  // The reader's line passes the same checks; one that fails is left out, never the English.
+  const checked =
+    section.local === undefined ? null : validatePitchText(section.s, section.local, facts);
+  const withLocal = checked === null ? {} : { local: checked };
+  if (section.s !== 'reason') return { s: section.s, text, ...withLocal };
   const tag = section.tag ?? null;
-  return { s: 'reason', text, tag: facts.taste.some((t) => t.tag === tag) ? tag : null };
+  return {
+    s: 'reason',
+    text,
+    tag: facts.taste.some((t) => t.tag === tag) ? tag : null,
+    ...withLocal,
+  };
 }
 
 function streamedText(event: { kind: string; event?: unknown }): string {
@@ -189,8 +232,12 @@ export async function* streamPitch(
   facts: PitchFacts,
   context: UsageContext = {},
   signal?: AbortSignal,
+  readerLocale?: string,
 ): AsyncGenerator<PitchModelSection, void, undefined> {
-  const request = { ...buildPitchRequest(facts), ...(signal === undefined ? {} : { signal }) };
+  const request = {
+    ...buildPitchRequest(facts, readerLocale),
+    ...(signal === undefined ? {} : { signal }),
+  };
   let buffer = '';
   let seen: Collected = { headline: false, reasons: 0, quote: false };
   const take = (section: PitchModelSection | null): PitchModelSection | null => {

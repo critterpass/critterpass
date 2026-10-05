@@ -106,7 +106,15 @@ export function WeekPicker({
   );
   const [pick, setPick] = useState<RangePick>(initialPick ?? EMPTY_PICK);
   // A chip turns the calendar to its month; the key remounts the grid on that page.
-  const [focus, setFocus] = useState({ month: startMonth, key: 0 });
+  // It opens on the month of the first window it offers, else on this month: never on a later
+  // month she would have to page back from to find the days put in front of her.
+  const [focus, setFocus] = useState(() => {
+    const monthOf = (date: string | undefined) =>
+      date === undefined ? -1 : months.findIndex((m) => m.key === date.slice(0, 7));
+    const offered = monthOf(chips[0]?.range.start);
+    const now = monthOf(today);
+    return { month: offered >= 0 ? offered : now >= 0 ? now : startMonth, key: 0 };
+  });
   const drag = useRef<Drag | null>(null);
   const ghost = pick.anchor === null ? null : ghostRange(free, pick.anchor, length, lastDate);
   const shown = shownRange(pick, ghost);

@@ -48,7 +48,7 @@ import {
 import type { ApiEnv } from '../env';
 import { createKillSwitches } from '../ops/kill-switches';
 import {
-  linesInReaderLanguage,
+  pitchForReader,
   readsSourceLanguage,
   sectionsFor,
   storePitchTranslation,
@@ -153,6 +153,7 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
           said,
           { userId: uid, crewId: body.crew_id },
           signal,
+          translated ? asker.locale : undefined,
         )) {
           lines.push(line);
           // A reader of another language gets the lines once they are in it, below; until then
@@ -166,7 +167,7 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
       }
       let translation: Readonly<Record<string, string>> | null = null;
       if (translated && fromModel && deps.gateway !== undefined) {
-        const saying = linesInReaderLanguage(deps.gateway, said, lines, asker.locale, {
+        const saying = pitchForReader(deps.gateway, said, lines, asker.locale, {
           userId: uid,
           crewId: body.crew_id,
         });
@@ -177,6 +178,7 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
         }
         if (signal.aborted) return;
         translation = reader.translation;
+        lines.splice(0, lines.length, ...reader.kept);
         for (const line of reader.shown) yield* replaySection(facts, line);
       } else if (translated) {
         for (const line of lines) yield* replaySection(facts, line);
