@@ -1,8 +1,8 @@
 /**
- * Swipe matches and the planning redesign switch on the real stack. Switched off, a match still
- * becomes a ChangeSet suggestion and answers in the shape installed apps parse. Switched on, a
- * match drops into the trip's Ideas with the yes voters as backers and no ChangeSet, and twenty
- * concurrent yes votes on one card make one match and one idea with every one of them on it.
+ * Swipe matches on the real stack. A match drops into the trip's Ideas with the yes voters as
+ * backers and no ChangeSet, and twenty concurrent yes votes on one card make one match and one
+ * idea with every one of them on it. A match made earlier as a ChangeSet suggestion keeps
+ * answering in the shape installed apps parse.
  */
 import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -15,7 +15,7 @@ import { buildSetupCrew, resultOf, type SignedIn } from '../../setup/setup-harne
 
 let world: ExploreWorld;
 
-/** The match as installed apps knew it before matches went to Ideas. */
+/** The match as builds from before matches went to Ideas parse it. */
 const installedMatchSchema = z
   .strictObject({
     match_id: z.uuid(),
@@ -26,13 +26,6 @@ const installedMatchSchema = z
   .nullable();
 
 type Match = { match_id: string; change_set_id: string | null; status: string; idea_id?: string };
-
-const setRedesign = (on: boolean) =>
-  world.harness.pool.query(
-    `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('planning.redesign', $1::jsonb, true)
-     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
-    [JSON.stringify(on)],
-  );
 
 async function start(who: SignedIn, tripId: string, places: readonly string[]): Promise<string> {
   const started = await world.harness.run(who, 'start_swipe_session', { trip_id: tripId });
@@ -66,24 +59,32 @@ afterAll(async () => {
 });
 
 describe('swipe matches and Ideas', () => {
-  it('switched off, a match stays a ChangeSet suggestion in the shape installed apps parse', async () => {
-    await setRedesign(false);
+  it('a match made earlier as a ChangeSet suggestion keeps reporting it', async () => {
     const [org, mate] = [world.a.organiser, world.a.members[1]!];
+    const card = world.pois.picks[0]!;
     const session = await start(org, world.a.tripId, world.pois.picks);
-    await vote(org, session, world.pois.picks[0]!);
-    const matched = await vote(mate, session, world.pois.picks[0]!);
-    expect(matched.status, JSON.stringify(matched.body)).toBe(200);
-    const match = resultOf<{ match: unknown }>(matched).match;
-    expect(installedMatchSchema.parse(match)).toMatchObject({ status: 'suggested' });
-    const late = resultOf<{ match: unknown }>(await vote(org, session, world.pois.picks[0]!));
-    expect(installedMatchSchema.safeParse(late.match).success).toBe(true);
+    await withSystem(world.harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO change_sets (trip_id, base_version_id, trigger, author_kind, author_id, status, ops)
+         VALUES ($1, $2, 'manual', 'user', $3, 'draft', '[]'::jsonb) RETURNING id`,
+        [world.a.tripId, world.plan.versionId, org.uid],
+      );
+      await tx.query(
+        `INSERT INTO swipe_matches (session_id, trip_id, poi_id, user_ids, change_set_id, day_no)
+         VALUES ($1, $2, $3, $4, $5, 1)`,
+        [session, world.a.tripId, card, [org.uid], rows[0]!.id],
+      );
+    });
+    const late = await vote(mate, session, card);
+    expect(late.status, JSON.stringify(late.body)).toBe(200);
+    const match = resultOf<{ match: unknown }>(late).match;
+    expect(installedMatchSchema.parse(match)).toMatchObject({ status: 'suggested', day_no: 1 });
     expect(
       await world.q('SELECT 1 FROM trip_ideas WHERE trip_id = $1', [world.a.tripId]),
     ).toHaveLength(0);
   });
 
-  it('switched on, a match drops into Ideas with the yes voters and no ChangeSet', async () => {
-    await setRedesign(true);
+  it('a match drops into Ideas with the yes voters and no ChangeSet', async () => {
     const session = await start(world.b.organiser, world.b.tripId, [world.pois.mustSee]);
     const matched = await vote(world.b.organiser, session, world.pois.mustSee);
     const match = resultOf<{ match: Match }>(matched).match;
@@ -110,7 +111,6 @@ describe('swipe matches and Ideas', () => {
     'turns twenty concurrent yes votes on one card into one match and one idea with all of them',
     { timeout: 120_000 },
     async () => {
-      await setRedesign(true);
       const crew = await buildSetupCrew(world.harness, 20);
       await withSystem(world.harness.pool, async (tx) => {
         await tx.query("UPDATE trips SET destination_id = $1, tz = 'Asia/Tokyo' WHERE id = $2", [
