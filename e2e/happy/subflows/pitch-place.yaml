@@ -65,10 +65,16 @@ appId: app.critterpass.dev
             - tapOn:
                 id: 'crew-pick-.*'
                 index: 0
-# The sheet's root id isn't in iOS's accessibility tree; the pitch's quote is.
+# The guide's pitch card, done writing: ADD TO THE VOTE turns on once the stream ends. Its quote is
+# written by the AI and sometimes left out, so the flow never waits on it.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - tapOn:
     id: 'pitch-add'

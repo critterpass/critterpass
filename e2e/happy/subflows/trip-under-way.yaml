@@ -59,9 +59,16 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'pitch-result-0'
+# The guide's pitch card, done writing: ADD TO THE VOTE turns on once the stream ends. Its quote is
+# written by the AI and sometimes left out, so the flow never waits on it.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - waitForAnimationToEnd
 - tapOn:
