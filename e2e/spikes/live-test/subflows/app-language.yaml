@@ -47,9 +47,16 @@ appId: app.critterpass.dev
     centerElement: true
 - tapOn:
     id: 'you-language-vi'
+# The screen turns Vietnamese in place, scrolled to where the choice was.
 - extendedWaitUntil:
-    visible: '(?iu)ngôn ngữ.*'
+    visible: '(?iu)(.*ngôn ngữ.*|tiền tệ)'
     timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'you-language-title'
+    direction: UP
+    timeout: 10000
+    optional: true
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: collaboration-app-language-vi
