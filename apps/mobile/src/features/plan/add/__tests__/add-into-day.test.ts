@@ -60,6 +60,14 @@ describe('a block the fit did not time', () => {
     expect(openStartOn(plan, 3, TZ)).toBe(at('10:00'));
   });
 
+  it('on a day that has begun, never starts before now', () => {
+    // Day 2 (20 Oct) at 15:07 local time: after the last stop and after now.
+    const now = new Date(instantOnDay(DATE, at('15:07'), TZ));
+    expect(openStartOn(plan, 2, TZ, now)).toBe(at('15:15'));
+    // An empty day gone by is not touched by today's clock.
+    expect(openStartOn(plan, 4, TZ, now)).toBe(at('10:00'));
+  });
+
   it('can’t be added on top of the stop before it', () => {
     const into = addIntoDay({
       plan,

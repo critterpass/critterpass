@@ -50,6 +50,13 @@ describe('why this time', () => {
     expect(whyTiles({ ...input, place: bar })[0]?.text).toBe('Best after dark');
   });
 
+  it('leaves it out when the block is not in the place’s own time', () => {
+    const night = { ...input, startMin: 21 * 60, date: '2026-10-23' };
+    expect(whyTiles(night).map((tile) => tile.key)).not.toContain('kind');
+    const dusk = { ...input, startMin: 17 * 60 + 15, date: '2026-10-23' };
+    expect(whyTiles(dusk)[0]?.key).toBe('kind');
+  });
+
   it('leaves it out for a time the person picked, a day that does not fit, or any-time places', () => {
     expect(whyTiles({ ...input, timePicked: true }).map((tile) => tile.key)).toEqual(['hours']);
     expect(whyTiles({ ...input, day: { ...day, grade: 'no', slot: null } })[0]?.key).not.toBe(
