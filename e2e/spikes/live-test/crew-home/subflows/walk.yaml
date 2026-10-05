@@ -91,11 +91,25 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
+# Three days, two weeks out, picked by hand in the day picker (its summary line sits below the
+# fold on this phone, so the lock's own label is what the walk waits for).
+- evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
 - runFlow:
-    file: ../../../../happy/subflows/pick-dates-from-today.yaml
+    file: ../../../../happy/subflows/pick-days.yaml
     env:
-      START_OFFSET_DAYS: '14'
-      SHOTS: crew-home-${LOCALE}-00-setup
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 3
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-00-setup-dates
+- tapOn:
+    id: 'picker-lock'
 - extendedWaitUntil:
     visible:
       id: 'budget-track'
