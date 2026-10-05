@@ -27,7 +27,19 @@ appId: app.critterpass.dev
           timeout: 4000
 - runFlow: subflows/on-trip-to-hub.yaml
 - takeScreenshot: follow-up-en-01-hub-before
-- runFlow: subflows/on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-to-plan'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-to-plan'
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
