@@ -74,7 +74,8 @@ export function useTripDays(plan: TripPlan): {
     tripId === null ? null : [tripId],
     POLLS_TABLES,
   );
-  const check = usePlanCheck(tripId);
+  // On her own draft the check is the draft's: nobody else has its issues.
+  const check = usePlanCheck(tripId, plan.mode === 'draft' ? plan.versionId : null);
   // "Just me" lies over the crew's plan only: a draft is nobody's but its author's.
   const personal = usePersonalLayer(plan.mode === 'group' ? tripId : null, plan.uid, plan.state);
   const days = useMemo(
