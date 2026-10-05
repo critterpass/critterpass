@@ -70,7 +70,9 @@ published row of the test database and counts with the compiler's own querier. I
 of each limit for the subscriptions a phone holds by design (two trips in the offline window, one
 on screen, one kept, the wallet's trip): a founder-shaped phone (5 crews, 6 trips, a 43-stop plan)
 at most 400 results, and a heavy one (12 crews, 80 co-members, 120 stops and 150 ideas a trip,
-3 destinations browsed) at most 500 results and 300 buckets. It runs in CI's database job; on this
+3 destinations browsed) at most 500 results and 300 buckets. Until a trip's places sync as one
+card each instead of one lookup and one bucket per place, the test holds today's cost instead
+(founder 422 results and 211 buckets; heavy 1,614 results and 2,409 buckets, over the limits). It runs in CI's database job; on this
 Mac, `pnpm test:remote @cp/db -- test/permissions/sync-streams-parameter-bounds.test.ts`.
 
 The service logs each connection's cost; compare a replay with a line such as
