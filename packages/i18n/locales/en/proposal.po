@@ -53,11 +53,6 @@ msgstr "{0} is writing {1}'s version"
 msgid "proposal.tracker.maybe"
 msgstr "{0} maybe"
 
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
-msgstr "{0} maybe go on the waitlist for a freed seat."
-
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReply"
@@ -107,11 +102,6 @@ msgstr "{0} suggests"
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waiting"
 msgstr "{0} waiting for a seat"
-
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
-msgstr "{0} who haven’t answered are out."
 
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -190,6 +180,10 @@ msgstr "{guideName} wrote a version for each person. Pick how it arrives."
 msgid "proposal.build.subShared"
 msgstr "{guideName} wrote one version for everyone. Pick how it arrives."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybesCount"
+msgstr "{maybes, plural, one {# maybe goes on the waitlist for a freed seat.} other {# maybes go on the waitlist for a freed seat.}}"
+
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
 msgid "proposal.inbox.answered.out"
 msgstr "{name} can't make it"
@@ -261,6 +255,10 @@ msgstr "{reacted} reacted."
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
 msgstr "{seat} is a crowd"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silentCount"
+msgstr "{silent, plural, one {# friend who hasn’t answered is out.} other {# friends who haven’t answered are out.}}"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.sendPlan"
