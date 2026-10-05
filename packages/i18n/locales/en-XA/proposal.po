@@ -53,11 +53,6 @@ msgstr ""
 msgid "proposal.tracker.maybe"
 msgstr ""
 
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
-msgstr ""
-
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReply"
@@ -106,11 +101,6 @@ msgstr ""
 #. placeholder {0}: waiting.length
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waiting"
-msgstr ""
-
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
 msgstr ""
 
 #. placeholder {0}: info.name
@@ -190,6 +180,10 @@ msgstr ""
 msgid "proposal.build.subShared"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybesCount"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
 msgid "proposal.inbox.answered.out"
 msgstr ""
@@ -260,6 +254,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silentCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
