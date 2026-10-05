@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import { toast } from '@/motion';
 
+import type { LeftOut } from '../data/left-out';
 import { counterLine } from '../data/quota-copy';
 import { changeCards, metricChips } from '../data/redraft';
 import { DAYS, TZ } from '../scenes/fixtures';
@@ -61,7 +62,14 @@ function PutBackScene() {
   return <InLocale render={(locale) => <DraftReviewView {...reviewProps(locale)} />} />;
 }
 
-function diff(name: string, phase: DiffPhase, changes = CHANGES): DraftScene {
+const TAKEN_OUT: readonly LeftOut[] = [{ poiId: 'left-1', name: 'Nara Park', reason: 'no_room' }];
+
+function diff(
+  name: string,
+  phase: DiffPhase,
+  changes = CHANGES,
+  takenOut: readonly LeftOut[] = [],
+): DraftScene {
   return {
     name,
     render: () => (
@@ -84,6 +92,7 @@ function diff(name: string, phase: DiffPhase, changes = CHANGES): DraftScene {
             onPutBack={noop}
             onBack={noop}
             onBoost={undefined}
+            takenOut={takenOut}
           />
         )}
       />
@@ -135,6 +144,7 @@ export const REDRAFT_SCENES: readonly DraftScene[] = [
   diff('redraft-identical', 'identical'),
   diff('redraft-failed', 'failed'),
   diff('redraft-small-shifts', 'ready', SHIFT_CHANGES),
+  diff('redraft-takes-essential-out', 'ready', SHIFT_CHANGES, TAKEN_OUT),
   // Back on the draft after putting a redraft back: the redraft is hers again.
   { name: 'redraft-put-back', render: () => <PutBackScene /> },
 ];

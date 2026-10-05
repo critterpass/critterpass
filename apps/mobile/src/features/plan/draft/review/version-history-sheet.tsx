@@ -70,6 +70,20 @@ function originLabel(origin: DraftOrigin, guideName: string): string {
   }
 }
 
+/** Under a redraft she put back: what restoring it does, and that it costs her nothing. */
+function putBackLine(dayNo: number | null): string {
+  const n = dayNo;
+  return n === null
+    ? t({
+        id: 'planDraft.history.putBackRestoreAny',
+        message: 'Restoring brings back the draft as it was redrafted. It doesn’t use a redraft.',
+      })
+    : t({
+        id: 'planDraft.history.putBackRestore',
+        message: `Restoring brings back the draft with day ${n} as redrafted. It doesn’t use a redraft.`,
+      });
+}
+
 export interface VersionHistorySheetProps {
   readonly entries: readonly HistoryEntry[];
   readonly guideName: string;
@@ -114,6 +128,15 @@ export function VersionHistorySheet({
                         message: `${when} · ${days} days · ${cost} each`,
                       })}
                 </Text>
+                {entry.origin.kind !== 'put_back' || entry.current ? null : (
+                  <Text
+                    variant="bodySm"
+                    color={theme.semantic.text.secondary}
+                    testID="draft-history-put-back-line"
+                  >
+                    {putBackLine(entry.origin.dayNo)}
+                  </Text>
+                )}
               </View>
               {entry.current ? (
                 <Text variant="label" color={theme.semantic.state.success}>

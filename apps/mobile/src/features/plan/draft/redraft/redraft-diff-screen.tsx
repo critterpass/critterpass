@@ -16,6 +16,7 @@ import { impact, toast } from '@/motion';
 import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
+import { useTakenOut } from '../data/left-out';
 import {
   changeCards,
   excludedIds,
@@ -61,6 +62,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     () => result !== null && partialKeepClashes(result.changes, excludedIds(cards, off)),
     [result, cards, off],
   );
+  const gone = useTakenOut(result?.base_version_id ?? null, result?.candidate_version_id ?? null);
   if (trip === undefined || trip === null || !redraft.loaded) return null;
 
   const phase = leaving
@@ -105,6 +107,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   return (
     <RedraftDiffView
       guide={trip.guide}
+      takenOut={gone}
       locale={locale}
       tz={trip.tz}
       phase={phase}

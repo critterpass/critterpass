@@ -88,6 +88,7 @@ const earlier = (
 
 const OWN_PLAN_HISTORY: readonly HistoryEntry[] = [
   earlier('v-3', '2027-02-10T09:40:00Z', { kind: 'changed' }, 131_000),
+  earlier('v-4', '2027-02-10T09:20:00Z', { kind: 'put_back', dayNo: 1 }, 136_000),
   earlier('v-2', '2027-02-10T09:12:00Z', { kind: 'first' }, 138_000),
   earlier('v-1', '2027-02-09T21:05:00Z', { kind: 'own' }, 21_000),
 ];
@@ -97,6 +98,18 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
   scene('draft-booked', {}, REVIEW_BOOKED),
   scene('draft-must-do-missing', {}, REVIEW_MISSING),
   scene('draft-over-budget', {}, REVIEW_OVER),
+  scene(
+    'draft-left-out',
+    {},
+    {
+      ...REVIEW_MISSING,
+      leftOut: [
+        { poiId: 'left-1', name: 'Fushimi Inari', reason: 'held_in_the_way' },
+        { poiId: 'left-2', name: 'Nijo Castle', reason: 'closed' },
+        { poiId: 'left-3', name: 'Arashiyama', reason: 'a reason this app does not know' },
+      ],
+    },
+  ),
   scene('draft-stale', {}, REVIEW_STALE),
   scene('draft-stays-closures', { hasHistory: true }, REVIEW_DETAILS),
   scene('draft-redraft-waiting', { openRedraft: { dayNo: 4, ready: true } }),
