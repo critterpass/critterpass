@@ -111,7 +111,9 @@ export function PlainSection(props: PlainSectionProps) {
     [close, trip],
   );
   const closePhotos = usePlaceTilePhotos(closeRows.map((row) => row.key));
-  if (state.search === 'failed' && props.onRetry !== undefined) {
+  // A search that timed out or could not reach the api reads the same to her as one that failed:
+  // words and a retry, never "0 places" over an empty page.
+  if ((state.search === 'failed' || state.search === 'offline') && props.onRetry !== undefined) {
     return (
       <View style={{ gap: theme.space['20'] }}>
         <PlainFailed onRetry={props.onRetry} />

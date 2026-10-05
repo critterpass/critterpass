@@ -148,6 +148,26 @@ async function destinationCondition(
     AND ST_Intersects(p.location, (SELECT place_bounds FROM destinations WHERE id = $${destinationParam}))))`;
 }
 
+const foldWord = (word: string) =>
+  word.replace(/[đĐ]/gu, 'd').normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+
+/** The words of a destination's name, folded ("da", "lat"); none without a destination. */
+async function destinationWords(
+  tx: pg.PoolClient,
+  destinationId: string | undefined,
+): Promise<ReadonlySet<string>> {
+  if (destinationId === undefined) return new Set();
+  const { rows } = await tx.query<{ name: string }>('SELECT name FROM destinations WHERE id = $1', [
+    destinationId,
+  ]);
+  return new Set(
+    (rows[0]?.name ?? '')
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter(Boolean)
+      .map(foldWord),
+  );
+}
+
 /**
  * Runs inside the caller's own `withUser`/`withGuideReader` transaction (docs/code-standards.md §13:
  * never a bare pool query in a handler) — `tx` is that transaction's client, not a fresh pool checkout.
@@ -217,10 +237,15 @@ async function queryPlaceRows(
     conditions.push(
       `(p.fts @@ websearch_to_tsquery('simple', app.unaccent_immutable($${qParam})) OR p.name % $${qParam})`,
     );
-    const words = (filters.q ?? '')
+    const typed = (filters.q ?? '')
       .toLowerCase()
       .split(/\s+/u)
       .filter((word) => word !== '');
+    // People add the city after a name ("Tanah Lot Bali"): the destination's own words say where,
+    // not what, so they are not asked of the name (unless they are all she typed).
+    const place = await destinationWords(tx, filters.destinationId);
+    const named = typed.filter((word) => !place.has(foldWord(word)));
+    const words = named.length === 0 ? typed : named;
     params.push(words);
     const wordsParam = params.length;
     // A place whose own name has a word starting with each typed word comes before one that matches only by its

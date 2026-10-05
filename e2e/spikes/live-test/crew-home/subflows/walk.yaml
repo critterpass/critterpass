@@ -91,11 +91,25 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
+# Three days, two weeks out, picked by hand in the day picker (its summary line sits below the
+# fold on this phone, so the lock's own label is what the walk waits for).
+- evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
 - runFlow:
-    file: ../../../../happy/subflows/pick-dates-from-today.yaml
+    file: ../../../../happy/subflows/pick-days.yaml
     env:
-      START_OFFSET_DAYS: '14'
-      SHOTS: crew-home-${LOCALE}-00-setup
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 3
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-00-setup-dates
+- tapOn:
+    id: 'picker-lock'
 - extendedWaitUntil:
     visible:
       id: 'budget-track'
@@ -581,3 +595,158 @@ appId: app.critterpass.dev
     file: look-around.yaml
     env:
       SHOT: crew-home-${LOCALE}-39-minh-trip-locked
+
+# ── After the lock, Minh suggests a stop: a plan change put to the crew's vote. These screens are
+# other areas' (the plan, search, add): the steps are optional, the frames are what matter.
+- tapOn:
+    id: 'tab-trips'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map-half'
+    commands:
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan-add'
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 20000
+    optional: true
+- tapOn:
+    id: 'search-field-query'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'search-screen'
+    commands:
+      - inputText: 'Ba Na'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 30000
+    optional: true
+- tapOn:
+    id: 'search-row-add-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+    timeout: 20000
+    optional: true
+# The button is live once the guide has placed the stop on a day.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+      enabled: true
+    timeout: 60000
+    optional: true
+# A day the stop does not fit on keeps the button off: the last day's chip is tried instead.
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-add-confirm'
+        enabled: true
+    commands:
+      - tapOn:
+          point: 80%, 33%
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-add-confirm'
+            enabled: true
+          timeout: 30000
+          optional: true
+- waitForAnimationToEnd
+- takeScreenshot: crew-home-${LOCALE}-40-minh-suggests-a-stop
+- tapOn:
+    id: 'plan-add-confirm'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'changeset-card-.*'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: crew-home-${LOCALE}-41-minh-chat-his-change-card
+- runFlow: home.yaml
+
+# ── Linh: the change waits for her yes, on Home, in the inbox and on the hub.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: crew-home-${LOCALE}-42-linh-home-change-waiting
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-43-linh-change-waiting
+- tapOn:
+    id: 'home-turn-button'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-review-yes'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: crew-home-${LOCALE}-44-linh-the-change
+- tapOn:
+    id: 'plan-review-yes'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 15000
+- runFlow: home.yaml
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-45-linh-change-decided
+
+# ── Minh learns what was decided.
+- runFlow:
+    file: hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: crew-home-${LOCALE}-46-minh-home-change-decided
+- runFlow:
+    file: look-around.yaml
+    env:
+      SHOT: crew-home-${LOCALE}-47-minh-change-decided

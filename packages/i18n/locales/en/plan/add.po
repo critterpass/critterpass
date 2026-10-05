@@ -152,6 +152,10 @@ msgstr "FINDING THE BEST TIME…"
 msgid "plan.add.saveLater"
 msgstr "Just save it for later"
 
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.justYou"
+msgstr "Just you"
+
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.nearby.drop"
 msgstr "Leave it out"
@@ -223,6 +227,11 @@ msgstr "Saved to Ideas"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
 msgstr "SEE IDEAS"
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.useStart"
+msgstr "Start at {0} instead"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.time.a11y"

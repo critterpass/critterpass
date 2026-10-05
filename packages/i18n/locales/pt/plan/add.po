@@ -152,6 +152,10 @@ msgstr ""
 msgid "plan.add.saveLater"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.justYou"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.nearby.drop"
 msgstr ""
@@ -222,6 +226,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
+msgstr ""
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.useStart"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx

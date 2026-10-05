@@ -2,7 +2,8 @@
  * Taking back a plan edit over the real local-first stack, with the server stood in at the
  * network boundary by its documented answers: the undo names the edit it takes back (the id the
  * edit was sent under, or the id it was sent again under after a rebase), waits for an edit that
- * is still on its way up, and says so when the plan has moved on or there is no signal.
+ * is still on its way up, answers once the restored plan has reached this phone, and says so when
+ * the plan has moved on or there is no signal.
  */
 jest.mock(
   '@powersync/common',
@@ -159,8 +160,17 @@ afterEach(async () => {
 describe('undoing a plan edit', () => {
   it('names the edit it takes back, waiting for one still on its way up', async () => {
     const { transport, calls } = server([refused('NOT_FOUND', 'edit', 404), applied]);
-    const { result, opId } = await editWalk(await seed(transport));
+    const s = await seed(transport);
+    const { result, opId } = await editWalk(s);
+    // The answer is given once the restored plan is the one on this phone: it lands a moment on.
+    const landed = { at: 0 };
+    setTimeout(() => {
+      landed.at = Date.now();
+      void s.db.execute('UPDATE trips SET current_version_id = ? WHERE id = ?', [V2, TRIP]);
+    }, 600);
     expect(await undo(result, opId)).toBe('undone');
+    expect(landed.at).toBeGreaterThan(0);
+    expect(Date.now()).toBeGreaterThanOrEqual(landed.at);
     expect(calls.map((call) => call.path)).toEqual([
       '/v1/cmd/undo_plan_edit',
       '/v1/cmd/undo_plan_edit',

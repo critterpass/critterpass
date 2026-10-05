@@ -6,12 +6,13 @@
 import { i18n } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
-import type { PlanState } from '@cp/domain';
+import type { DayFit, PlanState } from '@cp/domain';
+import { fitPlace, type FitContext, type FitPlace } from '@cp/planner';
 
 import { instantOnDay, minutesOnDay } from '@/data/plan/plan-model';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 
-import { addIntoDay, openStartOn } from '../add-into-day';
+import { addIntoDay, openStartOn, settleAdd } from '../add-into-day';
 
 const TZ = 'Asia/Makassar';
 const DATE = '2026-10-20';
@@ -92,5 +93,114 @@ describe('a block the fit did not time', () => {
       addIntoDay({ plan, day: DAY, tz: TZ, locale: 'en', block: block('13:00', '14:30') }),
     ).toEqual({ ops: [], line: null, blocked: false });
     expect(addIntoDay({ plan, day: null, tz: TZ, locale: 'en', block: null })).toBe(null);
+  });
+});
+
+describe('the suggestion and the refusal are one rule', () => {
+  // The day's stops stand far apart as the crow flies, while the routed way the engine fits with
+  // is a quarter of an hour: the sheet's own estimate would refuse what the engine suggests.
+  const spots = new Map([
+    [id(1), { lat: -8.5, lng: 115.26 }],
+    [id(2), { lat: -8.72, lng: 115.17 }],
+  ]);
+  const far = {
+    state,
+    display: new Map([...spots].map(([key, place]) => [key, { title: key, place }])),
+  } as unknown as TripPlan;
+  const context: FitContext = {
+    tz: TZ,
+    participants: [id(91)],
+    driveFactor: 1.3,
+    travel: () => ({ minutes: 15, mode: 'drive', approx: false }),
+    days: [
+      {
+        dayId: id(102),
+        dayNo: 2,
+        date: DATE,
+        kind: 'full',
+        fromMin: 7 * 60,
+        toMin: 22 * 60,
+        stay: null,
+        rain: null,
+        crowdFactor: 1,
+        items: state.items
+          .filter((item) => item.day_no === 2)
+          .map((item) => ({
+            stableId: item.stable_id,
+            poiId: null,
+            category: 'other',
+            startsAt: new Date(item.starts_at ?? ''),
+            endsAt: new Date(item.ends_at ?? ''),
+            attendeeIds: [],
+            locked: false,
+            outdoor: false,
+            point: spots.get(item.stable_id) ?? null,
+          })),
+      },
+    ],
+  };
+  const place = (extra: Partial<FitPlace>): FitPlace => ({
+    poiId: null,
+    point: { lat: -8.62, lng: 115.09 },
+    category: 'museum',
+    hours: null,
+    outdoor: false,
+    ...extra,
+  });
+  const settle = (shown: DayFit | null, startMin: number, timePicked: boolean) =>
+    settleAdd({
+      plan: far,
+      day: DAY,
+      tz: TZ,
+      locale: 'en',
+      first: { dayNo: 2, startMin, timePicked },
+      shown,
+      subject: { name: 'New place', lat: -8.62, lng: 115.09 },
+      stableId: id(9),
+      lengthMin: 60,
+      skip: false,
+    });
+
+  it('never refuses a start the engine proposes, whatever kind of place and however long', () => {
+    const places = [
+      place({}),
+      place({ category: 'food', name: 'Warung Nuri', timeNeededMin: 75 }),
+      place({ category: 'nightlife', name: '40 Thieves' }),
+      place({ category: 'temple_shrine', name: 'Tanah Lot', bestTimeText: 'Sunset hour' }),
+      place({ timeNeededMin: 45, point: { lat: -8.5, lng: 115.261 } }),
+      place({ timeNeededMin: 240 }),
+    ];
+    for (const candidate of places) {
+      const shown = fitPlace(context, candidate).days[0] ?? null;
+      expect(shown?.slot).not.toBeNull();
+      const startMin = minutesOnDay(shown?.slot?.starts_at ?? '', TZ, DATE);
+      const { into } = settle(shown, startMin, false);
+      expect(into?.blocked ?? false).toBe(false);
+    }
+  });
+
+  it('opens on the first start that can be added when the suggested one sits on a stop', () => {
+    // A slot that only works if the 10:00 stop moves, and starts while that stop is still on.
+    const shown: DayFit = {
+      day_id: id(102),
+      day_no: 2,
+      grade: 'possible',
+      slot: {
+        starts_at: instantOnDay(DATE, at('10:30'), TZ),
+        ends_at: instantOnDay(DATE, at('11:30'), TZ),
+      },
+      reasons: [],
+      needs_move: id(1),
+    };
+    const { choice, into } = settle(shown, at('10:30'), false);
+    expect({ start: choice?.startMin, into }).toMatchObject({ into: { blocked: false } });
+    expect(choice?.startMin).toBeGreaterThanOrEqual(at('11:00'));
+  });
+
+  it('never moves a time the person picked: it says why and offers the first start that works', () => {
+    const { choice, into } = settle(null, at('10:30'), true);
+    expect(choice?.startMin).toBe(at('10:30'));
+    expect(into).toMatchObject({ blocked: true });
+    expect(into?.useStart).toBeGreaterThanOrEqual(at('11:00'));
   });
 });

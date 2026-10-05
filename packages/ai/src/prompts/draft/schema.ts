@@ -144,6 +144,20 @@ export const REDRAFT_FORMAT: Anthropic.Messages.JSONOutputFormat = {
 
 const LINK = /https?:|www\.|\.[a-z]{2,6}\//iu;
 
+const PHRASES = new Map<string, readonly string[]>();
+
+/** A name's phrases with a digit: the whole name, and the word-and-number it is known by. */
+function numberedPhrases(name: string): readonly string[] {
+  const known = PHRASES.get(name);
+  if (known !== undefined) return known;
+  // "Tram 28" of "Tram 28 ride".
+  const phrases = [name, ...(name.match(/(?:\S+\s+)?\S*\p{Nd}\S*/gu) ?? [])]
+    .filter((phrase) => /\p{Nd}/u.test(phrase))
+    .map((phrase) => phrase.toLowerCase());
+  PHRASES.set(name, phrases);
+  return phrases;
+}
+
 /**
  * Why a piece of prose may not reach the crew, or null when it may. Digits inside the name of a
  * place we know (`Tram 28`) are the name, not a claim; any other digit is.
@@ -155,11 +169,10 @@ export function proseProblem(
 ): 'digits' | 'link' | 'length' | null {
   if (text.length > max) return 'length';
   let rest = text.toLowerCase();
+  // Only a text with a digit has a number to excuse.
+  if (!/\p{Nd}/u.test(rest)) return LINK.test(text) ? 'link' : null;
   for (const name of names) {
-    // The whole name, and the word-and-number it is known by ("Tram 28" of "Tram 28 ride").
-    for (const phrase of [name, ...(name.match(/(?:\S+\s+)?\S*\p{Nd}\S*/gu) ?? [])]) {
-      if (/\p{Nd}/u.test(phrase)) rest = rest.replaceAll(phrase.toLowerCase(), ' ');
-    }
+    for (const phrase of numberedPhrases(name)) rest = rest.replaceAll(phrase, ' ');
   }
   if (/\p{Nd}/u.test(rest)) return 'digits';
   if (LINK.test(text)) return 'link';

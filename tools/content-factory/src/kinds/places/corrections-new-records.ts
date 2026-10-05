@@ -46,6 +46,7 @@ export function withNewRecords(
       curated: false,
       must_see: false,
       essential: false,
+      trip_refs: 0,
       merged_into: null,
       item: null,
     }));

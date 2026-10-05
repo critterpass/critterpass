@@ -24,6 +24,7 @@ interface Row {
   curated: boolean;
   must_see: boolean;
   essential: boolean;
+  trip_refs: number;
   source_ids: Record<string, string>;
   target_ids: Record<string, string> | null;
 }
@@ -54,6 +55,9 @@ export async function snapshotRows(
                 p.timezone AS tz, p.curation = 'editorial' AS curated,
                 coalesce((p.editorial->>'must_see')::boolean, false) AS must_see,
                 coalesce((p.editorial->>'essential')::boolean, false) AS essential,
+                ((SELECT count(*) FROM plan_items x WHERE x.poi_id = p.id)
+                 + (SELECT count(*) FROM trip_ideas x WHERE x.poi_id = p.id)
+                 + (SELECT count(*) FROM must_dos x WHERE x.poi_id = p.id))::int AS trip_refs,
                 p.source_ids, target.source_ids AS target_ids
            FROM pois p
            JOIN destinations d ON d.id = p.destination_id
