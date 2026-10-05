@@ -66,7 +66,14 @@ export {
   type SwapBlock,
   type SwapReason,
 } from '../swaps/index';
-export { feasibleStart, retimeOp } from './retime';
+export {
+  feasibleStart,
+  retimeOp,
+  settleClash,
+  suitsPlace,
+  type ClashMove,
+  type MovedStop,
+} from './retime';
 export {
   DEFAULT_CHECK_THRESHOLDS,
   type CheckBooking,

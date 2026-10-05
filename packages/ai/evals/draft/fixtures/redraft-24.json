@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "345193ad-62e2-48c6-9eca-b4f557e32714",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Slow Day in Đà Lạt\",\n  \"summary\": \"A gentle day with a morning pagoda, a long lunch, and an evening market stroll, leaving plenty of room to breathe and watch the pines.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaic dragons is worth the ride, and the crew can linger without a single clock watching.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays right here because the nem nướng deserves a slow, happy chew, not a rushed bite.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, easy wander by the square for local life and photo stops, then we let the afternoon melt into coffee time.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a coffee in hand and a seat that says stay a while, because night owls and slow days are old friends.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, the complex glows and hums, just enough local nightlife to close the day without rushing anywhere.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 71,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 408,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

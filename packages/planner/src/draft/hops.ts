@@ -5,8 +5,9 @@
  * too long comes from the destination itself: three times the usual spacing of the places we may
  * plan with, never under forty minutes. One longer ride a day is fine (a morning out at the
  * peninsula, then back to town for lunch and the afternoon), up to half as long again; a second
- * one makes a day of zigzags. The ride to the day's first stop is not a hop: a day trip is where
- * the day is spent, not a detour from it. Nor is the ride home to dinner at the end of a day out
+ * one makes a day of zigzags. The ride out to the day's first stop counts as that one longer ride
+ * when home is known: a day trip is where the day is spent, and it is not left for another far
+ * place. Nor is the ride home to dinner at the end of a day out
  * where no dinner place is near (up to two hours): the crew goes back to town to eat. And the rides of a day
  * together, those two aside, stay under a road budget (twice the cap, never under two hours): a
  * day of rides that each pass is still a day spent on the road.
@@ -73,27 +74,48 @@ export interface Hop {
  * be, or a second ride over the cap. When the rides left still add up to more than the road
  * budget, the stops that cost the most riding are too far as well, until the rest fits.
  * `dinnerAt` is the index of a dinner that is a ride home (`dinnerIsRideHome`): the ride to it
- * is held only to `RIDE_HOME_MAX_MIN`.
+ * is held only to `RIDE_HOME_MAX_MIN`. `homeId` is where the crew sleeps (./home): the ride out
+ * to the first stop then counts as the day's one longer ride, and the ride back to town after a
+ * day out is held like the ride home.
  */
 export function longHops(
   poiIds: readonly (string | null)[],
   travel: TravelMatrix,
   capMin: number,
   dinnerAt?: number,
+  homeId?: string | null,
 ): Hop[] {
   const between = (a: number, b: number): number => {
     const from = poiIds[a];
     const to = poiIds[b];
     return from == null || to == null ? 0 : (travel(from, to) ?? 0);
   };
-  // The ride home is no part of the day's riding about.
-  const ride = (a: number, b: number): number => (b === dinnerAt ? 0 : between(a, b));
+  // After a day out, the first ride over the cap that ends back near home is the way back to
+  // town: like the ride home to dinner, it is no part of the day's riding about.
+  const nearHome = (index: number): boolean => {
+    const id = poiIds[index];
+    return homeId != null && id != null && (travel(homeId, id) ?? 0) <= capMin;
+  };
+  let backAt: number | undefined;
+  for (let i = 1; i < poiIds.length && backAt === undefined; i += 1) {
+    if (i !== dinnerAt && between(i - 1, i) > capMin && nearHome(i) && !nearHome(i - 1)) backAt = i;
+  }
+  const home = (index: number) => index === dinnerAt || index === backAt;
+  const ride = (a: number, b: number): number => (home(b) ? 0 : between(a, b));
   const found: Hop[] = [];
   let longRides = 0;
+  // The ride out from where the crew sleeps is the day's long ride when it is over the cap (the
+  // day then stays where it went), and never longer than the ride home may be.
+  const first = poiIds[0];
+  const out = homeId == null || first == null ? 0 : (travel(homeId, first) ?? 0);
+  if (out > RIDE_HOME_MAX_MIN) found.push({ index: 0, over: Math.round(out - capMin) });
+  else if (out > capMin) longRides += 1;
   for (let i = 1; i < poiIds.length; i += 1) {
-    if (i === dinnerAt) {
-      const home = between(i - 1, i);
-      if (home > RIDE_HOME_MAX_MIN) found.push({ index: i, over: Math.round(home - capMin) });
+    if (home(i)) {
+      // Home to dinner may be a long way; back to town in the middle of a day, the long ride's.
+      const back = between(i - 1, i);
+      const most = i === dinnerAt ? RIDE_HOME_MAX_MIN : longRideMin(capMin);
+      if (back > most) found.push({ index: i, over: Math.round(back - capMin) });
       continue;
     }
     const leg = ride(i - 1, i);

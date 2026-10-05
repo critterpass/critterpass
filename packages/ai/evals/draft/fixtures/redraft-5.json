@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "aa5b5b8a-5811-48b4-b505-a13568291d88",
+        "id": "47b1c4ac-5216-446f-852b-49b4f9c0b985",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Ubud Sunday\",\n  \"summary\": \"A gentle day swapping temple-heavy sights for leafy walks, market browsing and a long, lazy dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the rice terraces, Leo. Green views, no temple queues.\",\n      \"note\": \"The one keeper: those terraces still earn their spot, and the sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge walk instead of another temple. Easy legs, big sky.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander for colour and photo spots, no incense required.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays veggie-friendly and easy. Terima kasih (thank you), Alchemy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace peek for history, but we keep it short and sweet.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner for the night owls. I know a guy, and he eats well.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A greener, slower Bali day\",\n  \"summary\": \"We trade temples for terraces, a ridge walk and easy Ubud stops, with good vegan meals along the way.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one we keep, and rightly so: those green steps are pure Bali. Rise and shine for the best light.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a leafy, easy vibe and plenty of vegan plates for everyone.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge walk instead of another temple, so Leo can breathe easy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace peek keeps the day light and gives the photo lovers a little history.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the market for colour, crafts and zero temple fatigue.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner done properly, slow and special, with vegetarian choices for the whole crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 741,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 388,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 378,
           "service_tier": "standard"
         }
       }

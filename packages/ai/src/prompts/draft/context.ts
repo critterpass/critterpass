@@ -6,7 +6,7 @@
  * must-do, a redraft note, chat) only ever enters inside an untrusted data block.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import { WEEKDAYS, type Hours } from '@cp/domain';
+import { WEEKDAYS, type DraftItem, type Hours } from '@cp/domain';
 import {
   foodRole,
   placeTime,
@@ -45,6 +45,12 @@ export interface UntimedMustDo {
   readonly reason: 'no_show_day' | 'no_day_fits';
 }
 
+/** A stop the organiser already placed on a day (see `DraftPlanInput.held`). */
+export interface HeldStop {
+  readonly dayNo: number;
+  readonly item: DraftItem;
+}
+
 export interface DraftPlanInput {
   readonly guide: PersonaId;
   /** "Kyoto, Japan". */
@@ -75,6 +81,18 @@ export interface DraftPlanInput {
   readonly untimed?: readonly UntimedMustDo[];
   /** Stable ids for scheduled stops; the same key always gives the same id. */
   readonly idFor: (key: string) => string;
+  /**
+   * Stops already on a day that are the organiser's own (placed by hand, `locked_reason: 'user'`,
+   * or booked): the guide is told of them and plans the rest of the day around them, and the
+   * planner never moves, trims or drops one. Each keeps its place (when it has one), its times,
+   * its kind (`meal` when it serves as the day's lunch or dinner) and its id.
+   */
+  readonly held?: readonly HeldStop[];
+  /**
+   * The language the organiser reads (BCP 47, e.g. `vi`). A redraft writes its title, summary and
+   * notes in it, and the planner's own lines follow; absent, the words are English.
+   */
+  readonly locale?: string;
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
 }
 

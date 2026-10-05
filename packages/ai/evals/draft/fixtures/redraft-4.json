@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "91e18d99-3d34-48b0-a59a-7f4f66603285",
+        "id": "4e0bbe24-7b20-45b9-837d-c1173ffa9e40",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Eat Your Way Through Kyoto\",\n  \"summary\": \"A slower, tastier day built around Rin's appetite, with a market, a proper lunch, and an evening meal without leaving the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the one we keep. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's first excuse to graze. A market stop is a meal with extra steps, and these steps are delicious.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, cheap and cheerful. Lunch stays because even a food day needs a table to lean on.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander to settle the noodles. History and local life, no ticket required.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her second proper meal, and the rest of us get to watch an omelette show.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Snack, Sip, and a Proper Meal\",\n  \"summary\": \"A slower day built around Rin's appetite, with a market wander, a temple kept, and a proper dinner to close.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The thousand statues stay, so we start here before the market wakes.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin eats her way through the day, so we graze here. Street food counts as culture if you chew slowly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet bowl before the afternoon. Cheap, warm, and exactly what a market morning deserves.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle stroll to settle the snacks. The old street does the talking.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her proper meal, and the rest of us get to watch.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 94,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 347,
+          "output_tokens": 386,
           "service_tier": "standard"
         }
       }

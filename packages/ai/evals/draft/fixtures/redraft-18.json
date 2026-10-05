@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ecbea0db-b833-4cb7-a82c-1a18560aa3aa",
+        "id": "aab8c4dd-a027-4dc1-a986-013018dce203",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday Close to the Heart\",\n  \"summary\": \"A gentle day around the Zócalo and Chapultepec, keeping every ride short and every stop worth the walk.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one big journey of the day, kept because it simply cannot be missed.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"History with a heartbeat, right in the centre and easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick wander through the Zócalo, because local life starts in the square.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the centre, with options for every taste at the table.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green pause in Chapultepec, close enough to feel like a stroll, not a trip.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner near the park, easygoing and kind to the veggie lovers among us.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A cosy Sunday close to the centre\",\n  \"summary\": \"A gentle day around the Zócalo and Chapultepec, with history, green space and meals right beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one long ride of the day, kept for the pyramids and their ancient pull.\",\n      \"start\": \"09:00\",\n      \"end\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause in Chapultepec to stretch legs after the ruins.\",\n      \"start\": \"13:00\",\n      \"end\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, easy on the wallet and the conscience.\",\n      \"start\": \"14:45\",\n      \"end\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop to the Zócalo for a dose of open-air history.\",\n      \"start\": \"16:00\",\n      \"end\": \"16:45\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor sits next door, so the old city unfolds without another ride.\",\n      \"start\": \"17:00\",\n      \"end\": \"18:30\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner a short stroll from the ruins, with options for every taste.\",\n      \"start\": \"19:00\",\n      \"end\": \"20:15\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 62,
+          "input_tokens": 75,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 366,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 469,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "a7295551-45e4-46c4-9def-3a696a92c584",
+        "id": "054a74a8-b06e-410b-a096-6f6a10e225b9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday Close to the Zócalo\",\n  \"summary\": \"A gentle day around the historic heart, with a market wander, a museum visit, and a long lunch nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor keeps the history lovers happy, and it sits right beside our next stop.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick lap of the Zócalo for local life and a bit of people-watching, no long ride needed.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Al-Andalus, just around the corner, with halal and vegetarian options for the crew.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mercado de Coyoacán is a short ride from the centre, so the market lovers still get their fill.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Por Siempre Vegana, close to the market, keeps the day light and the travel short.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Day in Mexico City\",\n  \"summary\": \"A gentle day wandering through the heart of the city, with history, green spaces, and a proper meal without long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The pyramids are the one big journey, so we start here and let the rest of the day stay close and calm.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause after the ruins, just a short ride away, to stretch the legs and breathe.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, easy on the wallet and kind to the veggie crew.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Zócalo rounds out the day with a bit of living history, close to the evening air.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 103,
+          "input_tokens": 124,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 341,
+          "output_tokens": 278,
           "service_tier": "standard"
         }
       }

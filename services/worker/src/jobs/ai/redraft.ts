@@ -79,6 +79,20 @@ function inputOf(ctx: AgentStepContext) {
   return redraftInputSchema.parse(ctx.input);
 }
 
+/** The app language of the organiser who asked, when she set one (else her account's). */
+async function readerLocale(pool: pg.Pool, userId: string | null): Promise<{ locale?: string }> {
+  if (userId === null) return {};
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ locale: string | null }>(
+      `SELECT coalesce(s.app_locale, u.locale) AS locale
+         FROM users u LEFT JOIN user_settings s ON s.user_id = u.id WHERE u.id = $1`,
+      [userId],
+    ),
+  );
+  const locale = rows[0]?.locale ?? null;
+  return locale === null ? {} : { locale };
+}
+
 async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
   const input = inputOf(ctx);
   const { trip, input: plan, held } = await load(ctx);
@@ -94,6 +108,8 @@ async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
   if (base === null) throw new Error('base_version_gone');
   const redone = await runRedraft(modelFor(deps.model, ctx), {
     ...plan,
+    // The organiser reads the redraft's title, summary and reasons: they are written in her language.
+    ...(await readerLocale(ctx.pool, ctx.agentJob.userId)),
     base: base.itinerary,
     dayNo: input.day,
     reasons: input.reasons,
