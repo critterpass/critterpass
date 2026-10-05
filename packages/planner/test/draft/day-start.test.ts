@@ -18,9 +18,11 @@ import {
 import { FRAME, P, POIS, TZ, id, line, place, stop } from './day-sense-fixture';
 
 describe('when a day begins', () => {
+  // Out of town: not in the grounds of anything in the centre.
   const peak = place(120, 'High Peak', 'nature', {
     durationMin: 180,
     bestTime: 'Early morning for clear views',
+    lat: 16.2,
   });
   const grove = place(121, 'Pine Grove', 'nature', { bestTime: 'Early morning' });
   const pois = new Map([...POIS, [peak.id, peak], [grove.id, grove]]);

@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import type { GeoHint } from '@cp/domain';
 
 import { airportDataset } from '../../content';
-import { HOME_ROWS, homeResults, type HomeRow } from '../home-search';
+import { HOME_ROWS, homeResults, readerCountryOf, type HomeRow } from '../home-search';
 
 const SINGAPORE: GeoHint = {
   country: 'SG',
@@ -78,5 +78,35 @@ describe('home airport ranking over the bundled airports', () => {
   it('caps the list so the stamp fits below it', () => {
     expect(search('San').rows).toHaveLength(HOME_ROWS);
     expect(homeResults(airportDataset(), 'San', null, 6).rows).toHaveLength(6);
+  });
+});
+
+describe('a reader whose language names a country', () => {
+  const IOWA: GeoHint = {
+    country: 'US',
+    city: 'Des Moines',
+    point: { lat: 41.6, lng: -93.6 },
+    nearest_iata: ['DSM'],
+  };
+  const vi = readerCountryOf('vi');
+
+  it('shows only what matches the city she typed, never a look-alike', () => {
+    const rows = codes(homeResults(airportDataset(), 'Ho Chi', IOWA, HOME_ROWS, vi).rows);
+    expect(rows[0]).toBe('SGN');
+    expect(rows).not.toContain('HCJ');
+  });
+
+  it('still offers a look-alike when nothing matches as typed', () => {
+    expect(codes(search('Changy').rows).length).toBeGreaterThan(0);
+  });
+
+  it('leads with her country’s main airports before typing when the phone gave no position', () => {
+    const rows = homeResults(airportDataset(), '', null, HOME_ROWS, vi).rows;
+    expect(rows).toHaveLength(HOME_ROWS);
+    expect(rows.every((row) => row.kind === 'airport' && row.airport.country === 'VN')).toBe(true);
+    expect(codes(rows)).toEqual(['SGN', 'HAN', 'DAD']);
+    // A real position keeps its own nearest airports.
+    expect(codes(homeResults(airportDataset(), '', IOWA, HOME_ROWS, vi).rows)).toContain('DSM');
+    expect(readerCountryOf('en')).toBeNull();
   });
 });

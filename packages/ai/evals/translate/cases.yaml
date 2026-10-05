@@ -271,3 +271,20 @@
       }
   must: ['19:30', '2.5', '35']
   keep: ['VN 123']
+
+- id: translate-16
+  description: Đà Lạt notes opened with the learning guide's hedge, Vietnamese reader
+  guide: ngua
+  locale: vi
+  lines:
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'From what Ngựa knows so far, the square is where local life gathers, easy for a slow wander and a few photos.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'From what Ngựa knows so far, the night market wakes up after dark with steam, chatter, and little things to nibble.',
+      }
+  forbid: ['From what', 'knows so far']

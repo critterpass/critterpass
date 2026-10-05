@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f5814e5c-e79b-4eb4-83f4-7c9a6741d508",
+        "id": "6f00124c-6dc5-4371-9463-282ee949baff",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Sunday in Reykjavik\",\n  \"summary\": \"A gentle day with time to breathe at Geysir and a long wander through Þingvellir, with meals in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see, and rightly so — the earth puts on a show here, and we give it the unhurried hour it deserves.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the long, quiet walk through the rift valley — slower days call for a place that asks nothing but your boots and your breath.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, easy lunch with proper vegetarian plates, and coffee for the one who asked for it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays, because even a slow day ends hungry — and this kitchen knows how to feed a vegetarian well.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Geysir and a slower Reykjavik\",\n  \"summary\": \"A gentler day with one grand natural wonder, then time to wander, eat well and watch the light fade.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big outing of the day: steam, patience and a proper Icelandic show.\",\n      \"note\": \"The one big outing of the day: steam, patience and a proper Icelandic show.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow browse suits the new pace, with coffee and window-shopping in the middle of town.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here keeps everyone happy: warm bread, good coffee and proper vegetarian plates.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays as the evening anchor, with enough vegetarian choice for the whole crew.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 90,
+          "input_tokens": 14,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 343,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 293,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "b95eac22-675e-42a5-af53-5b54d845e5db",
+        "id": "46fb332c-ff81-486b-aaf7-36ce3b5f0172",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Geysir Sunday\",\n  \"summary\": \"A slower day out to the geysers, with a long, easy wander and a proper meal back in town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop that must stay, and a fine one at that. We give it the time it deserves, watching the water think about it before it leaps.\",\n      \"note\": \"The one stop that must stay, and a fine one at that. We give it the time it deserves, watching the water think about it before it leaps.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner after the steam and spray, with plenty of green things on the plate for our vegetarian crew.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Geysir and a slower Reykjavik\",\n  \"summary\": \"A gentler day with one grand natural wonder and time to breathe, then back to the city for a quiet evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big sight today, kept for good reason: steam, patience and a proper Icelandic hello.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the city, with good vegetarian choices and no rush to get anywhere after.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 139,
+          "input_tokens": 49,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 220,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 182,
           "service_tier": "standard"
         }
       }

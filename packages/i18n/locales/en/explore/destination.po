@@ -51,6 +51,10 @@ msgstr "{month}, cheapest"
 msgid "explore.panel.crewCount"
 msgstr "{others} of the crew"
 
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.onTheVote"
+msgstr "{placeName} is on {crewName}’s vote."
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr "{transfers, plural, one {# stop from {origin}} other {# stops from {origin}}}"
@@ -191,6 +195,10 @@ msgstr "Pitch to the crew"
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"
 msgstr "Places, search and what is open now"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.seeVote"
+msgstr "See the vote"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.seen"

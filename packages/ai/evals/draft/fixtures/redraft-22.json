@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a2317acf-22c0-4382-b275-a9a5730e6d08",
+        "id": "03bb3280-4d1f-4cde-946c-2acfa6f2db3b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One gentle market wander, then a long lunch and a long dinner with plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p40\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the market is the one activity that fits a slower day and it is uncurated, so treat the hours as a guess.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this is the kept lunch and it stays right where it belongs.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves here so the evening stays in the same part of the map as the market.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Slow Day in Đà Lạt\",\n  \"summary\": \"A gentler day with one long nature stop, keeping the street-food lunch and a relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p124\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The flower park gives the nature fix without rushing off anywhere else, so the whole morning can breathe.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do lunch, and it is right in the same area as the park.\"\n    },\n    {\n      \"poi_id\": \"p29\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays, but moves to a nearby area so the day never feels like a commute.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 78,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2304,
-          "output_tokens": 237,
+          "cache_read_input_tokens": 2432,
+          "output_tokens": 220,
           "service_tier": "standard"
         }
       }

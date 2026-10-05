@@ -173,6 +173,10 @@ msgid "vote.quickCrew.defaultName"
 msgstr "Hội {placeName}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.lockedIn"
+msgstr "Đã chốt {winner}. Không cần bầu."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr "{winner} thắng {score}"
 
@@ -400,10 +404,18 @@ msgstr "Chốt {only}"
 msgid "vote.reveal.lockedIn"
 msgstr "Đã chốt"
 
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedInBy"
+msgstr "{lockedBy} đã chốt."
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedIn"
+msgstr "Đã chốt, không cần bầu."
+
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "crew.queued.create"
-msgstr ""
+msgstr "Nhóm mới: {0}"
 
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"

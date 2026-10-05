@@ -31,17 +31,56 @@ const TIME_WORDS: readonly (readonly [readonly string[], Fits])[] = [
 ];
 const NIGHT = TIME_WORDS[TIME_WORDS.length - 1]?.[1] as Fits;
 
-/** "Before dinner" and "after lunch" say when the stop is not. */
-const RELATIVE = new Set(['before', 'after', 'until', 'till', 'post', 'pre']);
+/** "Before dinner" and "until lunch" say when the stop is not. */
+const RELATIVE = new Set(['before', 'until', 'till', 'pre']);
+/** "After lunch" and "after dinner" say the stop is later than that meal. */
+const AFTER = new Set(['after', 'post', 'sau']);
+const AFTER_MEAL: Readonly<Record<string, number>> = { lunch: 12 * 60, dinner: 18 * 60 + 30 };
+
+/** Vietnamese names of meals and times of day, as word pairs (accents folded), in English. */
+const VI_PAIRS: Readonly<Record<string, string>> = {
+  'bua sang': 'breakfast',
+  'an sang': 'breakfast',
+  'buoi sang': 'morning',
+  'bua trua': 'lunch',
+  'an trua': 'lunch',
+  'buoi trua': 'lunch',
+  'buoi chieu': 'afternoon',
+  'bua toi': 'dinner',
+  'an toi': 'dinner',
+  'buoi toi': 'evening',
+  'hoang hon': 'sunset',
+  'ban dem': 'night',
+  've dem': 'night',
+};
+
+/** The tokens of a line with each Vietnamese pair read as the one English word it means. */
+function timeTokens(note: string): string[] {
+  const raw = nameTokens(note);
+  const out: string[] = [];
+  for (let at = 0; at < raw.length; at += 1) {
+    const pair = VI_PAIRS[`${raw[at] ?? ''} ${raw[at + 1] ?? ''}`];
+    if (pair === undefined) out.push(raw[at] as string);
+    else {
+      out.push(pair);
+      at += 1;
+    }
+  }
+  return out;
+}
 
 /** Whether a line names a meal or a time of day that a stop starting at `startMin` is not at. */
 export function noteNamesAnotherTime(note: string, startMin: number, sunset: number): boolean {
-  const tokens = nameTokens(note);
+  const tokens = timeTokens(note);
   return tokens.some((token, index) => {
     const previous = tokens[index - 1] ?? '';
-    // "After dark" is the night itself; any other "before …" or "after …" points away from it.
+    // "After dark" is the night itself; "after lunch" on a stop at ten is not true.
     if (token === 'dark') return previous === 'after' && !NIGHT(startMin, sunset);
-    if (RELATIVE.has(previous)) return false;
+    if (AFTER.has(previous)) {
+      const from = AFTER_MEAL[token];
+      return from !== undefined && startMin < from;
+    }
+    if (RELATIVE.has(previous) || previous === 'truoc') return false;
     const rule = TIME_WORDS.find(([words]) => words.includes(token));
     return rule !== undefined && !rule[1](startMin, sunset);
   });

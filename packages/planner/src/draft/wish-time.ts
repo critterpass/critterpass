@@ -112,7 +112,7 @@ export function heldWindow(
   date: string,
   when: WishTime | null | undefined,
 ): StartWindow | null {
-  const wished = timeWindow(when);
+  const wished = showtime(poi, when) ?? timeWindow(when);
   if (wished === null || poi.hours === null || poi.hoursGuessed === true) return wished;
   const visit = ceilGrid(timedDuration(poi, when));
   let nearest: { readonly at: number; readonly away: number } | null = null;
@@ -128,6 +128,22 @@ export function heldWindow(
     if (nearest === null || away < nearest.away) nearest = { at, away };
   }
   return nearest === null ? null : { fromMin: nearest.at, toMin: nearest.at };
+}
+
+/**
+ * The hour our editors give a place for the evening ("before the 9pm show", "the show at
+ * 21:00"): an evening or night wish there starts within a quarter of an hour of it.
+ */
+function showtime(poi: DraftPoi, when: WishTime | null | undefined): StartWindow | null {
+  if ((when !== 'evening' && when !== 'night') || poi.bestTime == null) return null;
+  const found =
+    /\b(\d{1,2})(?::(\d{2}))?\s*(pm|p\.m\.)/iu.exec(poi.bestTime) ??
+    /\b(\d{1,2}):(\d{2})\b/u.exec(poi.bestTime);
+  if (found === null) return null;
+  const hour = Number(found[1]) + (found[3] === undefined || Number(found[1]) === 12 ? 0 : 12);
+  const minute = hour * 60 + Number(found[2] ?? 0);
+  if (minute < 17 * 60 || minute > 23 * 60) return null;
+  return { fromMin: minute - 15, toMin: minute + 15 };
 }
 
 const WEEKDAY_WORDS: readonly (readonly [string, readonly string[]])[] = [

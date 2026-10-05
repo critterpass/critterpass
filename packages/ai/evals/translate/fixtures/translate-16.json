@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "6b6e4734-8f75-40c8-a990-fc55f69de35a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Theo những gì Ngựa biết được tới giờ, quảng trường là nơi nhịp sống địa phương tụ lại, dễ dàng cho một vòng dạo chậm rãi và vài tấm ảnh.\"},{\"id\":\"t2\",\"text\":\"Theo những gì Ngựa biết được tới giờ, chợ đêm thức dậy sau khi trời tối với hơi nước, tiếng rôm rả, và vài món nhỏ để nhấm nháp.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 629,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 143,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

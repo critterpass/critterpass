@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# A crew of one sets up a trip on staging, read in English: subflows/alone-setup.yaml.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- runFlow:
+    file: subflows/alone-setup.yaml
+    env:
+      LOCALE: en
+      SHOTS: en-alone-setup

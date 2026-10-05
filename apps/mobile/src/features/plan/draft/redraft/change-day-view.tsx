@@ -63,13 +63,6 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['6'],
   },
   summaryHead: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
-  tag: {
-    borderWidth: 1,
-    borderColor: th.semantic.border.control,
-    borderRadius: th.radius.lg,
-    paddingHorizontal: th.space['10'],
-    paddingVertical: th.space['4'],
-  },
   locked: { flexDirection: 'row', alignItems: 'center', gap: th.space['6'] },
   footer: {
     paddingHorizontal: th.size.gutter,
@@ -109,13 +102,6 @@ function DaySummary({ day, locale }: { readonly day: ReviewDay; readonly locale:
             {t({ id: 'planDraft.change.dayTitle', message: `Day ${n} · ${title}` })}
           </Text>
         </View>
-        {day.optional ? (
-          <View style={styles.tag}>
-            <Text variant="label" color={theme.semantic.text.secondary}>
-              {t({ id: 'planDraft.change.optional', message: 'Optional' })}
-            </Text>
-          </View>
-        ) : null}
       </View>
       <Text variant="bodySm" color={theme.semantic.text.secondary}>
         {stops === ''

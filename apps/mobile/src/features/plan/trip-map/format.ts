@@ -39,6 +39,10 @@ export function modeLabel(mode: DayLeg['mode']): string {
 
 /** "Car · 1h10", or "Car · about 1h10" while the leg is a straight-line estimate. */
 export function legLabel(leg: DayLeg): string {
+  // Its routed time is on its way: no figure that will change in a moment.
+  if (leg.pending === true) {
+    return t({ id: 'plan.tripMap.leg.pending', message: 'Working out the ride…' });
+  }
   const mode = modeLabel(leg.mode);
   const length = lengthLabel(leg.minutes);
   return leg.approx && leg.source === 'straight_line'
@@ -47,11 +51,17 @@ export function legLabel(leg: DayLeg): string {
 }
 
 /** Minutes on the road (driving, a ride or the driver), and whether any of it is an estimate. */
-export function roadMinutes(legs: readonly DayLeg[]): { minutes: number; approx: boolean } {
+export function roadMinutes(legs: readonly DayLeg[]): {
+  minutes: number;
+  approx: boolean;
+  /** A leg's routed time is still on its way: the total is not to be shown yet. */
+  pending: boolean;
+} {
   const road = legs.filter((leg) => leg.mode !== 'walk');
   return {
     minutes: road.reduce((sum, leg) => sum + leg.minutes, 0),
     approx: road.some((leg) => leg.source === 'straight_line'),
+    pending: legs.some((leg) => leg.pending === true),
   };
 }
 
@@ -62,6 +72,9 @@ export function stopsLine(stops: number, legs: readonly DayLeg[]): string {
     id: 'plan.tripMap.stops',
     message: plural(stops, { one: '# stop', other: '# stops' }),
   });
+  if (road.pending) {
+    return t({ id: 'plan.tripMap.inTheCarPending', message: `${count} · working out the rides` });
+  }
   if (road.minutes === 0) return count;
   const length = lengthLabel(road.minutes);
   return road.approx

@@ -52,6 +52,7 @@ const useStyles = makeStyles((t) => ({
   ghost: { position: 'absolute', end: t.space['12'], bottom: t.space['32'] },
   seated: { position: 'absolute', end: t.space['16'], bottom: t.space['32'] + t.space['16'] },
   line: { maxWidth: '62%' },
+  under: { gap: t.space['8'], justifyContent: 'flex-start' },
   chips: { gap: t.space['6'], marginTop: t.space['4'], alignItems: 'flex-start' },
 }));
 
@@ -127,6 +128,13 @@ export function DestHero(props: DestHeroProps) {
   const { t, i18n } = useLingui();
   const { guide } = props;
   const { redesign } = usePlanningSwitch();
+  const seated = (props.guideArt ?? (redesign ? 'seated' : 'ghost')) === 'seated';
+  // The guide sits in the hero's bottom corner: what is under the name is kept at least as tall as
+  // the sticker's reach, so the name always sits above it, never under it.
+  const reach = seated
+    ? theme.space['32'] + theme.space['16'] + SEATED_SIZE
+    : theme.space['32'] + GHOST_SIZE;
+  const under = Math.max(0, reach - (props.bottomRoom ?? theme.space['24']));
   const who = guide.guest
     ? t({ id: 'explore.hero.guestGuide', message: `Guest guide: ${guide.name}` })
     : t({ id: 'explore.hero.yourGuide', message: `Your guide: ${guide.name}` });
@@ -142,10 +150,7 @@ export function DestHero(props: DestHeroProps) {
       <SurfaceToneProvider value="accent">
         {props.photo === null ? <Halftone /> : null}
         <MediaLayer media={props.photo} surface="accent" accent={guide.colour} creditAt="bottom" />
-        <WalkingGuide
-          guide={guide}
-          seated={(props.guideArt ?? (redesign ? 'seated' : 'ghost')) === 'seated'}
-        />
+        <WalkingGuide guide={guide} seated={seated} />
         <Row justify="space-between" align="center">
           <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
           {props.trailing ??
@@ -165,19 +170,21 @@ export function DestHero(props: DestHeroProps) {
         >
           {upper(props.name, i18n.locale)}
         </Text>
-        <Text variant="label" singleLine={false}>
-          {upper(who, i18n.locale)}
-        </Text>
-        <Text variant="voice" color={theme.semantic.text.onAccent} style={styles.line}>
-          {props.tagline}
-        </Text>
-        {props.chips.length === 0 ? null : (
-          <View style={styles.chips} testID="explore-hero-facts">
-            {props.chips.map((chip) => (
-              <InfoPill key={chip}>{upper(chip, i18n.locale)}</InfoPill>
-            ))}
-          </View>
-        )}
+        <View style={[styles.under, { minHeight: under }]}>
+          <Text variant="label" singleLine={false}>
+            {upper(who, i18n.locale)}
+          </Text>
+          <Text variant="voice" color={theme.semantic.text.onAccent} style={styles.line}>
+            {props.tagline}
+          </Text>
+          {props.chips.length === 0 ? null : (
+            <View style={styles.chips} testID="explore-hero-facts">
+              {props.chips.map((chip) => (
+                <InfoPill key={chip}>{upper(chip, i18n.locale)}</InfoPill>
+              ))}
+            </View>
+          )}
+        </View>
       </SurfaceToneProvider>
     </View>
   );

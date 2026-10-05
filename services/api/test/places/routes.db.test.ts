@@ -234,6 +234,49 @@ describe('GET /v1/places/:id', () => {
     });
   });
 
+  it('gives a reader whose app is in Vietnamese the note in Vietnamese, line by line', async () => {
+    const { rows } = await pool.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, curation, editorial)
+       VALUES ($1, 'Kiyomizu-dera', 'temple_shrine', 34.9949, 135.785, 'editorial', $2) RETURNING id`,
+      [
+        destinationId,
+        JSON.stringify({
+          why_go: 'A wooden temple on stilts above the city.',
+          best_time: 'Early morning',
+          crowd_hint: 'Packed by 10am',
+          i18n: { vi: { why_go: 'Ngôi chùa gỗ dựng trên cột, nhìn xuống cả thành phố.' } },
+        }),
+      ],
+    );
+    const read = async () => {
+      const response = await buildTestApp().request(`/v1/places/${rows[0]?.id}`);
+      expect(response.status).toBe(200);
+      return ((await response.json()) as { editorial: Record<string, unknown> }).editorial;
+    };
+    // No settings yet: the reader reads English.
+    expect(await read()).toEqual({
+      why_go: 'A wooden temple on stilts above the city.',
+      best_time: 'Early morning',
+      crowd_hint: 'Packed by 10am',
+    });
+
+    await pool.query(
+      "INSERT INTO users (id, status) VALUES ($1, 'registered') ON CONFLICT DO NOTHING",
+      [TEST_UID],
+    );
+    await pool.query(
+      `INSERT INTO user_settings (user_id, app_locale) VALUES ($1, 'vi')
+       ON CONFLICT (user_id) DO UPDATE SET app_locale = 'vi'`,
+      [TEST_UID],
+    );
+    expect(await read()).toEqual({
+      why_go: 'Ngôi chùa gỗ dựng trên cột, nhìn xuống cả thành phố.',
+      best_time: 'Early morning',
+      crowd_hint: 'Packed by 10am',
+    });
+    await pool.query('DELETE FROM user_settings WHERE user_id = $1', [TEST_UID]);
+  });
+
   it('returns 404 NOT_FOUND for an unknown POI', async () => {
     const app = buildTestApp();
     const response = await app.request('/v1/places/00000000-0000-7000-8000-0000000000ff');

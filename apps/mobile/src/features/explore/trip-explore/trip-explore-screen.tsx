@@ -11,6 +11,7 @@ import { router } from 'expo-router';
 import { useMemo } from 'react';
 
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
@@ -91,7 +92,8 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
   // The guide's picks that are not in the plan yet, topped up from the recommended places on the
   // phone, so the row always has something to tap.
   const localPicks = useLocalPicks(destinationId, LOCAL_PICKS_READ);
-  const organic = picksOrLocal(pickEntries(data?.picks ?? []), localPicks, {
+  const readsLocal = useReadsLocalNames(destinationId);
+  const organic = picksOrLocal(pickEntries(data?.picks ?? [], readsLocal), localPicks, {
     skip: new Set(planned.keys()),
   });
   const kindRows = usePlaceKindCounts(destinationId);

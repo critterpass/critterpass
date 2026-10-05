@@ -1,6 +1,6 @@
 /**
  * The yellow sweet-spot card (3c-5): "SWEET SPOT, EACH" with the under-all check, the target as a
- * rolling amount, and the track with the knob among anonymous dots. The knob drags (or steps with a
+ * rolling amount, and the track with the knob among anonymous dots. The knob drags with the finger, jumps to a tap (or steps with a
  * screen reader) in the crew's steps (₫500,000, $50), ticking on every step and warning as it crosses the top of
  * the band. Dots are bucketed positions from the server; nothing here knows whose, or any max.
  */
@@ -47,6 +47,8 @@ export function isOverBand(band: BandView, target: number): boolean {
 function statusLine(band: BandView, over: boolean): string | null {
   const { set, of } = band;
   if (band.kind === 'waiting') {
+    // A trip of one has nobody's max to wait for.
+    if (of <= 1) return null;
     return t({ id: 'setup.budget.card.waiting', message: `${set} of ${of} set` });
   }
   if (band.kind === 'infeasible') return null;
@@ -85,17 +87,37 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const fromX = (x: number) =>
     set(track.minMinor + ((x - KNOB / 2) / Math.max(1, width - KNOB)) * span);
 
+  // A drag moves the knob by as much as the finger moves, from where the knob stands (a drag
+  // that starts anywhere on the track never throws it to the finger); a tap puts it there.
+  const [dragFrom, setDragFrom] = useState<number | null>(null);
+  const startDrag = () => setDragFrom(target);
+  const dragBy = (dx: number) => {
+    if (dragFrom !== null) set(dragFrom + (dx / Math.max(1, width - KNOB)) * span);
+  };
+  const endDrag = () => setDragFrom(null);
+
   const pan = Gesture.Pan()
     .enabled(width > 0)
-    .minDistance(0)
-    .onBegin((event) => {
+    .minDistance(4)
+    .onStart(() => {
       'worklet';
-      scheduleOnRN(fromX, event.x);
+      scheduleOnRN(startDrag);
     })
     .onUpdate((event) => {
       'worklet';
-      scheduleOnRN(fromX, event.x);
+      scheduleOnRN(dragBy, event.translationX);
+    })
+    .onFinalize(() => {
+      'worklet';
+      scheduleOnRN(endDrag);
     });
+  const tap = Gesture.Tap()
+    .enabled(width > 0)
+    .onEnd((event, success) => {
+      'worklet';
+      if (success) scheduleOnRN(fromX, event.x);
+    });
+  const gesture = Gesture.Race(pan, tap);
 
   const onAction = (event: AccessibilityActionEvent) => {
     if (event.nativeEvent.actionName === 'increment') set(target + track.stepMinor);
@@ -107,10 +129,12 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const ink = theme.semantic.text.onAccent;
   const caption =
     band.kind === 'waiting'
-      ? band.of < BUDGET_K_MIN
-        ? // A crew under four never reaches a band or dots: say what does hold.
-          t({ id: 'setup.budget.card.captionSmallCrew', message: 'every max stays private' })
-        : t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
+      ? band.of <= 1
+        ? null
+        : band.of < BUDGET_K_MIN
+          ? // A crew under four never reaches a band or dots: say what does hold.
+            t({ id: 'setup.budget.card.captionSmallCrew', message: 'every max stays private' })
+          : t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
       : band.dots === null
         ? t({ id: 'setup.budget.card.captionNoDots', message: 'the band sits under every max' })
         : t({ id: 'setup.budget.card.caption', message: 'each dot is someone’s max' });
@@ -123,7 +147,9 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
     <Card tone="yellow" halftone style={styles.card} testID="budget-sweet-spot">
       <Row justify="space-between" align="center" style={styles.head}>
         <Text variant="eyebrow" color={ink} style={styles.eyebrow}>
-          {t({ id: 'setup.budget.card.eyebrow', message: 'Sweet spot, each' })}
+          {band.kind === 'waiting' && band.of <= 1
+            ? t({ id: 'setup.budget.card.eyebrowAlone', message: 'Sweet spot' })
+            : t({ id: 'setup.budget.card.eyebrow', message: 'Sweet spot, each' })}
         </Text>
         {status === null ? null : (
           <Text
@@ -152,7 +178,7 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
           testID="budget-target"
         />
       </View>
-      <GestureDetector gesture={pan}>
+      <GestureDetector gesture={gesture}>
         <View
           onLayout={(event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width)}
           accessible
@@ -172,13 +198,13 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
               sweetSpot={target}
               minLabel={money(locale, track.minMinor, currency)}
               maxLabel={money(locale, track.maxMinor, currency)}
-              {...(captionBelow ? {} : { caption })}
+              {...(captionBelow || caption === null ? {} : { caption })}
               summary={summary}
             />
           </View>
         </View>
       </GestureDetector>
-      {captionBelow ? (
+      {captionBelow && caption !== null ? (
         <Text variant="monoData" color={ink} style={styles.caption} testID="budget-caption">
           {caption}
         </Text>

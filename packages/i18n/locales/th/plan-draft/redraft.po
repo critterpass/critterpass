@@ -197,10 +197,6 @@ msgid "planDraft.onlyYou"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
-msgid "planDraft.change.optional"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.hint"
 msgstr ""
 

@@ -8,6 +8,7 @@
 import type { DraftDay, Itinerary, RedraftReasonKey } from '@cp/domain';
 import { dayWindow, isKept, mealAt, mealSlots, mealsInWindow, minuteOfDate } from '@cp/planner';
 
+import { spanOf } from '../../../src/prompts/draft/areas';
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import { titleFits } from '../../../src/prompts/draft/day-titles';
 import { plannerLines } from '../../../src/prompts/draft/final-notes';
@@ -52,12 +53,20 @@ export function gradeMustDos(
   });
 }
 
-/** Every day between the first and the last has lunch, dinner and at least four stops. */
+/**
+ * Every day between the first and the last has lunch, dinner and at least four stops; a day given
+ * to one whole-day visit holds it and dinner, and eats lunch where it is.
+ */
 export function gradeFullDays(input: DraftPlanInput, result: DraftPlanResult): string[] {
   const days = result.itinerary.days;
   return days.flatMap((day, index) => {
     if (index === 0 || index === days.length - 1) return [];
     const meals = mealsOf(day, input.frame.tz);
+    const whole = day.items.some((item) => {
+      const poi = input.pois.get(item.poi_id ?? '');
+      return item.kind !== 'meal' && poi !== undefined && spanOf(input, poi) === 'full';
+    });
+    if (whole) return meals.has('dinner') ? [] : [`day ${day.day_no}: no dinner`];
     const missing = (['lunch', 'dinner'] as const).filter((slot) => !meals.has(slot));
     return [
       ...missing.map((slot) => `day ${day.day_no}: no ${slot}`),

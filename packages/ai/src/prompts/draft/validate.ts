@@ -30,6 +30,7 @@ export function validate(input: DraftPlanInput, itinerary: Itinerary): Validatio
     mealPlaces: input.pools.eateries,
     hopCapMin: hopCap(input),
     homeId: homeOf(input),
+    outings: input.pools.outings,
   });
   known.set(itinerary, result);
   return result;
