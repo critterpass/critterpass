@@ -126,22 +126,28 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-03-budget
 - tapOn:
     id: 'budget-lock'
+# A crew of one whose stays are not priced yet skips the rooms step: the set-up goes on to must-dos.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
+      id: 'setup-rooms-lock|must-dos-add'
     timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-04-rooms
+- takeScreenshot: ${SHOTS}-04-after-the-budget
 - runFlow:
     when:
       true: ${typeof STOP_AFTER_BUDGET === 'undefined' || STOP_AFTER_BUDGET !== 'yes'}
     commands:
-      - scrollUntilVisible:
-          element:
-            id: 'setup-rooms-lock'
-          timeout: 10000
-      - tapOn:
-          id: 'setup-rooms-lock'
+      - runFlow:
+          when:
+            visible:
+              id: 'setup-rooms-lock'
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'setup-rooms-lock'
+                timeout: 10000
+            - tapOn:
+                id: 'setup-rooms-lock'
       - extendedWaitUntil:
           visible:
             id: 'must-dos-add'
