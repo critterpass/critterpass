@@ -232,6 +232,12 @@ env:
       id: 'day-plan'
     timeout: 15000
 # All days, then day 2: the stop is on day 2.
+# ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-all-days'
+    direction: UP
+    timeout: 15000
 - tapOn:
     id: 'day-plan-all-days'
 - extendedWaitUntil:
@@ -304,6 +310,12 @@ env:
       - back
       - waitForAnimationToEnd:
           timeout: 3000
+# ALL DAYS sits at the head of the day, above wherever the last step left it scrolled.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-all-days'
+    direction: UP
+    timeout: 15000
 - tapOn:
     id: 'day-plan-all-days'
 - extendedWaitUntil:
