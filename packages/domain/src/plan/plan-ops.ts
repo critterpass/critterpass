@@ -62,6 +62,17 @@ export const applyPlanOpsPayloadSchema = z.object({
 });
 export type ApplyPlanOpsPayload = z.infer<typeof applyPlanOpsPayloadSchema>;
 
+/**
+ * `undo_plan_edit`: the caller takes back the plan version one of their own commands made
+ * (`apply_plan_ops`, or `apply_changeset` to the group), named by that command's `op_id`. It only
+ * goes through while that version is still the trip's current one.
+ */
+export const undoPlanEditPayloadSchema = z.object({
+  trip_id: z.uuid(),
+  op_id: z.uuid(),
+});
+export type UndoPlanEditPayload = z.infer<typeof undoPlanEditPayloadSchema>;
+
 /** The same edits on the organiser's private draft: `base_version` is the trip's draft. */
 export const applyDraftOpsPayloadSchema = applyPlanOpsPayloadSchema;
 export type ApplyDraftOpsPayload = ApplyPlanOpsPayload;

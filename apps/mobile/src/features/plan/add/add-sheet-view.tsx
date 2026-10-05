@@ -34,6 +34,8 @@ export interface AddSheetViewProps {
   readonly days: readonly DayChip[];
   readonly dayNo: number | null;
   readonly onDay: (dayNo: number) => void;
+  /** Tokek's own day, one tap away, when the sheet opened on another. */
+  readonly guidePick?: { readonly label: string; readonly onPress: () => void } | null;
   readonly dayHeader: string;
   readonly block: ReactNode;
   readonly whyTitle: string;
@@ -41,6 +43,8 @@ export interface AddSheetViewProps {
   /** "Nowhere fits yet", or the offline note, in place of the reasons. */
   readonly note: string | null;
   readonly who: ReactNode;
+  /** Above the button, for a member: confirming starts a crew vote. */
+  readonly voteNote?: string | null;
   readonly cta: string;
   readonly busy: boolean;
   readonly disabled: boolean;
@@ -79,6 +83,13 @@ export function AddSheetView(props: AddSheetViewProps) {
           selectedFill="paper"
           testID="plan-add-days"
         />
+        {props.guidePick == null ? null : (
+          <TextLink
+            label={props.guidePick.label}
+            onPress={props.guidePick.onPress}
+            testID="plan-add-guide-pick"
+          />
+        )}
         <View style={styles.section}>
           <Text variant="eyebrow" color={theme.semantic.text.secondary} testID="plan-add-day">
             {props.dayHeader}
@@ -99,6 +110,11 @@ export function AddSheetView(props: AddSheetViewProps) {
         {props.who}
       </SheetScrollView>
       <View style={styles.foot}>
+        {props.voteNote == null ? null : (
+          <Text variant="bodySm" color={theme.semantic.text.secondary} testID="plan-add-vote-note">
+            {props.voteNote}
+          </Text>
+        )}
         <PillButton
           label={props.cta}
           onPress={props.onAdd}

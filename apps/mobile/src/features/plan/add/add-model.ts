@@ -54,13 +54,17 @@ function slotStart(fit: PlaceFit | null, dayNo: number, tz: string, fallback: nu
 
 /**
  * The first choice: the preset when there is one (a drop keeps its day, a time keeps its time),
- * else Tokek's best day and time, else the first day at 10:00 (nowhere fits yet).
+ * else Tokek's best day and time, else where the place already is (a place in the plan with no
+ * better slot known), else the first day at 10:00 (nowhere fits yet).
  */
 export function initialChoice(
   fit: PlaceFit | null,
   preset: AddPreset,
   days: readonly AddDay[],
   tz: string,
+  existing: { readonly dayNo: number; readonly startMin: number } | null = null,
+  /** Where a block starts on a day with no fitted slot (after its last stop). */
+  openStart: (dayNo: number) => number = () => FALLBACK_START_MIN,
 ): AddChoice | null {
   const first = days[0];
   if (first === undefined) return null;
@@ -71,9 +75,13 @@ export function initialChoice(
     if (preset.startMin !== undefined) {
       return { dayNo: preset.dayNo, startMin: preset.startMin, timePicked: true };
     }
+    const fallback =
+      existing !== null && existing.dayNo !== preset.dayNo
+        ? existing.startMin
+        : openStart(preset.dayNo);
     return {
       dayNo: preset.dayNo,
-      startMin: slotStart(fit, preset.dayNo, tz, FALLBACK_START_MIN),
+      startMin: slotStart(fit, preset.dayNo, tz, fallback),
       timePicked: false,
     };
   }
@@ -84,13 +92,30 @@ export function initialChoice(
       timePicked: false,
     };
   }
+  if (existing !== null) {
+    return { dayNo: existing.dayNo, startMin: existing.startMin, timePicked: false };
+  }
   return { dayNo: first.dayNo, startMin: FALLBACK_START_MIN, timePicked: false };
 }
 
-/** Another day: the block moves to that day's fitted time (or keeps its time when none fits). */
-export function pickDay(choice: AddChoice, dayNo: number, fit: PlaceFit | null, tz: string) {
+/**
+ * Another day: the block moves to that day's fitted time; when none fits it keeps a time the
+ * person picked, else goes after that day's last stop.
+ */
+export function pickDay(
+  choice: AddChoice,
+  dayNo: number,
+  fit: PlaceFit | null,
+  tz: string,
+  /** Where a block starts on a day with no fitted slot, unless the person picked the time. */
+  openStart?: (dayNo: number) => number,
+) {
   const fitted = dayFitOf(fit, dayNo)?.slot ?? null;
-  if (fitted === null) return { dayNo, startMin: choice.startMin, timePicked: choice.timePicked };
+  if (fitted === null) {
+    const startMin =
+      choice.timePicked || openStart === undefined ? choice.startMin : openStart(dayNo);
+    return { dayNo, startMin, timePicked: choice.timePicked };
+  }
   return { dayNo, startMin: minutesOf(fitted.starts_at, tz), timePicked: false };
 }
 

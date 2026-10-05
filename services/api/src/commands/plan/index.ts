@@ -5,9 +5,11 @@ import { registerCommentCommands } from '../comments';
 import { applyPlanOpsCommand } from './apply-plan-ops';
 import { createCalendarFeedCommand } from './create-calendar-feed';
 import { revokeCalendarFeedCommand } from './revoke-calendar-feed';
+import { undoPlanEditCommand } from './undo-plan-edit';
 
 export function registerPlanCommands(registry: CommandRegistry): void {
   registry.register(applyPlanOpsCommand);
+  registry.register(undoPlanEditCommand);
   registerChangesetCommands(registry);
   registerCommentCommands(registry);
   registry.register(createCalendarFeedCommand);
