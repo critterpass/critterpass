@@ -2,7 +2,7 @@
  * Plan lab scenes for live collaboration (3g-2): the boat-day vote as drawn (Nusa Penida leading
  * with four, Alex browsing Gili T, Jordan's comment with Rin's +1, Tokek's reply writing in with
  * KEEP IT / UNDO, Maya typing), my vote landing, a tie, closing soon, closed with the pick to put
- * on the plan, three options stacked, a quiet thread, and the item sheet's comments.
+ * on the plan, three options stacked, a quiet thread, and a stop sheet's comments over the day plan.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { t } from '@lingui/core/macro';

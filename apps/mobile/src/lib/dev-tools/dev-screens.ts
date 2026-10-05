@@ -48,12 +48,12 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       {
         testId: 'dev-nav-plan-edit-lab',
         href: '/(dev)/plan-edit-lab',
-        label: 'Plan editing (3e-2/3g-2 scenes)',
+        label: 'Plan editing (7b-1 stop sheets, 3g-2 scenes)',
       },
       {
         testId: 'dev-nav-plan-views-lab',
         href: '/(dev)/plan-views-lab',
-        label: 'Plan views (3e-1/3e-3 scenes)',
+        label: 'Plan views (7a, 7b, export and chat card scenes)',
       },
       {
         testId: 'dev-nav-trip-day-lab',
@@ -89,7 +89,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/draft',
         label: 'Drafting and redrafts (3c-8…3c-12, 4f-3 scenes)',
       },
-      { testId: 'dev-nav-explore-lab', href: '/(dev)/explore-lab', label: 'Explore (3d scenes)' },
+      {
+        testId: 'dev-nav-explore-lab',
+        href: '/(dev)/explore-lab',
+        label: 'Explore (7c, 7e, 7g, 3b-8 scenes)',
+      },
       {
         testId: 'dev-nav-planning-map-lab',
         href: '/(dev)/planning-map-lab',

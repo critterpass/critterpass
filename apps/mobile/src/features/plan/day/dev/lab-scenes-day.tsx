@@ -1,32 +1,14 @@
 /**
- * Plan lab scenes for the day view (3e-2 list mode) and its states: the day as drawn, a queued
- * offline edit and a member's change waiting for the crew, a free day, loading, the item sheet
- * (organiser and member), a booked item's warning, an item someone else removed, and add
- * (a search over the lab's temples).
+ * Plan lab scenes for a stop's sheet over the day plan (7b-1, the Bali Six's third day): as the
+ * organiser, as a member, and a booked stop's warning.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useEffect, useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { toast } from '@/motion/island-toast';
-
-import { AddItemSheetView, type AddSource } from '../add-item-sheet';
-import type { DayRowState } from '../day-list';
-import { DayView, type DayViewProps } from '../day-view';
+import { DayPlanScene } from '../../trip-map/dev/plan-screens-scenes';
 import { ItemDetailSheet } from '../item-detail-sheet';
-import {
-  DINNER,
-  LAB_DATE,
-  LAB_HERE,
-  LAB_ITEMS,
-  LAB_MEMBERS,
-  labMeta,
-  LAB_PLACES,
-  LAB_TZ,
-  TERRACES,
-  WALK,
-} from './lab-fixtures';
+import { DINNER, LAB_MEMBERS, TERRACES, WALK } from './lab-fixtures';
 import { type DayItem } from '@/data/plan/plan-model';
 
 const noop = () => undefined;
@@ -34,30 +16,9 @@ const noop = () => undefined;
 /** A lab sheet's dismiss (Android back, ✕, drag) leaves the scene, as a real close would. */
 export const closeScene = () => router.back();
 
-export function labDay(overrides: Partial<DayViewProps> = {}): ReactNode {
-  return (
-    <DayView
-      dayNo={3}
-      dayCount={8}
-      date={LAB_DATE}
-      theme="Slow Ubud"
-      here={LAB_HERE}
-      rain={{ start: 13 * 60, end: 15 * 60 }}
-      planning={false}
-      onTogglePlanning={noop}
-      items={LAB_ITEMS}
-      states={new Map()}
-      meta={labMeta}
-      loading={false}
-      offline={false}
-      editable
-      onOpen={noop}
-      onAdd={noop}
-      // The day's back eyebrow returns to the lab's list, as it returns to the plan in the app.
-      onBack={closeScene}
-      {...overrides}
-    />
-  );
+/** The day plan a stop's sheet opens over. */
+export function labDay(): ReactNode {
+  return <DayPlanScene />;
 }
 
 const actions = {
@@ -69,21 +30,6 @@ const actions = {
   onOpenMaps: noop,
   onClose: closeScene,
 };
-
-/** The day after the open item was removed by someone else: the sheet closes with a toast. */
-function ItemGone() {
-  useEffect(() => {
-    toast.show({
-      id: 'plan-item-gone',
-      title: t({ id: 'plan.day.item.goneTitle', message: 'This one’s off the plan' }),
-      subtitle: t({
-        id: 'plan.day.item.goneLine',
-        message: 'Someone removed it while you had it open.',
-      }),
-    });
-  }, []);
-  return labDay();
-}
 
 function sheet(item: DayItem, canApply = true): ReactNode {
   return (
@@ -100,54 +46,8 @@ function sheet(item: DayItem, canApply = true): ReactNode {
   );
 }
 
-/** Add to the day over the lab's temples: a search matches by name, the first three are saved. */
-function AddItem() {
-  const [source, setSource] = useState<AddSource>('search');
-  const [query, setQuery] = useState('');
-  const needle = query.trim().toLowerCase();
-  const rows =
-    source === 'saved'
-      ? LAB_PLACES.slice(0, 3)
-      : needle === ''
-        ? []
-        : LAB_PLACES.filter((place) => place.name.toLowerCase().includes(needle));
-  return (
-    <>
-      {labDay()}
-      <AddItemSheetView
-        date={LAB_DATE}
-        items={LAB_ITEMS}
-        tz={LAB_TZ}
-        members={LAB_MEMBERS.map((member) => member.uid)}
-        canApply
-        warningText={() => ''}
-        onAdd={noop}
-        onClose={closeScene}
-        source={source}
-        onSource={setSource}
-        query={query}
-        onQuery={setQuery}
-        places={{ rows, loaded: true, state: rows.length > 0 ? 'results' : 'none', more: false }}
-      />
-    </>
-  );
-}
-
-const pending = new Map<string, DayRowState>([
-  ['i-walk', { queued: true, proposed: false, warning: null }],
-  ['i-spa', { queued: false, proposed: true, warning: null }],
-  ['i-lunch', { queued: false, proposed: false, warning: 'Overlaps Jatiluwih terraces' }],
-]);
-
 export const DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  day: () => labDay(),
-  'day-pending': () => labDay({ states: pending, offline: true }),
-  'day-free': () => labDay({ items: [], theme: null, rain: null }),
-  'day-loading': () => labDay({ loading: true }),
-  'day-read-only': () => labDay({ editable: false }),
   'item-sheet': () => sheet(TERRACES),
   'item-sheet-member': () => sheet(WALK, false),
   'item-sheet-booked': () => sheet(DINNER),
-  'item-gone': () => <ItemGone />,
-  'add-item': () => <AddItem />,
 };

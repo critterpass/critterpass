@@ -2,12 +2,10 @@
 import type { ReactNode } from 'react';
 
 import { COLLAB_SCENES } from '../../collab/dev/lab-scenes-collab';
-import { TIMELINE_SCENES } from '../../timeline/dev/lab-scenes-timeline';
 import { DAY_SCENES } from './lab-scenes-day';
 
 export const PLAN_EDIT_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DAY_SCENES,
-  ...TIMELINE_SCENES,
   ...COLLAB_SCENES,
 };
 
