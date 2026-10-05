@@ -123,6 +123,32 @@ describe('POST /v1/pitches', () => {
     expect(request).not.toMatch(/budget/iu);
   });
 
+  it('keeps a reader of another language waiting with signs of life, then shows every line', async () => {
+    // No cached pitch, and the translation call has no recording: the lines come as written.
+    await harness.pool.query('DELETE FROM pitches WHERE crew_id = $1', [crew.crewId]);
+    deepseek = fixtureTransport(['pitch-01']);
+    const reader = crew.members[4]!;
+    await harness.pool.query("UPDATE users SET locale = 'vi' WHERE id = $1", [reader.uid]);
+    const { events } = await pitch(reader, { crew_id: crew.crewId, place_id: kyoto, month: 4 });
+    await harness.pool.query('UPDATE users SET locale = NULL WHERE id = $1', [reader.uid]);
+    const types = events.map((event) => event.type);
+    // Held lines are answered with "working" frames before any text shows.
+    expect(types.indexOf('working')).toBeGreaterThan(-1);
+    expect(types.indexOf('working')).toBeLessThan(types.indexOf('headline'));
+    expect(types.filter((type) => type !== 'working')).toEqual([
+      'sticker',
+      'chip',
+      'chip',
+      'chip',
+      'headline',
+      'reason',
+      'reason',
+      'reason',
+      'quote',
+      'done',
+    ]);
+  });
+
   it('replays the cached pitch fast and without the model', async () => {
     deepseek = fixtureTransport([]);
     const started = performance.now();

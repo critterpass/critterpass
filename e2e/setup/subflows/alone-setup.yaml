@@ -65,10 +65,17 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'pitch-result-0'
+# The guide's closing line ends the pitch; on a long card (Vietnamese runs longer) it sits below
+# the fold, so the card is scrolled to it.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-reasons'
     timeout: 90000
+- scrollUntilVisible:
+    element:
+      id: 'pitch-quote'
+    direction: DOWN
+    timeout: 60000
 - waitForAnimationToEnd
 - tapOn:
     id: 'pitch-add'
