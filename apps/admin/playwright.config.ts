@@ -54,7 +54,10 @@ export default defineConfig({
       // Binaries directly (not through pnpm), so Playwright's shutdown reaches the server itself.
       command: `${path.join(repoRoot, 'node_modules/.bin/tsx')} src/index.ts`,
       cwd: path.join(repoRoot, 'services/api'),
-      url: `http://127.0.0.1:${E2E_API_PORT}/health`,
+      // The port, not /health: Playwright starts web servers before global setup, and /health
+      // answers 503 until the job producer reaches the database global setup creates. Global
+      // setup waits for /health itself once the database is seeded.
+      port: E2E_API_PORT,
       reuseExistingServer: false,
       timeout: 120_000,
       stdout: 'ignore',
