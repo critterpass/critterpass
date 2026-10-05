@@ -146,6 +146,10 @@ msgid "setup.budget.infeasible.title"
 msgstr "Có một mức thấp hơn phương án rẻ nhất"
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.labelAlone"
+msgstr "Hoặc nhập số tiền"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.typed.label"
 msgstr "Hoặc nhập số tiền, mỗi người"
 
@@ -156,6 +160,10 @@ msgstr "Vượt mức của một người"
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lineSmallCrew"
 msgstr "Chọn mức cả nhóm thấy thoải mái. Mức tối đa của mỗi người được giữ kín, và ai cũng biết mức bạn chọn có vừa với mình không."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineAlone"
+msgstr "Chọn mức bạn thấy thoải mái cho chuyến này. Gợi ý sẽ bám theo mức đó."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"
@@ -190,6 +198,10 @@ msgstr "Bỏ qua ngân sách"
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.stays"
 msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.eyebrowAlone"
+msgstr "Mức vừa ý"
 
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.a11y"

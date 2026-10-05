@@ -44,7 +44,7 @@ msgstr "{fitting, plural, other {# nơi vừa mà không phải dời gì đã �
 msgid "plan.placing.failed"
 msgstr "Lần này {guideName} chưa xếp được."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailed"
 msgstr "{guideName} chưa bắt đầu xếp được"
 
@@ -208,7 +208,7 @@ msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cù
 msgid "plan.ideas.beforePlanAny"
 msgstr "Kế hoạch chưa được chia sẻ. Các nơi này sẽ vào từng ngày khi có kế hoạch."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"
 msgstr "Thử lại khi có sóng."
 

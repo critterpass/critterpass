@@ -20,13 +20,11 @@ appId: app.critterpass.dev
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 3
-# The length is read off the summary line when it is on screen. With the length chips above the
-# calendar it sits under the lock on a short screen, so the lock's own label (the first and last
-# day, checked next) is what holds the three days.
+# The length on the summary line, which sits above the lock in the sheet's footer, and the lock's
+# own label (the first and last day).
 - assertVisible:
     id: 'picker-length'
     text: '3 days .*'
-    optional: true
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}

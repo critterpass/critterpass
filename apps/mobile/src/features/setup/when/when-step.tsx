@@ -32,7 +32,7 @@ import { DEFAULT_LENGTH_DAYS, suggestFrom } from './range';
 import { useWhenData } from './use-when-data';
 import { WeekPicker } from './week-picker';
 import { useUnsyncedMembers } from './use-unsynced';
-import { WhenView, type WhenFailure } from './when-view';
+import { failureLine, WhenView, type WhenFailure } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
 
@@ -155,6 +155,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           lengthDays={trip.lengthDays ?? DEFAULT_LENGTH_DAYS}
           today={horizon.from}
           busy={lock.pending}
+          failure={failure === null ? null : failureLine(failure)}
           onLock={onLock}
           onDismiss={() => setOverlay(null)}
         />

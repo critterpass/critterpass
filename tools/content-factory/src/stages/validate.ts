@@ -29,14 +29,11 @@ export async function runValidate(
   const generated = files.generate();
   const outputs = new Map(Object.entries(generated?.outputs ?? {}));
   const missing = module.prompt === undefined ? [] : brief.units.filter((u) => !outputs.has(u.id));
-  const items = await module.assemble(ctx, brief, outputs);
+  const live = parsePrevious(module.kind, previous);
+  const assembled = await module.assemble(ctx, brief, outputs);
+  const items = module.carry === undefined ? assembled : module.carry(assembled, live);
   files.write('items', items);
-  const report = runValidators(
-    module.kind,
-    items,
-    module.validators,
-    parsePrevious(module.kind, previous),
-  );
+  const report = runValidators(module.kind, items, module.validators, live);
   const withMissing: BatchReport =
     missing.length === 0
       ? report

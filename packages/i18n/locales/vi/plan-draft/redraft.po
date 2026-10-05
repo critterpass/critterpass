@@ -41,11 +41,11 @@ msgstr "Giữ {kept}/{total} việc phải làm"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitLess"
-msgstr "Bớt {minutes} phút tàu xe"
+msgstr "Bớt {minutes} phút di chuyển"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitMore"
-msgstr "Thêm {minutes} phút tàu xe"
+msgstr "Thêm {minutes} phút di chuyển"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.pips"
@@ -197,10 +197,6 @@ msgid "planDraft.onlyYou"
 msgstr "Chỉ bạn thấy"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
-msgid "planDraft.change.optional"
-msgstr "Tùy chọn"
-
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.hint"
 msgstr "Chọn một điều hoặc viết vài chữ."
 
@@ -231,7 +227,7 @@ msgstr "Nhịp như cũ"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.transitSame"
-msgstr "Tàu xe như cũ"
+msgstr "Di chuyển như cũ"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
 msgid "planDraft.reason.slower"

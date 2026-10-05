@@ -109,3 +109,10 @@ export function undoLabel(): string {
 export function findPlacesLabel(): string {
   return t({ id: 'plan.ideas.findPlaces', message: 'Find places to save' });
 }
+
+export function placeFailedToast(guideName: string): { title: string; subtitle: string } {
+  return {
+    title: t({ id: 'plan.ideas.placeFailed', message: `${guideName} couldn’t start placing them` }),
+    subtitle: t({ id: 'plan.ideas.placeFailedLine', message: 'Try again with signal.' }),
+  };
+}

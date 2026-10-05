@@ -67,6 +67,13 @@ export interface PitchRouteDeps {
 /** A crew browsing places pitches a lot; this only stops a runaway client. */
 const PITCHES_PER_UID_RULE = { windowSeconds: 60, max: 30 };
 
+/** How often a held stream says it is still working (well inside the app's stall limit). */
+const WORKING_EVERY_MS = 5_000;
+
+function quiet(ms: number): Promise<undefined> {
+  return new Promise((resolve) => setTimeout(() => resolve(undefined), ms));
+}
+
 function* replay(sections: PitchSections): Generator<PitchStreamEvent> {
   yield { type: 'sticker', ...sections.sticker };
   for (const chip of sections.chips) yield { type: 'chip', ...chip };
@@ -148,8 +155,10 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
           signal,
         )) {
           lines.push(line);
-          // A reader of another language gets the lines once they are in it, below.
+          // A reader of another language gets the lines once they are in it, below; until then
+          // the stream says it is alive, so the app does not take the silence for a stall.
           if (!translated) yield* replaySection(facts, line);
+          else yield { type: 'working' };
         }
       } catch {
         if (signal.aborted) return;
@@ -157,10 +166,15 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
       }
       let translation: Readonly<Record<string, string>> | null = null;
       if (translated && fromModel && deps.gateway !== undefined) {
-        const reader = await linesInReaderLanguage(deps.gateway, said, lines, asker.locale, {
+        const saying = linesInReaderLanguage(deps.gateway, said, lines, asker.locale, {
           userId: uid,
           crewId: body.crew_id,
         });
+        let reader: Awaited<typeof saying> | undefined;
+        while (reader === undefined) {
+          reader = await Promise.race([saying, quiet(WORKING_EVERY_MS)]);
+          if (reader === undefined) yield { type: 'working' };
+        }
         if (signal.aborted) return;
         translation = reader.translation;
         for (const line of reader.shown) yield* replaySection(facts, line);

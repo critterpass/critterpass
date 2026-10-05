@@ -3,6 +3,8 @@
  * fill bar that slides to its share of the crew (the denominator is everyone who can vote), the
  * voters' avatars and the count; tapping an answer votes (a "+1" pops beside it), tapping another
  * changes the vote while the poll allows it. A deadline chip while open; the result once closed.
+ * A place the organiser locked in before anyone voted was never a vote: the card shows the place
+ * with no bar and no count, and says who locked it in.
  */
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
@@ -25,6 +27,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { useCastBallot } from '../data/use-cast-ballot';
+import { useOrganiserName } from '../data/use-final';
 import { stackOf, usePeople, type Person } from '../data/use-people';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, upper } from '../format';
@@ -82,7 +85,10 @@ function OptionRow({
   eligible,
   people,
   onVote,
+  plain = false,
 }: {
+  /** No bar and no count: the option was decided without a vote. */
+  readonly plain?: boolean;
   readonly option: PollOptionView;
   readonly index: number;
   readonly eligible: number;
@@ -92,10 +98,10 @@ function OptionRow({
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
-  const highlight = option.mine || option.winner;
+  const highlight = !plain && (option.mine || option.winner);
   const label = [
     option.label,
-    t({ id: 'vote.poll.votes', message: `${option.votes} votes` }),
+    plain ? null : t({ id: 'vote.poll.votes', message: `${option.votes} votes` }),
     option.mine ? t({ id: 'vote.poll.yours', message: 'your vote' }) : null,
     option.winner ? t({ id: 'vote.poll.winner', message: 'winner' }) : null,
   ]
@@ -110,13 +116,15 @@ function OptionRow({
       style={styles.option}
       testID={`poll-option-${index}`}
     >
-      <View style={styles.fill}>
-        <GrowBar
-          fraction={eligible > 0 ? option.votes / eligible : 0}
-          color={highlight ? theme.semantic.state.success : theme.color.ink['600']}
-          index={index}
-        />
-      </View>
+      {plain ? null : (
+        <View style={styles.fill}>
+          <GrowBar
+            fraction={eligible > 0 ? option.votes / eligible : 0}
+            color={highlight ? theme.semantic.state.success : theme.color.ink['600']}
+            index={index}
+          />
+        </View>
+      )}
       <Row justify="space-between" align="center" style={styles.optionRow}>
         <Text
           variant="label"
@@ -126,14 +134,16 @@ function OptionRow({
         >
           {option.label.toLocaleUpperCase()}
         </Text>
-        <Row gap="6" align="center">
-          {option.voterIds.length > 0 ? (
-            <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={3} />
-          ) : null}
-          <Text variant="title" color={highlight ? theme.semantic.text.onAccent : undefined}>
-            {String(option.votes)}
-          </Text>
-        </Row>
+        {plain ? null : (
+          <Row gap="6" align="center">
+            {option.voterIds.length > 0 ? (
+              <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={3} />
+            ) : null}
+            <Text variant="title" color={highlight ? theme.semantic.text.onAccent : undefined}>
+              {String(option.votes)}
+            </Text>
+          </Row>
+        )}
       </Row>
       <PlusOne show={option.mine} />
     </PressScale>
@@ -156,6 +166,9 @@ export function PollCardBody({ poll, askerName, now = new Date() }: PollCardBody
   const title = poll.question ?? t({ id: 'vote.poll.untitled', message: 'Where next?' });
   const deadline = poll.closesAt === null ? null : deadlineParts(i18n.locale, poll.closesAt, now);
   const winner = poll.options.find((option) => option.winner);
+  // Closed with a winner nobody voted for: the organiser locked the place in.
+  const lockedIn = poll.status === 'closed' && winner !== undefined && poll.votedCount === 0;
+  const lockedBy = useOrganiserName(poll);
   return (
     <Stack style={styles.card} testID={`poll-card-${poll.id}`}>
       <Row justify="space-between" align="baseline" gap="8" accessible accessibilityRole="header">
@@ -168,9 +181,10 @@ export function PollCardBody({ poll, askerName, now = new Date() }: PollCardBody
           </Text>
         )}
       </Row>
-      {poll.options.map((option, index) => (
+      {(lockedIn ? [winner] : poll.options).map((option, index) => (
         <OptionRow
           key={option.id}
+          plain={lockedIn}
           option={option}
           index={index}
           eligible={poll.eligibleIds.length}
@@ -182,7 +196,11 @@ export function PollCardBody({ poll, askerName, now = new Date() }: PollCardBody
         <Text variant="caption" testID="poll-result-line">
           {winner === undefined
             ? t({ id: 'vote.poll.closedNoWinner', message: 'Closed. Nobody voted.' })
-            : t({ id: 'vote.poll.closedWinner', message: `Closed. ${winner.label} won.` })}
+            : lockedIn
+              ? lockedBy === null
+                ? t({ id: 'vote.poll.lockedIn', message: 'Locked in, no vote needed.' })
+                : t({ id: 'vote.poll.lockedInBy', message: `Locked in by ${lockedBy}.` })
+              : t({ id: 'vote.poll.closedWinner', message: `Closed. ${winner.label} won.` })}
         </Text>
       ) : deadline === null || deadline.kind === 'past' ? null : (
         <Row>

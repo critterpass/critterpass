@@ -124,6 +124,8 @@ export function plainSearchQuery(
 export interface PlainPlace {
   readonly id: string;
   readonly name: string;
+  /** The name in the destination's own language, when the place has one. */
+  readonly nameLocal?: string | null;
   readonly category: string | null;
   readonly area: string | null;
   readonly minutes: { readonly value: number; readonly mode: 'walk' | 'drive' } | null;
@@ -175,6 +177,7 @@ function placeOf(raw: unknown): PlainPlace[] {
     {
       id,
       name,
+      nameLocal: text(value['nameLocal']),
       category: text(value['category']),
       area: text(value['area']),
       minutes:

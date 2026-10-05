@@ -10,6 +10,7 @@ import {
   nextOpen,
   openAt,
   poiCategorySchema,
+  localizedEditorial,
   readEditorialOverlay,
   straightLineEtaProvider,
   DomainError,
@@ -68,6 +69,7 @@ interface PlaceDetailRow {
   readonly is_open_now: boolean | null;
   readonly closed_permanently: boolean | null;
   readonly live_checked_at: Date | null;
+  readonly reader_locale: string;
 }
 
 export interface GetPlaceDetailOptions {
@@ -84,7 +86,8 @@ export async function getPlaceDetail(
   const { rows } = await tx.query<PlaceDetailRow>(
     `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
             p.editorial, p.hours, p.hours_verified_at, p.timezone, d.tz AS destination_tz,
-            lc.is_open_now, lc.closed_permanently, lc.checked_at AS live_checked_at
+            lc.is_open_now, lc.closed_permanently, lc.checked_at AS live_checked_at,
+            app.user_locale(app.uid()) AS reader_locale
      FROM pois p
      JOIN destinations d ON d.id = p.destination_id
      LEFT JOIN poi_live_checks lc ON lc.poi_id = p.id
@@ -112,7 +115,8 @@ export async function getPlaceDetail(
     address: row.address,
     priceLevel: row.price_level,
     tags: row.tags,
-    editorial: readEditorialOverlay(row.editorial),
+    // The note in the reader's app language where it has been written in it.
+    editorial: localizedEditorial(readEditorialOverlay(row.editorial), row.reader_locale),
     hours: hours ?? EMPTY_HOURS,
     hoursVerifiedAt: row.hours_verified_at?.toISOString() ?? null,
     openNow,

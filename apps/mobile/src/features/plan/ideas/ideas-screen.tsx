@@ -2,10 +2,9 @@
  * Ideas (7f-2): everything the crew saved for the trip that isn't in a day yet, from search, links,
  * swipes and the map, each saying where it would fit. A row dragged onto a day opens Add to plan on
  * that day; PLACE THEM FOR ME has Tokek place them in the background (7h-6). A row's handle offers
- * Add to a day and the ways to remove it (my own save, or for everyone as an organiser), with
- * UNDO. A saved place that is already a stop says so and is never placed a second time. Before
- * the crew has a plan an organiser places them on her own draft by hand, and a member, who has no
- * plan to see yet, reads that it is still being put together (./use-ideas-plan.ts).
+ * Add to a day and the ways to remove it, with UNDO. A place already a stop says so. Before the
+ * crew has a plan an organiser places them on her own draft, and a member reads that it is still
+ * being put together (./use-ideas-plan.ts).
  */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
@@ -15,6 +14,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
 import { screenCredits, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { usePlaceNamer } from '@/data/places/use-shown-names';
 import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
@@ -42,6 +42,7 @@ import {
   emptyBody,
   emptyLine,
   findPlacesLabel,
+  placeFailedToast,
   fitsNeedPlan,
   inPlanFitLine,
   placeLine,
@@ -65,6 +66,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const saved = useIdeasPlan(tripId);
   const { plan, loaded, days, beforePlan } = saved;
   const guideName = usePlanGuide().name;
+  const namer = usePlaceNamer(plan.trip?.destination_id);
   const start = useCommand(startIdeaPlacementOnline);
   const remove = useCommand(removeIdeaCommand);
   const save = useCommand(saveIdeaCommand);
@@ -125,7 +127,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     toast.dismiss();
     toast.show({
       id: removedToastId(idea.id),
-      title: idea.name,
+      title: namer.name(idea),
       subtitle: removedToast(forEveryone),
       action: {
         label: undoLabel(),
@@ -155,14 +157,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     const jobId = (result.kind === 'applied' ? (result.result as { job_id?: string }) : null)
       ?.job_id;
     if (jobId === undefined) {
-      toast.show({
-        id: 'plan-ideas-place-failed',
-        title: t({
-          id: 'plan.ideas.placeFailed',
-          message: `${guideName} couldn’t start placing them`,
-        }),
-        subtitle: t({ id: 'plan.ideas.placeFailedLine', message: 'Try again with signal.' }),
-      });
+      toast.show({ id: 'plan-ideas-place-failed', ...placeFailedToast(guideName) });
       return;
     }
     router.push(placingRoute(tripId, jobId));
@@ -195,7 +190,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       <IdeaRow
         key={idea.id}
         ideaId={idea.id}
-        name={idea.name.toUpperCase()}
+        name={namer.name(idea).toUpperCase()}
         icon={ideaIcon(idea.category)}
         photo={idea.poiId === null ? undefined : photos.get(idea.poiId)}
         fitLine={
@@ -276,7 +271,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       />
       {open === null ? null : (
         <IdeaActions
-          name={open.name.toUpperCase()}
+          name={namer.name(open).toUpperCase()}
           inPlan={stopDay(open)}
           onAddToDay={
             beforePlan !== null

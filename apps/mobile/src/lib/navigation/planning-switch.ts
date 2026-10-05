@@ -1,11 +1,13 @@
 /**
  * The planning rollout switch and the plan hub choice, read when the app navigates (a route
  * builder, a hub tile, a deep link), so the founder flips them on the server without a release:
- * `planning.redesign` (the section 7 screens instead of the earlier plan and places screens, off
- * until switched on) and `plan.hub` (what PLAN opens: the trip map or the day plan). Both are
- * public config the phone syncs (`client_config`); the planning register feeds every synced change
- * in here. The last values are kept on the phone, so an offline launch reads them before the
- * database opens; missing or unreadable values read as off and the trip map.
+ * `planning.redesign` (the section 7 screens instead of the earlier plan and places screens) and
+ * `plan.hub` (what PLAN opens: the trip map or the day plan). Both are public config the phone
+ * syncs (`client_config`); the planning register feeds every synced change in here. The last values
+ * are kept on the phone, so an offline launch reads them before the database opens. The section 7
+ * screens are the default: before the config syncs, or when its value is missing or unreadable,
+ * the redesign reads as on and PLAN opens the trip map; only an explicit `false` from the server
+ * turns it off, and Developer tools' override on this phone wins over both.
  */
 import { useSyncExternalStore } from 'react';
 import { createMMKV } from 'react-native-mmkv';
@@ -18,7 +20,7 @@ export interface PlanningSwitch {
 }
 
 export const PLANNING_SWITCH_KEYS = ['planning.redesign', 'plan.hub'] as const;
-export const PLANNING_SWITCH_DEFAULT: PlanningSwitch = { redesign: false, hub: 'map' };
+export const PLANNING_SWITCH_DEFAULT: PlanningSwitch = { redesign: true, hub: 'map' };
 
 const STORE_KEY = 'switch';
 const OVERRIDE_KEY = 'override';
@@ -36,6 +38,11 @@ function decode(value: string | null | undefined): unknown {
   }
 }
 
+/** An explicit off from the server: `false` as JSON or a bare word, or `0`. */
+function isOff(value: unknown): boolean {
+  return value === false || value === 'false' || value === 0;
+}
+
 /** The switch from `client_config` rows; anything missing or unreadable keeps the default. */
 export function readPlanningSwitch(
   rows: readonly { readonly key: string; readonly value: string | null }[],
@@ -44,7 +51,7 @@ export function readPlanningSwitch(
   const redesign = byKey.get('planning.redesign');
   const hub = byKey.get('plan.hub');
   return {
-    redesign: redesign === true || redesign === 'true' || redesign === 1,
+    redesign: !isOff(redesign),
     hub: hub === 'day' ? 'day' : 'map',
   };
 }
@@ -55,7 +62,7 @@ function restoreSynced(): PlanningSwitch | null {
     if (saved === undefined) return null;
     const parsed = JSON.parse(saved) as Partial<PlanningSwitch>;
     return {
-      redesign: parsed.redesign === true,
+      redesign: parsed.redesign !== false,
       hub: parsed.hub === 'day' ? 'day' : 'map',
     };
   } catch {

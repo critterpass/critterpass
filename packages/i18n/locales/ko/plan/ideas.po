@@ -43,7 +43,7 @@ msgstr ""
 msgid "plan.placing.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailed"
 msgstr ""
 
@@ -207,7 +207,7 @@ msgstr ""
 msgid "plan.ideas.beforePlanAny"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"
 msgstr ""
 

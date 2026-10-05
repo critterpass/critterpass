@@ -45,7 +45,7 @@ msgstr "{fitting, plural, one {One fits without moving anything booked.} other {
 msgid "plan.placing.failed"
 msgstr "{guideName} couldn’t place them this time."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailed"
 msgstr "{guideName} couldn’t start placing them"
 
@@ -209,7 +209,7 @@ msgstr "Save places from search, paste a link from TikTok or Maps, or swipe toge
 msgid "plan.ideas.beforePlanAny"
 msgstr "The plan isn’t shared yet. They go onto days once it is."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"
 msgstr "Try again with signal."
 
