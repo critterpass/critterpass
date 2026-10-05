@@ -13,10 +13,11 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: ${SHOT}
+# The lab's title scrolls away with its list: its own row says the list is back.
 - repeat:
     while:
       notVisible:
-        text: 'Plan ideas lab'
+        text: '^${SCENE}$'
     times: 3
     commands:
       - runFlow: ../../onboarding/subflows/back.yaml
