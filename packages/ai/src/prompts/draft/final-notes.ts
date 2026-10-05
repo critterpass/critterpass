@@ -37,11 +37,13 @@ export interface PlannerLines {
   readonly freeTime: string;
   /** The same stretch on a day she asked to be slower or lighter. */
   readonly freeAsAsked: string;
+  /** The same stretch on a redrafted day: free, without claiming nothing could fill it. */
+  readonly freeLeft: string;
   /** On a long visit that takes in an essential place of its own. */
   readonly takesIn: (name: string) => string;
   /** Lines a redraft adds to its summary. */
   readonly redraft: {
-    readonly moved: (name: string) => string;
+    readonly moved: (names: string) => string;
     readonly leftOut: (name: string) => string;
     readonly walksKept: string;
   };
@@ -56,9 +58,10 @@ const EN: PlannerLines = {
   longRide: "Getting here is the day's long ride.",
   freeTime: 'Nothing we know nearby fits the hours after this: they are yours.',
   freeAsAsked: 'The hours after this are left free, as you asked for a slower day.',
+  freeLeft: 'The hours after this are free: time to rest, or to wander nearby.',
   takesIn: (name) => `${name} is part of this visit.`,
   redraft: {
-    moved: (name) => `${name} moves to another day.`,
+    moved: (names) => `Moved to other days: ${names}.`,
     leftOut: (name) => `${name} is off the trip for now: no other day has room for it.`,
     walksKept: 'I could not cut the walking: these stops are a short stroll apart as they are.',
   },
@@ -76,9 +79,10 @@ const VI: PlannerLines = {
   outdoors: 'Điểm này ở ngoài trời và quanh đây chưa có chỗ nào trong nhà: nhớ mang áo mưa.',
   freeTime: 'Quanh đây chưa có điểm nào vừa với mấy tiếng sau chặng này: khoảng đó là của bạn.',
   freeAsAsked: 'Mấy tiếng sau chặng này để trống, đúng như bạn muốn một ngày chậm hơn.',
+  freeLeft: 'Mấy tiếng sau chặng này là thời gian tự do: nghỉ ngơi hoặc dạo quanh đây.',
   takesIn: (name) => `${name} nằm trong chuyến tham quan này.`,
   redraft: {
-    moved: (name) => `${name} chuyển sang ngày khác.`,
+    moved: (names) => `Chuyển sang ngày khác: ${names}.`,
     leftOut: (name) => `${name} tạm rời chuyến đi: chưa ngày nào khác còn chỗ.`,
     walksKept: 'Mình chưa bớt được phần đi bộ: các điểm này vốn đã sát nhau.',
   },
@@ -105,7 +109,7 @@ function withRideAndMealNotes(
   input: DraftPlanInput,
   day: DraftDay,
   dayIndex: number,
-  freeAsAsked: boolean,
+  freeKind: 'none' | 'asked' | 'left',
 ): DraftDay {
   if (day.items.length === 0) return day;
   const { tz } = input.frame;
@@ -149,7 +153,15 @@ function withRideAndMealNotes(
     const next = day.items[index + 1];
     if (!full || next === undefined || at(next.starts_at) > DINNER_LAST_START_MIN) return;
     const free = at(next.starts_at) - at(item.ends_at) - next.travel_min;
-    if (free >= FREE_HOURS_MIN) say(index, freeAsAsked ? words.freeAsAsked : words.freeTime);
+    if (free < FREE_HOURS_MIN) return;
+    say(
+      index,
+      freeKind === 'asked'
+        ? words.freeAsAsked
+        : freeKind === 'left'
+          ? words.freeLeft
+          : words.freeTime,
+    );
   });
   if (lines.size === 0) return day;
   return {
@@ -168,8 +180,11 @@ export function withFinalNotes(
   itinerary: Itinerary,
   options: {
     readonly retitle: boolean;
-    /** The day she asked to be slower or lighter: its free hours are free because she asked. */
-    readonly freeAsAsked?: number;
+    /**
+     * The day a redraft made: its free hours are free because she asked for a slower or lighter
+     * day (`slower`), else simply free; never "nothing fits".
+     */
+    readonly redrafted?: { readonly dayNo: number; readonly slower: boolean };
   } = { retitle: true },
 ): { readonly itinerary: Itinerary; readonly removed: number; readonly retitled: number } {
   const honest = withHonestNotes(itinerary, input.pois, input.frame.tz);
@@ -181,7 +196,11 @@ export function withFinalNotes(
         input,
         day,
         dateIndex.get(day.date) ?? day.day_no - 1,
-        options.freeAsAsked === day.day_no,
+        options.redrafted?.dayNo !== day.day_no
+          ? 'none'
+          : options.redrafted.slower
+            ? 'asked'
+            : 'left',
       ),
     ),
   };

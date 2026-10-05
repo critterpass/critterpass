@@ -149,9 +149,9 @@ export function gradeRedraftRules(
       fails.push('less walking: neither cut nor said');
     }
   }
-  const slower = asked.reasons.some((r) => r === 'slower' || r === 'lighter_day');
+  // A hole in a redrafted day is filled, or free because she asked; never "nothing fits".
   const gaveUp = outcome.day.items.some((item) => (item.note ?? '').includes(words.freeTime));
-  if (slower && gaveUp) fails.push('holes: a slower day says nothing fits instead of as asked');
+  if (gaveUp) fails.push('holes: the redrafted day says nothing nearby fits');
   const sights = [...now].some((id) => !placesOf(before).has(id));
   if (sights && outcome.day.theme === before.theme) fails.push('title: kept though sights changed');
   return fails;

@@ -44,6 +44,12 @@ const withDay = (itinerary: Itinerary, day: DraftDay): Itinerary => ({
   days: itinerary.days.map((d) => (d.day_no === day.day_no ? day : d)),
 });
 
+/** The guide's summary up to its first full stop, when it has more than one sentence. */
+function firstSentence(text: string | null): string | null {
+  const found = text === null ? null : /^.+?[.!?](?=\s)/u.exec(text);
+  return found === null ? null : found[0];
+}
+
 const placesOf = (day: DraftDay) =>
   day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
 
@@ -95,7 +101,7 @@ export async function finishRedraft(
   const dayIn = (plan: Itinerary) => plan.days.find((d) => d.day_no === input.dayNo) as DraftDay;
   const only = (plan: Itinerary) => withDay(aligned, dayIn(plan));
   // The day's notes are finished the way a draft's are; the other days stay as they are.
-  const notes = slower ? { retitle: false, freeAsAsked: input.dayNo } : { retitle: false };
+  const notes = { retitle: false, redrafted: { dayNo: input.dayNo, slower } };
   const noted = only(withFinalNotes(input, aligned, notes).itinerary);
   // A title kept though a sight left or joined the day no longer says what the day holds.
   const was = new Set(placesOf(base));
@@ -121,7 +127,9 @@ export async function finishRedraft(
     ...(wantsLessWalking(input) && walkedMetres(input, day) >= walkedMetres(input, base)
       ? [words.walksKept]
       : []),
-    ...kept.moved.flatMap((entry) => name(entry.poiId).map(words.moved)),
+    ...(kept.moved.length === 0
+      ? []
+      : [words.moved(kept.moved.flatMap((entry) => name(entry.poiId)).join(', '))]),
   ];
   const said = lines.reduce((text, line) => {
     const next = text === '' ? line : `${text} ${line}`;
@@ -131,9 +139,9 @@ export async function finishRedraft(
   const summary =
     lines.length === 0
       ? outcome.summary
-      : outcome.summary !== null && outcome.summary.length + said.length < SUMMARY_MAX
-        ? `${outcome.summary} ${said}`
-        : said;
+      : ([outcome.summary, firstSentence(outcome.summary)]
+          .map((lead) => (lead === null ? said : `${lead} ${said}`))
+          .find((text) => text.length <= SUMMARY_MAX) ?? said);
   const title = outcome.title === null && day.theme === base.theme ? null : day.theme;
   return {
     day,
