@@ -11,7 +11,10 @@ import { dayItems } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import { travelMinutes } from './fit-check';
+import { legTravel } from '../day-plan/reschedule';
+import { useDayRoute } from '../trip-map/day-route';
+import { useTripDays } from '../trip-map/use-trip-map-data';
+
 import { clock } from './format';
 import { retimePreview } from './retime-copy';
 import { saidLate } from './said-late';
@@ -50,6 +53,11 @@ export function useSaidLate(tripId: string, stableId: string, minutes: number): 
   const plan = useTripPlan(tripId);
   const editor = useDayEditing(plan);
   const tz = plan.trip?.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // The day's stored legs, as the day plan and the guide's check read them: a push that leaves
+  // the walk to the next stop one minute short is a clash the guide would flag.
+  const { days } = useTripDays(plan);
+  const dayNo = plan.state.items.find((item) => item.stable_id === stableId)?.day_no ?? null;
+  const route = useDayRoute(plan.versionId, days.find((day) => day.dayNo === dayNo) ?? null);
   const found = useMemo(() => {
     const row = plan.state.items.find((item) => item.stable_id === stableId);
     const day = plan.state.days.find((candidate) => candidate.day_no === row?.day_no);
@@ -75,13 +83,12 @@ export function useSaidLate(tripId: string, stableId: string, minutes: number): 
   }
   const going = stop.attendeeIds.length === 0 ? plan.members.map((m) => m.uid) : stop.attendeeIds;
   const alone = going.every((uid) => uid === plan.uid);
-  const straight = travelMinutes(stops);
   const late = saidLate({
     stops,
     stop,
     minutes,
     slot,
-    travel: (from, next) => straight(from.stableId, next.stableId) ?? 0,
+    travel: legTravel(route.legs),
     canApply: plan.canApply,
     alone,
   });
