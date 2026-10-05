@@ -10,6 +10,7 @@ import { useEffect, useMemo } from 'react';
 import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
 
 import { linkCodeWasSent } from '../link-code/link-code-model';
 import { inboundAddress } from './inbound-domain';
@@ -60,7 +61,6 @@ export interface WalletContext {
   readonly passPlus: boolean;
 }
 
-const TRIP_STREAM_TTL_S = 60 * 60 * 24;
 const UNDER_WAY = new Set(['in_trip']);
 const ENDED = new Set(['post_trip', 'archived']);
 

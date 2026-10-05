@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/react-native';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
 
 import { DESTINATION_PLACES_SQL, PLACES_TABLES, type PlaceRow } from './queries';
 import { useLiveRows } from '@/data/plan/live-rows';
@@ -70,7 +71,6 @@ export function matchPlaces(places: readonly PlaceCandidate[], query: string): P
 }
 
 const TRIP_PACK_STREAM = 'trip_pack';
-const TRIP_PACK_TTL_S = 60 * 60 * 24;
 
 /**
  * Whether the trip's place pack (the `trip_pack` stream) has finished its first sync on this phone:
@@ -85,7 +85,7 @@ export function useTripPackSynced(tripId: string | null): boolean {
     const abort = new AbortController();
     let held: { unsubscribe(): void } | null = null;
     db.syncStream(TRIP_PACK_STREAM, { trip_id: tripId })
-      .subscribe({ ttl: TRIP_PACK_TTL_S })
+      .subscribe({ ttl: TRIP_STREAM_TTL_S })
       .then((subscription) => {
         if (abort.signal.aborted) {
           subscription.unsubscribe();
