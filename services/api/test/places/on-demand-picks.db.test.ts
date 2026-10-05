@@ -115,4 +115,22 @@ describe('a trip set to a destination', () => {
     expect(await jobs('places.ingest')).toHaveLength(1);
     expect(await withSystem(pool, (tx) => queuePickWhenNeeded(tx, hoiAn))).toBe(false);
   });
+
+  it('warms the profiles of every pitched or planned destination, once while one waits', async () => {
+    const before = (await jobs('places.profile_warm')).length;
+    const hue = await destination('vn-hue', 60);
+    await destinationSet(await tripTo(hue));
+    await destinationSet(await tripTo(hue));
+    const warm = await jobs('places.profile_warm');
+    expect(warm.slice(before)).toEqual([{ destination_id: hue }]);
+    // A sparse one waits for its places to be ingested first.
+    const village = await destination('vn-village', 2);
+    await destinationSet(await tripTo(village));
+    const { rows } = await pool.query<{ later: boolean }>(
+      `SELECT start_after > now() + interval '10 minutes' AS later FROM pgboss.job
+        WHERE name = 'places.profile_warm' AND data->>'destination_id' = $1`,
+      [village],
+    );
+    expect(rows).toEqual([{ later: true }]);
+  });
 });

@@ -57,6 +57,7 @@ import {
   onDemandIngestHook,
   PLACES_INGEST_QUEUE,
   PLACES_PICK_QUEUE,
+  PLACES_PROFILE_QUEUES,
 } from '../places/on-demand-ingest';
 
 /** Queues api commands send to: created here if the worker hasn't yet, so any deploy order works. */
@@ -94,6 +95,7 @@ export const PRODUCER_QUEUES: readonly string[] = [
   DISRUPTION_QUEUES.react,
   PLACES_INGEST_QUEUE,
   PLACES_PICK_QUEUE,
+  ...PLACES_PROFILE_QUEUES,
   PLANNING_QUEUES.legs,
   PLANNING_QUEUES.check,
 ];

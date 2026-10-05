@@ -11,7 +11,7 @@
  * plans; a sparse one gets its picks when its ingest finishes (the worker queues them).
  */
 import { pickCoverage, sendInTx, type AppendedDomainEvent } from '@cp/db';
-import { PLACES_QUEUES, placesPickKey } from '@cp/domain';
+import { PLACES_QUEUES, placesPickKey, placesProfileWarmKey } from '@cp/domain';
 import type pg from 'pg';
 
 /** The worker's per-destination ingest queue (services/worker/src/jobs/places). */
@@ -45,6 +45,36 @@ export async function queueIngestWhenSparse(
     { singletonKey: `on-demand-ingest:${row.slug}`, singletonSeconds: RETRY_SECONDS },
   );
   return true;
+}
+
+/** The place profile queues the api sends to (services/worker/src/places/profile/jobs.ts). */
+export const PLACES_PROFILE_QUEUES = [
+  PLACES_QUEUES.profile,
+  PLACES_QUEUES.profileTranslate,
+  PLACES_QUEUES.profileWarm,
+] as const;
+
+/** A sparse destination's warm-up waits this long, so its places have been ingested first. */
+const WARM_AFTER_INGEST_SECONDS = 20 * 60;
+
+/**
+ * Queues profiles for the destination's top places (the worker passes over any that have one).
+ * One warm-up per destination at a time; runs in the caller's transaction.
+ */
+export async function queueProfileWarm(
+  tx: pg.PoolClient,
+  destinationId: string,
+  sparse: boolean,
+): Promise<void> {
+  await sendInTx(
+    tx,
+    PLACES_QUEUES.profileWarm,
+    { destination_id: destinationId },
+    {
+      singletonKey: placesProfileWarmKey(destinationId),
+      ...(sparse ? { startAfter: WARM_AFTER_INGEST_SECONDS } : {}),
+    },
+  );
 }
 
 /** The worker's per-destination pick queue (services/worker/src/jobs/places/pick.ts). */
@@ -97,7 +127,10 @@ async function destinationsOf(tx: pg.PoolClient, event: AppendedDomainEvent): Pr
   return [];
 }
 
-/** `onEventAppended` hook: a pitch or a trip naming a destination checks that place's coverage. */
+/**
+ * `onEventAppended` hook: a pitch or a trip naming a destination checks that place's coverage and
+ * warms the profiles of its top places.
+ */
 export async function onDemandIngestHook(
   tx: pg.PoolClient,
   event: AppendedDomainEvent,
@@ -105,5 +138,6 @@ export async function onDemandIngestHook(
   for (const destinationId of await destinationsOf(tx, event)) {
     const sparse = await queueIngestWhenSparse(tx, destinationId);
     if (!sparse) await queuePickWhenNeeded(tx, destinationId);
+    await queueProfileWarm(tx, destinationId, sparse);
   }
 }

@@ -10,6 +10,7 @@ import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 import { z } from 'zod';
 
+import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
 import { tripStaySource } from '../planning/stay';
 import { filterOf, TRIP_SEARCH_PARAMS, tripSearchQuerySchema } from '../planning/search/filters';
@@ -37,6 +38,13 @@ export interface PlacesRouteDeps {
   /** `VALHALLA_URL` for plain-words search minutes; read from the process env when not given,
    *  straight-line "about" minutes when unset. */
   readonly valhallaUrl?: string | undefined;
+  /** AI place profiles on `GET /v1/places/{id}`: the per-reader limit's Redis and the media
+   *  Worker's origin for photo URLs (`MEDIA_PUBLIC_BASE_URL` when not given). Absent = the
+   *  answer carries no `profile` and nothing is queued. */
+  readonly profiles?: {
+    readonly redis?: RateLimitRedisClient | undefined;
+    readonly mediaBaseUrl?: string | undefined;
+  };
 }
 
 const DEFAULT_TILES_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev';
@@ -135,6 +143,15 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
       getPlaceDetail(tx, poiId, {
         ...(tripId !== undefined ? { tripId } : {}),
         ...(deps.routeEtaProvider !== undefined ? { routeEtaProvider: deps.routeEtaProvider } : {}),
+        ...(deps.profiles === undefined
+          ? {}
+          : {
+              profile: {
+                uid: actor.uid,
+                redis: deps.profiles.redis,
+                mediaBaseUrl: deps.profiles.mediaBaseUrl ?? process.env['MEDIA_PUBLIC_BASE_URL'],
+              },
+            }),
       }),
     );
     return c.json(detail);
