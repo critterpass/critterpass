@@ -92,6 +92,10 @@ msgstr "{when} · {days} days · {cost} each"
 msgid "planDraft.history.redraftAny"
 msgstr "A day redrafted"
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.redraftedOut"
+msgstr "A redraft took it out, and no other day had room."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.putBackAny"
 msgstr "A redraft you put back"
@@ -132,7 +136,7 @@ msgstr "Closed {when}: {area}"
 msgid "planDraft.miss.closed"
 msgstr "closed on your dates"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.closed"
 msgstr "Closed on your dates."
 
@@ -188,13 +192,21 @@ msgstr "Fit in: {what}"
 msgid "planDraft.miss.unknown"
 msgstr "I couldn’t find the place"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.notOffered"
 msgstr "I didn’t get to consider it."
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
 msgstr "it broke the day around it"
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.needsDay"
+msgstr "It takes a whole day, and none was left."
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.morningsTaken"
+msgstr "Its best time is the morning, and the mornings went to places that need them more."
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
@@ -220,7 +232,7 @@ msgstr "New since then: {what}. Fitting a new must-do in is free."
 msgid "planDraft.empty.title"
 msgstr "No draft yet"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.held"
 msgstr "No room around your stops."
 
@@ -228,7 +240,7 @@ msgstr "No room around your stops."
 msgid "planDraft.miss.noTime"
 msgstr "no room in the days"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.noRoom"
 msgstr "No room in the days."
 
@@ -304,6 +316,10 @@ msgstr "the budget"
 msgid "planDraft.stale.dates"
 msgstr "the dates"
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.daysFull"
+msgstr "The days are full."
+
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.failedTitle"
 msgstr "The draft didn’t finish"
@@ -320,7 +336,7 @@ msgstr "The plan you started"
 msgid "planDraft.stale.rooms"
 msgstr "the rooms"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.tooFar"
 msgstr "Too far for a day of this trip."
 

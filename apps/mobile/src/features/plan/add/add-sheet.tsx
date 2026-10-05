@@ -21,6 +21,7 @@ import { impact } from '@/motion/feedback';
 
 import { usePlanGuide } from '../plan-guide';
 import { AddBlock } from './add-block';
+import { addSubmission } from './add-submit';
 import { whyTiles, type WhyInput } from './add-kind-copy';
 import { openStartOn, settleAdd, useStartOf } from './add-into-day';
 import {
@@ -33,12 +34,10 @@ import {
   whyTitle,
 } from './add-copy';
 import {
-  addOps,
   blockLength,
   clockOf,
   dayGrades,
   initialChoice,
-  moveStopOps,
   pickDay,
   pickTime,
   shownDayFit,
@@ -46,7 +45,9 @@ import {
 } from './add-model';
 import { AddSheetView } from './add-sheet-view';
 import { isWhereItIs } from './placed-stop';
-import { guidePickLabel, sheetWords, voteNote } from './add-states-copy';
+import { sheetWords, voteNote } from './add-states-copy';
+import { otherDay, otherDayLabel, otherDayPick } from './better-day';
+import { closedLine, movedStops, useOpeningCheck } from './use-opening-check';
 import { nearbyAddOf, useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
 import { addTarget } from './add-target';
 import { originDayId, type RoutePreset } from './routes';
@@ -157,20 +158,25 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const stays = isWhereItIs(choice, existing);
   const dayLabel = day === null ? '' : labelOf(day.dayNo);
   const time = choice === null ? '' : clockOf(choice.startMin);
-  const best = server.fit?.best ?? null;
-  const guidePick =
-    best === null || choice === null || existing !== null || best.day_no === choice.dayNo
-      ? null
-      : {
-          label: guidePickLabel(guide, labelOf(best.day_no)),
-          onPress: () => {
-            impact('tick');
-            setPicked(pickDay(choice, best.day_no, server.fit, tz));
-            setLengthMin(null);
-          },
-        };
+  const other =
+    existing === null
+      ? otherDay({ fit: server.fit, place: fitPlace, choice, days, tz, lengthMin: length })
+      : null;
+  const guidePick = otherDayPick(other, choice, {
+    label: (pick) => otherDayLabel(pick, guide, labelOf(pick.dayNo), clockOf(pick.startMin ?? 0)),
+    toDay: (from, dayNo) => pickDay(from, dayNo, server.fit, tz),
+    onPick: (next) => {
+      impact('tick');
+      setPicked(next);
+      setLengthMin(null);
+    },
+  });
 
   const stopName = (stableId: string) => plan.display.get(stableId)?.title ?? null;
+  // A push never sends a stop past its closing time without saying so.
+  const shut = useOpeningCheck(tripId, movedStops(into?.ops ?? [], plan.state, stopName));
+  const closed =
+    shut === null || day === null ? null : closedLine(shut.stop, shut.closes, locale, tz, day.date);
   const nearbySlot =
     nearbyAdd === null || choice === null || existing !== null || waiting
       ? null
@@ -188,6 +194,8 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     tz,
     lengthMin: length,
     timePicked: choice?.timePicked === true,
+    ...(choice === null ? {} : { startMin: choice.startMin }),
+    date: day?.date ?? null,
   };
   const words = sheetWords({
     waiting,
@@ -208,29 +216,16 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const onAdd = async () => {
     if (choice === null || day === null || subject === null) return;
     setBusy(true);
-    const ops =
-      existing !== null
-        ? moveStopOps(existing.stableId, choice, day, tz, length)
-        : addOps({
-            choice,
-            day,
-            tz,
-            place: {
-              poiId: subject.poiId,
-              name: subject.name,
-              category: subject.category,
-              pin: { lat: subject.lat, lng: subject.lng },
-            },
-            lengthMin: length,
-            attendeeIds:
-              out.size === 0 ? [] : members.map((m) => m.key).filter((uid) => !out.has(uid)),
-            nearby: withNearby ? nearbyAdd : null,
-            stableIds,
-          });
-    const outcome = await editor.submit([...ops, ...(into?.ops ?? [])], { label: subject.name });
+    const { ops, pushed } = addSubmission({
+      ...{ choice, day, tz, subject, existing, stableIds, state: plan.state },
+      lengthMin: length,
+      attendeeIds: out.size === 0 ? [] : members.map((m) => m.key).filter((uid) => !out.has(uid)),
+      nearby: withNearby ? nearbyAdd : null,
+      pushes: into?.ops ?? [],
+    });
+    const outcome = await editor.submit(ops, { label: subject.name, ...(pushed && { pushed }) });
     setBusy(false);
-    if (outcome.kind === 'unavailable') return;
-    close();
+    if (outcome.kind !== 'unavailable') close();
   };
 
   const onSaveLater = async () => {
@@ -277,6 +272,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
       whyTitle={nowhere || waiting ? '' : whyTitle(time)}
       reasons={nowhere || waiting ? [] : whyTiles(why)}
       note={
+        closed ??
         into?.line ??
         (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
       }

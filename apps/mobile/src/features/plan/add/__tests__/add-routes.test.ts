@@ -31,7 +31,7 @@ describe('add to plan params', () => {
 describe('the day the sheet was opened from', () => {
   const search = (params: object) => ({ name: 'search', params });
 
-  it('is the day of the newest screen under it that is about one day', () => {
+  it('is the day of the screen right under it, when that screen is about one day', () => {
     const state = {
       routes: [
         { params: { tripId: 't' } },
@@ -52,10 +52,17 @@ describe('the day the sheet was opened from', () => {
     expect(resolvePreset({ dayId: origin }, DAYS, 'Asia/Makassar')).toEqual({ dayNo: 2 });
   });
 
-  it('is nothing when no screen under it is about a day', () => {
-    expect(originDayId({ routes: [search({ scope: 'trip' }), search({ scope: 'day' })] })).toBe(
-      undefined,
-    );
+  it('is nothing when the screen right under it is not about a day', () => {
+    // A day-scoped search further down the stack no longer counts: she has moved on from it.
+    const moved = {
+      routes: [
+        search({ scope: 'day', day_id: DAYS[0]!.id }),
+        search({ scope: 'map' }),
+        { params: {} },
+      ],
+    };
+    expect(originDayId(moved)).toBe(undefined);
+    expect(originDayId({ routes: [search({ scope: 'day' }), { params: {} }] })).toBe(undefined);
     expect(originDayId(undefined)).toBe(undefined);
   });
 });

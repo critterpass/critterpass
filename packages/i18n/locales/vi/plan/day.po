@@ -33,9 +33,21 @@ msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 msgid "plan.day.item.suggestedBy"
 msgstr "{0} đã đề xuất một thay đổi"
 
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.pastNoRoom"
+msgstr "{at} đã qua, và phần còn lại của ngày đã kín."
+
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.past"
+msgstr "{at} đã qua."
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/pushed-back.ts
+msgid "plan.retime.backToWhere"
+msgstr "{count, plural, other {# điểm dừng sau đó trở về giờ cũ.}}"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.addedMany"

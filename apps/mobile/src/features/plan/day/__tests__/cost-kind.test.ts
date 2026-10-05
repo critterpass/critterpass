@@ -23,3 +23,11 @@ describe('what a stop’s cost line says', () => {
     expect(costKind(null, null, false)).toBe('none');
   });
 });
+
+describe('a cost the guide spread over the day', () => {
+  it('is not shown as the stop’s price: only a booking’s or a person’s own is', () => {
+    expect(costKind(259_302, null, true, false)).toBe('unknown');
+    expect(costKind(259_302, 0, true, false)).toBe('free');
+    expect(costKind(259_302, null, true, true)).toBe('priced');
+  });
+});

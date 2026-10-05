@@ -92,6 +92,10 @@ msgstr ""
 msgid "planDraft.history.redraftAny"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.redraftedOut"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.putBackAny"
 msgstr ""
@@ -132,7 +136,7 @@ msgstr ""
 msgid "planDraft.miss.closed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.closed"
 msgstr ""
 
@@ -188,12 +192,20 @@ msgstr ""
 msgid "planDraft.miss.unknown"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.notOffered"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.needsDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.morningsTaken"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
@@ -220,7 +232,7 @@ msgstr ""
 msgid "planDraft.empty.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.held"
 msgstr ""
 
@@ -228,7 +240,7 @@ msgstr ""
 msgid "planDraft.miss.noTime"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.noRoom"
 msgstr ""
 
@@ -304,6 +316,10 @@ msgstr ""
 msgid "planDraft.stale.dates"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.daysFull"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.failedTitle"
 msgstr ""
@@ -320,7 +336,7 @@ msgstr ""
 msgid "planDraft.stale.rooms"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.tooFar"
 msgstr ""
 

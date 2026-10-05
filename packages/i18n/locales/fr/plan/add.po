@@ -47,12 +47,20 @@ msgstr ""
 msgid "plan.add.why.driveRide"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/use-opening-check.ts
+msgid "plan.add.closed.late"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearby"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearbyNextDoor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/use-opening-check.ts
+msgid "plan.add.closed.shut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
@@ -118,6 +126,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.morning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/better-day.ts
+msgid "plan.add.betterOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts

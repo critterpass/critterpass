@@ -13,6 +13,16 @@ with:
   # Crews the caller is an active member of (app.is_crew_member). Ex-members ('left', 'removed',
   # 'former') fall out of every crew and trip stream the moment their row changes status.
   my_crews: SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active'
+  # The same membership check for the trip a {trip_id} stream is subscribed with: the caller's active
+  # row in that trip's crew. PowerSync resolves `my_crews` by the caller first, so every check
+  # returns one result per crew the caller belongs to, and a trip stream repeats the check once per
+  # query shape for every trip the phone holds: crews × trips × shapes. Going through the trip
+  # first finds at most one crew and one membership, whatever the number of crews. Only the four
+  # trip streams use it.
+  trip_crew: |
+    SELECT crew_id FROM crew_members
+    WHERE user_id = auth.user_id() AND status = 'active'
+      AND crew_id IN (SELECT crew_id FROM trips WHERE id = subscription.parameter('trip_id'))
 
 streams:
   me:
@@ -65,25 +75,25 @@ streams:
       - |
         SELECT * FROM trips
         WHERE id = subscription.parameter('trip_id')
-          AND crew_id IN my_crews
+          AND crew_id IN trip_crew
       - |
         SELECT * FROM trip_participants
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM itinerary_versions
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND visibility = 'crew'
       - |
         SELECT * FROM plan_days
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND (version_id IN live_versions OR version_id IN replaced_versions)
       - |
         SELECT * FROM plan_items
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND (version_id IN live_versions OR version_id IN replaced_versions)
       # An unsent draft is its author's alone (change_sets_select); a guide's draft reaches the
       # organisers on trip_draft (planning.yaml). Every change set stays, whatever its base: chat cards,
@@ -93,17 +103,17 @@ streams:
       - |
         SELECT * FROM change_sets
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
           AND (status <> 'draft' OR author_id = auth.user_id())
       - |
         SELECT * FROM guide_actions
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM activity_events
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
 
   # Organiser-only drafts of one trip ({trip_id}): an organiser seat (app.is_trip_organiser) while still
   # an active crew member (app.is_trip_member), matching the itinerary_versions SELECT policy.
@@ -123,25 +133,25 @@ streams:
         SELECT * FROM itinerary_versions
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND visibility = 'organiser'
       - |
         SELECT * FROM plan_days
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
       - |
         SELECT * FROM plan_items
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND version_id IN live_drafts
       - |
         SELECT * FROM change_sets
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND base_version_id IN live_drafts
           AND (status <> 'draft' OR author_id = auth.user_id() OR author_kind = 'guide')
 
