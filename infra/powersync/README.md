@@ -44,16 +44,41 @@ Rules for a new area (a phase that publishes new tables):
 Stream filters cannot use `now()`, so time windows (e.g. recent FX days) need a flag column
 maintained by a job; `fx` is bounded by currency instead.
 
-Every subquery result counts toward PowerSync's 1,000 parameter results per connection
-(`api.parameters.max_parameter_query_results` in `service.yaml` would raise it; it is left at the
-default so a stream that grows fails tests, not phones). PowerSync re-runs each lookup for every
-query shape of every subscription, so the `{trip_id}` streams check membership with `trip_crew`
-(through the subscribed trip: 3 results whatever the caller's crews), never `my_crews` (one result
-per crew, repeated per shape and per held trip). Every
-group edit supersedes a plan version, so plan lookups use the not-superseded versions (plus, on
-`trip`, the version each live one replaced). The trip stream's `change_sets` lookup is the one that
-still grows by one result per edit; `sync-streams-parameter-bounds.test.ts` names it and fails on
-any other lookup that grows.
+What is synced: the crew's own data (trip, plan, ideas, money, bookings, chat, trip day, game), the
+caller's own rows, and the small catalogue a trip day needs offline. Content that is the same for
+every user (places, place pages, Explore browsing, tips, help articles) is read from the api with a
+cached last good copy. Nothing new goes onto sync without that reason, and no table reaches a phone
+twice through two streams.
+
+### Connection budget
+
+PowerSync 1.26.1 allows 1,000 parameter results and 1,000 buckets per connection; past either the
+whole sync request fails with `PSYNC_S2305` and nothing syncs. Every lookup row counts, before
+de-duplication, again for each query shape of each subscription
+(`api.parameters.max_parameter_query_results` in `service.yaml` would raise the limit; it stays at
+the default so a stream that grows fails tests, not phones). So the `{trip_id}` streams check
+membership with `trip_crew` (through the subscribed trip: 3 results whatever the caller's crews),
+never `my_crews` (one result per crew, repeated per shape and per held trip). Every group edit
+supersedes a plan version, so plan lookups use the not-superseded versions (plus, on `trip`, the
+version each live one replaced); the trip stream's `change_sets` lookup is the one that still grows
+by one result per edit.
+
+`packages/db/test/permissions/sync-streams-parameter-bounds.test.ts` replays a connection exactly:
+it compiles `sync-streams.yaml` with `@powersync/service-sync-rules` at the version inside the
+pinned image (0.42.0 for 1.26.1; Renovate moves the image and the compiler together), indexes every
+published row of the test database and counts with the compiler's own querier. Its budgets are half
+of each limit for the subscriptions a phone holds by design (two trips in the offline window, one
+on screen, one kept, the wallet's trip): a founder-shaped phone (5 crews, 6 trips, a 43-stop plan)
+at most 400 results, and a heavy one (12 crews, 80 co-members, 120 stops and 150 ideas a trip,
+3 destinations browsed) at most 500 results and 300 buckets. Until a trip's places sync as one
+card each instead of one lookup and one bucket per place, the test holds today's cost instead
+(founder 422 results and 211 buckets; heavy 1,614 results and 2,409 buckets, over the limits). It runs in CI's database job; on this
+Mac, `pnpm test:remote @cp/db -- test/permissions/sync-streams-parameter-bounds.test.ts`.
+
+The service logs each connection's cost; compare a replay with a line such as
+`railway logs --service powersync-api --environment staging | grep param_results` (the client id,
+`param_results` and `buckets` fields). No log alert watches it yet: Grafana alerting here reads
+metrics only, and the service's logs are not shipped to Grafana.
 
 ## Local
 

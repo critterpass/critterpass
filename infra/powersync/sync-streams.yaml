@@ -341,22 +341,6 @@ streams:
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
           AND (version_id IN live_versions OR version_id IN replaced_versions)
       - |-
-        SELECT * FROM polls
-        WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-      - |-
-        SELECT * FROM poll_options
-        WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-      - |-
-        SELECT * FROM ballots
-        WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-      - |-
-        SELECT * FROM pitches
-        WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
-      - |-
         SELECT * FROM proposals
         WHERE trip_id = subscription.parameter('trip_id')
           AND sent_at IS NOT NULL

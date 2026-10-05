@@ -1,11 +1,13 @@
 /**
  * Fresh Postgres for the console suite: a throwaway container from the Testcontainers image, then
- * `seed:local` (migrations, catalogue seed, one operator per role).
+ * `seed:local` (migrations, catalogue seed, one operator per role), then the api's /health: the api
+ * is already running (Playwright starts web servers first) and reports ready once its job producer
+ * has reached the new database.
  */
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 
-import { E2E_DATABASE_URL, E2E_DB_CONTAINER, E2E_DB_PORT } from './e2e-env';
+import { E2E_API_PORT, E2E_DATABASE_URL, E2E_DB_CONTAINER, E2E_DB_PORT } from './e2e-env';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 
@@ -62,4 +64,13 @@ export default async function globalSetup(): Promise<void> {
     stdio: ['ignore', 'ignore', 'inherit'],
     env: { ...process.env, ADMIN_DATABASE_URL: E2E_DATABASE_URL },
   });
+  for (let attempt = 0; attempt < 90; attempt += 1) {
+    const ready = await fetch(`http://127.0.0.1:${E2E_API_PORT}/health`).then(
+      (response) => response.ok,
+      () => false,
+    );
+    if (ready) return;
+    await sleep(1000);
+  }
+  throw new Error('the api did not report ready within 90 s of the database being seeded');
 }
