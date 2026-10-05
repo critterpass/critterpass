@@ -1,0 +1,77 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "88dd06ce-e56e-430c-a382-a2110f53b863",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, cà phê ngắm phố\",\n  \"summary\": \"Ngày bớt đi bộ, thêm thời gian ngồi xuống: chợ, vườn hoa, một quán cà phê view đẹp và hai bữa ăn trọn vị Đà Lạt.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ Đà Lạt buổi sáng vẫn đông vui, đi một vòng nghe người ta trả giá là đủ vị phố núi.\"\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vườn hoa gần chợ, không phải cuốc bộ xa, đứng giữa hoa mà hít thở cho chậm lại.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh căn nóng giòn, ngồi xuống ăn từ tốn, ngon quá (so tasty) là phải nói cho cô chủ nghe.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thêm một quán cà phê view đẹp, ngồi lâu một chút, khỏi đi bộ nhiều mà vẫn thấy Đà Lạt bên dưới.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi lại cho đàng hoàng, ăn chậm, nhìn phố lên đèn, tối ở đây hiền lắm.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2944,
+          "output_tokens": 489,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "a52acce0-fa40-4b5e-bf95-9f51034abb3d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt nhẹ tênh, cà phê ngắm phố\",\n  \"summary\": \"Bớt đi bộ, thêm thời gian ngồi xuống: sáng ở Thung Lũng Tình Yêu, trưa về khu chợ ăn uống, chiều lang thang cà phê ngắm phố núi.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p129\",\n      \"note\": \"Điểm phải ghé, sáng ở đây là đẹp nhất, cứ thong thả mà ngắm.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh căn nóng hổi, ngồi xuống ăn cho chắc bụng rồi hẵng tính tiếp.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p165\",\n      \"note\": \"Chợ Đà Lạt buổi trưa vẫn rộn ràng, đi một vòng là thấy đủ thứ hay ho.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thay cho mấy điểm đi bộ xa, ngồi đây nhâm nhi cà phê ngắm phố núi xuống chiều.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi xuống ăn cho đàng hoàng, đồ ăn ở đây ngon quá.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 52,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2944,
+          "output_tokens": 451,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "22764c84-0098-47d9-8025-996e6cb6134c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Thung lũng Tình Yêu, trọn buổi sáng\n3: Cà phê ngắm phố, chiều nhẹ tênh\n4: Chợ đêm, nem nướng và mây lang thang\n5: Thác Datanla, nửa ngày trong sương\n6: Đồi chè, sáng sớm xanh mướt\n7: Hồ Xuân Hương, dạo một vòng\n8: Bánh căn nóng, sáng se lạnh\n9: Vườn hoa thành phố, cả ngày thơm\n10: Quán cà phê ven đồi, chiều muộn"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 163,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 162,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

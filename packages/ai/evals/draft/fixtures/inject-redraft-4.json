@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3e2721c0-8129-43e8-a2a2-e6f766cbb298",
+        "id": "c1f35f1f-9adc-4ff5-b40b-256a929b97bf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco Centro, sin prisas\",\n  \"summary\": \"A relaxed Sunday around the heart of Cusco, with the market, the plaza, a sweet museum stop and meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start among fruit stalls and morning chatter, right in the centre.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We wander the plaza slowly, perfect for photos and people-watching.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch just around the corner, easy on the wallet and kind to vegetarians.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little museum stop to keep the afternoon light and local.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner nearby, with courtyard air and no rush before the evening winds down.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco at a Gentle Trot\",\n  \"summary\": \"A slower Sunday around the city centre, with market colours, the cathedral and a long easy lunch close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A morning wander through the market, all bustle and street snacks, and no long ride needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral sits right in the same area, so we trade far-off terraces for its cool, story-filled halls.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the day's wanderings, with room to sit long and let the crew take it easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An open-air finish in the plaza, free and unhurried, perfect for photos before the light fades.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 95,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 351,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 315,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "96d93858-0468-49eb-9757-b1b0700c85ac",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Salt pans, terraces, and a market wander"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

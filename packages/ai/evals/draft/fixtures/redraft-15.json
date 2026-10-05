@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "905517b5-ccef-4996-9ea3-5d5da5834c3c",
+        "id": "d6c7174b-8359-4ff0-ad28-32128c781fbf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A thrifty Cusco Sunday\",\n  \"summary\": \"A gentler, wallet-friendly day around the old town, mixing a kept wonder with free local colour and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do stays, so we begin with the terraces before the day warms up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, the market keeps the day easy on the pocket and the pace.\",\n      \"start\": \"11:00\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lower-priced lunch with vegetarian options, kinder to the budget than the old choice.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:30\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander around the plaza gives the photo lovers their shot without spending a sol.\",\n      \"start\": \"14:00\",\n      \"end\": \"14:45\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum with a modest price, and the chocolate smells are a bonus.\",\n      \"start\": \"15:30\",\n      \"end\": \"16:30\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Cusco on a Soles Budget\",\n  \"summary\": \"A slower, wallet-friendly Sunday around Cusco's free sights and market, with a simple lunch and dinner in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The salt pans stay: a wonder of the land and a photo worth every step, even on a thrifty day.\",\n      \"note_es\": \"Las salineras se quedan: una maravilla de la tierra y una foto que vale cada paso, incluso en un día ahorrador.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Moray's rings still call to us, a short ride from the salt and light on the pocket.\",\n      \"note_es\": \"Los anillos de Moray aún nos llaman, a un corto viaje de la sal y suaves con el bolsillo.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is our free feast for the eyes and the stomach, full of local life without spending a sol.\",\n      \"note_es\": \"El mercado es nuestro festín gratis para los ojos y el estómago, lleno de vida local sin gastar un sol.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The plaza is our open-air living room, free and always ready for a slow wander.\",\n      \"note_es\": \"La plaza es nuestra sala de estar al aire libre, gratis y siempre lista para un paseo lento.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, honest lunch where the price is as gentle as the day.\",\n      \"note_es\": \"Un almuerzo simple y honesto donde el precio es tan suave como el día.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a warm hearth and a fair price, close to the plaza.\",\n      \"note_es\": \"Cena con un fogón cálido y un precio justo, cerca de la plaza.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 95,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 412,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 582,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "aa8534e5-6acf-46a3-8bfe-e641e946dda8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Market, plaza and salt pans on a budget"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 144,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

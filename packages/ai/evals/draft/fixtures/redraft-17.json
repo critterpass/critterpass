@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1e93b24e-e26d-4e50-8648-6b6130f6fb71",
+        "id": "b661d217-90be-4414-ae80-33c7e8375d9e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower wander through the city\",\n  \"summary\": \"Trade pyramids for plazas and leafy walks, with a long lunch and an early dinner that keep everyone well fed.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper of the day, so we start with Aztec echoes before the crowds thicken.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle midday table nearby, with plenty of vegetarian plates for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy reset after lunch, where the city softens and the photo lovers can wander.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early, easy dinner before the evening closes in, still friendly to non-meat eaters.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Downtown Roots and a Coyoacán Bite\",\n  \"summary\": \"A slower day in Mexico City, swapping Teotihuacan and Pujol for a Chapultepec stroll and a Roma Norte wander, while keeping the Templo Mayor and Coyoacán market.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The old city heart stays put: a morning with the Aztecs before the sun gets serious.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm, vegetarian-friendly lunch near the Templo Mayor, with halal options for the crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green, easy wander in Chapultepec replaces the long pyramid trip, keeping the afternoon light.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte's street life gives the photographers and culture lovers a fresh frame for the day.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Coyoacán market stays as the late-afternoon anchor, full of street food and local colour.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed vegetarian dinner in Roma Norte closes the day without the long Pujol affair.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 21,
+          "input_tokens": 18,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 278,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 417,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "5ee4d49d-6c85-4c15-bee3-3d18d7be92d3",
+        "id": "0a59e334-0cfd-4b1b-a398-2e45e39e942c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"title\":\"A slower, greener Mexico City\",\"summary\":\"A gentler day swapping pyramids and fine dining for leafy walks, a floating garden, and two easy meals that keep everyone well fed.\",\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The one keeper, and rightly so: history with a capital H, right in the old heart.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A soft, shady reset after the stones of the past; perfect for a crew that likes to wander without a deadline.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright, casual lunch with proper vegetarian plates, timed before the kitchen closes.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"An easy stroll through Roma Norte for the photographers and culture lovers among you.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long, leafy dinner to end the day; vegetarian options keep the whole crew happy.\"}]}"
+            "text": "{\n  \"title\": \"A Softer Mexico City Day\",\n  \"summary\": \"A gentler day in Mexico City, swapping big sights for leafy walks, a market, and a relaxed meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the old city, and a must for the history lover.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm lunch spot with plenty of vegetarian choices, close to the Templo Mayor.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy change of pace for the afternoon, with photo spots and room to breathe.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The market stays, for street food energy and local life.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner with good vegetarian options, timed well before closing.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 138,
+          "input_tokens": 115,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 244,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 304,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "d1a147a6-afc7-4123-a9ff-ef258a545682",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Market, park and a long lunch"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 216,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }

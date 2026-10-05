@@ -163,3 +163,37 @@ export function nearerNone(): string {
 export function nearerUseLabel(): string {
   return t({ id: 'plan.check.nearer.use', message: 'Use it' });
 }
+
+/** A fix on her own draft: nobody else sees the draft, so there is no feed to undo it from. */
+export function draftAppliedToast(done: string): { title: string; subtitle: string } {
+  return {
+    title: done,
+    subtitle: t({
+      id: 'plan.check.toast.draftApplied',
+      message: 'Only on your draft. Change it back from the stop.',
+    }),
+  };
+}
+
+export function guideWorkingToast(guideName: string): { title: string; subtitle: string } {
+  return {
+    title: t({
+      id: 'plan.check.toast.guideWorking',
+      message: `${guideName} is drafting right now`,
+    }),
+    subtitle: t({
+      id: 'plan.check.toast.guideWorkingLine',
+      message: 'Nothing changed. Try again when the draft is back.',
+    }),
+  };
+}
+
+export function sharedToast(): { title: string; subtitle: string } {
+  return {
+    title: t({ id: 'plan.check.toast.shared', message: 'The plan is with the crew now' }),
+    subtitle: t({
+      id: 'plan.check.toast.sharedLine',
+      message: 'This check was of your draft. The crew’s plan gets its own.',
+    }),
+  };
+}

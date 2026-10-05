@@ -1,0 +1,245 @@
+appId: app.critterpass.dev
+---
+# A crew of one sets a trip up on staging, in ${LOCALE} (en or vi), frames named ${SHOTS}-…: Đà Nẵng
+# pitched and locked in by the organiser, the dates sheet with its summary and lock in view, the
+# budget step speaking to her alone, an empty must-dos list with the guide's places to tap (one
+# added, then drafted; "Draft without one" is on the same frame), then crew chat,
+# where the locked-in place's card shows no vote. Run from Home on a fresh account.
+- runFlow:
+    when:
+      true: ${LOCALE != 'en'}
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - runFlow:
+          file: ../../home/subflows/pick-gallery-locale.yaml
+          env:
+            LOCALE: ${LOCALE}
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            notVisible:
+              id: 'home-first-run'
+          file: ../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-tools-entry'
+          timeout: 30000
+# The planning screens, for this phone only (the draft-without-one link ships with them).
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Di mot minh'
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+# The guide's closing line ends the pitch; on a long card (Vietnamese runs longer) it sits below
+# the fold, so the card is scrolled to it.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-reasons'
+    timeout: 90000
+- scrollUntilVisible:
+    element:
+      id: 'pitch-quote'
+    direction: DOWN
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-pitch-card
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+
+# The dates sheet: three days, the first window it suggests (the same taps in either language).
+# What is picked, Clear and the lock are all in view under the calendar, and a trip of one shows
+# no counts.
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-dates-sheet-open
+- tapOn:
+    id: 'picker-length-3'
+# The first window it suggests; when her calendar has not come in yet there is none, and she taps
+# a day two weeks out (three days follow from it).
+- runFlow:
+    when:
+      visible:
+        id: 'picker-best-0'
+    commands:
+      - tapOn:
+          id: 'picker-best-0'
+- runFlow:
+    when:
+      notVisible:
+        id: 'picker-best-0'
+    commands:
+      - evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+      - runFlow:
+          file: ../../happy/subflows/pick-days.yaml
+          env:
+            PICK_DATE: ${output.pickDate}
+            PICK_DAYS: 3
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- assertVisible:
+    id: 'picker-length'
+- assertVisible:
+    id: 'picker-clear'
+- assertVisible:
+    id: 'picker-lock'
+- assertNotVisible:
+    id: 'picker-free'
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-dates-sheet-picked
+- tapOn:
+    id: 'picker-lock'
+
+# The budget, for one.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+    optional: true
+- assertNotVisible:
+    id: 'budget-under-all'
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-budget-alone
+- tapOn:
+    id: 'budget-lock'
+
+# Rooms pass by themselves with nothing to decide; should the step show, LOOKS GOOD moves on.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add|setup-rooms-lock'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - tapOn:
+          id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft-without'
+    timeout: 30000
+# The guide's places to tap come in with the trip's place pack.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-example-0'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-must-dos-empty
+# One tap adds an example; the list is no longer empty and the draft button is back.
+- tapOn:
+    id: 'must-dos-example-0'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-must-dos-example-added
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen|draft-review'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-drafting-without-a-must-do
+
+# Crew chat: the place she locked in, with no vote drawn.
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'poll-result-line'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-chat-locked-in-card

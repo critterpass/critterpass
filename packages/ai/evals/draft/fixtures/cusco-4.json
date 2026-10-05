@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "63b37dc3-9c96-4512-af87-9667d9f62de8",
+        "id": "c741cadd-2010-4436-a8e6-86a2c49b7c50",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco's Historic Heart\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley Wonders\",\n      \"area\": \"Area B, C, D\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\", \"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca Legacy & Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p8\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Historic Heart & First Flavours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca Grandeur & Local Life\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p4\", \"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Museums & Farewell Views\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -19,32 +19,8 @@
         "usage": {
           "input_tokens": 43,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1920,
-          "output_tokens": 202,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "993c6aa8-2a9b-452e-a5b2-c78a626f3f4f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 445,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 6,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 203,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "1d427cb7-e74d-439c-80ef-94685e4fa209",
+        "id": "b911e56e-6b6a-46cb-8f45-ed30d03a99d3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Giant stones fitted like a puzzle, with Inti (the sun) watching over the old capital.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Gold rooms and woven stories of the Inca, a fine farewell to the empire.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old Inca halls and let the stone tell you its stories.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A farewell look over the city from the white guardian on the hill.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One last stroll around the old square, where Cusco hums its goodbyes.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 385,
+          "input_tokens": 47,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 85,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,71 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "abd0c57b-3ecf-48c6-ac9b-0f46e1bff66c",
+        "id": "e5130e4d-a9f8-462f-88b4-0ecbb0d953a7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The Inca stonework here still whispers to Inti (the sun), and the colonial arches above make a fine contrast.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A warm, modern Peruvian table with proper halal choices, so nobody has to nibble sadly on plain rice.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":\"m1\",\"note\":\"Gastón Acurio’s Cusco kitchen turns Andean ingredients into a proper splurge-worthy feast.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Up by the white Christ the city spreads out below, and the evening light does all the storytelling.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Inca stonework here is so precise Inti (the sun) himself would struggle to slip a blade between the blocks.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"A celebration of Peruvian flavours from the maestro Acurio, where even the humble potato gets a standing ovation.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 443,
+          "input_tokens": 257,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 184,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 134,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "f36ea736-91f0-4a41-aea3-3e2a3572cbc2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market buzzes with colours, smells and the real rhythm of Cusco life.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The cathedral holds centuries of faith and art under its heavy stone arches.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sacsayhuamán shows how the Incas fitted giant stones together like a puzzle for the ages.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Blas climbs a hill of tiny workshops, white walls and quiet courtyards.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The chocolate museum turns cacao into a sweet little story you can taste.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 454,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 277,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "871722f4-455d-4aef-9d02-d1705b9725b3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning of museums, an afternoon of views"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 230,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }
@@ -100,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "74856e7e-db10-4e76-bad2-a382bf89286d",
+        "id": "c895be6c-4173-4028-b02d-57fefcba7ca9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Cusco's heart, the Sacred Valley, and a warm farewell to the Inca—every must-do tucked in, amigo."
+            "text": "A Cusco amble from colonial streets to Inca stones, with a whole morning at Museo Inka and its white Christ watching over."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 262,
+          "input_tokens": 221,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 27,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

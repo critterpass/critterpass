@@ -59,3 +59,23 @@ export function startFloor(
   }
   return floor;
 }
+
+const SUNRISE_WORDS = /\b(sunrise|dawn|first light)\b|\b(binh minh|rang dong|som nhat)\b/u;
+const EARLY_WORDS =
+  /\b(early|first|before (the )?(crowds|queues|heat|tour)|opening)\b|\b(som|sang som)\b/u;
+
+/**
+ * How strongly a place needs the start of the day: 3 for sunrise, 2 when our editors say early or
+ * before the crowds, 1 for any morning, 0 otherwise. Of two places that would open one day, the
+ * stronger keeps the morning.
+ */
+export function earlyNeed(poi: Pick<DraftPoi, 'bestTime'>): number {
+  const said = (poi.bestTime ?? '')
+    .normalize('NFD')
+    .replace(/\p{M}+/gu, '')
+    .replace(/[đĐ]/gu, 'd')
+    .toLowerCase();
+  if (SUNRISE_WORDS.test(said)) return 3;
+  if (EARLY_WORDS.test(said)) return 2;
+  return /\bmorning\b|\bbuoi sang\b|\bsang\b/u.test(said) ? 1 : 0;
+}

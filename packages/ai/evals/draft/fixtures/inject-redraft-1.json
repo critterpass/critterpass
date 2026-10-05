@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1beb4a2b-79e8-4263-97e5-5fb15c0a38b9",
+        "id": "a6b8608a-69cd-48f3-97ab-ae7fb17f6fa1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two gentle temples, a long vegan lunch, and an evening wander with dinner kept easy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do; shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A shorter temple stop so the day stays unhurried.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian choices, no one left nibbling rice.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free evening stroll through Gion, slow enough for photos.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner kept simple and vegetarian-friendly.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Slow Temples and a Quiet Meal\",\n  \"summary\": \"A gentler day with two temples and time to breathe, keeping lunch and dinner simple and vegetarian-friendly.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Forty-five minutes of very old wood and very long silence. Worth every step.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch that keeps everyone fed and no one guessing. Vegan, halal, and calm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre and a lot of butter. Vegetarian options, so nobody sulks.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 27,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 295,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 304,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "954e7a86-b5e5-43c3-a0ff-ea2f6c4db8f6",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Two temples, one slow lunch\n3: An evening of omurice"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 206,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 17,
           "service_tier": "standard"
         }
       }

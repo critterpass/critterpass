@@ -80,6 +80,10 @@ export function systemLine(
             message: `The crew said no to ${change}. The plan stays as it was.`,
           });
     }
+    case 'idea_saved':
+      return body === ''
+        ? t({ id: 'chat.system.ideaSavedPlain', message: `${name} saved a place to Ideas` })
+        : t({ id: 'chat.system.ideaSaved', message: `${name} saved ${body} to Ideas` });
     case PLAN_CHANGE_CHAT_LINE.ranOut:
       return t({
         id: 'chat.system.planVoteRanOut',

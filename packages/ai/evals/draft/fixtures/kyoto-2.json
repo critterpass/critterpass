@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "9809f3d1-9212-45ce-a310-0b7d59fc67d1",
+        "id": "26340f4d-895b-494a-883c-302605c88b9f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, near Kyoto Station and the museum quarter\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"First brush with old Kyoto\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Castles, shrines and a last stroll\",\n      \"area\": \"Area B and Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p2\", \"p9\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Kyoto's grand history\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p10\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples and a quiet path\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 9,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1920,
-          "output_tokens": 156,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 142,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "7b358f03-2b5b-41d0-8e77-3060db47343b",
+        "id": "2133ce1b-2f60-49e7-ad2b-d8e078b203ca",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nightingale floors and gold-leaf screens. Walk softly and listen.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet bowl of ramen done properly. Slurp with intent.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The silver pavilion is quieter than its golden cousin. The moss garden is the real show.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Silver Pavilion's sand garden is a quiet trick of light and rake.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A canal-side stroll under maples, with the occasional cat supervising.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A small counter and a very serious bowl of noodles. Worth the wait.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 448,
+          "input_tokens": 380,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 167,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 163,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "a8f12592-86d3-4ebb-bb49-a7d13125b429",
+        "id": "0bdfccd3-e1fb-4939-9d2f-6e55ca83ff6e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Old screens and quiet rooms, history with its shoes off.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades and the occasional maiko slipping past like a rumour.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns over the canal, the city's best narrow walk.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done so well you'll stop making jokes about it.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The museum's history wing is the right welcome to Kyoto: quiet, grand, and full of stories.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the old geisha district slowly. The wooden facades do the talking.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done with the seriousness it deserves, in a room that feels like a calm exhale.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns, narrow stone, and the river just there. A good place to end the first day.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 569,
+          "input_tokens": 503,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 212,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 236,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "000b2ee6-6408-4513-b3f0-a1a181258c01",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A temple, a quiet path, a market"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 199,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }
@@ -76,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "0ad90af3-a3a6-49ea-8bf0-f8d0dc37ce76",
+        "id": "0adc4ce6-3aa2-46ab-8451-2695726bc13f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Old Kyoto first, then shrines and a castle stroll — every must-do tucked in, shoes off."
+            "text": "A slow wander through Kyoto's grand history, then a temple, a quiet path and a market — shoes off, phone down, eyes up."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 215,
+          "input_tokens": 169,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 128,
-          "output_tokens": 21,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 29,
           "service_tier": "standard"
         }
       }

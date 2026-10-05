@@ -321,16 +321,19 @@ describe('a title is true to its day', { timeout: 60_000 }, () => {
   });
 
   it('and calls a day easy only when no ride in it is long', () => {
-    expect(titleFits(input, { ...lakeFirst, theme: 'Chiều Đà Lạt nhẹ nhàng' })).toBe(
+    // The waterfall is the day's long visit: the title names it.
+    expect(titleFits(input, { ...lakeFirst, theme: 'Chiều thác Đà Lạt nhẹ nhàng' })).toBe(
       lakeFirst.items.every((item) => item.travel_min <= 25),
     );
     const far = {
       ...lakeFirst,
       items: lakeFirst.items.map((item, at) => (at === 2 ? { ...item, travel_min: 33 } : item)),
     };
-    expect(titleFits(input, { ...far, theme: 'Chiều Đà Lạt nhẹ nhàng' })).toBe(false);
-    expect(titleFits(input, { ...far, theme: 'An easy day by the lake' })).toBe(false);
-    expect(titleFits(input, { ...far, theme: 'A day by the lake' })).toBe(true);
+    expect(titleFits(input, { ...far, theme: 'Chiều thác Đà Lạt nhẹ nhàng' })).toBe(false);
+    expect(titleFits(input, { ...far, theme: 'An easy day by the lake and the falls' })).toBe(
+      false,
+    );
+    expect(titleFits(input, { ...far, theme: 'A day by the lake and the falls' })).toBe(true);
   });
 });
 
@@ -362,6 +365,8 @@ describe('the name a place is shown under', () => {
           .map((item) => ({ ...item, poi_id: valley.id })),
       },
     );
-    expect(title).toBe('Thung lũng Tình Yêu');
+    // A long visit's day is named for it: "Buổi sáng ở Thung lũng Tình Yêu".
+    expect(title).toContain('Thung lũng Tình Yêu');
+    expect(title).not.toContain('Valley of Love');
   });
 });

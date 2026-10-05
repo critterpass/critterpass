@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 
 import { createGateway } from '../src/client';
 import {
+  buildPitchRequest,
   describeFacts,
   parsePitchLine,
   pitchPersona,
@@ -112,5 +113,30 @@ describe('pitch lines', () => {
     expect(describeFacts(kyoto)).not.toMatch(/budget/iu);
     expect(describeFacts(kyoto)).toContain('$412');
     expect(templatePitch(kyoto)).toEqual([{ s: 'headline', text: 'Kyoto, for The Bali Six' }]);
+  });
+});
+
+describe('a reader of another language', () => {
+  const system = (locale?: string): string => JSON.stringify(buildPitchRequest(kyoto, locale));
+
+  it('asks for every line in her language too, and nothing extra for an English reader', () => {
+    expect(system('vi')).toMatch(/Vietnamese/u);
+    expect(system('vi')).toMatch(/Reader language/u);
+    expect(system('en')).not.toMatch(/Reader language/u);
+    expect(system()).not.toMatch(/Reader language/u);
+  });
+
+  it('keeps a reader line that passes the same checks, and drops one that does not', () => {
+    const ok = parsePitchLine(
+      '{"s":"quote","text":"Come for the blossoms.","local":"Đến ngắm hoa nhé."}',
+      kyoto,
+    );
+    expect(ok).toEqual({ s: 'quote', text: 'Come for the blossoms.', local: 'Đến ngắm hoa nhé.' });
+    // A number the facts never gave is not allowed in her language either.
+    const bad = parsePitchLine(
+      '{"s":"quote","text":"Come for the blossoms.","local":"Chỉ 999 đô."}',
+      kyoto,
+    );
+    expect(bad).toEqual({ s: 'quote', text: 'Come for the blossoms.' });
   });
 });

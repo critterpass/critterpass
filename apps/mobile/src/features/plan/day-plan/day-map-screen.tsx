@@ -31,7 +31,7 @@ export function DayMapScreen({
   const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(null);
   const editor = useDayEditing(data.plan);
-  const backToTrip = useBackToTrip(tripId);
+  const backToTrip = useBackToTrip(tripId).onBack;
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
   const route = useDayRoute(data.plan.versionId, day);
   if (!data.loaded) return null;

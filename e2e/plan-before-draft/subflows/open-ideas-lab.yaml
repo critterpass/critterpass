@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list: the plan ideas lab's list of scenes.
+# By its title: on iOS the row's id is folded into the list's accessibility tree.
+- scrollUntilVisible:
+    element:
+      text: 'Plan ideas.*'
+    direction: DOWN
+    timeout: 90000
+    # Slow, or iOS flings past it; the row is near the end of a long list.
+    speed: 20
+    centerElement: true
+- tapOn:
+    text: 'Plan ideas.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Plan ideas lab'
+    timeout: 15000

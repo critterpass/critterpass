@@ -3,7 +3,9 @@
  * rooms → must_dos → done`, advanced by the organiser. Locking a step moves to the next one; the
  * organiser may go back to any earlier step (re-opening it) and may skip forward only past a step
  * that does not apply (budget for a crew under two; rooms for a solo trip, a one-room stay, or a
- * place with no stay prices to plan rooms from, where the stay splits evenly).
+ * place with no stay prices to plan rooms from, where the stay splits evenly). The must-dos step
+ * is left with at least one must-do, or with none when the organiser says so in the move itself
+ * (`without_must_dos`): a move that does not say so is refused with none, as it always was.
  */
 import { z } from 'zod';
 
@@ -13,6 +15,8 @@ import { TRIP_SETUP_STEPS, tripSetupStepSchema, type TripSetupStep } from '../en
 export const setSetupStepPayloadSchema = z.strictObject({
   trip_id: z.uuid(),
   step: tripSetupStepSchema,
+  /** The organiser drafts with no must-do on the list: lets setup leave the must-dos step empty. */
+  without_must_dos: z.literal(true).optional(),
 });
 export type SetSetupStepPayload = z.infer<typeof setSetupStepPayloadSchema>;
 
@@ -27,6 +31,8 @@ export interface SetupStepFacts {
   /** Stay types the destination has reviewed prices for (0 = no room plan can be made). */
   readonly stayCount: number;
   readonly mustDoCount: number;
+  /** The move asks to leave the must-dos step with none. */
+  readonly withoutMustDos?: boolean;
 }
 
 export function stepIndex(step: TripSetupStep): number {
@@ -45,7 +51,7 @@ export function isSkippable(step: TripSetupStep, facts: SetupStepFacts): boolean
     case 'rooms':
       return facts.isSolo || facts.crewSize < 2 || facts.roomCount === 1 || facts.stayCount === 0;
     case 'must_dos':
-      return facts.mustDoCount > 0;
+      return facts.mustDoCount > 0 || facts.withoutMustDos === true;
     case 'when':
       return facts.datesLocked;
     case 'done':

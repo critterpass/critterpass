@@ -146,7 +146,7 @@ describe('the day the crew leaves', () => {
     const pools = candidatePools({ pois: places, frame: FRAME, tastes: {} });
     expect(pools.openDays.get(id(83))).toEqual([2]);
     expect(pools.openDays.get(id(80))).toEqual([1, 2, 3]);
-    // A must-do there is the crew's call, whatever the day.
+    // A must-do there is an outing of its own: it gets the trip's full day.
     const asked = candidatePools({
       pois: places,
       frame: {
@@ -155,7 +155,8 @@ describe('the day the crew leaves', () => {
       },
       tastes: {},
     });
-    expect(asked.mustDos).toEqual([{ mustDoId: id(900), poiId: id(83), openDays: [1, 2, 3] }]);
+    expect(asked.mustDos).toEqual([{ mustDoId: id(900), poiId: id(83), openDays: [2] }]);
+    expect(asked.outings.map((outing) => [outing.poiIds, outing.dayNo])).toEqual([[[id(83)], 2]]);
   });
 });
 

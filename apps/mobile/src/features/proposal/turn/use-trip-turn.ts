@@ -15,7 +15,7 @@ import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { proposalRoutes } from '../routes';
 import { turnCopy } from './copy';
-import { tripTurn, type TripTurn, type TurnTarget } from './model';
+import { tripTurn, type SetupStep, type TripTurn, type TurnTarget } from './model';
 
 export interface TripTurnView extends TripTurn {
   /** The organiser's first name ('' when the viewer organises, or it is not here). */
@@ -37,7 +37,24 @@ const PLAN_VOTE_SQL = `SELECT cs.id, u.display_name AS author_name
     AND p.eligible_voter_ids LIKE '%' || ?2 || '%'
     AND NOT EXISTS (SELECT 1 FROM ballots b WHERE b.poll_id = p.id AND b.user_id = ?2)
   ORDER BY cs.created_at LIMIT 1`;
+const SETUP_STEP_SQL = 'SELECT setup_step FROM trips WHERE id = ?';
 const PLAN_VOTE_TABLES = ['change_sets', 'polls', 'ballots', 'users'];
+/** Places crewmates saved to Ideas since the lock that no stop of the plan holds yet. */
+const IDEAS_WAITING_SQL = `SELECT count(*) AS n FROM trip_ideas i
+  JOIN trips t ON t.id = i.trip_id
+  WHERE i.trip_id = ?1 AND i.deleted_at IS NULL AND i.created_by <> ?2
+    AND julianday(i.created_at) > julianday(?3)
+    AND (i.poi_id IS NULL OR NOT EXISTS (SELECT 1 FROM plan_items p
+      WHERE p.version_id = t.current_version_id AND p.poi_id = i.poi_id))`;
+const IDEAS_WAITING_TABLES = ['trip_ideas', 'trips', 'plan_items'];
+
+/** The set-up screen of each step. */
+const SETUP_SCREEN: Readonly<Record<SetupStep, string>> = {
+  when: '3c-3',
+  budget: '3c-5',
+  rooms: '3c-6',
+  must_dos: '3c-7',
+};
 
 export function turnHref(
   target: TurnTarget | null,
@@ -45,14 +62,17 @@ export function turnHref(
   proposal: Pick<Proposal, 'id' | 'format'> | null,
   answered: boolean,
   changeSetId: string | null = null,
+  setupFirst: SetupStep | null = null,
 ): Href | undefined {
   switch (target) {
+    case 'ideas':
+      return hrefFor('7f-2', { tripId });
     case 'review':
       return changeSetId === null
         ? undefined
         : hrefFor('3e-3', { tripId, changesetId: changeSetId });
     case 'setup':
-      return hrefFor('3c-3', { tripId });
+      return hrefFor(SETUP_SCREEN[setupFirst ?? 'when'], { tripId });
     case 'drafting':
       return hrefFor('3c-8', { tripId });
     case 'draft':
@@ -82,6 +102,19 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     tripId === null || trip == null ? null : [tripId, trip.me],
     PLAN_VOTE_TABLES,
   );
+  const lockedAt = proposal?.lockedAt ?? null;
+  const waiting = useLiveRows<{ n: number | null }>(
+    IDEAS_WAITING_SQL,
+    tripId === null || trip == null || !trip.isOrganiser || lockedAt === null
+      ? null
+      : [tripId, trip.me, lockedAt],
+    IDEAS_WAITING_TABLES,
+  );
+  const setup = useLiveRows<{ setup_step: string | null }>(
+    SETUP_STEP_SQL,
+    tripId === null ? null : [tripId],
+    ['trips'],
+  );
   if (tripId === null || trip == null || proposal === undefined) return null;
   const vote = votes.rows[0] ?? null;
   const me = trip.people.find((person) => person.uid === trip.me);
@@ -94,6 +127,8 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     // Everyone else in the crew, those who said out included: their answer counts as one.
     recipients: trip.people.filter((person) => person.uid !== trip.me),
     planVote: vote === null ? null : { by: firstName(vote.author_name) },
+    ideasWaiting: Number(waiting.rows[0]?.n ?? 0),
+    setupStep: setup.rows[0]?.setup_step ?? null,
   });
   const organiser = trip.isOrganiser ? '' : (trip.people.find((p) => p.organiser)?.name ?? '');
   return {
@@ -101,7 +136,14 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     organiser,
     isOrganiser: trip.isOrganiser,
     crewSize: trip.people.length,
-    href: turnHref(step.target, tripId, proposal, step.turn.kind === 'answered', vote?.id ?? null),
+    href: turnHref(
+      step.target,
+      tripId,
+      proposal,
+      step.turn.kind === 'answered',
+      vote?.id ?? null,
+      step.turn.kind === 'setup' ? (step.turn.left[0] ?? null) : null,
+    ),
   };
 }
 

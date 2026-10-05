@@ -132,6 +132,10 @@ msgstr ""
 msgid "planDraft.miss.closed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.closed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.current"
 msgstr ""
@@ -185,11 +189,19 @@ msgid "planDraft.miss.unknown"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.notOffered"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
@@ -209,7 +221,15 @@ msgid "planDraft.empty.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.held"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.noTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.noRoom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
@@ -248,6 +268,14 @@ msgstr ""
 msgid "planDraft.queued.restore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestoreAny"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestore"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.title"
 msgstr ""
@@ -262,6 +290,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
 msgid "planDraft.history.restoredSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.takenOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
@@ -280,8 +312,16 @@ msgstr ""
 msgid "planDraft.stale.mustDos"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.own"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.tooFar"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx

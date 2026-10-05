@@ -2,7 +2,8 @@
  * Which must-dos made the draft: "✓ ALL 5 MUST-DOS MADE IT" with their owners' avatars, or
  * "3 OF 5 MADE IT" with a line per missing one saying whose it is and why it did not fit, and the
  * one thing to do about it (pick the place it meant, or ask for a day to be changed around it). An
- * over-budget draft adds how far over the locked target it is, per person.
+ * over-budget draft adds how far over the locked target it is, per person. And the essential
+ * places of the destination the draft does not hold, each with why.
  */
 import { plural, t } from '@lingui/core/macro';
 import type { MustDoMissReason } from '@cp/domain';
@@ -14,6 +15,7 @@ import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import type { LeftOut } from '../data/left-out';
 import type { ReviewModel } from '../data/version';
 
 const MARK = 22;
@@ -150,6 +152,56 @@ export function CoverageStrip({
           })}
         </View>
       )}
+    </View>
+  );
+}
+
+/** Why an essential place is not in the draft, in the guide's words; null for a reason unknown here. */
+export function leftOutWhy(reason: string): string | null {
+  switch (reason) {
+    case 'no_room':
+      return t({ id: 'planDraft.leftOut.noRoom', message: 'No room in the days.' });
+    case 'held_in_the_way':
+      return t({ id: 'planDraft.leftOut.held', message: 'No room around your stops.' });
+    case 'closed':
+      return t({ id: 'planDraft.leftOut.closed', message: 'Closed on your dates.' });
+    case 'too_far':
+      return t({ id: 'planDraft.leftOut.tooFar', message: 'Too far for a day of this trip.' });
+    case 'not_offered':
+      return t({ id: 'planDraft.leftOut.notOffered', message: 'I didn’t get to consider it.' });
+    default:
+      return null;
+  }
+}
+
+/**
+ * The destination's essential places this draft does not hold, one line each with why ("Left out:
+ * Langbiang. No room around your stops."); on a redraft, the ones it took out (`takenOut`).
+ */
+export function LeftOutRows({
+  rows,
+  takenOut = false,
+}: {
+  readonly rows: readonly LeftOut[];
+  readonly takenOut?: boolean;
+}) {
+  const styles = useStyles();
+  const theme = useTheme();
+  if (rows.length === 0) return null;
+  return (
+    <View style={styles.card} testID="draft-left-out">
+      {rows.map((row) => {
+        const name = row.name;
+        const why = takenOut ? null : leftOutWhy(row.reason);
+        const line = takenOut
+          ? t({ id: 'planDraft.leftOut.takenOut', message: `Taken out of the trip: ${name}` })
+          : t({ id: 'planDraft.leftOut.line', message: `Left out: ${name}.` });
+        return (
+          <Text key={row.poiId} variant="bodySm" color={theme.semantic.text.secondary}>
+            {why === null ? line : `${line} ${why}`}
+          </Text>
+        );
+      })}
     </View>
   );
 }

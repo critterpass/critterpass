@@ -9,6 +9,7 @@ import {
   bestOrder,
   dayWindow,
   mealAcrossTown,
+  earlyNeed,
   opensDay,
   scheduleDay,
   startFloor,
@@ -18,9 +19,11 @@ import {
 import { FRAME, P, POIS, TZ, id, line, place, stop } from './day-sense-fixture';
 
 describe('when a day begins', () => {
+  // Out of town: not in the grounds of anything in the centre.
   const peak = place(120, 'High Peak', 'nature', {
     durationMin: 180,
     bestTime: 'Early morning for clear views',
+    lat: 16.2,
   });
   const grove = place(121, 'Pine Grove', 'nature', { bestTime: 'Early morning' });
   const pois = new Map([...POIS, [peak.id, peak], [grove.id, grove]]);
@@ -132,5 +135,15 @@ describe('when a day begins', () => {
     // From the peak back to town, then on to the valley: the lunch is on the way.
     expect(mealAcrossTown('peak', 'centre', 'valley', map)).toBe(false);
     expect(mealAcrossTown('falls', 'monastery', 'centre', map)).toBe(false);
+  });
+});
+
+describe('how strongly a place needs the morning', () => {
+  it('ranks sunrise over early over any morning', () => {
+    expect(earlyNeed({ bestTime: 'Sunrise from the summit' })).toBe(3);
+    expect(earlyNeed({ bestTime: 'Weekday mornings before tour groups' })).toBe(2);
+    expect(earlyNeed({ bestTime: 'Half the morning: up by jeep' })).toBe(1);
+    expect(earlyNeed({ bestTime: 'Evening' })).toBe(0);
+    expect(earlyNeed({ bestTime: 'Đi sớm, lúc bình minh' })).toBe(3);
   });
 });

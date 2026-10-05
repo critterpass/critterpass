@@ -134,17 +134,23 @@ export function BudgetView(props: BudgetViewProps) {
   const guide = guideSticker(trip.guide).name;
   const line =
     band.kind === 'waiting'
-      ? band.of < BUDGET_K_MIN
-        ? // A crew under four never gets a band: the organiser picks, and each max stays private.
+      ? band.of <= 1
+        ? // A trip of one: there is no crew to fit and nobody to keep a max from.
           t({
-            id: 'setup.budget.lineSmallCrew',
-            message:
-              'Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs.',
+            id: 'setup.budget.lineAlone',
+            message: 'Pick what feels comfy for this trip. It guides what gets suggested.',
           })
-        : t({
-            id: 'setup.budget.lineWaiting',
-            message: 'Everyone sets a private max. The band shows once four are in.',
-          })
+        : band.of < BUDGET_K_MIN
+          ? // A crew under four never gets a band: the organiser picks, and each max stays private.
+            t({
+              id: 'setup.budget.lineSmallCrew',
+              message:
+                'Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs.',
+            })
+          : t({
+              id: 'setup.budget.lineWaiting',
+              message: 'Everyone sets a private max. The band shows once four are in.',
+            })
       : t({
           id: 'setup.budget.line',
           message: `Everyone set a private max. Nobody sees anyone else’s number, including ${guide}.`,
@@ -200,7 +206,11 @@ export function BudgetView(props: BudgetViewProps) {
       )}
       {track === null ? null : (
         <TextField
-          label={t({ id: 'setup.budget.typed.label', message: 'Or type an amount, each' })}
+          label={
+            band.of <= 1
+              ? t({ id: 'setup.budget.typed.labelAlone', message: 'Or type an amount' })
+              : t({ id: 'setup.budget.typed.label', message: 'Or type an amount, each' })
+          }
           value={typed}
           onChangeText={onTyped}
           keyboardType="number-pad"
@@ -247,7 +257,8 @@ export function BudgetView(props: BudgetViewProps) {
         </Card>
       ) : null}
       <BreakdownBars state={barsState} target={target} currency={currency} />
-      {props.ownMax ?? null}
+      {/* Her own max is for fitting a crew's pick; alone, the pick is hers already. */}
+      {band.of <= 1 ? null : (props.ownMax ?? null)}
     </SetupShell>
   );
 }

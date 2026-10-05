@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# On the plan ideas lab's list: opens the scene ${SCENE}, takes the screenshot ${SHOT}, and comes
+# back to the list (a sheet over the scene takes the first back).
+- scrollUntilVisible:
+    element:
+      text: '^${SCENE}$'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    text: '^${SCENE}$'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+# The lab's title scrolls away with its list: its own row says the list is back.
+- repeat:
+    while:
+      notVisible:
+        text: '^${SCENE}$'
+    times: 3
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000

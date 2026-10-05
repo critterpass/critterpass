@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4a2ce374-0108-45af-9bb7-2ecc9cd47987",
+        "id": "4bc37c38-2b26-4f91-9a59-9a6ba7caadab",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, softer Bali day\",\n  \"summary\": \"One gentle temple visit, a long lazy lunch, and dinner kept simple and cheap.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and peaceful, so we can wander slowly and let the morning unfold.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays here because the crew wanted to relax, and Alchemy is all about that.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cheap, easy dinner to keep the day light on the wallet and the feet.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Slow, Sunny Bali Reset\",\n  \"summary\": \"A gentle day built around one unhurried temple visit, good food, and plenty of time to simply breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, quiet temple with lotus ponds, perfect for the easy pace you asked for.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays at Alchemy, terima kasih (thank you) to the crew for keeping it simple.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A wallet-friendly local dinner, because a relaxed day should not end with a big bill.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 720,
+          "input_tokens": 3,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 227,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 245,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "78726055-cc7a-4026-b190-3773da602394",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A temple morning and a slow café reset"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 294,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

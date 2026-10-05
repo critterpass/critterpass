@@ -12,11 +12,6 @@ msgstr ""
 msgid "explore.swipe.matches"
 msgstr "{0, plural, one {# match} other {# matches}}"
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
-msgid "explore.swipe.building"
-msgstr "{0} is picking the cards"
-
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.progress"
 msgstr "{done}/{total} · {matches}"
@@ -36,6 +31,18 @@ msgstr "{first} said yes"
 #: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.swipe.fromStay"
 msgstr "{minutes} min from the stay"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.stuck"
+msgstr "{name} couldn't finish the cards. Start again and {name} picks a fresh set."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.pickingLine"
+msgstr "{name} is picking cards for the crew. It takes about {minutes} minutes, and they show up here by themselves."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} is picking the cards"
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
 msgid "explore.swipe.toastMatch"
@@ -121,6 +128,10 @@ msgstr "Open Ideas"
 msgid "explore.swipe.seeIdeas"
 msgstr "See them in Ideas"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.retry"
+msgstr "Start again"
+
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
 msgid "explore.swipe.cardActions"
 msgstr "Swipe right for yes, left for no"
@@ -136,6 +147,10 @@ msgstr "Tap to keep swiping"
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
 msgstr "That's the deck"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.arriving"
+msgstr "The cards are ready. They are coming onto your phone."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.savedNoMatches"

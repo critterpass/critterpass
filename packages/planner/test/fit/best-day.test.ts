@@ -105,3 +105,28 @@ describe('the arrival day', () => {
     );
   });
 });
+
+describe('a day that has begun', () => {
+  it('opens now: nothing is fitted before the time it is', () => {
+    const rows = {
+      tz: TZ,
+      participants: BALI.participants,
+      driveFactor: 1.3,
+      days: [
+        { day_id: DAY(1), day_no: 1, date: '2026-10-13' },
+        { day_id: DAY(2), day_no: 2, date: '2026-10-14' },
+        { day_id: DAY(3), day_no: 3, date: '2026-10-15' },
+      ],
+      items: [],
+      stays: new Map(),
+      rain: new Map(),
+      monthFactors: new Map(),
+      now: at(14, '14:07'),
+    };
+    const days = assembleFitContext(rows).days;
+    expect(days[1]?.fromMin).toBe(14 * 60 + 15);
+    // Days not yet begun keep their own start; days gone by are not touched by now.
+    expect(days[2]?.fromMin).toBe(7 * 60);
+    expect(days[0]?.fromMin).toBe(14 * 60);
+  });
+});

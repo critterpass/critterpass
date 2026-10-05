@@ -29,6 +29,7 @@ import {
   type LocationSessionPort,
 } from '@/lib/location';
 
+import { markTouch, resetTouchForTests } from '@/lib/interaction/touch-quiet';
 import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
 
 import { resetTabBarCoverForTests, useTabBarCover } from '../../sheet/tab-bar-cover';
@@ -124,6 +125,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  resetTouchForTests();
   setCeremonyPending(false);
   setLocationEngine(null);
   jest.useRealTimers();
@@ -217,6 +219,19 @@ describe('visit consent host', () => {
     // The ceremony has played.
     setCeremonyPending(false);
     await rest(VISIT_CONSENT_CALM_MS + 100);
+    expect(sheetUp()).toBe(true);
+  });
+
+  it('never rises on a tap just made: each touch starts the wait over', async () => {
+    mockPathname = HUB;
+    await engineOn(true);
+    await renderUi(tree());
+    markTouch(Date.now());
+    await rest(VISIT_CONSENT_CALM_MS - 500);
+    markTouch(Date.now());
+    await rest(VISIT_CONSENT_CALM_MS - 500);
+    expect(sheetUp()).toBe(false);
+    await rest(2 * VISIT_CONSENT_CALM_MS);
     expect(sheetUp()).toBe(true);
   });
 

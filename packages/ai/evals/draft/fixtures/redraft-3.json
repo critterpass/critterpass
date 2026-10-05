@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4c4e0e3d-f97c-46b6-abb5-3d5a80bb3aa4",
+        "id": "a43a498d-1463-49dd-99b0-492f903501eb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"We trade ticket desks for open air, keeping the railway museum and adding a free bamboo stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, early wander before the crowds and the ticket counters.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew asked for museums.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Bamboo, Temples and a Castle\",\n  \"summary\": \"A lighter, cheaper Kyoto day: free bamboo, one quiet temple, and the castle, with the railway museum swapped for a lower-priced stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so the early birds get the grove before the crowds. Shoes off, phone down, eyes up.\",\n      \"note\": \"Free and open all day, so the early birds get the grove before the crowds. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as asked, and it is only a small price. The temple garden is the real ticket.\",\n      \"note\": \"Kept as asked, and it is only a small price. The temple garden is the real ticket.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The castle is a museum, but the grounds are the photo spot. Cheaper than the railway museum and closer to the bamboo.\",\n      \"note\": \"The castle is a museum, but the grounds are the photo spot. Cheaper than the railway museum and closer to the bamboo.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 47,
+          "input_tokens": 25,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 167,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 334,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "e0b78c8c-d898-4e88-ba99-35106a0930ad",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning among the bamboo"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 203,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 7,
           "service_tier": "standard"
         }
       }

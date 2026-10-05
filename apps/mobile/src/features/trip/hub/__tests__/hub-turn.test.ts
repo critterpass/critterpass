@@ -60,6 +60,11 @@ describe('the hub while the crew agrees on a plan', () => {
     expect(planTileBeforeSend(answering, '/draft')).toBeNull();
   });
 
+  it('shows no empty plan while set-up is unfinished, and leads back to it', () => {
+    const tile = planTileBeforeSend(view({ kind: 'setup', href: '/setup/rooms' }), '/draft');
+    expect(tile?.href).toBe('/setup/rooms');
+  });
+
   it('tells only the organiser that a draft exists', () => {
     expect(statusLine('draft_review', true)).not.toBe(statusLine('draft_review', false));
     expect(statusLine('proposed', true)).toBe(statusLine('proposed', false));

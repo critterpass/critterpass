@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "9243263e-3df2-4e31-a67d-4b22c7261b73",
+        "id": "a3af1840-5e67-463b-a904-6e347eb6760a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Ubud\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Icons & Sunset Coast\",\n      \"area\": \"A and D\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples & Rice Fields\",\n      \"area\": \"A and C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p12\", \"p10\"]\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Arrival & Market Buzz\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Palace, Monkeys & Ridge Views\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 85,
+          "input_tokens": 101,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 145,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 141,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "db32050b-eab4-4aec-b29f-4f3eaa93fc30",
+        "id": "59e172e9-4eb0-442d-83d6-5360851c1a3f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus ponds and carved stone make this temple feel like a quiet secret in the middle of town.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The cave mouth and bathing pools here have stories older than most maps.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The palace gates and carved courtyards are a quiet piece of royal Ubud.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Watch the long-tailed locals run the place, then check your pockets.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge path with green views that feel far from the traffic.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 357,
+          "input_tokens": 360,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 82,
+          "output_tokens": 166,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "89ef4e86-a857-42eb-8dbc-cefdebabe843",
+        "id": "aba9cd90-57cb-4741-91a9-f6804aa796b0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin among the sarongs and carvings; the market loves a little back-and-forth.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Wander the royal courtyards and catch the stone guardians doing their best serious faces.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool for honest Balinese plates and a sambal that wakes you right up.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The market buzz is real here—haggle with a smile and you'll leave with a story and a sarong.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone make this temple feel like a secret garden in the middle of town.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper warung feed—small plates, big flavours, and the sambal will wake you right up.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Settle in for a slow coffee or a fresh juice; the vibe is pure Ubud calm.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 577,
+          "input_tokens": 423,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 132,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 244,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "b1cfd851-a6ba-4998-8349-41276cdc50f0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning of palaces and monkeys"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 297,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }
@@ -76,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "37159a7e-3605-487a-babc-20816ab2989a",
+        "id": "f0169e5d-1d05-49a5-bb08-7e5d741931d7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Ubud icons, a sunset coast, and every must-do in — the sun won’t wait, so let’s go!"
+            "text": "Ubud opens with market buzz, then a whole day split between the palace and the monkeys — terima kasih (thank you) for keeping every must-do."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 192,
+          "input_tokens": 271,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 27,
+          "output_tokens": 33,
           "service_tier": "standard"
         }
       }

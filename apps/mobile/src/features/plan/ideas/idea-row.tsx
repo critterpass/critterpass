@@ -53,8 +53,8 @@ export interface IdeaRowProps {
   readonly onDrop: (ideaId: string, index: number) => void;
   readonly onCancel: () => void;
   readonly onOpen: () => void;
-  /** Add to plan without dragging (the screen reader's action). */
-  readonly onAddToDay: () => void;
+  /** Add to plan without dragging (the screen reader's action); null while there is no plan to add to. */
+  readonly onAddToDay: (() => void) | null;
   /** The handle's tap: what can be done with the idea (add to a day, remove). */
   readonly onMore: () => void;
 }
@@ -125,7 +125,7 @@ export function IdeaRow(props: IdeaRowProps) {
   const label = [props.name, props.fitLine?.text].filter((part) => part !== undefined).join(', ');
   const onAction = (event: AccessibilityActionEvent) => {
     if (event.nativeEvent.actionName === 'activate') props.onOpen();
-    if (event.nativeEvent.actionName === 'addToDay') props.onAddToDay();
+    if (event.nativeEvent.actionName === 'addToDay') props.onAddToDay?.();
     if (event.nativeEvent.actionName === 'more') props.onMore();
   };
   return (
@@ -137,7 +137,7 @@ export function IdeaRow(props: IdeaRowProps) {
         accessibilityLabel={label}
         accessibilityActions={[
           { name: 'activate', label: props.name },
-          { name: 'addToDay', label: addLabel },
+          ...(props.onAddToDay === null ? [] : [{ name: 'addToDay', label: addLabel }]),
           { name: 'more', label: moreLabel },
         ]}
         onAccessibilityAction={onAction}

@@ -23,7 +23,7 @@ export {
   type WishMatches,
 } from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
-export { collapseSamePlaces, knownPlaceFor, type Collapsed } from './same-place';
+export { collapseSamePlaces, knownPlaceFor, metresBetween, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
@@ -104,8 +104,9 @@ export {
   type PlaceWindow,
 } from './place-time';
 export { straightLineMatrix } from './travel';
-export { opensDay, startFloor, type Reach } from './day-start';
+export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
 export { homeBase, nearHome } from './home';
+export { planOutings, type Outing } from './outings';
 export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';
 export type {
   Chronotype,
@@ -141,3 +142,11 @@ export {
   type ValidateItineraryInput,
   type ValidationResult,
 } from './validate-itinerary';
+export {
+  derivedDurationMin,
+  FULL_DAY_VISIT_MIN,
+  HALF_DAY_VISIT_MIN,
+  partOfVisit,
+  visitSpan,
+  type VisitSpan,
+} from './long-visits';

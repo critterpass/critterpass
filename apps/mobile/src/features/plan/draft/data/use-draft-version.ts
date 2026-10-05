@@ -22,6 +22,7 @@ import {
   type ReviewModel,
   type VersionRow,
 } from './version';
+import { hasDraftToReview } from './draft-stage';
 
 export interface HistoryEntry {
   readonly id: string;
@@ -57,7 +58,7 @@ const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, 
   FROM plan_items WHERE version_id = ?`;
 const MUST_DOS_SQL = `SELECT id, owner_id, title, external_action, external_deadline FROM must_dos
   WHERE trip_id = ?`;
-const HISTORY_SQL = `SELECT v.id, v.parent_id, v.created_at, v.cost_pp_minor, v.currency,
+const HISTORY_SQL = `SELECT v.id, v.parent_id, v.origin, v.created_at, v.cost_pp_minor, v.currency,
     (SELECT count(*) FROM plan_days d WHERE d.version_id = v.id) AS days
   FROM itinerary_versions v
   WHERE v.trip_id = ? AND v.visibility = 'organiser' AND v.status IN ('draft', 'superseded')
@@ -69,6 +70,7 @@ const RESERVED_SQL = `SELECT agent_job_id, status FROM redraft_reservations WHER
 interface HistoryRow {
   readonly id: string;
   readonly parent_id: string | null;
+  readonly origin: string | null;
   readonly created_at: string;
   readonly cost_pp_minor: number | null;
   readonly currency: string | null;
@@ -110,6 +112,8 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   const review = useMemo(() => {
     const row = version.rows[0];
     if (trip === undefined || trip === null || row === undefined) return null;
+    // Before the guide drafts, the trip's version is only its days (or her own plan on them).
+    if (!hasDraftToReview(trip)) return null;
     return buildReview({
       version: row,
       // The organiser reviews the draft in their own language: each day's theme as they read it.
@@ -139,7 +143,11 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   }, [jobs.rows, reserved.rows]);
 
   const draftJob = jobs.rows.find((row) => row.kind === 'draft');
-  const versions = history.rows.map((row) => ({ id: row.id, parentId: row.parent_id }));
+  const versions = history.rows.map((row) => ({
+    id: row.id,
+    parentId: row.parent_id,
+    origin: row.origin,
+  }));
   // A redraft she put back gave its unit back: its reservation reads `released`.
   const putBack = new Set(
     reserved.rows.filter((r) => r.status === 'released').map((r) => r.agent_job_id),

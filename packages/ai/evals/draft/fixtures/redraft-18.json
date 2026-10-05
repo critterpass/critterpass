@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "42efc900-e711-4989-82bf-8c5f5bc49901",
+        "id": "06baf41c-70bc-46ce-a105-4bb1ed907962",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A relaxed day around the Zócalo\",\n  \"summary\": \"A gentle Sunday staying close to the historic centre, with time to wander, eat well and soak up the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We begin where the city's heart beats, with plenty of room to breathe and look around.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stroll from the square, this museum keeps our history lovers smiling.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is right beside the ruins, so nobody has to rush off anywhere.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After a slow afternoon, we stay in the same neighbourhood for a lively evening show.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Sunday Close to the Zócalo\",\n  \"summary\": \"A relaxed day around the historic centre and nearby markets, keeping the rides short and the pace gentle.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the city, and it is right here — no long ride needed to feel its pulse.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market full of local life, just a short hop from the Zócalo.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A meal beside the market, so nobody has to travel far on a full stomach.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one big journey of the day, kept because it is a must-see — and it takes half the day, so we plan around it.\",\n      \"must_do_id_note\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 75,
+          "input_tokens": 96,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 296,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 326,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "3697db06-1347-458f-b4e8-66f020a7bf6b",
+        "id": "b4278b2c-9312-4ece-b6d6-6ac4df598cc7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Calm Day Around Chapultepec\",\n  \"summary\": \"A gentle day around Chapultepec with nature, a market, and meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A soft start among the trees, perfect for the early birds and the nature lover.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, with plenty of vegetarian options for the crew.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride to Coyoacán for market bustle and street food, close to our lunch spot.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back near the park, a relaxed vegan taquería to end the day.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Centro Histórico y Mercado\",\n  \"summary\": \"A relaxed Sunday around the historic centre and its market, keeping the day close and easy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the market’s morning bustle, close to everything else today.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short walk away, the Zócalo gives the crew their history fix without a long ride.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the square, open through the afternoon so no rush.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The essential pyramid visit stays, the one longer ride of the day, and we keep the rest close.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 114,
+          "input_tokens": 130,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 260,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 305,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "df080a06-42c0-4db2-bdd9-b0e5ed08b6b5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning at Teotihuacan, then taquería evening"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 203,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 15,
           "service_tier": "standard"
         }
       }

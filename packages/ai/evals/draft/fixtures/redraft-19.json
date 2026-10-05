@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8c9145b3-4924-4c60-b0e2-afb7813c099b",
+        "id": "2cfdf2d7-1e1c-402e-9f27-67fdb832ba5b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in the City\",\n  \"summary\": \"A gentle morning in Roma Norte with time to wander, then a long afternoon drifting through the canals of Xochimilco.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte wander, but now there is room to linger over every mural and corner café.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With the market dropped, the trajineras get a whole unhurried afternoon of floating, singing and snacking on the water.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Roma Morning\",\n  \"summary\": \"A gentle day with a long, unhurried walk through Roma Norte and time to simply soak up the neighbourhood.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one true keeper for a sleepy crew: a free, all-day wander with no rush and plenty of local life.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 91,
+          "input_tokens": 140,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 184,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 109,
           "service_tier": "standard"
         }
       }

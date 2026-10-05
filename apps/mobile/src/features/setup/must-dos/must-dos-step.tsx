@@ -12,7 +12,9 @@ import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTyping } from '@/data/realtime/use-typing';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { hrefFor } from '@/lib/navigation/screen-registry';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import { setMustDosCommand, setSetupStepCommand, trackLotteryCommand } from '../data/commands';
 import { setupRoutes } from '../routes';
@@ -20,7 +22,8 @@ import type { StepProps } from '../shell/frame';
 import { useMustDosData } from './data';
 import { buildMustDos, type MustDoItem } from './model';
 import { MustDosView } from './must-dos-view';
-import { listWithout } from './save';
+import { useExamplePlaces } from './examples';
+import { listWith, listWithout } from './save';
 
 export function MustDosStep({ trip, shell }: StepProps) {
   const data = useMustDosData(trip.tripId);
@@ -29,15 +32,21 @@ export function MustDosStep({ trip, shell }: StepProps) {
   const setStep = useCommand(setSetupStepCommand);
   const trackLottery = useCommand(trackLotteryCommand);
   const [drafting, setDrafting] = useState(false);
+  const redesign = usePlanningSwitch().redesign;
+  const examples = useExamplePlaces(data.destinationId, useLocale());
   const model = useMemo(
     () => buildMustDos(data.rows, data.queued, trip.members, trip.me, typing),
     [data.rows, data.queued, trip.members, trip.me, typing],
   );
 
-  const draft = () => {
+  const draft = (withoutMustDos = false) => {
     setDrafting(true);
     void setStep
-      .send({ trip_id: trip.tripId, step: 'done' })
+      .send({
+        trip_id: trip.tripId,
+        step: 'done',
+        ...(withoutMustDos ? { without_must_dos: true as const } : {}),
+      })
       .then(() => {
         const href = hrefFor('3c-8', { tripId: trip.tripId });
         if (href !== undefined) router.push(href);
@@ -74,7 +83,14 @@ export function MustDosStep({ trip, shell }: StepProps) {
       draft={draftState}
       onOpenDraft={openDraft}
       onAdd={() => router.push(setupRoutes.addMustDo(trip.tripId))}
-      onDraft={draft}
+      onDraft={() => draft()}
+      // The move that leaves must-dos empty ships with the planning screens.
+      onDraftWithout={redesign ? () => draft(true) : undefined}
+      examples={examples}
+      onExample={(place) => {
+        const list = listWith(trip.tripId, model.mine, { text: place.name, poiId: place.id });
+        if (list !== null) void setMustDos.send(list);
+      }}
       onRemove={(item) => void setMustDos.send(listWithout(trip.tripId, model.mine, item.id))}
       onRemind={remind}
     />
