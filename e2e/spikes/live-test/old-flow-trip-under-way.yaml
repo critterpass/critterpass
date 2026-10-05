@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# The finished old-flow trip again, but its first day is today: a fresh account with the planning
+# redesign off on this phone drafts and locks a four-day Đà Lạt trip that starts today; Home, the
+# hub and the earlier plan are shot (`old-c-…`). The phone then follows the shared config (on) and
+# the trip under way is walked in the new screens (`new-c-…`).
+- runFlow:
+    file: old-flow-subflows/old-flow-trip.yaml
+    env:
+      SHOTS: old-c-00-setup
+      START_OFFSET_DAYS: 0
+- runFlow:
+    file: old-flow-subflows/old-plan-screens.yaml
+    env:
+      SHOTS: old-c
+- runFlow:
+    file: old-flow-subflows/planning-redesign.yaml
+    env:
+      MODE: 'follow'
+      SHOT: new-c-00-redesign-follows-config
+- runFlow:
+    file: old-flow-subflows/new-plan-screens.yaml
+    env:
+      SHOTS: new-c
+      DAYS: 4

@@ -1,0 +1,226 @@
+appId: app.critterpass.dev
+---
+# Set-up for the old-flow walks: a fresh account from Ho Chi Minh City turns the planning redesign
+# OFF on this phone before anything else, starts a crew of one, pitches Đà Lạt and locks it in,
+# then sets the trip up for four days: the dates and the budget locked, the rooms as offered, one
+# must-do, the guide's draft, its review, and the plan locked in alone. ${SHOTS} prefixes the
+# screenshots; ${START_OFFSET_DAYS} is how many days from today the trip starts (0: today);
+# ${STOP_AFTER_BUDGET} set to 'yes' ends the flow once the budget is locked, before any draft.
+- runFlow:
+    file: ../../../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- runFlow:
+    file: planning-redesign.yaml
+    env:
+      MODE: 'off'
+      SHOT: ${SHOTS + '-00-redesign-off'}
+- runFlow:
+    file: ../../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Lat with Linh'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da lat'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- takeScreenshot: ${SHOTS}-01-pitch-results
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open.
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# Four days from the chosen first day in Vietnam, tapped by their dates.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + Number(START_OFFSET_DAYS) * 86400000); output.pickDate = d.toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- runFlow:
+    file: ../../../happy/subflows/pick-days.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 4
+- assertVisible:
+    id: 'picker-length'
+    text: '4 days .*'
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-02-dates
+- tapOn:
+    id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-03-budget
+- tapOn:
+    id: 'budget-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-04-rooms
+- runFlow:
+    when:
+      true: ${typeof STOP_AFTER_BUDGET === 'undefined' || STOP_AFTER_BUDGET !== 'yes'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
+      - extendedWaitUntil:
+          visible:
+            id: 'must-dos-add'
+          timeout: 30000
+      - tapOn:
+          id: 'must-dos-add'
+      - extendedWaitUntil:
+          visible:
+            id: 'add-must-do-field'
+          timeout: 10000
+      - tapOn:
+          id: 'add-must-do-field'
+      - inputText: 'Crazy House'
+      - extendedWaitUntil:
+          visible:
+            id: 'add-must-do-place-.*|add-must-do-none'
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'add-must-do-keep'
+      - extendedWaitUntil:
+          visible:
+            text: '(?i)crazy house.*'
+          timeout: 15000
+      - scrollUntilVisible:
+          element:
+            id: 'must-dos-draft'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-05-must-dos
+      - tapOn:
+          id: 'must-dos-draft'
+      - extendedWaitUntil:
+          visible:
+            id: 'drafting-screen'
+          timeout: 30000
+      - takeScreenshot: ${SHOTS}-06-drafting
+      # The draft job (outline, every day, checks) takes a few minutes on staging.
+      - extendedWaitUntil:
+          visible:
+            id: 'draft-review'
+          timeout: 600000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-07-draft-review
+      - scroll
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: ${SHOTS}-08-draft-review-lower
+      - scrollUntilVisible:
+          element:
+            id: 'draft-propose'
+          timeout: 15000
+      - tapOn:
+          id: 'draft-propose'
+      - extendedWaitUntil:
+          visible:
+            id: 'build-lock-alone'
+          timeout: 30000
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-09-lock-alone
+      - tapOn:
+          id: 'build-lock-alone'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'build-lock-alone'
+          timeout: 60000
+      - waitForAnimationToEnd:
+          timeout: 6000
+      - takeScreenshot: ${SHOTS}-10-after-the-lock
+      - extendedWaitUntil:
+          visible:
+            id: 'home-mode-.*'
+          timeout: 60000
+          optional: true
+      - runFlow: ../../../happy/subflows/dismiss-visit-offer.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-hatch-later'
+          commands:
+            - tapOn:
+                id: 'critters-hatch-later'

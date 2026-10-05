@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# A trip made in the earlier planning flow, opened in the new one. A fresh account turns the
+# planning redesign off on this phone, sets up a four-day Đà Lạt trip (22–25 Oct when run on
+# 5 Oct), has the guide draft it, reviews it and locks it in alone; the earlier plan screens are
+# shot (`old-a-…`). The phone then follows the shared config (on) and the same trip is walked in
+# the new screens (`new-a-…`), and once more read in Vietnamese (`new-a-vi-…`) for its first
+# screens.
+- runFlow:
+    file: old-flow-subflows/old-flow-trip.yaml
+    env:
+      SHOTS: old-a-00-setup
+      START_OFFSET_DAYS: 17
+- runFlow:
+    file: old-flow-subflows/old-plan-screens.yaml
+    env:
+      SHOTS: old-a
+- runFlow:
+    file: old-flow-subflows/planning-redesign.yaml
+    env:
+      MODE: 'follow'
+      SHOT: new-a-00-redesign-follows-config
+- runFlow:
+    file: old-flow-subflows/new-plan-screens.yaml
+    env:
+      SHOTS: new-a
+      DAYS: 4
