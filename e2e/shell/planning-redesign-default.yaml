@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
-# A fresh install, before any config has synced (signed out, from the splash): Developer tools
-# reads the planning redesign as on, from the default, so the section 7 screens show without the
-# shared config or an override.
+# A fresh install, signed out, from the splash: Developer tools reads the planning redesign as on
+# with no override, from the default before the public config syncs or from the synced config once
+# it has (staging syncs it within seconds; the unit tests pin the default itself).
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -14,7 +14,7 @@ appId: app.critterpass.dev
 # The section sits near the top of the list, under the demo data buttons.
 - extendedWaitUntil:
     visible:
-      id: 'dev-planning-redesign-source-default'
+      id: 'dev-planning-redesign-source-(default|config)'
     timeout: 30000
 - assertVisible:
     id: 'dev-planning-redesign-state-on'
