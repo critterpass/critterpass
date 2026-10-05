@@ -29,6 +29,8 @@ import {
   type LocationSessionPort,
 } from '@/lib/location';
 
+import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
+
 import { resetTabBarCoverForTests, useTabBarCover } from '../../sheet/tab-bar-cover';
 import { renderUi } from '../../test-support/render';
 import { VisitConsentHost } from '../VisitConsentHost';
@@ -122,6 +124,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  setCeremonyPending(false);
   setLocationEngine(null);
   jest.useRealTimers();
 });
@@ -200,6 +203,20 @@ describe('visit consent host', () => {
     await rest(VISIT_CONSENT_CALM_MS - 500);
     expect(sheetUp()).toBe(false);
     await rest(600);
+    expect(sheetUp()).toBe(true);
+  });
+
+  it('waits its turn while the arrival hatch has yet to play, then rests a whole wait again', async () => {
+    mockPathname = HUB;
+    await engineOn(true);
+    // The egg hatched: the ceremony is about to open over the hub, or is open.
+    setCeremonyPending(true);
+    await renderUi(tree());
+    await rest(5 * VISIT_CONSENT_CALM_MS);
+    expect(sheetUp()).toBe(false);
+    // The ceremony has played.
+    setCeremonyPending(false);
+    await rest(VISIT_CONSENT_CALM_MS + 100);
     expect(sheetUp()).toBe(true);
   });
 
