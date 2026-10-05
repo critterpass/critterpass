@@ -1,7 +1,9 @@
 /**
  * What the GO preview shows, from where the phone is, the route answer, the signal and the ride
  * quote. The road line needs both a position and signal; without either the preview opens on the
- * place, with no line, and Start still hands off (the maps app finds the person itself). When the
+ * place, with no line, and Start still hands off (the maps app finds the person itself); location
+ * switched off and a phone that has no fix yet are told apart, because only the second can be
+ * tried again. When the
  * router could not answer, the minutes are straight-line "about" minutes and the line is drawn
  * straight and thin, never as if it followed the roads.
  */
@@ -66,11 +68,31 @@ export type GrabRow =
       readonly etaMin: number;
       readonly url: string;
     }
-  /** Grab runs here but gave no estimate: Ride still opens it with the drop-off filled in. */
+  /**
+   * Grab gave no live fare, but the place has published ride-hail rates: the range over the routed
+   * trip, always worded as an estimate. Ride opens Grab with the drop-off filled in.
+   */
+  | {
+      readonly kind: 'estimate';
+      readonly lowMinor: number;
+      readonly highMinor: number;
+      readonly currency: string;
+      readonly url: string;
+      readonly fallbackUrl: string;
+    }
+  /** Grab runs here and nothing prices the ride: Ride still opens it with the drop-off filled in. */
   | { readonly kind: 'link'; readonly url: string; readonly fallbackUrl: string };
 
 export type PreviewStatus =
-  'locating' | 'routing' | 'routed' | 'straight' | 'no_location' | 'offline';
+  | 'locating'
+  | 'routing'
+  | 'routed'
+  | 'straight'
+  /** Location is off for the app. */
+  | 'no_location'
+  /** Location is on, and the phone has not found where it is yet. */
+  | 'no_fix'
+  | 'offline';
 
 export interface PreviewState {
   readonly status: PreviewStatus;
@@ -92,7 +114,10 @@ export interface PreviewInput {
   readonly ride: RideState;
 }
 
-/** Grab's own fare when it gave one, else its link when it runs here, else nothing. */
+/**
+ * Grab's own fare when it gave one; else, where Grab runs, the range from the place's published
+ * ride-hail car rates; else its plain link; nothing where Grab does not run.
+ */
 export function grabRow(ride: RideState): GrabRow | null {
   if (ride.kind !== 'ready') return null;
   const estimate = ride.quote.estimate;
@@ -107,9 +132,20 @@ export function grabRow(ride: RideState): GrabRow | null {
     };
   }
   const link = ride.quote.links.find((candidate) => candidate.provider === 'grab');
-  return link === undefined
-    ? null
-    : { kind: 'link', url: link.app_url, fallbackUrl: link.fallback_url };
+  if (link === undefined) return null;
+  const urls = { url: link.app_url, fallbackUrl: link.fallback_url };
+  const car = ride.quote.fare_estimate?.options.find(
+    (option) => option.ride_class === 'ride_hail_car',
+  );
+  return car === undefined
+    ? { kind: 'link', ...urls }
+    : {
+        kind: 'estimate',
+        lowMinor: car.low_minor,
+        highMinor: car.high_minor,
+        currency: car.currency,
+        ...urls,
+      };
 }
 
 function straightMinutes(from: GoPoint, to: GoPoint, mode: GoMode): ModeMinutes {
@@ -137,6 +173,7 @@ export function previewState(input: PreviewInput): PreviewState {
   const empty = { you: null, minutes: null, line: null, lineStraight: false, grab };
   const { locate, route, place } = input;
   if (locate.kind === 'locating') return { ...empty, status: 'locating' };
+  if (locate.kind === 'no_fix') return { ...empty, status: 'no_fix' };
   if (locate.kind !== 'here') return { ...empty, status: 'no_location' };
   const you = locate.at;
   if (!input.online || route.kind === 'offline') {

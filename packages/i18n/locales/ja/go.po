@@ -31,6 +31,10 @@ msgstr ""
 msgid "go.preview.aboutHours"
 msgstr ""
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimateLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
 msgstr ""
@@ -42,6 +46,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noFix"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
@@ -78,6 +86,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabFare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
@@ -130,6 +142,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.retryLocate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx

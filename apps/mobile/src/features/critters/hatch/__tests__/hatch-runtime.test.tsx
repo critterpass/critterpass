@@ -18,6 +18,8 @@ jest.mock('expo-router', () => ({
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, render, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { NavigationContext } from 'expo-router/react-navigation';
+import type { ContextType } from 'react';
 
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import {
@@ -25,6 +27,8 @@ import {
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { isCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
+import { resetTabBarCoverForTests, useTabBarCover } from '@/ui/sheet/tab-bar-cover';
 
 import { EGG, seedCritters, TRIP } from '../../test-support/seed-critters';
 import { markHatchSeen } from '../hatch-model';
@@ -59,6 +63,19 @@ async function mount() {
   return view;
 }
 
+/** A tab root as a navigator sees it, with a sheet open on it. */
+const TAB_SCREEN = {
+  isFocused: () => true,
+  addListener: () => () => undefined,
+  getState: () => ({ type: 'tab' }),
+  getParent: () => undefined,
+} as unknown as ContextType<typeof NavigationContext>;
+
+function OpenSheet() {
+  useTabBarCover();
+  return null;
+}
+
 const settle = (ms: number) => act(() => new Promise<void>((resolve) => setTimeout(resolve, ms)));
 
 describe('hatch watcher', () => {
@@ -84,6 +101,30 @@ describe('hatch watcher', () => {
       </LocalFirstProvider>,
     );
     await waitFor(() => expect(push).toHaveBeenCalledWith(HATCH));
+  });
+
+  it('waits while a sheet is open on the tab root, and holds everything else back meanwhile', async () => {
+    mockPathname = '/trips';
+    const stack = await openTestLocalFirst({ holdUploads: true });
+    stacks.push(stack);
+    await seedCritters(stack.db, stack.uid, { egg: 'hatched' });
+    const tree = (sheet: boolean) => (
+      <LocalFirstProvider value={stack.value}>
+        <NavigationContext.Provider value={TAB_SCREEN}>
+          {sheet ? <OpenSheet /> : null}
+        </NavigationContext.Provider>
+        <HatchRuntime />
+      </LocalFirstProvider>
+    );
+    const view = await render(tree(true));
+    await waitFor(() => expect(isCeremonyPending()).toBe(true));
+    await settle(CALM_MS + 1000);
+    expect(push).not.toHaveBeenCalled();
+    await view.rerender(tree(false));
+    await waitFor(() => expect(push).toHaveBeenCalledWith(HATCH));
+    // Until the ceremony has played, the visit offer and its like stay down.
+    expect(isCeremonyPending()).toBe(true);
+    resetTabBarCoverForTests();
   });
 
   it('opens the ceremony once per egg at a calm moment', async () => {

@@ -58,8 +58,23 @@ export function checkingLine(check: CheckCounts): string | null {
     : t({ id: 'plan.tripMap.check.checking', message: 'Checking the plan…' });
 }
 
-/** The peek sheet's note; null until the check has something to say. */
-export function peekCheckLine(check: CheckCounts, locale: string, start: string | null) {
+/** The phone's own date, as the trip's dates are written ("2026-10-05"). */
+function localToday(): string {
+  const now = new Date();
+  const two = (value: number) => String(value).padStart(2, '0');
+  return `${now.getFullYear()}-${two(now.getMonth() + 1)}-${two(now.getDate())}`;
+}
+
+/**
+ * The peek sheet's note; null until the check has something to say. "Before {start}" is said only
+ * while the trip is still ahead: from its first day on there is no before.
+ */
+export function peekCheckLine(
+  check: CheckCounts,
+  locale: string,
+  start: string | null,
+  today: string = localToday(),
+) {
   if (!check.done) return null;
   if (check.fixes === 0) {
     const know = check.know;
@@ -74,7 +89,7 @@ export function peekCheckLine(check: CheckCounts, locale: string, start: string 
         });
   }
   const fixes = check.fixes;
-  if (start === null) {
+  if (start === null || start <= today) {
     return t({
       id: 'plan.tripMap.check.fixes',
       message: plural(fixes, { one: 'One thing to fix.', other: '# things to fix.' }),

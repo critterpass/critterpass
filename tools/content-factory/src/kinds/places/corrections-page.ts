@@ -39,7 +39,10 @@ function noteLines(place: PlaceCorrection, kept: BeforeRow): string {
   const added =
     place.note === undefined || kept.curated
       ? ''
-      : `<p><span class="k">Note</span> ${escape(place.note.why_go)}</p>`;
+      : `<p><span class="k">Note</span> ${escape(place.note.why_go)}</p>
+<p><span class="k">Visit</span> ${escape(place.note.best_time)} · ${place.note.time_needed_min} min · ${escape(place.note.crowd_hint)}${
+          place.note.etiquette === null ? '' : ` · ${escape(place.note.etiquette)}`
+        }</p>`;
   return `${claim}${revised.join('')}${added}`;
 }
 
@@ -55,6 +58,8 @@ function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>
   const badges = [
     place.essential === true ? '<b class="star">essential</b>' : '',
     place.must_see === true ? '<b class="star">must-see</b>' : '',
+    place.essential === false ? '<b class="quiet">gives up essential</b>' : '',
+    kept.id === null ? '<b class="new">new place</b>' : '',
     place.stated && !kept.curated ? '<b class="new">joins the recommended set</b>' : '',
     place.stated ? '' : '<b class="quiet">kept record not stated</b>',
   ].join(' ');
@@ -71,14 +76,18 @@ function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>
     const away = metresBetween(row, kept);
     return `<tr><td>${escape(row.name)}</td><td>${escape(row.category)}</td><td>${
       row.merged_into !== null ? 'already merged' : state(row.curated, row.must_see)
-    }</td><td>${mapLink(row, point(row))}</td><td${away > FAR_M ? ' class="warn"' : ''}>${distance(away)}</td><td class="id">${escape(row.id)}</td></tr>`;
+    }</td><td>${mapLink(row, point(row))}</td><td${away > FAR_M ? ' class="warn"' : ''}>${distance(away)}</td><td class="id">${escape(row.id ?? '')}</td></tr>`;
   });
   return `<section class="place"><h3>${escape(name)} ${badges}</h3>
-<p><span class="k">Before</span> ${escape(kept.name)}${kept.name_local === null ? '' : ` (${escape(kept.name_local)})`} · ${escape(kept.category)} · ${state(kept.curated, kept.must_see)}</p>
+<p><span class="k">Before</span> ${
+    kept.id === null
+      ? 'not in the catalogue: publishing creates the record at this point, and the ingest of the widened box lands on the same record'
+      : `${escape(kept.name)}${kept.name_local === null ? '' : ` (${escape(kept.name_local)})`} · ${escape(kept.category)} · ${state(kept.curated, kept.must_see)}`
+  }</p>
 <p><span class="k">After</span> ${after}</p>
 <p><span class="k">Why</span> ${escape(place.why)}</p>${noteLines(place, kept)}
 <p><span class="k">Point</span> ${mapLink(kept, point(kept))} · checked against ${escape(place.checked.source)}, ${off}</p>
-<p class="id">${escape(place.keep)} · ${escape(kept.id)}</p>${
+<p class="id">${escape(place.keep)} · ${escape(kept.id ?? 'no row yet')}</p>${
     merged.length === 0
       ? ''
       : `<table><tr><th>Merged into it</th><th>Kind</th><th>Was</th><th>Stored point</th><th>From the kept point</th><th>Row</th></tr>${merged.join('')}</table>`

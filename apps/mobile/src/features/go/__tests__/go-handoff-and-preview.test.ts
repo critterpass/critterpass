@@ -10,7 +10,7 @@ import type { RideQuoteResult } from '@cp/domain';
 import { leaveByGoRoute, routeForTap, type PushTap } from '@/data/push/routing';
 
 import { paramsForTarget, targetFromParams, type GoTarget } from '../data/go-place';
-import { defaultMapsApp, mapsAppFor, mapsDirectionsUrl } from '../maps-handoff';
+import { defaultMapsApp, destinationWords, mapsAppFor, mapsDirectionsUrl } from '../maps-handoff';
 import { firstMode, grabRow, previewState, type PreviewInput } from '../preview-model';
 
 const MARBLE = { lat: 16.0039, lng: 108.2633 };
@@ -33,6 +33,25 @@ describe('the maps app handoff', () => {
     );
     expect(mapsDirectionsUrl(MARBLE, 'drive', 'google')).toBe(
       'https://www.google.com/maps/dir/?api=1&destination=16.003900,108.263300&travelmode=driving',
+    );
+  });
+
+  it('hands over a place with an address by its name, and one without by its point', () => {
+    const market = { lat: 16.068277, lng: 108.224043, name: 'Chợ Hàn', address: '119 Trần Phú' };
+    expect(destinationWords({ ...market, city: 'Đà Nẵng' })).toBe('Chợ Hàn, 119 Trần Phú, Đà Nẵng');
+    // The address already names the city.
+    expect(destinationWords({ ...market, address: '119 Trần Phú, Đà Nẵng', city: 'Đà Nẵng' })).toBe(
+      'Chợ Hàn, 119 Trần Phú, Đà Nẵng',
+    );
+    expect(mapsDirectionsUrl({ ...market, city: 'Đà Nẵng' }, 'walk', 'google')).toBe(
+      `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent('Chợ Hàn, 119 Trần Phú, Đà Nẵng')}&travelmode=walking`,
+    );
+    expect(mapsDirectionsUrl(market, 'drive', 'apple')).toBe(
+      `https://maps.apple.com/?daddr=${encodeURIComponent('Chợ Hàn, 119 Trần Phú')}&dirflg=d`,
+    );
+    // A name alone could be any of its namesakes: the point goes instead.
+    expect(mapsDirectionsUrl({ ...market, address: null }, 'drive', 'google')).toContain(
+      'destination=16.068277,108.224043',
     );
   });
 
@@ -99,11 +118,16 @@ describe('the preview', () => {
     expect(failed.minutes?.drive.minutes).toBeGreaterThan(0);
   });
 
-  it('opens on the place without a line when there is no location', () => {
-    for (const locate of [{ kind: 'denied' }, { kind: 'no_fix' }] as const) {
-      const state = previewState({ ...base, locate });
-      expect(state).toMatchObject({ status: 'no_location', you: null, line: null, minutes: null });
-    }
+  it('opens on the place without a line, and tells location off from no fix yet', () => {
+    const none = { you: null, line: null, minutes: null };
+    expect(previewState({ ...base, locate: { kind: 'denied' } })).toMatchObject({
+      status: 'no_location',
+      ...none,
+    });
+    expect(previewState({ ...base, locate: { kind: 'no_fix' } })).toMatchObject({
+      status: 'no_fix',
+      ...none,
+    });
   });
 
   it('drops the line and the minutes with no signal, keeping the position', () => {
@@ -178,6 +202,24 @@ describe('the Grab row', () => {
       url: 'grab://x',
       fallbackUrl: 'https://grab.com',
     });
+    // Published ride-hail car rates price the trip when Grab itself gives no fare.
+    const car = {
+      ride_class: 'ride_hail_car',
+      low_minor: 38000,
+      high_minor: 57000,
+      currency: 'VND',
+    };
+    const bike = { ...car, ride_class: 'ride_hail_bike', low_minor: 16000, high_minor: 24000 };
+    const fare_estimate = { options: [bike, car] } as unknown as RideQuoteResult['fare_estimate'];
+    expect(grabRow({ kind: 'ready', quote: quote({ links: [grab], fare_estimate }) })).toEqual({
+      kind: 'estimate',
+      lowMinor: 38000,
+      highMinor: 57000,
+      currency: 'VND',
+      url: 'grab://x',
+      fallbackUrl: 'https://grab.com',
+    });
+    expect(grabRow({ kind: 'ready', quote: quote({ fare_estimate }) })).toBeNull();
     const gojek = { provider: 'gojek', app_url: 'gojek://x', fallback_url: 'https://gojek.com' };
     expect(grabRow({ kind: 'ready', quote: quote({ links: [gojek as never] }) })).toBeNull();
     expect(grabRow({ kind: 'none' })).toBeNull();

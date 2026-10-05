@@ -20,6 +20,10 @@ import { makeStyles } from '@/ui/theme';
 
 import type { GoPoint } from './maps-handoff';
 
+/** The camera keeps this much map on each side of the place and the person. */
+const SIDE_PADDING = 110;
+const PIN_MAX_WIDTH = SIDE_PADDING * 2;
+
 export interface GoMapProps {
   readonly place: GoPoint & { readonly label: string };
   readonly you: GoPoint | null;
@@ -28,6 +32,7 @@ export interface GoMapProps {
   readonly destinationSlug: string | null;
   /** Room the card over the map's foot takes, so the route stays in view above it. */
   readonly bottomInset: number;
+  readonly testID?: string;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -41,7 +46,10 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.sm,
     paddingHorizontal: t.space['10'],
     paddingVertical: t.space['4'],
+    // Twice the camera's side padding: a long name is cut at its end and stays on the screen.
+    maxWidth: PIN_MAX_WIDTH,
   },
+  pinLabel: { flexShrink: 1 },
 }));
 
 export function GoMap({
@@ -51,6 +59,7 @@ export function GoMap({
   lineStraight,
   destinationSlug,
   bottomInset,
+  testID = 'go-map',
 }: GoMapProps) {
   const styles = useStyles();
   const tiles = useRegionTiles(destinationSlug, null);
@@ -73,7 +82,7 @@ export function GoMap({
   // The map as now framed has drawn every tile: screenshot flows wait for the marker below.
   const [renderedKey, setRenderedKey] = useState<string | null>(null);
   return (
-    <View style={styles.map} testID="go-map">
+    <View style={styles.map} testID={testID}>
       {/* Re-framed when the first position or the route arrives. */}
       <MapLibreMap
         key={mapKey}
@@ -87,7 +96,15 @@ export function GoMap({
         <Camera
           initialViewState={
             framed
-              ? { bounds, padding: { top: 120, bottom: bottomInset + 48, left: 110, right: 110 } }
+              ? {
+                  bounds,
+                  padding: {
+                    top: 120,
+                    bottom: bottomInset + 48,
+                    left: SIDE_PADDING,
+                    right: SIDE_PADDING,
+                  },
+                }
               : { center: [place.lng, place.lat], zoom: 15 }
           }
         />
@@ -109,14 +126,20 @@ export function GoMap({
         <Marker lngLat={[place.lng, place.lat]} anchor="bottom">
           <View style={styles.pin} collapsable={false}>
             <Icon name="pin" size={16} decorative />
-            <Text variant="label" color={tokens.semantic.text.onAccent} numberOfLines={1}>
+            <Text
+              variant="label"
+              color={tokens.semantic.text.onAccent}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={styles.pinLabel}
+            >
               {place.label}
             </Text>
           </View>
         </Marker>
       </MapLibreMap>
       {renderedKey === mapKey ? (
-        <View style={styles.ready} collapsable={false} testID="go-map-ready" />
+        <View style={styles.ready} collapsable={false} testID={`${testID}-ready`} />
       ) : null}
     </View>
   );
