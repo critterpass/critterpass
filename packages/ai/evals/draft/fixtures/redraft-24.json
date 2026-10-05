@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5ad5733e-3830-4c89-9061-f04648a99ccd",
+        "id": "925039d9-77f9-4977-868e-d3a47f1137ee",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Day, Full Belly\",\n  \"summary\": \"A gentle day around the market, the square and a long lunch, with the evening kept for coffee and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Morning market wander, slow as you like. The crew can sniff every stall twice.\",\n      \"note_voice\": \"Morning market wander, slow as you like. Sniff every stall twice, I would.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, easy stop by the square. No rush, just a look around.\",\n      \"note_voice\": \"A short, easy stop by the square. No rush, just a look around.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays right here. Sit down, take your time, let the nem nướng do the talking.\",\n      \"note_voice\": \"Lunch stays right here. Sit down, take your time, let the nem nướng do the talking.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Evening coffee, because a slow day still needs a warm cup after dark.\",\n      \"note_voice\": \"Evening coffee, because a slow day still needs a warm cup after dark.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a sit-down spot, easy and long. The night owl in you will thank me.\",\n      \"note_voice\": \"Dinner in a sit-down spot, easy and long. The night owl in you will thank me.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Sips and Market Strolls\",\n  \"summary\": \"A gentler Đà Lạt day with just two unhurried activities, a long market wander, and two proper sit-down meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the market because it is the beating heart of local life, and a slow morning here is never wasted.\",\n      \"note\": \"We keep the market because it is the beating heart of local life, and a slow morning here is never wasted.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays put: nem nướng you can linger over, no rush, just rolling and dipping. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more easy wander by the square, then the pace drops right down for the evening.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner becomes a long, sit-down affair with coffee close by, because a slower day deserves a slow table.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 93,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2688,
-          "output_tokens": 455,
+          "output_tokens": 324,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "784c1d5d-84ca-48dc-9b00-78852c60ec61",
+        "id": "37f46b70-51e6-48bc-b79b-68e15039d762",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: Market first, then a slow feast"
+            "text": "Day 2: Morning at the market, slow sips after\nDay 2: A temple, a square, and evening sips"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 241,
+          "input_tokens": 243,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 11,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

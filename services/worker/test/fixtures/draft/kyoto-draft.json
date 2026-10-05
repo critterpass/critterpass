@@ -1161,14 +1161,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "20d0b227-b8a7-4859-a7f1-d453b7f6d51d",
+        "id": "5a2b5759-ddfc-4a72-b060-8bf8c6a762b0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area B, near Pontocho and Gion\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft arrival, lantern-lit Gion\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"bamboo, moss and Arashiyama air\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"temples, foxes and market bites\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\", \"m4\"],\n      \"poi_ids\": [\"p1\", \"p4\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"golden pavilion, slow goodbye\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area B, near Pontocho and Gion\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in old Kyoto\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p8\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Bamboo and the western hills\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Shrines, silver and night lanterns\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p1\", \"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Market morning, easy goodbye\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -1177,7 +1177,7 @@
           "input_tokens": 29,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2304,
-          "output_tokens": 264,
+          "output_tokens": 259,
           "service_tier": "standard"
         }
       }
@@ -1185,71 +1185,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "403573cc-476e-4edb-98fb-122bdd79189d",
+        "id": "28db4368-005c-49b7-a609-ac656d186571",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk the nightingale floors and let the castle's painted screens do the talking.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A slow canal-side stroll under the cherry blossoms, no rush and no wrong turns.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Snack your way down the covered arcade, from pickles to skewers to things you can't pronounce.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A thousand golden statues, all watching you pretend you didn't just eat too much.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 240,
+          "input_tokens": 258,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 81,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "d9f4c239-94af-492e-9c33-e2e908e20fc6",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The wooden stage hangs over the hillside like a dare. Go slow, let the view settle in.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old teahouse fronts and lantern light. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done with quiet Kyoto precision. The vegan set here is a soft landing.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 414,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 178,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "19e70ce9-396d-41d0-8b78-8579788d66e9",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Silver Pavilion, raked sand sea, moss garden. Go slow, let the path do the talking.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Tofu skin, pickles, yuzu everything. Graze lightly, save room.\"},{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Fox statues and vermilion gates. Climb as far as your knees fancy.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Lanterns, narrow lanes, tiny bars. Shoes off, phone down, eyes up.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 336,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 168,
+          "output_tokens": 124,
           "service_tier": "standard"
         }
       }
@@ -1257,23 +1209,71 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "db5997fa-e3f6-49ac-8746-c31593e1b1b3",
+        "id": "2515dbb4-09a1-4e0a-921b-a870c4f1d199",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bamboo as far as the eye can see, and it sounds like the wind is whispering.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The garden here was designed to be looked at, not walked through. Sit a while.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan kaiseki (multi-course Kyoto meal) that treats vegetables like the main event.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Gold leaf on a pond. It is exactly as much as it sounds, and somehow more.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Go early, before the selfie sticks wake up; the grove hums when it's empty.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The garden does most of the talking; the pond just agrees.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A quiet, careful kaiseki (multi-course Kyoto meal) that treats vegetables like the main event.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Gold leaf, still water, and a crowd that forgets to look up.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 353,
+          "input_tokens": 351,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 232,
+          "output_tokens": 162,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "61fd23f8-e800-4c57-831c-de2f942c3131",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The Silver Pavilion's dry garden is best before the crowds find their cameras.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the first stretch of the torii tunnels, then turn back before the mountain gets ideas.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hanamikoji's wooden facades hide teahouses where the evening is still arranged by whisper.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 316,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 176,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "c7432ad6-112d-40c9-ad57-20d9acdf301f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The wooden stage leans out over the maples like it's listening to the city breathe.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet canal path where the cherry branches do most of the talking.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan comfort food that doesn't make a fuss about being vegan.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Lanterns, narrow lanes, and the sound of sake being poured somewhere just out of sight.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 413,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 224,
           "service_tier": "standard"
         }
       }
@@ -1281,23 +1281,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "d4f87f71-a05d-4ef4-ba2e-b81c55a4ae4e",
+        "id": "8ea94547-1179-4f8a-9ca1-4ae55f529ea3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "3: A market morning, a temple evening"
+            "text": "1: Soft landing in old Kyoto"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 327,
+          "input_tokens": 198,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 9,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 7,
           "service_tier": "standard"
         }
       }
@@ -1305,23 +1305,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "b70e212b-10a9-41f9-a93e-111751afeff3",
+        "id": "782561a6-338b-4e08-9257-e2a952a01e51",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Soft landing, lantern-lit Gion, bamboo and moss air, a temple morning, then gold and a slow goodbye — shoes off, phone down, eyes up."
+            "text": "A gentle Kyoto run: temple and alley, bamboo and western hills, silver shrines and lanterns, then a market morning and an easy goodbye."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 188,
+          "input_tokens": 189,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 33,
+          "output_tokens": 30,
           "service_tier": "standard"
         }
       }

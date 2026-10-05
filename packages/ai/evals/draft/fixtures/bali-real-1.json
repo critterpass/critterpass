@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "dd6156c4-409b-4cd4-89de-3fa736747a36",
+        "id": "d73d4744-7cc6-4de8-87a4-748f85a6dede",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stay_area\":\"Ubud area\",\"days\":[{\"day_no\":1,\"theme\":\"Soft landing near the stay\",\"area\":\"Area H\",\"must_do_ids\":[],\"poi_ids\":[\"p35\",\"p36\"]},{\"day_no\":2,\"theme\":\"Tirta Empul ceremony day\",\"area\":\"Area A\",\"must_do_ids\":[\"m1\"],\"poi_ids\":[\"p15\",\"p139\"]},{\"day_no\":3,\"theme\":\"Ubud temples and monkey forest\",\"area\":\"Area H\",\"must_do_ids\":[],\"poi_ids\":[\"p30\",\"p29\",\"p14\"]},{\"day_no\":4,\"theme\":\"Rice terraces and coffee\",\"area\":\"Area N\",\"must_do_ids\":[],\"poi_ids\":[\"p138\",\"p22\"]},{\"day_no\":5,\"theme\":\"Easy morning before flying\",\"area\":\"Area Q\",\"must_do_ids\":[],\"poi_ids\":[\"p110\",\"p50\"]}],\"wishes\":[{\"wish_id\":\"w1\",\"poi_id\":\"p140\",\"day_no\":2,\"when\":\"morning\",\"weekdays\":[]}]}"
+            "text": "{\"stay_area\":\"Ubud area\",\"days\":[{\"day_no\":1,\"theme\":\"Arrival ease\",\"area\":\"Ubud\",\"must_do_ids\":[],\"poi_ids\":[\"p50\"]},{\"day_no\":2,\"theme\":\"Tirta Empul ceremony\",\"area\":\"Tampaksiring\",\"must_do_ids\":[\"m1\"],\"poi_ids\":[\"p15\"]},{\"day_no\":3,\"theme\":\"Ubud temples and rice terraces\",\"area\":\"Ubud and Tegallalang\",\"must_do_ids\":[],\"poi_ids\":[\"p35\",\"p36\",\"p138\"]},{\"day_no\":4,\"theme\":\"Monkey forest and heritage\",\"area\":\"Ubud\",\"must_do_ids\":[],\"poi_ids\":[\"p30\",\"p14\",\"p29\"]},{\"day_no\":5,\"theme\":\"Coastal farewell\",\"area\":\"Petitenget\",\"must_do_ids\":[],\"poi_ids\":[\"p110\"]}],\"wishes\":[{\"wish_id\":\"w1\",\"poi_id\":\"p140\",\"day_no\":2,\"when\":\"morning\",\"weekdays\":[]}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 72,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 4608,
-          "output_tokens": 239,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "440ad888-0d1b-432e-9429-064abba7563f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p113\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A gentle first hello to Bali: golden Buddhas, quiet corners and a soft breeze through the prayer hall.\"},{\"poi_id\":\"p55\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool and let the spiced pork, crackling and sambal do the talking.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 405,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 91,
+          "output_tokens": 238,
           "service_tier": "standard"
         }
       }
@@ -52,71 +28,47 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "17b3b147-0eb2-4064-a987-2752562654df",
+        "id": "b58e1aea-4a33-47ec-a689-67e1054c231d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p110\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Old stones and split gates, quiet in the early light.\"},{\"poi_id\":\"p56\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Crackling pork, spicy sambal, and a plate that disappears fast.\"},{\"poi_id\":\"p50\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A beachside temple with a calm, local rhythm.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p110\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old stones here have seen a lot of mornings, and they still hold the quiet.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy spot to sit, sip something cold, and watch Canggu wander by.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 394,
+          "input_tokens": 357,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 109,
+          "output_tokens": 121,
           "service_tier": "standard"
         }
       }
     },
-    "day-3": {
+    "day-1": {
       "status": 200,
       "body": {
-        "id": "7edf3af1-a0cd-4517-a9f9-4ba04bdc197c",
+        "id": "ca301cbf-aba8-4f5a-b4fe-620db610acea",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p30\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The monkey forest is pure theatre: mossy temples, cheeky long-tails, and photo spots at every turn.\"\n    },\n    {\n      \"poi_id\": \"p29\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A living temple where the carvings seem to breathe and the local life hums around you.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old bronze drum here is a quiet heavyweight of Balinese history.\"\n    },\n    {\n      \"poi_id\": \"p43\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm garden setting where the spa energy lingers over a slow, easy dinner.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A seaside temple with a salty breeze and carvings worth a slow look.\"\n    },\n    {\n      \"poi_id\": \"p113\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A grand Buddhist hall that feels a world away from the road outside.\"\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Balinese plate of rice, pork and spice, the kind locals queue for.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 736,
+          "input_tokens": 435,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 228,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "8c57a496-0c5c-4aa7-932d-420ac047ff0a",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The holy springs here wash away more than dust, and the carvings watch over every splash.\"\n    },\n    {\n      \"poi_id\": \"p139\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quieter place to dip into the ritual, where the water runs clear and the moss glows green.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The shrines are carved straight into the cliff face, like the valley grew its own temples.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The view of the volcano does half the work, and the plate does the rest.\"\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Local flavours with a modern twist, and the kind of room that makes you linger.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 728,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 284,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
@@ -124,23 +76,71 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "fecfa939-027c-4cd9-9fa7-7e6aea24abdf",
+        "id": "831f5b70-fc7c-454f-a5b4-09a674b3ca3d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple on the crater rim with misty mountain views and a calm, ancient feel.\"\n    },\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Those famous green steps are even better before the heat and the crowds arrive.\"\n    },\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Balinese chicken rice plate, the kind locals queue for.\"\n    },\n    {\n      \"poi_id\": \"p125\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A mossy temple where cheeky monkeys and old banyan trees share the grounds.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A stylish coffee break with a Scandinavian twist and a lively evening buzz.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sleek spot for a slow, well-cooked dinner with good wine.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p30\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys, mossy temples and a forest that feels older than the island itself.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An ancient bronze drum and a temple that hums with Pejeng history.\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Betutu slow-cooked until the spices do the talking. Terima kasih (thank you), lunch.\"\n    },\n    {\n      \"poi_id\": \"p29\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Carved guardians, quiet courtyards and the daily rhythm of Padangtegal village.\"\n    },\n    {\n      \"poi_id\": \"p78\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Indonesian flavours done with care, in a room that feels like a warm evening.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 718,
+          "input_tokens": 881,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 278,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "5403171f-3b3d-4e73-875e-a4db6db0d0c6",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p35\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet riverside temple where the jungle hums and the stones stay cool under the canopy.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of Ubud's old temple, all carved gates and offerings that smell of frangipani.\"\n    },\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Those famous green steps of rice, best seen before the sun gets too cheeky.\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crackling pork and spiced rice, the kind of plate that makes you forget your own name.\"\n    },\n    {\n      \"poi_id\": \"p43\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A slow, leafy dinner where the spa calm rubs off on your appetite.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 743,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 318,
+          "output_tokens": 284,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "050bb7c7-04ce-464d-8e5a-58c9a457d480",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The holy springs here wash away more than dust — go with an open heart and a spare sarong.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ancient royal tombs carved into the cliff face, with rice terraces whispering all around.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, lazy lunch with volcano views that make the sambal taste even better.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lakeside temple where the mountain air is crisp and the offerings are always fresh.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Italian comfort food in a garden courtyard — quiet, candlelit, and very easy to linger in.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 734,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 284,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "dcae090c-f9c0-45ea-8c1c-a27626de48fc",
+        "id": "e1835b2e-a58e-4a92-8098-7692e519493b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 1: Soft landing near the stay\nDay 3: Temples and a monkey forest morning\nDay 4: Rice terraces and coffee\nDay 5: Easy morning of temples"
+            "text": "3: Rice terraces, temples, a spa morning\n4: Monuments, temples, a babi guling lunch"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 520,
+          "input_tokens": 431,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 40,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }
@@ -172,23 +172,47 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "4a025445-8813-407e-a49f-17ffb971d50d",
+        "id": "48f2c31b-1d9a-4d78-9d51-ee487ae37f15",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Culture, ceremony, rice terraces and temples, with a whole morning at Tirta Empul — it all made it in, terima kasih (thank you)."
+            "text": "A gentle landing, a morning of blessing at Tirta Empul, an afternoon with Pendet, temples and babi guling, then the sea waves goodbye — terima kasih (thank you) for the good plan."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 200,
+          "input_tokens": 179,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 34,
+          "output_tokens": 46,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary-shorter": {
+      "status": 200,
+      "body": {
+        "id": "52500472-c7d8-4126-b82b-343986631716",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Landing easy, a blessed morning at Tirta Empul, Pendet after lunch, temples and babi guling, then the sea says terima kasih (thank you)."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 242,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 37,
           "service_tier": "standard"
         }
       }

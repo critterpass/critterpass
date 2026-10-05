@@ -231,6 +231,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     if (open.length > 0) openDays.set(poi.id, open);
   }
   // The days the crew lands and leaves stay near where it sleeps (./home).
+  const beforeEdges = new Map(openDays);
   keepEdgeDaysNearHome(
     openDays,
     input.pois,
@@ -239,7 +240,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     mustDoPlaces,
   );
   // Far essentials that sit together are one outing on one full day; a short trip takes the best.
-  const outings = outingsFor(input.pois, openDays, frame.dates.length, mustDoPlaces);
+  const outings = outingsFor(input.pois, openDays, frame.dates.length, mustDoPlaces, beforeEdges);
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();

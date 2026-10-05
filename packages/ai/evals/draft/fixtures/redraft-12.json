@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2f6d98ca-2076-4531-8f04-538e2a13b68f",
+        "id": "3ac756ea-c9b4-40c2-b36a-df031a66c4e9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Reykjavik on a Króna\",\n  \"summary\": \"A gentler Sunday around the city, keeping the whales and swapping the pricey grill for a market hall lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The whales stay, of course — some sights are worth every feather.\",\n      \"start_by\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the flea market, perfect for thrifty souls and local life.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the market hall — cheaper than the grill and plenty of choice for the crew.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Reykjavik on a Lighter Purse\",\n  \"summary\": \"A day of whales, local market life and a lighthouse, with meals that keep the budget happy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The whales stay, of course — some sights are worth the króna, and this one is a must.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Kolaportið for a proper taste of local life without opening the wallet.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki — homely, reasonable and very Icelandic.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grótta Lighthouse gives us sea air and a photo or two, all for free.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll, where everyone finds something and the bill stays friendly.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 71,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 245,
+          "output_tokens": 341,
           "service_tier": "standard"
         }
       }

@@ -67,6 +67,8 @@ const TEXT: Readonly<
     `${name} crowds a place that takes half the day or all of it. Give the long visit its time: move ${name} to another day, or leave it out.`,
   OFF_THE_OUTING: (name) =>
     `${name} is back in town on a day out. Keep the day to the outing's places and meals near them.`,
+  FAR_AFTER_DAY_OUT: (name) =>
+    `${name} is off the road home after a whole day out. Pick a place near the stay or on the way back.`,
   INSIDE_ANOTHER_STOP: (name) =>
     `${name} is inside a bigger place on this day, and its visit takes it in. Leave ${name} out.`,
   MUST_DO_MISSING: (name) => `${name} is a must-do and is missing. Fit it into this day.`,
@@ -157,6 +159,7 @@ const DROPPED_CODES: ReadonlySet<DraftViolationCode> = new Set([
   'LONG_HOP',
   'CROWDED_LONG_VISIT',
   'OFF_THE_OUTING',
+  'FAR_AFTER_DAY_OUT',
   'INSIDE_ANOTHER_STOP',
 ]);
 

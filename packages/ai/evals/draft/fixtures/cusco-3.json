@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "33acb06c-2de9-4e6c-bd6c-e0a956a48183",
+        "id": "99d9c4f3-f39f-4e2f-9dab-6e7ceb5a7f5e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area C\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco's Historic Heart\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley Salt & Terraces\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca Stones & Local Life\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p4\", \"p8\"]\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Cusco\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco's historic heart\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p2\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley salt and terraces\",\n      \"area\": \"Area A and B\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Inca foundations and farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 60,
+          "input_tokens": 63,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2048,
-          "output_tokens": 201,
+          "output_tokens": 200,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "b16b9eae-8ecf-45a9-9f2c-f6d096d484fd",
+        "id": "56f89760-800b-414e-ae4d-ee9cf1f53602",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The salt pans shimmer like a thousand little mirrors under Inti (the sun).\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Giant circular terraces that look like an amphitheatre made for the wind.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The salt pans shimmer like a thousand tiny mirrors, and the view down the valley is pure photo gold.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Giant circular terraces that once tested crops for the Inca, now a green amphitheatre for the curious.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 330,
+          "input_tokens": 329,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 84,
+          "output_tokens": 132,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "4bade582-ed42-4aa5-a9b0-54729969b247",
+        "id": "04257a1d-6f1e-4329-be03-3c050a2f3343",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great Inca stones of Sacsayhuamán, where the walls fit together like a slow, patient puzzle.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A thrifty, easy-going bite with plenty of veggie options near the old town.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Pedro Market hums with local life, fruit stalls, and the smell of fresh street food.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great Inca stones of Sacsayhuamán, where the walls fit like a puzzle made by giants.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pachapapa serves hearty Andean plates in a courtyard that feels like old Cusco.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Museo Inka holds the quiet treasures of the empire, from gold work to woven stories.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 500,
+          "input_tokens": 490,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 180,
+          "output_tokens": 181,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "339764f7-f017-4fc9-8c92-af4f3ffb09fe",
+        "id": "bf27d3f2-6ee0-4321-a281-4b61b5ed9882",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old Inca temple hides under the colonial walls, and the stonework still catches the light beautifully.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The living room of Cusco, where locals stroll and the mountains watch over the fountains.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The white statue looks over the red rooftops, and Inti (the sun) puts on a fine show from up here.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy plant-based kitchen where the set menu is easy on the wallet and the belly.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The grand square where Cusco's pulse is easiest to feel, framed by stone arcades and the cathedral.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Inca stonework so precise it has outlasted earthquakes, with a quiet courtyard above the old temple.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"A white statue on the hill with a sweeping view over the terracotta rooftops and the valley beyond.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A plant-forward little spot where the set menu is kind to both the belly and the wallet.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 546,
+          "input_tokens": 555,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 241,
+          "output_tokens": 242,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "1df5d3e6-b8ac-4f80-925c-985364c6a719",
+        "id": "6e3b8ebc-9432-4dd3-a906-c3edf101f9a0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A Cusco wander through history, salt and terraces, then Inca stones and local life — with a whole morning at Maras."
+            "text": "A gentle Cusco wander, a morning at the Maras salt mines, then Inca stones and a warm farewell."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 239,
+          "input_tokens": 238,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 28,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

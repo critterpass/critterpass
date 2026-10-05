@@ -13,6 +13,7 @@ import { spanOf } from '../../../src/prompts/draft/areas';
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import { titleFits } from '../../../src/prompts/draft/day-titles';
 import { essentialsOf } from '../../../src/prompts/draft/essentials';
+import { misplacedOpeners } from '../../../src/prompts/draft/openers';
 import { isForEvening, wantsEvenings } from '../../../src/prompts/draft/evenings';
 import { plannerLines } from '../../../src/prompts/draft/final-notes';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
@@ -68,7 +69,8 @@ export function gradePlanRules(
   );
   // An outing's places are on its day together.
   for (const outing of input.pools.outings) {
-    for (const poiId of outing.poiIds) {
+    // A place that joined on the way may go to the leaving morning when the day out is full.
+    for (const poiId of outing.poiIds.filter((id) => !(outing.joined ?? []).includes(id))) {
       const day = dayOf.get(poiId);
       if (day !== undefined && outing.dayNo !== null && day.day_no !== outing.dayNo) {
         fails.push(`outing: ${nameOf(input, poiId)} on day ${day.day_no}, not ${outing.dayNo}`);
@@ -95,10 +97,26 @@ export function gradePlanRules(
     );
     if (!out) fails.push('evening: no full day has a stop after dinner');
   }
-  // A long visit has its half day or its day.
+  // A long visit has its half day or its day; a day out stays together and rides home after.
+  const shape: Readonly<Record<string, string>> = {
+    CROWDED_LONG_VISIT: 'long visit crowded by',
+    OFF_THE_OUTING: 'outing broken by',
+    FAR_AFTER_DAY_OUT: 'off the road home after a day out:',
+    INSIDE_ANOTHER_STOP: 'counted twice inside a long visit:',
+  };
   for (const v of validate(input, itinerary).violations) {
-    if (v.code === 'CROWDED_LONG_VISIT') {
-      fails.push(`long visit crowded by ${nameOf(input, v.poiId ?? null)} on day ${v.dayNo}`);
+    const what = shape[v.code];
+    if (what !== undefined)
+      fails.push(`${what} ${nameOf(input, v.poiId ?? null)} on day ${v.dayNo}`);
+  }
+  // Every day's title fits it (a morning begun in the morning, the long visit named).
+  for (const day of itinerary.days) {
+    if (!titleFits(input, day)) fails.push(`title: "${day.theme}" does not fit day ${day.day_no}`);
+  }
+  // A place that must open its day does, and no stronger one is left behind it.
+  for (const day of itinerary.days) {
+    for (const item of misplacedOpeners(input, day)) {
+      fails.push(`opener: ${nameOf(input, item.poi_id)} does not open day ${day.day_no}`);
     }
   }
   for (const day of itinerary.days) {

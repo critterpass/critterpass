@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1115c7f6-bc68-49e9-8018-6b7ef0994f2b",
+        "id": "4519aeb1-dc83-4ef0-9061-553e813f0f13",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Market-Led Cusco Afternoon\",\n  \"summary\": \"A gentler afternoon that pairs Cusco's sweetest museum with a proper market-style lunch and a relaxed evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The sweet heart of the day stays put, as it should.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for the market for lunch, so we make Cicciolina our proper midday table.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through the main square to walk off the meal before the next one.\",\n      \"start_by\": \"22:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, late bite at La Bodega to round out a food-first day.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Market Bites and Cusco Sweets\",\n  \"summary\": \"A gentle afternoon of chocolate, a proper market-style lunch and a quiet evening bite, all in the heart of Cusco.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for a market lunch, so Green Point gives us that fresh, casual bite without fuss.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Blas keeps the market mood going with its little stalls and local nibbles.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Andean dinner to close the day, because more food means a real meal, not just snacks.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 308,
+          "output_tokens": 298,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "0dc2b58a-496c-4b54-b8f2-4b383468d8f6",
+        "id": "81817228-8781-4c36-abe6-a99e2cdc609f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "1: Chocolate museum, plaza, then dinner"
+            "text": "1: An afternoon of chocolate and San Blas"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 219,
+          "input_tokens": 232,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 9,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }

@@ -11,6 +11,7 @@
  */
 import { foodRole } from './food-role';
 import { DINNER } from './meal-slots';
+import { metresBetween } from './same-place';
 import { FULL_DAY_VISIT_MIN, partOfVisit, visitSpan } from './long-visits';
 import { isTheirs, type DraftPoi, type TravelMatrix } from './types';
 import type { TimedDay, TimedStop } from './validate-day-sense';
@@ -24,6 +25,8 @@ export interface Outing {
   readonly minutes: number;
   /** Half a day or less: it shares a day when no full day is left for it alone. */
   readonly short: boolean;
+  /** Places of a short outing on the way that joined this one (seen on its day if they fit). */
+  readonly joined?: readonly string[];
 }
 
 export interface OutingsInput {
@@ -38,12 +41,18 @@ export interface OutingsInput {
   readonly openDays: ReadonlyMap<string, readonly number[]>;
   /** Places a must-do asks for: their outing is planned before any other. */
   readonly asked: ReadonlySet<string>;
+  /** Where the crew stays, when it is not one of `places`. */
+  readonly home?: DraftPoi;
 }
 
 /** A place this share of the hop cap from home, or more, is an outing, not a stop in town. */
 const FAR_SHARE = 0.75;
 /** Two far places this share of the cap apart, or less, are one outing. */
 const TOGETHER_SHARE = 0.625;
+/** A stop or a short outing this much out of the way of a ride is not on the way. */
+const ON_THE_WAY_MIN = 15;
+/** A day out holds at most this much, rides included (meals around it make a long day). */
+const DAY_OUT_MAX_MIN = 660;
 /** An outing this long or less (rides included) takes half a day, not a day of its own. */
 const SHORT_OUTING_MIN = 240;
 
@@ -72,6 +81,7 @@ function clusters(far: readonly DraftPoi[], travel: TravelMatrix, reach: number)
 /** The destination's outings, each with the full day it gets (see the file note). */
 export function planOutings(input: OutingsInput): Outing[] {
   const { travel, homeId, hopCapMin } = input;
+  const home = input.home ?? input.places.find((poi) => poi.id === homeId);
   const fromHome = (poi: DraftPoi) => travel(homeId, poi.id) ?? 0;
   // A place that takes the whole day is a day out wherever it is.
   const far = input.places.filter(
@@ -118,12 +128,54 @@ export function planOutings(input: OutingsInput): Outing[] {
       days.set(outing, day ?? null);
     }
   }
-  return sized.map((outing): Outing => ({
-    poiIds: outing.places.map((poi) => poi.id),
-    dayNo: days.get(outing) ?? null,
-    minutes: outing.minutes,
-    short: outing.minutes <= SHORT_OUTING_MIN,
-  }));
+  // A short outing left without a day joins one it is on the way to (the marble caves on the
+  // road to the old town), when the day out can hold its visit and the detour.
+  const joined = new Map<(typeof sized)[number], (typeof sized)[number]>();
+  const added = new Map<(typeof sized)[number], number>();
+  for (const outing of sized) {
+    if (days.get(outing) !== null || outing.minutes > SHORT_OUTING_MIN) continue;
+    const head = outing.places[0] as DraftPoi;
+    const host = sized.find((other) => {
+      const dayNo = days.get(other);
+      if (other === outing || dayNo == null || joined.has(other)) return false;
+      if (!outing.places.every((poi) => (input.openDays.get(poi.id) ?? []).includes(dayNo))) {
+        return false;
+      }
+      const target = other.places[0] as DraftPoi;
+      // Judged on the map: the ride estimates jump where a city ride becomes a regional one.
+      if (home === undefined) return false;
+      const direct = metresBetween(home, target);
+      const via = metresBetween(home, head) + metresBetween(head, target);
+      const detour = Math.max(0, ((via - direct) / Math.max(1, direct)) * fromHome(target));
+      const visits = outing.places.reduce((sum, poi) => sum + poi.durationMin, 0);
+      const extra = [...joined].filter(([, h]) => h === other).length;
+      if (
+        extra > 0 ||
+        detour > ON_THE_WAY_MIN ||
+        other.minutes + visits + detour > DAY_OUT_MAX_MIN
+      ) {
+        return false;
+      }
+      added.set(outing, Math.round(visits + Math.max(0, detour)));
+      return true;
+    });
+    if (host !== undefined) joined.set(outing, host);
+  }
+  return sized.flatMap((outing): Outing[] => {
+    if (joined.has(outing)) return [];
+    const guests = [...joined].filter(([, host]) => host === outing).map(([guest]) => guest);
+    return [
+      {
+        poiIds: [...outing.places, ...guests.flatMap((g) => g.places)].map((poi) => poi.id),
+        dayNo: days.get(outing) ?? null,
+        minutes: outing.minutes + guests.reduce((sum, g) => sum + (added.get(g) ?? 0), 0),
+        short: outing.minutes <= SHORT_OUTING_MIN,
+        ...(guests.length === 0
+          ? {}
+          : { joined: guests.flatMap((g) => g.places.map((p) => p.id)) }),
+      },
+    ];
+  });
 }
 
 /**
@@ -139,35 +191,91 @@ export function keepOutingsTogether(
   for (const outing of outings) {
     for (const poiId of outing.poiIds) {
       if (outing.dayNo !== null) openDays.set(poiId, [outing.dayNo]);
-      else if (!outing.short && !outing.poiIds.some((id) => asked.has(id))) openDays.delete(poiId);
+      else if (outing.short) {
+        // A short one shares a town day: never another outing's.
+        const taken = new Set(outings.map((o) => o.dayNo));
+        openDays.set(
+          poiId,
+          (openDays.get(poiId) ?? []).filter((dayNo) => !taken.has(dayNo)),
+        );
+      } else if (!outing.poiIds.some((id) => asked.has(id))) openDays.delete(poiId);
     }
   }
 }
 
 /**
- * The stops of a whole-day outing's day that are neither its places nor near them: a sight back
- * in town after a day out is a second ride out. Meals and light stops are the day's to have anywhere, and
- * a stop the crew placed or asked for is theirs.
+ * The stops of an outing's day that are neither its places nor near them, where they break the
+ * outing: on a whole-day outing's day, any such sight before dinner (a sight back in town after a
+ * day out is a second ride out); on a shorter outing's day, one that sits between two of the
+ * outing's stops (the crew rides back to town and out again). Meals and light stops are the
+ * day's to have anywhere, and a stop the crew placed or asked for is theirs.
  */
 export function offTheOuting(
   day: TimedDay,
   outings: readonly Outing[],
   travel: TravelMatrix,
   hopCapMin: number | undefined,
+  homeId: string | null = null,
 ): TimedStop[] {
-  // Only an outing that takes the whole day; a shorter one leaves the other half for town.
-  const outing = outings.find((o) => o.dayNo === day.dayNo && o.minutes >= FULL_DAY_VISIT_MIN);
+  const outing = outings.find((o) => o.dayNo === day.dayNo);
   if (outing === undefined || hopCapMin === undefined) return [];
   const reach = hopCapMin * TOGETHER_SHARE;
+  // Beside the outing: close to one of its places, or (where the stay is known) nearer to them
+  // than to the stay, like a peak on the same peninsula.
+  const ride = (a: string, b: string) => travel(a, b) ?? Number.POSITIVE_INFINITY;
+  const near = (poiId: string) =>
+    outing.poiIds.some(
+      (id) =>
+        id === poiId ||
+        (ride(id, poiId) <= reach && (homeId === null || ride(id, poiId) < ride(homeId, poiId))),
+    );
+  // The outing's own stops, and the sights beside them (a peak on the same peninsula).
+  const own = day.stops.filter((stop) => stop.item.kind !== 'meal' && near(stop.poi.id));
+  const first = Math.min(...own.map((stop) => stop.startMin));
+  const last = Math.max(...own.map((stop) => stop.startMin));
+  const whole = outing.minutes >= FULL_DAY_VISIT_MIN;
+  // Another outing's place on this day is a second ride out, wherever it stands.
+  const otherOuting = (poiId: string) =>
+    outings.some((o) => o !== outing && o.poiIds.includes(poiId));
   return day.stops.filter(
     (stop) =>
       // After dinner the crew is back near the stay: an evening out there is no second ride out.
       stop.startMin < DINNER.startMin &&
+      (whole || otherOuting(stop.poi.id) || (stop.startMin > first && stop.startMin < last)) &&
       stop.item.kind !== 'meal' &&
       foodRole(stop.poi) !== 'light' &&
       stop.item.must_do_id === null &&
       !isTheirs(stop.item) &&
-      !outing.poiIds.includes(stop.poi.id) &&
-      outing.poiIds.every((id) => (travel(id, stop.poi.id) ?? Number.POSITIVE_INFINITY) > reach),
+      !near(stop.poi.id),
   );
+}
+
+/**
+ * After a whole-day outing the crew rides home: dinner and the evening are near the stay, or on
+ * the way back. The stops after the outing's last that are neither (a dinner half an hour off
+ * the road home, then another ride to a bridge) are returned. The crew's own stops stay.
+ */
+export function farAfterDayOut(
+  day: TimedDay,
+  outings: readonly Outing[],
+  travel: TravelMatrix,
+  homeId: string | null | undefined,
+  hopCapMin: number | undefined,
+): TimedStop[] {
+  const outing = outings.find((o) => o.dayNo === day.dayNo && o.minutes >= FULL_DAY_VISIT_MIN);
+  if (outing === undefined || homeId == null || hopCapMin === undefined) return [];
+  const own = day.stops.filter((stop) => outing.poiIds.includes(stop.poi.id));
+  const lastOwn = own[own.length - 1];
+  if (lastOwn === undefined) return [];
+  const ride = (a: string, b: string) => travel(a, b) ?? Number.POSITIVE_INFINITY;
+  const homeward = ride(lastOwn.poi.id, homeId);
+  let from = lastOwn.poi.id;
+  return day.stops.filter((stop) => {
+    if (stop.startMin <= lastOwn.startMin || outing.poiIds.includes(stop.poi.id)) return false;
+    const nearHome = ride(homeId, stop.poi.id) <= hopCapMin / 2;
+    const onTheWay =
+      ride(from, stop.poi.id) + ride(stop.poi.id, homeId) - homeward <= ON_THE_WAY_MIN;
+    from = stop.poi.id;
+    return !nearHome && !onTheWay && stop.item.must_do_id === null && !isTheirs(stop.item);
+  });
 }

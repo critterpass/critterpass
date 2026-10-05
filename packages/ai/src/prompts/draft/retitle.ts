@@ -25,7 +25,8 @@ const TASK = [
   'Write a title (under 40 characters) for each day below, in your voice, for what the day holds',
   'now. A title says what the day is like: never two place names joined by "and".',
   '- Name a kind of place (a market, a waterfall, a café) only when the day has one, and in the',
-  '  plural only when it has two; say "morning", "early" or "evening" only for what is then.',
+  '  plural only when it has two; say "morning", "early" or "evening" only for what is then: a',
+  '  day you call a morning is under way by ten.',
   '- Never mention a flight, a bus, a train or an airport: you do not know how the crew travels.',
   '- A day built around a place that takes half the day or the whole day is named for it',
   '  ("A morning at Datanla", "Bà Nà Hills, the whole day").',
@@ -39,7 +40,9 @@ type Planned = Pick<
 >;
 
 function partOfDay(minute: number): string {
-  return minute < 12 * 60 ? 'morning' : minute < 17 * 60 + 30 ? 'afternoon' : 'evening';
+  if (minute <= 10 * 60) return 'morning';
+  if (minute < 13 * 60) return 'late morning';
+  return minute < 17 * 60 + 30 ? 'afternoon' : 'evening';
 }
 
 function dayLines(input: Planned, day: DraftDay): string[] {

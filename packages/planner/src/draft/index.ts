@@ -104,7 +104,7 @@ export {
   type PlaceWindow,
 } from './place-time';
 export { straightLineMatrix } from './travel';
-export { opensDay, startFloor, type Reach } from './day-start';
+export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
 export { homeBase, nearHome } from './home';
 export { planOutings, type Outing } from './outings';
 export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';

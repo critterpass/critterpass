@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2c15695a-9cf6-4663-8795-6b89afdad97a",
+        "id": "45e2f041-9791-4473-b8b0-8d14284fb5ed",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém to Bairro Alto, with bites\",\n  \"summary\": \"A day that keeps the riverside icon, then wanders through Lisbon's markets, trams and evening corners with proper meals along the way.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays put — some views you just don't swap out.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Custard tarts for lunch? Vegetarian and historic. Say no more.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rumbling tram ride gives the legs a rest and the cameras a treat.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra's open all day, so we browse without clock-watching.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, veg-friendly dinner before the night owls take over.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark — the night owl gets their reward.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Belém, then Bairro Alto\",\n  \"summary\": \"A morning at Belém Tower, a custard tart stop, then a lazy afternoon and evening around Bairro Alto with a proper sit-down dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one you came for: riverside history and that postcard view.\",\n      \"note_voice\": \"The one you came for: riverside history and that postcard view.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with the famous custard tarts, still warm and still perfect.\",\n      \"note_voice\": \"Lunch with the famous custard tarts, still warm and still perfect.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rattling ride through the old streets, the city doing its best theatre.\",\n      \"note_voice\": \"A rattling ride through the old streets, the city doing its best theatre.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Evening wander up and down the little lanes, before the night owls wake up.\",\n      \"note_voice\": \"Evening wander up and down the little lanes, before the night owls wake up.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper Portuguese plates and enough veggie choices to keep everyone happy.\",\n      \"note_voice\": \"Dinner with proper Portuguese plates and enough veggie choices to keep everyone happy.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 117,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 379,
+          "output_tokens": 436,
           "service_tier": "standard"
         }
       }

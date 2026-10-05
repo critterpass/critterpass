@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "6f00124c-6dc5-4371-9463-282ee949baff",
+        "id": "a4bb33f4-c047-4ef6-8c2e-f241d660a614",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Geysir and a slower Reykjavik\",\n  \"summary\": \"A gentler day with one grand natural wonder, then time to wander, eat well and watch the light fade.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big outing of the day: steam, patience and a proper Icelandic show.\",\n      \"note\": \"The one big outing of the day: steam, patience and a proper Icelandic show.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow browse suits the new pace, with coffee and window-shopping in the middle of town.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here keeps everyone happy: warm bread, good coffee and proper vegetarian plates.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays as the evening anchor, with enough vegetarian choice for the whole crew.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Geysir and a gentle Reykjavik evening\",\n  \"summary\": \"A slower Sunday with the great Geysir as the one big outing, then a relaxed afternoon and evening around the city with good food and a quiet stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one true must-see stays: Geysir still puts on its show, and with fewer stops we can watch it breathe a little longer.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down Laugavegur suits a slower day: window-shopping, a coffee stop, and no rush to be anywhere else.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Sandholt keeps everyone happy with proper vegetarian plates and pastries worth lingering over.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stop at Sun Voyager for the photo and the sea air, because even a slow day needs one good view.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Grillmarkaðurinn ends the day warmly, with vegetarian options that feel like a treat rather than a compromise.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 14,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 293,
+          "output_tokens": 422,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "46fb332c-ff81-486b-aaf7-36ce3b5f0172",
+        "id": "709aea61-b0b0-48d4-92b6-1088e104dff8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Geysir and a slower Reykjavik\",\n  \"summary\": \"A gentler day with one grand natural wonder and time to breathe, then back to the city for a quiet evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big sight today, kept for good reason: steam, patience and a proper Icelandic hello.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the city, with good vegetarian choices and no rush to get anywhere after.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Geysir and a Gentle Reykjavik Day\",\n  \"summary\": \"A slower Sunday with time at Geysir, then a relaxed afternoon and evening in the city with good food.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one big sight of the day, kept for its steam and show. We give it the unhurried time it deserves.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down the shopping street, easy on the legs and close to our meals.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, bright lunch with proper vegetarian plates, and coffee for the one who needs it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a grill's warmth and enough green things for everyone at the table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 49,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 182,
+          "output_tokens": 318,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "73554270-01e4-424c-ac71-1d52c9267e40",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning at Geysir, then a fine dinner"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 192,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

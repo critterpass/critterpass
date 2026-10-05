@@ -48,12 +48,14 @@ export function visitSpan(
  * the stay) and `poi` lies within its grounds (a bridge inside the resort, a house in the old town).
  */
 export function partOfVisit(
-  poi: Pick<DraftPoi, 'lat' | 'lng' | 'id'>,
+  poi: Pick<DraftPoi, 'lat' | 'lng' | 'id' | 'durationMin'>,
   anchor: DraftPoi,
   anchorRideMin = 0,
 ): boolean {
   return (
     poi.id !== anchor.id &&
+    // The bigger place takes in the smaller: a village inside the resort, never the other way.
+    poi.durationMin < anchor.durationMin &&
     visitSpan(anchor, anchorRideMin) !== null &&
     metresBetween(poi, anchor) <= PART_OF_IT_M
   );
