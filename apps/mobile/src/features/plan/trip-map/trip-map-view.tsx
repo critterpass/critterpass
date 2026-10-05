@@ -1,19 +1,21 @@
 /**
  * The trip map (7a-1 peek, 7a-2 half, 7a-3 full; 7i-1 when nothing is saved): the map with the
  * chosen day traced from the stay, the search pill and LIST, the filter chips, edge pills for the
- * day's stops off screen, and the sheet whose content follows its snap. The camera fits the day
- * above the sheet as it settles; at half the guide's dots step aside; at full the map shrinks to
- * every day's stops. A route a sheet over the map asks for (`usePlanningMapPreview`) draws too.
+ * day's stops off screen, and the sheet whose content follows its snap. The map opens on the
+ * chosen day's stops and the camera fits them above the sheet as it settles, and again when the
+ * day's stops change; at half the guide's dots step aside. Pulled up from half, the sheet keeps the
+ * day (now scrolling) and ALL DAYS turns it into the whole trip. A tap on a pin leads somewhere:
+ * its label and the card at the head of the peek sheet open the stop or the place. A route a sheet
+ * over the map asks for (`usePlanningMapPreview`) draws too.
  */
 import type { LngLatBounds } from '@maplibre/maplibre-react-native';
-import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { usePlanningMapPreview } from '@/data/plan/map-preview';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
-import { EdgeIndicator, StopRouteLayer, usePlanningCamera } from '@/ui/map/planning';
+import { EdgeIndicator, usePlanningCamera } from '@/ui/map/planning';
 import { useRegionTiles } from '@/ui/map/region-pack';
 import { NOTICE_ROOM } from '@/ui/map/RegionPackNotice';
 import { MapSheet, MapSheetScrollView, type MapSheetSnap } from '@/ui/sheet/map-sheet';
@@ -25,13 +27,27 @@ import type { DayRoute } from './day-route';
 import { routeDays } from './day-route';
 import { DaySheet } from './day-sheet';
 import { EmptyTripSheet, FloatingGuide } from './empty-trip-sheet';
-import { categoryChips, mapPlaces, NO_FILTER, type MapFilter } from './map-places';
+import {
+  categoryChips,
+  CREW_PICK_BACKERS,
+  mapPlaces,
+  NO_FILTER,
+  type MapFilter,
+} from './map-places';
 import { PeekSheet } from './peek-sheet';
+import { PickedHead } from './picked-card';
 import type { TripMapModel } from './sheet-props';
-import { pickedStopOf, viewPoints } from './trip-map-camera';
-import { TripMapLayers, type Picked } from './trip-map-layers';
+import {
+  edgeStops,
+  fitSignature,
+  openingCamera,
+  pickedStopOf,
+  viewPoints,
+} from './trip-map-camera';
+import { PreviewRoute, TripMapLayers, type Picked } from './trip-map-layers';
 import { TripMapTop } from './trip-map-top';
 import { TripSheet } from './trip-sheet';
+import { useFitCamera } from './use-fit-camera';
 
 const useStyles = makeStyles((t) => ({
   sheetBody: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['24'] },
@@ -42,6 +58,8 @@ const useStyles = makeStyles((t) => ({
 const FULL_STRIP = 64;
 /** Room the search pill and chips take at the top. */
 const TOP_BAR = 120;
+/** Kept clear around the fitted stops, so none sits half under the chips or the sheet. */
+const PIN_ROOM = 28;
 
 export interface TripMapViewProps {
   readonly model: TripMapModel;
@@ -51,6 +69,13 @@ export interface TripMapViewProps {
   readonly initialSnap?: MapSheetSnap | undefined;
   readonly onShare: () => void;
   readonly onOpenDay: (dayNo: number) => void;
+  readonly onBack: () => void;
+  /** Opens a stop's sheet over the map. */
+  readonly onOpenStop: (stableId: string) => void;
+  /** Opens a place's page; absent while that screen is not there. */
+  readonly onOpenPlace?: ((placeId: string) => void) | undefined;
+  /** Opens all days as a grid, where stops move between days. */
+  readonly onMoveStops?: (() => void) | undefined;
 }
 
 export function TripMapView(props: TripMapViewProps) {
@@ -59,19 +84,29 @@ export function TripMapView(props: TripMapViewProps) {
   const insets = useSafeAreaInsets();
   const camera = usePlanningCamera();
   const preview = usePlanningMapPreview();
-  // The design draws the trip map without a back control: system back lowers the sheet, then
-  // leaves; an edge swipe leaves on iOS.
-  useNoBackByDesign();
   const { model, route } = props;
-  const [snap, setSnap] = useState<MapSheetSnap>(
+  const [snap, setSnapState] = useState<MapSheetSnap>(
     model.empty ? 'half' : (props.initialSnap ?? 'peek'),
   );
+  // What the sheet shows at full: the whole trip (ALL DAYS, a link), or the day she was reading
+  // at half and pulled up to read to its end.
+  const [fullShows, setFullShows] = useState<'trip' | 'day'>('trip');
   const [filter, setFilter] = useState<MapFilter>(NO_FILTER);
   const [traced, setTraced] = useState(true);
   const [picked, setPicked] = useState<Picked>(null);
   const [bounds, setBounds] = useState<LngLatBounds | null>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const day = model.days.find((entry) => entry.dayNo === props.dayNo) ?? model.days[0] ?? null;
+  const wholeTrip = snap === 'full' && fullShows === 'trip';
+  const setSnap = (next: MapSheetSnap, shows?: 'trip' | 'day') => {
+    if (next === 'full') {
+      // Pulled up from half, the sheet keeps the day; the picked stop's label would float over
+      // the status bar, so it is let go.
+      setFullShows(shows ?? (snap === 'half' ? 'day' : snap === 'full' ? fullShows : 'trip'));
+      setPicked(null);
+    }
+    setSnapState(next);
+  };
   const heights = mapSheetHeights(size.height, insets.top + FULL_STRIP);
   const sheetHeight = snap === 'peek' ? heights[0] : snap === 'half' ? heights[1] : heights[2];
   const covered = { top: insets.top + TOP_BAR, bottom: sheetHeight };
@@ -95,27 +130,44 @@ export function TripMapView(props: TripMapViewProps) {
   );
   const places = snap === 'full' ? [] : allPlaces;
   const days = useMemo(() => routeDays(model.days, model.legPaths), [model.days, model.legPaths]);
-  const chosenDayNo = snap === 'full' || !traced ? null : (day?.dayNo ?? null);
+  const chosenDayNo = wholeTrip || !traced ? null : (day?.dayNo ?? null);
   const stay = day?.stay ?? null;
+  const crewPicks = allPlaces.filter(
+    (place) => place.tier === 'saved' && place.backers >= CREW_PICK_BACKERS,
+  ).length;
 
-  // The camera follows the sheet and the chosen day once the screen has a size.
-  // The map answers its first region once it can move, so the first fit waits for it.
-  const fitKey = `${snap}|${String(day?.dayNo)}|${String(size.height)}|${String(bounds !== null)}|${String(noted)}`;
-  useEffect(() => {
-    if (size.height === 0 || bounds === null) return;
-    const points = viewPoints(model, snap === 'full' ? null : day);
-    if (points.length === 0) return;
-    camera.fitPoints(
-      points,
-      snap === 'full' ? { top: insets.top, bottom: size.height - insets.top - FULL_STRIP } : clear,
-    );
-    // Only a new snap, day or size moves the camera; a re-read of the same plan does not.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fitKey]);
+  // The camera follows the sheet and the chosen day once the screen has a size, and fits again
+  // when the day's stops change (an edit); a re-read of the same plan does not move it. At full
+  // the map is a strip under the status bar and the camera stays where it was.
+  const points = useMemo(() => viewPoints(model, day), [model, day]);
+  useFitCamera(camera, {
+    fitKey: `${snap === 'full' ? 'half' : snap}|${fitSignature(day)}|${String(size.height)}|${String(noted)}`,
+    ready: size.height > 0 && bounds !== null && snap !== 'full',
+    points,
+    // Room for a pin and its number inside the part of the map that shows.
+    covered: { top: clear.top + PIN_ROOM, bottom: clear.bottom + PIN_ROOM },
+    bounds,
+  });
+  // The map opens already on the day's stops: the first fit can be lost while the style loads.
+  const [opening] = useState(() => {
+    const window = Dimensions.get('window');
+    return openingCamera(points, window, {
+      top: insets.top + TOP_BAR + PIN_ROOM,
+      bottom:
+        mapSheetHeights(window.height, insets.top + FULL_STRIP)[snap === 'peek' ? 0 : 1] + PIN_ROOM,
+    });
+  });
 
   const pickedStop = pickedStopOf(picked, day, locale);
   const pickedPlace =
     picked?.kind === 'place' ? (allPlaces.find((place) => place.id === picked.id) ?? null) : null;
+  const { onOpenPlace } = props;
+  const openPicked =
+    picked?.kind === 'stop'
+      ? () => props.onOpenStop(picked.id)
+      : picked?.kind === 'place' && onOpenPlace !== undefined
+        ? () => onOpenPlace(picked.id)
+        : undefined;
   const pick = (next: Picked) => {
     setPicked(next);
     const target =
@@ -138,9 +190,16 @@ export function TripMapView(props: TripMapViewProps) {
       setPicked(null);
       props.onDayNo(dayNo);
     },
-    onSnap: setSnap,
-    onOpenStop: (stableId: string) => pick({ kind: 'stop', id: stableId }),
+    onSnap: (next: MapSheetSnap) => setSnap(next, 'trip'),
+    // The first tap on a row shows the stop on the map; a tap on the picked row opens it.
+    onOpenStop: (stableId: string) =>
+      picked?.kind === 'stop' && picked.id === stableId
+        ? props.onOpenStop(stableId)
+        : pick({ kind: 'stop', id: stableId }),
   };
+  const daySheet = (
+    <DaySheet {...sheetProps} onOpenDay={props.onOpenDay} onMoveStops={props.onMoveStops} />
+  );
   const centre = model.center ?? [0, 0];
   const mapAreaHeight = size.height - sheetHeight;
 
@@ -149,8 +208,8 @@ export function TripMapView(props: TripMapViewProps) {
       <View style={StyleSheet.absoluteFill} onLayout={(event) => setSize(event.nativeEvent.layout)}>
         <TripMapLayers
           camera={camera}
-          center={day?.stay ? [day.stay.lng, day.stay.lat] : centre}
-          zoom={model.empty ? 12 : 13}
+          center={opening?.center ?? (day?.stay ? [day.stay.lng, day.stay.lat] : centre)}
+          zoom={opening?.zoom ?? (model.empty ? 12 : 13)}
           destinationSlug={model.destinationSlug}
           placeName={snap === 'full' ? null : model.destination}
           coveredBottom={covered.bottom}
@@ -162,29 +221,10 @@ export function TripMapView(props: TripMapViewProps) {
           pickedStop={pickedStop}
           pickedPlace={pickedPlace}
           onPick={pick}
+          onOpenPicked={openPicked}
           onRegion={(region) => setBounds(region.bounds)}
         >
-          {preview === null ? null : (
-            <StopRouteLayer
-              id="cp-preview"
-              days={[
-                {
-                  dayNo: -1,
-                  color: preview.color,
-                  stops: (
-                    preview.stops ??
-                    preview.route.map(([lng, lat], index) => ({ key: String(index), lat, lng }))
-                  ).map((stop, index) => ({
-                    id: stop.key,
-                    n: index + 1,
-                    lat: stop.lat,
-                    lng: stop.lng,
-                  })),
-                },
-              ]}
-              chosenDayNo={-1}
-            />
-          )}
+          <PreviewRoute preview={preview} />
         </TripMapLayers>
         {model.empty && size.height > 0 ? (
           <View style={[styles.guide, { top: mapAreaHeight / 2 - 60 }]} pointerEvents="none">
@@ -193,19 +233,7 @@ export function TripMapView(props: TripMapViewProps) {
         ) : null}
         {snap === 'full' || day === null ? null : (
           <EdgeIndicator
-            stops={day.stops.flatMap((stop, index) =>
-              stop.place === null
-                ? []
-                : [
-                    {
-                      id: stop.stableId,
-                      n: index + 1,
-                      name: stop.title,
-                      color: day.color,
-                      ...stop.place,
-                    },
-                  ],
-            )}
+            stops={edgeStops(day)}
             bounds={bounds}
             size={size}
             coveredTop={covered.top}
@@ -222,14 +250,18 @@ export function TripMapView(props: TripMapViewProps) {
             categories={categoryChips(allPlaces)}
             onDayChip={() => setTraced((on) => !on)}
             onFilter={setFilter}
+            onBack={props.onBack}
+            crewPicks={crewPicks}
           />
         )}
         <MapSheet
           snap={snap}
           initialSnap={snap}
-          onSnapChange={setSnap}
+          onSnapChange={(next) => setSnap(next)}
           accessibilityLabel={model.destination ?? ''}
           testID="trip-map-sheet"
+          // Back brings a raised sheet straight down, then leaves: two presses at most.
+          backCollapses="rest"
         >
           {/* As tall as the screen, so a short sheet at peek never caps how far it pulls up. */}
           <MapSheetScrollView
@@ -238,11 +270,19 @@ export function TripMapView(props: TripMapViewProps) {
             {model.empty ? (
               <EmptyTripSheet model={model} />
             ) : snap === 'peek' ? (
-              <PeekSheet {...sheetProps} />
-            ) : snap === 'half' ? (
-              <DaySheet {...sheetProps} onOpenDay={props.onOpenDay} />
+              <PeekSheet
+                {...sheetProps}
+                onOpenDay={props.onOpenDay}
+                head={
+                  openPicked === undefined ? null : (
+                    <PickedHead stop={pickedStop} place={pickedPlace} onPress={openPicked} />
+                  )
+                }
+              />
+            ) : snap === 'half' || fullShows === 'day' ? (
+              daySheet
             ) : (
-              <TripSheet {...sheetProps} />
+              <TripSheet {...sheetProps} onMoveStops={props.onMoveStops} />
             )}
           </MapSheetScrollView>
         </MapSheet>

@@ -4,7 +4,8 @@
  * chat through `llm.chat_window` (text messages only, member-written ones kept); the candidate is
  * saved as a whole new private version (status `drafting`, one per job) with the redrafted day, so
  * keeping it is a pointer move and reverting it touches nothing else. The guide's answers to the
- * typed must-dos are saved with every version, so a redraft plans from the same answers.
+ * typed must-dos are saved with every version, so a redraft plans from the same answers. Stops the
+ * organiser added by hand read as locked, and every stop the redraft kept keeps its whole row.
  */
 import type { ChatLine, WishAnswer } from '@cp/ai';
 import { withGuideReader, withSystem } from '@cp/db';
@@ -19,6 +20,7 @@ import {
 import { WISH_TIMES, type DraftPoi, type TravelMatrix, type WishTime } from '@cp/planner';
 import type pg from 'pg';
 
+import { carryBaseRows } from './held-stops';
 import { insertDays } from './persist';
 
 interface PlanRow {
@@ -54,6 +56,7 @@ export async function loadBaseDraft(
   crewId: string,
   versionId: string,
   travel: TravelMatrix,
+  heldIds: ReadonlySet<string> = new Set(),
 ): Promise<BaseDraft | null> {
   // The version's days come from `plan_days`, not from its items: a day the draft left empty is
   // still a day of the trip, and the organiser may ask for it to be redrafted. Read as the system
@@ -73,7 +76,9 @@ export async function loadBaseDraft(
     const { rows } = await tx.query<PlanRow>(
       `SELECT version_id, day_no, date::text AS date, theme, stable_id, category, poi_id, starts_at,
               ends_at, tz, must_do_id, booking_id, locked_reason, cost_model, amount_minor, currency, notes
-         FROM llm.plan_items WHERE version_id = $1 ORDER BY day_no, starts_at`,
+         FROM llm.plan_items
+        WHERE version_id = $1 AND starts_at IS NOT NULL AND ends_at IS NOT NULL
+        ORDER BY day_no, starts_at`,
       [versionId],
     );
     if (rows.length === 0 && planned.rows.length === 0) return null;
@@ -101,7 +106,8 @@ export async function loadBaseDraft(
         tz: row.tz ?? 'UTC',
         must_do_id: row.must_do_id,
         booking_id: row.booking_id,
-        locked_reason: row.locked_reason,
+        // A stop she added by hand reads as locked: the guide is told to keep it.
+        locked_reason: row.locked_reason ?? (heldIds.has(row.stable_id) ? 'user' : null),
         cost_model: row.cost_model === 'group' ? 'group' : 'per_person',
         amount_minor: Number(row.amount_minor ?? 0),
         currency: row.currency ?? 'USD',
@@ -264,5 +270,7 @@ export async function saveCandidate(
   const id = rows[0]?.id;
   if (id === undefined) throw new Error('candidate version insert returned no id');
   await insertDays(tx, input.tripId, id, input.itinerary);
+  // Every stop that was already there keeps what the planner's items do not carry.
+  await carryBaseRows(tx, input.baseVersionId, id);
   return id;
 }

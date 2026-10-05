@@ -1,6 +1,7 @@
 /**
- * The trip's days as a row of chips (7a-1, 7b-1, 7f-1, 7f-2): the day number over its weekday and
- * a short underline in the day's colour; the chosen day is filled (in its colour, or paper on the
+ * The trip's days as a row of chips (7a-1, 7b-1, 7f-1, 7f-2): the weekday over the date (the day
+ * number over its weekday for a caller that passes no date) and a short underline in the day's
+ * colour; today carries a dot under it; the chosen day is filled (in its colour, or paper on the
  * add sheet) with a ring; a dot in the corner says how well a place fits that day (green, orange,
  * grey). While something is dragged over the row, the day under it glows: the drag itself belongs
  * to the screen, which passes the day it is over.
@@ -17,6 +18,11 @@ export interface DayChip {
   readonly dayNo: number;
   /** Short weekday, already localised ("Wed"). */
   readonly weekday: string;
+  /** The day of the month ("17"). With it the chip reads weekday over date, the way people name
+   * a day; without it, the day number over the weekday. */
+  readonly dateLabel?: string | undefined;
+  /** Today on the trip's clock: marked with a dot. */
+  readonly today?: boolean | undefined;
   readonly color: string;
   readonly fit?: FitGrade | undefined;
   /** Screen-reader words for the day, e.g. "Wednesday 14 October". */
@@ -62,6 +68,14 @@ const useStyles = makeStyles((t) => ({
   droppable: { borderColor: t.semantic.border.decorative, borderStyle: 'dashed' },
   glow: { borderColor: t.semantic.action.primary, borderStyle: 'solid' },
   underline: { width: 14, height: 3, borderRadius: 2, marginTop: t.space['2'] },
+  today: {
+    position: 'absolute',
+    top: t.space['4'],
+    start: t.space['4'],
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+  },
   dot: {
     position: 'absolute',
     top: t.space['4'],
@@ -121,18 +135,39 @@ export function DayChips({
             dropTarget === undefined ? null : over ? styles.glow : styles.droppable,
           ]}
         >
-          <Text variant="title" color={ink}>
-            {String(day.dayNo)}
-          </Text>
-          <Text
-            variant="label"
-            color={selected ? ink : theme.semantic.text.secondary}
-            singleLine
-            numberOfLines={1}
-          >
-            {day.weekday}
-          </Text>
+          {day.dateLabel === undefined ? (
+            <>
+              <Text variant="title" color={ink}>
+                {String(day.dayNo)}
+              </Text>
+              <Text
+                variant="label"
+                color={selected ? ink : theme.semantic.text.secondary}
+                singleLine
+                numberOfLines={1}
+              >
+                {day.weekday}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text
+                variant="label"
+                color={selected ? ink : theme.semantic.text.secondary}
+                singleLine
+                numberOfLines={1}
+              >
+                {day.weekday}
+              </Text>
+              <Text variant="title" color={ink}>
+                {day.dateLabel}
+              </Text>
+            </>
+          )}
           {selected ? null : <View style={[styles.underline, { backgroundColor: day.color }]} />}
+          {day.today === true ? (
+            <View style={[styles.today, { backgroundColor: selected ? ink : day.color }]} />
+          ) : null}
           {day.fit === undefined ? null : (
             <View style={[styles.dot, { backgroundColor: fitDotColor(theme, day.fit) }]} />
           )}

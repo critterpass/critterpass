@@ -12,6 +12,8 @@ import { makeStyles, useTheme } from '../theme';
 export interface PlanningDayRowProps {
   readonly dayNo: number;
   readonly weekday: string;
+  /** The day of the month ("17"): with it the tile reads weekday over date. */
+  readonly dateLabel?: string | undefined;
   readonly color: string;
   readonly title: string;
   readonly summary?: string | undefined;
@@ -50,6 +52,7 @@ const useStyles = makeStyles((t) => ({
 export function PlanningDayRow({
   dayNo,
   weekday,
+  dateLabel,
   color,
   title,
   summary,
@@ -70,12 +73,25 @@ export function PlanningDayRow({
     >
       <View style={styles.row}>
         <View style={[styles.tile, { backgroundColor: color }]}>
-          <Text variant="title" color={theme.semantic.text.onAccent}>
-            {String(dayNo)}
-          </Text>
-          <Text variant="label" color={theme.semantic.text.onAccent} numberOfLines={1}>
-            {weekday}
-          </Text>
+          {dateLabel === undefined ? (
+            <>
+              <Text variant="title" color={theme.semantic.text.onAccent}>
+                {String(dayNo)}
+              </Text>
+              <Text variant="label" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                {weekday}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text variant="label" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                {weekday}
+              </Text>
+              <Text variant="title" color={theme.semantic.text.onAccent}>
+                {dateLabel}
+              </Text>
+            </>
+          )}
         </View>
         <View style={styles.body}>
           <Text variant="title" numberOfLines={1}>

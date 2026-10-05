@@ -14,7 +14,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import type { DayItem } from '@/data/plan/plan-model';
 
-import { routeOf } from '../day-route';
+import { routeOf, type KnownLegs } from '../day-route';
 import type { TripDay } from '../trip-days';
 
 function stop(id: string, place: { lat: number; lng: number } | null): DayItem {
@@ -98,5 +98,49 @@ describe('day route', () => {
     ]);
     expect(route.after.map((one) => one?.minutes ?? null)).toEqual([4, null]);
     expect(route.legs.map((one) => one.minutes)).toEqual([12, 4, 11]);
+  });
+
+  it('keeps a routed time for a pair until the new version is routed, never a longer guess', () => {
+    const known: KnownLegs = new Map();
+    const before = routeOf(day([MARKET, BRIDGE]), [leg('market', 'bridge', 4)], undefined, known);
+    expect(before.after[0]).toMatchObject({ minutes: 4, source: 'valhalla' });
+    // An edit elsewhere made a new version: its legs are not stored yet.
+    const during = routeOf(day([MARKET, BRIDGE]), [], undefined, known);
+    expect(during.after[0]).toMatchObject({ minutes: 4, source: 'valhalla', approx: false });
+    // A stored straight-line leg does not replace the routed time either.
+    const guessed = routeOf(
+      day([MARKET, BRIDGE]),
+      [{ ...leg('market', 'bridge', 9), source: 'straight_line', approx: 1 }],
+      undefined,
+      known,
+    );
+    expect(guessed.after[0]).toMatchObject({ minutes: 4, source: 'valhalla' });
+    // The new routed leg, once it lands, is the one shown and remembered.
+    const after = routeOf(day([MARKET, BRIDGE]), [leg('market', 'bridge', 6)], undefined, known);
+    expect(after.after[0]).toMatchObject({ minutes: 6 });
+    expect(routeOf(day([MARKET, BRIDGE]), [], undefined, known).after[0]).toMatchObject({
+      minutes: 6,
+    });
+  });
+
+  it('estimates a pair the router never timed, and a stop moved to another place', () => {
+    const known: KnownLegs = new Map();
+    routeOf(day([MARKET, BRIDGE]), [leg('market', 'bridge', 4)], undefined, known);
+    const moved = stop('bridge', { lat: 16.2, lng: 108.4 });
+    expect(routeOf(day([MARKET, moved]), [], undefined, known).after[0]).toMatchObject({
+      source: 'straight_line',
+      approx: true,
+    });
+  });
+
+  it('gives the legs out of and back to the stay', () => {
+    const route = routeOf(day([MARKET, BRIDGE], { lat: 16.05, lng: 108.24 }), [
+      leg('stay', 'market', 12),
+      leg('market', 'bridge', 4),
+      leg('bridge', 'stay', 11),
+    ]);
+    expect(route.fromStay).toMatchObject({ minutes: 12 });
+    expect(route.toStay).toMatchObject({ minutes: 11 });
+    expect(routeOf(day([MARKET, BRIDGE]), []).fromStay).toBeNull();
   });
 });
