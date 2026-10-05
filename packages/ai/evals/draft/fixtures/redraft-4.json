@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "91e18d99-3d34-48b0-a59a-7f4f66603285",
+        "id": "30b2df65-ba53-41e7-bd34-43946d121138",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Eat Your Way Through Kyoto\",\n  \"summary\": \"A slower, tastier day built around Rin's appetite, with a market, a proper lunch, and an evening meal without leaving the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the one we keep. Shoes off, phone down, eyes up before the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's first excuse to graze. A market stop is a meal with extra steps, and these steps are delicious.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, cheap and cheerful. Lunch stays because even a food day needs a table to lean on.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander to settle the noodles. History and local life, no ticket required.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her second proper meal, and the rest of us get to watch an omelette show.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasting Walk Through Kyoto\",\n  \"summary\": \"A slower day for Rin's appetite, wandering from temple calm to market snacks and a proper evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin gets her market wander. Graze slowly, the stalls reward patience.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper lunch that respects the budget. Slurp loudly, it is a compliment.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle stroll to settle lunch before the evening appetite returns.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with options for everyone, and Rin can keep eating her way through the day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 94,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 347,
+          "output_tokens": 306,
           "service_tier": "standard"
         }
       }

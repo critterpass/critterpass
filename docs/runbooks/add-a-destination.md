@@ -130,7 +130,11 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    A pin can say what the place is (`kind`, which the note writer is told), correct a wrong
    open-data `category` and carry a `nameLocal` another record or the Wikidata item holds.
    `DUPLICATE_RULINGS` settles the duplicate pairs the decision left open (one place only on a
-   street address or a Wikidata item). Pins and landmarks publish as `editorial.must_see`.
+   street address or a Wikidata item). Pins and landmarks publish as `editorial.must_see`; a pin
+   with `mustSee: false` keeps a place in the set without the flag. A pin with `essential: true`
+   also publishes `editorial.essential`: the ten to fifteen must-sees a first visit is built
+   around (the validators refuse more than 15 a destination, counted over the live release with
+   the batch laid on it), spread over kinds, no cafés.
    `LEFT_OUT_PLACES` in the same file names the records the set never takes (a point far from the
    real place, a further record of a place the set holds, a seller), each with the reason the
    review page prints. A city that is not its country's guide city (Đà Lạt) is added to
@@ -153,6 +157,43 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
 5. Review the gray-band duplicate pairs and approve the batch in the console. Publishing marks the
    POIs `curation = 'editorial'`. Place search and detail read every active POI, so they work
    before the approval.
+
+### Correcting places already curated
+
+Wrong pins, duplicates, wrong kinds, names and must-sees are corrected by a hand-made batch, with
+no model call. A batch states only the records it changes; approving it lays them over the live
+release.
+
+1. Write the decisions in `tools/content-factory/src/data/place-corrections/<batch>.json`: per
+   place the record to keep (by content ref), the records that fold into it, and the corrected
+   name, kind, must-see flag or essential tier. A record that joins the recommended set carries
+   its note. `revise` replaces lines of a live note and `claim` records what the note said, what
+   the source says and the source's address (a merged record that repeated the claim takes the
+   kept note with `kept_note`).
+   Publishing never moves the point of an existing record: a place pinned in the wrong spot is
+   corrected by keeping the record at the real place and merging the wrong one into it. Merging
+   is also the only way a release takes a record out of the recommended set.
+2. Check every kept point against a map and record what it was checked against in `checked`
+   (OpenStreetMap through `https://photon.komoot.io/api/?q=<name>&lat=<lat>&lon=<lng>`).
+3. Between records at the real place, keep the one the live media release holds a photo for
+   (`poi:<source>-<id>` subjects), then the one more plans point at: a stop of an existing trip
+   keeps pointing at a merged record, and nothing repoints it.
+4. Read the records and their live items (read-only), then build the batch, the validator report
+   and the review page (`work/places/<batch>/corrections.html`):
+
+   ```sh
+   railway run --service api --environment staging -- pnpm --dir <worktree> \
+     content places corrections --batch <batch> --opt snapshot=1
+   pnpm content places corrections --batch <batch>   # rebuild offline from the committed snapshot
+   ```
+
+5. Add each must-see to the destination's pins (step 3 above) under its corrected name, so the
+   flag survives the next generated batch, and rename any pin whose record was renamed.
+   A recommended record pinned far from its place with no record at the place to merge it into
+   (the place lies outside the destination's map, where the factory creates no places) cannot be
+   corrected by a release: list it under `left_alone` with `hide`, and hide it in the ops console.
+6. Queue it like any committed batch (`content places review --batch <batch>` with
+   `DATABASE_URL`), then approve it in the console.
 
 ### Every destination, monthly
 

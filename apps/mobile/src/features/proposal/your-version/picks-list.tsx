@@ -12,7 +12,7 @@ import type { DoodleName } from '@/ui/icons/generated';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { reasonLabel, type Pick } from '../data/picks';
+import type { Pick } from '../data/picks';
 
 const useStyles = makeStyles((th) => ({
   list: { gap: th.space['8'] },
@@ -68,10 +68,12 @@ export interface PicksListProps {
   readonly picks: readonly Pick[];
   /** "Day 1 · 17:00" for a pick. */
   readonly when: (pick: Pick) => string;
+  /** The card's tag, as this reader may truthfully read it. */
+  readonly tag: (pick: Pick) => string;
   readonly onOpen: (pick: Pick) => void;
 }
 
-export function PicksList({ picks, when, onOpen }: PicksListProps) {
+export function PicksList({ picks, when, tag: tagOf, onOpen }: PicksListProps) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
@@ -80,7 +82,7 @@ export function PicksList({ picks, when, onOpen }: PicksListProps) {
   return (
     <View style={styles.list} testID="version-picks">
       {picks.map((pick, index) => {
-        const tag = pick.reasonLabel ?? reasonLabel(pick.reasonTag, pick.dayNo);
+        const tag = tagOf(pick);
         const line = when(pick);
         return (
           <Animated.View

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "841c6e8c-4acd-4137-af05-5eb29a9b63ec",
+        "id": "8c9145b3-4924-4c60-b0e2-afb7813c099b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower day in Mexico City\",\n  \"summary\": \"A gentle day with a long morning walk and a museum visit, leaving room to wander and rest.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte stroll, now with extra time to dawdle and notice the little things.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor stays, but we arrive unrushed and let the old stones do the talking.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Saturday in the City\",\n  \"summary\": \"A gentle morning in Roma Norte with time to wander, then a long afternoon drifting through the canals of Xochimilco.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte wander, but now there is room to linger over every mural and corner café.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With the market dropped, the trajineras get a whole unhurried afternoon of floating, singing and snacking on the water.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 58,
+          "input_tokens": 91,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 178,
+          "output_tokens": 184,
           "service_tier": "standard"
         }
       }

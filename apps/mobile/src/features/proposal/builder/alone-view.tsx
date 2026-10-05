@@ -1,7 +1,8 @@
 /**
  * The builder with nobody to send the plan to (a crew of one, or friends who haven't joined yet):
- * no pitch to make, so the organiser locks the plan in, or invites friends first. Friends who join
- * after the lock land on this plan.
+ * there is no pitch to make yet, so inviting friends is the main action (she came here to send
+ * the plan to them) and locking the plan in alone is the second. Friends who join after a lock
+ * land on this plan.
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
@@ -54,35 +55,42 @@ export function AloneView(props: AloneViewProps) {
       <View style={styles.body}>
         <Sticker kind={info.kind} name={info.name} size={96} />
         <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'proposal.alone.title', message: 'Lock the plan in?' })}
+          {t({ id: 'proposal.alone.inviteTitle', message: 'Invite your friends first' })}
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>
           {props.dates === ''
             ? t({
-                id: 'proposal.alone.body',
-                message: `It’s just you on ${destination} for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan.`,
+                id: 'proposal.alone.inviteBody',
+                message: `It’s just you on ${destination} for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
               })
             : t({
-                id: 'proposal.alone.bodyDates',
-                message: `It’s just you on ${destination}, ${props.dates}, for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan.`,
+                id: 'proposal.alone.inviteBodyDates',
+                message: `It’s just you on ${destination}, ${props.dates}, for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined.`,
               })}
+        </Text>
+        <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
+          {t({
+            id: 'proposal.alone.soloNote',
+            message:
+              'Going alone? Lock it in and the trip is on. Friends who join later land on this plan.',
+          })}
         </Text>
         {props.offline ? <OfflinePill /> : null}
       </View>
       <View style={styles.footer}>
         <PillButton
-          label={t({ id: 'proposal.alone.lock', message: 'Lock it in' })}
-          onPress={props.onLock}
-          loading={props.locking}
-          disabled={props.offline}
+          label={t({ id: 'proposal.alone.inviteFriends', message: 'Invite friends' })}
+          onPress={props.onInvite}
           sheen
-          testID="build-lock-alone"
+          testID="build-invite"
         />
         <PillButton
           variant="secondary"
-          label={t({ id: 'proposal.alone.invite', message: 'Invite friends first' })}
-          onPress={props.onInvite}
-          testID="build-invite"
+          label={t({ id: 'proposal.alone.lockAlone', message: 'Lock it in alone' })}
+          onPress={props.onLock}
+          loading={props.locking}
+          disabled={props.offline}
+          testID="build-lock-alone"
         />
       </View>
     </Scaffold>

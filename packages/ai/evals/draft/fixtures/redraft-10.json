@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "98751506-4e07-4adf-845a-5aec19e3db9e",
+        "id": "c634b8eb-70a4-4213-81c6-3979288e7582",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Sunday Swap in Lisbon\",\n  \"summary\": \"We trade the usual sights for a slower wander through Belém and a lively evening in Bairro Alto, with no meal stop to pin us down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays, of course. History with a sea breeze and a photo for every angle.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end where the night begins, because a day without Bairro Alto is just a long lunch.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Sunday Strolls and a Tower\",\n  \"summary\": \"A slower Sunday with a market wander, a riverside landmark, and an evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The flea market is a lovely, lazy start to a Sunday, full of odd treasures and local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do tower, standing proud by the water, with plenty of history to soak in.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 39,
+          "input_tokens": 60,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 184,
+          "output_tokens": 250,
           "service_tier": "standard"
         }
       }

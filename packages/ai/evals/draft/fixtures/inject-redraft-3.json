@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "07345ee5-d741-4e8b-badb-ce27edb37ad7",
+        "id": "fc6910e1-2009-4cdd-acfb-263071115469",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém to Bairro Alto, with bites\",\n  \"summary\": \"A day of two halves: the riverside history of Belém, then the hilltop views and evening buzz of Bairro Alto, with a proper sit-down meal in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we refuse to swap. Belém Tower, still standing, still smug about it.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"New for today: LX Factory. Old warehouses, new coffee, and enough photo spots to keep the shutterbugs busy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Taberna da Rua das Flores. Vegetarian options that even a sardine respects.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Miradouro da Senhora do Monte. The view that makes everyone forget the climb.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark. Because the night owls asked nicely, and the early birds can nap on the tram.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Bairro Alto and a Tram Ride\",\n  \"summary\": \"We keep the Belém Tower as our anchor, then spend the rest of the day wandering the hills and lanes of Bairro Alto with a tram ride, a market, and a proper sit-down dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-do for the day. Come for the tower, stay for the river breeze and the pastel de nata you'll be thinking about all week.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rickety, rattling classic. The tram climbs the hills like it has somewhere better to be, and the views out the window are pure Lisbon.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper wander through the flea market. You'll find old tiles, vinyl records, and at least one thing you never knew you needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, fragrant stop for the crew. The vegetarian options are proper comfort food, and the price leaves room for a second helping.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark is where the city lets its hair down. We'll wander the lanes, hear fado drifting from a doorway, and call it a night.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 91,
+          "input_tokens": 77,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 405,
+          "output_tokens": 453,
           "service_tier": "standard"
         }
       }

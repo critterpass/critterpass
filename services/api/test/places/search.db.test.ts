@@ -3,7 +3,8 @@
  * Wednesday's dinner booked: "quiet dinner near the villa, open late" (7d-2) answers six places and
  * three that break one chip, with minutes, closing times and fits that leave Wednesday out;
  * "omakase sushi in ubud" (7d-4) answers nothing and ways out whose counts are what tapping them
- * returns. A request with none of the new parameters answers exactly the shape it always had.
+ * returns; a search that matches nothing answers what is close to it; a request with none of the
+ * plain-words parameters answers one list of places.
  */
 import { DomainError, placeFitSchema } from '@cp/domain';
 import { OpenAPIHono } from '@hono/zod-openapi';
@@ -13,17 +14,37 @@ import { ZodError } from 'zod';
 import type { AppEnv } from '../../src/app';
 import { registerPlacesRoutes } from '../../src/places/routes';
 import {
+  fromVilla,
+  hours,
   JAPANESE_IN_UBUD,
   LOUDER_OR_FURTHER,
   NOT_DINNER,
   OMAKASE,
   QUIET_DINNERS,
   startBaliTrip,
+  UBUD,
+  type BaliPlace,
   type BaliTrip,
 } from '../planning/search/bali-fixture';
 
 let bali: BaliTrip;
 let app: OpenAPIHono<AppEnv>;
+
+/** Far from the villa, so the quiet-dinner search does not count it as a near miss. */
+const BY_THE_BEACH: readonly BaliPlace[] = [
+  {
+    name: 'La Plancha Beach Grill',
+    category: 'food',
+    at: fromVilla(-40, -10),
+    address: 'Jl. Mesari Beach, Seminyak, Badung Regency, Bali',
+    hours: hours('17:00', '23:00'),
+  },
+];
+/** The safari park is nearer the villa than the waterfall. */
+const NATURE: readonly BaliPlace[] = [
+  { name: 'Bali Safari Park', category: 'nature', at: fromVilla(-2, 3), address: UBUD },
+  { name: 'Air Terjun Kanto Lampo', category: 'nature', at: fromVilla(-4, 6), address: UBUD },
+];
 
 beforeAll(async () => {
   bali = await startBaliTrip([
@@ -32,6 +53,8 @@ beforeAll(async () => {
     ...NOT_DINNER,
     ...OMAKASE,
     ...JAPANESE_IN_UBUD,
+    ...BY_THE_BEACH,
+    ...NATURE,
   ]);
   app = new OpenAPIHono<AppEnv>();
   app.use('*', async (c, next) => {
@@ -72,6 +95,7 @@ interface Body {
     open_late?: number;
   }[];
   nearest?: { poi_id: string; name: string; area: string | null; minutes: number } | null;
+  close?: { results: Item[]; dropped: string[] };
 }
 
 async function search(params: Record<string, string>, uid = bali.organiser) {
@@ -161,6 +185,40 @@ describe('GET /v1/places/search with plain-words filters', () => {
     );
   });
 
+  it('answers what is close when nothing matches all of it, naming what it dropped', async () => {
+    const { body } = await search({
+      trip_id: bali.tripId,
+      meal: 'dinner',
+      attrs: 'vegetarian',
+      max_minutes: 'stay:15',
+      relax: '1',
+    });
+    expect(body.results).toEqual([]);
+    expect(body.close?.dropped).toEqual(['attribute']);
+    expect(body.close?.results.map((item) => item.name)).toContain('Sayan House');
+  });
+
+  it('reads dinner by the beach as a place to eat that mentions the beach', async () => {
+    const { body } = await search({ trip_id: bali.tripId, meal: 'dinner', categories: 'beach' });
+    expect(body.results.map((item) => item.name)).toEqual(['La Plancha Beach Grill']);
+  });
+
+  it('puts the places named for the noun she typed first', async () => {
+    const nature = { trip_id: bali.tripId, categories: 'nature' };
+    const plain = await search(nature);
+    expect(plain.body.results.map((item) => item.name)).toEqual([
+      'Bali Safari Park',
+      'Tegenungan Waterfall',
+      'Air Terjun Kanto Lampo',
+    ]);
+    const asked = await search({ ...nature, words: 'a waterfall without the crowds, on Mon' });
+    expect(asked.body.results.map((item) => item.name)).toEqual([
+      'Tegenungan Waterfall',
+      'Air Terjun Kanto Lampo',
+      'Bali Safari Park',
+    ]);
+  });
+
   it('is NOT_FOUND for a trip the caller is not on', async () => {
     expect((await search(QUIET_DINNER(), bali.outsider)).status).toBe(404);
   });
@@ -171,7 +229,7 @@ describe('GET /v1/places/search with plain-words filters', () => {
 });
 
 describe('GET /v1/places/search without plain-words filters', () => {
-  it('answers exactly the keys it always had', async () => {
+  it('answers one list of places, each with its area and whether it is recommended', async () => {
     const { status, body } = await search({ destination_id: bali.destinationId, q: 'Sayan' });
     expect(status).toBe(200);
     expect(Object.keys(body)).toEqual(['results']);
@@ -186,6 +244,8 @@ describe('GET /v1/places/search without plain-words filters', () => {
           'lat',
           'lng',
           'address',
+          'area',
+          'recommended',
           'priceLevel',
           'tags',
           'distanceM',

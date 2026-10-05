@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5e8f621b-280e-48de-b9cb-867d96a2f2bf",
+        "id": "a4ff4caf-d368-4347-a389-f58601024921",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Reykjavik day\",\n  \"summary\": \"We trade bus rides for breathing room, keeping the Blue Lagoon and letting the city wait.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays, and with fewer stops we can soak properly instead of rushing off.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Gentle Reykjavik Day\",\n  \"summary\": \"A slower day sticking close to the water and the hills, with just the Blue Lagoon and a wander through Perlan.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one unmissable soak, kept as the heart of the day and given all the time it deserves.\",\n      \"note\": \"The one unmissable soak, kept as the heart of the day and given all the time it deserves.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm indoor pause with a view, close by and easy on the legs after the lagoon.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 91,
+          "input_tokens": 112,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 103,
+          "output_tokens": 197,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "5ae4653a-a669-48db-ad8d-2a9bdfbb4bf9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A gentler Reykjavik day\",\n  \"summary\": \"We slow right down, keep the Blue Lagoon, and swap the long hop for a calm morning by the harbour.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet harbour-side start, easy on tired legs and close to the water.\",\n      \"note\": \"A quiet harbour-side start, easy on tired legs and close to the water.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays, with a long unhurried soak instead of rushing between stops.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 133,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 181,
           "service_tier": "standard"
         }
       }

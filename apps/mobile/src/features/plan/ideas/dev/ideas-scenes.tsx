@@ -31,7 +31,14 @@ import {
 } from '../placing/placing-copy';
 import { PlacingView, type PlacingLine } from '../placing/placing-view';
 import { INITIAL_PLACING, PLACING_STEPS, type PlacingState } from '../placing/progress';
-import { backToIdeas, bodyText, emptyBody, emptyLine, placeLine } from '../ideas-copy';
+import {
+  backToIdeas,
+  bodyText,
+  emptyBody,
+  emptyLine,
+  findPlacesLabel,
+  placeLine,
+} from '../ideas-copy';
 
 const noop = () => undefined;
 const TZ = 'Asia/Makassar';
@@ -173,7 +180,15 @@ function IdeasScene({
       dropTarget={dragging ? { overDayNo: 6 } : undefined}
       chipsRef={{ current: null }}
       place={empty ? null : { line: placeLine(6, 2), busy: false, onPress: noop }}
-      empty={empty ? { guide: 'Tokek', line: emptyLine() } : null}
+      empty={
+        empty
+          ? {
+              guide: 'Tokek',
+              line: emptyLine(),
+              find: { label: findPlacesLabel(), onPress: noop },
+            }
+          : null
+      }
       rows={IDEAS.map((idea, index) => (
         <IdeaRow
           key={idea.name}
@@ -191,6 +206,7 @@ function IdeasScene({
           onCancel={noop}
           onOpen={noop}
           onAddToDay={noop}
+          onMore={noop}
         />
       ))}
       scrolls={lifted !== undefined}

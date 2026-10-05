@@ -22,6 +22,7 @@ const MAX_WISH_CANDIDATES = 120;
 interface PoiRow {
   readonly id: string;
   readonly name: string;
+  readonly name_local: string | null;
   readonly category: string;
   readonly lat: number;
   readonly lng: number;
@@ -42,7 +43,7 @@ export async function loadDraftPlaces(
 ): Promise<DraftPoi[]> {
   const { rows } = await withSystem(pool, (tx) =>
     tx.query<PoiRow>(
-      `(SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
+      `(SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
                p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
           FROM pois p JOIN destinations d ON d.id = p.destination_id
          WHERE p.destination_id = $1 AND p.status = 'active' AND ${recommendedSql('p')}
@@ -51,7 +52,7 @@ export async function loadDraftPlaces(
          ORDER BY ${recommendedOrderSql('p')}, p.id
          LIMIT $3)
        UNION
-       (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
+       (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
                p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
           FROM pois p JOIN destinations d ON d.id = p.destination_id
          WHERE p.id = ANY($2::uuid[]) AND p.status = 'active')`,
@@ -65,6 +66,7 @@ function toDraftPoi(row: PoiRow): DraftPoi {
   const editorial = (row.editorial ?? {}) as {
     time_needed_min?: unknown;
     must_see?: unknown;
+    essential?: unknown;
     why_go?: unknown;
     best_time?: unknown;
   };
@@ -78,6 +80,7 @@ function toDraftPoi(row: PoiRow): DraftPoi {
   return withOpenDataDefaults({
     id: row.id,
     name: row.name,
+    nameLocal: row.name_local,
     category: row.category,
     lat: row.lat,
     lng: row.lng,
@@ -94,6 +97,8 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
     mustSee: editorial.must_see === true || row.pick_source === 'named',
+    // The handful a first visit should hold (our editors flag at most fifteen a destination).
+    ...(editorial.essential === true ? { essential: true } : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),
@@ -128,7 +133,7 @@ export async function loadWishCandidates(
     const { rows } = await withSystem(pool, (tx) =>
       tx.query<PoiRow>(
         `SELECT * FROM (
-           (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
+           (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
                    p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
               FROM pois p JOIN destinations d ON d.id = p.destination_id
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
@@ -136,7 +141,7 @@ export async function loadWishCandidates(
                AND p.fts @@ to_tsquery('simple', $2)
              ORDER BY ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id LIMIT $3)
            UNION ALL
-           (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
+           (SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
                    p.hours, p.price_level, p.tags, p.editorial, p.curation, p.pick_source
               FROM pois p JOIN destinations d ON d.id = p.destination_id
              WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL

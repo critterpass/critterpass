@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "944e6992-8ca8-4801-a137-739637e65fa7",
+        "id": "4c4e0e3d-f97c-46b6-abb5-3d5a80bb3aa4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Gion and a Train, Wallet Intact\",\n  \"summary\": \"A lighter, cheaper day: one kept museum, one free street, and no paid castle.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, open all day, and the best people-watching in Gion. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping. Trains over castles when the budget tightens.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"We trade ticket desks for open air, keeping the railway museum and adding a free bamboo stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, early wander before the crowds and the ticket counters.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew asked for museums.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 31,
+          "input_tokens": 47,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 187,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }

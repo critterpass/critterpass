@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3a85bab2-cc07-44c9-84ff-182626def228",
+        "id": "fad9d3cd-0568-4aae-be14-7db82fbcc71f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Kyoto Morning\",\n  \"summary\": \"A slower day with one temple, a long lunch, and the evening kept for Pontocho.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Enough time to actually look at the thousand statues instead of nodding at them.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays. Vegan, unhurried, and close enough to the temple that nobody needs to rush.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do. Shoes off, phone down, eyes up after dark.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto\",\n  \"summary\": \"A gentler day with one temple, one evening stroll, and two unhurried vegan meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. A single calm temple beats three rushed ones.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at a gentle vegan table, no one glancing at a watch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays. After dark, lanterns do the work.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at the same kind kitchen, because a slow day can end where it began.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 53,
+          "input_tokens": 74,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 211,
+          "output_tokens": 293,
           "service_tier": "standard"
         }
       }

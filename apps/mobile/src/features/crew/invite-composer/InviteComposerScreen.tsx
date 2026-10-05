@@ -1,7 +1,8 @@
 /**
- * The invite composer (undesigned; from the page, field, chip and ticket patterns): invite a
- * friend by name (a named seat, with what the inviter knows about them) or share a link anyone in
- * the crew's circle can use, for the crew alone or one of its trips; preview the ticket they will
+ * The invite composer (undesigned; from the page, field, chip and ticket patterns): it opens on
+ * the link anyone in the crew's circle can use and the crew's code, with a named seat for one
+ * friend (what the inviter knows about them) as the second tab, for the crew alone or one of its
+ * trips; preview the ticket they will
  * see, then send it through WhatsApp, Messages, a copied link, a QR code to scan or the share sheet. A full trip goes
  * to the seat-limit presenter, a signed-out inviter is asked to save their pass first.
  */
@@ -20,7 +21,6 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
-import { Ticket } from '@/ui/documents/Ticket';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -28,14 +28,16 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { rowId } from '../crews-sheet/crew-commands';
-import { useCrews } from '../crews-sheet/crew-data';
+import { useCrewCode, useCrews } from '../crews-sheet/crew-data';
 import { CREW_ROUTES } from '../crews-sheet/routes';
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { useSessionUid } from '../crews-sheet/CrewsSheet';
 import { renderSeatLimit } from '../seat-limit/registry';
 import { composeUrl, sendInvite, shareVia, type ComposerChannel } from './compose';
 import { ContactFields, EMPTY_CONTACT, type ContactDraft } from './ContactFields';
+import { CrewCode } from './CrewCode';
 import { homeHintFor, toE164 } from './home-hint';
+import { InvitePreview } from './InvitePreview';
 import { JoinQr } from './JoinQr';
 import { type InviteComposerProps } from './use-contact-pick';
 import { useTagSuggestion } from './use-tag-suggestion';
@@ -64,7 +66,9 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
   const snapshot = useCrews(localFirst?.db ?? null, uid);
   const crew = snapshot.crews.find((c) => c.id === crewId) ?? null;
   const trips = snapshot.trips.filter((trip) => trip.crew_id === crewId);
-  const [mode, setMode] = useState<Mode>('friend');
+  // The link and the crew code come first: most friends are invited by pasting one in a chat.
+  const [mode, setMode] = useState<Mode>('link');
+  const code = useCrewCode(localFirst?.db ?? null, crewId === '' ? null : crewId);
   const [contact, setContact] = useState<ContactDraft>(EMPTY_CONTACT);
   const [tripId, setTripId] = useState<string | null>(null);
   const [busy, setBusy] = useState<ComposerChannel | null>(null);
@@ -168,18 +172,30 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
           label={t({ id: 'crew.composer.mode', message: 'Who' })}
           segments={[
             {
-              value: 'friend' as const,
-              label: t({ id: 'crew.composer.friend', message: 'A friend' }),
-            },
-            {
               value: 'link' as const,
               label: t({ id: 'crew.composer.link', message: 'A link to share' }),
+            },
+            {
+              value: 'friend' as const,
+              label: t({ id: 'crew.composer.friend', message: 'A friend' }),
             },
           ]}
           value={mode}
           onChange={setMode}
           testID="composer-mode"
         />
+        {mode === 'link' && code !== null ? (
+          <CrewCode
+            code={code}
+            onCopy={() => {
+              void services.copy(code);
+              toast.show({
+                id: rowId('code-copied', code),
+                title: t({ id: 'crew.composer.codeCopied', message: 'Code copied' }),
+              });
+            }}
+          />
+        ) : null}
         {mode === 'friend' ? (
           <ContactFields
             value={contact}
@@ -208,34 +224,11 @@ export function InviteComposerScreen({ pickContact = null }: InviteComposerProps
             ))}
           </View>
         ) : null}
-        <Ticket
-          kind="crew"
-          headStart={upper(t({ id: 'crew.composer.previewHead', message: 'They’ll see' }), locale)}
-          headEnd={upper(crewName, locale)}
-          from={{
-            code: upper(
-              invitee === '' ? t({ id: 'crew.composer.you', message: 'You' }) : invitee.slice(0, 8),
-              locale,
-            ),
-          }}
-          to={{ code: upper((trip?.place ?? crewName).replace(/\s+/gu, '').slice(0, 3), locale) }}
-          fields={[
-            {
-              key: 'crew',
-              label: t({ id: 'crew.composer.previewCrew', message: 'Crew' }),
-              value: crewName,
-            },
-          ]}
-          stubText={
-            invitee === ''
-              ? t({ id: 'crew.composer.previewGeneric', message: 'A seat in the crew' })
-              : t({ id: 'crew.composer.previewNamed', message: `A seat for ${invitee}` })
-          }
-          accessibilityLabel={t({
-            id: 'crew.composer.previewA11y',
-            message: 'Preview of the invite ticket',
-          })}
-          testID="composer-preview"
+        <InvitePreview
+          locale={locale}
+          crewName={crewName}
+          invitee={invitee}
+          place={trip?.place ?? null}
         />
         {signIn ? (
           <Text variant="body" color={theme.semantic.state.urgent} testID="composer-sign-in">

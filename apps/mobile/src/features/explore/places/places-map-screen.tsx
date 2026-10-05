@@ -4,6 +4,7 @@
  * each tap leads.
  */
 import { toLocalWallTime } from '@cp/domain';
+import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -17,8 +18,9 @@ import type { PlacesFilter } from './places-model';
 import { PlacesMapView } from './places-map-view';
 import { addToPlanHref, placeHref, searchHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
-import { usePlaceFits } from './use-place-fits';
+import { usePlaceFits, weekdaysOf } from './use-place-fits';
 import { usePlacesData } from './use-places-data';
+import { usePendingPlaces } from './use-swipe-actions';
 
 export interface PlacesMapScreenProps {
   /** Outside a trip: the map's own field over the places on this phone. */
@@ -44,6 +46,10 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     results: props.results?.ids ?? null,
     query: props.query,
   });
+  const { i18n } = useLingui();
+  // Saves made in the list a moment ago count here before they have synced.
+  const places = usePendingPlaces(tripId, data.places, data.uid);
+  const weekdays = useMemo(() => weekdaysOf(data.days, i18n.locale), [data.days, i18n.locale]);
   const sync = useSyncStatus();
   const pack = useOfflinePack(data.destinationId ?? '', data.destinationSlug ?? '');
   // Add to plan shows its + only once its screen is on this phone.
@@ -60,14 +66,15 @@ export function PlacesMapScreen(props: PlacesMapScreenProps) {
     ideas: data.ideas,
   });
   const today = useMemo(() => toLocalWallTime(new Date(), data.tz ?? 'UTC').date, [data.tz]);
-  const poiOf = (id: string) => data.places.find((entry) => entry.id === id)?.poiId ?? id;
+  const poiOf = (id: string) => places.find((entry) => entry.id === id)?.poiId ?? id;
   const downloaded = pack.status === 'downloaded' || pack.status === 'checking';
   const photos = usePlaceTilePhotos(asked);
   return (
     <PlacesMapView
       inTrip={tripId !== null}
       loaded={data.loaded}
-      places={data.places}
+      places={places}
+      weekdays={weekdays}
       crew={data.crew}
       routes={data.routes}
       today={today}

@@ -79,7 +79,9 @@ export interface PlaceListRowProps {
   readonly photo?: PlaceTilePhoto | undefined;
   readonly savers: readonly StackMember[];
   readonly fit: FitLine | undefined;
-  readonly onOpen: () => void;
+  /** "In the plan · Tue" for a place on a day: it takes the fit line's place and the + goes. */
+  readonly planned?: string | undefined;
+  readonly onOpen?: (() => void) | undefined;
   readonly onAdd?: (() => void) | undefined;
   readonly onSplit?: (() => void) | undefined;
   readonly onAction?: ((action: SwipeAction) => void) | undefined;
@@ -90,7 +92,8 @@ export interface PlaceListRowProps {
 export function PlaceListRow(props: PlaceListRowProps) {
   const styles = useStyles();
   const { i18n } = useLingui();
-  const split = props.fit?.tone === 'split' && props.onSplit !== undefined;
+  const inPlan = props.place.standing === 'plan';
+  const split = !inPlan && props.fit?.tone === 'split' && props.onSplit !== undefined;
   const trailing = split ? (
     <PressScale
       widthClass="narrow"
@@ -101,7 +104,7 @@ export function PlaceListRow(props: PlaceListRowProps) {
     >
       <PlanningTag label={upper(splitLabel(), i18n.locale)} />
     </PressScale>
-  ) : props.onAdd === undefined ? null : (
+  ) : props.onAdd === undefined || inPlan ? null : (
     <AddButton
       accessibilityLabel={addLabel(props.place.name)}
       onPress={props.onAdd}
@@ -115,7 +118,9 @@ export function PlaceListRow(props: PlaceListRowProps) {
       icon={categoryIcon(props.place.category)}
       {...props.photo?.tile}
       savers={props.savers}
-      fitLine={props.fit}
+      fitLine={
+        inPlan && props.planned !== undefined ? { text: props.planned, tone: 'fits' } : props.fit
+      }
       trailing={
         props.sponsored === undefined ? (
           trailing
@@ -131,7 +136,7 @@ export function PlaceListRow(props: PlaceListRowProps) {
     />
   );
   const body =
-    props.onAction === undefined ? (
+    props.onAction === undefined || inPlan ? (
       row
     ) : (
       <SwipeRow

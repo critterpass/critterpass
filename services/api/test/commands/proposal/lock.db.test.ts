@@ -3,7 +3,8 @@
  * against a migrated Postgres: only the organiser may lock, never before a recipient is IN; the
  * lock waitlists every MAYBE, moves everyone who never answered out, releases the open activity
  * holds of those now off the trip (keeping the IN members'), locks the proposal and moves the trip
- * `proposed → confirmed` with its event. Locking again changes nothing.
+ * `proposed → confirmed` with its event. Locking again changes nothing. Each member's own answer
+ * and the lock are system lines in crew chat.
  */
 import { withSystem } from '@cp/db';
 import { generateUuidV7 } from '@cp/domain';
@@ -177,5 +178,19 @@ describe('lock_proposal', () => {
     expect(again.status).toBe(200);
     expect(again.body.result).toMatchObject({ trip_status: 'confirmed', in: 1 });
     expect(await confirmedEvents()).toBe(1);
+  });
+
+  it("puts each member's own answer and the lock in crew chat as system lines, once", async () => {
+    const lines = await q<{ ref_kind: string; ref_id: string | null }>(
+      `SELECT ref_kind, ref_id FROM messages
+        WHERE crew_id = $1 AND type = 'system' AND ref_kind ~ '^(rsvp_|trip_locked)' ORDER BY seq`,
+      [fx.crewId],
+    );
+    // The two the lock moved out answered nothing themselves: no line speaks for them.
+    expect(lines).toEqual([
+      { ref_kind: 'rsvp_in', ref_id: m(1).uid },
+      { ref_kind: 'rsvp_maybe', ref_id: m(2).uid },
+      { ref_kind: 'trip_locked', ref_id: organiser.uid },
+    ]);
   });
 });

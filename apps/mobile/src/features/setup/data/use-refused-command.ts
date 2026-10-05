@@ -30,6 +30,8 @@ export function useRefusedCommand(cmd: 'set_setup_step' | 'set_stay_choice'): {
   readonly refused: boolean;
   /** The server's reason for the newest refusal (`step_not_done`, `stay_unavailable`, …). */
   readonly reason: string | null;
+  /** The refusals have been read at least once (until then `refused` is not yet known). */
+  readonly loaded: boolean;
   readonly acknowledge: () => void;
 } {
   const { db } = useLocalFirst();
@@ -40,6 +42,7 @@ export function useRefusedCommand(cmd: 'set_setup_step' | 'set_stay_choice'): {
   return {
     refused: rows.rows.length > 0,
     reason: reasonOf(rows.rows[0]?.detail),
+    loaded: rows.loaded,
     acknowledge,
   };
 }

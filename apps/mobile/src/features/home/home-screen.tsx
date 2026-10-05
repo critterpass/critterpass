@@ -43,6 +43,10 @@ import { homeVoteSlot } from './slots';
 import { TipStrip } from './tip-strip';
 import { InTripCard, NoTripCard, PostTripCard } from './trip-state-cards';
 
+// The crew area's start-a-crew screen.
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a route path, never copy.
+const START_CREW_ROUTE = '/crew/new';
+
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
 }));
@@ -51,7 +55,7 @@ function FirstRun({
   view,
   width,
 }: {
-  readonly view: Pick<HomeView, 'firstName' | 'guideCells'>;
+  readonly view: Pick<HomeView, 'firstName' | 'guideCells'> & { readonly uid?: string | null };
   readonly width: number;
 }) {
   const { t } = useLingui();
@@ -63,10 +67,17 @@ function FirstRun({
       : t({ id: 'home.firstRun.welcome', message: `Welcome, ${view.firstName}` });
   return (
     <Stack gap="16" testID="home-first-run">
-      <Row justify="space-between" align="center">
-        <Text variant="eyebrow" numberOfLines={1} style={{ flexShrink: 1 }}>
-          {upper(welcome, locale)}
-        </Text>
+      <Text variant="eyebrow" numberOfLines={1}>
+        {upper(welcome, locale)}
+      </Text>
+      {/* Going with friends starts with a crew: starting one sits beside joining one. */}
+      <Row gap="8" wrap>
+        <InlineAction
+          kind="choice"
+          label={upper(t({ id: 'home.firstRun.startCrew', message: 'Start a crew' }), locale)}
+          onPress={() => router.push(START_CREW_ROUTE)}
+          testID="home-start-crew"
+        />
         <InlineAction
           kind="choice"
           label={upper(t({ id: 'home.firstRun.joinCode', message: 'Join with a code' }), locale)}
@@ -80,10 +91,11 @@ function FirstRun({
       <Text variant="body" color={theme.semantic.text.secondary}>
         {t({
           id: 'home.firstRun.body',
-          message: 'Pick a guide to start a trip. Your crew can vote on it later.',
+          message:
+            'Search a place or pick a guide to start a trip. Your crew can vote on it later.',
         })}
       </Text>
-      <FirstRunGrid cells={guideCells(view.guideCells)} width={width} />
+      <FirstRunGrid cells={guideCells(view.guideCells)} width={width} uid={view.uid ?? null} />
       <ExploreRow />
     </Stack>
   );

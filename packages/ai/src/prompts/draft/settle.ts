@@ -8,9 +8,17 @@
  * day is, not a rule the draft breaks, so it is not reported as one.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { dropViolations, type DropResult, type ValidationResult } from '@cp/planner';
+import {
+  choicesOfDay,
+  dropViolations,
+  isKept,
+  type DropResult,
+  type ValidationResult,
+} from '@cp/planner';
 
 import { fillMeals } from './complete-days';
+import { placeEssentials } from './essentials';
+import { withoutMisplacedOpeners } from './openers';
 import { fillThinDays } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -41,12 +49,7 @@ function without(
       ...outline,
       mustDoIds: kept.flatMap((item) => (item.must_do_id === null ? [] : [item.must_do_id])),
     },
-    kept.map((item) => ({
-      poiId: item.poi_id ?? '',
-      kind: item.kind,
-      mustDoId: item.must_do_id,
-      note: item.note,
-    })),
+    choicesOfDay({ items: kept }),
     key,
   );
   return {
@@ -80,7 +83,7 @@ export function trimForMustDos(
     const whole = itinerary.days.find((d) => d.day_no === dayNo);
     if (outline === undefined || whole === undefined) continue;
     const others = new Set(
-      whole.items.filter((item) => item.must_do_id === null).map((item) => item.stable_id),
+      whole.items.filter((item) => !isKept(item)).map((item) => item.stable_id),
     );
     const bare = without(input, outline, itinerary, others, `trim-${dayNo}-bare`);
     const solvable = dayViolations(validate(input, bare), dayNo) === 0;
@@ -92,11 +95,18 @@ export function trimForMustDos(
       // Of the removals that fix as much, a meal goes first (another, nearer one is filled in
       // afterwards), then a stop the outline never planned, then the later of two.
       const planned = new Set(outline.poiIds);
+      // An essential place is the last to go.
       const rank = (item: DraftDay['items'][number]) =>
-        item.kind === 'meal' ? 0 : planned.has(item.poi_id ?? '') ? 2 : 1;
+        item.kind === 'meal'
+          ? 0
+          : input.pois.get(item.poi_id ?? '')?.essential === true
+            ? 3
+            : planned.has(item.poi_id ?? '')
+              ? 2
+              : 1;
       const candidates = day.items
         .map((item, index) => ({ item, index }))
-        .filter(({ item }) => item.must_do_id === null)
+        .filter(({ item }) => !isKept(item))
         .sort((a, b) => rank(a.item) - rank(b.item) || b.index - a.index)
         .map(({ item }) => item);
       for (const drop of candidates) {
@@ -120,7 +130,7 @@ export function trimForMustDos(
 
 /**
  * Plans each dropped must-do on another day its place is open, the lightest first, when that day
- * stays as clean as it was. Returns the must-dos that found a day.
+ * stays as clean as it was (its other stops giving way if they must). Returns the must-dos that found a day.
  */
 function rehome(
   input: DraftPlanInput,
@@ -140,12 +150,7 @@ function rehome(
       const outline = outlines.find((d) => d.dayNo === day.day_no);
       if (outline === undefined) continue;
       const choices = [
-        ...day.items.map((item) => ({
-          poiId: item.poi_id ?? '',
-          kind: item.kind,
-          mustDoId: item.must_do_id,
-          note: item.note,
-        })),
+        ...choicesOfDay(day),
         { poiId: slot.poiId, kind: 'activity' as const, mustDoId, note: null },
       ];
       const next = scheduleChoices(
@@ -165,8 +170,17 @@ function rehome(
         ),
       };
       const before = dayViolations(validate(input, itinerary), day.day_no);
-      if (dayViolations(validate(input, candidate), day.day_no) > before) continue;
-      itinerary = candidate;
+      // A day too full for it gives up stops nobody asked for before the must-do is given up.
+      const made = [
+        candidate,
+        trimForMustDos(input, [outline], candidate, validate(input, candidate)),
+      ].find(
+        (plan) =>
+          dayViolations(validate(input, plan), day.day_no) <= before &&
+          plan.days.some((d) => d.items.some((item) => item.must_do_id === mustDoId)),
+      );
+      if (made === undefined) continue;
+      itinerary = made;
       placed.add(mustDoId);
       break;
     }
@@ -183,7 +197,7 @@ export interface Settled {
   readonly filled: number;
 }
 
-const withoutUnservedMeals = (result: ValidationResult): ValidationResult => {
+export const withoutUnservedMeals = (result: ValidationResult): ValidationResult => {
   const violations = result.violations.filter((v) => v.code !== 'MEAL_MISSING');
   return { ...result, violations, ok: violations.length === 0 };
 };
@@ -232,6 +246,13 @@ export function settle(
     lost = dropped.filter((drop) => drop.mustDoId === null || !moved.placed.has(drop.mustDoId));
   }
   let filled = 0;
+  if (options.fillThin) {
+    // A long outdoor sight that could not open its day comes off it, to open another.
+    itinerary = withoutMisplacedOpeners(input, outlines, itinerary);
+    const essential = placeEssentials(input, outlines, itinerary);
+    itinerary = essential.itinerary;
+    filled += essential.added;
+  }
   for (const fill of options.fillThin ? [fillMeals, fillThinDays] : [fillMeals]) {
     const done = fill(input, outlines, itinerary);
     itinerary = done.itinerary;

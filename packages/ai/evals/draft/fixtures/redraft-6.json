@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1444189a-9267-4061-ac2d-dacdf8c74afe",
+        "id": "74639fb5-de77-4e26-8f3d-cf3c672ba1d5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Ubud Day With a Hidden Temple\",\n  \"summary\": \"A gentle Ubud day that keeps the monkey forest and market, then slips in a lotus temple the crew would not expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Rise and shine, the monkeys are already awake and they do not care about your coffee.\",\n      \"must_do_id_note\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slower browse after the forest, with plenty of shade and a little local life.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus pond temple tucked behind the main street. I know a guy who swears it is the quietest corner in Ubud.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Day of Unexpected Bali\",\n  \"summary\": \"From cheeky monkeys to holy springs, this day surprises with a soulful temple dip and a beach club after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew asked for nature, so the monkeys deliver chaos and charm in equal measure.\",\n      \"start_by\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: a temple spring dip that feels more like a reset button than a tourist stop.\",\n      \"start_by\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We end where the night owls wake up, with a sunset-to-stars beach club scene.\",\n      \"start_by\": \"21:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 59,
+          "input_tokens": 62,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 238,
+          "output_tokens": 243,
           "service_tier": "standard"
         }
       }

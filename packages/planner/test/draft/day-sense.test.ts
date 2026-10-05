@@ -74,6 +74,42 @@ describe('the hop cap', { timeout: 60_000 }, () => {
     expect(longHops(['a', 'b', 'c', 'd', 'dinner'], busy, 40, 4)).toEqual([]);
   });
 
+  it('counts the ride out from where the crew sleeps, and lets it ride back to town once', () => {
+    const travel = line({ home: 0, cafe: 5, museum: 10, peak: 55, lookout: 62, farm: 110 });
+    // Out to the peak is the day's long ride: no second one to the farm.
+    expect(longHops(['peak', 'lookout', 'farm'], travel, 40, undefined, 'home')).toEqual([
+      { index: 2, over: 8 },
+    ]);
+    // Without a home the same day passes: the first stop is where the day starts.
+    expect(longHops(['peak', 'lookout', 'farm'], travel, 40)).toEqual([]);
+    // Back to town after the peak is the way back, not a second long ride.
+    expect(longHops(['peak', 'lookout', 'cafe', 'museum'], travel, 40, undefined, 'home')).toEqual(
+      [],
+    );
+    // But not out again after it.
+    expect(
+      longHops(['peak', 'cafe', 'lookout'], travel, 40, undefined, 'home').map((hop) => hop.index),
+    ).toEqual([2]);
+    // Home is not three hours from the first stop of the day.
+    const far = line({ home: 0, island: 200 });
+    expect(longHops(['island'], far, 40, undefined, 'home')).toEqual([{ index: 0, over: 160 }]);
+  });
+
+  it('lets one sight a day be a modest out-and-back, never a meal, never twice', () => {
+    // A pagoda 25 minutes out between two stops in town: a 42-minute detour.
+    const travel = line({ a: 0, pagoda: 25, b: 4, c: 6, far: 28 });
+    const sights = () => true;
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40)).toEqual([{ index: 1, over: 2 }]);
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40, undefined, null, sights)).toEqual([]);
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40, undefined, null, () => false)).toEqual([
+      { index: 1, over: 2 },
+    ]);
+    const twice = longHops(['a', 'pagoda', 'b', 'far', 'c'], travel, 40, undefined, null, sights);
+    // The first is the day's one; what follows it out again is a hop too far.
+    expect(twice.map((hop) => hop.index)).not.toContain(1);
+    expect(twice.map((hop) => hop.index)).toContain(3);
+  });
+
   it('flags the stop that sends the crew out and back between two stops that sit together', () => {
     const travel = line({ a: 0, b: 6, lunch: 30 });
     // 30 out and 24 back for stops six minutes apart: a 48-minute detour.

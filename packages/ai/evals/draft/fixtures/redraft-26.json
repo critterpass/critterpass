@@ -1,0 +1,53 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "fb30cd70-5e12-4017-b972-95e7cbf0c32b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Ngày Đà Lạt trong nhà, mưa không lo\",\n  \"summary\": \"Trời mưa thì mình đổi hết sang chỗ có mái che, vẫn đủ vị Đà Lạt từ bảo tàng đến cà phê tối, nhẹ nhàng và ấm cúng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mưa ngoài kia thì vào Lam Dong Museum ngắm lịch sử và văn hoá, khô ráo lại vừa đúng kiểu đi chậm.\"\n    },\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh căn nóng hổi trong quán có mái, ăn xong nghe mưa rơi ngoài hiên cũng vui.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Domaine De Marie mái ngói đỏ che mưa tốt, vừa ngắm kiến trúc vừa thấy lòng nhẹ tênh.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng Bà Hùng ngồi bàn trong nhà, cuốn rau thơm đầy đặn, ngon quá (so tasty) là đúng bài.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì Mây Lang Thang là chỗ trốn lý tưởng, cà phê ấm và ánh đèn vàng làm tôi quên luôn ngoài trời đang ướt.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Marché khu vui chơi trong nhà cho cú đêm, đi bộ loanh quanh nghe nhạc mà không ướt một giọt.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 57,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 572,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "618da8ed-d6ce-4401-883d-b0e6140aaa6a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt mưa, mình đi trong nhà\",\n  \"summary\": \"Trời Đà Lạt hôm nay hay mưa nên cả ngày mình trốn dưới mái hiên cho khô ráo, từ chợ ấm bụng đến quán cà phê tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi bàn cho chắc dạ, nem nướng cuốn rau thơm ngon quá (so tasty), mưa ngoài kia kệ mưa.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng có mái che kín, mình vừa xem hiện vật vừa nghe mưa rơi ngoài cửa, chậm rãi đúng kiểu Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán cà phê bistro ấm cúng, gọi món nóng hổi, khỏi ướt một sợi lông nào.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sau bữa tối ghé Mây Lang Thang nhấm nháp cà phê, ngắm phố mưa qua khung cửa kính, đêm Đà Lạt dịu dàng ghê.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 86,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 437,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

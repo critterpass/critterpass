@@ -22,7 +22,8 @@ export async function checkStage(
   held: readonly HeldStop[] = [],
 ): Promise<RepairOutcome> {
   const outcome = await validateAndRepair(model, input, skeleton, drafted);
-  // Her own stops go back in last, exactly as she placed them: nothing above can move one.
+  // The planner was given her stops and planned around them. Putting them back here, exactly as
+  // she placed them, is the guarantee that holds whatever happened above.
   return { ...outcome, itinerary: holdStops(outcome.itinerary, held, input.travel).itinerary };
 }
 
@@ -41,5 +42,7 @@ export function keptWithJob(outcome: RepairOutcome) {
     passes: outcome.passes,
     filled: outcome.filled,
     notes_removed: outcome.notesRemoved,
+    retitled: outcome.retitled,
+    essentials_left_out: outcome.essentialsLeftOut,
   };
 }

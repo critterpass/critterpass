@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "57893dc3-f2ca-403b-bdd6-0ab8325a0300",
+        "id": "dea306c3-00e0-4eba-9bdd-0e5b1adac3fc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Kyoto, close and quiet\",\n  \"summary\": \"A slower day around one corner of Kyoto, with Kinkaku-ji kept and the rest gathered near it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing you asked to keep, so we start here before the buses and the selfie sticks wake up.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a long slow walk for the two early birds who hate being rushed.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian for all four of you, and close enough to the path that nobody has to watch a clock over lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, flat, and full of old shopfronts — the street-food and photo-spot people can wander while the temple people rest their feet.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening lanterns, because the night owl in your crew deserves one meal after dark.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower Kyoto loop\",\n  \"summary\": \"A gentler day around the west and centre, with temples, a bamboo walk and vegetarian meals kept close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free bamboo wander, because the deer will cope without you. The blossoms won't wait.\",\n      \"start\": \"10:30\",\n      \"end\": \"11:30\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan lunch right beside the bamboo, so nobody rides far on an empty stomach.\",\n      \"start\": \"11:45\",\n      \"end\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride to the thousand statues, and a quiet pause before dinner.\",\n      \"start\": \"13:45\",\n      \"end\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian dinner near the last temple, so the evening ends where the day settles.\",\n      \"start\": \"18:00\",\n      \"end\": \"19:15\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 6,
+          "input_tokens": 21,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 354,
+          "output_tokens": 397,
           "service_tier": "standard"
         }
       }

@@ -9,7 +9,7 @@ import type { MustDoRow, QueuedItem } from './model';
 
 export const MUST_DOS_SQL = `SELECT m.id, m.owner_id, m.title, m.poi_id, m.priority, m.co_owner_ids,
     m.fit_status, m.fit_note, m.target_day, m.external_action, m.external_deadline,
-    p.address AS place_address
+    m.fit_checked_at, p.address AS place_address
   FROM must_dos m LEFT JOIN pois p ON p.id = m.poi_id
   WHERE m.trip_id = ? AND m.deleted_at IS NULL
   ORDER BY m.created_at, m.id`;

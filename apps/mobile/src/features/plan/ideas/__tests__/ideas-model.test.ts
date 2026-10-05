@@ -1,6 +1,7 @@
 /**
- * The PLACE THEM FOR ME line's counts: an idea fits as it is only when its best day needs no stop
- * moved and the crew isn't split on it; everything else needs the crew; no fit yet is counted apart.
+ * The PLACE THEM FOR ME line's counts, by the rule Tokek places with: an idea fits as it is only
+ * when a day takes it for the whole crew with no stop moved and the crew isn't split on it;
+ * everything else needs the crew; no fit yet is counted apart.
  */
 import { describe, expect, it } from '@jest/globals';
 import type { DayFit, StoredFit } from '@cp/domain';
@@ -40,9 +41,16 @@ describe('ideasSummary', () => {
         }),
       },
       { fit: stored({ grade: 'no', slot: null }, false) },
+      // Only part of the crew is free for its one slot: the others are at another stop.
+      {
+        fit: stored({
+          grade: 'possible',
+          reasons: [{ code: 'who_free', params: { user_ids: [id(3), id(4)] } }],
+        }),
+      },
       { fit: null },
     ]);
-    expect(summary).toEqual({ total: 5, fitting: 1, needCrew: 3, unknown: 1 });
+    expect(summary).toEqual({ total: 6, fitting: 1, needCrew: 4, unknown: 1 });
   });
 
   it("reads each day's grade for the chips", () => {

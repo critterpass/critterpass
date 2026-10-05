@@ -14,17 +14,19 @@ import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '
 import { localMinute } from '../feasibility/grid';
 import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
-import { DINNER, mealAt, mealShare, mealSlotAt } from './meal-slots';
+import { opensDay, startFloor } from './day-start';
+import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
-import type {
-  Chronotype,
-  CostBands,
-  DayChoice,
-  DayWindow,
-  DraftPoi,
-  TravelMatrix,
-  TripFrame,
+import {
+  isPinId,
+  type Chronotype,
+  type CostBands,
+  type DayChoice,
+  type DayWindow,
+  type DraftPoi,
+  type TravelMatrix,
+  type TripFrame,
 } from './types';
 
 export { ceilGrid, GRID_MIN } from './day-minutes';
@@ -200,6 +202,18 @@ function openFrom(poi: DraftPoi, date: string, minute: number): number {
   return opens < 1440 ? ceilGrid(opens) : minute;
 }
 
+/** The local minutes a stop with its own times runs between on `date`; null for any other stop. */
+export function fixedMinutes(
+  choice: Pick<DayChoice, 'fixed'>,
+  date: string,
+  tz: string,
+): { readonly startMin: number; readonly endMin: number } | null {
+  if (choice.fixed === undefined || choice.fixed === null) return null;
+  const startMin = minuteOfDate(new Date(choice.fixed.startsAt), date, tz);
+  const endMin = minuteOfDate(new Date(choice.fixed.endsAt), date, tz);
+  return { startMin, endMin: Math.max(startMin, endMin) };
+}
+
 export interface ScheduleDayInput {
   readonly dayNo: number;
   readonly date: string;
@@ -211,13 +225,17 @@ export interface ScheduleDayInput {
   readonly bands: CostBands | null;
   readonly currency: string;
   readonly tz: string;
+  /** Where the crew sleeps and how far a day reaches: a long or far outdoor sight opens the day. */
+  readonly homeId?: string | null;
+  readonly hopCapMin?: number;
   /** The stable id for the `index`th pick (derived by the caller so a rerun gives the same ids). */
   readonly idFor: (choice: DayChoice, index: number) => string;
 }
 
 export function scheduleDay(input: ScheduleDayInput): DraftDay {
   const items: DraftItem[] = [];
-  let at = input.window.startMin;
+  // The clock starts where a stop that opens the day may (each stop then waits for its own floor).
+  let at = startFloor(input.window, true, null);
   let previous: string | null = null;
   let lunched = false;
   input.choices.forEach((choice, index) => {
@@ -225,14 +243,20 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     const travelMin = previous === null ? 0 : (input.travel(previous, choice.poiId) ?? 0);
     let start = ceilGrid(at + travelMin);
     // A stop held to its time of day waits for it, and may open the day earlier than usual.
-    // Nothing else starts before the usual day, even after an early held stop.
+    // Nothing else starts before the usual day, save what ./day-start lets open or follow on.
     const held = poi === undefined ? null : heldWindow(poi, input.date, choice.when);
     // An untimed meal waits for its stretch: lunch while there is time for one, else dinner.
     if (choice.kind === 'meal' && held === null) {
-      start = Math.max(start, mealSlotAt(start, lunched).startMin);
+      start = Math.max(
+        start,
+        choice.mealSlot === 'dinner' ? DINNER.startMin : mealSlotAt(start, lunched).startMin,
+      );
     }
-    if (held === null) start = Math.max(start, input.window.startMin);
-    else if (previous === null || start < held.fromMin) {
+    const opener =
+      held === null && choice.kind !== 'meal' && poi !== undefined && opensDay(poi, input);
+    if (held === null) {
+      start = Math.max(start, startFloor(input.window, opener, previous === null ? null : at));
+    } else if (previous === null || start < held.fromMin) {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
     }
     // A place that is for the evening (or the sunset, or after dark) waits for it.
@@ -254,18 +278,23 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
         ? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other')
         : timedDuration(poi, choice.when),
     );
-    const end = start + duration;
+    // A booking or a stop placed by hand keeps its own times, whatever comes before it.
+    const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz);
+    if (fixed !== null) start = fixed.startMin;
+    const length =
+      choice.kind === 'meal' && poi !== undefined ? mealDuration(poi, start, duration) : duration;
+    const end = fixed === null ? start + length : fixed.endMin;
     const tz = poi?.tz ?? input.tz;
     items.push({
-      stable_id: input.idFor(choice, index),
+      stable_id: choice.stableId ?? input.idFor(choice, index),
       kind: choice.kind,
-      poi_id: choice.poiId,
+      poi_id: isPinId(choice.poiId) || choice.poiId === '' ? null : choice.poiId,
       starts_at: instantAt(input.date, start, tz).toISOString(),
       ends_at: instantAt(input.date, end, tz).toISOString(),
       tz,
       must_do_id: choice.mustDoId,
       booking_id: null,
-      locked_reason: choice.mustDoId === null ? null : 'must_do',
+      locked_reason: choice.mustDoId === null ? (choice.lockedReason ?? null) : 'must_do',
       cost_model: 'per_person',
       amount_minor: poi === undefined ? 0 : stopPriceMinor(poi, choice.kind, start, input.bands),
       currency: input.currency,

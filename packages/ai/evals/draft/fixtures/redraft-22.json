@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f65172a4-ce55-40b8-9723-d7f978dcb623",
+        "id": "a2317acf-22c0-4382-b275-a9a5730e6d08",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Slow Đà Lạt Day\",\n  \"summary\": \"A gentler day with one long garden visit, a kept bánh căn lunch, and a relaxed dinner nearby.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden stays as the single activity, so there is time to wander without rushing.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the bánh căn lunch is kept because a slower day still eats well.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to Bicycle Up in the same nearby area, keeping the evening easy.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One gentle market wander, then a long lunch and a long dinner with plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p40\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the market is the one activity that fits a slower day and it is uncurated, so treat the hours as a guess.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this is the kept lunch and it stays right where it belongs.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves here so the evening stays in the same part of the map as the market.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 61,
+          "input_tokens": 78,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 235,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 237,
           "service_tier": "standard"
         }
       }

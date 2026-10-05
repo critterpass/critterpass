@@ -22,7 +22,7 @@ import {
   type MealSlot,
 } from './meal-slots';
 import { placeWindow } from './place-time';
-import type { DayWindow, DraftPoi, TravelMatrix } from './types';
+import { isKept, isTheirs, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
 export type DaySenseCode =
   | 'DUPLICATE_PLACE'
@@ -66,6 +66,8 @@ export interface DaySenseInput {
   /** Meal places the crew can eat at; without them a missing meal is not reported. */
   readonly mealPlaces?: readonly DraftPoi[] | undefined;
   readonly hopCapMin?: number | undefined;
+  /** The place the crew sleeps near (./home); with it the ride out to a day's first stop counts. */
+  readonly homeId?: string | null | undefined;
 }
 
 const at = (
@@ -81,19 +83,22 @@ const at = (
   ...extra,
 });
 
-const isMustDo = (stop: TimedStop) => stop.item.must_do_id !== null;
+/** A must-do, a booking or a stop placed by hand: never the stop out of place (see `isKept`). */
+const isMustDo = (stop: TimedStop) => isKept(stop.item);
 
 function mealChecks(day: TimedDay): { out: DaySenseViolation[]; had: Set<MealSlot> } {
   const out: DaySenseViolation[] = [];
   const had = new Set<MealSlot>();
-  for (const stop of day.stops) {
-    if (stop.item.kind !== 'meal') continue;
+  // The crew's own meals count first: beside one, the guide's meal in the same stretch is the extra.
+  const meals = day.stops.filter((stop) => stop.item.kind === 'meal');
+  for (const stop of [...meals.filter(isMustDo), ...meals.filter((s) => !isMustDo(s))]) {
     const slot = mealAt(stop.startMin);
     if (slot === null) {
-      if (!stop.held) out.push(at('MEAL_OFF_HOURS', day, stop));
+      if (!stop.held && !isTheirs(stop.item)) out.push(at('MEAL_OFF_HOURS', day, stop));
       continue;
     }
-    if (had.has(slot)) out.push(at('EXTRA_MEAL', day, stop));
+    // A second meal in a stretch is one too many, but never the crew's own.
+    if (had.has(slot) && !isMustDo(stop)) out.push(at('EXTRA_MEAL', day, stop));
     had.add(slot);
   }
   return { out, had };
@@ -162,7 +167,14 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
       input.travel,
       input.hopCapMin,
     );
-  const hops = longHops(ids, input.travel, input.hopCapMin, rideHome ? dinnerAt : undefined);
+  const hops = longHops(
+    ids,
+    input.travel,
+    input.hopCapMin,
+    rideHome ? dinnerAt : undefined,
+    input.homeId,
+    (index) => day.stops[index]?.item.kind !== 'meal',
+  );
   return hops.flatMap((hop) => {
     const far = day.stops[hop.index];
     const before = day.stops[hop.index - 1];

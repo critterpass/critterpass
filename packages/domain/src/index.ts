@@ -134,6 +134,7 @@ export {
   EMPTY_EDITORIAL_OVERLAY,
   editorialOverlaySchema,
   editorialPhotoSchema,
+  readEditorialOverlay,
   type EditorialOverlay,
   type EditorialPhoto,
 } from './places/editorial';

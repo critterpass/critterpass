@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8c9cfd97-a07f-499b-ac5b-afaea02b4896",
+        "id": "905517b5-ccef-4996-9ea3-5d5da5834c3c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A lighter, thriftier Cusco Sunday\",\n  \"summary\": \"A relaxed day around the city centre with free stops, a market wander and a simple meal, keeping the crew's budget happy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the terraces as the one must-do; the early birds get their nature fix before the day warms up.\",\n      \"start_by\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free market wander for local life and street snacks, easy on the wallet and the pace.\",\n      \"start_by\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The plaza is free and open all day, perfect for a photo stop and a bit of history without spending a sol.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, lower-priced dinner with vegetarian options, keeping the thrifty crew smiling through the evening.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A thrifty Cusco Sunday\",\n  \"summary\": \"A gentler, wallet-friendly day around the old town, mixing a kept wonder with free local colour and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do stays, so we begin with the terraces before the day warms up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, the market keeps the day easy on the pocket and the pace.\",\n      \"start\": \"11:00\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lower-priced lunch with vegetarian options, kinder to the budget than the old choice.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:30\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander around the plaza gives the photo lovers their shot without spending a sol.\",\n      \"start\": \"14:00\",\n      \"end\": \"14:45\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum with a modest price, and the chocolate smells are a bonus.\",\n      \"start\": \"15:30\",\n      \"end\": \"16:30\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 11,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 325,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 412,
           "service_tier": "standard"
         }
       }

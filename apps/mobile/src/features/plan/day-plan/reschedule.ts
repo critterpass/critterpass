@@ -6,7 +6,7 @@
  * pinned stop, or past midnight, is refused with the stop that blocks it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- refusal kinds, never copy. */
-import type { PlanOp } from '@cp/domain';
+import { estimateStraightLineEta, type PlanOp } from '@cp/domain';
 
 import type { DayItem } from '@/data/plan/plan-model';
 import { moveOp, type DaySlot } from '@/data/plan/plan-ops';
@@ -15,7 +15,7 @@ const GRID = 5;
 const DAY_END = 24 * 60;
 
 export type Refusal =
-  /** A booked or pinned stop can't be picked up. */
+  /** A booked, must-do or pinned stop can't be picked up. */
   | { readonly kind: 'pinned'; readonly stop: DayItem }
   /** The order would make a stop run into a pinned one. */
   | { readonly kind: 'runs_into'; readonly stop: DayItem }
@@ -37,8 +37,34 @@ export type Reschedule =
 /** Minutes from one stop to the next (0 when unknown). */
 export type Travel = (from: DayItem, to: DayItem) => number;
 
+/**
+ * Minutes between two stops from the screen's stored legs (either direction), else the
+ * straight-line estimate between their places, else 0 when a place is unknown.
+ */
+export function legTravel(
+  legs: readonly { readonly from: string; readonly to: string; readonly minutes: number }[],
+): Travel {
+  return (from, to) => {
+    const stored = legs.find(
+      (leg) =>
+        (leg.from === from.stableId && leg.to === to.stableId) ||
+        (leg.from === to.stableId && leg.to === from.stableId),
+    );
+    if (stored !== undefined) return stored.minutes;
+    if (from.place === null || to.place === null) return 0;
+    return estimateStraightLineEta({
+      originLat: from.place.lat,
+      originLng: from.place.lng,
+      destLat: to.place.lat,
+      destLng: to.place.lng,
+      mode: 'auto',
+    }).minutes;
+  };
+}
+
+/** Booked, somebody's must-do, or pinned by hand: it keeps its time until its own sheet moves it. */
 export function isPinned(stop: DayItem): boolean {
-  return stop.lock === 'booking' || stop.lock === 'user';
+  return stop.lock !== null;
 }
 
 const ceilGrid = (minutes: number) => Math.ceil(minutes / GRID) * GRID;
@@ -97,4 +123,80 @@ export function reschedule(
     return op === null ? [] : [op];
   });
   return { ok: true, ops, starts };
+}
+
+export type RetimeRefusal =
+  | Extract<Refusal, { kind: 'runs_into' | 'too_late' }>
+  /** The new start is before the stop ahead of it is done; `earliest` is the first start that works. */
+  | { readonly kind: 'starts_too_early'; readonly stop: DayItem; readonly earliest: number };
+
+export type Retime =
+  | {
+      readonly ok: true;
+      /** The moves of the stops pushed later (the edited stop's own op is the caller's). */
+      readonly ops: readonly PlanOp[];
+      readonly pushed: number;
+      /** Minutes every pushed stop moves by, when they all move by the same. */
+      readonly pushedBy: number | null;
+    }
+  | { readonly ok: false; readonly refusal: RetimeRefusal };
+
+/**
+ * One stop of the day at a new time (`edited`; a stop arriving from another day is in `stops`
+ * too): stops before it keep their times, stops after it are pushed later only as far as the stop
+ * before and the way between need. Two neighbours never need more room than they already had.
+ */
+export function retime(
+  stops: readonly DayItem[],
+  edited: { readonly stableId: string; readonly start: number; readonly end: number },
+  slot: DaySlot,
+  travel: Travel,
+): Retime {
+  const isEdited = (stop: DayItem) => stop.stableId === edited.stableId;
+  const had = stops.filter((stop) => stop.start !== null && stop.end !== null);
+  // A stop arriving from another day has no time here yet, so no neighbours to keep room with.
+  const timed = stops.filter((stop) => isEdited(stop) || had.includes(stop));
+  const before = [...had].sort((a, b) => (a.start ?? 0) - (b.start ?? 0));
+  const wasNext = new Map(before.map((stop, index) => [stop.stableId, before[index + 1]]));
+  const spanOf = (stop: DayItem) =>
+    stop.stableId === edited.stableId
+      ? { start: edited.start, end: edited.end }
+      : { start: stop.start ?? 0, end: stop.end ?? 0 };
+  const order = [...timed].sort(
+    (a, b) => spanOf(a).start - spanOf(b).start || Number(isEdited(b)) - Number(isEdited(a)),
+  );
+  /** The room `next` needs after `prev`: the way between, never more than they already had. */
+  const room = (prev: DayItem, next: DayItem) => {
+    const way = travel(prev, next);
+    if (wasNext.get(prev.stableId)?.stableId !== next.stableId) return way;
+    return Math.min(way, Math.max(0, (next.start ?? 0) - (prev.end ?? 0)));
+  };
+  const ops: PlanOp[] = [];
+  const shifts: number[] = [];
+  let previous: DayItem | null = null;
+  let previousEnd = 0;
+  let reached = false;
+  for (const stop of order) {
+    const span = spanOf(stop);
+    const length = span.end - span.start;
+    const earliest = previous === null ? 0 : ceilGrid(previousEnd + room(previous, stop));
+    let start = span.start;
+    if (isEdited(stop)) {
+      reached = true;
+      if (previous !== null && earliest > start) {
+        return { ok: false, refusal: { kind: 'starts_too_early', stop: previous, earliest } };
+      }
+    } else if (reached && earliest > start) {
+      if (isPinned(stop)) return { ok: false, refusal: { kind: 'runs_into', stop } };
+      start = earliest;
+      const op = moveOp(stop, slot, start);
+      if (op !== null) ops.push(op);
+      shifts.push(start - span.start);
+    }
+    if (start + length > DAY_END) return { ok: false, refusal: { kind: 'too_late' } };
+    previous = stop;
+    previousEnd = start + length;
+  }
+  const same = shifts.every((shift) => shift === shifts[0]);
+  return { ok: true, ops, pushed: shifts.length, pushedBy: same ? (shifts[0] ?? null) : null };
 }

@@ -35,6 +35,8 @@ export interface CarouselEntry {
   readonly savers: readonly StackMember[];
   readonly fit?: { readonly text: string; readonly tone: FitTone } | undefined;
   readonly nextDoor: boolean;
+  /** Already on a day of the plan: the card shows the day and has no +. */
+  readonly planned?: boolean | undefined;
 }
 
 export interface PlacesCarouselProps {
@@ -144,7 +146,11 @@ export function PlacesCarousel(props: PlacesCarouselProps) {
               fit={item.fit}
               picked={item.id === props.focusedId}
               onPress={() => props.onOpen(item.id)}
-              onAdd={props.onAdd === undefined ? undefined : () => props.onAdd?.(item.id)}
+              onAdd={
+                props.onAdd === undefined || item.planned === true
+                  ? undefined
+                  : () => props.onAdd?.(item.id)
+              }
               addLabel={addLabel(item.name)}
               testID={`places-card-${String(index)}`}
             />

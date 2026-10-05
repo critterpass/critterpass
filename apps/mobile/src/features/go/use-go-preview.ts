@@ -29,12 +29,18 @@ export interface GoPreviewData {
   readonly state: PreviewState;
   readonly mode: GoMode;
   readonly setMode: (mode: GoMode) => void;
+  /** Looks for the phone's position again, now (it is also looked for by itself every few seconds). */
+  readonly retryLocate: () => void;
 }
+
+/** With location on and no fix yet, how often the phone is asked again while GO stays open. */
+export const RELOCATE_EVERY_MS = 5_000;
 
 export function useGoPreview(
   target: GoTarget | null,
   api: GoApi = deviceGoApi,
   airportAt: AirportLookup = bundledAirportAt,
+  findMe: (ask: boolean) => Promise<LocateState> = locateForGo,
 ): GoPreviewData {
   const { db } = useLocalFirst();
   const online = useSyncStatus().phase !== 'offline';
@@ -64,15 +70,29 @@ export function useGoPreview(
   }, [db, targetKey]);
   const place = target === null ? null : loaded?.key === targetKey ? loaded.place : undefined;
 
+  // Each look at where the phone is. A phone with location on and no fix yet is asked again every
+  // few seconds, so the route draws by itself when the fix comes; a retry asks at once.
+  const [look, setLook] = useState(0);
   useEffect(() => {
     let live = true;
-    void locateForGo().then((next) => {
-      if (live) setLocate(next);
+    let again: ReturnType<typeof setTimeout> | undefined;
+    void findMe(look === 0).then((next) => {
+      if (!live) return;
+      setLocate(next);
+      if (next.kind === 'no_fix')
+        again = setTimeout(() => setLook((n) => n + 1), RELOCATE_EVERY_MS);
     });
     return () => {
       live = false;
+      if (again !== undefined) clearTimeout(again);
     };
-  }, []);
+    // `findMe` is fixed per screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [look]);
+  const retryLocate = () => {
+    setLocate({ kind: 'locating' });
+    setLook((n) => n + 1);
+  };
 
   const here = locate.kind === 'here' ? locate.at : null;
   // One ask per place and position; a new key reads as loading until its answers land.
@@ -131,5 +151,5 @@ export function useGoPreview(
     mode,
     ride,
   });
-  return { place, state, mode, setMode: setPicked };
+  return { place, state, mode, setMode: setPicked, retryLocate };
 }

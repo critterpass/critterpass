@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "1bfa9d23-1abb-46d0-854b-a81c86205c90",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Đà Lạt chậm rãi quanh hồ\",\n  \"summary\": \"Một ngày nhẹ nhàng quanh khu trung tâm, vừa đi vừa nghỉ, ăn ngon và ngắm phố về đêm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mở màn bằng vòng quanh hồ cho tỉnh ngủ, gió mát không cần vội.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hoa nở rực rỡ ngay gần hồ, đi chậm để mắt kịp ngắm từng luống.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi xuống ăn nem nướng đúng kiểu, vừa lạ miệng vừa ấm bụng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ gần đó, ghé xem kiến trúc xưa mà không mất công đi xa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán vừa cà phê vừa ăn tối, khỏi phải chạy lòng vòng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khu phố lên đèn ngay cạnh chỗ ăn, thả bộ chơi cho hết đêm.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 52,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 536,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

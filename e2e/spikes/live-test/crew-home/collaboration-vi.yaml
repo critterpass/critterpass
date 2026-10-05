@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# The collaboration storyline on staging, read in Vietnamese. See subflows/walk.yaml.
+- runFlow:
+    file: subflows/walk.yaml
+    env:
+      LOCALE: vi

@@ -22,14 +22,17 @@ import { guideFor, poiSubject } from '../format';
 import { guideTagline } from '../guide-copy';
 import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { usePlannedPlaces } from '../map-queries';
-import { useDestinationRow } from '../queries';
+import { categoryIcon } from '../category';
+import { groupLabel } from '../places/places-copy';
+import { CATEGORY_GROUPS, categoryGroupOf } from '../places/places-model';
+import { useDestinationRow, useLocalPicks, usePlaceKindCounts } from '../queries';
 import { exploreRoutes } from '../routes';
-import { pickEntries } from '../sponsored-model';
+import { pickEntries, picksOrLocal, PICKS_SHOWN } from '../sponsored-model';
 import * as copy from './copy';
 import { tripExploreLinks } from './links';
 import type { GapsCardState } from './gaps-card';
 import { TripExploreView, type TripPick } from './trip-explore-view';
-import { pickState } from './trip-explore-model';
+import { kindCounts, pickState } from './trip-explore-model';
 import { useGapIdeas } from './use-gap-ideas';
 import { useNextGap } from './use-next-gap';
 import { usePickSave } from './use-pick-save';
@@ -39,6 +42,8 @@ import { useSwipeEntry } from './use-swipe-entry';
 const TRIP_SQL = `SELECT t.destination_id, (SELECT g.slug FROM guides g WHERE g.id = t.guide_id) AS guide_slug
   FROM trips t WHERE t.id = ?`;
 const PLACES_SQL = `SELECT count(*) AS n FROM pois WHERE destination_id = ? AND merged_into_id IS NULL`;
+/** Local picks read beyond the row's length, so places already in the plan can be left out. */
+const LOCAL_PICKS_READ = PICKS_SHOWN * 4;
 /* eslint-enable lingui/no-unlocalized-strings */
 
 const go = (href: Href | undefined) => (href === undefined ? undefined : () => router.push(href));
@@ -83,7 +88,28 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
     ['pois'],
   ).rows[0]?.n;
 
-  const organic = pickEntries(data?.picks ?? []);
+  // The guide's picks that are not in the plan yet, topped up from the recommended places on the
+  // phone, so the row always has something to tap.
+  const localPicks = useLocalPicks(destinationId, LOCAL_PICKS_READ);
+  const organic = picksOrLocal(pickEntries(data?.picks ?? []), localPicks, {
+    skip: new Set(planned.keys()),
+  });
+  const kindRows = usePlaceKindCounts(destinationId);
+  const kinds = useMemo(
+    () =>
+      kindCounts(kindRows, categoryGroupOf).map(({ group, count }) => {
+        const href = tripExploreLinks.kind(tripId, group);
+        return {
+          key: group,
+          label: groupLabel(group),
+          count: format.number(locale, count),
+          icon: categoryIcon(CATEGORY_GROUPS[group][0]),
+          onPress: href === undefined ? undefined : () => router.push(href),
+        };
+      }),
+    [kindRows, locale, tripId],
+  );
+  const solo = next.loaded && next.people <= 1;
   const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
   const sponsoredEvents = useSponsoredEvents(paid?.placementId ?? null, 'picks');
   const pickMedia = useSubjectMedia(
@@ -130,13 +156,16 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
               onPress: first === undefined ? undefined : () => router.push(placeHref(first.id)),
             };
           }),
+          // The gap filler plans a window for the crew; one person searches for that day.
           onFill: go(
-            tripExploreLinks.fillGap(tripId, {
-              dayId: gap.gap.day_id,
-              dayNo: gap.gap.day_no,
-              from: gap.gap.from,
-              to: gap.gap.to,
-            }),
+            solo
+              ? tripExploreLinks.daySearch(tripId, gap.gap.day_id)
+              : tripExploreLinks.fillGap(tripId, {
+                  dayId: gap.gap.day_id,
+                  dayNo: gap.gap.day_no,
+                  from: gap.gap.from,
+                  to: gap.gap.to,
+                }),
           ),
         }
       : !next.loaded
@@ -176,7 +205,10 @@ export function TripExploreScreen({ tripId }: { readonly tripId: string }) {
         router.push(placeHref(pick.id));
       }}
       onSavePick={(pick) => savePick({ id: pick.id, name: pick.name })}
-      swipe={{ ...swipe, onPress: () => router.push(exploreRoutes.swipe(tripId)) }}
+      kinds={kinds}
+      swipe={
+        solo ? undefined : { ...swipe, onPress: () => router.push(exploreRoutes.swipe(tripId)) }
+      }
     />
   );
 }

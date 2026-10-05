@@ -1,41 +1,17 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9d2bfb73-acd3-466f-a484-99e26f08cc42",
+        "id": "1e93b24e-e26d-4e50-8648-6b6130f6fb71",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A calmer, mostly new day\",\n  \"summary\": \"A gentler Thursday around familiar corners with fresh stops, keeping Templo Mayor and a proper lunch and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one must-do stays put, so we start with its old stones and stories.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop for colours, chatter and a little local life before lunch.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed vegetarian-friendly lunch close by, with halal comfort for the crew.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short museum visit to admire the art without rushing the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in Roma Norte keeps the evening easy and vegetarian-friendly.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 126,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 312,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "811b078a-6172-4cc5-9cf1-3c9bc298a548",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A slower, different Mexico City day\",\n  \"summary\": \"A gentle Thursday around the historic centre and nearby markets, with a long lunch and no rushing.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper: Templo Mayor still earns its place for the history lover.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop for street-food curiosity and a few good photo corners.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch nearby with solid vegetarian choices, halal and easy on the group.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bellas Artes closes the day with a museum fix and that golden-hour facade.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower wander through the city\",\n  \"summary\": \"Trade pyramids for plazas and leafy walks, with a long lunch and an early dinner that keep everyone well fed.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper of the day, so we start with Aztec echoes before the crowds thicken.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle midday table nearby, with plenty of vegetarian plates for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy reset after lunch, where the city softens and the photo lovers can wander.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early, easy dinner before the evening closes in, still friendly to non-meat eaters.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +20,31 @@
           "input_tokens": 21,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 263,
+          "output_tokens": 278,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "5ee4d49d-6c85-4c15-bee3-3d18d7be92d3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"title\":\"A slower, greener Mexico City\",\"summary\":\"A gentler day swapping pyramids and fine dining for leafy walks, a floating garden, and two easy meals that keep everyone well fed.\",\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The one keeper, and rightly so: history with a capital H, right in the old heart.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A soft, shady reset after the stones of the past; perfect for a crew that likes to wander without a deadline.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright, casual lunch with proper vegetarian plates, timed before the kitchen closes.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"An easy stroll through Roma Norte for the photographers and culture lovers among you.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long, leafy dinner to end the day; vegetarian options keep the whole crew happy.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 138,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 244,
           "service_tier": "standard"
         }
       }

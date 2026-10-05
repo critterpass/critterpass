@@ -36,6 +36,7 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
   },
   body: { flex: 1, minWidth: 0 },
+  dimmed: { opacity: 0.5 },
   leg: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -59,7 +60,10 @@ export function TimeColumn({ time, length }: { readonly time: string; readonly l
   const theme = useTheme();
   return (
     <View style={styles.time}>
-      <Text variant="monoData">{time}</Text>
+      {/* A 12-hour time ("10:00 AM") shrinks to stay on its line; a 24-hour one already fits. */}
+      <Text variant="monoData" numberOfLines={1} autoFit autoFitMinSize={10}>
+        {time}
+      </Text>
       {length === undefined ? null : (
         <Text variant="caption" color={theme.semantic.text.secondary}>
           {length}
@@ -80,6 +84,14 @@ export interface StopCardProps {
   readonly trailing?: ReactNode | undefined;
   readonly onPress?: (() => void) | undefined;
   readonly testID?: string | undefined;
+  /** Lines the name may take before it is cut (default 1; the day's own lists give it 2). */
+  readonly titleLines?: 1 | 2 | undefined;
+  /** Stands back from the rest: a stop this person skips, or one already over. */
+  readonly dimmed?: boolean | undefined;
+  /** Already over: a tick in place of the number. */
+  readonly done?: boolean | undefined;
+  /** Stands in for the number on a stop the day's route does not count. */
+  readonly mark?: string | undefined;
 }
 
 export function StopCard({
@@ -91,6 +103,10 @@ export function StopCard({
   trailing,
   onPress,
   testID,
+  titleLines = 1,
+  dimmed = false,
+  done = false,
+  mark,
 }: StopCardProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -104,14 +120,20 @@ export function StopCard({
       style={{ flex: 1 }}
       testID={testID}
     >
-      <View style={[styles.card, outlined ? { borderColor: color } : null]}>
+      <View
+        style={[
+          styles.card,
+          outlined ? { borderColor: color } : null,
+          dimmed || done ? styles.dimmed : null,
+        ]}
+      >
         <View style={[styles.number, { backgroundColor: color }]}>
           <Text variant="label" color={theme.color.paper.bright}>
-            {String(n)}
+            {done ? '✓' : (mark ?? String(n))}
           </Text>
         </View>
         <View style={styles.body}>
-          <Text variant="title" numberOfLines={1}>
+          <Text variant="title" numberOfLines={titleLines}>
             {title}
           </Text>
           {detail === undefined ? null : (

@@ -23,12 +23,14 @@
  * seats to them unless somebody typed their names.
  */
 import { foodRole } from './food-role';
+import { keepEdgeDaysNearHome } from './home';
 import { mealSlots, mealsInWindow } from './meal-slots';
 import { placeWindow } from './place-time';
 import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
 import { spansOn } from './sequence';
+import { straightLineMatrix } from './travel';
 import type { DraftPoi, TripFrame } from './types';
 
 /** Taste tag → place categories and tags it points at. */
@@ -65,6 +67,8 @@ export interface CandidatePools {
     readonly reason: 'unknown_place' | 'closed';
   }[];
   readonly activities: readonly DraftPoi[];
+  /** Every sight we may plan with, one row per place: what a hole is filled from after the pool. */
+  readonly sights: readonly DraftPoi[];
   /** The best meal places across the destination. */
   readonly meals: readonly DraftPoi[];
   /** Every meal place that suits the crew, best first: each day's own list is cut from these. */
@@ -141,7 +145,10 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
   const score = new Map(
     pois.map((poi) => [
       poi.id,
-      (poi.mustSee ? 6 : 0) + (poi.editorial ? 4 : 0) + tasteScore(poi, ranking.tastes),
+      (poi.essential === true ? 100 : 0) +
+        (poi.mustSee ? 6 : 0) +
+        (poi.editorial ? 4 : 0) +
+        tasteScore(poi, ranking.tastes),
     ]),
   );
   const picked: DraftPoi[] = [];
@@ -220,6 +227,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     const open = days.length === 0 && mustDoPlaces.has(poi.id) ? daysOpen(poi, false) : days;
     if (open.length > 0) openDays.set(poi.id, open);
   }
+  // The days the crew lands and leaves stay near where it sleeps (./home).
+  keepEdgeDaysNearHome(
+    openDays,
+    input.pois,
+    straightLineMatrix(byId),
+    frame.dates.length,
+    mustDoPlaces,
+  );
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();
@@ -241,7 +256,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   // One row per place. A must-do's own place stands for it, so no list offers it a second time.
   const places = collapseSamePlaces(
     input.pois.filter((poi) => openDays.has(poi.id)),
-    { keep: mustDoPois, ignore: input.ignoreNames ?? [] },
+    // Two essential places are never one (the market and the night market in front of it).
+    {
+      keep: new Set([
+        ...mustDoPois,
+        ...input.pois.filter((poi) => poi.essential === true).map((poi) => poi.id),
+      ]),
+      ignore: input.ignoreNames ?? [],
+    },
   );
   const open = places.kept.filter((poi) => !mustDoPois.has(poi.id));
   const ranking: Ranking = {
@@ -255,11 +277,12 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     ),
     wellKnown: 0,
   };
-  // Eight a day: where visits are short (half an hour at a church), a day takes many.
-  const activityLimit = Math.min(48, Math.max(24, days * 8));
   const sights = open.filter(
     (poi) => foodRole(poi) === null && poi.category !== 'stay' && poi.category !== 'transit',
   );
+  // Eight a day (where visits are short, a day takes many), and a seat for every must-see sight.
+  const mustSees = sights.filter((poi) => poi.mustSee).length;
+  const activityLimit = Math.min(48, Math.max(24, days * 8, mustSees + days * 2));
   const breaks = pick(
     open.filter((poi) => foodRole(poi) === 'light'),
     days,
@@ -268,7 +291,7 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   const activities = pick([...sights, ...breaks], activityLimit, {
     ...ranking,
     wellKnown: Math.floor(activityLimit / 3),
-    mustSees: Math.floor((activityLimit * 2) / 3),
+    mustSees: Math.max(mustSees, Math.floor((activityLimit * 2) / 3)),
   });
   const eateries = pick(
     open.filter(
@@ -277,7 +300,6 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     MAX_EATERIES,
     { ...ranking, mustSees: Math.floor(MAX_EATERIES / 4) },
   );
-  // The head of the meal list keeps its spread across kinds and across the city.
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
-  return { mustDos, unplaceable, activities, meals, eateries, openDays };
+  return { mustDos, unplaceable, activities, sights, meals, eateries, openDays };
 }

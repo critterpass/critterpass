@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ed216d35-bc63-4013-b65a-cf3f3e795ce5",
+        "id": "2bbf5b9f-e7ed-4958-ac2a-8c5cf44f84c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Market, Museum, and a Proper Meal\",\n  \"summary\": \"A slower day in the heart of Cusco, tasting the market's flavours, keeping the Museo Inka, and sitting down to lunch where Tom asked.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"More food, more life: we start with the market's snacks and street-food buzz.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The Museo Inka stays, as promised, a quiet hour of history between bites.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom wanted the market for lunch, so we keep Morena for a proper sit-down meal nearby.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasty Cusco Afternoon\",\n  \"summary\": \"An afternoon of Cusco flavours and sights, from a chocolate museum to a proper dinner with a market-style lunch stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Tom's sweet tooth gets its due at the chocolate museum, a must-do that keeps the day delicious.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A stroll through San Blas for local snacks and market vibes, the perfect foodie warm-up.\",\n      \"start\": \"15:15\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cicciolina serves as our lunch stop, with vegetarian options for the crew and room to linger.\",\n      \"start\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter dinner at Green Point keeps the food theme going without weighing us down before the evening.\",\n      \"start\": \"20:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 128,
+          "input_tokens": 92,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 252,
+          "output_tokens": 314,
           "service_tier": "standard"
         }
       }

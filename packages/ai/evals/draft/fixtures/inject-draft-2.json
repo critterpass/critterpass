@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "9df483a4-4690-45ec-b895-ced854c66adc",
+        "id": "66fdc90e-3a75-4757-8978-98605a759781",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Ubud area, Area E\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"C\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p8\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud temples and market\",\n      \"area\": \"E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p10\", \"p9\", \"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Rice terraces and water blessing\",\n      \"area\": \"B\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coastal cliffs and farewell\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p2\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": null,\n      \"day_no\": null,\n      \"when\": \"any\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Ubud (Area E)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud ease-in\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and monkeys\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p6\", \"p12\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Temples and rice terraces\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coast and cliffs\",\n      \"area\": \"Area A and D\",\n      \"must_do_ids\": [\"m1\", \"m4\"],\n      \"poi_ids\": [\"p2\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": null,\n      \"day_no\": null,\n      \"when\": \"any\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 56,
+          "input_tokens": 1,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 288,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 298,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "fcb56eb1-9df1-4184-bd20-ac7747762c10",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset cocktails and that big Bali beach-club energy, with a side of people-watching.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Clean, colourful vegan plates that even the hungriest gecko would slow down for.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 310,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 87,
           "service_tier": "standard"
         }
       }
@@ -28,20 +52,20 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "8a5aded4-5a25-48bb-89c5-8741332c2dc8",
+        "id": "fb3127ed-ed68-4a56-a45b-dc16ab859baf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Sea temple on a rock, best seen with the tide swirling around it.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Clifftop temple with sea spray and a view worth the walk.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 346,
+          "input_tokens": 296,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
           "output_tokens": 43,
@@ -52,47 +76,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "974cabf4-a553-4ba2-be96-915469053f90",
+        "id": "f04029cd-2a98-4319-bacd-7b987f81d4de",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Those terraces roll like green waves, and the light plays favourites all day.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"The blessing pools run cool and clear, and the carvings watch over every step.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The terraces ripple like green waves, and the light loves them almost as much as your camera will.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Holy springs, cool stone, and a quiet that rinses the dust off your thoughts.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 123,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 83,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "47fd2706-51a0-433d-bd33-1207cf634f3f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset landing, then straight into the island groove at this beachfront icon.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Clean, green plates that even a gecko would climb down for.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 54,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 79,
+          "output_tokens": 89,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "731218fa-7a48-47af-8c90-f86b9edee19d",
+        "id": "94b5a445-858c-434d-a745-11d64bf860cc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ancient carvings and a cave that feels older than the island itself.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds in front of a temple carved from soft stone.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Royal courtyards where the evening dance rehearsals echo.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bargain for batik and baskets while the market buzzes around you.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Smoothie bowls and smashed avo, all very Ubud but very good.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys rule this mossy forest, so hold your sunglasses tight and let the little bandits pose.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus petals and carved stone make this water temple feel like a postcard that breathes.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Royal courtyards and carved doors, free to wander and easy on the eyes.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Bargain with a grin for sarongs, baskets and trinkets under the market awnings.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Sisterfields does bright, breezy plates with proper veggie choices, worth the little ride.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 423,
+          "input_tokens": 419,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 260,
+          "output_tokens": 209,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "afd02c96-5be0-491f-93b0-e079686e5069",
+        "id": "668bd639-ac90-4658-a42c-0a690e597d3d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset ease, temple mornings, rice-green blessings, cliff goodbye — every must-do tucked in, terima kasih (thank you)."
+            "text": "Bali, easy into Ubud, then monkeys, temples, rice terraces, and a coast-and-cliff finale — every must-do made it."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 195,
+          "input_tokens": 193,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 28,
+          "output_tokens": 31,
           "service_tier": "standard"
         }
       }

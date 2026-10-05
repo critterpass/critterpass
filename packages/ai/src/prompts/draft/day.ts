@@ -8,9 +8,11 @@ import type { DraftDay } from '@cp/domain';
 import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@cp/planner';
 
 import { parseStructuredText, textOf } from '../../structured';
-import { hopCap } from './areas';
+import { homeOf, hopCap } from './areas';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
+import { heldChoices } from './held';
 import { withinCapacity } from './day-capacity';
+import { coreMustSees } from './must-sees';
 import { buildDayRequest, type DayContext, type DayRepair } from './day-request';
 import { dayReplySchema, proseProblem, type StopReply } from './schema';
 import { type SkeletonDay } from './skeleton';
@@ -90,10 +92,24 @@ function ownStops(
   picked: readonly DayChoice[],
 ): DayChoice[] {
   const seen = new Set<string>();
-  return picked.filter((choice) => {
-    if (seen.has(choice.poiId)) return false;
-    seen.add(choice.poiId);
-    return choice.mustDoId === null || day.mustDoIds.includes(choice.mustDoId);
+  const ids = new Set<string>();
+  // The organiser's own stops come first, so a stop the guide named at one of their places (or
+  // the same stop named twice) is the one left out.
+  const held = heldChoices(input, day.dayNo);
+  const made = new Set(held.map((choice) => choice.mustDoId).filter(Boolean));
+  return [...held, ...picked].filter((choice) => {
+    if (choice.stableId !== undefined) {
+      if (ids.has(choice.stableId)) return false;
+      ids.add(choice.stableId);
+    } else if (choice.mustDoId !== null && made.has(choice.mustDoId)) return false;
+    if (choice.poiId !== '' && seen.has(choice.poiId)) return false;
+    if (choice.poiId !== '') seen.add(choice.poiId);
+    if (choice.fixed !== undefined && choice.fixed !== null) return true;
+    if (choice.mustDoId !== null) return day.mustDoIds.includes(choice.mustDoId);
+    // A place the guide named outside its lists still goes only on a day it is open (on the
+    // last day: near where the crew leaves from). A stop placed by hand is the organiser's call.
+    const open = input.pools.openDays.get(choice.poiId);
+    return (choice.lockedReason ?? null) !== null || open === undefined || open.includes(day.dayNo);
   });
 }
 
@@ -119,6 +135,8 @@ export function scheduleChoices(
     travel: input.travel,
     hopCapMin: hopCap(input),
     mealPlaces: input.pools.eateries,
+    homeId: homeOf(input),
+    tz: input.frame.tz,
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({
@@ -132,6 +150,8 @@ export function scheduleChoices(
     bands: input.bands,
     currency: input.frame.currency,
     tz: input.frame.tz,
+    homeId: homeOf(input),
+    hopCapMin: hopCap(input),
     idFor: (choice, index) =>
       input.idFor(`${day.dayNo}:${attempt}:${order[index] ?? index}:${choice.poiId}`),
   });
@@ -153,5 +173,13 @@ export async function draftOneDay(
   const raw = parseStructuredText(textOf(result.message));
   const reply = dayReplySchema.parse(raw);
   const parsed = toChoices(input, reply.stops);
-  return { ...parsed, day: scheduleChoices(input, context.day, parsed.choices, key) };
+  // A must-see planned for the day is the planner's to keep, like a must-do: one the reply left
+  // out goes back in (and gives way again only if the day cannot take it).
+  const named = new Set(parsed.choices.map((choice) => choice.poiId));
+  const core = new Set(coreMustSees(input));
+  const kept = context.day.poiIds
+    .filter((id) => core.has(id) && !named.has(id))
+    .map((poiId): DayChoice => ({ poiId, kind: 'activity', mustDoId: null, note: null }));
+  const choices = [...parsed.choices, ...kept];
+  return { ...parsed, day: scheduleChoices(input, context.day, choices, key) };
 }

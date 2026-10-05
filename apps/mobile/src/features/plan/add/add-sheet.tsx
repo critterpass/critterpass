@@ -1,43 +1,35 @@
 /**
- * Add to plan (7f-1), one sheet for every add: Tokek's day and time first (or the day it was
- * dropped on), a fit dot on every day, and picking another day or time moves the block and redoes
- * the reasons on the phone. An organiser's ADD goes into the plan (with the nearby place when
- * ticked); a member's becomes a change set sent to the crew. "Just save it for later" keeps it in
- * the trip's Ideas instead. Offline it still adds from the last fit, which the queue sends later.
+ * Add to plan (7f-1), one sheet for every add: the day it was opened from (or Tokek's day and time),
+ * a fit dot on every day, and picking another day or time moves the block and redoes the reasons
+ * on the phone. An organiser's ADD goes into the plan (with the nearby place when ticked); a
+ * member's becomes a change set sent to the crew; either way the editor says where it landed, with
+ * UNDO. While the fit is still coming the button waits; when no day fits it saves to Ideas until a
+ * day is picked; a place already in the plan is only ever moved, never added twice. "Just save it
+ * for later" keeps it in the trip's Ideas instead. Offline it still adds from the last fit, which
+ * the queue sends later.
  */
-import { generateStableId, generateUuidV7 } from '@cp/domain';
-import { visitMinutes } from '@cp/domain';
-import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { generateStableId } from '@cp/domain';
+import { router, useRootNavigationState } from 'expo-router';
+import { useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
 import { useLocalFit } from '@/data/fit/local-fit';
-import { instantOnDay, minutesOnDay } from '@/data/plan/plan-model';
+import { instantOnDay } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { useDayEditing } from '@/features/plan/day/use-day-editing';
-import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
-import { toast } from '@/motion/island-toast';
-import type { DayChip } from '@/ui/planning';
 
 import { usePlanGuide } from '../plan-guide';
-import { saveIdeaCommand } from '../ideas/commands';
 import { AddBlock } from './add-block';
+import { whyTiles, type WhyInput } from './add-kind-copy';
+import { addIntoDay, looseBlock, needsTiming, openStartOn } from './add-into-day';
 import {
-  addLabel,
-  alreadyLine,
-  moveLabel,
   blockDetail,
   dayHeader,
   leaveLine,
   lengthLabel,
   nearbyLine,
-  nowhereNote,
   offlineNote,
-  pickedLine,
-  reasonTiles,
   whyTitle,
 } from './add-copy';
 import {
@@ -51,13 +43,17 @@ import {
   pickTime,
   shownDayFit,
   type AddChoice,
-  type AddPreset,
 } from './add-model';
 import { AddSheetView } from './add-sheet-view';
-import { useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
-import { resolvePreset, type RoutePreset } from './routes';
+import { isWhereItIs } from './placed-stop';
+import { guidePickLabel, sheetWords, voteNote } from './add-states-copy';
+import { nearbyAddOf, useAddFit, useFitPlace, useNearbyPlace } from './use-add-fit';
+import { addTarget } from './add-target';
+import { originDayId, type RoutePreset } from './routes';
+import { useAddDays } from './use-add-days';
 import { useAddSubject } from './use-add-subject';
-import { WhoGoing } from './who-going';
+import { useSaveToIdeas } from './use-save-to-ideas';
+import { toggledOut, WhoGoing } from './who-going';
 
 export interface AddSheetProps {
   readonly tripId: string;
@@ -69,20 +65,22 @@ export interface AddSheetProps {
 }
 
 const close = () => (router.canGoBack() ? router.back() : undefined);
+const WAITING_TIME = '··:··';
 
 export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddSheetProps) {
-  const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const guide = usePlanGuide().name;
   const editor = useDayEditing(plan);
-  const saveIdea = useCommand(saveIdeaCommand);
+  const saveToIdeas = useSaveToIdeas(tripId);
   const { subject } = useAddSubject(tripId, placeId);
   const tz = plan.trip?.tz ?? 'UTC';
   const poiId = subject?.poiId ?? null;
   const server = useAddFit(tripId, poiId, plan.versionId);
   const fitPlace = useFitPlace(tripId, poiId, subject);
   const nearby = useNearbyPlace(tripId, poiId);
+  // The day the sheet was opened from, when the screen in between passed only the place.
+  const origin = originDayId(useRootNavigationState());
   const [picked, setPicked] = useState<AddChoice | null>(null);
   const [lengthMin, setLengthMin] = useState<number | null>(null);
   const [editingTime, setEditingTime] = useState(false);
@@ -92,30 +90,28 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const [busy, setBusy] = useState(false);
   const [stableIds] = useState<[string, string]>(() => [generateStableId(), generateStableId()]);
 
-  const days = useMemo(
-    () =>
-      plan.dayRows.flatMap((row) =>
-        row.date === null ? [] : [{ dayNo: row.day_no, date: row.date }],
-      ),
-    [plan.dayRows],
-  );
-  const given = resolvePreset(route, plan.dayRows, tz);
-  const afterRow = plan.itemRows.find((row) => row.stable_id === afterStableId);
-  const afterDate = days.find((entry) => entry.dayNo === afterRow?.day_no)?.date ?? null;
-  // A place already in the plan opens on its own stop, and ADD becomes "Move it".
-  const existing =
-    subject?.poiId == null ? undefined : plan.itemRows.find((row) => row.poi_id === subject.poiId);
-  const existingDate = days.find((entry) => entry.dayNo === existing?.day_no)?.date ?? null;
-  const preset: AddPreset =
-    afterRow?.ends_at != null && afterDate !== null
-      ? { after: { dayNo: afterRow.day_no, endMin: minutesOnDay(afterRow.ends_at, tz, afterDate) } }
-      : existing?.starts_at != null && existingDate !== null && given.dayNo === undefined
-        ? {
-            dayNo: existing.day_no,
-            startMin: minutesOnDay(existing.starts_at, tz, existingDate),
-          }
-        : given;
-  const choice = picked ?? initialChoice(server.fit, preset, days, tz);
+  const { days, labelOf, chips, monthOf } = useAddDays(plan, locale);
+  const { preset, existing } = addTarget({
+    route,
+    origin,
+    afterStableId,
+    subject,
+    days,
+    tz,
+    dayRows: plan.dayRows,
+    itemRows: plan.itemRows,
+    titleOf: (id) => plan.display.get(id)?.title ?? null,
+  });
+  // Nothing says where it goes yet: the answer is still on its way.
+  const waiting =
+    picked === null &&
+    poiId !== null &&
+    server.status === 'loading' &&
+    server.fit === null &&
+    preset.after === undefined &&
+    preset.startMin === undefined;
+  const openStart = (dayNo: number) => openStartOn(plan, dayNo, tz);
+  const choice = picked ?? initialChoice(server.fit, preset, days, tz, existing, openStart);
   const day = days.find((entry) => entry.dayNo === choice?.dayNo) ?? null;
   const at =
     choice?.timePicked === true && day !== null
@@ -123,63 +119,87 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
       : undefined;
   const local = useLocalFit(server.context, fitPlace, { at });
   const shown = choice === null ? null : shownDayFit(choice, server.fit, local);
-  const grades = dayGrades(server.fit);
   const length = lengthMin ?? (choice === null ? 90 : blockLength(server.fit, choice.dayNo));
-
-  const label = (date: string, dayNo: number) => {
-    const weekday = weekdayOf(date, locale).toUpperCase();
-    return `${weekday} ${String(Number(date.slice(8, 10)))}`.trim() || String(dayNo);
-  };
-  const chips: DayChip[] = days.map((entry) => ({
-    dayNo: entry.dayNo,
-    weekday: weekdayOf(entry.date, locale),
-    color: dayTileColour(entry.dayNo),
-    fit: grades.get(entry.dayNo),
-    accessibilityLabel: label(entry.date, entry.dayNo),
-  }));
-  const dayLabel = day === null ? '' : label(day.date, day.dayNo);
-  const month =
-    day === null
-      ? ''
-      : new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' }).format(
-          // Midday UTC keeps the calendar date in every zone.
-          // eslint-disable-next-line lingui/no-unlocalized-strings
-          new Date(`${day.date}T12:00:00Z`),
-        );
+  const dayLabel = day === null ? '' : labelOf(day.dayNo);
   const time = choice === null ? '' : clockOf(choice.startMin);
   const members = plan.members.map((member) => ({
     key: member.uid,
     name: member.name,
     joinIndex: member.joinIndex,
   }));
-  const nearbyAdd =
-    nearby === null
+  const nearbyAdd = nearbyAddOf(nearby);
+  // No day takes it and none was chosen: the place goes to Ideas until a day is picked.
+  const nowhere =
+    existing === null &&
+    server.fit !== null &&
+    server.fit.best === null &&
+    picked === null &&
+    preset.dayNo === undefined &&
+    preset.after === undefined;
+  const anyway = existing === null && server.fit !== null && shown?.grade === 'no' && !nowhere;
+  const stays = isWhereItIs(choice, existing);
+  // A time the fit did not choose, or one that only fits if a stop moves, is timed against that
+  // day before it is added: the stop in the way is pushed, never sat on.
+  const loose =
+    existing === null &&
+    !nowhere &&
+    !waiting &&
+    (choice?.timePicked === true || needsTiming(shown));
+  const block = looseBlock(loose ? choice : null, subject, stableIds[0], length);
+  const into = addIntoDay({ plan, day, tz, locale, block });
+  const best = server.fit?.best ?? null;
+  const guidePick =
+    best === null || choice === null || existing !== null || best.day_no === choice.dayNo
       ? null
       : {
-          poiId: nearby.poi_id,
-          name: nearby.name,
-          category: nearby.category,
-          minutes: nearby.minutes,
-          lengthMin: visitMinutes({ category: nearby.category, timeNeededMin: null }),
+          label: guidePickLabel(guide, labelOf(best.day_no)),
+          onPress: () => {
+            impact('tick');
+            setPicked(pickDay(choice, best.day_no, server.fit, tz));
+            setLengthMin(null);
+          },
         };
-  const nothingFits = server.fit !== null && server.fit.best === null;
-  const existingLabel =
-    existing === undefined || existingDate === null ? null : label(existingDate, existing.day_no);
-  const note =
-    existingLabel !== null
-      ? alreadyLine(existingLabel)
-      : server.status === 'offline' && server.fit === null
-        ? offlineNote(guide)
-        : nothingFits
-          ? nowhereNote()
-          : null;
+
+  const stopName = (stableId: string) => plan.display.get(stableId)?.title ?? null;
+  const nearbySlot =
+    nearbyAdd === null || choice === null || existing !== null || waiting
+      ? null
+      : {
+          time: clockOf(choice.startMin + length + nearbyAdd.minutes),
+          text: nearbyLine(nearbyAdd.name, nearbyAdd.minutes),
+          picked: withNearby,
+          onToggle: () => setWithNearby((on) => !on),
+        };
+  const why: WhyInput = {
+    day: shown,
+    month: day === null ? '' : monthOf(day.date),
+    stopName,
+    place: fitPlace,
+    tz,
+    lengthMin: length,
+    timePicked: choice?.timePicked === true,
+  };
+  const words = sheetWords({
+    waiting,
+    nowhere,
+    anyway,
+    stays,
+    inPlan:
+      existing === null
+        ? null
+        : { dayLabel: labelOf(existing.dayNo), time: clockOf(existing.startMin) },
+    guide,
+    dayLabel,
+    time,
+    organiser: plan.canApply,
+  });
 
   const onAdd = async () => {
     if (choice === null || day === null || subject === null) return;
     setBusy(true);
     const ops =
-      existing !== undefined
-        ? moveStopOps(existing.stable_id, choice, day, tz, length)
+      existing !== null
+        ? moveStopOps(existing.stableId, choice, day, tz, length)
         : addOps({
             choice,
             day,
@@ -196,97 +216,74 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
             nearby: withNearby ? nearbyAdd : null,
             stableIds,
           });
-    const outcome = await editor.submit(ops);
+    const outcome = await editor.submit([...ops, ...(into?.ops ?? [])], { label: subject.name });
     setBusy(false);
     if (outcome.kind === 'unavailable') return;
-    impact('success');
     close();
   };
 
   const onSaveLater = async () => {
     if (subject === null) return;
-    await saveIdea.send({
-      idea_id: subject.ideaId ?? generateUuidV7(),
-      trip_id: tripId,
-      ...(subject.poiId === null
-        ? { pin: { name: subject.name, lat: subject.lat, lng: subject.lng } }
-        : { poi_id: subject.poiId }),
-      source: 'save',
-    });
-    toast.show({
-      id: 'plan-add-saved',
-      title: t({ id: 'plan.add.savedToast', message: 'Saved to Ideas' }),
-    });
+    await saveToIdeas(subject);
     close();
   };
 
   return (
     <AddSheetView
       name={(subject?.name ?? '').toUpperCase()}
-      line={pickedLine(guide)}
-      days={chips}
-      dayNo={choice?.dayNo ?? null}
+      line={words.line}
+      days={chips(dayGrades(server.fit))}
+      dayNo={nowhere ? null : (choice?.dayNo ?? null)}
       onDay={(dayNo) => {
         if (choice === null) return;
         impact('tick');
-        setPicked(pickDay(choice, dayNo, server.fit, tz));
+        setPicked(pickDay(choice, dayNo, server.fit, tz, openStart));
         setLengthMin(null);
       }}
-      dayHeader={dayHeader(dayLabel, shown)}
+      guidePick={guidePick}
+      dayHeader={nowhere ? '' : dayHeader(dayLabel, shown)}
       block={
-        <AddBlock
-          leave={choice === null ? null : leaveLine(shown, choice.startMin)}
-          time={time}
-          length={lengthLabel(length)}
-          name={(subject?.name ?? '').toUpperCase()}
-          detail={blockDetail(shown)}
-          editingTime={editingTime}
-          onTime={() => setEditingTime((open) => !open)}
-          start={choice?.startMin ?? 0}
-          end={(choice?.startMin ?? 0) + length}
-          onTimeChange={(start, end) => {
-            if (choice === null) return;
-            setPicked(pickTime(choice, start));
-            setLengthMin(end - start);
-          }}
-          nearby={
-            nearbyAdd === null || choice === null
-              ? null
-              : {
-                  time: clockOf(choice.startMin + length + nearbyAdd.minutes),
-                  text: nearbyLine(nearbyAdd.name, nearbyAdd.minutes),
-                  picked: withNearby,
-                  onToggle: () => setWithNearby((on) => !on),
-                }
-          }
-        />
+        nowhere ? null : (
+          <AddBlock
+            leave={choice === null || waiting ? null : leaveLine(shown, choice.startMin)}
+            time={waiting ? WAITING_TIME : time}
+            length={lengthLabel(length)}
+            name={(subject?.name ?? '').toUpperCase()}
+            detail={blockDetail(shown)}
+            editingTime={editingTime}
+            onTime={() => setEditingTime((open) => !open)}
+            start={choice?.startMin ?? 0}
+            end={(choice?.startMin ?? 0) + length}
+            onTimeChange={(start, end) => {
+              if (choice === null) return;
+              setPicked(pickTime(choice, start));
+              setLengthMin(end - start);
+            }}
+            nearby={nearbySlot}
+          />
+        )
       }
-      whyTitle={whyTitle(time)}
-      reasons={reasonTiles(shown, month)}
-      note={note}
+      whyTitle={nowhere || waiting ? '' : whyTitle(time)}
+      reasons={nowhere || waiting ? [] : whyTiles(why)}
+      note={
+        into?.line ??
+        (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
+      }
       who={
         <WhoGoing
           members={members}
           out={out}
           open={whoOpen}
           onOpen={() => setWhoOpen((open) => !open)}
-          onToggle={(uid) =>
-            setOut((current) => {
-              const next = new Set(current);
-              if (next.has(uid)) next.delete(uid);
-              else if (next.size < members.length - 1) next.add(uid);
-              return next;
-            })
-          }
+          onToggle={(uid) => setOut((current) => toggledOut(current, uid, members.length))}
         />
       }
-      cta={
-        existing === undefined ? addLabel(dayLabel, time, plan.canApply) : moveLabel(dayLabel, time)
-      }
+      voteNote={plan.canApply || nowhere || waiting ? null : voteNote()}
+      cta={words.cta}
       busy={busy || editor.pending}
-      disabled={choice === null || subject === null}
-      onAdd={() => void onAdd()}
-      onSaveLater={subject === null ? null : () => void onSaveLater()}
+      disabled={choice === null || subject === null || waiting || stays || into?.blocked === true}
+      onAdd={() => void (nowhere ? onSaveLater() : onAdd())}
+      onSaveLater={subject === null || nowhere ? null : () => void onSaveLater()}
     />
   );
 }

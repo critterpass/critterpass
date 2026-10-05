@@ -184,7 +184,11 @@ export async function loadFitContext(
       ? []
       : (
           await tx.query<FitItemRow>(
-            `SELECT i.stable_id, i.day_id, i.poi_id, coalesce(p.category, i.category) AS category,
+            // A visit to a place filed as a stay (a guesthouse that is also a sight) is a stop of
+            // the day like any other: only an item that is itself a stay is where the crew sleeps.
+            `SELECT i.stable_id, i.day_id, i.poi_id,
+                    CASE WHEN p.category = 'stay' AND i.category IS NOT NULL THEN i.category
+                         ELSE coalesce(p.category, i.category) END AS category,
                     i.starts_at, i.ends_at, i.attendee_ids,
                     (i.booking_id IS NOT NULL OR i.locked_reason IS NOT NULL) AS locked,
                     i.is_outdoor,

@@ -213,7 +213,12 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
       overrides={{
         forecast: '31°',
         leaveBy: null,
-        firstUp: { kind: 'first', time: '09:30', title: 'Toya Devasya hot springs' },
+        firstUp: {
+          kind: 'first',
+          id: 'lab-first',
+          time: '09:30',
+          title: 'Toya Devasya hot springs',
+        },
         pack: [],
         timeline: BALI_TIMELINE.slice(1),
         onToday: noop,
@@ -226,7 +231,12 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
       overrides={{
         forecast: '31°',
         leaveBy: null,
-        firstUp: { kind: 'first', time: '09:30', title: 'Toya Devasya hot springs' },
+        firstUp: {
+          kind: 'first',
+          id: 'lab-first',
+          time: '09:30',
+          title: 'Toya Devasya hot springs',
+        },
         pack: [],
         timeline: BALI_TIMELINE.slice(1),
       }}

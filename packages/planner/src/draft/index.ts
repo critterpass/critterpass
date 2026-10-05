@@ -59,8 +59,12 @@ export {
 } from './sequence';
 export { dishOf, foodRole, sameDish, sharesDish, stopKind, type FoodRole } from './food-role';
 export {
+  detourMin,
   dinnerIsRideHome,
   hopCapMin,
+  MEAL_DETOUR_MAX_MIN,
+  mealAcrossTown,
+  mealDetours,
   longHops,
   longRideMin,
   RIDE_HOME_MAX_MIN,
@@ -75,6 +79,7 @@ export {
   LUNCH,
   LUNCH_LAST_START_MIN,
   mealAt,
+  mealDuration,
   mealSlotAt,
   mealSlots,
   mealsInWindow,
@@ -87,6 +92,7 @@ export {
   withAssumedTravelNotes,
   withHonestNotes,
   type HonestNotes,
+  withNoteLine,
 } from './note-sense';
 export {
   MORNING_ENDS_MIN,
@@ -98,6 +104,9 @@ export {
   type PlaceWindow,
 } from './place-time';
 export { straightLineMatrix } from './travel';
+export { opensDay, startFloor, type Reach } from './day-start';
+export { homeBase, nearHome } from './home';
+export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';
 export type {
   Chronotype,
   CostBands,

@@ -80,6 +80,11 @@ export async function runReplyBy(
         };
         if ((going.rows[0]?.n ?? 0) >= AUTO_CONFIRM_MIN_IN) {
           await lockProposalAndConfirm(tx, input);
+          // The lock, as a system line in crew chat (nobody locked it: reply-by did).
+          await tx.query(
+            `SELECT app.post_crew_system_message($1, 'trip_locked', NULL, 'The trip is locked in')`,
+            [proposal.crew_id],
+          );
           confirmed += 1;
         } else {
           await markProposalLocked(tx, input);

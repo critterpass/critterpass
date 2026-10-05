@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "8c07b215-609f-4076-af33-726a98acb611",
+        "id": "d0a9102d-f27c-449d-a289-ae5d4f393d94",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the centre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p14\",\n        \"p165\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"lakes, falls and cable cars\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p16\",\n        \"p90\",\n        \"p173\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"valley of love and dream hill\",\n      \"area\": \"Area G\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p129\",\n        \"p215\"\n      ]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"morning pagoda and old station\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p3\",\n        \"p136\"\n      ]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p191\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều Đà Lạt nhẹ tênh\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p14\", \"p131\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sáng hồ, chiều thác, tối chợ\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p90\", \"p173\", \"p16\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Rừng thông và mái ngói\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p11\", \"p136\", \"p286\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Chợ sớm, cà phê cuối\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p165\", \"p331\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 126,
+          "input_tokens": 26,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 4096,
-          "output_tokens": 322,
+          "cache_read_input_tokens": 4864,
+          "output_tokens": 329,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "233cc7f6-ed0d-4963-b04b-e870d11d1f4e",
+        "id": "252f6bef-b11b-4956-9db4-bd0f4de4849d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Morning light on the pink church, and the rooster weathervane keeping watch over the hill town.\"\n    },\n    {\n      \"poi_id\": \"p346\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A steaming bowl of phở from a family pot, the kind of broth that makes you say ngon quá (so tasty).\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ sớm là lúc người ta trả giá, chọn rau, và kể chuyện rôm rả nhất. Cứ thong thả mà nghe mùi cà phê lẫn mùi khói bếp.\"\n    },\n    {\n      \"poi_id\": \"p270\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô phở nóng, nước dùng trong veo, ngồi xuống là thấy ấm bụng. Ngon quá (so tasty) là câu duy nhất cần nhớ.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 536,
+          "input_tokens": 581,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 133,
+          "output_tokens": 192,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "d05a9d1a-a08a-43ca-a1fd-45d85e13df54",
+        "id": "b80f39dd-38cb-410a-9585-a48286309d89",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty staircases and fairy-tale corners everywhere. Go slow and let the place surprise you.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stalls stacked with dried fruit, coffee and warm knitwear. A good spot to wander and watch the city trade.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bubbling pot of beef hotpot with all the herbs on the side. Sit down, take your time, let the steam do the talking.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lights, music and a bit of local buzz after the sun goes down. An easy stroll to end the first night.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Kiến trúc như tổ mối khổng lồ, leo lên là thấy Đà Lạt theo cách rất khác.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quảng trường nhìn ra hồ, người Đà Lạt hay tụ tập ở đây lúc chiều xuống.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đi một vòng hồ, gió nhẹ, hoa dại ven bờ, đủ để thấy thành phố hiền hòa.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nồi lẩu bò sôi sùng sục, rau tươi đầy rổ, ngồi xuống là ấm cả người.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 582,
+          "input_tokens": 620,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 254,
+          "output_tokens": 293,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "28fdc6a1-59df-4568-bf65-c1d7729cd3f8",
+        "id": "4f7f9297-9600-4fc2-a8a9-b13091643906",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up the hill for a quiet temple with a view over the pines and the lake below.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander by the water, all pine scent and still reflections. Easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Crispy little rice cakes fresh off the pan, the kind of local bite that makes the whole trip.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The falls tumble through the trees, and the cable car gives you the best seat for it.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sit-down spot with a garden feel, good coffee and plates that reward a slow evening.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little bowl of chè to close the night, the way the locals do it.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn giòn rụm, nước chấm thơm lừng — ngon quá (so tasty) là phải thốt lên.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thác đổ trắng xóa giữa rừng thông, đứng gần là mát lạnh cả người.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mặt hồ phẳng như gương, ngồi ngắm mây trôi là hết muộn phiền.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tiếng chuông chùa ngân trong gió núi, lòng nhẹ tênh như đang bay.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc nhỏ ấm cúng, món ăn bày đẹp như tranh, ngồi xuống là muốn nán lại.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm rực rỡ, đi một vòng là đủ thấy hết vị Đà Lạt.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 720,
+          "input_tokens": 777,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 344,
+          "output_tokens": 422,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "6e391c6a-f3e9-4d04-ab0c-3796dd13fdc4",
+        "id": "d03a35ee-1c13-459d-a06b-e7e521f50803",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Red socks on, eyes on the valley. Thung lũng Tình yêu is my kind of morning stroll—easy paths, big views, zero rush.\"\n    },\n    {\n      \"poi_id\": \"p215\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đồi Mộng Mơ keeps the dreamy theme going. Photo spots everywhere, so strike a pose for the crew back home.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh canh cua here is the real local-life fuel. Slurp it hot and thank the cook with a big ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lam Dong Museum is a calm little culture stop. Good stories, cool air, and no monkeys stealing your snacks—unlike my place.\"\n    },\n    {\n      \"poi_id\": \"p284\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Quán Gà Đồi is where you sit down, order the chicken, and let the evening roll in. Splurge a little, you earned it.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sartorista after dark is the night-owl move. Cocktails, low light, and the city humming below.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cứ từ từ ngắm tháp chuông và những ô cửa kính màu, chỗ này yên lắm.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga xinh như một món đồ chơi cũ, nhớ ngắm kỹ ba mái nhọn đặc trưng.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô bánh canh cua nóng hổi, ngồi vỉa hè mà húp sụp sụp mới đúng vị Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh thự cũ kỹ với khu vườn xanh mướt, đi loanh quanh thấy nhẹ cả người.\"\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hoa khoe đủ màu, cứ thong thả dạo một vòng rồi tìm ghế đá ngồi hít thở không khí núi.\"\n    },\n    {\n      \"poi_id\": \"p284\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Gà đồi nướng muối ớt cay cay, ngồi nhâm nhi kiểu dân địa phương là chuẩn bài.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 747,
+          "input_tokens": 776,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 410,
+          "output_tokens": 446,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "2c41d978-e3ba-4ba5-8c69-d0a1f813e5c3",
+        "id": "8d4679d9-8007-46e7-9a53-15feb1afab09",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Đà Lạt's whole story is here, from lakes and falls to pagoda mornings — every must-do made it, cảm ơn for that."
+            "text": "Đà Lạt se lạnh, thông reo, cà phê cuối chuyến — cả bốn chặng đều đủ, chỉ chờ người xách ba lô lên đường thôi!"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 246,
+          "input_tokens": 182,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 32,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 51,
           "service_tier": "standard"
         }
       }

@@ -2,6 +2,8 @@
 import { format } from '@cp/i18n';
 import { clockOption } from '@/lib/i18n/formats';
 
+import { dateLine } from '../trip-map/format';
+
 const MINUTES_PER_DAY = 24 * 60;
 
 /** "07:00" for minutes after local midnight (an overnight minute wraps to the next morning). */
@@ -26,6 +28,14 @@ export function dayDate(locale: string, date: string): string {
     month: 'short',
     day: 'numeric',
   });
+}
+
+/**
+ * A day named by its date, the one way every plan screen, sheet and toast says it: "Tue 20 Oct",
+ * and in Vietnamese (where the weekday is itself a number) "Th 3, 20/10".
+ */
+export function dayName(locale: string, date: string): string {
+  return dateLine(locale, date);
 }
 
 /** "$38" for an amount in minor units. */

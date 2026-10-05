@@ -31,11 +31,15 @@ async function fix(): Promise<LocateState> {
     : { kind: 'here', at: { lat: position.coords.latitude, lng: position.coords.longitude } };
 }
 
-export async function locateForGo(): Promise<LocateState> {
+/**
+ * `ask: false` is a second look after a phone with location on found no fix: it never raises the
+ * primer again.
+ */
+export async function locateForGo(ask = true): Promise<LocateState> {
   try {
     const permission = await getForegroundPermissionsAsync();
     if (permission.granted) return await fix();
-    if (!permission.canAskAgain) return { kind: 'denied' };
+    if (!permission.canAskAgain || !ask) return { kind: 'denied' };
     const outcome = await requestWithPrimer('location', 'trip_start');
     return outcome.result === 'granted' || outcome.result === 'partial'
       ? await fix()

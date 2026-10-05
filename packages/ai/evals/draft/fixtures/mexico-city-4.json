@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "487cf7c0-e0e0-4ef5-b4c6-d40060f8ff94",
+        "id": "f21bdea8-9436-4e81-97e5-37f5a69531f8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro stroll and a splurge dinner\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p10\",\n        \"p12\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Art, ruins and a leafy park\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p4\",\n        \"p1\",\n        \"p13\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Centro Histórico, near Alameda Central\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Llegada y sabores locales\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p12\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Arte, historia y despedida\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p4\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 4,
+          "input_tokens": 9,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 173,
+          "output_tokens": 158,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "af5f8a54-882a-4e1c-8b37-dff09907052d",
+        "id": "e64fa6ae-f8a0-4ac5-9c00-3be844533620",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The old Aztec heart of the city, right beside the cathedral, with stone serpents and a view over the ruins.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, lively plates and a long communal table; the chilaquiles wake you up gently.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A marble palace of murals and a stained-glass curtain that glows like a Tiffany lamp.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Marble palace of murals and art deco swagger, a fitting farewell bow.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates with plenty of veggie love near the action.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Aztec ruins right in the old heart, history under your feet.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 523,
+          "input_tokens": 520,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 135,
+          "output_tokens": 116,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "87d6e4a7-7149-4c63-8052-3c263e21a3f4",
+        "id": "fc8b8ad8-1bef-46c4-a98d-9a5e9442da0f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A market hall where butchers, fishmongers and exotic produce stalls put on a proper show.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the leafy streets and admire the mix of old mansions and newer cafés.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A splurge tasting menu that turns Mexican ingredients into quiet theatre.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Classic al pastor carved straight off the trompo, smoky and unapologetic.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A stroll through Roma Norte’s leafy streets, where art deco facades and tiny galleries hide in plain sight.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Al pastor carved straight off the trompo, tucked into warm tortillas with a splash of salsa.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A tasting menu that turns Mexican ingredients into quiet, precise little surprises.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 19,
+          "input_tokens": 530,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 161,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 128,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "8d28dfae-0dfa-4f84-aa4c-797866712c61",
+        "id": "f23bf38c-0d3f-4500-98b6-cb1c19239946",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A slow wander through the Centro, a fancy feast, then art, old stones and green shade — every must-do tucked in, my friend."
+            "text": "Arrival flavours, then art and a fond farewell — every must-do tucked in, and I barely had to nag."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 225,
+          "input_tokens": 224,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 29,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

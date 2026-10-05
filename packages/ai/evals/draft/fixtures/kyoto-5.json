@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "b8139767-bd85-4a88-842c-a8f7a213a3ea",
+        "id": "61a6ffcd-292b-4b57-9732-f50208d50fb7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Central Kyoto near Nishiki Market\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Evening arrival and lantern glow\",\n      \"area\": \"D\",\n      \"must_do_ids\": [\"m5\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Fushimi shrine and rail history\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p3\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Arashiyama bamboo and golden pavilion\",\n      \"area\": \"B and C\",\n      \"must_do_ids\": [\"m3\", \"m4\"],\n      \"poi_ids\": [\"p5\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Eastern temples and philosopher's walk\",\n      \"area\": \"E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p8\", \"p12\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Museums and castle before flight\",\n      \"area\": \"D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p11\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Central Kyoto, near Nishiki Market\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lanterns and first bites\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [\"m5\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Vermilion gates and steel wheels\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Golden pavilion and bamboo hush\",\n      \"area\": \"Area B and C\",\n      \"must_do_ids\": [\"m3\", \"m4\"],\n      \"poi_ids\": [\"p5\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Old capital, stone and wood\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p10\", \"p11\", \"p12\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Philosopher's slow goodbye\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 121,
+          "input_tokens": 85,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 312,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 317,
           "service_tier": "standard"
         }
       }
@@ -28,71 +28,23 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "0a3678f3-f4a0-486e-8b70-36d03e7791ec",
+        "id": "7851e613-312d-4e14-ba5e-6e524f8d80df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Old scrolls and quiet rooms. Give the cases a slow walk.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Nightingale floors first, then the painted screens.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Silver Pavilion, not silver at all, but the sand garden will hush you.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A slow canal-side stroll where even the carp seem to be saying goodbye.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 292,
+          "input_tokens": 279,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 73,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "0212598d-1666-4508-82aa-97343abee7f8",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Go early, before the selfie sticks wake up. The grove hums if you let it.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Shoes off, phone down, eyes up. The garden does the talking.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Gold leaf that doesn't care about your camera. Worth the bus back into town.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 333,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 126,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "72a195c7-6a9d-47ec-8635-51a7a4b6274e",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Silver pavilion, moss garden, and a view that rewards the climb.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Canal-side stroll under maples, with the occasional heron judging your pace.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand wooden kannon, each one watching you more politely than the last.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 310,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 117,
+          "output_tokens": 80,
           "service_tier": "standard"
         }
       }
@@ -100,14 +52,38 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "1ae4dbb5-d00d-4bb7-9193-1618d3442112",
+        "id": "1807d946-bfde-4654-9dde-42beed0590de",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Foxes and vermilion gates all the way up; go early before the path becomes a queue.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Steam, shinkansen and a roundhouse full of giants; even the non-train people slow down here.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The wooden stage hangs over the maples like a dare; the view does the rest.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Torii gates stacked like a fox’s promise—walk until the city noise forgets you.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Steel wheels and old signals, all polished and waiting for a curious hand.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 39,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 86,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "192d953a-ce36-4a5b-bfa4-fefdc3b6bfe2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Gold leaf on water, best seen before the tour buses learn to queue.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"The garden does the talking; the pond has been listening since the fourteenth century.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk slowly and let the bamboo do its hush.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +92,31 @@
           "input_tokens": 333,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 133,
+          "output_tokens": 113,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "d998bdb7-df20-487f-8796-f69b02de6778",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wooden stage, hillside air, and the city laid out like an old scroll.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand gilded figures stand in the half-light, patient as centuries.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stone Buddhas and painted screens, history with its shoes off.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Nightingale floors squeak underfoot, so no one sneaks up on the shogun.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 110,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 157,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "f7063d2c-b115-45f0-acae-8b9fd6f6bf49",
+        "id": "c9e8ba58-27d2-4b89-86b5-c61b1269d410",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m5\",\"note\":\"Graze the stalls like a tanuki with a very small basket and a very large plan.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle, plant-based pause that still feels like a proper Kyoto sit-down.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk slowly here; the old wooden facades reward anyone who bothers to look up.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lantern light, narrow lanes, and the sound of your own excellent decisions.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Back for a quiet dinner before the evening gets too clever for its own good.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m5\",\"note\":\"Snack your way through the market lanes, then watch the knife work at a stall that has been at it for generations.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A calm, plant-based table that still treats halal seriously, right when the crew needs a proper sit-down.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk the old geisha district slowly; the wooden facades do most of the talking.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lanterns, narrow alleys, and the sound of someone practising shamisen behind a screen.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 378,
+          "input_tokens": 124,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 197,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 177,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "ad641e05-9684-45a1-bb9e-463286d6732f",
+        "id": "066b8c7e-706b-4750-9511-0d28d493f0aa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Lanterns, shrines, bamboo, temples, castle — all in, shoes off, phone down, eyes up."
+            "text": "Slow lanterns, vermilion gates, gold and bamboo, then a quiet farewell — every must-do is in, shoes off and eyes up."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 235,
+          "input_tokens": 234,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 25,
+          "output_tokens": 29,
           "service_tier": "standard"
         }
       }

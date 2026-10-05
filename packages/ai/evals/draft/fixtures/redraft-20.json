@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "67fae205-b95b-4488-97f5-c53debdcb2b6",
+        "id": "d934844e-4e68-49f4-b463-90cebb80817c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Surprise in Ubud\",\n  \"summary\": \"A slow, delicious day around Ubud with a market feast, a proper sit-down dinner, and a temple surprise the crew won't expect.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with a bit of royal history before the heat kicks in. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Keeping Alchemy for a bright, fresh lunch stop. Terima kasih (thank you) for the greens.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise detour to Goa Gajah. The crew asked for unexpected, and this old cave delivers.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays. A proper sit-down meal to end the day right.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Snacks, Surprises and a Splurge\",\n  \"summary\": \"A slow, food-loving Sunday around Ubud with a market-style lunch, a hidden temple, a proper splurge dinner and an unexpected nightcap.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to wake up late and earn the first bite. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a market-like spread of colourful vegan plates. Terima kasih (thank you), Ubud.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cave temple stop nobody saw coming. I know a guy who swears by the carvings.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge stays put, slow and celebratory. Rise and shine for the tasting menu.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A beach-club nightcap far from Ubud’s calm, because this crew is all night owls.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 50,
+          "input_tokens": 73,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 290,
+          "output_tokens": 345,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "91b9f098-89c3-468b-bebf-b2b7f154d4fa",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Ubud Bites and Surprise\",\n  \"summary\": \"A slower Ubud day built around food, with a market-style lunch, a kept splurge dinner, and one unexpected temple stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle palace wander before the heat and the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of plant-based plates, terima kasih (thank you) to the kitchen.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus temple the crew did not see coming.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The kept splurge, slow and celebratory, just as it should be.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 261,
           "service_tier": "standard"
         }
       }
