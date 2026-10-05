@@ -25,6 +25,10 @@ msgstr "{count} · {length} trên xe"
 msgid "plan.tripMap.inTheCarAbout"
 msgstr "{count} · khoảng {length} trên xe"
 
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCarPending"
+msgstr "{count} · đang tính đường đi"
+
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.some"
 msgstr "{count} người rảnh · {who}, đến {until}"
@@ -467,6 +471,10 @@ msgstr "Đi bộ"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.wellness"
 msgstr "Thư giãn"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.pending"
+msgstr "Đang tính đường đi…"
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"

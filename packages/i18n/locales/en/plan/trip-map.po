@@ -25,6 +25,10 @@ msgstr "{count} · {length} in the car"
 msgid "plan.tripMap.inTheCarAbout"
 msgstr "{count} · about {length} in the car"
 
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCarPending"
+msgstr "{count} · working out the rides"
+
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.some"
 msgstr "{count} of you are free · {who}, till {until}"
@@ -467,6 +471,10 @@ msgstr "Walk"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.wellness"
 msgstr "Wellness"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.pending"
+msgstr "Working out the ride…"
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"

@@ -25,6 +25,10 @@ msgstr ""
 msgid "plan.tripMap.inTheCarAbout"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCarPending"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.some"
 msgstr ""
@@ -466,6 +470,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.wellness"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.pending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
