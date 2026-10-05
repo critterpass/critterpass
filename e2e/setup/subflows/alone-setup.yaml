@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # A crew of one sets a trip up on staging, in ${LOCALE} (en or vi), frames named ${SHOTS}-…: Đà Nẵng
 # pitched and locked in by the organiser, the dates sheet with its summary and lock in view, the
-# budget step speaking to her alone, an empty must-dos list drafted without one, then crew chat,
+# budget step speaking to her alone, an empty must-dos list with the guide's places to tap (one
+# added, then drafted; "Draft without one" is on the same frame), then crew chat,
 # where the locked-in place's card shows no vote. Run from Home on a fresh account.
 - runFlow:
     when:
@@ -197,10 +198,24 @@ appId: app.critterpass.dev
     visible:
       id: 'must-dos-draft-without'
     timeout: 30000
+# The guide's places to tap come in with the trip's place pack.
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-example-0'
+    timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-must-dos-empty
+# One tap adds an example; the list is no longer empty and the draft button is back.
 - tapOn:
-    id: 'must-dos-draft-without'
+    id: 'must-dos-example-0'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-draft'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-must-dos-example-added
+- tapOn:
+    id: 'must-dos-draft'
 - extendedWaitUntil:
     visible:
       id: 'drafting-screen|draft-review'

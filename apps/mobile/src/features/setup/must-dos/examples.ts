@@ -1,6 +1,6 @@
 /**
- * Must-dos to tap when the list is empty: a few of the guide's best-ranked places at the
- * destination, read from what the phone already holds. Something to eat comes first when the
+ * Must-dos to tap when the list is empty: a few of the guide's places at the destination (its
+ * curated set, else its best-ranked picks), from the trip's place pack on the phone. Something to eat comes first when the
  * guide has one (a dish is the must-do most people name), then the top sights, each under the
  * name the reader's language uses where the place has one.
  */
@@ -29,8 +29,8 @@ const NOT_A_MUST_DO = new Set(['stay', 'transit', 'health']);
 const EXAMPLES_SQL = `SELECT p.id, p.name, p.name_local, p.category, d.country FROM pois p
   JOIN destinations d ON d.id = p.destination_id
   WHERE p.destination_id = ? AND p.status = 'active' AND p.merged_into_id IS NULL
-    AND p.pick_rank IS NOT NULL
-  ORDER BY p.pick_rank, p.name LIMIT 24`;
+    AND (p.curation = 'editorial' OR p.pick_rank IS NOT NULL)
+  ORDER BY p.pick_rank IS NULL, p.pick_rank, p.name LIMIT 24`;
 
 /** `rows` best first. `localNames`: the reader reads the place's own language. */
 export function examplePlaces(
