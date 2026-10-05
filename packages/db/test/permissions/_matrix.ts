@@ -662,6 +662,31 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // AI place profiles (class R, read through the places api; the count probe answers one row
+  // whenever the table is readable, so an empty fixture table still proves the grant).
+  place_profiles: {
+    selectProbe: { sql: 'SELECT count(*) FROM place_profiles', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // The shared pace of the worker's place searches (server-only, class S).
+  place_search_pace: {
+    selectProbe: { sql: 'SELECT 1 FROM place_search_pace LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // Mapbox address lookups (server-only, class S): the monthly call count.
   mapbox_geocode_usage: {
     selectProbe: { sql: 'SELECT 1 FROM mapbox_geocode_usage LIMIT 1', params: () => [] },
