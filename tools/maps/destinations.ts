@@ -40,24 +40,31 @@ export const GUIDE_DESTINATION_EXTRACTS: readonly DestinationExtract[] = [
   {
     slug: 'iceland',
     // Whole country is only 65 MB, so no sub-extract is needed; bbox still keeps output tight
-    // around the capital region + golden-circle touring loop rather than the whole island.
+    // around the capital region + golden-circle touring loop rather than the whole island. The
+    // west edge takes in the Reykjanes peninsula: Keflavík airport, where visitors land, and the
+    // Blue Lagoon.
     geofabrikRegion: 'europe/iceland',
-    bounds: '-22.35,63.70,-19.50,64.85',
+    bounds: '-22.80,63.70,-19.50,64.85',
   },
   {
     slug: 'mexico-city',
+    // North and east of the city to Teotihuacán, the Acolman monastery on the road to it and
+    // Felipe Ángeles airport.
     geofabrikRegion: 'north-america/mexico',
-    bounds: '-99.35,19.10,-98.85,19.60',
+    bounds: '-99.35,19.10,-98.78,19.80',
   },
   {
     slug: 'lisbon',
+    // Sintra and Cascais in the west; north to the palace of Mafra and Ericeira.
     geofabrikRegion: 'europe/portugal',
-    bounds: '-9.55,38.60,-9.00,38.85',
+    bounds: '-9.55,38.60,-9.00,38.98',
   },
   {
     slug: 'cusco',
+    // The Sacred Valley in the north-west; east down the Vilcanota valley to the painted
+    // churches of Andahuaylillas and Huaro.
     geofabrikRegion: 'south-america/peru',
-    bounds: '-72.30,-13.70,-71.70,-13.20',
+    bounds: '-72.30,-13.70,-71.62,-13.20',
   },
   {
     slug: 'da-nang',
