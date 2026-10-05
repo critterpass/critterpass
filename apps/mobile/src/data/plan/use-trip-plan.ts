@@ -151,11 +151,27 @@ export function replayQueued(
  */
 export function useTripPlan(tripId: string | null, options: TripPlanOptions = {}): TripPlan {
   const read = useTripPlanRows(tripId, options);
-  // The last loaded plan, kept as React keeps any value from an earlier render.
+  // The last loaded plan with a version, kept as React keeps a value from an earlier render. It is
+  // replaced when what it was read from changes, never on the plan object's identity alone: until
+  // a render commits, the plan is rebuilt on every pass, and comparing it by identity looped.
   const [last, setLast] = useState<TripPlan | null>(null);
-  // Only a plan with a version is kept: with none, its empty rows are new on every render.
-  if (read.loaded && read.versionId !== null && read !== last) setLast(read);
+  if (read.loaded && read.versionId !== null && changedSince(last, read)) setLast(read);
   return holdThroughSwitch(last, read);
+}
+
+/**
+ * The plan's own rows changed since `previous`: the trip, the version, its days or its stops, each
+ * kept state once loaded. Not the crew or the open change sets: those can still be loading while
+ * the plan reads as loaded, and a list still loading is a new empty list on every render.
+ */
+export function changedSince(previous: TripPlan | null, next: TripPlan): boolean {
+  return (
+    previous === null ||
+    previous.versionId !== next.versionId ||
+    previous.trip !== next.trip ||
+    previous.dayRows !== next.dayRows ||
+    previous.itemRows !== next.itemRows
+  );
 }
 
 /** `next`, or `previous` while `next` is the same trip's plan still loading another version. */

@@ -20,7 +20,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
-import { holdThroughSwitch, useTripPlan, type TripPlan } from '../use-trip-plan';
+import { changedSince, holdThroughSwitch, useTripPlan, type TripPlan } from '../use-trip-plan';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
 const TRIP = '0192f000-0000-7000-8000-0000000000f1';
@@ -99,5 +99,17 @@ describe('holdThroughSwitch', () => {
     expect(holdThroughSwitch(plan({}), elsewhere)).toBe(elsewhere);
     const gone = plan({ loaded: false, versionId: null });
     expect(holdThroughSwitch(plan({}), gone)).toBe(gone);
+  });
+});
+
+describe('changedSince', () => {
+  it('reads the same plan as unchanged while the crew and change sets are still arriving', () => {
+    const rows = { trip: { id: TRIP }, dayRows: [], itemRows: [] };
+    const first = { ...rows, versionId: V1, crew: [], openChangesets: [] } as unknown as TripPlan;
+    // A render later the lists still loading are new empty lists: that is no change.
+    const again = { ...first, crew: [], openChangesets: [] } as unknown as TripPlan;
+    expect(changedSince(first, again)).toBe(false);
+    expect(changedSince(first, { ...first, versionId: V2 })).toBe(true);
+    expect(changedSince(null, first)).toBe(true);
   });
 });
