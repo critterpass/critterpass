@@ -6,7 +6,7 @@
  * re-picks its last day), and the length, who can make every day of it and Lock, live under the
  * calendar. Only counts, never anyone's days.
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 import { useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
@@ -52,7 +52,7 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
   chips: { flexWrap: 'wrap', gap: th.space['8'] },
   summary: { gap: th.space['4'] },
-  footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'] },
+  footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'], gap: th.space['8'] },
 }));
 
 export interface WeekPickerProps {
@@ -64,6 +64,8 @@ export interface WeekPickerProps {
   /** Today (`YYYY-MM-DD`): nothing earlier can be picked. */
   readonly today?: string | undefined;
   readonly busy: boolean;
+  /** Why the last lock did not go through, said on the sheet itself (the step is behind it). */
+  readonly failure?: string | null;
   readonly onLock: (start: string, end: string) => void;
   readonly onDismiss: () => void;
   /** Opens on this pick (the lab's scenes). */
@@ -85,6 +87,7 @@ export function WeekPicker({
   lengthDays,
   today,
   busy,
+  failure = null,
   onLock,
   onDismiss,
   initialPick,
@@ -163,10 +166,8 @@ export function WeekPicker({
             {LENGTH_CHOICES.map((days) => (
               <ChoiceChip
                 key={days}
-                label={t({
-                  id: 'setup.when.picker.length',
-                  message: plural(days, { one: '# day', other: '# days' }),
-                })}
+                // Numbers alone, so the five choices sit on one line under "How many days?".
+                label={String(days)}
                 selected={(picked === null ? length : rangeLength(picked)) === days}
                 tilt={0}
                 onPress={() => sayLength(days)}
@@ -207,52 +208,59 @@ export function WeekPicker({
             onDrag={onDrag}
             testID="picker"
           />
-          <Stack style={styles.summary} accessibilityLiveRegion="polite">
-            {shown === null ? null : (
-              <Row justify="space-between" align="center">
-                <Text
-                  variant="title"
-                  color={pick.range === null ? theme.semantic.text.secondary : undefined}
-                  testID="picker-length"
-                >
-                  {lengthAndRange(locale, shown.start, shown.end, rangeLength(shown))}
-                </Text>
-                <TextLink
-                  label={t({ id: 'setup.when.picker.clear', message: 'Clear' })}
-                  onPress={() => setPick(EMPTY_PICK)}
-                  testID="picker-clear"
-                />
-              </Row>
-            )}
-            {pick.range === null && ghost !== null ? (
-              <Text variant="bodySm" color={theme.semantic.text.secondary} testID="picker-ghost">
-                {t({
-                  id: 'setup.when.picker.ghostLock',
-                  message: 'Lock it, or tap another last day.',
-                })}
-              </Text>
-            ) : null}
-            {problem === 'too_long' ? (
-              <Text variant="bodySm" color={theme.semantic.state.urgent} testID="picker-too-long">
-                {t({
-                  id: 'setup.when.picker.tooLong',
-                  message: `A trip can be ${max} days at most. Pick fewer days to lock it.`,
-                })}
-              </Text>
-            ) : null}
-            {picked !== null && problem === null ? (
-              <Text variant="bodySm" color={theme.semantic.text.secondary} testID="picker-free">
-                {t({
-                  id: 'setup.when.picker.free',
-                  message: `${who} of ${all} can make every day of it.`,
-                })}
-              </Text>
-            ) : null}
-          </Stack>
         </Stack>
       </SheetScrollView>
-      {/* Under the calendar, outside the scroll: the lock is in reach however long the sheet. */}
+      {/* Under the calendar, outside the scroll (the calendar takes drags, so what sits under it
+          could not be scrolled to): what is picked and the lock stay in view however tall the
+          sheet's content. */}
       <View style={styles.footer}>
+        <Stack style={styles.summary} accessibilityLiveRegion="polite">
+          {shown === null ? null : (
+            <Row justify="space-between" align="center">
+              <Text
+                variant="title"
+                color={pick.range === null ? theme.semantic.text.secondary : undefined}
+                testID="picker-length"
+              >
+                {lengthAndRange(locale, shown.start, shown.end, rangeLength(shown))}
+              </Text>
+              <TextLink
+                label={t({ id: 'setup.when.picker.clear', message: 'Clear' })}
+                onPress={() => setPick(EMPTY_PICK)}
+                testID="picker-clear"
+              />
+            </Row>
+          )}
+          {pick.range === null && ghost !== null ? (
+            <Text variant="bodySm" color={theme.semantic.text.secondary} testID="picker-ghost">
+              {t({
+                id: 'setup.when.picker.ghostLock',
+                message: 'Lock it, or tap another last day.',
+              })}
+            </Text>
+          ) : null}
+          {problem === 'too_long' ? (
+            <Text variant="bodySm" color={theme.semantic.state.urgent} testID="picker-too-long">
+              {t({
+                id: 'setup.when.picker.tooLong',
+                message: `A trip can be ${max} days at most. Pick fewer days to lock it.`,
+              })}
+            </Text>
+          ) : null}
+          {picked !== null && problem === null && total > 1 ? (
+            <Text variant="bodySm" color={theme.semantic.text.secondary} testID="picker-free">
+              {t({
+                id: 'setup.when.picker.free',
+                message: `${who} of ${all} can make every day of it.`,
+              })}
+            </Text>
+          ) : null}
+        </Stack>
+        {failure === null ? null : (
+          <Text variant="bodySm" color={theme.semantic.state.urgent} testID="picker-failure">
+            {failure}
+          </Text>
+        )}
         {picked !== null && problem === null ? (
           <PillButton
             label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}

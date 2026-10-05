@@ -80,6 +80,10 @@ msgid "setup.addMustDo.keepA11y"
 msgstr "Thêm “{typed}” đúng như bạn gõ"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.exampleA11y"
+msgstr "Thêm {name} làm việc phải làm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.addAnother"
 msgstr "Thêm việc nữa"
 
@@ -111,6 +115,10 @@ msgstr "Đóng cửa vào ngày đi"
 msgid "setup.mustDos.draft"
 msgstr "Lên lịch trình"
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.draftWithout"
+msgstr "Lên nháp mà không cần việc nào"
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.entriesClose"
 msgstr "Hạn đăng ký {date}"
@@ -122,6 +130,10 @@ msgstr "Vừa"
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.fitsDay"
 msgstr "Vừa ngày {day}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.examples"
+msgstr "Ví dụ"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.resolving"

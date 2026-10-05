@@ -11,13 +11,19 @@ export function syncedLine(model: WhenModel): string {
   const calendars = model.synced;
   const synced = countWord(calendars);
   const missing = model.total - model.synced;
-  // The phone's calendar is already in (or on its way) while its counts have not come back yet:
-  // saying "your days aren't in" beside "your calendar is in" would contradict the row below.
-  const reading =
-    model.synced === 0 &&
-    (model.calendar.status === 'synced' || model.calendar.status === 'syncing');
-  if (reading) {
+  // The line never argues with the calendar row under it. While the phone's calendar is being
+  // read both say so; once the row says it is in, the line says the same, even in the moment
+  // before its counts have come back.
+  if (model.synced === 0 && model.calendar.status === 'syncing') {
     return t({ id: 'setup.when.line.reading', message: 'Reading your calendar…' });
+  }
+  if (model.synced === 0 && model.calendar.status === 'synced' && model.mode !== 'pick') {
+    return model.solo
+      ? t({ id: 'setup.when.line.solo', message: 'From your calendar.' })
+      : t({
+          id: 'setup.when.line.yoursIn',
+          message: 'Your calendar is in. The others are still to come.',
+        });
   }
   if (model.solo) {
     if (model.mode === 'pick') {

@@ -173,6 +173,10 @@ msgid "vote.quickCrew.defaultName"
 msgstr "{placeName} crew"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.lockedIn"
+msgstr "{winner} is locked in. No vote needed."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr "{winner} won {score}"
 
@@ -399,6 +403,14 @@ msgstr "Lock in {only}"
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.lockedIn"
 msgstr "Locked in"
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedInBy"
+msgstr "Locked in by {lockedBy}."
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedIn"
+msgstr "Locked in, no vote needed."
 
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts

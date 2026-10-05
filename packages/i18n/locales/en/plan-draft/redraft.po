@@ -197,10 +197,6 @@ msgid "planDraft.onlyYou"
 msgstr "Only you see this"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
-msgid "planDraft.change.optional"
-msgstr "Optional"
-
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.hint"
 msgstr "Pick a reason or write a few words."
 

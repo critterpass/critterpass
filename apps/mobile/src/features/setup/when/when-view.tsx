@@ -61,7 +61,7 @@ export interface WhenModel {
 /** Why the last lock or ask failed: no signal, too many tries, or anything else. */
 export type WhenFailure = 'offline' | 'rate' | 'generic';
 
-function failureLine(failure: WhenFailure): string {
+export function failureLine(failure: WhenFailure): string {
   switch (failure) {
     case 'offline':
       return t({
