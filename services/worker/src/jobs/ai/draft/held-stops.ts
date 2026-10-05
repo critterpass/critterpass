@@ -10,7 +10,7 @@
  * follow the wallet, not this rule.
  */
 import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
-import type { TravelMatrix } from '@cp/planner';
+import { foodRole, mealAt, minuteOfDate, type DraftPoi, type TravelMatrix } from '@cp/planner';
 import type pg from 'pg';
 
 export interface HeldStop {
@@ -63,7 +63,7 @@ export async function loadHeldStops(
     dayNo: row.day_no,
     item: {
       stable_id: row.stable_id,
-      kind: row.category === 'meal' ? 'meal' : 'activity',
+      kind: row.category === 'meal' || row.category === 'food' ? 'meal' : 'activity',
       poi_id: row.poi_id,
       starts_at: row.starts_at.toISOString(),
       ends_at: row.ends_at.toISOString(),
@@ -78,6 +78,29 @@ export async function loadHeldStops(
       note: row.notes,
     },
   }));
+}
+
+/**
+ * Which of her stops are the day's lunch or dinner: one that starts at a meal time and is at a
+ * place that serves meals, or that she filed as food herself. The planner then plans no other
+ * meal for that time; anything else of hers is a stop the day is planned around.
+ */
+export function withMealKinds(
+  held: readonly HeldStop[],
+  pois: ReadonlyMap<string, DraftPoi>,
+  frame: { readonly dates: readonly string[]; readonly tz: string },
+): HeldStop[] {
+  return held.map((stop) => {
+    const poi = stop.item.poi_id === null ? undefined : pois.get(stop.item.poi_id);
+    const date = frame.dates[stop.dayNo - 1];
+    const meal =
+      date === undefined
+        ? null
+        : mealAt(minuteOfDate(new Date(stop.item.starts_at), date, frame.tz));
+    const eats = stop.item.kind === 'meal' || (poi !== undefined && foodRole(poi) === 'meal');
+    const kind = eats && (meal === 'lunch' || meal === 'dinner') ? 'meal' : 'activity';
+    return kind === stop.item.kind ? stop : { ...stop, item: { ...stop.item, kind } };
+  });
 }
 
 export function heldPlaceIds(held: readonly HeldStop[]): Set<string> {
