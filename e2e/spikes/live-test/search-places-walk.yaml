@@ -211,6 +211,20 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 4000
 - takeScreenshot: search-places-12-example-answer
+# The guide's first example too.
+- runFlow: search-places-subflows/search-again.yaml
+- hideKeyboard
+- tapOn:
+    id: 'search-example-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-plain-results|search-close-results|search-no-results|search-plain-failed'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: search-places-12b-first-example-answer
 # A link in the one field there is.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'https://www.tiktok.com/@balibites/video/7419283746152837461'
@@ -260,6 +274,19 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: search-places-16-address
+# An address in another city: the section stays away rather than offer a wrong country, and the
+# screen is never blank while it waits.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: '12 Tran Phu'
+- extendedWaitUntil:
+    visible:
+      id: 'search-addresses'
+    timeout: 12000
+    optional: true
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: search-places-16b-address-elsewhere
 
 # 2. A kind of place.
 - runFlow: search-places-subflows/search-again.yaml
