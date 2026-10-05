@@ -73,8 +73,8 @@ const read = (patch: Record<string, unknown> = {}): PlaceDetailContext => {
   return parsed;
 };
 
-const cta = (context: PlaceDetailContext | null, addedDay: number | null = null) =>
-  detailCta({ context, status: 'ready', tz: 'Asia/Makassar', locale: 'en', addedDay });
+const cta = (context: PlaceDetailContext | null) =>
+  detailCta({ context, status: 'ready', tz: 'Asia/Makassar', locale: 'en' });
 
 describe('place detail CTA', () => {
   it('names the best day and time, as an add for the organiser', () => {
@@ -90,7 +90,6 @@ describe('place detail CTA', () => {
       in_plan: { day_no: 3, stable_id: 's1', starts_at: '2026-10-17T00:00:00.000Z' },
     });
     expect(ctaLabel(cta(inPlan))).toBe('In day 3 · 08:00');
-    expect(ctaLabel(cta(read(), 2))).toBe('In day 2');
   });
 
   it('has nothing to add without a plan or a fit', () => {

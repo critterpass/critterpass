@@ -9,7 +9,7 @@ import { storedFitSchema, type ChangeSetOp, type FitReason, type StoredFit } fro
 import { drivingDeltaMinutes, type FitLeg, type FitPoint } from '@cp/planner';
 import { useMemo } from 'react';
 
-import { useLiveRows } from '../../overview/data/live-rows';
+import { useLiveRows } from '@/data/plan/live-rows';
 import type { PlanItem } from '../../overview/model/plan-model';
 
 const LEGS_SQL = `SELECT from_key, to_key, minutes, mode, approx FROM plan_legs WHERE version_id = ?`;

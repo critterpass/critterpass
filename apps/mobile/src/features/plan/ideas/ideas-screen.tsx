@@ -15,7 +15,8 @@ import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
 import { screenCredits, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { usePlaceNamer } from '@/data/places/use-shown-names';
-import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
+import { weekdayOf } from '@/features/plan/day/format';
+import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 import { impact } from '@/motion/feedback';
@@ -54,8 +55,8 @@ import { useIdeasPlan } from './use-ideas-plan';
 
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and a toast id below, never copy. */
 const MAP_ID = '7c-1';
-const PLACE_IDS = ['7e-1', '3d-3'] as const;
-const SPLIT_IDS = ['7e-3', '7e-1', '3d-3'] as const;
+const PLACE_IDS = ['7e-1'] as const;
+const SPLIT_IDS = ['7e-3', '7e-1'] as const;
 const SEARCH_ID = '7d-1';
 const IDEAS_FILTER = { filter: 'ideas' } as const;
 const removedToastId = (ideaId: string) => `plan-idea-removed-${ideaId}`;

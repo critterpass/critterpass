@@ -20,14 +20,6 @@ msgid "plan.day.queued.comment"
 msgstr "A comment"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.planAdd"
-msgstr "A place added to the plan"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.proposal"
-msgstr "A place for the crew to okay"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.edit"
 msgstr "A plan edit"
 
@@ -50,10 +42,6 @@ msgstr "Change kept or dropped"
 #: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
 msgstr "Meal"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "plan.overview.queued.reorder"
-msgstr "New day order"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.undo"

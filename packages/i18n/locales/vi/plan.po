@@ -20,14 +20,6 @@ msgid "plan.day.queued.comment"
 msgstr "Một bình luận"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.planAdd"
-msgstr "Một địa điểm thêm vào kế hoạch"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.proposal"
-msgstr "Một địa điểm chờ nhóm đồng ý"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.edit"
 msgstr "Một chỉnh sửa lịch trình"
 
@@ -50,10 +42,6 @@ msgstr "Giữ hoặc bỏ một thay đổi"
 #: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
 msgstr "Bữa ăn"
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "plan.overview.queued.reorder"
-msgstr "Thứ tự ngày mới"
 
 #: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.undo"

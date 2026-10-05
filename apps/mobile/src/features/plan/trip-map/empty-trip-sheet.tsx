@@ -88,10 +88,8 @@ export function EmptyTripSheet({ model }: { readonly model: TripMapModel }) {
   const theme = useTheme();
   const tripId = model.tripId;
   const paste = opener(useScreenHref('7d-3', { tripId }));
-  // Swipe together in a trip (7g-2) once it is registered, the earlier swipe until then.
-  const swipeInTrip = useScreenHref('7g-2', { tripId, sessionId: 'new' });
-  const swipeEarlier = useScreenHref('3d-2', { tripId, sessionId: 'new' });
-  const swipe = opener(swipeInTrip ?? swipeEarlier);
+  // Swipe together in a trip (7g-2).
+  const swipe = opener(useScreenHref('7g-2', { tripId, sessionId: 'new' }));
   const copy = opener(useScreenHref('3o-1', { tripId, destination: model.destinationSlug ?? '' }));
   const going = model.members.length;
   const dates = tripDates(locale, model.startDate, model.endDate);

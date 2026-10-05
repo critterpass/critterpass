@@ -2,17 +2,32 @@
  * What is mine alone on the crew's plan ("just me"): the stops I skip for myself, the crew's stops
  * I changed for myself, and the stops only I have. Read from my active `personal_plan_ops` rows
  * laid over the crew's plan, so the day plan, the trip map and day-of can draw it: a skipped stop
- * stands back with "You're skipping this", and what only I have says "Only you".
+ * stands back with "You're skipping this", and what only I have says "Only you". A change of mine
+ * the crew's plan moved under (or took out) is a clash, settled on the stop's sheet.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import type { PlanState, PlanStateItem } from '@cp/domain';
-import { mergeOverlay } from '@cp/planner';
+import { changeSetOpsSchema, type PlanState, type PlanStateItem } from '@cp/domain';
+import { mergeOverlay, type OverlayClash, type OverlayRow } from '@cp/planner';
 import { useMemo } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import type { ItemDisplay } from '@/data/plan/plan-model';
 
-import { overlayRows, type PersonalOpsRow } from '../overlay/model/personal-plan';
+import { jsonArray } from '../overview/data/plan-rows';
+
+export interface PersonalOpsRow {
+  readonly id: string;
+  readonly ops: string | null;
+  readonly status: string;
+}
+
+export function overlayRows(rows: readonly PersonalOpsRow[]): OverlayRow[] {
+  return rows.flatMap((row) => {
+    const ops = changeSetOpsSchema.safeParse(jsonArray<unknown>(row.ops));
+    if (!ops.success) return [];
+    return [{ id: row.id, ops: ops.data, status: row.status === 'active' ? 'active' : 'dropped' }];
+  });
+}
 
 /** `skipping`: the crew's stop, off my own plan. `only_me`: on my plan in a way only I see. */
 export type PersonalMark = 'skipping' | 'only_me';
@@ -22,9 +37,11 @@ export interface PersonalLayer {
   readonly marks: ReadonlyMap<string, PersonalMark>;
   /** Stops only I have, as plan items (their day and times as I set them). */
   readonly added: readonly PlanStateItem[];
+  /** My changes the crew's plan moved under or took out: keep mine, or go with the crew. */
+  readonly clashes: readonly OverlayClash[];
 }
 
-export const NO_PERSONAL_LAYER: PersonalLayer = { marks: new Map(), added: [] };
+export const NO_PERSONAL_LAYER: PersonalLayer = { marks: new Map(), added: [], clashes: [] };
 
 export function personalLayer(
   crew: PlanState,
@@ -47,7 +64,10 @@ export function personalLayer(
       added.push(plain);
     }
   }
-  return marks.size === 0 && added.length === 0 ? NO_PERSONAL_LAYER : { marks, added };
+  const clashes = merged.clashes;
+  return marks.size === 0 && added.length === 0 && clashes.length === 0
+    ? NO_PERSONAL_LAYER
+    : { marks, added, clashes };
 }
 
 const ROWS_SQL = `SELECT id, ops, status FROM personal_plan_ops

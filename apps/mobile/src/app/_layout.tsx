@@ -52,7 +52,6 @@ import '@/features/money/chat/register';
 import '@/features/plan/review/register-chat-card';
 import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
-import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
 import { CritterRuntime } from '@/features/critters/register';
 import { SafetyRuntime } from '@/features/safety/register';

@@ -8,8 +8,6 @@
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 
-import { planningRedesign } from '@/lib/navigation/planning-switch';
-
 import { clockIn } from '../leave-by/model';
 import type { HubRows } from './data/use-hub';
 import { entryLabel, landsAt, leaveByLabel, nextUpLabel, shortDay } from './hub-copy';
@@ -149,16 +147,11 @@ export function swipeEntry(onPress: () => void): HubNext {
     icon: 'heart',
     label: null,
     title: t({ id: 'trip.hub.swipe', message: 'Swipe places together' }),
-    // With the planning screens on, a match lands in the trip's Ideas, not in the plan.
-    detail: planningRedesign()
-      ? t({
-          id: 'trip.hub.swipeDetailIdeas',
-          message: 'Everyone swipes, the matches go to Ideas',
-        })
-      : t({
-          id: 'trip.hub.swipeDetail',
-          message: 'Everyone swipes, the matches go in the plan',
-        }),
+    // A match lands in the trip's Ideas, not in the plan.
+    detail: t({
+      id: 'trip.hub.swipeDetailIdeas',
+      message: 'Everyone swipes, the matches go to Ideas',
+    }),
     tone: 'raised',
     testID: 'trip-hub-swipe',
     onPress,

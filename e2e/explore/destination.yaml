@@ -1,15 +1,14 @@
 appId: app.critterpass.dev
 ---
-# The destination guide (7g-3) in English then Vietnamese, from the Explore lab's scenes with the
-# planning screens turned on for this phone (the guide's sticker sits on the hero). Fixtures; the
-# fresh-account flow beside this one covers the real page on staging.
+# The destination guide (7g-3) in English then Vietnamese, from the Explore lab's scenes (the
+# guide's sticker sits on the hero). Fixtures; the fresh-account flow beside this one covers the
+# real page on staging.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
     timeout: 60000
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'dev-tools-entry'
 - runFlow: subflows/open-lab.yaml

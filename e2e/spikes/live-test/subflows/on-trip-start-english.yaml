@@ -18,6 +18,5 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'critters-hatch-later'
-- runFlow: ../../../_shared/planning-redesign-on.yaml
 - waitForAnimationToEnd:
     timeout: 5000

@@ -1,7 +1,6 @@
 /**
  * The Explore map's local reads: a destination's curated places (from the `explore` or the trip's
- * pack stream), which of them crewmates swiped yes on in this trip, and which are in the trip's
- * plan with their day and start.
+ * pack stream), and which are in the trip's plan with their day and start.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { shownPlaceName } from '@cp/domain';
@@ -79,28 +78,6 @@ export function useDestinationPois(destinationId: string | null): {
     [live.rows, readsLocal, locale],
   );
   return { places, loaded: live.loaded };
-}
-
-const YES_SQL = `SELECT poi_id, user_id FROM swipe_yes_votes WHERE trip_id = ?
-  UNION SELECT m.poi_id, NULL FROM swipe_matches m WHERE m.trip_id = ?`;
-const YES_TABLES = ['swipe_yes_votes', 'swipe_matches'];
-
-/** Who in the crew said yes to which place, by place id (a match with no names still counts). */
-export function useCrewPicks(tripId: string | null): ReadonlyMap<string, readonly string[]> {
-  const { rows } = useLiveRows<{ poi_id: string; user_id: string | null }>(
-    YES_SQL,
-    tripId === null ? null : [tripId, tripId],
-    YES_TABLES,
-  );
-  return useMemo(() => {
-    const picks = new Map<string, string[]>();
-    for (const row of rows) {
-      const who = picks.get(row.poi_id) ?? [];
-      if (row.user_id !== null && !who.includes(row.user_id)) who.push(row.user_id);
-      picks.set(row.poi_id, who);
-    }
-    return picks;
-  }, [rows]);
 }
 
 const PLAN_SQL = `SELECT i.poi_id, d.day_no, i.starts_at FROM trips t

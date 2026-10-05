@@ -7,10 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
-msgid "explore.map.cluster"
-msgstr "{count} địa điểm ở đây. Chạm để tách ra."
-
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr "{place} dùng được khi không có mạng"
@@ -18,26 +14,6 @@ msgstr "{place} dùng được khi không có mạng"
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.readySize"
 msgstr "{place} dùng được khi không có mạng · {size} MB"
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.place.back"
-msgstr "Quay lại"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.place.closedNow"
-msgstr "đang đóng cửa"
-
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.crew"
-msgstr "Nhóm chọn"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.map.planDay"
-msgstr "Ngày {dayNo}"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.map.planDayTime"
-msgstr "Ngày {dayNo} · {time}"
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.download"
@@ -47,62 +23,13 @@ msgstr "Tải về để dùng ngoại tuyến"
 msgid "explore.pack.downloading"
 msgstr "Đang tải {place}"
 
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.loading"
-msgstr "Đang lấy các địa điểm ở {place}"
-
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.food"
-msgstr "Ăn uống"
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.locationOff"
-msgstr "Vị trí đang tắt nên bản đồ không hiện bạn."
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
-msgid "explore.map.noResults"
-msgstr "Không có gì khớp. Thử bớt bộ lọc hoặc từ khác."
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.place.open24"
-msgstr "mở cửa 24 giờ"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.place.openNow"
-msgstr "đang mở cửa"
-
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.open"
-msgstr "Đang mở cửa"
-
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.remove"
 msgstr "Xóa khỏi điện thoại này"
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.saved"
-msgstr "Đã lưu"
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.search"
-msgstr "Tìm ở {place}"
-
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.offer"
 msgstr "Tìm kiếm và bản đồ dùng được khi không có mạng một khi {place} đã ở trên điện thoại này."
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.locationSettings"
-msgstr "Cài đặt"
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.showList"
-msgstr "Xem dạng danh sách"
-
-#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
-msgid "explore.map.showMap"
-msgstr "Xem bản đồ"
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.failed"
@@ -115,11 +42,3 @@ msgstr "Bản đồ và tìm kiếm đã ở trên điện thoại này."
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.retry"
 msgstr "Thử lại"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.map.away"
-msgstr "Bạn cách {place} {km} km"
-
-#: ../../apps/mobile/src/features/explore/map-copy.ts
-msgid "explore.map.awayMiles"
-msgstr "Bạn cách {place} {km} dặm"

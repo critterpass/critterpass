@@ -26,8 +26,6 @@ appId: app.critterpass.dev
           visible:
             id: 'dev-tools-entry'
           timeout: 30000
-# The planning screens, for this phone only (the draft-without-one link ships with them).
-- runFlow: ../../_shared/planning-redesign-on.yaml
 - runFlow:
     file: ../../screens/sweep/subflows/open-link.yaml
     env:

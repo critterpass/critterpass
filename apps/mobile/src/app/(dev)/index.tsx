@@ -10,7 +10,6 @@ import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 
-import { PlanningRedesignSection } from './planning-redesign';
 import { UpdatesSection } from './updates';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -158,9 +157,6 @@ export default function DevToolsIndexScreen() {
         </Stack>
         <Section title="Demo data">
           <SeedDemoData />
-        </Section>
-        <Section title="Planning redesign">
-          <PlanningRedesignSection />
         </Section>
         {DEV_SECTIONS.map((section) => (
           <Section key={section.title} title={section.title}>

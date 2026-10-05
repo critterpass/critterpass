@@ -42,7 +42,7 @@ export function crewChatRoute(crewId: string): string {
 
 /** Screens owned elsewhere, by design id. `undefined` until their area registers them. */
 export const homeRoutes = {
-  destination: (placeId: string): Href | undefined => hrefFor('3d-1', { placeId }),
+  destination: (placeId: string): Href | undefined => hrefFor('7g-3', { placeId }),
   placeSearch: (): Href | undefined => hrefFor('3b-7'),
   tripHub: (tripId: string): Href | undefined => hrefFor('3k-1', { tripId }),
   /** The trip's day-of screen, on today. */

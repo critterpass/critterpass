@@ -1,7 +1,6 @@
 /**
  * The place page's local reads: the place and its destination (zone, guide) from the synced
- * catalogue, the guide's tip in the reader's language when there is one, the trip's crew for the
- * avatars and the crewmate whose must-do the place is.
+ * catalogue, the trip's crew for the avatars and the crewmate whose must-do the place is.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
@@ -47,20 +46,6 @@ export function usePoi(poiId: string | null): {
   const perCity = useGuidesPerCity();
   const live = useLiveRows<PoiRow>(poiSql(perCity), poiId === null ? null : [poiId], POI_TABLES);
   return { row: live.rows[0] ?? null, loaded: live.loaded };
-}
-
-const TIP_SQL = `SELECT text FROM place_tips WHERE poi_id = ?
-  ORDER BY (lang = ?) DESC, (lang = 'en') DESC, created_at LIMIT 1`;
-const TIP_TABLES = ['place_tips'];
-
-/** The guide's tip for the place: the reader's language first, then English, then any. */
-export function usePlaceTip(poiId: string | null, locale: string): string | null {
-  const { rows } = useLiveRows<{ text: string }>(
-    TIP_SQL,
-    poiId === null ? null : [poiId, locale.split('-')[0] ?? locale],
-    TIP_TABLES,
-  );
-  return rows[0]?.text ?? null;
 }
 
 export interface CrewMember {

@@ -6,33 +6,31 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { MAYA, RIN, WINSTON, BALI_MEMBERS } from '../../overview/dev/bali-plan';
-import { RAIN_BASE_ITEMS, RAIN_DAYS, RAIN_OPS, RAIN_POI_NAMES } from '../dev/rain-changeset';
+import { RAIN_BASE_ITEMS, RAIN_OPS, RAIN_POI_NAMES } from '../dev/rain-changeset';
 import {
   buildChangeCards,
   changesetState,
   predictDecider,
-  sideText,
   tallyOf,
   withToggles,
+  type ChangeSide,
 } from '../model/review-model';
 import { reviewNumbers } from '../model/review-numbers';
 
 const crew = BALI_MEMBERS.map((member) => member.user_id);
-const weekday = (date: string | null) => (date === '2026-11-04' ? 'Wed' : 'Thu');
 
 describe('change cards', () => {
   const cards = buildChangeCards(RAIN_OPS, RAIN_BASE_ITEMS, RAIN_POI_NAMES, 'Asia/Makassar');
-  const lines = cards.map((card) => [
-    card.before && sideText(card.before, RAIN_DAYS, card.movesDay, weekday),
-    card.after && sideText(card.after, RAIN_DAYS, card.movesDay, weekday),
-  ]);
+  const side = (change: ChangeSide | null) =>
+    change && `${String(change.dayNo ?? '-')} ${change.time ?? ''} ${change.label}`;
+  const lines = cards.map((card) => [card.movesDay, side(card.before), side(card.after)]);
 
-  it('read as the design: old struck, new bold, the weekday only when the day moves', () => {
+  it('read as the design: old and new day, time and name, and whether the day moves', () => {
     expect(lines).toEqual([
-      ['14:00 Ridge walk', '17:00 Ridge walk'],
-      ['14:00 Free time', '14:00 Karsa Spa'],
-      ['Wed 16:30 Monkey Forest', 'Thu 10:00 Monkey Forest'],
-      ['19:30 Locavore NXT', '20:30 Locavore NXT'],
+      [false, '3 14:00 Ridge walk', '3 17:00 Ridge walk'],
+      [false, '3 14:00 Free time', '3 14:00 Karsa Spa'],
+      [true, '3 16:30 Monkey Forest', '4 10:00 Monkey Forest'],
+      [false, '3 19:30 Locavore NXT', '3 20:30 Locavore NXT'],
     ]);
     expect(cards.map((card) => card.accepted)).toEqual([true, true, true, false]);
     expect(cards[1]?.people).toEqual([MAYA, RIN]);

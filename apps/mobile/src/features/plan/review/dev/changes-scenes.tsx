@@ -8,7 +8,7 @@ import type { FitReason } from '@cp/domain';
 import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { dayTileColour } from '@/features/plan/overview/day-card';
+import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 
 import {
   backIdeasLabel,

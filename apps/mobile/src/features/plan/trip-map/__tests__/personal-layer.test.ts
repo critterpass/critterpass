@@ -1,7 +1,8 @@
 /**
  * "Just me" over the crew's plan: a stop I skip is marked (it stays the crew's), a crew stop I
- * changed for myself is marked as mine alone, a stop only I added is listed on its day, and a
- * layer I dropped leaves no mark.
+ * changed for myself is marked as mine alone, a stop only I added is listed on its day, a change
+ * the crew's plan moved under or took out comes back as a clash, and a layer I dropped leaves no
+ * mark.
  */
 jest.mock(
   '@powersync/common',
@@ -77,6 +78,28 @@ describe('my personal layer', () => {
       [BRIDGE, 'only_me'],
     ]);
     expect(layer.added.map((item) => item.stable_id)).toEqual([CAFE]);
+    expect(layer.clashes).toEqual([]);
+  });
+
+  it('returns a change the crew moved under, or took out, as a clash to settle', () => {
+    const GONE = '01a00000-0000-7000-8000-0000000000a9';
+    const layer = personalLayer(
+      CREW,
+      [
+        row('r2', [
+          {
+            ...op('retime', BRIDGE, { starts_at: '2026-10-05T13:00:00Z' }),
+            before: { starts_at: '2026-10-05T11:00:00Z' },
+          },
+        ]),
+        row('r4', [op('retime', GONE, { starts_at: '2026-10-05T15:00:00Z' })]),
+      ],
+      ME,
+    );
+    expect(layer.clashes).toEqual([
+      { personalOpsId: 'r2', stableId: BRIDGE, kind: 'changed_by_crew' },
+      { personalOpsId: 'r4', stableId: GONE, kind: 'removed_by_crew' },
+    ]);
   });
 
   it('is empty with no rows, a dropped layer, or nobody signed in', () => {

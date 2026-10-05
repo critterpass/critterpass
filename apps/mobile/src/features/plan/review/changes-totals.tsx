@@ -7,6 +7,7 @@ import { plural, t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
+import { narrowCurrencySymbol } from '@cp/cost-engine';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -16,7 +17,15 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { drivingChip } from './changes-copy';
 import type { ReviewNumbers } from './model/review-numbers';
-import { currencyParts } from './review-chips';
+
+/** The currency's symbol and minor-unit digits in the reader's locale ("$", 2). */
+function currencyParts(currency: string, locale: string): { symbol: string; digits: number } {
+  const format = new Intl.NumberFormat(locale, { style: 'currency', currency });
+  return {
+    symbol: narrowCurrencySymbol(currency),
+    digits: format.resolvedOptions().maximumFractionDigits ?? 2,
+  };
+}
 
 const useStyles = makeStyles((th) => ({
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },

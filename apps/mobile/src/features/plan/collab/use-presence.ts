@@ -1,8 +1,7 @@
 /**
  * Plan presence on `trip_presence:{trip}` (docs/api-contracts-async.md §1): I say where I am
  * (`here{screen, day}`, again whenever someone joins so they see me too) and where my attention is
- * (`cursor{anchor, offset}`: the item or option I'm on and, while I drag a block, how many minutes
- * it has moved). Cursors go through the publish proxy at most 5 times a second, latest wins, and
+ * (`cursor{anchor}`: the option I'm on). Cursors go through the publish proxy at most 5 times a second, latest wins, and
  * `null` on the way out. Peers' cursors are kept with when they last moved, so the screen can
  * glide them and fade them after 3 s of stillness. Anchors are element ids, never coordinates.
  */
@@ -17,11 +16,6 @@ import { usePresence, type PresenceMember } from '@/data/realtime/use-presence';
 /** Plan presence rides the trip's presence channel. */
 export const PRESENCE_NAMESPACE = 'trip_presence' as const;
 
-/** The anchor for a plan item (its stable id), as every plan surface names it. */
-export function itemAnchor(stableId: string): string {
-  return planAnchor('plan_item', stableId);
-}
-
 /** The anchor for a decision option. */
 export function optionAnchor(optionId: string): string {
   return planAnchor('poll_option', optionId);
@@ -30,7 +24,6 @@ export function optionAnchor(optionId: string): string {
 export interface PeerCursor {
   readonly uid: string;
   readonly anchor: string;
-  readonly offset: number;
   /** `Date.now()` of the latest move. */
   readonly at: number;
 }
@@ -39,8 +32,8 @@ export interface PlanPresence {
   /** Other people on this screen and day right now. */
   readonly here: readonly PresenceMember[];
   readonly cursors: readonly PeerCursor[];
-  /** My anchor (null clears it) and, while dragging, the minutes moved. */
-  readonly setCursor: (anchor: string | null, offset?: number) => void;
+  /** My anchor (null clears it). */
+  readonly setCursor: (anchor: string | null) => void;
 }
 
 interface Place {
@@ -54,11 +47,6 @@ function dataOf(envelope: RtEnvelope): Record<string, unknown> {
     : {};
 }
 
-/** A cursor as the publisher's latest-wins key (anchor and offset travel together). */
-function cursorKey(anchor: string | null, offset: number): string | null {
-  return anchor === null ? null : JSON.stringify([anchor, offset]);
-}
-
 export function usePlanPresence(
   tripId: string | null,
   screen: PlanPresenceScreen,
@@ -68,7 +56,7 @@ export function usePlanPresence(
   const members = usePresence('trip_presence', tripId);
   const [places, setPlaces] = useState<ReadonlyMap<string, Place>>(new Map());
   const [cursors, setCursors] = useState<ReadonlyMap<string, PeerCursor>>(new Map());
-  const mine = useRef<{ anchor: string | null; offset: number }>({ anchor: null, offset: 0 });
+  const mine = useRef<string | null>(null);
 
   const subscription = () =>
     tripId === null ? undefined : client?.channels.subscription('trip_presence', tripId);
@@ -81,13 +69,11 @@ export function usePlanPresence(
   const publisher = useMemo(
     () =>
       createAnchorPublisher({
-        publish: (key) => {
-          const [anchor, offset] = key === null ? [null, 0] : (JSON.parse(key) as [string, number]);
-          const data = offset === 0 ? { anchor } : { anchor, offset };
-          return (
-            tripId === null ? undefined : client?.channels.subscription('trip_presence', tripId)
-          )?.publish({ type: 'cursor', data });
-        },
+        publish: (anchor) =>
+          (tripId === null
+            ? undefined
+            : client?.channels.subscription('trip_presence', tripId)
+          )?.publish({ type: 'cursor', data: { anchor } }),
       }),
     [client, tripId],
   );
@@ -104,7 +90,7 @@ export function usePlanPresence(
     onSubscribed: () => {
       setCursors(new Map());
       publisher.forget();
-      publisher.set(cursorKey(mine.current.anchor, mine.current.offset));
+      publisher.set(mine.current);
       sayHere();
     },
     onJoin: (info) => {
@@ -130,11 +116,10 @@ export function usePlanPresence(
         setPlaces((current) => new Map(current).set(uid, place));
       } else if (envelope.type === 'cursor') {
         const anchor = typeof data.anchor === 'string' ? data.anchor : null;
-        const offset = typeof data.offset === 'number' ? data.offset : 0;
         setCursors((current) => {
           const next = new Map(current);
           if (anchor === null) next.delete(uid);
-          else next.set(uid, { uid, anchor, offset, at: Date.now() });
+          else next.set(uid, { uid, anchor, at: Date.now() });
           return next;
         });
       }
@@ -157,9 +142,9 @@ export function usePlanPresence(
   return {
     here,
     cursors: [...cursors.values()],
-    setCursor: (anchor, offset = 0) => {
-      mine.current = { anchor, offset };
-      publisher.set(cursorKey(anchor, offset));
+    setCursor: (anchor) => {
+      mine.current = anchor;
+      publisher.set(anchor);
     },
   };
 }

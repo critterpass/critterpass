@@ -40,7 +40,7 @@ export function planningLink(
   }
   return {
     label: t({ id: 'trip.hub.cta.plan', message: 'See the plan' }),
-    href: hrefFor('3e-1', { tripId }),
+    href: hrefFor('plan-hub', { tripId }),
   };
 }
 
@@ -56,10 +56,10 @@ export function activityHref(
     case 'poll_option':
       return HOME;
     case 'change_set':
-      return hrefFor('3e-3', { tripId, changesetId: row.object_id });
+      return hrefFor('7h-7', { tripId, changesetId: row.object_id });
     case 'trip':
     case 'itinerary_version':
-      return hrefFor('3e-1', { tripId });
+      return hrefFor('plan-hub', { tripId });
     default:
       return undefined;
   }
