@@ -88,9 +88,9 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   ).rows[0];
   const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
-  const swipeHref = useScreenHref('3d-2', { tripId });
+  const swipeHref = useScreenHref('7g-2', { tripId });
   const recapHref = useScreenHref('3m-1', { tripId });
-  const exploreHref = useScreenHref('3d-1', { placeId: rows.trip?.destination_id ?? '', tripId });
+  const exploreHref = useScreenHref('7g-1', { tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
     me === null ? null : [me],
@@ -182,7 +182,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       caption: plan.caption,
       icon: 'cal' as const,
       tone: 'pink' as const,
-      href: planBeforeSend === null ? hrefFor('3e-1', { tripId }) : planBeforeSend.href,
+      href: planBeforeSend === null ? hrefFor('plan-hub', { tripId }) : planBeforeSend.href,
     },
     {
       key: 'bookings',

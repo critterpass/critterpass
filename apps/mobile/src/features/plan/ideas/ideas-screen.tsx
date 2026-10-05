@@ -54,8 +54,8 @@ import { useIdeasPlan } from './use-ideas-plan';
 
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and a toast id below, never copy. */
 const MAP_ID = '7c-1';
-const PLACE_IDS = ['7e-1', '3d-3'] as const;
-const SPLIT_IDS = ['7e-3', '7e-1', '3d-3'] as const;
+const PLACE_IDS = ['7e-1'] as const;
+const SPLIT_IDS = ['7e-3', '7e-1'] as const;
 const SEARCH_ID = '7d-1';
 const IDEAS_FILTER = { filter: 'ideas' } as const;
 const removedToastId = (ideaId: string) => `plan-idea-removed-${ideaId}`;

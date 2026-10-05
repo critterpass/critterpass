@@ -3,7 +3,7 @@
  * drafting (3c-8), the private draft (3c-9), change a day (3c-11), the redraft diff (3c-12) and
  * the last-free-redraft interstitial (4f-3). Pushes link the draft as `/trip/{id}/draft`, which
  * `app/(trip)/trip/[tripId]/draft.tsx` forwards here. A day opens in the plan area's day screen
- * in draft mode (3e-2) once that area has registered it.
+ * in draft mode (7b-1) once that area has registered it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { RedraftReasonKey } from '@cp/domain';
@@ -55,7 +55,7 @@ export const draftRoutes = {
   }),
   /** A draft day in the plan area's day screen (draft mode), once registered. */
   day: (tripId: string, day: number): Href | undefined =>
-    hrefFor('3e-2', { tripId, day: String(day), version: 'draft' }),
+    hrefFor('7b-1', { tripId, day: String(day), version: 'draft' }),
   /** Trip setup's last step (another area's 3c-7), once registered. */
   setup: (tripId: string): Href | undefined => hrefFor('3c-7', { tripId }),
 };

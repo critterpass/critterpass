@@ -1,14 +1,12 @@
 /**
- * What PLAN opens for each hub value, which day a day-first hub lands on, and where the old and
- * new screen ids and the push links resolve once the planning screens have registered.
+ * What PLAN opens for each hub value, which day a day-first hub lands on, and where the screen ids
+ * and the push links resolve once the planning screens have registered.
  */
 import { describe, expect, it } from '@jest/globals';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import '../register';
-import '../../overview/register';
-import '../../day/register';
 import { tripLinkTarget } from '../../overview/routes';
 import { hubDay, planEntry } from '../plan-hub';
 import { dayParam, sheetParam } from '../routes';
@@ -43,11 +41,10 @@ describe('plan hub', () => {
 });
 
 describe('plan links', () => {
-  it('keeps the overview and day ids on the paths whose routes read the switch', () => {
-    expect(hrefFor('3e-1', { tripId: TRIP })).toBe(`/${TRIP}/plan`);
-    expect(hrefFor('3e-2', { tripId: TRIP, day: '3' })).toEqual({
-      pathname: '/[tripId]/day/[day]',
-      params: { tripId: TRIP, day: '3' },
+  it('opens what PLAN opens by name, and forwards plan and day links to the same paths', () => {
+    expect(hrefFor('plan-hub', { tripId: TRIP })).toEqual({
+      pathname: '/[tripId]/plan',
+      params: { tripId: TRIP },
     });
     // A push or inbox link to the plan or a day forwards to those same paths.
     expect(tripLinkTarget(TRIP, ['plan'], {})).toBe(`/${TRIP}/plan`);

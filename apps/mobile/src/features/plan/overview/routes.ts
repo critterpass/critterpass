@@ -17,13 +17,6 @@ export const planRoutes = {
   draft: (tripId: string) => `/${tripId}/draft` as Href,
 };
 
-/** 3e-1 (the overview) and 3e-3 (review changes). */
-export const PLAN_SCREENS = {
-  '3e-1': (params: Readonly<Record<string, string>>) => planRoutes.plan(params['tripId'] ?? ''),
-  '3e-3': (params: Readonly<Record<string, string>>) =>
-    planRoutes.review(params['tripId'] ?? '', params['changesetId'] ?? ''),
-} as const;
-
 /**
  * Where a `/trip/{id}/<rest>` link (pushes, inbox items) lands: the trip's own `/{id}/<rest>`,
  * each segment re-encoded and the query kept.

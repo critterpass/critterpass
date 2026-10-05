@@ -1,12 +1,8 @@
-/**
- * The plan editing screens join the navigation registry (imported once by the root layout): the
- * day view (3e-2) by trip and day number, and the live decision (3g-2) by trip and poll.
- */
+/** The live decision (3g-2) joins the navigation registry by trip and poll (imported once by the root layout). */
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
-import { dayRoute, decideRoute } from './routes';
+import { decideRoute } from './routes';
 
 registerScreens({
-  '3e-2': (params) => dayRoute(params.tripId ?? '', Number(params.day ?? '1')),
   '3g-2': (params) => decideRoute(params.tripId ?? '', params.pollId ?? ''),
 });

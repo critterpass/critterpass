@@ -24,7 +24,7 @@ export const tripExploreLinks = {
     },
   ): Href | undefined =>
     hrefFor('7h-2', { tripId, dayId: gap.dayId, from: gap.from, to: gap.to }) ??
-    hrefFor('3e-2', { tripId, day: String(gap.dayNo) }),
+    hrefFor('7b-1', { tripId, day: String(gap.dayNo) }),
   /** Search for a day: where one person fills a free window (the gap filler plans for a crew). */
   daySearch: (tripId: string, dayId: string): Href | undefined =>
     hrefFor('7d-1', { tripId, scope: 'day', dayId }),

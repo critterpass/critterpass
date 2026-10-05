@@ -39,15 +39,15 @@ describe('resolveIds', () => {
 describe('legacyParents', () => {
   it('keeps dropped screens the app still registers, and only those', () => {
     const committed = new Map([
-      ['3e-1', '3k-1'],
-      ['3e-2', '3e-1'],
+      ['3y-1', '3k-1'],
+      ['3y-2', '3y-1'],
       ['3z-1', '3b-1'],
       ['3i-4', '3i-3'],
     ]);
-    const legacy = legacyParents(committed, LABELS, new Set(['3e-1', '3e-2', '3i-4']));
+    const legacy = legacyParents(committed, LABELS, new Set(['3y-1', '3y-2', '3i-4']));
     expect(legacy).toEqual([
-      ['3e-1', '3k-1'],
-      ['3e-2', '3e-1'],
+      ['3y-1', '3k-1'],
+      ['3y-2', '3y-1'],
     ]);
   });
 });
@@ -65,12 +65,10 @@ describe('parents.ts', { timeout: 60_000 }, () => {
     expect(await generate(stale)).not.toBe(stale);
   });
 
-  it('sends the new screens back where the prototype says and keeps the legacy ones', () => {
+  it('sends the new screens back where the prototype says', () => {
     const parents = parseCommitted(committed);
     expect(parents.get('7f-1')).toBe('7e-1');
     expect(parents.get('3o-1')).toBe('7g-3');
-    expect(parents.get('3e-2')).toBe('3e-1');
-    expect(parents.get('3d-3')).toBe('3d-1');
     expect(committed).toMatch(/\.\.\.LEGACY_PARENTS,\n};/);
   });
 });

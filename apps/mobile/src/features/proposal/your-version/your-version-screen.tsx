@@ -46,12 +46,12 @@ import { YourVersionView } from './your-version-view';
 function placeHrefOf(pick: Pick, tripId: string): Href | undefined {
   if (pick.poiId == null) return undefined;
   const params = { placeId: pick.poiId, tripId };
-  return hrefFor('7e-1', params) ?? hrefFor('3d-3', params);
+  return hrefFor('7e-1', params);
 }
 
 /** The stop's day in the plan, where a stop takes a note or a question. */
 function dayHrefOf(pick: Pick, tripId: string): Href | undefined {
-  return pick.dayNo === null ? undefined : hrefFor('3e-2', { tripId, day: String(pick.dayNo) });
+  return pick.dayNo === null ? undefined : hrefFor('7b-1', { tripId, day: String(pick.dayNo) });
 }
 /* eslint-enable lingui/no-unlocalized-strings */
 
@@ -149,7 +149,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
     });
   };
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
-  const planHref = hrefFor('3e-1', { tripId: trip.tripId });
+  const planHref = hrefFor('plan-hub', { tripId: trip.tripId });
   const board = (ids: readonly string[]) => {
     setAsking(false);
     router.push(proposalRoutes.board(props.proposalId, ids));
@@ -207,7 +207,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           }
           // A group stop opens its day in the plan.
           // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id.
-          const day = hrefFor('3e-2', { tripId: trip.tripId, day: String(pick.dayNo ?? 1) });
+          const day = hrefFor('7b-1', { tripId: trip.tripId, day: String(pick.dayNo ?? 1) });
           if (day !== undefined) router.push(day);
         }}
         onIn={() => board(chosen)}
