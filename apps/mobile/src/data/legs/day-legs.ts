@@ -48,6 +48,11 @@ export interface DayLeg {
   readonly approx: boolean;
   /** The road the leg follows, `[lng, lat]`, or null where the map draws it straight. */
   readonly path: readonly LngLat[] | null;
+  /**
+   * An estimate standing in for a routed leg that is on its way (`use-legs-pending.ts`): its
+   * minutes are for sums that need a number, not for showing.
+   */
+  readonly pending?: boolean;
 }
 
 /** Decodes a stored leg shape; null when there is none or it is too short to draw. */

@@ -14,6 +14,8 @@ import { dropReplacedDraft, emitEvent } from '@cp/db';
 import { DomainError, type PlanState } from '@cp/domain';
 import type pg from 'pg';
 
+import { carryPlanForward } from '../commands/checks/carry-forward';
+
 import { writeVersionRows } from './versioning';
 
 export type DraftOrigin = 'dates' | 'hand' | 'guide' | 'restore';
@@ -113,6 +115,9 @@ export async function writeDraftVersion(tx: pg.PoolClient, input: DraftCommit): 
     baseVersionId,
   ]);
   if (made.base_origin === 'hand' || (made.base_origin === 'dates' && made.items === 0)) {
+    // The draft being replaced is about to go with its legs and its check: what still holds of
+    // them moves to the new draft first (the event hook would come too late for these).
+    await carryPlanForward(tx, head.tripId);
     await dropReplacedDraft(tx, baseVersionId);
   }
   return made.id;

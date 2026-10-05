@@ -19,6 +19,7 @@ import { estimatedRoute } from '../day-route';
 import type { TripMapModel } from '../sheet-props';
 import { TripMapView } from '../trip-map-view';
 import { labEmptyModel, labTripModel } from './bali-trip';
+import { LEGS_COMING_SCENES } from './legs-coming-scenes';
 
 const noop = () => undefined;
 
@@ -177,4 +178,5 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'all-days': () => <AllDaysScene />,
   'all-days-move': () => <AllDaysScene menuOpen />,
   'all-days-member': () => <AllDaysScene member menuOpen />,
+  ...LEGS_COMING_SCENES,
 };
