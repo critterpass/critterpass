@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# Back to the trip's hub from wherever the walk is: the system back until the TRIPS tab's hub
+# shows (a sheet, a map sheet's snap and a pushed screen each take one), tapping the tab when the
+# tab bar is in reach.
+- repeat:
+    while:
+      notVisible:
+        id: 'trip-hub'
+    times: 6
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'tab-trips'
+          commands:
+            - tapOn:
+                id: 'tab-trips'
+            - waitForAnimationToEnd:
+                timeout: 3000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'trip-hub'
+          commands:
+            - back
+            - waitForAnimationToEnd:
+                timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 3000

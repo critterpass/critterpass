@@ -1,7 +1,9 @@
 /**
  * The day-of screen (3k-2) over synced rows: the day's leave-by with who is up, my alarm, the pack
  * list and the timeline. Every tap is a queued command, so the screen works the same with no
- * signal; the in-app alarm permission sheet opens from the alarm line.
+ * signal; the in-app alarm permission sheet opens from the alarm line. With the planning screens
+ * on, the timeline reads as the day plan does (lengths, travel, what is over and what is next,
+ * what is mine alone), each stop opens in the day plan, and a link under the list leads there.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { generateUuidV7, toLocalWallTime } from '@cp/domain';
@@ -15,7 +17,9 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
+import { dayRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
 
@@ -50,6 +54,7 @@ import {
   dayTimeline,
   forecastFor,
   pickLeaveBy,
+  withPlanRows,
 } from './day-of-data';
 import { dayEyebrow, forecastLabel } from './day-of-copy';
 import { DayOfView } from './day-of-view';
@@ -133,7 +138,13 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const guideName = tripRow?.guide_name ?? guideSticker(guideOr(tripRow?.guide_slug)).name;
   const dayNo = items.rows[0]?.day_no ?? null;
   const forecast = forecastFor(weather.rows, leaveBy?.startsAt ?? null);
-  const timeline = dayTimeline(items.rows, me, members, locale, tz);
+  const { redesign } = usePlanningSwitch();
+  const planDay = useDayReading(tripId, localDate, now, locale);
+  // The guide's notes read in the app's language either way; the rest of the day plan's reading
+  // of the day comes with the planning screens.
+  const base = dayTimeline(items.rows, me, members, locale, tz, planDay.notesOf);
+  const timeline = redesign ? withPlanRows(base, planDay) : base;
+  const planDayNo = redesign ? planDay.dayNo : null;
   const port = alarmPort();
   const note = alarmNoteFor(leaveBy, alarm.status, port?.authorizationStatus() ?? null, locale);
   const lead = dayLead(timeline, relation === 'today', now);
@@ -197,10 +208,13 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,
-        ...(entry.bookingId === null
-          ? {}
-          : { onPress: () => router.push('/(tabs)/wallet/bookings') }),
+        ...(entry.bookingId !== null
+          ? { onPress: () => router.push('/(tabs)/wallet/bookings') }
+          : planDayNo === null
+            ? {}
+            : { onPress: () => router.push(dayRoute(tripId, planDayNo, entry.id)) }),
       }))}
+      onDayPlan={planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo))}
       offline={sync.phase === 'offline'}
       alarmNote={
         note === null
