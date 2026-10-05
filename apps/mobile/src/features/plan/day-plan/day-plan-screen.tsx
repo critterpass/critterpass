@@ -28,7 +28,6 @@ import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { useRainWindow } from '../timeline/use-rain-window';
 import { clock } from '../day/format';
-import { planRoutes } from '../overview/routes';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useBackToTrip } from './back-to-trip';
 import { DayGone } from './day-gone';
@@ -57,9 +56,8 @@ export function DayPlanScreen({
   const finding = useOpenOnDate(tripId, date, model.days, data.loaded);
   const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(item ?? null);
-  const backToTrip = useBackToTrip(tripId);
-  const backToDraft = () =>
-    router.canGoBack() ? router.back() : router.replace(planRoutes.draft(tripId));
+  const back = useBackToTrip(tripId);
+  const backToTrip = back.onBack;
   // Day-of for today (when to leave, who is up), once that screen has joined the registry.
   const dayOf = hrefFor('3k-2', { tripId });
   const [adding, setAdding] = useState(false);
@@ -142,8 +140,8 @@ export function DayPlanScreen({
                 },
               }
         }
-        // From a draft in review the way back is the draft, not the trip.
-        onBack={model.draftStage === 'review' ? backToDraft : backToTrip}
+        onBack={backToTrip}
+        backTo={back.target}
         // Back to day-of when it is underneath (the day was opened from it), else onto it.
         onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}

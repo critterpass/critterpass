@@ -27,6 +27,10 @@ msgstr ""
 msgid "plan.dayPlan.allDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
 msgid "plan.dayPlan.goneBack"
 msgstr ""
@@ -36,7 +40,7 @@ msgstr ""
 msgid "plan.dayPlan.dayTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 msgid "plan.dayPlan.backDraft"
 msgstr ""
 
@@ -109,12 +113,16 @@ msgstr ""
 msgid "plan.dayPlan.refused.readOnly"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backToday"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.toDayOf"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.back"
 msgstr ""
 

@@ -35,6 +35,8 @@ import { buildStopRows, mineRows, stayRows } from '../trip-map/stop-rows';
 import type { TripDay } from '../trip-map/trip-days';
 import { AddBar } from './add-bar';
 import { MiniMap } from './mini-map';
+import type { BackTarget } from './back-to-trip';
+import { backLabel } from './back-label';
 import { StopTimeline, type TimelineDrag } from './stop-timeline';
 
 /** A day's title wraps until it is whole (the guide writes up to a short sentence). */
@@ -67,6 +69,8 @@ export interface DayPlanViewProps {
   readonly drag: TimelineDrag | null;
   readonly picked?: string | null | undefined;
   readonly onBack: () => void;
+  /** Where back lands, which its label names. */
+  readonly backTo?: BackTarget | undefined;
   /** Opens day-of (when to leave, who is up, the pack list); offered on today's day. */
   readonly onDayOf?: (() => void) | undefined;
   readonly onAllDays: () => void;
@@ -123,11 +127,7 @@ export function DayPlanView(props: DayPlanViewProps) {
           <View style={styles.head}>
             <View style={styles.headStart}>
               <BackEyebrow
-                label={
-                  model.draftStage === 'review'
-                    ? t({ id: 'plan.dayPlan.backDraft', message: 'Draft' })
-                    : t({ id: 'plan.dayPlan.back', message: 'Trip' })
-                }
+                label={backLabel(props.backTo ?? 'tripMap')}
                 onPress={props.onBack}
                 testID="day-plan-back"
               />

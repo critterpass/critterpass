@@ -27,6 +27,10 @@ msgstr "Add a place, or paste a link"
 msgid "plan.dayPlan.allDays"
 msgstr "All days"
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backPlain"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
 msgid "plan.dayPlan.goneBack"
 msgstr "Back to the trip"
@@ -36,7 +40,7 @@ msgstr "Back to the trip"
 msgid "plan.dayPlan.dayTitle"
 msgstr "Day {n}"
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 msgid "plan.dayPlan.backDraft"
 msgstr "Draft"
 
@@ -109,12 +113,16 @@ msgstr "This day isn’t in the plan any more"
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "This plan can’t be changed here."
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backToday"
+msgstr "Today"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.toDayOf"
 msgstr "Today: when to leave and who’s up"
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.back"
 msgstr "Trip"
 

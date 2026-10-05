@@ -27,6 +27,10 @@ msgstr "Thêm địa điểm, hoặc dán liên kết"
 msgid "plan.dayPlan.allDays"
 msgstr "Tất cả ngày"
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backPlain"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
 msgid "plan.dayPlan.goneBack"
 msgstr "Về chuyến đi"
@@ -36,7 +40,7 @@ msgstr "Về chuyến đi"
 msgid "plan.dayPlan.dayTitle"
 msgstr "Ngày {n}"
 
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 msgid "plan.dayPlan.backDraft"
 msgstr "Bản nháp"
 
@@ -109,12 +113,16 @@ msgstr "Ngày này không còn trong kế hoạch"
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "Không thể đổi kế hoạch này ở đây."
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
+msgid "plan.dayPlan.backToday"
+msgstr "Hôm nay"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.toDayOf"
 msgstr "Hôm nay: mấy giờ đi và ai đã dậy"
 
+#: ../../apps/mobile/src/features/plan/day-plan/back-label.ts
 #: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
-#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.back"
 msgstr "Chuyến đi"
 
