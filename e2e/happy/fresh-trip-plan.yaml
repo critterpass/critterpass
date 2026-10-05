@@ -341,8 +341,15 @@ env:
     visible:
       id: 'all-days'
     timeout: 15000
+# The guide's check card on all days: its SEE opens the plan check.
+- extendedWaitUntil:
+    visible:
+      id: 'all-days-check'
+    timeout: 60000
 - tapOn:
-    id: 'all-days-check'
+    text: '(?i)^see$'
+    childOf:
+      id: 'all-days-check'
 - extendedWaitUntil:
     visible:
       id: 'plan-check-title'
