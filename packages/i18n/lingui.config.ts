@@ -82,13 +82,12 @@ const draftCatalogs = [
   },
 ];
 
-// The plan area keeps one nested catalog per surface (overview, day view, timeline, change review,
-// personal overlay, map and calendar views, live collaboration), so the plan lanes and the rest of
-// the plan area never edit the same file.
+// The plan area keeps one nested catalog per folder (shared plan reads, the stop sheet, change
+// review, the clash with the crew's plan, the calendar export, live collaboration), so the plan
+// lanes and the rest of the plan area never edit the same file.
 const planSubAreas = [
   'overview',
   'day',
-  'timeline',
   'review',
   'overlay',
   'views',

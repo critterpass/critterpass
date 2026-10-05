@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: cell.items
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.items"
-msgstr "{0, plural, other {# mục}}"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.bodyWrite"
 msgstr "{count, plural, other {Thêm # mục của bạn một lần, hoặc đăng ký để lịch tự cập nhật mỗi khi nhóm thay đổi.}}"
@@ -24,10 +19,6 @@ msgstr "{written, plural, other {Đã thêm # mục vào lịch của bạn.}}"
 msgid "plan.export.write"
 msgstr "Thêm vào lịch của tôi"
 
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.allDays"
-msgstr "Tất cả các ngày"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copy"
 msgstr "Sao chép liên kết"
@@ -36,26 +27,6 @@ msgstr "Sao chép liên kết"
 msgid "plan.export.denied"
 msgstr "CritterPass chưa được thêm vào lịch. Hãy cho phép trong Cài đặt, hoặc đăng ký lịch thay thế."
 
-#. placeholder {0}: d.dayNo
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.day"
-msgstr "Ngày {0}"
-
-#. placeholder {0}: pin.dayNo
-#. placeholder {1}: pin.number
-#. placeholder {2}: pin.label
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.pin"
-msgstr "Ngày {0}, điểm {1}: {2}"
-
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.day"
-msgstr "Ngày {dayNo}"
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.download"
-msgstr "Lưu bản đồ để dùng khi không có mạng"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copied"
 msgstr "Đã sao chép liên kết"
@@ -63,15 +34,6 @@ msgstr "Đã sao chép liên kết"
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.needsSignal"
 msgstr "Tạo liên kết cần có sóng. Thử lại khi có mạng nhé."
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.empty"
-msgstr "Ngày này chưa có mục nào có địa điểm."
-
-#: ../../apps/mobile/src/features/plan/views/dev/views-scenes.tsx
-#: ../../apps/mobile/src/features/plan/views/plan-view-tabs.tsx
-msgid "plan.calendar.export"
-msgstr "Đưa vào lịch của tôi"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.title"
@@ -85,17 +47,9 @@ msgstr "Đăng ký để lịch tự cập nhật mỗi khi nhóm thay đổi, c
 msgid "plan.export.subscribe"
 msgstr "Đăng ký vào lịch của tôi"
 
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.noDates"
-msgstr "Chưa chốt ngày đi nên chưa có lịch để xem."
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
 msgstr "Liên kết đã tắt. Các lịch đã đăng ký sẽ ngừng cập nhật."
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.offline"
-msgstr "Bản đồ cần có sóng, hoặc bản đồ khu vực đã tải về."
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoke"

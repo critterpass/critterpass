@@ -45,17 +45,9 @@ msgstr "{duration} từ {stayName}"
 msgid "explore.detail.minOn"
 msgstr "Thêm {duration}"
 
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.guidePick"
-msgstr "{guideName} chọn"
-
 #: ../../apps/mobile/src/features/explore/place-detail/if-you-like.tsx
 msgid "explore.detail.similarMeta"
 msgstr "{kind} · {duration}"
-
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.fromStay"
-msgstr "{minutes} phút từ chỗ ở"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.minutes"
@@ -64,18 +56,6 @@ msgstr "{n} phút"
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
 msgstr "Đã lưu {name}"
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.proposed"
-msgstr "Đã đề xuất {name} cho Ngày {day}"
-
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.place.shareText"
-msgstr "{name}, {where}. Đáng ghé không?"
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.done"
-msgstr "{name} đã vào kế hoạch Ngày {day}"
 
 #: ../../apps/mobile/src/features/explore/components/crew-row.tsx
 msgid "explore.crew.keenMore"
@@ -134,39 +114,18 @@ msgstr "Thêm {0} vào kế hoạch"
 msgid "explore.detail.addTo"
 msgstr "Thêm vào {weekday} · {time}"
 
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.toDay"
-msgstr "Thêm vào ngày {day} · {time}"
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.reason"
-msgstr "Thêm {name} từ Khám phá"
-
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.offline"
 msgstr "Cần kết nối để thêm"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.offline"
-msgstr "Cần có mạng để thêm"
 
 #. placeholder {0}: props.guide.name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.chat"
 msgstr "Hỏi {0} về nơi này"
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.chat"
-msgstr "Hỏi {0} về nơi này"
-
 #: ../../apps/mobile/src/features/explore/place-detail/collapsing-header.tsx
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.back"
-msgstr "Quay lại"
-
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.back"
 msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
@@ -189,14 +148,6 @@ msgstr "Chọn ngày"
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.closed"
 msgstr "Đóng cửa"
-
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.closedNow"
-msgstr "đang đóng cửa"
-
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.closedForGood"
-msgstr "đã đóng cửa vĩnh viễn"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
 msgid "explore.detail.addFailed"
@@ -222,10 +173,6 @@ msgstr "Khám phá"
 msgid "explore.detail.loading"
 msgstr "Đang tìm lúc phù hợp"
 
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.free"
-msgstr "miễn phí"
-
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.goBack"
 msgstr "Quay lại"
@@ -245,10 +192,6 @@ msgstr "Nếu bạn thích nơi này"
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDay"
 msgstr "Ngày {day}"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.inDay"
-msgstr "Trong ngày {day}"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDayAt"
@@ -315,21 +258,9 @@ msgstr "Chưa rõ giờ mở cửa nên mình chưa xếp được."
 msgid "explore.detail.know"
 msgstr "Cần biết trước khi đi"
 
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.mustDo"
-msgstr "Phải đi · {mustDoOwner}"
-
 #: ../../apps/mobile/src/features/explore/place-detail/next-nearby.tsx
 msgid "explore.detail.nearby"
 msgstr "Gần đó, đi tiếp"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.full"
-msgstr "Kế hoạch hết chỗ trống"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.noPlan"
-msgstr "Chưa có kế hoạch để thêm"
 
 #: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
 msgid "explore.photo.notThisPlace"
@@ -346,14 +277,6 @@ msgstr "Mở cửa"
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.bars.open"
 msgstr "Mở cửa từ {from} đến {to}"
-
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.open24"
-msgstr "mở cửa 24 giờ"
-
-#: ../../apps/mobile/src/features/explore/place-copy.ts
-msgid "explore.place.openNow"
-msgstr "đang mở cửa"
 
 #: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
 msgid "explore.detail.fits.other"
@@ -398,10 +321,6 @@ msgstr "Bỏ khỏi Ý tưởng"
 msgid "explore.detail.removeAll.link"
 msgstr "Xóa khỏi Ý tưởng của cả nhóm"
 
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.unsave"
-msgstr "Bỏ lưu"
-
 #: ../../apps/mobile/src/features/explore/place-detail/remove-for-everyone.tsx
 msgid "explore.detail.removeAll.done"
 msgstr "Đã xóa khỏi Ý tưởng của cả nhóm"
@@ -418,21 +337,9 @@ msgstr "Thử lại"
 msgid "explore.detail.why.after"
 msgstr "ngay sau {afterName}"
 
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.save"
-msgstr "Lưu cho chuyến đi"
-
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.save"
-msgstr "Lưu nơi này"
-
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.save"
 msgstr "Lưu vào Ý tưởng"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.saved"
-msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.savedBy"
@@ -441,10 +348,6 @@ msgstr "{names} đã lưu"
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.savedIdea"
 msgstr "Đã lưu vào Ý tưởng"
-
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.map"
-msgstr "Xem trên bản đồ"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
@@ -456,10 +359,6 @@ msgstr "Xem các đối tác đặt chỗ của chúng tôi có gì cho {placeNa
 
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.share"
-msgstr "Chia sẻ nơi này"
-
-#: ../../apps/mobile/src/features/explore/components/place-view.tsx
-msgid "explore.place.share"
 msgstr "Chia sẻ nơi này"
 
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
@@ -482,29 +381,9 @@ msgstr "Vẫn còn trong Ý tưởng: nhóm cũng đã lưu"
 msgid "explore.detail.suggestFor"
 msgstr "Đề xuất {weekday} · {time}"
 
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.suggest"
-msgstr "Đề xuất cho ngày {day} · {time}"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.suggested"
-msgstr "Đã đề xuất cho ngày {day}"
-
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.takes"
 msgstr "Mất"
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.refused"
-msgstr "Chưa thực hiện được"
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.proposedBody"
-msgstr "Nhóm sẽ quyết định có đồng ý không."
-
-#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
-msgid "explore.add.refusedBody"
-msgstr "Kế hoạch không thay đổi. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.noPlan"

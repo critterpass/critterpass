@@ -87,10 +87,6 @@ msgstr "Cheapest return fares seen, from each home airport."
 msgid "explore.panel.loading"
 msgstr "Checking fares"
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.closed"
-msgstr "Closed on {day}. Pick another day for this one."
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.sardiLine"
 msgstr "Come for the grilled sardines. Stay for the grilled sardines."
@@ -103,10 +99,6 @@ msgstr "Crew plans ›"
 msgid "explore.months.subtitle"
 msgstr "Crowds by month"
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.title"
-msgstr "Crowds on {day}"
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.directFrom"
 msgstr "Direct from {origin}"
@@ -115,18 +107,6 @@ msgstr "Direct from {origin}"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.hero.back"
 msgstr "Explore"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.after"
-msgstr "Go after {time}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.around"
-msgstr "Go around {time}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.before"
-msgstr "Go before {time}"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
@@ -153,10 +133,6 @@ msgstr "Loading the guide"
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.map"
 msgstr "Map of {0}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.none"
-msgstr "No crowd data for this place yet. Early or late is the safe bet."
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.noFare"

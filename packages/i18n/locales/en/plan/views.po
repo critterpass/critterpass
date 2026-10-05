@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#. placeholder {0}: cell.items
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.items"
-msgstr "{0, plural, one {# plan} other {# plans}}"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.bodyWrite"
 msgstr "{count, plural, one {Add your # plan once, or subscribe so your calendar follows every change the crew makes.} other {Add your # plans once, or subscribe so your calendar follows every change the crew makes.}}"
@@ -24,10 +19,6 @@ msgstr "{written, plural, one {Added # plan to your calendar.} other {Added # pl
 msgid "plan.export.write"
 msgstr "Add to my calendar"
 
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.allDays"
-msgstr "All days"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copy"
 msgstr "Copy the link"
@@ -36,26 +27,6 @@ msgstr "Copy the link"
 msgid "plan.export.denied"
 msgstr "CritterPass can’t add to your calendar. Allow it in Settings, or subscribe instead."
 
-#. placeholder {0}: d.dayNo
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.day"
-msgstr "Day {0}"
-
-#. placeholder {0}: pin.dayNo
-#. placeholder {1}: pin.number
-#. placeholder {2}: pin.label
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.pin"
-msgstr "Day {0}, stop {1}: {2}"
-
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.day"
-msgstr "Day {dayNo}"
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.download"
-msgstr "Keep the map for offline"
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copied"
 msgstr "Link copied"
@@ -63,15 +34,6 @@ msgstr "Link copied"
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.needsSignal"
 msgstr "Making the link needs signal. Try again once you’re back online."
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.empty"
-msgstr "Nothing on this day has a place yet."
-
-#: ../../apps/mobile/src/features/plan/views/dev/views-scenes.tsx
-#: ../../apps/mobile/src/features/plan/views/plan-view-tabs.tsx
-msgid "plan.calendar.export"
-msgstr "Put it in my calendar"
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.title"
@@ -85,17 +47,9 @@ msgstr "Subscribe and your calendar follows every change the crew makes, just fo
 msgid "plan.export.subscribe"
 msgstr "Subscribe in my calendar"
 
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.noDates"
-msgstr "The dates aren’t set yet, so there’s no calendar to show."
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
 msgstr "The link is off. Calendars subscribed to it stop updating."
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.offline"
-msgstr "The map needs signal, or the downloaded map of the area."
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoke"

@@ -173,10 +173,6 @@ msgid "trip.hub.tile.settled"
 msgstr "Hòa"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
-msgid "trip.hub.swipeDetail"
-msgstr "Cả nhóm cùng quẹt, chỗ nào hợp sẽ vào lịch trình"
-
-#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipeDetailIdeas"
 msgstr "Cả nhóm cùng quẹt, chỗ nào trùng sẽ vào Ý tưởng"
 

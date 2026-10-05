@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
-#. placeholder {0}: cell.items
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.items"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.bodyWrite"
 msgstr ""
@@ -24,10 +19,6 @@ msgstr ""
 msgid "plan.export.write"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.allDays"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copy"
 msgstr ""
@@ -36,41 +27,12 @@ msgstr ""
 msgid "plan.export.denied"
 msgstr ""
 
-#. placeholder {0}: d.dayNo
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.day"
-msgstr ""
-
-#. placeholder {0}: pin.dayNo
-#. placeholder {1}: pin.number
-#. placeholder {2}: pin.label
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.pin"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.day"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.download"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.copied"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.needsSignal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.empty"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/dev/views-scenes.tsx
-#: ../../apps/mobile/src/features/plan/views/plan-view-tabs.tsx
-msgid "plan.calendar.export"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
@@ -85,16 +47,8 @@ msgstr ""
 msgid "plan.export.subscribe"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/views/plan-calendar.tsx
-msgid "plan.calendar.noDates"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx
 msgid "plan.export.revoked"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/views/plan-map.tsx
-msgid "plan.map.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/views/export-sheet.tsx

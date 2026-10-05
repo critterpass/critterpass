@@ -14,7 +14,7 @@ const exploreApp = `${repoRootPrefix}/apps/mobile/src/app/explore`;
 export const exploreSubAreas = {
   destination: [
     `${exploreRoot}/{destination-model,guide-copy}.ts`,
-    `${exploreRoot}/components/{dest-hero,destination-actions,destination-view,month-bars,month-panel,picks-row,crowd-chart}.tsx`,
+    `${exploreRoot}/components/{dest-hero,destination-actions,destination-view,month-bars,month-panel,picks-row}.tsx`,
     `${exploreRoot}/screens/destination-screen.tsx`,
     `${exploreRoot}/data/use-explore-destination.ts`,
     `${exploreRoot}/dev/destination-scenes.tsx`,
@@ -22,21 +22,19 @@ export const exploreSubAreas = {
   ],
   place: [
     `${exploreRoot}/place-*.ts`,
-    `${exploreRoot}/components/{place-live-details,place-view,add-to-day-button,crew-row,save-button,supplier-card,why-this-sheet,generic-photo-label}.tsx`,
+    `${exploreRoot}/components/{place-live-details,crew-row,save-button,supplier-card,why-this-sheet,generic-photo-label}.tsx`,
     `${exploreRoot}/screens/place-screen.tsx`,
-    `${exploreRoot}/data/{use-place-context,use-place-live}.ts`,
-    `${exploreRoot}/hooks/{use-add-to-day,use-place-photos,use-saved-place}.ts`,
-    `${exploreRoot}/dev/{place-scenes.tsx,lab-place-media.ts}`,
+    `${exploreRoot}/data/use-place-live.ts`,
+    `${exploreRoot}/hooks/{use-place-photos,use-saved-place}.ts`,
+    `${exploreRoot}/dev/lab-place-media.ts`,
     `${exploreApp}/place/**`,
     `${exploreRoot}/place-detail/**`,
   ],
   map: [
     `${exploreRoot}/map-*.ts`,
-    `${exploreRoot}/components/{explore-map-canvas,explore-map-view,doodle-pin,pin-cluster,guide-sprite,place-carousel,region-pack-card,filter-chips}.tsx`,
-    `${exploreRoot}/screens/{explore-map-screen,explore-list-screen}.tsx`,
+    `${exploreRoot}/components/region-pack-card.tsx`,
     `${exploreRoot}/data/use-offline-pack.ts`,
     `${exploreRoot}/hooks/use-my-position.ts`,
-    `${exploreRoot}/dev/map-scenes.tsx`,
     `${exploreApp}/map.tsx`,
   ],
   swipe: [
