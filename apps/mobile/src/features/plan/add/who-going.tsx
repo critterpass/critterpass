@@ -46,8 +46,11 @@ export function WhoGoing({ members, out, open, onOpen, onToggle }: WhoGoingProps
   const { t } = useLingui();
   const going = members.filter((member) => !out.has(member.key));
   const count = going.length;
-  const summary =
-    out.size === 0
+  // A trip of one: nobody to choose among, so no list to open.
+  const solo = members.length <= 1;
+  const summary = solo
+    ? t({ id: 'plan.add.who.justYou', message: 'Just you' })
+    : out.size === 0
       ? t({ id: 'plan.add.who.everyone', message: 'Everyone ›' })
       : t({ id: 'plan.add.who.some', message: `${count} going ›` });
   return (
@@ -59,21 +62,27 @@ export function WhoGoing({ members, out, open, onOpen, onToggle }: WhoGoingProps
         <View style={styles.faces}>
           <AvatarStack members={going} size="sm" max={6} />
         </View>
-        <PressScale
-          widthClass="narrow"
-          accessibilityRole="button"
-          accessibilityState={{ expanded: open }}
-          accessibilityLabel={summary}
-          onPress={onOpen}
-          style={styles.link}
-          testID="plan-add-who-open"
-        >
-          <Text variant="body" color={theme.semantic.action.primary} singleLine>
+        {solo ? (
+          <Text variant="body" style={styles.link} singleLine testID="plan-add-who-solo">
             {summary}
           </Text>
-        </PressScale>
+        ) : (
+          <PressScale
+            widthClass="narrow"
+            accessibilityRole="button"
+            accessibilityState={{ expanded: open }}
+            accessibilityLabel={summary}
+            onPress={onOpen}
+            style={styles.link}
+            testID="plan-add-who-open"
+          >
+            <Text variant="body" color={theme.semantic.action.primary} singleLine>
+              {summary}
+            </Text>
+          </PressScale>
+        )}
       </View>
-      {open ? (
+      {open && !solo ? (
         <View style={styles.list}>
           {members.map((member) => {
             const ticked = !out.has(member.key);

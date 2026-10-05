@@ -152,6 +152,10 @@ msgstr "ĐANG TÌM GIỜ HỢP NHẤT…"
 msgid "plan.add.saveLater"
 msgstr "Để dành sau"
 
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.justYou"
+msgstr "Chỉ mình bạn"
+
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.nearby.drop"
 msgstr "Bỏ ra"
@@ -223,6 +227,11 @@ msgstr "Đã lưu vào Ý tưởng"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
 msgstr "XEM Ý TƯỞNG"
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.useStart"
+msgstr "Bắt đầu lúc {0}"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.time.a11y"
