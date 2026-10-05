@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "905517b5-ccef-4996-9ea3-5d5da5834c3c",
+        "id": "6c7c872c-8e58-4463-a7be-192781c50e42",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A thrifty Cusco Sunday\",\n  \"summary\": \"A gentler, wallet-friendly day around the old town, mixing a kept wonder with free local colour and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do stays, so we begin with the terraces before the day warms up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, the market keeps the day easy on the pocket and the pace.\",\n      \"start\": \"11:00\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lower-priced lunch with vegetarian options, kinder to the budget than the old choice.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:30\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander around the plaza gives the photo lovers their shot without spending a sol.\",\n      \"start\": \"14:00\",\n      \"end\": \"14:45\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum with a modest price, and the chocolate smells are a bonus.\",\n      \"start\": \"15:30\",\n      \"end\": \"16:30\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco on a Soles Diet\",\n  \"summary\": \"A gentler, cheaper day around the old centre, keeping the terraces and swapping the pricier meal for a lighter one.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces stay: they are the reason we came, and Inti (the sun) should be kind up there.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the market keeps the local life and street food close to the budget.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The plaza costs nothing and gives the photo lovers their classic Cusco frame.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter, lower-priced lunch with vegetarian choices, so the wallet breathes too.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum stop that is easy on the pace and easier on the budget than the cathedral.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 412,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 376,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "c6d4a09b-c419-4f23-b9ba-2cdeca5cad4f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"A Thrifty Sunday in Cusco\",\n  \"summary\": \"A slower, budget-friendly day around the heart of Cusco, mixing a must-see terrace with free local life and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces stay on the list, a wonder of the land and well worth the modest price.\",\n      \"note_note\": \"Moray is the KEEP stop, so it stays despite the cheaper reason.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, the market is a perfect thrifty stop for the crew.\",\n      \"note_note\": \"San Pedro Market is free, so it fits the cheaper reason.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, lower-priced lunch that keeps the day easy on the wallet.\",\n      \"note_note\": \"La Bodega 138 is the cheapest meal option, price $, and vegetarian friendly.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The plaza is free and open all day, a gentle way to end the afternoon with history and photo spots.\",\n      \"note_note\": \"Plaza de Armas is free and fits the easy pace and photo spot tastes.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 83,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 375,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "c9790d5c-b30c-4086-acfe-5af761da2059",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Market morning, Moray afternoon"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 236,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

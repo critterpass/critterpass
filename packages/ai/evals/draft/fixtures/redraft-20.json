@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d934844e-4e68-49f4-b463-90cebb80817c",
+        "id": "3d0f91b0-b27f-4100-9a98-fb436cd34c8b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Snacks, Surprises and a Splurge\",\n  \"summary\": \"A slow, food-loving Sunday around Ubud with a market-style lunch, a hidden temple, a proper splurge dinner and an unexpected nightcap.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to wake up late and earn the first bite. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a market-like spread of colourful vegan plates. Terima kasih (thank you), Ubud.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cave temple stop nobody saw coming. I know a guy who swears by the carvings.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge stays put, slow and celebratory. Rise and shine for the tasting menu.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A beach-club nightcap far from Ubud’s calm, because this crew is all night owls.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Tastes, Temples and a Sunset Surprise\",\n  \"summary\": \"A food-loving day around the rice terraces and coast, with a proper sit-down lunch, a market-style warung dinner, and a beach club twist after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Late start, so we ease in with those green rice views while the sun is still friendly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little wellness and temple calm before lunch, and it is right next door to the terraces.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sit-down lunch with plenty of plant-based plates, terima kasih (thank you) to the crew's love of a proper table.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The beach stop stays, of course. Sand between the toes before the night owls wake up properly.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A no-fuss warung dinner for the extra food stop, the kind of local plate you did not know you needed.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Surprise! A beach club after dark, because the crew loves nightlife and the sun will not wait.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 345,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 468,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "91b9f098-89c3-468b-bebf-b2b7f154d4fa",
+        "id": "31934240-dcc5-407c-a112-16e79844a1c4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Bites and Surprise\",\n  \"summary\": \"A slower Ubud day built around food, with a market-style lunch, a kept splurge dinner, and one unexpected temple stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle palace wander before the heat and the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of plant-based plates, terima kasih (thank you) to the kitchen.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus temple the crew did not see coming.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The kept splurge, slow and celebratory, just as it should be.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Market Bites and a Beach Sunset\",\n  \"summary\": \"A slow, food-first Sunday around Seminyak with a surprise temple stop, a proper sit-down meal, and plenty of time to soak up the sand.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down brunch to ease into the late start, with plenty of veggie options for the crew.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise stop: a lotus pond and carved temple right in the middle of things, something this day didn't have before.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The beach the crew came for, kept right where it belongs. The sun won't wait, so we get here with time to spare.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A market-minded vegan kitchen for dinner, the second food stop to keep the day deliciously full.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 124,
+          "input_tokens": 122,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 261,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 302,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "1d353a96-151c-473d-8f10-0fbc7fb7f958",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A morning at the water temple"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 298,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }

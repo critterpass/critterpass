@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "c634b8eb-70a4-4213-81c6-3979288e7582",
+        "id": "0a5cf473-44ba-46bc-9199-6b83ef604e0b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sunday Strolls and a Tower\",\n  \"summary\": \"A slower Sunday with a market wander, a riverside landmark, and an evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The flea market is a lovely, lazy start to a Sunday, full of odd treasures and local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The must-do tower, standing proud by the water, with plenty of history to soak in.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Different Kind of Lisbon Sunday\",\n  \"summary\": \"A relaxed Sunday built around a long, lazy seafood feast and the winding streets of Bairro Alto after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The one thing we are keeping, and for good reason: garlicky, buttery, grilled perfection. Halal-friendly seafood choices make everyone happy.\",\n      \"must_do_id\": \"m4\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We swapped the market for a proper after-dark wander. Bairro Alto only wakes up late, so this keeps the night owls grinning.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 60,
+          "input_tokens": 82,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 250,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 191,
           "service_tier": "standard"
         }
       }
