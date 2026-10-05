@@ -13,6 +13,7 @@ import type { PlanDayRow } from '@/data/plan/queries';
 import type { OpenPollRow } from '../overview/data/plan-rows';
 import { dayTileColour } from '../overview/model/day-colour';
 import { dayPace } from './pace';
+import type { PersonalLayer, PersonalMark } from './personal-layer';
 
 export type DayTagKind = 'clash' | 'too_far' | 'rain' | 'closed' | 'vote' | 'booked';
 
@@ -47,6 +48,10 @@ export interface TripDay {
   readonly booked: boolean;
   readonly issues: readonly PlanCheckIssue[];
   readonly tag: DayTag | null;
+  /** The crew's stops I skip or changed for myself ("just me"), by stable id. */
+  readonly personal?: ReadonlyMap<string, PersonalMark> | undefined;
+  /** Stops only I have on this day, in time order: listed under the day, never part of its route. */
+  readonly mine?: readonly DayItem[] | undefined;
 }
 
 export interface TripDaysInput {
@@ -58,6 +63,10 @@ export interface TripDaysInput {
   readonly tz: string;
   readonly polls: readonly OpenPollRow[];
   readonly issues: readonly PlanCheckIssue[];
+  /** My "just me" layer and the display of the stops only I have. */
+  readonly personal?:
+    | { readonly layer: PersonalLayer; readonly display: ReadonlyMap<string, ItemDisplay> }
+    | undefined;
 }
 
 const TAG_ISSUES: readonly DayTagKind[] = ['clash', 'too_far', 'rain', 'closed'];
@@ -142,6 +151,23 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
           );
     const vote = votes.get(dayNo) ?? null;
     const booked = items.some((item) => item.bookingId !== null);
+    const layer = input.personal?.layer;
+    const marks =
+      layer === undefined
+        ? []
+        : stops.flatMap((stop) => {
+            const mark = layer.marks.get(stop.stableId);
+            return mark === undefined ? [] : [[stop.stableId, mark] as const];
+          });
+    const mine =
+      layer === undefined || input.personal === undefined
+        ? []
+        : dayItems(
+            { days: input.state.days, items: [...layer.added] },
+            dayNo,
+            input.personal.display,
+            input.tz,
+          ).filter(isStop);
     return {
       dayNo,
       dayId,
@@ -156,6 +182,8 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
       booked,
       issues,
       tag: tagOf(issues, vote, booked),
+      ...(marks.length === 0 ? {} : { personal: new Map(marks) }),
+      ...(mine.length === 0 ? {} : { mine }),
     };
   });
 }

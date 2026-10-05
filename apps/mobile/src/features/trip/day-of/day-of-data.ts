@@ -6,6 +6,7 @@ import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
 import type { GoTarget } from '@/features/go';
+import type { DayReading } from '@/features/plan';
 
 import type { AlarmAuthorization } from '../alarm/alarm-port';
 import type { AlarmSheetKind } from '../alarm/alarm-permission-sheet';
@@ -63,6 +64,8 @@ export interface TimelineEntryData extends DayTimelineEntry {
   readonly bookingId: string | null;
   readonly startsAt: Date;
   readonly poiId?: string | null | undefined;
+  /** A stop I skip for myself ("just me"): shown standing back, never what the day leads with. */
+  readonly skipped?: boolean | undefined;
 }
 
 /** What leads a day with no leave-by: its first stop, today's next stop, or nothing left today. */
@@ -79,17 +82,19 @@ export type DayLead =
 /**
  * The stop the quiet hero shows. Another day leads with its first stop. Today leads with the next
  * stop still ahead, and says the day is done once the last one has started; a day with no stops is
- * a free day (null).
+ * a free day (null). A stop I skip for myself never leads: the hero, its time and its GO are the
+ * first stop I am going to.
  */
 export function dayLead(
   timeline: readonly TimelineEntryData[],
   isToday: boolean,
   now: Date,
 ): DayLead | null {
-  const first = timeline[0];
+  const going = timeline.filter((entry) => entry.skipped !== true);
+  const first = going[0];
   if (first === undefined) return null;
   if (!isToday) return { kind: 'first', time: first.time, title: first.title, poiId: first.poiId };
-  const next = timeline.find((entry) => entry.startsAt.getTime() > now.getTime());
+  const next = going.find((entry) => entry.startsAt.getTime() > now.getTime());
   if (next === undefined) return { kind: 'done' };
   return {
     kind: next === first ? 'first' : 'next',
@@ -139,6 +144,8 @@ export function dayTimeline(
   members: readonly CrewMember[],
   locale: string,
   tripTz: string,
+  /** A stop's note as this person reads it (the guide writes in English; the plan translates). */
+  notesOf: (stableId: string) => string | null | undefined = () => undefined,
 ): TimelineEntryData[] {
   const names = new Map(members.map((member) => [member.id, member.name]));
   return rows
@@ -155,7 +162,7 @@ export function dayTimeline(
         : row.booking_id !== null
           ? t({ id: 'trip.dayOf.ticketsInBookings', message: 'Tickets in Bookings' })
           : row.poi_name !== null && row.notes !== null
-            ? row.notes
+            ? (notesOf(row.stable_id) ?? row.notes)
             : null;
       return {
         id: row.stable_id,
@@ -168,6 +175,38 @@ export function dayTimeline(
         poiId: row.poi_id ?? null,
       };
     });
+}
+
+/**
+ * The timeline with what the day plan knows about each stop laid on: how long it takes, the
+ * travel to the next one, whether it is over, on now or next, and what is mine alone (a stop I
+ * skip stands back and says so; the stops only I have join in time order). An entry the plan has
+ * no row for (the stay, a cancelled stop) is left as it was.
+ */
+export function withPlanRows(
+  entries: readonly TimelineEntryData[],
+  reading: Pick<DayReading, 'stops' | 'mine'>,
+): TimelineEntryData[] {
+  const laid = entries.map((entry): TimelineEntryData => {
+    const stop = reading.stops.get(entry.id);
+    if (stop === undefined) return entry;
+    return {
+      ...entry,
+      ...(stop.personal === null ? {} : { detail: stop.personal }),
+      dimmed: entry.dimmed || stop.skipping,
+      skipped: stop.skipping,
+      // What I skip is not mine to open in Bookings.
+      bookingId: stop.skipping ? null : entry.bookingId,
+      length: stop.length,
+      legAfter: stop.legAfter,
+      moment: stop.skipping ? null : stop.moment,
+    };
+  });
+  const known = new Set(laid.map((entry) => entry.id));
+  const mine = reading.mine
+    .filter((entry) => !known.has(entry.id))
+    .map((entry): TimelineEntryData => ({ ...entry, dimmed: false, bookingId: null }));
+  return [...laid, ...mine].sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
 }
 
 export interface AlarmNoteData {

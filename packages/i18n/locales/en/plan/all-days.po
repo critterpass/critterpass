@@ -12,6 +12,10 @@ msgid "plan.allDays.titleDays"
 msgstr "{count} days"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasWaiting"
+msgstr "{ideas, plural, one {# saved place isn’t in a day yet} other {# saved places aren’t in a day yet}}"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
 msgstr "{place}, {count} days"
 
@@ -29,6 +33,10 @@ msgid "plan.allDays.dayTitle"
 msgstr "Day {n}"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideas"
+msgstr "Ideas ›"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasFit"
 msgstr "Ideas fit here"
 
@@ -39,6 +47,10 @@ msgstr "In the car: about {before} → {after}"
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.title"
 msgstr "Move {name}?"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStopShort"
+msgstr "Move a stop"
 
 #: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
 msgid "plan.allDays.moveStop"
@@ -79,3 +91,7 @@ msgstr "Share"
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.suggest"
 msgstr "Suggest it to the crew"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.backTrip"
+msgstr "Trip"

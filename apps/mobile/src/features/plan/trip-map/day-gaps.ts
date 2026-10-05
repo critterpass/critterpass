@@ -1,8 +1,9 @@
 /**
  * Free time on one day (7a-2 "FOUR OF YOU ARE FREE · till dinner"): the fit engine's gaps, worked
  * out on the phone from the day as synced, so the dashed slot shows offline and moves the moment
- * a stop does. Only gaps once the day has started are shown: the morning before the first stop
- * is the crew's own.
+ * a stop does. Free time is not a hole to fill: a slot shows only when part of the crew is free
+ * while the rest is busy, or when everyone has three hours or more between two stops. The morning
+ * before the first stop and the evening after the last are the crew's own.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- day kinds, never copy. */
 import { dayGaps, type FitContext, type FitDay, type FitItem } from '@cp/planner';
@@ -21,6 +22,19 @@ export interface FreeGap {
 
 const DAY_FROM = 7 * 60;
 const DAY_TO = 22 * 60;
+/** Everyone free for less than this between two stops is breathing room, not a slot. */
+const OPEN_WINDOW_MIN = 180;
+
+/** Whether a free window is worth a slot on the day. */
+export function showsGap(
+  gap: { readonly from: number; readonly to: number; readonly whoFree: readonly string[] },
+  crew: number,
+  lastStopStart: number,
+): boolean {
+  if (gap.from >= lastStopStart) return false;
+  if (gap.whoFree.length < crew) return true;
+  return gap.to - gap.from >= OPEN_WINDOW_MIN;
+}
 
 function fitItems(day: TripDay): FitItem[] {
   if (day.date === null) return [];
@@ -60,6 +74,7 @@ export function freeGaps(day: TripDay, members: readonly string[], tz: string): 
   };
   const context: FitContext = { tz, participants: members, days: [fitDay], driveFactor: 1 };
   const first = Math.min(...day.stops.map((stop) => stop.start ?? DAY_TO));
+  const last = Math.max(...day.stops.map((stop) => stop.start ?? 0));
   return dayGaps(context, fitDay)
     .filter((gap) => gap.fromMin >= first)
     .map((gap) => ({
@@ -67,5 +82,6 @@ export function freeGaps(day: TripDay, members: readonly string[], tz: string): 
       to: gap.toMin,
       whoFree: gap.gap.who_free,
       afterStableId: gap.prev?.stableId ?? null,
-    }));
+    }))
+    .filter((gap) => showsGap(gap, members.length, last));
 }

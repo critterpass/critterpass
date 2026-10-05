@@ -9,7 +9,13 @@ import type { PinnedPlace } from '../kinds/places/pins';
 
 export const DA_LAT_PINS: readonly PinnedPlace[] = [
   // Sights the landmark list misses or matches to a record at the wrong point.
-  { name: 'Biệt Thự Hằng Nga - Crazy House Đà Lạt', lat: 11.9347, lng: 108.4308 },
+  {
+    name: 'Crazy House',
+    nameLocal: 'Biệt thự Hằng Nga',
+    lat: 11.9347,
+    lng: 108.4308,
+    category: 'museum',
+  },
   { name: 'Dalat Market', lat: 11.9426, lng: 108.437 },
   { name: 'Chợ Đêm Đà Lạt (Dalat Night Market)', lat: 11.9423, lng: 108.437 },
   { name: 'Dinh Bao Dai III', lat: 11.9302, lng: 108.4293 },

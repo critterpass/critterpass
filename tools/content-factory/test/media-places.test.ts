@@ -129,8 +129,8 @@ describe('place photos', { timeout: 60_000 }, () => {
   });
 
   it('puts the deck places first', () => {
-    const places = curatedPlaces(['da-nang'], [MY_KHE.ref, LINH_UNG.ref]);
-    expect(places.slice(0, 2).map((p) => p.ref)).toEqual([MY_KHE.ref, LINH_UNG.ref]);
+    const places = curatedPlaces(['da-nang'], [MY_KHE.ref, CATHEDRAL.ref]);
+    expect(places.slice(0, 2).map((p) => p.ref)).toEqual([MY_KHE.ref, CATHEDRAL.ref]);
     expect(places.every((p) => p.destination === 'da-nang')).toBe(true);
   });
 });

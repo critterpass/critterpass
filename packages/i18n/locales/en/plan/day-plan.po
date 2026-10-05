@@ -27,6 +27,10 @@ msgstr "Add a place, or paste a link"
 msgid "plan.dayPlan.allDays"
 msgstr "All days"
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.goneBack"
+msgstr "Back to the trip"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.dayTitle"
@@ -86,9 +90,26 @@ msgid "plan.dayPlan.refused.late"
 msgstr "That order runs past midnight."
 
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.mustDo"
+msgstr "That’s a must-do. Open it to move it anyway."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.goneBody"
+msgstr "The trip’s days changed. Its other days are on the trip."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.gone"
+msgstr "This day isn’t in the plan any more"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "This plan can’t be changed here."
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.toDayOf"
+msgstr "Today: when to leave and who’s up"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.back"
 msgstr "Trip"

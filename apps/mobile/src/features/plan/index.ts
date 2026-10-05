@@ -28,3 +28,4 @@ export {
   type CalendarWriter,
   type DeviceCalendarEvent,
 } from './views/data/calendar-export';
+export { useDayReading, type DayReading, type DayStopReading } from './trip-map/day-reading';
