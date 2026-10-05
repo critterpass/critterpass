@@ -229,6 +229,14 @@ msgstr ""
 msgid "plan.day.item.removeLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.removeLineSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.justYou"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.later"
 msgstr ""
@@ -264,6 +272,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
@@ -377,12 +389,20 @@ msgstr ""
 msgid "plan.day.proposedToast"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skip"
+msgid "plan.day.stop.skipSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
@@ -404,6 +424,11 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/day/day-screen.tsx
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
+msgstr ""
+
+#. placeholder {0}: clock(locale, effect.useStart)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.useStart"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx

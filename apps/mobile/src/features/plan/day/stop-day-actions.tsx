@@ -43,6 +43,7 @@ export function StopDayActions({
   tz,
   onClose,
   onSkipForMe,
+  solo = false,
 }: {
   readonly tripId: string;
   readonly item: DayItem;
@@ -52,6 +53,8 @@ export function StopDayActions({
   /** Closes the sheet before another screen opens over it. */
   readonly onClose: () => void;
   readonly onSkipForMe: () => void;
+  /** She travels alone: there is no "just me" to say. */
+  readonly solo?: boolean;
 }) {
   const theme = useTheme();
   const locale = useLocale();
@@ -108,7 +111,11 @@ export function StopDayActions({
             testID="stop-day-late"
           />
           <TextLink
-            label={t({ id: 'plan.day.stop.skip', message: 'Skip it, just me' })}
+            label={
+              solo
+                ? t({ id: 'plan.day.stop.skipSolo', message: 'Skip this stop' })
+                : t({ id: 'plan.day.stop.skip', message: 'Skip it, just me' })
+            }
             onPress={onSkipForMe}
             testID="stop-day-skip"
           />

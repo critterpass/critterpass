@@ -16,6 +16,7 @@ import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { hubDay } from '../hub/plan-hub';
 import { tripPlanRoutes } from '../hub/routes';
 import { useChosenDay, useOpenOnDate } from './chosen-day';
+import { legTravel } from '../day-plan/reschedule';
 import { useDayRoute } from './day-route';
 import { ShareSheet } from './share-sheet';
 import { TripMapView } from './trip-map-view';
@@ -86,6 +87,7 @@ export function TripMapScreen({
           slot={{ dayNo: selected.dayNo, date: selected.date ?? '' }}
           editor={editor}
           announce={announceEdit}
+          travel={legTravel(route.legs)}
           onClose={() => setOpenId(null)}
         />
       )}
