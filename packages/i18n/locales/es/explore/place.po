@@ -303,10 +303,6 @@ msgstr ""
 msgid "explore.add.full"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/place-detail/model.ts
-msgid "explore.detail.noPlan"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
 msgstr ""
@@ -484,6 +480,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx

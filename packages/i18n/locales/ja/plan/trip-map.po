@@ -109,6 +109,10 @@ msgstr ""
 msgid "plan.tripMap.leg.about"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.noPlanLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.issue.crowds"
 msgstr ""
@@ -206,6 +210,10 @@ msgstr ""
 msgid "plan.tripMap.empty.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIsFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.chip.crew"
 msgstr ""
@@ -227,6 +235,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.dayChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftRest"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
@@ -255,6 +271,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.reviewReady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftWorking"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
@@ -297,6 +317,10 @@ msgstr ""
 msgid "plan.tripMap.cat.nightlife"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.noPlanTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
@@ -318,6 +342,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.personal.onlyYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.daysStarted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
@@ -366,7 +394,7 @@ msgstr ""
 msgid "plan.tripMap.rainLikely"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftReview"
 msgstr ""
 
@@ -402,6 +430,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 msgid "plan.tripMap.openPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIs"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
@@ -440,7 +472,11 @@ msgstr ""
 msgid "plan.tripMap.wholeTrip"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.daysOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftOnly"
 msgstr ""
 
@@ -464,6 +500,10 @@ msgstr ""
 msgid "plan.tripMap.leg.walk"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftWatch"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.wellness"
 msgstr ""
@@ -474,4 +514,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.personal.skipping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIsFailedLine"
 msgstr ""

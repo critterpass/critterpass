@@ -11,6 +11,14 @@ msgstr ""
 msgid "plan.ideas.body"
 msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day, or let {guideName} place it.} other {# saved places that aren't in a day yet. Drag one onto a day, or let {guideName} place them.}}"
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodyDraft"
+msgstr "{count, plural, one {One saved place that isn't in a day yet. Drag it onto a day.} other {# saved places that aren't in a day yet. Drag one onto a day.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodySaved"
+msgstr "{count, plural, one {One saved place.} other {# saved places.}}"
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
 msgstr "{count, plural, one {Opening hours for it} other {Opening hours for all #}}"
@@ -48,6 +56,10 @@ msgstr "{leftCount, plural, one {Leaving one for you} other {Leaving # for you}}
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeCrew"
 msgstr "{needCrew, plural, one {One needs the crew.} other {# need the crew.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlan"
+msgstr "{organiser} is still putting the plan together. They go onto days once it’s shared."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.back"
@@ -193,6 +205,10 @@ msgstr "Routing the days"
 msgid "plan.ideas.emptyLine"
 msgstr "Save places from search, paste a link from TikTok or Maps, or swipe together, and they land here."
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlanAny"
+msgstr "The plan isn’t shared yet. They go onto days once it is."
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"
 msgstr "Try again with signal."
@@ -200,3 +216,7 @@ msgstr "Try again with signal."
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.undo"
 msgstr "UNDO"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.fitNeedsPlan"
+msgstr "Where it fits shows once the plan is shared"

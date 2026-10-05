@@ -108,7 +108,7 @@ msgstr "Ngày {n} giờ là {title}."
 msgid "planDraft.diff.identical"
 msgstr "Ngày {n} đã là tốt nhất mình làm được. Lần này không tính."
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedToast"
 msgstr "Ngày {n} đã về như cũ."
 
@@ -285,7 +285,7 @@ msgstr "Đổi điều gì?"
 msgid "planDraft.change.which"
 msgstr "Ngày nào?"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedSub"
 msgstr "Bạn được trả lại lượt soạn lại đó."
 

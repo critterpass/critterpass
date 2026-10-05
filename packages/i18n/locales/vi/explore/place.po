@@ -303,10 +303,6 @@ msgstr "Gần đó, đi tiếp"
 msgid "explore.add.full"
 msgstr "Kế hoạch hết chỗ trống"
 
-#: ../../apps/mobile/src/features/explore/place-detail/model.ts
-msgid "explore.detail.noPlan"
-msgstr "Chưa có kế hoạch để thêm"
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
 msgstr "Chưa có kế hoạch để thêm"
@@ -485,6 +481,10 @@ msgstr "Nhóm sẽ quyết định có đồng ý không."
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.refusedBody"
 msgstr "Kế hoạch không thay đổi. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
+msgstr "Chưa có kế hoạch để thêm"
 
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.failedTitle"

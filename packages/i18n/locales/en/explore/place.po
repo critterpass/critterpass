@@ -303,10 +303,6 @@ msgstr "Next, nearby"
 msgid "explore.add.full"
 msgstr "No free slot in the plan"
 
-#: ../../apps/mobile/src/features/explore/place-detail/model.ts
-msgid "explore.detail.noPlan"
-msgstr "No plan to add to yet"
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
 msgstr "No plan to add to yet"
@@ -485,6 +481,10 @@ msgstr "The crew gets to okay it."
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.refusedBody"
 msgstr "The plan is unchanged. Try again."
+
+#: ../../apps/mobile/src/features/explore/place-detail/model.ts
+msgid "explore.detail.noPlan"
+msgstr "No plan to add to yet"
 
 #: ../../apps/mobile/src/features/explore/place-detail/place-unavailable.tsx
 msgid "explore.place.failedTitle"

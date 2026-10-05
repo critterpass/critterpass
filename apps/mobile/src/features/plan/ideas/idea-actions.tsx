@@ -18,7 +18,8 @@ export interface IdeaActionsProps {
   readonly name: string;
   /** Where the place already is in the plan ("Tue, Oct 20"), when it is. */
   readonly inPlan: string | null;
-  readonly onAddToDay: () => void;
+  /** Null while there is no plan to add to yet. */
+  readonly onAddToDay: (() => void) | null;
   /** Takes back my own save; null when I never saved it. */
   readonly onRemoveMine: (() => void) | null;
   /** Organisers only. */
@@ -45,16 +46,18 @@ export function IdeaActions(props: IdeaActionsProps) {
             {t({ id: 'plan.ideas.inPlanLine', message: `Already in the plan on ${day}.` })}
           </Text>
         )}
-        <PillButton
-          label={
-            props.inPlan === null
-              ? t({ id: 'plan.ideas.action.add', message: 'Add to a day' })
-              : t({ id: 'plan.ideas.action.move', message: 'Move it to another day' })
-          }
-          onPress={props.onAddToDay}
-          block
-          testID="plan-idea-action-add"
-        />
+        {props.onAddToDay === null ? null : (
+          <PillButton
+            label={
+              props.inPlan === null
+                ? t({ id: 'plan.ideas.action.add', message: 'Add to a day' })
+                : t({ id: 'plan.ideas.action.move', message: 'Move it to another day' })
+            }
+            onPress={props.onAddToDay}
+            block
+            testID="plan-idea-action-add"
+          />
+        )}
         {props.onRemoveMine === null ? null : (
           <PillButton
             variant="secondary"

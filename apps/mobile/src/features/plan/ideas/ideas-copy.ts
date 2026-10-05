@@ -11,6 +11,43 @@ export function bodyText(count: number, guideName: string): string {
   });
 }
 
+/** On her own draft, before the crew has a plan: she places them herself (the guide drafts days). */
+export function draftBodyText(count: number): string {
+  return t({
+    id: 'plan.ideas.bodyDraft',
+    message: plural(count, {
+      one: "One saved place that isn't in a day yet. Drag it onto a day.",
+      other: "# saved places that aren't in a day yet. Drag one onto a day.",
+    }),
+  });
+}
+
+/** A member before the plan is shared: saving is what there is to do. */
+export function beforePlanBody(count: number, organiser: string | null): string {
+  const saved = t({
+    id: 'plan.ideas.bodySaved',
+    message: plural(count, { one: 'One saved place.', other: '# saved places.' }),
+  });
+  const waiting =
+    organiser === null
+      ? t({
+          id: 'plan.ideas.beforePlanAny',
+          message: 'The plan isn’t shared yet. They go onto days once it is.',
+        })
+      : t({
+          id: 'plan.ideas.beforePlan',
+          message: `${organiser} is still putting the plan together. They go onto days once it’s shared.`,
+        });
+  return `${saved} ${waiting}`;
+}
+
+export function fitsNeedPlan(): string {
+  return t({
+    id: 'plan.ideas.fitNeedsPlan',
+    message: 'Where it fits shows once the plan is shared',
+  });
+}
+
 export function placeLine(fitting: number, needCrew: number): string {
   if (needCrew === 0) {
     return t({

@@ -95,6 +95,9 @@ describe('place detail CTA', () => {
 
   it('has nothing to add without a plan or a fit', () => {
     expect(cta(read({ base_version: null })).kind).toBe('noPlan');
+    // An organiser's own draft, before the crew has a plan, takes the place like any plan.
+    const draft = read({ base_version: null, plan_version: { id: 'd1', kind: 'draft' } });
+    expect(ctaLabel(cta(draft))).toBe('Add to Sat · 08:00');
     expect(cta(read({ when_it_fits: null })).kind).toBe('noFit');
   });
 });

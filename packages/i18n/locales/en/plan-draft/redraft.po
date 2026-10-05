@@ -108,7 +108,7 @@ msgstr "Day {n} is {title} now."
 msgid "planDraft.diff.identical"
 msgstr "Day {n} is already the best I can do. That one didn’t count."
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedToast"
 msgstr "Day {n} is back as it was."
 
@@ -285,7 +285,7 @@ msgstr "What should change?"
 msgid "planDraft.change.which"
 msgstr "Which day?"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedSub"
 msgstr "You have that redraft back."
 
