@@ -4,7 +4,7 @@
  * underneath, with what stays put), the reason chips, "Anything else?" and REDRAFT DAY {n}, which
  * waits for a chip or a note. With no free redrafts left the button gives way to the boost offer.
  */
-import type { RedraftReason } from '@cp/domain';
+import type { RedraftReasonKey } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ReactNode } from 'react';
@@ -17,7 +17,6 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { TextField } from '@/ui/inputs/TextField';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -142,8 +141,8 @@ export interface ChangeDayViewProps {
   readonly days: readonly ReviewDay[];
   readonly day: number;
   readonly onDay: (day: number) => void;
-  readonly reasons: ReadonlySet<RedraftReason>;
-  readonly onReason: (reason: RedraftReason) => void;
+  readonly reasons: ReadonlySet<RedraftReasonKey>;
+  readonly onReason: (reason: RedraftReasonKey) => void;
   readonly note: string;
   readonly onNote: (note: string) => void;
   /** Why the last try did not go, in words. */
@@ -179,14 +178,8 @@ export function ChangeDayView(props: ChangeDayViewProps) {
               message: `${destination} · ${guideName}’s draft`,
             })}
           </Text>
-          <HeaderPill
-            tone="private"
-            label={t({ id: 'planDraft.onlyYou', message: 'Only you see this' })}
-            icon={<Icon name="lock" size={14} decorative color={theme.semantic.text.secondary} />}
-          />
         </View>
       }
-      closable={false}
       accessibilityLabel={t({ id: 'planDraft.change.title', message: 'Change a day' })}
       {...(props.onClose === undefined ? {} : { onDismiss: props.onClose })}
       testID="change-day"
@@ -229,14 +222,15 @@ export function ChangeDayView(props: ChangeDayViewProps) {
                   ]}
                   testID={`change-day-${n}`}
                 >
-                  <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
-                    {String(n)}
-                  </Text>
+                  {/* Named by date like the plan's day chips: the weekday over the day of the month. */}
                   <Text
                     variant="label"
                     color={selected ? theme.semantic.text.onAccent : theme.semantic.text.secondary}
                   >
                     {wd}
+                  </Text>
+                  <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
+                    {String(Number(d.date.slice(8, 10)))}
                   </Text>
                 </Pressable>
               );
@@ -275,6 +269,11 @@ export function ChangeDayView(props: ChangeDayViewProps) {
             testID="change-day-submit"
           />
         )}
+        {props.spent === null && !ready ? (
+          <Text variant="caption" color={theme.semantic.text.secondary} testID="change-day-hint">
+            {t({ id: 'planDraft.change.hint', message: 'Pick a reason or write a few words.' })}
+          </Text>
+        ) : null}
         {props.counter === null ? null : (
           <Text variant="caption" color={theme.semantic.text.tertiary}>
             {props.counter}

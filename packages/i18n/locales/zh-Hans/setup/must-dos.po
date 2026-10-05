@@ -23,12 +23,32 @@ msgstr ""
 msgid "setup.addMustDo.found"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.draftWriting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.writingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.readyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/typing-row.tsx
 msgid "setup.mustDos.typing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.prompt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.openAll"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
@@ -95,10 +115,6 @@ msgstr ""
 msgid "setup.mustDos.pill.entriesClose"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.line"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.fits"
 msgstr ""
@@ -131,6 +147,10 @@ msgstr ""
 msgid "setup.addMustDo.more.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
 msgstr ""
@@ -151,10 +171,6 @@ msgstr ""
 msgid "setup.mustDos.line.empty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.attribution"
 msgstr ""
@@ -165,6 +181,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeDraft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
@@ -189,4 +209,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line"
 msgstr ""

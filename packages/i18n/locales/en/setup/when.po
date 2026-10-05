@@ -28,6 +28,7 @@ msgid "setup.when.line.all"
 msgstr "{calendars, plural, one {From {synced} synced calendar. Everyone’s in.} other {From {synced} synced calendars. Everyone’s in.}}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr "{days, plural, one {# day} other {# days}}"
 
@@ -188,6 +189,10 @@ msgid "setup.when.line.solo"
 msgstr "From your calendar."
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howLong"
+msgstr "How many days?"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.cta.lock"
 msgstr "Lock {range}"
@@ -226,7 +231,7 @@ msgstr "No week fits all {total}"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.none"
-msgstr "Nobody has shared their days yet. Connect a calendar or mark days by hand."
+msgstr "Nobody has shared their days yet. Pick the dates, or connect a calendar first."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncedLine"
@@ -241,12 +246,16 @@ msgid "setup.ask.words"
 msgstr "Or tell {name} in your words"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickAnyway"
-msgstr "Pick a week anyway"
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.pickOtherDays"
 msgstr "Pick other days"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickDates"
+msgstr "Pick the dates"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickMyself"
+msgstr "Pick the dates myself"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.titleDays"
@@ -255,6 +264,14 @@ msgstr "Pick your days"
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.line"
 msgstr "Quick one: your maybe block is the only thing between the crew and {place}. Could you free it?"
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.reading"
+msgstr "Reading your calendar…"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howTo"
+msgstr "Say how many days, then tap the first day. Or tap a first and a last day."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.send"
@@ -271,10 +288,6 @@ msgstr "Sync again so your days still count."
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncing"
 msgstr "Syncing your calendar"
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.howTo"
-msgstr "Tap the first day and the last, or hold a day and drag."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"
@@ -336,6 +349,10 @@ msgstr "Your calendar didn’t sync"
 msgid "setup.when.own.synced"
 msgstr "Your calendar is in · {ago}"
 
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.pickSolo"
+msgstr "Your calendar looks open. Pick the days you want."
+
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.stale"
 msgstr "Your calendar synced {ago}"
@@ -346,4 +363,4 @@ msgstr "Your days aren’t in yet"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.noneSolo"
-msgstr "Your days aren’t in yet. Connect a calendar or mark days by hand."
+msgstr "Your days aren’t in yet. Pick the dates, or connect a calendar first."

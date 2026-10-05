@@ -58,7 +58,7 @@ export function BreakdownBars({
           {t({
             id: 'setup.budget.bars.missingLine',
             message:
-              'Flights and stays for these dates aren’t in yet. The split shows once they are.',
+              'Flights and stays for these dates aren’t priced yet, so the range above is sized from the length of the trip. The split shows once prices are in.',
           })}
         </Text>
       </Card>

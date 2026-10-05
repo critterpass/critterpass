@@ -83,7 +83,7 @@ msgstr "Vé bay"
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.missingLine"
-msgstr "Chưa có giá vé bay và chỗ ở cho những ngày này. Phần chia sẽ hiện khi có giá."
+msgstr "Chưa có giá vé bay và chỗ ở cho những ngày này, nên khoảng ở trên tính theo số ngày đi. Có giá rồi sẽ hiện phần chia."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.noFlights"
@@ -145,6 +145,10 @@ msgstr "Không nêu tên ai. Vài cách để chuyến đi vừa túi tiền m�
 msgid "setup.budget.infeasible.title"
 msgstr "Có một mức thấp hơn phương án rẻ nhất"
 
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.label"
+msgstr "Hoặc nhập số tiền, mỗi người"
+
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
 msgstr "Vượt mức của một người"
@@ -156,6 +160,11 @@ msgstr "Chọn mức cả nhóm thấy thoải mái. Mức tối đa của mỗi
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"
 msgstr "Đang tính giá chuyến đi"
+
+#. placeholder {0}: money(locale, track.stepMinor, currency)
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.hint"
+msgstr "Làm tròn theo bước {0}."
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.ryokan"

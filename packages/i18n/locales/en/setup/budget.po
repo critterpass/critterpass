@@ -83,7 +83,7 @@ msgstr "Flights"
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.missingLine"
-msgstr "Flights and stays for these dates aren’t in yet. The split shows once they are."
+msgstr "Flights and stays for these dates aren’t priced yet, so the range above is sized from the length of the trip. The split shows once prices are in."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.noFlights"
@@ -145,6 +145,10 @@ msgstr "Nobody’s named. A few ways to bring the trip within everyone’s reach
 msgid "setup.budget.infeasible.title"
 msgstr "One budget is below the cheapest plan"
 
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.label"
+msgstr "Or type an amount, each"
+
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
 msgstr "Over someone’s max"
@@ -156,6 +160,11 @@ msgstr "Pick what feels comfy for the crew. Each max stays private, and everyone
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"
 msgstr "Pricing the trip"
+
+#. placeholder {0}: money(locale, track.stepMinor, currency)
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.hint"
+msgstr "Rounds to steps of {0}."
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts
 msgid "setup.budget.stay.ryokan"

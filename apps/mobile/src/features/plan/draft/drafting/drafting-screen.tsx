@@ -3,8 +3,11 @@
  * joins the job already running (another tap, another organiser device), or goes straight to the
  * draft when one is ready. With no signal nothing starts; it tries again once the phone is back
  * online. The job keeps running if the app goes to the background, and its push opens the draft.
+ * Only the screen she is looking at moves her on: once she has left the wait for somewhere else
+ * (Home, a tab), a draft that lands navigates nothing; she is told and goes there herself, and
+ * coming back to the wait then opens the draft.
  */
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -49,6 +52,8 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
   const [clock, setClock] = useState(now);
   const [leaving, setLeaving] = useState(false);
   const decided = useRef(false);
+  // A screen that is not on top never navigates.
+  const focused = useIsFocused();
 
   const begin = useCallback(async () => {
     const result = await start.send({ trip_id: tripId });
@@ -72,7 +77,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
   // On arrival: join a running job, open a ready draft, or start one. Decided once, on the next
   // tick after the trip and its jobs have loaded.
   useEffect(() => {
-    if (decided.current || trip === undefined || !loaded) return undefined;
+    if (decided.current || !focused || trip === undefined || !loaded) return undefined;
     const timer = setTimeout(() => {
       decided.current = true;
       if (trip === null || !trip.isOrganiser) {
@@ -85,7 +90,7 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
       else void begin();
     }, 0);
     return () => clearTimeout(timer);
-  }, [trip, loaded, job, begin, tripId]);
+  }, [trip, loaded, job, begin, tripId, focused]);
 
   // No signal: try again once the phone is back online.
   useEffect(() => {
@@ -107,15 +112,16 @@ export function DraftingScreen({ tripId }: { readonly tripId: string }) {
   const done = phase.kind === 'done';
   const partial = done && phase.partial;
   useEffect(() => {
-    if (!done) return undefined;
+    if (!done || !focused) return undefined;
     const timer = setTimeout(() => setLeaving(true), partial ? PARTIAL_HOLD_MS : DONE_HOLD_MS);
     return () => clearTimeout(timer);
-  }, [done, partial]);
+  }, [done, partial, focused]);
 
   const onDone = useCallback(() => {
+    if (!focused) return;
     impact('success');
     router.replace(draftRoutes.review(tripId));
-  }, [tripId]);
+  }, [tripId, focused]);
 
   const onBack = () => {
     if (router.canGoBack()) router.back();
