@@ -31,6 +31,28 @@ appId: app.critterpass.dev
 - hideKeyboard
 - tapOn:
     id: 'start-crew-create'
+# A press on START THE CREW has been seen to do nothing (the form stays, no message). When the
+# form is still up after a while, that is framed and the button pressed again.
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+    optional: true
+- repeat:
+    while:
+      notVisible:
+        id: 'start-crew-done'
+    times: 3
+    commands:
+      - takeScreenshot: collaboration-00a-start-the-crew-pressed-form-still-up
+      - tapOn:
+          id: 'start-crew-create'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'start-crew-done'
+          timeout: 30000
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'start-crew-done'
