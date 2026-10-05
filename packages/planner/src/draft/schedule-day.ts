@@ -16,7 +16,7 @@ import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
 import { opensDay, startFloor } from './day-start';
 import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
-import { placeWindow } from './place-time';
+import { placeWindows, windowFor } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import {
   isPinId,
@@ -228,6 +228,8 @@ export interface ScheduleDayInput {
   /** Where the crew sleeps and how far a day reaches: a long or far outdoor sight opens the day. */
   readonly homeId?: string | null;
   readonly hopCapMin?: number;
+  /** The places of the day out this day is planned for (./outings): lunch may follow them late. */
+  readonly dayOut?: ReadonlySet<string>;
   /** The stable id for the `index`th pick (derived by the caller so a rerun gives the same ids). */
   readonly idFor: (choice: DayChoice, index: number) => string;
 }
@@ -249,7 +251,9 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     if (choice.kind === 'meal' && held === null) {
       start = Math.max(
         start,
-        choice.mealSlot === 'dinner' ? DINNER.startMin : mealSlotAt(start, lunched).startMin,
+        choice.mealSlot === 'dinner'
+          ? DINNER.startMin
+          : mealSlotAt(start, lunched, input.dayOut?.has(previous ?? '') === true).startMin,
       );
     }
     const opener =
@@ -260,7 +264,8 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
     }
     // A place that is for the evening (or the sunset, or after dark) waits for it.
-    const own = held !== null || poi === undefined ? null : placeWindow(poi, input.date);
+    const own =
+      held !== null || poi === undefined ? null : windowFor(placeWindows(poi, input.date), start);
     if (own !== null && choice.kind !== 'meal') start = Math.max(start, own.fromMin);
     // Hours that are only a guess never move a held stop.
     if (poi !== undefined && !(held !== null && poi.hoursGuessed === true)) {

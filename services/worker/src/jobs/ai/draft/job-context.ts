@@ -31,6 +31,7 @@ import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
+import { loadRoutedPairs } from './road-minutes';
 import { skeletonRoute } from './skeleton';
 import { publishDone, publishStep } from './steps';
 
@@ -135,6 +136,10 @@ export async function load(
     ignoreNames,
     prefer: there.ideaPlaces,
     notOffered: taken,
+    routed: await loadRoutedPairs(
+      ctx.pool,
+      places.map((poi) => poi.id),
+    ),
   });
   // Once the outline has run, every later step plans with the guide's answers to the wishes. A
   // redraft has no outline of its own: it plans with the answers saved with the version it redoes.

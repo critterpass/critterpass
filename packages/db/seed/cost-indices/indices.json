@@ -262,5 +262,41 @@
     "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), checked against Origin Vietnam's Đà Nẵng travel costs. Draft: a content reviewer checks it against current listings before approving",
     "source_url": "https://www.originvietnam.com/da-nang-travel-cost/",
     "sourced_on": "2026-09-30"
+  },
+  {
+    "destination": "vn-da-lat",
+    "stay_type": "hotel",
+    "nightly_minor_low": 1000,
+    "nightly_minor_high": 2500,
+    "food_pp_day_minor": 1500,
+    "fun_pp_day_minor": 1500,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), from web search on 5 Oct 2026: vietnamtourism.com (Sep 2026: hostel dorm beds $5–8, budget private rooms $10–16, mid-range rooms $28–48 a night, a restaurant meal $3–6, motorbike hire $5–6 a day), agreeing with jetmeaway.co.uk (Jul 2026: budget rooms £14–40, a 3-star often under £30) and brokepackr.com (Feb 2026: dorm beds about $5.50). Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.vietnamtourism.com/en/where-to-stay-in-da-lat-neighborhoods-and-hotel-picks-by-budget",
+    "sourced_on": "2026-10-05"
+  },
+  {
+    "destination": "vn-da-lat",
+    "stay_type": "guesthouse",
+    "nightly_minor_low": 500,
+    "nightly_minor_high": 1000,
+    "food_pp_day_minor": 1500,
+    "fun_pp_day_minor": 1500,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), from web search on 5 Oct 2026: vietnamtourism.com (Sep 2026: hostel dorm beds $5–8, budget private rooms $10–16, mid-range rooms $28–48 a night, a restaurant meal $3–6, motorbike hire $5–6 a day), agreeing with jetmeaway.co.uk (Jul 2026: budget rooms £14–40, a 3-star often under £30) and brokepackr.com (Feb 2026: dorm beds about $5.50). Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.vietnamtourism.com/en/where-to-stay-in-da-lat-neighborhoods-and-hotel-picks-by-budget",
+    "sourced_on": "2026-10-05"
+  },
+  {
+    "destination": "vn-da-lat",
+    "stay_type": "hostel",
+    "nightly_minor_low": 500,
+    "nightly_minor_high": 800,
+    "food_pp_day_minor": 1500,
+    "fun_pp_day_minor": 1500,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), from web search on 5 Oct 2026: vietnamtourism.com (Sep 2026: hostel dorm beds $5–8, budget private rooms $10–16, mid-range rooms $28–48 a night, a restaurant meal $3–6, motorbike hire $5–6 a day), agreeing with jetmeaway.co.uk (Jul 2026: budget rooms £14–40, a 3-star often under £30) and brokepackr.com (Feb 2026: dorm beds about $5.50). Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.vietnamtourism.com/en/where-to-stay-in-da-lat-neighborhoods-and-hotel-picks-by-budget",
+    "sourced_on": "2026-10-05"
   }
 ]

@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "925039d9-77f9-4977-868e-d3a47f1137ee",
+        "id": "dac82746-f8c6-4b00-8c97-977c73d4a012",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Sips and Market Strolls\",\n  \"summary\": \"A gentler Đà Lạt day with just two unhurried activities, a long market wander, and two proper sit-down meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the market because it is the beating heart of local life, and a slow morning here is never wasted.\",\n      \"note\": \"We keep the market because it is the beating heart of local life, and a slow morning here is never wasted.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays put: nem nướng you can linger over, no rush, just rolling and dipping. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more easy wander by the square, then the pace drops right down for the evening.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner becomes a long, sit-down affair with coffee close by, because a slower day deserves a slow table.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slow Đà Lạt Day\",\n  \"summary\": \"A gentle day around the market, the square and a long lunch, with the pagoda kept for its morning calm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the city's heartbeat, so we start here and let the morning unfold slowly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Kept for its quiet morning light and the slow climb up to the mosaic dragon.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays as planned: nem nướng is a sit-down treat worth lingering over.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The square is an easy wander after lunch, no rush, just local life and a photo or two.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a proper sit-down at Góc Hà Thành, because a slow day deserves a long table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 93,
+          "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2688,
-          "output_tokens": 324,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "37f46b70-51e6-48bc-b79b-68e15039d762",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "Day 2: Morning at the market, slow sips after\nDay 2: A temple, a square, and evening sips"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 243,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 28,
+          "output_tokens": 384,
           "service_tier": "standard"
         }
       }

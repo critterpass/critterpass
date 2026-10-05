@@ -10,8 +10,10 @@
  * waterfall, a beach) with no time of its own is never started after sunset.
  *
  * Evening times follow the sun at the place on the date (`solarDay`), within clock bounds so a
- * far-north summer does not push the evening to midnight. A line that names two times of day
- * ("early morning or late afternoon") or says "any time" holds nothing.
+ * far-north summer does not push the evening to midnight. "Late afternoon" is the hour before
+ * sunset, and a sunset, evening or after-dark word wins over "afternoon" ("late afternoon for
+ * sunset"). A line that names two times of day ("early morning or late afternoon") holds the stop
+ * to either of them (`placeWindows`); one that says "any time" or "midday" holds nothing.
  */
 import { solarDay } from '@cp/domain';
 
@@ -29,13 +31,26 @@ export interface PlaceWindow {
   readonly toMin: number;
 }
 
-type Named = PlaceTime | 'midday';
+type Named = PlaceTime | 'midday' | 'afternoon';
 
 /** Word runs (accents folded, plurals folded) that name a time of day in our editors' lines. */
 const WORDS: readonly (readonly [Named, readonly string[]])[] = [
-  ['morning', ['morning', 'sunrise', 'dawn', 'breakfast', 'buoi sang']],
-  ['midday', ['lunch', 'lunchtime', 'midday', 'noon', 'afternoon', 'daytime', 'anytime']],
-  ['midday', ['any time', 'all day', 'buoi chieu', 'buoi trua']],
+  [
+    'morning',
+    [
+      'morning',
+      'sunrise',
+      'dawn',
+      'breakfast',
+      'buoi sang',
+      'at opening',
+      'before 8am',
+      'before 9am',
+    ],
+  ],
+  ['midday', ['lunch', 'lunchtime', 'midday', 'noon', 'daytime', 'anytime']],
+  ['midday', ['any time', 'all day', 'buoi trua']],
+  ['afternoon', ['afternoon', 'buoi chieu']],
   ['sunset', ['sunset', 'dusk', 'golden hour', 'hoang hon']],
   ['evening', ['evening', 'dinner', 'happy hour', 'buoi toi']],
   ['after_dark', ['night', 'after dark', 'nightfall', 'ban dem']],
@@ -52,33 +67,62 @@ function contains(tokens: readonly string[], phrase: readonly string[]): boolean
 function timesNamed(text: string | null | undefined): Set<Named> {
   const found = new Set<Named>();
   if (text === null || text === undefined) return found;
-  const tokens = nameTokens(text);
+  // "Late afternoon" is the hour before sunset, not the middle of the day.
+  const tokens = nameTokens(text).flatMap((token, at, all) =>
+    token === 'late' && all[at + 1] === 'afternoon'
+      ? ['dusk']
+      : token === 'afternoon' && all[at - 1] === 'late'
+        ? []
+        : [token],
+  );
   for (const [time, phrases] of WORDS) {
     if (phrases.some((phrase) => contains(tokens, phrase.split(' ')))) found.add(time);
+  }
+  // A sunset, evening or after-dark word says which part of the afternoon.
+  if (found.has('sunset') || found.has('evening') || found.has('after_dark')) {
+    found.delete('afternoon');
   }
   return found;
 }
 
-const TIMES = new WeakMap<DraftPoi, PlaceTime | null>();
+const TIMES = new WeakMap<DraftPoi, readonly PlaceTime[]>();
 
-/** The time of day `poi` is for, or null when any time will do. Meal places follow meal times. */
+/** The time of day `poi` is for, or null when any time will do (or it names two, see below). */
 export function placeTime(poi: DraftPoi): PlaceTime | null {
-  const cached = TIMES.get(poi);
-  if (cached !== undefined) return cached;
-  const time = readTime(poi);
-  TIMES.set(poi, time);
-  return time;
+  const times = placeTimes(poi);
+  return times.length === 1 ? (times[0] ?? null) : null;
 }
 
-function readTime(poi: DraftPoi): PlaceTime | null {
-  if (foodRole(poi) === 'meal') return null;
+/**
+ * Every time of day `poi` is for: none when any time will do, one, or two for a line that names a
+ * morning and a later time ("early morning or late afternoon"). Meal places follow meal times.
+ */
+export function placeTimes(poi: DraftPoi): readonly PlaceTime[] {
+  const cached = TIMES.get(poi);
+  if (cached !== undefined) return cached;
+  const times = readTimes(poi);
+  TIMES.set(poi, times);
+  return times;
+}
+
+function readTimes(poi: DraftPoi): PlaceTime[] {
+  if (foodRole(poi) === 'meal') return [];
   const night = poi.category === 'nightlife' || poi.tags.includes('nightlife');
   const named = timesNamed(poi.bestTime);
-  if (named.size === 0) return night && foodRole(poi) === null ? 'after_dark' : null;
-  if (named.has('midday') || (named.has('morning') && named.size > 1)) return null;
-  if (named.has('morning')) return 'morning';
-  if (named.has('after_dark') || night) return 'after_dark';
-  return named.has('sunset') ? 'sunset' : 'evening';
+  if (named.size === 0) return night && foodRole(poi) === null ? ['after_dark'] : [];
+  if (named.has('midday') || named.has('afternoon')) return [];
+  const late: PlaceTime | null =
+    named.has('after_dark') || (night && named.size > 0 && !named.has('morning'))
+      ? 'after_dark'
+      : named.has('sunset')
+        ? 'sunset'
+        : named.has('evening')
+          ? 'evening'
+          : null;
+  return [
+    ...(named.has('morning') ? (['morning'] as const) : []),
+    ...(late === null ? [] : [late]),
+  ];
 }
 
 const SUNSETS = new Map<string, number>();
@@ -175,6 +219,33 @@ export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
     return withinHours(poi, date, { fromMin: 0, toMin: Math.max(0, toMin) });
   }
   return withinHours(poi, date, timeOfDayWindow(time, poi, date));
+}
+
+/**
+ * The windows a stop at `poi` may start in on `date`: `placeWindow`'s one, or for a place named
+ * for two times of day, one for each (a beach early or late, never at noon).
+ */
+export function placeWindows(poi: DraftPoi, date: string): readonly PlaceWindow[] {
+  const times = placeTimes(poi);
+  if (times.length < 2) {
+    const one = placeWindow(poi, date);
+    return one === null ? [] : [one];
+  }
+  return times.flatMap((time) => {
+    const window =
+      time === 'morning'
+        ? poi.category === 'beach'
+          ? { fromMin: 0, toMin: BEACH_MORNING_BY_MIN }
+          : { fromMin: 0, toMin: MORNING_ENDS_MIN }
+        : timeOfDayWindow(time, poi, date);
+    const held = withinHours(poi, date, window);
+    return held === null ? [] : [held];
+  });
+}
+
+/** The window a stop reached at `start` starts in: the first that is still open. */
+export function windowFor(windows: readonly PlaceWindow[], start: number): PlaceWindow | null {
+  return [...windows].sort((a, b) => a.fromMin - b.fromMin).find((w) => w.toMin >= start) ?? null;
 }
 
 function withinHours(poi: DraftPoi, date: string, window: PlaceWindow): PlaceWindow | null {

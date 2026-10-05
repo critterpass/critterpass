@@ -15,6 +15,7 @@ import { startReconcile } from '../commands/reconcile';
 import type { NetworkSource } from '../status/network';
 import { createSyncConnector } from './connector';
 import { OWNER_UID_KEY } from './local-tables';
+import { startOfflineTripHolds } from './offline-trip-holds';
 import { bindLocalOwner } from './reset';
 import type { SyncTransport } from './transport';
 import { createUploadQueue, type BackoffPolicy, type UploadQueue } from './upload-queue';
@@ -36,6 +37,8 @@ export interface LocalFirstCore {
   readonly commands: CommandClient;
   /** Stops reconciling synced command results. */
   readonly stopReconcile: () => void;
+  /** Lets go of the trips held for offline use. */
+  readonly stopOfflineTripHolds: () => void;
 }
 
 export function assembleLocalFirstCore(options: LocalFirstCoreOptions): LocalFirstCore {
@@ -54,7 +57,8 @@ export function assembleLocalFirstCore(options: LocalFirstCoreOptions): LocalFir
     device: options.device,
   });
   const stopReconcile = startReconcile(db);
-  return { db, queue, commands, stopReconcile };
+  const stopOfflineTripHolds = startOfflineTripHolds(db);
+  return { db, queue, commands, stopReconcile, stopOfflineTripHolds };
 }
 
 export interface ConnectLocalFirstOptions {

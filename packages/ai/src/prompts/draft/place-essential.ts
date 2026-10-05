@@ -113,6 +113,36 @@ export function placeOne(
       if (!displace) {
         const added = tryOn(itinerary, 'add');
         if (added !== null) return added;
+        // The day out this day is planned for: what the guide put there instead gives way to it,
+        // all of it, and the rest of the day is filled again later.
+        const own = input.pools.outings.some(
+          (o) => o.dayNo === day.day_no && o.poiIds.includes(poi.id),
+        );
+        if (own) {
+          const cleared = {
+            ...itinerary,
+            days: itinerary.days.map((d) =>
+              d.day_no === day.day_no
+                ? {
+                    ...d,
+                    // Its lunch too: one near the day out is found again.
+                    items: d.items.filter(
+                      (i) =>
+                        isKept(i) ||
+                        i.must_do_id !== null ||
+                        (i.kind === 'meal' &&
+                          minuteOfDate(new Date(i.starts_at), d.date, input.frame.tz) >= 15 * 60),
+                    ),
+                  }
+                : d,
+            ),
+          };
+          // A lunch may be missed coming back from it (the day's note says so): better than no
+          // day out at all.
+          const was = dayFaults(input, itinerary, day.day_no);
+          const taken = tryOn(cleared, 'outing', { ...was, meals: was.meals + 1 });
+          if (taken !== null) return taken;
+        }
         // The stops inside it (the bridge at the resort) give way to the visit that takes them in,
         // and a whole-day visit eats where it is: the day's lunch stop gives way too.
         const whole = spanOf(input, poi) === 'full';

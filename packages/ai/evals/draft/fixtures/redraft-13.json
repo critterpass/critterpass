@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d8dcf4d4-680e-43b3-8354-5940faa01070",
+        "id": "ca4fb6ae-0977-4f9d-ae8d-4e89fd6be1b9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Blue Lagoon Day\",\n  \"summary\": \"A single, unhurried soak at the Blue Lagoon, with the rest of the day left open to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that matters today. We linger here properly, no rushing back to a bus.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Reykjavik, Unhurried\",\n  \"summary\": \"A slower day with just the Blue Lagoon, leaving plenty of room to breathe, soak, and let the bus rides fade from memory.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that earns its keep. Half a day of warm water and quiet, no rushing anywhere.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 26,
+          "input_tokens": 16,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 109,
+          "output_tokens": 131,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "a502112c-a111-48ef-ad53-86fae3024852",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning at the Blue Lagoon"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 179,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }

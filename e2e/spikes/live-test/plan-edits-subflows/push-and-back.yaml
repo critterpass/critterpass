@@ -1,0 +1,176 @@
+appId: app.critterpass.dev
+---
+# From Home with a locked Bali plan: a place added to day 2 at a time that pushes later stops
+# (the sheet names where the push ends and any stop it would keep past closing), then that stop
+# taken off again: the confirm says the pushed stops go back to where they were, and the day is
+# shot before, after the add and after the remove.
+# ${SHOTS} prefixes the screenshots.
+- runFlow: back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+- tapOn:
+    id: 'trip-map-day-chips-2'
+    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-01-day-before
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-01b-day-before-lower
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'spa'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 30000
+- hideKeyboard
+- tapOn:
+    id: 'search-row-add-0'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 20000
+    optional: true
+# Three hours earlier with the steppers (no picker: its pills move as it opens), which sits the
+# block on a stop; the sheet then offers the first start that works, and taking it pushes the
+# stops after it.
+- tapOn:
+    id: 'plan-add-time'
+- repeat:
+    times: 12
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+          optional: true
+# Close the time field so nothing moves under the next tap.
+- tapOn:
+    id: 'plan-add-time'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-02a-add-sheet-time-taken
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-use-start'
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'plan-add-use-start'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-02-add-sheet-pushes
+- tapOn:
+    id: 'plan-add-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-03-added-toast
+# Back to the day plan (the search under the sheet closes first).
+- repeat:
+    while:
+      notVisible:
+        id: 'day-plan-add'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 8000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-04-day-after-add
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-04b-day-after-add-lower
+# The added stop, by its row on the day plan, taken off again.
+- scrollUntilVisible:
+    element:
+      text: '(?i)desa spa'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    text: '(?i)desa spa'
+# The sheet is up once its SAVE is; REMOVE sits below the comments.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-item-remove'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-05-remove-confirm-says-back
+- tapOn:
+    text: '(?i)^remove$|^bỏ$'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-06-removed-toast
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 8000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-07-day-after-remove
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-07b-day-after-remove-lower

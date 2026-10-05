@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3ac756ea-c9b4-40c2-b36a-df031a66c4e9",
+        "id": "8870e55c-c688-4e09-9e4d-b2ce6944c056",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Reykjavik on a Lighter Purse\",\n  \"summary\": \"A day of whales, local market life and a lighthouse, with meals that keep the budget happy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The whales stay, of course — some sights are worth the króna, and this one is a must.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Kolaportið for a proper taste of local life without opening the wallet.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki — homely, reasonable and very Icelandic.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grótta Lighthouse gives us sea air and a photo or two, all for free.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll, where everyone finds something and the bill stays friendly.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Reykjavik on a Budget\",\n  \"summary\": \"A cheaper day around Reykjavik with the whales, a flea market, a lighthouse and simple local meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The whales stay, of course. Some sights are worth the króna.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the flea market, perfect for thrifty souls and local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter lunch at Sandholt, easier on the wallet than the old grill.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grótta Lighthouse costs nothing and gives the camera a proper workout.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Kaffi Loki, a cheaper local table with a view of the day well spent.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 71,
+          "input_tokens": 56,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 341,
+          "output_tokens": 364,
           "service_tier": "standard"
         }
       }

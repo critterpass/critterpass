@@ -42,6 +42,28 @@ describe('GET /health', () => {
   });
 });
 
+describe('GET /health while the process is starting', () => {
+  it('answers 503 until the job producer has started, then 200', async () => {
+    let started = false;
+    const app = createApp({
+      service: 'api',
+      version: '1.2.3',
+      commit: 'abc1234',
+      logger: pino({ level: 'silent' }),
+      readiness: {},
+      exposeDocs: false,
+      started: () => started,
+    });
+    const before = await app.request('/health');
+    expect(before.status).toBe(503);
+    expect(await before.json()).toMatchObject({ status: 'starting', service: 'api' });
+    started = true;
+    const after = await app.request('/health');
+    expect(after.status).toBe(200);
+    expect(await after.json()).toMatchObject({ status: 'ok' });
+  });
+});
+
 describe('GET /ready', () => {
   it('returns 503 naming the database when it is unreachable', async () => {
     const app = buildApp({

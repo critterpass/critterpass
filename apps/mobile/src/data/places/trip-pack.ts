@@ -7,9 +7,9 @@
 import { useEffect, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { TRIP_STREAM_TTL_S } from '@/data/powersync/use-trip-streams';
 
 const TRIP_PACK_STREAM = 'trip_pack';
-const TRIP_PACK_TTL_S = 60 * 60 * 24;
 
 export function useTripPackSynced(tripId: string | null): boolean {
   const { db } = useLocalFirst();
@@ -22,7 +22,7 @@ export function useTripPackSynced(tripId: string | null): boolean {
       if (!abort.signal.aborted) setSynced(tripId);
     };
     db.syncStream(TRIP_PACK_STREAM, { trip_id: tripId })
-      .subscribe({ ttl: TRIP_PACK_TTL_S })
+      .subscribe({ ttl: TRIP_STREAM_TTL_S })
       .then((subscription) => {
         if (abort.signal.aborted) {
           subscription.unsubscribe();

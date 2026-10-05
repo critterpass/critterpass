@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "7c943051-2304-4516-80ea-9ec522dc5c73",
+        "id": "9876a0a3-08a4-46bd-81db-5eb99e009e03",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đêm Đà Lạt khác lạ\",\n  \"summary\": \"Một buổi chiều muộn thong thả ở Đà Lạt, bắt đầu bằng một góc khuất lạ, rồi dạo hồ, chợ đêm và kết bằng cocktail.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nè: một khu vườn tươi xanh ngay giữa lòng phố, chậm rãi hít hà trước khi trời tối.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p131\",\n      \"note\": \"Hồ Xuân Hương vẫn ở đây, nhưng giờ này gió nhẹ và ánh chiều buông rất tình.\",\n      \"must_do_id\": \"p131\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm Đà Lạt lên đèn, đi lòng vòng ngửi mùi bắp nướng và ngắm người ta bán hàng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết đêm bằng một ly cocktail ở Sartorista, chỗ ngồi khuất và nhạc vừa đủ để thả hồn.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đêm Đà Lạt khẽ chạm vai\",\n  \"summary\": \"Chiều thả bộ bên hồ, tối ghé chợ đêm rồi kết bằng một ly cocktail thật chậm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Xuân Hương Lake\",\n      \"note\": \"Giữ lại hồ cho buổi chiều muộn, lúc gió vừa dịu và mặt nước bắt đầu ánh lên.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối đổi vị bằng nem nướng, ngồi xuống ăn chậm rãi trước khi phố lên đèn.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nho nhỏ cho tối nay: chợ đêm nhộn nhịp, đi lòng vòng nghe người ta mặc cả.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết ngày bằng một góc quầy ấm, nhấp một ngụm và nhìn phố núi về khuya.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 49,
+          "input_tokens": 66,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2688,
-          "output_tokens": 423,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 363,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "18e27554-0e6f-4e75-b9b5-98ee239eded8",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Chiều Đà Lạt Khác Lạ Đến Khuya\",\n  \"summary\": \"Một buổi chiều thong thả từ hồ Xuân Hương, ghé chợ đêm cho có chút bất ngờ, rồi kết thúc bằng bữa tối ngồi xuống ấm bụng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Xuân Hương Lake\",\n      \"note\": \"Giữ lại vì hồ là chốn ai đến Đà Lạt cũng muốn ngắm một lần, chiều muộn lại càng thư thả.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Đà Lạt Night Market\",\n      \"note\": \"Thêm chợ đêm để có chút bất ngờ ngoài mấy điểm quen thuộc, người một mình đi dạo chợ cũng vui.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Mây Lang Thang\",\n      \"note\": \"Ghé ngồi uống cà phê tối, ngắm phố núi lên đèn, hợp với người thích đêm và không vội.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"Lẩu Bò Ba Toa Quán Gỗ\",\n      \"note\": \"Bữa tối ngồi xuống đúng kiểu, lẩu bò nóng cho đêm Đà Lạt se lạnh, ngon quá.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 92,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 430,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "5e4ed528-5ba3-4adb-a3cf-a7932ac33c64",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "1: Chợ đêm, cà phê và lẩu bò"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 188,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 18,
           "service_tier": "standard"
         }
       }

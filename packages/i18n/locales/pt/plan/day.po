@@ -33,8 +33,20 @@ msgstr ""
 msgid "plan.day.item.suggestedBy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.pastNoRoom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.past"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/pushed-back.ts
+msgid "plan.retime.backToWhere"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -445,6 +457,11 @@ msgstr ""
 #. placeholder {0}: clock(locale, useStart)
 #: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
+msgstr ""
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx

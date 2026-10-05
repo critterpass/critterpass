@@ -7,7 +7,7 @@
  */
 import type { DayFit, PlanOp } from '@cp/domain';
 
-import { dayItems, type DayItem } from '@/data/plan/plan-model';
+import { dayItems, minutesOnDay, type DayItem } from '@/data/plan/plan-model';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 
 import { retime } from '../day-plan/reschedule';
@@ -22,13 +22,24 @@ const MAX_TRIES = 12;
 const QUARTER = 15;
 
 /** Where a block starts on a day nothing fits it into: after the day's last stop when that is not too late. */
-export function openStartOn(plan: TripPlan, dayNo: number, tz: string): number {
+export function openStartOn(
+  plan: TripPlan,
+  dayNo: number,
+  tz: string,
+  now: Date = new Date(),
+): number {
+  const date = plan.state.days.find((day) => day.day_no === dayNo)?.date ?? null;
+  // A day that has begun: nothing goes before now.
+  const nowMin =
+    date === null ? -1 : Math.ceil(minutesOnDay(now.toISOString(), tz, date) / QUARTER) * QUARTER;
+  const begun = nowMin > 0 && nowMin < 24 * 60;
   const ends = dayItems(plan.state, dayNo, plan.display, tz).flatMap((stop) =>
     stop.end === null ? [] : [stop.end],
   );
-  if (ends.length === 0) return FALLBACK_START_MIN;
-  const after = Math.ceil(Math.max(...ends) / QUARTER) * QUARTER;
-  return after <= LATEST_START_MIN ? after : FALLBACK_START_MIN;
+  const after =
+    ends.length === 0 ? FALLBACK_START_MIN : Math.ceil(Math.max(...ends) / QUARTER) * QUARTER;
+  const start = after <= LATEST_START_MIN ? after : FALLBACK_START_MIN;
+  return begun ? Math.max(start, nowMin) : start;
 }
 
 export interface IntoDay {

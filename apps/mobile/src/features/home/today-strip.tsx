@@ -18,10 +18,13 @@ import { Card } from '@/ui/cards/Card';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 
+import { shownStop, useReadsLocalNames } from '@/data/places/use-shown-names';
+
 import { useLiveRows } from './data/watch-query';
 import { homeRoutes } from './routes';
 
-const NEXT_STOP_SQL = `SELECT i.starts_at, i.tz, i.notes, i.category, p.name AS poi_name
+const NEXT_STOP_SQL = `SELECT i.starts_at, i.tz, i.notes, i.category, p.name AS poi_name,
+    p.name_local AS poi_name_local, t.destination_id
   FROM plan_items i
   JOIN trips t ON t.id = i.trip_id AND t.current_version_id = i.version_id
   LEFT JOIN pois p ON p.id = i.poi_id
@@ -35,6 +38,8 @@ interface NextStopRow {
   readonly notes: string | null;
   readonly category: string | null;
   readonly poi_name: string | null;
+  readonly poi_name_local: string | null;
+  readonly destination_id: string | null;
 }
 
 export interface TodayStripProps {
@@ -66,7 +71,9 @@ export function TodayStrip({ tripId, tz, today, minuteIso }: TodayStripProps) {
           timeZone: zone,
           ...clockOption(),
         }).format(at);
-  const name = next?.poi_name ?? next?.notes ?? next?.category ?? '';
+  const readsLocal = useReadsLocalNames(next?.destination_id ?? null);
+  const name =
+    (next === null ? null : shownStop(next, readsLocal)) ?? next?.notes ?? next?.category ?? '';
   const line =
     isToday && name !== ''
       ? t({ id: 'home.today.next', message: `Next: ${time} · ${name}` })

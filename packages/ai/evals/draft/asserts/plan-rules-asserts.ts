@@ -174,3 +174,15 @@ export function gradeRedraftRules(
   if (sights && outcome.day.theme === before.theme) fails.push('title: kept though sights changed');
   return fails;
 }
+
+/** The places, by name, a case's draft must hold. */
+export function gradePlaces(result: DraftPlanResult, names: readonly string[]): string[] {
+  const held = new Set(
+    result.itinerary.days.flatMap((d) =>
+      d.items.map((i) => result.input.pois.get(i.poi_id ?? '')?.name),
+    ),
+  );
+  return names
+    .filter((name) => !held.has(name))
+    .map((name) => `place: ${name} is not in the draft`);
+}

@@ -229,6 +229,8 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       mealPlaces: input.mealPlaces,
       hopCapMin: input.hopCapMin,
       homeId: input.homeId,
+      dayOutPlaces: (dayNo) =>
+        new Set((input.outings ?? []).filter((o) => o.dayNo === dayNo).flatMap((o) => o.poiIds)),
     }),
   );
   const feasibility = checkFeasibility({

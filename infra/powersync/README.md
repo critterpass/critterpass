@@ -32,7 +32,8 @@ Rules for a new area (a phase that publishes new tables):
 1. Add the table to the publication in its own migration and to `packages/db/src/publication.ts`.
 2. Add queries to `streams/<area>.yaml`. A stream named in several files gets the union of their
    queries; every file must agree on `auto_subscribe`/`priority`. Global CTE `my_crews` (core) is
-   shared; a CTE cannot reference another CTE, so repeat the membership filter inline inside one.
+   shared, and `trip_crew` is its counterpart for `{trip_id}` streams; a CTE cannot reference another
+   CTE, so repeat the membership filter inline inside one.
 3. Rows need an `id` column: alias a different key with `SELECT *, key AS id` (alias after `*`).
 4. Run `pnpm tsx infra/powersync/build-config.ts` and commit `sync-streams.yaml`.
 5. Add `packages/db/test/permissions/sync-streams-<area>.test.ts` using
@@ -43,7 +44,12 @@ Rules for a new area (a phase that publishes new tables):
 Stream filters cannot use `now()`, so time windows (e.g. recent FX days) need a flag column
 maintained by a job; `fx` is bounded by currency instead.
 
-Every subquery result counts toward PowerSync's 1,000 parameter results per connection, and every
+Every subquery result counts toward PowerSync's 1,000 parameter results per connection
+(`api.parameters.max_parameter_query_results` in `service.yaml` would raise it; it is left at the
+default so a stream that grows fails tests, not phones). PowerSync re-runs each lookup for every
+query shape of every subscription, so the `{trip_id}` streams check membership with `trip_crew`
+(through the subscribed trip: 3 results whatever the caller's crews), never `my_crews` (one result
+per crew, repeated per shape and per held trip). Every
 group edit supersedes a plan version, so plan lookups use the not-superseded versions (plus, on
 `trip`, the version each live one replaced). The trip stream's `change_sets` lookup is the one that
 still grows by one result per edit; `sync-streams-parameter-bounds.test.ts` names it and fails on

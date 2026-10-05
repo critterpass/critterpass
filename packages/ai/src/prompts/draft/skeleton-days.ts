@@ -22,7 +22,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { homeOf, hopCap } from './areas';
+import { homeOf, hopCap, dayOutOf } from './areas';
 import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
@@ -144,6 +144,7 @@ export function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly st
       hopCapMin: hopCap(input),
       mealPlaces: input.pools.eateries,
       homeId: homeOf(input),
+      dayOut: dayOutOf(input, day.dayNo),
     }).broken === 0
   );
 }

@@ -18,6 +18,8 @@ import { useMemo, useState } from 'react';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
+
 import { APPLY_DRAFT_OPS, APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
 import { displayOf, placeNamesOf, themesAsRead, toPlanState, type ItemDisplay } from './plan-model';
@@ -225,6 +227,7 @@ function useTripPlanRows(tripId: string | null, options: TripPlanOptions): TripP
   );
   const queued = useLiveRows<QueuedRow>(QUEUED_PLAN_SQL, [], QUEUED_PLAN_TABLES);
   const locale = useActiveLocale();
+  const readsLocal = useReadsLocalNames(tripRows.rows[0]?.destination_id ?? null);
   const changesets = useLiveRows<ChangesetRow>(
     OPEN_CHANGESETS_SQL,
     tripId === null ? null : [tripId],
@@ -265,13 +268,14 @@ function useTripPlanRows(tripId: string | null, options: TripPlanOptions): TripP
       places,
       synced,
       state: replay?.state ?? synced,
-      display: displayOf(items.rows, locale, places),
+      display: displayOf(items.rows, locale, places, readsLocal),
       themes: themesAsRead(days.rows, locale),
       queued: replay?.touched ?? new Set<string>(),
       proposed,
       openChangesets: changesets.rows,
     };
   }, [
+    readsLocal,
     tripId,
     uid,
     uidRows.loaded,

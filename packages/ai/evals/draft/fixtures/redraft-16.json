@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4519aeb1-dc83-4ef0-9061-553e813f0f13",
+        "id": "32bc5d68-68d7-402c-9b0d-ff054dbc13cf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Market Bites and Cusco Sweets\",\n  \"summary\": \"A gentle afternoon of chocolate, a proper market-style lunch and a quiet evening bite, all in the heart of Cusco.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for a market lunch, so Green Point gives us that fresh, casual bite without fuss.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Blas keeps the market mood going with its little stalls and local nibbles.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Andean dinner to close the day, because more food means a real meal, not just snacks.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Cusco Flavours and Sights\",\n  \"summary\": \"A relaxed afternoon and evening in Cusco, pairing a chocolate museum with market-style lunch and a proper dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course. Sweet learning before the savoury part of our day.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, market-fresh lunch stop with plenty of vegetarian choices for our crew.\",\n      \"start_by\": \"21:00\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner to end the day, with good vegetarian options and a warm room.\",\n      \"start_by\": \"20:45\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 298,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "81817228-8781-4c36-abe6-a99e2cdc609f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "1: An afternoon of chocolate and San Blas"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 232,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 10,
+          "output_tokens": 249,
           "service_tier": "standard"
         }
       }

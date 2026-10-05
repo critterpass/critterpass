@@ -237,11 +237,17 @@ export function offTheOuting(
   // Another outing's place on this day is a second ride out, wherever it stands.
   const otherOuting = (poiId: string) =>
     outings.some((o) => o !== outing && o.poiIds.includes(poiId));
+  // Before the ride out, only what is near the stay: a sight the other way is a second day out.
+  const awayBefore = (stop: TimedStop) =>
+    stop.startMin < first && homeId !== null && ride(homeId, stop.poi.id) > hopCapMin / 2;
   return day.stops.filter(
     (stop) =>
       // After dinner the crew is back near the stay: an evening out there is no second ride out.
       stop.startMin < DINNER.startMin &&
-      (whole || otherOuting(stop.poi.id) || (stop.startMin > first && stop.startMin < last)) &&
+      (whole ||
+        otherOuting(stop.poi.id) ||
+        awayBefore(stop) ||
+        (stop.startMin > first && stop.startMin < last)) &&
       stop.item.kind !== 'meal' &&
       foodRole(stop.poi) !== 'light' &&
       stop.item.must_do_id === null &&
@@ -251,7 +257,7 @@ export function offTheOuting(
 }
 
 /**
- * After a whole-day outing the crew rides home: dinner and the evening are near the stay, or on
+ * After a day out (any but a short one) the crew rides home: dinner and the evening are near the stay, or on
  * the way back. The stops after the outing's last that are neither (a dinner half an hour off
  * the road home, then another ride to a bridge) are returned. The crew's own stops stay.
  */
@@ -262,7 +268,8 @@ export function farAfterDayOut(
   homeId: string | null | undefined,
   hopCapMin: number | undefined,
 ): TimedStop[] {
-  const outing = outings.find((o) => o.dayNo === day.dayNo && o.minutes >= FULL_DAY_VISIT_MIN);
+  // Any day out longer than a short one: the crew comes back from it, not on to more riding.
+  const outing = outings.find((o) => o.dayNo === day.dayNo && !o.short);
   if (outing === undefined || homeId == null || hopCapMin === undefined) return [];
   const own = day.stops.filter((stop) => outing.poiIds.includes(stop.poi.id));
   const lastOwn = own[own.length - 1];

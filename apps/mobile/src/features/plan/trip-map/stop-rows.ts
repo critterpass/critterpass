@@ -81,6 +81,11 @@ export function onlyYouDetail(): string {
   return t({ id: 'plan.tripMap.personal.onlyYou', message: 'Only you' });
 }
 
+/** "You're here · since 13:01": the stop she said she is at. */
+export function hereDetail(since: string): string {
+  return t({ id: 'plan.tripMap.hereSince', message: `You’re here · since ${since}` });
+}
+
 export function personalDetail(mark: PersonalMark): string {
   return mark === 'skipping'
     ? t({ id: 'plan.tripMap.personal.skipping', message: 'You’re skipping this' })
@@ -149,6 +154,8 @@ export function buildStopRows(input: {
   readonly me: string | null;
   /** Where today is on this day; null (or absent) on any other day. */
   readonly progress?: DayProgress | null | undefined;
+  /** Stops she said she is at, with the clock she arrived ("13:01"): the row says so. */
+  readonly here?: ReadonlyMap<string, string> | undefined;
 }): StopRow[] {
   const { locale, day } = input;
   const notes = noteStops(day);
@@ -163,13 +170,17 @@ export function buildStopRows(input: {
     const personal = day.personal?.get(stop.stableId) ?? null;
     const vote = day.vote?.stableId === stop.stableId ? day.vote : null;
     const leg = input.after[index] ?? undefined;
+    const since = input.here?.get(stop.stableId);
     return {
       stop,
       n: index + 1,
       time: stop.start === null ? '' : columnClock(locale, stop.start),
       length:
         stop.start === null || stop.end === null ? undefined : lengthLabel(stop.end - stop.start),
-      detail: detailOf(locale, stop, issue, vote, input.members, input.me, personal),
+      detail:
+        since === undefined
+          ? detailOf(locale, stop, issue, vote, input.members, input.me, personal)
+          : hereDetail(since),
       issue: issue?.severity === 'fix' ? issue : null,
       vote: vote === null ? null : { pollId: vote.pollId },
       legAfter: leg === undefined ? null : legLabel(leg),

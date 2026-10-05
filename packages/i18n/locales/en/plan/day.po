@@ -33,9 +33,21 @@ msgstr "{0} min short to get here from {1}"
 msgid "plan.day.item.suggestedBy"
 msgstr "{0} suggested a change"
 
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.pastNoRoom"
+msgstr "{at} has passed, and the rest of the day is full."
+
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.past"
+msgstr "{at} has passed."
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} moved this too"
+
+#: ../../apps/mobile/src/features/plan/day/pushed-back.ts
+msgid "plan.retime.backToWhere"
+msgstr "{count, plural, one {# later stop moves back to where it was.} other {# later stops move back to where they were.}}"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.addedMany"
@@ -446,6 +458,11 @@ msgstr "Someone removed it while you had it open."
 #: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
 msgstr "Start at {0} instead"
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr "Start from now ({0})?"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"

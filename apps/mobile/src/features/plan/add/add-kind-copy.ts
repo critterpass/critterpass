@@ -4,7 +4,7 @@
  * comes with its reason. Left out once the person picks their own time.
  */
 import type { DayFit } from '@cp/domain';
-import { kindTimeOf, type FitPlace, type KindTime } from '@cp/planner';
+import { kindTimeOf, kindWindows, minutesOutside, type FitPlace, type KindTime } from '@cp/planner';
 import { t } from '@lingui/core/macro';
 
 import type { Reason } from '@/ui/planning';
@@ -58,14 +58,23 @@ export interface WhyInput {
   readonly lengthMin: number;
   /** The person chose the time: the place's own time of day is not why. */
   readonly timePicked: boolean;
+  /** The block's start and day: the place's time of day is only why when the block is in it. */
+  readonly startMin?: number;
+  readonly date?: string | null;
 }
 
 export function whyTiles(input: WhyInput): Reason[] {
   const tiles = reasonTiles(input.day, input.month, input.stopName);
   const blocked = input.day === null || input.day.grade === 'no';
+  const { place, startMin, date } = input;
+  // "Best in the morning" is no reason for a slot at nine at night.
+  const inOwnTime =
+    place === null || startMin === undefined || date == null
+      ? true
+      : minutesOutside(kindWindows(place, date, input.tz, input.lengthMin).own, startMin) === 0;
   const kind =
-    input.place === null || input.timePicked || blocked
+    place === null || input.timePicked || blocked || !inOwnTime
       ? null
-      : kindTile(kindTimeOf(input.place, input.tz, input.lengthMin));
+      : kindTile(kindTimeOf(place, input.tz, input.lengthMin));
   return kind === null ? tiles : [kind, ...tiles].slice(0, 4);
 }

@@ -33,9 +33,21 @@ msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 msgid "plan.day.item.suggestedBy"
 msgstr "{0} đã đề xuất một thay đổi"
 
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.pastNoRoom"
+msgstr "{at} đã qua, và phần còn lại của ngày đã kín."
+
+#: ../../apps/mobile/src/features/plan/day/past-time.ts
+msgid "plan.retime.past"
+msgstr "{at} đã qua."
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/pushed-back.ts
+msgid "plan.retime.backToWhere"
+msgstr "{count, plural, other {# điểm dừng sau đó trở về giờ cũ.}}"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.addedMany"
@@ -446,6 +458,11 @@ msgstr "Có người đã bỏ mục này khi bạn đang mở."
 #: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
 msgstr "Bắt đầu lúc {0}"
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr "Bắt đầu từ bây giờ ({0})?"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"

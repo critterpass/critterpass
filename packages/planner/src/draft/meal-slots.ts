@@ -28,12 +28,20 @@ export function mealAt(startMin: number): MealSlot | null {
   return null;
 }
 
+/** Back from a day out (a mountain an hour from town), lunch may start this much later. */
+export const LUNCH_AFTER_DAY_OUT_MIN = 30;
+
 /**
  * The stretch an untimed meal reached at `startMin` waits for: lunch while there is still time
- * for one and the day has had none, else dinner.
+ * for one (a little longer straight `afterDayOut`) and the day has had none, else dinner.
  */
-export function mealSlotAt(startMin: number, lunched: boolean): typeof LUNCH | typeof DINNER {
-  return startMin <= LUNCH_LAST_START_MIN && !lunched ? LUNCH : DINNER;
+export function mealSlotAt(
+  startMin: number,
+  lunched: boolean,
+  afterDayOut = false,
+): typeof LUNCH | typeof DINNER {
+  const last = LUNCH_LAST_START_MIN + (afterDayOut ? LUNCH_AFTER_DAY_OUT_MIN : 0);
+  return startMin <= last && !lunched ? LUNCH : DINNER;
 }
 
 const LUNCH_WORDS = ['lunch', 'lunchtime', 'midday', 'noon', 'morning', 'breakfast'];
