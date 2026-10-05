@@ -16,7 +16,13 @@
  * the plan back as it was before that edit, as long as nobody has changed the plan since.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes and SQL, never copy. */
-import { generateUuidV7, planOpsToEdits, type PlanOp, type PlanState } from '@cp/domain';
+import {
+  generateUuidV7,
+  planOpsToEdits,
+  type PlanOp,
+  type PlanPush,
+  type PlanState,
+} from '@cp/domain';
 import { rebaseOps } from '@cp/planner';
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
@@ -166,7 +172,7 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
   const submit = useCallback(
     async (
       ops: readonly PlanOp[],
-      options: { readonly confirmLocked?: boolean } = {},
+      options: { readonly confirmLocked?: boolean; readonly pushed?: PlanPush } = {},
     ): Promise<EditOutcome> => {
       const { plan: current } = latest.current;
       const base = current.versionId;
@@ -182,6 +188,8 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
         base_version: base,
         ops: [...ops],
         confirm_locked: confirmLocked,
+        // Which later stops these ops push, so taking the stop off can put them back exactly.
+        ...(options.pushed === undefined ? {} : { pushed: options.pushed }),
       });
       inFlight.set(result.opId, {
         tripId: current.trip.id,
