@@ -109,6 +109,10 @@ msgid "plan.check.running"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.toast.keptLine"
 msgstr ""
 
@@ -584,6 +588,10 @@ msgstr ""
 msgid "plan.check.toast.failedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorkingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.none"
 msgstr ""
@@ -602,6 +610,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/rain-crowds/swap-chart.tsx
 msgid "plan.check.rain.laneNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.draftApplied"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
@@ -774,12 +786,20 @@ msgstr ""
 msgid "plan.check.toast.stale"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.shared"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.plain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.overlap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sharedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx

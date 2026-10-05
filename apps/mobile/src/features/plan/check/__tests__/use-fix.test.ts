@@ -78,4 +78,20 @@ describe('what FIX does', () => {
     expect(failed).toEqual({ kind: 'failed' });
     expect(cardsAfter(new Set(), id(10), failed).size).toBe(0);
   });
+
+  it('reads a fix on her own draft and the reasons it can be refused there', () => {
+    expect(
+      fixOutcome({ kind: 'applied', opId: 'f', result: { applied: true, version_id: id(40) } }),
+    ).toEqual({ kind: 'applied', actionId: id(40) });
+    const refused = (reason: string) =>
+      fixOutcome({ kind: 'rejected', opId: 'g', code: 'STATE_INVALID', detail: { reason } });
+    const working = refused('draft_running');
+    expect(working).toEqual({ kind: 'guideWorking' });
+    // The guide hands the draft back: the fix can be tried again, so the card stays.
+    expect(cardsAfter(new Set(), id(10), working).size).toBe(0);
+    const shared = refused('plan_shared');
+    expect(shared).toEqual({ kind: 'shared' });
+    expect([...cardsAfter(new Set(), id(10), shared)]).toEqual([id(10)]);
+    expect(refused('trip_status')).toEqual({ kind: 'failed' });
+  });
 });

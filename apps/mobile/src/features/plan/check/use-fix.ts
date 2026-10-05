@@ -4,7 +4,7 @@
  * too-far card opens its short sheet first, and the bigger fixes open their own screen. A card
  * whose fix landed slides off; an issue from an older plan than the server's is stale: it leaves
  * too, and the check runs again on the new plan by itself. On an organiser's own draft no fix is
- * sent: the card opens the stop for her to change by hand (`ByHand`).
+ * sent there, and a card whose fix is a screen of the crew's plan opens the stop instead (`ByHand`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes and screen names, never copy. */
 import type { PlanCheckIssue } from '@cp/domain';
@@ -14,7 +14,7 @@ import { useCallback, useState } from 'react';
 import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 
-import { applyCheckFixOnline, keepCheckIssueCommand } from './commands';
+import { applyCheckFixOnline, applyDraftCheckFixOnline, keepCheckIssueCommand } from './commands';
 import { checkRoutes } from './routes';
 
 export type FixAction =
@@ -26,17 +26,22 @@ export type FixAction =
   | { readonly kind: 'none' };
 
 /**
- * Where a card leads when the guide's fixes cannot be sent: on an organiser's own draft (they
- * need the crew's plan on the server), the stop's own sheet. Null: nothing to open for the issue.
+ * Where a card leads on an organiser's own draft when its fix is one of the crew plan's screens
+ * (less driving, rain and crowds) or there is none: the stop's own sheet. Null: nothing to open for the issue.
  * Leave it out and the card offers its fix.
  */
 export type ByHand = (issue: PlanCheckIssue) => Href | null;
 
 export function fixActionOf(issue: PlanCheckIssue, tripId: string, byHand?: ByHand): FixAction {
-  if (byHand !== undefined) {
-    const href = byHand(issue);
-    return href === null ? { kind: 'none' } : { kind: 'by_hand', href };
-  }
+  const action = crewAction(issue, tripId);
+  // Her draft: a one-tap fix and the too-far swap go to the draft; the fixer screens are the
+  // crew plan's, so those cards (and those with no fix) open the stop instead.
+  if (byHand === undefined || action.kind === 'apply' || action.kind === 'too_far') return action;
+  const href = byHand(issue);
+  return href === null ? { kind: 'none' } : { kind: 'by_hand', href };
+}
+
+function crewAction(issue: PlanCheckIssue, tripId: string): FixAction {
   const fix = issue.fix;
   if (fix === null || fix.kind === 'none') return { kind: 'none' };
   if (fix.kind === 'apply') return { kind: 'apply' };
@@ -60,6 +65,10 @@ export type FixOutcome =
   | { readonly kind: 'stale' }
   /** The move leaves less time than the real drive: refused, the plan untouched. */
   | { readonly kind: 'unfit' }
+  /** Her draft: the guide is drafting or redrafting it, so nothing of it can change now. */
+  | { readonly kind: 'guideWorking' }
+  /** Her draft went to the crew since the check: the fix belongs on the crew's plan now. */
+  | { readonly kind: 'shared' }
   | { readonly kind: 'failed' };
 
 function detailReason(detail: unknown): string | null {
@@ -78,6 +87,11 @@ export function fixOutcome(result: SendResult): FixOutcome {
     if (body?.applied === true && typeof body.guide_action_id === 'string') {
       return { kind: 'applied', actionId: body.guide_action_id };
     }
+    // A fix on her own draft answers with the draft it made.
+    const version = (body as { version_id?: unknown } | null)?.version_id;
+    if (body?.applied === true && typeof version === 'string') {
+      return { kind: 'applied', actionId: version };
+    }
     if (body?.applied === false && typeof body.change_set_id === 'string') {
       return { kind: 'sent', changeSetId: body.change_set_id };
     }
@@ -90,6 +104,10 @@ export function fixOutcome(result: SendResult): FixOutcome {
       return { kind: 'stale' };
     }
     if (result.code === 'PLAN_VERSION_CONFLICT') return { kind: 'stale' };
+    if (result.code === 'STATE_INVALID' && reason === 'draft_running') {
+      return { kind: 'guideWorking' };
+    }
+    if (result.code === 'STATE_INVALID' && reason === 'plan_shared') return { kind: 'shared' };
   }
   return { kind: 'failed' };
 }
@@ -103,7 +121,9 @@ export function cardsAfter(
   issueId: string,
   outcome: FixOutcome,
 ): ReadonlySet<string> {
-  if (outcome.kind === 'failed' || outcome.kind === 'unfit') return gone;
+  if (outcome.kind === 'failed' || outcome.kind === 'unfit' || outcome.kind === 'guideWorking') {
+    return gone;
+  }
   return new Set([...gone, issueId]);
 }
 
@@ -120,8 +140,11 @@ export interface FixRunner {
   readonly fixedOn: string | null;
 }
 
-export function useFix(versionId: string | null): FixRunner {
-  const apply = useCommand(applyCheckFixOnline);
+/** `draft`: the plan checked is the organiser's own draft (its fixes go to the draft). */
+export function useFix(versionId: string | null, draft = false): FixRunner {
+  const applyCrew = useCommand(applyCheckFixOnline);
+  const applyDraft = useCommand(applyDraftCheckFixOnline);
+  const apply = draft ? applyDraft : applyCrew;
   const [gone, setGone] = useState<ReadonlySet<string>>(new Set());
   const [busy, setBusy] = useState<string | null>(null);
   const keeper = useCommand(keepCheckIssueCommand);

@@ -20,6 +20,7 @@ import { usePlanGuide } from '../plan-guide';
 import { AskCard } from './ask-card';
 import {
   appliedToast,
+  draftAppliedToast,
   backTripLabel,
   balanceRowLabel,
   checkBody,
@@ -29,6 +30,7 @@ import {
   clearNotice,
   failedNotice,
   failedToast,
+  guideWorkingToast,
   fixAllLabel,
   keptToast,
   movedLine,
@@ -37,6 +39,7 @@ import {
   nearerUseLabel,
   runningNotice,
   sentToast,
+  sharedToast,
   staleToast,
   swappedLine,
   unfitToast,
@@ -69,7 +72,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const ctx = useCheckContext(plan);
   const [motionMode] = useMotionMode();
   const versionId = check.check?.version_id ?? null;
-  const runner = useFix(versionId);
+  const runner = useFix(versionId, onDraft);
   const answer = useCommand(answerMemberAskCommand);
   const asks = useMemberAsks(tripId);
   const [open, setOpen] = useState<string | null>(null);
@@ -94,14 +97,20 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const after = (outcome: FixOutcome, done: string) => {
     const words =
       outcome.kind === 'applied'
-        ? appliedToast(done)
+        ? onDraft
+          ? draftAppliedToast(done)
+          : appliedToast(done)
         : outcome.kind === 'sent'
           ? sentToast()
           : outcome.kind === 'stale'
             ? staleToast(guideName)
             : outcome.kind === 'unfit'
               ? unfitToast()
-              : failedToast();
+              : outcome.kind === 'guideWorking'
+                ? guideWorkingToast(guideName)
+                : outcome.kind === 'shared'
+                  ? sharedToast()
+                  : failedToast();
     toast.show({ id: `plan-check-${outcome.kind}`, ...words });
   };
 
@@ -172,8 +181,10 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
                       }),
               onKeep: () => {
                 setOpen(null);
-                runner.keep(issue, organiser);
-                if (organiser) toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
+                // A keep is the crew plan's: on her own draft the card just leaves.
+                runner.keep(issue, organiser && !onDraft);
+                if (organiser && !onDraft)
+                  toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
               },
             },
     };
