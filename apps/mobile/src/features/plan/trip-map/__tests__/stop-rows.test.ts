@@ -173,3 +173,18 @@ describe('free time worth a slot', () => {
     expect(showsGap({ from: 19 * 60, to: 22 * 60, whoFree: all }, 4, LAST)).toBe(false);
   });
 });
+
+describe('a stop she said she is at', () => {
+  it('says so on its row, with when she arrived', () => {
+    const rows = buildStopRows({
+      locale: 'en-GB',
+      day: day([MARKET, MUSEUM, BRIDGE]),
+      after: [],
+      gaps: [],
+      members: [],
+      me: null,
+      here: new Map([['museum', '13:01']]),
+    });
+    expect(rows.map((row) => row.detail?.includes('13:01') === true)).toEqual([false, true, false]);
+  });
+});

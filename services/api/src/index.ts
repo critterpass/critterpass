@@ -63,6 +63,9 @@ const routing =
       })
     : undefined;
 
+/** The job producer has started: commands can queue their jobs, and /health reports ready. */
+let jobsReady = false;
+
 const app = createApp({
   service: 'api',
   version: packageJson.version,
@@ -101,7 +104,11 @@ const app = createApp({
     : {}),
   // Resolved per request, so the auth module created below is in place by then.
   sessions: (headers) => commandDoors.sessions(headers),
+  // Until the job producer is up a command that queues work would fail: /health says "starting".
+  started: () => jobsReady,
   readiness: {
+    jobs: () =>
+      jobsReady ? Promise.resolve() : Promise.reject(new Error('job producer not started')),
     db: async () => {
       await pool.query('select 1');
     },
@@ -187,10 +194,17 @@ const jobProducer = startJobProducer({
   connectionString: env.DATABASE_DIRECT_URL ?? env.DATABASE_URL,
   max: env.JOBS_POOL_MAX,
   logger,
-}).catch((error: unknown) => {
-  logger.error({ err: error }, 'job producer failed to start; enqueueing commands will fail');
-  return undefined;
-});
+})
+  .then((boss) => {
+    jobsReady = true;
+    logger.info('job producer started');
+    return boss;
+  })
+  .catch((error: unknown) => {
+    // Never ready: the platform keeps the previous deployment serving and reports this one failed.
+    logger.error({ err: error }, 'job producer failed to start; enqueueing commands will fail');
+    return undefined;
+  });
 routeNotificationsFromApiEvents();
 
 // Support's time-boxed perk grants are one more entitlement source, console or not.

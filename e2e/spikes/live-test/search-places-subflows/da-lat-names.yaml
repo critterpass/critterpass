@@ -218,7 +218,7 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'add-must-do-field'
-- inputText: 'Thung lung'
+- inputText: 'Langbiang'
 - extendedWaitUntil:
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
@@ -303,7 +303,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'search-field'
     optional: true
-- inputText: 'Thung lung'
+- inputText: 'Langbiang'
 - extendedWaitUntil:
     visible:
       id: 'search-row-.*'
@@ -311,6 +311,20 @@ appId: app.critterpass.dev
     optional: true
 - hideKeyboard
 - takeScreenshot: ${SHOTS}-07-trip-search
+# Langbiang's page: its note in the reader's language.
+- tapOn:
+    id: 'search-row-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail|explore-place-.*'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${SHOTS}-07b-langbiang-page
+- back
+- waitForAnimationToEnd
 - tapOn:
     id: 'search-clear'
     optional: true

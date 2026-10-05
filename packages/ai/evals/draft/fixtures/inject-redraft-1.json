@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a6b8608a-69cd-48f3-97ab-ae7fb17f6fa1",
+        "id": "42e2562c-eaf1-498a-b96f-30e8b16d5d51",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Temples and a Quiet Meal\",\n  \"summary\": \"A gentler day with two temples and time to breathe, keeping lunch and dinner simple and vegetarian-friendly.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Forty-five minutes of very old wood and very long silence. Worth every step.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch that keeps everyone fed and no one guessing. Vegan, halal, and calm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre and a lot of butter. Vegetarian options, so nobody sulks.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Kyoto, Two Temples Deep\",\n  \"summary\": \"A gentler day with time to linger at Kinkaku-ji and Ginkaku-ji, a quiet lunch, and an easy evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. We give it the morning, unhurried.\",\n      \"start_by\": \"15:45\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch near the temples. Shoes off, phone down, eyes up.\",\n      \"start_by\": \"12:45\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Silver after gold, with room to breathe. Slower means we actually sit on the veranda.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan dinner to end the day. No rush, no crowds.\",\n      \"start_by\": \"19:45\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 27,
+          "input_tokens": 93,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 304,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 313,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "954e7a86-b5e5-43c3-a0ff-ea2f6c4db8f6",
+        "id": "ab21c4f1-c6b3-4791-9774-c359047c7c06",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Two temples, one slow lunch\n3: An evening of omurice"
+            "text": "2: Two temples, one slow day"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 206,
+          "input_tokens": 204,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 17,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

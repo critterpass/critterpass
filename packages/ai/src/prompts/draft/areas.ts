@@ -142,3 +142,10 @@ export function insideVisit(
   const home = homeOf(input);
   return partOfVisit(poi, anchor, home === null ? 0 : (input.travel(home, anchor.id) ?? 0));
 }
+
+/** The places of the day out day `dayNo` is planned for (./outings in the planner). */
+export function dayOutOf(input: Pick<DraftPlanInput, 'pools'>, dayNo: number): ReadonlySet<string> {
+  return new Set(
+    input.pools.outings.filter((outing) => outing.dayNo === dayNo).flatMap((o) => o.poiIds),
+  );
+}

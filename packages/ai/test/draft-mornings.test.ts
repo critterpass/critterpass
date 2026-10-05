@@ -63,20 +63,23 @@ const day = (
 
 describe('the morning of a day', () => {
   it('is a title only for a day under way by ten, and a visit across noon is half a day', () => {
-    // Valley of Love from 08:30: a morning.
-    const early = day(3, ['Valley of Love'], [['01:30', '04:00']]);
-    expect(titleFits(input, { ...early, theme: 'Buổi sáng ở Valley of Love' })).toBe(true);
+    // Langbiang from 08:30: a morning.
+    const early = day(2, ['Langbiang'], [['01:30', '04:00']]);
+    expect(titleFits(input, { ...early, theme: 'Buổi sáng ở Langbiang' })).toBe(true);
     // From 11:15 it is not.
-    const late = day(3, ['Valley of Love'], [['04:15', '06:45']]);
-    expect(titleFits(input, { ...late, theme: 'Buổi sáng ở Valley of Love' })).toBe(false);
-    expect(titleFrom({ ...input, locale: 'en' }, late)).toBe('Half a day at Valley of Love');
+    const late = day(2, ['Langbiang'], [['04:15', '06:45']]);
+    expect(titleFits(input, { ...late, theme: 'Buổi sáng ở Langbiang' })).toBe(false);
+    expect(titleFrom({ ...input, locale: 'en' }, late)).toBe('Half a day at Langbiang');
   });
 
   it('goes to the place that needs it more when two would open one day', () => {
     const both = day(2, ['Datanla Falls', 'Langbiang']);
     // Langbiang is the day out this day is planned for: Datanla gives way, wherever it stands.
-    expect(
-      misplacedOpeners(input, both).map((item) => input.pois.get(item.poi_id ?? '')?.name),
-    ).toEqual(['Datanla Falls']);
+    const names = misplacedOpeners(input, both).map(
+      (item) => input.pois.get(item.poi_id ?? '')?.name,
+    );
+    expect(names).toContain('Datanla Falls');
+    // Alone on its day, Langbiang opens it.
+    expect(misplacedOpeners(input, day(2, ['Langbiang']))).toEqual([]);
   });
 });

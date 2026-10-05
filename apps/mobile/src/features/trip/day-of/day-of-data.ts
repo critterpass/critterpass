@@ -160,6 +160,8 @@ export function dayTimeline(
   tripTz: string,
   /** A stop's note as this person reads it (the guide writes in English; the plan translates). */
   notesOf: (stableId: string) => string | null | undefined = () => undefined,
+  /** A stop's name as the plan screens show it, so the same stop reads the same everywhere. */
+  titleNamed: (stableId: string) => string | null | undefined = () => undefined,
 ): TimelineEntryData[] {
   const names = new Map(members.map((member) => [member.id, member.name]));
   return rows
@@ -181,7 +183,7 @@ export function dayTimeline(
       return {
         id: row.stable_id,
         time: clockIn(new Date(row.starts_at ?? ''), row.tz ?? tripTz, locale),
-        title: titleOf(row),
+        title: titleNamed(row.stable_id) ?? titleOf(row),
         detail: detail === '' ? null : detail,
         dimmed: !mine,
         bookingId: mine ? row.booking_id : null,

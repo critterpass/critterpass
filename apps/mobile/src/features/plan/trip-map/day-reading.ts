@@ -10,7 +10,7 @@ import { instantOnDay } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 import { clock } from '../day/format';
-import { useSaidStops } from '../day/stop-check-in';
+import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { useDayRoute } from './day-route';
 import { dayProgress, type StopMoment } from './next-stop';
 import { buildStopRows, onlyYouDetail, personalDetail } from './stop-rows';
@@ -36,6 +36,8 @@ export interface DayReading {
   readonly stops: ReadonlyMap<string, DayStopReading>;
   /** A stop's note as this person reads it. */
   readonly notesOf: (stableId: string) => string | null | undefined;
+  /** A stop's name as every plan screen shows it (`stopName`). */
+  readonly titleOf: (stableId: string) => string | null | undefined;
   /** The stops only I have that day. */
   readonly mine: readonly {
     readonly id: string;
@@ -61,6 +63,7 @@ export function useDayReading(
   // The clock moves the marks once a minute, not once a second.
   const minute = Math.floor(now.getTime() / 60_000);
   const said = useSaidStops(tripId);
+  const hereSince = useHereSince(tripId, tz, locale);
   return useMemo(() => {
     const rows =
       day === null
@@ -73,6 +76,7 @@ export function useDayReading(
             members: plan.members,
             me: plan.uid,
             progress: dayProgress(day, new Date(minute * 60_000), tz, said),
+            here: hereSince,
           });
     const date = day?.date ?? null;
     return {
@@ -85,11 +89,18 @@ export function useDayReading(
             legAfter: row.legAfter,
             moment: row.moment,
             skipping: row.personal === 'skipping',
-            personal: row.personal === null ? null : personalDetail(row.personal),
+            // Day-of reads the row's own line: she is here, or what is hers alone.
+            personal:
+              hereSince.get(row.stop.stableId) !== undefined
+                ? (row.detail ?? null)
+                : row.personal === null
+                  ? null
+                  : personalDetail(row.personal),
           },
         ]),
       ),
       notesOf: (stableId: string) => plan.display.get(stableId)?.notes,
+      titleOf: (stableId: string) => plan.display.get(stableId)?.title,
       mine:
         day === null || date === null
           ? []
@@ -108,5 +119,5 @@ export function useDayReading(
                   ],
             ),
     };
-  }, [day, route, locale, plan.members, plan.uid, plan.display, minute, tz, said]);
+  }, [day, route, locale, plan.members, plan.uid, plan.display, minute, tz, said, hereSince]);
 }

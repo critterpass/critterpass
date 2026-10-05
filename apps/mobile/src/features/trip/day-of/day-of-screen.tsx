@@ -146,7 +146,7 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const planDay = useDayReading(tripId, localDate, now, locale);
   // The guide's notes read in the app's language either way; the rest of the day plan's reading
   // of the day comes with the planning screens.
-  const base = dayTimeline(items.rows, me, members, locale, tz, planDay.notesOf);
+  const base = dayTimeline(items.rows, me, members, locale, tz, planDay.notesOf, planDay.titleOf);
   const timeline = redesign ? withPlanRows(base, planDay) : base;
   const planDayNo = redesign ? planDay.dayNo : null;
   const port = alarmPort();

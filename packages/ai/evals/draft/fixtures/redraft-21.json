@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "741e5fb1-c24f-484f-89d9-f01e4653bae4",
+        "id": "c81c214a-810f-499d-a9b3-213081b7dee8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A lazy start, a beach stroll, and a long, easy lunch by the water, with the evening left open for whatever feels right.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\",\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch in the same area, no rush. Cơm gà is filling, local, and exactly what a slow beach day calls for.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, shady wander after lunch. Kazik Park is small, green, and keeps the afternoon unhurried.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and light. Bánh bèo is a snack-sized meal, perfect for a day that never got in a hurry.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Start, Sea Breeze and Street Bites\",\n  \"summary\": \"A gentle late-morning start eases into local flavours and an afternoon by the water, with a simple evening close to the river.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A late-morning snack stop to ease into the day, because even a slow morning needs a little street-food spark.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch in the same neighbourhood, a local chicken rice that keeps the day simple and filling.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An afternoon at An Bang Beach, where the sea breeze does the talking and the sand slows everything down.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short wander through Kazik Park to stretch the legs before heading back toward the city.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in the city centre, a bowl of turmeric noodles to warm the evening.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet evening stroll around the square, where the city lights reflect off the river and the day winds down.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 112,
+          "input_tokens": 31,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 350,
+          "output_tokens": 448,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "dd3a33ba-a68e-459b-9a0e-babf3df17815",
+        "id": "1150d920-f591-4954-9235-760ffab709a9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Slow morning, sea breeze afternoon"
+            "text": "Day 2: Late Morning Bites and Beach Breeze"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 240,
+          "input_tokens": 141,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 8,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

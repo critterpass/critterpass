@@ -21,7 +21,7 @@ import {
   mealsInWindow,
   type MealSlot,
 } from './meal-slots';
-import { placeWindow } from './place-time';
+import { placeWindows } from './place-time';
 import { isKept, isTheirs, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
 export type DaySenseCode =
@@ -68,6 +68,8 @@ export interface DaySenseInput {
   readonly hopCapMin?: number | undefined;
   /** The place the crew sleeps near (./home); with it the ride out to a day's first stop counts. */
   readonly homeId?: string | null | undefined;
+  /** The places of the day out each day is planned for (./outings), by day number. */
+  readonly dayOutPlaces?: (dayNo: number) => ReadonlySet<string>;
 }
 
 const at = (
@@ -144,10 +146,9 @@ function missingMeals(
 function placeTimeChecks(day: TimedDay): DaySenseViolation[] {
   return day.stops.flatMap((stop) => {
     if (stop.held || isMustDo(stop) || stop.item.kind === 'meal') return [];
-    const own = placeWindow(stop.poi, day.date);
-    return own !== null && (stop.startMin < own.fromMin || stop.startMin > own.toMin)
-      ? [at('WRONG_TIME_OF_DAY', day, stop)]
-      : [];
+    const windows = placeWindows(stop.poi, day.date);
+    const inside = windows.some((w) => stop.startMin >= w.fromMin && stop.startMin <= w.toMin);
+    return windows.length > 0 && !inside ? [at('WRONG_TIME_OF_DAY', day, stop)] : [];
   });
 }
 
@@ -174,6 +175,10 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
     rideHome ? dinnerAt : undefined,
     input.homeId,
     (index) => day.stops[index]?.item.kind !== 'meal',
+    (index) => {
+      const id = day.stops[index]?.poi.id;
+      return id !== undefined && input.dayOutPlaces?.(day.dayNo).has(id) === true;
+    },
   );
   return hops.flatMap((hop) => {
     const far = day.stops[hop.index];

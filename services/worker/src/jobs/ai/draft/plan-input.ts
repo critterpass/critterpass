@@ -19,6 +19,7 @@ import {
   type DraftPoi,
   type ResolvedWishes,
   type TripFrame,
+  type RoutedPairs,
 } from '@cp/planner';
 
 import type { DraftTripData } from './load';
@@ -34,6 +35,8 @@ export interface PlanInputOptions {
   readonly prefer?: readonly string[];
   /** Places the organiser already put on a day: known to the planner, never offered again. */
   readonly notOffered?: ReadonlySet<string>;
+  /** Minutes the routing service already gave between the places (./road-minutes). */
+  readonly routed?: RoutedPairs;
 }
 
 export function tripDates(trip: Pick<DraftTripData, 'startDate' | 'endDate'>): string[] {
@@ -144,10 +147,12 @@ export function buildPlanInput(
       tastes,
       include: [...(options.wished?.offered ?? []), ...(options.prefer ?? [])],
       ignoreNames: ignore,
+      ...(options.routed === undefined ? {} : { routed: options.routed }),
     }),
     tastes,
     bands: trip.bands,
-    travel: straightLineMatrix(pois),
+    travel: straightLineMatrix(pois, options.routed),
+    ...(options.routed === undefined ? {} : { routed: options.routed }),
     stayType: trip.rooms?.stays[0]?.stayType ?? null,
     names: Object.fromEntries(trip.members.map((m) => [m.uid, m.name])),
     wishes: trip.mustDos

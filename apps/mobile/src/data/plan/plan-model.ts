@@ -165,12 +165,13 @@ export function displayOf(
   rows: readonly ModelItemRow[],
   locale = 'en',
   places: ReadonlyMap<string, string> = new Map(),
+  readsLocal = false,
 ): Map<string, ItemDisplay> {
   return new Map(
     rows.map((row) => [
       row.stable_id,
       {
-        title: stopName(row, places),
+        title: stopName(row, places, readsLocal),
         notes: guideText('plan_item', row, 'notes', locale),
         place:
           row.poi_lat === null || row.poi_lng === null

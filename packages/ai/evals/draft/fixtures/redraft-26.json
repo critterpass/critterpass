@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4d4a4ce7-d35c-47eb-9227-e362454d8a1e",
+        "id": "577c7871-0902-4d68-8720-095236a1b918",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt trong nhà, mưa vẫn vui\",\n  \"summary\": \"Trời mưa thì mình đổi gió: một ngày loanh quanh phố, ăn ngon và ngồi quán ấm, khô ráo từ sáng tới tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa đầu ngày mưa cứ là bánh căn nóng hổi, ngồi trong nhà nhìn phố ướt cũng thấy ấm.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ga Đà Lạt có mái che, vừa ngắm kiến trúc vừa tránh mưa, hợp với người thích đi chậm.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng Lâm Đồng kín gió, trưa mưa vào đây đọc lịch sử và văn hoá phố núi là vừa.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng ngồi bàn đàng hoàng, no bụng mà không ướt giày, đúng kiểu mình thích.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mây Lang Thang có mái che, cà phê ấm cho buổi chiều mưa, ngồi lâu một chút cũng được.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì vào Marché, trong nhà có đủ trò vui, khỏi lo ướt áo.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đà Lạt ngày mưa, trong nhà thôi\",\n  \"summary\": \"Trời hay mưa nên mình đổi hết sang chỗ có mái che, vẫn đủ chậm rãi cho một ngày Đà Lạt ấm cúng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Trời mưa thì vào Dinh III ngắm đồ xưa, khô ráo lại có chuyện để kể.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng trong nhà, đi thong thả vừa đúng kiểu dễ chịu của bạn.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng ngồi bàn cho ấm bụng, mưa ngoài kia kệ mưa.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cà phê chiều, ngồi trong nhà nhìn phố mưa, chậm rãi đúng gu.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi lại lâu một chút, chỗ này vừa cà phê vừa đồ ăn, hợp người thích ngồi bàn.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì vào khu giải trí có mái che, vẫn có chút nhộn nhịp cho cú đêm.\",\n      \"note_en\": \"\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 104,
+          "input_tokens": 93,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2816,
-          "output_tokens": 537,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "07e113a1-f10a-474e-9a74-13b182ba17d4",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, ấm trong nhà\",\n  \"summary\": \"Trời mưa nên mình rút vào những góc có mái che, nhâm nhi cà phê, ngắm nhà ga cũ và ăn tối thong thả trong phố.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ có mái che, vừa tránh mưa vừa ngắm kiến trúc xưa thật đã.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng khô ráo, mình lang thang xem lịch sử phố núi cho đỡ tiếc ngày mưa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi bàn ấm bụng với nem nướng, ngon quá (so tasty) là nhớ cảm ơn (thank you) cô chủ.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chiều mưa thì ngồi cà phê mái hiên, nhìn phố ướt mà lòng khô queo.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ăn quán ngồi lại lâu một chút, món Hà Nội giữa Đà Lạt cũng ấm tình.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì vào khu vui chơi trong nhà, đủ trò cho cú đêm khỏi buồn.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 5,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2944,
-          "output_tokens": 581,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 532,
           "service_tier": "standard"
         }
       }

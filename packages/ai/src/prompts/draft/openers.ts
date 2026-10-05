@@ -6,7 +6,20 @@
  * fills. Better a morning on the mountain another day than an afternoon of cloud on this one.
  */
 import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
-import { choicesOfDay, earlyNeed, isKept, opensDay, placeIdOf } from '@cp/planner';
+import {
+  choicesOfDay,
+  dayWindow,
+  earlyNeed,
+  isKept,
+  minuteOfDate,
+  opensDay,
+  placeIdOf,
+} from '@cp/planner';
+
+/** A day whose window opens by then has a morning (not the afternoon the crew lands). */
+const MORNING_FROM_BY_MIN = 10 * 60 + 30;
+/** A place that opens its day starts by then. */
+const OPENER_START_BY_MIN = 11 * 60;
 
 import { homeOf, hopCap } from './areas';
 import type { DraftPlanInput } from './context';
@@ -42,8 +55,16 @@ export function misplacedOpeners(input: DraftPlanInput, day: DraftDay): DraftIte
     return false;
   };
   const openers = day.items.filter(opens);
+  // On a day with a morning, a place that should open it starts in the morning, not after lunch.
+  const dayIndex = input.frame.dates.indexOf(day.date);
+  const hasMorning =
+    dayIndex >= 0 && dayWindow(input.frame, dayIndex).startMin <= MORNING_FROM_BY_MIN;
+  const late = (item: DraftItem) =>
+    hasMorning &&
+    minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) > OPENER_START_BY_MIN;
   return day.items.filter((item, index) => {
     if (isKept(item) || !opens(item)) return false;
+    if (late(item)) return true;
     const before = day.items
       .slice(0, index)
       .some((other) => other.kind !== 'meal' && !isKept(other) && !opens(other));

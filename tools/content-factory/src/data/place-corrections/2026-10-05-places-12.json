@@ -1,0 +1,191 @@
+{
+  "batch": "2026-10-05-places-12",
+  "checked_at": "2026-10-05T20:00:00+07:00",
+  "places": [
+    {
+      "destination": "bali",
+      "keep": "overture:4e3434e3-df15-4602-b663-d5b9fa66cb10",
+      "stored_name": "Tanah Lot Temple",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset"
+      },
+      "claim": {
+        "said": "Late afternoon for sunset",
+        "finding": "Its note calls it stunning at sunset; Wikivoyage: busiest in the late afternoons, pre-sunset.",
+        "source": "https://en.wikivoyage.org/wiki/Tanah_Lot"
+      },
+      "why": "Best time \"Late afternoon for sunset\" read as no time of day; now \"Sunset\". ",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:69f576b41d557879cfd935d5",
+      "stored_name": "Jimbaran Beach",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, when the seafood grills set tables on the sand"
+      },
+      "why": "Best time \"Early morning or late afternoon\" read as no time of day; now \"Sunset, when the seafood grills set tables on the sand\". Its note: seafood grills set tables on the sand at sunset.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5fa61b5f362cd92c77826fb5",
+      "stored_name": "Kuta Beach",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset: be on the sand by about 17:30"
+      },
+      "claim": {
+        "said": "Early morning or late afternoon",
+        "finding": "Wikivoyage: plenty of people head to the beach to watch the sunset; be in place by about 17:30 for a sunset between 18:15 and 18:45. Its note says the same.",
+        "source": "https://en.wikivoyage.org/wiki/Kuta"
+      },
+      "why": "Best time \"Early morning or late afternoon\" read as no time of day; now \"Sunset: be on the sand by about 17:30\". ",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b22df935-e10a-43c7-aade-6e1de5322f3c",
+      "stored_name": "Hội An Ancient Town",
+      "stated": true,
+      "revise": {
+        "best_time": "Half a day into the evening, for the lanterns"
+      },
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo những con phố lồng đèn của phố cổ được UNESCO công nhận, với nhà cổ, cửa hàng và vẻ đẹp ven sông.",
+          "best_time": "Nửa ngày, đến tối để ngắm đèn lồng",
+          "etiquette": "Tôn trọng nhà dân và phong tục nơi đền miếu.",
+          "crowd_hint": "Rất đông vào buổi tối và cuối tuần"
+        }
+      },
+      "why": "Best time \"Half a day: late afternoon into the evening, for the lanterns\" read as no time of day; now \"Half a day into the evening, for the lanterns\". The line said late afternoon into the evening; the planner read \"afternoon\" as any time. The evening, for the lanterns, is what it says.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e7742ac483b0cf5ed88c28b",
+      "stored_name": "Thuận Phước Bridge",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, for the views"
+      },
+      "i18n": {
+        "vi": {
+          "why_go": "Cây cầu treo nhìn ra vịnh Đà Nẵng và cảng biển.",
+          "best_time": "Hoàng hôn, ngắm cảnh",
+          "crowd_hint": "Ít xe; dễ dừng lại chốc lát."
+        }
+      },
+      "why": "Best time \"Late afternoon for sunset views.\" read as no time of day; now \"Sunset, for the views\". The line said \"late afternoon for sunset views\".",
+      "merge": []
+    },
+    {
+      "destination": "lisbon",
+      "keep": "overture:c16130d3-9775-4b31-b633-684fa28a1261",
+      "stored_name": "Cabo da Roca",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, if the fog allows"
+      },
+      "why": "Best time \"Late afternoon for sunset, but avoid fog\" read as no time of day; now \"Sunset, if the fog allows\". The line said \"late afternoon for sunset, but avoid fog\".",
+      "merge": []
+    },
+    {
+      "destination": "lisbon",
+      "keep": "fsq_os:4b0588a2f964a5201cd122e3",
+      "stored_name": "Cristo Rei",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, for the views over the city"
+      },
+      "why": "Best time \"Late afternoon for sunset views over the city.\" read as no time of day; now \"Sunset, for the views over the city\". The line said \"late afternoon for sunset views over the city\".",
+      "merge": []
+    },
+    {
+      "destination": "lisbon",
+      "keep": "overture:ac696f6d-252f-4dea-ba13-79461398ffa0",
+      "stored_name": "Miradouro da Graça",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset"
+      },
+      "why": "Best time \"Late afternoon to sunset.\" read as no time of day; now \"Sunset\". The line said \"late afternoon to sunset\".",
+      "merge": []
+    },
+    {
+      "destination": "lisbon",
+      "keep": "fsq_os:4b3cda52f964a520428825e3",
+      "stored_name": "LX Factory",
+      "stated": true,
+      "revise": {
+        "best_time": "Evening, when the bars and eateries fill"
+      },
+      "why": "Best time \"Late afternoon through evening\" read as no time of day; now \"Evening, when the bars and eateries fill\". The line said \"late afternoon through evening\"; its note names the bars and eateries.",
+      "merge": []
+    },
+    {
+      "destination": "mexico-city",
+      "keep": "fsq_os:4b0586fff964a5203d7a22e3",
+      "stored_name": "Monumento a la Revolución",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset and evening, for the lights"
+      },
+      "why": "Best time \"Late afternoon for sunset and evening lights\" read as no time of day; now \"Sunset and evening, for the lights\". The line said \"late afternoon for sunset and evening lights\".",
+      "merge": []
+    },
+    {
+      "destination": "kyoto",
+      "keep": "overture:9686f9d7-45f9-437a-b950-d1b7cc7e729e",
+      "stored_name": "Kyoto Tower",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, for clear views"
+      },
+      "why": "Best time \"Late afternoon to sunset for clear vistas\" read as no time of day; now \"Sunset, for clear views\". The line said \"late afternoon to sunset for clear vistas\".",
+      "merge": []
+    },
+    {
+      "destination": "iceland",
+      "keep": "fsq_os:594e6a923731ee3b68a992b4",
+      "stored_name": "Perlan - Wonders of Iceland",
+      "stated": true,
+      "revise": {
+        "best_time": "Sunset, for the views"
+      },
+      "why": "Best time \"Late afternoon for sunset views\" read as no time of day; now \"Sunset, for the views\". The line said \"late afternoon for sunset views\".",
+      "merge": []
+    },
+    {
+      "destination": "iceland",
+      "keep": "fsq_os:50cc961be4b0af445ded33aa",
+      "stored_name": "Laugavegur",
+      "stated": true,
+      "revise": {
+        "best_time": "Evening, for the buzz"
+      },
+      "why": "Best time \"Late afternoon into evening for buzz\" read as no time of day; now \"Evening, for the buzz\". The line said \"late afternoon into evening for buzz\".",
+      "merge": []
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "various",
+      "name": "Lines that name two times of day",
+      "why": "Left: \"early morning or late afternoon\" and the like (Japanese Covered Bridge, My Khe Beach, Linh Ứng, Kiyomizu-dera, Yasaka Shrine, Angel of Independence, Zócalo, Miradouros de Santa Luzia and Portas do Sol, Kerið, Secret Lagoon) say the place suits both; neither the record nor Wikivoyage makes one of them the time."
+    },
+    {
+      "destination": "bali",
+      "name": "Ubud Palace, Saraswati Temple",
+      "why": "Left: evening dance performances are offered there, but each note sends visitors by day too (the palace for exploring, Saraswati for the lotus in the morning)."
+    },
+    {
+      "destination": "lisbon",
+      "name": "Museu do Fado",
+      "why": "Left: the museum is seen by day; the fado performances its line names are elsewhere in the evening."
+    }
+  ]
+}

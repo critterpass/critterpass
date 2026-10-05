@@ -8,6 +8,8 @@
 import { shownPlaceName } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
+import { editorialTextFor } from '@/data/places/editorial-note';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 
 import { useTravelDataReader } from '@/data/travel-data/client';
@@ -99,10 +101,16 @@ export function usePlaceRow(placeId: string, destinationId: string | null): Plac
   const local = usePoi(placeId);
   const reader = useTravelDataReader();
   const readsLocal = useReadsLocalNames(local.row?.destination_id ?? destinationId);
+  const locale = useActiveLocale();
   // The page is titled with the name the reader sees; the other one is kept beside it.
   const named = (row: PoiRow): PoiRow => {
     const shown = shownPlaceName({ name: row.name, nameLocal: row.name_local }, readsLocal);
-    return { ...row, name: shown.shown, name_local: shown.other };
+    return {
+      ...row,
+      name: shown.shown,
+      name_local: shown.other,
+      editorial: editorialTextFor(row.editorial, locale),
+    };
   };
   const needed = local.loaded && local.row === null;
   const destination =

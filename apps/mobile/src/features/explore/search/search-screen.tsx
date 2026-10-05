@@ -36,6 +36,7 @@ import { OfflineBanner } from './offline-banner';
 import { OfflineSection } from './offline-section';
 import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
+import { nearestRows, useTripDayPoint } from './trip-day';
 import { useShownRows } from './use-shown-rows';
 import { parseNear, poiRef, scopeLabel } from './search-scope';
 import { SearchView } from './search-view';
@@ -56,7 +57,9 @@ export function SearchScreen(props: SearchScreenProps) {
   const { tripId } = props;
   const services = useSearchServices();
   useSettleProvisionalIdeas();
-  const trip = useSearchTrip(tripId);
+  const focusDayId = props.scope === 'day' ? (props.dayId ?? null) : null;
+  const trip = { ...useSearchTrip(tripId), focusDayId };
+  const tripDayPoint = useTripDayPoint(trip);
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');
   const [asked, setAsked] = useState<string | null>(props.q ?? null);
@@ -91,11 +94,8 @@ export function SearchScreen(props: SearchScreenProps) {
     // Plain words need signal: with none, the guide keeps the question for the first bar.
     if (!online) question.ask(trimmed);
   };
-  const near =
-    parseNear(props.near) ??
-    (place !== null && place.lat !== null && place.lng !== null
-      ? { lat: place.lat, lng: place.lng }
-      : null);
+  const at = place?.lat == null || place.lng == null ? null : { lat: place.lat, lng: place.lng };
+  const near = parseNear(props.near) ?? at ?? tripDayPoint;
   const nearKey = near === null ? null : `${String(near.lat)},${String(near.lng)}`;
   // `nearKey` stands for `near`: the same point in a new object is the same fetcher.
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +107,7 @@ export function SearchScreen(props: SearchScreenProps) {
     near,
     fetchPlaces,
   });
-  const rows = useShownRows(search.rows, trip.destinationId);
+  const rows = nearestRows(useShownRows(search.rows, trip.destinationId), tripDayPoint);
   const rowIds = useMemo(
     () => rows.flatMap((row) => (row.poiId === null ? [] : [row.poiId])),
     [rows],

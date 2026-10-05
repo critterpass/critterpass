@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "da908d28-91aa-406e-a38e-e827b676ca6f",
+        "id": "bd1593b6-dfa0-4b63-8dcc-8f8e5766aea3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Food-Lover's Mexico City Day\",\n  \"summary\": \"A slower day built around Coyoacán's market, a proper vegetarian lunch, and a relaxed evening in Roma Norte.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The market stays: snacks, colours and local life in one happy wander.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Frida's house keeps the culture close by, and gives the morning a gentle museum pause.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian lunch in Roma Norte, because the crew asked for more food, not just snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow Roma Norte walk after lunch: photo spots, coffee smells and no rush.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Sabores del Centro\",\n  \"summary\": \"A relaxed day around the historic centre, mixing markets, museums and a proper meal at a gentler pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the old city, and it opens early enough for our history lovers.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Roma Norte to work up an appetite and catch the local life.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with solid vegetarian choices, close to our walk.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy green pause in Chapultepec before the evening meal.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The big dinner stop, a fancy vegetarian-friendly send-off for the day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 22,
+          "input_tokens": 53,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 305,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "f1a00421-43cb-4eb6-9ae6-8050373f22cf",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "2: Market, museum, meal, museum, walk, meal"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 227,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 13,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 302,
           "service_tier": "standard"
         }
       }

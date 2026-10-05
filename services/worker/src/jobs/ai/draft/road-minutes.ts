@@ -5,7 +5,8 @@
  * hop short enough to walk counts nothing, as the day screen shows it on foot.
  */
 import type { DraftDay } from '@cp/domain';
-import { metresBetween, type DraftPoi } from '@cp/planner';
+import { withSystem } from '@cp/db';
+import { metresBetween, routedPairKey, type DraftPoi, type RoutedPairs } from '@cp/planner';
 import type pg from 'pg';
 
 /**
@@ -59,4 +60,30 @@ export function onTheRoad(
       return { ...item, travel_min: walked ? 0 : item.travel_min };
     }),
   };
+}
+
+/**
+ * Minutes the routing service already gave between `places`, on any trip, by `routedPairKey`:
+ * the latest routed leg of each pair, a walk or a ride as the legs job chose it. The draft
+ * plans with these where they exist (the planner's travel matrix).
+ */
+export async function loadRoutedPairs(
+  pool: pg.Pool,
+  places: readonly string[],
+): Promise<RoutedPairs> {
+  if (places.length === 0) return new Map();
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ from_poi: string; to_poi: string; minutes: number }>(
+      `SELECT DISTINCT ON (least(f.poi_id, t.poi_id), greatest(f.poi_id, t.poi_id))
+              f.poi_id AS from_poi, t.poi_id AS to_poi, l.minutes
+         FROM plan_legs l
+         JOIN plan_items f ON f.version_id = l.version_id AND f.stable_id::text = l.from_key
+         JOIN plan_items t ON t.version_id = l.version_id AND t.stable_id::text = l.to_key
+        WHERE NOT l.approx AND l.mode IN ('walk', 'drive')
+          AND f.poi_id = ANY($1::uuid[]) AND t.poi_id = ANY($1::uuid[]) AND f.poi_id <> t.poi_id
+        ORDER BY least(f.poi_id, t.poi_id), greatest(f.poi_id, t.poi_id), l.computed_at DESC`,
+      [places],
+    ),
+  );
+  return new Map(rows.map((row) => [routedPairKey(row.from_poi, row.to_poi), row.minutes]));
 }

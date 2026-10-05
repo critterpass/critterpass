@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9b29ce94-963a-4822-a62c-dc1a4eee79e7",
+        "id": "aec6d127-e8ff-4acf-a8a9-38bf4771eba7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Feast and Sea Day\",\n  \"summary\": \"A slower Lisbon day that keeps the crew's two must-sees and makes room for markets, snacks and a proper sit-down meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The big museum the crew asked for, kept as the morning anchor.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with veggie options, because today is about eating well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free Alfama wander to walk off lunch and soak up the old streets.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Oceanário stays, even if it takes half the day — it is a must for this crew.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a proper tasca, because a food day needs a second real meal.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"Markets, snacks, a proper meal and a castle view, all in one tasty Lisbon day.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ana asked for pastries, so we start at the market where the best local bites hide.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-see museum stays, because culture feeds the soul between snacks.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper seafood feast, the kind that makes you forget you ever had a plan.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A castle with a view to walk off all that garlic and olive oil.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 52,
+          "input_tokens": 100,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 371,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "dfc01be4-c414-4bdd-b545-a5cba27ef0f5",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Food-Lover's Day in Lisbon\",\n  \"summary\": \"Museums, markets and a proper sit-down meal, with pastries to keep the crew smiling all day long.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The big museum the crew asked for, and it is a must-do. Go early before the crowds.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with veggie options, right in the same area as the museum.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through the old lanes after lunch. Free, and easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ana asked for pastries, so we cross the river for the famous ones. Worth every flaky crumb.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The oceanarium is a must-do, and it stays open late enough for a full visit.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in the centre, with proper Portuguese flavours and veggie choices.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 75,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 398,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 256,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "f0001b9e-8c3a-473b-978c-3371b5c01705",
+        "id": "1cb1bce5-da4c-467c-b0c7-a3d2f97a4d9d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: A morning at the Oceanário"
+            "text": "Day 2: Market morning, museum, then seafood feast"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 157,
+          "input_tokens": 292,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 10,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e9bfb1b5-ab2b-4598-b826-5f7aefd76109",
+        "id": "069ba954-ac96-4172-9b68-d0ca3f69b0c2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Sardine-Style Sunday Stroll\",\n  \"summary\": \"A slower Sunday with a long, lazy lunch at Cervejaria Ramiro and an evening wander through Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Still the star of the day. Grilled sardines, garlic, and no regrets. Halal-friendly seafood heaven.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, Bairro Alto wakes up. A gentle nightcap stroll for the night owls in the crew.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Belém and a Different Vibe\",\n  \"summary\": \"A slower Sunday around Belém with the tower kept as the anchor, then a different market and an evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays: you don't come to Lisbon and skip this one. History with a sea breeze.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Different from the usual museum run: a proper Lisbon market, all day, no rush.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, Bairro Alto does what it does best. Grilled sardines, every single night.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 69,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 175,
+          "output_tokens": 238,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "9594a37d-52a8-416a-aafe-1bdbf1078901",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Belém Tower and a Different Vibe\",\n  \"summary\": \"A slower Sunday around Belém with the tower as the anchor and a different local stop to round it out.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one everyone comes for, and it still earns its spot. Grilled sardines can wait; history cannot.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A different local stop for this redraft, with plenty of corners to wander and photo spots to keep the crew happy.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 101,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 170,
           "service_tier": "standard"
         }
       }

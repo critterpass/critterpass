@@ -10,11 +10,17 @@ export interface HealthDeps {
   readiness: Record<string, ReadinessCheck>;
   /** Upper bound for each probe so a hung dependency cannot hang the probe endpoint. */
   checkTimeoutMs?: number;
+  /**
+   * The process has finished starting (its job producer is up, so a command can queue its jobs).
+   * Until then `/health` answers 503, which is what the platform's deploy health check reads: the
+   * previous deployment keeps the traffic until this one can serve every request. Absent = started.
+   */
+  started?: () => boolean;
 }
 
 const HealthSchema = z
   .object({
-    status: z.literal('ok'),
+    status: z.enum(['ok', 'starting']),
     service: z.string(),
     version: z.string(),
     commit: z.string(),
@@ -32,9 +38,13 @@ const healthRoute = createRoute({
   method: 'get',
   path: '/health',
   tags: ['ops'],
-  summary: 'Liveness: the process is up; never touches dependencies',
+  summary: 'Liveness: the process is up and has finished starting; never touches dependencies',
   responses: {
     200: { description: 'Alive', content: { 'application/json': { schema: HealthSchema } } },
+    503: {
+      description: 'Still starting (the job producer is not up yet)',
+      content: { 'application/json': { schema: HealthSchema } },
+    },
   },
 });
 
@@ -87,12 +97,12 @@ export function registerHealthRoutes<E extends { Variables: object }>(
 ) {
   const timeoutMs = deps.checkTimeoutMs ?? 2000;
 
-  app.openapi(healthRoute, (c) =>
-    c.json(
-      { status: 'ok' as const, service: deps.service, version: deps.version, commit: deps.commit },
-      200,
-    ),
-  );
+  app.openapi(healthRoute, (c) => {
+    const about = { service: deps.service, version: deps.version, commit: deps.commit };
+    return deps.started === undefined || deps.started()
+      ? c.json({ status: 'ok' as const, ...about }, 200)
+      : c.json({ status: 'starting' as const, ...about }, 503);
+  });
 
   app.openapi(readyRoute, async (c) => {
     const { ready, checks } = await runReadiness(deps.readiness, timeoutMs);
