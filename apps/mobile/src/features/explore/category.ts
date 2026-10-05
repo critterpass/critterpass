@@ -49,3 +49,30 @@ export function categoryLabel(category: string): string {
       return t({ id: 'explore.category.other', message: 'Place' });
   }
 }
+
+/**
+ * Kinds of place in the order picks lead with them where nothing else ranks them: sights first
+ * (temples and shrines, nature, beaches, museums, markets), then places to eat, then nightlife.
+ * The api's picks read uses the same order.
+ */
+/* eslint-disable lingui/no-unlocalized-strings -- category keys, never copy. */
+export const PICK_KIND_ORDER: readonly string[] = [
+  'temple_shrine',
+  'nature',
+  'beach',
+  'museum',
+  'market',
+  'other',
+  'shopping',
+  'health',
+  'food',
+  'nightlife',
+  'transit',
+  'stay',
+];
+/* eslint-enable lingui/no-unlocalized-strings */
+
+export function kindRank(category: string): number {
+  const at = PICK_KIND_ORDER.indexOf(category);
+  return at === -1 ? PICK_KIND_ORDER.length : at;
+}

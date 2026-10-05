@@ -1,7 +1,9 @@
 /**
  * The places list's order (7c-3 "SORTED BY FIT FOR YOUR DAYS ▾" and the count): tapping it opens
  * the choices inline (fit, nearest, A–Z) and, at the foot, the places I hid, each with a way to
- * show it again. The menu itself is undesigned (docs/undesigned-states.md).
+ * show it again. The line names the order the list is really in (the guide's picks while no fit
+ * order is known) and the count is the shown filter's. The menu itself is undesigned
+ * (docs/undesigned-states.md).
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -23,6 +25,10 @@ export interface HiddenEntry {
 export interface SortMenuProps {
   readonly sort: SortMode;
   readonly onSort: (sort: SortMode) => void;
+  /** Each choice's words, as the list would run under it now. */
+  readonly labels: Readonly<Record<SortMode, string>>;
+  /** A line under the bar (how to save by swiping), until it is no longer needed. */
+  readonly hint?: string | undefined;
   readonly count: number;
   /** Inside a trip "fit" orders by the trip's days; outside one it isn't offered. */
   readonly inTrip: boolean;
@@ -40,6 +46,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['12'],
   },
   label: { flexShrink: 1, justifyContent: 'center' },
+  hint: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
   menu: {
     marginHorizontal: t.size.gutter,
     marginBottom: t.space['8'],
@@ -63,11 +70,7 @@ export function SortMenu(props: SortMenuProps) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const [open, setOpen] = useState(false);
-  const labels: Record<SortMode, string> = {
-    fit: t({ id: 'places.sort.fit', message: 'Sorted by fit for your days' }),
-    nearest: t({ id: 'places.sort.nearest', message: 'Sorted by nearest' }),
-    az: t({ id: 'places.sort.az', message: 'Sorted A–Z' }),
-  };
+  const { labels } = props;
   const modes: readonly SortMode[] = props.inTrip ? ['fit', 'nearest', 'az'] : ['nearest', 'az'];
   return (
     <View>
@@ -84,12 +87,20 @@ export function SortMenu(props: SortMenuProps) {
           <Text
             variant="eyebrow"
             numberOfLines={1}
+            testID="places-sort-label"
           >{`${upper(labels[props.sort], i18n.locale)} ▾`}</Text>
         </PressScale>
         <Text variant="eyebrow" color={theme.semantic.text.secondary} testID="places-list-count">
           {String(props.count)}
         </Text>
       </View>
+      {props.hint === undefined || open ? null : (
+        <View style={styles.hint}>
+          <Text variant="bodySm" color={theme.semantic.text.secondary} testID="places-swipe-hint">
+            {props.hint}
+          </Text>
+        </View>
+      )}
       {open ? (
         <View style={styles.menu} testID="places-sort-menu">
           {modes.map((mode) => (

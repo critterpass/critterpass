@@ -63,3 +63,18 @@ export type SwipeLive = { readonly kind: 'start' } | { readonly kind: 'join' };
 export function swipeLive(sessionOpen: boolean): SwipeLive {
   return { kind: sessionOpen ? 'join' : 'start' };
 }
+
+/** The kinds of place with any places, fullest first, from per-category counts. */
+export function kindCounts<G extends string>(
+  counts: readonly { readonly category: string; readonly n: number }[],
+  groupOf: (category: string) => G | null,
+): { readonly group: G; readonly count: number }[] {
+  const byGroup = new Map<G, number>();
+  for (const row of counts) {
+    const group = groupOf(row.category);
+    if (group !== null && row.n > 0) byGroup.set(group, (byGroup.get(group) ?? 0) + row.n);
+  }
+  return [...byGroup.entries()]
+    .map(([group, count]) => ({ group, count }))
+    .sort((a, b) => b.count - a.count || a.group.localeCompare(b.group));
+}

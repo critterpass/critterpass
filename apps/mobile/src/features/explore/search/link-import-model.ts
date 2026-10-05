@@ -6,7 +6,7 @@
  * with more than one candidate waits for a pick.
  */
 
-import type { ImportCandidate, ImportEvent, ImportPlatform } from '@cp/domain';
+import type { ImportCandidate, ImportEvent, ImportPlatform, PlaceFit } from '@cp/domain';
 
 type SourceData = Extract<ImportEvent, { event: 'source' }>['data'];
 type ErrorCode = Extract<ImportEvent, { event: 'error' }>['data']['code'];
@@ -159,4 +159,31 @@ export function sharedBestDay(places: readonly ImportCandidate[]): number | null
 
 export function platformOfSource(state: LinkImportState): ImportPlatform | null {
   return state.source?.platform ?? null;
+}
+
+export interface DaySlot {
+  readonly place: ImportCandidate;
+  readonly startsAt: string;
+  readonly endsAt: string;
+}
+
+/**
+ * The chosen places split by whether the day has room for them: those with a slot on the day go
+ * on it, the rest are kept for Ideas, so "put them on Sat" never loses a place.
+ */
+export function splitBySlot(
+  places: readonly ImportCandidate[],
+  fits: readonly PlaceFit[],
+  dayId: string,
+): { readonly slotted: DaySlot[]; readonly unslotted: ImportCandidate[] } {
+  const slotted: DaySlot[] = [];
+  const unslotted: ImportCandidate[] = [];
+  for (const place of places) {
+    const slot = fits
+      .find((fit) => fit.poi_id === place.poi_id)
+      ?.days.find((entry) => entry.day_id === dayId)?.slot;
+    if (slot === null || slot === undefined) unslotted.push(place);
+    else slotted.push({ place, startsAt: slot.starts_at, endsAt: slot.ends_at });
+  }
+  return { slotted, unslotted };
 }

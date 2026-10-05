@@ -6,7 +6,7 @@
  */
 import { resolveMemberStyle } from '@cp/design-tokens';
 import type { LngLatBounds } from '@maplibre/maplibre-react-native';
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -21,7 +21,7 @@ import type { GuideFacts } from '../format';
 import { centreOf, type Point } from '../map-model';
 import { useLabelSync } from './label-sync';
 import { gatherDots } from './place-clusters';
-import { leadDay, openingFrame, type PlanRouteDay } from './plan-routes';
+import { leadDay, type PlanRouteDay } from './plan-routes';
 import { PlacesCarousel } from './places-carousel';
 import { labelSubtitle } from './places-copy';
 import { PlacesHeader } from './places-header';
@@ -29,6 +29,7 @@ import { PlacesMapLayers } from './places-map-layers';
 import { placeCounts, type HubPlace, type PlacesFilter } from './places-model';
 import { PlacesPeek } from './places-peek';
 import { useCarouselEntries } from './use-carousel-entries';
+import { useMapFraming } from './use-map-framing';
 import type { CrewMember } from './use-places-data';
 import { placeDots, usePlacesInView } from './use-places-in-view';
 
@@ -50,6 +51,8 @@ export interface PlacesMapViewProps {
   readonly guide: GuideFacts;
   readonly stay: { readonly name: string; readonly at: Point } | null;
   readonly tz: string | null;
+  /** Each plan day's short weekday, for "In the plan · Tue" on a planned place's card. */
+  readonly weekdays?: ReadonlyMap<number, string> | undefined;
   /** Whether the map can draw (online, or the region is on this phone). */
   readonly canDraw: boolean;
   readonly localRegionUri: string | null;
@@ -143,32 +146,25 @@ export function PlacesMapView(props: PlacesMapViewProps) {
     tz: props.tz,
     fits: props.fitLines,
     saversOf,
+    weekdays: props.weekdays,
   });
 
   const focused = places.find((place) => place.id === label.focusedId) ?? null;
-  const { flyToPlace, fitPoints } = camera;
-  // Opened without a place, the map frames where the crew's places mostly are, once they are
-  // here; the far ones are reached by the edge chips.
-  const framed = useRef(props.placeId !== undefined && props.placeId !== null);
-  const stay = props.stay;
-  useEffect(() => {
-    if (framed.current || places.length === 0 || region.bounds === null) return;
-    const core = [
-      ...(stay === null ? [] : [stay.at]),
-      ...places.filter((place) => place.standing !== 'suggested'),
-    ];
-    const frame = openingFrame(core, places);
-    if (frame.length === 0) return;
-    framed.current = true;
-    fitPoints(frame, { top: insets.top + HEADER_PT, bottom: insets.bottom + PEEK_PT });
-  }, [places, stay, region.bounds, fitPoints, insets.top, insets.bottom]);
-
-  useEffect(() => {
-    if (focused === null) return;
-    flyToPlace([focused.lng, focused.lat], {
-      covered: { top: insets.top + HEADER_PT, bottom: insets.bottom + CARDS_PT },
-    });
-  }, [flyToPlace, focused, insets.top, insets.bottom]);
+  // Opened without a place, the map frames where the crew's places mostly are (the far ones are
+  // reached by the edge chips); a filter or a search's results frame their own places.
+  const framing = useMapFraming({
+    places,
+    filter,
+    resultsKey: props.resultChips === undefined ? null : props.resultChips.join('|'),
+    stay: props.stay?.at ?? null,
+    ready: region.bounds !== null,
+    opensOnPlace: props.placeId !== undefined && props.placeId !== null,
+    focused,
+    camera,
+    coveredTop: insets.top + HEADER_PT,
+    peekBottom: insets.bottom + PEEK_PT,
+    cardsBottom: insets.bottom + CARDS_PT,
+  });
 
   const lead = leadDay(props.routes, label.focusedId, props.today);
   const leadDayNo = filter === 'all' || filter === 'plan' ? lead : -1;
@@ -273,7 +269,8 @@ export function PlacesMapView(props: PlacesMapViewProps) {
         style={[styles.bottom, { paddingBottom: insets.bottom + theme.space['12'] }]}
         pointerEvents="box-none"
       >
-        {props.canDraw && props.pack !== null && focused === null ? (
+        {/* The offline card never sits over the words that say nothing is in view. */}
+        {props.canDraw && props.pack !== null && focused === null && view.inView.length > 0 ? (
           <View style={styles.pack}>{props.pack}</View>
         ) : null}
         {carousel ? (
@@ -289,6 +286,9 @@ export function PlacesMapView(props: PlacesMapViewProps) {
         ) : (
           <PlacesPeek
             count={view.inView.length}
+            total={framing.lit}
+            empty={filter === 'saved' || filter === 'plan' ? filter : 'none'}
+            onShowAll={framing.showAll}
             loading={!props.loaded}
             inTrip={props.inTrip}
             onList={props.onList}

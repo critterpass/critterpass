@@ -32,6 +32,10 @@ msgid "explore.trip.picksTitle"
 msgstr "{guide}'s first-timer picks"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindLabel"
+msgstr "{kind} · {count}"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.pickSavedToast"
 msgstr "{place} is in Ideas."
 
@@ -50,6 +54,10 @@ msgstr "♥ Saved"
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.stayIdea"
 msgstr "Back at the stay"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.kindsTitle"
+msgstr "Browse by kind"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapsBy"
@@ -110,6 +118,10 @@ msgstr "The whole crew is free"
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.back"
 msgstr "Trip"
+
+#: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
+msgid "explore.trip.gapSolo"
+msgstr "You're free"
 
 #: ../../apps/mobile/src/features/explore/trip-explore/copy.ts
 msgid "explore.trip.gapsFullTitle"

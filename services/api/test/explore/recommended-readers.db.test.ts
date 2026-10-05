@@ -118,3 +118,42 @@ describe('a destination with machine picks and no curated set', () => {
     expect(candidates.every((candidate) => candidate.category === 'nature')).toBe(true);
   });
 });
+
+describe('a curated set with no must-sees marked', () => {
+  it('leads with sights, three of a kind at a time, and never runs by name', async () => {
+    const { rows } = await pool.query<{ id: string }>(
+      `INSERT INTO destinations (slug, name, country, coverage, tz)
+       VALUES ('bali', 'Bali', 'Indonesia', 'live', 'Asia/Makassar') RETURNING id`,
+    );
+    const bali = rows[0]?.id as string;
+    const curated: readonly (readonly [string, string])[] = [
+      ['40 Thieves', 'nightlife'],
+      ['Aaharaam Lembongan', 'food'],
+      ['Above Eleven', 'nightlife'],
+      ['Pura Tirta Empul', 'temple_shrine'],
+      ['Pura Luhur Uluwatu', 'temple_shrine'],
+      ['Pura Besakih', 'temple_shrine'],
+      ['Pura Lempuyang', 'temple_shrine'],
+      ['Tegallalang Rice Terrace', 'nature'],
+      ['Ubud Art Market', 'market'],
+    ];
+    for (const [index, [name, category]] of curated.entries()) {
+      await pool.query(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, curation)
+         VALUES ($1, $2, $3, $4, 115.2, 'editorial')`,
+        [bali, name, category, -8.3 - index * 0.02],
+      );
+    }
+    const picks = await asViewer((tx) => readPicks(tx, bali, null));
+    expect(picks.map((pick) => pick.category)).toEqual([
+      'temple_shrine',
+      'temple_shrine',
+      'temple_shrine',
+      'nature',
+      'market',
+      'food',
+      'nightlife',
+      'nightlife',
+    ]);
+  });
+});

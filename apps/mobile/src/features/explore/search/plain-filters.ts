@@ -92,10 +92,13 @@ export function filtersFor(filters: SearchFilter, way: WayOut): SearchFilter | n
 export function plainSearchQuery(
   filters: SearchFilter,
   trip: { readonly tripId: string; readonly destinationId: string | null },
+  /** The question as typed: places named for what she asked come first. */
+  words?: string,
 ): string {
   const params = new URLSearchParams({ trip_id: trip.tripId, fit: '1', relax: '1', limit: '20' });
   if (trip.destinationId !== null) params.set('destination_id', trip.destinationId);
   if (filters.text !== undefined && filters.text !== '') params.set('q', filters.text);
+  if (words !== undefined && words.trim() !== '') params.set('words', words.trim().slice(0, 200));
   if (filters.categories !== undefined) params.set('categories', filters.categories.join(','));
   if (filters.attributes !== undefined) params.set('attrs', filters.attributes.join(','));
   if (filters.meal !== undefined) params.set('meal', filters.meal);
@@ -140,6 +143,14 @@ export interface PlainAnswer {
   readonly places: readonly PlainPlace[];
   readonly softMisses: readonly PlainPlace[];
   readonly waysOut: readonly WayOut[];
+  /**
+   * Places close to what was asked, when nothing matched all of it: what a looser search found,
+   * and the chip codes it dropped to find them.
+   */
+  readonly close: {
+    readonly places: readonly PlainPlace[];
+    readonly dropped: readonly string[];
+  } | null;
   readonly nearest: {
     readonly name: string;
     readonly area: string | null;
@@ -202,10 +213,22 @@ export function readPlainAnswer(body: unknown): PlainAnswer {
   });
   const nearest = value['nearest'] as Raw | null | undefined;
   const nearestName = nearest === null || nearest === undefined ? null : text(nearest['name']);
+  const close = value['close'] as Raw | null | undefined;
+  const closePlaces =
+    close === null || close === undefined ? [] : list(close['results']).flatMap(placeOf);
   return {
     places: list(value['results']).flatMap(placeOf),
     softMisses: list(value['soft_misses']).flatMap(placeOf),
     waysOut,
+    close:
+      close === null || close === undefined || closePlaces.length === 0
+        ? null
+        : {
+            places: closePlaces,
+            dropped: list(close['dropped']).flatMap((code) =>
+              typeof code === 'string' ? [code] : [],
+            ),
+          },
     nearest:
       nearest === null || nearest === undefined || nearestName === null
         ? null

@@ -63,6 +63,8 @@ export const tripSearchQuerySchema = z.object({
   price_max: z.coerce.number().int().min(1).max(4).optional(),
   fit: z.enum(['0', '1']).optional(),
   relax: z.enum(['0', '1']).optional(),
+  /** The question as she typed it: places named for the thing she asked for come first. */
+  words: z.string().trim().max(300).optional(),
 });
 export type TripSearchQuery = z.infer<typeof tripSearchQuerySchema>;
 
@@ -81,6 +83,17 @@ export function filterOf(query: TripSearchQuery, q: string | undefined): SearchF
     ...(query.price_max === undefined ? {} : { price_max: query.price_max }),
   };
 }
+
+/**
+ * A kind of place as a word to look for near a meal: "dinner by the beach" is a place to eat with
+ * the beach in its name, address or tags, never a beach that serves dinner.
+ */
+export const CATEGORY_NEAR_WORD: Partial<Record<PoiCategory, string>> = {
+  beach: 'beach',
+  temple_shrine: 'temple',
+  market: 'market',
+  museum: 'museum',
+};
 
 /** The kinds of place a meal is eaten at, when the search names no category itself. */
 export const MEAL_CATEGORIES: Readonly<Record<SearchMeal, readonly PoiCategory[]>> = {
