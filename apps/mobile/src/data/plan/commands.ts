@@ -1,7 +1,7 @@
 /**
  * Client specs for every command that edits the plan or decides on a change to it, one spec per
  * command. Each may wait in the offline queue, as the server accepts them all through the offline
- * door: an organiser's edit (`apply_plan_ops`) or a member's proposal (`create_changeset` then
+ * door: an organiser's edit (`apply_plan_ops`, or `apply_draft_ops` on her own draft) or a member's proposal (`create_changeset` then
  * `send_changeset`) shows at once from its queued payload, and a vote, comment or +1 lands the same
  * way. A screen that needs the server's own answer before it moves on (the change review, a
  * member's day reorder) sends the online form of the same command (`…Online`), which resolves
@@ -34,6 +34,20 @@ export const applyPlanOpsCommand = defineClientCommand<ApplyPlanOpsPayload>({
 });
 
 export const APPLY_PLAN_OPS = applyPlanOpsCommand.name;
+
+/** The same edit on the organiser's own draft, before the crew has a plan. */
+export const applyDraftOpsCommand: ClientCommandSpec<ApplyPlanOpsPayload> = {
+  ...applyPlanOpsCommand,
+  name: 'apply_draft_ops',
+};
+
+export const APPLY_DRAFT_OPS = applyDraftOpsCommand.name;
+
+/** Gives a trip with locked dates and no plan its days (./use-plan-days.ts). Nothing to list. */
+export const ensurePlanDaysCommand = defineClientCommand<{ trip_id: string }>({
+  name: 'ensure_plan_days',
+  offline: true,
+});
 
 /** The organiser adds a place straight to the plan from the place's own screen. */
 export const addPlaceToPlanCommand: ClientCommandSpec<ApplyPlanOpsPayload> = {
@@ -102,6 +116,12 @@ function online<Payload>(spec: ClientCommandSpec<Payload>): ClientCommandSpec<Pa
 /** Takes back the plan version one of my own edits made; asked online, as the toast waits on it. */
 export const undoPlanEditOnline: ClientCommandSpec<UndoPlanEditPayload> = {
   name: 'undo_plan_edit',
+  offline: false,
+};
+
+/** Takes the plan she built by hand to review without a guide draft; the screen waits on it. */
+export const reviewHandPlanOnline: ClientCommandSpec<{ trip_id: string; base_version: string }> = {
+  name: 'review_hand_plan',
   offline: false,
 };
 

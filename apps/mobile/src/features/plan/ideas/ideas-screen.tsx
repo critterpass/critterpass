@@ -2,9 +2,9 @@
  * Ideas (7f-2): everything the crew saved for the trip that isn't in a day yet, from search, links,
  * swipes and the map, each saying where it would fit. A row dragged onto a day opens Add to plan on
  * that day; PLACE THEM FOR ME has Tokek place them in the background (7h-6). A row's handle offers
- * Add to a day and the ways to remove it (my own save, or for everyone as an organiser), with
- * UNDO. A saved place that is already a stop says so and is never placed a second time. Synced
- * rows only, so the list reads the same offline; fit lines then wait for signal.
+ * Add to a day and the ways to remove it, with UNDO. A place already a stop says so. Before the
+ * crew has a plan an organiser places them on her own draft, and a member reads that it is still
+ * being put together (./use-ideas-plan.ts).
  */
 import { t } from '@lingui/core/macro';
 import { router, type Href } from 'expo-router';
@@ -13,10 +13,8 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
-import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { screenCredits, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { usePlaceNamer } from '@/data/places/use-shown-names';
-import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
@@ -38,16 +36,21 @@ import { IdeasView } from './ideas-view';
 import { placingRoute } from './routes';
 import { removeIdeaCommand, saveIdeaCommand, startIdeaPlacementOnline } from './commands';
 import {
+  beforePlanBody,
   bodyText,
+  draftBodyText,
   emptyBody,
   emptyLine,
   findPlacesLabel,
+  placeFailedToast,
+  fitsNeedPlan,
   inPlanFitLine,
   placeLine,
   removedToast,
   undoLabel,
 } from './ideas-copy';
 import { useDragToDay } from './use-drag-to-day';
+import { useIdeasPlan } from './use-ideas-plan';
 
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and a toast id below, never copy. */
 const MAP_ID = '7c-1';
@@ -60,10 +63,9 @@ const removedToastId = (ideaId: string) => `plan-idea-removed-${ideaId}`;
 
 export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const locale = useLocale();
-  const plan = useTripPlan(tripId);
+  const saved = useIdeasPlan(tripId);
+  const { plan, loaded, days, beforePlan } = saved;
   const guideName = usePlanGuide().name;
-  const saved = useTripIdeas(tripId);
-  const { loaded } = saved;
   const namer = usePlaceNamer(plan.trip?.destination_id);
   const start = useCommand(startIdeaPlacementOnline);
   const remove = useCommand(removeIdeaCommand);
@@ -79,13 +81,6 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const mapHref = useScreenHref(MAP_ID, { tripId, ...IDEAS_FILTER });
   const searchHref = useScreenHref(SEARCH_ID, { tripId, scope: 'trip' });
   const tz = plan.trip?.tz ?? 'UTC';
-  const days = useMemo(
-    () =>
-      plan.dayRows.flatMap((row) =>
-        row.date === null ? [] : [{ dayNo: row.day_no, date: row.date }],
-      ),
-    [plan.dayRows],
-  );
   const dayNos = useMemo(() => days.map((day) => day.dayNo), [days]);
   const openAdd = useCallback(
     (placeId: string, day?: number) =>
@@ -162,14 +157,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     const jobId = (result.kind === 'applied' ? (result.result as { job_id?: string }) : null)
       ?.job_id;
     if (jobId === undefined) {
-      toast.show({
-        id: 'plan-ideas-place-failed',
-        title: t({
-          id: 'plan.ideas.placeFailed',
-          message: `${guideName} couldn’t start placing them`,
-        }),
-        subtitle: t({ id: 'plan.ideas.placeFailedLine', message: 'Try again with signal.' }),
-      });
+      toast.show({ id: 'plan-ideas-place-failed', ...placeFailedToast(guideName) });
       return;
     }
     router.push(placingRoute(tripId, jobId));
@@ -207,7 +195,10 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         photo={idea.poiId === null ? undefined : photos.get(idea.poiId)}
         fitLine={
           line ?? {
-            text: t({ id: 'plan.ideas.fitPending', message: 'Fits will update with signal' }),
+            text:
+              beforePlan !== null
+                ? fitsNeedPlan()
+                : t({ id: 'plan.ideas.fitPending', message: 'Fits will update with signal' }),
             tone: 'none',
           }
         }
@@ -224,7 +215,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         onDrop={drag.drop}
         onCancel={drag.cancel}
         onOpen={() => openPlace(idea)}
-        onAddToDay={() => openAdd(idea.poiId ?? idea.id)}
+        onAddToDay={beforePlan !== null ? null : () => openAdd(idea.poiId ?? idea.id)}
         onMore={() => setOpenId(idea.id)}
       />
     );
@@ -233,12 +224,20 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   return (
     <>
       <IdeasView
-        body={ideas.length === 0 ? emptyBody() : bodyText(ideas.length, guideName)}
+        body={
+          ideas.length === 0
+            ? emptyBody()
+            : beforePlan !== null
+              ? beforePlanBody(ideas.length, beforePlan.organiser)
+              : saved.crewPlan
+                ? bodyText(ideas.length, guideName)
+                : draftBodyText(ideas.length)
+        }
         days={chips}
         dropTarget={drag.dragging === null ? undefined : { overDayNo: drag.overDayNo }}
         chipsRef={drag.chipsRef}
         place={
-          placeable.length === 0 || plan.versionId === null
+          placeable.length === 0 || !saved.crewPlan
             ? null
             : {
                 line: placeLine(summary.fitting, summary.needCrew + summary.unknown),
@@ -274,10 +273,14 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
         <IdeaActions
           name={namer.name(open).toUpperCase()}
           inPlan={stopDay(open)}
-          onAddToDay={() => {
-            setOpenId(null);
-            openAdd(open.poiId ?? open.id);
-          }}
+          onAddToDay={
+            beforePlan !== null
+              ? null
+              : () => {
+                  setOpenId(null);
+                  openAdd(open.poiId ?? open.id);
+                }
+          }
           onRemoveMine={
             plan.uid !== null && open.backerIds.includes(plan.uid)
               ? () => onRemove(open, false)

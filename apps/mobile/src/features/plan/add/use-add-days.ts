@@ -5,6 +5,7 @@
 import type { DayFit } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { dayName } from '@/features/plan/day/format';
 import { dayTileColour } from '@/features/plan/overview/day-card';
@@ -14,6 +15,8 @@ import type { DayChip } from '@/ui/planning';
 import type { AddDay } from './add-model';
 
 export function useAddDays(plan: TripPlan, locale: string) {
+  // An organiser adding to a trip that has dates and no plan yet: its days are asked for.
+  useEnsurePlanDays(plan);
   const days: AddDay[] = useMemo(
     () =>
       plan.dayRows.flatMap((row) =>

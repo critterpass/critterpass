@@ -125,7 +125,7 @@ export const VERSION_PLACES_TABLES = ['itinerary_versions', 'local_state'];
 
 /** Plan edits and proposals still in the local queue, oldest first. */
 export const QUEUED_PLAN_SQL = `SELECT id, cmd, envelope, status FROM commands
-  WHERE cmd IN ('apply_plan_ops', 'create_changeset') ORDER BY seq`;
+  WHERE cmd IN ('apply_plan_ops', 'apply_draft_ops', 'create_changeset') ORDER BY seq`;
 export const QUEUED_PLAN_TABLES = ['commands'];
 
 export interface QueuedRow {

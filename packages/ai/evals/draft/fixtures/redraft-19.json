@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4629388f-b7a4-41d2-8656-4b849e1e4b79",
+        "id": "2cfdf2d7-1e1c-402e-9f27-67fdb832ba5b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Saturday in Roma Norte\",\n  \"summary\": \"A gentle morning wandering Roma Norte, with the afternoon free to rest, snack, and soak up the neighbourhood at your own pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept for a lazy late-morning stroll: leafy streets, photo corners, and local life without rushing.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Slow Roma Morning\",\n  \"summary\": \"A gentle day with a long, unhurried walk through Roma Norte and time to simply soak up the neighbourhood.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one true keeper for a sleepy crew: a free, all-day wander with no rush and plenty of local life.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 5,
+          "input_tokens": 140,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 112,
+          "output_tokens": 109,
           "service_tier": "standard"
         }
       }

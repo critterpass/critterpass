@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "0a5cf473-44ba-46bc-9199-6b83ef604e0b",
+        "id": "e9bfb1b5-ab2b-4598-b826-5f7aefd76109",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Different Kind of Lisbon Sunday\",\n  \"summary\": \"A relaxed Sunday built around a long, lazy seafood feast and the winding streets of Bairro Alto after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The one thing we are keeping, and for good reason: garlicky, buttery, grilled perfection. Halal-friendly seafood choices make everyone happy.\",\n      \"must_do_id\": \"m4\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We swapped the market for a proper after-dark wander. Bairro Alto only wakes up late, so this keeps the night owls grinning.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Sardine-Style Sunday Stroll\",\n  \"summary\": \"A slower Sunday with a long, lazy lunch at Cervejaria Ramiro and an evening wander through Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Still the star of the day. Grilled sardines, garlic, and no regrets. Halal-friendly seafood heaven.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, Bairro Alto wakes up. A gentle nightcap stroll for the night owls in the crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 82,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 191,
+          "output_tokens": 175,
           "service_tier": "standard"
         }
       }

@@ -36,10 +36,13 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { CREATE_CREW } from '../crews-sheet/crew-commands';
 import { useCrewCode } from '../crews-sheet/crew-data';
+import { CreateNote } from './create-note';
 import { useCrewServices } from '../crews-sheet/crew-services';
 
 /** The crew's sticker on its "is on" page. */
 const ART_PT = 140;
+/** After this long a press that is still working says so. */
+const SLOW_MS = 6000;
 
 const useStyles = makeStyles((th) => ({
   scroll: { flex: 1 },
@@ -98,7 +101,9 @@ function CodePending() {
 type Step =
   | { readonly kind: 'name' }
   | { readonly kind: 'created'; readonly crewId: string; readonly code: string | null }
-  | { readonly kind: 'failed' };
+  | { readonly kind: 'failed' }
+  /** Pressed before the phone's data opened. */
+  | { readonly kind: 'not_ready' };
 
 function isCreated(value: unknown): value is CreateCrewResult {
   return typeof (value as Partial<CreateCrewResult> | null)?.code === 'string';
@@ -125,6 +130,7 @@ export function StartCrewScreen() {
   const [name, setName] = useState('');
   const [art, setArt] = useState<GuideAvatarId>('tokek');
   const [busy, setBusy] = useState(false);
+  const [slow, setSlow] = useState(false);
   const [step, setStep] = useState<Step>({ kind: 'name' });
   const valid = crewNameSchema.safeParse(name).success;
   const syncedCode = useCrewCode(
@@ -134,8 +140,16 @@ export function StartCrewScreen() {
   const max = CREW_NAME_MAX;
 
   const create = () => {
-    if (localFirst === null || !valid) return;
+    if (!valid) return;
+    // A press is never swallowed: before the phone's data is open it says so.
+    if (localFirst === null) {
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a step's name, never copy.
+      setStep({ kind: 'not_ready' });
+      return;
+    }
     setBusy(true);
+    setSlow(false);
+    const slowTimer = setTimeout(() => setSlow(true), SLOW_MS);
     const crewId = generateUuidV7();
     void localFirst.commands
       .send(CREATE_CREW, { crew_id: crewId, name: normaliseCrewName(name), art })
@@ -149,7 +163,11 @@ export function StartCrewScreen() {
         } else if (sent.kind === 'queued') setStep({ kind: 'created', crewId, code: null });
         else setStep({ kind: 'failed' });
       })
-      .finally(() => setBusy(false));
+      .finally(() => {
+        clearTimeout(slowTimer);
+        setBusy(false);
+        setSlow(false);
+      });
   };
 
   if (step.kind === 'created') {
@@ -256,14 +274,11 @@ export function StartCrewScreen() {
           {upper(t({ id: 'crew.start.art', message: 'Crew sticker' }), locale)}
         </Text>
         <AvatarPicker selected={art} onPick={setArt} testID="start-crew-art" />
-        {step.kind === 'failed' ? (
-          <Text variant="bodySm" color={theme.semantic.state.urgent} testID="start-crew-failed">
-            {t({
-              id: 'crew.start.failed',
-              message: 'That didn’t go through. You may be in ten crews already.',
-            })}
-          </Text>
-        ) : null}
+        <CreateNote
+          failed={step.kind === 'failed'}
+          notReady={step.kind === 'not_ready'}
+          slow={busy && slow}
+        />
       </KeyboardScrollView>
       <KeyboardFooter>
         <PillButton

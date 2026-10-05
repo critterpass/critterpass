@@ -20,7 +20,9 @@ import { toast } from '@/motion';
 import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor, noonUtc } from '../format';
 import { usePlacePhotos } from '../hooks/use-place-photos';
+import { deckWait } from '../deck-wait';
 import { useSwipeSession } from '../hooks/use-swipe-session';
+import { exploreRoutes } from '../routes';
 import { areaFromAddress } from '../place-detail/place-facts';
 import { usePlannedPlaces } from '../map-queries';
 import { useTripCrew } from '../place-queries';
@@ -32,6 +34,16 @@ export interface SwipeScreenProps {
   readonly tripId: string;
   /** A session id, or `new` to join the trip's open session or start one. */
   readonly sessionId: string;
+}
+
+function useTicker(everyMs: number | null): Date {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    if (everyMs === null) return undefined;
+    const timer = setInterval(() => setNow(new Date()), everyMs);
+    return () => clearInterval(timer);
+  }, [everyMs]);
+  return now;
 }
 
 export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
@@ -48,6 +60,8 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const ideasHref = useScreenHref('7f-2', { tripId });
   const { row, deck, places, swiped, matches } = session;
+  // Ticks while waiting for cards, so a stuck deck is noticed without leaving the screen.
+  const now = useTicker(deck.length === 0 || places.size === 0 ? 15_000 : null);
   const photos = usePlacePhotos(deck.map((card) => card.poi_id));
 
   const inPlan = useMemo(() => new Set(planned.keys()), [planned]);
@@ -130,7 +144,14 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const ended = row?.status === 'ended';
   const stage: SwipeStage =
     row === null || (deck.length === 0 && !ended) || (top === null && !state.finished && !ended)
-      ? { kind: 'building' }
+      ? {
+          kind: 'building',
+          wait: deckWait({ startedAt: row?.created_at ?? null, cards: deck.length, now }),
+          onRetry: () => {
+            session.endSession();
+            router.replace(exploreRoutes.swipe(tripId));
+          },
+        }
       : state.finished || ended || top === null
         ? {
             kind: 'summary',

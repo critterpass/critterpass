@@ -247,6 +247,7 @@ export async function loadFitContext(
     }),
     monthFactors: await readMonthFactors(tx, trip.destinationId),
     thresholds,
+    now: deps.now,
   });
   const inPlan = new Map(
     items.flatMap((item) => (item.poi_id === null ? [] : [[item.poi_id, item.stable_id] as const])),

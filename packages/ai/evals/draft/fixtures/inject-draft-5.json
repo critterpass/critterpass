@@ -4,95 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "52327e77-610a-4bfb-846a-50e9b7134545",
+        "id": "5b6f2aff-ce71-4acc-85ca-e55d9c2a02f3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area E\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Chapultepec\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Coyoacán\",\n      \"area\": \"Area A and D\",\n      \"must_do_ids\": [\"m1\", \"m4\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Xochimilco and Centro Histórico\",\n      \"area\": \"Area B and E\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Anthropology and Roma\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p10\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": null,\n      \"day_no\": null,\n      \"when\": \"any\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area E\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Chapultepec Castle\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Anthropology\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Xochimilco and Coyoacán\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Frida Kahlo and Historic Center\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": null,\n      \"day_no\": null,\n      \"when\": \"any\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 8,
+          "input_tokens": 645,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2304,
-          "output_tokens": 302,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "386eef86-307f-4521-b062-184b4d5585af",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great stone calendar and the rain god's twin faces hold court under one roof.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the leafy streets where old mansions now hide tiny galleries and corner cafés.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 278,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 119,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "f00f9656-9125-489e-b121-d871de97ad8e",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The castle crowns the hill with Habsburg rooms and a sweeping view over the park.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the shaded paths and watch chilangos rowing, jogging and feeding the squirrels.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a spot at the counter for crisp al pastor carved straight off the trompo.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 8,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 176,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "adc85ab8-2141-4808-a847-08dfa1ee0233",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Glide the ancient canals and let the painted boats set the rhythm.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm courtyard lunch with Moorish flavours and plenty for everyone.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stand in the vast heart of the old city, where layers of Mexico meet.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander stalls of rare produce and chat with the vendors who know it best.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A slow, inventive tasting that turns Mexican ingredients into theatre.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 380,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 262,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 293,
           "service_tier": "standard"
         }
       }
@@ -100,23 +28,95 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "16b46cf6-5470-4a51-8bcf-a56c48fd9611",
+        "id": "0c27b39e-293c-48d1-9c28-946a81cabb96",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the Avenue of the Dead and climb the Pyramid of the Sun for a view that stretches for ages.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual plates and plenty of veggie options to refuel the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Step into the blue house where Frida lived, painted, and kept her world close.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the stalls for tostadas, fresh fruit, and the easy rhythm of Coyoacán life.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Seafood done with city polish, from tuna tostadas to the famous grilled fish.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Walk the Avenue of the Dead and climb the big pyramids while the morning light is still kind.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 470,
+          "input_tokens": 223,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 290,
+          "output_tokens": 47,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "1e2f7dde-dd14-4898-8ff7-99c73a35574a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Blue house full of Frida's art, corsets and garden corners.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Aztec ruins right beside the cathedral, with a museum of buried gods.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 303,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 79,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "d04b3aef-0287-4de8-bd65-ee5c7865eedc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Chapultepec Castle gives you sweeping views and a proper dose of viceregal history.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Bosque de Chapultepec is a green lung where you can wander among ahuehuetes and local families.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Roma Norte walk shows off leafy streets, old mansions and the easy rhythm of local life.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Taquería El Huequito serves classic al pastor tacos with a no-fuss, old-school charm.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 42,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 174,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "393db54d-4264-4f89-afbc-5d8096918cec",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Drift the old canals on a painted trajinera, the city's most watery, flower-scented morning.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, easy plates and good vegetarian options in a room that hums with local chatter.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper neighbourhood market: tostadas, blue-corn quesadillas and the slow theatre of daily errands.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The vast stone heart of the old city, where the flag snaps and history stands on every side.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, elegant tasting menu that turns Mexican ingredients into small, precise surprises.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 541,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 293,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "e3a9f33a-508f-4b31-9349-98bb59d7f5fa",
+        "id": "72c67a18-8e7e-4dc8-8193-3d9bcd712340",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: A morning at Teotihuacan, then Frida and the evening fights\nDay 4: The anthropology museum, then a taquería in Roma"
+            "text": "3: A morning on the trajineras"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 256,
+          "input_tokens": 213,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 35,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "ce656b1b-b15f-4df5-8f75-9797f0886a58",
+        "id": "75754f81-f7c2-4261-8231-c757fe6a44c9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Warm arrival and a green start, a whole morning out at Teotihuacan, then boats, the Centro and the museum — every must-do is in, and it flows."
+            "text": "Four days in my city: castles, pyramids, a morning on the water, and Frida — the whole trip is covered."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 217,
+          "input_tokens": 214,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 37,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

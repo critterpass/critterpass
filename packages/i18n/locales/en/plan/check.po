@@ -118,6 +118,10 @@ msgid "plan.check.running"
 msgstr "{guideName} is checking the plan. It takes a moment after each change."
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorking"
+msgstr "{guideName} is drafting right now"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.toast.keptLine"
 msgstr "{guideName} won’t bring it up again unless the stops around it change."
 
@@ -594,6 +598,10 @@ msgstr "Not now"
 msgid "plan.check.toast.failedLine"
 msgstr "Nothing changed. Try again in a moment."
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorkingLine"
+msgstr "Nothing changed. Try again when the draft is back."
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.none"
 msgstr "Nothing nearby fits this window. Try Something else, or keep it free."
@@ -614,6 +622,10 @@ msgstr "Nothing to swap. Every block is dry and quiet enough where it is."
 msgid "plan.check.rain.laneNow"
 msgstr "Now"
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.draftApplied"
+msgstr "Only on your draft. Change it back from the stop."
+
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.onlyYou"
@@ -626,6 +638,14 @@ msgstr "Only you two see this."
 #: ../../apps/mobile/src/features/plan/check/ask-card.tsx
 msgid "plan.check.ask.private"
 msgstr "Only you two see this. Nothing moves to make room."
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr "Open the day"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
+msgstr "Open the stop"
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.titleOverlap"
@@ -778,6 +798,10 @@ msgstr "The longest drive is {longest}."
 msgid "plan.check.toast.stale"
 msgstr "The plan changed since this check"
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.shared"
+msgstr "The plan is with the crew now"
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.plain"
 msgstr "There isn’t enough time to get from {first} to {second}."
@@ -785,6 +809,10 @@ msgstr "There isn’t enough time to get from {first} to {second}."
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.overlap"
 msgstr "They overlap by {over}. {first} ends at {end}, {second} starts at {start}."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sharedLine"
+msgstr "This check was of your draft. The crew’s plan gets its own."
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"

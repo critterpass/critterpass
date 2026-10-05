@@ -11,6 +11,7 @@ import { homeOf, hopCap, spanOf } from './areas';
 
 import { addOne, nearFirst, type Attempt } from './complete-days';
 import type { DraftPlanInput } from './context';
+import { misplacedOpeners } from './openers';
 import type { SkeletonDay } from './skeleton';
 
 /** A stop that starts from here on is the day's evening. */
@@ -78,6 +79,7 @@ export function fillEvenings(
       (before, after, made) =>
         after.hard <= before.hard &&
         after.meals <= before.meals &&
+        misplacedOpeners(input, made).length === 0 &&
         made.items.some(
           (item) => item.kind !== 'meal' && at(item.starts_at) >= EVENING_FROM_MIN - 30,
         ),

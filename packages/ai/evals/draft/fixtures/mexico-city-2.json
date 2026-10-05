@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "7adf405f-4cd4-457b-8564-5ec7041492f3",
+        "id": "cc0c9f96-e2c8-4435-adb9-6d0fd3018681",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro Histórico & Lucha Libre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p5\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Coyoacán, Xochimilco & Teotihuacan\",\n      \"area\": \"Area B, D, C\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p9\", \"p7\", \"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Chapultepec & Roma Norte\",\n      \"area\": \"Area E, A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p6\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lucha Libre & Street Bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Pyramids & Canals\",\n      \"area\": \"Area C & D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Museums & Markets\",\n      \"area\": \"Area A & E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p13\", \"p3\"]\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 73,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2048,
-          "output_tokens": 229,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "70c6c2a5-5558-4bdf-bf1d-ef81cfd0a9d9",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\"stops\":[]}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 288,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 10,
+          "output_tokens": 201,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "4753df8f-06d7-45ca-ad8c-3afc2ae5eb0b",
+        "id": "13c02caf-8168-4cda-bd53-a194ac596a7d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old Aztec heart of the city, where the stones still whisper.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Seafood done with a Mexico City flourish, and the tuna tostada is legendary.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lazy float through the ancient canals, with mariachi drifting between the boats.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Al pastor carved straight from the trompo, a proper late-night bite.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the Avenue of the Dead and climb the Pyramid of the Sun for a view that humbles even an axolotl.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 476,
+          "input_tokens": 207,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 221,
+          "output_tokens": 75,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "cc50c56a-bb83-4341-bca9-873b0902972d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A deep dive into Mexico's ancient cultures, from colossal Olmec heads to the Aztec Sun Stone.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual spot with great vegetarian options and a lively local buzz.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 409,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4bab41a6-02e1-40c3-a031-7c5fc2736aa5",
+        "id": "dc7931e6-b882-4e8e-a9da-0891f91b40c7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the city, where the flag waves over centuries of stories.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A marble palace of murals and art that glows even before the sun dips.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tacos that prove plants can throw a proper street party.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Masks, capes, and glorious chaos under the arena lights.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the market's maze of stalls, where the city's cooks come for the good stuff.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Grab a spot at the counter and let the trompo do the talking.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The masked heroes fly, the crowd roars, and you'll be on your feet before you know it.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late vegan taco that still hits like the real thing, right when you need it.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 394,
+          "input_tokens": 467,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 252,
+          "output_tokens": 235,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "e3017b1a-e141-49f6-94ef-0bd717c47a87",
+        "id": "b9be1e17-f3ff-4ebb-ae20-37a720c08eee",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Frida, seafood, market, trees, tacos\n3: A morning at Anthropology, churros after"
+            "text": "2: Half a day among the pyramids\n3: A long morning with the ancestors"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 258,
+          "input_tokens": 241,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 25,
+          "output_tokens": 17,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "1b5566df-0d3a-4256-ad5c-e74b5e05a89d",
+        "id": "b655a5df-9e2b-4b63-8d14-965363b29371",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Centro and lucha, then Frida with seafood and tacos, and a whole morning given to the anthropology museum."
+            "text": "A playful night of lucha and street bites, then a morning out at Teotihuacan, and a morning among the anthropology halls — every must-do in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 215,
+          "input_tokens": 208,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 32,
           "service_tier": "standard"
         }
       }

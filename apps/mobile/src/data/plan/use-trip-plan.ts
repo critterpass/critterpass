@@ -18,7 +18,7 @@ import { useMemo } from 'react';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
-import { APPLY_PLAN_OPS } from './commands';
+import { APPLY_DRAFT_OPS, APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
 import { displayOf, placeNamesOf, themesAsRead, toPlanState, type ItemDisplay } from './plan-model';
 import { opTargets } from './plan-ops';
@@ -121,11 +121,13 @@ export function replayQueued(
   synced: PlanState,
   queued: readonly QueuedRow[],
   tripId: string,
+  /** The command that edits the version read: the crew's plan, or the organiser's own draft. */
+  command: string = APPLY_PLAN_OPS,
 ): { state: PlanState; touched: Set<string> } {
   let state = synced;
   const touched = new Set<string>();
   for (const row of queued) {
-    if (row.cmd !== APPLY_PLAN_OPS) continue;
+    if (row.cmd !== command) continue;
     const payload = payloadOf<ApplyPlanOpsPayload>(row);
     if (payload === null || payload.trip_id !== tripId) continue;
     for (const edit of planOpsToEdits(payload.ops)) {
@@ -191,13 +193,17 @@ export function useTripPlan(tripId: string | null, options: TripPlanOptions = {}
 
   return useMemo(() => {
     const synced = version === null ? EMPTY : toPlanState(days.rows, items.rows);
-    const replay = tripId === null ? null : replayQueued(synced, queued.rows, tripId);
+    const edits = mode === 'draft' ? APPLY_DRAFT_OPS : APPLY_PLAN_OPS;
+    const replay = tripId === null ? null : replayQueued(synced, queued.rows, tripId, edits);
     const proposed = new Map<string, string | null>();
     for (const set of changesets.rows) {
       for (const op of parseOps(set.ops)) proposed.set(op.target, set.author_id);
     }
     for (const row of queued.rows) {
-      const payload = row.cmd === APPLY_PLAN_OPS ? null : payloadOf<CreateChangesetPayload>(row);
+      const payload =
+        row.cmd === APPLY_PLAN_OPS || row.cmd === APPLY_DRAFT_OPS
+          ? null
+          : payloadOf<CreateChangesetPayload>(row);
       if (payload === null || payload.trip_id !== tripId) continue;
       for (const op of payload.ops) proposed.set(op.target, uid);
     }

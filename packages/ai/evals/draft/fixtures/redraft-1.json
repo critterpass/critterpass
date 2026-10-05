@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "6f007f0b-ecdc-426f-a3c6-b76a47399c23",
+        "id": "ecee8bd7-2bbc-4792-8a3c-730968c26ca7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Gion and Arashiyama, Close at Hand\",\n  \"summary\": \"A slower Kyoto day: temples, bamboo and a vegan lunch, all within a short ride.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bamboo first, before the crowds wake up. Shoes off, phone down, eyes up.\",\n      \"poi_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tenryu-ji sits right by the bamboo, so we keep the temple and skip the long ride.\",\n      \"poi_id\": \"p6\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet vegan lunch beside the temple. Kaiseki (multi-course Kyoto meal) for the crew, no compromises.\",\n      \"poi_id\": \"p16\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One short ride to Sanjusangen-do. The thousand buddhas are worth it, and the deer will cope without you.\",\n      \"poi_id\": \"p12\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hanamikoji in the late afternoon: old Kyoto, free, and close to dinner.\",\n      \"poi_id\": \"p7\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Kichi Kichi, a short stroll from Hanamikoji. Vegetarian options, and the chef is a show.\",\n      \"poi_id\": \"p18\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Kyoto Close and Quiet\",\n  \"summary\": \"A gentle day around the central and western sights, with temples, bamboo and a proper sit-down meal without long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop from Kinkaku-ji, and the photo lovers get their green tunnel.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the bamboo, and the vegan crew eats well for once.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Right next to lunch, so the slower pace holds.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The only ride of the day, and a short one. Worth it for the thousand statues.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner near Sanjusangen-do, with proper vegetarian plates for the whole crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 58,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 459,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "2c8a404b-94a0-431c-8809-66b630dc9340",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "2: Bamboo, temples, and a Gion evening"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 234,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 12,
+          "output_tokens": 368,
           "service_tier": "standard"
         }
       }

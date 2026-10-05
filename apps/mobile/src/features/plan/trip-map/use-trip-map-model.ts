@@ -13,6 +13,7 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { checkCounts, type CheckCounts } from './sheet-copy';
 import type { TripMapModel } from './sheet-props';
 import { useTripMapData, type TripMapData } from './use-trip-map-data';
+import { draftStageOf } from './draft-stage';
 
 const AROUND_SQL = `SELECT c.name AS crew_name, p.countdown_target_at
   FROM trips t
@@ -100,6 +101,9 @@ export function tripMapModel(
     me: plan.uid,
     organiser: plan.organiser,
     draft: plan.mode === 'draft',
+    ...(plan.mode === 'draft' && trip !== null
+      ? { draftStage: draftStageOf(trip.status), draftVersionId: plan.versionId }
+      : {}),
     readOnly: data.readOnly,
     guide: data.guide,
     check: currentCheck(trip?.id ?? '', data, plan.versionId),

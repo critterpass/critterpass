@@ -109,6 +109,10 @@ msgid "plan.check.running"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.toast.keptLine"
 msgstr ""
 
@@ -584,6 +588,10 @@ msgstr ""
 msgid "plan.check.toast.failedLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorkingLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.none"
 msgstr ""
@@ -604,6 +612,10 @@ msgstr ""
 msgid "plan.check.rain.laneNow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.draftApplied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.onlyYou"
@@ -615,6 +627,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/ask-card.tsx
 msgid "plan.check.ask.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
@@ -766,12 +786,20 @@ msgstr ""
 msgid "plan.check.toast.stale"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.shared"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.plain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.overlap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sharedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx

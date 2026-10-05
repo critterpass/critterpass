@@ -12,11 +12,6 @@ msgstr ""
 msgid "explore.swipe.matches"
 msgstr "{0, plural, other {# lượt trùng}}"
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
-msgid "explore.swipe.building"
-msgstr "{0} đang chọn thẻ"
-
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.progress"
 msgstr "{done}/{total} · {matches}"
@@ -36,6 +31,18 @@ msgstr "{first} đã đồng ý"
 #: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.swipe.fromStay"
 msgstr "{minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.stuck"
+msgstr "{name} chưa soạn xong bộ thẻ. Bắt đầu lại để {name} chọn một bộ mới."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.pickingLine"
+msgstr "{name} đang chọn thẻ cho cả nhóm. Mất khoảng {minutes} phút, xong là thẻ tự hiện ở đây."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} đang chọn thẻ"
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
 msgid "explore.swipe.toastMatch"
@@ -121,6 +128,10 @@ msgstr "Mở Ý tưởng"
 msgid "explore.swipe.seeIdeas"
 msgstr "Xem trong Ý tưởng"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.retry"
+msgstr "Bắt đầu lại"
+
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
 msgid "explore.swipe.cardActions"
 msgstr "Quẹt phải để đồng ý, quẹt trái để bỏ qua"
@@ -136,6 +147,10 @@ msgstr "Chạm để quẹt tiếp"
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
 msgstr "Hết bộ thẻ rồi"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.arriving"
+msgstr "Thẻ đã xong, đang về máy bạn."
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.savedNoMatches"

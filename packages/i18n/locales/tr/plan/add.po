@@ -59,6 +59,10 @@ msgstr ""
 msgid "plan.add.length.minutes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.leave.car"
 msgstr ""
@@ -221,7 +225,7 @@ msgid "plan.add.cta.ideas"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
+msgid "plan.add.savedToastShared"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
@@ -247,6 +251,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlanAny"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts

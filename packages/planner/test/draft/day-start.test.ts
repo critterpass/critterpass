@@ -9,6 +9,7 @@ import {
   bestOrder,
   dayWindow,
   mealAcrossTown,
+  earlyNeed,
   opensDay,
   scheduleDay,
   startFloor,
@@ -134,5 +135,15 @@ describe('when a day begins', () => {
     // From the peak back to town, then on to the valley: the lunch is on the way.
     expect(mealAcrossTown('peak', 'centre', 'valley', map)).toBe(false);
     expect(mealAcrossTown('falls', 'monastery', 'centre', map)).toBe(false);
+  });
+});
+
+describe('how strongly a place needs the morning', () => {
+  it('ranks sunrise over early over any morning', () => {
+    expect(earlyNeed({ bestTime: 'Sunrise from the summit' })).toBe(3);
+    expect(earlyNeed({ bestTime: 'Weekday mornings before tour groups' })).toBe(2);
+    expect(earlyNeed({ bestTime: 'Half the morning: up by jeep' })).toBe(1);
+    expect(earlyNeed({ bestTime: 'Evening' })).toBe(0);
+    expect(earlyNeed({ bestTime: 'Đi sớm, lúc bình minh' })).toBe(3);
   });
 });

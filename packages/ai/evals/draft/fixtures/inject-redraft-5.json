@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "7e776b16-e72c-4be2-ab7d-714de4626964",
+        "id": "da908d28-91aa-406e-a38e-e827b676ca6f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Markets and Meals\",\n  \"summary\": \"A slower day built around Coyoacán's market, Frida's house, and two proper meals with time to savour them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The market stays: it is the snack-filled heart of the day, and the crew asked for more food.\",\n      \"note_voice\": \"We start where the tortas steam and the fruit glistens: Coyoacán's market is the edible heart of today.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Frida's house sits just a short stroll from the market, so the day stays in one leafy pocket of the city.\",\n      \"note_voice\": \"A short amble from the market, Frida's blue house keeps us in the same lovely corner of the city.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian-friendly meal in Roma Norte, added because the day needed more than one food stop.\",\n      \"note_voice\": \"Lunch is a proper sit-down, with plenty for the vegetarians among us, because one food stop was never going to be enough.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk after lunch keeps the pace easy and lets the crew digest while seeing Roma Norte.\",\n      \"note_voice\": \"A gentle wander through Roma Norte lets lunch settle and the neighbourhood show off a little.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in Roma Norte at Pujol, a long, proper meal to end the day.\",\n      \"note_voice\": \"We finish with a long, proper dinner at Pujol, because today was always about eating well.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Food-Lover's Mexico City Day\",\n  \"summary\": \"A slower day built around Coyoacán's market, a proper vegetarian lunch, and a relaxed evening in Roma Norte.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The market stays: snacks, colours and local life in one happy wander.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Frida's house keeps the culture close by, and gives the morning a gentle museum pause.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian lunch in Roma Norte, because the crew asked for more food, not just snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow Roma Norte walk after lunch: photo spots, coffee smells and no rush.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 22,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 492,
+          "output_tokens": 305,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "c722acd6-9f9a-4611-8688-cd25466be2b9",
+        "id": "f1a00421-43cb-4eb6-9ae6-8050373f22cf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Markets, a museum, and Pujol"
+            "text": "2: Market, museum, meal, museum, walk, meal"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 210,
+          "input_tokens": 227,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 11,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

@@ -5,14 +5,23 @@
  * the day's lunch stop, before it is tried.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { isKept, minuteOfDate, opensDay, type DraftPoi } from '@cp/planner';
+import {
+  choicesOfDay,
+  earlyNeed,
+  isKept,
+  minuteOfDate,
+  opensDay,
+  type DraftPoi,
+} from '@cp/planner';
 
 import { homeOf, hopCap, insideVisit, spanOf } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { essentialsOf } from './essentials';
 import { misplacedOpeners } from './openers';
+import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
+import { validate } from './validate';
 
 /** Seats tried for a place added to a day, in order. */
 const SEATS_TRIED = 3;
@@ -46,6 +55,7 @@ export function placeOne(
   addOnly = false,
 ): Itinerary | null {
   const essential = new Map(essentialsOf(input).map((other) => [other.id, other]));
+  const reach = { homeId: homeOf(input), hopCapMin: hopCap(input), travel: input.travel };
   const open = input.pools.openDays.get(poi.id) ?? [];
   // A short outing that shares a day shares it with town, never with another day out.
   const ownOuting = input.pools.outings.find((outing) => outing.poiIds.includes(poi.id));
@@ -73,7 +83,11 @@ export function placeOne(
     for (const { day } of days) {
       const outline = outlines.find((d) => d.dayNo === day.day_no);
       if (outline === undefined) continue;
-      const fed = (candidate: Itinerary) => fillMeals(input, [outline], candidate).itinerary;
+      // The stops the newcomer's day out leaves out of place (a bar back in town, a village
+      // inside the resort) give way to it, and the meals are filled again.
+      const fed = (candidate: Itinerary) =>
+        fillMeals(input, [outline], withoutShapeFaults(input, outline, candidate, poi.id))
+          .itinerary;
       const key = `essential-${round}-${day.day_no}-${poi.id}`;
       const tryOn = (
         plan: Itinerary,
@@ -133,8 +147,17 @@ export function placeOne(
         .filter((item) => {
           if (isKept(item) || item.kind !== 'activity') return false;
           const other = essential.get(item.poi_id ?? '');
+          // A shorter essential gives way; so does one that would open the day with a weaker
+          // need for its morning than this one has.
           return displace
-            ? other !== undefined && other.durationMin < poi.durationMin
+            ? other !== undefined &&
+                (other.durationMin < poi.durationMin ||
+                  (opensDay(poi, reach) &&
+                    opensDay(other, reach) &&
+                    !input.pools.outings.some(
+                      (o) => o.dayNo === day.day_no && o.poiIds.includes(other.id),
+                    ) &&
+                    earlyNeed(other) < earlyNeed(poi)))
             : other === undefined;
         })
         .reverse();
@@ -159,4 +182,50 @@ export function placeOne(
     }
   }
   return null;
+}
+
+/** Codes of a day's shape around its big stops (./validate-day-shape in the planner). */
+const SHAPE_CODES: ReadonlySet<string> = new Set([
+  'OFF_THE_OUTING',
+  'FAR_AFTER_DAY_OUT',
+  'INSIDE_ANOTHER_STOP',
+  'CROWDED_LONG_VISIT',
+]);
+
+/**
+ * The day of `outline` without the stops that break its shape once `keep` is on it: those come
+ * off (never `keep`, a must-do or a stop of the crew's), and the rest are timed again.
+ */
+function withoutShapeFaults(
+  input: DraftPlanInput,
+  outline: SkeletonDay,
+  itinerary: Itinerary,
+  keep: string,
+): Itinerary {
+  const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
+  if (day === undefined) return itinerary;
+  const gone = new Set(
+    validate(input, itinerary)
+      .violations.filter(
+        (v) => v.dayNo === outline.dayNo && SHAPE_CODES.has(v.code) && v.poiId !== keep,
+      )
+      .flatMap((v) => (v.stableId === null ? [] : [v.stableId])),
+  );
+  const kept = day.items.filter(
+    (item) => !gone.has(item.stable_id) || isKept(item) || item.must_do_id !== null,
+  );
+  if (kept.length === day.items.length) return itinerary;
+  const next = scheduleChoices(
+    input,
+    {
+      ...outline,
+      mustDoIds: kept.flatMap((item) => (item.must_do_id === null ? [] : [item.must_do_id])),
+    },
+    choicesOfDay({ items: kept }),
+    `shape-${outline.dayNo}-${keep}`,
+  );
+  return {
+    ...itinerary,
+    days: itinerary.days.map((d) => (d.day_no === outline.dayNo ? { ...next, theme: d.theme } : d)),
+  };
 }

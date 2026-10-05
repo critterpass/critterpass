@@ -4,7 +4,7 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "fd031b1f-ebb2-4765-b83a-dbf7f8405ca0",
+        "id": "99752026-89a0-4abd-8e99-03f48b385a9c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -28,14 +28,14 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "5338b005-93fc-4616-9523-b4864d087437",
+        "id": "b499fae2-e6d4-4307-91da-7801d59a39a6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Wander the old Inca palace and let the gold and textiles tell their stories.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A courtyard lunch of Andean classics, with the wood oven working its magic.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb to the great stone head of the puma and feel the empire's pulse underfoot.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Wander the Inca Museum's rooms and let the old stones tell you their stories.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pachapapa's courtyard is a fine spot for a slow, flavourful pause.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sacsayhuamán's great walls will make you feel very small, in the best way.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 93,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 173,
+          "output_tokens": 177,
           "service_tier": "standard"
         }
       }
@@ -52,14 +52,14 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "6cb63862-682a-4669-9277-db31dac58bab",
+        "id": "02e17597-a3a0-4b3f-8714-133c2c67abf7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the old city, with the cathedral and stone arcades framing the square.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Inca stonework so precise it has outlasted earthquakes and Spanish walls alike.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A sweet little museum where the history of cacao is told through tastings.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, wood-toned dining room with Andean flavours and a fine wine list.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the old city, where Inca walls meet colonial arcades and the buzz of Cusco never quite sits still.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Once the richest temple in the empire, its perfect stonework still glows beneath the convent built on top.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A sweet little museum where cacao gets the full story, from bitter bean to the chocolate you will want to taste.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, wood-and-wine kind of place where Andean ingredients get a playful, generous twist.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -68,7 +68,7 @@
           "input_tokens": 125,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 225,
+          "output_tokens": 249,
           "service_tier": "standard"
         }
       }
@@ -76,14 +76,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "892fbd1a-0bab-4c71-add0-d57e77936c72",
+        "id": "2aaadea6-b5f7-47c9-9004-9f5f139e90ee",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A Cusco wander through the historic heart and sunset views, then a day of Inca legacy and local flavours — all the must-dos made it, amigo."
+            "text": "Two easy days in Cusco: the old town and a sunset, then Inca stones and a taste of the local cooking — all the must-dos are in."
           }
         ],
         "stop_reason": "end_turn",

@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# On the developer draft scenes list: opens the scene ${SCENE}, takes the screenshot ${SHOT}, and
+# comes back to the list.
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-${SCENE}'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-${SCENE}'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# A sheet over the scene takes the first back.
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-scene-list'
+    timeout: 10000

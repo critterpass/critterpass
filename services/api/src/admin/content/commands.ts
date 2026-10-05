@@ -155,6 +155,20 @@ export function contentCommands(): readonly AnyAdminCommand[] {
           throw new DomainError('STATE_INVALID', { reason: 'blocked' });
         }
         requireOpen(row);
+        // A release is the live one with the batch laid over it. While another release of the
+        // kind waits to publish, this one would be laid over a catalogue that is about to change
+        // and would undo the other's changes when it publishes, so it waits its turn.
+        const pending = await tx.query<{ version: number }>(
+          `SELECT version FROM content_releases
+            WHERE kind = $1 AND status = 'approved' AND id <> $2 ORDER BY version LIMIT 1`,
+          [row.kind, row.id],
+        );
+        if (pending.rows[0] !== undefined) {
+          throw new DomainError('STATE_INVALID', {
+            reason: 'release_pending',
+            version: pending.rows[0].version,
+          });
+        }
         if (row.ip_status === 'flagged') {
           throw new DomainError('STATE_INVALID', { reason: 'ip_flagged' });
         }
@@ -209,7 +223,8 @@ export function contentCommands(): readonly AnyAdminCommand[] {
           });
         }
         await tx.query(
-          "UPDATE content_releases SET status = 'approved', stage = 'approve' WHERE id = $1",
+          // Stamped as approved now: a rollback writes over the live release on purpose.
+          "UPDATE content_releases SET status = 'approved', stage = 'approve', approved_at = now() WHERE id = $1",
           [target.id],
         );
         await enqueuePublish(tx, target.id);

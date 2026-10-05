@@ -29,7 +29,7 @@ import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
 import type { ReviewModel } from '../data/version';
 import { ClosureNotes } from './closure-notes';
-import { CoverageStrip, OverBudget, type MissedMustDo } from './coverage-strip';
+import { CoverageStrip, LeftOutRows, OverBudget, type MissedMustDo } from './coverage-strip';
 import { DraftDayRow } from './draft-day-row';
 import { StaleBanner } from './stale-banner';
 import { StayRows } from './stay-rows';
@@ -182,6 +182,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
           />
         ) : null}
         <CoverageStrip model={model.mustDos} onFix={props.onFixMiss} />
+        <LeftOutRows rows={model.leftOut ?? []} />
         {overBy > 0 ? <OverBudget amount={wholeMoney(locale, overBy, model.currency)} /> : null}
         <View style={styles.days} testID="draft-days">
           {model.days.map((day, index) => (

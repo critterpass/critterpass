@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "da1af196-32e6-42fa-a42e-624d73900336",
+        "id": "10e9621d-b7a4-4a87-b7dc-6025ea6d4461",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Reykjavik centre\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Harbour lights and first stroll\",\n      \"area\": \"E\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p6\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Þingvellir day trip\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Blue Lagoon soak\",\n      \"area\": \"C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Gullfoss and Geysir\",\n      \"area\": \"B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Reykjavik farewell\",\n      \"area\": \"E\",\n      \"must_do_ids\": [\"m5\"],\n      \"poi_ids\": [\"p1\", \"p11\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Reykjavik\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Harbour lights and first stroll\",\n      \"area\": \"E\",\n      \"must_do_ids\": [\"m5\"],\n      \"poi_ids\": [\"p1\", \"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Þingvellir day trip\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Blue Lagoon soak\",\n      \"area\": \"C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Gullfoss and city culture\",\n      \"area\": \"B and E\",\n      \"must_do_ids\": [\"m2\", \"m4\"],\n      \"poi_ids\": [\"p2\", \"p5\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Local flavours and farewell\",\n      \"area\": \"E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p4\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 78,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2176,
-          "output_tokens": 291,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "8c23c417-42f3-42bf-a745-e8a3d116a992",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 217,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 6,
+          "output_tokens": 294,
           "service_tier": "standard"
         }
       }
@@ -52,7 +28,7 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "b11ad7b7-1397-4d54-8631-ce8e20f66402",
+        "id": "09b6b14e-d854-4536-b4e7-ef6cd5d5e57d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -76,14 +52,14 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "1008b3e3-4b01-4843-8e2b-e49298afdfde",
+        "id": "1347e293-4c4c-4e4b-abe8-f15b7bd04a87",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Slip into the milky blue water and let the steam do the talking.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Slip into the milky blue water and let the silica do its quiet work on your shoulders.\"}]}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -92,7 +68,7 @@
           "input_tokens": 102,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 67,
+          "output_tokens": 52,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,47 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "0e82ade2-573a-4e04-b28d-c7df10199085",
+        "id": "2239776c-8acb-4487-8ae3-bdd93b6cba1c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a farewell view over the rooftops and the bay.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m5\",\n      \"note\": \"Wander the street for last-minute woollen jumpers and little galleries.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The glass dome wraps you in a sweeping view over the city and the bay beyond.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The honeycomb glass facade shimmers even on a grey day, and the harbour light inside is lovely.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 336,
+          "input_tokens": 288,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 117,
+          "output_tokens": 122,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "3b855d3a-cdd0-4283-9a77-965fa90c51c5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The falls roar with a cold, clean voice — stand close enough to feel the mist on your feathers.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"A small lighthouse with a big view of the sea, the sky, and the city lights starting to wake.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 281,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 131,
           "service_tier": "standard"
         }
       }
@@ -124,47 +124,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "8f9f9935-ef1b-4337-8e06-201531468de5",
+        "id": "575f816a-60c4-431c-a96e-8e955d647025",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steel boat on the shore, perfect for that first photo with the sea behind you.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The glass honeycomb facade glows in the fading light, and the harbour views from inside are lovely.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"A short walk out to the lighthouse, with the waves and the wide sky all around.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Hearty plant-based bowls that warm you up after the sea air.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping first look at the city and the harbour beyond.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steel boat dreaming of the sea, perfect for a bracing photo by the water.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m5\",\n      \"note\": \"Stroll the main shopping street and let the window displays set the mood.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm, colourful bowls that make even a grey afternoon feel cosy.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 427,
+          "input_tokens": 283,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 227,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "5ab729b2-6ab0-401e-a068-1ceb16030607",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "4: A morning at Gullfoss"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 163,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 8,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 221,
           "service_tier": "standard"
         }
       }
@@ -172,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "a94bd007-4861-49c5-9855-e09cd9e4905b",
+        "id": "81254ba2-7f23-4b0e-83ae-a21a00cab1c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Reykjavik's harbour, Þingvellir, a Blue Lagoon morning, Gullfoss and a fond farewell — every must-do tucked in nicely."
+            "text": "Harbour strolls, Þingvellir, a Blue Lagoon morning, Gullfoss with city culture, then flavours and farewell — every must-do tucked in nicely."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 211,
+          "input_tokens": 210,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 34,
+          "output_tokens": 36,
           "service_tier": "standard"
         }
       }

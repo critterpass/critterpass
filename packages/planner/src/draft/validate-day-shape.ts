@@ -4,7 +4,7 @@
  * visit of half a day or a whole one has that time to itself (./long-visits).
  */
 import { insideFaults, longVisitFaults } from './long-visits';
-import { offTheOuting } from './outings';
+import { farAfterDayOut, offTheOuting } from './outings';
 import type { DraftPoi } from './types';
 import type { TimedDay, TimedStop } from './validate-day-sense';
 import type {
@@ -34,8 +34,11 @@ export function dayShapeViolations(
     const index = dateIndex.get(day.date) ?? day.dayNo - 1;
     const edge = index === 0 || index === lastIndex;
     return [
-      ...offTheOuting(day, input.outings ?? [], input.travel, input.hopCapMin).map((stop) =>
+      ...offTheOuting(day, outings, input.travel, input.hopCapMin, home).map((stop) =>
         at('OFF_THE_OUTING', day.dayNo, stop),
+      ),
+      ...farAfterDayOut(day, outings, input.travel, home, input.hopCapMin).map((stop) =>
+        at('FAR_AFTER_DAY_OUT', day.dayNo, stop),
       ),
       ...insideFaults(day, rideOf).map((stop) => at('INSIDE_ANOTHER_STOP', day.dayNo, stop)),
       ...longVisitFaults(day, edge, rideOf, together).map((fault) =>

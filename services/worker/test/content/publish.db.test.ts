@@ -195,10 +195,11 @@ describe('content.publish', () => {
       "SELECT id, status FROM content_releases WHERE kind = 'sets' AND version = 1",
     );
     expect(v1.rows[0]?.status).toBe('superseded');
-    // A rollback re-approves the older release and runs the same publish.
-    await harness.pool.query("UPDATE content_releases SET status = 'approved' WHERE id = $1", [
-      v1.rows[0]!.id,
-    ]);
+    // A rollback re-approves the older release, stamped now, and runs the same publish.
+    await harness.pool.query(
+      "UPDATE content_releases SET status = 'approved', approved_at = now() WHERE id = $1",
+      [v1.rows[0]!.id],
+    );
     await publish(v1.rows[0]!.id);
     expect(await name()).toBe('Indonesia');
     expect((await status(v2)).status).toBe('superseded');
