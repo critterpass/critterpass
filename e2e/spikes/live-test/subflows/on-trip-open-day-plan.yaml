@@ -1,46 +1,36 @@
 appId: app.critterpass.dev
 ---
-# From anywhere in the trip to today's day plan, the way a traveller gets there: the hub's plan
-# tile, the trip map's sheet pulled up to the day, then the day's title.
-- runFlow: on-trip-to-hub.yaml
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-tile-plan'
-    direction: DOWN
-    timeout: 15000
-    optional: true
-- tapOn:
-    id: 'trip-hub-tile-plan'
-    optional: true
-- extendedWaitUntil:
-    visible:
-      id: 'trip-map-peek|day-plan'
-    timeout: 30000
-    optional: true
-# The pull sometimes leaves the sheet where it was: try it up to three times.
-- repeat:
-    while:
-      visible:
-        id: 'trip-map-peek'
-    times: 3
+# From anywhere in the trip to a day's plan, the way a traveller gets there: the hub's plan tile,
+# then the day's title on the trip map's sheet.
+- runFlow: on-trip-pass-arrival.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
     commands:
-      - swipe:
-          start: 50%, 72%
-          end: 50%, 44%
-          duration: 600
+      - runFlow: on-trip-to-hub.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 15000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
       - extendedWaitUntil:
           visible:
-            id: 'trip-map-half'
-          timeout: 8000
+            id: 'trip-map-peek|trip-map-half|day-plan'
+          timeout: 30000
           optional: true
-- tapOn:
-    id: 'trip-map-open-day'
-    optional: true
-- extendedWaitUntil:
-    visible:
-      id: 'day-plan'
-    timeout: 20000
-    optional: true
+      - tapOn:
+          id: 'trip-map-peek-open-day|trip-map-open-day'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'day-plan'
+          timeout: 20000
+          optional: true
 - waitForAnimationToEnd:
     timeout: 5000
 - runFlow: on-trip-pass-arrival.yaml

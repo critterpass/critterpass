@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# The day of a trip under way, walked again by a fresh account on real staging (a three-day Đà Nẵng
+# trip whose first day is today), read in Vietnamese: subflows/on-trip-rewalk-day.yaml.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: day-vi-00-setup
+- runFlow:
+    file: subflows/on-trip-rewalk-day.yaml
+    env:
+      SHOTS: day-vi

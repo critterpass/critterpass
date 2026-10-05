@@ -1,0 +1,1102 @@
+appId: app.critterpass.dev
+---
+# The day of the trip, walked in the order a traveller lives it, from Home with the trip locked in
+# and its first day today: Home, the hub, day-of, the day plan, a stop's sheet and its place page,
+# GO without and with a position, I'm here, Done here, the next stop, running late (pushed, undone,
+# pushed again), a stop skipped, a place added by typing and by kind, tomorrow's stop moved to
+# today, a stop removed, tomorrow and the last day, then no signal on day-of and in GO.
+# ${SHOTS} prefixes every frame. A walk, not a check: steps are optional so the frames keep coming
+# where the app refuses.
+- takeScreenshot: ${SHOTS}-01-home
+- tapOn:
+    id: 'home-next-up|home-in-trip'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-02-home-card-leads-to
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-decline'
+    timeout: 8000
+    optional: true
+- runFlow: on-trip-pass-arrival.yaml
+- takeScreenshot: ${SHOTS}-03-hub
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-04-hub-lower
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-05-day-of
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-06-day-of-timeline
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-07-day-of-end
+- tapOn:
+    id: 'trip-day-item-.*'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-08-stop-opened-from-day-of
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-to-plan'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-day-to-plan'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 5000
+- takeScreenshot: ${SHOTS}-09-day-plan-from-day-of
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
+    file: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-10-day-plan-today
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-11-day-plan-today-lower
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-12-stop-sheet
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-13-stop-sheet-lower
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-place'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-place'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: ${SHOTS}-14-place-page
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-15-place-page-lower
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-16-place-page-end
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+# GO: before the phone has a position, then with one.
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-go'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-day-go'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'go-card'
+    timeout: 20000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'go-preview-no_fix|go-preview-no_location'
+    timeout: 20000
+    optional: true
+- takeScreenshot: ${SHOTS}-17-go-no-position
+# A hotel street behind Mỹ Khê beach, about three kilometres from the centre.
+- setLocation:
+    latitude: 16.0605
+    longitude: 108.2452
+- tapOn:
+    id: 'go-retry'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'go-preview-routed|go-preview-straight'
+    timeout: 60000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: ${SHOTS}-18-go-route
+- tapOn:
+    text: '(Lái xe|Drive).*'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 5000
+- takeScreenshot: ${SHOTS}-19-go-by-car
+- tapOn:
+    text: '(Đi bộ|Walk).*'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 5000
+- takeScreenshot: ${SHOTS}-20-go-on-foot
+- tapOn:
+    id: 'go-start'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 20000
+- takeScreenshot: ${SHOTS}-21-maps-app
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 12000
+- takeScreenshot: ${SHOTS}-22-maps-app-later
+- launchApp:
+    stopApp: false
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- tapOn:
+    id: 'go-back'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- runFlow: on-trip-pass-arrival.yaml
+- takeScreenshot: ${SHOTS}-23-back-from-go
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-here'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-day-here'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-done'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-24-im-here
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-25-day-plan-while-here
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-26-day-of-while-here
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-27-hub-while-here
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- tapOn:
+    id: 'stop-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-done'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-day-done'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-28-done-here
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-29-day-plan-after-done
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-30-day-of-after-done
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-31-day-of-after-done-timeline
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-32-hub-after-done
+# Running late for the next stop: pushed, undone, pushed again.
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-late-30'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-33-next-stop-sheet
+- tapOn:
+    id: 'stop-day-late-30'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'late-title'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: ${SHOTS}-34-running-late-what-moves
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-35-running-late-lower
+- tapOn:
+    id: 'late-choose'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- takeScreenshot: ${SHOTS}-36-pushed-at-once
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: ${SHOTS}-37-after-undo
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-late-15'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-day-late-15'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'late-title'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: ${SHOTS}-38-running-late-15
+- tapOn:
+    id: 'late-choose'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: ${SHOTS}-39-day-plan-after-push
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-40-day-plan-after-push-lower
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-41-day-of-after-push
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-42-day-of-after-push-timeline
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-43-hub-after-push
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- scrollUntilVisible:
+    element:
+      id: 'stop-3'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-3'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-skip'
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-day-skip'
+    optional: true
+- takeScreenshot: ${SHOTS}-44-skipped-at-once
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- takeScreenshot: ${SHOTS}-45-day-plan-after-skip
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-46-day-plan-after-skip-lower
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-47-day-of-after-skip
+# A place for right now: by typing, then by kind.
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-48-add-opens
+- tapOn:
+    id: 'search-field-query'
+    optional: true
+- inputText: 'ca phe'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-0|search-plain-row-0|search-no-results'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-49-search-coffee
+- tapOn:
+    id: 'search-row-add-0|search-plain-add-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet|plan-add-scroll'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-50-add-sheet
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-51-add-sheet-lower
+- tapOn:
+    id: 'plan-add-confirm'
+    optional: true
+- takeScreenshot: ${SHOTS}-52-added-at-once
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: ${SHOTS}-53-after-add
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-54-day-plan-after-add
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-55-day-plan-after-add-lower
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: UP
+    timeout: 5000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- hideKeyboard
+- tapOn:
+    id: 'search-browse-coffee'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 8000
+- takeScreenshot: ${SHOTS}-56-by-kind-coffee
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-57-by-kind-coffee-lower
+# Tomorrow's stop moved to today.
+- runFlow: on-trip-open-day-plan.yaml
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- tapOn:
+    id: 'day-plan-day-chips-2'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-58-tomorrow
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-59-tomorrow-lower
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-2'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-60-tomorrow-stop-sheet
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-1'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-61-move-to
+- tapOn:
+    id: 'plan-item-move-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 5000
+- takeScreenshot: ${SHOTS}-62-move-shown
+- tapOn:
+    id: 'plan-item-confirm'
+    optional: true
+- takeScreenshot: ${SHOTS}-63-moved-at-once
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-scroll'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-64-today-after-move
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-65-today-after-move-lower
+- scrollUntilVisible:
+    element:
+      id: 'stop-4'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-4'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-scroll'
+    timeout: 10000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'plan-item-remove'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-66-remove-asks
+- tapOn:
+    id: 'plan-item-confirm'
+    optional: true
+- takeScreenshot: ${SHOTS}-67-removed-at-once
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: ${SHOTS}-68-after-remove-undo
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-day-chips-3'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'day-plan-day-chips-3'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-69-last-day
+- tapOn:
+    id: 'day-plan-all-days'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-70-all-days
+- runFlow:
+    when:
+      visible:
+        id: 'all-days'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'day-plan-back'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-71-day-plan-back-leads-to
+- tapOn:
+    id: 'trip-map-back'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-72-trip-map-back-leads-to
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- takeScreenshot: ${SHOTS}-73-hub-end
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-74-hub-end-lower
+# No signal on day-of and in GO (the runner turns Wi-Fi and data off, then on).
+- runFlow: on-trip-to-hub.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next|trip-hub-today'
+    direction: UP
+    timeout: 15000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-75-day-of-end
+- evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '' }).status}"
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-offline'
+    timeout: 40000
+    optional: true
+- takeScreenshot: ${SHOTS}-76-day-of-no-signal
+- swipe:
+    start: 50%, 75%
+    end: 50%, 35%
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-77-day-of-no-signal-timeline
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-back'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'trip-day-go'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'go-preview-offline'
+    timeout: 30000
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: ${SHOTS}-78-go-no-signal
+- tapOn:
+    id: 'go-back'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 2000
+- runFlow: on-trip-open-day-plan.yaml
+- takeScreenshot: ${SHOTS}-79-day-plan-no-signal
+- evalScript: "${http.post('http://127.0.0.1:7788/network?state=on', { body: '' }).status}"
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 10000
+- tapOn:
+    id: 'tab-home'
+    optional: true
+- runFlow:
+    file: settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: ${SHOTS}-80-home-end
