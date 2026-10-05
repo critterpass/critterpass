@@ -15,7 +15,8 @@ streams:
       trip_destination: |
         SELECT destination_id FROM trips
         WHERE id = subscription.parameter('trip_id')
-          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
+          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active'
+                          AND crew_id IN (SELECT crew_id FROM trips WHERE id = subscription.parameter('trip_id')))
     queries:
       - |
         SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
@@ -41,7 +42,7 @@ streams:
         WHERE id IN (
           SELECT poi_id FROM plan_items
           WHERE trip_id = subscription.parameter('trip_id')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
             AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew' AND status != 'superseded')
             AND poi_id IS NOT NULL)
       # An organiser-only draft's stops (a must-do may be an open-data place), to organisers alone.
@@ -54,7 +55,7 @@ streams:
           SELECT poi_id FROM plan_items
           WHERE trip_id = subscription.parameter('trip_id')
             AND trip_id IN (SELECT trip_id FROM trip_participants WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
             AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser' AND status != 'superseded')
             AND poi_id IS NOT NULL)
       # The trip's live ideas, which include every place a member saved inside its destination.
@@ -66,7 +67,7 @@ streams:
         WHERE id IN (
           SELECT poi_id FROM trip_ideas
           WHERE trip_id = subscription.parameter('trip_id')
-            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+            AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
             AND deleted_at IS NULL
             AND poi_id IS NOT NULL)
 

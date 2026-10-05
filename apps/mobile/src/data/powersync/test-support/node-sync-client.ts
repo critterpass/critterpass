@@ -133,6 +133,7 @@ export async function openNodeSyncClient(options: NodeSyncClientOptions): Promis
     async close() {
       realtime.disconnect();
       core.stopReconcile();
+      core.stopOfflineTripHolds();
       await core.queue.stop();
       await db.close();
     },

@@ -15,34 +15,34 @@ streams:
         SELECT * FROM briefings
         WHERE trip_id = subscription.parameter('trip_id')
           AND user_id = auth.user_id()
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM briefing_items
         WHERE trip_id = subscription.parameter('trip_id')
           AND user_id = auth.user_id()
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM packing_items
         WHERE trip_id = subscription.parameter('trip_id')
           AND owner_id = auth.user_id()
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
 
   trip:
     queries:
       - |
         SELECT * FROM leave_bys
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM readiness
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM packing_items
         WHERE trip_id = subscription.parameter('trip_id')
           AND owner_id IS NULL
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM offline_bundles
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)

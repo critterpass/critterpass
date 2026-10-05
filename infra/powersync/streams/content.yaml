@@ -21,7 +21,8 @@ streams:
       trip_destination: |
         SELECT destination_id FROM trips
         WHERE id = subscription.parameter('trip_id')
-          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
+          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active'
+                          AND crew_id IN (SELECT crew_id FROM trips WHERE id = subscription.parameter('trip_id')))
     queries:
       - SELECT * FROM spawn_rules WHERE destination_id IN trip_destination
       - SELECT * FROM facilities WHERE destination_id IN trip_destination
