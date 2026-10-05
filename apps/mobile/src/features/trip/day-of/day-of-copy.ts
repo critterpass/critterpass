@@ -94,22 +94,30 @@ export function heroCopy(
   const instructions = [pickupLine, view.guideNote, traffic].filter(Boolean).join(' ') || null;
   const total = view.crew.length;
   const up = view.upCount;
-  const readinessLabel = view.allUp
-    ? t({
-        id: 'trip.dayOf.allUp',
-        message: plural(total, { one: "You're up", other: 'All # are up' }),
-      })
-    : t({ id: 'trip.dayOf.upCount', message: `${up} of ${total} are up` });
+  // A trip of one: her own state, never a count of a crew ("0 of 1", "All 1 are up").
+  const solo = total === 1;
+  const readinessLabel = solo
+    ? view.allUp
+      ? t({ id: 'trip.dayOf.soloUp', message: "You're up" })
+      : t({ id: 'trip.dayOf.soloNotUp', message: 'Not up yet' })
+    : view.allUp
+      ? t({
+          id: 'trip.dayOf.allUp',
+          message: plural(total, { one: "You're up", other: 'All # are up' }),
+        })
+      : t({ id: 'trip.dayOf.upCount', message: `${up} of ${total} are up` });
   const who = names(view, locale);
   const sleepers = view.sleepers.length;
   let readinessDetail: string | null;
   if (view.phase === 'transit') {
     readinessDetail = null;
   } else if (view.allUp) {
-    readinessDetail = t({
-      id: 'trip.dayOf.allUpDetail',
-      message: 'Everyone is up. See you out front.',
-    });
+    readinessDetail = solo
+      ? t({ id: 'trip.dayOf.soloUpDetail', message: 'Up and ready. Leave on time.' })
+      : t({
+          id: 'trip.dayOf.allUpDetail',
+          message: 'Everyone is up. See you out front.',
+        });
   } else if (view.phase === 'overdue') {
     readinessDetail = view.knocked
       ? t({ id: 'trip.dayOf.knocked', message: `The crew was pinged to knock for ${who}.` })
