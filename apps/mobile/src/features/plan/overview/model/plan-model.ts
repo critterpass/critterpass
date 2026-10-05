@@ -2,6 +2,7 @@
  * The plan as the review and the calendar export read it: days and labelled items from the synced
  * rows, and an instant's clock time in the item's own zone.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- wire values and keys, never copy. */
 import { guideText } from '@/lib/i18n/guide-text';
 
 import { idArray } from '../data/plan-rows';

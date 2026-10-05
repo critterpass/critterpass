@@ -2,7 +2,6 @@
  * Lab scenes for the change set chat card's states, through the same copy as the app, with every
  * handler a no-op.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 

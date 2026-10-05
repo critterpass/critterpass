@@ -7,7 +7,7 @@
 import type { PlanOp, PlanState } from '@cp/domain';
 import { plural, t } from '@lingui/core/macro';
 
-import { minutesOnDay, type DayItem } from '@/data/plan/plan-model';
+import { minutesOnDay } from '@/data/plan/plan-model';
 import type { EditOutcome, UndoOutcome } from '@/data/plan/use-plan-editor';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';

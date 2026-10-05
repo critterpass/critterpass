@@ -85,7 +85,6 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const state = lockState(status, recipients);
   const counts = tally(trip.people);
   const copy = lockCopy(state);
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const planHref = hrefFor('plan-hub', { tripId: trip.tripId });
   const pending = new Set(dropouts.rows.map((d) => d.user_id));
   const waiting = trip.people.filter((p) => p.rsvp === 'waitlisted');

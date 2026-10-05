@@ -148,7 +148,6 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
       title: t({ id: 'proposal.board.maybeDone', message: 'You said maybe' }),
     });
   };
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const planHref = hrefFor('plan-hub', { tripId: trip.tripId });
   const board = (ids: readonly string[]) => {
     setAsking(false);
