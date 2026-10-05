@@ -111,12 +111,19 @@ describe('a draft over a plan she started by hand', () => {
     expect(loaded.held[0]?.item.must_do_id).not.toBeNull();
     // The planner knows her place and her stops, and is offered neither again.
     expect(loaded.input.pois.has(wishPlace)).toBe(true);
-    expect(loaded.input.held).toEqual(loaded.held);
-    expect(loaded.held[1]?.item.kind).toBe('meal');
+    const given = loaded.input.held ?? [];
+    expect(given.map((stop) => stop.item.stable_id)).toEqual(
+      loaded.held.map((stop) => stop.item.stable_id),
+    );
+    // Her lunch is the day's meal, and her pin stands as a place of its own for this draft.
+    expect(given[1]?.item).toMatchObject({ kind: 'meal', poi_id: stops.lunch });
+    expect(loaded.input.pois.get(stops.lunch)?.name).toBe('Aunt Mai');
+    expect(loaded.held[1]?.item.poi_id).toBeNull();
+    expect(loaded.input.locale).toBe('en');
     expect(loaded.input.frame.mustDos).toHaveLength(mustDos.length - 1);
     expect(loaded.trip.mustDos).toHaveLength(mustDos.length);
     const offered = [...loaded.input.pools.activities, ...loaded.input.pools.eateries];
-    expect(offered.some((poi) => poi.id === wishPlace)).toBe(false);
+    expect(offered.some((poi) => poi.id === wishPlace || poi.id === stops.lunch)).toBe(false);
     expect(offered.some((poi) => poi.id === idea?.id)).toBe(true);
     await harness.pool.query('DELETE FROM plan_items WHERE stable_id = $1', [stops.wish]);
   });

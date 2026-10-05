@@ -19,6 +19,7 @@ import { z } from 'zod';
 import type { AgentStepContext } from '../../../ai/job-runner';
 
 import {
+  forPlanner,
   heldMustDoIds,
   heldPlaceIds,
   loadHeldStops,
@@ -119,13 +120,15 @@ export async function load(
   const mustDos = trip.mustDos.filter(
     (m) => !made.has(m.id) && !(m.poiId !== null && taken.has(m.poiId)),
   );
-  const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
+  const planned = forPlanner(there.held, trip.tz);
+  const known = await loadDraftPlaces(ctx.pool, trip.destinationId, [
     ...mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
     ...wished.places.values(),
     ...wished.offered,
     ...there.ideaPlaces,
     ...heldPlaceIds(there.held),
   ]);
+  const places = [...known, ...planned.pins];
   const asked = buildPlanInput({ ...trip, mustDos }, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
@@ -133,7 +136,7 @@ export async function load(
     wished,
     ignoreNames,
     prefer: there.ideaPlaces,
-    notOffered: taken,
+    notOffered: new Set([...taken, ...planned.pins.map((pin) => pin.id)]),
   });
   // Once the outline has run, every later step plans with the guide's answers to the wishes. A
   // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
@@ -141,9 +144,14 @@ export async function load(
   const answers =
     outline?.wishAnswers ??
     (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
-  const held = withMealKinds(there.held, asked.pois, asked.frame);
-  const input = { ...withWishAnswers(asked, answers), held, locale: there.locale };
-  return { trip, input, held };
+  // What is put back after the check is each stop as she placed it; the planner's copy differs
+  // only in what it needs to plan (a pin's stand-in place, which stop is the day's meal).
+  const input = {
+    ...withWishAnswers(asked, answers),
+    held: withMealKinds(planned.held, asked.pois, asked.frame),
+    locale: there.locale,
+  };
+  return { trip, input, held: there.held };
 }
 
 export function modelFor(

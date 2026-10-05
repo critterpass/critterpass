@@ -16,6 +16,8 @@ import type pg from 'pg';
 export interface HeldStop {
   readonly dayNo: number;
   readonly item: DraftItem;
+  /** Where a stop on a dropped pin is (it has no place of ours). */
+  readonly pin?: { readonly name: string; readonly lat: number; readonly lng: number };
 }
 
 interface HeldRow {
@@ -31,6 +33,7 @@ interface HeldRow {
   readonly amount_minor: string | null;
   readonly currency: string | null;
   readonly notes: string | null;
+  readonly custom_place: HeldStop['pin'] | null;
 }
 
 /** SQL for the rows of version `v` that are hers to keep (alias `i` over `plan_items`). */
@@ -51,7 +54,7 @@ export async function loadHeldStops(
               SELECT m.id FROM must_dos m
                WHERE m.trip_id = i.trip_id AND m.deleted_at IS NULL AND m.poi_id = i.poi_id
                ORDER BY m.created_at, m.id LIMIT 1)) AS must_do_id,
-            i.cost_model, i.amount_minor, i.currency, i.notes
+            i.cost_model, i.amount_minor, i.currency, i.notes, i.custom_place
        FROM plan_items i JOIN plan_days d ON d.id = i.day_id
       WHERE i.version_id = $1 AND ${HELD_ROW_SQL}
         AND i.starts_at IS NOT NULL AND i.ends_at IS NOT NULL
@@ -61,6 +64,7 @@ export async function loadHeldStops(
   );
   return rows.map((row) => ({
     dayNo: row.day_no,
+    ...(row.poi_id === null && row.custom_place != null ? { pin: row.custom_place } : {}),
     item: {
       stable_id: row.stable_id,
       kind: row.category === 'meal' || row.category === 'food' ? 'meal' : 'activity',
@@ -101,6 +105,39 @@ export function withMealKinds(
     const kind = eats && (meal === 'lunch' || meal === 'dinner') ? 'meal' : 'activity';
     return kind === stop.item.kind ? stop : { ...stop, item: { ...stop.item, kind } };
   });
+}
+
+/**
+ * Her stops as the planner reads them. The planner knows a stop by its place, and a stop on a
+ * dropped pin has none of ours: it is given a place of its own for this draft (the pin, under the
+ * stop's own id, never offered to the guide), so the day is routed and timed around it like any
+ * other stop of hers. The rows that are saved are hers, pin and all (`holdStops`).
+ */
+export function forPlanner(
+  held: readonly HeldStop[],
+  tz: string,
+): { readonly held: HeldStop[]; readonly pins: DraftPoi[] } {
+  const pins: DraftPoi[] = [];
+  const stops = held.map((stop) => {
+    if (stop.pin === undefined) return stop;
+    const minutes = (Date.parse(stop.item.ends_at) - Date.parse(stop.item.starts_at)) / 60_000;
+    pins.push({
+      id: stop.item.stable_id,
+      name: stop.pin.name,
+      category: 'other',
+      lat: stop.pin.lat,
+      lng: stop.pin.lng,
+      tz,
+      hours: null,
+      priceLevel: null,
+      tags: [],
+      durationMin: Math.max(15, Math.round(minutes)),
+      editorial: false,
+      mustSee: false,
+    });
+    return { ...stop, item: { ...stop.item, poi_id: stop.item.stable_id } };
+  });
+  return { held: stops, pins };
 }
 
 export function heldPlaceIds(held: readonly HeldStop[]): Set<string> {
