@@ -1,7 +1,7 @@
 /**
  * The morning briefing's candidates for one member, trip and local date, computed from facts only
  * (the model words them, never adds to them): the day's leave-by, who is still asleep (organisers
- * only), the first item, a flight, a free-cancellation deadline, their balance, an open vote and a
+ * only), what the plan check wants fixed on the day's plan, the first item, a flight, a free-cancellation deadline, their balance, an open vote and a
  * queued question the guide answered. Each carries the only values its line may cite. Reads run as
  * app_system and select crew-visible or the member's own rows only; nothing C3 is read.
  */
@@ -196,6 +196,40 @@ async function dayFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
   return drafts;
 }
 
+/**
+ * What the plan check still wants fixed on this day's plan (a clash, a closed place, a stop too
+ * far): how many, on the plan the crew has now. Nothing while the check has not run on that plan.
+ */
+async function planFixes(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft[]> {
+  const { rows } = await tx.query<{ fixes: number }>(
+    `SELECT count(*)::int AS fixes
+       FROM plan_check_issues i
+       JOIN trips t ON t.id = i.trip_id AND t.current_version_id = i.version_id
+       JOIN plan_checks c ON c.trip_id = t.id AND c.version_id = i.version_id AND c.status = 'done'
+       JOIN plan_days d ON d.id = i.day_id
+      WHERE i.trip_id = $1 AND i.severity = 'fix' AND d.date = $2::date`,
+    [scope.tripId, scope.localDate],
+  );
+  const fixes = rows[0]?.fixes ?? 0;
+  if (fixes === 0) return [];
+  return [
+    {
+      kind: 'plan_fix',
+      action: 'open',
+      icon: 'alarm',
+      priority: 75,
+      facts: { count: fixes },
+      template:
+        fixes === 1
+          ? "One thing on today's plan needs fixing."
+          : `${fixes} things on today's plan need fixing.`,
+      target_user_ids: [],
+      deep_link: `/${scope.tripId}/check`,
+      dedupe_key: `plan_fix:${scope.localDate}`,
+    },
+  ];
+}
+
 async function crewFacts(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft[]> {
   const drafts: Draft[] = [];
   const balance = await tx.query<{ currency: string; net_minor: string }>(
@@ -274,6 +308,7 @@ export async function briefingCandidates(
 ): Promise<BriefingCandidate[]> {
   const drafts = [
     ...(await leaveBys(tx, scope)),
+    ...(await planFixes(tx, scope)),
     ...(await dayFacts(tx, scope)),
     ...(await crewFacts(tx, scope)),
   ].sort((a, b) => b.priority - a.priority);

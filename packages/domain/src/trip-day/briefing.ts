@@ -44,6 +44,8 @@ export const BRIEFING_CANDIDATE_KINDS = [
   'host_info',
   'queued_answer',
   'open_vote',
+  /** The plan check has something to fix on this day's plan. */
+  'plan_fix',
 ] as const;
 export type BriefingCandidateKind = (typeof BRIEFING_CANDIDATE_KINDS)[number];
 

@@ -119,6 +119,10 @@ msgstr "Tiếp theo"
 msgid "trip.dayOf.nextUp"
 msgstr "Tiếp theo"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloNotUp"
+msgstr "Chưa dậy"
+
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.empty"
 msgstr "Chưa có gì trong danh sách."
@@ -175,6 +179,10 @@ msgstr "Trễ {minutes} phút"
 msgid "trip.dayOf.toDayPlan"
 msgstr "Xem kế hoạch ngày"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toTomorrow"
+msgstr "Xem ngày mai"
+
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.snooze"
 msgstr "Đã báo lại báo thức giờ xuất phát"
@@ -219,6 +227,10 @@ msgstr "Chuyến đi"
 msgid "trip.alarm.note.deniedAction"
 msgstr "Bật báo thức"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloUpDetail"
+msgstr "Dậy rồi. Đi đúng giờ nhé."
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.whyAction"
 msgstr "Sao không phải báo thức?"
@@ -238,6 +250,10 @@ msgstr "Bạn sẽ nhận thông báo lúc {at}, không phải báo thức."
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.notYours"
 msgstr "Bạn không đi chặng này. Cứ ngủ tiếp."
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.soloUp"
+msgstr "Bạn đã dậy"
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.up"
