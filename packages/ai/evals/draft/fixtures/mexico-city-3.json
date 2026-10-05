@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "7ab2d942-8f5b-49c3-bca7-b1cb500a04d2",
+        "id": "c46e20ee-e131-48c2-aae0-b94090e84e45",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area C\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Coyoacán arrival\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Chapultepec culture and green\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p13\", \"p10\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Teotihuacan pyramids\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Historic centre and canals\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Roma Norte or Condesa, near Chapultepec\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Coyoacán colours\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Chapultepec history and green\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p13\", \"p10\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Teotihuacan pyramids\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Centro Histórico\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 125,
+          "input_tokens": 92,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 246,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 255,
           "service_tier": "standard"
         }
       }
@@ -28,7 +28,7 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "d121f833-9087-4bf9-9505-b8372eac0614",
+        "id": "27befa7b-a3a8-4d9a-bad6-fe121f495f09",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -52,14 +52,14 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "21f55d17-07e0-4bf9-ad54-5f6d2ba346c5",
+        "id": "90686a46-e965-439f-ad93-c4898f2de52e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Glide the old canals on a painted trajinera while the city feels far away.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Warm Moorish-style plates with plenty for vegetarians, close to the water.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Float the old canals where the city still grows its flowers and songs.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A calm halal table with generous veggie plates, close to the water.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -68,7 +68,7 @@
           "input_tokens": 423,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 84,
+          "output_tokens": 79,
           "service_tier": "standard"
         }
       }
@@ -76,14 +76,14 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "2065dde6-a4e6-4774-8c7b-db6e1b96e624",
+        "id": "6bc884a0-63bd-4b62-9afc-50632540b3c2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the stalls where churros, tostadas and everyday Coyoacán life share the same aisle.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Step into the blue house and feel Frida's world still breathing in the garden and the paint.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long hop for tacos al pastor made from plants, worth the ride for the smoky, spicy bite.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the stalls where churros steam and neighbours gossip over fresh tortillas.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Step into the blue house and feel Frida's fierce, colourful world still breathing.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tacos al pastor, but make it plants, with a salsa that bites back.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -92,7 +92,7 @@
           "input_tokens": 355,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 136,
+          "output_tokens": 121,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "8d159429-e727-4fde-91f9-e05857fc4453",
+        "id": "8b1f5a17-f5fd-4cab-934d-0348e06d6dbb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great stone umbrella in the courtyard is a fine spot to meet before wandering the halls of old Mexico.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Climb the hill for the castle's murals and the long view over the treetops.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, loud and good for a group, with chilaquiles that wake everyone up.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the shaded paths, watch the rowboats, and let the squirrels audition for your snacks.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Poke into the side streets of Roma for old facades, tiny galleries and a very easy pace.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tacos al pastor, carved straight from the trompo, with a salsa that means business.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Masks, capes and flying bodies: the crowd roars and you will too.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The castle keeps its history high above the treetops, with views that make the climb feel like a reward.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stone giants and sun stones share the halls here, each one with a story older than the city.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright plates and easy chatter make this a good pause before the afternoon wanders on.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The park breathes in the middle of the city, all green paths and quiet corners for a slow ramble.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte strolls with leafy streets and little balconies, the kind of local life you feel just by walking.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tacos, big flavour, and the kind of counter where you order one more without thinking.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Masks, capes, and a crowd that roars: the arena turns a Sunday night into pure theatre.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 595,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 401,
+          "output_tokens": 409,
           "service_tier": "standard"
         }
       }
@@ -124,14 +124,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "f4f2ed2d-daa8-4523-a4f9-debb2e23eff9",
+        "id": "428b0e6b-2667-494e-ba14-3fbbc07be614",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Four days of markets, museums, pyramids and canals — every must-do made it, and I barely had to nag."
+            "text": "Colours, green history, pyramids and the old centre — all your must-dos, no huevón left behind."
           }
         ],
         "stop_reason": "end_turn",
@@ -140,7 +140,7 @@
           "input_tokens": 232,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 24,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }

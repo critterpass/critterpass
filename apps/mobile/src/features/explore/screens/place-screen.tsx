@@ -15,10 +15,7 @@ import { heroAt, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { dataOf } from '@/data/travel-data/freshness';
 import { useCrowds } from '@/data/travel-data/useCrowds';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
-import { EmptyState } from '@/ui/states/EmptyState';
-import { Scaffold } from '@/ui/surface/Scaffold';
 
 import type { AddToDayButtonProps } from '../components/add-to-day-button';
 import type { CrowdChartProps } from '../components/crowd-chart';
@@ -41,8 +38,11 @@ import {
   windowHours,
 } from '../place-model';
 import { liveFacts } from '../place-live';
-import { usePlaceTip, usePoi, useTripCrew, useTripFacts } from '../place-queries';
+import { usePlaceTip, useTripCrew, useTripFacts } from '../place-queries';
 import { PlaceDetailScreen } from '../place-detail/place-detail-screen';
+import { sellsTickets } from '../place-detail/place-facts';
+import { PlaceUnavailable } from '../place-detail/place-unavailable';
+import { usePlaceRow } from '../place-detail/remote-place';
 import { exploreRoutes } from '../routes';
 
 export interface PlaceScreenProps {
@@ -70,20 +70,18 @@ export function PlaceScreen(props: PlaceScreenProps) {
   return redesign ? <PlanningPlace {...props} /> : <ClassicPlaceScreen {...props} />;
 }
 
+const goBack = () => {
+  if (router.canGoBack()) router.back();
+  else router.replace('/');
+};
+
 function PlanningPlace(props: PlaceScreenProps) {
-  const { row } = usePoi(props.placeId);
-  if (row === null) return <ClassicPlaceScreen {...props} />;
-  const back = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace('/');
-  };
+  const trip = props.tripId ?? null;
+  const facts = useTripFacts(trip, props.placeId);
+  const place = usePlaceRow(props.placeId, props.destinationId ?? facts.destinationId);
+  if (place.kind !== 'ready') return <PlaceUnavailable state={place} onBack={goBack} />;
   return (
-    <PlaceDetailScreen
-      placeId={props.placeId}
-      row={row}
-      tripId={props.tripId ?? null}
-      onBack={back}
-    />
+    <PlaceDetailScreen placeId={props.placeId} row={place.row} tripId={trip} onBack={goBack} />
   );
 }
 
@@ -91,8 +89,9 @@ function ClassicPlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const trip = tripId ?? null;
-  const { row, loaded } = usePoi(placeId);
   const facts = useTripFacts(trip, placeId);
+  const place = usePlaceRow(placeId, destinationId ?? facts.destinationId);
+  const row = place.kind === 'ready' ? place.row : null;
   useExploreStream(row?.destination_id ?? destinationId ?? facts.destinationId);
   const sync = useSyncStatus();
   const offline = sync.phase === 'offline';
@@ -134,38 +133,13 @@ function ClassicPlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
     crew: useMemo(() => crew.map((member) => member.uid), [crew]),
   });
 
-  const back = () => {
-    if (router.canGoBack()) router.back();
-    else router.replace('/');
-  };
-
-  if (row === null) {
+  const back = goBack;
+  if (place.kind !== 'ready' || row === null) {
     return (
-      <Scaffold testID={loaded ? 'explore-place-missing' : 'explore-place-waiting'}>
-        <BackEyebrow
-          label={t({ id: 'explore.hero.back', message: 'Explore' })}
-          onPress={back}
-          testID="explore-back"
-        />
-        {loaded ? (
-          <EmptyState
-            guide="tokek"
-            guideName={guideFor(null).name}
-            title={t({ id: 'explore.place.missingTitle', message: "This place hasn't loaded yet" })}
-            line={
-              offline
-                ? t({
-                    id: 'explore.place.missingOffline',
-                    message: "I need a connection the first time. After that it's here offline.",
-                  })
-                : t({
-                    id: 'explore.place.missingLine',
-                    message: 'Give it a moment, or open it again from its destination.',
-                  })
-            }
-          />
-        ) : null}
-      </Scaffold>
+      <PlaceUnavailable
+        state={place.kind === 'ready' ? { kind: 'waiting' } : place}
+        onBack={back}
+      />
     );
   }
 
@@ -270,7 +244,7 @@ function ClassicPlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
       tip={guideWritten(tip ?? whyGo, locale)}
       crew={trip === null ? null : { keen, qna: context?.qna?.text ?? null }}
       offers={
-        offersHref === undefined
+        offersHref === undefined || !sellsTickets(row.category)
           ? null
           : { placeName: name, offline, onOpen: () => router.push(offersHref) }
       }

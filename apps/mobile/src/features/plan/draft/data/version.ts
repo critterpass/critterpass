@@ -130,6 +130,8 @@ export interface ReviewModel {
   readonly stale: readonly SetupChange[];
   /** A must-do added after the draft that it does not place yet (its redraft is free). */
   readonly lateMustDo: boolean;
+  /** Their titles, for the note the free redraft opens with. */
+  readonly lateMustDoTitles: readonly string[];
 }
 
 function coverageOf(row: VersionRow): DraftCoverage | null {
@@ -236,6 +238,11 @@ export function buildReview(input: {
   const placedMustDos = new Set(
     items.flatMap((item) => (item.must_do_id === null ? [] : [item.must_do_id])),
   );
+  // Must-dos added after this draft was made and not on any day of it.
+  const late =
+    built === undefined
+      ? []
+      : setup.mustDoIds.filter((id) => !built.must_do_ids.includes(id) && !placedMustDos.has(id));
   return {
     versionId: version.id,
     days,
@@ -255,8 +262,10 @@ export function buildReview(input: {
     stays: coverage?.stays ?? [],
     closures,
     stale: built === undefined ? [] : setupChanges(built, setup),
-    lateMustDo:
-      built !== undefined &&
-      setup.mustDoIds.some((id) => !built.must_do_ids.includes(id) && !placedMustDos.has(id)),
+    lateMustDo: late.length > 0,
+    lateMustDoTitles: late.flatMap((id) => {
+      const title = mustDo.get(id)?.title ?? '';
+      return title === '' ? [] : [title];
+    }),
   };
 }

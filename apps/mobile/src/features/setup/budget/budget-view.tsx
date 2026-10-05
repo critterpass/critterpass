@@ -1,6 +1,6 @@
 /**
  * The organiser's budget step (3c-5), as a pure view: the sweet-spot card, the breakdown that
- * re-flows with the knob, and LOOKS GOOD. From four maxes the knob is checked against the band
+ * re-flows with the knob, a field to type the amount instead of dragging to it, and LOOKS GOOD. From four maxes the knob is checked against the band
  * (above it the check turns to a warning and LOOKS GOOD waits); below four, the count is all
  * anyone sees and the lock consults no max. When the lowest max sits under the cheapest plan, an
  * anonymous notice offers ways out instead.
@@ -11,11 +11,13 @@ import { t } from '@lingui/core/macro';
 import { useMemo, useState, type ReactNode } from 'react';
 import Animated from 'react-native-reanimated';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Card } from '@/ui/cards/Card';
+import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -25,7 +27,16 @@ import type { ShellFrame } from '../shell/frame';
 import { DoneTag } from '../shell/header-tag';
 import { SetupShell } from '../shell/setup-shell';
 import { BreakdownBars, type BarsState } from './breakdown-bars';
-import { barsFor, snap, type BandView, type Track } from './model';
+import {
+  barsFor,
+  currencySymbol,
+  money,
+  snap,
+  typedAmountMinor,
+  widenTrack,
+  type BandView,
+  type Track,
+} from './model';
 import { isOverBand, SweetSpotCard } from './sweet-spot-card';
 import { useShake } from './use-shake';
 
@@ -97,13 +108,22 @@ function lockLine(lock: LockState): string | null {
 }
 
 export function BudgetView(props: BudgetViewProps) {
-  const { shell, trip, band, track, currency, lock } = props;
+  const { shell, trip, band, currency, lock } = props;
   const styles = useStyles();
   const theme = useTheme();
+  const locale = useLocale();
   // Until the organiser moves the knob it follows the suggested start, which moves as prices and
   // the step arrive; after that it is theirs. Either way it sits on the track it is shown on.
   const [picked, setTarget] = useState<number | null>(null);
+  const [typed, setTyped] = useState('');
+  // An amount typed above the end of the track stretches it (where no band limits the pick).
+  const track = props.track === null ? null : widenTrack(props.track, band, picked);
   const target = track === null ? 0 : snap(picked ?? props.initialTarget, track);
+  const onTyped = (text: string) => {
+    setTyped(text);
+    const amount = typedAmountMinor(text, currency);
+    if (amount !== null) setTarget(amount);
+  };
   const shake = useShake(lock.kind === 'over_band' ? lock.attempt : 0);
   const over = isOverBand(band, target);
   const barsState: BarsState = useMemo(() => {
@@ -172,7 +192,25 @@ export function BudgetView(props: BudgetViewProps) {
           track={track}
           currency={currency}
           target={target}
-          onTarget={setTarget}
+          onTarget={(next) => {
+            setTyped('');
+            setTarget(next);
+          }}
+        />
+      )}
+      {track === null ? null : (
+        <TextField
+          label={t({ id: 'setup.budget.typed.label', message: 'Or type an amount, each' })}
+          value={typed}
+          onChangeText={onTyped}
+          keyboardType="number-pad"
+          returnKeyType="done"
+          leading={<Text variant="title">{currencySymbol(locale, currency)}</Text>}
+          message={t({
+            id: 'setup.budget.typed.hint',
+            message: `Rounds to steps of ${money(locale, track.stepMinor, currency)}.`,
+          })}
+          testID="budget-typed"
         />
       )}
       {infeasible && track !== null ? (

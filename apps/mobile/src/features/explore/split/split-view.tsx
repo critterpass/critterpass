@@ -58,6 +58,11 @@ export interface SplitViewProps {
   readonly suggest: { readonly label: string; readonly onPress: () => void } | null;
   readonly vote: { readonly label: string; readonly onPress: () => void } | null;
   readonly posting: boolean;
+  /**
+   * The one live button once a way is in crew chat, or when there is no way to post: it opens the
+   * chat, and SUGGEST and the vote link are not drawn, so nothing is posted twice.
+   */
+  readonly chat?: { readonly label: string; readonly onPress: () => void } | undefined;
   readonly onBack: () => void;
 }
 
@@ -188,7 +193,15 @@ export function SplitView(props: SplitViewProps) {
       </ScrollView>
       <FooterFade />
       <View style={[styles.footer, { paddingBottom: insets.bottom + theme.space['8'] }]}>
-        {props.suggest === null ? null : (
+        {props.chat === undefined ? null : (
+          <PillButton
+            label={props.chat.label}
+            tone="ink"
+            onPress={props.chat.onPress}
+            testID="split-open-chat"
+          />
+        )}
+        {props.chat !== undefined || props.suggest === null ? null : (
           <PillButton
             label={props.suggest.label}
             loading={props.posting}
@@ -196,7 +209,7 @@ export function SplitView(props: SplitViewProps) {
             testID="split-suggest"
           />
         )}
-        {props.vote === null ? null : (
+        {props.chat !== undefined || props.vote === null ? null : (
           <View style={{ alignItems: 'center' }}>
             <TextLink label={props.vote.label} onPress={props.vote.onPress} testID="split-vote" />
           </View>

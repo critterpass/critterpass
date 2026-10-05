@@ -35,6 +35,8 @@ export interface MapSheetOptions {
   readonly onSnapChange?: ((snap: MapSheetSnap) => void) | undefined;
   /** Prefix for the drag gesture's test id (`<testID>-drag`). */
   readonly testID: string;
+  /** Android back on a raised sheet: one snap down per press (`step`), or straight to peek. */
+  readonly backCollapses?: 'step' | 'rest' | undefined;
 }
 
 export interface MapSheetController {
@@ -51,6 +53,7 @@ export function useMapSheet({
   initialSnap = 'peek',
   onSnapChange,
   testID,
+  backCollapses = 'step',
 }: MapSheetOptions) {
   const reduced = useReducedImpactMotion();
   const navigation = useContext(NavigationContext);
@@ -121,11 +124,11 @@ export function useMapSheet({
       // A page pushed over this screen owns Android back.
       if (navigation !== undefined && !navigation.isFocused()) return false;
       if (atIndex.value <= 0) return false;
-      settle(atIndex.value - 1, false);
+      settle(backCollapses === 'rest' ? 0 : atIndex.value - 1, false);
       return true;
     });
     return () => subscription.remove();
-  }, [atIndex, navigation, settle]);
+  }, [atIndex, navigation, settle, backCollapses]);
 
   const grabZone = dragDismiss.grabZonePt.sheet;
   const lowest = peekHeight;

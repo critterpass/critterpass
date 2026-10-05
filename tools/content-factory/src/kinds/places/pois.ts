@@ -5,7 +5,7 @@
  * from those fields alone. Supplier content never enters: the only sources a POI can carry are
  * fsq_os, overture and editorial, and editorial text naming a supplier fails validation.
  */
-import { poiItemSchema, TASTE_TAGS, type ContentItem } from '@cp/content';
+import { MAX_ESSENTIALS, poiItemSchema, TASTE_TAGS, type ContentItem } from '@cp/content';
 import { hoursSchema } from '@cp/domain';
 import { z } from 'zod';
 
@@ -46,6 +46,8 @@ export interface PoiSource {
   readonly duplicate: { readonly of: string; readonly verdict: DuplicateVerdict } | null;
   /** A pinned place or a landmark: in the set whatever its score, and first on the review page. */
   readonly mustSee?: boolean;
+  /** A pin the curator marked as one of the destination's essentials. */
+  readonly essential?: boolean;
   /** What a pinned place is ("a café"), as the curator pinned it. */
   readonly kind?: string;
 }
@@ -135,6 +137,7 @@ export function toPoiItem(
   source: PoiSource,
   editorial: Editorial,
   mustSee = source.mustSee === true,
+  essential = source.essential === true,
 ): ContentItem<'places'> {
   const kind = source.ref.split(':')[0] as keyof typeof LICENCES;
   const hours = hoursSchema.safeParse(source.hours);
@@ -159,6 +162,8 @@ export function toPoiItem(
       crowd_hint: editorial.crowd_hint,
       etiquette: editorial.etiquette,
       must_see: mustSee,
+      // Stated only where set, so a generated batch leaves a flag a curator gave by hand.
+      ...(essential && mustSee ? { essential: true } : {}),
     },
     merge_into: source.duplicate?.verdict === 'merge' ? source.duplicate.of : null,
     possible_duplicate_of: source.duplicate?.verdict === 'review' ? source.duplicate.of : null,
@@ -166,10 +171,13 @@ export function toPoiItem(
 }
 
 /** The must-sees: each pinned place or landmark, and the record it merges into when it is one. */
-export function mustSeeRefs(sources: readonly PoiSource[]): Set<string> {
+export function mustSeeRefs(
+  sources: readonly PoiSource[],
+  flagged: (source: PoiSource) => boolean = (source) => source.mustSee === true,
+): Set<string> {
   const byRef = new Map(sources.map((source) => [source.ref, source]));
   const refs = new Set<string>();
-  for (const source of sources.filter((s) => s.mustSee === true)) {
+  for (const source of sources.filter(flagged)) {
     let ref = source.ref;
     for (let hops = 0; hops < 5; hops += 1) {
       refs.add(ref);
@@ -188,7 +196,9 @@ export const placesKind: KindModule<'places'> = {
   brief: (ctx) => poisBrief(ctx.options),
   prompt: poisPrompt,
   assemble: (_ctx, brief, outputs) => {
-    const mustSee = mustSeeRefs(brief.units.flatMap((unit) => unit.input as PoiSource[]));
+    const sources = brief.units.flatMap((unit) => unit.input as PoiSource[]);
+    const mustSee = mustSeeRefs(sources);
+    const essential = mustSeeRefs(sources, (source) => source.essential === true);
     return Promise.resolve(
       brief.units.flatMap((unit) => {
         const output = outputs.get(unit.id) as z.infer<typeof editorialSchema> | undefined;
@@ -197,7 +207,7 @@ export const placesKind: KindModule<'places'> = {
           const editorial = output.pois.find((p) => p.ref === source.ref);
           return editorial === undefined
             ? []
-            : [toPoiItem(source, editorial, mustSee.has(source.ref))];
+            : [toPoiItem(source, editorial, mustSee.has(source.ref), essential.has(source.ref))];
         });
       }),
     );
@@ -249,6 +259,26 @@ export const placesKind: KindModule<'places'> = {
       },
     ],
     batch: [
+      {
+        // Counted over the live release with the batch laid on it: a batch states only its changes.
+        id: 'essentials-cap',
+        severity: 'fail',
+        check: ({ items, previous }) => {
+          const merged = new Map(previous.map((poi) => [poi.ref, poi]));
+          for (const poi of items) merged.set(poi.ref, poi);
+          const counts = new Map<string, number>();
+          for (const poi of merged.values()) {
+            if (poi.editorial.essential !== true || poi.merge_into !== null) continue;
+            counts.set(poi.destination, (counts.get(poi.destination) ?? 0) + 1);
+          }
+          return [...counts]
+            .filter(([, n]) => n > MAX_ESSENTIALS)
+            .map(([city, n]) => ({
+              ref: null,
+              message: `${city} has ${n} essential places; at most ${MAX_ESSENTIALS}`,
+            }));
+        },
+      },
       {
         id: 'city-coverage',
         severity: 'warn',

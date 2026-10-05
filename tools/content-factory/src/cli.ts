@@ -6,6 +6,7 @@
  *   pnpm content forms validate --all       re-check every committed batch of the kind
  *   pnpm content forms pull                 copy the live release into packages/content
  *   pnpm content places page --batch <key>  write the batch's one-page review (--opt left_out=<file>)
+ *   pnpm content places corrections --batch <key>  build a hand-made corrections batch and its review
  *
  * Flags: --batch <key>, --max-usd <n>, --concurrency <n>, --opt key=value (kind options).
  * Reads DATABASE_URL, ANTHROPIC_API_KEY and TAVILY_API_KEY from the environment or `.env`
@@ -35,6 +36,7 @@ import {
   proposeCrowdCurves,
   storeCrowdProposals,
 } from './kinds/places/crowds';
+import { placeCorrectionsCommand } from './kinds/places/corrections-command';
 import { readCrowdReview, renderCrowdReview } from './kinds/places/crowds-review';
 import { placeFactsCommand } from './kinds/places/facts';
 import { poisWithoutHours, researchHours, storeProposals } from './kinds/places/hours';
@@ -57,13 +59,11 @@ const COMMANDS = [
   'crowds',
   'facts',
   'page',
+  'corrections',
 ] as const;
 type Command = (typeof COMMANDS)[number];
 
-const STAGES_FOR: Record<
-  Exclude<Command, 'pull' | 'hours' | 'crowds' | 'facts' | 'page'>,
-  readonly Stage[]
-> = {
+const STAGES_FOR = {
   brief: ['brief'],
   generate: ['generate'],
   validate: ['validate'],
@@ -71,7 +71,7 @@ const STAGES_FOR: Record<
   review: ['review'],
   run: ['brief', 'generate', 'validate', 'render', 'review'],
   resume: ['generate', 'validate', 'render', 'review'],
-};
+} satisfies Partial<Record<Command, readonly Stage[]>>;
 
 export interface CliArgs {
   readonly kind: ContentKind;
@@ -194,6 +194,15 @@ export async function main(argv: readonly string[], log = console.log): Promise<
         throw new Error('page writes the review of a places batch');
       log(`page: ${writePlacesReview(batch, args.options['left_out'])}`);
       return 0;
+    }
+    if (args.command === 'corrections') {
+      if (args.kind !== 'places' || args.batch === undefined)
+        throw new Error('corrections builds a places batch: give --batch');
+      const snapshot = args.options['snapshot'] !== undefined;
+      return await placeCorrectionsCommand(
+        { batchKey: args.batch, snapshot, pool, now: new Date() },
+        log,
+      );
     }
     if (args.command === 'hours') {
       if (args.kind !== 'places' || pool === null)

@@ -60,6 +60,8 @@ function TripMapScene({
       initialSnap={snap}
       onShare={noop}
       onOpenDay={noop}
+      onBack={noop}
+      onOpenStop={noop}
     />
   );
 }

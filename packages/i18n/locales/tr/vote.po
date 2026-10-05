@@ -164,6 +164,14 @@ msgstr ""
 msgid "vote.pitch.addedToast"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.defaultName"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr ""
@@ -206,6 +214,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.localHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
@@ -315,6 +327,10 @@ msgstr ""
 msgid "vote.guest.briefError"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.name"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.direct"
 msgstr ""
@@ -380,6 +396,15 @@ msgstr ""
 msgid "vote.board.lockIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedIn"
+msgstr ""
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "crew.queued.create"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr ""
@@ -394,6 +419,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedNoteYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
@@ -461,10 +494,6 @@ msgstr ""
 msgid "vote.guest.pitch"
 msgstr ""
 
-#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
-msgid "vote.guest.noCrew"
-msgstr ""
-
 #: ../../apps/mobile/src/features/vote/register-chat-cards.ts
 msgid "vote.chat.attach"
 msgstr ""
@@ -518,6 +547,10 @@ msgstr ""
 msgid "vote.solo.start"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.start"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.removeTitle"
 msgstr ""
@@ -532,6 +565,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
 msgid "vote.solo.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
@@ -556,6 +593,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.locals"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedByOrganiser"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
@@ -617,6 +658,10 @@ msgid "vote.board.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.headerLocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.header"
 msgstr ""
 
@@ -653,6 +698,10 @@ msgstr ""
 msgid "vote.reveal.missed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lockedByYou"
+msgstr ""
+
 #. placeholder {0}: nameOf(poll, places, poll.myOptionId)
 #: ../../apps/mobile/src/features/vote/final/tie-line.tsx
 msgid "vote.final.youVoted"
@@ -664,6 +713,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
 msgid "vote.pitch.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/quick-crew-start.tsx
+msgid "vote.quickCrew.offline"
 msgstr ""
 
 #. placeholder {0}: guide.name

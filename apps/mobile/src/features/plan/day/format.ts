@@ -28,6 +28,19 @@ export function dayDate(locale: string, date: string): string {
   });
 }
 
+/**
+ * A day named by its date, the way every plan sheet and toast says it: "Sat, Oct 17", and in
+ * Vietnamese (where the weekday is itself a number) "Th 7, 17/10".
+ */
+export function dayName(locale: string, date: string): string {
+  const [year = 2000, month = 1, day = 1] = date.split('-').map(Number);
+  return format.date(locale, new Date(year, month - 1, day), {
+    weekday: 'short',
+    day: 'numeric',
+    month: locale.startsWith('vi') ? 'numeric' : 'short',
+  });
+}
+
 /** "$38" for an amount in minor units. */
 export function money(locale: string, amountMinor: number, currency: string): string {
   const digits =

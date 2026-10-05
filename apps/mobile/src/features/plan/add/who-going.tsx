@@ -103,3 +103,15 @@ export function WhoGoing({ members, out, open, onOpen, onToggle }: WhoGoingProps
     </View>
   );
 }
+
+/** The people left out after a tap on `uid`: at least one person always goes. */
+export function toggledOut(
+  out: ReadonlySet<string>,
+  uid: string,
+  everyone: number,
+): ReadonlySet<string> {
+  const next = new Set(out);
+  if (next.has(uid)) next.delete(uid);
+  else if (next.size < everyone - 1) next.add(uid);
+  return next;
+}

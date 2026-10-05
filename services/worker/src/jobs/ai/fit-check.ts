@@ -3,7 +3,8 @@
  * the trip's dates by the planner — the place's opening hours on those dates around the fixed
  * skeleton (arrival morning, departure afternoon), for the time it needs — giving fits / tight /
  * clash, or unknown before the dates are locked or without hours (never a day number before a
- * draft). Catalogue tags mark what books out (`book_ahead:<days>`) or runs a lottery (`lottery`).
+ * draft). Every row it has looked at with the dates locked is stamped `fit_checked_at`, an
+ * unknown verdict included, so the app can tell "no verdict" from "still checking". Catalogue tags mark what books out (`book_ahead:<days>`) or runs a lottery (`lottery`).
  * Only then does the guide write the one-line note (fast tier `must_do.fit_line`, template when
  * switched off), from the place, the verdict and public facts alone. Changed rows reach the crew as
  * `must_do.row`. System AI: unmetered.
@@ -36,6 +37,7 @@ interface MustDoRow {
   readonly time_needed_min: number | null;
   readonly fit_status: string;
   readonly fit_note: string | null;
+  readonly fit_checked_at: string | null;
   readonly external_action: string;
   readonly external_deadline: string | null;
 }
@@ -131,7 +133,7 @@ export async function checkTripFits(
     const rows = await tx.query<MustDoRow>(
       `SELECT m.id, m.title, p.name AS poi_name, p.hours, p.tags,
               (p.editorial->>'time_needed_min')::int AS time_needed_min, m.fit_status, m.fit_note,
-              m.external_action, m.external_deadline::text AS external_deadline
+              m.fit_checked_at::text AS fit_checked_at, m.external_action, m.external_deadline::text AS external_deadline
          FROM must_dos m LEFT JOIN pois p ON p.id = m.poi_id
         WHERE m.trip_id = $1 AND m.deleted_at IS NULL ORDER BY m.created_at`,
       [tripId],
@@ -145,6 +147,8 @@ export async function checkTripFits(
       ? []
       : datesOf(start, Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000) + 1);
   const updates: { row: MustDoRow; verdict: MustDoVerdict; note: string | null }[] = [];
+  /** Rows whose verdict stands but which were never stamped as looked at. */
+  const looked: MustDoRow[] = [];
   for (const row of loaded.rows) {
     const verdict = judgeMustDo(row, dates, start);
     const needsNote = verdict.status !== 'unknown';
@@ -153,7 +157,10 @@ export async function checkTripFits(
       row.external_action === verdict.externalAction &&
       row.external_deadline === verdict.externalDeadline &&
       (row.fit_note !== null) === needsNote;
-    if (unchanged) continue;
+    if (unchanged) {
+      if (row.fit_checked_at === null && dates.length > 0) looked.push(row);
+      continue;
+    }
     const note = needsNote
       ? (
           await write({
@@ -168,8 +175,18 @@ export async function checkTripFits(
       : null;
     updates.push({ row, verdict, note });
   }
-  if (updates.length === 0) return { checked: loaded.rows.length, changed: 0 };
+  if (updates.length === 0 && looked.length === 0) {
+    return { checked: loaded.rows.length, changed: 0 };
+  }
   await withSystem(pool, async (tx) => {
+    for (const row of looked) {
+      // The row itself syncs; no realtime hint, the verdict has not changed.
+      await tx.query(
+        `UPDATE must_dos SET fit_checked_at = now()
+          WHERE id = $1 AND deleted_at IS NULL AND title = $2 AND fit_checked_at IS NULL`,
+        [row.id, row.title],
+      );
+    }
     for (const { row, verdict, note } of updates) {
       const { rowCount } = await tx.query(
         `UPDATE must_dos

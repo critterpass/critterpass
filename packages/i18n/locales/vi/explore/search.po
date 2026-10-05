@@ -35,23 +35,23 @@ msgstr "{count} chỗ ở {area}, {late} chỗ mở khuya"
 msgid "search.none.widenAreas"
 msgstr "{count} chỗ, đều ở {areas}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.savedToast"
 msgstr "Đã lưu {count} chỗ vào Ý tưởng"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.exclude.mealNoTitle"
 msgstr "{day} đã có bữa đó rồi, nên mình xem các ngày khác của bạn."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.exclude.travel"
 msgstr "{day} là ngày di chuyển, nên mình xem các ngày khác của bạn."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.exclude.meal"
 msgstr "{day} đã có {title} rồi, nên mình xem các tối khác của bạn."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.exclude.full"
 msgstr "{day} kín lịch rồi, nên mình xem các ngày khác của bạn."
 
@@ -67,9 +67,21 @@ msgstr "{guideName} tìm thấy"
 msgid "search.chips.eyebrow"
 msgstr "{guideName} hiểu là"
 
+#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
+msgid "search.typedLink.line"
+msgstr "{guideName} sẽ đọc và tìm các địa điểm trong đó."
+
 #: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
 msgid "search.offline.works.waits"
 msgstr "Thay đổi của {guideName} chờ có sóng"
+
+#: ../../apps/mobile/src/features/explore/search/search-rows.ts
+msgid "search.row.kilometres"
+msgstr "{km} km"
+
+#: ../../apps/mobile/src/features/explore/search/search-rows.ts
+msgid "search.row.metres"
+msgstr "{m} m"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.minutes"
@@ -91,6 +103,14 @@ msgstr "{minutes} phút đi bộ"
 msgid "search.pin.saved"
 msgstr "{name} đã vào Ý tưởng"
 
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.savedSome"
+msgstr "{names}. Chưa lưu được {missedNames}."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.placedAndIdeas"
+msgstr "{placed}. {ideas} chưa có chỗ: đã lưu vào Ý tưởng."
+
 #: ../../apps/mobile/src/features/explore/search/works-offline-chips.tsx
 msgid "search.offline.works.places"
 msgstr "{places} địa điểm"
@@ -111,15 +131,15 @@ msgstr "{read} {sure, plural, other {# chỗ mình chắc chắn}}, {asks, plura
 msgid "search.link.nothing"
 msgstr "{read} Mình chưa xác định được chỗ nào từ đó."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.fromPlace"
 msgstr "≤ {minutes} phút từ {place}"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.fromStay"
 msgstr "≤ {minutes} phút từ chỗ ở"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.fromRoute"
 msgstr "≤ {minutes} phút lệch khỏi lộ trình ngày"
 
@@ -127,13 +147,17 @@ msgstr "≤ {minutes} phút lệch khỏi lộ trình ngày"
 msgid "search.queued.idea"
 msgstr "Một địa điểm lưu vào Ý tưởng"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.placeholder"
+msgstr "Link TikTok, bài đăng hoặc bản đồ"
+
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.view"
 msgstr "Có view"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.crowds"
-msgstr "một thác nước vắng người, {day}"
+msgstr "một thác nước vắng người, vào {day}"
 
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 #: ../../apps/mobile/src/features/explore/search/plain-results.tsx
@@ -149,6 +173,8 @@ msgid "search.link.screenshot"
 msgstr "Dùng ảnh chụp màn hình"
 
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
 msgid "search.clipboard.add"
 msgstr "Thêm từ đây"
 
@@ -156,9 +182,9 @@ msgstr "Thêm từ đây"
 msgid "search.pin.add"
 msgstr "Thêm vào Ý tưởng"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.addedToast"
-msgstr "Đã thêm vào {shown}"
+msgstr "Đã thêm vào {day}"
 
 #: ../../apps/mobile/src/features/explore/search/address-section.tsx
 msgid "search.address.eyebrow"
@@ -168,9 +194,17 @@ msgstr "Địa chỉ"
 msgid "search.none.ask"
 msgstr "Hỏi"
 
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.ask"
+msgstr "Hỏi {guideName}"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.eyebrow"
 msgstr "Hỏi bằng lời thường"
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.back"
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
 msgid "search.offline.back"
@@ -184,7 +218,7 @@ msgstr "quán bar"
 msgid "search.browse.beaches"
 msgstr "Biển"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.beach"
 msgstr "Biển"
 
@@ -192,7 +226,7 @@ msgstr "Biển"
 msgid "search.offline.works.bookings"
 msgstr "Đặt chỗ"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.breakfast"
 msgstr "Bữa sáng"
 
@@ -200,13 +234,13 @@ msgstr "Bữa sáng"
 msgid "search.none.term.cafe"
 msgstr "quán cà phê"
 
-#: ../../apps/mobile/src/features/explore/search/search-header.tsx
-msgid "search.field.cancel"
-msgstr "Huỷ"
-
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.cheap"
 msgstr "Rẻ"
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneLine"
+msgstr "Xem lại chính tả, thả ghim đúng chỗ đó, hoặc nhờ {guideName} tìm giúp."
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.term.chinese"
@@ -216,11 +250,15 @@ msgstr "món Hoa"
 msgid "search.field.clear"
 msgstr "Xoá"
 
+#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+msgid "search.close.heading"
+msgstr "Gần giống vậy"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.coffee"
 msgstr "Cà phê"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.coffee"
 msgstr "Cà phê"
 
@@ -232,19 +270,35 @@ msgstr "Có thể là một trong {count} chỗ"
 msgid "search.link.couldBeNear"
 msgstr "Có thể là một trong {count} chỗ gần {area}"
 
+#: ../../apps/mobile/src/features/explore/search/use-add-place.ts
+msgid "search.add.failed"
+msgstr "Chưa thêm được {name}. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/search/use-add-place.ts
+msgid "search.add.failedPlace"
+msgstr "Chưa thêm được chỗ đó. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.notFound"
 msgstr "Chưa tìm thấy"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.dayFailed"
+msgstr "Chưa xếp được vào {day}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.busy"
 msgstr "Lúc này chưa đọc được."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.saveFailed"
+msgstr "Chưa lưu được"
+
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.dinner"
 msgstr "Bữa tối"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.drinks"
 msgstr "Đồ uống"
 
@@ -252,6 +306,7 @@ msgstr "Đồ uống"
 msgid "search.pin.title"
 msgstr "Thả ghim"
 
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.pin"
 msgstr "Thả ghim"
@@ -260,15 +315,15 @@ msgstr "Thả ghim"
 msgid "search.browse.food"
 msgstr "Ăn uống"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.food"
 msgstr "Ăn uống"
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/search-scope.ts
 msgid "search.scope.dayNo"
 msgstr "Cho ngày {no}"
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/search-scope.ts
 msgid "search.scope.day"
 msgstr "Cho ngày {no} · {weekday}"
 
@@ -320,7 +375,7 @@ msgstr "Từ {saved} chỗ nhóm đã lưu và {curated} chỗ {guideName} lưu 
 msgid "search.clipboard.eyebrow"
 msgstr "Từ bộ nhớ tạm"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.kids"
 msgstr "Hợp với trẻ em"
 
@@ -348,15 +403,21 @@ msgstr "Mình đã đọc ảnh chụp của bạn."
 msgid "search.link.read.video"
 msgstr "Mình đã xem video."
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+#: ../../apps/mobile/src/features/explore/search/search-rows.ts
+msgid "search.row.inPlan"
+msgstr "Trong lịch trình · {day}"
+
+#: ../../apps/mobile/src/features/explore/search/search-scope.ts
 msgid "search.scope.map"
 msgstr "Trong khu này"
 
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
+#: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.saved"
 msgstr "Trong Ý tưởng của nhóm"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.indoor"
 msgstr "Trong nhà"
 
@@ -368,7 +429,7 @@ msgstr "món Ý"
 msgid "search.none.term.japanese"
 msgstr "món Nhật"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.late"
 msgstr "Mở khuya"
 
@@ -376,11 +437,11 @@ msgstr "Mở khuya"
 msgid "search.plain.list"
 msgstr "Danh sách"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.local"
 msgstr "Kiểu địa phương"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.meal.lunch"
 msgstr "Bữa trưa"
 
@@ -388,7 +449,7 @@ msgstr "Bữa trưa"
 msgid "search.plain.map"
 msgstr "Bản đồ"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.market"
 msgstr "Chợ"
 
@@ -404,15 +465,15 @@ msgstr "T2"
 msgid "search.more.eyebrow"
 msgstr "Thêm địa điểm"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.museum"
 msgstr "Bảo tàng"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nature"
 msgstr "Thiên nhiên"
 
-#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/search-scope.ts
 msgid "search.scope.place"
 msgstr "Gần {place}"
 
@@ -420,17 +481,33 @@ msgstr "Gần {place}"
 msgid "search.link.reason.moved"
 msgstr "Giờ mới"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nightlife"
 msgstr "Về đêm"
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.none"
+msgstr "Không có chỗ nào tên như vậy"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.noRoom"
+msgstr "{day} hết chỗ rồi"
 
 #: ../../apps/mobile/src/features/explore/search/offline-banner.tsx
 msgid "search.offline.banner"
 msgstr "Mất sóng · dùng những gì đã lưu"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.notDays"
 msgstr "Trừ {days}"
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.dayFailedLine"
+msgstr "Chưa có gì thay đổi. Thử lại, hoặc lưu vào Ý tưởng."
+
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.nothingCopied"
+msgstr "Chưa có gì được sao chép. Sao chép link trước, hoặc gõ vào."
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.leadPlain"
@@ -445,8 +522,24 @@ msgid "search.none.titleHere"
 msgstr "Không có gì như vậy ở đây"
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
+msgid "search.none.titleIn"
+msgstr "Không có gì như vậy ở {area}"
+
+#: ../../apps/mobile/src/features/explore/search/no-results.tsx
 msgid "search.none.title"
 msgstr "Không có gì như vậy gần {area}"
+
+#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+msgid "search.close.line"
+msgstr "Không có chỗ nào khớp hết. Đây là những chỗ gần giống nhất."
+
+#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+msgid "search.close.lineWithout"
+msgstr "Không có chỗ nào khớp hết. Những chỗ này khớp nếu bỏ {left}."
+
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.saveFailedLine"
+msgstr "Chưa lưu được gì. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/explore/search/offline-results.tsx
 msgid "search.offline.count"
@@ -456,7 +549,7 @@ msgstr "Kết quả ngoại tuyến · {count}"
 msgid "search.link.openIdeas"
 msgstr "Mở"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.openPast"
 msgstr "Còn mở sau {time}"
 
@@ -476,17 +569,29 @@ msgstr "Hoặc hỏi mình. Mình cùng tìm với bạn."
 msgid "search.browse.eyebrow"
 msgstr "Hoặc xem theo loại"
 
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.screenshot"
+msgstr "Hoặc chọn ảnh chụp màn hình"
+
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.putOnDay"
 msgstr "Hoặc xếp vào {day}"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.outdoor"
 msgstr "Ngoài trời"
+
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.paste"
+msgstr "Dán"
 
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.pasteLine"
 msgstr "Dán liên kết để thêm các địa điểm trong đó."
+
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.title"
+msgstr "Dán thứ bạn đã lưu"
 
 #: ../../apps/mobile/src/features/explore/search/match-row.tsx
 msgid "search.link.pickOne"
@@ -496,7 +601,7 @@ msgstr "Chọn một"
 msgid "search.address.hint"
 msgstr "Chọn một địa chỉ rồi kéo ghim đến đúng chỗ."
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.other"
 msgstr "Địa điểm"
 
@@ -512,7 +617,7 @@ msgstr "Powered by Foursquare"
 msgid "search.offline.queued"
 msgstr "Đang chờ · {queued}"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.quiet"
 msgstr "Yên tĩnh"
 
@@ -552,6 +657,10 @@ msgstr "Lưu ✓"
 msgid "search.offline.saved"
 msgstr "Đã lưu"
 
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
+msgid "search.link.end.ideasInstead"
+msgstr "Đã lưu vào Ý tưởng: {ideas}"
+
 #: ../../apps/mobile/src/features/explore/search/link-screen.tsx
 msgid "search.link.noPicker"
 msgstr "Điện thoại này chưa đọc được ảnh chụp màn hình."
@@ -564,11 +673,11 @@ msgstr "Tìm"
 msgid "search.field.placeholder"
 msgstr "Tìm ở {destination}, hoặc hỏi {guideName}"
 
-#: ../../apps/mobile/src/features/explore/search/link-screen.tsx
+#: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.proposedToast"
 msgstr "Đã gửi cả nhóm duyệt"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.shopping"
 msgstr "Mua sắm"
 
@@ -584,15 +693,19 @@ msgstr "chỗ ăn tối yên tĩnh gần chỗ ở, mở khuya"
 msgid "search.browse.spa"
 msgstr "Spa"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.health"
 msgstr "Spa và thư giãn"
+
+#: ../../apps/mobile/src/features/explore/search/search-rows.ts
+msgid "search.row.kind.stay"
+msgstr "Chỗ ở"
 
 #: ../../apps/mobile/src/features/explore/search/weekday-names.ts
 msgid "search.weekday.sun"
 msgstr "CN"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.sunset"
 msgstr "Hoàng hôn"
 
@@ -604,9 +717,21 @@ msgstr "Bỏ khỏi ngày"
 msgid "search.browse.temples"
 msgstr "Đền chùa"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.temple"
 msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
+msgid "search.paste.notLink"
+msgstr "Đây chưa phải là link. Sao chép link bài đăng rồi dán vào đây."
+
+#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
+msgid "search.plain.failed"
+msgstr "Lần tìm này chưa có kết quả trả về."
+
+#: ../../apps/mobile/src/features/explore/search/typed-link-card.tsx
+msgid "search.typedLink.eyebrow"
+msgstr "Đây là một đường link"
 
 #: ../../apps/mobile/src/features/explore/search/link-copy.ts
 msgid "search.link.error.limit"
@@ -637,6 +762,7 @@ msgid "search.none.related"
 msgstr "Thử {term} xem"
 
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-close.tsx
 msgid "search.link.retry"
 msgstr "Thử lại"
 
@@ -644,11 +770,11 @@ msgstr "Thử lại"
 msgid "search.weekday.tue"
 msgstr "T3"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.price"
 msgstr "Tối đa {level}"
 
-#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+#: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.attr.vegetarian"
 msgstr "Chay"
 
@@ -684,6 +810,7 @@ msgstr "Nới ra {span}"
 msgid "search.offline.works"
 msgstr "Vẫn dùng được khi mất sóng"
 
+#: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 #: ../../apps/mobile/src/features/explore/search/link-sheet.tsx
 msgid "search.link.worksWith"
 msgstr "Dùng được với Instagram, Maps, YouTube và ảnh chụp màn hình"

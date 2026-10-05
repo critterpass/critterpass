@@ -86,6 +86,8 @@ async function open(api = recordedApi({ create_invite: applied(SENT) })) {
   );
   await renderWithCrew(<InviteRoute />, stack, services);
   await screen.findByText(/^invite to the bali six$/iu);
+  // The composer opens on the link and the crew code; a named seat is its second tab.
+  await fireEvent.press(await screen.findByRole('radio', { name: /a friend/iu }));
   return api;
 }
 

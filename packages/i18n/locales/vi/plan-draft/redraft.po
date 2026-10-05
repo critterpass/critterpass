@@ -112,6 +112,10 @@ msgstr "Ngày {n} đã là tốt nhất mình làm được. Lần này không t
 msgid "planDraft.diff.revertedToast"
 msgstr "Ngày {n} đã về như cũ."
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.keptToastPlain"
+msgstr "Ngày {n} đã được soạn lại."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.dayChip"
 msgstr "Ngày {n}, {wd}"
@@ -123,6 +127,10 @@ msgstr "Ngày {n}, soạn lại"
 #: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
 msgid "planDraft.metric.fuller"
 msgstr "Dày lịch hơn"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.summaryPlain"
+msgstr "Đây là những gì {guideName} muốn đổi."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.redraft.busy"
@@ -144,13 +152,25 @@ msgstr "Giữ thay đổi này"
 msgid "planDraft.last.title"
 msgstr "Lần soạn lại miễn phí cuối"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.laterStart"
+msgstr "Bắt đầu muộn hơn"
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
 msgid "planDraft.change.skip"
 msgstr "Để điểm này như cũ"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.clash"
+msgstr "Bỏ thay đổi đó thì hai điểm dừng sẽ trùng giờ. Hãy chọn lại nó, hoặc trả cả ngày về như cũ rồi nhờ đổi kiểu khác."
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
-msgid "planDraft.reason.lessTrain"
-msgstr "Ít tàu hơn"
+msgid "planDraft.reason.lessTravel"
+msgstr "Ít di chuyển hơn"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.lighterDay"
+msgstr "Ngày nhẹ hơn"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.line"
@@ -172,7 +192,6 @@ msgstr "Chưa ai khác thấy đâu."
 msgid "planDraft.change.empty"
 msgstr "Không xếp gì, cố ý đấy"
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.onlyYou"
 msgstr "Chỉ bạn thấy"
@@ -180,6 +199,10 @@ msgstr "Chỉ bạn thấy"
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.optional"
 msgstr "Tùy chọn"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.hint"
+msgstr "Chọn một điều hoặc viết vài chữ."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.diff.putBack"
@@ -245,6 +268,10 @@ msgstr "Lần soạn lại không thành"
 #: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
 msgid "planDraft.spent.line"
 msgstr "Đã hết lượt soạn lại miễn phí của chuyến này."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.howTo"
+msgstr "Bỏ chọn một thay đổi để giữ điểm dừng đó như cũ."
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.use"

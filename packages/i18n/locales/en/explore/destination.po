@@ -18,7 +18,7 @@ msgstr "{0} is still learning {1}, and nobody has checked the picks here yet, so
 #. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.writing"
-msgstr "{0} is still writing up {1}: the picks and the month-by-month crowds land here. The places are already on the map."
+msgstr "{0} is still writing up {1}: the month-by-month crowds land here. The places are already on the map."
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
@@ -166,7 +166,7 @@ msgstr "No fares to show for {month} right now. Try again in a bit."
 #. placeholder {1}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.limited.body"
-msgstr "No guide lives in {0} yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and {1} plans the trip all the same."
+msgstr "No guide lives in {0} yet, so the month-by-month crowds aren't written. Flights, money and the best months are covered, and {1} plans the trip all the same."
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.guestLine"
@@ -187,10 +187,6 @@ msgstr "One of the quieter months."
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.pitch"
 msgstr "Pitch to the crew"
-
-#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
-msgid "explore.pitch.noCrew"
-msgstr "Pitching needs a crew. Start one from Home, or take this one solo."
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.mapBody"

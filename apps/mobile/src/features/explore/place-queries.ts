@@ -16,6 +16,7 @@ export interface PoiRow {
   readonly category: string;
   readonly lat: number | null;
   readonly lng: number | null;
+  readonly address: string | null;
   /** JSON text: the weekly opening hours. */
   readonly hours: string | null;
   readonly price_level: number | null;
@@ -33,7 +34,7 @@ const PLACE_GUIDE_SQL = `(SELECT s.guide_slug FROM critter_sets s
 const poiSql = (
   perCity: boolean,
 ) => `SELECT p.id, p.destination_id, p.name, p.name_local, p.category, p.lat, p.lng,
-    p.hours, p.price_level, p.editorial, p.timezone,
+    p.address, p.hours, p.price_level, p.editorial, p.timezone,
     d.tz AS destination_tz, d.name AS destination_name, d.slug AS destination_slug,
     ${destinationGuideSql(perCity, 'd.critter_key', PLACE_GUIDE_SQL)} AS guide_slug
   FROM pois p LEFT JOIN destinations d ON d.id = p.destination_id WHERE p.id = ?`;

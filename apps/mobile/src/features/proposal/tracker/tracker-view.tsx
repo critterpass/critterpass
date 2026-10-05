@@ -174,6 +174,8 @@ export function TrackerView(props: TrackerViewProps) {
           {props.lockLabel === null ? null : (
             <PillButton
               label={props.lockLabel}
+              // The same colour as the sheet's confirm button it leads to.
+              tone="pink"
               onPress={props.onLock}
               loading={props.locking}
               sheen

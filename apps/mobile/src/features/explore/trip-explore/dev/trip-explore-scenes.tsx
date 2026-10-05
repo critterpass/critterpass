@@ -166,6 +166,10 @@ function TripExploreScene({ spec }: { readonly spec: Spec }) {
       onAllPlaces={() => undefined}
       onOpenPick={() => undefined}
       onSavePick={(pick) => setSaved((current) => new Set(current).add(pick.id))}
+      kinds={[
+        { key: 'food', label: 'Food', count: '101', icon: 'food' },
+        { key: 'temples', label: 'Temples', count: '64', icon: 'temple' },
+      ]}
       swipe={{ deckSize: 30, live: spec.live, onPress: () => undefined }}
     />
   );

@@ -83,3 +83,30 @@ export function resolvePreset(
     ...(startMin === undefined ? {} : { startMin }),
   };
 }
+
+interface NavRoute {
+  readonly params?: object | undefined;
+  readonly state?: NavState | undefined;
+}
+
+interface NavState {
+  readonly routes?: readonly NavRoute[] | undefined;
+}
+
+/**
+ * The plan day the sheet was opened from, read off the screens under it: the newest one that is
+ * scoped to a day (search opened "for Thu" from that day's plan). The sheet opens on that day
+ * even when the screen in between passed only the place.
+ */
+export function originDayId(state: NavState | undefined): string | undefined {
+  for (const route of [...(state?.routes ?? [])].reverse()) {
+    const inner = originDayId(route.state);
+    if (inner !== undefined) return inner;
+    // The search route carries its day as `day_id`.
+    const params = (route.params ?? {}) as { scope?: unknown; day_id?: unknown };
+    if (params.scope === 'day' && typeof params.day_id === 'string' && params.day_id !== '') {
+      return params.day_id;
+    }
+  }
+  return undefined;
+}

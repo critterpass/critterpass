@@ -36,7 +36,7 @@ appId: app.critterpass.dev
     env: { SCENE: tracker, READY: tracker-lock, SHOT: '${PREFIX}-3f-6-who-s-in' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: tracker-locked, READY: tracker-lock-note, SHOT: '${PREFIX}-3f-6-locked' }
+    env: { SCENE: tracker-locked, READY: tracker-confirmed, SHOT: '${PREFIX}-3f-6-locked' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: trailer-slide, READY: lab-trailer-slide, SHOT: '${PREFIX}-3f-2-slide' }

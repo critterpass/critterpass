@@ -1,0 +1,53 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "9c9ae63c-8492-4c64-8548-072592f2fecb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt một góc, trọn một ngày\",\n  \"summary\": \"Một ngày thong thả quanh khu trung tâm, từ gà trống trên tháp chuông đến mì Quảng chiều và cà phê đêm, không cần rời xa quá vài con phố.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p3\",\n      \"note\": \"Giữ nguyên điểm khởi đầu, sáng muộn vẫn kịp ngắm gà trống và mái ngói đỏ không cần đi xa.\",\n      \"must_do_id\": \"p3\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p11\",\n      \"note\": \"Dinh Bảo Đại III ở ngay cạnh, vừa đủ một vòng chậm rãi để nghe chuyện xưa mà chân không mỏi.\",\n      \"must_do_id\": \"p11\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi lại cho đàng hoàng, nem nướng thơm lừng ngay khu này, khỏi cần xe cộ lòng vòng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Công viên hoa gần đó, đi bộ tản mạn buổi chiều nhẹ tênh, đúng kiểu dễ chịu không vội.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh căn nóng hổi cho bữa tối, vẫn loanh quanh khu trung tâm, ngon quá (so tasty) mà không tốn sức.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết ngày bằng cà phê đêm ở Mây Lang Thang, ngồi một chỗ ngắm phố núi lên đèn.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1319,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 619,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "d2f99783-358b-4661-b70b-a5dbfb2f180e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt chậm rãi, trọn một góc phố\",\n  \"summary\": \"Một ngày quẩn quanh khu trung tâm, đi bộ nhẹ tênh, ăn ngon và ngắm phố núi về đêm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p3\",\n      \"note\": \"Giữ nguyên điểm hẹn sáng nay, ghé sớm cho vắng và mát, ngắm gà trống trên nóc là vui rồi.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p11\",\n      \"note\": \"Ngay cạnh nhà thờ, khỏi cần xe cộ gì nhiều, vào xem dinh thự cũ cho trọn buổi sáng.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Trưa nay đổi gió, nem nướng ngồi ăn cho đàng hoàng, cảm ơn (thank you) cái bụng đã chờ.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quảng trường gần đây thôi, tản bộ chút cho tiêu cơm, đứng ngắm công trình lạ mắt giữa phố.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi xuống quán Hà Thành, ăn chậm, kể chuyện linh tinh, khỏi lo chạy đâu xa.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đêm xuống thì ghé Mây Lang Thang, cà phê ấm, ngắm phố núi lên đèn, thong thả rồi về.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 68,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 550,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

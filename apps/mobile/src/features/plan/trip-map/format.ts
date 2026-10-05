@@ -74,13 +74,56 @@ function localDate(date: string): Date {
   return new Date(year, month - 1, day);
 }
 
-/** "Wed Oct 14". */
+function isVietnamese(locale: string): boolean {
+  return locale.toLowerCase().startsWith('vi');
+}
+
+/**
+ * "Th 7", "CN": the short Vietnamese weekday, written here because phones disagree on it ("Th 7"
+ * on one system, "Thứ 7" on the next) and a day must read the same on every screen.
+ */
+function vietnameseWeekday(at: Date): string {
+  const day = at.getDay();
+  return day === 0 ? 'CN' : `Th ${String(day + 1)}`;
+}
+
+/**
+ * A day by its date, the one way every plan screen names it: "Tue 20 Oct" in English (the month
+ * by name: "10/20" reads as the 10th of the 20th month to most of the world), "Th 3, 20/10" in
+ * Vietnamese, and the locale's own short date with its weekday in any other language.
+ */
 export function dateLine(locale: string, date: string): string {
-  return format.date(locale, localDate(date), {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  });
+  const at = localDate(date);
+  if (isVietnamese(locale)) {
+    return `${vietnameseWeekday(at)}, ${String(at.getDate())}/${String(at.getMonth() + 1)}`;
+  }
+  if (locale.toLowerCase().startsWith('en')) {
+    const name = format.date(locale, at, { weekday: 'short' });
+    const month = format.date(locale, at, { month: 'short' });
+    return `${name} ${String(at.getDate())} ${month}`;
+  }
+  return format.date(locale, at, { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+/** "17": the day of the month, for a chip's second line. */
+export function dayOfMonth(date: string): string {
+  return String(Number(date.slice(8, 10)));
+}
+
+/**
+ * The weekday as short as a chip needs: the locale's short form, with Vietnamese "Th 7" closed up
+ * to "T7" (over a date, "Th 4" also reads as "tháng 4").
+ */
+export function chipWeekday(locale: string, date: string | null): string {
+  if (date === null) return '';
+  return isVietnamese(locale)
+    ? vietnameseWeekday(localDate(date)).replace('Th ', 'T')
+    : weekday(locale, date);
+}
+
+/** "Day 3 of 8": where a day sits in the trip, under its date. */
+export function dayOfTrip(n: number, of: number): string {
+  return t({ id: 'plan.tripMap.dayOf', message: `Day ${n} of ${of}` });
 }
 
 /** "Oct 12". */

@@ -56,6 +56,20 @@ export function stopWhen(
   return stop.startsAt === null ? day : `${day} · ${clock(locale, stop.startsAt, stop.tz)}`;
 }
 
+/** The chip on a member's version once they have answered: their answer, in place of the date. */
+export function answerChip(answer: 'in' | 'maybe' | 'out' | 'waitlisted'): string {
+  switch (answer) {
+    case 'in':
+      return t({ id: 'proposal.version.chip.in', message: 'You’re in' });
+    case 'maybe':
+      return t({ id: 'proposal.version.chip.maybe', message: 'You said maybe' });
+    case 'out':
+      return t({ id: 'proposal.version.chip.out', message: 'Can’t make it' });
+    case 'waitlisted':
+      return t({ id: 'proposal.version.chip.waitlisted', message: 'On the waitlist' });
+  }
+}
+
 /** The deadline chip on a member's version. */
 export function versionChip(
   locale: string,
@@ -131,7 +145,7 @@ export function lockCopy(state: LockState): {
     case 'ready':
       return { label: t({ id: 'proposal.lock.cta', message: 'Lock it in' }), note: null };
     case 'alone':
-      return { label: t({ id: 'proposal.alone.lock', message: 'Lock it in' }), note: null };
+      return { label: t({ id: 'proposal.lock.cta', message: 'Lock it in' }), note: null };
     case 'nobody_in':
       return {
         label: null,
@@ -140,11 +154,8 @@ export function lockCopy(state: LockState): {
           message: 'You can lock the trip in once someone says they’re in.',
         }),
       };
+    // "The trip is on" is said once, by the locked-in card above the footer.
     case 'locked':
-      return {
-        label: null,
-        note: t({ id: 'proposal.lock.locked', message: 'Locked in. The trip is confirmed.' }),
-      };
     case 'not_sent':
       return { label: null, note: null };
   }
@@ -170,4 +181,71 @@ export function dropoutShare(
     before: wholeMoney(locale, change.before, currency),
     each: signedMoney(locale, change.delta, currency),
   };
+}
+
+/**
+ * What locking changes, for the lock sheet: who is going, what happens to a maybe and to someone
+ * who never answered, and what stays possible afterwards (suggesting changes, joining later),
+ * with the one thing that does not: it cannot be unlocked.
+ */
+export function lockConsequences(state: LockState): string[] {
+  if (state.kind !== 'ready' && state.kind !== 'alone') return [];
+  const after = [
+    t({
+      id: 'proposal.lock.stillEdit',
+      message: 'The plan stays open: everyone going can still suggest changes.',
+    }),
+    t({
+      id: 'proposal.lock.stillJoin',
+      message: 'Friends who join the crew later can still take a seat.',
+    }),
+    t({
+      id: 'proposal.lock.noUndo',
+      message: 'A lock can’t be undone. Someone who drops out later frees their seat.',
+    }),
+  ];
+  if (state.kind === 'alone') {
+    return [
+      t({
+        id: 'proposal.lock.aloneGoing',
+        message: 'Everyone else said they can’t make it, so it’s just you. The trip is confirmed.',
+      }),
+      ...after,
+    ];
+  }
+  // The messages keep the placeholders their translations were written with (an expression is
+  // numbered, a bare name is not): a renamed variable would blank the count in every language.
+  return [
+    t({
+      id: 'proposal.lock.going',
+      message: `${state.going + 1} going, the trip is confirmed.`,
+    }),
+    ...(state.maybes > 0
+      ? [
+          t({
+            id: 'proposal.lock.maybes',
+            message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
+          }),
+        ]
+      : []),
+    ...(state.silent > 0
+      ? [
+          t({
+            id: 'proposal.lock.silent',
+            message: `${state.silent} who haven’t answered are out.`,
+          }),
+        ]
+      : []),
+    ...after,
+  ];
+}
+
+export function lockTitle(alone = false): string {
+  return alone
+    ? t({ id: 'proposal.lock.titleAlone', message: 'Lock the plan in?' })
+    : t({ id: 'proposal.lock.title', message: 'Lock the crew in?' });
+}
+
+export function lockConfirmLabel(): string {
+  return t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' });
 }

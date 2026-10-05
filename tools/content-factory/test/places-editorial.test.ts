@@ -94,6 +94,40 @@ describe('POI editorial replies', () => {
     expect(toPoiItem(source, editorial).editorial.must_see).toBe(false);
   });
 
+  it('publishes the essential tier of a pin, and caps it over the live release with the batch', () => {
+    const parsed = schema?.parse(reply({})) as { pois: Parameters<typeof toPoiItem>[1][] };
+    const editorial = parsed.pois[0];
+    if (editorial === undefined) throw new Error('no editorial');
+    const essential = { ...source, mustSee: true, essential: true };
+    expect(toPoiItem(essential, editorial).editorial.essential).toBe(true);
+    // Not stated where the pin does not set it, so a tier given by hand survives a generated batch.
+    expect(toPoiItem({ ...source, mustSee: true }, editorial).editorial).not.toHaveProperty(
+      'essential',
+    );
+
+    const cap = placesKind.validators.batch?.find((v) => v.id === 'essentials-cap');
+    const place = (n: number, flags: { essential?: boolean; merged?: boolean } = {}) => ({
+      ...toPoiItem({ ...essential, ref: `overture:fixture-lx-${n}` }, editorial),
+      editorial: {
+        ...toPoiItem(essential, editorial).editorial,
+        essential: flags.essential ?? true,
+      },
+      merge_into: flags.merged === true ? 'overture:fixture-lx-0' : null,
+    });
+    const live = Array.from({ length: 15 }, (_, n) => place(n));
+    expect(cap?.check({ items: [], previous: live })).toEqual([]);
+    expect(cap?.check({ items: [place(15)], previous: live })).toEqual([
+      { ref: null, message: 'lisbon has 16 essential places; at most 15' },
+    ]);
+    // A batch that takes the tier off one place, or merges it away, makes room for another.
+    expect(
+      cap?.check({ items: [place(15), place(3, { essential: false })], previous: live }),
+    ).toEqual([]);
+    expect(cap?.check({ items: [place(15), place(3, { merged: true })], previous: live })).toEqual(
+      [],
+    );
+  });
+
   it('flags a superlative or a date for the reviewer, not a plain note', () => {
     const claim = placesKind.validators.items?.find((v) => v.id === 'unsupported-claim');
     const item = (why_go: string) => {

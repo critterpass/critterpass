@@ -1,7 +1,9 @@
 /**
  * A day as a route: the night's stay, the stops with a place in order, and the stay again, as the
  * stored legs are keyed (`stay`, then stable ids). Legs come from the synced plan when the router
- * has worked them out, else "about" straight-line minutes, so they read offline too.
+ * has worked them out, else "about" straight-line minutes, so they read offline too. An edit makes
+ * a new plan version whose legs are routed a little later: until they land, a pair the router has
+ * already timed keeps that time, never a longer straight-line guess.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- table names, never copy. */
 import { useMemo } from 'react';
@@ -28,11 +30,32 @@ export interface DayRoute {
   readonly legs: readonly DayLeg[];
   /** The leg after each stop, in the day's stop order; null when it can't be known here. */
   readonly after: readonly (DayLeg | null)[];
+  /** The leg from the night's stay to the first stop, and from the last stop back to it. */
+  readonly fromStay?: DayLeg | null | undefined;
+  readonly toStay?: DayLeg | null | undefined;
 }
 
 interface End {
   readonly key: string;
   readonly point: { readonly lat: number; readonly lng: number } | null;
+}
+
+/** Routed legs seen so far, by the pair of places they join. */
+export type KnownLegs = Map<string, DayLeg>;
+
+const known: KnownLegs = new Map();
+
+/** A pair by its ends and where they are: a stop moved to another place is another pair. */
+function pairKey(from: End, to: End): string {
+  const at = (end: End) =>
+    end.point === null
+      ? end.key
+      : `${end.key}@${end.point.lat.toFixed(5)},${end.point.lng.toFixed(5)}`;
+  return `${at(from)}>${at(to)}`;
+}
+
+function routed(leg: DayLeg): boolean {
+  return leg.source !== 'straight_line';
 }
 
 function endsOf(day: TripDay, order?: readonly string[]): End[] {
@@ -54,16 +77,26 @@ export function routeOf(
   day: TripDay,
   stored: readonly StoredLeg[],
   order?: readonly string[],
+  /** Routed legs seen before (and added to); a pair with no routed leg now reads from it. */
+  remembered?: KnownLegs,
 ): DayRoute {
   const ends = endsOf(day, order);
   const byPair = new Set(stored.map((leg) => `${leg.from_key}>${leg.to_key}`));
   const pairs = ends.slice(1).map((to, index): DayLeg | null => {
     const from = ends[index];
     if (from === undefined) return null;
+    const key = pairKey(from, to);
     if (byPair.has(`${from.key}>${to.key}`)) {
       const at = (end: End): LegEnd => ({ key: end.key, lat: 0, lng: 0 });
-      return dayLegs([at(from), at(to)], stored)[0] ?? null;
+      const leg = dayLegs([at(from), at(to)], stored)[0] ?? null;
+      if (leg !== null && routed(leg)) {
+        remembered?.set(key, leg);
+        return leg;
+      }
+      return remembered?.get(key) ?? leg;
     }
+    const before = remembered?.get(key);
+    if (before !== undefined) return before;
     if (from.point === null || to.point === null) return null;
     return estimateLeg({ key: from.key, ...from.point }, { key: to.key, ...to.point });
   });
@@ -74,6 +107,8 @@ export function routeOf(
     after: Array.from({ length: Math.max(0, count) }, (_, index) =>
       index === count - 1 ? null : (pairs[index + offset] ?? null),
     ),
+    fromStay: offset === 0 ? null : (pairs[0] ?? null),
+    toStay: offset === 0 ? null : (pairs[pairs.length - 1] ?? null),
   };
 }
 
@@ -85,7 +120,7 @@ export function useDayRoute(versionId: string | null, day: TripDay | null): DayR
     LEGS_TABLES,
   );
   return useMemo(
-    () => (day === null ? { legs: [], after: [] } : routeOf(day, stored.rows)),
+    () => (day === null ? { legs: [], after: [] } : routeOf(day, stored.rows, undefined, known)),
     [day, stored.rows],
   );
 }

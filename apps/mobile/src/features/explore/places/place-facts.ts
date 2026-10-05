@@ -1,0 +1,97 @@
+/**
+ * What the list's rows and order read beyond the map's places, from the phone: where each place
+ * stands in the recommended order (the editors' must-sees, the rest of the curated set, then the
+ * machine picks by rank; the order every reader shares) and the area its own address names.
+ */
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and address words, never copy. */
+import { useMemo } from 'react';
+
+import { useLiveRows } from '../data/live-rows';
+
+const STREET =
+  /^(jl\.?|jalan|gang|gg\.?|đường|duong|ngõ|hẻm|street|st\.?|road|rd\.?|avenue|ave\.?|lane|calle|rua|av\.?)\s/iu;
+const STREET_SUFFIX = /\s(street|st\.?|road|rd\.?|avenue|ave\.?|lane|boulevard|blvd\.?)$/iu;
+const ADMIN =
+  /\b(regency|province|kabupaten|kota|prefecture|county|state|provinsi|tỉnh|tinh|thành phố)\b/iu;
+const ADMIN_PREFIX = /^(kecamatan|kec\.|kelurahan|kel\.|desa|phường|phuong|quận|quan|xã|xa)\s+/iu;
+
+const foldName = (text: string) =>
+  text.normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/giu, 'd').toLowerCase().trim();
+
+/**
+ * The area a place is in ("Ubud", "Canggu"), read from its own address: the first comma part that
+ * is a name rather than a street, a number or an administrative unit, and not the destination
+ * itself. Null when the address has no such part; nothing is guessed from coordinates.
+ */
+export function areaOf(address: string | null, destinationName: string): string | null {
+  if (address === null) return null;
+  const destination = foldName(destinationName);
+  for (const raw of address.split(',')) {
+    const part = raw.trim().replace(ADMIN_PREFIX, '');
+    if (part === '' || part.length > 40 || /\d/u.test(part)) continue;
+    if (STREET.test(part) || STREET_SUFFIX.test(part) || ADMIN.test(part)) continue;
+    if (destination !== '' && foldName(part) === destination) continue;
+    return part;
+  }
+  return null;
+}
+
+export interface PlaceFacts {
+  /** Lower comes first in the recommended order; null for a place nobody recommended. */
+  readonly rank: number | null;
+  readonly area: string | null;
+}
+
+/** Curated places rank before every machine pick; must-sees before the rest of the curated set. */
+const CURATED_RANK = 1;
+const PICK_BASE = 10;
+
+export function recommendedRank(row: {
+  readonly curation: string | null;
+  readonly pick_rank: number | null;
+  readonly must_see: boolean;
+}): number | null {
+  if (row.curation === 'editorial') return row.must_see ? 0 : CURATED_RANK;
+  return row.pick_rank === null ? null : PICK_BASE + row.pick_rank;
+}
+
+const FACTS_SQL = `SELECT id, curation, pick_rank, address,
+    coalesce(json_extract(editorial, '$.must_see'), 0) AS must_see
+  FROM pois WHERE destination_id = ?`;
+const FACTS_TABLES = ['pois'];
+
+interface FactsRow {
+  readonly id: string;
+  readonly curation: string | null;
+  readonly pick_rank: number | null;
+  readonly address: string | null;
+  readonly must_see: number | string | null;
+}
+
+export function usePlaceFacts(
+  destinationId: string | null,
+  destinationName: string,
+): ReadonlyMap<string, PlaceFacts> {
+  const { rows } = useLiveRows<FactsRow>(
+    FACTS_SQL,
+    destinationId === null ? null : [destinationId],
+    FACTS_TABLES,
+  );
+  return useMemo(
+    () =>
+      new Map(
+        rows.map((row) => [
+          row.id,
+          {
+            rank: recommendedRank({
+              curation: row.curation,
+              pick_rank: row.pick_rank,
+              must_see: row.must_see === 1 || row.must_see === 'true',
+            }),
+            area: areaOf(row.address, destinationName),
+          },
+        ]),
+      ),
+    [rows, destinationName],
+  );
+}

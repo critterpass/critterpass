@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "57893dc3-f2ca-403b-bdd6-0ab8325a0300",
+        "id": "75e26e54-1f6d-4280-abf1-6ce5bc16a977",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Kyoto, close and quiet\",\n  \"summary\": \"A slower day around one corner of Kyoto, with Kinkaku-ji kept and the rest gathered near it.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing you asked to keep, so we start here before the buses and the selfie sticks wake up.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a long slow walk for the two early birds who hate being rushed.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegetarian for all four of you, and close enough to the path that nobody has to watch a clock over lunch.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, flat, and full of old shopfronts — the street-food and photo-spot people can wander while the temple people rest their feet.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the evening lanterns, because the night owl in your crew deserves one meal after dark.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A calmer Kyoto cluster\",\n  \"summary\": \"A slower Tuesday around the Kinkaku-ji area, with one temple, a bamboo stroll and a quiet vegan lunch, all close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the anchor of the day, and the only temple worth the shoes-off moment this morning.\",\n      \"note\": \"The golden pavilion stays; everything else today stays within a short ride of it.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, open-all-day bamboo wander that keeps the day gentle and the travel light.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch right beside the bamboo, so nobody has to choose between the crew's vegetarian rule and a proper meal.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 6,
+          "input_tokens": 1173,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 354,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 248,
           "service_tier": "standard"
         }
       }

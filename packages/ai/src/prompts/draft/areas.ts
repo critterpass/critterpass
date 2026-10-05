@@ -6,7 +6,7 @@
  * tells the guide how far apart the areas are. Which stops may share a day is still checked by the
  * planner afterwards (the hop rule).
  */
-import { hopCapMin, type DraftPoi } from '@cp/planner';
+import { homeBase, hopCapMin, type DraftPoi } from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
 
@@ -53,6 +53,17 @@ export function hopCap(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>)
   const cap = hopCapMin([...input.pois.values()], input.travel);
   CAPS.set(input.pools, cap);
   return cap;
+}
+
+const HOMES = new WeakMap<object, string | null>();
+
+/** The place the crew most likely sleeps near (the planner's `homeBase`); null when unknown. */
+export function homeOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>): string | null {
+  const known = HOMES.get(input.pools);
+  if (known !== undefined) return known;
+  const home = homeBase([...input.pois.values()], input.travel)?.id ?? null;
+  HOMES.set(input.pools, home);
+  return home;
 }
 
 export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>): Areas {

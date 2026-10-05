@@ -66,6 +66,11 @@ export interface MapSheetProps {
   /** Screen-reader name of the sheet, e.g. "Wed Oct 14". */
   readonly accessibilityLabel: string;
   readonly testID?: string | undefined;
+  /**
+   * What Android back does to a raised sheet: `step` (default) lowers it one snap per press;
+   * `rest` brings it straight down to peek, so leaving the screen takes two presses at most.
+   */
+  readonly backCollapses?: 'step' | 'rest' | undefined;
 }
 
 export function MapSheet({
@@ -77,6 +82,7 @@ export function MapSheet({
   footClearance,
   accessibilityLabel,
   testID = 'map-sheet',
+  backCollapses,
 }: MapSheetProps) {
   const styles = useStyles();
   const { t } = useLingui();
@@ -88,7 +94,7 @@ export function MapSheet({
     () => mapSheetHeights(containerHeight, mapAbove, contentHeight),
     [containerHeight, mapAbove, contentHeight],
   );
-  const sheet = useMapSheet({ heights, initialSnap, onSnapChange, testID });
+  const sheet = useMapSheet({ heights, initialSnap, onSnapChange, testID, backCollapses });
   const { snapTo } = sheet;
   const snapToRef = useRef(snapTo);
   useEffect(() => {

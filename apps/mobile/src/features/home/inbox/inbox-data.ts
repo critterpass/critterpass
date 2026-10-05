@@ -2,7 +2,9 @@
  * The inbox's local reads: the caller's items with the actor's name and crew colour slot, minus
  * the ones whose answer is still in the upload queue (they are already on their way out). Split
  * into needs-you cards (open, newest first; one that expires while on screen stays as "closed"
- * until the user leaves) and the quiet EARLIER list, paged 50 at a time.
+ * until the user leaves) and the quiet EARLIER list, paged 50 at a time. An item the server settles
+ * by itself once the thing is done (a proposal answered, placed ideas reviewed) only opens when
+ * tapped: it stays under "needs you" until then.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { inboxActionSchema, type InboxAction } from '@cp/domain';
@@ -16,7 +18,9 @@ export const INBOX_SQL = `SELECT i.id, i.kind, i.source, i.actor_id, u.display_n
     (SELECT count(*) FROM crew_members o
       WHERE o.crew_id = i.crew_id AND o.created_at < m.created_at) AS actor_join_index,
     i.crew_id, c.name AS crew_name, i.data, i.needs_you, i.actions, i.deep_link, i.expires_at,
-    i.undo_until, i.resolved_at, i.read_at, i.created_at
+    i.undo_until, i.resolved_at, i.read_at, i.created_at, i.resolve_key,
+    (SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id WHERE t.id = i.trip_id)
+      AS trip_guide
   FROM inbox_items i
   LEFT JOIN users u ON u.id = i.actor_id
   LEFT JOIN crews c ON c.id = i.crew_id
@@ -24,7 +28,15 @@ export const INBOX_SQL = `SELECT i.id, i.kind, i.source, i.actor_id, u.display_n
   WHERE i.user_id = ? AND i.id NOT IN (${PENDING_ACTS})
   ORDER BY i.created_at DESC, i.id DESC
   LIMIT ?`;
-export const INBOX_TABLES = ['inbox_items', 'users', 'crews', 'crew_members', 'commands'];
+export const INBOX_TABLES = [
+  'inbox_items',
+  'users',
+  'crews',
+  'crew_members',
+  'commands',
+  'trips',
+  'guides',
+];
 
 export interface InboxRow {
   readonly id: string;
@@ -44,6 +56,9 @@ export interface InboxRow {
   readonly resolved_at: string | null;
   readonly read_at: string | null;
   readonly created_at: string;
+  readonly resolve_key?: string | null;
+  /** The guide of the item's trip, for items that name no guide of their own. */
+  readonly trip_guide?: string | null;
 }
 
 export type InboxSource = 'crew' | 'guide' | 'system';
@@ -66,6 +81,8 @@ export interface InboxItem {
   readonly resolved: boolean;
   readonly read: boolean;
   readonly createdAt: Date;
+  /** The server settles the item itself when the thing it asks about is done. */
+  readonly settlesItself: boolean;
 }
 
 function parseActions(value: unknown): InboxAction[] {
@@ -100,6 +117,7 @@ export function parseInstant(value: string | null): Date | null {
 
 export function toInboxItem(row: InboxRow): InboxItem {
   const source = row.source === 'crew' || row.source === 'guide' ? row.source : 'system';
+  const data = parseData(parseJson(row.data));
   return {
     id: row.id,
     kind: row.kind,
@@ -109,7 +127,11 @@ export function toInboxItem(row: InboxRow): InboxItem {
     actorJoinIndex: Number(row.actor_join_index ?? 0),
     crewId: row.crew_id,
     crewName: row.crew_name ?? '',
-    data: parseData(parseJson(row.data)),
+    // The trip's own guide speaks for an item that names none.
+    data:
+      data['guide'] === undefined && row.trip_guide != null
+        ? { ...data, guide: row.trip_guide }
+        : data,
     needsYou: Number(row.needs_you ?? 0) === 1,
     actions: parseActions(parseJson(row.actions)),
     deepLink: row.deep_link,
@@ -118,7 +140,22 @@ export function toInboxItem(row: InboxRow): InboxItem {
     resolved: row.resolved_at !== null,
     read: row.read_at !== null,
     createdAt: parseInstant(row.created_at) ?? new Date(0),
+    settlesItself: row.resolve_key != null && row.resolve_key !== '',
   };
+}
+
+/**
+ * Tapping this action only opens the item's screen. The item stays under "needs you" until the
+ * thing it asks about is done there (the server settles it then), so a proposal read but not
+ * answered still needs the reader.
+ */
+export function opensWithoutSettling(item: InboxItem, action: InboxAction): boolean {
+  return (
+    action.command === undefined &&
+    action.style !== 'undo' &&
+    item.deepLink !== null &&
+    item.settlesItself
+  );
 }
 
 export function isExpired(item: InboxItem, now: Date): boolean {

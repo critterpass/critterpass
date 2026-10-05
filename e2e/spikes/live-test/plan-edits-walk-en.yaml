@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Live walk, changing the plan, in English: a first-time traveller with a locked five-day Bali
+# plan adds a place from a day, changes a time, reorders, moves and removes a stop, and each time
+# sees what changed and can take it back. Real staging, a fresh account, no demo seed; the planning
+# screens are turned on for this phone only. Shots are `plan-edits-en-<nn>-<what>`.
+- runFlow:
+    file: plan-edits-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-edits-en-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow:
+    file: plan-edits-subflows/edits.yaml
+    env:
+      SHOTS: plan-edits-en

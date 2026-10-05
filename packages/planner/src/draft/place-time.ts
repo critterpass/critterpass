@@ -123,8 +123,10 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
 /** A stop at a morning place that starts after this local minute is later than the place is best. */
 export const MORNING_ENDS_MIN = 11 * 60;
 
-/** Places seen by daylight: nobody is sent to a temple, a waterfall or a beach after dark. */
-const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach']);
+/** Places seen by daylight: nobody is sent to a temple, a waterfall, a beach or a museum after dark. */
+/** A daylight visit may run this long past sunset. */
+const DUSK_MIN = 30;
+const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach', 'museum']);
 
 /**
  * The minutes a stop at `poi` may start between on `date` because of the time of day the place is
@@ -138,7 +140,10 @@ export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
   if (time === null || time === 'morning') {
     const byDay = time === 'morning' || DAYLIGHT.has(poi.category);
     if (!byDay || poi.category === 'nightlife' || poi.tags.includes('nightlife')) return null;
-    return withinHours(poi, date, { fromMin: 0, toMin: floorGrid(sunsetMin(poi, date)) });
+    // Begun by sunset, and a long visit early enough to be over half an hour after it.
+    const sunset = sunsetMin(poi, date);
+    const toMin = floorGrid(Math.min(sunset, sunset + DUSK_MIN - poi.durationMin));
+    return withinHours(poi, date, { fromMin: 0, toMin: Math.max(0, toMin) });
   }
   return withinHours(poi, date, timeOfDayWindow(time, poi, date));
 }
