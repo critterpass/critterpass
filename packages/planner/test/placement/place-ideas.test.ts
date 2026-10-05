@@ -1,7 +1,7 @@
 /**
  * Placing ideas on the Bali crew's days: six ideas fit without moving anything and are placed,
  * the scarcest first; the one the crew is split on and the one that only fits by moving a stop are
- * left for the person with why. Properties: nothing already in the plan moves or is overlapped by a
+ * left for the person with why; a slot only part of the crew is free for is never used. Properties: nothing already in the plan moves or is overlapped by a
  * locked-out slot, a split idea is never placed, a day never goes past the pace limit, and the
  * same ideas in any order give the same answer.
  */
@@ -73,6 +73,31 @@ describe('placeIdeas', () => {
     const result = placeIdeas(busy, [{ ideaId: idea(11), place: saturdayOnly }]);
     expect(result.placed).toEqual([]);
     expect(result.left[0]).toMatchObject({ reason: 'needs_move', dayNo: 5, needsMove: idea(99) });
+  });
+});
+
+describe('a slot only part of the crew is free for', () => {
+  // Wednesday 16:00-18:00: the cooking class is over for four of the crew, while Maya and Rin
+  // are still at the spa they booked.
+  const lateWednesday = place(21, {
+    hours: { weekly: { we: [{ start: '16:00', end: '18:00' }] } },
+    timeNeededMin: 60,
+  });
+
+  it('is no place for an idea: nothing is put over the stop the others are at', () => {
+    const result = placeIdeas(BALI, [{ ideaId: idea(21), place: lateWednesday }]);
+    expect(result.placed).toEqual([]);
+    expect(result.left.map((entry) => [entry.ideaId, entry.reason])).toEqual([
+      [idea(21), 'no_day'],
+    ]);
+    expect(result.context).toEqual(BALI);
+  });
+
+  it('still takes the idea on a day the whole crew is free then', () => {
+    const anyDay = { ...lateWednesday, hours: daily('16:00', '18:00') };
+    const [stop] = placeIdeas(BALI, [{ ideaId: idea(21), place: anyDay }]).placed;
+    expect(stop?.dayNo).not.toBe(2);
+    expect(stop?.reasons.map((reason) => reason.code)).not.toContain('who_free');
   });
 });
 

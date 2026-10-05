@@ -111,6 +111,10 @@ msgstr "Leave-by time has passed"
 msgid "trip.alarm.note.askAction"
 msgstr "Make it an alarm"
 
+#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
+msgid "trip.dayOf.next"
+msgstr "Next"
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.nextUp"
 msgstr "Next up"
@@ -122,6 +126,10 @@ msgstr "Nothing on the list yet."
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.freeDay"
 msgstr "Nothing planned today. A free day."
+
+#: ../../apps/mobile/src/features/trip/day-of/timeline.tsx
+msgid "trip.dayOf.now"
+msgstr "Now"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.onTheWay"
@@ -158,6 +166,10 @@ msgstr "Remove {label}"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.exactAction"
 msgstr "Ring on the minute"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toDayPlan"
+msgstr "See the day plan"
 
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.snooze"

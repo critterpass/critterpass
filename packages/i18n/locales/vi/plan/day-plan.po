@@ -27,6 +27,10 @@ msgstr "Thêm địa điểm, hoặc dán liên kết"
 msgid "plan.dayPlan.allDays"
 msgstr "Tất cả ngày"
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.goneBack"
+msgstr "Về chuyến đi"
+
 #: ../../apps/mobile/src/features/plan/day-plan/day-pill.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.dayTitle"
@@ -86,9 +90,26 @@ msgid "plan.dayPlan.refused.late"
 msgstr "Thứ tự đó kéo qua nửa đêm."
 
 #: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
+msgid "plan.dayPlan.refused.mustDo"
+msgstr "Đó là mục bắt buộc. Mở ra để chuyển nếu bạn vẫn muốn."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.goneBody"
+msgstr "Các ngày của chuyến đi đã thay đổi. Những ngày còn lại vẫn ở trong chuyến đi."
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
+msgid "plan.dayPlan.gone"
+msgstr "Ngày này không còn trong kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/day-plan/refusal.ts
 msgid "plan.dayPlan.refused.readOnly"
 msgstr "Không thể đổi kế hoạch này ở đây."
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.toDayOf"
+msgstr "Hôm nay: mấy giờ đi và ai đã dậy"
+
+#: ../../apps/mobile/src/features/plan/day-plan/day-gone.tsx
 #: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
 msgid "plan.dayPlan.back"
 msgstr "Chuyến đi"

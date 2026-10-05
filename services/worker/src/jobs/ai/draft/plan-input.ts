@@ -30,6 +30,10 @@ export interface PlanInputOptions {
   /** Places the hand-typed must-dos name (see the planner's `resolveWishes`). */
   readonly wished?: ResolvedWishes;
   readonly ignoreNames?: readonly (readonly string[])[];
+  /** Places the crew saved to Ideas: offered to the guide ahead of the rest. */
+  readonly prefer?: readonly string[];
+  /** Places the organiser already put on a day: known to the planner, never offered again. */
+  readonly notOffered?: ReadonlySet<string>;
 }
 
 export function tripDates(trip: Pick<DraftTripData, 'startDate' | 'endDate'>): string[] {
@@ -132,10 +136,13 @@ export function buildPlanInput(
     frame,
     pois,
     pools: candidatePools({
-      pois: places,
+      pois:
+        options.notOffered === undefined
+          ? places
+          : places.filter((poi) => !options.notOffered?.has(poi.id)),
       frame,
       tastes,
-      include: options.wished?.offered ?? [],
+      include: [...(options.wished?.offered ?? []), ...(options.prefer ?? [])],
       ignoreNames: ignore,
     }),
     tastes,

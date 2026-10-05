@@ -13,6 +13,14 @@ msgstr ""
 msgid "plan.review.tally"
 msgstr "{0}/{1} đồng ý"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.collision.travel"
+msgstr "{a} để lại thiếu khoảng {minutes} phút để đi từ hoặc đến {b}."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.collision.overlap"
+msgstr "{a} sẽ chạm vào {b}. Bỏ chọn, hoặc dời một trong hai trên lịch ngày trước đã."
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.memberDays"
 msgstr "{author} đề xuất thay đổi {days}."
@@ -42,6 +50,10 @@ msgstr "{count, plural, other {# thay đổi vì trời mưa}}"
 msgid "plan.review.title.swap"
 msgstr "{count, plural, other {# THAY ĐỔI CHO LẦN ĐỔI CHỖ}}"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.applied"
+msgstr "{count, plural, other {# thay đổi đã vào lịch trình}}"
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.title.plan"
 msgstr "{count, plural, other {# thay đổi cho kế hoạch}}"
@@ -53,6 +65,10 @@ msgstr "{count, plural, other {# CHỖ SỬA}}"
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.title.gap"
 msgstr "{count, plural, other {# CHO KHOẢNG TRỐNG}}"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.placed"
+msgstr "{count, plural, other {Đã thêm # địa điểm vào lịch trình}}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.placedForYou"
@@ -119,9 +135,21 @@ msgstr "{sign}{hours}G{rest} LÁI XE"
 msgid "plan.review.driving.minutes"
 msgstr "{sign}{mins} PHÚT LÁI XE"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.suggestedBy"
+msgstr "{who} đã đề xuất thay đổi này."
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.tally"
 msgstr "{yes}/{needed} người đã đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.aStop"
+msgstr "một điểm dừng"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.addNow"
+msgstr "THÊM NGAY"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.after"
@@ -152,13 +180,29 @@ msgstr "Đã duyệt. Đang đưa vào kế hoạch."
 msgid "plan.review.why.opens"
 msgstr "lúc vừa mở cửa"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.askCrew"
+msgstr "Hỏi cả nhóm trước"
+
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.money.billion"
 msgstr " TỶ"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.crowds"
 msgstr "trước giờ đông"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.closesHours"
+msgstr "đóng sau {hours} giờ"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.closesMinutes"
+msgstr "đóng sau {mins} phút"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backDay"
@@ -172,9 +216,14 @@ msgstr "Ngày {first}–{last}"
 msgid "plan.review.tag.delay"
 msgstr "Trễ giờ"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.approved"
 msgstr "Xong. Kế hoạch của mọi người đã có thay đổi này."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.notice.approvedSolo"
+msgstr "Xong. Đã vào lịch trình của bạn."
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.dropout"
@@ -189,7 +238,7 @@ msgstr "Đã bỏ"
 msgid "plan.review.each"
 msgstr "mỗi người"
 
-#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calm"
 msgstr "Mọi thứ đều vào khoảng trống. Không dời gì đã đặt hay việc ai cũng muốn làm."
 
@@ -229,6 +278,22 @@ msgstr "Đang tải thay đổi kế hoạch"
 msgid "plan.review.money.million"
 msgstr " TR"
 
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.rain"
+msgstr "dời để tránh mưa"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.fix"
+msgstr "dời để ngày hôm đó hợp lý"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.crowds"
+msgstr "dời sang giờ vắng hơn"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.reason.closed"
+msgstr "dời sang lúc mở cửa"
+
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
 msgid "plan.review.needsYou"
 msgstr "CẦN BẠN"
@@ -265,6 +330,10 @@ msgstr "Không"
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.summary.noMustDo"
 msgstr "Không đụng tới điểm nhất định ghé của ai."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.summary.calmFixes"
+msgstr "Không dời mục đã đặt hay mục bắt buộc nào. Bỏ chọn những gì bạn muốn giữ nguyên."
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.freeDay"
@@ -306,6 +375,10 @@ msgstr "Thay đổi kế hoạch"
 msgid "plan.card.label"
 msgstr "Thay đổi kế hoạch"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.backCheck"
+msgstr "Kiểm tra lịch trình"
+
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.sendSelf"
 msgstr "Đưa vào kế hoạch của tôi"
@@ -313,6 +386,10 @@ msgstr "Đưa vào kế hoạch của tôi"
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.applyNow"
 msgstr "Áp dụng ngay"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.putInNow"
+msgstr "ĐƯA VÀO LỊCH TRÌNH NGAY"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.tag.weather"
@@ -334,6 +411,10 @@ msgstr "Bỏ khỏi kế hoạch"
 msgid "plan.review.see"
 msgstr "XEM"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.seeDay"
+msgstr "Xem {day}"
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.open"
 msgstr "Xem các thay đổi"
@@ -342,7 +423,11 @@ msgstr "Xem các thay đổi"
 msgid "plan.review.notice.needsSignal"
 msgstr "Gửi cần có sóng. Thử lại khi có mạng nhé."
 
-#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.sent"
+msgstr "Đã gửi cho cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.touches"
 msgstr "Có thay đổi dời một chỗ đã đặt hoặc việc ai đó muốn làm. Xem kỹ trước khi gửi."
 
@@ -395,9 +480,17 @@ msgstr "Thay đổi này dời một chỗ đặt, nên người tổ chức s�
 msgid "plan.review.warn.mustDo"
 msgstr "Thay đổi này đụng tới điểm nhất định ghé của một người. Hỏi họ trước khi áp dụng nhé."
 
+#: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
+msgid "plan.edit.undo"
+msgstr "HOÀN TÁC"
+
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.voting"
 msgstr "Đang bình chọn"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.was"
+msgstr "trước là {time}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.dry"
@@ -412,9 +505,17 @@ msgstr "Đồng ý"
 msgid "plan.card.yes"
 msgstr "Đồng ý"
 
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.youSaidNo"
+msgstr "Bạn đã chọn không"
+
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedNo"
 msgstr "Bạn đã nói không."
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.youSaidYes"
+msgstr "Bạn đã đồng ý"
 
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
@@ -435,3 +536,11 @@ msgstr "Bạn muốn dời {place} sang {at}"
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
 msgid "plan.card.title.swapMine"
 msgstr "Bạn muốn đổi sang {where}"
+
+#: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
+msgid "plan.review.yourYes"
+msgstr "Đã tính phiếu đồng ý của bạn"
+
+#: ../../apps/mobile/src/features/plan/review/changes-copy.ts
+msgid "plan.review.toast.sentLine"
+msgstr "Đã tính phiếu đồng ý của bạn. Thay đổi sẽ vào lịch khi đủ người đồng ý."

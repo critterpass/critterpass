@@ -134,7 +134,28 @@ function weatherTile(reasons: readonly FitReason[], month: string): Reason | nul
   return null;
 }
 
-function blockerTile(day: DayFit): Reason | null {
+type StopName = (stableId: string) => string | null;
+
+/** "After Lokal Bar", "Before dinner", or both: what the block sits between. */
+function aroundTile(reasons: readonly FitReason[], stopName: StopName): Reason | null {
+  const after = find(reasons, 'after_item') ?? find(reasons, 'on_the_way');
+  const before = find(reasons, 'before_item');
+  const a = after === undefined ? null : stopName(after.params.stable_id);
+  const b = before === undefined ? null : stopName(before.params.stable_id);
+  if (a === null && b === null) return null;
+  return {
+    key: 'around',
+    icon: 'arrow',
+    text:
+      a !== null && b !== null
+        ? t({ id: 'plan.add.why.between', message: `Between ${a} and ${b}` })
+        : a !== null
+          ? t({ id: 'plan.add.why.after', message: `Right after ${a}` })
+          : t({ id: 'plan.add.why.before', message: `Before ${b ?? ''}` }),
+  };
+}
+
+function blockerTile(day: DayFit, stopName: StopName): Reason | null {
   const reasons = day.reasons;
   if (find(reasons, 'closed_that_day') !== undefined) {
     return {
@@ -157,24 +178,37 @@ function blockerTile(day: DayFit): Reason | null {
       text: t({ id: 'plan.add.why.travelDay', message: 'A travel day' }),
     };
   }
-  if (find(reasons, 'needs_move') !== undefined) {
+  const needsMove = find(reasons, 'needs_move');
+  if (needsMove !== undefined) {
+    const stop = stopName(needsMove.params.stable_id);
     return {
       key: 'blocker',
       icon: 'arrow',
-      text: t({ id: 'plan.add.why.needsMove', message: 'Only fits if a stop moves' }),
+      text:
+        stop === null
+          ? t({ id: 'plan.add.why.needsMove', message: 'Only fits if a stop moves' })
+          : t({ id: 'plan.add.why.needsMoveNamed', message: `Only fits if ${stop} moves` }),
     };
   }
   return null;
 }
 
-/** Up to four tiles for WHY {time}, in the design's order: hours, crowds, getting there, weather. */
-export function reasonTiles(day: DayFit | null, month: string): Reason[] {
+/**
+ * Up to four tiles for WHY {time}, in the design's order (hours, crowds, getting there, weather),
+ * with what the block sits between when there is room: a suggested time always says why.
+ */
+export function reasonTiles(
+  day: DayFit | null,
+  month: string,
+  stopName: StopName = () => null,
+): Reason[] {
   if (day === null) return [];
   const tiles = [
-    blockerTile(day),
+    blockerTile(day, stopName),
     hoursTile(day.reasons),
     crowdTile(day.reasons),
     travelTile(day.reasons),
+    aroundTile(day.reasons, stopName),
     weatherTile(day.reasons, month),
   ].filter((tile): tile is Reason => tile !== null);
   return tiles.slice(0, 4);
@@ -230,15 +264,11 @@ export function lengthLabel(minutes: number): string {
 /** "Gunung Kawi is 10 min on. Add it too?" */
 export function nearbyLine(name: string, minutes: number): string {
   const count = String(minutes);
+  // Next door reads as "0 min on" otherwise.
+  if (minutes <= 1) {
+    return t({ id: 'plan.add.nearbyNextDoor', message: `${name} is right next door. Add it too?` });
+  }
   return t({ id: 'plan.add.nearby', message: `${name} is ${count} min on. Add it too?` });
-}
-
-/** A place already in the plan: where its stop is now. */
-export function alreadyLine(dayLabel: string): string {
-  return t({
-    id: 'plan.add.already',
-    message: `Already in the plan on ${dayLabel}. Pick where it moves.`,
-  });
 }
 
 export function moveLabel(dayLabel: string, time: string): string {
@@ -249,13 +279,6 @@ export function offlineNote(guideName: string): string {
   return t({
     id: 'plan.add.offline',
     message: `No signal: ${guideName} works out the reasons once you’re back.`,
-  });
-}
-
-export function nowhereNote(): string {
-  return t({
-    id: 'plan.add.nowhere',
-    message: 'Nowhere fits yet. Pick a day, or save it for later.',
   });
 }
 

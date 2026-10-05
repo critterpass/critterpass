@@ -1,8 +1,9 @@
 /**
  * The chips across the top of the trip map (7a-1) and the open day map (7b-2): the chosen day
- * ("DAY 3 · WED", in its colour; tapping it again shows every day at equal strength), SAVED with
+ * (by its date, in its colour; tapping it again shows every day at equal strength), SAVED with
  * the count, CREW PICKS and the commonest categories. A filter chip fades what it leaves out to
- * 20 %; tapping the lit chip clears it.
+ * 20 %; tapping the lit chip clears it. A chip with nothing behind it (nothing saved, no place two
+ * of the crew back) is left out rather than shown doing nothing.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, never copy. */
 import { t } from '@lingui/core/macro';
@@ -43,8 +44,11 @@ export function categoryChipLabel(category: string): string {
 export interface ChipInput {
   readonly day: TripDay | null;
   readonly dayChosen: boolean;
+  /** The day by its date ("Sat, 10/17"); empty while it has none. */
   readonly weekday: string;
   readonly saved: number;
+  /** Saved places two or more of the crew back; absent keeps the chip (a lab scene). */
+  readonly crewPicks?: number | undefined;
   readonly categories: readonly string[];
   readonly filter: MapFilter;
   /** The guide's picks chip (7b-2) instead of the crew's (7a-1). */
@@ -60,26 +64,27 @@ export function filterChips(input: ChipInput): PlanningChip[] {
     const name = input.weekday;
     chips.push({
       key: DAY_CHIP,
-      label:
-        name === ''
-          ? t({ id: 'plan.tripMap.chip.day', message: `Day ${n}` })
-          : t({ id: 'plan.tripMap.chip.dayWeekday', message: `Day ${n} · ${name}` }),
+      label: name === '' ? t({ id: 'plan.tripMap.chip.day', message: `Day ${n}` }) : name,
       selected: input.dayChosen,
       color: day.color,
     });
   }
-  chips.push({
-    key: 'saved',
-    label: t({ id: 'plan.tripMap.chip.saved', message: 'Saved' }),
-    count: input.saved,
-    selected: filter.kind === 'saved',
-  });
-  if (input.guidePicks === undefined) {
+  if (input.saved > 0) {
     chips.push({
-      key: 'crew',
-      label: t({ id: 'plan.tripMap.chip.crew', message: 'Crew picks' }),
-      selected: filter.kind === 'crew',
+      key: 'saved',
+      label: t({ id: 'plan.tripMap.chip.saved', message: 'Saved' }),
+      count: input.saved,
+      selected: filter.kind === 'saved',
     });
+  }
+  if (input.guidePicks === undefined) {
+    if (input.crewPicks !== 0) {
+      chips.push({
+        key: 'crew',
+        label: t({ id: 'plan.tripMap.chip.crew', message: 'Crew picks' }),
+        selected: filter.kind === 'crew',
+      });
+    }
   } else {
     const guide = input.guidePicks.name;
     chips.push({

@@ -114,7 +114,8 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
 
   const card = (
     <Card
-      testID={onTrip === null ? testID : 'home-in-trip'}
+      // `home-in-trip` stays the sign that the trip's status has switched (flows wait on it).
+      testID={trip.status === 'in_trip' ? 'home-in-trip' : testID}
       tone={guideTone(guide)}
       halftone={photo === null}
       radius="cardBig"
@@ -146,7 +147,14 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
         </Animated.View>
       </View>
       <Stack gap="8">
-        <Text variant="eyebrow">{eyebrow}</Text>
+        {/* On the first day, before the status switches, the eyebrow is the card's "when": it
+            keeps the countdown's id, which read TODAY here. */}
+        <Text
+          variant="eyebrow"
+          {...(onTrip !== null && trip.status !== 'in_trip' ? { testID: 'home-countdown' } : {})}
+        >
+          {eyebrow}
+        </Text>
         {/* One line across the card's full width, under the sticker: the words stay whole and the
             name shrinks to fit rather than breaking inside a word. */}
         <Text

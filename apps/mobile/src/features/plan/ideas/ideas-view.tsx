@@ -2,12 +2,14 @@
  * Ideas (7f-2) as drawn: ← TRIP and ◎ MAP, IDEAS over how many saved places aren't in a day yet,
  * DROP ON A DAY with the trip's days (dashed while a row is lifted, the one under it glowing, each
  * dotted by the lifted idea's fit), the yellow PLACE THEM FOR ME card with Tokek, and the rows.
- * Empty, it says how places get here (undesigned: built from the kit's note).
+ * Empty, it says how places get here and offers the way to search (undesigned: built from the
+ * kit's note and button).
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ComponentRef, ReactNode, Ref } from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { PillButton } from '@/ui/buttons/PillButton';
 import { PressScale } from '@/ui/press/PressScale';
 import { DayChips, TokekNote, type DayChip } from '@/ui/planning';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -56,7 +58,12 @@ export interface IdeasViewProps {
     readonly busy: boolean;
     readonly onPress: () => void;
   } | null;
-  readonly empty: { readonly line: string; readonly guide: string } | null;
+  readonly empty: {
+    readonly line: string;
+    readonly guide: string;
+    /** A way to go and save something, when search is reachable. */
+    readonly find: { readonly label: string; readonly onPress: () => void } | null;
+  } | null;
   readonly rows: ReactNode;
   readonly scrolls: boolean;
   readonly onBack: () => void;
@@ -150,12 +157,22 @@ export function IdeasView({ chipsRef, ...props }: IdeasViewProps) {
             </View>
           </>
         ) : (
-          <TokekNote
-            guide={guide.id}
-            name={props.empty.guide}
-            line={props.empty.line}
-            testID="plan-ideas-empty"
-          />
+          <>
+            <TokekNote
+              guide={guide.id}
+              name={props.empty.guide}
+              line={props.empty.line}
+              testID="plan-ideas-empty"
+            />
+            {props.empty.find === null ? null : (
+              <PillButton
+                label={props.empty.find.label}
+                onPress={props.empty.find.onPress}
+                block
+                testID="plan-ideas-find"
+              />
+            )}
+          </>
         )}
       </ScrollView>
     </Scaffold>

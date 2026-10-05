@@ -77,7 +77,8 @@ describe('next-up card', () => {
   it('is the trip’s day from its first midnight, in the destination zone', async () => {
     await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-11T18:00:00Z')} />);
     expect(screen.getByText('TODAY · DAY 1 OF 8')).toBeTruthy();
-    expect(screen.queryByTestId('home-countdown')).toBeNull();
+    // No ticking chip on a trip day: the eyebrow is the card's "when".
+    expect(screen.queryByText(/\d\d:\d\d:\d\d/u)).toBeNull();
     await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-13T23:30:00Z')} />);
     expect(screen.getByText('TODAY · DAY 3 OF 8')).toBeTruthy();
   });

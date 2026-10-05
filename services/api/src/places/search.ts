@@ -8,18 +8,26 @@
  * in Hội An, Mexico City and London, Overture rows under 0.5 confidence are mostly that, so an
  * auto-curated row below `LOW_CONFIDENCE` that FSQ OS does not also list ranks after every other
  * match and is left out of a no-query browse (the region pack's subset reads that browse). Rows
- * are never hidden from a name search or removed: trips and editorial reference POI ids. Editorial
- * places come first, then rows both sources list, then by confidence.
+ * are never hidden from a name search or removed: trips and editorial reference POI ids. Among
+ * the places named for the query, the ones we recommend (the curated set, or the machine picks
+ * where nothing is curated) come first, then rows both sources list, then by confidence. Rows that
+ * are one place under several names or sources (a villa, its hotel listing and its museum listing)
+ * answer as the first of them.
  */
-import { LOW_CONFIDENCE, LOW_QUALITY, QUALITY_SCORE } from '@cp/db';
+import { LOW_CONFIDENCE, LOW_QUALITY, QUALITY_SCORE, recommendedSql } from '@cp/db';
 import { knownHours, openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
 import type pg from 'pg';
+
+import { areaFromAddress } from '../planning/search/area';
+import { onePerPlace } from './same-place';
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
 /** Fetched before an app-layer `open_at` filter narrows down to `limit`, since hours evaluation
  *  (tz-aware, overnight-span-aware) is not expressible as a single SQL predicate. */
 const OPEN_AT_CANDIDATE_MULTIPLIER = 5;
+/** Extra rows read so a page stays full after duplicates of one place are dropped. */
+const SAME_PLACE_ROOM = 30;
 
 /**
  * The open-data quality fragments are shared with the worker's pick job (`@cp/db`). They are
@@ -52,6 +60,10 @@ export interface PlaceSearchResultItem {
   readonly lat: number;
   readonly lng: number;
   readonly address: string | null;
+  /** The part of town its address names ("Ubud"), never the destination itself. */
+  readonly area: string | null;
+  /** In the curated set, or a machine pick where nothing is curated. */
+  readonly recommended: boolean;
   readonly priceLevel: number | null;
   readonly tags: readonly string[];
   readonly distanceM: number | null;
@@ -78,6 +90,8 @@ interface PlaceSearchRow {
   readonly hours: Hours;
   readonly timezone: string | null;
   readonly destination_tz: string | null;
+  readonly destination_name: string | null;
+  readonly recommended: boolean;
   readonly distance_m: number | null;
   readonly is_open_now: boolean | null;
 }
@@ -91,6 +105,8 @@ function toResultItem(row: PlaceSearchRow): PlaceSearchResultItem {
     lat: row.lat,
     lng: row.lng,
     address: row.address,
+    area: areaFromAddress(row.address, row.destination_name),
+    recommended: row.recommended,
     priceLevel: row.price_level,
     tags: row.tags,
     distanceM: row.distance_m,
@@ -209,11 +225,12 @@ async function queryPlaceRows(
     const wordsParam = params.length;
     // A place whose own name has a word starting with each typed word comes before one that matches only by its
     // address or tags ("My Son" is the sanctuary, not every bar in Mỹ An, Sơn Trà). Within each,
-    // curated places first: a query also matches every business on a street named after a sight.
+    // recommended places first: a query also matches every business on a street named after a
+    // sight, and a well-known villa's hotel listing shares its name.
     // Low-quality open data still matches, after every other match.
     const nameMatch = `(SELECT bool_and(app.unaccent_immutable(lower(p.name || ' ' || coalesce(p.name_local, '')))
         ~ ('(^|[^[:alnum:]])' || app.unaccent_immutable(w))) FROM unnest($${wordsParam}::text[]) AS w)`;
-    orderExpression = `coalesce(${nameMatch}, false) DESC, (p.curation = 'editorial') DESC, ${LOW_QUALITY} ASC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) + similarity(p.name, $${qParam}) + ${QUALITY_WEIGHT_WITH_QUERY} * ${QUALITY_SCORE} DESC`;
+    orderExpression = `coalesce(${nameMatch}, false) DESC, ${recommendedSql('p')} DESC, ${LOW_QUALITY} ASC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) + similarity(p.name, $${qParam}) + ${QUALITY_WEIGHT_WITH_QUERY} * ${QUALITY_SCORE} DESC`;
   }
 
   let distanceSelect = 'NULL::double precision AS distance_m';
@@ -228,12 +245,14 @@ async function queryPlaceRows(
     if (!hasQuery) orderExpression = `p.location <-> ${point}`;
   }
 
-  params.push(fetchLimit);
+  // Room for the rows dropped as another row's place.
+  params.push(fetchLimit + Math.min(fetchLimit, SAME_PLACE_ROOM));
   const limitParam = params.length;
 
   const { rows } = await tx.query<PlaceSearchRow>(
     `SELECT p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.price_level, p.tags,
-            p.hours, p.timezone, d.tz AS destination_tz, lc.is_open_now,
+            p.hours, p.timezone, d.tz AS destination_tz, d.name AS destination_name,
+            ${recommendedSql('p')} AS recommended, lc.is_open_now,
             ${distanceSelect}
      FROM pois p
      JOIN destinations d ON d.id = p.destination_id
@@ -243,5 +262,5 @@ async function queryPlaceRows(
      LIMIT $${limitParam}`,
     params,
   );
-  return rows;
+  return onePerPlace(rows, rows[0]?.destination_name ?? '').slice(0, fetchLimit);
 }

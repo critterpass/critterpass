@@ -33,10 +33,6 @@ msgstr "{count} người rảnh · {who}, đến {until}"
 msgid "plan.tripMap.inCrew"
 msgstr "{crew} người trong nhóm"
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
-msgid "plan.tripMap.dateDayOf"
-msgstr "{date} · Ngày {n}/{of}"
-
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.countdown"
 msgstr "{days, plural, one {Ngày mai} other {Còn # ngày}}"
@@ -149,6 +145,7 @@ msgstr "Có một đặt chỗ cần xem sớm."
 msgid "plan.tripMap.empty.draftLine"
 msgstr "Kế hoạch từng ngày từ những nơi phải đến, trong khoảng một phút."
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.pick"
 msgstr "Gợi ý cho chuyến này"
@@ -164,6 +161,10 @@ msgstr "Tất cả ngày"
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.askDraft"
 msgstr "Nhờ trưởng nhóm để {guide} lên bản nháp"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.backAtStay"
+msgstr "Về chỗ ở · {leg}"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.beaches"
@@ -185,6 +186,14 @@ msgstr "Kiểm tra"
 msgid "plan.tripMap.checkDetail"
 msgstr "Đã đối chiếu giờ mở cửa, đường lái xe, đặt chỗ và những gì mọi người đã lưu."
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checkingAgain"
+msgstr "Đang kiểm tra lại sau thay đổi…"
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checking"
+msgstr "Đang kiểm tra kế hoạch…"
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.clash"
 msgstr "Trùng"
@@ -203,6 +212,7 @@ msgstr "Nhóm chọn"
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.dayTitle"
 msgstr "Ngày {n}"
@@ -211,11 +221,7 @@ msgstr "Ngày {n}"
 msgid "plan.tripMap.chip.day"
 msgstr "Ngày {n}"
 
-#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
-msgid "plan.tripMap.chip.dayWeekday"
-msgstr "Ngày {n} · {name}"
-
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.dayOf"
 msgstr "Ngày {n}/{of}"
 
@@ -255,6 +261,10 @@ msgstr "Mình đã xếp ý tưởng của bạn. Xem qua trước khi cả nhó
 msgid "plan.tripMap.ideas"
 msgstr "Ý tưởng ›"
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.leaveStay"
+msgstr "Rời chỗ ở · {leg}"
+
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.draft"
 msgstr "Để {guide} lên bản nháp"
@@ -271,6 +281,10 @@ msgstr "Chỗ hợp ý được giữ lại"
 msgid "plan.tripMap.empty.comingMeanwhile"
 msgstr "Trong lúc chờ, cứ lưu những nơi bạn muốn đi. Chúng nằm sẵn trong Ý tưởng."
 
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.moveStops"
+msgstr "Chuyển một điểm dừng sang ngày khác"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.museums"
 msgstr "Bảo tàng"
@@ -284,6 +298,7 @@ msgid "plan.tripMap.cat.nightlife"
 msgstr "Về đêm"
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.nothingYet"
 msgstr "Chưa có gì"
@@ -296,7 +311,26 @@ msgstr "Chưa lưu gì"
 msgid "plan.tripMap.check.clear"
 msgstr "Không có gì cần sửa. Kế hoạch ổn."
 
+#. placeholder {0}: row.nowLine
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.now"
+msgstr "Bây giờ · {0}"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.onlyYou"
+msgstr "Chỉ mình bạn"
+
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openStop"
+msgstr "Mở"
+
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.openDay"
+msgstr "Mở ngày"
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.openDayHint"
 msgstr "Mở kế hoạch ngày"
 
@@ -348,6 +382,7 @@ msgstr "Xe đặt"
 msgid "plan.tripMap.chip.saved"
 msgstr "Đã lưu"
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.saved"
 msgstr "Nhóm đã lưu"
@@ -365,6 +400,14 @@ msgstr "Tìm, hoặc hỏi {guide}"
 msgid "plan.tripMap.see"
 msgstr "Xem"
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openPlace"
+msgstr "Xem địa điểm"
+
+#: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
+msgid "plan.tripMap.sendPlan"
+msgstr "Gửi kế hoạch"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.share"
 msgstr "Chia sẻ"
@@ -380,10 +423,6 @@ msgstr "Mua sắm"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-camera.ts
 msgid "plan.tripMap.label.stop"
 msgstr "Điểm {n}"
-
-#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
-msgid "plan.tripMap.swap"
-msgstr "Đổi?"
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipe"
@@ -432,3 +471,7 @@ msgstr "Thư giãn"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"
 msgstr "bạn"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.skipping"
+msgstr "Bạn bỏ qua điểm này"

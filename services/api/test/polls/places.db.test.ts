@@ -102,6 +102,12 @@ describe('GET /v1/places', { timeout: 120_000 }, () => {
     });
   });
 
+  it('leaves far look-alikes out when a name is typed in full', async () => {
+    const names = (await search('Da Lat')).map((row) => row.name);
+    expect(names[0]).toBe('Đà Lạt');
+    expect(names).not.toContain('Lake District');
+  });
+
   it("routes a city to its own critter's guide only while guides go by city", async () => {
     const setPerCity = (on: boolean) =>
       harness.pool.query(

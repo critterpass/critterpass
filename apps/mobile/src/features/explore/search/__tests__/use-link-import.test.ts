@@ -11,6 +11,7 @@ import {
   LINK_IMPORT_START,
   linkImportReducer,
   sharedBestDay,
+  splitBySlot,
   type LinkImportState,
 } from '../link-import-model';
 
@@ -97,5 +98,36 @@ describe('link import events', () => {
     expect(linkImportReducer(state, { type: 'toggle', label: 'the swing with the view' })).toBe(
       state,
     );
+  });
+});
+
+describe('putting the chosen places on a day', () => {
+  const DAY = '0199a3f0-0000-7000-8000-00000000da06';
+  const fit = (poiId: string, slot: boolean) =>
+    ({
+      poi_id: poiId,
+      days: [
+        {
+          day_id: DAY,
+          slot: slot
+            ? { starts_at: '2026-10-24T02:00:00Z', ends_at: '2026-10-24T03:00:00Z' }
+            : null,
+        },
+      ],
+    }) as unknown as Parameters<typeof splitBySlot>[1][number];
+
+  it('keeps a place the day has no room for, for Ideas', () => {
+    const split = splitBySlot(
+      [CEPUNG, TIBUMANA],
+      [fit(CEPUNG.poi_id, true), fit(TIBUMANA.poi_id, false)],
+      DAY,
+    );
+    expect(split.slotted.map((slot) => slot.place.name)).toEqual(['Tukad Cepung']);
+    expect(split.unslotted.map((place) => place.name)).toEqual(['Tibumana']);
+  });
+
+  it('keeps a place the fit answer does not mention', () => {
+    const split = splitBySlot([CEPUNG, TIBUMANA], [fit(CEPUNG.poi_id, true)], DAY);
+    expect(split.unslotted).toEqual([TIBUMANA]);
   });
 });

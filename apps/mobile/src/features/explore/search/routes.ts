@@ -34,9 +34,18 @@ export const searchRoutes = {
       q: params.q,
     }),
   }),
-  link: (tripId: string, source: { url: string } | { screenshot: true }): Href => ({
+  /** With a link it is read at once; `screenshot` opens the picker; `paste` asks for the link. */
+  link: (
+    tripId: string,
+    source: { url: string } | { screenshot: true } | { paste: true },
+  ): Href => ({
     pathname: '/[tripId]/search/link',
-    params: 'url' in source ? { tripId, url: source.url } : { tripId, screenshot: '1' },
+    params:
+      'url' in source
+        ? { tripId, url: source.url }
+        : 'screenshot' in source
+          ? { tripId, screenshot: '1' }
+          : { tripId },
   }),
 };
 

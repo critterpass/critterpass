@@ -12,6 +12,10 @@ msgid "plan.allDays.titleDays"
 msgstr "{count} ngày"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasWaiting"
+msgstr "{ideas, plural, other {# chỗ đã lưu chưa có trong ngày nào}}"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
 msgstr "{place}, {count} ngày"
 
@@ -29,6 +33,10 @@ msgid "plan.allDays.dayTitle"
 msgstr "Ngày {n}"
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideas"
+msgstr "Ý tưởng ›"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasFit"
 msgstr "Có ý tưởng hợp ngày này"
 
@@ -39,6 +47,10 @@ msgstr "Trên xe: khoảng {before} → {after}"
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.title"
 msgstr "Chuyển {name}?"
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStopShort"
+msgstr "Chuyển điểm dừng"
 
 #: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
 msgid "plan.allDays.moveStop"
@@ -79,3 +91,7 @@ msgstr "Chia sẻ"
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.suggest"
 msgstr "Đề xuất với cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.backTrip"
+msgstr "Chuyến đi"

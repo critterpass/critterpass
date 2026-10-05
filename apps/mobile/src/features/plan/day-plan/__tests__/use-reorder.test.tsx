@@ -168,7 +168,10 @@ describe('day plan reorder', () => {
     await act(async () => {
       dropped = await result.current.reorder.drop();
     });
-    expect(dropped).toEqual({ kind: 'sent', outcome: { kind: 'applied' } });
+    expect(dropped).toEqual({
+      kind: 'sent',
+      outcome: { kind: 'applied', opId: expect.any(String) },
+    });
     const [sent] = await queued<ApplyPlanOpsPayload>(s, 'apply_plan_ops');
     const times = new Map(
       (sent?.ops ?? []).flatMap((op) =>

@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { classifyLink, clipboardOffer, markImported } from '../clipboard';
+import { classifyLink, clipboardOffer, markImported, typedLink } from '../clipboard';
 
 describe('clipboard links', () => {
   it('names the platform of a post or map link inside copied text', () => {
@@ -38,5 +38,40 @@ describe('clipboard links', () => {
     markImported('https://www.tiktok.com/@balibites/video/7419111111111111111/');
     expect(clipboardOffer(copied)).toBeNull();
     expect(clipboardOffer('https://youtu.be/dQw4w9WgXcQ')?.platform).toBe('youtube');
+  });
+});
+
+describe('a link in the search field', () => {
+  it('reads a link with or without its scheme, alone or among shared words', () => {
+    const cases: [string, string | null][] = [
+      ['https://www.tiktok.com/@balibites/video/7419000000000000000', 'tiktok'],
+      ['tiktok.com/@balibites/video/7419000000000000000', 'tiktok'],
+      ['vm.tiktok.com/ZSabc123/', 'tiktok'],
+      ['Check this out! https://vt.tiktok.com/ZSabc123/ #bali', 'tiktok'],
+      ['www.instagram.com/p/C1abc/', 'instagram'],
+      ['maps.app.goo.gl/AbCdEf', 'google_maps'],
+      ['goo.gl/maps/AbCdEf', 'google_maps'],
+      ['google.com/maps/place/Tanah+Lot', 'google_maps'],
+      ['https://example.com/blog/bali', 'web'],
+      ['www.example.com/blog/bali', 'web'],
+    ];
+    expect(cases.map(([text]) => typedLink(text)?.platform ?? null)).toEqual(
+      cases.map(([, platform]) => platform),
+    );
+    expect(typedLink('vm.tiktok.com/ZSabc123/')?.url).toBe('https://vm.tiktok.com/ZSabc123/');
+  });
+
+  it('leaves names, questions and addresses to the search', () => {
+    for (const text of [
+      'Tanah Lot',
+      'Jalan Hanoman 10 Ubud',
+      'quiet dinner by the beach, open late',
+      'tiktok.com',
+      'cafe.com style brunch',
+      'St. Regis Bali',
+      '',
+    ]) {
+      expect(typedLink(text)).toBeNull();
+    }
   });
 });
