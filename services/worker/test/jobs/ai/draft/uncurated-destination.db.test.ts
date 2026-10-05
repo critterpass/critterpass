@@ -254,8 +254,15 @@ describe('a draft in a destination without a curated set', () => {
     };
     const request = JSON.stringify(buildRedraftRequest(redraft).messages);
     expect(request).toContain('## The day now\\n- no stops');
-    // Its candidates come from the pools; the lake is on day two, so day one may not use it.
-    expect(request).toContain('Chùa Linh Phước');
+    // Its candidates come from the pools (those open on the landing day, which stays near the
+    // stay); the lake is on day two, so day one may not use it.
+    const offered = drafted.input.pools.activities.filter(
+      (poi) =>
+        poi.name !== 'Hồ Xuân Hương' &&
+        (drafted.input.pools.openDays.get(poi.id) ?? []).includes(1),
+    );
+    expect(offered.length).toBeGreaterThan(0);
+    expect(offered.some((poi) => request.includes(poi.name))).toBe(true);
     expect(request).not.toContain('Hồ Xuân Hương');
 
     // Only an organiser of the trip reads the version's days.
