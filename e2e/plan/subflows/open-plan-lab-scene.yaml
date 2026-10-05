@@ -1,12 +1,11 @@
 appId: app.critterpass.dev
 ---
 # Opens one plan views lab scene (${SCENE}) from the lab's list, waits for ${SCREEN} and shoots it as
-# ${SHOT}, then goes back to the list.
+# ${SHOT}, then goes back to the list. Not centred: the last rows of the list cannot be.
 - scrollUntilVisible:
     element:
       id: 'plan-views-lab-${SCENE}'
     direction: DOWN
-    centerElement: true
     timeout: 30000
 - tapOn:
     id: 'plan-views-lab-${SCENE}'
