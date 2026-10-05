@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# From Home: the running app read in Vietnamese (the developer gallery's language switch, kept
+# until the app is relaunched), then back on Home.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 20000

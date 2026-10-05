@@ -8,7 +8,7 @@
 import { tokens } from '@cp/design-tokens';
 import { Marker, type LngLat } from '@maplibre/maplibre-react-native';
 import { useEffect, type ReactNode } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { bezierEasing } from '@/motion/easing';
@@ -32,6 +32,9 @@ export interface MapLabelProps {
   readonly leading?: ReactNode | undefined;
   /** How far above the point the pointer's tip sits (the dot's radius). */
   readonly lift?: number | undefined;
+  /** Makes the label a button (the picked stop or place opens); without it taps pass through. */
+  readonly onPress?: (() => void) | undefined;
+  readonly accessibilityHint?: string | undefined;
   readonly testID?: string | undefined;
 }
 
@@ -65,6 +68,8 @@ export function MapLabel({
   tone = 'paper',
   leading,
   lift = 16,
+  onPress,
+  accessibilityHint,
   testID = 'map-label',
 }: MapLabelProps) {
   const styles = useStyles();
@@ -93,23 +98,45 @@ export function MapLabel({
         },
   );
 
+  const bubble = (
+    <>
+      <View style={[styles.bubble, { backgroundColor: fill }]}>
+        {leading}
+        <View style={styles.text}>
+          <Text variant="title" color={ink} numberOfLines={1}>
+            {title}
+          </Text>
+          {subtitle === undefined ? null : (
+            <Text variant="label" color={subInk} numberOfLines={1}>
+              {subtitle}
+            </Text>
+          )}
+        </View>
+      </View>
+      <View style={[styles.pointer, { borderTopColor: fill }]} />
+    </>
+  );
   return (
     <Marker lngLat={lngLat} anchor="bottom" offset={[0, -lift]}>
-      <Animated.View style={[styles.column, popStyle]} testID={testID} pointerEvents="none">
-        <View style={[styles.bubble, { backgroundColor: fill }]}>
-          {leading}
-          <View style={styles.text}>
-            <Text variant="title" color={ink} numberOfLines={1}>
-              {title}
-            </Text>
-            {subtitle === undefined ? null : (
-              <Text variant="label" color={subInk} numberOfLines={1}>
-                {subtitle}
-              </Text>
-            )}
-          </View>
-        </View>
-        <View style={[styles.pointer, { borderTopColor: fill }]} />
+      <Animated.View
+        style={[styles.column, popStyle]}
+        testID={onPress === undefined ? testID : undefined}
+        pointerEvents={onPress === undefined ? 'none' : 'box-none'}
+      >
+        {onPress === undefined ? (
+          bubble
+        ) : (
+          <Pressable
+            onPress={onPress}
+            accessibilityRole="button"
+            accessibilityLabel={subtitle === undefined ? title : `${title}, ${subtitle}`}
+            accessibilityHint={accessibilityHint}
+            style={styles.column}
+            testID={testID}
+          >
+            {bubble}
+          </Pressable>
+        )}
       </Animated.View>
     </Marker>
   );

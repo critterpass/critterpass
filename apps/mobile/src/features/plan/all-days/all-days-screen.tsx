@@ -1,7 +1,9 @@
 /**
  * All days route's screen (7b-3) over the synced plan: the grid, a stop held on one card and
- * dropped on another (or picked through "Move a stop"), the preview of both days rerouted, and the
- * move itself through the plan editor (an organiser's applies, a member's becomes a change set).
+ * dropped on another (or picked through a card's "Move a stop"), the preview of both days
+ * rerouted, and the move itself through the plan editor (an organiser's applies, a member's
+ * becomes a change set). A day tapped here becomes the trip's chosen day and is shown by the day
+ * plan underneath (or in place of this screen), so hops between the views never pile up.
  */
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -17,6 +19,7 @@ import { refusalLine } from '../day-plan/refusal';
 import type { Travel } from '../day-plan/reschedule';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
+import { setChosenDay } from '../trip-map/chosen-day';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { AllDaysView } from './all-days-view';
@@ -79,10 +82,17 @@ export function AllDaysScreen({
         onBack={() =>
           router.canGoBack()
             ? router.back()
-            : router.replace(tripPlanRoutes.day(tripId, from ?? model.days[0]?.dayNo ?? 1))
+            : router.replace(
+                from === null ? tripPlanRoutes.map(tripId) : tripPlanRoutes.day(tripId, from),
+              )
         }
         onShare={() => setSharing(true)}
-        onOpenDay={(dayNo) => router.push(tripPlanRoutes.day(tripId, dayNo))}
+        onOpenDay={(dayNo) => {
+          setChosenDay(tripId, dayNo);
+          // Opened from a day plan: that screen is underneath and shows the day now chosen.
+          if (from !== null && router.canGoBack()) router.back();
+          else router.replace(tripPlanRoutes.day(tripId, dayNo));
+        }}
         onMoveMenu={setMenuDay}
         onRect={drag.setRect}
         onHold={(stop, dayNo) => {
@@ -140,7 +150,9 @@ export function AllDaysScreen({
           onClose={() => setPreview(null)}
         />
       )}
-      {sharing ? <ShareSheet plan={data.plan} onClose={() => setSharing(false)} /> : null}
+      {sharing ? (
+        <ShareSheet plan={data.plan} days={model.days} onClose={() => setSharing(false)} />
+      ) : null}
     </>
   );
 }

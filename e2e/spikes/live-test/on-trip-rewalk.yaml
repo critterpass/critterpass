@@ -1,0 +1,184 @@
+appId: app.critterpass.dev
+---
+# The plan on the day of the trip, walked again in Vietnamese by a fresh account on real staging (a
+# three-day Đà Nẵng trip that starts today, drafted by the guide and locked in alone, the planning
+# screens on for this phone only). The assertions are the behaviour, the frames
+# (`trip-rewalk-<nn>-<what>`) are the proof.
+#   1. Day-of: notes in Vietnamese, how long each stop takes and the travel between them, the next
+#      stop marked, rows that open their stop, the way to the day plan.
+#   2. A stop skipped "just me": dimmed and named on the day plan and on day-of.
+#   3. Today's day plan: the NOW line, GO on the next stop only, the link to day-of.
+#   4. The trip map in Vietnamese: the back arrow, the search pill clear of the list control, days
+#      named by date, the skipped stop standing back in the sheet; all days.
+- runFlow:
+    file: subflows/on-trip-start.yaml
+    env:
+      SHOTS: trip-rewalk-00-setup
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next|trip-hub-today|visit-consent-decline'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+# 1. Day-of.
+- tapOn:
+    id: 'trip-hub-next|trip-hub-today'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: trip-rewalk-01-day-of
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-to-plan'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: trip-rewalk-02-day-of-timeline-and-plan-link
+# A row opens its stop.
+- tapOn:
+    id: 'trip-day-item-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: trip-rewalk-03-stop-opened-from-day-of
+# 2. Skipped, just for her.
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-skip'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-skip'
+- extendedWaitUntil:
+    visible:
+      text: 'Bạn bỏ qua điểm này'
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: trip-rewalk-04-day-plan-skipped-stop
+# 3. Today's day plan.
+- assertVisible:
+    id: 'day-plan-day-of'
+- scrollUntilVisible:
+    element:
+      id: 'stop-now-line'
+    direction: DOWN
+    timeout: 10000
+    optional: true
+- takeScreenshot: trip-rewalk-05-day-plan-today
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: trip-rewalk-06-day-plan-today-lower
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-day-of'
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: 'day-plan-day-of'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      text: 'Bạn bỏ qua điểm này'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: trip-rewalk-07-day-of-skipped-stop
+# 4. The trip map and all days in Vietnamese. Day-of's own back leads to the hub.
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-back'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'trip-day-back'
+- waitForAnimationToEnd:
+    timeout: 4000
+- runFlow: subflows/on-trip-to-hub.yaml
+- takeScreenshot: trip-rewalk-07b-back-on-the-hub
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 30000
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 10000
+- assertVisible:
+    id: 'trip-map-back'
+- assertVisible:
+    id: 'trip-map-list'
+- takeScreenshot: trip-rewalk-08-trip-map-today
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-half'
+    timeout: 10000
+- assertVisible:
+    text: 'Bạn bỏ qua điểm này'
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 4000
+- takeScreenshot: trip-rewalk-09-half-sheet-skipped-stop
+- tapOn:
+    id: 'trip-map-open-day-pill'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- tapOn:
+    id: 'day-plan-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: trip-rewalk-10-all-days
+- tapOn:
+    id: 'all-days-back'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 10000
+- tapOn:
+    id: 'day-plan-back'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map'
+    timeout: 15000
+- takeScreenshot: trip-rewalk-11-trip-link-lands-on-the-trip

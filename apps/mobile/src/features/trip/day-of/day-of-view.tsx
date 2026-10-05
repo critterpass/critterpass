@@ -1,7 +1,9 @@
 /**
  * The day-of screen (3k-2) from props: the pink leave-by hero with the draining ring and who is
  * up, the in-app I'M UP, the pack chips and the day's timeline. A day with no early start shows
- * the day's first item instead of a leave-by. The lab scenes render it with fixed data.
+ * the day's first item instead of a leave-by, and a link under the timeline opens the day plan.
+ * The status bar keeps the hero's pink behind it while the page scrolls. The lab scenes render it
+ * with fixed data.
  */
 import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -60,6 +62,8 @@ export interface DayOfViewProps {
   readonly offline: boolean;
   readonly alarmNote: AlarmNote | null;
   readonly onImUp: () => void;
+  /** Opens the day plan for the day shown (legs, the map, adding and moving stops). */
+  readonly onDayPlan?: (() => void) | undefined;
   /** GO to the next stop: the route from here, then directions in the maps app. */
   readonly onGo?: (() => void) | undefined;
   /** Where GO goes when the screen names no place for it (a flight's airport). */
@@ -82,6 +86,8 @@ const useStyles = makeStyles((th) => ({
     borderBottomStartRadius: th.radius.heroBottom,
     borderBottomEndRadius: th.radius.heroBottom,
   },
+  // The page's own pink under the status bar, so the clock never sits on scrolled content.
+  statusBar: { position: 'absolute', top: 0, start: 0, end: 0, backgroundColor: th.color.pink },
 }));
 
 function Hero(props: DayOfViewProps) {
@@ -265,8 +271,18 @@ export function DayOfView(props: DayOfViewProps) {
             onRemove={props.onRemovePack}
           />
           <DayTimeline entries={props.timeline} />
+          {props.onDayPlan === undefined ? null : (
+            <PillButton
+              label={t({ id: 'trip.dayOf.toDayPlan', message: 'See the day plan' })}
+              variant="secondary"
+              block
+              onPress={props.onDayPlan}
+              testID="trip-day-to-plan"
+            />
+          )}
         </View>
       </ScrollView>
+      <View style={[styles.statusBar, { height: insets.top }]} pointerEvents="none" />
       {props.overlay}
     </Scaffold>
   );
