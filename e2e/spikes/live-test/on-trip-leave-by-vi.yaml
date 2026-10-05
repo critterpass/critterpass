@@ -24,6 +24,22 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
+# The guide's welcome rises on the hub once the trip is on: put it away first.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-later'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow: subflows/on-trip-to-hub.yaml
 - tapOn:
     id: 'trip-hub-next|trip-hub-today'
 - extendedWaitUntil:
