@@ -13,7 +13,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
 
-import { ensurePlaceOnPhone } from '../place-detail/use-place-on-phone';
+import { ensurePlaceOnPhone, onTheWayToast } from '../place-detail/use-place-on-phone';
 import { saveIdeaCommand } from './commands';
 import { matchPlaceRef } from './search-navigation';
 
@@ -38,12 +38,14 @@ export function useAddPlace(input: {
         const href = matchPlaceRef(tripId, destinationId, { poiId: target.poiId }, 'add', dayId);
         if (href !== undefined) router.push(href);
       };
-      void ensurePlaceOnPhone(db, send, tripId, target.poiId).then((ok) => {
-        if (ok) {
-          open();
-          return;
-        }
-        const name = target.name;
+      const name = target.name;
+      const attempt = (): void =>
+        void ensurePlaceOnPhone(db, send, tripId, target.poiId).then((state) => {
+          if (state === 'here') open();
+          else if (state === 'onTheWay') onTheWayToast(name, attempt);
+          else refused();
+        });
+      const refused = () => {
         toast.show({
           id: 'search-add-failed',
           title:
@@ -51,7 +53,8 @@ export function useAddPlace(input: {
               ? t({ id: 'search.add.failedPlace', message: 'Couldn’t add that place. Try again.' })
               : t({ id: 'search.add.failed', message: `Couldn’t add ${name}. Try again.` }),
         });
-      });
+      };
+      attempt();
     },
     [send, db, tripId, destinationId, dayId],
   );

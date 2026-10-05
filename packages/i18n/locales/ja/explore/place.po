@@ -57,6 +57,10 @@ msgstr ""
 msgid "explore.detail.minutes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
 msgstr ""
@@ -278,6 +282,10 @@ msgstr ""
 msgid "explore.detail.why.quiet"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.hoursUnknown"
 msgstr ""
@@ -478,6 +486,10 @@ msgstr ""
 msgid "explore.add.refused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayPlace"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
 msgstr ""
@@ -496,6 +508,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.tryAgain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts

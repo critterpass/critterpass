@@ -57,6 +57,10 @@ msgstr "{minutes} phút từ chỗ ở"
 msgid "explore.detail.minutes"
 msgstr "{n} phút"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWay"
+msgstr "{name} vẫn đang được tải về"
+
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
 msgstr "Đã lưu {name}"
@@ -278,6 +282,10 @@ msgstr "Đây là một trong những nơi {guideName} giữ cho điểm đến 
 msgid "explore.detail.why.quiet"
 msgstr "vắng đến {at} giờ"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayLine"
+msgstr "Đã lưu rồi. Khi tải xong, bạn thêm vào một ngày nhé."
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.hoursUnknown"
 msgstr "chưa rõ giờ mở cửa"
@@ -478,6 +486,10 @@ msgstr "Mất"
 msgid "explore.add.refused"
 msgstr "Chưa thực hiện được"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayPlace"
+msgstr "Chỗ đó vẫn đang được tải về"
+
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
 msgstr "Nhóm sẽ quyết định có đồng ý không."
@@ -497,6 +509,10 @@ msgstr "Chỗ này không còn trong danh sách nữa"
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr "Vé và tour"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.tryAgain"
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.undo"

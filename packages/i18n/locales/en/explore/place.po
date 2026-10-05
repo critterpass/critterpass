@@ -57,6 +57,10 @@ msgstr "{minutes} min from your stay"
 msgid "explore.detail.minutes"
 msgstr "{n} min"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWay"
+msgstr "{name} is still on its way"
+
 #: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
 msgid "explore.save.toast"
 msgstr "{name} saved"
@@ -278,6 +282,10 @@ msgstr "It's one of the places {guideName} keeps for this destination."
 msgid "explore.detail.why.quiet"
 msgstr "it's quiet until {at}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayLine"
+msgstr "It’s saved. Add it to a day once it arrives."
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.hoursUnknown"
 msgstr "its hours aren't known"
@@ -478,6 +486,10 @@ msgstr "Takes"
 msgid "explore.add.refused"
 msgstr "That didn't go through"
 
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.onTheWayPlace"
+msgstr "That place is still on its way"
+
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
 msgstr "The crew gets to okay it."
@@ -497,6 +509,10 @@ msgstr "This place isn't listed any more"
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr "Tickets and tours"
+
+#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
+msgid "explore.add.tryAgain"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/explore/place-detail/use-idea-save.ts
 msgid "explore.detail.undo"

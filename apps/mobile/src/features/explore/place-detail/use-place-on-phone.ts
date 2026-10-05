@@ -39,14 +39,22 @@ export function placeHeld(db: Reader, tripId: string, placeId: string): Promise<
   );
 }
 
-/** Waits for a saved place to land on the phone; gives up after a few seconds and goes on. */
-export async function untilPlaceHeld(db: Reader, tripId: string, placeId: string): Promise<void> {
+/** Waits a few seconds for a saved place to land on the phone; false when it has not. */
+export async function untilPlaceHeld(
+  db: Reader,
+  tripId: string,
+  placeId: string,
+): Promise<boolean> {
   const deadline = Date.now() + WAIT_MS;
   while (Date.now() < deadline) {
-    if (await placeHeld(db, tripId, placeId)) return;
+    if (await placeHeld(db, tripId, placeId)) return true;
     await new Promise((resolve) => setTimeout(resolve, POLL_MS));
   }
+  return placeHeld(db, tripId, placeId);
 }
+
+/** How getting a place onto the phone went: here, refused, or saved but not arrived yet. */
+export type OnPhone = 'here' | 'refused' | 'onTheWay';
 
 type SaveIdea = (payload: {
   idea_id: string;
@@ -57,15 +65,19 @@ type SaveIdea = (payload: {
 
 /**
  * Makes sure the phone holds the place before Add to plan opens: held already, or saved to Ideas
- * for the sheet's sake (taken back out if she then backs out). False when the save was refused.
+ * for the sheet's sake (taken back out if she then backs out). Never opens the sheet on a place
+ * that has not arrived: then the answer is `onTheWay`, and asking again only waits again.
  */
 export async function ensurePlaceOnPhone(
   db: Parameters<typeof holdProvisionalIdea>[0] & Reader,
   send: SaveIdea,
   tripId: string,
   placeId: string,
-): Promise<boolean> {
-  if (await placeHeld(db, tripId, placeId)) return true;
+): Promise<OnPhone> {
+  if (await placeHeld(db, tripId, placeId)) return 'here';
+  if (pending.has(`${tripId}:${placeId}`)) {
+    return (await untilPlaceHeld(db, tripId, placeId)) ? 'here' : 'onTheWay';
+  }
   const ideaId = generateUuidV7();
   const result = await send({
     idea_id: ideaId,
@@ -73,10 +85,29 @@ export async function ensurePlaceOnPhone(
     poi_id: placeId,
     source: 'search',
   });
-  if (result.kind === 'rejected' || result.kind === 'unavailable') return false;
+  if (result.kind === 'rejected' || result.kind === 'unavailable') return 'refused';
   holdProvisionalIdea(db, ideaId, placeId);
-  await untilPlaceHeld(db, tripId, placeId);
-  return true;
+  pending.add(`${tripId}:${placeId}`);
+  return (await untilPlaceHeld(db, tripId, placeId)) ? 'here' : 'onTheWay';
+}
+
+/** Places saved for the sheet that had not arrived when last asked, by trip and place. */
+const pending = new Set<string>();
+
+/** The toast for a place saved but not on the phone yet, with a way to ask again. */
+export function onTheWayToast(name: string, retry: () => void) {
+  toast.show({
+    id: 'place-on-the-way',
+    title:
+      name === ''
+        ? t({ id: 'explore.add.onTheWayPlace', message: 'That place is still on its way' })
+        : t({ id: 'explore.add.onTheWay', message: `${name} is still on its way` }),
+    subtitle: t({
+      id: 'explore.add.onTheWayLine',
+      message: 'It’s saved. Add it to a day once it arrives.',
+    }),
+    action: { label: t({ id: 'explore.add.tryAgain', message: 'Try again' }), onPress: retry },
+  });
 }
 
 /** Runs `then` once the phone holds the place (at once when it already does). */
@@ -93,11 +124,13 @@ export function usePlaceOnPhone(
         then();
         return;
       }
-      void ensurePlaceOnPhone(db, send, tripId, placeId).then((ok) => {
-        if (ok) {
-          then();
-          return;
-        }
+      const attempt = () =>
+        void ensurePlaceOnPhone(db, send, tripId, placeId).then((state) => {
+          if (state === 'here') then();
+          else if (state === 'onTheWay') onTheWayToast(name, attempt);
+          else refused();
+        });
+      const refused = () => {
         toast.show({
           id: 'place-add-failed',
           title: t({
@@ -105,7 +138,8 @@ export function usePlaceOnPhone(
             message: `Couldn’t add ${name}. Try again.`,
           }),
         });
-      });
+      };
+      attempt();
     },
     [send, db, tripId, placeId, name],
   );
