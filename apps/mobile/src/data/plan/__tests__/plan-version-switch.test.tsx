@@ -79,6 +79,8 @@ describe('a new plan version', () => {
     await s.db.execute('UPDATE trips SET current_version_id = ? WHERE id = ?', [V2, TRIP]);
     await waitFor(() => expect(result.current.dayRows[0]?.theme).toBe('After'));
     const during = seen.slice(from);
+    // It settles: no render loop while it holds or after.
+    expect(seen.length).toBeLessThan(40);
     expect(during.every((render) => render.loaded)).toBe(true);
     expect(during.every((render) => render.theme === 'Before' || render.theme === 'After')).toBe(
       true,
