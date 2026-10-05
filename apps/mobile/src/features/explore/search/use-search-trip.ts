@@ -43,6 +43,8 @@ export interface SearchTrip {
   readonly planDays: ReadonlyMap<string, string>;
   /** The plan holds a stay: "near the stay" has somewhere to measure from. */
   readonly hasStay: boolean;
+  /** The day the search was opened for: fit lines name it when the place fits it. */
+  readonly focusDayId?: string | null;
 }
 
 function guideOf(slug: string | null | undefined): GuideId {

@@ -10,6 +10,8 @@
 import { hoursSchema, shownName, WEEKDAYS, type Hours } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
+import { editorialFor } from '@/data/places/editorial-note';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 import { matchPlaces } from '@/data/places/match-places';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
@@ -90,8 +92,12 @@ function hoursOf(value: string | null): Hours | null {
   return parsed.success ? parsed.data : null;
 }
 
-function blurbOf(local: LocalPlace | undefined, address: string | null): string | null {
-  const why = parseJson<{ why_go?: unknown }>(local?.editorial, {}).why_go;
+function blurbOf(
+  local: LocalPlace | undefined,
+  address: string | null,
+  locale: string,
+): string | null {
+  const why = editorialFor(local?.editorial, locale)?.['why_go'];
   return typeof why === 'string' && why !== '' ? why : address;
 }
 
@@ -127,6 +133,7 @@ export function useMustDoSearch(options: {
   readonly readsLocal?: boolean;
 }): SearchState {
   const { db } = useLocalFirst();
+  const locale = useActiveLocale();
   const { services, destinationId } = options;
   const readsLocal = options.readsLocal === true;
   const query = options.query.trim();
@@ -173,7 +180,7 @@ export function useMustDoSearch(options: {
           return {
             id: place.id,
             name: shownName(place, readsLocal),
-            blurb: blurbOf(known, place.address),
+            blurb: blurbOf(known, place.address, locale),
             pill: pillFor(place.tags, hoursOf(known?.hours ?? null), dates),
           };
         });
@@ -187,7 +194,7 @@ export function useMustDoSearch(options: {
       live = false;
       clearTimeout(timer);
     };
-  }, [db, services, destinationId, query, dateKey, key, readsLocal]);
+  }, [db, services, destinationId, query, dateKey, key, readsLocal, locale]);
   if (query === '') return { kind: 'idle' };
   if (found?.key === key) return found.state;
   // While the next keystroke's results load, keep the last ones on screen.

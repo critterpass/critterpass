@@ -20,6 +20,8 @@ import {
   type PendingAct,
 } from '../../briefing/briefing-model';
 import type { LeaveByRow } from '../../leave-by/model';
+import { shownStop, useReadsLocalNames } from '@/data/places/use-shown-names';
+
 import type { LedgerRow } from '../hub-model';
 import { useLiveRows } from './live-rows';
 import { firstNotDone } from './next-done';
@@ -46,7 +48,7 @@ const FLIGHTS_SQL = `SELECT id, title, starts_at, ends_at FROM bookings
     AND (owner_id = ? OR traveller_ids LIKE '%' || ? || '%')
   ORDER BY starts_at`;
 const NEXT_ITEM_SQL = `SELECT i.stable_id, i.starts_at, i.tz, i.notes, i.category, p.name AS poi_name,
-    d.date AS day_date
+    p.name_local AS poi_name_local, d.date AS day_date
   FROM plan_items i JOIN plan_days d ON d.id = i.day_id LEFT JOIN pois p ON p.id = i.poi_id
   WHERE i.version_id = ? AND julianday(i.starts_at) > julianday(?)
   ORDER BY i.starts_at LIMIT 12`;
@@ -142,6 +144,7 @@ export function useHubRows(
     version === null ? null : [version, minuteIso],
     ['plan_items', 'plan_days', 'pois'],
   );
+  const readsLocal = useReadsLocalNames(trip.rows[0]?.destination_id ?? null);
   const leaveBy = useLiveRows<NonNullable<HubRows['leaveBy']>>(
     TODAY_LEAVE_BY_SQL,
     [tripId, today],
@@ -187,7 +190,7 @@ export function useHubRows(
       bookings: bookings.rows[0]?.n ?? 0,
       ledger: ledger.rows,
       flights: flights.rows,
-      next: firstNotDone(next.rows, said),
+      next: shownNext(firstNotDone(next.rows, said), readsLocal),
       leaveBy: leaveBy.rows[0] ?? null,
       briefingRead,
       briefing: briefingRow,
@@ -207,6 +210,7 @@ export function useHubRows(
       flights.rows,
       next.rows,
       said,
+      readsLocal,
       leaveBy.rows,
       briefingRead,
       briefingRow,
@@ -215,4 +219,12 @@ export function useHubRows(
       activity.rows,
     ],
   );
+}
+
+/** The next stop named by the shared rule (the reader's language where it is the destination's). */
+function shownNext<T extends { poi_name: string | null; poi_name_local?: string | null }>(
+  row: T | null,
+  readsLocal: boolean,
+): T | null {
+  return row === null ? null : { ...row, poi_name: shownStop(row, readsLocal) };
 }

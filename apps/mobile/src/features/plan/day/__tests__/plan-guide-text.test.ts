@@ -158,6 +158,9 @@ describe('the overview', () => {
     );
     expect(toPlanItems([placed], 'en', places)[0]?.label).toBe('Mì Quảng Bà Mua');
     expect(toPlanItems([placed], 'en')[0]?.label).toBe('Catalogue name');
+    // A place named in two languages is named by the shared rule, ahead of the plan's record.
+    const both = { ...placed, poi_name: 'Valley of Love', poi_name_local: 'Thung lũng Tình Yêu' };
+    expect(toPlanItems([both], 'en', places)[0]?.label).toBe('Valley of Love');
     expect(toPlanItems([{ ...row, booking_title: 'Ba Na Hills tickets' }], 'en')[0]?.label).toBe(
       'Ba Na Hills tickets',
     );

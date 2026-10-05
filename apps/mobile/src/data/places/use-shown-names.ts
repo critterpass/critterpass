@@ -6,11 +6,11 @@
  * the set of the country its slug starts with (`vn-da-lat` → VN), as the api reads them.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { readsLocalNames, shownPlaceName, type NamedPlace } from '@cp/domain';
-import { useLingui } from '@lingui/react';
+import { readsLocalNames, shownName, shownPlaceName, type NamedPlace } from '@cp/domain';
 import { useCallback, useMemo } from 'react';
 
 import { useLiveRows } from '@/data/plan/live-rows';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 const LANGUAGES_SQL = `SELECT s.languages FROM critter_sets s JOIN destinations d ON d.id = ?
   WHERE s.destination_id = d.id
@@ -47,13 +47,13 @@ export interface PlaceNamer {
 
 /** Whether this reader sees a destination's places under their local names. */
 export function useReadsLocalNames(destinationId: string | null | undefined): boolean {
-  const { i18n } = useLingui();
+  const locale = useActiveLocale();
   const rows = useLiveRows<{ languages: string | null }>(
     LANGUAGES_SQL,
     destinationId === null || destinationId === undefined ? null : [destinationId],
     LANGUAGES_TABLES,
   ).rows;
-  return readsLocalNames(i18n.locale, languageList(rows[0]?.languages));
+  return readsLocalNames(locale, languageList(rows[0]?.languages));
 }
 
 export function usePlaceNamer(destinationId: string | null | undefined): PlaceNamer {
@@ -67,4 +67,13 @@ export function usePlaceNamer(destinationId: string | null | undefined): PlaceNa
     [readsLocal],
   );
   return useMemo(() => ({ readsLocal, name, other }), [readsLocal, name, other]);
+}
+
+/** A plan stop's place name, from a row carrying `poi_name` and `poi_name_local`; null without one. */
+export function shownStop(
+  row: { readonly poi_name: string | null; readonly poi_name_local?: string | null },
+  readsLocal: boolean,
+): string | null {
+  if (row.poi_name === null || row.poi_name.trim() === '') return null;
+  return shownName({ name: row.poi_name, nameLocal: row.poi_name_local ?? null }, readsLocal);
 }

@@ -77,7 +77,7 @@ export interface PlanDayRow {
 export const ITEMS_SQL = `SELECT pi.id, pi.stable_id, d.day_no, pi.starts_at, pi.ends_at, pi.tz,
     pi.lane, pi.attendee_ids, pi.poi_id, pi.booking_id, pi.must_do_id, pi.category, pi.cost_model,
     pi.amount_minor, pi.currency, pi.status, pi.is_outdoor, pi.created_by_kind, pi.notes,
-    pi.locked_reason, pi.i18n, p.name AS poi_name, p.lat, p.lng, p.lat AS poi_lat,
+    pi.locked_reason, pi.i18n, p.name AS poi_name, p.name_local AS poi_name_local, p.lat, p.lng, p.lat AS poi_lat,
     p.lng AS poi_lng, b.title AS booking_title
   FROM plan_items pi
   JOIN plan_days d ON d.id = pi.day_id
@@ -110,6 +110,7 @@ export interface PlanItemRow {
   readonly locked_reason: string | null;
   readonly i18n?: string | null;
   readonly poi_name: string | null;
+  readonly poi_name_local?: string | null;
   readonly poi_lat: number | null;
   readonly poi_lng: number | null;
   readonly lat: number | null;

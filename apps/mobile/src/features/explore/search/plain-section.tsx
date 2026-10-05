@@ -9,6 +9,8 @@ import { View } from 'react-native';
 import { shownName } from '@cp/domain';
 
 import { fitLine } from '@/data/fit/fit-line';
+
+import { fitForDay } from './trip-day';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useTheme } from '@/ui';
@@ -51,7 +53,7 @@ export function plainRows(
 ): PlainRow[] {
   const weekdays = new Map(trip.days.map((day) => [day.dayNo, day.weekday ?? String(day.dayNo)]));
   return places.map((place) => {
-    const line = fitLine(place.fit, {
+    const line = fitLine(fitForDay(place.fit, trip.focusDayId), {
       weekdays,
       tz: trip.tz,
       stopName: (stableId) => trip.itemTitles.get(stableId) ?? null,
