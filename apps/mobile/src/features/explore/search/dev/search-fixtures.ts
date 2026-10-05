@@ -52,6 +52,7 @@ export function labSearchTrip(): SearchTrip {
     itemTitles: new Map([[LAB_TRIP.locavore, 'Locavore']]),
     placeNames: new Map(),
     planDays: new Map(),
+    hasStay: true,
   };
 }
 

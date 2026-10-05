@@ -263,6 +263,16 @@ appId: app.critterpass.dev
     optional: true
 - hideKeyboard
 - takeScreenshot: search-places-15-name-finds-nothing
+# A warung's name nobody has: the words say so first; places to eat follow under their own heading.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Zzyqx Warung Qqq'
+- extendedWaitUntil:
+    visible:
+      id: 'search-name-none'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15b-named-warung-not-found
 # An address from a friend's message.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'Jalan Hanoman 10 Ubud'

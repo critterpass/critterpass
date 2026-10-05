@@ -81,6 +81,20 @@ describe('one row per place in a search answer', () => {
     expect(onePerPlace([temple, far], 'Bali')).toEqual([temple, far]);
   });
 
+  it('keeps a second branch of a recommended business, and a business named after a sight', () => {
+    const spa = { ...at('Jari Menari', 'health', -8.685, 115.168), recommended: true };
+    const branch = { ...at('Jari Menari', 'health', -8.79, 115.215), recommended: false };
+    const unfiled = { ...at('Jari Menari', 'other', -8.5, 115.3), recommended: false };
+    expect(onePerPlace([spa, branch, unfiled], 'Bali')).toEqual([spa, branch, unfiled]);
+    const temple = {
+      ...at('Tanah Lot Temple', 'temple_shrine', -8.6212, 115.0868),
+      recommended: true,
+    };
+    const warung = { ...at('Tanah Lot', 'food', -8.2, 115.6), recommended: false };
+    const rooms = { ...at('Tanah Lot', 'stay', -8.4, 115.3), recommended: false };
+    expect(onePerPlace([temple, warung, rooms], 'Bali')).toEqual([temple, warung, rooms]);
+  });
+
   it('keeps neighbours with different names', () => {
     const a = at('Tanah Lot Sunset Terrace', 'food', -8.6212, 115.0868);
     const b = at('Tanah Lot Art Market', 'market', -8.6213, 115.0869);
