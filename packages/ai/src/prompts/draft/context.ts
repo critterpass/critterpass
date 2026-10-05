@@ -17,6 +17,7 @@ import {
   type TravelMatrix,
   type TripFrame,
   type WishTime,
+  type RoutedPairs,
 } from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
@@ -70,6 +71,8 @@ export interface DraftPlanInput {
   readonly tastes: Readonly<Record<string, number>>;
   readonly bands: CostBands | null;
   readonly travel: TravelMatrix;
+  /** Minutes the routing service already gave between places (the planner's `RoutedPairs`). */
+  readonly routed?: RoutedPairs;
   /** The stay type setup chose (`ryokan`), when there is one. */
   readonly stayType: string | null;
   /** Members' first names by uid (as the trip context shows them). */

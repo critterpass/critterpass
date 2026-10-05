@@ -8,7 +8,7 @@ import type { DraftDay } from '@cp/domain';
 import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@cp/planner';
 
 import { parseStructuredText, textOf } from '../../structured';
-import { homeOf, hopCap } from './areas';
+import { homeOf, hopCap, dayOutOf } from './areas';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
 import { withoutHedge } from './hedge';
 import { heldChoices } from './held';
@@ -140,6 +140,7 @@ export function scheduleChoices(
     mealPlaces: input.pools.eateries,
     homeId: homeOf(input),
     tz: input.frame.tz,
+    dayOut: dayOutOf(input, day.dayNo),
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({
@@ -155,6 +156,7 @@ export function scheduleChoices(
     tz: input.frame.tz,
     homeId: homeOf(input),
     hopCapMin: hopCap(input),
+    dayOut: dayOutOf(input, day.dayNo),
     idFor: (choice, index) =>
       input.idFor(`${day.dayNo}:${attempt}:${order[index] ?? index}:${choice.poiId}`),
   });

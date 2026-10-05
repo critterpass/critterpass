@@ -103,7 +103,7 @@ export {
   type PlaceTime,
   type PlaceWindow,
 } from './place-time';
-export { straightLineMatrix } from './travel';
+export { estimatedMinutes, routedPairKey, straightLineMatrix, type RoutedPairs } from './travel';
 export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
 export { homeBase, nearHome } from './home';
 export { planOutings, type Outing } from './outings';

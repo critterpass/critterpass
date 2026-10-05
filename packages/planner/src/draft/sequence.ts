@@ -42,6 +42,8 @@ export interface SequenceInput {
   readonly tz?: string;
   /** Meal places that suit the crew: with none near the day, its dinner is a ride home (./hops). */
   readonly mealPlaces?: readonly DraftPoi[];
+  /** The places of the day out this day is planned for (./outings): their rides are its purpose. */
+  readonly dayOut?: ReadonlySet<string>;
 }
 
 interface Timeline {
@@ -64,6 +66,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let broken = 0;
   let idle = 0;
   let late = 0;
+  let mealsBefore = 0;
   let sights = 0;
   let notFirst = 0;
   const meals = new Set<string>();
@@ -99,7 +102,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       const from =
         choice.mealSlot === 'dinner'
           ? DINNER.startMin
-          : mealSlotAt(start, meals.has('lunch')).startMin;
+          : mealSlotAt(start, meals.has('lunch'), input.dayOut?.has(previous ?? '') === true)
+              .startMin;
       start = Math.max(start, from);
     }
     const opener = held === null && choice.kind !== 'meal' && opensDay(poi, input);
@@ -112,9 +116,10 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     const breakfast =
       choice.kind === 'meal' && (choice.when === 'morning' || choice.when === 'sunrise');
     if (breakfast && previous !== null) broken += 1;
-    // A stop that opens the day comes before every other sight of it.
-    if (opener && sights > 0) notFirst += 1;
+    // A stop that opens the day comes before every other sight of it, and before lunch.
+    if (opener && (sights > 0 || mealsBefore > 0)) notFirst += 1;
     if (held === null && choice.kind !== 'meal') sights += 1;
+    if (choice.kind === 'meal' && !breakfast) mealsBefore += 1;
     const own = held !== null || choice.kind === 'meal' ? null : placeWindow(poi, input.date);
     if (own !== null) start = Math.max(start, own.fromMin);
     const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
@@ -172,6 +177,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
       rideHome ? dinnerAt : undefined,
       input.homeId,
       (index) => order[index]?.kind !== 'meal',
+      (index) => input.dayOut?.has(order[index]?.poiId ?? '') === true,
     ).length;
   }
   const detours = mealDetours(order, input.travel, dinnerAt).length;
