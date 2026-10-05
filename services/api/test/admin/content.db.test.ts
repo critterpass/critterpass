@@ -222,6 +222,25 @@ describe('content batch commands', () => {
     expect(after.rows[0]).toEqual({ status: 'approved', checksum: before.rows[0]!.checksum });
   });
 
+  it('holds a second approval of a kind while the first still waits to publish', async () => {
+    // The batch approved above has not published: a second batch of forms would be laid over a
+    // live release that is about to change, and would undo the first when it published.
+    const second = await insertRelease(4, 'review', [{ ...legendary, note: 'Later wording.' }]);
+    const held = await app.command(owner, 'approve_content_batch', { batch_id: second });
+    expect(held.status).toBe(409);
+    expect(await held.json()).toMatchObject({
+      error: { code: 'STATE_INVALID', detail: { reason: 'release_pending', version: 2 } },
+    });
+    const { rows } = await harness.pool.query<{ status: string }>(
+      'SELECT status FROM content_releases WHERE id = $1',
+      [second],
+    );
+    expect(rows[0]?.status).toBe('review');
+    await harness.pool.query("UPDATE content_releases SET status = 'rejected' WHERE id = $1", [
+      second,
+    ]);
+  });
+
   it('rejects a batch with notes and rolls a kind back to a superseded release', async () => {
     const third = await insertRelease(3, 'review', [rare]);
     const reject = await app.command(content, 'reject_content_batch', {

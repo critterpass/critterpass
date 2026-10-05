@@ -42,9 +42,11 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
     version: number;
     status: string;
     artifact: unknown;
-  }>('SELECT kind, version, status, artifact FROM content_releases WHERE id = $1 FOR UPDATE', [
-    releaseId,
-  ]);
+    approved_at: Date | null;
+  }>(
+    'SELECT kind, version, status, artifact, approved_at FROM content_releases WHERE id = $1 FOR UPDATE',
+    [releaseId],
+  );
   const row = rows[0];
   if (row === undefined) throw new PublishRefusedError(`release ${releaseId} does not exist`);
   if (row.status !== 'approved') {
@@ -52,6 +54,7 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
       `release ${row.kind} v${row.version} is ${row.status}, not approved`,
     );
   }
+  await refuseStale(tx, releaseId, row.kind, row.version, row.approved_at);
   const release = loadRelease(row.artifact, row.kind);
   if (release.version !== row.version) {
     throw new PublishRefusedError(
@@ -99,6 +102,34 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
     ...(destinations === undefined ? {} : { destinations }),
     ...(follows === undefined ? {} : { follows }),
   };
+}
+
+/**
+ * A release is the live one with its batch laid over it, as it was when the release was
+ * approved. When another release of the kind has gone live since, publishing this one would write
+ * the older catalogue back over it and lose the newer release's changes, so it is refused: it is
+ * marked blocked as stale, and its batch has to be approved again on top of what is live now. A
+ * rollback re-approves an old release on purpose and stamps it approved again, so it passes.
+ */
+async function refuseStale(
+  tx: pg.PoolClient,
+  releaseId: string,
+  kind: ContentKind,
+  version: number,
+  approvedAt: Date | null,
+): Promise<void> {
+  if (approvedAt === null) return;
+  const { rows } = await tx.query<{ version: number }>(
+    `SELECT version FROM content_releases
+      WHERE kind = $1 AND id <> $2 AND published_at > $3
+      ORDER BY published_at DESC LIMIT 1`,
+    [kind, releaseId, approvedAt],
+  );
+  const newer = rows[0];
+  if (newer === undefined) return;
+  throw new PublishRefusedError(
+    `stale: ${kind} v${String(newer.version)} went live after v${String(version)} was approved, and publishing v${String(version)} would write over it; approve its batch again as a new batch`,
+  );
 }
 
 const EMBEDDED_KINDS: ReadonlySet<ContentKind> = new Set(['help', 'insurance']);
