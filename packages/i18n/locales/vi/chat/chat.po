@@ -56,9 +56,23 @@ msgstr "{first} và {second} đang nhắn"
 msgid "chat.typing.one"
 msgstr "{first} đang nhắn"
 
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditAdded"
+msgstr "{name} đã thêm {0}"
+
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpOut"
 msgstr "{name} không đi được"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEdited"
+msgstr "{name} đã đổi kế hoạch"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditRemoved"
+msgstr "{name} đã bỏ {0}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpMaybe"
@@ -87,6 +101,11 @@ msgstr "{name} đã rời nhóm"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripLocked"
 msgstr "{name} đã chốt chuyến đi"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditMoved"
+msgstr "{name} đã dời {0}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.renamed"

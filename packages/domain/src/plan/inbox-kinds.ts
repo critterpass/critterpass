@@ -2,8 +2,9 @@
  * The plan change's inbox kinds. A change put to the crew's vote needs everyone who can vote and
  * has not (not its author), until they vote or the vote closes. When the vote closes, everyone it
  * touched reads what was decided in plain words: the change went in, the plan stays as it was, or
- * the vote ran out. Rows carry ids and a short summary (what, which day, what time); the app
- * words them.
+ * the vote ran out. An organiser's own edit to a locked plan needs no vote, so everyone else
+ * going reads it the same way, and crew chat gets a line naming who changed what. Rows carry ids
+ * and a short summary (what, which day, what time); the app words them.
  */
 import { registerInboxKind, type InboxKindSpec } from '../inbox/registry';
 import { pollVoteResolveKey } from '../polls/inbox-kinds';
@@ -13,6 +14,7 @@ export const PLAN_CHANGE_INBOX_KIND = {
   applied: 'plan_change.applied',
   kept: 'plan_change.kept',
   ranOut: 'plan_change.ran_out',
+  edited: 'plan_change.edited',
 } as const;
 
 /** The crew chat's system line for each way a vote on a plan change ends. */
@@ -22,6 +24,12 @@ export const PLAN_CHANGE_CHAT_LINE = {
   changed: 'plan_changed',
   kept: 'plan_kept',
   ranOut: 'plan_vote_ran_out',
+  /** An organiser's edit to the locked plan; the line's member is the organiser. */
+  editAdded: 'plan_edit_added',
+  editMoved: 'plan_edit_moved',
+  editRemoved: 'plan_edit_removed',
+  /** Several changes at once, or one with no name to show. */
+  edited: 'plan_edited',
 } as const;
 
 /** What a plan change is, short enough for an inbox row and a chat line. */
@@ -89,6 +97,12 @@ export const PLAN_CHANGE_INBOX_KINDS: readonly InboxKindSpec[] = [
   {
     kind: PLAN_CHANGE_INBOX_KIND.ranOut,
     event: 'change_set.expired',
+    source: 'crew',
+    needsYou: false,
+  },
+  {
+    kind: PLAN_CHANGE_INBOX_KIND.edited,
+    event: 'plan.ops_applied',
     source: 'crew',
     needsYou: false,
   },

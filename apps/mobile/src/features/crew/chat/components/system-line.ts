@@ -1,7 +1,7 @@
 /**
  * Copy for `system` rows, by the member's first name: joins, departures and renames, each member's
  * own answer to a proposal, the lock (by the organiser, or by itself at reply-by), and how a vote
- * on a plan change ended, naming what changed.
+ * on a plan change ended, naming what changed, and an organiser's own edit to the locked plan.
  */
 import { parsePlanChangeLineBody, PLAN_CHANGE_CHAT_LINE } from '@cp/domain';
 import { format } from '@cp/i18n';
@@ -84,6 +84,23 @@ export function systemLine(
       return body === ''
         ? t({ id: 'chat.system.ideaSavedPlain', message: `${name} saved a place to Ideas` })
         : t({ id: 'chat.system.ideaSaved', message: `${name} saved ${body} to Ideas` });
+    case PLAN_CHANGE_CHAT_LINE.editAdded:
+      return t({
+        id: 'chat.system.planEditAdded',
+        message: `${name} added ${planChange(body, locale)}`,
+      });
+    case PLAN_CHANGE_CHAT_LINE.editMoved:
+      return t({
+        id: 'chat.system.planEditMoved',
+        message: `${name} moved ${planChange(body, locale)}`,
+      });
+    case PLAN_CHANGE_CHAT_LINE.editRemoved:
+      return t({
+        id: 'chat.system.planEditRemoved',
+        message: `${name} dropped ${planChange(body, locale)}`,
+      });
+    case PLAN_CHANGE_CHAT_LINE.edited:
+      return t({ id: 'chat.system.planEdited', message: `${name} changed the plan` });
     case PLAN_CHANGE_CHAT_LINE.ranOut:
       return t({
         id: 'chat.system.planVoteRanOut',

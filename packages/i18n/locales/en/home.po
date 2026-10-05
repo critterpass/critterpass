@@ -26,6 +26,10 @@ msgid "home.inbox.ideasPlaced.title"
 msgstr "{count, plural, one {{guide} found a spot for # idea} other {{guide} found a spot for # ideas}}"
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMany"
+msgstr "{count, plural, one {{name} made # change to the plan} other {{name} made # changes to the plan}}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.askedMany"
 msgstr "{count, plural, one {{name} wants # change to the plan} other {{name} wants # changes to the plan}}"
 
@@ -81,9 +85,21 @@ msgstr "{guide}: {tip}"
 msgid "home.inbox.caughtUp.tokek"
 msgstr "{guideName}, asleep"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedAdd"
+msgstr "{name} added {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedRemove"
+msgstr "{name} dropped {change}"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr "{name} joined {crew}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMove"
+msgstr "{name} moved {change}"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.title"

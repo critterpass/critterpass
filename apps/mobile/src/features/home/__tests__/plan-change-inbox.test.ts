@@ -66,4 +66,14 @@ describe('a plan change in the inbox', () => {
       line('plan_change.applied', { op: 'move', title: '', count: 2, outcome: 'applied' }),
     ).toBe('The crew said yes. The plan changed.');
   });
+
+  it("names the organiser's own edit to the locked plan", () => {
+    expect(line('plan_change.edited', BA_NA)).toBe('Minh added Bà Nà Hills, Wed, Oct 21, 07:00');
+    expect(line('plan_change.edited', { ...BA_NA, op: 'move' })).toBe(
+      'Minh moved Bà Nà Hills, Wed, Oct 21, 07:00',
+    );
+    expect(line('plan_change.edited', { ...BA_NA, count: 2 })).toBe(
+      'Minh made 2 changes to the plan',
+    );
+  });
 });

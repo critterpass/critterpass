@@ -56,9 +56,23 @@ msgstr "{first} and {second} are typing"
 msgid "chat.typing.one"
 msgstr "{first} is typing"
 
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditAdded"
+msgstr "{name} added {0}"
+
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpOut"
 msgstr "{name} can't make it"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEdited"
+msgstr "{name} changed the plan"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditRemoved"
+msgstr "{name} dropped {0}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpMaybe"
@@ -87,6 +101,11 @@ msgstr "{name} left the crew"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripLocked"
 msgstr "{name} locked the trip in"
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditMoved"
+msgstr "{name} moved {0}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.renamed"

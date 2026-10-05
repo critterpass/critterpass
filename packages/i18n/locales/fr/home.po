@@ -26,6 +26,10 @@ msgid "home.inbox.ideasPlaced.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.askedMany"
 msgstr ""
 
@@ -81,8 +85,20 @@ msgstr ""
 msgid "home.inbox.caughtUp.tokek"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedRemove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
