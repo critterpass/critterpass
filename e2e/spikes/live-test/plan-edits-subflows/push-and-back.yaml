@@ -65,23 +65,26 @@ appId: app.critterpass.dev
       id: 'plan-add-why'
     timeout: 20000
     optional: true
-# The morning, so the add pushes the day: nine o'clock sits on a stop, so the sheet offers the
-# first start that works instead, and taking it pushes the stops after it.
+# Three hours earlier with the steppers (no picker: its pills move as it opens), which sits the
+# block on a stop; the sheet then offers the first start that works, and taking it pushes the
+# stops after it.
 - tapOn:
     id: 'plan-add-time'
-    optional: true
+- repeat:
+    times: 12
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+          optional: true
+# Close the time field so nothing moves under the next tap.
 - tapOn:
-    id: 'plan-time-start-pick'
-    optional: true
-- tapOn:
-    id: 'plan-time-start-hour-9'
-    optional: true
+    id: 'plan-add-time'
 - waitForAnimationToEnd:
     timeout: 3000
-- scrollUntilVisible:
-    element:
+- takeScreenshot: ${SHOTS}-02a-add-sheet-time-taken
+- extendedWaitUntil:
+    visible:
       id: 'plan-add-use-start'
-    direction: DOWN
     timeout: 8000
     optional: true
 - tapOn:
