@@ -389,20 +389,20 @@ msgstr "Sẽ gửi khi có mạng"
 msgid "plan.day.proposedToast"
 msgstr "Đã gửi cho cả nhóm"
 
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skip"
-msgstr "Bỏ qua, chỉ mình tôi"
-
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skip"
 msgstr "Bỏ qua, chỉ mình tôi"
 
 #: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skipSolo"
-msgstr "Bỏ qua điểm này"
+msgid "plan.day.stop.skip"
+msgstr "Bỏ qua, chỉ mình tôi"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skipSolo"
+msgstr "Bỏ qua điểm này"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skipSolo"
 msgstr "Bỏ qua điểm này"
 
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
