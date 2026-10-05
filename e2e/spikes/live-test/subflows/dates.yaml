@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# The set-up's When step in either language: three days, two weeks from today in Vietnam, picked
+# by date on the week picker and locked. The frame before the lock shows which days were picked.
+- evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- runFlow:
+    file: ../../../happy/subflows/pick-days.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+      PICK_DAYS: 3
+- waitForAnimationToEnd
+- takeScreenshot: collaboration-00-setup-dates-today
+- tapOn:
+    id: 'picker-lock'

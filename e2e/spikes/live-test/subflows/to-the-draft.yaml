@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# From Home, the organiser's way back to her unsent draft. ${SHOT} prefixes the frames.
+# Back to the draft the way Home offers it: Home's own button for her turn first. Failing that,
+# the hub's big button and REVIEW on the map's note, the way it was.
+- tapOn:
+    id: 'home-turn-button'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}-home-button-lands
+- runFlow:
+    when:
+      notVisible:
+        id: 'draft-review'
+    commands:
+      - runFlow: home.yaml
+      - tapOn:
+          id: 'tab-trips'
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - tapOn:
+          id: 'trip-hub-planning-cta'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: ${SHOT}-hub-button-lands
+      - tapOn:
+          text: '(?i)review|xem lại'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000

@@ -1,7 +1,9 @@
 appId: app.critterpass.dev
 ---
-# What a returning person checks without being told: the inbox behind the bell, then the crew chat.
-# From Home, and back on Home at the end. ${SHOT} prefixes the frames (…-inbox, …-chat).
+# What a returning person checks without being told: the inbox behind the bell, the crew chat, the
+# trip hub, where Home's own button for their turn leads, and the phone's notifications. From Home,
+# and back on Home at the end. ${SHOT} prefixes the frames (…-inbox, …-chat, …-hub, …-turn-opens,
+# …-notifications).
 - tapOn:
     id: 'home-header-inbox'
 - extendedWaitUntil:
@@ -24,3 +26,33 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: ${SHOT}-chat
 - runFlow: home.yaml
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}-hub
+- runFlow: home.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'home-turn-button'
+    commands:
+      - tapOn:
+          id: 'home-turn-button'
+      - waitForAnimationToEnd:
+          timeout: 10000
+      - takeScreenshot: ${SHOT}-turn-opens
+      - runFlow: home.yaml
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          start: 50%, 0%
+          end: 50%, 70%
+          duration: 400
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: ${SHOT}-notifications
+      - back
+      - runFlow: home.yaml

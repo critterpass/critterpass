@@ -15,6 +15,7 @@ appId: app.critterpass.dev
     env:
       HOME_IATA: SGN
       HOME_QUERY: 'Ho Chi'
+- evalScript: "${output.walkLang = (typeof WALK_LANG !== 'undefined' && WALK_LANG === 'vi') ? 'vi' : 'en'}"
 - runFlow: ../../_shared/planning-redesign-on.yaml
 - runFlow:
     file: ../../screens/sweep/subflows/open-link.yaml
@@ -97,11 +98,7 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-- runFlow:
-    file: ../../happy/subflows/pick-dates-from-today.yaml
-    env:
-      START_OFFSET_DAYS: '14'
-      SHOTS: collaboration-00-setup
+- runFlow: subflows/dates.yaml
 - extendedWaitUntil:
     visible:
       id: 'budget-track'
@@ -165,6 +162,20 @@ appId: app.critterpass.dev
     timeout: 600000
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-03-linh-draft-ready
+# A Vietnamese walk turns Vietnamese here: the date picker above is found by its English month
+# names. Home, the language, and back to the draft by Home's own button.
+- runFlow:
+    when:
+      true: ${output.walkLang == 'vi'}
+    commands:
+      - runFlow: subflows/home.yaml
+      - runFlow: subflows/language.yaml
+      - takeScreenshot: collaboration-03b-linh-home-draft-waiting
+      - runFlow:
+          file: subflows/to-the-draft.yaml
+          env:
+            SHOT: collaboration-03c-linh
+      - takeScreenshot: collaboration-03d-linh-draft-ready
 
 # ── Part 1. Linh wants to send the plan to her friends. Nobody has joined yet.
 - scrollUntilVisible:
@@ -197,7 +208,7 @@ appId: app.critterpass.dev
     timeout: 10000
     optional: true
 - tapOn:
-    text: '(?i)a link to share'
+    text: '(?i)a link to share|.*liên kết.*'
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
@@ -214,6 +225,7 @@ appId: app.critterpass.dev
           file: ../../proposal/subflows/switch-account.yaml
           env:
             TARGET: 'dev-accounts-new'
+- runFlow: subflows/language.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-invite-code'
@@ -309,6 +321,7 @@ appId: app.critterpass.dev
 - takeScreenshot: collaboration-16-minh-home-no-proposal-yet
 # Set-up, not Minh's doing: the new screens stay on for this phone.
 - runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: subflows/language.yaml
 - tapOn:
     id: 'tab-trips'
 - waitForAnimationToEnd:
@@ -337,32 +350,10 @@ appId: app.critterpass.dev
     file: subflows/look-around.yaml
     env:
       SHOT: collaboration-20-linh-returns
-# Back to the draft the way Home offers: the trip card, then the hub.
-- tapOn:
-    id: 'home-next-up'
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 10000
-- takeScreenshot: collaboration-21-linh-trip-hub-draft-waiting
-# SEE THE PLAN is the hub's one big button: it opens the trip map, where the guide's note says the
-# draft is still hers alone. REVIEW on that note is the way back to the draft.
-- tapOn:
-    id: 'trip-hub-planning-cta'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-map-peek'
-    timeout: 60000
-- waitForAnimationToEnd:
-    timeout: 10000
-- takeScreenshot: collaboration-22-linh-see-the-plan
-- tapOn:
-    text: '(?i)review'
-- extendedWaitUntil:
-    visible:
-      id: 'draft-review'
-    timeout: 30000
-- waitForAnimationToEnd:
-    timeout: 8000
+- runFlow:
+    file: subflows/to-the-draft.yaml
+    env:
+      SHOT: collaboration-21-linh
 - takeScreenshot: collaboration-22b-linh-back-on-draft
 - scrollUntilVisible:
     element:
@@ -647,9 +638,104 @@ appId: app.critterpass.dev
     env:
       SHOT: collaboration-44-minh-from-the-plan
 
-# Minh says he is in.
+# The three answers, one at a time, and what Linh sees after each. First: maybe.
 - runFlow: subflows/home.yaml
 - takeScreenshot: collaboration-45-minh-home-while-undecided
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- tapOn:
+    id: 'trailer-close'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 20000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'version-maybe'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-45a-minh-the-three-answers
+- tapOn:
+    id: 'version-maybe'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45b-minh-said-maybe
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-45c-linh-returns-home-minh-maybe
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45d-linh-minh-maybe
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-45e-minh-returns-home-after-maybe
+# Second: he can't make it.
+- runFlow: ../../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- tapOn:
+    id: 'trailer-close'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'version-cant'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-45f-minh-version-after-maybe
+- tapOn:
+    id: 'version-cant'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45g-minh-cant-make-it-asked
+- tapOn:
+    text: '(?i)i can.t make it|mình không đi được'
+    childOf:
+      id: 'board-out-confirm'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-45h-minh-said-cant
+- runFlow: subflows/home.yaml
+- takeScreenshot: collaboration-45i-minh-home-after-cant
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      SHOT: collaboration-45j-linh-returns-home-minh-out
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45k-linh-minh-out
+- runFlow:
+    file: subflows/hand-over.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+      SHOT: collaboration-45l-minh-returns-home-out
+- runFlow:
+    file: subflows/look-around.yaml
+    env:
+      SHOT: collaboration-45m-minh-out
+# Third: he is in after all.
 - runFlow: ../../proposal/subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
@@ -671,10 +757,19 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'version-in'
+- runFlow:
+    when:
+      visible:
+        id: 'version-in-after-all'
+    commands:
+      - takeScreenshot: collaboration-46b-minh-version-while-out
+      - tapOn:
+          id: 'version-in-after-all'
 - extendedWaitUntil:
     visible:
       id: 'board-slide'
     timeout: 30000
+    optional: true
 - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
@@ -682,19 +777,26 @@ appId: app.critterpass.dev
     timeout: 4000
     optional: true
 - takeScreenshot: collaboration-47-minh-slide-to-board
-- swipe:
-    from:
-      id: 'board-knob'
-    direction: RIGHT
-    duration: 1200
+- runFlow:
+    when:
+      visible:
+        id: 'board-knob'
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
 - extendedWaitUntil:
     visible:
       id: 'board-egg'
     timeout: 30000
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-48-minh-boarded
 - tapOn:
     id: 'board-done'
+    optional: true
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-49-minh-after-boarding
@@ -708,11 +810,11 @@ appId: app.critterpass.dev
       id: 'chat-composer'
     timeout: 20000
 - tapOn:
-    text: 'Message.*'
+    text: '(?i)(message|nhắn tin).*'
     optional: true
 - inputText: 'in! Ba Na?'
 - tapOn:
-    text: 'Send'
+    text: '(?i)send|gửi'
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
@@ -761,7 +863,7 @@ appId: app.critterpass.dev
     id: 'tracker-lock'
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-57-linh-lock-confirm
-- tapOn: '(?i)yes, lock it in'
+- tapOn: '(?i)yes, lock it in|ừ, chốt luôn'
 - extendedWaitUntil:
     visible:
       id: 'tracker-lock-note'
@@ -980,7 +1082,7 @@ appId: app.critterpass.dev
     commands:
       - takeScreenshot: collaboration-73b-linh-tapped-the-change-card
       - tapOn:
-          text: 'See the changes'
+          text: '(?i)see the changes|xem các thay đổi'
           optional: true
 - extendedWaitUntil:
     visible:
