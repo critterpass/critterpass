@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from 'vitest';
 
-import { planOutings, type DraftPoi } from '../../src/draft/index';
+import { planOutings, rankedFirst, type DraftPoi } from '../../src/draft/index';
 import { farAfterDayOut, keepOutingsTogether, offTheOuting } from '../../src/draft/outings';
 import { id, line, place } from './day-sense-fixture';
 
@@ -203,5 +203,37 @@ describe('stops beside a day out', () => {
     ]);
     const home = day([stop(peninsula, 600), stop(dinner, 1080, 'meal'), stop(park, 1170)]);
     expect(farAfterDayOut(home, whole, travel, 'home', 40)).toEqual([]);
+  });
+});
+
+describe('our editors rank', () => {
+  it('orders essentials: a ranked one first, the better rank before the worse', () => {
+    expect(rankedFirst({ essentialRank: 3 }, { essentialRank: 13 })).toBe(true);
+    expect(rankedFirst({ essentialRank: 13 }, { essentialRank: 3 })).toBe(false);
+    expect(rankedFirst({ essentialRank: 9 }, {})).toBe(true);
+    expect(rankedFirst({}, {})).toBeNull();
+    expect(rankedFirst({ essentialRank: 2 }, { essentialRank: 2 })).toBeNull();
+  });
+
+  it('gives a short trip’s full day to the better-ranked outing first', () => {
+    const at = (n: number, name: string, rank?: number): DraftPoi =>
+      place(n, name, 'nature', {
+        durationMin: 120,
+        essential: true,
+        ...(rank === undefined ? {} : { essentialRank: rank }),
+      });
+    const ruins = at(600, 'Ruins an hour out', 13);
+    const resort = at(601, 'Hill resort', 5);
+    const all = [ruins, resort];
+    const outings = planOutings({
+      places: all,
+      travel: line({ home: 0, [id(600)]: 70, [id(601)]: -56 }),
+      homeId: 'home',
+      hopCapMin: 40,
+      days: 3,
+      openDays: new Map(all.map((poi) => [poi.id, [1, 2, 3]])),
+      asked: new Set(),
+    });
+    expect(outings.find((o) => o.dayNo === 2)?.poiIds).toEqual([resort.id]);
   });
 });

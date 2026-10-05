@@ -157,6 +157,8 @@ export const ESSENTIAL_GAP_REASONS = [
   'days_full',
   /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
   'mornings_taken',
+  /** Every day it could go on went to an essential our editors rank higher. */
+  'outranked',
   'no_room',
 ] as const;
 export type EssentialGapReason = (typeof ESSENTIAL_GAP_REASONS)[number];

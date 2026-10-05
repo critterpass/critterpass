@@ -14,6 +14,7 @@ import {
   minuteOfDate,
   opensDay,
   placeIdOf,
+  rankKey,
 } from '@cp/planner';
 
 /** A day whose window opens by then has a morning (not the afternoon the crew lands). */
@@ -41,12 +42,19 @@ export function misplacedOpeners(input: DraftPlanInput, day: DraftDay): DraftIte
   };
   const claim = (item: DraftItem): number[] => {
     const poi = poiOf(item);
-    if (poi === undefined) return [0, 0, 0];
+    if (poi === undefined) return [0, Number.NEGATIVE_INFINITY, 0, 0, 0];
     const outing = input.pools.outings.some(
       (o) => o.dayNo === day.day_no && o.poiIds.includes(poi.id),
     );
     const ride = home === null ? 0 : (input.travel(home, poi.id) ?? 0);
-    return [Number(outing || isKept(item)), earlyNeed(poi), poi.durationMin + 2 * ride];
+    // Our editors' rank first (unranked last), then the day's own outing, then the need.
+    return [
+      Number(isKept(item)),
+      -rankKey(poi),
+      Number(outing),
+      earlyNeed(poi),
+      poi.durationMin + 2 * ride,
+    ];
   };
   const stronger = (a: number[], b: number[]) => {
     for (let i = 0; i < a.length; i += 1) {

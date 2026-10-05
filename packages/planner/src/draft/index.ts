@@ -147,6 +147,8 @@ export {
   FULL_DAY_VISIT_MIN,
   HALF_DAY_VISIT_MIN,
   partOfVisit,
+  rankedFirst,
+  rankKey,
   visitSpan,
   type VisitSpan,
 } from './long-visits';

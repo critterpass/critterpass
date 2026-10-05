@@ -12,7 +12,7 @@
 import { foodRole } from './food-role';
 import { DINNER } from './meal-slots';
 import { metresBetween } from './same-place';
-import { FULL_DAY_VISIT_MIN, partOfVisit, visitSpan } from './long-visits';
+import { FULL_DAY_VISIT_MIN, partOfVisit, rankKey, visitSpan } from './long-visits';
 import { isTheirs, type DraftPoi, type TravelMatrix } from './types';
 import type { TimedDay, TimedStop } from './validate-day-sense';
 
@@ -107,26 +107,37 @@ export function planOutings(input: OutingsInput): Outing[] {
       asked: ordered.some((poi) => input.asked.has(poi.id)),
     };
   });
-  // What the crew asked for first; then the most essentials for the time; then the shorter.
+  // What the crew asked for first; then our editors' rank (its best place); then the most
+  // essentials for the time; then the shorter.
+  const rank = (outing: (typeof sized)[number]) => Math.min(...outing.places.map(rankKey));
   sized.sort(
     (a, b) =>
       Number(b.asked) - Number(a.asked) ||
+      (rank(a) === rank(b) ? 0 : rank(a) < rank(b) ? -1 : 1) ||
       b.places.length / b.minutes - a.places.length / a.minutes ||
       a.minutes - b.minutes ||
       ((a.places[0] as DraftPoi).id < (b.places[0] as DraftPoi).id ? -1 : 1),
   );
   const free = new Set(Array.from({ length: Math.max(0, input.days - 2) }, (_, i) => i + 2));
-  // The outings that need a day take the free days first; a short one takes what is left.
+  // By our editors' rank first; among the same rank (or none), the outings that need a day take
+  // the free days before a short one takes what is left.
+  const short = (outing: (typeof sized)[number]) => Number(outing.minutes <= SHORT_OUTING_MIN);
+  const turns = sized
+    .map((outing, index) => ({ outing, index }))
+    .sort(
+      (a, b) =>
+        Number(b.outing.asked) - Number(a.outing.asked) ||
+        (rank(a.outing) === rank(b.outing) ? 0 : rank(a.outing) < rank(b.outing) ? -1 : 1) ||
+        short(a.outing) - short(b.outing) ||
+        a.index - b.index,
+    );
   const days = new Map<(typeof sized)[number], number | null>();
-  for (const pass of [false, true]) {
-    for (const outing of sized) {
-      if (outing.minutes <= SHORT_OUTING_MIN !== pass) continue;
-      const day = [...free].find((dayNo) =>
-        outing.places.every((poi) => (input.openDays.get(poi.id) ?? []).includes(dayNo)),
-      );
-      if (day !== undefined) free.delete(day);
-      days.set(outing, day ?? null);
-    }
+  for (const { outing } of turns) {
+    const day = [...free].find((dayNo) =>
+      outing.places.every((poi) => (input.openDays.get(poi.id) ?? []).includes(dayNo)),
+    );
+    if (day !== undefined) free.delete(day);
+    days.set(outing, day ?? null);
   }
   // A short outing left without a day joins one it is on the way to (the marble caves on the
   // road to the old town), when the day out can hold its visit and the detour.
@@ -231,6 +242,8 @@ export function offTheOuting(
     );
   // The outing's own stops, and the sights beside them (a peak on the same peninsula).
   const own = day.stops.filter((stop) => stop.item.kind !== 'meal' && near(stop.poi.id));
+  // A day out that is not on its day (an essential of a better rank took the day) shapes nothing.
+  if (!day.stops.some((stop) => outing.poiIds.includes(stop.poi.id))) return [];
   const first = Math.min(...own.map((stop) => stop.startMin));
   const last = Math.max(...own.map((stop) => stop.startMin));
   const whole = outing.minutes >= FULL_DAY_VISIT_MIN;

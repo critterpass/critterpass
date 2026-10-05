@@ -37,6 +37,8 @@ export interface DraftPoi {
   readonly mustSee: boolean;
   /** One of the handful of places a first visit should hold (always also a must-see). */
   readonly essential?: boolean;
+  /** Where an essential stands among the destination's, 1 first (our editors' rank). */
+  readonly essentialRank?: number;
   /** How much the row says about the place (filled editorial fields, known hours); 0 = bare. */
   readonly detail?: number;
   /** What our editors wrote: why go, and the best time to (`editorial.why_go`, `best_time`). */

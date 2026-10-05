@@ -196,7 +196,7 @@ async function hidePlaces(
   }
   await tx.query(
     `UPDATE pois SET status = 'hidden', curation = 'auto',
-            editorial = editorial - 'must_see' - 'essential'
+            editorial = editorial - 'must_see' - 'essential' - 'essential_rank'
       WHERE id = ANY($1::uuid[])`,
     [ids],
   );

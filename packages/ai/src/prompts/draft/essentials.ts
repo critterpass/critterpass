@@ -13,6 +13,7 @@ import {
   isKept,
   minuteOfDate,
   opensDay,
+  rankedFirst,
   RIDE_HOME_MAX_MIN,
   type DraftPoi,
 } from '@cp/planner';
@@ -41,6 +42,8 @@ export type EssentialGap =
   | 'days_full'
   /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
   | 'mornings_taken'
+  /** Every day it could go on went to an essential our editors rank higher. */
+  | 'outranked'
   /** Every day it could go on is full of stops the planner may not move. */
   | 'no_room';
 
@@ -49,11 +52,16 @@ export interface EssentialLeftOut {
   readonly reason: EssentialGap;
 }
 
-/** The destination's essential sights, as the draft's places carry them. */
+/** The destination's essential sights, our editors' best-ranked first (unranked after). */
 export function essentialsOf(input: Pick<DraftPlanInput, 'pois'>): DraftPoi[] {
-  return [...input.pois.values()].filter(
-    (poi) => poi.essential === true && foodRole(poi) !== 'meal',
-  );
+  return [...input.pois.values()]
+    .filter((poi) => poi.essential === true && foodRole(poi) !== 'meal')
+    .map((poi, index) => ({ poi, index }))
+    .sort((a, b) => {
+      const first = rankedFirst(a.poi, b.poi);
+      return first === null ? a.index - b.index : first ? -1 : 1;
+    })
+    .map((entry) => entry.poi);
 }
 
 function held(itinerary: Itinerary): Set<string> {
@@ -116,11 +124,13 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
               ? 'not_offered'
               : open.every((dayNo) => hers.has(dayNo))
                 ? 'held_in_the_way'
-                : open.every((dayNo) => morningTaken(input, itinerary, dayNo, poi))
-                  ? 'mornings_taken'
-                  : open.every((dayNo) => fullOfSights(input, itinerary, dayNo))
-                    ? 'days_full'
-                    : 'no_room';
+                : open.every((dayNo) => outrankedOn(input, itinerary, dayNo, poi))
+                  ? 'outranked'
+                  : open.every((dayNo) => morningTaken(input, itinerary, dayNo, poi))
+                    ? 'mornings_taken'
+                    : open.every((dayNo) => fullOfSights(input, itinerary, dayNo))
+                      ? 'days_full'
+                      : 'no_room';
       return { poiId: poi.id, reason };
     });
 }
@@ -151,6 +161,20 @@ function fullOfSights(input: DraftPlanInput, itinerary: Itinerary, dayNo: number
       );
     })
   );
+}
+
+/** Whether day `dayNo` holds an essential our editors rank above `poi`. */
+function outrankedOn(
+  input: DraftPlanInput,
+  itinerary: Itinerary,
+  dayNo: number,
+  poi: DraftPoi,
+): boolean {
+  const day = itinerary.days.find((d) => d.day_no === dayNo);
+  return (day?.items ?? []).some((item) => {
+    const other = input.pois.get(item.poi_id ?? '');
+    return other?.essential === true && rankedFirst(other, poi) === true;
+  });
 }
 
 /** Whether `poi` must open its day and day `dayNo` is opened by a place that needs it more. */
@@ -201,12 +225,15 @@ export function placeEssentials(
   start: Itinerary,
 ): { readonly itinerary: Itinerary; readonly added: number } {
   let itinerary = start;
-  const before = essentialsLeftOut(input, start).length;
+  const before = essentialsLeftOut(input, start);
   for (let round = 0; round < ROUNDS; round += 1) {
     let moved = false;
     for (const gap of essentialsLeftOut(input, itinerary)) {
       const poi = input.pois.get(gap.poiId);
-      if (poi === undefined || !['no_room', 'held_in_the_way', 'days_full'].includes(gap.reason)) {
+      if (
+        poi === undefined ||
+        !['no_room', 'held_in_the_way', 'days_full', 'outranked'].includes(gap.reason)
+      ) {
         continue;
       }
       const placed = placeOne(input, outlines, itinerary, poi, round);
@@ -216,7 +243,28 @@ export function placeEssentials(
     }
     if (!moved) break;
   }
-  // Never worse off than it started: a round that only shuffled is undone.
-  const after = essentialsLeftOut(input, itinerary).length;
-  return after < before ? { itinerary, added: before - after } : { itinerary: start, added: 0 };
+  // Never worse off than it started: fewer left out, or as many with worse-ranked ones among
+  // them (a better-ranked essential took a worse one's day); a round that only shuffled is undone.
+  const after = essentialsLeftOut(input, itinerary);
+  return better(input, after, before)
+    ? { itinerary, added: Math.max(0, before.length - after.length) }
+    : { itinerary: start, added: 0 };
+}
+
+/** Whether leaving out `now` is better than leaving out `was`, by count and then by rank. */
+function better(
+  input: DraftPlanInput,
+  now: readonly EssentialLeftOut[],
+  was: readonly EssentialLeftOut[],
+): boolean {
+  if (now.length !== was.length) return now.length < was.length;
+  const ranks = (gaps: readonly EssentialLeftOut[]) =>
+    gaps
+      .map((gap) => input.pois.get(gap.poiId)?.essentialRank ?? Number.POSITIVE_INFINITY)
+      .sort((a, b) => a - b);
+  const [a, b] = [ranks(now), ranks(was)];
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i] !== b[i]) return (a[i] ?? 0) > (b[i] ?? 0);
+  }
+  return false;
 }

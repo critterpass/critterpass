@@ -67,6 +67,7 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     time_needed_min?: unknown;
     must_see?: unknown;
     essential?: unknown;
+    essential_rank?: unknown;
     why_go?: unknown;
     best_time?: unknown;
   };
@@ -102,6 +103,11 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     mustSee: editorial.must_see === true || row.pick_source === 'named',
     // The handful a first visit should hold (our editors flag at most fifteen a destination).
     ...(editorial.essential === true ? { essential: true } : {}),
+    ...(editorial.essential === true &&
+    typeof editorial.essential_rank === 'number' &&
+    editorial.essential_rank >= 1
+      ? { essentialRank: Math.round(editorial.essential_rank) }
+      : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),

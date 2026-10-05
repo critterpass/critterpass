@@ -169,3 +169,22 @@ export function insideFaults(
       ),
   );
 }
+
+/**
+ * Of two essentials competing for a short trip's days, whether `a` comes first by our editors'
+ * rank: a ranked one before an unranked one, a better rank before a worse; null when the rank
+ * does not decide (neither ranked, or the same rank), and the planner's own rules do.
+ */
+export function rankedFirst(
+  a: Pick<DraftPoi, 'essentialRank'>,
+  b: Pick<DraftPoi, 'essentialRank'>,
+): boolean | null {
+  const ra = a.essentialRank ?? Number.POSITIVE_INFINITY;
+  const rb = b.essentialRank ?? Number.POSITIVE_INFINITY;
+  return ra === rb ? null : ra < rb;
+}
+
+/** An essential's rank as a sort key: unranked ones after every ranked one. */
+export function rankKey(poi: Pick<DraftPoi, 'essentialRank'>): number {
+  return poi.essentialRank ?? Number.POSITIVE_INFINITY;
+}

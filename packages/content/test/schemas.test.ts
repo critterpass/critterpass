@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  MAX_ESSENTIALS,
   CONTENT_KINDS,
   bannedHelpPhrases,
   buildRelease,
@@ -225,6 +226,26 @@ describe('places, phrases, safety and help', () => {
     expect(parse({})).toBe(true);
     expect(parse({ essential: true })).toBe(false);
     expect(parse({ must_see: false, essential: true })).toBe(false);
+  });
+
+  it('ranks only an essential, from first to the most a destination may flag', () => {
+    const note = {
+      why_go: 'The peninsula and its pagoda.',
+      best_time: 'Early morning',
+      time_needed_min: 180,
+      crowd_hint: 'Quiet on weekdays',
+      etiquette: null,
+    };
+    const parse = (flags: object) => poiEditorialSchema.safeParse({ ...note, ...flags }).success;
+    expect(parse({ must_see: true, essential: true, essential_rank: 1 })).toBe(true);
+    expect(parse({ must_see: true, essential: true, essential_rank: MAX_ESSENTIALS })).toBe(true);
+    // Clearing a rank needs nothing beside it.
+    expect(parse({ essential_rank: null })).toBe(true);
+    expect(parse({ must_see: true, essential: true, essential_rank: 0 })).toBe(false);
+    expect(parse({ must_see: true, essential: true, essential_rank: MAX_ESSENTIALS + 1 })).toBe(
+      false,
+    );
+    expect(parse({ must_see: true, essential_rank: 2 })).toBe(false);
   });
 
   const card = {

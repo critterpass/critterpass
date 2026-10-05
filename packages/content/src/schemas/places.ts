@@ -92,6 +92,10 @@ export const poiLicenceSchema = z
   .strict();
 
 /** The lines of a place's editorial note; `poiEditorialSchema` adds the rule between the flags. */
+
+/** The most places of one destination that may be flagged essential. */
+export const MAX_ESSENTIALS = 15;
+
 export const poiEditorialFields = z
   .object({
     why_go: z.string().min(1).max(200),
@@ -114,16 +118,27 @@ export const poiEditorialFields = z
      * key like `must_see`: an item without it leaves the flag as it is, `false` clears it.
      */
     essential: z.boolean().optional(),
+    /**
+     * Where the essential stands among the destination's essentials for a first visit, 1 first:
+     * when a trip is too short for all of them, the planner keeps the better-ranked. Set only on
+     * an essential place; `null` clears it. Published to `pois.editorial.essential_rank`.
+     */
+    essential_rank: z.number().int().min(1).max(MAX_ESSENTIALS).nullable().optional(),
   })
   .strict();
 
-export const poiEditorialSchema = poiEditorialFields.refine(
-  (editorial) => editorial.essential !== true || editorial.must_see === true,
-  { message: 'an essential place is also a must-see', path: ['essential'] },
-);
-
-/** The most places of one destination that may be flagged essential. */
-export const MAX_ESSENTIALS = 15;
+export const poiEditorialSchema = poiEditorialFields
+  .refine((editorial) => editorial.essential !== true || editorial.must_see === true, {
+    message: 'an essential place is also a must-see',
+    path: ['essential'],
+  })
+  .refine(
+    (editorial) =>
+      editorial.essential_rank === undefined ||
+      editorial.essential_rank === null ||
+      editorial.essential === true,
+    { message: 'only an essential place has a rank', path: ['essential_rank'] },
+  );
 
 export const poiItemSchema = z
   .object({

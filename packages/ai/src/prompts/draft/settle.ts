@@ -259,6 +259,13 @@ export function settle(
     itinerary = done.itinerary;
     filled += done.added;
   }
+  if (options.fillThin) {
+    // Once the days are full, an essential still missing gets one more turn: a stop the fills
+    // added may give way to it now.
+    const late = placeEssentials(input, outlines, itinerary);
+    itinerary = fillMeals(input, outlines, late.itinerary).itinerary;
+    filled += late.added;
+  }
   return {
     itinerary,
     final: withoutUnservedMeals(validate(input, itinerary)),

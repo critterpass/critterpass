@@ -8,6 +8,8 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 import {
   choicesOfDay,
   earlyNeed,
+  rankedFirst,
+  rankKey,
   isKept,
   minuteOfDate,
   opensDay,
@@ -79,8 +81,18 @@ export function placeOne(
     made: DraftDay,
   ) => now.hard <= was.hard && now.meals <= was.meals && misplacedOpeners(input, made).length === 0;
   // First without touching another essential, on any day; then in a shorter essential's seat.
+  // When it takes another essential's seat, the day of the worst-ranked one it outranks first.
+  const worstOutranked = (d: DraftDay) =>
+    Math.max(
+      Number.NEGATIVE_INFINITY,
+      ...d.items.flatMap((item) => {
+        const other = essential.get(item.poi_id ?? '');
+        return other !== undefined && rankedFirst(poi, other) === true ? [rankKey(other)] : [];
+      }),
+    );
+  const byRank = [...days].sort((a, b) => worstOutranked(b.day) - worstOutranked(a.day));
   for (const displace of [false, true]) {
-    for (const { day } of days) {
+    for (const { day } of displace ? byRank : days) {
       const outline = outlines.find((d) => d.dayNo === day.day_no);
       if (outline === undefined) continue;
       // The stops the newcomer's day out leaves out of place (a bar back in town, a village
@@ -177,8 +189,11 @@ export function placeOne(
         .filter((item) => {
           if (isKept(item) || item.kind !== 'activity') return false;
           const other = essential.get(item.poi_id ?? '');
-          // A shorter essential gives way; so does one that would open the day with a weaker
-          // need for its morning than this one has.
+          // Our editors' rank decides first: a worse-ranked essential gives way, its day out
+          // with it, and a better-ranked one never does. Then a shorter essential gives way, and
+          // one that would open the day with a weaker need for its morning than this one has.
+          const ranked = other === undefined ? null : rankedFirst(poi, other);
+          if (displace && ranked !== null) return ranked;
           return displace
             ? other !== undefined &&
                 (other.durationMin < poi.durationMin ||
@@ -191,9 +206,18 @@ export function placeOne(
             : other === undefined;
         })
         .reverse();
-      // One stop gives way; where the newcomer is long, two that nobody asked for.
+      // One stop gives way (with the rest of its day out); where the newcomer is long, two that
+      // nobody asked for.
+      const withOuting = (item: (typeof day.items)[number]) => {
+        const outing = input.pools.outings.find((o) => o.poiIds.includes(item.poi_id ?? ''));
+        return outing === undefined
+          ? [item]
+          : day.items.filter(
+              (i) => i === item || (!isKept(i) && outing.poiIds.includes(i.poi_id ?? '')),
+            );
+      };
       const sets = [
-        ...giveWay.map((item) => [item]),
+        ...giveWay.map((item) => (displace ? withOuting(item) : [item])),
         ...(displace ? [] : giveWay.flatMap((a, i) => giveWay.slice(i + 1).map((b) => [a, b]))),
       ];
       for (const out of sets) {
@@ -224,7 +248,8 @@ const SHAPE_CODES: ReadonlySet<string> = new Set([
 
 /**
  * The day of `outline` without the stops that break its shape once `keep` is on it: those come
- * off (never `keep`, a must-do or a stop of the crew's), and the rest are timed again.
+ * off (never `keep`, a must-do, a stop of the crew's or another essential), and the rest are
+ * timed again.
  */
 function withoutShapeFaults(
   input: DraftPlanInput,
@@ -241,8 +266,13 @@ function withoutShapeFaults(
       )
       .flatMap((v) => (v.stableId === null ? [] : [v.stableId])),
   );
+  // Never another essential: those give way only by rank (see `placeOne`).
   const kept = day.items.filter(
-    (item) => !gone.has(item.stable_id) || isKept(item) || item.must_do_id !== null,
+    (item) =>
+      !gone.has(item.stable_id) ||
+      isKept(item) ||
+      item.must_do_id !== null ||
+      input.pois.get(item.poi_id ?? '')?.essential === true,
   );
   if (kept.length === day.items.length) return itinerary;
   const next = scheduleChoices(

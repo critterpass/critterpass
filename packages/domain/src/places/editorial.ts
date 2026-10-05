@@ -56,6 +56,8 @@ export const editorialOverlaySchema = z
     must_see: z.boolean().optional(),
     /** One of the few must-sees a first visit is built around; set only with `must_see`. */
     essential: z.boolean().optional(),
+    /** Where the essential stands among the destination's for a first visit, 1 first. */
+    essential_rank: z.number().int().positive().optional(),
     /** Content factory editorial, written from open data only. */
     why_go: z.string().min(1).optional(),
     best_time: z.string().min(1).optional(),
