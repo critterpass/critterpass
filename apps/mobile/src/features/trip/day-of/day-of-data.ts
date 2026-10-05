@@ -72,6 +72,8 @@ export interface TimelineEntryData extends DayTimelineEntry {
 export type DayLead =
   | {
       readonly kind: 'first' | 'next';
+      /** The stop's stable id. */
+      readonly id: string;
       readonly time: string;
       readonly title: string;
       /** The stop's place, when it has one (GO opens on it). */
@@ -93,11 +95,20 @@ export function dayLead(
   const going = timeline.filter((entry) => entry.skipped !== true);
   const first = going[0];
   if (first === undefined) return null;
-  if (!isToday) return { kind: 'first', time: first.time, title: first.title, poiId: first.poiId };
+  if (!isToday) {
+    return {
+      kind: 'first',
+      id: first.id,
+      time: first.time,
+      title: first.title,
+      poiId: first.poiId,
+    };
+  }
   const next = going.find((entry) => entry.startsAt.getTime() > now.getTime());
   if (next === undefined) return { kind: 'done' };
   return {
     kind: next === first ? 'first' : 'next',
+    id: next.id,
     time: next.time,
     title: next.title,
     poiId: next.poiId,

@@ -55,6 +55,8 @@ export interface LateViewProps {
   readonly sending: boolean;
   readonly onBack: () => void;
   readonly onChoose: (option: LateOptionKind) => void;
+  /** An option's line as the screen worked it out itself, in place of the planner's. */
+  readonly details?: Partial<Record<LateOptionKind, string>> | undefined;
 }
 
 const EMPTY_STICKER = 120;
@@ -77,6 +79,7 @@ function Options(props: {
   readonly model: LateModel;
   readonly selected: LateOptionKind | null;
   readonly onSelect: (option: LateOptionKind) => void;
+  readonly details?: Partial<Record<LateOptionKind, string>> | undefined;
 }) {
   const styles = useStyles();
   const locale = useLocale();
@@ -87,7 +90,7 @@ function Options(props: {
         <RadioCard
           key={option.id}
           title={optionTitle(option)}
-          description={optionDetail(option, locale)}
+          description={props.details?.[option.id] ?? optionDetail(option, locale)}
           selected={props.selected === option.id}
           onSelect={() => props.onSelect(option.id)}
           trailing={
@@ -195,7 +198,12 @@ export function LateView(props: LateViewProps) {
                 <Text variant="body" color={theme.semantic.text.secondary} singleLine={false}>
                   {props.reason}
                 </Text>
-                <Options model={model} selected={selected} onSelect={setPicked} />
+                <Options
+                  model={model}
+                  selected={selected}
+                  onSelect={setPicked}
+                  details={props.details}
+                />
                 <PillButton
                   label={settled ? lines.chosen : ctaLabel(option)}
                   block

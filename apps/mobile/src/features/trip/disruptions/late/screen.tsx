@@ -6,11 +6,12 @@
  * then opens Getting around, which quotes the ride from where the phone is.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and status names, never copy. */
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { lateStep } from '@/features/plan';
 import { useGuideText } from '@/lib/i18n/guide-text';
 import { getLocationEngine } from '@/lib/location/use-location-status';
 import { toast } from '@/motion';
@@ -22,6 +23,7 @@ import { chooseLateOptionCommand } from '../commands';
 import { lateLines } from './copy';
 import { LateView } from './late-view';
 import { lateModel, type LateRowData } from './model';
+import { SaidLateScreen } from './said-late-screen';
 
 const LATE_SQL = `SELECT id, trip_id, kind, status, title, summary, affected, facts, options,
     actions, chosen_option_id, i18n
@@ -44,7 +46,26 @@ interface PlaceRow {
   readonly lng: number;
 }
 
+/**
+ * The route's screen: a lateness the server knows about (by its id: the journey check or a
+ * lock-screen report opened it), or one the traveller is saying right now for a stop of today.
+ */
 export function RunningLateScreen({ id }: { readonly id: string }) {
+  const said = useLocalSearchParams<{ tripId?: string; stop?: string; minutes?: string }>();
+  if (said.tripId && said.stop) {
+    return (
+      <SaidLateScreen
+        tripId={said.tripId}
+        stableId={said.stop}
+        minutes={lateStep(said.minutes)}
+        known={(open) => <KnownLateScreen id={open} />}
+      />
+    );
+  }
+  return <KnownLateScreen id={id} />;
+}
+
+export function KnownLateScreen({ id }: { readonly id: string }) {
   const me = useOwnerUid();
   const words = useGuideText();
   const sync = useSyncStatus();
