@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# Opens one plan views lab scene (${SCENE}) from the lab's list, waits for ${SCREEN} and shoots it as
+# ${SHOT}, then goes back to the list.
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${SCREEN}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+# Android back lowers a raised map sheet one snap before it leaves the screen.
+- repeat:
+    while:
+      visible:
+        id: '${SCREEN}'
+    times: 4
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000

@@ -1,0 +1,144 @@
+appId: app.critterpass.dev
+---
+# A plan version made a moment ago, in the plan views lab: the day plan and the trip map's day while
+# one leg's routed time is still on its way ("Working out the ride…", "working out the rides", that
+# leg straight on the map), and the same day once it has landed (routed minutes, the road drawn).
+# English, then Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: day-plan-legs-coming
+      SCREEN: day-plan
+      SHOT: en-legs-day-plan-legs-coming
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: day-plan-legs-landed
+      SCREEN: day-plan
+      SHOT: en-legs-day-plan-legs-landed
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: trip-map-legs-coming
+      SCREEN: trip-map
+      SHOT: en-legs-trip-map-legs-coming
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: trip-map-legs-landed
+      SCREEN: trip-map
+      SHOT: en-legs-trip-map-legs-landed
+# Back out of the lab to the tools, to switch the app to Vietnamese.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-plan-views-lab'
+    times: 2
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: day-plan-legs-coming
+      SCREEN: day-plan
+      SHOT: vi-legs-day-plan-legs-coming
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: day-plan-legs-landed
+      SCREEN: day-plan
+      SHOT: vi-legs-day-plan-legs-landed
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: trip-map-legs-coming
+      SCREEN: trip-map
+      SHOT: vi-legs-trip-map-legs-coming
+- runFlow:
+    file: subflows/open-plan-lab-scene.yaml
+    env:
+      SCENE: trip-map-legs-landed
+      SCREEN: trip-map
+      SHOT: vi-legs-trip-map-legs-landed
