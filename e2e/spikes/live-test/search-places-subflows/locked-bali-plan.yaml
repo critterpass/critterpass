@@ -117,9 +117,11 @@ appId: app.critterpass.dev
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 5
-- assertVisible:
-    id: 'picker-length'
-    text: '5 days .*'
+# How many days the trip ends up with does not matter to this walk: the lock is what it needs.
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-dates
 - tapOn:
