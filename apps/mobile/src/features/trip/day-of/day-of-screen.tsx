@@ -19,7 +19,6 @@ import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
 import { dayRoute, LateEntry, saidLateRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
 import { guideSticker } from '@/ui/avatar/guides';
 
@@ -142,13 +141,11 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const guideName = tripRow?.guide_name ?? guideSticker(guideOr(tripRow?.guide_slug)).name;
   const dayNo = items.rows[0]?.day_no ?? null;
   const forecast = forecastFor(weather.rows, leaveBy?.startsAt ?? null);
-  const { redesign } = usePlanningSwitch();
   const planDay = useDayReading(tripId, localDate, now, locale);
-  // The guide's notes read in the app's language either way; the rest of the day plan's reading
-  // of the day comes with the planning screens.
+  // The guide's notes read in the app's language, with the day plan's reading of the day.
   const base = dayTimeline(items.rows, me, members, locale, tz, planDay.notesOf, planDay.titleOf);
-  const timeline = redesign ? withPlanRows(base, planDay) : base;
-  const planDayNo = redesign ? planDay.dayNo : null;
+  const timeline = withPlanRows(base, planDay);
+  const planDayNo = planDay.dayNo;
   const port = alarmPort();
   const note = alarmNoteFor(leaveBy, alarm.status, port?.authorizationStatus() ?? null, locale);
   const lead = dayLead(timeline, relation === 'today', now);

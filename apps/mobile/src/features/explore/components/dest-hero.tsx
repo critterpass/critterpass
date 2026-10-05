@@ -2,8 +2,8 @@
  * The destination hero: the guide's colour flooded to the top edge, the way back, SAVE, the place
  * name in the mega face, who the guide is and their line, then the facts as chips (flight time
  * from home, the exchange rate, the best months). The guide walks in from the edge, sits, and
- * bobs: as a ghosted sticker, or (the destination guide with the planning screens on) as the
- * guide's own sticker sitting on the hero. Reduced motion shows it seated.
+ * bobs: as the guide's own sticker sitting on the hero (the destination guide, 7g-3), or as a
+ * ghosted sticker where asked. Reduced motion shows it seated.
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
@@ -14,7 +14,6 @@ import { View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -80,8 +79,7 @@ export interface DestHeroProps {
   readonly chips: readonly string[];
   readonly photo: MediaAsset | null;
   /**
-   * `ghost`: the paper silhouette; `seated`: the guide's own sticker. Absent follows the planning
-   * switch: seated on the destination guide (7g-3) while `planning.redesign` is on.
+   * `ghost`: the paper silhouette; `seated` (the default): the guide's own sticker.
    */
   readonly guideArt?: 'ghost' | 'seated' | undefined;
   /** Space under the last line, in place of the hero's own (a bar that overlaps its bottom edge). */
@@ -127,8 +125,7 @@ export function DestHero(props: DestHeroProps) {
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const { guide } = props;
-  const { redesign } = usePlanningSwitch();
-  const seated = (props.guideArt ?? (redesign ? 'seated' : 'ghost')) === 'seated';
+  const seated = (props.guideArt ?? 'seated') === 'seated';
   // The guide sits in the hero's bottom corner: what is under the name is kept at least as tall as
   // the sticker's reach, so the name always sits above it, never under it.
   const reach = seated
