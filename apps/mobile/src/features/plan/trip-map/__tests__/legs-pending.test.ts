@@ -15,11 +15,11 @@ jest.mock(
 import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 
-import { routeOf } from '@/features/plan/trip-map/day-route';
-import { legLabel, stopsLine } from '@/features/plan/trip-map/format';
-import type { TripDay } from '@/features/plan/trip-map/trip-days';
+import { routeOf } from '../day-route';
+import { legLabel, stopsLine } from '../format';
+import type { TripDay } from '../trip-days';
 
-import { HARD_STOP_MS, pendingUntil, YOUNG_MS } from '../use-legs-pending';
+import { HARD_STOP_MS, pendingUntil, YOUNG_MS } from '@/data/legs/use-legs-pending';
 
 beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
