@@ -14,7 +14,7 @@
 import path from 'node:path';
 
 import { poiEditorialFields, poiItemSchema, tasteTagSchema, type ContentItem } from '@cp/content';
-import { poiCategorySchema } from '@cp/domain';
+import { editorialTranslationsSchema, poiCategorySchema } from '@cp/domain';
 import { z } from 'zod';
 
 import { curatedDestinations, placeFacts } from '../../data/place-facts';
@@ -65,6 +65,11 @@ const correctionSchema = z
       })
       .partial()
       .optional(),
+    /**
+     * The note's lines in other languages, by app locale. A language stated here replaces that
+     * language's lines on the live item; the other languages stay.
+     */
+    i18n: editorialTranslationsSchema.optional(),
     /** The claim a revision answers: what the note said, what the source says, and the source. */
     claim: z
       .object({ said: z.string().min(1), finding: z.string().min(1), source: z.url() })
@@ -302,6 +307,7 @@ export function correctionItems(
         },
         merge_into: null,
         possible_duplicate_of: null,
+        ...(place.i18n === undefined ? {} : { i18n: { ...base.i18n, ...place.i18n } }),
       });
     }
     // A duplicate is hidden once merged; where it never had a note it borrows the kept record's.
