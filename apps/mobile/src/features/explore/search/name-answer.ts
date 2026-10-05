@@ -2,8 +2,8 @@
  * Whether a name search found the place she typed. The phone's search falls back to a kind of
  * place when no name has every word ("Zzyqx Warung Qqq" lists places to eat) and the server's adds
  * look-alikes ("12 Tran Phu" brings "Adi Tran"): neither is the place she asked for. When the
- * words beside the kind word, the small words and the numbers start no word of any row's name, the
- * answer says so first; a kind's places may follow under their own heading, nearest first, and a
+ * words beside the kind word, the small words and the numbers start no word of any row's name (or
+ * of where it is: its area, its address, the trip's destination), the answer says so first; a kind's places may follow under their own heading, nearest first, and a
  * look-alike never stands in for an address.
  */
 import { CATEGORY_WORDS, foldWords, STOP_WORDS } from '@/data/places/fold';
@@ -34,22 +34,47 @@ export function nameWords(query: string): string[] {
   );
 }
 
-function named(place: Pick<PlaceCandidate, 'name' | 'nameLocal'>, words: readonly string[]) {
-  const tokens = foldWords(`${place.name} ${place.nameLocal ?? ''}`);
-  return words.every((word) => tokens.some((token) => token.startsWith(word)));
+/** A row as the answer reads it: its names, and where it is (area and address) when known. */
+export interface AnswerRow {
+  readonly name: string;
+  readonly nameLocal: string | null;
+  readonly where?: string | null | undefined;
+}
+
+const starts = (tokens: readonly string[], word: string) =>
+  tokens.some((token) => token.startsWith(word));
+
+/**
+ * Whether a row is the place typed: every word starts a word of its name, or says where it is
+ * (people add the city or the area: "Tanah Lot Bali", "Starbucks Ubud"), and at least one word is
+ * in the name itself.
+ */
+function named(row: AnswerRow, words: readonly string[], destination: readonly string[]): boolean {
+  const name = foldWords(`${row.name} ${row.nameLocal ?? ''}`);
+  const where = [...destination, ...foldWords(row.where ?? '')];
+  return (
+    words.some((word) => starts(name, word)) &&
+    words.every((word) => starts(name, word) || starts(where, word))
+  );
 }
 
 export function nameAnswer(
   query: string,
-  rows: readonly Pick<PlaceCandidate, 'name' | 'nameLocal'>[],
+  rows: readonly AnswerRow[],
+  /** The trip's destination: its name in a query is where, not what. */
+  destination = '',
 ): NameAnswer {
+  const place = foldWords(destination);
   const words = nameWords(query);
-  if (words.length === 0 || rows.some((row) => named(row, words))) return { kind: 'found' };
+  // Only a kind, or only the destination itself, was typed: a browse.
+  const asked = words.filter((word) => !starts(place, word));
+  if (asked.length === 0 || rows.some((row) => named(row, words, place))) return { kind: 'found' };
   const address = looksLikeAddress(query);
   const kindWord = foldWords(query).find((word) => Object.hasOwn(CATEGORY_WORDS, word));
   const category = kindWord === undefined ? undefined : CATEGORY_WORDS[kindWord]?.category;
-  if (category !== undefined)
+  if (category !== undefined) {
     return { kind: 'notFound', address, below: { rows: 'kind', category } };
+  }
   return { kind: 'notFound', address, below: { rows: address ? 'none' : 'alike' } };
 }
 

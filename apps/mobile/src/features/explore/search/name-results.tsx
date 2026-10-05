@@ -17,7 +17,13 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { nameAnswer, nearestFirst } from './name-answer';
 import { NameNotFound } from './name-not-found';
 import { placeIcon } from './place-icons';
-import { kindWord, rowWords, type RowContext, type RowWords } from './search-rows';
+import {
+  kindWord,
+  rowWords,
+  type RowContext,
+  type RowWords,
+  type SearchPlace,
+} from './search-rows';
 
 const useStyles = makeStyles((th) => ({
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
@@ -67,6 +73,12 @@ function plainWords(place: PlaceCandidate): RowWords {
   return { meta, inPlan: false };
 }
 
+/** The row's area and address, from the server's answer or the phone's own places. */
+function whereOf(row: SearchPlace, context: RowContext | undefined): string {
+  const address = row.address ?? context?.addresses.get(row.poiId ?? row.id) ?? '';
+  return `${row.area ?? ''} ${address}`;
+}
+
 function kindHeading(category: string): string {
   const kind = kindWord(category) ?? t({ id: 'search.name.kindPlaces', message: 'Places' });
   return t({ id: 'search.name.kindBelow', message: `${kind}, nearest first` });
@@ -90,7 +102,14 @@ export function NameResults({
   const words =
     props.words ??
     (context === undefined ? plainWords : (row: PlaceCandidate) => rowWords(row, context));
-  const answer = asked === undefined ? null : nameAnswer(asked, props.rows);
+  const answer =
+    asked === undefined
+      ? null
+      : nameAnswer(
+          asked,
+          props.rows.map((row) => ({ ...row, where: whereOf(row, context) })),
+          context?.destination,
+        );
   const missed = answer !== null && answer.kind === 'notFound' ? answer : null;
   // An address that was found answers the text: only the look-alike rows go.
   const sayMissed = missed !== null && !(missed.address && addressFound);

@@ -273,6 +273,31 @@ appId: app.critterpass.dev
     optional: true
 - hideKeyboard
 - takeScreenshot: search-places-15b-named-warung-not-found
+# A real name misspelt: the words say so, the near names follow under their own heading.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lott'
+- extendedWaitUntil:
+    visible:
+      id: 'search-name-none'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15c-misspelt-name
+# A name with the island after it: the place on top and no card.
+- runFlow: search-places-subflows/search-again.yaml
+- inputText: 'Tanah Lot Bali'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-.*'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-places-wait'
+    timeout: 6000
+    optional: true
+- hideKeyboard
+- takeScreenshot: search-places-15d-name-with-the-island
 # An address from a friend's message.
 - runFlow: search-places-subflows/search-again.yaml
 - inputText: 'Jalan Hanoman 10 Ubud'

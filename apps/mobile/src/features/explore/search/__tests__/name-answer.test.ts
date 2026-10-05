@@ -63,6 +63,46 @@ describe('whether a name search found the place she typed', () => {
   });
 });
 
+describe('a name typed with where it is', () => {
+  const found = { kind: 'found' };
+
+  it('finds the place when the extra words name the trip’s destination', () => {
+    expect(nameAnswer('Crazy House Da Lat', [row('Crazy House')], 'Đà Lạt')).toEqual(found);
+    expect(nameAnswer('Tanah Lot Bali', [row('Tanah Lot Temple')], 'Bali')).toEqual(found);
+    expect(
+      nameAnswer('Dragon Bridge Da Nang', [row('Dragon Bridge', 'Cầu Rồng')], 'Đà Nẵng'),
+    ).toEqual(found);
+  });
+
+  it('finds the place when the extra words are in the row’s own area or address', () => {
+    const starbucks = { ...row('Starbucks'), where: 'Ubud Jl. Raya Ubud, Gianyar' };
+    expect(nameAnswer('Starbucks Ubud', [starbucks], 'Bali')).toEqual(found);
+    // Another branch's area is not this row's.
+    expect(
+      nameAnswer('Starbucks Ubud', [{ ...row('Starbucks'), where: 'Seminyak' }], 'Bali'),
+    ).toEqual({
+      kind: 'notFound',
+      address: false,
+      below: { rows: 'alike' },
+    });
+  });
+
+  it('still says a misspelt name was not found, wherever she says it is', () => {
+    const missed = { kind: 'notFound', address: false, below: { rows: 'alike' } };
+    expect(nameAnswer('Tanah Lott', [row('Tanah Lot Temple')], 'Bali')).toEqual(missed);
+    expect(nameAnswer('Tanah Lott Bali', [row('Tanah Lot Temple')], 'Bali')).toEqual(missed);
+  });
+
+  it('does not take a row for the place because it is in the right town', () => {
+    const warung = { ...row('Warung Biah Biah'), where: 'Ubud' };
+    expect(nameAnswer('Zzyqx Ubud', [warung], 'Bali').kind).toBe('notFound');
+  });
+
+  it('reads the destination alone as a browse', () => {
+    expect(nameAnswer('Bali', [row('Seniman')], 'Bali')).toEqual(found);
+  });
+});
+
 describe('the kind’s places under a name that was not found', () => {
   it('run nearest first, never by name; a row with no spot goes last', () => {
     const from = { lat: -8.5, lng: 115.26 };
