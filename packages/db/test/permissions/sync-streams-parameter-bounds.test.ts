@@ -8,11 +8,18 @@
  * every stream on its own, as PowerSync does, for each actor and the fixture trip's subscription.
  * The fixture trip also carries hundreds of superseded plan versions, one per group edit: a trip's
  * plan lookups must not grow with its own history either.
+ *
+ * PowerSync also repeats a trip stream's lookups for every query shape of every trip the phone
+ * holds, so a lookup that grows with the caller's own crews costs crews × trips × shapes: a caller
+ * in a few crews holding a few trips once passed the limit on crew lookups alone. A trip stream's
+ * membership check therefore goes through the subscribed trip, and a caller in many crews must
+ * cost the trip streams exactly what a caller in one crew does.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem } from '../../src/tx';
+import { insertCrewMember, insertUser } from '../helpers/actors';
 import {
   startStreamHarness,
   STREAM_ACTORS,
@@ -33,6 +40,8 @@ const SUPERSEDED = 300;
  */
 const CHANGE_SET_BASES =
   "SELECT id FROM itinerary_versions WHERE trip_id = $1 AND visibility = 'crew'";
+/** Crews a busy caller belongs to besides the fixture trip's own. */
+const OTHER_CREWS = 30;
 
 interface ParameterQuery {
   readonly stream: string;
@@ -71,9 +80,10 @@ function parameterQueries(
   harness: StreamHarness,
   userId: string,
   tripId: string,
+  streams: readonly string[] = Object.keys(harness.config.streams),
 ): ParameterQuery[] {
   const context = { userId, parameters: { trip_id: tripId } };
-  return Object.keys(harness.config.streams).flatMap((stream) =>
+  return streams.flatMap((stream) =>
     streamQueries(harness.config, stream).flatMap((query) =>
       subqueries(query.text, query.values(context)).map((sub) => ({ ...sub, stream })),
     ),
@@ -82,6 +92,8 @@ function parameterQueries(
 
 let harness: StreamHarness;
 let destinationId: string;
+/** An active member of the fixture trip's crew and of {@link OTHER_CREWS} more, each with a trip. */
+let busyMember: string;
 
 async function count(pool: pg.Pool, sql: string): Promise<number> {
   const { rows } = await pool.query<{ n: string }>(sql);
@@ -164,6 +176,20 @@ beforeAll(async () => {
         WHERE id = $2`,
       [fixture.tripId, fixture.versionId],
     );
+    // A caller in many crews: the fixture trip's and OTHER_CREWS more of their own, each planning
+    // a trip.
+    busyMember = await insertUser(tx);
+    await insertCrewMember(tx, { crewId: fixture.crewId, userId: busyMember });
+    await tx.query(
+      `WITH made AS (
+         INSERT INTO crews (name, created_by) SELECT 'Busy ' || n, $1 FROM generate_series(1, $2) AS n
+         RETURNING id),
+       members AS (
+         INSERT INTO crew_members (crew_id, user_id, role, status, keep_in_chat)
+         SELECT id, $1, 'organiser', 'active', false FROM made)
+       INSERT INTO trips (crew_id, status) SELECT id, 'voting' FROM made`,
+      [busyMember, OTHER_CREWS],
+    );
     return dest;
   });
 }, 240_000);
@@ -223,6 +249,40 @@ describe('sync stream parameter queries stay bounded', { timeout: 120_000 }, () 
     expect(versionLookups.length).toBeGreaterThan(0);
     expect(Math.max(...versionLookups)).toBeLessThanOrEqual(2);
     expect(total).toBeLessThan(CONNECTION_LIMIT);
+  });
+
+  it('trip streams cost a caller in many crews what they cost a caller in one', async () => {
+    const tripStreams = Object.entries(harness.config.streams)
+      .filter(([, stream]) =>
+        [...stream.queries, ...Object.values(stream.with)].some((query) =>
+          query.includes("subscription.parameter('trip_id')"),
+        ),
+      )
+      .map(([name]) => name);
+    expect(tripStreams).toEqual(
+      expect.arrayContaining(['trip', 'trip_pack', 'trip_me', 'trip_draft']),
+    );
+    // Each subquery's result count; a lookup keyed by the caller beyond the membership check (their
+    // own recap views or organiser seat) differs between two callers and is left out.
+    const costs = async (userId: string) => {
+      const membership: number[] = [];
+      const shared: string[] = [];
+      for (const query of parameterQueries(harness, userId, harness.fixture.tripId, tripStreams)) {
+        const { rowCount } = await harness.db.pool.query(query.text, [...query.values]);
+        const results = rowCount ?? 0;
+        if (query.text.includes('FROM crew_members')) membership.push(results);
+        else if (!query.values.includes(userId))
+          shared.push(`${query.stream} ${String(results)} ← ${query.text}`);
+      }
+      return { membership, shared };
+    };
+    const busy = await costs(busyMember);
+    const member = await costs(harness.fixture.actors.member);
+    // Every membership check finds the one crew the subscribed trip belongs to.
+    expect(busy.membership.length).toBeGreaterThan(0);
+    expect(new Set(busy.membership)).toEqual(new Set([1]));
+    expect(busy.membership).toEqual(member.membership);
+    expect(busy.shared).toEqual(member.shared);
   });
 
   it("syncs a destination's crowd forecasts by the destination the trigger copies", async () => {
