@@ -914,26 +914,77 @@ appId: app.critterpass.dev
 - takeScreenshot: setup-draft-87-change-day-1-surprise
 - tapOn:
     id: 'change-day-submit'
+# With one free redraft left the app asks first; with more left (a day put back gives its redraft
+# back) the redraft simply runs. Either way she ends on the draft with nothing kept.
 - extendedWaitUntil:
     visible:
-      id: 'last-redraft-use|redraft-thinking|redraft-diff|redraft-outcome'
-    timeout: 30000
+      id: 'last-redraft-use|redraft-diff|redraft-outcome'
+    timeout: 600000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-88-last-free-redraft-question
+- takeScreenshot: setup-draft-88-third-ask
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      # Closing the question returns her to the sheet, with the day and the reason she chose.
+      - tapOn:
+          id: 'last-redraft-close'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'last-redraft-use'
+          timeout: 8000
+          optional: true
+      - waitForAnimationToEnd
+      - takeScreenshot: setup-draft-89-back-on-the-sheet
+      - tapOn:
+          id: 'change-day-close'
+- runFlow:
+    when:
+      visible:
+        id: 'redraft-diff'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'redraft-put-back'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'redraft-put-back'
 - tapOn:
-    id: 'last-redraft-close'
+    id: 'redraft-outcome-back'
     optional: true
 - extendedWaitUntil:
-    notVisible:
-      id: 'last-redraft-use'
-    timeout: 8000
-    optional: true
+    visible:
+      id: 'draft-change-day'
+    timeout: 30000
+
+# The sheet keeps what she chose and wrote: closed with its own ✕ and opened again, it is all there.
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day-3'
+    timeout: 15000
+- tapOn:
+    id: 'change-day-3'
+- tapOn:
+    id: 'redraft-reason-lighter_day'
+- scrollUntilVisible:
+    element:
+      id: 'change-day-note'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'change-day-note'
+- eraseText: 60
+- inputText: 'Them gio nghi trua'
+- hideKeyboard
 - waitForAnimationToEnd
-# Closing the question returns her to the sheet, with the day and the reason she chose.
-- takeScreenshot: setup-draft-89-back-on-the-sheet
+- takeScreenshot: setup-draft-89a-sheet-with-her-words
 - tapOn:
     id: 'change-day-close'
-    optional: true
 - extendedWaitUntil:
     notVisible:
       id: 'change-day-submit'
@@ -941,7 +992,6 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: setup-draft-89b-draft-after-closing-the-sheet
-# Opened again, the sheet still holds what she chose.
 - tapOn:
     id: 'draft-change-day'
 - extendedWaitUntil:
@@ -949,7 +999,7 @@ appId: app.critterpass.dev
       id: 'change-day-submit'
     timeout: 15000
 - waitForAnimationToEnd
-- takeScreenshot: setup-draft-89c-sheet-reopened-with-her-choices
+- takeScreenshot: setup-draft-89c-sheet-reopened-with-her-words
 - tapOn:
     id: 'change-day-close'
 - extendedWaitUntil:
