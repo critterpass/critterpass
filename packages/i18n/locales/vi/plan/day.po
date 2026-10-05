@@ -50,6 +50,10 @@ msgid "plan.edit.removedMany"
 msgstr "{count, plural, other {Đã bỏ # điểm dừng}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.lastAt"
+msgstr "{count}. {stop} sẽ bắt đầu lúc {at}."
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hours"
 msgstr "{hours} giờ"
 
@@ -61,6 +65,14 @@ msgstr "{hours} giờ {rest}"
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.pick"
 msgstr "{label} {0}. Chọn giờ"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlierBy"
+msgstr "{moved, plural, other {# điểm dừng sau đó dời sớm hơn {by}.}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlier"
+msgstr "{moved, plural, other {# điểm dừng sau đó dời sớm hơn.}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.minutes"
@@ -280,6 +292,10 @@ msgstr "Chưa có kế hoạch. Ngủ nướng, hoặc thêm gì đó."
 msgid "plan.edit.nowAt"
 msgstr "Giờ mới: {range}"
 
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.onDay"
+msgstr "Trong {day}: {line}"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr "Mở bản đồ"
@@ -388,8 +404,8 @@ msgstr "Có người đã ghim nó ở giờ này."
 msgid "plan.day.item.goneLine"
 msgstr "Có người đã bỏ mục này khi bạn đang mở."
 
-#. placeholder {0}: clock(locale, effect.useStart)
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
 msgstr "Bắt đầu lúc {0}"
 

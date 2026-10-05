@@ -56,6 +56,17 @@ export function describeEdit(ops: readonly PlanOp[], ctx: EditContext): EditWord
   const nameOf = (stableId: string) =>
     ctx.titleOf(stableId) ?? t({ id: 'plan.edit.aStop', message: 'A stop' });
 
+  /** " · 2 other stops moved" for the stops an edit moved along with its own. */
+  const alsoMoved = (others: number) =>
+    others <= 0
+      ? ''
+      : t({
+          id: 'plan.edit.othersMoved',
+          message: plural(others, {
+            one: ' · # other stop moved',
+            other: ' · # other stops moved',
+          }),
+        });
   const adds = itemOps.filter((op) => op.op === 'add');
   const first = adds[0];
   if (first !== undefined) {
@@ -93,10 +104,11 @@ export function describeEdit(ops: readonly PlanOp[], ctx: EditContext): EditWord
         }
       : {
           title: nameOf(gone.item),
-          subtitle:
+          subtitle: `${
             from === ''
               ? t({ id: 'plan.edit.removed', message: 'Removed from the plan' })
-              : t({ id: 'plan.edit.removedFrom', message: `Removed from ${from}` }),
+              : t({ id: 'plan.edit.removedFrom', message: `Removed from ${from}` })
+          }${alsoMoved(itemOps.length - count)}`,
         };
   }
 
@@ -106,17 +118,7 @@ export function describeEdit(ops: readonly PlanOp[], ctx: EditContext): EditWord
     const to = dayOf(op);
     return to !== undefined && to !== items.get(op.item)?.day_no;
   });
-  const others = changes.length - 1;
-  const more =
-    others <= 0
-      ? ''
-      : t({
-          id: 'plan.edit.othersMoved',
-          message: plural(others, {
-            one: ' · # other stop moved',
-            other: ' · # other stops moved',
-          }),
-        });
+  const more = alsoMoved(changes.length - 1);
   if (crossing !== undefined) {
     const to = dayOf(crossing) ?? 1;
     const tz = items.get(crossing.item)?.tz ?? ctx.tz;
