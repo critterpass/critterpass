@@ -45,8 +45,8 @@ The app rule is the existing `draft-or-current` choice in `useTripPlan`: the cre
 | # | Phase | PR can merge and deploy alone because | Status |
 |---|---|---|---|
 | 1 | [Server: days on dates lock, draft edits, the check on a draft, the put-back](./phase-01-server-plan-before-draft.md) | additive: three new commands, one new event, two nullable columns, one more stream query; with the switch off no trip gains a draft pointer | done (#658) |
-| 2 | [Server: the guide drafts around held stops](./phase-02-server-draft-around-held-stops.md) | the worker puts her stops back after the guide's days are checked; with no held stops the job does what it did | in review |
-| 3 | [App: the empty plan, the editable draft, the check's tags, members before the plan](./phase-03-app-plan-before-draft.md) | behind `planning.redesign`; needs phases 1 and 2 deployed | pending |
+| 2 | [Server: the guide drafts around held stops](./phase-02-server-draft-around-held-stops.md) | the worker puts her stops back after the guide's days are checked; with no held stops the job does what it did | done (#668, #672) |
+| 3 | [App: the empty plan, the editable draft, the check's tags, members before the plan](./phase-03-app-plan-before-draft.md) | behind `planning.redesign`; needs phases 1 and 2 deployed | in review (#684) |
 
 ## Acceptance
 

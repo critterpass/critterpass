@@ -132,6 +132,10 @@ msgstr "Đóng cửa {when}: {area}"
 msgid "planDraft.miss.closed"
 msgstr "đóng cửa vào ngày của bạn"
 
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.closed"
+msgstr "Đóng cửa vào những ngày bạn đi."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.current"
 msgstr "Hiện tại"
@@ -185,12 +189,20 @@ msgid "planDraft.miss.unknown"
 msgstr "mình không tìm ra chỗ đó"
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.notOffered"
+msgstr "Mình chưa kịp cân nhắc nơi này."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
 msgstr "nó làm hỏng cả ngày"
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
 msgstr "Giữ một ngày soạn lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.line"
+msgstr "Chưa có trong kế hoạch: {name}."
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 msgid "planDraft.loading.label"
@@ -209,8 +221,16 @@ msgid "planDraft.empty.title"
 msgstr "Chưa có bản nháp"
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.held"
+msgstr "Không còn chỗ quanh các điểm bạn đã xếp."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.noTime"
 msgstr "không còn chỗ trong lịch"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.noRoom"
+msgstr "Các ngày không còn chỗ."
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.failedLine"
@@ -248,6 +268,14 @@ msgstr "Khôi phục"
 msgid "planDraft.queued.restore"
 msgstr "Khôi phục bản nháp cũ"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestoreAny"
+msgstr "Khôi phục sẽ đưa bản nháp về bản đã soạn lại. Không tốn lượt soạn lại."
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestore"
+msgstr "Khôi phục sẽ đưa bản nháp về bản có ngày {n} đã soạn lại. Không tốn lượt soạn lại."
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.title"
 msgstr "Phần chuẩn bị đã đổi từ bản nháp này"
@@ -263,6 +291,10 @@ msgstr "Nguồn"
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
 msgid "planDraft.history.restoredSub"
 msgstr "Vẫn chỉ mình bạn thấy."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.takenOut"
+msgstr "Bỏ khỏi chuyến đi: {name}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.budget"
@@ -280,9 +312,17 @@ msgstr "Bản nháp chưa xong"
 msgid "planDraft.stale.mustDos"
 msgstr "việc phải làm"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.own"
+msgstr "Kế hoạch bạn tự lên"
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.rooms"
 msgstr "phòng"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.tooFar"
+msgstr "Quá xa so với một ngày của chuyến này."
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.retry"

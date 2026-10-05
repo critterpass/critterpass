@@ -210,18 +210,19 @@ function Block({
     drag.onCross(to);
     void drag.onDrop();
   };
-  return (
-    <GestureDetector gesture={pan}>
-      <Animated.View
-        style={style}
-        accessibilityActions={actions}
-        onAccessibilityAction={onAction}
-        onLayout={(event) => setHeight(index, event.nativeEvent.layout.height)}
-      >
-        <StopBlock row={row} context={context} />
-      </Animated.View>
-    </GestureDetector>
+  const block = (
+    <Animated.View
+      style={style}
+      accessibilityActions={actions}
+      onAccessibilityAction={onAction}
+      onLayout={(event) => setHeight(index, event.nativeEvent.layout.height)}
+    >
+      <StopBlock row={row} context={context} />
+    </Animated.View>
   );
+  // A day nobody can reorder has no hold-and-drag at all: a switched-off gesture around the row
+  // must never stand between a tap and the stop it opens.
+  return drag === null ? block : <GestureDetector gesture={pan}>{block}</GestureDetector>;
 }
 
 export function StopTimeline({

@@ -59,6 +59,10 @@ msgstr "{name} is right next door. Add it too?"
 msgid "plan.add.length.minutes"
 msgstr "{only} MIN"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlan"
+msgstr "{organiser} is still putting the plan together. Save it to Ideas and they’ll see it."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.leave.car"
 msgstr "{time} · LEAVE THE STAY · CAR {minutes} MIN"
@@ -248,6 +252,10 @@ msgstr "SUGGEST FOR {dayLabel} ANYWAY"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "The crew votes on this before it goes in. You’ll hear back."
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlanAny"
+msgstr "The plan isn’t shared yet. Save it to Ideas and it’s there when it is."
 
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.meal"

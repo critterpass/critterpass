@@ -11,13 +11,14 @@ import { useLiveRows } from '@/data/plan/live-rows';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 /**
- * Placed: a place in the trip's current version (a pinned idea by its own name and spot); hidden:
+ * Placed: a place in the plan I see, the crew's or my own draft before there is one (a pinned idea
+ * by its own name and spot); hidden:
  * a place I hid. `local_state` holds who I am.
  */
 export const IDEAS_SQL = `SELECT i.id, i.poi_id, i.name, i.name_local, i.category, i.lat, i.lng,
     i.backer_ids, i.sources, i.source_url, i.fit, i.fit_version_id, i.created_at,
     EXISTS (SELECT 1 FROM plan_items pi
-      WHERE pi.version_id = (SELECT current_version_id FROM trips WHERE id = i.trip_id)
+      WHERE pi.version_id = (SELECT coalesce(current_version_id, draft_version_id) FROM trips WHERE id = i.trip_id)
         AND (pi.poi_id = i.poi_id OR (i.poi_id IS NULL
           AND json_extract(pi.custom_place, '$.name') = i.name
           AND abs(json_extract(pi.custom_place, '$.lat') - i.lat) < 0.0005
