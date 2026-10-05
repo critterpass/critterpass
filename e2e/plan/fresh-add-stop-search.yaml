@@ -139,15 +139,27 @@ env:
     id: 'plan-add-confirm'
 # Back on the day plan, the new stop is named by its place, on this phone before the plan's record
 # of it arrives and after.
+# ADD closes the sheet onto the search it came from, which may close too: back only while the
+# search is still up, never past the day plan.
+- waitForAnimationToEnd:
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan|search-screen'
+    timeout: 15000
 - repeat:
     while:
-      notVisible:
-        id: 'day-plan'
+      visible:
+        id: 'search-screen'
     times: 3
     commands:
       - back
       - waitForAnimationToEnd:
           timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
 - scrollUntilVisible:
     element:
       text: ${PLACE_TEXT}
