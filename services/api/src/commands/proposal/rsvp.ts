@@ -14,6 +14,7 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { asSystemRole } from '../../admin/command';
 import { claimTripSeat, lockTripSeats } from '../invites/seat-claim';
 import { publishProposal } from './shared';
 
@@ -34,6 +35,31 @@ interface RsvpScope {
   readonly proposalId: string | null;
 }
 
+/** What an app that does not know the line's kind shows after the member's first name. */
+const CHAT_LINE: Partial<Record<TripParticipantRsvp, string>> = {
+  in: 'is in',
+  maybe: 'is a maybe',
+  out: "can't make it",
+  waitlisted: 'is on the waitlist',
+};
+
+/**
+ * The member's own answer to a proposal, as a system line in crew chat (`rsvp_in`, `rsvp_out`, …
+ * naming the member), so the crew reads it where they talk. The app words it in the reader's
+ * language.
+ */
+async function postAnswerLine(tx: pg.PoolClient, scope: RsvpScope, rsvp: TripParticipantRsvp) {
+  const tail = CHAT_LINE[rsvp];
+  if (scope.proposalId === null || tail === undefined) return;
+  await asSystemRole(tx, () =>
+    tx.query(
+      `SELECT app.post_crew_system_message($1, $2, $3,
+         (SELECT split_part(trim(display_name), ' ', 1) FROM users WHERE id = $3) || ' ' || $4)`,
+      [scope.crewId, `rsvp_${rsvp}`, scope.uid, tail],
+    ),
+  );
+}
+
 async function announce(tx: pg.PoolClient, scope: RsvpScope, rsvp: TripParticipantRsvp) {
   await appendDomainEvent(tx, {
     type: 'rsvp.changed',
@@ -51,6 +77,7 @@ async function announce(tx: pg.PoolClient, scope: RsvpScope, rsvp: TripParticipa
       status: rsvp,
     });
   }
+  await postAnswerLine(tx, scope, rsvp);
 }
 
 /** `in` or `maybe`: takes a seat when there is one, else a waitlist place. */

@@ -44,6 +44,10 @@ msgstr "{count, plural, other {# tin chưa đọc}}"
 msgid "chat.photo.many"
 msgstr "{count} ảnh"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.title"
+msgstr "Đây là chỗ {crew} trò chuyện"
+
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.two"
 msgstr "{first} và {second} đang nhắn"
@@ -51,6 +55,22 @@ msgstr "{first} và {second} đang nhắn"
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
 msgstr "{first} đang nhắn"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpOut"
+msgstr "{name} không đi được"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpMaybe"
+msgstr "{name} nói có thể"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpIn"
+msgstr "{name} đi"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpWaitlisted"
+msgstr "{name} vào danh sách chờ"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.private"
@@ -63,6 +83,10 @@ msgstr "{name} đã vào nhóm"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.left"
 msgstr "{name} đã rời nhóm"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLocked"
+msgstr "{name} đã chốt chuyến đi"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.renamed"
@@ -443,9 +467,37 @@ msgstr "Cảm ơn bạn. Đội ngũ của chúng mình sẽ xem ngay."
 msgid "chat.attach.cameraOff"
 msgstr "Máy ảnh đang tắt"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKeptOne"
+msgstr "Nhóm không đồng ý {change}. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKept"
+msgstr "Nhóm không đồng ý. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planAdded"
+msgstr "Nhóm đồng ý: {change} đã vào kế hoạch"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChangedTo"
+msgstr "Nhóm đồng ý: kế hoạch giờ có {change}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChanged"
+msgstr "Nhóm đồng ý. Kế hoạch đã đổi."
+
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedTitle"
 msgstr "Micro đang tắt"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLockedAuto"
+msgstr "Chuyến đi đã được chốt"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planVoteRanOut"
+msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
@@ -503,6 +555,10 @@ msgstr "Tin nhắn thoại"
 msgid "chat.voice.label"
 msgstr "Tin nhắn thoại, {length}"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.line"
+msgstr "Bình chọn, kế hoạch, ai đi và ảnh đều về đây."
+
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.waiting"
 msgstr "Đang chờ có mạng"
@@ -530,3 +586,7 @@ msgstr "Bạn sẽ không thấy tin nhắn của {name} trong chat này."
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.line"
 msgstr "Bạn đang ngoại tuyến. Tin nhắn sẽ gửi khi có mạng lại."
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.titlePlain"
+msgstr "Đây là chỗ nhóm bạn trò chuyện"

@@ -93,7 +93,11 @@ export function versionNumberSources(context: VersionContext): string[] {
     ...(context.share === null ? [] : [context.share]),
     ...context.savings.map((saving) => saving.amount),
     ...(context.dates === null ? [] : [context.dates]),
-    ...context.items.flatMap((item) => [item.title, item.day === null ? '' : String(item.day)]),
+    ...context.items.flatMap((item) => [
+      item.title,
+      item.day === null ? '' : String(item.day),
+      item.time ?? '',
+    ]),
     context.destination,
   ];
 }

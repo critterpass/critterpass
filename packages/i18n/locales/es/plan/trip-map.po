@@ -29,6 +29,10 @@ msgstr ""
 msgid "plan.tripMap.gap.some"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.inCrew"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.countdown"
 msgstr ""
@@ -273,6 +277,10 @@ msgstr ""
 msgid "plan.tripMap.empty.swipeLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingMeanwhile"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.moveStops"
 msgstr ""
@@ -422,6 +430,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx

@@ -2,12 +2,14 @@
  * The inbox's writes. An answer queues `act_inbox_item` (offline too) and the card leaves at once:
  * it is kept here, handled, until its slide-off ends, while the queued op already hides it from the
  * list. If the server refuses the answer, a toast says so and the item is simply back (the op left
- * the queue and the item is still open). Mark all read never resolves anything.
+ * the queue and the item is still open). Mark all read never resolves anything. An item the server
+ * settles itself (a proposal, placed ideas) only opens its screen and stays until done there.
  */
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import type { InboxAction } from '@cp/domain';
+import { currentAppPath, type InboxAction } from '@cp/domain';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useRejectedCommands } from '@/data/status/use-rejected-commands';
@@ -15,7 +17,7 @@ import { toast } from '@/motion/island-toast';
 
 import { actInboxItemCommand, markInboxReadCommand } from '../home-commands';
 import { useNudge } from '../nudge/use-nudge';
-import type { InboxItem } from './inbox-data';
+import { opensWithoutSettling, type InboxItem } from './inbox-data';
 
 export interface InboxActions {
   /** Cards answered on this screen and still sliding away. */
@@ -58,6 +60,12 @@ export function useInboxActions(): InboxActions {
 
   const answer = useCallback(
     async (item: InboxItem, action: InboxAction) => {
+      if (opensWithoutSettling(item, action) && item.deepLink !== null) {
+        // The card stays until the thing is done on the screen it opens.
+        if (!item.read) void read.send({ item_ids: [item.id] });
+        router.push(currentAppPath(item.deepLink));
+        return;
+      }
       if (action.command === 'send_nudge') {
         // A nudge answers online: the sender sees when it lands, or gets the share sheet.
         const outcome = await nudges.nudgeFromInbox(item.id, action.id);
@@ -78,7 +86,7 @@ export function useInboxActions(): InboxActions {
         });
       }
     },
-    [act, nudges, t],
+    [act, nudges, read, t],
   );
 
   const markAllRead = useCallback(

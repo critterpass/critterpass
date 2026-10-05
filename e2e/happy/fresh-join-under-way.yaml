@@ -182,7 +182,7 @@ appId: app.critterpass.dev
 # The guide writes the friend's version on staging's AI.
 - extendedWaitUntil:
     visible:
-      text: '(?i)their version is ready|.*wrote the group version.*'
+      text: '(?i).*version is ready|.*wrote the group version.*'
     timeout: 300000
 
 # Someone who joins while the proposal is out: in the crew, with no version of their own to answer
@@ -322,7 +322,7 @@ appId: app.critterpass.dev
 - tapOn: '(?i)yes, lock it in'
 - extendedWaitUntil:
     visible:
-      text: '(?i)locked in\. the trip is confirmed\.'
+      id: 'tracker-confirmed'
     timeout: 30000
 # The trip's first day is today, so the trip day starts for the organiser at once and the app asks
 # whether to remember the places they visit. It is answered here, on the trips tab, so the sheet
