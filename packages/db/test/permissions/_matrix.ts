@@ -2076,6 +2076,15 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   album_exports: { selectProbe: ownRowProbe('album_exports'), expectations: OWNER_READ },
   mailing_addresses: { selectProbe: ownRowProbe('mailing_addresses'), expectations: OWNER_READ },
   trip_ideas: { selectProbe: tripRowProbe('trip_ideas'), expectations: CREW_VISIBLE_READ },
+  // The fixture's crew-visible cards (its stops and ideas); organiser rows are proven in
+  // trip-places.test.ts.
+  trip_places: {
+    selectProbe: {
+      sql: "SELECT 1 FROM trip_places WHERE trip_id = $1 AND visibility = 'crew'",
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   place_stances: { selectProbe: tripRowProbe('place_stances'), expectations: CREW_VISIBLE_READ },
   place_hides: { selectProbe: ownRowProbe('place_hides'), expectations: OWNER_READ },
   plan_legs: { selectProbe: tripRowProbe('plan_legs'), expectations: CREW_VISIBLE_READ },

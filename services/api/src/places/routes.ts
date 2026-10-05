@@ -4,8 +4,13 @@
  * `c.var.uid` (set by that future middleware, per `AppEnv` in `../app.ts`) and returns
  * `AUTH_REQUIRED` when it is absent, rather than assuming any particular caller.
  */
-import { DomainError, poiCategorySchema, type RouteEtaProvider } from '@cp/domain';
-import { withUser } from '@cp/db';
+import {
+  DomainError,
+  poiCategorySchema,
+  tripPlacesRefreshFor,
+  type RouteEtaProvider,
+} from '@cp/domain';
+import { onEventAppended, sendInTx, withUser } from '@cp/db';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -75,7 +80,22 @@ function tripSearchDeps(deps: PlacesRouteDeps): TripSearchDeps {
   return { travel, fit: { stays: tripStaySource, travel, now: () => new Date() } };
 }
 
+/** Queues the trip's `trip_places` refresh in the transaction of an event that changes its places. */
+export async function tripPlacesEventHook(
+  tx: pg.PoolClient,
+  event: { readonly type: string; readonly tripId: string | null },
+): Promise<void> {
+  const send = tripPlacesRefreshFor(event);
+  if (send !== null) await sendInTx(tx, send.queue, send.data, send.options);
+}
+
+let hooked = false;
+
 export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRouteDeps): void {
+  if (!hooked) {
+    hooked = true;
+    onEventAppended(tripPlacesEventHook);
+  }
   const planned = tripSearchDeps(deps);
   // First: `/v1/places/:id/live` would otherwise take `/v1/places/search/live` for a place id.
   registerLiveSearchRoutes(app, deps);
