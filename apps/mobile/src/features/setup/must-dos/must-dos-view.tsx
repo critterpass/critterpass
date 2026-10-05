@@ -14,6 +14,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
 import type { SetupTrip } from '../data/setup-trip';
@@ -21,6 +22,8 @@ import type { ShellFrame } from '../shell/frame';
 import { DoneTag } from '../shell/header-tag';
 import { SetupShell } from '../shell/setup-shell';
 import { stepTitle } from '../shell/stepper';
+import { ResultRow } from './add-sheet-view';
+import type { ExamplePlace } from './examples';
 import { summaryLine } from './lines';
 import type { MustDoItem, MustDosModel } from './model';
 import { MustDoRow } from './must-do-row';
@@ -43,6 +46,9 @@ export interface MustDosViewProps {
   readonly onDraft: () => void;
   /** Drafts with nothing on the list (offered only where the server takes that move). */
   readonly onDraftWithout?: (() => void) | undefined;
+  /** Places to tap when the list is empty (the guide's top picks there); each adds itself. */
+  readonly examples?: readonly ExamplePlace[];
+  readonly onExample?: ((place: ExamplePlace) => void) | undefined;
   readonly onRemove: (item: MustDoItem) => void;
   readonly onRemind: (item: MustDoItem) => void;
 }
@@ -63,6 +69,8 @@ export function MustDosView({
   onAdd,
   onDraft,
   onDraftWithout,
+  examples = [],
+  onExample,
   onRemove,
   onRemind,
 }: MustDosViewProps) {
@@ -174,6 +182,31 @@ export function MustDosView({
           <TypingRow key={member.uid} member={member} />
         ))}
       </View>
+      {model.items.length === 0 &&
+      !done &&
+      canAdd &&
+      onExample !== undefined &&
+      examples.length > 0 ? (
+        <View style={styles.list} testID="must-dos-examples">
+          <Text variant="eyebrow">
+            {t({ id: 'setup.mustDos.examples', message: 'For example' })}
+          </Text>
+          {examples.map((place, index) => {
+            const name = place.name;
+            return (
+              <ResultRow
+                key={place.id}
+                title={name}
+                line={null}
+                trailing={<Text variant="h3">+</Text>}
+                onPress={() => onExample(place)}
+                label={t({ id: 'setup.mustDos.exampleA11y', message: `Add ${name} as a must-do` })}
+                testID={`must-dos-example-${index}`}
+              />
+            );
+          })}
+        </View>
+      ) : null}
       {summary === null ? null : (
         <View style={styles.guide}>
           <GuideLine

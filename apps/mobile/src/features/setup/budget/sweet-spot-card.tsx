@@ -1,6 +1,6 @@
 /**
  * The yellow sweet-spot card (3c-5): "SWEET SPOT, EACH" with the under-all check, the target as a
- * rolling amount, and the track with the knob among anonymous dots. The knob drags (or steps with a
+ * rolling amount, and the track with the knob among anonymous dots. The knob drags with the finger, jumps to a tap (or steps with a
  * screen reader) in the crew's steps (₫500,000, $50), ticking on every step and warning as it crosses the top of
  * the band. Dots are bucketed positions from the server; nothing here knows whose, or any max.
  */
@@ -87,17 +87,37 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const fromX = (x: number) =>
     set(track.minMinor + ((x - KNOB / 2) / Math.max(1, width - KNOB)) * span);
 
+  // A drag moves the knob by as much as the finger moves, from where the knob stands (a drag
+  // that starts anywhere on the track never throws it to the finger); a tap puts it there.
+  const [dragFrom, setDragFrom] = useState<number | null>(null);
+  const startDrag = () => setDragFrom(target);
+  const dragBy = (dx: number) => {
+    if (dragFrom !== null) set(dragFrom + (dx / Math.max(1, width - KNOB)) * span);
+  };
+  const endDrag = () => setDragFrom(null);
+
   const pan = Gesture.Pan()
     .enabled(width > 0)
-    .minDistance(0)
-    .onBegin((event) => {
+    .minDistance(4)
+    .onStart(() => {
       'worklet';
-      scheduleOnRN(fromX, event.x);
+      scheduleOnRN(startDrag);
     })
     .onUpdate((event) => {
       'worklet';
-      scheduleOnRN(fromX, event.x);
+      scheduleOnRN(dragBy, event.translationX);
+    })
+    .onFinalize(() => {
+      'worklet';
+      scheduleOnRN(endDrag);
     });
+  const tap = Gesture.Tap()
+    .enabled(width > 0)
+    .onEnd((event, success) => {
+      'worklet';
+      if (success) scheduleOnRN(fromX, event.x);
+    });
+  const gesture = Gesture.Race(pan, tap);
 
   const onAction = (event: AccessibilityActionEvent) => {
     if (event.nativeEvent.actionName === 'increment') set(target + track.stepMinor);
@@ -158,7 +178,7 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
           testID="budget-target"
         />
       </View>
-      <GestureDetector gesture={pan}>
+      <GestureDetector gesture={gesture}>
         <View
           onLayout={(event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width)}
           accessible

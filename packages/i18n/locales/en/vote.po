@@ -173,6 +173,10 @@ msgid "vote.quickCrew.defaultName"
 msgstr "{placeName} crew"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.lockedIn"
+msgstr "{winner} is locked in. No vote needed."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr "{winner} won {score}"
 

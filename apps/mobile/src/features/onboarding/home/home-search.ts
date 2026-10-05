@@ -1,8 +1,11 @@
 /**
  * Home base search (3a-5) over the bundled airports. Results rank as: an exact IATA code, then
  * city or country name prefixes near the hint, then the hint's nearest airports by distance when
- * the query names the hint's own place, then other prefix hits, then weaker name matches. The
- * list stays short so the HOME stamp the pick inks shows below it.
+ * the query names the hint's own place, then other prefix hits, then weaker name matches. A
+ * look-alike (a name that merely resembles what was typed) shows only when nothing matched the
+ * city, country or airport name itself. A reader whose language belongs to one country gets that
+ * country's matches first, and its main airports before typing when the phone gave no position. The list stays short so the HOME stamp the pick
+ * inks shows below it.
  */
 import {
   driveMinutesBetween,
@@ -43,13 +46,30 @@ export const HOME_ROWS = 3;
 const NEAREST_COUNT = 3;
 /** Same-country airports this close read as home itself ("Singapore · SGD"), not a drive. */
 const LOCAL_DRIVE_MINUTES = 60;
+/** Scores below this are look-alikes (trigram similarity), not a name or code that starts as typed. */
+const LOOK_ALIKE_BELOW = 300;
+
+/**
+ * A country's airports most people there fly from, busiest first: the dataset's rank puts every
+ * large airport level, so the order within it is said here.
+ */
+const MAIN_AIRPORTS: Readonly<Record<string, readonly string[]>> = { VN: ['SGN', 'HAN', 'DAD'] };
+
+/** The country a reader of `locale` is most likely at home in, where the language says so. */
+export function readerCountryOf(locale: string): string | null {
+  return locale.toLowerCase().startsWith('vi') ? 'VN' : null;
+}
 
 export function homeResults(
   dataset: AirportDataset,
   query: string,
   hint: GeoHint | null,
   limit = HOME_ROWS,
+  readerCountry: string | null = null,
 ): HomeResults {
+  // The reader's own country leads only where the hint does not already place them.
+  const homeCountry =
+    readerCountry !== null && hint?.country !== readerCountry ? readerCountry : null;
   const point = hint?.point ?? null;
   const nearest = point === null ? [] : nearestAirports(dataset.airports, point, NEAREST_COUNT);
   const nearIatas = new Set([...(hint?.nearest_iata ?? []), ...nearest.map((n) => n.airport.iata)]);
@@ -64,6 +84,18 @@ export function homeResults(
     };
   };
 
+  // Before anything is typed, only where the phone gave no position at all: a real position
+  // (a Vietnamese reader living abroad) keeps its nearest airports.
+  if (query.trim().length === 0 && homeCountry !== null && point === null) {
+    const lead = MAIN_AIRPORTS[homeCountry] ?? [];
+    const place = (iata: string) => (lead.includes(iata) ? lead.indexOf(iata) : lead.length);
+    const main = dataset.airports
+      .filter((airport) => airport.country === homeCountry)
+      .sort(
+        (a, b) => place(a.iata) - place(b.iata) || a.rank - b.rank || a.iata.localeCompare(b.iata),
+      );
+    if (main.length > 0) return { rows: main.slice(0, limit).map(airportRow), farMinutes: null };
+  }
   if (query.trim().length === 0) {
     return { rows: nearest.slice(0, limit).map((n) => airportRow(n.airport)), farMinutes };
   }
@@ -72,9 +104,15 @@ export function homeResults(
   const isLocal = (hit: AirportHit): boolean =>
     hint !== null &&
     (nearIatas.has(hitIata(hit)) || (hint.country !== null && hitCountry(hit) === hint.country));
+  const isHome = (hit: AirportHit): boolean =>
+    homeCountry !== null && hitCountry(hit) === homeCountry;
   const exact = hits.filter((h) => h.score >= EXACT_CODE_SCORE);
   const strong = hits.filter((h) => h.score >= STRONG_MATCH_SCORE && h.score < EXACT_CODE_SCORE);
-  const weak = hits.filter((h) => h.score < STRONG_MATCH_SCORE);
+  // With a real match on the list, names that only look like the query are left out.
+  const matched = hits.some((h) => h.score >= LOOK_ALIKE_BELOW);
+  const weak = hits.filter(
+    (h) => h.score < STRONG_MATCH_SCORE && (!matched || h.score >= LOOK_ALIKE_BELOW),
+  );
   const near = namesHintPlace(dataset, query, hint) ? nearest : [];
 
   const rows: HomeRow[] = [];
@@ -91,9 +129,11 @@ export function homeResults(
   const pushNear = (n: NearbyAirport) => push(n.airport.iata, () => airportRow(n.airport));
 
   exact.forEach(pushHit);
+  strong.filter(isHome).forEach(pushHit);
   strong.filter(isLocal).forEach(pushHit);
   near.forEach(pushNear);
   strong.filter((h) => !isLocal(h)).forEach(pushHit);
+  weak.filter(isHome).forEach(pushHit);
   weak.forEach(pushHit);
   return { rows: rows.slice(0, limit), farMinutes };
 }

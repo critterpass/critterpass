@@ -361,6 +361,10 @@ msgid "setup.when.own.synced"
 msgstr "Lịch của bạn đã vào · {ago}"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.yoursIn"
+msgstr "Lịch của bạn đã vào. Những người khác chưa."
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.pickSolo"
 msgstr "Lịch của bạn đang trống. Chọn những ngày bạn muốn đi."
 

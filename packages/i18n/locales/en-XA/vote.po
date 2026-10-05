@@ -173,6 +173,10 @@ msgid "vote.quickCrew.defaultName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.lockedIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr ""
 

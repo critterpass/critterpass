@@ -361,6 +361,10 @@ msgid "setup.when.own.synced"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.yoursIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.pickSolo"
 msgstr ""
 

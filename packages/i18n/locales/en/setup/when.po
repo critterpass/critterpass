@@ -361,6 +361,10 @@ msgid "setup.when.own.synced"
 msgstr "Your calendar is in · {ago}"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.yoursIn"
+msgstr "Your calendar is in. The others are still to come."
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.pickSolo"
 msgstr "Your calendar looks open. Pick the days you want."
 

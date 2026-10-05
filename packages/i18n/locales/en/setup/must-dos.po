@@ -80,6 +80,10 @@ msgid "setup.addMustDo.keepA11y"
 msgstr "Add “{typed}” as you typed it"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.exampleA11y"
+msgstr "Add {name} as a must-do"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.addAnother"
 msgstr "Add another"
 
@@ -126,6 +130,10 @@ msgstr "Fits"
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.fitsDay"
 msgstr "Fits day {day}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.examples"
+msgstr "For example"
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.resolving"

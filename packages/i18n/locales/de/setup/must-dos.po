@@ -80,6 +80,10 @@ msgid "setup.addMustDo.keepA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.exampleA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.addAnother"
 msgstr ""
 
@@ -125,6 +129,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.fitsDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.examples"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
