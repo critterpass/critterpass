@@ -1,7 +1,8 @@
 /**
  * The GO preview from props: the map with you, the place and the route, and a card at the foot
  * with the walk / drive toggle and their minutes, one line about what is missing (signal,
- * location, a road route), Grab's fare when Grab runs there, and Start (directions in the maps
+ * location switched off, no fix yet with a way to try again, a road route), Grab's fare or the
+ * estimate from its published rates when Grab runs there, and Start (directions in the maps
  * app) and Ride (Grab). Built from the map kit, the card and the buttons; the lab scenes render
  * it with fixed states.
  */
@@ -13,11 +14,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Card } from '@/ui/cards/Card';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -39,6 +42,8 @@ export interface GoPreviewViewProps {
   readonly mapsApp: MapsApp;
   readonly onStart: () => void;
   readonly onRide: () => void;
+  /** Looks for the phone's position again (offered when location is on and no fix came). */
+  readonly onRetry?: (() => void) | undefined;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -69,15 +74,23 @@ function GrabLine({ grab, onRide }: { readonly grab: GrabRow; readonly onRide: (
   const { t } = useLingui();
   let title = t({ id: 'go.preview.grabHere', message: 'Grab runs here' });
   let detail = t({ id: 'go.preview.grabLink', message: 'Opens Grab with the drop-off filled in' });
-  if (grab.kind === 'fare') {
+  if (grab.kind !== 'link') {
     const fare = compactFareRange(grab, locale, {
       thousand: t({ id: 'go.preview.money.thousand', message: 'K' }),
       million: t({ id: 'go.preview.money.million', message: 'M' }),
       billion: t({ id: 'go.preview.money.billion', message: 'B' }),
     });
-    const eta = grab.etaMin;
-    title = t({ id: 'go.preview.grabFare', message: `Grab ${fare}` });
-    detail = t({ id: 'go.preview.grabEta', message: `A car about ${eta} min away` });
+    if (grab.kind === 'fare') {
+      const eta = grab.etaMin;
+      title = t({ id: 'go.preview.grabFare', message: `Grab ${fare}` });
+      detail = t({ id: 'go.preview.grabEta', message: `A car about ${eta} min away` });
+    } else {
+      title = t({ id: 'go.preview.grabEstimate', message: `Grab about ${fare}` });
+      detail = t({
+        id: 'go.preview.grabEstimateLine',
+        message: 'An estimate from Grab’s published rates. Grab shows the real fare.',
+      });
+    }
   }
   return (
     <Row gap="12" align="center" testID={`go-grab-${grab.kind}`}>
@@ -129,12 +142,18 @@ export function GoPreviewView(props: GoPreviewViewProps) {
       id: 'go.preview.noLocation',
       message: 'Location is off, so there’s no line from you. Start still gives directions.',
     }),
+    no_fix: t({
+      id: 'go.preview.noFix',
+      message: 'Can’t find where you are yet. The route shows up as soon as your phone does.',
+    }),
     offline: t({
       id: 'go.preview.offline',
       message: 'No signal, so no route line. Start still gives directions.',
     }),
   };
   const line = note[state.status];
+  // The round arrow over the map is this screen's way back.
+  useBackAffordance();
   return (
     <Scaffold variant="dark" edges={[]} testID={`go-preview-${state.status}`}>
       <GoMap
@@ -175,6 +194,13 @@ export function GoPreviewView(props: GoPreviewViewProps) {
                 {line}
               </Text>
             )}
+            {state.status === 'no_fix' && props.onRetry !== undefined ? (
+              <TextLink
+                label={t({ id: 'go.preview.retryLocate', message: 'Try again' })}
+                onPress={props.onRetry}
+                testID="go-retry"
+              />
+            ) : null}
             {state.grab === null ? null : <GrabLine grab={state.grab} onRide={props.onRide} />}
             <PillButton
               label={
