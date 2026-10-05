@@ -375,10 +375,10 @@ describe('content.publish', () => {
   });
 
   it('stores no null line: a null clears an earlier value and leaves no key behind', async () => {
-    // A temple whose stored note has etiquette and, from an earlier publish, a line stored as null.
+    // A place whose stored note has etiquette and, from an earlier publish, a line stored as null.
     await harness.pool.query(
       `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, curation, editorial)
-       SELECT id, 'Pura Gunung Lebah', 'museum', -8.504, 115.2546, '{"fsq_os": "lebah"}', 'editorial',
+       SELECT id, 'Pantai Pura Geger', 'beach', -8.504, 115.2546, '{"fsq_os": "geger"}', 'editorial',
          '{"etiquette": "Wear a sarong.", "entry_short": "Free", "crowd_hint": null}'
          FROM destinations WHERE slug = 'bali'`,
     );
@@ -387,7 +387,7 @@ describe('content.publish', () => {
       destination: 'bali',
       name,
       name_local: null,
-      category: 'museum',
+      category: 'beach',
       lat: -8.504,
       lng: 115.2546,
       address: null,
@@ -401,7 +401,7 @@ describe('content.publish', () => {
         attribution: 'Foursquare Open Source Places',
       },
       editorial: {
-        why_go: 'A temple where two rivers meet.',
+        why_go: 'A beach below a clifftop temple.',
         best_time: 'Morning',
         time_needed_min: 30,
         crowd_hint: 'Quiet',
@@ -410,14 +410,14 @@ describe('content.publish', () => {
       merge_into: null,
       possible_duplicate_of: null,
     });
-    const items = [item('lebah', 'Pura Gunung Lebah'), item('blanco', 'Blanco Museum')];
+    const items = [item('geger', 'Pantai Pura Geger'), item('mengiat', 'Pantai Mengiat')];
     await publish(await approved('places', 40, items));
     const stored = () =>
       harness.pool.query<{ name: string; editorial: Record<string, unknown>; xmin: string }>(
-        `SELECT name, editorial, xmin::text AS xmin FROM pois WHERE category = 'museum' ORDER BY name`,
+        `SELECT name, editorial, xmin::text AS xmin FROM pois WHERE category = 'beach' ORDER BY name`,
       );
     const note = {
-      why_go: 'A temple where two rivers meet.',
+      why_go: 'A beach below a clifftop temple.',
       best_time: 'Morning',
       time_needed_min: 30,
       crowd_hint: 'Quiet',
@@ -425,9 +425,9 @@ describe('content.publish', () => {
     const first = await stored();
     expect(first.rows.map((row) => [row.name, row.editorial])).toEqual([
       // Created from the item: no etiquette key.
-      ['Blanco Museum', note],
+      ['Pantai Mengiat', note],
       // Etiquette cleared, the fact a release does not carry kept, no null left.
-      ['Pura Gunung Lebah', { ...note, entry_short: 'Free' }],
+      ['Pantai Pura Geger', { ...note, entry_short: 'Free' }],
     ]);
     // A row that already reads as its item says is still left alone.
     await publish(await approved('places', 41, items));
