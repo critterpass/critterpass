@@ -25,6 +25,8 @@ export interface AppDeps {
   commit: string;
   logger: Logger;
   readiness: Record<string, ReadinessCheck>;
+  /** The process has finished starting (`/health` answers 503 until then); absent = started. */
+  started?: () => boolean;
   /** Serves the Scalar API reference at /docs (never in production). */
   exposeDocs: boolean;
   /** Absent for services (like media-worker, or future non-DB routes) that never mount DB routes. */
@@ -130,6 +132,10 @@ export function createApp(deps: AppDeps) {
       // Only the routes below read it; the other /v1/places/... routes resolve their own session.
       for (const path of [
         '/v1/places/:id',
+        // Two segments after /v1/places/: the one-segment pattern above does not reach them.
+        '/v1/places/:id/live',
+        '/v1/places/search/live',
+        '/v1/places/search/live/resolve',
         '/v1/map/regions/:destination_id',
         '/v1/geocode',
         '/v1/geocode/reverse',
