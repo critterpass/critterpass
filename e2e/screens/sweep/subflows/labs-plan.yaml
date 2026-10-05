@@ -1,8 +1,10 @@
 appId: app.critterpass.dev
 ---
-# Lab scenes for the plan, in ${LANG}: drafting (3c-8), changing a day (3c-11), the redraft (3c-12),
-# the overview (3e-1), the day and its timeline (3e-2) and review (3e-3). The scenes render the real
-# screens from fixtures, so the sweep compares screens no seed scenario reaches with their renders.
+# Lab scenes for the plan, in ${LANG}: drafting (3c-8), changing a day (3c-11), the redraft (3c-12);
+# the trip map (7a-1…7a-3, nothing saved 7i-1), the day plan (7b-1, its map 7b-2) and all days
+# (7b-3); Add to plan (7f-1), Ideas (7f-2), placing (7h-6), review (7h-7) and the plan check and its
+# fixes (7h-1…7h-5). The scenes render the real screens from fixtures, so the sweep compares
+# screens no seed scenario reaches with their renders.
 # Android: the nightly iPhone shard keeps to the seed scenarios.
 - runFlow:
     when:
@@ -35,33 +37,105 @@ appId: app.critterpass.dev
           file: open-dev-lab.yaml
           env:
             NAV: dev-nav-plan-views-lab
-            LIST: plan-views-lab-overview
+            LIST: 'plan-views-lab-.*'
       - runFlow:
           file: lab-scene.yaml
           env:
-            ITEM: plan-views-lab-overview
-            READY: plan-overview
-            SHOT: ${LANG}-3e-1-plan
+            ITEM: plan-views-lab-trip-map
+            READY: trip-map
+            SHOT: ${LANG}-7a-1-trip-map
       - runFlow:
           file: lab-scene.yaml
           env:
-            ITEM: plan-views-lab-review
-            READY: plan-review-chips
-            SHOT: ${LANG}-3e-3-review
+            ITEM: plan-views-lab-trip-map-day
+            READY: trip-map
+            SHOT: ${LANG}-7a-2-trip-map-one-day
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-trip-map-whole-trip
+            READY: trip-map
+            SHOT: ${LANG}-7a-3-trip-map-all-days
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-trip-map-nothing-saved
+            READY: trip-map
+            SHOT: ${LANG}-7i-1-nothing-saved
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-day-plan
+            READY: day-plan
+            SHOT: ${LANG}-7b-1-day-plan
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-day-plan-map-open
+            READY: day-map
+            SHOT: ${LANG}-7b-2-day-plan-map-open
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-all-days
+            READY: all-days
+            SHOT: ${LANG}-7b-3-all-days
       - runFlow:
           file: open-dev-lab.yaml
           env:
-            NAV: dev-nav-plan-edit-lab
-            LIST: plan-edit-lab-day
+            NAV: dev-nav-plan-ideas-lab
+            LIST: 'plan-ideas-lab-.*'
       - runFlow:
           file: lab-scene.yaml
           env:
-            ITEM: plan-edit-lab-day
-            READY: plan-day-list
-            SHOT: ${LANG}-3e-2-list
+            ITEM: plan-ideas-lab-add-to-plan
+            READY: plan-add-why
+            SHOT: ${LANG}-7f-1-add-to-plan
       - runFlow:
           file: lab-scene.yaml
           env:
-            ITEM: plan-edit-lab-planning
-            READY: plan-timeline
-            SHOT: ${LANG}-3e-2-planning
+            ITEM: plan-ideas-lab-ideas
+            READY: plan-ideas-list
+            SHOT: ${LANG}-7f-2-ideas
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-placing
+            READY: plan-placing-step-routing-running
+            SHOT: ${LANG}-7h-6-placing
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-review
+            READY: plan-review-title
+            SHOT: ${LANG}-7h-7-review
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-check-7h-1
+            READY: plan-check-title
+            SHOT: ${LANG}-7h-1-check
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-check-7h-2
+            READY: plan-gap-title
+            SHOT: ${LANG}-7h-2-ideas
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-check-7h-3
+            READY: plan-less-driving-rows
+            SHOT: ${LANG}-7h-3-order
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-check-7h-4
+            READY: plan-rain-swaps
+            SHOT: ${LANG}-7h-4-swaps
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-ideas-lab-check-7h-5
+            READY: plan-balance-offer
+            SHOT: ${LANG}-7h-5-balance
