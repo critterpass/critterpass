@@ -107,39 +107,6 @@ export function withMealKinds(
   });
 }
 
-/**
- * Her stops as the planner reads them. The planner knows a stop by its place, and a stop on a
- * dropped pin has none of ours: it is given a place of its own for this draft (the pin, under the
- * stop's own id, never offered to the guide), so the day is routed and timed around it like any
- * other stop of hers. The rows that are saved are hers, pin and all (`holdStops`).
- */
-export function forPlanner(
-  held: readonly HeldStop[],
-  tz: string,
-): { readonly held: HeldStop[]; readonly pins: DraftPoi[] } {
-  const pins: DraftPoi[] = [];
-  const stops = held.map((stop) => {
-    if (stop.pin === undefined) return stop;
-    const minutes = (Date.parse(stop.item.ends_at) - Date.parse(stop.item.starts_at)) / 60_000;
-    pins.push({
-      id: stop.item.stable_id,
-      name: stop.pin.name,
-      category: 'other',
-      lat: stop.pin.lat,
-      lng: stop.pin.lng,
-      tz,
-      hours: null,
-      priceLevel: null,
-      tags: [],
-      durationMin: Math.max(15, Math.round(minutes)),
-      editorial: false,
-      mustSee: false,
-    });
-    return { ...stop, item: { ...stop.item, poi_id: stop.item.stable_id } };
-  });
-  return { held: stops, pins };
-}
-
 export function heldPlaceIds(held: readonly HeldStop[]): Set<string> {
   return new Set(held.flatMap((stop) => (stop.item.poi_id === null ? [] : [stop.item.poi_id])));
 }
