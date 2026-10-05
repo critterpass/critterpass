@@ -33,6 +33,8 @@ export interface DraftPoi {
   /** Curated by our editors (synced to phones); open-data places stay server-side. */
   readonly editorial: boolean;
   readonly mustSee: boolean;
+  /** One of the handful of places a first visit should hold (always also a must-see). */
+  readonly essential?: boolean;
   /** How much the row says about the place (filled editorial fields, known hours); 0 = bare. */
   readonly detail?: number;
   /** What our editors wrote: why go, and the best time to (`editorial.why_go`, `best_time`). */
@@ -113,10 +115,27 @@ export function isKept(item: Pick<DraftItem, 'must_do_id' | 'locked_reason'>): b
   return item.must_do_id !== null || item.locked_reason !== null;
 }
 
+const PIN = 'pin:';
+
+/**
+ * The id a stop is planned under: its place, or for a stop of the crew's own on a dropped pin (no
+ * place of ours) a pin id made from the stop's own. A pin has a point and a name in the places
+ * the planner is given, so travel to it is known; it is never written into a stop's `poi_id`.
+ */
+export function placeIdOf(
+  item: Pick<DraftItem, 'poi_id' | 'locked_reason' | 'stable_id'>,
+): string | null {
+  if (item.poi_id !== null) return item.poi_id;
+  return isTheirs(item) ? pinIdOf(item.stable_id) : null;
+}
+
+export const pinIdOf = (stableId: string): string => `${PIN}${stableId}`;
+export const isPinId = (poiId: string): boolean => poiId.startsWith(PIN);
+
 /** A day's stops as choices, in their order, each keeping why it is locked. */
 export function choicesOfDay(day: Pick<DraftDay, 'items'>): DayChoice[] {
   return day.items.map((item): DayChoice => ({
-    poiId: item.poi_id ?? '',
+    poiId: placeIdOf(item) ?? '',
     kind: item.kind,
     mustDoId: item.must_do_id,
     note: item.note,

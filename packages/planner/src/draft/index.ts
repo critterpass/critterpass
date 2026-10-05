@@ -101,7 +101,7 @@ export {
 } from './place-time';
 export { straightLineMatrix } from './travel';
 export { homeBase, nearHome } from './home';
-export { choicesOfDay, isKept, isTheirs } from './types';
+export { choicesOfDay, isKept, isPinId, isTheirs, pinIdOf, placeIdOf } from './types';
 export type {
   Chronotype,
   CostBands,

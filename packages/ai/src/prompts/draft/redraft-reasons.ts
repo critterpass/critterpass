@@ -74,12 +74,3 @@ export function reasonTarget(reason: RedraftReasonKey, context: ReasonContext): 
       return `Lighter day means ${fewer}, dropping the most tiring one. ${meals}`;
   }
 }
-
-/** Which language the guide writes in, for a reader who does not read English. */
-export function languageLine(locale: string | undefined): string[] {
-  if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
-  const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(locale) ?? locale;
-  return [
-    `Write the title, the summary and every note in ${name} (${locale}), in your own voice: not one sentence in English. Place names stay exactly as the lists write them.`,
-  ];
-}

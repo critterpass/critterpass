@@ -27,7 +27,8 @@ import { byVariety, kindOf, MAX_SAME_KIND, oneTooMany } from '../src/prompts/dra
 
 const crew = CREWS.find((c) => c.id === 'dalat-curated-1');
 if (crew === undefined) throw new Error('no dalat-curated-1 crew');
-const input = planInput(crew);
+// The crew reads Vietnamese; these tests read the planner's English lines.
+const { locale: _locale, ...input } = planInput(crew);
 const base = baselineItinerary(input);
 const day2 = base.days[1] as Itinerary['days'][number];
 const named = (start: string): DraftPoi => {
@@ -256,9 +257,9 @@ describe('a redraft for a reader of another language', () => {
           chat: [],
         }),
       );
-    expect(request('vi')).toContain('every note in Vietnamese (vi)');
-    expect(request('en-GB')).not.toContain('every note in');
-    expect(request()).not.toContain('every note in');
+    expect(request('vi')).toContain('summary and note in Vietnamese (vi)');
+    expect(request('en-GB')).not.toContain('summary and note in');
+    expect(request()).not.toContain('summary and note in');
     expect(plannerLines('vi').longRide).not.toBe(plannerLines('en').longRide);
     expect(plannerLines('fr')).toBe(plannerLines(undefined));
   });

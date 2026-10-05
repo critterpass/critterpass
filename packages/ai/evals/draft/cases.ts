@@ -24,6 +24,7 @@ import {
 import { z } from 'zod';
 
 import type { DraftPlanInput } from '../../src/prompts/draft/context';
+import { withHeldStops } from '../../src/prompts/draft/held';
 import { derivedUuid } from '../../src/prompts/draft/ids';
 import { personaIdSchema } from '../../src/persona/schema';
 
@@ -52,6 +53,8 @@ const citySchema = z.object({
       duration_min: z.int(),
       tags: z.array(z.string()),
       must_see: z.boolean(),
+      /** One of the handful a first visit should hold (our editors' second tier). */
+      essential: z.boolean().optional(),
       editorial: z.boolean(),
       why_go: z.string().optional(),
       best_time: z.string().optional(),
@@ -102,6 +105,8 @@ export const crewCaseSchema = z.object({
     .default([]),
   /** Every day between the first and last must have lunch, dinner and at least four stops. */
   expect_full_days: z.boolean().default(false),
+  /** The language the organiser reads: the draft is written in it. */
+  locale: z.string().optional(),
   /** How many of the trip's core must-sees the draft must hold at least. */
   expect_core_min: z.int().min(0).default(0),
   /** Stops the organiser placed by hand before the draft: local "HH:MM" on day `day`. */
@@ -109,7 +114,9 @@ export const crewCaseSchema = z.object({
     .array(
       z.object({
         day: z.int().positive(),
-        poi_id: z.uuid(),
+        /** The place, or null for a stop on a dropped pin (then `pin` says where). */
+        poi_id: z.uuid().nullable(),
+        pin: z.object({ name: z.string(), lat: z.number(), lng: z.number() }).optional(),
         start: z.string(),
         end: z.string(),
         kind: z.enum(['activity', 'meal']),
@@ -184,6 +191,7 @@ export function planInput(
         durationMin: p.duration_min,
         editorial: p.editorial,
         mustSee: p.must_see,
+        ...(p.essential === true ? { essential: true } : {}),
         whyGo: p.why_go ?? null,
         bestTime: p.best_time ?? null,
       },
@@ -271,15 +279,16 @@ export function planInput(
         travel_min: 0,
         note: null,
       },
+      ...(stop.pin === undefined ? {} : { pin: stop.pin }),
     };
   });
   const heldPlaces = new Set(crew.held.map((stop) => stop.poi_id));
-  return {
+  const plain: DraftPlanInput = {
     guide: city.guide,
     destination: city.destination,
     frame,
     pois,
-    ...(held.length > 0 ? { held } : {}),
+    ...(crew.locale === undefined ? {} : { locale: crew.locale }),
     pools: candidatePools({
       pois: [...pois.values()].filter((poi) => !heldPlaces.has(poi.id)),
       frame,
@@ -301,4 +310,5 @@ export function planInput(
     idFor: (key) => derivedUuid(`${crew.id}:${key}`),
     skeletonRoute,
   };
+  return held.length > 0 ? withHeldStops(plain, held) : plain;
 }

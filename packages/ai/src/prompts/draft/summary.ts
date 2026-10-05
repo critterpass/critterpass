@@ -6,7 +6,7 @@
  * passing a near-empty plan off as a draft.
  */
 import { isDeclined, textOf } from '../../structured';
-import { personaSystem, type DraftModel } from './context';
+import { languageLine, personaSystem, type DraftModel } from './context';
 import type { PersonaId } from '../../persona/schema';
 import { proseProblem } from './schema';
 
@@ -19,6 +19,8 @@ export interface SummaryInput {
   readonly allMustDos: boolean;
   /** Place names the line may use as they are (digits included). */
   readonly names?: readonly string[];
+  /** The language the organiser reads (BCP 47); absent, English. */
+  readonly locale?: string;
   /** We know too few places here to fill the days: the line must say so. */
   readonly thin?: boolean;
 }
@@ -42,6 +44,14 @@ const THIN_TASK = [
 ].join('\n');
 
 export function templateSummary(input: SummaryInput): string {
+  if (input.locale?.toLowerCase().startsWith('vi') === true) {
+    if (input.thin === true) {
+      return `Tôi mới biết vài điểm ở ${input.destination}, nên bản nháp này còn mỏng. Bạn thêm điểm từ tìm kiếm, tôi sẽ xếp vào.`;
+    }
+    return input.allMustDos
+      ? `Mọi điểm phải đi đều có trong bản nháp ${input.destination} của bạn.`
+      : `Đây là bản nháp ${input.destination} của bạn. Hãy sửa những gì cần trước khi cả nhóm xem.`;
+  }
   if (input.thin === true) {
     return `I only know a few places in ${input.destination} so far, so this draft is thin. Add places from search and I will fit them in.`;
   }
@@ -55,6 +65,7 @@ export async function writeDraftSummary(model: DraftModel, input: SummaryInput):
     `Destination: ${input.destination}`,
     `Day themes, in order: ${input.themes.join('; ')}`,
     input.allMustDos ? 'Every must-do made it.' : 'Some must-dos did not fit.',
+    ...languageLine(input.locale),
     ...(input.thin === true
       ? ['We know only a few places here: most of each day is still open.']
       : []),

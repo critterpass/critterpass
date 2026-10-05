@@ -151,6 +151,7 @@ export function gradeHeld(input: DraftPlanInput, itinerary: Itinerary): string[]
       failures.push(`held: ${name} is gone from day ${dayNo}`);
       continue;
     }
+    if (kept.poi_id !== own.poi_id) failures.push(`held: ${name} changed its place`);
     if (kept.starts_at !== own.starts_at || kept.ends_at !== own.ends_at)
       failures.push(`held: ${name} was moved`);
     if (kept.locked_reason !== 'user') failures.push(`held: ${name} lost its lock`);
@@ -165,7 +166,10 @@ export function gradeHeld(input: DraftPlanInput, itinerary: Itinerary): string[]
       failures.push(`held: a stop overlaps ${name}`);
     const again = itinerary.days
       .flatMap((d) => d.items)
-      .filter((item) => item.poi_id === own.poi_id && item.stable_id !== own.stable_id);
+      .filter(
+        (item) =>
+          own.poi_id !== null && item.poi_id === own.poi_id && item.stable_id !== own.stable_id,
+      );
     if (again.length > 0) failures.push(`held: ${name} is planned a second time`);
     const slot = mealAt(minuteOfDate(new Date(own.starts_at), day.date, tz));
     if (own.kind === 'meal' && slot !== null) {
@@ -178,34 +182,6 @@ export function gradeHeld(input: DraftPlanInput, itinerary: Itinerary): string[]
     }
   }
   return failures;
-}
-
-const ENGLISH = new Set(
-  'the and with for of to is in your you this that at on it a an are we our from by'.split(' '),
-);
-
-/** Whether a line reads as an English sentence: several English function words, no Vietnamese letters. */
-export function looksEnglish(text: string): boolean {
-  // ă â đ ê ô ơ ư and every toned vowel: letters English never uses.
-  if (/[\u0103\u00e2\u0111\u00ea\u00f4\u01a1\u01b0\u1ea0-\u1ef9]/iu.test(text.normalize('NFC')))
-    return false;
-  const words = text.toLowerCase().split(/[^a-z]+/u);
-  return words.filter((word) => ENGLISH.has(word)).length >= 3;
-}
-
-/** A redraft read in another language has no English sentence in its title, summary or notes. */
-export function gradeLanguage(locale: string | undefined, outcome: RedraftOutcome): string[] {
-  if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
-  const read = [
-    ['title', outcome.title],
-    ['summary', outcome.summary],
-    ...outcome.day.items.map((item) => ['a note', item.note] as const),
-  ] as const;
-  return read.flatMap(([what, text]) =>
-    text !== null && looksEnglish(text)
-      ? [`language: ${what} is in English: "${text.slice(0, 60)}"`]
-      : [],
-  );
 }
 
 /** The draft holds enough of the places people come for, and no unexplained hole on a full day. */

@@ -53,6 +53,8 @@ export function indoorsInstead(
   start: Itinerary,
 ): Itinerary {
   let itinerary = start;
+  // Our editors' lines are English: a reader of another language gets none rather than theirs.
+  const english = input.locale === undefined || input.locale.toLowerCase().startsWith('en');
   const faults = (plan: Itinerary) =>
     validate(input, plan).violations.filter((v) => v.dayNo === input.dayNo).length;
   for (const outdoor of leftOutdoors(input, dayOf(start, input.dayNo))) {
@@ -66,7 +68,7 @@ export function indoorsInstead(
     for (const poi of indoor) {
       const choices = choicesOfDay(day).map((choice) =>
         choice.poiId === outdoor.id
-          ? { ...choice, poiId: poi.id, note: poi.whyGo ?? null }
+          ? { ...choice, poiId: poi.id, note: english ? (poi.whyGo ?? null) : null }
           : choice,
       );
       const next = scheduleChoices(input, skeleton, choices, `indoors-${outdoor.id}-${poi.id}`);

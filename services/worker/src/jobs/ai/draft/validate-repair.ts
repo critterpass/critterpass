@@ -43,5 +43,6 @@ export function keptWithJob(outcome: RepairOutcome) {
     filled: outcome.filled,
     notes_removed: outcome.notesRemoved,
     retitled: outcome.retitled,
+    essentials_left_out: outcome.essentialsLeftOut,
   };
 }

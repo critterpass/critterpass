@@ -17,6 +17,7 @@ import {
 } from '@cp/planner';
 
 import { fillMeals } from './complete-days';
+import { placeEssentials } from './essentials';
 import { fillThinDays } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -93,8 +94,15 @@ export function trimForMustDos(
       // Of the removals that fix as much, a meal goes first (another, nearer one is filled in
       // afterwards), then a stop the outline never planned, then the later of two.
       const planned = new Set(outline.poiIds);
+      // An essential place is the last to go.
       const rank = (item: DraftDay['items'][number]) =>
-        item.kind === 'meal' ? 0 : planned.has(item.poi_id ?? '') ? 2 : 1;
+        item.kind === 'meal'
+          ? 0
+          : input.pois.get(item.poi_id ?? '')?.essential === true
+            ? 3
+            : planned.has(item.poi_id ?? '')
+              ? 2
+              : 1;
       const candidates = day.items
         .map((item, index) => ({ item, index }))
         .filter(({ item }) => !isKept(item))
@@ -237,6 +245,11 @@ export function settle(
     lost = dropped.filter((drop) => drop.mustDoId === null || !moved.placed.has(drop.mustDoId));
   }
   let filled = 0;
+  if (options.fillThin) {
+    const essential = placeEssentials(input, outlines, itinerary);
+    itinerary = essential.itinerary;
+    filled += essential.added;
+  }
   for (const fill of options.fillThin ? [fillMeals, fillThinDays] : [fillMeals]) {
     const done = fill(input, outlines, itinerary);
     itinerary = done.itinerary;

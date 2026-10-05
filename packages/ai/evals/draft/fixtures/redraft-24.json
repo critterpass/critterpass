@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "345193ad-62e2-48c6-9eca-b4f557e32714",
+        "id": "d9b42e88-881d-4352-bef1-bc56aa1d6b43",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Day in Đà Lạt\",\n  \"summary\": \"A gentle day with a morning pagoda, a long lunch, and an evening market stroll, leaving plenty of room to breathe and watch the pines.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaic dragons is worth the ride, and the crew can linger without a single clock watching.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays right here because the nem nướng deserves a slow, happy chew, not a rushed bite.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, easy wander by the square for local life and photo stops, then we let the afternoon melt into coffee time.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a coffee in hand and a seat that says stay a while, because night owls and slow days are old friends.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, the complex glows and hums, just enough local nightlife to close the day without rushing anywhere.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Slow Sip of Đà Lạt\",\n  \"summary\": \"A gentle day with two unhurried stops, a long lunch, and an evening meal that lets the city come to you.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Morning light on the mosaic dragons, and not a single rush in sight. Take your time.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"The nem nướng you came for, eaten slowly with extra herbs and zero hurry.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The one evening wander, kept because slow days still deserve a little neon and people-watching.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sit-down dinner with coffee close at hand, because a night owl needs a soft landing.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 71,
+          "input_tokens": 1370,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2560,
-          "output_tokens": 408,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 319,
           "service_tier": "standard"
         }
       }

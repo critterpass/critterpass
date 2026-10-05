@@ -17,7 +17,10 @@ import {
   homeBase,
   instantAt,
   isKept,
+  isPinId,
   nearHome,
+  pinIdOf,
+  placeIdOf,
   scheduleDay,
   straightLineMatrix,
   validateItinerary,
@@ -232,5 +235,71 @@ describe('a stop with its own times', () => {
     });
     // The falls take until half past twelve and are ninety minutes away: only after lunch.
     expect(late.order).toEqual([1, 0]);
+  });
+});
+
+describe('a stop of hers on a dropped pin', () => {
+  const at = (minute: number) => instantAt(FRAME.dates[1] as string, minute, TZ).toISOString();
+  // No place of ours: the row has no `poi_id`, only its times and its lock.
+  const picnic: Itinerary['days'][number]['items'][number] = {
+    ...(day(1, [stop(P.lunch, 'meal')]).items[0] as Itinerary['days'][number]['items'][number]),
+    stable_id: id(5001),
+    poi_id: null,
+    starts_at: at(12 * 60),
+    ends_at: at(13 * 60),
+    locked_reason: 'user',
+  };
+  const pin = place(90, 'Nhà bà ngoại', 'food');
+  const pinned = new Map([
+    ...POIS,
+    [pinIdOf(picnic.stable_id), { ...pin, id: pinIdOf(picnic.stable_id) }],
+  ]);
+  const check = (items: Itinerary['days'][number]['items'], pois: typeof POIS) =>
+    validateItinerary({
+      itinerary: { currency: 'VND', days: [{ ...day(1, []), items }] },
+      pois,
+      frame: FRAME,
+      travel: NEAR,
+      requiredMustDoIds: [],
+      mealPlaces: [P.lunch, P.dinner],
+      hopCapMin: 40,
+    }).violations.map((v) => `${v.code}:${v.slot ?? ''}`);
+
+  it('is planned under a pin id and never written as a place', () => {
+    expect(placeIdOf(picnic)).toBe(pinIdOf(id(5001)));
+    expect(isPinId(pinIdOf(id(5001)))).toBe(true);
+    expect(placeIdOf({ ...picnic, locked_reason: null })).toBeNull();
+    const choices = choicesOfDay({ items: [picnic] });
+    expect(choices[0]).toMatchObject({ poiId: pinIdOf(id(5001)), stableId: id(5001) });
+    const again = scheduleDay({
+      dayNo: 2,
+      date: FRAME.dates[1] as string,
+      theme: 'A day',
+      choices: [stop(P.museum), ...choices],
+      pois: pinned,
+      window: dayWindow(FRAME, 1),
+      travel: NEAR,
+      bands: null,
+      currency: 'VND',
+      tz: TZ,
+      idFor: () => id(5002),
+    });
+    expect(again.items.find((item) => item.stable_id === id(5001))).toMatchObject({
+      poi_id: null,
+      starts_at: picnic.starts_at,
+      ends_at: picnic.ends_at,
+      locked_reason: 'user',
+    });
+  });
+
+  it('is no unknown place, with or without a place for its pin, and is the day’s lunch', () => {
+    // Without her picnic the day lacks lunch and dinner; with it, only dinner.
+    const museum = day(1, [stop(P.museum)]).items;
+    expect(check(museum, POIS).sort()).toEqual(['MEAL_MISSING:dinner', 'MEAL_MISSING:lunch']);
+    for (const pois of [POIS, pinned]) {
+      expect(check([...museum, picnic], pois)).toEqual(['MEAL_MISSING:dinner']);
+    }
+    // A stop of the guide's with no place is still an unknown place.
+    expect(check([{ ...picnic, locked_reason: null }], POIS)).toContain('UNKNOWN_POI:');
   });
 });
