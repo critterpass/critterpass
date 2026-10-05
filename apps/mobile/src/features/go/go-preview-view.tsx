@@ -32,6 +32,8 @@ import type { GrabRow, ModeMinutes, PreviewState } from './preview-model';
 
 /** About the card's height, so the map frames the route above it. */
 const CARD_INSET = 380;
+/** Enough lines for the longest place name we hold, so it is never cut. */
+const NAME_LINES = 6;
 
 export interface GoPreviewViewProps {
   readonly place: GoPoint & { readonly name: string };
@@ -179,7 +181,12 @@ export function GoPreviewView(props: GoPreviewViewProps) {
             <Stack gap="4">
               <Text variant="eyebrow">{t({ id: 'go.preview.eyebrow', message: 'GO' })}</Text>
               {/* The whole name, however long: it is where she is going. */}
-              <Text variant="h2" singleLine={false} testID="go-place-name">
+              <Text
+                variant="h2"
+                numberOfLines={NAME_LINES}
+                singleLine={false}
+                testID="go-place-name"
+              >
                 {props.place.name}
               </Text>
             </Stack>

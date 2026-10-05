@@ -226,6 +226,24 @@ appId: app.critterpass.dev
       - takeScreenshot: ${SHOTS}-14-skipped-just-me
 # 7. Day-of again: running late from the hero, then no signal.
 - runFlow: on-trip-to-hub.yaml
+# With the phone in Đà Nẵng the trip has turned on: the guide's welcome opens once she rests on the
+# hub (alone: the visit offer waits its turn). Put it away with its own "later".
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-later'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - takeScreenshot: ${SHOTS}-14b-welcome-alone-on-the-hub
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow: on-trip-to-hub.yaml
 - tapOn:
     id: 'trip-hub-next|trip-hub-today'
 - extendedWaitUntil:
