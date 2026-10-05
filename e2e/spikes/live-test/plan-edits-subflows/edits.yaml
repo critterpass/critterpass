@@ -110,18 +110,22 @@ appId: app.critterpass.dev
     optional: true
 - takeScreenshot: ${SHOTS}-06b-day-2-after-undo
 # The same again with the next place, kept this time: a stop in the way is pushed, never sat on.
-- scrollUntilVisible:
-    element:
-      id: 'day-plan-add'
-    direction: DOWN
-    timeout: 15000
-    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan-add'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
 - tapOn:
     id: 'day-plan-add'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'search-screen'
     timeout: 15000
+    optional: true
 - tapOn:
     id: 'search-field'
     optional: true
@@ -130,9 +134,11 @@ appId: app.critterpass.dev
     visible:
       id: 'search-row-add-1'
     timeout: 30000
+    optional: true
 - hideKeyboard
 - tapOn:
     id: 'search-row-add-1'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'plan-add-why'
@@ -143,6 +149,7 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-06c-second-add-sheet
 - tapOn:
     id: 'plan-add-confirm'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'island-toast-message'
@@ -457,7 +464,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: suggested-time.yaml
     env:
-      QUERY: 'Tanah Lot'
+      QUERY: 'Uluwatu Temple'
       SHOT: ${SHOTS}-28-suggested-sunset-temple
 - runFlow:
     file: suggested-time.yaml

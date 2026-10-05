@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import { TimeRangeField } from '@/features/plan/day/time-range-field';
 import { PressScale } from '@/ui/press/PressScale';
-import { GapSlot, TimeColumn } from '@/ui/planning';
+import { GapSlot } from '@/ui/planning';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles((t) => ({
     borderColor: t.semantic.border.decorative,
   },
   row: { flexDirection: 'row', gap: t.space['12'] },
+  time: { width: 50, alignItems: 'flex-end', paddingTop: t.space['12'] },
   card: {
     flex: 1,
     flexDirection: 'row',
@@ -108,7 +109,15 @@ export function AddBlock({
           })}
           testID="plan-add-time"
         >
-          <TimeColumn time={time} length={length} />
+          {/* The sheet's own column: its 24-hour time always fits, so nothing shrinks it. */}
+          <View style={styles.time}>
+            <Text variant="monoData" numberOfLines={1}>
+              {time}
+            </Text>
+            <Text variant="caption" color={theme.semantic.text.secondary}>
+              {length}
+            </Text>
+          </View>
         </PressScale>
         <View style={styles.card}>
           <View style={styles.disc}>
