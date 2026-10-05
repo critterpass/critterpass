@@ -62,10 +62,14 @@ const correctionSchema = z
       .strict()
       .optional(),
     why: z.string().min(1),
-    /** The map object the kept point was checked against, and how far the point is from it. */
+    /**
+     * The map object the kept point was checked against, and how far the point is from it. Absent
+     * only where the correction is to the name alone.
+     */
     checked: z
       .object({ source: z.string().min(1), lat: z.number(), lng: z.number(), off_m: z.number() })
-      .strict(),
+      .strict()
+      .optional(),
     merge: z.array(
       z
         .object({
@@ -87,6 +91,22 @@ export const correctionsFileSchema = z
     places: z.array(correctionSchema).min(1),
     /** Places the catalogue does not hold yet; each is the kept record of a place above. */
     new_records: z.array(newRecordSchema).default([]),
+    /**
+     * Recommended records the release hides: pinned far from the place they name, with no record
+     * at the place to merge them into.
+     */
+    hidden: z
+      .array(
+        z
+          .object({
+            destination: z.string().min(1),
+            ref: refSchema,
+            stored_name: z.string().min(1),
+            why: z.string().min(1),
+          })
+          .strict(),
+      )
+      .default([]),
     /** Faults found and left as they are, with the reason, for the review page. */
     left_alone: z.array(
       z
@@ -122,6 +142,8 @@ export const beforeRowSchema = z
     curated: z.boolean(),
     must_see: z.boolean(),
     essential: z.boolean().default(false),
+    /** Stops, ideas and must-dos of trips that point at the record. */
+    trip_refs: z.number().int().min(0).default(0),
     /** Content ref of the record it already redirects to. */
     merged_into: refSchema.nullable(),
     /** The record's item in the live release, when it has one. */
@@ -152,9 +174,13 @@ export function loadCorrections(
   return { file, before: withNewRecords(snapshot, file.new_records) };
 }
 
-/** Every record a corrections file names: the kept ones, then their duplicates. */
-export function correctionRefs(places: readonly PlaceCorrection[]): string[] {
-  return [...places.map((p) => p.keep), ...places.flatMap((p) => p.merge.map((m) => m.ref))];
+/** Every record a corrections file names: the kept ones, their duplicates, then the hidden. */
+export function correctionRefs(file: Pick<CorrectionsFile, 'places' | 'hidden'>): string[] {
+  return [
+    ...file.places.map((p) => p.keep),
+    ...file.places.flatMap((p) => p.merge.map((m) => m.ref)),
+    ...file.hidden.map((h) => h.ref),
+  ];
 }
 
 /** Metres between two points (haversine). */
@@ -296,70 +322,4 @@ export function correctionItems(
     }
   }
   return poiItemSchema.array().parse(items);
-}
-
-export interface CorrectionCounts {
-  readonly places: number;
-  readonly merges: number;
-  /** Recommended records folded into another record. */
-  readonly recommendedMerges: number;
-  readonly kindChanges: number;
-  readonly renames: number;
-  /** Places that had a recommended record over 2 km from the kept one. */
-  readonly movedPoints: number;
-  readonly mustSees: number;
-  readonly essentials: number;
-  /** Records that join the recommended set. */
-  readonly added: number;
-}
-
-export const FAR_M = 2_000;
-
-/** What a destination's corrections come to, for the review page and the report. */
-export function correctionCounts(
-  places: readonly PlaceCorrection[],
-  before: readonly BeforeRow[],
-): CorrectionCounts {
-  const rows = new Map(before.map((row) => [row.ref, row]));
-  const at = (ref: string) => {
-    const found = rows.get(ref);
-    if (found === undefined) throw new Error(`${ref} is not in the snapshot`);
-    return found;
-  };
-  let merges = 0;
-  let recommendedMerges = 0;
-  let kindChanges = 0;
-  let renames = 0;
-  let movedPoints = 0;
-  let mustSees = 0;
-  let essentials = 0;
-  let added = 0;
-  for (const place of places) {
-    const kept = at(place.keep);
-    // A record restated only to carry a new note already redirects to the kept one: not counted.
-    const duplicates = place.merge
-      .map((m) => at(m.ref))
-      .filter((d) => d.merged_into !== place.keep);
-    merges += duplicates.length;
-    recommendedMerges += duplicates.filter((d) => d.curated && d.merged_into === null).length;
-    if (place.stated && place.category !== undefined && place.category !== kept.category) {
-      kindChanges += 1;
-    }
-    if (place.stated && place.name !== undefined && place.name !== kept.name) renames += 1;
-    if (duplicates.some((d) => d.curated && metresBetween(d, kept) > FAR_M)) movedPoints += 1;
-    if (place.must_see === true) mustSees += 1;
-    if (place.essential === true) essentials += 1;
-    if (place.stated && !kept.curated) added += 1;
-  }
-  return {
-    places: places.length,
-    merges,
-    recommendedMerges,
-    kindChanges,
-    renames,
-    movedPoints,
-    mustSees,
-    essentials,
-    added,
-  };
 }
