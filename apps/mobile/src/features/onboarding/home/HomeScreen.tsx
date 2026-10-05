@@ -31,7 +31,7 @@ import { OnboardingPage } from '../page-chrome';
 import { OnboardingServicesContext } from '../services';
 import { TokekSays } from '../tokek-says';
 import { regionName } from '../region-names';
-import { homeResults, type HomeRow } from './home-search';
+import { HOME_ROWS, homeResults, readerCountryOf, type HomeRow } from './home-search';
 
 const useStyles = makeStyles((th) => ({
   search: {
@@ -212,7 +212,10 @@ export function HomeScreen() {
 
   // The search runs on the deferred query: a keystroke's render stays cheap, and the list catches up.
   const searched = useDeferredValue(query);
-  const results = useMemo(() => homeResults(airportDataset(), searched, hint), [searched, hint]);
+  const results = useMemo(
+    () => homeResults(airportDataset(), searched, hint, HOME_ROWS, readerCountryOf(locale)),
+    [searched, hint, locale],
+  );
 
   const pick = (iata: string) => {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.

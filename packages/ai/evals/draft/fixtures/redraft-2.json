@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "bc2fc54a-b5b7-499e-a1d1-cb6c90d71843",
+        "id": "0b0b3ec5-a397-4eb8-99a0-f3ef4170e592",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"A gentle morning temple, a long late lunch, and Pontocho after dark with room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Time to sit with the garden instead of checking the next stop.\",\n      \"poi_id\": \"p6\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long vegan lunch in the same part of town. Shoes off, phone down, eyes up.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one non-negotiable. We keep it, and we keep it unhurried.\",\n      \"poi_id\": \"p13\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Softer Morning, A Livelier Night\",\n  \"summary\": \"A gentle temple visit, a long lunch, then the evening kept for Pontocho.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand buddhas is enough after a late Pontocho night. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch here suits six tired legs and every taste at the table.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one unmissable stop stays, and now there is room to wander it slowly after dark.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 74,
+          "input_tokens": 111,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 241,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 253,
           "service_tier": "standard"
         }
       }

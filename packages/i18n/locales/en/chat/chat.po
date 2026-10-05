@@ -92,6 +92,14 @@ msgstr "{name} locked the trip in"
 msgid "chat.system.renamed"
 msgstr "{name} renamed the crew to {body}"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSaved"
+msgstr "{name} saved {body} to Ideas"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSavedPlain"
+msgstr "{name} saved a place to Ideas"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
 msgstr "{people} · {guideName} is in this chat"

@@ -17,7 +17,7 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
-import { dayRoute, useDayReading } from '@/features/plan';
+import { dayRoute, LateEntry, saidLateRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
@@ -69,6 +69,10 @@ const PACKING_SQL = `SELECT id, day, owner_id, label, checked, suggested_by, del
   FROM packing_items WHERE trip_id = ? ORDER BY created_at, id`;
 const WEATHER_SQL = `SELECT elevation_m, hourly FROM weather_snapshots
   WHERE destination_id = ? AND date = ?`;
+
+/** The date after `date` ("2026-10-06" after "2026-10-05"). */
+const tomorrowOf = (date: string) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
 
 function useNow(everyMs: number): Date {
   const [now, setNow] = useState(() => new Date());
@@ -205,6 +209,18 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
             }
       }
       goDetail={go?.detail ?? null}
+      // Late for the stop the hero names, while it is still ahead today.
+      late={
+        relation !== 'today' ||
+        planDayNo === null ||
+        lead === null ||
+        lead.kind === 'done' ? null : (
+          <LateEntry
+            onPick={(minutes) => router.push(saidLateRoute(tripId, lead.id, minutes))}
+            testID="trip-day-late"
+          />
+        )
+      }
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,
@@ -214,6 +230,11 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
             ? {}
             : { onPress: () => router.push(dayRoute(tripId, planDayNo, entry.id)) }),
       }))}
+      onTomorrow={
+        relation === 'today' && tripRow?.end_date != null && tomorrowOf(today) <= tripRow.end_date
+          ? () => router.push(tripDayRoute(tripId, tomorrowOf(today)))
+          : undefined
+      }
       onDayPlan={planDayNo === null ? undefined : () => router.push(dayRoute(tripId, planDayNo))}
       offline={sync.phase === 'offline'}
       alarmNote={

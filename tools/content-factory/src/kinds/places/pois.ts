@@ -17,6 +17,7 @@ import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
 import { poisBrief } from './brief';
 import type { DuplicateVerdict } from './duplicates';
 import { ALONE, FROM_NAME, readsTheName, standsAlone, unsupportedClaim } from './note-checks';
+import { carryTranslations, translationsToRewrite } from './translations';
 
 export { placesNetwork } from './brief';
 export { namedFood, unsupportedClaim } from './note-checks';
@@ -212,6 +213,7 @@ export const placesKind: KindModule<'places'> = {
       }),
     );
   },
+  carry: carryTranslations,
   validators: {
     items: [
       {
@@ -259,6 +261,7 @@ export const placesKind: KindModule<'places'> = {
       },
     ],
     batch: [
+      translationsToRewrite,
       {
         // Counted over the live release with the batch laid on it: a batch states only its changes.
         id: 'essentials-cap',

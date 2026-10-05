@@ -92,3 +92,21 @@ describe('moving past rooms with no room plan', () => {
     expect(resultOf(await skipRooms(crew))).toEqual({ trip_id: crew.tripId, step: 'must_dos' });
   });
 });
+
+describe('leaving must-dos with none on the list', () => {
+  const leave = (crew: SetupCrew, extra: Record<string, unknown> = {}) =>
+    harness.run(crew.organiser, 'set_setup_step', { trip_id: crew.tripId, step: 'done', ...extra });
+
+  it('is refused unless the move says the organiser drafts without one', async () => {
+    const crew = await crewAtRooms();
+    expect(resultOf(await skipRooms(crew))).toEqual({ trip_id: crew.tripId, step: 'must_dos' });
+    expect(errorOf(await leave(crew))).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { reason: 'step_not_done', step: 'must_dos' },
+    });
+    expect(resultOf(await leave(crew, { without_must_dos: true }))).toEqual({
+      trip_id: crew.tripId,
+      step: 'done',
+    });
+  });
+});

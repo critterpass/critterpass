@@ -8,7 +8,8 @@
  * so a monthly rerun leaves those rows and their indexes alone. Without an overlay this run, an existing row's
  * editorial/tags/hours/curation are left exactly as they were: a later plain re-ingest must never
  * erase a previous editorial pass, and a rerun that misses one source (FSQ OS unavailable) keeps the
- * source ids it already had.
+ * source ids it already had. A curated row also keeps its name, kind, point and address, which a
+ * places release corrected: the ingest still adds source ids, confidence, website, phone and brand.
  *
  * A new Overture-only place below `MIN_INSERT_CONFIDENCE` is not inserted: sampled in Hội An,
  * Mexico City and London, rows under 0.3 are mostly online-only sellers, home services and
@@ -183,9 +184,13 @@ async function updatePoiRows(
     ]),
     UPDATE_CASTS,
   );
+  // What a places release set on a curated row stays: its name, kind, point and address.
+  const kept = (column: string) =>
+    `CASE WHEN p.curation = 'editorial' AND NOT v.has_overlay THEN p.${column} ELSE v.${column} END`;
   await tx.query(
     `UPDATE pois AS p SET
-       name = v.name, category = v.category, lat = v.lat, lng = v.lng, address = v.address,
+       name = ${kept('name')}, category = ${kept('category')}, lat = ${kept('lat')},
+       lng = ${kept('lng')}, address = ${kept('address')},
        source_ids = p.source_ids || v.source_ids,
        editorial = CASE WHEN v.has_overlay THEN v.editorial ELSE p.editorial END,
        tags = CASE WHEN v.has_overlay THEN v.tags ELSE p.tags END,
@@ -201,7 +206,8 @@ async function updatePoiRows(
             OR (p.name, p.category, p.lat, p.lng, p.address, p.source_ids, p.confidence, p.website,
                 p.phone, p.brand)
                IS DISTINCT FROM
-               (v.name, v.category, v.lat, v.lng, v.address, p.source_ids || v.source_ids,
+               (${kept('name')}, ${kept('category')}, ${kept('lat')}, ${kept('lng')},
+                ${kept('address')}, p.source_ids || v.source_ids,
                 v.confidence, v.website, v.phone, v.brand))`,
     params,
   );

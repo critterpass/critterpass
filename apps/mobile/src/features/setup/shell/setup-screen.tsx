@@ -11,6 +11,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { View } from 'react-native';
 
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -81,6 +82,9 @@ export function SetupScreen({
   const styles = useStyles();
   const services = useSetupServices();
   const me = useMe();
+  // The trip's own streams: its destination's places (the must-do examples and the offline
+  // place search read them) arrive only once set-up has asked for them.
+  useTripStreams(tripId);
   const trip = useSetupTrip(tripId, me);
   const sync = useSyncStatus();
   const present = useSetupPresence(tripId);

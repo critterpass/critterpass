@@ -151,3 +151,27 @@ export const lateLines = () => ({
   missing: t({ id: 'trip.disruptions.late.missing', message: 'Nothing to sort here any more.' }),
   backAction: t({ id: 'trip.disruptions.late.backAction', message: 'Back' }),
 });
+
+/** The lines of a lateness the traveller said herself, before the day is changed. */
+export const saidLateLines = () => ({
+  /** Under the title: nothing has moved yet. */
+  pick: t({
+    id: 'trip.disruptions.late.said.pick',
+    message: 'Nothing has changed yet. Pick what to do.',
+  }),
+  skip: t({
+    id: 'trip.disruptions.late.said.skip',
+    message: 'Just for you. It stays on the plan.',
+  }),
+  skipped: t({ id: 'trip.disruptions.late.said.skipped', message: 'Skipped, just for you' }),
+  told: t({
+    id: 'trip.disruptions.late.said.told',
+    message: 'Your crew has been told. What you can do about it shows here in a moment.',
+  }),
+});
+
+/** "Chợ Hàn moves to 14:30. 2 later stops move by 30 min." */
+export function saidPushDetail(title: string, to: string, effect: string | null): string {
+  const moves = t({ id: 'trip.disruptions.late.detail.push', message: `${title} moves to ${to}.` });
+  return effect === null ? moves : `${moves} ${effect}`;
+}

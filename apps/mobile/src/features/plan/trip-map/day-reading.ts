@@ -10,6 +10,7 @@ import { instantOnDay } from '@/data/plan/plan-model';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 import { clock } from '../day/format';
+import { useSaidStops } from '../day/stop-check-in';
 import { useDayRoute } from './day-route';
 import { dayProgress, type StopMoment } from './next-stop';
 import { buildStopRows, onlyYouDetail, personalDetail } from './stop-rows';
@@ -59,6 +60,7 @@ export function useDayReading(
   const tz = plan.trip?.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   // The clock moves the marks once a minute, not once a second.
   const minute = Math.floor(now.getTime() / 60_000);
+  const said = useSaidStops(tripId);
   return useMemo(() => {
     const rows =
       day === null
@@ -70,7 +72,7 @@ export function useDayReading(
             gaps: [],
             members: plan.members,
             me: plan.uid,
-            progress: dayProgress(day, new Date(minute * 60_000), tz),
+            progress: dayProgress(day, new Date(minute * 60_000), tz, said),
           });
     const date = day?.date ?? null;
     return {
@@ -106,5 +108,5 @@ export function useDayReading(
                   ],
             ),
     };
-  }, [day, route, locale, plan.members, plan.uid, plan.display, minute, tz]);
+  }, [day, route, locale, plan.members, plan.uid, plan.display, minute, tz, said]);
 }

@@ -12,9 +12,7 @@ import { useState } from 'react';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { NO_TRIP_GUIDE } from '../../plan-guide';
-import { AskCard } from '../ask-card';
 import * as words from '../check-copy';
-import { CheckView } from '../check-view';
 import { compactMoney, currencyDigits, dayTag, driveTitle } from '../format';
 import { wasLabel } from '../less-driving/less-driving-screen';
 import { LessDrivingView } from '../less-driving/less-driving-view';
@@ -31,61 +29,10 @@ import {
 } from '../rain-crowds/rain-copy';
 import * as balance from '../balance/balance-copy';
 import { BalanceView } from '../balance/balance-view';
+import { Check } from './check-scene';
 import * as lab from './check-lab-copy';
 
 const noop = () => undefined;
-
-function Check({
-  member = false,
-  state = 'ready',
-}: {
-  member?: boolean;
-  state?: 'ready' | 'running' | 'clear' | 'open';
-}) {
-  const locale = useLocale();
-  const v = lab.issues(locale);
-  const cards = state === 'clear' || state === 'running' ? [] : v.cards(member, state === 'open');
-  return (
-    <CheckView
-      backLabel={words.backTripLabel()}
-      onBack={noop}
-      status={state === 'running' ? words.checkingLabel() : lab.checkedNow()}
-      state="ready"
-      title={
-        state === 'running'
-          ? words.checkingTitle()
-          : words.checkTitle(cards.length, state === 'clear' ? 0 : 2)
-      }
-      body={words.checkBody(8)}
-      notice={
-        state === 'running'
-          ? words.runningNotice(NO_TRIP_GUIDE.name)
-          : state === 'clear'
-            ? words.clearNotice(NO_TRIP_GUIDE.name)
-            : null
-      }
-      cards={cards}
-      know={state === 'clear' || state === 'running' ? [] : v.know}
-      ask={
-        member ? (
-          <AskCard
-            asker="Winston"
-            places={['Seniman Coffee', 'Gianyar Night Market']}
-            onYes={noop}
-            onNo={noop}
-          />
-        ) : null
-      }
-      balance={
-        member || state !== 'ready' ? null : { label: words.balanceRowLabel(), onPress: noop }
-      }
-      fixAll={
-        cards.length === 0 ? null : { label: words.fixAllLabel(3), busy: false, onPress: noop }
-      }
-      reducedMotion={false}
-    />
-  );
-}
 
 function LessDriving({ none = false }: { none?: boolean }) {
   const stops = lab.TUESDAY_STOPS;
@@ -302,6 +249,7 @@ function Balance({ asked = false }: { asked?: boolean }) {
 export const CHECK_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'check-7h-1': () => <Check />,
   'check-7h-1-member': () => <Check member />,
+  'check-own-draft': () => <Check draft />,
   'check-7h-1-too-far': () => <Check state="open" />,
   'check-7h-1-running': () => <Check state="running" />,
   'check-7h-1-clear': () => <Check state="clear" />,

@@ -1,0 +1,334 @@
+appId: app.critterpass.dev
+---
+# Place names in the reader's language, on real staging: a fresh account reads the app in
+# ${LOCALE}, pitches Đà Lạt and sets the trip up to its must-dos, then reads the destination
+# search, the must-do search, Đà Lạt's page and picks, a place page, Explore in the trip, the
+# trip's search and its places list. Shots are ${SHOTS}-<nn>-<what>. Run by da-lat-names-vi.yaml
+# and da-lat-names-en.yaml.
+- runFlow:
+    file: ../../../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+# The app's language for this walk (the developer gallery switches the running app).
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: ${LOCALE}
+- runFlow: ../../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-.*'
+    timeout: 30000
+# Somewhere else: the destination search, its rows' pictures and country names.
+- scrollUntilVisible:
+    element:
+      id: 'home-somewhere-else'
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'home-somewhere-else'
+    optional: true
+- tapOn:
+    id: 'place-search-field'
+    optional: true
+- inputText: 'Da Lat'
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 20000
+    optional: true
+- hideKeyboard
+- takeScreenshot: ${SHOTS}-01-destination-search
+- back
+- waitForAnimationToEnd
+- runFlow:
+    file: ../../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Lat with Linh'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+# The crew's join code, for flows that bring a second account onto the trip (iOS copies the spoken
+# label, "Crew code E 2 X …": the code is its last six characters).
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+# A name typed in full: the city itself, without far look-alikes.
+- inputText: 'Da Lat'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-00-da-lat-search
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open.
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+# One place on the board: the organiser locks it in, and it wins.
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# Two weeks from today in Vietnam, five days: the first and the last day tapped by their dates.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + 14 * 86400000); output.pickDate = d.toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- evalScript: ${output.pickLast = new Date(Date.parse(output.pickDate + 'T12:00:00Z') + 2 * 86400000).toISOString().slice(0, 10)}
+- runFlow:
+    when:
+      visible:
+        id: 'picker-clear'
+    commands:
+      - tapOn:
+          id: 'picker-clear'
+- runFlow:
+    file: pick-day-any-language.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+- runFlow:
+    file: pick-day-any-language.yaml
+    env:
+      PICK_DATE: ${output.pickLast}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-00-dates
+- tapOn:
+    id: 'picker-lock'
+# The budget, in đồng, locked as the guide suggests it.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- assertVisible:
+    id: 'budget-track'
+    text: '.*₫.*'
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-00-budget
+- tapOn:
+    id: 'budget-lock'
+# Rooms: passed for a crew of one; when the step shows, LOOKS GOOD accepts the rooms as offered.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock|must-dos-add'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Thung lung'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-02-must-do-search
+- back
+- waitForAnimationToEnd
+# The destination's page: its picks, and one of them opened.
+- runFlow:
+    file: ../../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore/vn-da-lat
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${SHOTS}-03-destination-page
+- scrollUntilVisible:
+    element:
+      id: 'explore-pick-0'
+    direction: DOWN
+    timeout: 60000
+    optional: true
+- takeScreenshot: ${SHOTS}-04-picks
+- tapOn:
+    id: 'explore-pick-0'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail|explore-place-.*'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${SHOTS}-05-place-page
+- back
+- waitForAnimationToEnd
+# The trip's own search and its places list.
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-trips'
+    times: 6
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'tab-trips'
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-explore'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+    optional: true
+- tapOn:
+    id: 'trip-hub-explore'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'explore-trip'
+    timeout: 30000
+    optional: true
+- takeScreenshot: ${SHOTS}-06-explore-in-trip
+- tapOn:
+    id: 'explore-trip-search'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'Thung lung'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-.*'
+    timeout: 30000
+    optional: true
+- hideKeyboard
+- takeScreenshot: ${SHOTS}-07-trip-search
+- tapOn:
+    id: 'search-clear'
+    optional: true
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'search-browse-temples'
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- tapOn:
+    id: 'search-browse-temples'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'places-list'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${SHOTS}-08-places-list

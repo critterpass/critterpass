@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "da6b5800-4a7d-40f3-8b46-c45be323cc7b",
+        "id": "8ec734d9-c827-4404-abb9-60828204b22c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Belém and Bairro Alto Day\",\n  \"summary\": \"We keep the Belém Tower must-do, then gather the rest of the day around Bairro Alto so every stop sits close together with no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-do tower stays put; history and a proper photo spot all in one.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark keeps the night owls happy and the whole afternoon nearby.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A handy halal spot with vegetarian options, right beside the evening wander.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The miradouro stays because it is a short ride from Belém and open all day.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tram 28 keeps us moving without a long ride and shows off the old streets.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the vegan project suits everyone and sits in the same area as the tram.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra adds local life and a free wander, still close to the rest.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Belém and Bairro Alto, side by side\",\n  \"summary\": \"A slower Lisbon day around Belém and the Bairro Alto side, with grilled sardines nowhere in sight but plenty of local flavour.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays: it is the postcard everyone came for, and it is right here in Belém.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the tower, because a Belém morning deserves a custard tart and a breather.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop to the market keeps the day compact and gives the street-food lovers something to sniff out.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, close to the market, so the night owl gets their wander without a long ride.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner a few streets from Bairro Alto, with vegetarian plates for the whole crew.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 104,
+          "input_tokens": 16,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 437,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 348,
           "service_tier": "standard"
         }
       }

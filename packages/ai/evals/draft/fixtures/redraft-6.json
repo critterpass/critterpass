@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "dcdf44ee-fd57-4263-8721-ba82de3aa893",
+        "id": "dc3ad056-a9ac-4cb6-85fe-1171ba57833b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Unexpected Bali\",\n  \"summary\": \"A slower, surprising day mixing sacred nature, local market life, and a beach club after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The monkeys are the real bosses here, and they know it. Keep your sunglasses close.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple where water does the talking. The crew didn't expect this kind of calm.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sunset, beats, and a pool with a view. A nightcap for the night owl in all of us.\"\n    }\n  ]\n}"
+            "text": "{\"title\":\"Waterfall Morning, Surprise Temple\",\n\"summary\":\"A quieter day with a hidden waterfall morning and an unexpected temple visit, no meals planned.\",\n\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Still the big nature moment, so we keep the waterfall and let the sun catch us early.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A surprise change of pace: temple calm instead of beach crowds, and a little wellness for the soul.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 80,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 213,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 121,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "7630f46f-caad-4f13-9113-e855511f9d93",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Waterfall, Beach, and a Surprise\",\n  \"summary\": \"A day that starts with a hidden waterfall, unwinds on the sand, and ends with a surprise after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The crew asked for adventure, so we start where the water hides. Rise and shine, the sun won’t wait.\",\n      \"note_about\": \"Kept as the must-do for the day; the early birds get the falls mostly to themselves.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long, lazy stretch of sand to shake off the jungle. No rush, just salt air and good company.\",\n      \"note_about\": \"Kept as the beach stop; it suits the nature and beach lovers and keeps the day unhurried.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a beach club after dark. Not the crew’s usual temple or trail, but the night owl will thank me.\",\n      \"note_about\": \"Added as the unexpected stop; it is the only nightlife option and fits the surprise request.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 37,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 321,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "89ff7352-b3e3-43ec-9d0c-edec3f454bc1",
+        "id": "5044cfbc-2f36-46f9-a892-b296f2a15c43",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, riverside near Dragon Bridge\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p12\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Marble and mountain morning\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula pagodas and sea air\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p5\", \"p13\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Dragon fire and skyline night\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p27\", \"p16\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Old stones and last bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p11\", \"p14\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 4,\n      \"when\": \"night\",\n      \"weekdays\": [\"sa\", \"su\"]\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Riverside arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p4\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Old stones and sea breeze\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Peninsula and pagoda\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p5\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Dragon night and markets\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p11\", \"p16\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Cathedral farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p14\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p3\",\n      \"day_no\": 4,\n      \"when\": \"night\",\n      \"weekdays\": [\"sa\"]\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 28,
+          "input_tokens": 25,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 3328,
-          "output_tokens": 358,
+          "cache_read_input_tokens": 3456,
+          "output_tokens": 338,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "b62ab00b-4493-4a66-82ac-4c0893b09285",
+        "id": "d6b99365-4064-4b94-ab9c-23d69452c708",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Red socks on, eyes on the sea. Sơn Trà is my backyard — come up for the green canopy and the blue horizon.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Lady of Mercy stands tall over the bay. Walk the courtyard slow and let the wind do the talking.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 36,
+          "input_tokens": 256,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 6,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "1b26ddb4-1c90-4505-8c4a-430c1574e082",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p27\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Egg coffee with a dragon-bridge view; the foam is thick enough to hold a spoon.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The dragon breathes fire and the bridges light up the river; stay close to the rail for the best glow.\"},{\"poi_id\":\"p16\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sky-high cocktails above the skyline; the city looks like a circuit board from up here.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 396,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 131,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 134,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "7d55d4f7-8cf6-42d4-90c3-719f636c5e49",
+        "id": "bf0a15ee-edc6-4bcc-b757-c332d9fbd23c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, when the caves are cool and the views stretch to the sea.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, and a long stretch of blue to clear the head.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A coconut coffee in a corner, watching the city roll by.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the stone steps early, find the cave shrines, and let the sea air cool you at the top.\"\n    },\n    {\n      \"poi_id\": \"p27\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Egg coffee by the Dragon Bridge, thick and sweet enough to make a langur jealous.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up high the city lights ripple like the river, and the night owls in the crew finally wake up.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 345,
+          "input_tokens": 339,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 169,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 182,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,47 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "6203b386-ed7b-433a-9160-92544accde8b",
+        "id": "6d4315b9-5e56-4742-9104-e1bc3af95da7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Pink cathedral with quiet corners and lovely light through old glass.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Weave through the stalls for dried fruit, coffee beans and a little bargaining.\"},{\"poi_id\":\"p15\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Big wheel by the river, best when the sky turns soft and the lights wake up.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pink walls, tall arches, and a quiet courtyard right in the middle of the city. Step inside for a moment of calm before the farewell.\"\n    },\n    {\n      \"poi_id\": \"p26\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A coconut coffee in a shabby-chic corner full of old propaganda posters. The crew can toast the last day from the balcony.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Big wheel by the river, best when the sky turns orange. From the top you can see the whole city wave goodbye.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 373,
+          "input_tokens": 335,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 116,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 201,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "ae6db2a2-0ef9-403b-991b-61229b78522d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Old sandstone gods with stories older than the city. Go slow and let the carvings do the talking.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Squeeze past the fabric stalls and sniff out the dried squid and candied ginger. Good spot to practise your xin chào (hello).\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Follow the sizzle to the bánh tráng cuốn thịt heo (boiled pork rolled in rice paper with fresh herbs) ladies and grab a little of everything.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The dragon breathes fire after dark, and the bridges light up like a carnival on the water. Stay for the crowd and the glow.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 395,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 211,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "7fcea060-6b65-42c6-a2d4-56dfecb849d1",
+        "id": "e7cabc7a-8f27-4b56-aec5-83dd52efd902",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Ancient sandstone dancers and gods, all under one roof. The Chăm left their stories in stone.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Follow your nose past the dried squid to the bánh bèo stalls. This is where the city actually shops.\"\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Turmeric noodles with pork, shrimp and a sesame cracker. Say mì Quảng and watch the ladle move.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon breathes fire and water when the sky goes dark. Claim a spot on the east bank early.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Neon signs, grilled skewers and cold beer spilling onto the pavement. The night owls will feel right at home.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"First bowl in the city should be turmeric gold. The sesame cracker is the prize at the bottom.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, long horizon, and the sea doing its slow breathing. Walk until the city feels far away.\"\n    },\n    {\n      \"poi_id\": \"p28\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Neon, smoke from the grills, and a hundred little stools. Graze your way down the street.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon exhales fire and the whole river holds its breath. Stand back and let it roar.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 642,
+          "input_tokens": 531,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 308,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 240,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "a7e52c31-240d-44ad-8239-4025ff71d14e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A morning at Sơn Trà"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 218,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }
@@ -148,23 +172,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "3ad3313c-c273-401a-9bac-1b4c6785ec7e",
+        "id": "0ebefb40-0969-4107-a8f9-a84ea587f456",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "River sparkle, marble, monkeys and dragon fire — every must-do tucked in, ngon quá!"
+            "text": "Riverside arrival, old stones, a whole afternoon on Sơn Trà, dragons and markets, then farewell — all the must-dos made it in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 259,
+          "input_tokens": 230,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 22,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 33,
           "service_tier": "standard"
         }
       }

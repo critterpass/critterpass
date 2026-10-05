@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "6ded4b0c-3a84-48d2-9ec6-9c833cc92b61",
+        "id": "cc0c9f96-e2c8-4435-adb9-6d0fd3018681",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lucha libre night\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Coyoacán\",\n      \"area\": \"Area C and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p2\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Centro and Chapultepec\",\n      \"area\": \"Area A and Area E\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p3\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lucha Libre & Street Bites\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Pyramids & Canals\",\n      \"area\": \"Area C & D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Museums & Markets\",\n      \"area\": \"Area A & E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p13\", \"p3\"]\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 73,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1920,
-          "output_tokens": 203,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 201,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d1919a29-3a54-4e31-b000-1ef34cf383cd",
+        "id": "13c02caf-8168-4cda-bd53-a194ac596a7d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the Avenue of the Dead and climb the Pyramid of the Sun for a view that humbles even an axolotl.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 116,
+          "input_tokens": 207,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 6,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "312af1bf-5882-47a7-894d-3ee3e2dc54b1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte's leafy streets and old mansions are a lovely warm-up stroll.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan tacos al pastor that even carnivores line up for.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The cathedral of lucha libre: masks, mayhem and flying bodies.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 610,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 166,
+          "output_tokens": 75,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,71 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "d4459d50-e05b-4218-83a1-5c3b94b46ecd",
+        "id": "cc50c56a-bb83-4341-bca9-873b0902972d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Al pastor carved off the trompo, tucked into tiny tacos with a splash of salsa.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A maze of stalls where the city's cooks come for rare chiles, insects and the good vanilla.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A deep dive into Mexico's ancient cultures, from colossal Olmec heads to the Aztec Sun Stone.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual spot with great vegetarian options and a lively local buzz.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 489,
+          "input_tokens": 409,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 89,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 120,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "dc7931e6-b882-4e8e-a9da-0891f91b40c7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the market's maze of stalls, where the city's cooks come for the good stuff.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Grab a spot at the counter and let the trompo do the talking.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The masked heroes fly, the crowd roars, and you'll be on your feet before you know it.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late vegan taco that still hits like the real thing, right when you need it.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 467,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 235,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "b9be1e17-f3ff-4ebb-ae20-37a720c08eee",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Half a day among the pyramids\n3: A long morning with the ancestors"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 241,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 17,
           "service_tier": "standard"
         }
       }
@@ -100,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "56cdb264-7c08-4f31-8e4e-a9b44d188c67",
+        "id": "b655a5df-9e2b-4b63-8d14-965363b29371",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A warm little wander through my city — masks, museums, and the grand old square, all wrapped up nicely."
+            "text": "A playful night of lucha and street bites, then a morning out at Teotihuacan, and a morning among the anthropology halls — every must-do in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 231,
+          "input_tokens": 208,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 23,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 32,
           "service_tier": "standard"
         }
       }

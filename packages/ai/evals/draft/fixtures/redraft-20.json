@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "10e2542b-e7b7-47f0-a04d-f2c101385af1",
+        "id": "b851bc31-d87e-428b-ba73-0d1b92274f0d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Ubud Surprise\",\n  \"summary\": \"A slower, food-filled day around Ubud with a proper feast and a cheeky surprise stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, green start before the sun gets bossy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"History and shade, a gentle wander before the heat.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate, the kind of stop you remember.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple surprise, lotus ponds and calm air.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner, kept as the crew wished.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Market Bites and Night Lights\",\n  \"summary\": \"A slow, food-led day around Seminyak with a beach visit and an unexpected after-dark stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should you. We keep the beach because it’s the one thing everyone asked for.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with plenty of veggie options, right by the sand. Terima kasih (thank you) to whoever picked this area.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A local warung for a no-fuss, honest plate of nasi ayam. This is the market-style snack stop with a roof over it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a beach club after dark. I know a guy who says the lights hit different when you’re not expecting them.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 284,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 348,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "e45b87c4-4314-4eab-85bb-d6a98c4e57db",
+        "id": "22572a07-90f3-4524-8922-22219f7f731e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Eats and Unexpected Twists\",\n  \"summary\": \"A slow, food-filled day around Ubud with a proper feast, a market-style bite, and one surprise after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with vegan plates and good coffee, because the crew likes late mornings and I know a guy who swears by the smoothie bowls.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick lotus-pond temple visit to stretch the legs before the next bite, terima kasih (thank you) to whoever suggested a slower pace.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local warung stop for fragrant rice and crispy chicken, the kind of unplanned snack stop this crew would never expect.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little history between meals, because even a food day needs a story or two.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays, and the crew earns it after a day of grazing.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise nightcap by the beach, because the sun won’t wait and neither should the night owls.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Markets, Temples and a Beach Sunset\",\n  \"summary\": \"A slow start, a proper Balinese lunch, a surprise temple stop, and a long golden hour on Seminyak Beach before a relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The crew asked for more food, so we start with a proper local lunch. Terima kasih (thank you) for the tip, this place is a favourite.\",\n      \"start\": \"12:00\",\n      \"end\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise stop—a lotus pond temple the crew did not expect. It is a short ride from lunch and a quiet moment before the beach.\",\n      \"start\": \"13:30\",\n      \"end\": \"14:15\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-do of the day. We keep it long and lazy, the way a beach day should be.\",\n      \"start\": \"15:00\",\n      \"end\": \"17:30\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with vegetarian options for the crew, right by the beach before the night owls get restless.\",\n      \"start\": \"18:00\",\n      \"end\": \"19:15\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A second food stop for the more-food request—a vegan supper to end the day on a light note.\",\n      \"start\": \"20:00\",\n      \"end\": \"21:00\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 94,
+          "input_tokens": 34,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 411,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 459,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "338780b2-bb6c-4c56-8dcb-1ce4720a15f4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Temple, café, then a beach half-day"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 312,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

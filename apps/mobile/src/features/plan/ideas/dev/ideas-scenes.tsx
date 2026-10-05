@@ -33,10 +33,13 @@ import { PlacingView, type PlacingLine } from '../placing/placing-view';
 import { INITIAL_PLACING, PLACING_STEPS, type PlacingState } from '../placing/progress';
 import {
   backToIdeas,
+  beforePlanBody,
   bodyText,
+  draftBodyText,
   emptyBody,
   emptyLine,
   findPlacesLabel,
+  fitsNeedPlan,
   placeLine,
 } from '../ideas-copy';
 
@@ -150,9 +153,12 @@ export const IDEAS = [
 function IdeasScene({
   empty = false,
   dragging = false,
+  before,
 }: {
   readonly empty?: boolean;
   readonly dragging?: boolean;
+  /** Before the crew has a plan: an organiser on her own draft, or a member with none to see. */
+  readonly before?: 'draft' | 'member';
 }) {
   const locale = useLocale();
   const days = useLabDays(false);
@@ -173,13 +179,21 @@ function IdeasScene({
     [3, 'possible' as const],
     [7, 'possible' as const],
   ]);
+  const usual = bodyText(IDEAS.length, NO_TRIP_GUIDE.name);
+  const bodies = {
+    member: beforePlanBody(IDEAS.length, 'Linh'),
+    draft: draftBodyText(IDEAS.length),
+  };
+  const shown = before === 'member' ? [] : days;
   return (
     <IdeasView
-      body={empty ? emptyBody() : bodyText(IDEAS.length, NO_TRIP_GUIDE.name)}
-      days={dragging ? days.map((day) => ({ ...day, fit: grades.get(day.dayNo) ?? 'no' })) : days}
+      body={empty ? emptyBody() : before === undefined ? usual : bodies[before]}
+      days={dragging ? shown.map((day) => ({ ...day, fit: grades.get(day.dayNo) ?? 'no' })) : shown}
       dropTarget={dragging ? { overDayNo: 6 } : undefined}
       chipsRef={{ current: null }}
-      place={empty ? null : { line: placeLine(6, 2), busy: false, onPress: noop }}
+      place={
+        empty || before !== undefined ? null : { line: placeLine(6, 2), busy: false, onPress: noop }
+      }
       empty={
         empty
           ? {
@@ -196,7 +210,11 @@ function IdeasScene({
           name={idea.name.toUpperCase()}
           icon={ideaIcon(idea.category)}
           photo={'photo' in idea ? idea.photo : undefined}
-          fitLine={fitLine(idea.fit, context) ?? undefined}
+          fitLine={
+            before === 'member'
+              ? { text: fitsNeedPlan(), tone: 'none' }
+              : (fitLine(idea.fit, context) ?? undefined)
+          }
           savers={idea.savers.flatMap((n) => (CREW[n] === undefined ? [] : [CREW[n]]))}
           frame={frame}
           layout={layout}
@@ -205,7 +223,7 @@ function IdeasScene({
           onDrop={noop}
           onCancel={noop}
           onOpen={noop}
-          onAddToDay={noop}
+          onAddToDay={before === 'member' ? null : noop}
           onMore={noop}
         />
       ))}
@@ -273,6 +291,8 @@ export const IDEAS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ideas: () => <IdeasScene />,
   'ideas-dragging': () => <IdeasScene dragging />,
   'ideas-empty': () => <IdeasScene empty />,
+  'ideas-own-draft': () => <IdeasScene before="draft" />,
+  'ideas-before-plan': () => <IdeasScene before="member" />,
   placing: () => <PlacingScene />,
   'placing-nothing': () => <PlacingScene outcome="nothing" />,
   'placing-failed': () => <PlacingScene outcome="failed" />,

@@ -143,6 +143,24 @@ export type SavedWishAnswer = z.infer<typeof wishAnswerSchema>;
  */
 export const UNTIMED_MUST_DO_REASONS = ['no_show_day', 'no_day_fits'] as const;
 
+/** Why an essential place is not in a draft (see the planner's findings). */
+export const ESSENTIAL_GAP_REASONS = [
+  'closed',
+  'too_far',
+  'not_offered',
+  'held_in_the_way',
+  /** It is an outing far from the stay, and the trip has no full day left for it. */
+  'needs_a_day',
+  /** A redraft of its day took it out, and no other day had room. */
+  'redrafted_out',
+  /** Every day it could go on is full of other essentials and long visits. */
+  'days_full',
+  /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
+  'mornings_taken',
+  'no_room',
+] as const;
+export type EssentialGapReason = (typeof ESSENTIAL_GAP_REASONS)[number];
+
 export const draftCoverageSchema = z.object({
   must_dos: z.object({
     total: z.number().int().nonnegative(),
@@ -161,6 +179,16 @@ export const draftCoverageSchema = z.object({
   /** Must-dos that are planned, but not at the time or on the show day wished for them. */
   untimed_must_dos: z
     .array(z.object({ must_do_id: uuid, reason: z.enum(UNTIMED_MUST_DO_REASONS) }))
+    .optional(),
+  /**
+   * The destination's essential places this version does not hold, each with why, for the review
+   * screen ("Left out: Langbiang, no room around your stops"). `name` is the place as the
+   * organiser reads it. Absent on versions drafted before the field, and where none is left out.
+   */
+  essentials_left_out: z
+    .array(
+      z.object({ poi_id: uuid, name: z.string().min(1), reason: z.enum(ESSENTIAL_GAP_REASONS) }),
+    )
     .optional(),
 });
 export type DraftCoverage = z.infer<typeof draftCoverageSchema>;

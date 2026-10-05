@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "75e26e54-1f6d-4280-abf1-6ce5bc16a977",
+        "id": "ecee8bd7-2bbc-4792-8a3c-730968c26ca7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A calmer Kyoto cluster\",\n  \"summary\": \"A slower Tuesday around the Kinkaku-ji area, with one temple, a bamboo stroll and a quiet vegan lunch, all close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the anchor of the day, and the only temple worth the shoes-off moment this morning.\",\n      \"note\": \"The golden pavilion stays; everything else today stays within a short ride of it.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, open-all-day bamboo wander that keeps the day gentle and the travel light.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch right beside the bamboo, so nobody has to choose between the crew's vegetarian rule and a proper meal.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Kyoto Close and Quiet\",\n  \"summary\": \"A gentle day around the central and western sights, with temples, bamboo and a proper sit-down meal without long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop from Kinkaku-ji, and the photo lovers get their green tunnel.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the bamboo, and the vegan crew eats well for once.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Right next to lunch, so the slower pace holds.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The only ride of the day, and a short one. Worth it for the thousand statues.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner near Sanjusangen-do, with proper vegetarian plates for the whole crew.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1173,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 248,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 368,
           "service_tier": "standard"
         }
       }

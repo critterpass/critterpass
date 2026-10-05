@@ -126,7 +126,12 @@ export type PitchStreamEvent =
       /** EU AI Act Art. 50: guide output is marked as AI-generated. */
       readonly ai_generated: boolean;
     }
-  | { readonly type: 'error'; readonly code: string; readonly retryable: boolean };
+  | { readonly type: 'error'; readonly code: string; readonly retryable: boolean }
+  /**
+   * Nothing to show yet, the guide is still at it: sent while lines are held back (to be said in
+   * the reader's language first), so a client that gives up on a silent stream keeps waiting.
+   */
+  | { readonly type: 'working' };
 
 /** The code-built chips: price each for the majority origin, flight time, best months, an event. */
 export function pitchChips(facts: PitchFacts): PitchChip[] {

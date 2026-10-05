@@ -25,6 +25,10 @@ msgstr "{count} · {length} in the car"
 msgid "plan.tripMap.inTheCarAbout"
 msgstr "{count} · about {length} in the car"
 
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.inTheCarPending"
+msgstr "{count} · working out the rides"
+
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 msgid "plan.tripMap.gap.some"
 msgstr "{count} of you are free · {who}, till {until}"
@@ -108,6 +112,10 @@ msgstr "{mode} · {length}"
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.about"
 msgstr "{mode} · about {length}"
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.noPlanLine"
+msgstr "{saved, plural, one {One place is saved in Ideas. It goes onto a day once there is a plan.} other {# places are saved in Ideas. They go onto days once there is a plan.}}"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.issue.crowds"
@@ -206,6 +214,10 @@ msgstr "Closed"
 msgid "plan.tripMap.empty.copy"
 msgstr "Copy a crew’s plan"
 
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIsFailed"
+msgstr "Couldn’t open the review yet"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.chip.crew"
 msgstr "Crew picks"
@@ -228,6 +240,14 @@ msgstr "Day {n} of {of}"
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.dayChip"
 msgstr "Day {n}, {name}"
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftIt"
+msgstr "Draft it"
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftRest"
+msgstr "Draft the rest"
 
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.leg.driver"
@@ -256,6 +276,10 @@ msgstr "Four ways to start. Most crews mix two."
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.reviewReady"
 msgstr "I placed your ideas. Have a look before the crew does."
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftWorking"
+msgstr "I’m drafting. Your days open again when I’m done."
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.ideas"
@@ -297,6 +321,10 @@ msgstr "Nature"
 msgid "plan.tripMap.cat.nightlife"
 msgstr "Nightlife"
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.noPlanTitle"
+msgstr "No plan yet"
+
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
@@ -319,6 +347,10 @@ msgstr "Now · {0}"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.personal.onlyYou"
 msgstr "Only you"
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.daysStarted"
+msgstr "Only you see this so far. I can draft the rest around your stops."
 
 #: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 msgid "plan.tripMap.openStop"
@@ -366,7 +398,7 @@ msgstr "Rain likely"
 msgid "plan.tripMap.rainLikely"
 msgstr "Rain likely {from}–{to}"
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftReview"
 msgstr "Review"
 
@@ -404,6 +436,10 @@ msgstr "See"
 msgid "plan.tripMap.openPlace"
 msgstr "See place"
 
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIs"
+msgstr "Send it as it is"
+
 #: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
 msgid "plan.tripMap.sendPlan"
 msgstr "Send the plan"
@@ -440,7 +476,11 @@ msgstr "The plan is on its way"
 msgid "plan.tripMap.wholeTrip"
 msgstr "The whole trip"
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.daysOnly"
+msgstr "These are your days. Only you see them. Add stops yourself, or I’ll draft them."
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
 msgid "plan.tripMap.draftOnly"
 msgstr "This is your draft. Only you can see it until you send it."
 
@@ -464,9 +504,17 @@ msgstr "Vote"
 msgid "plan.tripMap.leg.walk"
 msgstr "Walk"
 
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.draftWatch"
+msgstr "Watch"
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.wellness"
 msgstr "Wellness"
+
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
+msgid "plan.tripMap.leg.pending"
+msgstr "Working out the ride…"
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"
@@ -475,3 +523,7 @@ msgstr "you"
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.personal.skipping"
 msgstr "You’re skipping this"
+
+#: ../../apps/mobile/src/features/plan/trip-map/draft-note.tsx
+msgid "plan.tripMap.sendAsIsFailedLine"
+msgstr "Your last change may still be saving. Try again with signal."

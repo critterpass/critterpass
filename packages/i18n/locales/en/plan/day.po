@@ -50,6 +50,10 @@ msgid "plan.edit.removedMany"
 msgstr "{count, plural, one {# stop removed} other {# stops removed}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.lastAt"
+msgstr "{count}. {stop} would start at {at}."
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hours"
 msgstr "{hours} h"
 
@@ -61,6 +65,18 @@ msgstr "{hours} h {rest}"
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.pick"
 msgstr "{label} {0}. Pick a time"
+
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.minutes"
+msgstr "{minutes} min"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlierBy"
+msgstr "{moved, plural, one {# later stop moves {by} earlier.} other {# later stops move {by} earlier.}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlier"
+msgstr "{moved, plural, one {# later stop moves earlier.} other {# later stops move earlier.}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.minutes"
@@ -167,6 +183,19 @@ msgstr "Day {dayNo} / {dayCount}"
 msgid "plan.edit.daysReordered"
 msgstr "Days reordered"
 
+#. placeholder {0}: at(checkIn.leftAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.doneAt"
+msgstr "Done at {0}"
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.done"
+msgstr "Done at a stop"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.done"
+msgstr "Done here"
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.earlier"
 msgstr "Earlier by 15 minutes"
@@ -191,9 +220,18 @@ msgstr "Free"
 msgid "plan.day.freeTitle"
 msgstr "Free day"
 
+#. placeholder {0}: at(checkIn.arrivedAt)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.hereSince"
+msgstr "Here since {0}"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.placeDetail"
 msgstr "Hours, photos and how to get there"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.here"
+msgstr "I’m here"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.day.proposedLine"
@@ -202,6 +240,14 @@ msgstr "It changes once they say yes."
 #: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.removeLine"
 msgstr "It comes off the day for everyone going."
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.removeLineSolo"
+msgstr "It comes off your day."
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.justYou"
+msgstr "Just you"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.later"
@@ -240,6 +286,10 @@ msgstr "New order for {0}"
 msgid "plan.day.reason.moved"
 msgstr "New time"
 
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr "No estimate yet"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
 msgstr "no forecast yet"
@@ -267,6 +317,10 @@ msgstr "Nothing planned. Sleep in, or add something."
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.nowAt"
 msgstr "Now {range}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.onDay"
+msgstr "On {day}: {line}"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"
@@ -319,6 +373,10 @@ msgstr "Removed from {from}"
 msgid "plan.edit.removed"
 msgstr "Removed from the plan"
 
+#: ../../apps/mobile/src/features/plan/day/late-entry.tsx
+msgid "plan.day.late.label"
+msgstr "Running late?"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.save"
 msgstr "Save"
@@ -351,6 +409,18 @@ msgstr "Sent to the crew"
 msgid "plan.day.item.skip"
 msgstr "Skip it, just me"
 
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skip"
+msgstr "Skip it, just me"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Skip this stop"
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skipSolo"
+msgstr "Skip this stop"
+
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Skipped, just for you"
@@ -371,6 +441,11 @@ msgstr "Someone pinned it where it is."
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr "Someone removed it while you had it open."
+
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
+msgid "plan.day.item.useStart"
+msgstr "Start at {0} instead"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"
@@ -504,6 +579,10 @@ msgstr "You asked for this one."
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.item.suggestedByYou"
 msgstr "You suggested a change"
+
+#: ../../apps/mobile/src/features/plan/day/stop-check-in.ts
+msgid "plan.day.stop.queued.here"
+msgstr "You're here"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"

@@ -82,17 +82,30 @@ function readTime(poi: DraftPoi): PlaceTime | null {
 }
 
 const SUNSETS = new Map<string, number>();
+const SUNSETS_OF = new WeakMap<object, Map<string, number>>();
 const DEFAULT_SUNSET_MIN = 18 * 60;
 
 /** Sunset at the place on the date as a local minute, kept between four and nine in the evening. */
 export function sunsetMin(poi: Pick<DraftPoi, 'lat' | 'lng' | 'tz'>, date: string): number {
+  // Asked for on every timing pass: the place's own answers first, without building a key.
+  let mine = SUNSETS_OF.get(poi);
+  if (mine === undefined) {
+    mine = new Map();
+    SUNSETS_OF.set(poi, mine);
+  }
+  const seen = mine.get(date);
+  if (seen !== undefined) return seen;
   const key = `${date}:${poi.lat.toFixed(1)}:${poi.lng.toFixed(1)}:${poi.tz}`;
   const known = SUNSETS.get(key);
-  if (known !== undefined) return known;
+  if (known !== undefined) {
+    mine.set(date, known);
+    return known;
+  }
   const at = solarDay(date, poi.lat, poi.lng).sunset;
   const minute = at === null ? DEFAULT_SUNSET_MIN : localMinute(at, poi.tz);
   const kept = Math.min(21 * 60, Math.max(16 * 60, minute));
   SUNSETS.set(key, kept);
+  mine.set(date, kept);
   return kept;
 }
 
@@ -124,6 +137,9 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
 export const MORNING_ENDS_MIN = 11 * 60;
 
 /** Places seen by daylight: nobody is sent to a temple, a waterfall, a beach or a museum after dark. */
+/** A morning beach is begun by half past ten; an afternoon one from three. */
+const BEACH_MORNING_BY_MIN = 10 * 60 + 30;
+const BEACH_AFTERNOON_FROM_MIN = 15 * 60;
 /** A daylight visit may run this long past sunset. */
 const DUSK_MIN = 30;
 const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach', 'museum']);
@@ -137,6 +153,19 @@ const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach
  */
 export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
   const time = placeTime(poi);
+  // A beach is for early or late in the day, never the hours around noon: early when our
+  // editors say the morning, else from mid-afternoon to dusk.
+  if (poi.category === 'beach' && (time === null || time === 'morning')) {
+    const sunset = sunsetMin(poi, date);
+    const window =
+      time === 'morning'
+        ? { fromMin: 0, toMin: BEACH_MORNING_BY_MIN }
+        : {
+            fromMin: BEACH_AFTERNOON_FROM_MIN,
+            toMin: Math.max(BEACH_AFTERNOON_FROM_MIN, floorGrid(sunset - 30)),
+          };
+    return withinHours(poi, date, window);
+  }
   if (time === null || time === 'morning') {
     const byDay = time === 'morning' || DAYLIGHT.has(poi.category);
     if (!byDay || poi.category === 'nightlife' || poi.tags.includes('nightlife')) return null;

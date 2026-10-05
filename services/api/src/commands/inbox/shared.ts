@@ -5,13 +5,34 @@
  */
 import { outbox, sendInTx } from '@cp/db';
 import {
+  CHECK_INBOX_KINDS,
+  ensureInboxKinds,
+  HOME_INBOX_KINDS,
+  IDEAS_INBOX_KINDS,
   INBOX_FANOUT_QUEUE,
   isInboxEvent,
+  PLAN_CHANGE_INBOX_KINDS,
+  POLL_INBOX_KINDS,
+  PROPOSAL_INBOX_KINDS,
   userChannel,
   type BadgeCounts,
   type InboxFanoutJob,
 } from '@cp/domain';
 import type pg from 'pg';
+
+/**
+ * Every kind whose events the api appends, named here so the bundle keeps them: a kind the api
+ * does not know queues no fan-out, and its inbox item is never filed.
+ */
+export const API_INBOX_KINDS = [
+  ...HOME_INBOX_KINDS,
+  ...POLL_INBOX_KINDS,
+  ...CHECK_INBOX_KINDS,
+  ...IDEAS_INBOX_KINDS,
+  ...PROPOSAL_INBOX_KINDS,
+  ...PLAN_CHANGE_INBOX_KINDS,
+];
+ensureInboxKinds(API_INBOX_KINDS);
 
 export async function publishBadgeCounts(
   tx: pg.PoolClient,

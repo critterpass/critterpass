@@ -5,7 +5,10 @@
  * (`GET /v1/places/{id}`) and draws from that, until the row syncs (saving or adding it does that).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, SQL and wire keys, never copy. */
+import { shownPlaceName } from '@cp/domain';
 import { useEffect, useState } from 'react';
+
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 
 import { useTravelDataReader } from '@/data/travel-data/client';
 
@@ -95,6 +98,12 @@ export function fetchedFrom(status: number, body: unknown): Fetched {
 export function usePlaceRow(placeId: string, destinationId: string | null): PlaceRowState {
   const local = usePoi(placeId);
   const reader = useTravelDataReader();
+  const readsLocal = useReadsLocalNames(local.row?.destination_id ?? destinationId);
+  // The page is titled with the name the reader sees; the other one is kept beside it.
+  const named = (row: PoiRow): PoiRow => {
+    const shown = shownPlaceName({ name: row.name, nameLocal: row.name_local }, readsLocal);
+    return { ...row, name: shown.shown, name_local: shown.other };
+  };
   const needed = local.loaded && local.row === null;
   const destination =
     useLiveRows<DestinationFacts>(
@@ -122,7 +131,7 @@ export function usePlaceRow(placeId: string, destinationId: string | null): Plac
     return () => controller.abort();
   }, [needed, reader, placeId, key]);
 
-  if (local.row !== null) return { kind: 'ready', row: local.row, remote: false };
+  if (local.row !== null) return { kind: 'ready', row: named(local.row), remote: false };
   const retry = () => setAttempt((n) => n + 1);
   // No session reader yet: nothing can be asked, which reads as no connection.
   if (needed && reader === null) return { kind: 'failed', offline: true, retry };
@@ -133,5 +142,5 @@ export function usePlaceRow(placeId: string, destinationId: string | null): Plac
   const row = remotePoiRow(fetched.body, destination);
   return row === null
     ? { kind: 'failed', offline: false, retry }
-    : { kind: 'ready', row, remote: true };
+    : { kind: 'ready', row: named(row), remote: true };
 }

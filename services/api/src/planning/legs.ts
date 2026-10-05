@@ -12,6 +12,17 @@ import type pg from 'pg';
 import { carryPlanForward } from '../commands/checks/carry-forward';
 import type { PlanningModule } from './register';
 
+/**
+ * A draft the guide delivers, a redraft she keeps and an earlier draft she brings back are opened
+ * the moment they land, and none of them comes in a burst: their legs are routed at once instead
+ * of after the debounce that folds a run of hand edits.
+ */
+const LEGS_AT_ONCE: ReadonlySet<string> = new Set([
+  'draft.ready',
+  'redraft.kept',
+  'draft.version_restored',
+]);
+
 /** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
 export async function legsEventHook(
   tx: pg.PoolClient,
@@ -35,7 +46,7 @@ export async function legsEventHook(
     tx,
     request.queue,
     { trip_id: event.tripId, version_id: versionId },
-    request.options,
+    LEGS_AT_ONCE.has(event.type) ? { ...request.options, startAfter: 0 } : request.options,
   );
 }
 

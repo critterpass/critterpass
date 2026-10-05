@@ -31,6 +31,10 @@ msgstr "about {count} min"
 msgid "go.preview.aboutHours"
 msgstr "about {hours}H{rest}"
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimateLine"
+msgstr "An estimate from Grab’s published rates. Grab shows the real fare."
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
 msgstr "Apple Maps"
@@ -43,6 +47,10 @@ msgstr "B"
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.back"
 msgstr "Back"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noFix"
+msgstr "Can’t find where you are yet. The route shows up as soon as your phone does."
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.mapsApp"
@@ -79,6 +87,10 @@ msgstr "Google Maps"
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabFare"
 msgstr "Grab {fare}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimate"
+msgstr "Grab about {fare}"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabHere"
@@ -131,6 +143,10 @@ msgstr "Start in Google Maps"
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.missing"
 msgstr "This place isn’t on your phone yet. Try again once it has synced."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.retryLocate"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.walk"

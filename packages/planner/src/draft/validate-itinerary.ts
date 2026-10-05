@@ -11,6 +11,7 @@ import type { DraftItem, Itinerary } from '@cp/domain';
 
 import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
+import { opensDay, startFloor } from './day-start';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
 import {
@@ -21,43 +22,13 @@ import {
   type TravelMatrix,
   type TripFrame,
 } from './types';
+import type { Outing } from './outings';
+import { dayShapeViolations } from './validate-day-shape';
+import { DRAFT_VIOLATION_CODES, type DraftViolation, type DraftViolationCode } from './violations';
 import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
-export const DRAFT_VIOLATION_CODES = [
-  'UNKNOWN_POI',
-  'CLOSED_AT_TIME',
-  'CLOSED_ON_DATE',
-  'OVERLAP',
-  'TRAVEL_TOO_LONG',
-  'OFF_GRID',
-  'DAY_OVERRUN',
-  'FLIGHT_BUFFER',
-  'WRONG_TIME_OF_DAY',
-  'DIETARY',
-  'DUPLICATE_PLACE',
-  'EXTRA_MEAL',
-  'MEAL_OFF_HOURS',
-  'MEAL_MISSING',
-  'REPEAT_DISH',
-  'LONG_HOP',
-  'MUST_DO_MISSING',
-  'OVER_BUDGET',
-] as const;
-export type DraftViolationCode = (typeof DRAFT_VIOLATION_CODES)[number];
-
-export interface DraftViolation {
-  readonly code: DraftViolationCode;
-  /** Null for trip-wide violations (a must-do with no item, the budget). */
-  readonly dayNo: number | null;
-  readonly stableId: string | null;
-  readonly poiId?: string;
-  readonly mustDoId?: string;
-  /** Minutes short or over (travel, overlap, a hop); per-person amount over (budget). */
-  readonly amount?: number;
-  /** The meal a day is missing (`MEAL_MISSING`). */
-  readonly slot?: 'lunch' | 'dinner';
-}
+export { DRAFT_VIOLATION_CODES, type DraftViolation, type DraftViolationCode } from './violations';
 
 export interface ValidateItineraryInput {
   readonly itinerary: Itinerary;
@@ -75,6 +46,8 @@ export interface ValidateItineraryInput {
   readonly hopCapMin?: number;
   /** The place the crew sleeps near (./home): the ride out to a day's first stop then counts. */
   readonly homeId?: string | null;
+  /** The trip's outings (./outings): a day out holds its outing, not stops back in town. */
+  readonly outings?: readonly Outing[];
 }
 
 export interface ValidationResult {
@@ -152,6 +125,8 @@ function dayChecks(
   dayNo: number,
   dayIndex: number,
   date: string,
+  /** When the stop before this one ended (local minute); null for the day's first. */
+  earlierEndMin: number | null,
 ): DraftViolation[] {
   const out: DraftViolation[] = [];
   const at = (code: DraftViolationCode, extra: Partial<DraftViolation> = {}): DraftViolation => ({
@@ -182,7 +157,11 @@ function dayChecks(
   }
   // A booking or a stop placed by hand is the crew's own call, whenever it is.
   if (isTheirs(item)) return out;
-  const from = held === null ? window.startMin : (window.earliestMin ?? window.startMin);
+  // The day opens sooner for a stop that opens it, or one that follows an early stop (./day-start).
+  const from =
+    held === null
+      ? startFloor(window, opensDay(poi, input), earlierEndMin)
+      : (window.earliestMin ?? window.startMin);
   const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
   if (start < from || end > until) {
     const base = baseWindow(input.frame);
@@ -204,7 +183,11 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
     const stops: TimedStop[] = [];
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
-      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date));
+      const ends = day.items
+        .filter((other) => other !== item && other.ends_at <= item.starts_at)
+        .map((other) => minuteOfDate(new Date(other.ends_at), day.date, input.frame.tz));
+      const earlierEnd = ends.length === 0 ? null : Math.max(...ends);
+      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date, earlierEnd));
       const poi = placeOf(input, item);
       if (poi === undefined) continue;
       poiOf.set(item.stable_id, poi.id);
@@ -238,6 +221,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       stops,
     });
   }
+  violations.push(...dayShapeViolations(input, timedDays));
   violations.push(
     ...daySenseViolations({
       days: timedDays,

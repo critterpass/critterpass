@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "47b1c4ac-5216-446f-852b-49b4f9c0b985",
+        "id": "10ccf69e-7fe3-49e8-86a3-42e8fbcf0b21",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A greener, slower Bali day\",\n  \"summary\": \"We trade temples for terraces, a ridge walk and easy Ubud stops, with good vegan meals along the way.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one we keep, and rightly so: those green steps are pure Bali. Rise and shine for the best light.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a leafy, easy vibe and plenty of vegan plates for everyone.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge walk instead of another temple, so Leo can breathe easy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick palace peek keeps the day light and gives the photo lovers a little history.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the market for colour, crafts and zero temple fatigue.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner done properly, slow and special, with vegetarian choices for the whole crew.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Rice, Water and a Slow Ubud Evening\",\n  \"summary\": \"A gentler day that keeps the rice terraces and holy spring, then eases into Ubud for market browsing and a long, relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The sun won’t wait, and neither should you. We keep the terraces because that green view is the Bali postcard everyone needs.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Still on the list. It is a temple, yes, but the holy spring is more about the water and the calm than the carvings.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market wander instead of another temple. Leo has seen enough stone, so we trade it for colour and chatter.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner becomes the evening’s main event. I know a guy who swears the long tasting menu here is worth every minute.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 741,
+          "input_tokens": 76,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 378,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 339,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "ce4d7933-ad3e-47d4-b550-d0181ed4f825",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A slow Ubud day, rice to temple"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 318,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

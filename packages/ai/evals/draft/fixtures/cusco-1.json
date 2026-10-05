@@ -4,71 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "0e403ec2-22cc-4c75-84a7-9fea407dc03d",
+        "id": "0055e5b1-44c2-40b7-b510-5bd1f2e24a61",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Cusco's historic heart\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and city views\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sacred Valley day trip\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Market morning and farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"First Steps in the Imperial City\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sacred Valley Day Out\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"History, Faith and Local Life\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\", \"m4\"],\n      \"poi_ids\": [\"p5\", \"p6\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Inca Echoes and Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p7\"]\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 829,
+          "input_tokens": 102,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 245,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "057a4c35-eaaf-4ad2-b94d-f3361f565fc5",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the terraces and watch Inti (the sun) play over the old stones.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 41,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 47,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "3539ff85-9559-432e-bdf5-69b26ad85462",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Inti (the sun) lights the stalls early, so wander the fruit pyramids and herb bundles before the crowd thickens.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Tiny lanes, whitewashed walls and little workshops where the city feels like a village saying goodbye.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 74,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 95,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 250,
           "service_tier": "standard"
         }
       }
@@ -76,23 +28,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "202910c8-a01d-4dcb-b432-40cfd54308cf",
+        "id": "a3560206-96bc-4b74-8061-6d990716d79c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The great Inca stones up close, with a view over the whole city.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quiet walk through Inca gold, textiles and stories.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper Cusco table with real vegetarian choices.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The white Christ looking over the red roofs, best with the low sun.\"},{\"poi_id\":\"p18\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Wood-fired pizza and a cosy corner, easy on the wallet.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the Inca terraces and watch Inti (the sun) light up the old stone paths.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 219,
+          "input_tokens": 264,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 178,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 49,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "d373adba-dc27-4a6f-a245-87be25468762",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander among Inca relics and textiles that whisper the old stories.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little stop to see cacao turned into art, and maybe taste a bit.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 293,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 115,
           "service_tier": "standard"
         }
       }
@@ -100,71 +76,71 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "daa2e7d5-bcdb-4f7c-9855-e1a2713a6db2",
+        "id": "c378b658-b2fe-49d1-9327-401db92f1528",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The grand square where Cusco's stories gather under Inti (the sun).\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Inca stonework so precise the walls still whisper of gold.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A cathedral full of canvases, cedar, and colonial echoes.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A warm, wood-scented table with lovely things for the herbivores among you.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the old Inca capital, where the stones hold centuries of stories and the arcades frame the perfect first photo.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The great fortress of the Inca, with stones fitted so tightly not even a blade of grass can slip between them.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The white Christ looks over the red-tiled roofs, a quiet viewpoint to watch Inti (the sun) dip behind the hills.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A plant-filled corner where the vegetarian plates are as colourful as the market stalls, and the set menu never disappoints.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 521,
+          "input_tokens": 467,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 153,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 255,
           "service_tier": "standard"
         }
       }
     },
-    "repair-1-3": {
+    "day-3": {
       "status": 200,
       "body": {
-        "id": "d898fa56-a53a-4868-a9b6-1236da196986",
+        "id": "af123530-2203-4681-bbe9-36613edac9b2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Wander the terraces and watch the valley unfold below the old stones.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The Inca stonework here still holds its curves under Inti (the sun), a quiet marvel of old Cusco.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Gold leaf, cedar and a painting of a very Andean Last Supper make this cathedral feel wonderfully local.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A refined take on Andean flavours, with thoughtful vegetarian plates that still taste like Cusco.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Follow the juice ladies and herb stalls to the market's lively heart, where daily Cusco does its shopping.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the steep lanes of San Blas, where tiny workshops and blue doors hide some of the city's best crafts.\"},{\"poi_id\":\"p18\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A cosy, wood-fired corner for honest pizza and pasta, with plenty of meat-free comfort on the menu.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 121,
+          "input_tokens": 462,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 66,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 271,
           "service_tier": "standard"
         }
       }
     },
-    "repair-2-3": {
+    "titles": {
       "status": 200,
       "body": {
-        "id": "92229dca-46e8-4e40-8356-a49900ebc444",
+        "id": "eff1f496-55c5-4384-961f-808dd5144a48",
         "type": "message",
         "role": "assistant",
-        "model": "deepseek-v4-pro",
+        "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the terraces and stone paths where the Inti (the sun) still feels close.\"}]}"
+            "text": "2: A morning among Pisac ruins"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 121,
+          "input_tokens": 221,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 48,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }
@@ -172,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "105a48f0-4037-4fbf-933d-fd16a2d8f008",
+        "id": "abc803cb-c31c-42fe-8bc3-8a3a89eeb06c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Cusco's heart, Inca stones, the Sacred Valley, a market morning, then goodbye — all under Inti (the sun), all in."
+            "text": "A gentle landing in the Imperial City, a morning up among the Pisac ruins, then faith, markets and Inca echoes before we wave goodbye."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 140,
+          "input_tokens": 246,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 31,
+          "output_tokens": 29,
           "service_tier": "standard"
         }
       }

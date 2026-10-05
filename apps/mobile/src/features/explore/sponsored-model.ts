@@ -3,7 +3,7 @@
  * than one sponsored card and never one in first place, and each placement's impression is
  * counted once per time the list is shown.
  */
-import type { PicksEntryWire } from '@cp/domain';
+import { shownName, type PicksEntryWire } from '@cp/domain';
 
 export type ListKind = 'picks' | 'map_carousel' | 'search';
 
@@ -33,7 +33,11 @@ export interface PickEntry {
  * of the curated set); a destination that runs on automatic picks marks none, so its picks are the
  * recommended places as ranked. With no organic place there is no row (and no sponsored card).
  */
-export function pickEntries(entries: readonly PicksEntryWire[]): PickEntry[] {
+export function pickEntries(
+  entries: readonly PicksEntryWire[],
+  /** The reader sees the destination's local names (`@cp/domain` `shownName`). */
+  readsLocal = false,
+): PickEntry[] {
   const marked = entries.some((entry) => entry.kind === 'organic' && entry.item.must_see);
   const cards: PickEntry[] = [];
   let sponsored = false;
@@ -42,7 +46,7 @@ export function pickEntries(entries: readonly PicksEntryWire[]): PickEntry[] {
       if (marked && !entry.item.must_see) continue;
       cards.push({
         poiId: entry.item.poi_id,
-        name: entry.item.name,
+        name: shownName({ name: entry.item.name, nameLocal: entry.item.name_local }, readsLocal),
         category: entry.item.category,
         sponsored: null,
       });

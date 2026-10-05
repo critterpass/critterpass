@@ -1,6 +1,7 @@
 /**
  * Fit over HTTP (docs/api-contracts-planning.md, routes): when places fit the trip's days, the
- * curated places near a place, and ideas for a free window. Participants only; anyone else gets
+ * curated places near a place, ideas for a free window, and whether stops at proposed times are
+ * open. Participants only; anyone else gets
  * `NOT_FOUND`. All three read as the caller, so an organiser's draft stays theirs.
  */
 import { withUser } from '@cp/db';
@@ -11,6 +12,7 @@ import type { AppEnv } from '../../app';
 import type { CommandDoorDeps } from '../../commands/_framework/doors';
 import { requireCommandSession } from '../../commands/_framework/session';
 import { planStaySource, straightLineSource, tripFitFacts, readFitThresholds } from './context';
+import { closedStops, openingCheckBodySchema, readKnownHours } from './closing';
 import { ideasForGap } from './gap-ideas';
 import { nearbyPlaces } from './nearby';
 import { fitForTrip, type FitDeps } from './service';
@@ -56,6 +58,22 @@ export function registerFitRoutes(
     );
     c.header('Cache-Control', 'private, no-store');
     return c.json(result);
+  });
+
+  app.post('/v1/trips/:id/plan/opening-check', async (c) => {
+    const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
+    const { id } = tripParams.parse(c.req.param());
+    const body = openingCheckBodySchema.parse(await c.req.json());
+    const closed = await withUser(deps.pool, session.uid, 'unknown', async (tx) => {
+      const trip = await tripFitFacts(tx, id);
+      const hours = await readKnownHours(
+        tx,
+        body.stops.map((stop) => stop.poi_id),
+      );
+      return closedStops(body.stops, hours, trip.tz);
+    });
+    c.header('Cache-Control', 'private, no-store');
+    return c.json({ closed });
   });
 
   app.get('/v1/trips/:id/places/:poiId/nearby', async (c) => {

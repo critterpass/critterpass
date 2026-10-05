@@ -53,11 +53,6 @@ msgstr "{0} is writing {1}'s version"
 msgid "proposal.tracker.maybe"
 msgstr "{0} maybe"
 
-#. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
-msgstr "{0} maybe go on the waitlist for a freed seat."
-
 #. placeholder {0}: tally.noReply
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReply"
@@ -108,11 +103,6 @@ msgstr "{0} suggests"
 msgid "proposal.tracker.waiting"
 msgstr "{0} waiting for a seat"
 
-#. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
-msgstr "{0} who haven’t answered are out."
-
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.subGroup"
@@ -158,6 +148,18 @@ msgstr "{before} seats"
 msgid "proposal.turn.planVote"
 msgstr "{by} wants to change the plan. It waits for your yes."
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting"
+msgstr "{count, plural, one {The crew saved # place to Ideas. It waits for you to put it in a day.} other {The crew saved # places to Ideas. They wait for you to put them in a day.}}"
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.send"
+msgstr "{count, plural, one {The plan check still has # thing to fix. The crew will see the plan as it is.} other {The plan check still has # things to fix. The crew will see the plan as it is.}}"
+
+#: ../../apps/mobile/src/features/proposal/data/known-issues.ts
+msgid "proposal.issues.lock"
+msgstr "{count, plural, one {The plan check still has # thing to fix. You can lock now and fix it after.} other {The plan check still has # things to fix. You can lock now and fix them after.}}"
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.crewIn"
 msgstr "{crew, plural, other {{going} of # in the crew are in.}}"
@@ -189,6 +191,10 @@ msgstr "{guideName} wrote a version for each person. Pick how it arrives."
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
 msgstr "{guideName} wrote one version for everyone. Pick how it arrives."
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybesCount"
+msgstr "{maybes, plural, one {# maybe goes on the waitlist for a freed seat.} other {# maybes go on the waitlist for a freed seat.}}"
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
 msgid "proposal.inbox.answered.out"
@@ -251,8 +257,8 @@ msgid "proposal.hype.pct"
 msgstr "{pct}%"
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
-msgid "proposal.inbox.locked"
-msgstr "{place} is locked in. The trip is on."
+msgid "proposal.inbox.lockedIn"
+msgstr "{place} is locked in. The trip is confirmed."
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.reacted"
@@ -261,6 +267,10 @@ msgstr "{reacted} reacted."
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
 msgstr "{seat} is a crowd"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silentCount"
+msgstr "{silent, plural, one {# friend who hasn’t answered is out.} other {# friends who haven’t answered are out.}}"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.sendPlan"
@@ -273,6 +283,10 @@ msgstr "{who} comes off it"
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.move"
 msgstr "{who} moves"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingMaybe"
+msgstr "{who} said maybe. Nobody is in yet."
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.withdrawn"
@@ -374,6 +388,10 @@ msgstr "Booked activity"
 msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.budget"
+msgstr "budget"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.chip.out"
 msgstr "Can’t make it"
@@ -430,13 +448,13 @@ msgstr "Crew hype"
 msgid "proposal.board.crewPass"
 msgstr "Crew pass"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.when"
+msgstr "dates"
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.dates"
 msgstr "Dates"
-
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.setup"
-msgstr "Dates, budget and must-dos come next."
 
 #. placeholder {0}: stop.dayNo
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -699,8 +717,8 @@ msgid "proposal.lock.titleAlone"
 msgstr "Lock the plan in?"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.locked"
-msgstr "Locked in. The trip is on."
+msgid "proposal.turn.lockedIn"
+msgstr "Locked in. The trip is confirmed."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.done"
@@ -721,6 +739,10 @@ msgstr "Maybe"
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.groupMustDo"
 msgstr "Must-do"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.mustDos"
+msgstr "must-dos"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
@@ -819,6 +841,10 @@ msgstr "Open the plan"
 msgid "proposal.objection.openPlan"
 msgstr "Open the plan"
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.issues.open"
+msgstr "Open the plan check"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr "Organiser"
@@ -910,6 +936,10 @@ msgstr "Room {room}"
 msgid "proposal.dropout.moveTo"
 msgstr "room {to}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.rooms"
+msgstr "rooms"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr "Said maybe"
@@ -921,6 +951,10 @@ msgstr "Saved"
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothingOther"
 msgstr "Say it in the crew chat, or to {organiser}. You can still take your time."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.ideasWaiting.button"
+msgstr "See Ideas"
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.planVote.button"
@@ -975,6 +1009,10 @@ msgstr "Sent {0}"
 msgid "proposal.turn.setup.button"
 msgstr "Set up the trip"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.ready"
+msgstr "Set-up is done. The guide drafts next."
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
 msgstr "Seven’s a crowd"
@@ -1023,6 +1061,10 @@ msgstr "Still thinking. Ask me tomorrow morning"
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.laterTonight"
 msgstr "Still thinking. Ask me tonight"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.left"
+msgstr "Still to set up: {list}."
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"

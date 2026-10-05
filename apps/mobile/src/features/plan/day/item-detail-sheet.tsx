@@ -22,10 +22,11 @@ import { ActionPill } from '@/ui/plan/ActionPill';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
 import { ItemConfirm } from './item-confirm';
 import { ItemFacts, Section } from './item-facts';
+import { SheetFoot } from './sheet-foot';
 import { TimeRangeField } from './time-range-field';
 import { type DayItem } from '@/data/plan/plan-model';
 import { type PlanMember } from '@/data/plan/use-trip-plan';
@@ -34,14 +35,6 @@ const useStyles = makeStyles((th) => ({
   fill: { flex: 1 },
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['16'] },
   label: { marginBottom: th.space['4'] },
-  foot: {
-    gap: th.space['8'],
-    paddingHorizontal: th.size.gutter,
-    paddingTop: th.space['12'],
-    paddingBottom: th.space['8'],
-    borderTopWidth: th.space['2'] / 2,
-    borderTopColor: th.color.divider,
-  },
 }));
 
 /** What a change would do to the rest of the day, before it is saved. */
@@ -50,6 +43,8 @@ export interface ChangePreview {
   readonly line: string | null;
   /** The change can't be saved as it is. */
   readonly blocked: boolean;
+  /** The first start that would work, offered in one tap when the chosen one is taken. */
+  readonly useStart?: number;
 }
 
 export interface ItemDetailActions {
@@ -61,11 +56,15 @@ export interface ItemDetailActions {
     times?: { readonly start: number; readonly end: number },
   ) => void;
   readonly onRemove: (confirmLocked: boolean) => void;
-  readonly onSkipForMe: () => void;
+  /** Null where there is no crew plan to skip from (an organiser's own draft). */
+  readonly onSkipForMe: (() => void) | null;
   readonly onOpenPlace: (poiId: string) => void;
   readonly onOpenMaps: () => void;
   readonly onClose: () => void;
 }
+
+/** More lines than any place name takes at the largest text size. */
+const TITLE_LINES = 8;
 
 type Pending = { readonly kind: 'save' } | { readonly kind: 'remove' };
 
@@ -75,9 +74,12 @@ export function ItemDetailSheet({
   members,
   canApply,
   comments,
+  lead,
   actions,
   dayLabels,
   mustDoMine = false,
+  removeLine = null,
+  priceLevel = null,
   suggestion = null,
   preview,
 }: {
@@ -86,11 +88,17 @@ export function ItemDetailSheet({
   readonly members: readonly PlanMember[];
   readonly canApply: boolean;
   readonly comments?: ReactNode;
+  /** What leads the sheet on the day itself (the stop's on-the-day actions). */
+  readonly lead?: ReactNode;
   readonly actions: ItemDetailActions;
   /** Each day named by its date ("Sat, Oct 17"); a day without one reads "Day 3". */
   readonly dayLabels?: ReadonlyMap<number, string>;
   /** The must-do is the reader's own. */
   readonly mustDoMine?: boolean;
+  /** What taking the stop off does to the rest of its day ("3 later stops move 1 h earlier"). */
+  readonly removeLine?: string | null;
+  /** The place's price level (0 = known to be free); null = not known. */
+  readonly priceLevel?: number | null;
   /** A change to this stop the crew is still deciding on. */
   readonly suggestion?: { readonly line: string; readonly onSee: () => void } | null;
   readonly preview?: (change: {
@@ -100,7 +108,6 @@ export function ItemDetailSheet({
   }) => ChangePreview;
 }) {
   const styles = useStyles();
-  const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
   const [times, setTimes] = useState<{ start: number; end: number } | null>(null);
@@ -140,7 +147,17 @@ export function ItemDetailSheet({
 
   return (
     <Sheet
-      title={upper(item.title, locale)}
+      header={
+        // A long place name wraps until it is whole: the sheet scrolls, so nothing is cut.
+        <Text
+          variant="h1"
+          numberOfLines={TITLE_LINES}
+          singleLine={false}
+          accessibilityRole="header"
+        >
+          {upper(item.title, locale)}
+        </Text>
+      }
       detents={['large']}
       onDismiss={actions.onClose}
       accessibilityLabel={item.title}
@@ -153,6 +170,7 @@ export function ItemDetailSheet({
             contentContainerStyle={styles.body}
             testID="plan-item-scroll"
           >
+            {lead}
             {item.lock === 'booking' ? <StatusChip status="booked" /> : null}
             {suggestion === null ? null : (
               <ListCard
@@ -187,7 +205,7 @@ export function ItemDetailSheet({
                 />
               </Section>
             ) : null}
-            <ItemFacts item={item} members={members} />
+            <ItemFacts item={item} members={members} priceLevel={priceLevel} />
             <Section label={t({ id: 'plan.day.item.moveTo', message: 'Move to' })}>
               <Row gap="6" wrap>
                 {dayNos.map((option) => (
@@ -209,11 +227,17 @@ export function ItemDetailSheet({
                   onPress={actions.onOpenMaps}
                 />
               ) : null}
-              <TextLink
-                label={t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })}
-                onPress={actions.onSkipForMe}
-                testID="plan-item-skip"
-              />
+              {actions.onSkipForMe === null ? null : (
+                <TextLink
+                  label={
+                    members.length <= 1
+                      ? t({ id: 'plan.day.item.skipSolo', message: 'Skip this stop' })
+                      : t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })
+                  }
+                  onPress={actions.onSkipForMe}
+                  testID="plan-item-skip"
+                />
+              )}
             </Row>
             <PillButton
               variant="destructive"
@@ -222,26 +246,17 @@ export function ItemDetailSheet({
               testID="plan-item-remove"
             />
           </SheetScrollView>
-          <View style={styles.foot}>
-            {effect.line === null ? null : (
-              <Text
-                variant="bodySm"
-                color={
-                  effect.blocked ? theme.semantic.state.warning : theme.semantic.text.secondary
-                }
-                testID="plan-item-preview"
-              >
-                {effect.line}
-              </Text>
-            )}
-            <PillButton
-              label={saveLabel}
-              disabled={!changed || effect.blocked}
-              onPress={() => run({ kind: 'save' }, false)}
-              block
-              testID="plan-item-save"
-            />
-          </View>
+          <SheetFoot
+            effect={effect}
+            saveLabel={saveLabel}
+            canSave={changed && !effect.blocked}
+            onUseStart={(from) =>
+              start === null || end === null
+                ? undefined
+                : setTimes({ start: from, end: from + (end - start) })
+            }
+            onSave={() => run({ kind: 'save' }, false)}
+          />
         </View>
       ) : (
         <View style={styles.body}>
@@ -250,6 +265,8 @@ export function ItemDetailSheet({
             removing={confirming.kind === 'remove'}
             canApply={canApply}
             mustDoMine={mustDoMine}
+            alsoMoves={confirming.kind === 'remove' ? removeLine : null}
+            solo={members.length <= 1}
             onConfirm={() => run(confirming, true)}
             onCancel={() => setConfirming(null)}
           />

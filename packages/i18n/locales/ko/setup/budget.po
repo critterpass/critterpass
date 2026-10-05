@@ -146,6 +146,10 @@ msgid "setup.budget.infeasible.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.labelAlone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.typed.label"
 msgstr ""
 
@@ -155,6 +159,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lineSmallCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineAlone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
@@ -189,6 +197,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.eyebrowAlone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx

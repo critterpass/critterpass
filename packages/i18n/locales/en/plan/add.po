@@ -59,6 +59,10 @@ msgstr "{name} is right next door. Add it too?"
 msgid "plan.add.length.minutes"
 msgstr "{only} MIN"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlan"
+msgstr "{organiser} is still putting the plan together. Save it to Ideas and they’ll see it."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.leave.car"
 msgstr "{time} · LEAVE THE STAY · CAR {minutes} MIN"
@@ -100,6 +104,22 @@ msgstr "Already in your plan: {dayLabel} at {time}. Pick where it moves."
 msgid "plan.add.why.before"
 msgstr "Before {0}"
 
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.afterDark"
+msgstr "Best after dark"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.sunset"
+msgstr "Best around sunset"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.evening"
+msgstr "Best in the evening"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.morning"
+msgstr "Best in the morning"
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"
 msgstr "Between {a} and {b}"
@@ -135,6 +155,10 @@ msgstr "FINDING THE BEST TIME…"
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.saveLater"
 msgstr "Just save it for later"
+
+#: ../../apps/mobile/src/features/plan/add/who-going.tsx
+msgid "plan.add.who.justYou"
+msgstr "Just you"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.nearby.drop"
@@ -201,12 +225,17 @@ msgid "plan.add.cta.ideas"
 msgstr "SAVE TO IDEAS"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
-msgstr "Saved to Ideas"
+msgid "plan.add.savedToastShared"
+msgstr "Saved to Ideas, where the crew sees it. It goes in a day once someone places it."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
 msgstr "SEE IDEAS"
+
+#. placeholder {0}: props.useStart.time
+#: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
+msgid "plan.add.useStart"
+msgstr "Start at {0} instead"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.time.a11y"
@@ -223,6 +252,14 @@ msgstr "SUGGEST FOR {dayLabel} ANYWAY"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "The crew votes on this before it goes in. You’ll hear back."
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlanAny"
+msgstr "The plan isn’t shared yet. Save it to Ideas and it’s there when it is."
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.meal"
+msgstr "Timed for a meal"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

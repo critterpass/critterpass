@@ -1,8 +1,8 @@
 /**
  * The redraft screen wired to the phone: the redraft's job and diff, the trip's quota and the
  * organiser's per-change toggles. KEEP IT makes the redrafted day part of the private draft (the
- * changes toggled off stay as they were); "Put … back" discards it. Either one counts against the
- * quota; a redraft that failed or could not beat the day gave its unit back.
+ * changes toggled off stay as they were) and counts against the quota; "Put … back" discards it and
+ * gives the redraft back, as does one that failed or could not beat the day.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -16,6 +16,7 @@ import { impact, toast } from '@/motion';
 import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
+import { useTakenOut } from '../data/left-out';
 import {
   changeCards,
   excludedIds,
@@ -25,6 +26,7 @@ import {
 } from '../data/redraft';
 import { useRedraft } from '../data/use-redraft';
 import { draftRoutes } from '../routes';
+import { putBackToast } from './outcome-copy';
 import { RedraftDiffView } from './redraft-diff-view';
 
 /** The guide's thinking beat lasts at least this long, however fast the job was. */
@@ -60,6 +62,7 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
     () => result !== null && partialKeepClashes(result.changes, excludedIds(cards, off)),
     [result, cards, off],
   );
+  const gone = useTakenOut(result?.base_version_id ?? null, result?.candidate_version_id ?? null);
   if (trip === undefined || trip === null || !redraft.loaded) return null;
 
   const phase = leaving
@@ -98,16 +101,13 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   const onPutBack = () => {
     setLeaving(true);
     void revert.send({ redraft_id: redraftId });
-    toast.show({
-      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
-      id: `redraft-reverted-${redraftId}`,
-      title: t({ id: 'planDraft.diff.revertedToast', message: `Day ${n} is back as it was.` }),
-    });
+    toast.show(putBackToast(redraftId, n, trip.quota.limit !== null));
     back();
   };
   return (
     <RedraftDiffView
       guide={trip.guide}
+      takenOut={gone}
       locale={locale}
       tz={trip.tz}
       phase={phase}

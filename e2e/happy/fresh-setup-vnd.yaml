@@ -4,7 +4,7 @@ appId: app.critterpass.dev
 # Ho Chi Minh City starts a crew (which settles in VND), pitches Đà Nẵng and locks it in, and sets
 # the trip up the way the first real crew did: starting tomorrow, three days long, picked by hand
 # on the dates step. The budget step then prices and steps in đồng, LOOKS GOOD locks first time
-# (no retry, no skip) and setup moves on to the rooms.
+# (no retry, no skip) and setup moves on.
 #
 # Data: staging with the Đà Nẵng destination.
 - runFlow:
@@ -142,14 +142,15 @@ appId: app.critterpass.dev
     text: '.*₫.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-fresh-vnd-budget
-# LOOKS GOOD, once: the rooms step is next, with no "didn't lock" line on the way.
+# LOOKS GOOD, once: setup moves on with no "didn't lock" line on the way. Next is the rooms step,
+# or the must-dos when a crew of one has no stay to pick and so nothing to decide about rooms.
 - tapOn:
     id: 'budget-lock'
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms'
+      id: 'setup-rooms|must-dos-screen'
     timeout: 30000
 - assertNotVisible:
     id: 'budget-lock-line'
 - waitForAnimationToEnd
-- takeScreenshot: en-fresh-vnd-rooms
+- takeScreenshot: en-fresh-vnd-after-budget

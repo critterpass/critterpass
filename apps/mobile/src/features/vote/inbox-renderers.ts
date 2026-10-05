@@ -1,7 +1,7 @@
 /**
  * How the poll inbox kinds read on Home's inbox: a vote that needs you (the question and the
  * answers as inline buttons), the destination final, the organiser's tie to settle, and the result
- * ("Kyoto won 4–2"). The server files ids, labels and the score; every word is drawn here.
+ * ("Kyoto won 4–2", or "Kyoto is locked in" when the organiser chose and nobody voted). The server files ids, labels and the score; every word is drawn here.
  */
 import type { I18n } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
@@ -107,6 +107,12 @@ export function registerPollInboxRenderers(): void {
     line: (item, { i18n }) => {
       const winner = text(item.data['winner_label']);
       const score = text(item.data['score']);
+      // Nobody voted: the organiser locked the place in, so there is no score to report.
+      if (/^0\D+0$/u.test(score.trim())) {
+        return i18n._(
+          msg({ id: 'vote.inbox.lockedIn', message: `${winner} is locked in. No vote needed.` }),
+        );
+      }
       return i18n._(msg({ id: 'vote.inbox.result', message: `${winner} won ${score}` }));
     },
   });
