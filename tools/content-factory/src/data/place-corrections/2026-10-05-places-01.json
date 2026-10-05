@@ -1,0 +1,3642 @@
+{
+  "batch": "2026-10-05-places-01",
+  "checked_at": "2026-10-05T00:00:00+07:00",
+  "places": [
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5261dd7811d25d345157cfe2",
+      "stored_name": "Melukat di Tirtha Empul",
+      "stated": true,
+      "name": "Tirta Empul Temple",
+      "name_local": "Pura Tirta Empul",
+      "must_see": true,
+      "why": "No recommended record of Tirta Empul carried the temple's name: this one, at the site in Tampaksiring, was named for the bathing ritual. The other records of the temple, pinned up to 15 km away, fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 391619142 “Pura Tirta Empul” (tourism=attraction)",
+        "lat": -8.41436,
+        "lng": 115.31621,
+        "off_m": 92
+      },
+      "merge": [
+        {
+          "ref": "overture:ab19b0e8-77ec-4094-933a-c0f8391b03f2",
+          "stored_name": "Tirta Empul Holy Water Temple"
+        },
+        {
+          "ref": "fsq_os:55b351d8498eede03c0b389e",
+          "stored_name": "Tirta Empul"
+        },
+        {
+          "ref": "fsq_os:51ba716f498e354af1f45aa4",
+          "stored_name": "Pura Tirta Empul"
+        },
+        {
+          "ref": "fsq_os:53d3aad4498eaf9588488d64",
+          "stored_name": "Pura Tirta Empul Tampaksiring"
+        },
+        {
+          "ref": "fsq_os:55af8710498e6ae3310c2dc4",
+          "stored_name": "Tirta Empul Tampak Siring"
+        },
+        {
+          "ref": "fsq_os:5659673a498e511a28136e19",
+          "stored_name": "Pura Tirta Empul Bali"
+        },
+        {
+          "ref": "fsq_os:561b3f01498ef82a516c9b48",
+          "stored_name": "Tirta Empul Temple"
+        },
+        {
+          "ref": "fsq_os:567e4d8f498ef1c03eb848c9",
+          "stored_name": "Pura Tirta Empul"
+        },
+        {
+          "ref": "fsq_os:518aed72498e109416908fbc",
+          "stored_name": "Pura Tirta Empul"
+        },
+        {
+          "ref": "fsq_os:57e62e60498ea2a13fab0425",
+          "stored_name": "tirtha empul holy water tampak siring"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b130423a-a2ef-4b69-8c3b-538482e24653",
+      "stored_name": "Mount Kawi",
+      "stated": true,
+      "name": "Gunung Kawi Temple",
+      "name_local": "Candi Tebing Gunung Kawi",
+      "category": "temple_shrine",
+      "must_see": true,
+      "why": "Five recommended records of the Gunung Kawi rock shrines; this one is at the site in Tampaksiring, two of the others were pinned in Ubud and south of the site.",
+      "checked": {
+        "source": "OpenStreetMap way 1119139833 “Gunung Kawi” (landuse=religious)",
+        "lat": -8.42296,
+        "lng": 115.31253,
+        "off_m": 7
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:52ccc9ba498e7cfc36b63a15",
+          "stored_name": "Gunung Kawi Temple, Bali"
+        },
+        {
+          "ref": "overture:8322755f-9ccf-45af-a9e0-65ae3d438dac",
+          "stored_name": "Candi Tebing Gunung Kawi"
+        },
+        {
+          "ref": "fsq_os:4d16d22e6d1037043ab632bd",
+          "stored_name": "Gn Kawi Temple"
+        },
+        {
+          "ref": "fsq_os:50f137b5e4b0f7403a597db2",
+          "stored_name": "Pura Gunung Kawi"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c136bf0b7b9c928947ea937",
+      "stored_name": "Pura Penataran Agung Lempuyang",
+      "stated": true,
+      "name": "Lempuyang Temple (Gates of Heaven)",
+      "name_local": "Pura Penataran Agung Lempuyang",
+      "must_see": true,
+      "why": "The temple with the Gates of Heaven; four recommended records, one pinned 7 km south and one filed as a museum.",
+      "checked": {
+        "source": "OpenStreetMap way 540610100 “Pura Penataran Agung Lempuyang” (amenity=place_of_worship)",
+        "lat": -8.39128,
+        "lng": 115.63055,
+        "off_m": 51
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:94d191304d03452f72e9105b",
+          "stored_name": "The Gate Enter to Lempuyang Temple"
+        },
+        {
+          "ref": "overture:843b52d6-9d52-4bc5-a3f8-a013098b51fd",
+          "stored_name": "Heaven's Gates Lempuyang Temple, Bali, Indonesia"
+        },
+        {
+          "ref": "overture:de41a1a8-62ce-4be8-a9d5-a4f5a6a46bff",
+          "stored_name": "Pura Luhur Lempuyang"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:1f0fa92f-a531-4f62-83fa-5601e31b9e6d",
+      "stored_name": "Besakih Great Temple",
+      "stated": true,
+      "name": "Besakih Temple",
+      "name_local": "Pura Besakih",
+      "must_see": true,
+      "why": "Five recommended records of Besakih; two were pinned 7 to 8 km from the temple.",
+      "checked": {
+        "source": "OpenStreetMap way 719365379 “Pura Penataran Agung Besakih” (amenity=place_of_worship)",
+        "lat": -8.37398,
+        "lng": 115.45226,
+        "off_m": 14
+      },
+      "merge": [
+        {
+          "ref": "overture:1a2b8205-309a-434b-ad52-70ae40349323",
+          "stored_name": "Besakih Bali"
+        },
+        {
+          "ref": "overture:e6ec18d6-48e7-47fb-9ce1-455c533305b4",
+          "stored_name": "Besakih Bali"
+        },
+        {
+          "ref": "overture:53293a5d-c1da-453c-b918-c6ccfb870487",
+          "stored_name": "Mother temple of bali - besakih temple"
+        },
+        {
+          "ref": "overture:118c6a0b-acb7-40ef-ace8-542fdfb700bb",
+          "stored_name": "The Mother Temple of Besakih"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:607b191d-9ee0-4137-8918-96414a736d8b",
+      "stored_name": "Pura Ulun Danu Beratan Temple",
+      "stated": true,
+      "name": "Ulun Danu Beratan Temple",
+      "name_local": "Pura Ulun Danu Beratan",
+      "must_see": true,
+      "why": "Five recommended records of the lake temple at Bedugul; three were pinned in Kuta, Seminyak and Jimbaran, 50 km south.",
+      "checked": {
+        "source": "OpenStreetMap relation 9037048 “Pura Ulun Danu Beratan” (amenity=place_of_worship)",
+        "lat": -8.27551,
+        "lng": 115.16626,
+        "off_m": 85
+      },
+      "merge": [
+        {
+          "ref": "overture:57330f6f-0474-4763-8362-8f389d11a0a5",
+          "stored_name": "Objek Wisata Ulun Danu Beratan"
+        },
+        {
+          "ref": "overture:be9f927d-f9ae-4726-8784-ae9e54292438",
+          "stored_name": "Pura Ulun Danu Bratan"
+        },
+        {
+          "ref": "overture:aa54af2a-6098-466c-8f11-87ba4b2b6105",
+          "stored_name": "Bedugul Lake Temple Beratan"
+        },
+        {
+          "ref": "fsq_os:52021f0c498e6692e746c4cc",
+          "stored_name": "Pura Ulundanu Berantan"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:26cd184c-aea6-4036-85f6-f666f9f04581",
+      "stored_name": "Danau Beratan",
+      "stated": true,
+      "name": "Lake Beratan",
+      "name_local": "Danau Beratan",
+      "note": {
+        "why_go": "A crater lake in the Bedugul highlands, with the Ulun Danu Beratan temple on its western shore.",
+        "best_time": "Morning, before cloud settles on the hills",
+        "time_needed_min": 45,
+        "crowd_hint": "Busy near the temple; quiet elsewhere",
+        "etiquette": null,
+        "tags": ["nature", "photo_spots", "easy_pace"]
+      },
+      "why": "Both recommended records of the lake were pinned on the south coast (Kuta and Nusa Dua); this record is on the lake.",
+      "checked": {
+        "source": "OpenStreetMap relation 7776252 “Danau Beratan” (water=lake)",
+        "lat": -8.27336,
+        "lng": 115.17538,
+        "off_m": 204
+      },
+      "merge": [
+        {
+          "ref": "overture:8b134aac-512d-46e3-bfbd-ab83666f349e",
+          "stored_name": "Beratan Lake Bedugul Bali"
+        },
+        {
+          "ref": "overture:1bed34b5-b046-4386-b50a-bd6a1cf039c6",
+          "stored_name": "Lake Bratan"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4eb0ed68b8f74bbb23a4553e",
+      "stored_name": "Pura Ulun Danu Batur",
+      "stated": true,
+      "name": "Ulun Danu Batur Temple",
+      "name_local": "Pura Ulun Danu Batur",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 1547554347 “Pura Ulun Danu Batur” (historic=monument)",
+        "lat": -8.25672,
+        "lng": 115.33863,
+        "off_m": 370
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c3446883896e21eee47eb90",
+      "stored_name": "Pura Luhur Uluwatu",
+      "stated": true,
+      "name": "Uluwatu Temple",
+      "name_local": "Pura Luhur Uluwatu",
+      "must_see": true,
+      "why": "Three recommended records of the cliff temple; one was pinned in Jimbaran.",
+      "checked": {
+        "source": "OpenStreetMap way 707659668 “Pura Luhur Uluwatu” (amenity=place_of_worship)",
+        "lat": -8.82937,
+        "lng": 115.08434,
+        "off_m": 233
+      },
+      "merge": [
+        {
+          "ref": "overture:fc6787df-0762-43fb-b31f-877abd1d1647",
+          "stored_name": "Uluwatu Temple"
+        },
+        {
+          "ref": "overture:e2157890-5109-4f22-8f94-ca872bc57475",
+          "stored_name": "Uluwatu Temple Uluwatu"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:4e3434e3-df15-4602-b663-d5b9fa66cb10",
+      "stored_name": "Tanah Lot",
+      "stated": true,
+      "name": "Tanah Lot Temple",
+      "name_local": "Pura Tanah Lot",
+      "must_see": true,
+      "why": "Must-see; a second record of the temple under a page title folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6930069190 “Tanah Lot” (amenity=place_of_worship)",
+        "lat": -8.62122,
+        "lng": 115.08688,
+        "off_m": 8
+      },
+      "merge": [
+        {
+          "ref": "overture:cf4f47ad-dada-4daa-9b44-e69239a8cb77",
+          "stored_name": "Lord Hanuman Statue, Pura Tanah Lot Temple, Tabanan, Bali Island Indonesia"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c0b27013c70b7134d20285b",
+      "stored_name": "Pura Taman Ayun",
+      "stated": true,
+      "name": "Taman Ayun Temple",
+      "name_local": "Pura Taman Ayun",
+      "must_see": true,
+      "why": "Two recommended records of the royal temple at Mengwi, one filed as nature.",
+      "checked": {
+        "source": "OpenStreetMap node 990948352 “Pura Taman Ayun” (amenity=place_of_worship)",
+        "lat": -8.54185,
+        "lng": 115.17249,
+        "off_m": 4
+      },
+      "merge": [
+        {
+          "ref": "overture:94005b43-b390-4794-a250-659d54eecf1f",
+          "stored_name": "Pura Taman Ayun Mengwi"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bf8b07e4a67c92810e825cf",
+      "stored_name": "Pura Goa Gajah",
+      "stated": true,
+      "name": "Goa Gajah (Elephant Cave)",
+      "name_local": "Pura Goa Gajah",
+      "must_see": true,
+      "why": "Two recommended records of Goa Gajah; the second was pinned 2 km west, in Ubud.",
+      "checked": {
+        "source": "OpenStreetMap node 1153609086 “Goa gajah” (amenity=place_of_worship)",
+        "lat": -8.52354,
+        "lng": 115.28675,
+        "off_m": 60
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:52a1605a11d2718eb75273b1",
+          "stored_name": "Elephant Cave Temple Ubud"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4d0c04b1257d6dcb18e39267",
+      "stored_name": "Pura Dalem Ubud",
+      "stated": true,
+      "why": "The second record was filed as a museum and pinned 6.8 km south of Ubud.",
+      "checked": {
+        "source": "OpenStreetMap node 1456289053 “Pura Dalem Ubud” (amenity=place_of_worship)",
+        "lat": -8.50489,
+        "lng": 115.25841,
+        "off_m": 40
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4f2897eae4b03a3766f60901",
+          "stored_name": "Pura Dalem Ubud"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4fcc950be4b0dc2779122215",
+      "stored_name": "Pura Taman Kemuda Saraswati",
+      "stated": true,
+      "name": "Saraswati Temple (Ubud Water Palace)",
+      "name_local": "Pura Taman Kemuda Saraswati",
+      "must_see": true,
+      "why": "The Ubud Water Palace is this temple; two recommended records 150 m apart.",
+      "checked": {
+        "source": "OpenStreetMap way 238194818 “Pura Taman Saraswati” (amenity=place_of_worship)",
+        "lat": -8.50586,
+        "lng": 115.26152,
+        "off_m": 9
+      },
+      "merge": [
+        {
+          "ref": "overture:ec448322-6c99-4062-a318-443171db7403",
+          "stored_name": "Ubud Water Palace"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4e23e0e1aeb70263954795eb",
+      "stored_name": "Istana Raja Ubud",
+      "stated": true,
+      "name": "Ubud Palace",
+      "name_local": "Puri Saren Agung",
+      "category": "museum",
+      "must_see": true,
+      "why": "Ubud Palace was filed as nature.",
+      "checked": {
+        "source": "OpenStreetMap way 284575978 “Puri Saren Agung” (tourism=attraction)",
+        "lat": -8.50672,
+        "lng": 115.26271,
+        "off_m": 12
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c7364260e8cbfb7857509db",
+      "stored_name": "Sacred Monkey Forest Sanctuary",
+      "stated": true,
+      "name_local": "Mandala Suci Wenara Wana",
+      "must_see": true,
+      "why": "Four recommended records of the monkey forest, one under a Russian name pinned in Denpasar.",
+      "checked": {
+        "source": "OpenStreetMap relation 9732447 “Mandala Wisata Wenara Wana” (leisure=nature_reserve)",
+        "lat": -8.51873,
+        "lng": 115.25832,
+        "off_m": 44
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4e3ccde845dd68e327318255",
+          "stored_name": "Mandala Wisata Wenara Wana"
+        },
+        {
+          "ref": "overture:a80b1d29-82eb-475d-b463-09a71da7dffd",
+          "stored_name": "Ubud Monkey Forest"
+        },
+        {
+          "ref": "overture:898e1005-a789-4f15-b233-e2190fda8113",
+          "stored_name": "Лес Обезьян"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:519ed69a498eb23535b6a630",
+      "stored_name": "Pura Dalem Agung Desa Pakraman Padangtegal",
+      "stated": true,
+      "why": "Three recommended records of the temple inside the monkey forest, one filed as a museum.",
+      "checked": {
+        "source": "OpenStreetMap way 372549486 “Pura Dalem Agung Padangtegal” (amenity=place_of_worship)",
+        "lat": -8.51884,
+        "lng": 115.25846,
+        "off_m": 11
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4c5632a07329c928fa438c80",
+          "stored_name": "Jaba Pura Dalem Agung Monkey Forest"
+        },
+        {
+          "ref": "fsq_os:4c398b5593db0f4761a72392",
+          "stored_name": "Pura Dalem Monkey Forest"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4cf0aee2e9425481a4e165c5",
+      "stored_name": "Pura Goa Giri Putri",
+      "stated": true,
+      "why": "Two recommended records of the cave temple, 66 m apart.",
+      "checked": {
+        "source": "OpenStreetMap node 4549076032 “Pura Goa Giri Putri” (amenity=place_of_worship)",
+        "lat": -8.70881,
+        "lng": 115.58606,
+        "off_m": 68
+      },
+      "merge": [
+        {
+          "ref": "overture:7e1a7256-9c8d-494d-a46c-410f62775615",
+          "stored_name": "Pura Goa Giri Putri"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bda5c593904a593a74d469e",
+      "stored_name": "Pura Goa Lawah",
+      "stated": true,
+      "name": "Goa Lawah Temple",
+      "name_local": "Pura Goa Lawah",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 314914957 “Pura Goa Lawah” (amenity=place_of_worship)",
+        "lat": -8.55153,
+        "lng": 115.46897,
+        "off_m": 5
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:52390dd611d2cc15689af482",
+      "stored_name": "Tirta Gangga Amlapura Karang Asem Bali",
+      "stated": true,
+      "name": "Tirta Gangga",
+      "name_local": "Taman Tirta Gangga",
+      "must_see": true,
+      "why": "Must-see; the name carried the district and the island.",
+      "checked": {
+        "source": "OpenStreetMap node 12444528973 “Taman tirta gangga parkir area” (amenity=parking)",
+        "lat": -8.41132,
+        "lng": 115.58805,
+        "off_m": 71
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:513ffe98e4b0829e2f766f19",
+      "stored_name": "Taman Ujung",
+      "stated": true,
+      "name": "Taman Ujung Water Palace",
+      "name_local": "Taman Soekasada Ujung",
+      "category": "museum",
+      "must_see": true,
+      "why": "Three recommended records of the water palace, one pinned 3.6 km away, all filed as nature.",
+      "checked": {
+        "source": "OpenStreetMap way 240066436 “Taman Ujung Water Palace” (leisure=garden)",
+        "lat": -8.46455,
+        "lng": 115.6305,
+        "off_m": 71
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4c772ecc3114b713e5a9c72f",
+          "stored_name": "Taman Ujung Soekasada"
+        },
+        {
+          "ref": "overture:40ac4c1b-db01-4fb9-a494-e4ed10e5ff7a",
+          "stored_name": "Taman Soekasada Ujung"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5178c2a9498e74dbd4c617f2",
+      "stored_name": "Desa Penglipuran, Bangli",
+      "stated": true,
+      "name": "Penglipuran Village",
+      "name_local": "Desa Adat Penglipuran",
+      "category": "museum",
+      "must_see": true,
+      "note": {
+        "why_go": "A traditional Balinese village in Bangli with one stone-paved street lined by family compounds and a bamboo forest behind.",
+        "best_time": "Morning, before day-trip groups",
+        "time_needed_min": 75,
+        "crowd_hint": "Busiest late morning and on holidays",
+        "etiquette": "Family compounds are homes: ask before entering or photographing people.",
+        "tags": ["culture", "local_life", "photo_spots", "easy_pace"]
+      },
+      "why": "The recommended record of the village was pinned in Denpasar, 30 km away; this record is in the village.",
+      "checked": {
+        "source": "OpenStreetMap node 8482826504 “Penglipuran” (place=hamlet)",
+        "lat": -8.42216,
+        "lng": 115.35892,
+        "off_m": 22
+      },
+      "merge": [
+        {
+          "ref": "overture:ca879679-3a4d-46aa-a9d9-744c65144791",
+          "stored_name": "Desa Adat Penglipuran, Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:53b905c1498e8b9d66180d4d",
+      "stored_name": "temple penglipuran",
+      "stated": true,
+      "name": "Penglipuran Temple",
+      "why": "Name in lower case.",
+      "checked": {
+        "source": "OpenStreetMap node 8482826504 “Penglipuran” (place=hamlet)",
+        "lat": -8.42216,
+        "lng": 115.35892,
+        "off_m": 188
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f19fe3af-de14-4532-96c4-c220ad2c8c36",
+      "stored_name": "Kertha Gosa",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 5926516529 “Kertha Gosa” (tourism=attraction)",
+        "lat": -8.53542,
+        "lng": 115.40358,
+        "off_m": 18
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:517bdd5ae4b0a8be6a33a89f",
+      "stored_name": "Pura Samuan Tiga",
+      "stated": true,
+      "category": "temple_shrine",
+      "note": {
+        "why_go": "A large state temple at Bedulu, east of Ubud.",
+        "best_time": "Morning",
+        "time_needed_min": 40,
+        "crowd_hint": "Usually quiet outside ceremonies",
+        "etiquette": "Wear a sarong and sash; cover shoulders and knees.",
+        "tags": ["temples", "culture", "history"]
+      },
+      "why": "The recommended record was pinned in Kerobokan; the temple is in Bedulu, where this record is.",
+      "checked": {
+        "source": "OpenStreetMap way 655855437 “Pura Samuan Tiga” (amenity=place_of_worship)",
+        "lat": -8.52376,
+        "lng": 115.29507,
+        "off_m": 9
+      },
+      "merge": [
+        {
+          "ref": "overture:e5339c1c-011e-4e73-86d1-99d5e67ea236",
+          "stored_name": "Pura Samuan Tiga"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:e3efb4e8-ae45-42f7-a3bf-0385bd577281",
+      "stored_name": "Pura Petitenget",
+      "stated": true,
+      "category": "temple_shrine",
+      "note": {
+        "why_go": "A sea temple beside Petitenget beach in Seminyak.",
+        "best_time": "Late afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "Quiet outside ceremonies",
+        "etiquette": "Wear a sarong and sash; cover shoulders and knees.",
+        "tags": ["temples", "culture"]
+      },
+      "why": "The recommended record was pinned 5 km inland; the temple is by Petitenget beach, where this record is.",
+      "checked": {
+        "source": "OpenStreetMap node 4295458589 “Pura Petitenget” (amenity=place_of_worship)",
+        "lat": -8.68209,
+        "lng": 115.15267,
+        "off_m": 53
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:52a7f54711d2bceec0910a97",
+          "stored_name": "Pura Dalem Petitenget"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c034047f56c2d7fb0b71c66",
+      "stored_name": "Alas Kedaton",
+      "stated": true,
+      "name": "Alas Kedaton Monkey Forest",
+      "note": {
+        "why_go": "A small forest in Tabanan with a temple, long-tailed macaques and fruit bats.",
+        "best_time": "Morning",
+        "time_needed_min": 45,
+        "crowd_hint": "Usually quiet",
+        "etiquette": null,
+        "tags": ["nature", "temples", "easy_pace"]
+      },
+      "why": "The recommended record was pinned 10 km south-west of the forest; this record is at it.",
+      "checked": {
+        "source": "OpenStreetMap node 990948344 “Pura Alas Kedaton” (amenity=place_of_worship)",
+        "lat": -8.52952,
+        "lng": 115.15546,
+        "off_m": 160
+      },
+      "merge": [
+        {
+          "ref": "overture:9287c324-9882-4971-b9eb-66917c0fe062",
+          "stored_name": "Pura Alas Kedaton"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:48bf4cae-b700-432b-b3cf-8112504f691e",
+      "stored_name": "Mount Batur",
+      "stated": true,
+      "name_local": "Gunung Batur",
+      "must_see": true,
+      "why": "Eight recommended records of the volcano and of Kintamani, five of them pinned 6 to 55 km from it (one in Jimbaran).",
+      "checked": {
+        "source": "OpenStreetMap node 292801401 “Gunung Batur” (natural=volcano)",
+        "lat": -8.23942,
+        "lng": 115.37796,
+        "off_m": 1207
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4cccaf9bba0a54819b0c3f59",
+          "stored_name": "Gunung Batur"
+        },
+        {
+          "ref": "overture:ef565d34-2d0d-4ef6-b960-7f52108027a3",
+          "stored_name": "Mount Batur Volcano"
+        },
+        {
+          "ref": "overture:db838498-0461-497f-8270-72a17c98d609",
+          "stored_name": "Mount Batur, Bali, Indonesia"
+        },
+        {
+          "ref": "overture:721a40c8-a9f7-48fc-8105-dfd71b5d7f0e",
+          "stored_name": "Mount Batur"
+        },
+        {
+          "ref": "fsq_os:55ee76ba498e3ae494d30a19",
+          "stored_name": "Gunung Batur Kintamani"
+        },
+        {
+          "ref": "overture:cc82fd16-ce0a-4a8d-9d74-8febacb7eb6b",
+          "stored_name": "Kintamani Batur Volcano, Lake Batur"
+        },
+        {
+          "ref": "fsq_os:51d10a3a498ef87417ea0ab3",
+          "stored_name": "Kintnamani"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c64ef97e0c4be9a23f58658",
+      "stored_name": "Danau Batur",
+      "stated": true,
+      "name": "Lake Batur",
+      "name_local": "Danau Batur",
+      "note": {
+        "why_go": "The crater lake inside the Batur caldera, below the volcano.",
+        "best_time": "Early morning for clear views",
+        "time_needed_min": 45,
+        "crowd_hint": "Quiet on the shore; busy at the rim viewpoints",
+        "etiquette": null,
+        "tags": ["nature", "photo_spots", "easy_pace"]
+      },
+      "why": "Both recommended records of the lake were off it (one 9 km west); this record is on the lake.",
+      "checked": {
+        "source": "OpenStreetMap relation 9747883 “Danau Batur” (water=lake)",
+        "lat": -8.25496,
+        "lng": 115.41211,
+        "off_m": 132
+      },
+      "merge": [
+        {
+          "ref": "overture:6f9d10b3-1253-4352-8545-cea6a8d79cd6",
+          "stored_name": "Lake Batur"
+        },
+        {
+          "ref": "overture:b99acfd5-2e7f-403c-ade5-30030de5227c",
+          "stored_name": "Lake Batur, Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4cdf690ddcaea0908ec79344",
+      "stored_name": "Gunung Agung",
+      "stated": true,
+      "name": "Mount Agung",
+      "name_local": "Gunung Agung",
+      "must_see": true,
+      "why": "Five recommended records of the volcano; three were pinned in Kuta and Tabanan.",
+      "checked": {
+        "source": "OpenStreetMap node 1070157207 “Gunung Agung” (natural=volcano)",
+        "lat": -8.34289,
+        "lng": 115.50721,
+        "off_m": 135
+      },
+      "merge": [
+        {
+          "ref": "overture:934c9c35-5a85-46f5-825c-fd71c630b2a4",
+          "stored_name": "Gunung Agung"
+        },
+        {
+          "ref": "overture:de8835a3-f3f9-4dcd-b316-b9bbf32d25cd",
+          "stored_name": "Mt Agung Volcano"
+        },
+        {
+          "ref": "overture:a5683dae-60c3-4bcb-88d1-804f42220b12",
+          "stored_name": "Mt. Agung"
+        },
+        {
+          "ref": "overture:a2cac69d-3399-4bec-ab1c-bc71fafab3cd",
+          "stored_name": "Mt.agung, Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:c00e0b55-37a6-46e5-84da-ee7276c527fa",
+      "stored_name": "Tegallalang Rice Terrace",
+      "stated": true,
+      "name": "Tegallalang Rice Terraces",
+      "category": "nature",
+      "must_see": true,
+      "why": "Three recommended records of the terraces, one filed as a museum and one pinned in Kuta.",
+      "checked": {
+        "source": "OpenStreetMap way 123203251 “Tegallalang Rice Terraces” (tourism=attraction)",
+        "lat": -8.43358,
+        "lng": 115.27946,
+        "off_m": 89
+      },
+      "merge": [
+        {
+          "ref": "overture:b2d23eb5-22cf-4a7b-8180-38432156b407",
+          "stored_name": "Tegallalang Rice Field Terrace"
+        },
+        {
+          "ref": "overture:d658cb0a-87b5-40cc-9411-669fba0d01ae",
+          "stored_name": "Tegallalang Rice Terraces, Ubud"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b16d78f5-b35e-4887-8332-1b771ee6df81",
+      "stored_name": "Unesco World Heritage - Jatiluwih Rice Terrace",
+      "stated": true,
+      "name": "Jatiluwih Rice Terraces",
+      "category": "nature",
+      "must_see": true,
+      "why": "Filed as a museum; the name led with the listing, not the place.",
+      "checked": {
+        "source": "OpenStreetMap node 12969144602 “Jatiluwih Rice Terraces” (amenity=events_venue)",
+        "lat": -8.3702,
+        "lng": 115.1312,
+        "off_m": 36
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4d95494aef7860fc12f82948",
+      "stored_name": "Air Terjun Tegenungan",
+      "stated": true,
+      "name": "Tegenungan Waterfall",
+      "name_local": "Air Terjun Tegenungan",
+      "must_see": true,
+      "why": "Five records of the falls (three recommended), one pinned 2.3 km north.",
+      "checked": {
+        "source": "OpenStreetMap node 1454965010 “Tegenungan Blangsinga” (waterway=waterfall)",
+        "lat": -8.57523,
+        "lng": 115.2907,
+        "off_m": 204
+      },
+      "merge": [
+        {
+          "ref": "overture:a16bbe60-a224-4ac9-b629-f3a2000e8884",
+          "stored_name": "Air Terjun Tegenungan"
+        },
+        {
+          "ref": "overture:e1773544-6a41-452c-b6f8-795ff66eb1f2",
+          "stored_name": "WaterFall Tegenungan Sukawati-Gianyar Bali"
+        },
+        {
+          "ref": "fsq_os:096218b39e764e0ee438d577",
+          "stored_name": "Tegenungan Waterfall"
+        },
+        {
+          "ref": "overture:6cb8c409-abd0-404f-b018-a63a34fc0ae2",
+          "stored_name": "Tegenungan Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:6a289842976a555380736663",
+      "stored_name": "Omma Dayclub",
+      "stated": true,
+      "category": "nightlife",
+      "why": "A day club filed as food.",
+      "checked": {
+        "source": "OpenStreetMap node 10945551606 “Omma Dayclub Bali” (amenity=restaurant)",
+        "lat": -8.5761,
+        "lng": 115.28931,
+        "off_m": 72
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:43ad24c2-d128-48d7-adc2-e406e55137fb",
+      "stored_name": "Sekumpul waterfalls",
+      "stated": true,
+      "name": "Sekumpul Waterfall",
+      "name_local": "Air Terjun Sekumpul",
+      "must_see": true,
+      "why": "Three recommended records of the falls; two were pinned 4 and 11 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 14189403447 “Sekumpul Waterfall” (shop=ticket)",
+        "lat": -8.17207,
+        "lng": 115.18612,
+        "off_m": 28
+      },
+      "merge": [
+        {
+          "ref": "overture:e72f6ed5-7aa7-4597-b6e0-9cdd22784b7c",
+          "stored_name": "Sekumpul waterfall"
+        },
+        {
+          "ref": "overture:48bcca6b-4c1b-4b6d-8464-166f034fd1f4",
+          "stored_name": "Sekumpul Waterfalls"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5688c451498e3181bd093eeb",
+      "stored_name": "Tukad Cepung Waterfall",
+      "stated": true,
+      "must_see": true,
+      "why": "Two recommended records of the falls, one filed as a museum.",
+      "checked": {
+        "source": "OpenStreetMap node 6639327770 “Ticket booth to Tukad Cepung Waterfall” (shop=ticket)",
+        "lat": -8.44112,
+        "lng": 115.38845,
+        "off_m": 83
+      },
+      "merge": [
+        {
+          "ref": "overture:823aee16-ec76-4f23-bef0-a64033bd88ad",
+          "stored_name": "Objek Wisata Tukad Cepung"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:4a9721e7-6ea4-4330-8dc7-ec871b5a9f67",
+      "stored_name": "Kanto Lampo Waterfall",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 5235738818 “Kanto Lampo” (waterway=waterfall)",
+        "lat": -8.53234,
+        "lng": 115.33298,
+        "off_m": 186
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:56765e3b498ee8858651a6f1",
+      "stored_name": "Banyumala Waterfall",
+      "stated": true,
+      "note": {
+        "why_go": "Twin falls drop into a clear pool in the forest at Wanagiri, north of the Bedugul lakes.",
+        "best_time": "Morning",
+        "time_needed_min": 90,
+        "crowd_hint": "Quiet on weekdays",
+        "etiquette": null,
+        "tags": ["nature", "hiking", "photo_spots"]
+      },
+      "why": "The recommended record was pinned 50 km west of the falls; this record is at them.",
+      "checked": {
+        "source": "OpenStreetMap node 4423304495 “Banyumala Waterfall” (waterway=waterfall)",
+        "lat": -8.2173,
+        "lng": 115.10166,
+        "off_m": 294
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:69072db17e5d3f0851993b19",
+          "stored_name": "Banyumala Twin Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f4867958-01de-4cd8-ab88-bd072c7c0e82",
+      "stored_name": "Kebun Raya Bali",
+      "stated": true,
+      "name": "Bali Botanic Garden",
+      "name_local": "Kebun Raya Bali",
+      "must_see": true,
+      "why": "Three recommended records of the botanic garden.",
+      "checked": {
+        "source": "OpenStreetMap way 460354842 “Kebun Raya Bali” (boundary=national_park)",
+        "lat": -8.27398,
+        "lng": 115.15383,
+        "off_m": 880
+      },
+      "merge": [
+        {
+          "ref": "overture:f0483816-f998-4200-a18b-99f4ba894d27",
+          "stored_name": "Bali Botanic Garden (Kebun Raya Eka Karya), Bedugul, Bali"
+        },
+        {
+          "ref": "overture:dedccf30-ff1d-4525-a5f1-ca1dd495750a",
+          "stored_name": "Kebun Raya Bedugul | Bali Botanical Garden"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f1cc3060-40f1-4fcd-91cc-40869bc17499",
+      "stored_name": "Twin lake ,lake Tamblingan and Lake Buyan .",
+      "stated": true,
+      "name": "Twin Lakes Viewpoint (Buyan and Tamblingan)",
+      "must_see": true,
+      "why": "Two recommended records at one point above the two lakes.",
+      "checked": {
+        "source": "OpenStreetMap node 5199364121 “Twin Lakes Viewpoint” (tourism=viewpoint)",
+        "lat": -8.24667,
+        "lng": 115.10008,
+        "off_m": 34
+      },
+      "merge": [
+        {
+          "ref": "overture:92a4ca7e-c8ec-4e0a-8645-39b83d188401",
+          "stored_name": "Lake Buyan, Bedugul, Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4d00702a6edfa093aa420c15",
+      "stored_name": "Danau Tamblingan",
+      "stated": true,
+      "name": "Lake Tamblingan",
+      "name_local": "Danau Tamblingan",
+      "note": {
+        "why_go": "A quiet highland lake ringed by forest near Munduk, with old temples on its shore.",
+        "best_time": "Early morning, when mist lies on the water",
+        "time_needed_min": 60,
+        "crowd_hint": "Quiet",
+        "etiquette": null,
+        "tags": ["nature", "hiking", "photo_spots", "easy_pace"]
+      },
+      "why": "The recommended record was pinned in Kerobokan, 45 km south; this record is on the lake.",
+      "checked": {
+        "source": "OpenStreetMap way 1447091495 “Danau Tamblingan” (water=lake)",
+        "lat": -8.25706,
+        "lng": 115.09685,
+        "off_m": 39
+      },
+      "merge": [
+        {
+          "ref": "overture:2373f360-d68a-4da1-9e31-3aeac5ff4b77",
+          "stored_name": "Tamblingan Lake, Bali, Indonesia"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5b3f84aadb3aef00245e170b",
+      "stored_name": "Handara Gate",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 5273128322 “Handara Gate” (historic=monument)",
+        "lat": -8.25307,
+        "lng": 115.15832,
+        "off_m": 11
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c79b147bd346dcb3877f6ef",
+      "stored_name": "Garuda Wisnu Kencana (GWK) Cultural Park",
+      "stated": true,
+      "name": "Garuda Wisnu Kencana Cultural Park (GWK)",
+      "must_see": true,
+      "why": "Five recommended records of the park and its statue, three filed as nature.",
+      "checked": {
+        "source": "OpenStreetMap way 544229222 “Taman Budaya Garuda Wisnu Kencana” (leisure=park)",
+        "lat": -8.81039,
+        "lng": 115.16676,
+        "off_m": 144
+      },
+      "merge": [
+        {
+          "ref": "overture:286d7a99-d4bd-401a-abb4-d94a0bcfbdd9",
+          "stored_name": "Patung Garuda Wisnu Kencana"
+        },
+        {
+          "ref": "overture:68aae47e-8d13-4d31-a913-143e6ac24322",
+          "stored_name": "Garuda Wisnu Kencana (GWK), Badung, Bali"
+        },
+        {
+          "ref": "fsq_os:52c909f4498e2c611d2e7db7",
+          "stored_name": "GWK"
+        },
+        {
+          "ref": "overture:bacd6e2a-b195-462d-925e-51b049c01378",
+          "stored_name": "Patung Garuda Wisnu Kencana"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:58faa34ac21cb16c175808a7",
+      "stored_name": "Kelingking Beach Footpath",
+      "stated": true,
+      "name": "Kelingking Beach",
+      "must_see": true,
+      "why": "Must-see; the record was named for the footpath.",
+      "checked": {
+        "source": "OpenStreetMap relation 9869698 “Kelingking Beach” (natural=beach)",
+        "lat": -8.75126,
+        "lng": 115.47313,
+        "off_m": 191
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:3de8d46a-cd2c-4809-93aa-729d43eae462",
+      "stored_name": "Angel's Billabong",
+      "stated": true,
+      "category": "nature",
+      "must_see": true,
+      "why": "A tidal rock pool filed as a museum.",
+      "checked": {
+        "source": "OpenStreetMap way 709619834 “Angel's Billabong” (water=lagoon)",
+        "lat": -8.73353,
+        "lng": 115.44899,
+        "off_m": 4
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:ddf28f2a-4d25-43d1-b869-65324a924e78",
+      "stored_name": "Seganing Waterfall",
+      "stated": true,
+      "category": "nature",
+      "why": "A waterfall filed as a museum.",
+      "checked": {
+        "source": "OpenStreetMap node 7502862985 “Waterfall Seganing” (waterway=waterfall)",
+        "lat": -8.76097,
+        "lng": 115.48654,
+        "off_m": 558
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b6fde27a-4e1e-4aac-a5e9-c4adfef6f636",
+      "stored_name": "Pandawa Beach",
+      "stated": true,
+      "name_local": "Pantai Pandawa",
+      "must_see": true,
+      "note": {
+        "why_go": "A long white-sand beach under limestone cliffs on the south coast, reached by a road cut through the rock.",
+        "best_time": "Morning, or late afternoon",
+        "time_needed_min": 120,
+        "crowd_hint": "Busy on weekends and holidays",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "The recommended record was filed as a museum and pinned 2 km inland; this record is on the beach.",
+      "checked": {
+        "source": "OpenStreetMap way 284984714 “Pantai Pandawa” (natural=beach)",
+        "lat": -8.8458,
+        "lng": 115.18509,
+        "off_m": 228
+      },
+      "merge": [
+        {
+          "ref": "overture:5fa89c70-c93a-4840-8183-3d66c6759760",
+          "stored_name": "Pandawa Beach (Secret Beach) Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:53f9285d498e07b7679d8c3f",
+      "stored_name": "Dolphins Points Lovina Beach",
+      "stated": true,
+      "category": "nature",
+      "why": "A dolphin-watching point filed as transit.",
+      "checked": {
+        "source": "OpenStreetMap node 10988259974 “Lovina Beach” (natural=beach)",
+        "lat": -8.16102,
+        "lng": 115.02433,
+        "off_m": 1575
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:57f33ae0498e0a4ac99ff3fc",
+      "stored_name": "Pulau Menjangan",
+      "stated": true,
+      "name": "Menjangan Island",
+      "name_local": "Pulau Menjangan",
+      "category": "nature",
+      "note": {
+        "why_go": "A small island in West Bali National Park, known for snorkelling and diving over coral walls.",
+        "best_time": "Morning boats, when the sea is calm",
+        "time_needed_min": 300,
+        "crowd_hint": "Boat numbers are limited; go early",
+        "etiquette": null,
+        "tags": ["nature", "adventure", "beach"]
+      },
+      "why": "The recommended record of the island was pinned at Singaraja, 60 km east; this record is on the island.",
+      "checked": {
+        "source": "OpenStreetMap way 24056423 “Pulau Menjangan” (place=island)",
+        "lat": -8.09605,
+        "lng": 114.51692,
+        "off_m": 82
+      },
+      "merge": [
+        {
+          "ref": "overture:588aed83-d1b2-493c-bacb-240428a0e769",
+          "stored_name": "Menjangan Island, West Bali National Park."
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:444e0467-922d-41eb-a3b6-6ab54cb096a8",
+      "stored_name": "Campuhan Ridge Walk",
+      "stated": true,
+      "name_local": "Bukit Campuhan",
+      "must_see": true,
+      "note": {
+        "why_go": "A paved path along a grassy ridge between two river valleys, starting by Pura Gunung Lebah in Ubud.",
+        "best_time": "Sunrise or late afternoon",
+        "time_needed_min": 75,
+        "crowd_hint": "Busy at sunrise and sunset",
+        "etiquette": null,
+        "tags": ["nature", "hiking", "easy_pace", "photo_spots"]
+      },
+      "why": "Added as a must-see: the ridge walk is one of the things first-time visitors do in Ubud.",
+      "checked": {
+        "source": "OpenStreetMap way 550543482 “Bukit Campuhan” (highway=steps)",
+        "lat": -8.50429,
+        "lng": 115.25486,
+        "off_m": 79
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:ce7b865b-c8d4-45c1-8126-78961ef9124c",
+      "stored_name": "Waterbom Bali",
+      "stated": true,
+      "must_see": true,
+      "why": "The second record was pinned in Denpasar.",
+      "checked": {
+        "source": "OpenStreetMap node 4349528391 “Waterbom” (tourism=attraction)",
+        "lat": -8.72847,
+        "lng": 115.16963,
+        "off_m": 37
+      },
+      "merge": [
+        {
+          "ref": "overture:e85a9ebe-6ca4-4969-b467-b65ac866dda5",
+          "stored_name": "Waterbom Park, Kuta"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bba8e3f3db7b713817d239a",
+      "stored_name": "Taman Safari Indonesia III",
+      "stated": true,
+      "name": "Bali Safari and Marine Park",
+      "name_local": "Taman Safari Bali",
+      "why": "Four recommended records of one safari park, one pinned 9 km west.",
+      "checked": {
+        "source": "OpenStreetMap way 474491505 “Bali Safari & Marine Park” (tourism=zoo)",
+        "lat": -8.5805,
+        "lng": 115.34389,
+        "off_m": 527
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5187b2a9498ef7f586d30419",
+          "stored_name": "Heart Of The Jungle, Bali Safari & Marine Park"
+        },
+        {
+          "ref": "fsq_os:5117943729a6f22b0c98f6b9",
+          "stored_name": "Bali Safari and Marine"
+        },
+        {
+          "ref": "fsq_os:6a0f893bf4446c63a6583fba",
+          "stored_name": "The Amazing Taman Safari Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5fa61b5f362cd92c77826fb5",
+      "stored_name": "Kuta Beach",
+      "stated": true,
+      "name_local": "Pantai Kuta",
+      "must_see": true,
+      "note": {
+        "why_go": "A long, wide surf beach where many visitors take their first surf lesson and watch the sunset.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap way 260605192 “Pantai Kuta” (natural=beach)",
+        "lat": -8.71821,
+        "lng": 115.16876,
+        "off_m": 575
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:69f576b41d557879cfd935d5",
+      "stored_name": "Jimbaran Beach",
+      "stated": true,
+      "name_local": "Pantai Jimbaran",
+      "must_see": true,
+      "note": {
+        "why_go": "A calm bay beach lined with seafood grills that set tables on the sand at sunset.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap node 986320558 “Jimbaran Beach” (natural=beach)",
+        "lat": -8.78086,
+        "lng": 115.1638,
+        "off_m": 11
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bee1757946c0f47b07ca363",
+      "stored_name": "Nusa Dua Beach",
+      "stated": true,
+      "name_local": "Pantai Nusa Dua",
+      "must_see": true,
+      "note": {
+        "why_go": "A sheltered white-sand beach with calm, shallow water along the Nusa Dua resort strip.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap node 1455327999 “Nusa Dua Beach” (tourism=beach)",
+        "lat": -8.79609,
+        "lng": 115.23282,
+        "off_m": 192
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:d89890d7-7bb5-4377-8350-799d04939948",
+      "stored_name": "Melasti Beach",
+      "stated": true,
+      "must_see": true,
+      "note": {
+        "why_go": "A white-sand beach below tall limestone cliffs at Ungasan, reached by a winding cliff road.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 120,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap relation 9754137 “Pantai Melasti” (natural=beach)",
+        "lat": -8.84829,
+        "lng": 115.15757,
+        "off_m": 8
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:e8c6764c-7fc7-4066-98c8-b14c1d497585",
+      "stored_name": "Diamond Beach",
+      "stated": true,
+      "must_see": true,
+      "note": {
+        "why_go": "A white-sand cove under sheer cliffs on the east coast of Nusa Penida, reached by steps cut into the rock.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 90,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap node 6338694985 “Panorama on Atuh and Diamond Beach” (tourism=viewpoint)",
+        "lat": -8.77546,
+        "lng": 115.62133,
+        "off_m": 49
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:586c17c41d21ba358a12386c",
+      "stored_name": "Broken Beach",
+      "stated": true,
+      "name_local": "Pasih Uug",
+      "must_see": true,
+      "note": {
+        "why_go": "A circular cove on Nusa Penida where the sea enters through a natural rock arch.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 45,
+        "crowd_hint": "Busiest at sunset and on weekends",
+        "etiquette": null,
+        "tags": ["beach", "photo_spots", "easy_pace"]
+      },
+      "why": "Added as a must-see: the recommended set held one beach, and the beaches are what first-time visitors come for.",
+      "checked": {
+        "source": "OpenStreetMap relation 9869701 “Pasih Uwug” (natural=water)",
+        "lat": -8.73313,
+        "lng": 115.4508,
+        "off_m": 55
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bbefef430c99c744d7b5411",
+      "stored_name": "Monumen Bajra Sandhi",
+      "stated": true,
+      "name": "Bajra Sandhi Monument",
+      "name_local": "Monumen Bajra Sandhi",
+      "why": "Three recommended records of the monument.",
+      "checked": {
+        "source": "OpenStreetMap way 311690139 “Monumen Bajra Sandhi” (building=yes)",
+        "lat": -8.67175,
+        "lng": 115.23389,
+        "off_m": 81
+      },
+      "merge": [
+        {
+          "ref": "overture:c8c807f4-9a97-4f0f-a53e-ef6e6f05af3f",
+          "stored_name": "Bajra Sandhi Monument"
+        },
+        {
+          "ref": "fsq_os:50f0df09e4b067e9e7640bac",
+          "stored_name": "Museum Perjuangan Rakyat Bali (Braja Sandhi) Renon"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f0df04b9-4687-484d-84e8-46d60cee04fc",
+      "stored_name": "Tugu Peringatan Bom Bali",
+      "stated": true,
+      "name": "Bali Bombing Memorial (Ground Zero)",
+      "name_local": "Tugu Peringatan Bom Bali",
+      "why": "Ground Zero is this memorial; two recommended records.",
+      "checked": {
+        "source": "OpenStreetMap node 4182652970 “Tugu Peringatan Bom Bali” (historic=monument)",
+        "lat": -8.71732,
+        "lng": 115.17449,
+        "off_m": 17
+      },
+      "merge": [
+        {
+          "ref": "overture:c6a885e8-dc94-4c29-96c8-ae77b9507599",
+          "stored_name": "Ground Zero"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c6bb6a42d9976b0366d0d3a",
+      "stored_name": "Museum Pasifika",
+      "stated": true,
+      "why": "Two recommended records of one museum.",
+      "checked": {
+        "source": "OpenStreetMap relation 3579959 “Museum Pasifika” (tourism=museum)",
+        "lat": -8.7999,
+        "lng": 115.23076,
+        "off_m": 36
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:6a0f859af4446c63a655055e",
+          "stored_name": "Visit Museum Pasifika"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4ca14cf07d69b713355d44c2",
+      "stored_name": "Agung Rai Museum Of Art (ARMA)",
+      "stated": true,
+      "must_see": true,
+      "why": "Two recommended records of one museum.",
+      "checked": {
+        "source": "OpenStreetMap relation 9785933 “Agung Rai Museum of Art (ARMA)” (tourism=museum)",
+        "lat": -8.52287,
+        "lng": 115.26477,
+        "off_m": 25
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4bce8a29fb84c9b6fe10243e",
+          "stored_name": "Arma Museum (South Gate)　アルマ美術館"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bdd320d645e0f4778156b19",
+      "stored_name": "The Blanco Renaissance Museum",
+      "stated": true,
+      "why": "Two recommended records of one museum; the second was pinned 1.3 km north.",
+      "checked": {
+        "source": "OpenStreetMap node 2031494034 “Don Antonio Blanco Museum” (tourism=museum)",
+        "lat": -8.50487,
+        "lng": 115.25396,
+        "off_m": 92
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:53d8af1b498eee66fa9c7fe6",
+          "stored_name": "The Blanco Renaissance Museum"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:a6bc1381-25a0-4486-b3c7-cdad890ec1af",
+      "stored_name": "Museum Geopark Batur",
+      "stated": true,
+      "why": "Two recommended records of one museum; the second was pinned 5 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 1979219886 “Museum Gunung Batur (Volcano Batur)” (tourism=museum)",
+        "lat": -8.28388,
+        "lng": 115.36447,
+        "off_m": 20
+      },
+      "merge": [
+        {
+          "ref": "overture:eee5d943-234f-4b0d-b675-8939f00c4a9c",
+          "stored_name": "Museum Gunung Api Batur (MGAB)"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:50389059e4b0282c9edcd153",
+      "stored_name": "Museum Puri Lukisan",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap relation 9772789 “Museum Puri Lukisan” (tourism=museum)",
+        "lat": -8.50511,
+        "lng": 115.26036,
+        "off_m": 47
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f6a4a9a2-9701-4ad4-9473-7085416a6cfd",
+      "stored_name": "Babi Guling Ibu Oka 2",
+      "stated": true,
+      "category": "food",
+      "why": "A roast-pork restaurant filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap node 4182810693 “Warung Babi Guling Ibu Oka 2” (amenity=restaurant)",
+        "lat": -8.53042,
+        "lng": 115.27166,
+        "off_m": 15
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5032ffa4e4b0488f305066fe",
+      "stored_name": "Babi Guling Ibu Oka 3",
+      "stated": true,
+      "must_see": true,
+      "note": {
+        "why_go": "A well-known Ubud babi guling restaurant: Balinese spit-roast pork served with rice, crackling and spiced vegetables.",
+        "best_time": "Late morning; it sells out by mid-afternoon",
+        "time_needed_min": 45,
+        "crowd_hint": "Queues at lunch",
+        "etiquette": null,
+        "tags": ["street_food", "local_life", "sit_down_dining"]
+      },
+      "why": "Added as a must-see food stop: the Ubud roast-pork restaurant visitors mean.",
+      "checked": {
+        "source": "OpenStreetMap way 705065779 “Warung Babi Guling Ibu Oka” (amenity=restaurant)",
+        "lat": -8.50576,
+        "lng": 115.26435,
+        "off_m": 9
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4b74ee56f964a5207ef82de3",
+      "stored_name": "Naughty Nuri's Warung",
+      "stated": true,
+      "must_see": true,
+      "note": {
+        "why_go": "A roadside warung in Ubud known for pork ribs grilled over charcoal at the front.",
+        "best_time": "Late lunch or early dinner",
+        "time_needed_min": 75,
+        "crowd_hint": "Busy at dinner",
+        "etiquette": null,
+        "tags": ["sit_down_dining", "local_life"]
+      },
+      "why": "The restaurant visitors mean (Ubud); the recommended record of the name was pinned on the north-east coast.",
+      "checked": {
+        "source": "OpenStreetMap node 1067881082 “Naughty Nuri warung n Grill” (amenity=restaurant)",
+        "lat": -8.49243,
+        "lng": 115.25329,
+        "off_m": 13
+      },
+      "merge": [
+        {
+          "ref": "overture:fcebdcc3-b848-48e7-b7f4-9ab0325eaee5",
+          "stored_name": "Naughty Nuri's Warung and Grill"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:5b140895-2a08-414e-aa5f-4ee16917569b",
+      "stored_name": "Naughty Nuri's Warung Seminyak",
+      "stated": true,
+      "category": "food",
+      "why": "A restaurant filed as nightlife; its other records, one pinned on the north-east coast 80 km away, fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 594767098 “Naughty Nuri's Warung” (amenity=restaurant)",
+        "lat": -8.67751,
+        "lng": 115.16771,
+        "off_m": 5
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:57b1aaeb498e8bb55e3b6567",
+          "stored_name": "Naughty Nuri's Warung"
+        },
+        {
+          "ref": "overture:fdf3e797-c82f-47eb-baaa-1ed1dbec58b8",
+          "stored_name": "Naughty Nuri's"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:55654058498ecd871dcb00f6",
+      "stored_name": "Naughty Nuri's",
+      "stated": false,
+      "note": {
+        "why_go": "A branch of the Ubud warung known for charcoal-grilled pork ribs.",
+        "best_time": "Lunch or dinner",
+        "time_needed_min": 75,
+        "crowd_hint": "Busy at dinner",
+        "etiquette": null,
+        "tags": ["sit_down_dining"]
+      },
+      "why": "Two records of the Kedonganan branch, one filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap relation 20447947 “Kedonganan” (place=suburb)",
+        "lat": -8.7632,
+        "lng": 115.17566,
+        "off_m": 253
+      },
+      "merge": [
+        {
+          "ref": "overture:a09d7b83-86a2-4d66-a990-6e6b38494fcc",
+          "stored_name": "Naughty Nuri's"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:62da44a4f26f2527c57937bf",
+      "stored_name": "Naughty Nuri's Warung Sanur",
+      "stated": false,
+      "note": {
+        "why_go": "A branch of the Ubud warung known for charcoal-grilled pork ribs.",
+        "best_time": "Lunch or dinner",
+        "time_needed_min": 75,
+        "crowd_hint": "Busy at dinner",
+        "etiquette": null,
+        "tags": ["sit_down_dining"]
+      },
+      "why": "Four records of the Sanur branch, three of them up to 1.8 km from it and one filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap node 12899067301 “Naughty Nuri’s Warung” (amenity=restaurant)",
+        "lat": -8.68768,
+        "lng": 115.25827,
+        "off_m": 43
+      },
+      "merge": [
+        {
+          "ref": "overture:f6b47934-027b-4e6c-bc4f-917db53c09e3",
+          "stored_name": "Naughty Nuri's Warung Sanur"
+        },
+        {
+          "ref": "overture:1b8a8f4c-3c82-4358-8e43-d30fa1b46d76",
+          "stored_name": "Naughty Nuri’s Warung, Sanur"
+        },
+        {
+          "ref": "fsq_os:5263e81c498edab2df79c115",
+          "stored_name": "Warung Naughty Nuris"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:81ea13b2-7778-41de-b2af-2b7904915ee9",
+      "stored_name": "Pura Luhur Ulun Danu Batur",
+      "stated": true,
+      "category": "temple_shrine",
+      "why": "A temple filed as nature.",
+      "checked": {
+        "source": "OpenStreetMap way 1374316861 “Pura Segara Ulun Danu Batur” (landuse=religious)",
+        "lat": -8.26911,
+        "lng": 115.38618,
+        "off_m": 6350
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:623ee0fb5fda2a290cf5dff8",
+      "stored_name": "Savaya",
+      "stated": true,
+      "name": "Savaya Bali",
+      "why": "Four recommended records of one club (Omnia was renamed Savaya), one filed as food.",
+      "checked": {
+        "source": "OpenStreetMap node 10777487605 “Savaya Bali” (amenity=nightclub)",
+        "lat": -8.84641,
+        "lng": 115.14065,
+        "off_m": 55
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:685ed633716b9f5002b391aa",
+          "stored_name": "Savaya Bali"
+        },
+        {
+          "ref": "fsq_os:685edae9378aa37c75aa3662",
+          "stored_name": "Savaya Bali"
+        },
+        {
+          "ref": "fsq_os:5a72de566c08d16dafabbb1b",
+          "stored_name": "OMNIA Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:454baf5f-7e47-4bae-bd4c-fcac3dbf6e94",
+      "stored_name": "Woobar",
+      "stated": true,
+      "why": "Three recommended records of one bar.",
+      "checked": {
+        "source": "OpenStreetMap way 260611645 “W Bali - Seminyak” (tourism=hotel)",
+        "lat": -8.67717,
+        "lng": 115.14974,
+        "off_m": 123
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:6a2896cf976a5553807248a0",
+          "stored_name": "Woobar Bali"
+        },
+        {
+          "ref": "overture:759ea41d-2efb-43e3-90db-8f365a6812e0",
+          "stored_name": "WOOBAR Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c5989c5ec2520a1a8384f12",
+      "stored_name": "Bounty Discotheque",
+      "stated": true,
+      "why": "The second record was pinned in Nusa Dua.",
+      "checked": {
+        "source": "OpenStreetMap way 1001614916 “Jalan Legian 59” (highway=residential)",
+        "lat": -8.7197,
+        "lng": 115.17495,
+        "off_m": 138
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4f045cfd46905a3984631252",
+          "stored_name": "Bounty legian kuta bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:abff2e3a-e73f-4a82-bad6-4350f2797711",
+      "stored_name": "Single Fin",
+      "stated": true,
+      "category": "nightlife",
+      "note": {
+        "why_go": "A clifftop bar above the Uluwatu surf break, known for sunset drinks.",
+        "best_time": "Late afternoon for sunset",
+        "time_needed_min": 120,
+        "crowd_hint": "Packed at sunset and on Sunday evenings",
+        "etiquette": null,
+        "tags": ["nightlife", "photo_spots", "late_starts"]
+      },
+      "why": "The recommended record was pinned in Kuta, 20 km from the bar; this record is at it.",
+      "checked": {
+        "source": "OpenStreetMap node 3705035338 “Single Fin” (amenity=bar)",
+        "lat": -8.81492,
+        "lng": 115.08888,
+        "off_m": 19
+      },
+      "merge": [
+        {
+          "ref": "overture:34a8e1e0-8791-4c9a-b4a2-f3c693cd559c",
+          "stored_name": "Single Fin Uluwatu"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:573dd6f5498e40c33b6349f1",
+      "stored_name": "Hard Rock Caffe",
+      "stated": true,
+      "name": "Hard Rock Cafe Bali",
+      "category": "nightlife",
+      "note": {
+        "why_go": "A bar and restaurant with live music on the Kuta beach road.",
+        "best_time": "Evening",
+        "time_needed_min": 90,
+        "crowd_hint": "Busy on weekend nights",
+        "etiquette": null,
+        "tags": ["nightlife", "late_starts"]
+      },
+      "why": "The recommended record was pinned in north Denpasar; this record is on Kuta beach road.",
+      "checked": {
+        "source": "OpenStreetMap node 4177605689 “Hard Rock Cafe” (amenity=restaurant)",
+        "lat": -8.72188,
+        "lng": 115.17003,
+        "off_m": 604
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:50c9ea19e4b06126e6239c8f",
+          "stored_name": "HardRockCafe KUTA"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:51de8ae4498e13463ec468af",
+      "stored_name": "Ayana Beach Resort",
+      "stated": true,
+      "category": "stay",
+      "why": "A resort filed as nightlife; filed as a stay so it is no longer suggested as an evening activity.",
+      "checked": {
+        "source": "OpenStreetMap way 505287955 “Ayana Resort and Spa” (tourism=hotel)",
+        "lat": -8.78579,
+        "lng": 115.13918,
+        "off_m": 5216
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:53e97c8d498e76cdafcc47d1",
+      "stored_name": "Hatten Wines Bali",
+      "stated": true,
+      "category": "shopping",
+      "why": "A winery shop and tasting room filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap node 6221786385 “Hatten wines” (shop=alcohol)",
+        "lat": -8.70454,
+        "lng": 115.25176,
+        "off_m": 23
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:65b36796c8ff94664f894d05",
+      "stored_name": "Luna Beach Club",
+      "stated": true,
+      "category": "nightlife",
+      "why": "A beach club filed as food.",
+      "checked": {
+        "source": "OpenStreetMap way 1341034237 “Luna Beach Club” (leisure=beach_resort)",
+        "lat": -8.62967,
+        "lng": 115.09421,
+        "off_m": 71
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4be971c5c5220f476bd3aaca",
+      "stored_name": "Rock Bar",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 1515848746 “Rock Bar” (amenity=bar)",
+        "lat": -8.78445,
+        "lng": 115.13818,
+        "off_m": 38
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:656f8f8a-6992-4e05-8b64-44b7801c61e8",
+      "stored_name": "Pasar Seni Ubud",
+      "stated": true,
+      "name": "Ubud Art Market",
+      "name_local": "Pasar Seni Ubud",
+      "category": "market",
+      "must_see": true,
+      "note": {
+        "why_go": "Stalls of baskets, sarongs, carvings and silver opposite Ubud Palace.",
+        "best_time": "Morning, when stalls open",
+        "time_needed_min": 60,
+        "crowd_hint": "Crowded late morning",
+        "etiquette": null,
+        "tags": ["markets", "shopping", "local_life"]
+      },
+      "why": "Added as a must-see: the recommended set held no market.",
+      "checked": {
+        "source": "OpenStreetMap way 238194819 “Pasar Ubud” (amenity=marketplace)",
+        "lat": -8.50781,
+        "lng": 115.26346,
+        "off_m": 82
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:559b1638-15c3-47bd-ad39-9ec980da2951",
+      "stored_name": "Pasar Seni Sukawati",
+      "stated": true,
+      "name": "Sukawati Art Market",
+      "name_local": "Pasar Seni Sukawati",
+      "category": "market",
+      "must_see": true,
+      "note": {
+        "why_go": "A large crafts market south of Ubud, selling paintings, carvings, textiles and souvenirs.",
+        "best_time": "Morning",
+        "time_needed_min": 75,
+        "crowd_hint": "Busiest late morning",
+        "etiquette": null,
+        "tags": ["markets", "shopping", "local_life"]
+      },
+      "why": "Added as a must-see: the recommended set held no market.",
+      "checked": {
+        "source": "OpenStreetMap relation 6241812 “Pasar Seni Sukawati” (tourism=attraction)",
+        "lat": -8.59648,
+        "lng": 115.28244,
+        "off_m": 4
+      },
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:7b30a72b-7baf-4ea4-abb7-37c2c0d4449f",
+      "stored_name": "Bandara Ngurah Rai, Bali",
+      "stated": true,
+      "name": "Ngurah Rai International Airport",
+      "name_local": "Bandar Udara Internasional I Gusti Ngurah Rai",
+      "note": {
+        "why_go": "Bali's airport, south of Kuta.",
+        "best_time": "Allow extra time in the evening peak",
+        "time_needed_min": 120,
+        "crowd_hint": "Queues at immigration at peak arrival times",
+        "etiquette": null,
+        "tags": ["easy_pace"]
+      },
+      "why": "The recommended record of the airport was pinned in Denpasar city, 9 km north; this record is at the terminal.",
+      "checked": {
+        "source": "OpenStreetMap way 82162575 “Bandar Udara Internasional Ngurah Rai (DPS)” (aeroway=aerodrome)",
+        "lat": -8.74652,
+        "lng": 115.16737,
+        "off_m": 578
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:6a1f4339976a555380eb3ef1",
+          "stored_name": "I Gusti Ngurah Rai Intern Airport"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f20467aa-2f69-4905-a834-ec8e5cc7290e",
+      "stored_name": "Rumah Sakit Umum Surya Husadha Nusa Dua",
+      "stated": true,
+      "note": {
+        "why_go": "A general hospital in Nusa Dua with an emergency department.",
+        "best_time": "Open at all hours for emergencies",
+        "time_needed_min": 60,
+        "crowd_hint": "Varies",
+        "etiquette": null,
+        "tags": ["easy_pace"]
+      },
+      "why": "The recommended record of the hospital was pinned 10 km west of it; this record is on Jl. Siligita.",
+      "checked": {
+        "source": "OpenStreetMap way 1027411862 “Rumah Sakit Umum Surya Husadha Nusa Dua” (amenity=hospital)",
+        "lat": -8.80426,
+        "lng": 115.21741,
+        "off_m": 13
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4fdebfede4b057598bfbdd3f",
+          "stored_name": "Surya Husada Hospital Nusa Dua"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:69aa3d9ab1ebf23b53a0229a",
+      "stored_name": "Nomalish Smoothie Bowl Pecatu",
+      "stated": true,
+      "note": {
+        "why_go": "A café in Pecatu serving smoothie bowls.",
+        "best_time": "Breakfast or brunch",
+        "time_needed_min": 45,
+        "crowd_hint": "Busy mid-morning",
+        "etiquette": null,
+        "tags": ["coffee", "easy_pace"]
+      },
+      "why": "The recommended record was pinned 37 km north of Pecatu; this record is on Jalan Raya Uluwatu in Pecatu.",
+      "checked": {
+        "source": "OpenStreetMap node 4418607491 “Pecatu Indah Resort” (tourism=hotel)",
+        "lat": -8.822,
+        "lng": 115.14312,
+        "off_m": 568
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:6a0f7ffdf4446c63a65019ce",
+          "stored_name": "Nomalish Smoothie Bowl Pecatu, Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b0f16455-8d93-41e1-b279-23617ac19387",
+      "stored_name": "Kasih Ibu General Hospital",
+      "stated": true,
+      "note": {
+        "why_go": "A private general hospital on Jl. Teuku Umar in Denpasar with an emergency department.",
+        "best_time": "Open at all hours for emergencies",
+        "time_needed_min": 60,
+        "crowd_hint": "Varies",
+        "etiquette": null,
+        "tags": ["easy_pace"]
+      },
+      "why": "The recommended record of the hospital was pinned 2.4 km west of it; this record is at Jl. Teuku Umar No. 120.",
+      "checked": {
+        "source": "OpenStreetMap way 784433519 “Rumah Sakit Umum Kasih Ibu” (amenity=hospital)",
+        "lat": -8.67765,
+        "lng": 115.20528,
+        "off_m": 14
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:512b1304e4b066f6b1d9ec15",
+          "stored_name": "Kasih Ibu Hospital"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b475f4bf-7971-455e-9640-50e120387719",
+      "stored_name": "Museum Bung Karno",
+      "stated": true,
+      "note": {
+        "why_go": "A museum in Renon, Denpasar, about Sukarno, Indonesia's founding president.",
+        "best_time": "Morning",
+        "time_needed_min": 60,
+        "crowd_hint": "Usually quiet",
+        "etiquette": null,
+        "tags": ["museums", "history", "culture"]
+      },
+      "why": "The recommended record was pinned north-east of Ubud, 25 km from the museum; this record is at it, in Denpasar.",
+      "checked": {
+        "source": "OpenStreetMap way 327943260 “Museum Agung Bung Karno” (tourism=museum)",
+        "lat": -8.67232,
+        "lng": 115.22543,
+        "off_m": 15
+      },
+      "merge": [
+        {
+          "ref": "overture:52cf8c5f-8f0d-4092-b339-61cdf6a9048e",
+          "stored_name": "Museum Bung Karno"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:be1924fb-ea5c-4090-bd7f-64ab6d4ae930",
+      "stored_name": "Dragon Bridge",
+      "stated": true,
+      "name_local": "Cầu Rồng",
+      "category": "museum",
+      "must_see": true,
+      "why": "Must-see; filed as other, so it showed no kind.",
+      "checked": {
+        "source": "OpenStreetMap way 694831926 “Cầu Rồng” (man_made=bridge)",
+        "lat": 16.06117,
+        "lng": 108.2279,
+        "off_m": 23
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6eb596b4-7e24-458a-8b4f-c9514d9a7889",
+      "stored_name": "My Khe Beach",
+      "stated": true,
+      "name_local": "Bãi biển Mỹ Khê",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap relation 19000664 “Bãi biển Mỹ Khê” (natural=beach)",
+        "lat": 16.07563,
+        "lng": 108.24688,
+        "off_m": 1400
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f8767e6d-c531-49b9-83a5-e7ed8bce2389",
+      "stored_name": "Bãi Biển Phạm Văn Đồng",
+      "stated": true,
+      "why": "The second record was pinned inland, 4 km from the beach. (The kept point is on the beachfront, 0.6 km south of the park at the end of Phạm Văn Đồng street.)",
+      "checked": {
+        "source": "OpenStreetMap way 149699484 “Công viên Biển Đông” (leisure=park)",
+        "lat": 16.06835,
+        "lng": 108.24593,
+        "off_m": 614
+      },
+      "merge": [
+        {
+          "ref": "overture:bf132093-c79b-43d0-9797-7a7e8598700a",
+          "stored_name": "Bãi Biển Phạm Văn Đồng, Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b6aaa228-5e0a-4642-b3a7-0a082afcac57",
+      "stored_name": "Marble Mountains",
+      "stated": true,
+      "name_local": "Ngũ Hành Sơn",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap relation 8552348 “Ngũ Hành Sơn” (natural=wood)",
+        "lat": 16.00402,
+        "lng": 108.26277,
+        "off_m": 165
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:54c4948b498e9ffb3d2321f3",
+      "stored_name": "Động Thông Thiên",
+      "stated": false,
+      "why": "The recommended record of the cave was pinned 14 km south-west of the Marble Mountains; this record is at the cave.",
+      "checked": {
+        "source": "OpenStreetMap relation 8552348 “Ngũ Hành Sơn” (natural=wood)",
+        "lat": 16.00402,
+        "lng": 108.26277,
+        "off_m": 188
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:54c493ad498e9ffb3d230e2e",
+          "stored_name": "Thong Thien Dong (Heaven Gate) @ Marble Mountains"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:04bbd4f3-7737-45d6-9d11-6b1e70c6a6ac",
+      "stored_name": "Linh Ứng Pagoda",
+      "stated": true,
+      "name": "Linh Ứng Pagoda (Lady Buddha)",
+      "name_local": "Chùa Linh Ứng",
+      "must_see": true,
+      "why": "Four recommended records of the pagoda at Bãi Bụt, two pinned in the city.",
+      "checked": {
+        "source": "OpenStreetMap way 486703049 “Chùa Linh Ứng” (amenity=place_of_worship)",
+        "lat": 16.10016,
+        "lng": 108.27841,
+        "off_m": 110
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4d5cfd269895b1f725f8ea0f",
+          "stored_name": "Chùa Linh Ứng (Linh Ung Pagoda)"
+        },
+        {
+          "ref": "overture:88e0fa85-cfff-4660-9320-0f73c277effe",
+          "stored_name": "峴港靈驗寺"
+        },
+        {
+          "ref": "overture:0a2c9618-3749-439a-8654-57fcd7826ce3",
+          "stored_name": "越南峴港山茶山半島 靈應寺"
+        },
+        {
+          "ref": "overture:7e28fe02-d1f5-4465-8e01-b07f80602567",
+          "stored_name": "Linh Ung Pagoda, Buddha Bay"
+        },
+        {
+          "ref": "overture:f93dbea7-10f9-47f4-9639-9ad7b2429764",
+          "stored_name": "Chùa Linh Ứng - Sơn Trà - Đà Nẵng"
+        },
+        {
+          "ref": "overture:a9e4be2f-34cd-4121-86a7-2685c7d07690",
+          "stored_name": "靈顯寺"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b9ad130e-8f19-4dcb-92a7-638573a3f62d",
+      "stored_name": "Chùa Linh Ứng – Sơn Trà",
+      "stated": true,
+      "name": "Chùa Linh Ứng Non Nước",
+      "why": "This record is at the Linh Ứng pagoda on the Marble Mountains but was named for Sơn Trà; the second record of the Non Nước pagoda was pinned 6 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 1205388457 “Chùa Linh Ứng” (amenity=place_of_worship)",
+        "lat": 16.00428,
+        "lng": 108.26435,
+        "off_m": 22
+      },
+      "merge": [
+        {
+          "ref": "overture:9ebd652c-2b72-4b47-8dbd-dd4afe3b23f1",
+          "stored_name": "Chùa Linh Ứng Non Nước - Ngũ Hành Sơn"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f61627ae4b0b665cf870293",
+      "stored_name": "Tam Thai Pagoda",
+      "stated": true,
+      "name_local": "Chùa Tam Thai",
+      "must_see": true,
+      "why": "The second record, under a Chinese name, was pinned 8 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 627383451 “Chùa Tam Thai” (amenity=place_of_worship)",
+        "lat": 16.00389,
+        "lng": 108.26279,
+        "off_m": 12
+      },
+      "merge": [
+        {
+          "ref": "overture:c70519e6-74a6-451f-bb45-06bd51b18300",
+          "stored_name": "三台寺"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4d0882329232236a0750be53",
+      "stored_name": "Tượng Phật Quan Thế Âm",
+      "stated": true,
+      "name": "Lady Buddha Statue",
+      "name_local": "Tượng Phật Quan Thế Âm",
+      "category": "temple_shrine",
+      "must_see": true,
+      "why": "The Lady Buddha statue was filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap way 486703049 “Chùa Linh Ứng” (amenity=place_of_worship)",
+        "lat": 16.10016,
+        "lng": 108.27841,
+        "off_m": 157
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5e6d91fd5bc03b0008a4b012",
+      "stored_name": "Sơn Trà Peninsula",
+      "stated": true,
+      "name_local": "Bán đảo Sơn Trà",
+      "must_see": true,
+      "why": "Three recommended records of the peninsula.",
+      "checked": {
+        "source": "OpenStreetMap node 1623183634 “Bán đảo Sơn Trà” (place=locality)",
+        "lat": 16.12049,
+        "lng": 108.26471,
+        "off_m": 4843
+      },
+      "merge": [
+        {
+          "ref": "overture:e66e7a90-0345-43f4-a5de-985b76e939f5",
+          "stored_name": "Bán đảo Sơn Trà - Đà Nẵng"
+        },
+        {
+          "ref": "overture:e86a057c-755f-4456-994f-28791f53ae69",
+          "stored_name": "Danang Monkey Mountain"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50053596e4b06cd60bccdccf",
+      "stored_name": "Đỉnh Bàn Cờ-Núi Sơn Trà",
+      "stated": true,
+      "name": "Bàn Cờ Peak",
+      "name_local": "Đỉnh Bàn Cờ",
+      "must_see": true,
+      "why": "The second record was pinned 3.4 km from the peak.",
+      "checked": {
+        "source": "OpenStreetMap node 1538334281 “Ban Co Peak” (tourism=viewpoint)",
+        "lat": 16.11893,
+        "lng": 108.272,
+        "off_m": 6
+      },
+      "merge": [
+        {
+          "ref": "overture:dbb2343c-90f5-44df-836b-d7c794f5dec3",
+          "stored_name": "Đỉnh Bàn Cờ-Núi Sơn Trà"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f3c4328e4b0d615302b3181",
+      "stored_name": "Đồi Vọng Cảnh Sơn Trà (Son Tra Lookout)",
+      "stated": true,
+      "category": "nature",
+      "why": "Two recommended records at one point, one filed as a beach and one as a museum.",
+      "checked": {
+        "source": "OpenStreetMap node 12701646101 “Son Tra view” (tourism=viewpoint)",
+        "lat": 16.10921,
+        "lng": 108.25177,
+        "off_m": 1106
+      },
+      "merge": [
+        {
+          "ref": "overture:e5630595-35b6-4842-a1ac-ef490c9dbff1",
+          "stored_name": "Đồi Vọng Cảnh Sơn Trà (Son Tra Lookout)"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b3b9719e-6f66-42b8-977c-efa6dca57933",
+      "stored_name": "Bà Nà Hills",
+      "stated": true,
+      "category": "nature",
+      "must_see": true,
+      "why": "Four recommended records of Bà Nà Hills; three were pinned at offices in the city or along the road.",
+      "checked": {
+        "source": "OpenStreetMap way 359114064 “Sun World Bà Nà Hills” (tourism=theme_park)",
+        "lat": 15.99586,
+        "lng": 107.98907,
+        "off_m": 153
+      },
+      "merge": [
+        {
+          "ref": "overture:e07979a3-d383-4025-9c24-6852660ca961",
+          "stored_name": "Sun World Ba Na Hills"
+        },
+        {
+          "ref": "overture:adef585d-c927-467b-86a7-af882923083f",
+          "stored_name": "Khu Giải Trí Bà Nà Hills"
+        },
+        {
+          "ref": "overture:bfa7be70-3ad2-4fe8-bda4-d7a7db1c4a19",
+          "stored_name": "Bana Hill Wax Museum"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5b63eff0a795bd002c263d12",
+      "stored_name": "Golden Bridge",
+      "stated": true,
+      "name_local": "Cầu Vàng",
+      "category": "museum",
+      "must_see": true,
+      "why": "Five recommended records of the bridge, one pinned 14 km east and one a tour seller in Hội An.",
+      "checked": {
+        "source": "OpenStreetMap way 683416736 “Cầu Vàng” (highway=path)",
+        "lat": 15.99509,
+        "lng": 107.99641,
+        "off_m": 47
+      },
+      "merge": [
+        {
+          "ref": "overture:b6ae86cf-7096-4fb5-ad59-81f89bf3d128",
+          "stored_name": "Cây Cầu Vàng Sun World Bà Nà Hills - Điểm Hẹn Của Đất Trời"
+        },
+        {
+          "ref": "overture:c565dba3-f35a-4b8f-bb3b-8e7cbf0e8b37",
+          "stored_name": "Cầu Vàng"
+        },
+        {
+          "ref": "overture:51cabccd-7b5b-4066-a13f-c49a8d204d60",
+          "stored_name": "Golden Hands Bridge"
+        },
+        {
+          "ref": "overture:b29ec3b5-b0d3-45da-a327-c582990e0b7d",
+          "stored_name": "巴拿山佛手橋"
+        },
+        {
+          "ref": "overture:97ecf282-1056-4dee-a669-b8dfd19cdc8b",
+          "stored_name": "Golden Hands Bridge Tour Vietnam"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:a51e626d-f85c-4814-aab8-4b95b6a9ae14",
+      "stored_name": "Làng Pháp - Bà Nà Hills",
+      "stated": true,
+      "name": "French Village",
+      "name_local": "Làng Pháp",
+      "category": "museum",
+      "must_see": true,
+      "why": "Two recommended records of the French Village.",
+      "checked": {
+        "source": "OpenStreetMap way 359114064 “Sun World Bà Nà Hills” (tourism=theme_park)",
+        "lat": 15.99586,
+        "lng": 107.98907,
+        "off_m": 174
+      },
+      "merge": [
+        {
+          "ref": "overture:70e7ad4a-02ec-45dd-8842-3b4f580cb8e2",
+          "stored_name": "Làng Pháp (French Village)"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fea6bece4b047fa4b6adcb6",
+      "stored_name": "Hầm Rượu De Bay",
+      "stated": true,
+      "category": "museum",
+      "why": "The old wine cellar at Bà Nà, a daytime sight, was filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap way 359114064 “Sun World Bà Nà Hills” (tourism=theme_park)",
+        "lat": 15.99586,
+        "lng": 107.98907,
+        "off_m": 590
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e0d32b5d4c0f6d6b3ee5e9f",
+      "stored_name": "Bảo Tàng Điêu Khắc Chăm Đà Nẵng (Danang Museum of Cham Sculpture)",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 302872188 “Bảo tàng Nghệ thuật Điêu khắc Chăm Đà Nẵng” (tourism=museum)",
+        "lat": 16.06012,
+        "lng": 108.22308,
+        "off_m": 48
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4ca6b653b7106dcb733161a5",
+      "stored_name": "Chợ Hàn (Han Market)",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 204885903 “Chợ Hàn” (amenity=marketplace)",
+        "lat": 16.06835,
+        "lng": 108.22428,
+        "off_m": 27
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4d06dae830a58cfa6473ade7",
+      "stored_name": "Chợ Cồn (Con Market)",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 204790989 “Chợ Cồn” (amenity=marketplace)",
+        "lat": 16.06813,
+        "lng": 108.21452,
+        "off_m": 22
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8fa93014-60f3-42a6-89a3-9183c2683b7d",
+      "stored_name": "Chợ Hội An",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 35952504 “Chợ Hội An” (amenity=marketplace)",
+        "lat": 15.87682,
+        "lng": 108.33134,
+        "off_m": 52
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f3489554-d23a-4359-8aba-b3ef0f000b98",
+      "stored_name": "Hai Van Pass",
+      "stated": true,
+      "name": "Hải Vân Pass",
+      "name_local": "Đèo Hải Vân",
+      "category": "nature",
+      "must_see": true,
+      "why": "Three recommended records of the pass.",
+      "checked": {
+        "source": "OpenStreetMap way 466418347 “Hải Vân Quan” (tourism=attraction)",
+        "lat": 16.18775,
+        "lng": 108.13129,
+        "off_m": 10
+      },
+      "merge": [
+        {
+          "ref": "overture:ee9af156-8845-4eca-8fa8-b66bb2e56d74",
+          "stored_name": "Đỉnh đèo Hải Vân"
+        },
+        {
+          "ref": "overture:daa09af4-3836-44d2-9b41-9704bda438c1",
+          "stored_name": "Đèo Hải Vân, Đà Nẵng"
+        },
+        {
+          "ref": "fsq_os:534b6a2c498e31ec0d6de9a1",
+          "stored_name": "Hải Vân pass"
+        },
+        {
+          "ref": "overture:3c17d436-c8cb-46f7-a963-ecf0071ad3d1",
+          "stored_name": "Hải Vân Quan, Ranh Giới Huế - Đà Nẵng"
+        },
+        {
+          "ref": "overture:e66435d3-80aa-47b2-8467-5e795ee48c53",
+          "stored_name": "Top of Hai Van Pass"
+        },
+        {
+          "ref": "overture:74a5e2c1-c2ce-4243-9363-19b5da78de69",
+          "stored_name": "Hải Vân Pass"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c26198a136d20a14ba5e461",
+      "stored_name": "Nhà thờ Chính Tòa Đà Nẵng (Da Nang Cathedral)",
+      "stated": true,
+      "must_see": true,
+      "why": "A second record of the cathedral under a Chinese name.",
+      "checked": {
+        "source": "OpenStreetMap way 404714309 “Nhà thờ Chính tòa Đà Nẵng” (amenity=place_of_worship)",
+        "lat": 16.06668,
+        "lng": 108.22306,
+        "off_m": 43
+      },
+      "merge": [
+        {
+          "ref": "overture:22f6b4ea-409e-4b9f-9a28-eca2c2a67251",
+          "stored_name": "峴港公雞教堂"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:92c680ad-8a6a-4818-b70c-b44a8c1b9cb5",
+      "stored_name": "Han River Bridge",
+      "stated": true,
+      "name_local": "Cầu Sông Hàn",
+      "category": "museum",
+      "must_see": true,
+      "why": "Must-see; filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 696348478 “Cầu Sông Hàn” (highway=primary)",
+        "lat": 16.07199,
+        "lng": 108.22555,
+        "off_m": 832
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:55718c00498e5d3058cc334d",
+      "stored_name": "Asia Park",
+      "stated": true,
+      "name": "Asia Park (Da Nang Downtown)",
+      "name_local": "Công viên Châu Á",
+      "why": "Four recommended records of the park, one pinned 3 km north and one a ticket seller.",
+      "checked": {
+        "source": "OpenStreetMap way 667422708 “Da Nang Downtown” (landuse=construction)",
+        "lat": 16.04122,
+        "lng": 108.22639,
+        "off_m": 336
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5d8d115f54c0120007658d3a",
+          "stored_name": "Sun World Danang Wonders"
+        },
+        {
+          "ref": "overture:6f9cda06-6933-49c9-8fda-9e0899070f1b",
+          "stored_name": "Công Viên Châu Á _đà Nẵng _ Asian Park"
+        },
+        {
+          "ref": "overture:a7068ce8-ba0a-4757-85d8-aec11847073c",
+          "stored_name": "Vé Công Viên Châu Á - Danang Downtown"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:65f7f860-b94a-4fbd-929d-a6d0b116f090",
+      "stored_name": "Sun Wheel - Vòng Quay Mặt Trời Đà Nẵng",
+      "stated": true,
+      "name": "Sun Wheel",
+      "name_local": "Vòng quay Mặt Trời",
+      "must_see": true,
+      "why": "Two recommended records of the wheel.",
+      "checked": {
+        "source": "OpenStreetMap way 667422708 “Da Nang Downtown” (landuse=construction)",
+        "lat": 16.04122,
+        "lng": 108.22639,
+        "off_m": 88
+      },
+      "merge": [
+        {
+          "ref": "overture:3adb7f96-0d61-473f-a3d1-d4f6bd6627e1",
+          "stored_name": "Sun Wheel - Asia Park Da Nang"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67d51a479b541b72bda8b948",
+      "stored_name": "APEC Park",
+      "stated": true,
+      "why": "Two recommended records of the park.",
+      "checked": {
+        "source": "OpenStreetMap node 13294104898 “Công viên APEC” (highway=bus_stop)",
+        "lat": 16.05851,
+        "lng": 108.22301,
+        "off_m": 98
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5da88a9d29122b00084c01fb",
+          "stored_name": "Công Viên Apec Vietnam 2017"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:57130644498ec101096d9691",
+      "stored_name": "Tượng Cá Chép Hóa Rồng",
+      "stated": true,
+      "name": "Carp-Dragon Statue",
+      "name_local": "Tượng Cá Chép Hóa Rồng",
+      "must_see": true,
+      "why": "The second record was pinned 1.1 km from the statue.",
+      "checked": {
+        "source": "OpenStreetMap node 5272119221 “Ca Chep Hoa Rong” (tourism=artwork)",
+        "lat": 16.06292,
+        "lng": 108.22982,
+        "off_m": 9
+      },
+      "merge": [
+        {
+          "ref": "overture:b9547d93-9a83-49e0-94b8-74c53e18ce34",
+          "stored_name": "Tượng Cá Chép Hóa Rồng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:54c2e70f498e10787b896811",
+      "stored_name": "Da Nang Bay",
+      "stated": true,
+      "name_local": "Vịnh Đà Nẵng",
+      "why": "Two recommended records of the bay; the second was pinned on the river in the centre.",
+      "checked": {
+        "source": "OpenStreetMap way 399595482 “Đường Nguyễn Tất Thành” (highway=primary)",
+        "lat": 16.07304,
+        "lng": 108.20074,
+        "off_m": 32
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4e1a791b2271b0e9720fb082",
+          "stored_name": "Vịnh Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q386184",
+      "stored_name": "Chàm Islands",
+      "stated": true,
+      "must_see": true,
+      "why": "The second record was pinned in Hội An town, 20 km from the islands.",
+      "checked": {
+        "source": "OpenStreetMap relation 10354855 “Cù Lao Chàm” (place=island)",
+        "lat": 15.95086,
+        "lng": 108.52272,
+        "off_m": 305
+      },
+      "merge": [
+        {
+          "ref": "overture:0394f4bb-db80-429c-bf50-db28469191b9",
+          "stored_name": "Cham Island - Hoi An"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c14c83ca5eb76b0d839c2b7",
+      "stored_name": "Bãi Biển An Bàng (An Bang Beach)",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 2217387212 “An Bang Beach Club” (amenity=restaurant)",
+        "lat": 15.91418,
+        "lng": 108.33966,
+        "off_m": 125
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:41d52a3c-c865-41d7-804f-4c254e80ec48",
+      "stored_name": "Bãi Tắm Non Nước",
+      "stated": true,
+      "name": "Non Nước Beach",
+      "name_local": "Bãi tắm Non Nước",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 1204900824 “Bãi tắm Non Nước” (natural=beach)",
+        "lat": 16.00567,
+        "lng": 108.2688,
+        "off_m": 343
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:18cc84ef-c918-4520-a84f-ae050f6b331f",
+      "stored_name": "An Thuong Walking Street - PHỐ ĐI BỘ",
+      "stated": true,
+      "category": "nightlife",
+      "why": "A night walking street filed as a beach.",
+      "checked": {
+        "source": "OpenStreetMap way 343923323 “Đường An Thượng 34” (highway=residential)",
+        "lat": 16.05008,
+        "lng": 108.24628,
+        "off_m": 143
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b22df935-e10a-43c7-aade-6e1de5322f3c",
+      "stored_name": "Old Town Hoi An",
+      "stated": true,
+      "name": "Hội An Ancient Town",
+      "name_local": "Phố cổ Hội An",
+      "must_see": true,
+      "why": "Three recommended records of the old town.",
+      "checked": {
+        "source": "OpenStreetMap relation 7062070 “Phố cổ Hội An” (place=quarter)",
+        "lat": 15.87713,
+        "lng": 108.32866,
+        "off_m": 269
+      },
+      "merge": [
+        {
+          "ref": "overture:a48cafd1-0cff-4224-91a3-e4ca2a9e8d57",
+          "stored_name": "Hoi An Ancient Town"
+        },
+        {
+          "ref": "overture:f03315c5-4f50-45c8-9591-f94ea29e73eb",
+          "stored_name": "Phố Cổ Hội An, Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:84ac47c6-9a6f-4fa5-a337-30b7c36924d5",
+      "stored_name": "Chùa Cầu - Hội An - Quảng Nam",
+      "stated": true,
+      "name": "Japanese Covered Bridge",
+      "name_local": "Chùa Cầu",
+      "must_see": true,
+      "why": "Must-see; named in English first.",
+      "checked": {
+        "source": "OpenStreetMap way 39268284 “Chùa Cầu” (highway=footway)",
+        "lat": 15.87712,
+        "lng": 108.32602,
+        "off_m": 28
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4bcadc4db6c49c745f379191",
+      "stored_name": "Nhà Cổ Tấn Ký",
+      "stated": true,
+      "name": "Tấn Ký Old House",
+      "name_local": "Nhà cổ Tấn Ký",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 595299310 “Tan Ky” (tourism=museum)",
+        "lat": 15.87646,
+        "lng": 108.32783,
+        "off_m": 13
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e2d110dc65bcaf4003f9eff",
+      "stored_name": "Nhà cổ Phùng Hưng",
+      "stated": true,
+      "name": "Phùng Hưng Old House",
+      "name_local": "Nhà cổ Phùng Hưng",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 4279640089 “Nhà cổ Phùng Hưng” (tourism=museum)",
+        "lat": 15.87722,
+        "lng": 108.32579,
+        "off_m": 6
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:689188bdc1f97118187e6975",
+      "stored_name": "Fukien Chinese Congregation Assembly Hall",
+      "stated": true,
+      "name": "Fujian Assembly Hall",
+      "name_local": "Hội quán Phúc Kiến",
+      "must_see": true,
+      "why": "The second record was pinned across the river at another address.",
+      "checked": {
+        "source": "OpenStreetMap way 320722329 “Hội quán Phúc Kiến” (amenity=place_of_worship)",
+        "lat": 15.87814,
+        "lng": 108.33099,
+        "off_m": 85
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:6a1d9aa240a6301f356d0644",
+          "stored_name": "Fujian Assembly Hall"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:aefd0a435c7e451af092e124",
+      "stored_name": "Hội quán Quảng Đông",
+      "stated": true,
+      "name": "Cantonese Assembly Hall",
+      "name_local": "Hội quán Quảng Đông",
+      "category": "temple_shrine",
+      "must_see": true,
+      "why": "An assembly hall filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 565300448 “Hội Quán Quảng Triệu” (building=temple)",
+        "lat": 15.87732,
+        "lng": 108.32656,
+        "off_m": 24
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:796b8445-d0f9-47d3-b63b-d34133aa2149",
+      "stored_name": "Ký Ức Hội An - Công Viên Ấn Tượng Hội An",
+      "stated": true,
+      "name": "Hội An Memories Land",
+      "name_local": "Đảo Ký Ức Hội An",
+      "must_see": true,
+      "why": "The second record was pinned in the old town, 1.3 km from the park.",
+      "checked": {
+        "source": "OpenStreetMap way 14131302 “Hoi An Memories Land” (place=islet)",
+        "lat": 15.87506,
+        "lng": 108.33998,
+        "off_m": 135
+      },
+      "merge": [
+        {
+          "ref": "overture:4a96bd37-fd3d-4d8c-8e63-6d874ab8d69f",
+          "stored_name": "Đảo Ký Ức Hội An - Hoian Memories Land"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:33ccad97-e28b-4c07-a2a9-ef28d836e5de",
+      "stored_name": "Thanh Ha Terracotta Park",
+      "stated": true,
+      "must_see": true,
+      "why": "The second record was pinned 1.3 km north.",
+      "checked": {
+        "source": "OpenStreetMap node 4171964390 “Thanh Ha Pottery Village” (tourism=attraction)",
+        "lat": 15.87713,
+        "lng": 108.29899,
+        "off_m": 141
+      },
+      "merge": [
+        {
+          "ref": "overture:f6e4eeae-f992-461a-9974-074b2f050c24",
+          "stored_name": "Thanh Ha terracotta park"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:d6112286-7c23-49fb-acd4-3a51addd6e0d",
+      "stored_name": "Khu Du Lịch Suối Khoáng Nóng Núi Thần Tài",
+      "stated": true,
+      "why": "Three recommended records of the hot-spring park; one was pinned in the city, 25 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 5286977425 “Núi Thần Tài” (tourism=attraction)",
+        "lat": 15.96813,
+        "lng": 108.01963,
+        "off_m": 123
+      },
+      "merge": [
+        {
+          "ref": "overture:c6abd040-355b-46c9-806b-80025888a9e7",
+          "stored_name": "Công Viên Suối Khoáng Nóng Núi Thần Tài"
+        },
+        {
+          "ref": "overture:93f5eae2-f2c8-4272-811e-ebe9a149e025",
+          "stored_name": "Công viên Núi Thần Tài"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67d2563adbb7a47b289665e7",
+      "stored_name": "Danang Museum",
+      "stated": true,
+      "name_local": "Bảo tàng Đà Nẵng",
+      "must_see": true,
+      "why": "Two recommended records of the museum.",
+      "checked": {
+        "source": "OpenStreetMap node 13290157393 “Bảo tàng Đà Nẵng” (shop=gift)",
+        "lat": 16.0747,
+        "lng": 108.22389,
+        "off_m": 33
+      },
+      "merge": [
+        {
+          "ref": "overture:e42eafe6-b64e-4105-8cdb-eee387d83fed",
+          "stored_name": "Bảo tàng đà nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:fb45f700-4e27-436d-a120-029eb5edab11",
+      "stored_name": "Danang Fine Arts Museum",
+      "stated": true,
+      "name_local": "Bảo tàng Mỹ thuật Đà Nẵng",
+      "why": "Two recommended records of the museum.",
+      "checked": {
+        "source": "OpenStreetMap way 759913076 “Bảo tàng Mỹ thuật Đà Nẵng” (tourism=museum)",
+        "lat": 16.07137,
+        "lng": 108.21769,
+        "off_m": 26
+      },
+      "merge": [
+        {
+          "ref": "overture:f91d8917-7cab-46e8-aba3-31152c842dae",
+          "stored_name": "Bảo tàng Mỹ thuật Đà Nẵng - DNFAM - Thuộc Bảo tàng Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50bad1a0e4b011c4a86bed1c",
+      "stored_name": "Động Âm Phủ",
+      "stated": true,
+      "why": "Hell Cave is Động Âm Phủ; two recommended records.",
+      "checked": {
+        "source": "OpenStreetMap node 5279215522 “Động Âm Phủ” (shop=ticket)",
+        "lat": 16.00315,
+        "lng": 108.26389,
+        "off_m": 37
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:67a5c14e3b5e8d74511efcf7",
+          "stored_name": "Hell Cave"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fb85b7ae4b04b94bea76464",
+      "stored_name": "Động Huyền Không",
+      "stated": true,
+      "name": "Huyền Không Cave",
+      "name_local": "Động Huyền Không",
+      "category": "nature",
+      "must_see": true,
+      "why": "Must-see; filed as other.",
+      "checked": {
+        "source": "OpenStreetMap node 1758586757 “Huyen Khong Cave” (natural=cave_entrance)",
+        "lat": 16.00419,
+        "lng": 108.26234,
+        "off_m": 35
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q391406",
+      "stored_name": "Mỹ Sơn",
+      "stated": true,
+      "must_see": true,
+      "why": "A second record under a Chinese name was pinned in the city centre, 40 km from the sanctuary.",
+      "checked": {
+        "source": "OpenStreetMap way 198804483 “Thánh địa Mỹ Sơn” (tourism=attraction)",
+        "lat": 15.76552,
+        "lng": 108.12345,
+        "off_m": 275
+      },
+      "merge": [
+        {
+          "ref": "overture:f85e4775-dfde-424a-b5e3-3dc2cb13d425",
+          "stored_name": "越南美山聖地"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e1ced9dfa7653a9b2deeef6",
+      "stored_name": "East Sea Park",
+      "stated": true,
+      "name_local": "Công viên Biển Đông",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 364079097 “Công viên Biển Đông” (place=square)",
+        "lat": 16.0703,
+        "lng": 108.24572,
+        "off_m": 9
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e7742ac483b0cf5ed88c28b",
+      "stored_name": "Cầu Thuận Phước (Thuan Phước Bridge)",
+      "stated": true,
+      "name": "Thuận Phước Bridge",
+      "name_local": "Cầu Thuận Phước",
+      "category": "museum",
+      "must_see": true,
+      "why": "Must-see; filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 1098021709 “Cầu Thuận Phước” (highway=primary)",
+        "lat": 16.09514,
+        "lng": 108.2206,
+        "off_m": 24
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e47650ae4cd9d94fb300732",
+      "stored_name": "Bảo Tàng Gốm Sứ Mậu Dịch",
+      "stated": true,
+      "name": "Museum of Trade Ceramics",
+      "name_local": "Bảo tàng Gốm sứ Mậu dịch",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap node 2076856032 “Boa tang gom su mau dich” (tourism=museum)",
+        "lat": 15.87727,
+        "lng": 108.32955,
+        "off_m": 3
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e635a50d4c06542ab56b7de",
+      "stored_name": "Chùa Ông - Quan Công Miếu",
+      "stated": true,
+      "name": "Quan Công Temple",
+      "name_local": "Chùa Ông (Quan Công Miếu)",
+      "must_see": true,
+      "why": "Must-see flag only.",
+      "checked": {
+        "source": "OpenStreetMap way 631064893 “Quan Công Miếu” (amenity=place_of_worship)",
+        "lat": 15.87754,
+        "lng": 108.33139,
+        "off_m": 14
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6d7c6a18-15ba-41b1-bd98-f8e3ab8bd291",
+      "stored_name": "LÀNG ĐÁ Non Nước Ngũ Hành Sơn Đà Nẵng",
+      "stated": true,
+      "name": "Non Nước Stone Carving Village",
+      "name_local": "Làng đá mỹ nghệ Non Nước",
+      "must_see": true,
+      "why": "Must-see; the name was in capitals with the district and the city.",
+      "checked": {
+        "source": "OpenStreetMap node 10709724107 “Làng đá mỹ nghệ Non Nước” (tourism=attraction)",
+        "lat": 16.00095,
+        "lng": 108.26664,
+        "off_m": 377
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4be6a31d9026ef3b63da0a38",
+      "stored_name": "Da Nang International Airport",
+      "stated": true,
+      "why": "Three recommended records of the airport; one was pinned in the city centre.",
+      "checked": {
+        "source": "OpenStreetMap way 1457819839 “Hải quan cửa khẩu Sân bay Quốc tế Đà Nẵng” (office=government)",
+        "lat": 16.05877,
+        "lng": 108.20324,
+        "off_m": 662
+      },
+      "merge": [
+        {
+          "ref": "overture:86bbaec0-cbf3-4598-ba7b-9fa7f609c440",
+          "stored_name": "Sân Bay Quốc Tế Đà Nẵng"
+        },
+        {
+          "ref": "overture:5de7a75f-9281-4f9f-8aee-083071adb8b2",
+          "stored_name": "Sân bay quốc tế Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:1a1ab8a5-509e-43b8-a520-33c23b93560f",
+      "stored_name": "Da Nang Railway Station",
+      "stated": true,
+      "name_local": "Ga Đà Nẵng",
+      "why": "Two recommended records of the station.",
+      "checked": {
+        "source": "OpenStreetMap way 303615117 “Ga Đà Nẵng” (building=train_station)",
+        "lat": 16.07158,
+        "lng": 108.20927,
+        "off_m": 7
+      },
+      "merge": [
+        {
+          "ref": "overture:52112641-37ad-4a88-abcb-f020275e5c76",
+          "stored_name": "Ga Đà Nẵng- Da Nang Station"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:539b0bcc498e9146892c86e4",
+      "stored_name": "Sky36",
+      "stated": true,
+      "why": "Two recommended records of one bar.",
+      "checked": {
+        "source": "OpenStreetMap node 11542212269 “SKY36 NIGHTCLUB” (amenity=bar)",
+        "lat": 16.07726,
+        "lng": 108.22364,
+        "off_m": 7
+      },
+      "merge": [
+        {
+          "ref": "overture:c072f3b1-f2ee-4da8-bfed-f6516a8cce99",
+          "stored_name": "Quán Bar SKY36 - Đà Nẵng"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4df17b7ad22d8c5470d575fb",
+      "stored_name": "Family Medical Practice",
+      "stated": true,
+      "why": "Two recommended records of one clinic, 20 m apart.",
+      "checked": {
+        "source": "OpenStreetMap node 6320067585 “Family Medical Practice Danang” (amenity=doctors)",
+        "lat": 16.06061,
+        "lng": 108.21513,
+        "off_m": 17
+      },
+      "merge": [
+        {
+          "ref": "overture:4bf5a768-3777-42b2-9e10-a08532acf906",
+          "stored_name": "Family Medical Practice Danang"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:9d5ee9c9-b38a-4416-a460-5c3b43dabacb",
+      "stored_name": "Poomba’s Smokehouse American BBQ- Le Quang Dao",
+      "stated": true,
+      "category": "food",
+      "why": "A barbecue restaurant filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 1159803238 “Đường Lê Quang Đạo” (highway=residential)",
+        "lat": 16.04868,
+        "lng": 108.24599,
+        "off_m": 16
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f9c9a549-47e9-47c1-aea9-65a62ef21c8c",
+      "stored_name": "Quán Nem Nướng Ninh Hòa Kutin",
+      "stated": true,
+      "category": "food",
+      "why": "A grilled-pork-roll restaurant filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 118618203 “Đường Châu Thị Vĩnh Tế” (highway=residential)",
+        "lat": 16.04675,
+        "lng": 108.24156,
+        "off_m": 90
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:cb9f22c4-9f17-48aa-b5f2-a81cb7c3ae68",
+      "stored_name": "Maki Stay Hội An",
+      "stated": true,
+      "category": "stay",
+      "why": "A stay filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 207291819 “Lê Thánh Tông” (highway=residential)",
+        "lat": 15.89519,
+        "lng": 108.34609,
+        "off_m": 105
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:eee64b86-7fb5-4f23-b98c-369ee7bb82b8",
+      "stored_name": "Triphouse Packer Hostel Da Nang",
+      "stated": true,
+      "category": "stay",
+      "why": "A hostel filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 693039058 “Đường Trần Hưng Đạo” (highway=secondary)",
+        "lat": 16.08283,
+        "lng": 108.22885,
+        "off_m": 288
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:403dd386-74e1-44a0-853e-187a366879df",
+      "stored_name": "Soleil 's Villas & Apartments",
+      "stated": true,
+      "category": "stay",
+      "why": "Villas and apartments filed as other.",
+      "checked": {
+        "source": "OpenStreetMap node 4347550382 “An Bang Retreat” (tourism=guest_house)",
+        "lat": 15.91318,
+        "lng": 108.3386,
+        "off_m": 87
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:3ab9be4a-34ff-41c3-86ec-177965013577",
+      "stored_name": "Serenity Spa Danang",
+      "stated": true,
+      "category": "health",
+      "why": "A spa filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 1492122521 “Võ Nguyên Giáp” (highway=secondary)",
+        "lat": 16.04869,
+        "lng": 108.24917,
+        "off_m": 526
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f0e02216-2d20-44fe-96c0-8ed38330efb9",
+      "stored_name": "A Dong Silk Hoi An Tailor - Custom Suits",
+      "stated": true,
+      "category": "shopping",
+      "why": "A tailor filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 35952571 “Trần Hưng Đạo” (highway=primary)",
+        "lat": 15.8799,
+        "lng": 108.32672,
+        "off_m": 38
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:3b828adf-6747-4b6d-9493-72d73ebc39b2",
+      "stored_name": "Aobaba Tailor",
+      "stated": true,
+      "category": "shopping",
+      "why": "A tailor filed as other.",
+      "checked": {
+        "source": "OpenStreetMap way 35952543 “Lê Lợi” (highway=service)",
+        "lat": 15.87728,
+        "lng": 108.32862,
+        "off_m": 128
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:ad52499e-005c-4dd5-8fbf-e8ab23538187",
+      "stored_name": "Xưởng Lồng Đèn Hội An - Chuyên Sỉ & Lẻ Đèn Lồng Giá Tốt",
+      "stated": true,
+      "category": "shopping",
+      "why": "A lantern workshop filed as other.",
+      "checked": {
+        "source": "OpenStreetMap node 12381746001 “The Inner Hoi An by Ala” (amenity=cafe)",
+        "lat": 15.8772,
+        "lng": 108.33351,
+        "off_m": 61
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67c516f26341ce031f42033c",
+      "stored_name": "Danang Beach Monument",
+      "stated": true,
+      "category": "museum",
+      "why": "A monument filed as nightlife.",
+      "checked": {
+        "source": "OpenStreetMap relation 19000664 “Bãi biển Mỹ Khê” (natural=beach)",
+        "lat": 16.07563,
+        "lng": 108.24688,
+        "off_m": 1310
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:deacfcc4-cf8f-4e69-8066-d2c34643b91a",
+      "stored_name": "Chả Bò Bà Quýt Đà Nẵng - 0935 216 859",
+      "stated": true,
+      "name": "Chả Bò Bà Quýt",
+      "why": "The name carried a phone number.",
+      "checked": {
+        "source": "OpenStreetMap way 35950952 “Đường Trần Cao Vân” (highway=secondary)",
+        "lat": 16.07217,
+        "lng": 108.20704,
+        "off_m": 142
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f3ccda1e4b030292acdda5d",
+      "stored_name": "Bánh Xèo Bà Dưỡng",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see food stop.",
+      "checked": {
+        "source": "OpenStreetMap way 344658497 “Đường Hoàng Diệu” (highway=residential)",
+        "lat": 16.05971,
+        "lng": 108.21609,
+        "off_m": 99
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f842b4ce4b05b009467b674",
+      "stored_name": "Mì Quảng Bà Mua",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see food stop.",
+      "checked": {
+        "source": "OpenStreetMap way 343237264 “Đường Trần Bình Trọng” (highway=tertiary)",
+        "lat": 16.06596,
+        "lng": 108.21868,
+        "off_m": 51
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:525c90e262824a47b0f2fd2e",
+      "stored_name": "Nhà hàng Madame Lân",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see food stop.",
+      "checked": {
+        "source": "OpenStreetMap way 689583155 “Đường Bạch Đằng” (highway=primary)",
+        "lat": 16.08102,
+        "lng": 108.22361,
+        "off_m": 51
+      },
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e4f9790b61cf637a4f6d002",
+      "stored_name": "Bánh Mì Phượng",
+      "stated": true,
+      "must_see": true,
+      "why": "Must-see food stop.",
+      "checked": {
+        "source": "OpenStreetMap node 4279536690 “Banh Mi Phuong” (amenity=restaurant)",
+        "lat": 15.87848,
+        "lng": 108.33201,
+        "off_m": 5
+      },
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:14de2be4-a85a-4617-9817-a03b0da74512",
+      "stored_name": "Biệt Thự Hằng Nga - Crazy House Đà Lạt",
+      "stated": true,
+      "name": "Crazy House",
+      "name_local": "Biệt thự Hằng Nga",
+      "category": "museum",
+      "must_see": true,
+      "why": "Three records of the Crazy House in the catalogue the app can name; the pick was filed as other, and an English search landed on a hotel listing of the same building.",
+      "checked": {
+        "source": "OpenStreetMap relation 20657435 “Crazy House” (tourism=museum)",
+        "lat": 11.93456,
+        "lng": 108.43051,
+        "off_m": 34
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4d8305a202eb54813a8311f5",
+          "stored_name": "The Crazy House"
+        },
+        {
+          "ref": "overture:04916422-9dcb-48dc-ae8f-937a91c8d89f",
+          "stored_name": "Crazy House - Hang Nga Villa"
+        }
+      ]
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "bali",
+      "name": "Pura Tirta Empul (01a0edd4-447d…, Gianyar, 14 km from the temple)",
+      "why": "Not recommended. Other temples carry this name (Sidan, Apuan); it may be one of them, so it is not merged."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Tirtha Empul ×3 (01a0edd4-488b…, 01a0edd4-4d1e…, 01a0edd4-4895-771e…)",
+      "why": "Not recommended, no address, 3 to 7 km from the temple. Same doubt; they stay in search."
+    },
+    {
+      "destination": "bali",
+      "name": "Tirta Empul Temple, Pura Tirta Empul (01a10368-9d9b…, 01a10368-7e30…)",
+      "why": "OpenStreetMap-only records at the right spot. A release cannot name a record only OpenStreetMap holds, so they stay in search beside the kept record."
+    },
+    {
+      "destination": "bali",
+      "name": "Obyek Wisata Gunung Kawi (recommended)",
+      "why": "Pinned 200 m from Pura Gunung Kawi Sebatu but addressed Tampaksiring: it could mean either temple."
+    },
+    {
+      "destination": "bali",
+      "name": "Tampak siring temple (recommended, pinned in Kuta)",
+      "why": "No temple of that name on the map near the point; cannot tell which temple the record means."
+    },
+    {
+      "destination": "bali",
+      "name": "The Edge Uluwatu (recommended, pinned 35 km north of Uluwatu) and Edge (Suluban)",
+      "why": "Could not establish that the two are one venue, nor where The Edge is from the record alone."
+    },
+    {
+      "destination": "bali",
+      "name": "Babi Guling Pak Dodot (recommended, far west coast, no address)",
+      "why": "Not on the map; nothing to check the point against."
+    },
+    {
+      "destination": "bali",
+      "name": "Baliwood Social Club (recommended, Nusa Lembongan, food)",
+      "why": "Not on the map; kind left as it is."
+    },
+    {
+      "destination": "bali",
+      "name": "Paroki Hati Kudus Yesus Palasari (recommended, pinned in Kuta)",
+      "why": "The church is at Palasari in Jembrana, 70 km west. The catalogue holds no record at the church with a usable point (its other record is 15 km off), so there is nothing to merge it into."
+    },
+    {
+      "destination": "bali",
+      "name": "Dermaga Pulau Menjangan (recommended, transit)",
+      "why": "Pinned on the south-west coast, 40 km from the Labuan Lalang jetty; no better record of the jetty to keep."
+    },
+    {
+      "destination": "bali",
+      "name": "Monumen Puputan Margarana (recommended, Renon)",
+      "why": "The Margarana monument is in Tabanan (its own record is right); this may be another monument in Renon."
+    },
+    {
+      "destination": "bali",
+      "name": "Ayana Beach Resort",
+      "why": "Kind corrected to stay; its point is 5.2 km from the resort (at the airport). Stays are not suggested, and the Rock Bar record is at the resort."
+    },
+    {
+      "destination": "bali",
+      "name": "Dolphins Points Lovina Beach",
+      "why": "Kind corrected to nature; its point is 1.6 km inland from Lovina beach (under the 2 km line)."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Luhur Ulun Danu Batur (Songan)",
+      "why": "Kind corrected to temple. The point is at Songan on the north-east shore of the lake, where the temple stood before it moved to Kintamani; the map shows no temple of that name there to check against."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Sada (recommended, Jl. Rambutan, Gianyar)",
+      "why": "The map holds a Pura Sada only at Kapal, Mengwi, 17 km west; this may be a local temple of the same name."
+    },
+    {
+      "destination": "bali",
+      "name": "Above Eleven Bali Rooftop Bar & Restaurant",
+      "why": "A bar that serves dinner: nightlife stands."
+    },
+    {
+      "destination": "bali",
+      "name": "Hospitals, clinics, spas, ports and terminals (44 recommended records)",
+      "why": "They serve the safety and transfer screens. Keeping them out of suggestions is a rule for the readers, not a data correction."
+    },
+    {
+      "destination": "bali",
+      "name": "Statue of Wisnu's Hands, Peace Of Memorial Statue, Lapangan Upacara Bajra Sandi, Batur Caldera",
+      "why": "Parts of a sight that has its own record (GWK, Bajra Sandhi, Mount Batur); left as separate records."
+    },
+    {
+      "destination": "bali",
+      "name": "Restaurants, cafés, bars and spas not named above",
+      "why": "Each was looked up by name on the map near its point; those the map does not hold could not be checked."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Cầu Rồng, Cầu Quay Sông Hàn, Cầu Tình Yêu, Cầu Trần Thị Lý (recommended)",
+      "why": "One record named for four bridges; it is no single place and has no record to merge into."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Nguồn Cội - Interactive Light Art (addressed Bà Nà Hills, pinned 17 km east)",
+      "why": "Not on the map; cannot tell where it is."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Khu Du Lịch Sinh Thái Long Phú (addressed Hội An, pinned in Đà Nẵng)",
+      "why": "Not on the map; cannot tell where it is."
+    },
+    {
+      "destination": "da-nang",
+      "name": "VinWonders Nam Hội An (pinned in Đà Nẵng city)",
+      "why": "The park is south of Hội An, outside the destination box; the catalogue holds no record at it."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bảo Tàng Hội An and Bảo Tàng Di Tích Hội An",
+      "why": "Possibly one museum at two addresses (old and new); not sure, both kept."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Guang Gong Temple (Trần Phú)",
+      "why": "Stands at the Cantonese Assembly Hall point; could be that hall or the Quan Công temple at 24 Trần Phú."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Non Nước - My Khe Beach (pinned at Mân Thái)",
+      "why": "A name for two beaches at a third point; no single place to merge it into."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Chả Bò Bà Quýt",
+      "why": "Phone number removed from the name; kind left as other (a shop or an eatery: not sure)."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Han River Bridge",
+      "why": "Its point is 830 m south of the bridge, on the same riverfront street (under the 2 km line)."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bar-restaurants filed as nightlife (ClayPot, Chora, Coco Beach, Mia)",
+      "why": "Bars that serve food: nightlife stands."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Hospitals, clinics, pharmacies and spas (30 recommended records)",
+      "why": "As for Bali: a rule for the readers, not a data correction."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Hang Nga Crazy House (01a1053d-62e0…, OpenStreetMap-only)",
+      "why": "A release cannot name it; it stays in search beside the kept record."
+    }
+  ]
+}
