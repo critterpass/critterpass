@@ -7,7 +7,7 @@
 import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { View } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { LinearBar } from '@/ui/data/LinearBar';
@@ -15,11 +15,13 @@ import { Row } from '@/ui/layout/Row';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { DECK_MINUTES, type DeckWait } from '../deck-wait';
 import type { GuideFacts } from '../format';
 import type { Verdict, WhyLine } from '../swipe-model';
 import { DeckSummary, type DeckSummaryProps } from './deck-summary';
@@ -29,7 +31,11 @@ import { SwipeControls } from './swipe-controls';
 import { WhyThisSheet } from './why-this-sheet';
 
 export type SwipeStage =
-  | { readonly kind: 'building' }
+  | {
+      readonly kind: 'building';
+      readonly wait: DeckWait;
+      readonly onRetry?: (() => void) | undefined;
+    }
   | {
       readonly kind: 'deck';
       readonly top: SwipeCardFace;
@@ -123,15 +129,12 @@ export function SwipeView(props: SwipeViewProps) {
           </View>
         ) : null}
         {stage.kind === 'building' ? (
-          <View style={styles.deck} testID="explore-swipe-building">
-            <Skeleton
-              preset="photo"
-              label={t({
-                id: 'explore.swipe.building',
-                message: `${guide.name} is picking the cards`,
-              })}
-            />
-          </View>
+          <DeckWaiting
+            guideName={guide.name}
+            wait={stage.wait}
+            onRetry={stage.onRetry}
+            style={styles.deck}
+          />
         ) : stage.kind === 'summary' ? (
           <DeckSummary
             ended={stage.ended}
@@ -179,5 +182,59 @@ export function SwipeView(props: SwipeViewProps) {
       ) : null}
       {props.match === null ? null : <MatchStamp {...props.match} />}
     </Scaffold>
+  );
+}
+
+/**
+ * No cards yet: what the guide is doing and how long it takes; the cards replace this by
+ * themselves when they land. A deck that is not coming says so and offers a fresh start.
+ */
+function DeckWaiting(props: {
+  readonly guideName: string;
+  readonly wait: DeckWait;
+  readonly onRetry?: (() => void) | undefined;
+  readonly style: ViewStyle;
+}) {
+  const theme = useTheme();
+  const { t } = useLingui();
+  const name = props.guideName;
+  const minutes = DECK_MINUTES;
+  const line =
+    props.wait === 'stuck'
+      ? t({
+          id: 'explore.swipe.stuck',
+          message: `${name} couldn't finish the cards. Start again and ${name} picks a fresh set.`,
+        })
+      : props.wait === 'arriving'
+        ? t({
+            id: 'explore.swipe.arriving',
+            message: 'The cards are ready. They are coming onto your phone.',
+          })
+        : t({
+            id: 'explore.swipe.pickingLine',
+            message: `${name} is picking cards for the crew. It takes about ${minutes} minutes, and they show up here by themselves.`,
+          });
+  return (
+    <View style={[props.style, { gap: theme.space['12'] }]} testID={`explore-swipe-${props.wait}`}>
+      <Text variant="body" singleLine={false} testID="explore-swipe-wait-line">
+        {line}
+      </Text>
+      {props.wait === 'stuck' ? (
+        props.onRetry === undefined ? null : (
+          <PillButton
+            label={t({ id: 'explore.swipe.retry', message: 'Start again' })}
+            onPress={props.onRetry}
+            testID="explore-swipe-retry"
+          />
+        )
+      ) : (
+        <View style={{ flex: 1 }}>
+          <Skeleton
+            preset="photo"
+            label={t({ id: 'explore.swipe.building', message: `${name} is picking the cards` })}
+          />
+        </View>
+      )}
+    </View>
   );
 }

@@ -11,6 +11,14 @@ msgstr ""
 msgid "plan.ideas.body"
 msgstr "{count, plural, other {# nơi đã lưu mà chưa có trong ngày nào. Kéo một nơi vào một ngày, hoặc để {guideName} xếp giúp.}}"
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodyDraft"
+msgstr "{count, plural, other {# nơi đã lưu mà chưa có trong ngày nào. Kéo một nơi vào một ngày.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodySaved"
+msgstr "{count, plural, other {# nơi đã lưu.}}"
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
 msgstr "{count, plural, other {Giờ mở cửa của cả #}}"
@@ -36,7 +44,7 @@ msgstr "{fitting, plural, other {# nơi vừa mà không phải dời gì đã �
 msgid "plan.placing.failed"
 msgstr "Lần này {guideName} chưa xếp được."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailed"
 msgstr "{guideName} chưa bắt đầu xếp được"
 
@@ -47,6 +55,10 @@ msgstr "{leftCount, plural, other {Để lại # nơi cho bạn}}"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeCrew"
 msgstr "{needCrew, plural, other {# nơi cần cả nhóm.}}"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlan"
+msgstr "{organiser} vẫn đang lên kế hoạch. Các nơi này sẽ vào từng ngày khi kế hoạch được chia sẻ."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.back"
@@ -192,10 +204,18 @@ msgstr "Đang xếp đường các ngày"
 msgid "plan.ideas.emptyLine"
 msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cùng nhau, chúng sẽ hiện ở đây."
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlanAny"
+msgstr "Kế hoạch chưa được chia sẻ. Các nơi này sẽ vào từng ngày khi có kế hoạch."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"
 msgstr "Thử lại khi có sóng."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.undo"
 msgstr "HOÀN TÁC"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.fitNeedsPlan"
+msgstr "Khi kế hoạch được chia sẻ sẽ biết nơi này hợp ngày nào"

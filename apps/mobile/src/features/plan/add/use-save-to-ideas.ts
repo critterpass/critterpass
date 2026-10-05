@@ -31,7 +31,11 @@ export function useSaveToIdeas(tripId: string): (subject: AddSubject) => Promise
       toast.show({
         id: 'plan-add-saved',
         title: subject.name,
-        subtitle: t({ id: 'plan.add.savedToast', message: 'Saved to Ideas' }),
+        subtitle: t({
+          id: 'plan.add.savedToastShared',
+          message:
+            'Saved to Ideas, where the crew sees it. It goes in a day once someone places it.',
+        }),
         action: { label: seeIdeasLabel(), onPress: () => router.push(ideasRoute(tripId)) },
       });
     },

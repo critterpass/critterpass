@@ -28,12 +28,20 @@ export function mealAt(startMin: number): MealSlot | null {
   return null;
 }
 
+/** Back from a day out (a mountain an hour from town), lunch may start this much later. */
+export const LUNCH_AFTER_DAY_OUT_MIN = 30;
+
 /**
  * The stretch an untimed meal reached at `startMin` waits for: lunch while there is still time
- * for one and the day has had none, else dinner.
+ * for one (a little longer straight `afterDayOut`) and the day has had none, else dinner.
  */
-export function mealSlotAt(startMin: number, lunched: boolean): typeof LUNCH | typeof DINNER {
-  return startMin <= LUNCH_LAST_START_MIN && !lunched ? LUNCH : DINNER;
+export function mealSlotAt(
+  startMin: number,
+  lunched: boolean,
+  afterDayOut = false,
+): typeof LUNCH | typeof DINNER {
+  const last = LUNCH_LAST_START_MIN + (afterDayOut ? LUNCH_AFTER_DAY_OUT_MIN : 0);
+  return startMin <= last && !lunched ? LUNCH : DINNER;
 }
 
 const LUNCH_WORDS = ['lunch', 'lunchtime', 'midday', 'noon', 'morning', 'breakfast'];
@@ -81,11 +89,15 @@ export function mealShare(startMin: number): number {
 const SIT_DOWN: ReadonlySet<string> = new Set(['sit_down_dining', 'sit_down']);
 /** A sit-down dinner is not eaten in half an hour, whatever the row says of a visit. */
 const SIT_DOWN_DINNER_MIN = 60;
+/** Nor any dinner, nor a lunch at a table, in less than three quarters. */
+const MEAL_MIN = 45;
 
 /** How long a meal at `poi` lasts when it starts at `startMin`, given its usual `duration`. */
 export function mealDuration(poi: DraftPoi, startMin: number, duration: number): number {
-  const dinner = mealAt(startMin) === 'dinner' && poi.tags.some((tag) => SIT_DOWN.has(tag));
-  return dinner ? Math.max(duration, SIT_DOWN_DINNER_MIN) : duration;
+  const table = poi.tags.some((tag) => SIT_DOWN.has(tag));
+  const slot = mealAt(startMin);
+  if (slot === 'dinner') return Math.max(duration, table ? SIT_DOWN_DINNER_MIN : MEAL_MIN);
+  return slot === 'lunch' && table ? Math.max(duration, MEAL_MIN) : duration;
 }
 
 const SERVING = new WeakMap<readonly DraftPoi[], Map<string, readonly DraftPoi[]>>();

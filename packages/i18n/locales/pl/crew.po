@@ -456,6 +456,14 @@ msgstr ""
 msgid "crew.start.create"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.notReady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.slow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.take"
 msgstr ""
@@ -464,7 +472,7 @@ msgstr ""
 msgid "crew.settings.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
 msgid "crew.start.failed"
 msgstr ""
 

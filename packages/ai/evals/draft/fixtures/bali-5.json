@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "a27b1c71-8455-4a01-a9b6-1073b118591d",
+        "id": "7de4f446-da42-421c-8977-1adff601d6f4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, Seminyak\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p13\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and rice terraces\",\n      \"area\": \"Area B and D\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p6\",\n        \"p9\",\n        \"p4\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Temples and a gentle farewell\",\n      \"area\": \"Area B\",\n      \"poi_ids\": [\n        \"p10\",\n        \"p12\",\n        \"p7\"\n      ],\n      \"must_do_ids\": []\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area B (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Arrival & Evening Stroll\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Seminyak Beach Day & Sunset\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Ubud Culture & Farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p9\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 110,
+          "input_tokens": 29,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 232,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 198,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "e8fcc791-fcd0-48fc-a0af-7642b0d1ca41",
+        "id": "1d282b3f-0c34-4e3a-88d1-20889f723a21",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ancient carvings and a cave that feels older than the island itself.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The monkeys run the show here, so keep your sunglasses close and your snacks hidden.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A riot of colour and craft, perfect for a last-minute treasure hunt.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 285,
+          "input_tokens": 408,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 41,
+          "output_tokens": 116,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "edaff5ed-33ee-4700-bd50-bd5ca619bc3d",
+        "id": "a580ec15-d28c-47d5-a823-2a4d76d0ae96",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Sink your toes in and let the first Bali sunset do all the talking.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper little warung with big flavours and easy prices, right where you want to be.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stay after dark for cocktails, beats and that beach-club glow.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old palace gates catch the late light beautifully, and the carvings have stories in every corner.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper little warung where the sambal wakes you up and the nasi campur is the real deal.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A long, playful tasting journey through the island's wildest ingredients and ideas.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 25,
+          "input_tokens": 560,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 119,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 181,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "a8675074-aa18-49fa-b819-77384ccc0dee",
+        "id": "57d9c81c-432e-49af-99cf-eebe8f623444",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys with serious side-eye, and temples wrapped in jungle.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long way out, but the crew asked for lunch and this kitchen delivers.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Those green steps look like a giant's garden, and the photos do not lie.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A splurge worth dressing up for, with plates that look like art.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sand is soft, the water is warm, and the sun won’t wait. Settle in for a proper beach day.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, breezy spot for a bite. The vegetarian options are a nice touch, terima kasih (thank you).\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Music, lights, and a pool that glows after dark. This is where the night owls come to play.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A humble warung with a big reputation. The ayam is the real deal, and the price is kind.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 112,
+          "input_tokens": 671,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 218,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 256,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "6647b0c9-106c-42b7-be11-913754e30610",
+        "id": "88840037-2a33-42ac-a1fc-e1399c27f4f5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Three easy days from sunset sand to rice-green calm and a soft goodbye, and every must-do made it in."
+            "text": "Slow Ubud welcome, a whole afternoon for Seminyak Beach, then culture and a warm farewell."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 192,
+          "input_tokens": 297,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 23,
+          "output_tokens": 21,
           "service_tier": "standard"
         }
       }

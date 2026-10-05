@@ -87,6 +87,11 @@ export function longHops(
   homeId?: string | null,
   /** Stops that are sights, not meals: one of them may be the day's out-and-back (see below). */
   sightAt?: (index: number) => boolean,
+  /**
+   * Stops of the day out this day is planned for (./outings): the rides to and from them are
+   * the day's purpose, held only to the ride home's limit and kept out of the road budget.
+   */
+  dayOutAt?: (index: number) => boolean,
 ): Hop[] {
   const between = (a: number, b: number): number => {
     const from = poiIds[a];
@@ -104,7 +109,9 @@ export function longHops(
     if (i !== dinnerAt && between(i - 1, i) > capMin && nearHome(i) && !nearHome(i - 1)) backAt = i;
   }
   const home = (index: number) => index === dinnerAt || index === backAt;
-  const ride = (a: number, b: number): number => (home(b) ? 0 : between(a, b));
+  const dayOut = (index: number) => dayOutAt?.(index) === true;
+  const ride = (a: number, b: number): number =>
+    home(b) || dayOut(a) || dayOut(b) ? 0 : between(a, b);
   const found: Hop[] = [];
   let longRides = 0;
   // The ride out from where the crew sleeps is the day's long ride when it is over the cap (the
@@ -114,6 +121,12 @@ export function longHops(
   if (out > RIDE_HOME_MAX_MIN) found.push({ index: 0, over: Math.round(out - capMin) });
   else if (out > capMin) longRides += 1;
   for (let i = 1; i < poiIds.length; i += 1) {
+    if (dayOut(i) || dayOut(i - 1)) {
+      if (between(i - 1, i) > RIDE_HOME_MAX_MIN) {
+        found.push({ index: dayOut(i) ? i : i - 1, over: Math.round(between(i - 1, i) - capMin) });
+      }
+      continue;
+    }
     if (home(i)) {
       // Home to dinner may be a long way; back to town in the middle of a day, the long ride's.
       const back = between(i - 1, i);

@@ -59,6 +59,10 @@ msgstr "{name} ở ngay bên cạnh. Thêm luôn nhé?"
 msgid "plan.add.length.minutes"
 msgstr "{only} PHÚT"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlan"
+msgstr "{organiser} vẫn đang lên kế hoạch. Lưu vào Ý tưởng để {organiser} thấy."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.leave.car"
 msgstr "{time} · RỜI CHỖ Ở · XE {minutes} PHÚT"
@@ -221,8 +225,8 @@ msgid "plan.add.cta.ideas"
 msgstr "LƯU VÀO Ý TƯỞNG"
 
 #: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
-msgid "plan.add.savedToast"
-msgstr "Đã lưu vào Ý tưởng"
+msgid "plan.add.savedToastShared"
+msgstr "Đã lưu vào Ý tưởng, cả nhóm đều thấy. Có người xếp vào ngày là nó vào kế hoạch."
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.seeIdeas"
@@ -248,6 +252,10 @@ msgstr "VẪN ĐỀ XUẤT CHO {dayLabel}"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "Cả nhóm sẽ bỏ phiếu trước khi thêm vào. Bạn sẽ được báo kết quả."
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.beforePlanAny"
+msgstr "Kế hoạch chưa được chia sẻ. Lưu vào Ý tưởng, khi có kế hoạch nơi này vẫn ở đó."
 
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.meal"

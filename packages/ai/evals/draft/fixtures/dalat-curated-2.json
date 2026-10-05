@@ -1,0 +1,173 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "85cefe51-faa5-4659-b0d1-a91d72732f4b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Khu vực A, quanh hồ Xuân Hương\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều Đà Lạt nhẹ tênh\",\n      \"area\": \"Khu vực A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p131\", \"p20\", \"p49\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Lên Langbiang hít gió núi\",\n      \"area\": \"Khu vực B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p355\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sáng hồ, trưa chợ, tối phố\",\n      \"area\": \"Khu vực A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p173\", \"p165\", \"p14\", \"p218\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Chủ nhật thong thả\",\n      \"area\": \"Khu vực A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p286\", \"p136\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p191\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 123,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 4864,
+          "output_tokens": 346,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "d5c16bae-e4a0-40a3-b538-86ff13709823",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hoa nở rực rỡ, dạo bước thong thả giữa muôn sắc màu.\"\n    },\n    {\n      \"poi_id\": \"p270\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô phở nóng hổi, đậm đà hương vị Bắc giữa lòng Đà Lạt.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 531,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 143,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "f2859933-dccc-44b8-b225-0699aeea34ca",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ Xuân Hương chiều nhẹ tênh, đi một vòng ngắm thông reo và mặt nước lặng như gương.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng cuốn rau thơm, chấm tương béo, ăn xong còn muốn gọi thêm một phần.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm lên đèn, sữa đậu nành nóng và hương bắp nướng thơm cả góc phố.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ghé quán cà phê treo giữa lưng đồi, ngồi nghe gió và nhìn phố núi lấp lánh.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 586,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 304,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "24558231-2356-4af2-92d8-2bedda8c6f1d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Kiến trúc như giấc mơ xoắn lại, cứ đi lạc trong đó là vui nhất.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thác nước đổ giữa rừng thông, đi bộ xuống rồi cười vang cả lối lên.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh ướt mềm, lòng gà dai giòn, chan nước mắm ngọt là hết sầu.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc nhỏ trong hẻm, ngồi xuống là thấy ấm như nhà người quen.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khu phức hợp nhộn nhịp về đêm, dạo một vòng cho biết Đà Lạt không chỉ có sương.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 736,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 347,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "ffb9bcb5-b6d7-4924-a21d-b773ca241478",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ nước mênh mông, thông reo quanh bờ, cứ thong thả mà ngắm mây trôi.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ trưa rộn ràng, nhớ ghé hàng khô ngửi mùi nắng và cà phê rang.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô bánh canh cua nóng hổi, ngọt từ thịt cua tươi, ăn xong còn muốn húp cạn nước.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn nhỏ xinh, nước chấm đậm đà, ngồi xì xụp một rổ là vừa miệng.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quảng trường rộng rãi, kiến trúc lạ mắt, đứng ngắm phố núi lên đèn cũng vui.\"\n    },\n    {\n      \"poi_id\": \"p284\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Gà đồi nướng muối ớt, nhậu lai rai kiểu bình dân mà ấm bụng cả tối.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 787,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 456,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "260469ae-5103-46d4-ae5e-ce51fb5cf551",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Sáng thác, trưa chợ, tối quán\n5: Cà phê sớm, đồi thông chiều\n6: Chợ sớm, hồ chiều, nhậu tối\n7: Thác cả ngày, phố đêm\n8: Đồi thông, quán nhậu, cà phê khuya"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 221,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 90,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "3662ba9f-951c-4950-a525-92d53ab22bf9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Bốn ngày Đà Lạt: chiều nhẹ tênh, sáng lên Langbiang, thác và hồ, chủ nhật thảnh thơi — đủ cả, không thiếu gì."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 160,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 53,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

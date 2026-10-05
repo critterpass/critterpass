@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a2fe15f9-b102-4847-aa3f-e86eacac02fa",
+        "id": "1ad5aa98-113a-4eb5-961c-7d56fa42c593",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A gentler Denpasar day\",\n  \"summary\": \"One unhurried museum visit, then a long, easy lunch and dinner close by, with the afternoon left open for whatever the crew fancies.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one activity worth keeping: history and culture without a long ride or a big climb.\",\n      \"must_do_id\": \"p58\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quick, tasty street-food lunch right in the same area, so the day stays light on travel.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner nearby, slow and local, with no need to rush anywhere after.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Gentle Day in Denpasar\",\n  \"summary\": \"A slower day close together, with one temple visit, easy local meals and plenty of time left free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, sweet temple stop to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, because a lighter day still eats well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and easy, with the evening left open for whatever feels right.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 102,
+          "input_tokens": 122,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2176,
-          "output_tokens": 249,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "3f962722-4c69-40d0-b23c-5d3a4a2144b7",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A gentler Bali day\",\n  \"summary\": \"One unhurried stop in Denpasar, with lunch and dinner right beside it so the day stays light and close.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one activity we keep: an easy wander through Bajra Sandhi, no long ride needed.\",\n      \"must_do_id\": \"p58\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays in the same area, a slow sit-down with local flavour instead of another trek.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a quick, lively street-food bite nearby, so the evening stays easy.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 127,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 245,
+          "output_tokens": 230,
           "service_tier": "standard"
         }
       }

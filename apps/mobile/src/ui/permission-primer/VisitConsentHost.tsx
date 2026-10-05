@@ -12,6 +12,8 @@ import {
   useVisitConsentRequested,
   visitConsentDismissedAt,
 } from '@/lib/location';
+import { isTouchQuiet } from '@/lib/interaction/touch-quiet';
+import { VISIT_CONSENT_CALM_MS } from '@/lib/location';
 import { isCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
 
 import { useTabBarCovered } from '../sheet/tab-bar-cover';
@@ -27,7 +29,8 @@ export interface VisitConsentHostProps {
 /** The traveller is typing: the keyboard is up or a text field has focus. */
 const isTyping = () => Keyboard.isVisible() || TextInput.State.currentlyFocusedInput() !== null;
 /** Something else has the screen, or is about to: a sheet, the keyboard, the arrival hatch. */
-const taken = (covered: boolean) => covered || isTyping() || isCeremonyPending();
+const taken = (covered: boolean) =>
+  covered || isTyping() || isCeremonyPending() || !isTouchQuiet(VISIT_CONSENT_CALM_MS);
 
 /**
  * Asks for visit detection once, at a calm moment: a trip day, nothing decided, "Not now" never

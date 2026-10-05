@@ -66,6 +66,8 @@ export interface SheetState {
   readonly dayLabel: string;
   readonly time: string;
   readonly organiser: boolean;
+  /** No plan she can see yet: who is putting it together, when the phone knows. */
+  readonly beforePlan?: { readonly organiser: string | null } | null;
 }
 
 /** The line under the place's name and the main button, for the state the sheet is in. */
@@ -77,12 +79,28 @@ export function sheetWords(state: SheetState): { readonly line: string; readonly
       cta: state.stays ? pickElsewhereLabel() : moveLabel(dayLabel, time),
     };
   }
+  if (state.beforePlan != null) {
+    return { line: beforePlanLine(state.beforePlan.organiser), cta: saveToIdeasLabel() };
+  }
   if (state.waiting) return { line: waitingLine(state.guide), cta: waitingLabel() };
   if (state.nowhere) return { line: nowhereLine(), cta: saveToIdeasLabel() };
   return {
     line: pickedLine(state.guide),
     cta: state.anyway ? anywayLabel(dayLabel, organiser) : addLabel(dayLabel, time, organiser),
   };
+}
+
+/** A member before the plan is shared: there is no day to put it on yet, so it waits in Ideas. */
+export function beforePlanLine(organiser: string | null): string {
+  return organiser === null
+    ? t({
+        id: 'plan.add.beforePlanAny',
+        message: 'The plan isn’t shared yet. Save it to Ideas and it’s there when it is.',
+      })
+    : t({
+        id: 'plan.add.beforePlan',
+        message: `${organiser} is still putting the plan together. Save it to Ideas and they’ll see it.`,
+      });
 }
 
 /** Before a member confirms: this starts a vote, it is not a plain add. */

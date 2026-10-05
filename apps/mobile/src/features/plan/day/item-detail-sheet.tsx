@@ -56,7 +56,8 @@ export interface ItemDetailActions {
     times?: { readonly start: number; readonly end: number },
   ) => void;
   readonly onRemove: (confirmLocked: boolean) => void;
-  readonly onSkipForMe: () => void;
+  /** Null where there is no crew plan to skip from (an organiser's own draft). */
+  readonly onSkipForMe: (() => void) | null;
   readonly onOpenPlace: (poiId: string) => void;
   readonly onOpenMaps: () => void;
   readonly onClose: () => void;
@@ -226,15 +227,17 @@ export function ItemDetailSheet({
                   onPress={actions.onOpenMaps}
                 />
               ) : null}
-              <TextLink
-                label={
-                  members.length <= 1
-                    ? t({ id: 'plan.day.item.skipSolo', message: 'Skip this stop' })
-                    : t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })
-                }
-                onPress={actions.onSkipForMe}
-                testID="plan-item-skip"
-              />
+              {actions.onSkipForMe === null ? null : (
+                <TextLink
+                  label={
+                    members.length <= 1
+                      ? t({ id: 'plan.day.item.skipSolo', message: 'Skip this stop' })
+                      : t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })
+                  }
+                  onPress={actions.onSkipForMe}
+                  testID="plan-item-skip"
+                />
+              )}
             </Row>
             <PillButton
               variant="destructive"

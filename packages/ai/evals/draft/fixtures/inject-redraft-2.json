@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1e9e67a9-aea2-4f60-a573-977da757c4d9",
+        "id": "c815b2e2-cdd3-46ee-823a-26a6c9edc1ef",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Cheaper, Slower Bali Day\",\n  \"summary\": \"We keep the rice terraces, then slow down around Ubud with free and lower-priced stops and a lighter vegan lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces; the sun won’t wait.\",\n      \"note\": \"The must-do stays, and it is already easy on the wallet.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free palace stop keeps the day gentle and kind to the budget.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter vegan lunch in Ubud, terima kasih (thank you) to a place everyone can eat.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The ridge walk is free, open all day, and gives the crew room to breathe.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Breezy Bali on a Budget\",\n  \"summary\": \"A slower, wallet-friendly day of clifftop temples, market wandering and a long golden-hour beach club finish, with a vegan lunch in Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should you. Tanah Lot stays: it’s the postcard shot and it costs almost nothing.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for a pricier stop. Free to wander, full of colour, and the haggling is half the fun.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays, and it suits everyone: vegan, bright and easy on the wallet. Terima kasih (thank you), Alchemy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Still the big splurge, but it’s the one the crew asked for. We keep it and let the rest of the day breathe cheap.\",\n      \"must_do_id\": \"m4\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 114,
+          "input_tokens": 80,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 287,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 366,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "0d722e1b-f10f-42ed-9b0d-d679ab6976fe",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Sun, Sand and a Lighter Wallet\",\n  \"summary\": \"A budget-friendly day of clifftop temples, a waterfall and a beach club sunset, with a vegan lunch in Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple stays, of course. Rise and shine for the best light and fewer crowds.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A waterfall with a small price tag and a big wow. The sun won’t wait, so we head here next.\",\n      \"start\": \"11:30\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan lunch that suits everyone. Terima kasih (thank you) to whoever found this one.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Uluwatu’s clifftop views are free of big prices, not of drama. We swap the pricey club for this.\",\n      \"start\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The beach club stays, but we arrive before dark so it’s open and we catch the sunset.\",\n      \"start\": \"19:00\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 117,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 400,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "87c8dc6a-7c4c-4ff3-903f-5b035898c006",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A morning at the art market\nDay 3: Tanah Lot, half the day\nDay 4: Cafés and a beach club evening"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 318,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 34,
           "service_tier": "standard"
         }
       }

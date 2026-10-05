@@ -93,5 +93,5 @@ export function withHeldStops(input: DraftPlanInput, held: readonly HeldStop[]):
   });
   if (pins.length === 0) return { ...input, held };
   const pois = new Map([...input.pois, ...pins.map((pin): [string, DraftPoi] => [pin.id, pin])]);
-  return { ...input, held, pois, travel: straightLineMatrix(pois) };
+  return { ...input, held, pois, travel: straightLineMatrix(pois, input.routed) };
 }

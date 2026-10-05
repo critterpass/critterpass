@@ -193,7 +193,7 @@ function SwipeScene({ spec }: { readonly spec: SwipeSpec }) {
   };
   const stage: SwipeStage =
     spec.stage === 'building'
-      ? { kind: 'building' }
+      ? { kind: 'building', wait: 'building' }
       : spec.stage !== undefined || top === null
         ? summary
         : { kind: 'deck', top, under: face(at + 1), why: whyLines(spec.cards[at]?.reasons ?? []) };

@@ -14,7 +14,9 @@ import {
   type TripFrame,
   type WishTime,
 } from '../../src/draft/index';
+import { heldWindow } from '../../src/draft/wish-time';
 import { AUTO, D, FRAME, id } from './da-nang-fixture';
+import { place } from './day-sense-fixture';
 
 const daily = (start: string, end: string) => ({
   weekly: Object.fromEntries(
@@ -187,7 +189,8 @@ describe('a must-do held to its time of day', () => {
     const frame = { ...frameWith([m]), chronotypes: { [id(901)]: 'night_owl' as const } };
     const plan = timed(frame, 1, [choice(D.marble.id, m.id, 'morning'), choice(D.myKhe.id)]);
     expect(plan.stops[0]).toMatchObject({ poiId: D.marble.id, start: 8 * 60 });
-    expect(plan.stops[1]).toMatchObject({ poiId: D.myKhe.id, start: 10 * 60 });
+    // The beach after it keeps to a beach's hours (from mid-afternoon), not to the early start.
+    expect(plan.stops[1]).toMatchObject({ poiId: D.myKhe.id, start: 15 * 60 });
     expect(plan.violations).toEqual([]);
   });
 
@@ -339,5 +342,26 @@ describe('open-data places', () => {
   it('are not put on the evening schedule when nothing holds them there', () => {
     const plan = timed(frameWith([]), 1, [choice(withOpenDataDefaults(AUTO.baNa).id)]);
     expect(plan.stops[0]?.end).toBeLessThanOrEqual(17 * 60 + 30);
+  });
+});
+
+describe('a show at an hour our editors give', () => {
+  const bridge = place(140, 'Dragon Bridge', 'museum', {
+    bestTime: 'Saturday or Sunday evening before 9pm show',
+  });
+
+  it('holds an evening or night wish to that hour', () => {
+    expect(heldWindow(bridge, '2026-10-24', 'evening')).toEqual({
+      fromMin: 20 * 60 + 45,
+      toMin: 21 * 60 + 15,
+    });
+    expect(
+      heldWindow({ ...bridge, bestTime: 'The show starts at 21:00' }, '2026-10-24', 'night'),
+    ).toEqual({ fromMin: 20 * 60 + 45, toMin: 21 * 60 + 15 });
+    // Any other wish, or an hour that is not the evening's, keeps its time of day.
+    expect(heldWindow(bridge, '2026-10-24', 'morning')?.fromMin).toBeLessThan(12 * 60);
+    expect(
+      heldWindow({ ...bridge, bestTime: 'Opens 7am' }, '2026-10-24', 'evening')?.fromMin,
+    ).toBeLessThan(20 * 60);
   });
 });

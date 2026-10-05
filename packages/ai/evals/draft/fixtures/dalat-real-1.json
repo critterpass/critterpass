@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "2956b699-e602-46ea-b184-b8a8f1680d29",
+        "id": "d7ab30ca-a59e-4477-bf12-38e2b0023012",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Landing and Crazy House\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p16\", \"p117\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Waterfalls and Lake\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p15\", \"p62\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Flowers and Coffee\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p124\", \"p8\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Last Morning in Town\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p13\", \"p138\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p22\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and city lights\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p61\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Waterfalls and far nature\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p140\", \"p141\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gardens, lakes and landmarks\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p16\", \"p130\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coffee and slow goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p47\", \"p114\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p22\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 46,
+          "input_tokens": 83,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 3968,
-          "output_tokens": 295,
+          "output_tokens": 290,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "21ad3e5c-fd17-4627-b24c-566eb9132eb0",
+        "id": "86c17bde-1eaf-4964-9b36-9a174ccdc0d1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, a green patch to stretch the legs before the flight, with trees and quiet corners.\"\n    },\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the artist alley has the kind of street-side bites that send you off well fed.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p124\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Not my island, but I’ve done my homework. A slow wander among the blooms suits a farewell morning.\"\n    },\n    {\n      \"poi_id\": \"p71\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Street-food soul in a bowl, the kind of smoky broth that lingers after the last sip.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 640,
+          "input_tokens": 581,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 134,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 127,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "3082a0a6-c407-46a8-9ad2-87cc1d76aa71",
+        "id": "0bcdb5f1-64f0-4203-a8c1-2787c0ea45fb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p111\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"From what Tokek knows so far, the Crazy House is a fever dream of twisting concrete and fairy-tale staircases. Not my island, but I’ve done my homework.\"\n    },\n    {\n      \"poi_id\": \"p117\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the market is where the street food smells pull you in before your eyes catch up. Nobody guides here yet, so I’ll cover it.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the hotpot here is the kind of warm, gingery thing a cool highland evening asks for.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the Maze Bar is a winding, dim little labyrinth that suits a night owl perfectly. The locals still turn up.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p111\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty fairytale architecture that feels like walking through a sculpture.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old French colonial campus with a lovely bell tower and quiet courtyards.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Casual spot with a rooftop feel and decent bites near the centre.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A maze-like bar where you squeeze through tiny passages to find your drink.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 740,
+          "input_tokens": 470,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 290,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 213,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "cbcd3baa-f1cc-4f7b-8ca4-1c62bb8c45de",
+        "id": "f8b4b922-1d08-484c-a3e8-5d5d7478f1bd",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden is a calm start with beds that smell like a florist's dream.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the bánh căn here is the kind of street food that makes you order a second round.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the square is a good spot to watch the town wake up and stretch.\"\n    },\n    {\n      \"poi_id\": \"p124\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower park keeps the petals coming with paths that wind like a lazy river.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, this place serves a proper sit-down meal without fussing over the tablecloth.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the terraced beds and glasshouses; the blooms here are the city's postcard.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow loop around the lake gives you pine hills, pedal boats and cool air.\"\n    },\n    {\n      \"poi_id\": \"p92\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy corner for a midday plate; the kind of spot where you linger over coffee.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old-school golf club grounds with wide lawns and a view back toward the water.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Crisp little rice cakes topped with egg and scallion, cooked right in front of you.\"\n    },\n    {\n      \"poi_id\": \"p113\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A late-night dance floor if you still have energy after the cool mountain air.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 960,
+          "input_tokens": 910,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 317,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 333,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "9f4f1a1b-f80a-4cf0-a6c0-0f088443915b",
+        "id": "6df4750d-71b7-4e74-ac98-358a940989e0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, the falls here tumble through a green pocket that feels a world away from the town.\"},{\"poi_id\":\"p15\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, Datanla has a proper rush to it and a little adventure in the way down.\"},{\"poi_id\":\"p60\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, Dalato sits close enough to the falls for a calm bite without losing the afternoon.\"},{\"poi_id\":\"p135\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, the lake is the soft counterpoint to all that falling water, still and wide.\"},{\"poi_id\":\"p17\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, the grilled rice paper here is the street snack worth saving room for.\"},{\"poi_id\":\"p112\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"From what Tokek knows so far, the nem nướng rolls are the kind of dinner you eat with your hands and no regrets.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wild, less-trodden waterfall where the water crashes hard and the mist hangs in the air.\"\n    },\n    {\n      \"poi_id\": \"p112\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grilled nem with herbs and dipping sauce, the kind of street bite this town does best.\"\n    },\n    {\n      \"poi_id\": \"p141\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Golden stream country, open and quiet, with piney air and water running over smooth rock.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp grilled rice paper with egg and toppings, a smoky snack worth the wait.\"\n    },\n    {\n      \"poi_id\": \"p60\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed dinner spot with local comfort food and a good view of the evening cool.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 913,
+          "input_tokens": 866,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 284,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 283,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "e9099d03-8290-4468-a15f-34ecef67ab92",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Morning at the falls, afternoon by the water\n3: Gardens, a lake, and a slow café morning\n4: A flower park morning and a warm bowl"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 377,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 35,
           "service_tier": "standard"
         }
       }
@@ -124,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "58cafd49-79a4-4dd2-b77c-99fe56009d5c",
+        "id": "07a49af2-a3ae-49cd-a35a-6bc87d68f57b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "From what Tokek knows so far, all the must-dos made it in — waterfalls, flowers, a wild house and a park. Not my island, but I've done my homework."
+            "text": "Easy arrival and city lights, then a morning at the falls, a lakeside afternoon, and a full day among the flowers."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 258,
+          "input_tokens": 235,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 128,
-          "output_tokens": 39,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

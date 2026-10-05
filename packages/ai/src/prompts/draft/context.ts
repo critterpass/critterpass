@@ -17,10 +17,13 @@ import {
   type TravelMatrix,
   type TripFrame,
   type WishTime,
+  type RoutedPairs,
 } from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
 import { renderPersonaBlock } from '../../persona/layering';
+import { spanOf } from './areas';
+import { PLAN_VOICE } from './hedge';
 import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 import type { UsageContext } from '../../usage';
@@ -68,6 +71,8 @@ export interface DraftPlanInput {
   readonly tastes: Readonly<Record<string, number>>;
   readonly bands: CostBands | null;
   readonly travel: TravelMatrix;
+  /** Minutes the routing service already gave between places (the planner's `RoutedPairs`). */
+  readonly routed?: RoutedPairs;
   /** The stay type setup chose (`ryokan`), when there is one. */
   readonly stayType: string | null;
   /** Members' first names by uid (as the trip context shows them). */
@@ -134,7 +139,7 @@ export function placeNames(input: Pick<DraftPlanInput, 'pois'>): string[] {
 export function personaSystem(guide: PersonaId, task: string): Anthropic.Messages.TextBlockParam[] {
   return [
     { type: 'text', text: renderPersonaBlock(resolvePersonaPack(guide)) },
-    { type: 'text', text: task },
+    { type: 'text', text: `${task}\n\n${PLAN_VOICE}` },
   ];
 }
 
@@ -222,7 +227,7 @@ export function purposeOf(poi: DraftPoi): string | null {
 }
 
 export function placeLine(
-  input: Pick<DraftPlanInput, 'pois' | 'frame'>,
+  input: Pick<DraftPlanInput, 'pois' | 'frame' | 'pools' | 'travel'>,
   poi: DraftPoi,
   date: string | null,
   area?: string,
@@ -233,6 +238,8 @@ export function placeLine(
     poi.category,
     `visit ${poi.durationMin} min`,
   ];
+  const span = spanOf(input, poi);
+  if (span !== null) parts.push(span === 'full' ? 'takes the whole day' : 'takes half the day');
   if (area !== undefined) parts.push(`area ${area}`);
   const purpose = purposeOf(poi);
   if (purpose !== null) parts.push(purpose);
@@ -266,7 +273,7 @@ export function languageLine(locale: string | undefined): string[] {
   if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
   const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(locale) ?? locale;
   return [
-    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English. Place names stay exactly as the lists write them.`,
+    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English, and no English gloss in brackets after a word. Place names stay exactly as the lists write them.`,
   ];
 }
 

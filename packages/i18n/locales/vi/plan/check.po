@@ -118,6 +118,10 @@ msgid "plan.check.running"
 msgstr "{guideName} đang kiểm tra kế hoạch. Sau mỗi thay đổi sẽ mất một lúc."
 
 #: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorking"
+msgstr "{guideName} đang lên bản nháp"
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
 msgid "plan.check.toast.keptLine"
 msgstr "{guideName} sẽ không nhắc lại, trừ khi các điểm quanh đó thay đổi."
 
@@ -594,6 +598,10 @@ msgstr "Để sau"
 msgid "plan.check.toast.failedLine"
 msgstr "Chưa có gì thay đổi. Thử lại sau giây lát."
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.guideWorkingLine"
+msgstr "Chưa có gì thay đổi. Thử lại khi bản nháp xong."
+
 #: ../../apps/mobile/src/features/plan/check/fill-gap/gap-copy.ts
 msgid "plan.check.gap.none"
 msgstr "Không có chỗ nào gần đây vừa khoảng này. Thử Chọn khác, hoặc để trống."
@@ -614,6 +622,10 @@ msgstr "Không có gì để đổi. Mọi khối giờ đều đủ khô ráo v
 msgid "plan.check.rain.laneNow"
 msgstr "Hiện tại"
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.draftApplied"
+msgstr "Chỉ trên bản nháp của bạn. Đổi lại từ điểm dừng."
+
 #: ../../apps/mobile/src/features/plan/check/balance/balance-copy.ts
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.onlyYou"
@@ -626,6 +638,14 @@ msgstr "Chỉ hai người thấy."
 #: ../../apps/mobile/src/features/plan/check/ask-card.tsx
 msgid "plan.check.ask.private"
 msgstr "Chỉ hai người thấy. Không có gì bị dời để lấy chỗ."
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr "Mở ngày"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
+msgstr "Mở điểm dừng"
 
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.titleOverlap"
@@ -778,6 +798,10 @@ msgstr "Chặng dài nhất mất {longest}."
 msgid "plan.check.toast.stale"
 msgstr "Kế hoạch đã đổi sau lần kiểm tra này"
 
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.shared"
+msgstr "Kế hoạch đã đến tay cả nhóm"
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.plain"
 msgstr "Không đủ thời gian để đi từ {first} đến {second}."
@@ -785,6 +809,10 @@ msgstr "Không đủ thời gian để đi từ {first} đến {second}."
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.overlap"
 msgstr "Hai điểm trùng nhau {over}. {first} xong lúc {end}, {second} bắt đầu lúc {start}."
+
+#: ../../apps/mobile/src/features/plan/check/check-copy.ts
+msgid "plan.check.toast.sharedLine"
+msgstr "Lần kiểm tra này là của bản nháp. Kế hoạch của nhóm sẽ có lần kiểm tra riêng."
 
 #: ../../apps/mobile/src/features/plan/check/less-driving/less-driving-view.tsx
 msgid "plan.check.lessDriving.none"

@@ -89,6 +89,7 @@ import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
+import { TouchQuietRoot } from '@/lib/interaction/touch-quiet';
 import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
@@ -249,7 +250,9 @@ export default function RootLayout() {
             >
               <TravelDataReaderProvider value={travelData}>
                 <ScreenJoltProvider>
-                  <RootNavigator />
+                  <TouchQuietRoot>
+                    <RootNavigator />
+                  </TouchQuietRoot>
                   <DeferredLinkGate
                     primitives={deferredLinks}
                     navigate={openHref}

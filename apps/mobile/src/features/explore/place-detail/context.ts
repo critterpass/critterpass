@@ -75,6 +75,11 @@ export interface PlaceDetailContext extends PlaceContextWire {
   readonly nearby: readonly PlaceRef[];
   readonly similar: readonly PlaceRef[];
   readonly stances: SplitSummary | null;
+  /**
+   * The plan my plan screens show: the crew's, or my own draft before there is one (an organiser);
+   * null when I have none to see. An older server does not say: the crew's plan stands in.
+   */
+  readonly planVersion: string | null;
 }
 
 type Bag = Readonly<Record<string, unknown>>;
@@ -197,6 +202,7 @@ export function readPlaceDetail(value: unknown): PlaceDetailContext | null {
             silent: strings(split['silent_user_ids']),
             split: split['split'] === true,
           },
+    planVersion: str(bag(raw['plan_version'])?.['id']) ?? base.data.base_version,
   };
 }
 

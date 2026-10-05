@@ -52,6 +52,22 @@ export type PlanOp = z.infer<typeof planOpSchema>;
 
 export const planOpsSchema = z.array(planOpSchema).min(1).max(50);
 
+const itemTimes = z.object({ starts_at: instant, ends_at: instant });
+
+/**
+ * The stops an edit pushed later to make room for its own stop (`cause`), each with the time it
+ * had before. Kept on the version so taking `cause` off can put exactly those stops back.
+ */
+export const planPushSchema = z.object({
+  cause: z.uuid(),
+  items: z
+    .array(z.object({ stable_id: z.uuid(), from: itemTimes, to: itemTimes.optional() }))
+    .min(1)
+    .max(50),
+});
+export type PlanPush = z.infer<typeof planPushSchema>;
+export const planPushesSchema = z.array(planPushSchema).max(50);
+
 export const applyPlanOpsPayloadSchema = z.object({
   trip_id: z.uuid(),
   /** The `itinerary_versions.id` the ops were made against (the trip's current version). */
@@ -59,6 +75,8 @@ export const applyPlanOpsPayloadSchema = z.object({
   ops: planOpsSchema,
   /** The organiser saw the "this item is booked / a must-do" warning and went ahead. */
   confirm_locked: z.boolean().default(false),
+  /** The later stops these ops push to make room for one stop, with the times they had. */
+  pushed: planPushSchema.optional(),
 });
 export type ApplyPlanOpsPayload = z.infer<typeof applyPlanOpsPayloadSchema>;
 

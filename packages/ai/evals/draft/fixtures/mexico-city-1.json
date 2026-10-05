@@ -4,47 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "9d9b4079-7e86-4225-aad7-20bcf9067d35",
+        "id": "93d722cc-8de2-4b74-b968-1bf15c5b363f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area A (near Chapultepec)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chapultepec soft landing\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan day trip\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p8\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Coyoacán farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p2\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro Histórico Arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan & Coyoacán\",\n      \"area\": \"Area C and Area B\",\n      \"must_do_ids\": [\"m1\", \"m3\"],\n      \"poi_ids\": [\"p8\", \"p2\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Chapultepec Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 5,
+          "input_tokens": 82,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 194,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "4993d6f1-299b-4b7e-855c-14302be7aa52",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The Aztec Sun Stone alone is worth the trip, and the courtyard makes a fine first stroll.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tacos al pastor made from plants, with salsa that wakes you up gently.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 465,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 85,
+          "output_tokens": 202,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "f0c9cbe6-885d-4a3f-aa99-6a561e39fe3d",
+        "id": "1865fae1-af4b-47ab-901f-131108ab956a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Wander the stalls for tostadas, flowers, and the hum of Coyoacán life.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Climb to the castle for murals, history, and a view that makes the city feel like a postcard.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stroll the leafy streets of Roma Norte, where cafés and old facades do all the talking.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The castle's terraces give you the whole city as a farewell postcard, and the murals inside tell its story in sweeping strokes.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the bosque's shaded paths and lakeside corners, where the city's pulse slows to a leafy stroll.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market of vivid stalls and quick banter, perfect for a last taste of local life and a few edible souvenirs.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 356,
+          "input_tokens": 287,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 136,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 195,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "5bcdb51d-5a41-4760-b7f1-9b80a5037fa4",
+        "id": "77433731-4728-408a-ab7f-d5fa2b186c74",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The great temple of the Mexica, where the past rises in stone right beside the modern city.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The vast heart of the old city, perfect for a slow wander and a few photos.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual plates with plenty of veggie love, just the fuel for the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market full of strange fruits, spices and chatter, a proper taste of local life.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The Aztec Sun Stone alone is worth the trip, and the gardens give you room to breathe.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual plates that keep everyone at the table happy, even the vegetarians.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Step into the blue house and feel Frida's world close around you, paint and all.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Tostadas, flowers, and the hum of Coyoacán life all in one lively square.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 458,
+          "input_tokens": 313,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 226,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 235,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "5d68fc0e-428e-46c7-adbb-18f55098be01",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The Aztec ruins sit right beside the cathedral, with a museum full of carved serpents and offerings.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The great square where the city's layers of history meet, perfect for a slow first wander.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A marble palace of murals and art deco curves, worth the short walk from the Zócalo.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Vegan tacos al pastor that even carnivores line up for, smoky and satisfying.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 302,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 173,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "5aee9911-390c-4755-b898-e7e9428c861c",
+        "id": "8d3460e8-9275-4419-8295-b300f2a1f5fc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Frida, ruins, then a fond adiós in Coyoacán — every must-do made it, and so did I."
+            "text": "A warm welcome in the Centro, a whole day out at Teotihuacan and Coyoacán, then a fond farewell among the trees of Chapultepec — every must-do tucked in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 234,
+          "input_tokens": 186,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 28,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 40,
           "service_tier": "standard"
         }
       }

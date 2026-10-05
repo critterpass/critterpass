@@ -8,8 +8,9 @@ import type { DraftDay } from '@cp/domain';
 import { dayWindow, scheduleDay, stopKind, visitOrder, type DayChoice } from '@cp/planner';
 
 import { parseStructuredText, textOf } from '../../structured';
-import { homeOf, hopCap } from './areas';
+import { homeOf, hopCap, dayOutOf } from './areas';
 import { aliases, placeNames, type DraftModel, type DraftPlanInput } from './context';
+import { withoutHedge } from './hedge';
 import { heldChoices } from './held';
 import { withinCapacity } from './day-capacity';
 import { coreMustSees } from './must-sees';
@@ -47,7 +48,9 @@ export function toChoices(input: DraftPlanInput, stops: readonly StopReply[]): P
     if (!input.pois.has(stop.poi_id)) unknownIds += 1;
     const slot = input.pools.mustDos.find((s) => s.poiId === stop.poi_id);
     const note =
-      stop.note === undefined || stop.note === null || stop.note === 'null' ? null : stop.note;
+      stop.note === undefined || stop.note === null || stop.note === 'null'
+        ? null
+        : withoutHedge(stop.note, input.guide);
     const noteOk =
       note !== null && note.length > 0 && proseProblem(note, 200, placeNames(input)) === null;
     if (note !== null && note.length > 0 && !noteOk) proseRejected += 1;
@@ -137,6 +140,7 @@ export function scheduleChoices(
     mealPlaces: input.pools.eateries,
     homeId: homeOf(input),
     tz: input.frame.tz,
+    dayOut: dayOutOf(input, day.dayNo),
   });
   const ordered = order.map((index) => choices[index] as DayChoice);
   return scheduleDay({
@@ -152,6 +156,7 @@ export function scheduleChoices(
     tz: input.frame.tz,
     homeId: homeOf(input),
     hopCapMin: hopCap(input),
+    dayOut: dayOutOf(input, day.dayNo),
     idFor: (choice, index) =>
       input.idFor(`${day.dayNo}:${attempt}:${order[index] ?? index}:${choice.poiId}`),
   });

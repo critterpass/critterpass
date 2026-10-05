@@ -56,7 +56,8 @@ function readSwiped(key: string): Swiped {
   }
 }
 
-const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule,
+const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule, s.created_at,
+    s.destination_id,
     coalesce(t.tz, d.tz) AS tz, t.start_date, t.end_date, d.name AS destination_name,
     (SELECT g.slug FROM guides g WHERE g.id = t.guide_id) AS guide_slug
   FROM swipe_sessions s JOIN trips t ON t.id = s.trip_id
@@ -72,7 +73,7 @@ const MATCH_SQL = `SELECT m.id, m.poi_id, m.day_no, m.change_set_id, m.user_ids,
   FROM swipe_matches m WHERE m.session_id = ? ORDER BY m.created_at, m.id`;
 const IDEAS_SQL = `SELECT id, poi_id, backer_ids FROM trip_ideas
   WHERE trip_id = ? AND deleted_at IS NULL AND poi_id IS NOT NULL`;
-const PLACES_SQL = `SELECT id, name, category, price_level, address FROM pois
+const PLACES_SQL = `SELECT id, name, name_local, category, price_level, address FROM pois
   WHERE id IN (SELECT value FROM json_each(?))`;
 
 export interface SessionRow {
@@ -81,6 +82,8 @@ export interface SessionRow {
   readonly deck: string | null;
   readonly started_by: string | null;
   readonly match_rule: number | null;
+  readonly created_at: string | null;
+  readonly destination_id: string | null;
   readonly tz: string | null;
   readonly start_date: string | null;
   readonly end_date: string | null;
@@ -107,6 +110,7 @@ interface MatchSqlRow {
 export interface DeckPlace {
   readonly id: string;
   readonly name: string;
+  readonly name_local: string | null;
   readonly category: string;
   readonly price_level: number | null;
   readonly address: string | null;

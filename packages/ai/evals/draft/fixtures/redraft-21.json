@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "812656fd-3e88-4c66-aaaf-24985cb7231d",
+        "id": "c81c214a-810f-499d-a9b3-213081b7dee8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle start with a museum and a snack, then the beach and a quiet temple before a proper local dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"We keep the museum, but with a late start we arrive after the morning rush and still get the good light in the old halls.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"A little bánh đập break after the museum, because a slow morning deserves a crunchy snack and no hurry.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach at Phạm Văn Đồng fits the late start perfectly: soft sand, sea air, and nobody asking us to be anywhere early.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short temple stop to catch the late-afternoon calm, right by the water and easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is mì Quảng, the bowl that makes a slow day feel complete. Cảm ơn (thank you) to the cook, and ngon quá (so tasty) after the first bite.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Start, Sea Breeze and Street Bites\",\n  \"summary\": \"A gentle late-morning start eases into local flavours and an afternoon by the water, with a simple evening close to the river.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A late-morning snack stop to ease into the day, because even a slow morning needs a little street-food spark.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch in the same neighbourhood, a local chicken rice that keeps the day simple and filling.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An afternoon at An Bang Beach, where the sea breeze does the talking and the sand slows everything down.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short wander through Kazik Park to stretch the legs before heading back toward the city.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in the city centre, a bowl of turmeric noodles to warm the evening.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet evening stroll around the square, where the city lights reflect off the river and the day winds down.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 31,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2432,
-          "output_tokens": 389,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 448,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "1150d920-f591-4954-9235-760ffab709a9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Late Morning Bites and Beach Breeze"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 141,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

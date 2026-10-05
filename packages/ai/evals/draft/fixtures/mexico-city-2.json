@@ -4,47 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "54d6d78d-f37f-4bde-a4fa-9365d7ee31a8",
+        "id": "8b25799e-9821-4520-9bd3-a7d1e4b51882",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro after dark\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Pyramids and canals\",\n      \"area\": \"Area C and Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Markets and museums\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p2\", \"p9\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro Histórico & Lucha Libre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p4\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan & Coyoacán\",\n      \"area\": \"Area B, Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p8\", \"p2\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Chapultepec & Roma Norte\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p6\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 102,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 197,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "eaf93f23-e3d9-45e9-ae18-d179ab03ace5",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 240,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 6,
+          "output_tokens": 217,
           "service_tier": "standard"
         }
       }
@@ -52,22 +28,22 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "15b73d9a-b1c3-4095-8a13-fb7c4108a937",
+        "id": "1102a7a9-9a17-4b23-83aa-500148237b19",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Al pastor carved off the trompo, tucked into tiny tacos with a splash of salsa.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the great halls of Mexico's past, from sun stones to feathered serpents.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 488,
+          "input_tokens": 280,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
+          "cache_read_input_tokens": 896,
           "output_tokens": 47,
           "service_tier": "standard"
         }
@@ -76,23 +52,71 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4a5a2abd-a716-4542-a636-49bf23f7cab9",
+        "id": "835961e4-537a-4fa2-8684-c64e82919944",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The heart of the old city, where the stones hum with centuries of stories.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tacos that prove plants can party, with salsa that bites back.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Masked giants, flying bodies, and a crowd that roars like one big axolotl.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The heart of the city, where the flag waves over centuries of stories.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk among the ruins of the great Aztec temple, right beside the cathedral.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tacos al pastor that happen to be vegan, and somehow still taste like a fiesta.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The masked heroes fly, the crowd roars, and you'll be shouting for the técnicos.\",\n      \"must_do_id\": \"m1\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 480,
+          "input_tokens": 93,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 264,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "435096ab-e178-4522-9886-73393d66b76d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The blue house holds Frida's paints, her corsets, and a garden full of stubborn colour.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sniff out a tostada and watch the market argue cheerfully with itself.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright plates and a room that hums, perfect for a long, easy pause.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Al pastor carved off the trompo in a tiny temple of late-night hunger.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 404,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 121,
+          "output_tokens": 227,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "e9ee9ce6-7aaa-4c68-9e56-6d0f8951cb61",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: A museum, a market and the park\nDay 3: Museums and churros in the morning"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 137,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }
@@ -100,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "07da704f-dfcb-41d3-b2a5-198843140608",
+        "id": "593f2059-ecc5-4e07-92e8-ae7ddcf25034",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Centro nights, pyramids, canals and the great museum — every must-do made it, so exhale, it's all here."
+            "text": "Centro and a masked night, then a market-and-park day, closing with a whole morning at the anthropology museum — all your must-dos intact, mi jefe."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 225,
+          "input_tokens": 188,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 27,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 36,
           "service_tier": "standard"
         }
       }

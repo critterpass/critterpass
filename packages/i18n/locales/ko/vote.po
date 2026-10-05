@@ -173,6 +173,10 @@ msgid "vote.quickCrew.defaultName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.lockedIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.result"
 msgstr ""
 
@@ -398,6 +402,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.lockedIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedInBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedIn"
 msgstr ""
 
 #. placeholder {0}: p.name

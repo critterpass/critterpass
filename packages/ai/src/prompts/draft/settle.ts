@@ -19,6 +19,7 @@ import {
 import { fillMeals } from './complete-days';
 import { placeEssentials } from './essentials';
 import { withoutMisplacedOpeners } from './openers';
+import { fillEvenings } from './evenings';
 import { fillThinDays } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -253,7 +254,7 @@ export function settle(
     itinerary = essential.itinerary;
     filled += essential.added;
   }
-  for (const fill of options.fillThin ? [fillMeals, fillThinDays] : [fillMeals]) {
+  for (const fill of options.fillThin ? [fillMeals, fillThinDays, fillEvenings] : [fillMeals]) {
     const done = fill(input, outlines, itinerary);
     itinerary = done.itinerary;
     filled += done.added;

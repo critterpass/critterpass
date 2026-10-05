@@ -22,43 +22,13 @@ import {
   type TravelMatrix,
   type TripFrame,
 } from './types';
+import type { Outing } from './outings';
+import { dayShapeViolations } from './validate-day-shape';
+import { DRAFT_VIOLATION_CODES, type DraftViolation, type DraftViolationCode } from './violations';
 import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
-export const DRAFT_VIOLATION_CODES = [
-  'UNKNOWN_POI',
-  'CLOSED_AT_TIME',
-  'CLOSED_ON_DATE',
-  'OVERLAP',
-  'TRAVEL_TOO_LONG',
-  'OFF_GRID',
-  'DAY_OVERRUN',
-  'FLIGHT_BUFFER',
-  'WRONG_TIME_OF_DAY',
-  'DIETARY',
-  'DUPLICATE_PLACE',
-  'EXTRA_MEAL',
-  'MEAL_OFF_HOURS',
-  'MEAL_MISSING',
-  'REPEAT_DISH',
-  'LONG_HOP',
-  'MUST_DO_MISSING',
-  'OVER_BUDGET',
-] as const;
-export type DraftViolationCode = (typeof DRAFT_VIOLATION_CODES)[number];
-
-export interface DraftViolation {
-  readonly code: DraftViolationCode;
-  /** Null for trip-wide violations (a must-do with no item, the budget). */
-  readonly dayNo: number | null;
-  readonly stableId: string | null;
-  readonly poiId?: string;
-  readonly mustDoId?: string;
-  /** Minutes short or over (travel, overlap, a hop); per-person amount over (budget). */
-  readonly amount?: number;
-  /** The meal a day is missing (`MEAL_MISSING`). */
-  readonly slot?: 'lunch' | 'dinner';
-}
+export { DRAFT_VIOLATION_CODES, type DraftViolation, type DraftViolationCode } from './violations';
 
 export interface ValidateItineraryInput {
   readonly itinerary: Itinerary;
@@ -76,6 +46,8 @@ export interface ValidateItineraryInput {
   readonly hopCapMin?: number;
   /** The place the crew sleeps near (./home): the ride out to a day's first stop then counts. */
   readonly homeId?: string | null;
+  /** The trip's outings (./outings): a day out holds its outing, not stops back in town. */
+  readonly outings?: readonly Outing[];
 }
 
 export interface ValidationResult {
@@ -249,6 +221,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       stops,
     });
   }
+  violations.push(...dayShapeViolations(input, timedDays));
   violations.push(
     ...daySenseViolations({
       days: timedDays,
@@ -256,6 +229,8 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       mealPlaces: input.mealPlaces,
       hopCapMin: input.hopCapMin,
       homeId: input.homeId,
+      dayOutPlaces: (dayNo) =>
+        new Set((input.outings ?? []).filter((o) => o.dayNo === dayNo).flatMap((o) => o.poiIds)),
     }),
   );
   const feasibility = checkFeasibility({

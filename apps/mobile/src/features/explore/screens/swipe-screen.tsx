@@ -5,12 +5,14 @@
  * adds everyone else who said yes (an earlier match keeps the day it was suggested for). The verdicts this phone gave are kept on the phone; everyone's yes
  * votes and the matches come from the synced trip.
  */
+import { shownName } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
@@ -18,7 +20,9 @@ import { toast } from '@/motion';
 import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor, noonUtc } from '../format';
 import { usePlacePhotos } from '../hooks/use-place-photos';
+import { deckWait } from '../deck-wait';
 import { useSwipeSession } from '../hooks/use-swipe-session';
+import { exploreRoutes } from '../routes';
 import { areaFromAddress } from '../place-detail/place-facts';
 import { usePlannedPlaces } from '../map-queries';
 import { useTripCrew } from '../place-queries';
@@ -32,11 +36,22 @@ export interface SwipeScreenProps {
   readonly sessionId: string;
 }
 
+function useTicker(everyMs: number | null): Date {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    if (everyMs === null) return undefined;
+    const timer = setInterval(() => setNow(new Date()), everyMs);
+    return () => clearInterval(timer);
+  }, [everyMs]);
+  return now;
+}
+
 export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
   const { redesign } = usePlanningSwitch();
   const session = useSwipeSession(tripId, sessionId, { saveYes: redesign });
+  const readsLocal = useReadsLocalNames(session.row?.destination_id);
   const crew = useTripCrew(tripId);
   const planned = usePlannedPlaces(tripId);
   const sync = useSyncStatus();
@@ -45,6 +60,8 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const ideasHref = useScreenHref('7f-2', { tripId });
   const { row, deck, places, swiped, matches } = session;
+  // Ticks while waiting for cards, so a stuck deck is noticed without leaving the screen.
+  const now = useTicker(deck.length === 0 || places.size === 0 ? 15_000 : null);
   const photos = usePlacePhotos(deck.map((card) => card.poi_id));
 
   const inPlan = useMemo(() => new Set(planned.keys()), [planned]);
@@ -71,7 +88,11 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const outcome = match === null ? null : (outcomes.get(match.id) ?? null);
   useEffect(() => {
     if (match === null || outcome === null) return;
-    const place = places.get(match.poiId)?.name ?? '';
+    const deckPlace = places.get(match.poiId);
+    const place =
+      deckPlace === undefined
+        ? ''
+        : shownName({ name: deckPlace.name, nameLocal: deckPlace.name_local }, readsLocal);
     const guideName = guide.name;
     const day = outcome.kind === 'suggested' ? outcome.dayNo : 0;
     toast.show({
@@ -106,7 +127,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
     ).map((uid) => crew.find((member) => member.uid === uid)?.name ?? '');
     return {
       poiId: card.poi_id,
-      name: place.name,
+      name: shownName({ name: place.name, nameLocal: place.name_local }, readsLocal),
       category: place.category,
       meta: swipeMeta(
         place.category,
@@ -123,7 +144,14 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const ended = row?.status === 'ended';
   const stage: SwipeStage =
     row === null || (deck.length === 0 && !ended) || (top === null && !state.finished && !ended)
-      ? { kind: 'building' }
+      ? {
+          kind: 'building',
+          wait: deckWait({ startedAt: row?.created_at ?? null, cards: deck.length, now }),
+          onRetry: () => {
+            session.endSession();
+            router.replace(exploreRoutes.swipe(tripId));
+          },
+        }
       : state.finished || ended || top === null
         ? {
             kind: 'summary',

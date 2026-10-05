@@ -405,20 +405,20 @@ msgstr ""
 msgid "plan.day.proposedToast"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skip"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
-msgid "plan.day.stop.skipSolo"
+msgid "plan.day.stop.skip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.skipSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.skipSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
@@ -445,6 +445,11 @@ msgstr ""
 #. placeholder {0}: clock(locale, useStart)
 #: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
+msgstr ""
+
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx

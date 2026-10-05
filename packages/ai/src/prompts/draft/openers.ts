@@ -6,25 +6,69 @@
  * fills. Better a morning on the mountain another day than an afternoon of cloud on this one.
  */
 import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
-import { choicesOfDay, isKept, opensDay, placeIdOf } from '@cp/planner';
+import {
+  choicesOfDay,
+  dayWindow,
+  earlyNeed,
+  isKept,
+  minuteOfDate,
+  opensDay,
+  placeIdOf,
+} from '@cp/planner';
+
+/** A day whose window opens by then has a morning (not the afternoon the crew lands). */
+const MORNING_FROM_BY_MIN = 10 * 60 + 30;
+/** A place that opens its day starts by then. */
+const OPENER_START_BY_MIN = 11 * 60;
 
 import { homeOf, hopCap } from './areas';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
 import type { SkeletonDay } from './skeleton';
 
-/** The day's stops that should open it and do not: a sight of the guide's comes before them. */
+/**
+ * The day's stops that should open it and do not: a sight of the guide's comes before them, or
+ * another place that would open the day has the stronger claim to its morning (the day out it is
+ * planned for, then the stronger need to be early, then the longer visit with its ride).
+ */
 export function misplacedOpeners(input: DraftPlanInput, day: DraftDay): DraftItem[] {
-  const reach = { homeId: homeOf(input), hopCapMin: hopCap(input), travel: input.travel };
+  const home = homeOf(input);
+  const reach = { homeId: home, hopCapMin: hopCap(input), travel: input.travel };
+  const poiOf = (item: DraftItem) => input.pois.get(placeIdOf(item) ?? '');
   const opens = (item: DraftItem) => {
-    const poi = input.pois.get(placeIdOf(item) ?? '');
+    const poi = poiOf(item);
     return poi !== undefined && item.kind !== 'meal' && opensDay(poi, reach);
   };
+  const claim = (item: DraftItem): number[] => {
+    const poi = poiOf(item);
+    if (poi === undefined) return [0, 0, 0];
+    const outing = input.pools.outings.some(
+      (o) => o.dayNo === day.day_no && o.poiIds.includes(poi.id),
+    );
+    const ride = home === null ? 0 : (input.travel(home, poi.id) ?? 0);
+    return [Number(outing || isKept(item)), earlyNeed(poi), poi.durationMin + 2 * ride];
+  };
+  const stronger = (a: number[], b: number[]) => {
+    for (let i = 0; i < a.length; i += 1) {
+      if ((a[i] ?? 0) !== (b[i] ?? 0)) return (a[i] ?? 0) > (b[i] ?? 0);
+    }
+    return false;
+  };
+  const openers = day.items.filter(opens);
+  // On a day with a morning, a place that should open it starts in the morning, not after lunch.
+  const dayIndex = input.frame.dates.indexOf(day.date);
+  const hasMorning =
+    dayIndex >= 0 && dayWindow(input.frame, dayIndex).startMin <= MORNING_FROM_BY_MIN;
+  const late = (item: DraftItem) =>
+    hasMorning &&
+    minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz) > OPENER_START_BY_MIN;
   return day.items.filter((item, index) => {
     if (isKept(item) || !opens(item)) return false;
-    return day.items
+    if (late(item)) return true;
+    const before = day.items
       .slice(0, index)
       .some((other) => other.kind !== 'meal' && !isKept(other) && !opens(other));
+    return before || openers.some((other) => other !== item && stronger(claim(other), claim(item)));
   });
 }
 

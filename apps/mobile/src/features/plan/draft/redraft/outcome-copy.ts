@@ -1,5 +1,10 @@
-/** Why a redraft did not go, in the guide's plain words (never the wire code). */
+/**
+ * Why a redraft did not go, in the guide's plain words (never the wire code), and what she is told
+ * when she puts one back.
+ */
 import { t } from '@lingui/core/macro';
+
+import type { ToastRequest } from '@/motion';
 
 import type { RedraftOutcome } from '../data/redraft-request';
 
@@ -34,4 +39,24 @@ export function outcomeLine(outcome: RedraftOutcome): string | null {
     case 'started':
       return null;
   }
+}
+
+/**
+ * "Day 4 is back as it was." On a trip with a redraft limit the line under it says the redraft she
+ * put back is hers again (an unlimited trip has nothing to give back).
+ */
+export function putBackToast(redraftId: string, n: number, limited: boolean): ToastRequest {
+  return {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
+    id: `redraft-reverted-${redraftId}`,
+    title: t({ id: 'planDraft.diff.revertedToast', message: `Day ${n} is back as it was.` }),
+    ...(limited
+      ? {
+          subtitle: t({
+            id: 'planDraft.diff.revertedSub',
+            message: 'You have that redraft back.',
+          }),
+        }
+      : {}),
+  };
 }

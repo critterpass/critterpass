@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "8defb03a-c405-4e41-ba77-56b5030b7a8a",
+        "id": "aec6d127-e8ff-4acf-a8a9-38bf4771eba7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty, Easy Lisbon Day\",\n  \"summary\": \"A slower day built around a proper museum visit, a relaxed Alfama wander, and plenty of good eating from lunch through dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-see of the day, kept right where it belongs. Take your time with the art.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, because a slower day still needs a good meal. The garden setting is a treat.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the old lanes. No rush, just the city doing its thing.\",\n      \"start_by\": \"23:59\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with real Portuguese soul. Small plates, big flavour, and a proper end to the day.\",\n      \"start_by\": \"21:45\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"Markets, snacks, a proper meal and a castle view, all in one tasty Lisbon day.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ana asked for pastries, so we start at the market where the best local bites hide.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-see museum stays, because culture feeds the soul between snacks.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper seafood feast, the kind that makes you forget you ever had a plan.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A castle with a view to walk off all that garlic and olive oil.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 72,
+          "input_tokens": 100,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 324,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 256,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "1cb1bce5-da4c-467c-b0c7-a3d2f97a4d9d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Market morning, museum, then seafood feast"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 292,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

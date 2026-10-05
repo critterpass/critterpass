@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d934844e-4e68-49f4-b463-90cebb80817c",
+        "id": "87e22a79-0686-4506-872f-3bce5c42168e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Snacks, Surprises and a Splurge\",\n  \"summary\": \"A slow, food-loving Sunday around Ubud with a market-style lunch, a hidden temple, a proper splurge dinner and an unexpected nightcap.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to wake up late and earn the first bite. The sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a market-like spread of colourful vegan plates. Terima kasih (thank you), Ubud.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cave temple stop nobody saw coming. I know a guy who swears by the carvings.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge stays put, slow and celebratory. Rise and shine for the tasting menu.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A beach-club nightcap far from Ubud’s calm, because this crew is all night owls.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Sun, Snacks and Surprises\",\n  \"summary\": \"A late-start day that trades the far temple for a relaxed food crawl, a hidden waterfall and a proper beach club finish.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lazy brunch to kick things off, because the sun won’t wait but we certainly can.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to earn the next plate, with views that cost nothing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a waterfall tucked away where you least expect it. I know a guy who swears by it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate, the kind that makes you say terima kasih (thank you) between bites.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The beach the crew asked for, kept right where it belongs as the sun starts to think about leaving.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A splashy nightcap for five night owls, because the sun won’t wait but the bass will.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 3,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 345,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 450,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "91b9f098-89c3-468b-bebf-b2b7f154d4fa",
+        "id": "e34c3b46-71bb-43da-b0fb-6cbfef79420e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Bites and Surprise\",\n  \"summary\": \"A slower Ubud day built around food, with a market-style lunch, a kept splurge dinner, and one unexpected temple stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle palace wander before the heat and the eating begins.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of plant-based plates, terima kasih (thank you) to the kitchen.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a lotus temple the crew did not see coming.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The kept splurge, slow and celebratory, just as it should be.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Sun, Snacks and a Secret Stop\",\n  \"summary\": \"A lazy Sunday that starts with the sea, wanders through Ubud's green heart, and ends with a proper sit-down meal and a nightcap the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won't wait, and neither should you. A long, slow morning on the sand is the right way to start a day with no alarms.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge walk to shake the sand off and earn the next meal. Green views, no rush.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, the kind this crew asked for. Fresh, calm and full of good things.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple stop before the evening gets lively. It is small, lovely and free.\",\n      \"area\": \"B\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is the surprise: a local warung with big flavour and a small price. Terima kasih (thank you) to the crew for trusting me.\",\n      \"area\": \"F\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 124,
+          "input_tokens": 121,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 261,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 407,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "bba11edf-a283-47fb-ad25-2037867f5314",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning on the ridge, a temple, a café"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 307,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 13,
           "service_tier": "standard"
         }
       }

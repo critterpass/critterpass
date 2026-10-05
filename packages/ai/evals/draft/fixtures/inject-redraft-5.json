@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a18f2312-3df2-43fd-abd5-712b1353e1ab",
+        "id": "bd1593b6-dfa0-4b63-8dcc-8f8e5766aea3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Stroll Through Mexico City\",\n  \"summary\": \"A slower day that trades the big ruins for markets, museums, and a proper meal in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with murals and marble, and the light is lovely for photos.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with vegetarian plates and a warm room, close to the morning's art.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the must-do, but without the extra climb, so there is room to linger.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner of bright, casual plates before the evening winds down.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Sabores del Centro\",\n  \"summary\": \"A relaxed day around the historic centre, mixing markets, museums and a proper meal at a gentler pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Still the heart of the old city, and it opens early enough for our history lovers.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Roma Norte to work up an appetite and catch the local life.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with solid vegetarian choices, close to our walk.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy green pause in Chapultepec before the evening meal.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The big dinner stop, a fancy vegetarian-friendly send-off for the day.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 25,
+          "input_tokens": 53,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 263,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "f4acc4d7-943a-4274-a5f1-bfa6b3781bc2",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A Tasty, Easy Day in Mexico City\",\n  \"summary\": \"A relaxed day of museums, markets, and a proper sit-down meal, all in one corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do, so we start here before the crowds and the heat.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick culture hit next door, because one museum is never enough for this crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian meal with halal options, right in the same area.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk through Roma Norte to settle lunch and soak up local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner at Lalo!, because the crew wanted more food and this fits the vegetarian brief.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 48,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 361,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 302,
           "service_tier": "standard"
         }
       }

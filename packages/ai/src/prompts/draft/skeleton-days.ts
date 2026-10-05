@@ -22,7 +22,7 @@ import {
   type DraftPoi,
 } from '@cp/planner';
 
-import { homeOf, hopCap } from './areas';
+import { homeOf, hopCap, dayOutOf } from './areas';
 import { byVariety, kindOf, oneTooMany } from './variety';
 import { stopBudget } from './budget';
 import type { DraftPlanInput } from './context';
@@ -126,7 +126,7 @@ export function mealsIn(window: DayWindow): number {
 }
 
 /** Whether the day can still be timed with `poiIds` as its planned stops. */
-function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[]): boolean {
+export function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[]): boolean {
   const window = dayWindow(input.frame, day.dayNo - 1);
   const fixed = mustDoChoices(input, day);
   const proxies = mealProxies(input, { ...day, poiIds: [...poiIds] });
@@ -144,6 +144,7 @@ function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[])
       hopCapMin: hopCap(input),
       mealPlaces: input.pools.eateries,
       homeId: homeOf(input),
+      dayOut: dayOutOf(input, day.dayNo),
     }).broken === 0
   );
 }

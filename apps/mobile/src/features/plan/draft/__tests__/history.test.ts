@@ -51,3 +51,25 @@ describe('what each earlier draft was', () => {
     expect(currentDraftId([], null)).toBeNull();
   });
 });
+
+describe('a plan she started herself', () => {
+  // Newest first: her edit of the guide's draft, the guide's draft, the plan she built by hand on
+  // the trip's empty days.
+  const versions = [
+    { id: 'edit', parentId: 'guide', origin: 'hand' },
+    { id: 'guide', parentId: 'mine', origin: 'guide' },
+    { id: 'mine', parentId: null, origin: 'hand' },
+  ];
+  const origins = draftOrigins(versions, [job('j1', 'draft', { version_id: 'guide' })]);
+
+  it('is hers, and the guide’s first draft is still the first', () => {
+    expect(origins.get('mine')).toEqual({ kind: 'own' });
+    expect(origins.get('guide')).toEqual({ kind: 'first' });
+    expect(origins.get('edit')).toEqual({ kind: 'changed' });
+  });
+
+  it('never lists the trip’s empty days as a draft', () => {
+    const empty = draftOrigins([{ id: 'days', parentId: null, origin: 'dates' }], []);
+    expect(empty.size).toBe(0);
+  });
+});

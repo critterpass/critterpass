@@ -92,6 +92,14 @@ msgstr ""
 msgid "chat.system.renamed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.ideaSavedPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
 msgstr ""

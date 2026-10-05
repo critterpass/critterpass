@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "42efc900-e711-4989-82bf-8c5f5bc49901",
+        "id": "d3b6f8ef-3423-4ad9-bac6-cc4faf6d8665",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A relaxed day around the Zócalo\",\n  \"summary\": \"A gentle Sunday staying close to the historic centre, with time to wander, eat well and soak up the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We begin where the city's heart beats, with plenty of room to breathe and look around.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short stroll from the square, this museum keeps our history lovers smiling.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is right beside the ruins, so nobody has to rush off anywhere.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After a slow afternoon, we stay in the same neighbourhood for a lively evening show.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Centro Histórico y Mercados\",\n  \"summary\": \"A relaxed Sunday around the centre, with markets, the Zócalo and a long lunch, all within a short stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the market buzz before it gets busy, a proper taste of local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick wander through the Zócalo to let the history sink in without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right here in the centre, with plenty of veggie options for the crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coyoacán market keeps the local flavour going into the afternoon, just a short ride away.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A casual vegan taquería dinner, easy and close by before we call it a night.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 75,
+          "input_tokens": 52,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 296,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 372,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,47 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "3697db06-1347-458f-b4e8-66f020a7bf6b",
+        "id": "68637b21-efc3-45c9-90fd-a6cc4a8e2386",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Calm Day Around Chapultepec\",\n  \"summary\": \"A gentle day around Chapultepec with nature, a market, and meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A soft start among the trees, perfect for the early birds and the nature lover.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, with plenty of vegetarian options for the crew.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride to Coyoacán for market bustle and street food, close to our lunch spot.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back near the park, a relaxed vegan taquería to end the day.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Centro Histórico y Mercados\",\n  \"summary\": \"A relaxed Sunday close to the heart of the city, with markets, the Zócalo and local flavours all within a short stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start with the market buzz while the morning is fresh and the stalls are full.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short walk to the great square, so the history lovers can soak in the old stones without a long ride.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Another market, because one is never enough, and this one is still close by.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the markets, with the sea on the plate and no long ride to earn it.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one long ride of the day, kept because it is the sight people come here for.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in the same area, a vegan taquería to end the day without another journey.\",\n      \"note_voice\": \"Warm, playful, with a dry wit\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 114,
+          "input_tokens": 95,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 260,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 492,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "827fc272-15b1-415d-bdf1-1768ee9d982d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Half a day among the pyramids, then tacos\n3: A morning at the museum, an evening of tacos"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 193,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

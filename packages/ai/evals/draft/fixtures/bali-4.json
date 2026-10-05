@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "9243263e-3df2-4e31-a67d-4b22c7261b73",
+        "id": "92c0b0fd-4ca3-43b4-a4fb-262c99d60692",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Ubud\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Icons & Sunset Coast\",\n      \"area\": \"A and D\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples & Rice Fields\",\n      \"area\": \"A and C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p12\", \"p10\"]\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud First Impressions\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud Nature and Calm\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 85,
+          "input_tokens": 101,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 145,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 138,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "db32050b-eab4-4aec-b29f-4f3eaa93fc30",
+        "id": "3fb2e250-6477-4e3e-9770-293a68444347",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus ponds and carved stone make this temple feel like a quiet secret in the middle of town.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The cave mouth and bathing pools here have stories older than most maps.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The monkeys run the show here, so keep your sunglasses close and your snacks hidden.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle ridge path with green views that make the whole walk feel like a deep breath.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm little stop for a cool drink and something light before you head off.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 357,
+          "input_tokens": 368,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 82,
+          "output_tokens": 170,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "89ef4e86-a857-42eb-8dbc-cefdebabe843",
+        "id": "2f585208-ac5c-4d16-bb14-6a6f42ad853c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin among the sarongs and carvings; the market loves a little back-and-forth.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Wander the royal courtyards and catch the stone guardians doing their best serious faces.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool for honest Balinese plates and a sambal that wakes you right up.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bargain with a grin among the sarongs and carvings; the market loves a little back-and-forth.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Wander the old palace courtyards and imagine the royal comings and goings.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone make this water temple a quiet stunner.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pull up a stool for honest Balinese bites that won't empty your wallet.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 577,
+          "input_tokens": 543,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 132,
+          "output_tokens": 230,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "37159a7e-3605-487a-babc-20816ab2989a",
+        "id": "eed96692-df50-4e5f-abf2-0fd2cad86fc9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Ubud icons, a sunset coast, and every must-do in — the sun won’t wait, so let’s go!"
+            "text": "A gentle Ubud welcome, then a whole day letting nature and calm do the talking."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 192,
+          "input_tokens": 267,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 27,
+          "output_tokens": 18,
           "service_tier": "standard"
         }
       }

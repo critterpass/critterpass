@@ -25,7 +25,7 @@ import { coreMustSees } from './must-sees';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
-export const SKELETON_PROMPT_VERSION = 'draft-skeleton@6';
+export const SKELETON_PROMPT_VERSION = 'draft-skeleton@8';
 
 const TASK = [
   '# Task',
@@ -33,7 +33,7 @@ const TASK = [
   'Outline a trip for this crew. For every day give a short theme (under 40 characters) and one',
   'area of the destination in words, the must-dos that go on that day, and activity ids from the',
   'list that suit the theme and sit near each other: three or four on a full day, one or two on',
-  'the landing day and on the last day. Meals are added later; do not count them.',
+  'the arrival day and on the last day. Meals are added later; do not count them.',
   '',
   '- Put every must-do on exactly one day, and only on a day the list says it is open.',
   '- Never put one place on two days. Use only ids from the lists; never invent one.',
@@ -44,8 +44,11 @@ const TASK = [
   '- Every place has an area letter. Keep a day inside one area, or two that the Areas list says',
   '  are near each other. A far area (a day trip) gets a day of its own, built around it: never',
   '  one far stop between stops in town.',
-  '- A morning place goes on a day with a morning (not the landing day); an evening, sunset or',
+  '- A morning place goes on a day with a morning (not the arrival day); an evening, sunset or',
   '  after-dark place on a day with an evening (not the last day), at most two such places a day.',
+  '- A place that takes half the day is the heart of its morning or afternoon: at most one coffee or',
+  '  snack beside it in that half. A place that takes the whole day has its day to itself (meals',
+  '  around it), never the arrival day or the last day. Name such a day for it.',
   '- A coffee or snack break is at most one a day.',
   '- Mix the kinds: at most three stops of one kind (temples, museums) on a day while the list has',
   '  other kinds, and a kind the trip has not had yet before one more of the same.',
@@ -71,7 +74,7 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
   const days = frame.dates.map((date, index) => {
     const window = dayWindow(frame, index);
     const note =
-      index === 0 ? ' (landing day)' : index === frame.dates.length - 1 ? ' (flight home)' : '';
+      index === 0 ? ' (arrival day)' : index === frame.dates.length - 1 ? ' (leaving day)' : '';
     return `- Day ${index + 1}: ${weekdayOf(date)} ${date}, ${clockText(window.startMin)}–${clockText(window.endMin)}${note}`;
   });
   const areas = areasOf(input);
@@ -105,6 +108,16 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
   const held = frame.dates.flatMap((date, index) =>
     heldLines(input, index + 1, date).map((line) => `- Day ${index + 1}: ${line.slice(2)}`),
   );
+  const named = (ids: readonly string[]) =>
+    ids.flatMap((id) => {
+      const poi = pois.get(id);
+      return poi === undefined ? [] : [`${poi.name} (${aliases(input).place(id)})`];
+    });
+  const outings = pools.outings.flatMap((outing) =>
+    outing.dayNo === null || outing.poiIds.every((id) => !pois.has(id))
+      ? []
+      : [`- Day ${outing.dayNo}: ${named(outing.poiIds).join(' + ')}`],
+  );
   const facts = [
     `Destination: ${input.destination}. ${frame.dates.length} days.`,
     crewLine(input),
@@ -123,6 +136,14 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
           ...held,
           'Plan each of these days around its stops: fewer activities on a day that already has',
           'some, nothing at their hours, and never their places again.',
+          '',
+        ]),
+    ...(outings.length === 0
+      ? []
+      : [
+          '## Outings (far from the stay: one ride out, the whole outing on its day, never split)',
+          ...outings,
+          'Give an outing day the outing first and little else: lunch out there, town again for dinner.',
           '',
         ]),
     '## Must-dos (must_do_ids)',

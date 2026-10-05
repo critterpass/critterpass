@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "905517b5-ccef-4996-9ea3-5d5da5834c3c",
+        "id": "e6f70af3-4904-41e2-9f33-7e15701f1848",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A thrifty Cusco Sunday\",\n  \"summary\": \"A gentler, wallet-friendly day around the old town, mixing a kept wonder with free local colour and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do stays, so we begin with the terraces before the day warms up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, the market keeps the day easy on the pocket and the pace.\",\n      \"start\": \"11:00\",\n      \"end\": \"12:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lower-priced lunch with vegetarian options, kinder to the budget than the old choice.\",\n      \"start\": \"12:30\",\n      \"end\": \"13:30\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander around the plaza gives the photo lovers their shot without spending a sol.\",\n      \"start\": \"14:00\",\n      \"end\": \"14:45\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum with a modest price, and the chocolate smells are a bonus.\",\n      \"start\": \"15:30\",\n      \"end\": \"16:30\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco on a Soles Budget\",\n  \"summary\": \"A gentler, wallet-friendly Sunday mixing the must-see Maras and Moray with free market life and a simple meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The salt pans stay: a wonder of nature and a photo dream, even on a thrifty day.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Moray keeps its place, those green rings are worth every sol and the crew loves nature.\",\n      \"start\": \"10:30\",\n      \"end\": \"11:45\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, lively and full of local flavour, the market fits the cheaper mood perfectly.\",\n      \"start\": \"12:00\",\n      \"end\": \"13:15\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A modest lunch with vegetarian options, easier on the wallet than the fancier tables.\",\n      \"start\": \"13:30\",\n      \"end\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, easy wander around the plaza lets the slower pace breathe and the cameras click.\",\n      \"start\": \"14:45\",\n      \"end\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays simple and local, a warm end without the premium price tag.\",\n      \"start\": \"18:00\",\n      \"end\": \"19:15\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 85,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 412,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 485,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "98b076bc-240c-4848-be96-09136bac0e93",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Salt, Terraces and Market Ease\",\n  \"summary\": \"A slower, thriftier Sunday around the salt mines, Moray terraces and a gentle market wander, with a simple lunch in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The salt mines stay: a must-see and still a bargain for the eyes.\",\n      \"note\": \"The salt mines stay: a must-see and still a bargain for the eyes.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Moray keeps its place, a wonder that costs little more than the ride.\",\n      \"note\": \"Moray keeps its place, a wonder that costs little more than the ride.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Plaza de Armas is free and easy, a fine spot to stretch the legs.\",\n      \"note\": \"Plaza de Armas is free and easy, a fine spot to stretch the legs.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"La Bodega 138 keeps lunch simple and kind to the wallet.\",\n      \"note\": \"La Bodega 138 keeps lunch simple and kind to the wallet.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 120,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 354,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "8cf5edfc-860e-4b4d-a015-417fc274fe02",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Salt Pans and Terraces, Half the Day"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 253,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

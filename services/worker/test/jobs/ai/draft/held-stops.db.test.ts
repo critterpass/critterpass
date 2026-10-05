@@ -115,15 +115,15 @@ describe('a draft over a plan she started by hand', () => {
     expect(given.map((stop) => stop.item.stable_id)).toEqual(
       loaded.held.map((stop) => stop.item.stable_id),
     );
-    // Her lunch is the day's meal, and her pin stands as a place of its own for this draft.
-    expect(given[1]?.item).toMatchObject({ kind: 'meal', poi_id: stops.lunch });
-    expect(loaded.input.pois.get(stops.lunch)?.name).toBe('Aunt Mai');
-    expect(loaded.held[1]?.item.poi_id).toBeNull();
+    // Her lunch is the day's meal; its pin is a place the planner knows and offers to nobody.
+    expect(given[1]?.item).toMatchObject({ kind: 'meal', poi_id: null });
+    const pinned = [...loaded.input.pois.values()].find((poi) => poi.name === 'Aunt Mai');
+    expect(pinned).toBeDefined();
     expect(loaded.input.locale).toBe('en');
     expect(loaded.input.frame.mustDos).toHaveLength(mustDos.length - 1);
     expect(loaded.trip.mustDos).toHaveLength(mustDos.length);
     const offered = [...loaded.input.pools.activities, ...loaded.input.pools.eateries];
-    expect(offered.some((poi) => poi.id === wishPlace || poi.id === stops.lunch)).toBe(false);
+    expect(offered.some((poi) => poi.id === wishPlace || poi.id === pinned?.id)).toBe(false);
     expect(offered.some((poi) => poi.id === idea?.id)).toBe(true);
     await harness.pool.query('DELETE FROM plan_items WHERE stable_id = $1', [stops.wish]);
   });
@@ -246,9 +246,12 @@ describe('a draft over a plan she started by hand', () => {
     const day2 = base?.itinerary.days.find((d) => d.day_no === 2);
     // The guide is told to keep her stop.
     expect(day2?.items.find((item) => item.stable_id === stops.lunch)?.locked_reason).toBe('user');
-    // A reply that dropped her lunch and put a stop of its own across it.
+    // A reply that dropped her lunch and put a stop of its own across it (nobody's must-do).
     const across = {
       ...(base?.itinerary.days[0]?.items[0] as DraftItem),
+      must_do_id: null,
+      booking_id: null,
+      locked_reason: null,
       stable_id: randomUUID(),
       starts_at: kyoto(2, 12).toISOString(),
       ends_at: kyoto(2, 14).toISOString(),

@@ -6,7 +6,14 @@
  * tells the guide how far apart the areas are. Which stops may share a day is still checked by the
  * planner afterwards (the hop rule).
  */
-import { homeBase, hopCapMin, type DraftPoi } from '@cp/planner';
+import {
+  homeBase,
+  hopCapMin,
+  partOfVisit,
+  visitSpan,
+  type DraftPoi,
+  type VisitSpan,
+} from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
 
@@ -115,4 +122,30 @@ export function areasOf(input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>
   };
   AREAS.set(input.pools, made);
   return made;
+}
+
+/** How much of a day a visit to `poi` takes, the round trip from the stay included. */
+export function spanOf(
+  input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>,
+  poi: DraftPoi,
+): VisitSpan | null {
+  const home = homeOf(input);
+  return visitSpan(poi, home === null ? 0 : (input.travel(home, poi.id) ?? 0));
+}
+
+/** Whether the long visit to `anchor` takes in `poi` (./long-visits in the planner). */
+export function insideVisit(
+  input: Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>,
+  poi: DraftPoi,
+  anchor: DraftPoi,
+): boolean {
+  const home = homeOf(input);
+  return partOfVisit(poi, anchor, home === null ? 0 : (input.travel(home, anchor.id) ?? 0));
+}
+
+/** The places of the day out day `dayNo` is planned for (./outings in the planner). */
+export function dayOutOf(input: Pick<DraftPlanInput, 'pools'>, dayNo: number): ReadonlySet<string> {
+  return new Set(
+    input.pools.outings.filter((outing) => outing.dayNo === dayNo).flatMap((o) => o.poiIds),
+  );
 }

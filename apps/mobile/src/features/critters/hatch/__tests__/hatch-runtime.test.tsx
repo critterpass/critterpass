@@ -32,7 +32,8 @@ import { resetTabBarCoverForTests, useTabBarCover } from '@/ui/sheet/tab-bar-cov
 
 import { EGG, seedCritters, TRIP } from '../../test-support/seed-critters';
 import { markHatchSeen } from '../hatch-model';
-import { CALM_MS, HatchRuntime, isCalmPath } from '../hatch-runtime';
+import { CALM_MS, HATCH_QUIET_MS, HatchRuntime, isCalmPath } from '../hatch-runtime';
+import { markTouch, resetTouchForTests } from '@/lib/interaction/touch-quiet';
 
 configure({ asyncUtilTimeout: 6000 });
 
@@ -42,6 +43,7 @@ const HATCH = { pathname: '/(modal)/hatch/[tripId]', params: { tripId: TRIP } };
 
 beforeEach(() => {
   push.mockClear();
+  resetTouchForTests();
 });
 
 afterEach(async () => {
@@ -80,11 +82,16 @@ const settle = (ms: number) => act(() => new Promise<void>((resolve) => setTimeo
 
 describe('hatch watcher', () => {
   it('knows the calm tab roots from everything else', () => {
-    expect(['/', '/pass', '/trips', '/trips/abc'].every(isCalmPath)).toBe(true);
+    expect(['/trips', '/trips/abc'].every(isCalmPath)).toBe(true);
     expect(
-      ['/wallet/bookings/pass/b1', '/guide/new', '/onboarding/name', '/trips/abc/day/today'].some(
-        isCalmPath,
-      ),
+      [
+        '/',
+        '/pass',
+        '/wallet/bookings/pass/b1',
+        '/guide/new',
+        '/onboarding/name',
+        '/trips/abc/day/today',
+      ].some(isCalmPath),
     ).toBe(false);
   });
 
@@ -127,14 +134,29 @@ describe('hatch watcher', () => {
     resetTabBarCoverForTests();
   });
 
+  it('waits until the screen has been left alone, so it never lands on a tap just made', async () => {
+    mockPathname = '/trips';
+    const view = await mount();
+    // She keeps tapping: each touch starts the quiet over.
+    for (let i = 0; i < 3; i += 1) {
+      markTouch();
+      await settle(CALM_MS);
+    }
+    expect(push).not.toHaveBeenCalled();
+    await waitFor(() => expect(push).toHaveBeenCalledWith(HATCH), {
+      timeout: HATCH_QUIET_MS + 4000,
+    });
+    await view.unmount();
+  });
+
   it('opens the ceremony once per egg at a calm moment', async () => {
-    mockPathname = '/pass';
+    mockPathname = '/trips';
     const view = await mount();
     await waitFor(() => expect(push).toHaveBeenCalledWith(HATCH));
     markHatchSeen(EGG);
     // A later session on this device: the ceremony doesn't play again.
     await view.unmount();
-    mockPathname = '/';
+    mockPathname = '/trips/abc';
     await render(
       <LocalFirstProvider value={stacks[0]!.value}>
         <HatchRuntime />

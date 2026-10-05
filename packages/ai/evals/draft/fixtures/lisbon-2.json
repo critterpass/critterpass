@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "ce74ef9c-b69e-4fa0-a898-1026be134caf",
+        "id": "b12ae7b7-96d3-4763-a08c-f986eed0591f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama to Bairro Alto\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p9\",\n        \"p10\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Market day\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p12\",\n        \"p8\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Bairro Alto & Belém Icons\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p2\",\n        \"p9\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Market Morning & Alfama\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p3\",\n        \"p12\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 73,
+          "input_tokens": 8,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 159,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "ec20c68d-d92a-4b0b-bc08-e70cf710720e",
+        "id": "80da7860-d10a-4de4-8464-3088d936c0bb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A cathedral of street food. Follow your nose, then your stomach.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The bifana here is a little porky miracle on a roll.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Grab a bifana and a glass of vinho verde while you wander the stalls.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The prego no pão here is a proper Lisbon hand-warmer.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 440,
+          "input_tokens": 532,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 114,
+          "output_tokens": 119,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "44fa45c4-9a87-4a12-b033-7dd861ca7746",
+        "id": "678e4610-7bd5-4608-acc4-761bb4282c45",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Manueline stonework that could make a sardine weep with joy.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A riverside fortress with centuries of stories in its limestone.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm custard tarts, cinnamon on top, crisp pastry that shatters just right.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Narrow lanes that turn into one big open-air party once the sun drops.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cloisters alone are worth the trip — stone lace in the afternoon light.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stand where the caravels left for the unknown, with the river doing its best impression of the sea.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm custard tarts, cinnamon on top, and a queue that moves like a friendly tide.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The old streets wake up late — tiny bars, loud talk, and grilled sardines. Every. Single. Night.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 520,
+          "input_tokens": 599,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 218,
+          "output_tokens": 239,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "68c54863-cb92-421c-99ea-8d84a98d50fb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 1: An afternoon of icons, an evening of custard\nDay 2: A market morning, then Alfama's lanes"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 324,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }
@@ -76,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "820f69f3-32f6-4d1f-aef5-d7bfa10ccead",
+        "id": "c09ac83f-a253-42e1-b79e-80060c308c62",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Alfama to Bairro Alto, then markets — every must-do squeezed in, and grilled sardines. Every. Single. Night."
+            "text": "An afternoon of icons and custard, then markets and LX Factory — every must-do in, and yes, grilled sardines. Every. Single. Night."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 160,
+          "input_tokens": 250,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 29,
+          "output_tokens": 32,
           "service_tier": "standard"
         }
       }

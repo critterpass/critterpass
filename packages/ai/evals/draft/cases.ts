@@ -15,7 +15,9 @@ import {
   instantAt,
   knownPlaceFor,
   resolveWishes,
+  routedPairKey,
   straightLineMatrix,
+  type RoutedPairs,
   timeWords,
   withOpenDataDefaults,
   type DraftPoi,
@@ -66,6 +68,8 @@ const citySchema = z.object({
       wish_only: z.boolean().optional(),
     }),
   ),
+  /** Minutes the routing service gave between two of the places on staging: [a, b, minutes]. */
+  routed: z.array(z.tuple([z.uuid(), z.uuid(), z.int()])).default([]),
 });
 
 export const crewCaseSchema = z.object({
@@ -111,6 +115,10 @@ export const crewCaseSchema = z.object({
   expect_full_days: z.boolean().default(false),
   /** The day is graded as a traveller would: openers first, meals near, no hole after breakfast. */
   expect_day_rules: z.boolean().default(false),
+  /** Hold the plan to the rules of how a day reads (./asserts/plan-rules-asserts.ts). */
+  expect_plan_rules: z.boolean().default(false),
+  /** Places, by name, the draft must hold (the founder's own trip holds Datanla). */
+  expect_places: z.array(z.string()).default([]),
   /** The language the organiser reads: the draft is written in it. */
   locale: z.string().optional(),
   /** How many of the trip's core must-sees the draft must hold at least. */
@@ -141,6 +149,8 @@ export const redraftCaseSchema = z.object({
   chat: z.array(z.object({ author: z.string(), text: z.string() })),
   /** The language the organiser reads (the redraft writes in it). */
   locale: z.string().optional(),
+  /** The day as staging held it, by place name in order (default: the baseline's day). */
+  base_day: z.array(z.string()).optional(),
 });
 export type RedraftCase = z.infer<typeof redraftCaseSchema>;
 
@@ -290,6 +300,9 @@ export function planInput(
     };
   });
   const heldPlaces = new Set(crew.held.map((stop) => stop.poi_id));
+  const routed: RoutedPairs = new Map(
+    city.routed.map(([a, b, minutes]) => [routedPairKey(a, b), minutes]),
+  );
   const plain: DraftPlanInput = {
     guide: city.guide,
     destination: city.destination,
@@ -303,13 +316,15 @@ export function planInput(
       tastes,
       include: wished.offered,
       ignoreNames: ignore,
+      routed,
     }),
     tastes,
     bands: {
       foodPpDayMinor: city.bands.food_pp_day_minor,
       funPpDayMinor: city.bands.fun_pp_day_minor,
     },
-    travel: straightLineMatrix(pois),
+    travel: straightLineMatrix(pois, routed),
+    routed,
     stayType: crew.stay_type,
     names: Object.fromEntries(
       crew.members.map((m, i): [string, string] => [members[i] as string, m.name]),
