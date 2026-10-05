@@ -47,8 +47,16 @@ export function placeOne(
 ): Itinerary | null {
   const essential = new Map(essentialsOf(input).map((other) => [other.id, other]));
   const open = input.pools.openDays.get(poi.id) ?? [];
+  // A short outing that shares a day shares it with town, never with another day out.
+  const ownOuting = input.pools.outings.find((outing) => outing.poiIds.includes(poi.id));
+  const outingDays = new Set(
+    input.pools.outings.filter((o) => o !== ownOuting && o.dayNo !== null).map((o) => o.dayNo),
+  );
   const days = itinerary.days
-    .filter((day) => open.includes(day.day_no))
+    .filter(
+      (day) =>
+        open.includes(day.day_no) && (ownOuting === undefined || !outingDays.has(day.day_no)),
+    )
     .map((day) => {
       const here = day.items.flatMap((item) => (item.poi_id === null ? [] : [item.poi_id]));
       return { day, near: nearFirst(input, [poi], here).length > 0 ? 0 : 1 };

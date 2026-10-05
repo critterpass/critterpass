@@ -82,8 +82,20 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
     ...input.pools.mustDos.map((slot) => slot.poiId),
   ]);
   const hers = new Set((input.held ?? []).map((stop) => stop.dayNo));
+  const outingDays = new Set(input.pools.outings.map((o) => o.dayNo));
   const noDay = new Set(
-    input.pools.outings.filter((outing) => outing.dayNo === null).flatMap((o) => o.poiIds),
+    // A short outing with no day of its own may share a town day: it needs a day only when every
+    // day it could go on is another outing's.
+    input.pools.outings
+      .filter(
+        (outing) =>
+          outing.dayNo === null &&
+          (!outing.short ||
+            outing.poiIds.every((id) =>
+              (input.pools.openDays.get(id) ?? []).every((dayNo) => outingDays.has(dayNo)),
+            )),
+      )
+      .flatMap((o) => o.poiIds),
   );
   return essentialsOf(input)
     .filter((poi) => !there.has(poi.id) && visitTakingIn(input, itinerary, poi) === null)
