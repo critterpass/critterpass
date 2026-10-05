@@ -115,13 +115,21 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-day'
     timeout: 30000
+# To the end of the page and settled, so the link sits clear of the tab bar when it is tapped.
 - scrollUntilVisible:
     element:
       id: 'trip-day-to-tomorrow'
     direction: DOWN
     timeout: 20000
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'trip-day-to-tomorrow'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-to-today'
+    timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'trip-day-hero-before|trip-day-hero-window'
