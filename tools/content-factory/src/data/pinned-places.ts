@@ -33,14 +33,14 @@ export const PINNED_PLACES: Readonly<Record<string, readonly PinnedPlace[]>> = {
       lat: 16.0996,
       lng: 108.2775,
     },
-    { name: 'Bảo tàng Đồng Đình', lat: 16.0989, lng: 108.2759 },
+    { name: 'Đồng Đình Museum', lat: 16.0989, lng: 108.2759 },
     { name: 'Sơn Trà Peninsula', essential: true, lat: 16.1129, lng: 108.3093 },
     // City landmarks, beach and markets.
     { name: 'My Khe Beach', essential: true, lat: 16.0631, lng: 108.2459 },
     { name: 'Dragon Bridge', essential: true, lat: 16.0611, lng: 108.2277 },
     { name: 'Ngũ Hành Sơn (Marble Mountain)', lat: 16.0034, lng: 108.2644 },
-    { name: 'Chợ Cồn (Con Market)', lat: 16.0683, lng: 108.2144 },
-    { name: 'Chợ Hàn (Han Market)', essential: true, lat: 16.0683, lng: 108.224 },
+    { name: 'Con Market', lat: 16.0683, lng: 108.2144 },
+    { name: 'Han Market', essential: true, lat: 16.0683, lng: 108.224 },
     // Hội An.
     {
       name: 'Hội An Ancient Town',
@@ -49,17 +49,17 @@ export const PINNED_PLACES: Readonly<Record<string, readonly PinnedPlace[]>> = {
       lat: 15.8794,
       lng: 108.3278,
     },
-    { name: 'Chợ Hội An', lat: 15.8773, lng: 108.3312 },
+    { name: 'Hội An Market', lat: 15.8773, lng: 108.3312 },
     // Water.
     {
-      name: 'Chèo SUP Đà Nẵng - Danang Stand Up Paddle Board Tours & Rentals',
+      name: 'Chèo SUP Đà Nẵng',
       lat: 16.0884,
       lng: 108.2492,
     },
     // Local food and a beachside coffee.
     { name: 'Bánh Xèo Bà Dưỡng', lat: 16.0588, lng: 108.2161 },
     { name: 'Mì Quảng Bà Mua', lat: 16.066, lng: 108.2192 },
-    { name: 'Bún Chả Cá Ông Tạ 113A Nguyễn Chí Thanh', lat: 16.0741, lng: 108.2208 },
+    { name: 'Bún Chả Cá Ông Tạ', lat: 16.0741, lng: 108.2208 },
     { name: 'Nhà hàng Madame Lân', lat: 16.0814, lng: 108.2233 },
     { name: 'Bếp Hên', lat: 16.064, lng: 108.221 },
     { name: 'Quán Bé Mặn', lat: 16.0829, lng: 108.2476 },
