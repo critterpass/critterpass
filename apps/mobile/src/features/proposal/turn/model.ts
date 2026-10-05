@@ -10,6 +10,15 @@ import type { CrewPerson, RsvpStatus } from '../data/trip';
 
 export type TurnRole = 'organiser' | 'member';
 
+export type SetupStep = 'when' | 'budget' | 'rooms' | 'must_dos';
+const SETUP_ORDER: readonly SetupStep[] = ['when', 'budget', 'rooms', 'must_dos'];
+
+/** The set-up steps from the one the trip stopped at; all of them when it has not started. */
+export function setupLeft(step: string | null | undefined): SetupStep[] {
+  const at = SETUP_ORDER.indexOf(step as SetupStep);
+  return step === 'done' ? [] : SETUP_ORDER.slice(Math.max(0, at));
+}
+
 /** Where the step's one button leads. */
 export type TurnTarget =
   'setup' | 'drafting' | 'draft' | 'builder' | 'proposal' | 'tracker' | 'review' | 'ideas';
@@ -18,7 +27,8 @@ export type Answer = 'in' | 'maybe' | 'out' | 'waitlisted';
 
 export type Turn =
   | { readonly kind: 'vote' }
-  | { readonly kind: 'setup' }
+  /** `left`: the set-up steps still to do, in order (`when`, `budget`, `rooms`, `must_dos`). */
+  | { readonly kind: 'setup'; readonly left: readonly SetupStep[] }
   /** The guide is writing (or rewriting) the organiser's draft. */
   | { readonly kind: 'guide_drafting' }
   /** The organiser's private draft is ready and there is nobody to send it to yet. */
@@ -69,6 +79,8 @@ export interface TurnInput {
   readonly planVote?: { readonly by: string } | null;
   /** Places crewmates saved to Ideas since the lock that are not in the plan yet. */
   readonly ideasWaiting?: number;
+  /** Where the trip's set-up stopped (`trips.setup_step`). */
+  readonly setupStep?: string | null;
 }
 
 const LOCKED = new Set(['confirmed', 'pre_trip', 'in_trip', 'post_trip', 'archived']);
@@ -122,7 +134,7 @@ export function tripTurn(input: TurnInput): TripTurn {
       return step({ kind: 'vote' }, true, null);
     case 'won':
     case 'setup':
-      return step({ kind: 'setup' }, true, 'setup');
+      return step({ kind: 'setup', left: setupLeft(input.setupStep) }, true, 'setup');
     case 'drafting':
       return organiser
         ? step({ kind: 'guide_drafting' }, false, 'drafting')

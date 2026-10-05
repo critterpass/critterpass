@@ -388,6 +388,10 @@ msgstr "Hoạt động đã đặt"
 msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.budget"
+msgstr "ngân sách"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.chip.out"
 msgstr "Không đi được"
@@ -444,13 +448,13 @@ msgstr "Độ hóng của nhóm"
 msgid "proposal.board.crewPass"
 msgstr "Vé nhóm"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.when"
+msgstr "ngày đi"
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.dates"
 msgstr "Ngày đi"
-
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.setup"
-msgstr "Tiếp theo là ngày đi, ngân sách và việc phải làm."
 
 #. placeholder {0}: stop.dayNo
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -736,6 +740,10 @@ msgstr "Có thể"
 msgid "proposal.reason.groupMustDo"
 msgstr "Phải đi"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.mustDos"
+msgstr "việc phải làm"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "Chưa trả lời"
@@ -928,6 +936,10 @@ msgstr "Phòng {room}"
 msgid "proposal.dropout.moveTo"
 msgstr "phòng {to}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.rooms"
+msgstr "phòng"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr "Nói là có thể"
@@ -997,6 +1009,10 @@ msgstr "Đã gửi {0}"
 msgid "proposal.turn.setup.button"
 msgstr "Thiết lập chuyến đi"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.ready"
+msgstr "Đã thiết lập xong. Tiếp theo hướng dẫn viên soạn lịch trình."
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
 msgstr "Bảy người là hơi đông"
@@ -1045,6 +1061,10 @@ msgstr "Đang nghĩ thêm. Sáng mai hỏi lại mình"
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.laterTonight"
 msgstr "Đang nghĩ thêm. Tối nay hỏi lại mình"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.left"
+msgstr "Còn cần thiết lập: {list}."
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"

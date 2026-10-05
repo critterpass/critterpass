@@ -6,7 +6,7 @@
 import { plural, t } from '@lingui/core/macro';
 
 import { instantDate } from '../data/format';
-import type { Turn } from './model';
+import type { SetupStep, Turn } from './model';
 
 export interface TurnCopy {
   readonly line: string;
@@ -82,6 +82,30 @@ function answeredCopy(turn: Extract<Turn, { kind: 'answered' }>, names: TurnName
   }
 }
 
+/** "Budget, rooms and must-dos come next." naming the set-up steps still to do. */
+function setupLine(left: readonly SetupStep[], locale: string): string {
+  const words = left.map((step) => {
+    switch (step) {
+      case 'when':
+        return t({ id: 'proposal.turn.setup.when', message: 'dates' });
+      case 'budget':
+        return t({ id: 'proposal.turn.setup.budget', message: 'budget' });
+      case 'rooms':
+        return t({ id: 'proposal.turn.setup.rooms', message: 'rooms' });
+      case 'must_dos':
+        return t({ id: 'proposal.turn.setup.mustDos', message: 'must-dos' });
+    }
+  });
+  if (words.length === 0) {
+    return t({
+      id: 'proposal.turn.setup.ready',
+      message: 'Set-up is done. The guide drafts next.',
+    });
+  }
+  const list = new Intl.ListFormat(locale, { type: 'conjunction' }).format(words);
+  return t({ id: 'proposal.turn.setup.left', message: `Still to set up: ${list}.` });
+}
+
 export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
   const { guide, organiser } = names;
   switch (turn.kind) {
@@ -92,7 +116,7 @@ export function turnCopy(turn: Turn, names: TurnNames): TurnCopy {
       };
     case 'setup':
       return {
-        line: t({ id: 'proposal.turn.setup', message: 'Dates, budget and must-dos come next.' }),
+        line: setupLine(turn.left, names.locale),
         button: t({ id: 'proposal.turn.setup.button', message: 'Set up the trip' }),
       };
     case 'guide_drafting':

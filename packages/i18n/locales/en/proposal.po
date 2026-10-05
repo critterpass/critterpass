@@ -388,6 +388,10 @@ msgstr "Booked activity"
 msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.budget"
+msgstr "budget"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.chip.out"
 msgstr "Can’t make it"
@@ -444,13 +448,13 @@ msgstr "Crew hype"
 msgid "proposal.board.crewPass"
 msgstr "Crew pass"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.when"
+msgstr "dates"
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.dates"
 msgstr "Dates"
-
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.setup"
-msgstr "Dates, budget and must-dos come next."
 
 #. placeholder {0}: stop.dayNo
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -736,6 +740,10 @@ msgstr "Maybe"
 msgid "proposal.reason.groupMustDo"
 msgstr "Must-do"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.mustDos"
+msgstr "must-dos"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "No reply yet"
@@ -928,6 +936,10 @@ msgstr "Room {room}"
 msgid "proposal.dropout.moveTo"
 msgstr "room {to}"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.rooms"
+msgstr "rooms"
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr "Said maybe"
@@ -997,6 +1009,10 @@ msgstr "Sent {0}"
 msgid "proposal.turn.setup.button"
 msgstr "Set up the trip"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.ready"
+msgstr "Set-up is done. The guide drafts next."
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
 msgstr "Seven’s a crowd"
@@ -1045,6 +1061,10 @@ msgstr "Still thinking. Ask me tomorrow morning"
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.laterTonight"
 msgstr "Still thinking. Ask me tonight"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.left"
+msgstr "Still to set up: {list}."
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"

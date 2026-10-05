@@ -388,6 +388,10 @@ msgstr ""
 msgid "proposal.crowd.boost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.budget"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.chip.out"
 msgstr ""
@@ -444,12 +448,12 @@ msgstr ""
 msgid "proposal.board.crewPass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
-msgid "proposal.board.dates"
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.when"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/turn/copy.ts
-msgid "proposal.turn.setup"
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.dates"
 msgstr ""
 
 #. placeholder {0}: stop.dayNo
@@ -736,6 +740,10 @@ msgstr ""
 msgid "proposal.reason.groupMustDo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.mustDos"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr ""
@@ -928,6 +936,10 @@ msgstr ""
 msgid "proposal.dropout.moveTo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.rooms"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr ""
@@ -997,6 +1009,10 @@ msgstr ""
 msgid "proposal.turn.setup.button"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.ready"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
 msgstr ""
@@ -1044,6 +1060,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.laterTonight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.left"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx

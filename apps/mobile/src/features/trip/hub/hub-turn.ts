@@ -49,6 +49,12 @@ export function planTileBeforeSend(
   draftHref: Href | undefined,
 ): PlanTileOverride | null {
   switch (turn?.kind) {
+    case 'setup':
+      return {
+        value: t({ id: 'trip.hub.tile.notYet', message: 'Not yet' }),
+        caption: t({ id: 'trip.hub.tile.afterSetup', message: 'Drafted after set-up' }),
+        href: turn.href,
+      };
     case 'plan_coming':
       return {
         value: t({ id: 'trip.hub.tile.planComing', message: 'Coming' }),

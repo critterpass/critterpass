@@ -131,6 +131,19 @@ describe('a member', () => {
 describe('everyone', () => {
   it('sets the trip up before any draft', () => {
     expect(tripTurn({ ...base, status: 'setup', role: 'member' }).turn.kind).toBe('setup');
+    // Stopped after the budget: the steps still to do, starting where it stopped.
+    expect(tripTurn({ ...base, status: 'setup', setupStep: 'rooms' }).turn).toEqual({
+      kind: 'setup',
+      left: ['rooms', 'must_dos'],
+    });
+    expect(tripTurn({ ...base, status: 'won' }).turn).toEqual({
+      kind: 'setup',
+      left: ['when', 'budget', 'rooms', 'must_dos'],
+    });
+    expect(tripTurn({ ...base, status: 'setup', setupStep: 'done' }).turn).toEqual({
+      kind: 'setup',
+      left: [],
+    });
     expect(tripTurn({ ...base, status: 'voting' }).turn.kind).toBe('vote');
   });
 
