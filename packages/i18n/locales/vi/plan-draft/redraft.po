@@ -184,6 +184,10 @@ msgstr "Dùng cho đáng nhé. Đây là lần cuối của chuyến này."
 msgid "planDraft.reason.moreFood"
 msgstr "Thêm đồ ăn"
 
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
+msgid "planDraft.change.movedToDay"
+msgstr "Dời sang ngày {movedTo}"
+
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
 msgid "planDraft.diff.keptSub"
 msgstr "Chưa ai khác thấy đâu."

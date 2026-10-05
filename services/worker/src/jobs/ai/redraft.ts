@@ -173,7 +173,7 @@ export function redraftJob(deps: RedraftJobDeps): AgentJobDefinition {
                 : ((redrafted.others ?? []).find((o) => o.day_no === d.day_no) ?? d),
             ),
           };
-          const changes = redraftDiff(baseDay, redrafted.day);
+          const changes = redraftDiff(baseDay, redrafted.day, redrafted.others ?? []);
           const legs = await withSystem(ctx.pool, (tx) => loadRoutedLegs(tx, trip.tripId));
           const metrics = redraftMetrics({
             base: onTheRoad(baseDay, legs, plan.pois),

@@ -3,7 +3,9 @@
  * base day's ids wherever it can: the same place keeps its id (a `retime` when its times moved), a
  * new place standing in the time of a dropped one of the same kind takes that one's id (a `swap`),
  * anything else is new (an `add`), and whatever is left of the base day is a `remove`. So a kept
- * redraft replays on the same ids ChangeSets use.
+ * redraft replays on the same ids ChangeSets use. A stop the redraft moved to another day keeps its
+ * stable id there: its `remove` carries where it went (`after` and `moved_to_day`), so the review
+ * says "moved to day 3" and never "taken out".
  */
 import type {
   DraftDay,
@@ -67,8 +69,15 @@ function sameTimes(a: DraftItem, b: DraftItem): boolean {
   );
 }
 
-/** Changes from `base` to an aligned `candidate`, in the candidate's order, removals last. */
-export function redraftDiff(base: DraftDay, candidate: DraftDay): RedraftChange[] {
+/**
+ * Changes from `base` to an aligned `candidate`, in the candidate's order, removals last; `others`
+ * are the trip's other days as the redraft left them, where a removed stop may have moved to.
+ */
+export function redraftDiff(
+  base: DraftDay,
+  candidate: DraftDay,
+  others: readonly DraftDay[] = [],
+): RedraftChange[] {
   const before = new Map(base.items.map((item) => [item.stable_id, item]));
   const changes: RedraftChange[] = [];
   const change = (op: RedraftChangeOp, old: DraftItem | null, next: DraftItem | null) => {
@@ -88,6 +97,23 @@ export function redraftDiff(base: DraftDay, candidate: DraftDay): RedraftChange[
     else if (old.poi_id !== item.poi_id) change('swap', old, item);
     else if (!sameTimes(old, item)) change('retime', old, item);
   }
-  for (const old of before.values()) change('remove', old, null);
+  for (const old of before.values()) {
+    const day = others.find(
+      (d) => d.day_no !== base.day_no && d.items.some((i) => i.stable_id === old.stable_id),
+    );
+    const there = day?.items.find((i) => i.stable_id === old.stable_id);
+    if (day === undefined || there === undefined) {
+      change('remove', old, null);
+      continue;
+    }
+    changes.push({
+      op: 'remove',
+      stable_id: old.stable_id,
+      before: snapshot(old),
+      after: snapshot(there),
+      reason: there.note ?? null,
+      moved_to_day: day.day_no,
+    });
+  }
   return changes;
 }

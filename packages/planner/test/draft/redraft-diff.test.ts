@@ -100,4 +100,26 @@ describe('redraftDiff', () => {
     const changes = redraftDiff(BASE, alignStableIds(BASE, shorter));
     expect(changes.filter((c) => c.op === 'remove').map((c) => c.stable_id)).toEqual([uuid(2)]);
   });
+
+  it('says where a stop moved to another day went, and a stop gone from the trip has nowhere', () => {
+    const shorter = day(CANDIDATE.items.filter((i) => i.poi_id !== P.gion.id));
+    const museum = BASE.items[1] as DraftItem;
+    const other: DraftDay = {
+      day_no: 3,
+      date: '2026-11-04',
+      theme: 'Day 3',
+      items: [
+        { ...museum, starts_at: '2026-11-04T05:00:00.000Z', ends_at: '2026-11-04T06:30:00.000Z' },
+      ],
+    };
+    const moved = redraftDiff(BASE, alignStableIds(BASE, shorter), [other]);
+    const out = moved.find((c) => c.stable_id === museum.stable_id);
+    expect(out?.op).toBe('remove');
+    expect(out?.moved_to_day).toBe(3);
+    expect(out?.after?.starts_at).toBe('2026-11-04T05:00:00.000Z');
+    const gone = redraftDiff(BASE, alignStableIds(BASE, shorter), []);
+    const left = gone.find((c) => c.stable_id === museum.stable_id);
+    expect(left?.moved_to_day).toBeUndefined();
+    expect(left?.after).toBeNull();
+  });
 });
