@@ -47,9 +47,10 @@ async function place(name: string, editorial: object = {}): Promise<string> {
   return rows[0]?.id as string;
 }
 
+/** The jobs queued for a place, in a stable order (pg-boss keeps no send order). */
 async function jobs(queue: string, poiId: string): Promise<unknown[]> {
   const { rows } = await pool.query<{ data: unknown }>(
-    "SELECT data FROM pgboss.job WHERE name = $1 AND data->>'poi_id' = $2",
+    "SELECT data FROM pgboss.job WHERE name = $1 AND data->>'poi_id' = $2 ORDER BY data::text",
     [queue, poiId],
   );
   return rows.map((row) => row.data);
@@ -149,8 +150,8 @@ describe('GET /v1/places/{id} profile', () => {
     // German is an app language the server writes no copy of its own in: still translated.
     expect(await read(german, id)).toMatchObject({ status: 'ready', locale: 'en' });
     expect(await jobs('places.profile_translate', id)).toEqual([
-      { poi_id: id, locale: 'fr' },
       { poi_id: id, locale: 'de' },
+      { poi_id: id, locale: 'fr' },
     ]);
     await withSystem(pool, (tx) =>
       tx.query(
