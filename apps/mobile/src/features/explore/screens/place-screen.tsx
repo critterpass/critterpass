@@ -1,6 +1,7 @@
 /**
- * A place's page (7e-1) once the place is on the device; the waiting and missing states while it
- * is not. Partner offers are opened on their own screen and never read here.
+ * A place's page (7e-1) once the place is known, from the phone or the api; the waiting, missing
+ * and offline states while it is not. Partner offers are opened on their own screen and never read
+ * here.
  */
 import { router } from 'expo-router';
 
@@ -27,6 +28,12 @@ export function PlaceScreen(props: PlaceScreenProps) {
   const place = usePlaceRow(props.placeId, props.destinationId ?? facts.destinationId);
   if (place.kind !== 'ready') return <PlaceUnavailable state={place} onBack={goBack} />;
   return (
-    <PlaceDetailScreen placeId={props.placeId} row={place.row} tripId={trip} onBack={goBack} />
+    <PlaceDetailScreen
+      placeId={props.placeId}
+      row={place.row}
+      profile={place.profile}
+      tripId={trip}
+      onBack={goBack}
+    />
   );
 }

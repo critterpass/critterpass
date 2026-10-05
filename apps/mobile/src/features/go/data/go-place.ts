@@ -1,5 +1,6 @@
 /**
- * The place a GO opens on, read from the phone's synced rows: a place by id, the stop a leave-by
+ * The place a GO opens on, read from the phone's synced rows (a place the phone does not hold is
+ * read from the api, or its last good copy, through `remote`): a place by id, the stop a leave-by
  * is for, or the trip's next leave-by (what its push is about). A flight's leave-by has no place
  * of its own: it goes to the departure airport of the flight leg it is for (the leg the leave-by
  * recompute and its push name), placed from the bundled airport list. Also the region tiles'
@@ -44,6 +45,18 @@ export interface AirportPoint {
 
 /** The airport `iata` is, from the bundled airport list; null when unknown. */
 export type AirportLookup = (iata: string) => AirportPoint | null;
+
+/** A place the api knows, as GO needs it (`@/data/places/place-read`). */
+export interface RemoteGoPlace {
+  readonly id: string;
+  readonly name: string;
+  readonly lat: number;
+  readonly lng: number;
+  readonly address: string | null;
+}
+
+/** Reads a place the phone does not hold; null when it can't be had. */
+export type RemoteGoPlaceReader = (poiId: string) => Promise<RemoteGoPlace | null>;
 
 /** A leave-by that went off this long ago still counts as the one its push was about. */
 const NEXT_LEAVE_BY_GRACE_MS = 2 * 60 * 60_000;
@@ -146,6 +159,7 @@ export async function loadGoPlace(
   target: GoTarget,
   now: Date,
   airportAt: AirportLookup,
+  remote?: RemoteGoPlaceReader,
 ): Promise<GoPlace | null> {
   const rows =
     target.kind === 'place'
@@ -157,6 +171,21 @@ export async function loadGoPlace(
             new Date(now.getTime() - NEXT_LEAVE_BY_GRACE_MS).toISOString(),
           ]);
   const row = rows[0];
+  if (row === undefined && target.kind === 'place' && remote !== undefined) {
+    const place = await remote(target.poiId).catch(() => null);
+    return place === null
+      ? null
+      : {
+          poiId: place.id,
+          name: place.name,
+          lat: place.lat,
+          lng: place.lng,
+          tripId: target.tripId,
+          destinationSlug: null,
+          address: place.address,
+          city: null,
+        };
+  }
   if (row === undefined) return null;
   const tripId = target.kind === 'place' ? target.tripId : (row.trip_id ?? null);
   return placeOf(row, tripId, airportAt);

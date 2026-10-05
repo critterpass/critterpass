@@ -11,6 +11,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 
 import { bundledAirportAt } from './data/airport';
 import { loadGoPlace, type AirportLookup, type GoPlace, type GoTarget } from './data/go-place';
+import { useRemoteGoPlace } from './data/remote-go-place';
 
 export interface GoOffer {
   /** False while the place loads and when there is none. */
@@ -29,6 +30,7 @@ export function useGoOffer(
   airportAt: AirportLookup = bundledAirportAt,
 ): GoOffer {
   const { db } = useLocalFirst();
+  const remote = useRemoteGoPlace();
   // Re-renders with the language, so the label below follows it.
   useLocale();
   const key = target === null ? null : JSON.stringify(target);
@@ -36,7 +38,7 @@ export function useGoOffer(
   useEffect(() => {
     if (target === null || key === null) return undefined;
     let live = true;
-    void loadGoPlace(db, target, new Date(), airportAt)
+    void loadGoPlace(db, target, new Date(), airportAt, remote)
       .catch(() => null)
       .then((place) => {
         if (live) setLoaded({ key, place });
@@ -46,7 +48,7 @@ export function useGoOffer(
     };
     // `target` is folded into `key`; the airport list is fixed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [db, key]);
+  }, [db, remote, key]);
   const place = key !== null && loaded?.key === key ? loaded.place : null;
   if (place === null) return { placed: false, detail: null };
   if (place.airport === undefined) return { placed: true, detail: null };

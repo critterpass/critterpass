@@ -1,0 +1,54 @@
+{
+  "id": "0199b7a0-4c1e-7d2a-8f00-3a6b5c4d2e11",
+  "destinationId": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b03",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "name": "Chùa Linh Ứng",
+  "nameLocal": "Chùa Linh Ứng",
+  "category": "sight",
+  "lat": 16.1003,
+  "lng": 108.2778,
+  "address": "Hoàng Sa, Thọ Quang, Sơn Trà, Đà Nẵng",
+  "priceLevel": null,
+  "tags": ["temple"],
+  "editorial": {},
+  "hours": {},
+  "hoursVerifiedAt": null,
+  "openNow": null,
+  "nextOpenAt": null,
+  "liveIsOpenNow": null,
+  "closedPermanently": false,
+  "liveCheckedAt": null,
+  "profile": {
+    "status": "ready",
+    "locale": "en",
+    "whyGo": "The tallest Lady Buddha in Vietnam looks over the bay from the Sơn Trà hillside.",
+    "bestTime": "Early morning, before the tour buses and the heat.",
+    "crowd": "Busy from mid-morning, quieter after 16:00.",
+    "bestTimes": ["early_morning", "late_afternoon"],
+    "mealRole": "none",
+    "visitMin": 60,
+    "dish": null,
+    "facts": [
+      {
+        "kind": "entry",
+        "text": "Free to enter.",
+        "sourceUrl": "https://danangfantasticity.com/linh-ung"
+      },
+      {
+        "kind": "dress",
+        "text": "Shoulders and knees covered in the temple halls.",
+        "sourceUrl": "https://danangfantasticity.com/linh-ung"
+      }
+    ],
+    "photos": [
+      {
+        "url": "https://media.critterpass.app/c/places/linh-ung/1.webp",
+        "sourcePage": "https://danangfantasticity.com/linh-ung"
+      }
+    ],
+    "sources": [
+      { "url": "https://danangfantasticity.com/linh-ung", "title": "Linh Ứng Pagoda, Sơn Trà" }
+    ],
+    "generatedAt": "2026-10-06T01:40:00.000Z"
+  }
+}

@@ -1,18 +1,18 @@
 /**
- * A place the phone does not hold yet. The phone carries a destination's recommended places and
- * the ones the plan or Ideas reference; search also lists places only the server has. When the
- * synced catalogue has no row for a place, its page reads it once from the api
- * (`GET /v1/places/{id}`) and draws from that, until the row syncs (saving or adding it does that).
+ * The page's place: the phone's row when it holds one (the trip's own places, a destination's
+ * recommended ones), else the api's (`GET /v1/places/{id}`, `@/data/places/place-read`), which
+ * keeps its last good copy so a place seen once opens offline. The api is asked either way for the
+ * place's AI profile, which only it has.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, SQL and wire keys, never copy. */
 import { shownPlaceName } from '@cp/domain';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { editorialTextFor } from '@/data/places/editorial-note';
+import { usePlaceRead, type PlaceProfile } from '@/data/places/place-read';
+import { dataOf } from '@/data/travel-data/freshness';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
-
-import { useTravelDataReader } from '@/data/travel-data/client';
 
 import { useLiveRows } from '../data/live-rows';
 import { usePoi, type PoiRow } from '../place-queries';
@@ -74,7 +74,13 @@ const NO_DESTINATION: DestinationFacts = {
 };
 
 export type PlaceRowState =
-  | { readonly kind: 'ready'; readonly row: PoiRow; readonly remote: boolean }
+  | {
+      readonly kind: 'ready';
+      readonly row: PoiRow;
+      readonly remote: boolean;
+      /** The AI-written profile, when the api has one (or is writing it). */
+      readonly profile: PlaceProfile | null;
+    }
   /** The phone has not answered yet, or the api is being asked. */
   | { readonly kind: 'waiting' }
   /** The api has no such place. */
@@ -94,13 +100,18 @@ export function fetchedFrom(status: number, body: unknown): Fetched {
 }
 
 /**
- * The place's row: the synced one when the phone has it, else the api's. `destinationId` is the
- * destination the page was opened from (or the trip's), for the zone and the guide.
+ * The place's row: the synced one when the phone has it, else the api's or its last good copy.
+ * `destinationId` is the destination the page was opened from (or the trip's), for the zone and
+ * the guide.
  */
 export function usePlaceRow(placeId: string, destinationId: string | null): PlaceRowState {
   const local = usePoi(placeId);
-  const reader = useTravelDataReader();
-  const readsLocal = useReadsLocalNames(local.row?.destination_id ?? destinationId);
+  const [attempt, setAttempt] = useState(0);
+  const read = usePlaceRead(placeId, attempt);
+  const wire = dataOf(read) ?? null;
+  const readsLocal = useReadsLocalNames(
+    local.row?.destination_id ?? wire?.destinationId ?? destinationId,
+  );
   const locale = useActiveLocale();
   // The page is titled with the name the reader sees; the other one is kept beside it.
   const named = (row: PoiRow): PoiRow => {
@@ -113,42 +124,29 @@ export function usePlaceRow(placeId: string, destinationId: string | null): Plac
     };
   };
   const needed = local.loaded && local.row === null;
+  const destinationOf = wire?.destinationId ?? destinationId;
   const destination =
     useLiveRows<DestinationFacts>(
       DESTINATION_SQL,
-      needed && destinationId !== null ? [destinationId] : null,
+      needed && destinationOf !== null ? [destinationOf] : null,
       DESTINATION_TABLES,
     ).rows[0] ?? NO_DESTINATION;
-  const [attempt, setAttempt] = useState(0);
-  const key = `${placeId}#${String(attempt)}`;
-  const [answer, setAnswer] = useState<{ key: string; fetched: Fetched } | null>(null);
-  useEffect(() => {
-    if (!needed || reader === null) return undefined;
-    const controller = new AbortController();
-    reader.getJson(`/v1/places/${encodeURIComponent(placeId)}`, controller.signal).then(
-      (response) => {
-        if (controller.signal.aborted) return;
-        setAnswer({ key, fetched: fetchedFrom(response.status, response.body) });
-      },
-      () => {
-        if (!controller.signal.aborted) {
-          setAnswer({ key, fetched: { kind: 'failed', offline: true } });
-        }
-      },
-    );
-    return () => controller.abort();
-  }, [needed, reader, placeId, key]);
+  const profile = wire?.profile ?? null;
 
-  if (local.row !== null) return { kind: 'ready', row: named(local.row), remote: false };
+  if (local.row !== null) return { kind: 'ready', row: named(local.row), remote: false, profile };
+  if (!local.loaded) return { kind: 'waiting' };
   const retry = () => setAttempt((n) => n + 1);
-  // No session reader yet: nothing can be asked, which reads as no connection.
-  if (needed && reader === null) return { kind: 'failed', offline: true, retry };
-  if (!needed || answer === null || answer.key !== key) return { kind: 'waiting' };
-  const { fetched } = answer;
-  if (fetched.kind === 'missing') return { kind: 'missing' };
-  if (fetched.kind === 'failed') return { kind: 'failed', offline: fetched.offline, retry };
-  const row = remotePoiRow(fetched.body, destination);
-  return row === null
-    ? { kind: 'failed', offline: false, retry }
-    : { kind: 'ready', row: named(row), remote: true };
+  if (wire !== null) {
+    const row = remotePoiRow(wire, destination);
+    return row === null
+      ? { kind: 'failed', offline: false, retry }
+      : { kind: 'ready', row: named(row), remote: true, profile };
+  }
+  if (read.status === 'loading') return { kind: 'waiting' };
+  if (read.status === 'missing' && read.reason === 'not_found') return { kind: 'missing' };
+  return {
+    kind: 'failed',
+    offline: read.status === 'missing' && read.reason === 'offline',
+    retry,
+  };
 }

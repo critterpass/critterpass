@@ -118,6 +118,10 @@ msgstr "Add to {weekday} · {time}"
 msgid "explore.detail.offline"
 msgstr "Adding needs a connection"
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.label"
+msgstr "AI summary"
+
 #. placeholder {0}: props.guide.name
 #: ../../apps/mobile/src/features/explore/place-detail/place-detail-view.tsx
 msgid "explore.detail.chat"
@@ -141,6 +145,10 @@ msgstr "By {0}"
 msgid "explore.place.call"
 msgstr "Call"
 
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.check"
+msgstr "Check before you go"
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.chooseDay"
 msgstr "Choose a day"
@@ -148,10 +156,6 @@ msgstr "Choose a day"
 #: ../../apps/mobile/src/features/explore/place-detail/fact-tiles.tsx
 msgid "explore.detail.tile.closed"
 msgstr "Closed"
-
-#: ../../apps/mobile/src/features/explore/place-detail/use-place-on-phone.ts
-msgid "explore.detail.addFailed"
-msgstr "Couldn’t add {name}. Try again."
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.split"
@@ -196,6 +200,10 @@ msgstr "In day {day}"
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDayAt"
 msgstr "In day {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.english"
+msgstr "In English while it’s written in your language."
 
 #: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
 msgid "explore.detail.fits.inPlan"
@@ -428,6 +436,10 @@ msgstr "When it fits"
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTitle"
 msgstr "Why {placeName}?"
+
+#: ../../apps/mobile/src/features/explore/place-detail/place-profile.tsx
+msgid "explore.profile.sources"
+msgstr "Written from"
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.freeDay"
