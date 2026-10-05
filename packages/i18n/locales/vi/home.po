@@ -97,6 +97,14 @@ msgstr "Tất cả"
 msgid "home.inbox.caughtUp.title"
 msgstr "Xong hết rồi"
 
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.searchBody"
+msgstr "Thành phố hay vùng nào cũng được. Đi đâu cũng có hướng dẫn viên đi cùng."
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.nearHome"
+msgstr "Gần nhà"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.failed"
 msgstr "Chưa tham gia được chuyến đi. Thử lại nhé."
@@ -124,10 +132,6 @@ msgstr "Ẩn mẹo"
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.earlier"
 msgstr "Trước đó"
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhereOwnGuide"
-msgstr "Thành phố nào cũng có hướng dẫn viên riêng. Vài bạn vẫn đang tìm hiểu nơi của mình."
 
 #: ../../apps/mobile/src/features/home/explore-row.tsx
 msgid "home.explore.title"
@@ -233,10 +237,6 @@ msgstr "Lịch còn trống. Đề xuất một nơi đi, mình sẽ mở bình 
 msgid "home.inTrip.open"
 msgstr "Mở chuyến đi"
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
-msgstr "Chọn một hướng dẫn viên để bắt đầu chuyến đi. Cả nhóm có thể bình chọn sau."
-
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Đề xuất một nơi"
@@ -248,6 +248,14 @@ msgstr "kế hoạch đã xong {progress} phần trăm"
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
 msgstr "Kế hoạch {progress}%"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.search"
+msgstr "Tìm một nơi"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr "Tìm một nơi hoặc chọn một hướng dẫn viên để bắt đầu chuyến đi. Cả nhóm có thể bình chọn sau."
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"
@@ -277,9 +285,9 @@ msgstr "Có việc cần bạn"
 msgid "home.inbox.generic"
 msgstr "Có tin mới cho bạn"
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhere"
-msgstr "Nơi khác"
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.startCrew"
+msgstr "Lập nhóm"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"

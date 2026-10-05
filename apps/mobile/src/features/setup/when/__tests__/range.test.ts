@@ -19,7 +19,9 @@ import {
   ghostRange,
   rangeLength,
   rangeProblem,
+  resizePick,
   shownRange,
+  suggestFrom,
   tapDay,
 } from '../range';
 
@@ -178,3 +180,17 @@ describe('best windows', () => {
 function ghostRangeOf(anchor: string) {
   return ghostRange(FREE, anchor, 5, null);
 }
+
+describe('how many days', () => {
+  it('suggests nothing that starts within the next few days', () => {
+    expect(suggestFrom('2026-10-05')).toBe('2026-10-08');
+  });
+
+  it('resizes a chosen range from its first day and leaves an open pick alone', () => {
+    const chosen = { anchor: null, range: { start: '2026-10-19', end: '2026-10-25' } };
+    expect(resizePick(chosen, 4, null).range).toEqual({ start: '2026-10-19', end: '2026-10-22' });
+    expect(resizePick(chosen, 4, '2026-10-20').range?.end).toBe('2026-10-20');
+    const anchored = { anchor: '2026-10-19', range: null };
+    expect(resizePick(anchored, 4, null)).toBe(anchored);
+  });
+});

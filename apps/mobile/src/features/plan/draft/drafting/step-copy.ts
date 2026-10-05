@@ -117,8 +117,22 @@ export function failLine(reason: string | null): string {
   }
 }
 
-export function dayCardLabel(day: DayCard): string {
+/**
+ * A day as it rolls past during the wait. The guide writes each day's title in English first and
+ * its translations follow the draft, so only an English reader sees the title here; everyone else
+ * sees the day and, once it is built, how many stops it has.
+ */
+export function dayCardLabel(day: DayCard, locale: string): string {
   const n = day.dayNo;
-  const theme = day.theme;
-  return t({ id: 'planDraft.dayCard', message: `Day ${n} · ${theme}` });
+  if (locale.toLowerCase().startsWith('en')) {
+    const theme = day.theme;
+    return t({ id: 'planDraft.dayCard', message: `Day ${n} · ${theme}` });
+  }
+  const stops = day.stops;
+  return stops === null
+    ? t({ id: 'planDraft.dayCard.outlined', message: `Day ${n} · outlined` })
+    : t({
+        id: 'planDraft.dayCard.stops',
+        message: plural(stops, { one: `Day ${n} · # stop`, other: `Day ${n} · # stops` }),
+      });
 }

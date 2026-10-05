@@ -6,9 +6,10 @@
  */
 import { createGateway } from '@cp/ai';
 import { fixtureTransport, type FixtureTransport } from '@cp/ai/testing';
-import type { PitchStreamEvent } from '@cp/domain';
+import { pitchSectionsSchema, type PitchStreamEvent } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { storePitchTranslation } from '../../src/routes/pitch-reader-language';
 import { registerPitchRoutes } from '../../src/routes/pitches';
 import type { CommandDoorsHarness, SignedIn } from '../routes/command-doors-harness';
 import { buildPollCrew, insertPlace, startPollDoors, type PollCrew } from './poll-fixture';
@@ -134,6 +135,49 @@ describe('POST /v1/pitches', () => {
     expect(events.at(-1)).toMatchObject({ type: 'done', cached: true });
     expect(events.filter((event) => event.type === 'reason')).toHaveLength(3);
     expect(deepseek.requests).toHaveLength(0);
+  });
+
+  it('replays the pitch in the asker’s language once its translation is stored', async () => {
+    deepseek = fixtureTransport([]);
+    const reader = crew.members[4]!;
+    await harness.pool.query("UPDATE users SET locale = 'vi' WHERE id = $1", [reader.uid]);
+    const { rows } = await harness.pool.query<{ id: string; sections: unknown }>(
+      'SELECT id, sections FROM pitches WHERE crew_id = $1 ORDER BY created_at DESC LIMIT 1',
+      [crew.crewId],
+    );
+    const sections = pitchSectionsSchema.parse(rows[0]?.sections);
+    const client = await harness.pool.connect();
+    try {
+      await storePitchTranslation(client, rows[0]!.id, sections, 'vi', {
+        headline: 'Kyoto mùa hoa anh đào',
+        reason_0: 'Lý do một',
+        reason_1: 'Lý do hai',
+        reason_2: 'Lý do ba',
+        quote: 'Đi thôi.',
+      });
+    } finally {
+      client.release();
+    }
+    const body = { crew_id: crew.crewId, place_id: kyoto, month: 4 };
+    const vi = await pitch(reader, body);
+    expect(vi.events.find((event) => event.type === 'headline')).toEqual({
+      type: 'headline',
+      text: 'Kyoto mùa hoa anh đào',
+    });
+    expect(vi.events.flatMap((event) => (event.type === 'reason' ? [event.text] : []))).toEqual([
+      'Lý do một',
+      'Lý do hai',
+      'Lý do ba',
+    ]);
+    // An English reader of the same cached pitch still reads it as written.
+    const en = await pitch(crew.members[2]!, body);
+    expect(en.events.find((event) => event.type === 'headline')).toEqual({
+      type: 'headline',
+      text: sections.headline,
+    });
+    expect(deepseek.requests).toHaveLength(0);
+    // Back to a crew that all reads English, as the other cases assume.
+    await harness.pool.query('UPDATE users SET locale = NULL WHERE id = $1', [reader.uid]);
   });
 
   it('pitches afresh once a quoted fare moves, and from the template without a model', async () => {

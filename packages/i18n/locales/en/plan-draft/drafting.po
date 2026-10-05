@@ -31,9 +31,9 @@ msgstr "{n, plural, one {Planned one day} other {Planned # days}}"
 msgid "planDraft.step.readProfiles"
 msgstr "{n, plural, one {Read one taste profile} other {Read # taste profiles}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.line"
-msgstr "About 20 seconds. You review it before anyone else sees it."
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.stops"
+msgstr "{stops, plural, one {Day {n} · # stop} other {Day {n} · # stops}}"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.back"
@@ -67,9 +67,17 @@ msgstr "Checking opening hours"
 msgid "planDraft.working.season"
 msgstr "Checking the season"
 
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.leave"
+msgstr "Come back later"
+
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
 msgstr "Day {n} · {theme}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.outlined"
+msgstr "Day {n} · outlined"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.again"
@@ -137,11 +145,15 @@ msgstr "Stop drafting"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.slow"
-msgstr "Taking a bit longer than usual. I’ll ping you when it’s ready."
+msgstr "Taking longer than usual. You can leave: I’ll tell you when it’s ready."
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.fail.other"
 msgstr "This step didn’t work out."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
+msgstr "This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else."
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.retry"

@@ -2,8 +2,9 @@
  * The dates step (3c-3, 3c-4) as a pure view. With a week the whole crew can make: the heatmap
  * with that week as a yellow band, the guide's reason and "Lock {range}". Without one: "No week
  * fits all {n}" and the options, the guide's pick, a CTA that follows the selection and "Pick a
- * week anyway". Before anyone has shared a day, or while the options are being worked out, the
- * heatmap (or its empty state) with the way forward. Everyone sees their own calendar's row; only
+ * the dates myself". Before anyone has shared a day, while the options are being worked out, or
+ * when the only week that fits starts within days, PICK THE DATES is the main button (the picker
+ * asks how many days). Everyone sees their own calendar's row; only
  * the organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
  */
 import { t } from '@lingui/core/macro';
@@ -149,7 +150,7 @@ export function WhenView({
                 />
               )}
               <TextLink
-                label={t({ id: 'setup.when.pickAnyway', message: 'Pick a week anyway' })}
+                label={t({ id: 'setup.when.pickMyself', message: 'Pick the dates myself' })}
                 onPress={actions.onPickWeek}
                 testID="when-pick-week"
               />
@@ -207,10 +208,10 @@ export function WhenView({
             />
           </>
         ) : (
-          // Before anyone has shared a day, or while the windows are worked out, the organiser can
-          // still pick a week and move on.
-          <TextLink
-            label={t({ id: 'setup.when.pickAnyway', message: 'Pick a week anyway' })}
+          // Nothing to suggest (nobody has shared a day, the windows are being worked out, or the
+          // only one starts within days): picking the dates is the step's main action.
+          <PillButton
+            label={t({ id: 'setup.when.pickDates', message: 'Pick the dates' })}
             onPress={actions.onPickWeek}
             testID="when-pick-week"
           />

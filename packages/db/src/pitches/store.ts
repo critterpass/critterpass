@@ -15,14 +15,16 @@ export function pitchCacheKeyFor(placeId: string, month: number | null): string 
 export interface CachedPitch {
   readonly id: string;
   readonly sections: PitchSections;
+  /** The stored translations of its lines (the `i18n` column), as stored. */
+  readonly i18n: unknown;
 }
 
 export async function findCachedPitch(
   tx: pg.PoolClient,
   input: { crewId: string; cacheKey: string; fareSnapshotId: string },
 ): Promise<CachedPitch | undefined> {
-  const { rows } = await tx.query<{ id: string; sections: unknown }>(
-    `SELECT id, sections FROM pitches
+  const { rows } = await tx.query<{ id: string; sections: unknown; i18n: unknown }>(
+    `SELECT id, sections, i18n FROM pitches
       WHERE crew_id = $1 AND cache_key = $2 AND fare_snapshot_id = $3
         AND sections ? 'headline'
       ORDER BY created_at DESC LIMIT 1`,
@@ -31,7 +33,7 @@ export async function findCachedPitch(
   const row = rows[0];
   if (row === undefined) return undefined;
   const sections = pitchSectionsSchema.safeParse(row.sections);
-  return sections.success ? { id: row.id, sections: sections.data } : undefined;
+  return sections.success ? { id: row.id, sections: sections.data, i18n: row.i18n } : undefined;
 }
 
 export interface StorePitchInput {

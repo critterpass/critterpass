@@ -28,6 +28,7 @@ msgid "setup.when.line.all"
 msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. Đủ cả rồi.}}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr "{days, plural, other {# ngày}}"
 
@@ -188,6 +189,10 @@ msgid "setup.when.line.solo"
 msgstr "Từ lịch của bạn."
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howLong"
+msgstr "Đi mấy ngày?"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.cta.lock"
 msgstr "Chốt {range}"
@@ -226,7 +231,7 @@ msgstr "Không tuần nào đủ cả {total} người"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.none"
-msgstr "Chưa ai chia sẻ ngày rảnh. Kết nối lịch hoặc đánh dấu tay nhé."
+msgstr "Chưa ai chia sẻ ngày rảnh. Chọn ngày đi, hoặc kết nối lịch trước."
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncedLine"
@@ -241,12 +246,16 @@ msgid "setup.ask.words"
 msgstr "Hoặc nhắn {name} bằng lời của bạn"
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickAnyway"
-msgstr "Vẫn chọn một tuần"
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.pickOtherDays"
 msgstr "Chọn ngày khác"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickDates"
+msgstr "Chọn ngày đi"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickMyself"
+msgstr "Tự chọn ngày"
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.titleDays"
@@ -255,6 +264,14 @@ msgstr "Chọn ngày đi"
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.line"
 msgstr "Hỏi nhanh: khoảng có thể bận của bạn là thứ duy nhất ngăn cả nhóm đến {place}. Bạn dời được không?"
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.reading"
+msgstr "Đang đọc lịch của bạn…"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howTo"
+msgstr "Chọn số ngày rồi chạm ngày đầu. Hoặc chạm ngày đầu và ngày cuối."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.send"
@@ -271,10 +288,6 @@ msgstr "Đồng bộ lại để ngày của bạn vẫn được tính."
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncing"
 msgstr "Đang đồng bộ lịch"
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.howTo"
-msgstr "Chạm ngày đầu và ngày cuối, hoặc giữ một ngày rồi kéo."
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.thanks"
@@ -336,6 +349,10 @@ msgstr "Lịch của bạn chưa đồng bộ được"
 msgid "setup.when.own.synced"
 msgstr "Lịch của bạn đã vào · {ago}"
 
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.pickSolo"
+msgstr "Lịch của bạn đang trống. Chọn những ngày bạn muốn đi."
+
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.stale"
 msgstr "Lịch của bạn đồng bộ {ago}"
@@ -346,4 +363,4 @@ msgstr "Ngày của bạn chưa có"
 
 #: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.noneSolo"
-msgstr "Ngày rảnh của bạn chưa có. Kết nối lịch hoặc đánh dấu tay nhé."
+msgstr "Ngày rảnh của bạn chưa có. Chọn ngày đi, hoặc kết nối lịch trước."

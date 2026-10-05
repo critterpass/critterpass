@@ -16,7 +16,13 @@ import { impact, toast } from '@/motion';
 import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
-import { changeCards, excludedIds, metricChips, redraftPhase } from '../data/redraft';
+import {
+  changeCards,
+  excludedIds,
+  metricChips,
+  partialKeepClashes,
+  redraftPhase,
+} from '../data/redraft';
 import { useRedraft } from '../data/use-redraft';
 import { draftRoutes } from '../routes';
 import { RedraftDiffView } from './redraft-diff-view';
@@ -46,8 +52,13 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   }, []);
   const result = redraft.result;
   const cards = useMemo(
-    () => (result === null ? [] : changeCards(result.changes, redraft.places)),
-    [result, redraft.places],
+    () => (result === null ? [] : changeCards(result.changes, redraft.places, redraft.reasons)),
+    [result, redraft.places, redraft.reasons],
+  );
+  // Leaving some changes out must never save a day with two stops at the same time.
+  const clash = useMemo(
+    () => result !== null && partialKeepClashes(result.changes, excludedIds(cards, off)),
+    [result, cards, off],
   );
   if (trip === undefined || trip === null || !redraft.loaded) return null;
 
@@ -69,13 +80,17 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
   const spent = trip.quota.limit !== null && trip.quota.used >= trip.quota.limit;
   const onKeep = () => {
     setLeaving(true);
-    const title = result?.title ?? '';
+    // The new title in her language once it has synced; in English only for an English reader.
+    const title = redraft.newTitle ?? (locale.startsWith('en') ? (result?.title ?? '') : '');
     void keep.send({ redraft_id: redraftId, excluded_stable_ids: excludedIds(cards, off) });
     impact('success');
     toast.show({
       // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
       id: `redraft-kept-${redraftId}`,
-      title: t({ id: 'planDraft.diff.keptToast', message: `Day ${n} is ${title} now.` }),
+      title:
+        title === ''
+          ? t({ id: 'planDraft.diff.keptToastPlain', message: `Day ${n} is redrafted.` })
+          : t({ id: 'planDraft.diff.keptToast', message: `Day ${n} is ${title} now.` }),
       subtitle: t({ id: 'planDraft.diff.keptSub', message: 'Nobody else has seen it yet.' }),
     });
     back();
@@ -97,7 +112,8 @@ export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenP
       tz={trip.tz}
       phase={phase}
       dayNo={dayNo}
-      summary={result?.summary ?? null}
+      summary={locale.startsWith('en') ? (result?.summary ?? null) : null}
+      clash={clash}
       cards={cards}
       chips={metricChips(result?.metrics ?? null)}
       off={off}

@@ -145,6 +145,10 @@ msgstr ""
 msgid "setup.budget.infeasible.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
 msgstr ""
@@ -155,6 +159,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"
+msgstr ""
+
+#. placeholder {0}: money(locale, track.stepMinor, currency)
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.hint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/labels.ts

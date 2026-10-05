@@ -168,6 +168,7 @@ export const REVIEW: ReviewModel = {
   closures: [],
   stale: [],
   lateMustDo: false,
+  lateMustDoTitles: [],
 };
 
 /** The crew's flights from the wallet on the first and last day, as the server places them. */
@@ -204,6 +205,7 @@ export const REVIEW_STALE: ReviewModel = {
   ...REVIEW,
   stale: ['must_dos', 'budget'],
   lateMustDo: true,
+  lateMustDoTitles: [],
 };
 
 export const REVIEW_DETAILS: ReviewModel = {

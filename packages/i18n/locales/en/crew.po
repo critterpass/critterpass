@@ -464,6 +464,10 @@ msgstr "That invite didn’t go out. Try again."
 msgid "crew.waitlist.missed"
 msgstr "That seat went to someone else. You’re still in line."
 
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeComing"
+msgstr "The crew is saved. Its code and invite link are on their way…"
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.theTrip"
 msgstr "the trip"
