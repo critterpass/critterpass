@@ -1,0 +1,358 @@
+appId: app.critterpass.dev
+env:
+  # Curated Đà Nẵng places: the first one a search for each lets her add or save is taken, so a
+  # change in ranking or in what the guide drafted never leaves the flow without a row.
+  ADD_QUERY: 'Marble Mountains'
+  SAVE_QUERY: 'Han Market'
+---
+# Release gate: a brand-new traveller plans on her own trip, with no demo world
+# (subflows/trip-under-way.yaml: a trip to Đà Nẵng that started today). PLAN opens the trip map;
+# day 1 at half opens the day plan; its add bar searches a curated place, Add to plan says where it
+# goes and ADD puts it on the day, named by its place. Its sheet moves it to day 2, and all days
+# shows it there. A place page's ♡ saves another place, and Ideas lists it. The plan check opens.
+# After a relaunch, day 2's plan still shows the moved stop. Every outcome is the server's answer on
+# screen: the stop and the idea are found by the names the app showed when they were picked.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: plan
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow: subflows/dismiss-visit-offer.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan|visit-consent-decline'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+
+# PLAN: the trip map (or the day plan, when PLAN opens on the day). Day 1 at half opens its plan.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map|day-plan'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+      - tapOn:
+          id: 'trip-map-day-chips-1'
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: plan-trip-map
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-half'
+          timeout: 10000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: plan-trip-map-day-1-half
+      - tapOn:
+          id: 'trip-map-open-day|trip-map-peek-open-day-pill'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 30000
+- tapOn:
+    id: 'day-plan-day-chips-1'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'stop-[0-9]+'
+    timeout: 30000
+- takeScreenshot: plan-day-1
+
+# The add bar: search, Add to plan, ADD. The sheet's name is the place she picked.
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+- inputText: ${ADD_QUERY}
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-[0-9]+'
+    timeout: 120000
+- hideKeyboard
+- takeScreenshot: plan-search
+- tapOn:
+    id: 'search-row-add-[0-9]+'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+      enabled: true
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 15000
+    optional: true
+- copyTextFrom:
+    id: 'plan-add-name'
+- evalScript: ${output.added = maestro.copiedText.replace(/[.*+?^()|[\]\\]/g, '.')}
+- takeScreenshot: plan-add-to-plan
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm'
+    direction: DOWN
+    timeout: 8000
+- tapOn:
+    id: 'plan-add-confirm'
+- repeat:
+    while:
+      notVisible:
+        id: 'day-plan'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+# On the day, named by its place, with its time and the way there from the stop before.
+- scrollUntilVisible:
+    element:
+      text: '(?iu).*${output.added}.*'
+    direction: DOWN
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: plan-added-on-day-1
+
+# Its sheet moves it to day 2.
+- tapOn:
+    text: '(?iu).*${output.added}.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-2'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-2'
+- waitForAnimationToEnd:
+    timeout: 3000
+# Its own time taken on day 2: the sheet offers the first start that works.
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-use-start'
+    commands:
+      - tapOn:
+          id: 'plan-item-use-start'
+      - waitForAnimationToEnd:
+          timeout: 3000
+- takeScreenshot: plan-move-to-day-2
+- tapOn:
+    id: 'plan-item-save'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message|plan-item-confirm'
+    timeout: 15000
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn: '(?i)change it anyway|Vẫn đổi'
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
+# All days: the stop is on day 2.
+- tapOn:
+    id: 'day-plan-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'all-days-card-2'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    id: 'all-days-card-2'
+    containsDescendants:
+      - text: '(?iu).*${output.added}.*'
+- takeScreenshot: plan-all-days-moved
+
+# A place page: ♡ saves it, and Ideas lists it.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+- inputText: ${SAVE_QUERY}
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-[0-9]+'
+    timeout: 60000
+- hideKeyboard
+- tapOn:
+    id: 'search-row-[0-9]+'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-save|place-detail-saved'
+    timeout: 30000
+- copyTextFrom:
+    id: 'place-detail-name'
+- evalScript: ${output.saved = maestro.copiedText.replace(/[.*+?^()|[\]\\]/g, '.')}
+- takeScreenshot: plan-place-page
+- runFlow:
+    when:
+      visible:
+        id: 'place-detail-save'
+    commands:
+      - tapOn:
+          id: 'place-detail-save'
+- extendedWaitUntil:
+    visible:
+      id: 'place-detail-saved'
+    timeout: 15000
+- takeScreenshot: plan-place-saved
+- repeat:
+    while:
+      notVisible:
+        id: 'day-plan'
+    times: 4
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn:
+    id: 'day-plan-all-days'
+- extendedWaitUntil:
+    visible:
+      id: 'all-days-ideas'
+    timeout: 20000
+- tapOn:
+    id: 'all-days-ideas'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-ideas-list'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      text: '(?iu).*${output.saved}.*'
+    direction: DOWN
+    timeout: 30000
+- takeScreenshot: plan-ideas
+
+# The plan check opens.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'all-days'
+    timeout: 15000
+- tapOn:
+    id: 'all-days-check'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-check-title'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: plan-check
+
+# After a relaunch, day 2's plan still shows the moved stop.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow: subflows/dismiss-visit-offer.yaml
+- tapOn:
+    id: 'tab-trips'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map|day-plan'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 30000
+- tapOn:
+    id: 'day-plan-day-chips-2'
+- scrollUntilVisible:
+    element:
+      text: '(?iu).*${output.added}.*'
+    direction: DOWN
+    timeout: 30000
+- takeScreenshot: plan-day-2-after-relaunch
