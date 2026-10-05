@@ -1,11 +1,16 @@
 /**
- * Home's public surface for other features: the vote slot, inbox renderers, nudging, and the
+ * Home's public surface for other features: the vote and trip-turn slots, inbox renderers, nudging, and the
  * widget refresh the signed-in session runs.
  */
 export {
   registerHomeVoteSlot,
+  registerTripTurn,
   useHomeVote,
+  useTripTurnView,
   type HomeVoteSlotRegistration,
+  type TripTurnNames,
+  type TripTurnView,
+  type UseTripTurn,
   type VoteSlotProps,
 } from './slots';
 export {

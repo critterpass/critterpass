@@ -175,10 +175,10 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'tracker-lock'
 - tapOn: '(?i)yes, lock it in'
-# Confirmed: the chip says so and LOCK IT IN is gone.
+# Confirmed: the "trip is on" card says so and LOCK IT IN is gone.
 - extendedWaitUntil:
     visible:
-      id: 'tracker-lock-note'
+      id: 'tracker-confirmed'
     timeout: 30000
 - extendedWaitUntil:
     notVisible:

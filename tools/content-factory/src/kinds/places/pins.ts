@@ -20,6 +20,10 @@ export interface PinnedPlace {
   readonly kind?: string;
   /** The category, where the open data files the place under a wrong one. */
   readonly category?: PoiCategory;
+  /** One of the destination's dozen or so essentials (publishes as `editorial.essential`). */
+  readonly essential?: boolean;
+  /** False for a place the set must hold that is not a must-see, even where a landmark matches. */
+  readonly mustSee?: false;
 }
 
 /**

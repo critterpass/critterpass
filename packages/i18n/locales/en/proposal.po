@@ -18,7 +18,7 @@ msgid "proposal.dropout.each"
 msgstr "{0} each"
 
 #. placeholder {0}: state.going + 1
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.going"
 msgstr "{0} going, the trip is confirmed."
 
@@ -43,9 +43,10 @@ msgid "proposal.version.pending"
 msgstr "{0} is still writing this version. It lands here in a moment."
 
 #. placeholder {0}: props.guideName
+#. placeholder {1}: person.name
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
-msgid "proposal.sent.pending"
-msgstr "{0} is writing theirs"
+msgid "proposal.sent.pendingFor"
+msgstr "{0} is writing {1}'s version"
 
 #. placeholder {0}: tally.maybe
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
@@ -53,7 +54,7 @@ msgid "proposal.tracker.maybe"
 msgstr "{0} maybe"
 
 #. placeholder {0}: state.maybes
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.maybes"
 msgstr "{0} maybe go on the waitlist for a freed seat."
 
@@ -108,7 +109,7 @@ msgid "proposal.tracker.waiting"
 msgstr "{0} waiting for a seat"
 
 #. placeholder {0}: state.silent
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.silent"
 msgstr "{0} who haven’t answered are out."
 
@@ -132,6 +133,11 @@ msgstr "{0}: the proposal"
 msgid "proposal.board.egg"
 msgstr "{0}’s egg hatches when you land"
 
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.readyFor"
+msgstr "{0}'s version is ready"
+
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.seatsAfter"
 msgstr "{after}, cancelled in the booking once you apply"
@@ -140,13 +146,21 @@ msgstr "{after}, cancelled in the booking once you apply"
 msgid "proposal.build.eachAmount"
 msgstr "{amount} each"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.some"
+msgstr "{answered} of {recipients} answered so far."
+
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} seats"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote"
+msgstr "{by} wants to change the plan. It waits for your yes."
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
-msgid "proposal.hype.boarded"
-msgstr "{boarded} of {recipients} boarded."
+msgid "proposal.hype.crewIn"
+msgstr "{crew, plural, other {{going} of # in the crew are in.}}"
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
@@ -160,6 +174,14 @@ msgstr "{destination} plan"
 msgid "proposal.confirmed.going"
 msgstr "{going} going"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.drafting"
+msgstr "{guide} is drafting your trip."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.plain"
+msgstr "{guideName} put it on the plan for the whole crew."
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr "{guideName} wrote a version for each person. Pick how it arrives."
@@ -168,13 +190,33 @@ msgstr "{guideName} wrote a version for each person. Pick how it arrives."
 msgid "proposal.build.subShared"
 msgstr "{guideName} wrote one version for everyone. Pick how it arrives."
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.out"
+msgstr "{name} can't make it"
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.title"
 msgstr "{name} can’t make it"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.maybe"
+msgstr "{name} is a maybe"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.in"
+msgstr "{name} is in"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.waitlisted"
+msgstr "{name} is on the waitlist"
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.chip"
 msgstr "{name} replied"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received"
+msgstr "{name} sent the plan for {place}"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.dropout.reply"
@@ -192,9 +234,25 @@ msgstr "{name}, here’s your version"
 msgid "proposal.version.titlePreview"
 msgstr "{name}’s version"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planComing"
+msgstr "{organiser} is still working on the plan. You'll get it here."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.fromBy"
+msgstr "{organiser} sent the plan. Answer by {date}."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.from"
+msgstr "{organiser} sent the plan. Are you in?"
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.pct"
 msgstr "{pct}%"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.locked"
+msgstr "{place} is locked in. The trip is on."
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.reacted"
@@ -203,6 +261,10 @@ msgstr "{reacted} reacted."
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
 msgstr "{seat} is a crowd"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.sendPlan"
+msgstr "{waiting, plural, one {Your draft is ready. # friend is waiting for the plan.} other {Your draft is ready. # friends are waiting for the plan.}}"
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.offItem"
@@ -220,9 +282,17 @@ msgstr "{who}’s entry is withdrawn"
 msgid "proposal.reaction.sixAm"
 msgstr "6AM??"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.plain"
+msgstr "A change to the plan is waiting for your yes."
+
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
 msgstr "A guide suggestion"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.noUndo"
+msgstr "A lock can’t be undone. Someone who drops out later frees their seat."
 
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.planItem"
@@ -240,6 +310,10 @@ msgstr "A reminder to decide"
 msgid "proposal.seat.bodyCap"
 msgstr "All {cap} seats are taken."
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.bodyBy"
+msgstr "Answer by {date}."
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.applied"
 msgstr "Applied. Shares are re-priced."
@@ -252,12 +326,11 @@ msgstr "Apply changes"
 msgid "proposal.queued.resolve"
 msgstr "Applying the re-split"
 
-#. placeholder {0}: info.name
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
-msgid "proposal.version.ask"
-msgstr "Ask {0}"
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.body"
+msgstr "Are you in?"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.asked"
 msgstr "Asked without your name"
 
@@ -302,6 +375,10 @@ msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.out"
+msgstr "Can’t make it"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.cantMake"
 msgstr "Can’t make it"
 
@@ -312,6 +389,10 @@ msgstr "Can’t make it · see what changes"
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.changeStay"
 msgstr "Change the booking on {supplier}; we never change it for you"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.change"
+msgstr "Change your answer"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
@@ -337,7 +418,7 @@ msgstr "Couldn’t lock it in"
 msgid "proposal.alone.failed"
 msgstr "Couldn’t lock it in"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.crew"
 msgstr "Crew favourite"
 
@@ -346,21 +427,23 @@ msgid "proposal.hype.title"
 msgstr "Crew hype"
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
-msgid "proposal.board.airline"
-msgstr "CritterPass Air"
+msgid "proposal.board.crewPass"
+msgstr "Crew pass"
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.dates"
 msgstr "Dates"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup"
+msgstr "Dates, budget and must-dos come next."
+
 #. placeholder {0}: stop.dayNo
-#. placeholder {0}: why.dayNo
 #: ../../apps/mobile/src/features/proposal/labels.ts
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Day {0}"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.day"
 msgstr "Day {dayNo}"
 
@@ -380,13 +463,21 @@ msgstr "Every seat is taken."
 msgid "proposal.sent.done"
 msgstr "Every version is written and sent."
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.alone"
-msgstr "Everyone else said they can’t make it, so it’s just you. The trip is confirmed, and friends who join later land on this plan."
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.aloneGoing"
+msgstr "Everyone else said they can’t make it, so it’s just you. The trip is confirmed."
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.allIn"
+msgstr "Everyone has answered. Lock the trip to confirm it."
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr "Everyone’s share"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.finishDraft.button"
+msgstr "Finish the draft"
 
 #. placeholder {0}: instantDate(locale, freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -421,11 +512,19 @@ msgstr "Free crews top out at {cap}. {who} is first in line: if a seat frees up,
 msgid "proposal.crowd.body"
 msgstr "Free crews top out at {cap}. Boost {destination} and {who} gets a seat, and the whole crew gets the live map and unlimited redrafts."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.stillJoin"
+msgstr "Friends who join the crew later can still take a seat."
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.gate"
 msgstr "Gate: yes"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.soloNote"
+msgstr "Going alone? Lock it in and the trip is on. Friends who join later land on this plan."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.value"
 msgstr "Good value"
 
@@ -441,6 +540,21 @@ msgstr "Guide’s pick · {0}"
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.reaction.laugh"
 msgstr "Ha!"
+
+#. placeholder {0}: props.organiser
+#. placeholder {1}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subPlain"
+msgstr "Here is the plan {0} and {1} put together. Tap anything to see why it’s there."
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subPlainNoName"
+msgstr "Here is the plan {0} put together for the crew. Tap anything to see why it’s there."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.cant"
+msgstr "I can’t make it"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.confirm"
@@ -458,9 +572,17 @@ msgstr "I can’t make it after all"
 msgid "proposal.objection.failed"
 msgstr "I couldn’t reach the plan just now. Try again in a moment."
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
 msgid "proposal.objection.laterDone"
 msgstr "I’ll ask you on Sunday"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTomorrow"
+msgstr "I’ll ask you tomorrow morning"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-host.tsx
+msgid "proposal.objection.laterDoneTonight"
+msgstr "I’ll ask you tonight"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
@@ -478,6 +600,10 @@ msgstr "I’m in"
 msgid "proposal.reaction.imIn"
 msgstr "I’M IN"
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.inAfterAll"
+msgstr "I’m in after all"
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.inAt"
 msgstr "I’m in at {amount}"
@@ -487,29 +613,41 @@ msgid "proposal.seat.offer"
 msgstr "If a seat frees up, it’s offered to you first in line. Nothing joins you by itself."
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.invite"
-msgstr "Invite friends first"
+msgid "proposal.alone.inviteFriends"
+msgstr "Invite friends"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr "Invite someone to the crew first. There’s nobody to send it to yet."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.inviteTitle"
+msgstr "Invite your friends first"
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.value"
 msgstr "It gives a lot for what it costs."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.theirMustDo"
+msgstr "It is {name}’s must-do for this trip."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
+msgid "proposal.why.crewMustDo"
+msgstr "It is one of the crew’s must-dos."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.taste"
 msgstr "It matches what you picked in your this-or-thats, so {guideName} put it in."
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.body"
-msgstr "It’s just you on {destination} for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan."
+msgid "proposal.alone.inviteBody"
+msgstr "It’s just you on {destination} for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined."
 
 #. placeholder {0}: props.dates
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.bodyDates"
-msgstr "It’s just you on {destination}, {0}, for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan."
+msgid "proposal.alone.inviteBodyDates"
+msgstr "It’s just you on {destination}, {0}, for now, so there’s nobody to send the plan to. Invite your friends, then send it once they’ve joined."
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.title"
@@ -544,31 +682,33 @@ msgstr "Loading the proposal"
 msgid "proposal.lock.cta"
 msgstr "Lock it in"
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.alone.lock"
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock.button"
 msgstr "Lock it in"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lockAlone"
+msgstr "Lock it in alone"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.title"
 msgstr "Lock the crew in?"
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.alone.title"
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.titleAlone"
 msgstr "Lock the plan in?"
 
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.locked"
-msgstr "Locked in. The trip is confirmed."
-
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.done"
-msgstr "Locked in. The trip is confirmed."
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.locked"
+msgstr "Locked in. The trip is on."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.done"
 msgstr "Locked in. The trip is on."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.maybe"
+msgstr "Maybe"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.maybe"
@@ -578,17 +718,17 @@ msgstr "Maybe"
 msgid "proposal.board.maybe"
 msgstr "Maybe"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
-msgid "proposal.why.crew"
-msgstr "Most of the crew wanted this one."
-
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.groupMustDo"
 msgstr "Must-do"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "No reply yet"
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.nobodyYet"
+msgstr "Nobody has answered yet."
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.dismiss"
@@ -602,7 +742,12 @@ msgstr "Not sent yet"
 msgid "proposal.objection.a11y"
 msgstr "Not sure yet"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.askFirst"
+msgstr "Not sure? Ask {0}"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.nothing"
 msgstr "Nothing here moves the cost for just you. You can still take your time."
 
@@ -626,9 +771,13 @@ msgstr "OKAY WOW"
 msgid "proposal.reaction.fire"
 msgstr "On fire"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onThePlan"
 msgstr "On the plan"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.waitlisted"
+msgstr "On the waitlist"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.waitlisted"
@@ -646,7 +795,11 @@ msgstr "One for your friend, written by {guideName}"
 msgid "proposal.build.personalOff"
 msgstr "One version for the whole crew"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.onlyOrganiser"
+msgstr "Only {organiser} is in so far."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onlyHere"
 msgstr "Only here"
 
@@ -654,8 +807,16 @@ msgstr "Only here"
 msgid "proposal.card.open"
 msgstr "Open it"
 
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seeDay"
+msgstr "Open its day and ask about it"
+
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.plan"
+msgstr "Open the plan"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.openPlan"
 msgstr "Open the plan"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
@@ -699,6 +860,14 @@ msgstr "Proposal"
 msgid "proposal.trailer.react"
 msgstr "Quick reply"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.open"
+msgstr "Read it and answer"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.button"
+msgstr "Read it and answer"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr "Ready to send"
@@ -706,6 +875,10 @@ msgstr "Ready to send"
 #: ../../apps/mobile/src/features/proposal/dropout/model.ts
 msgid "proposal.dropout.released"
 msgstr "released"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.lock"
+msgstr "Replies are in: {going} of {crew} going. Lock the trip to confirm it."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.replyBy"
@@ -745,6 +918,22 @@ msgstr "Said maybe"
 msgid "proposal.share.saved"
 msgstr "Saved"
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingOther"
+msgstr "Say it in the crew chat, or to {organiser}. You can still take your time."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planVote.button"
+msgstr "See the change"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.drafting.button"
+msgstr "See the draft"
+
+#: ../../apps/mobile/src/features/proposal/your-version/why-sheet.tsx
+msgid "proposal.why.seePlace"
+msgstr "See the place"
+
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.wholePlan"
 msgstr "See the whole plan"
@@ -752,6 +941,14 @@ msgstr "See the whole plan"
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.organiser"
 msgstr "See who’s in so far."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.version"
+msgstr "See your version"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.sendPlan.button"
+msgstr "Send the plan"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.send"
@@ -773,6 +970,10 @@ msgstr "Sent"
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.sent"
 msgstr "Sent {0}"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.setup.button"
+msgstr "Set up the trip"
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.titleSeven"
@@ -811,13 +1012,25 @@ msgstr "split {before} ways"
 msgid "proposal.build.noStay"
 msgstr "Stays not booked yet"
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
 msgid "proposal.objection.later"
 msgstr "Still thinking. Ask me on Sunday"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTomorrow"
+msgstr "Still thinking. Ask me tomorrow morning"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.laterTonight"
+msgstr "Still thinking. Ask me tonight"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"
 msgstr "Tap for the next one · hold to pause"
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingPlan"
+msgstr "Tell {organiser} which part. Open the plan and leave a note on the stop, or say it in the crew chat."
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.title"
@@ -835,6 +1048,10 @@ msgstr "The crew answers before the trip starts."
 msgid "proposal.card.locked"
 msgstr "The crew is locked in."
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.vote"
+msgstr "The crew is picking a place."
+
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.board.outDone"
 msgstr "The crew knows you can’t make it"
@@ -843,21 +1060,53 @@ msgstr "The crew knows you can’t make it"
 msgid "proposal.objection.dates"
 msgstr "The dates"
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-copy.ts
+msgid "proposal.objection.nothingDates"
+msgstr "The dates are {organiser}’s to move. Say in the crew chat which days work for you."
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.plan"
 msgstr "The plan"
+
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.received.plain"
+msgstr "The plan for {place} is here"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.plainBy"
+msgstr "The plan is here. Answer by {date}."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answer.plain"
+msgstr "The plan is here. Are you in?"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waitingBy"
+msgstr "The plan is out. {answered} of {total} answered, replies by {date}."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waiting"
+msgstr "The plan is out. {answered} of {total} answered."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.planComing.plain"
+msgstr "The plan is still being worked on. You'll get it here."
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.stillEdit"
+msgstr "The plan stays open: everyone going can still suggest changes."
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.title"
 msgstr "The trip is full"
 
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.waitlisted"
+msgstr "The trip is full. You're in line for a seat."
+
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.title"
 msgstr "The trip is on"
-
-#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
-msgid "proposal.sent.ready"
-msgstr "Their version is ready"
 
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.keepSub"
@@ -867,6 +1116,15 @@ msgstr "They’ll still get the photos and the recap"
 msgid "proposal.build.alreadySent"
 msgstr "This proposal is already out."
 
+#. placeholder {0}: ticket.from
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.notAFlightFrom"
+msgstr "This saves your seat on the trip. It is not a flight booking: {0} is your home airport."
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.notAFlight"
+msgstr "This saves your seat on the trip. It is not a flight booking."
+
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
 msgid "proposal.build.trailer"
 msgstr "Trailer"
@@ -875,12 +1133,13 @@ msgstr "Trailer"
 msgid "proposal.card.a11y"
 msgstr "Trip proposal"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.failedSub"
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.board.refusedSub"
 msgstr "Try again in a moment."
 
-#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
-msgid "proposal.board.refusedSub"
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failedSub"
 msgstr "Try again in a moment."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
@@ -908,6 +1167,14 @@ msgstr "Who stays in the chat"
 msgid "proposal.dropout.back"
 msgstr "Who’s in"
 
+#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+msgid "proposal.inbox.answered.open"
+msgstr "Who's in?"
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.waiting.button"
+msgstr "Who's in?"
+
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.track"
 msgstr "Who’s in?"
@@ -920,11 +1187,11 @@ msgstr "Who’s in?"
 msgid "proposal.sent.tracker"
 msgstr "Who’s in?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.confirmYes"
 msgstr "Yes, lock it in"
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.mustDo"
 msgstr "You added it as a must-do in setup."
 
@@ -932,25 +1199,54 @@ msgstr "You added it as a must-do in setup."
 msgid "proposal.lock.nobody"
 msgstr "You can lock the trip in once someone says they’re in."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.onlyHere"
 msgstr "You can only do this here."
 
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.maybe"
+msgstr "You said maybe"
+
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.maybeDone"
 msgstr "You said maybe"
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.maybe"
+msgstr "You said maybe. Say yes or no before the trip is locked."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.saidMaybe"
+msgstr "You said maybe. Say yes or no when you know."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.out"
+msgstr "You said you can't make it."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.out"
 msgstr "You said you can’t make it."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.taste"
 msgstr "You’ll love this"
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.in"
+msgstr "You’re in"
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.youreIn"
 msgstr "You’re in. See you there."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.inPlain"
+msgstr "You're in. The trip is confirmed once it's locked."
+
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.answered.in"
+msgstr "You're in. Waiting for {organiser} to lock the trip."
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.position"
@@ -960,7 +1256,7 @@ msgstr "You’re number {position} on the waitlist."
 msgid "proposal.build.offline"
 msgstr "You’re offline. The guide needs a connection to rewrite the versions."
 
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.waitlisted"
 msgstr "You’re on the waitlist."
 
@@ -968,7 +1264,11 @@ msgstr "You’re on the waitlist."
 msgid "proposal.seat.waiting"
 msgstr "You’re on the waitlist."
 
-#: ../../apps/mobile/src/features/proposal/data/picks.ts
+#: ../../apps/mobile/src/features/proposal/turn/copy.ts
+msgid "proposal.turn.finishDraft"
+msgstr "Your draft is ready. Only you see it until you send it."
+
+#: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.mustDo"
 msgstr "Your must-do"
 
@@ -977,6 +1277,7 @@ msgid "proposal.queued.option"
 msgstr "Your private choice"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.board.refused"
 msgstr "Your reply didn’t go through"
 

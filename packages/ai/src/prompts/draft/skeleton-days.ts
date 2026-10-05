@@ -166,6 +166,7 @@ export function keepWhatFits(
       // One of a kind too many gives its seat to another kind, when one is still on the list.
       const same =
         poi !== undefined &&
+        poi.essential !== true &&
         oneTooMany(input, [...mustDoChoices(input, day).map((c) => c.poiId), ...keep], poi) &&
         input.pools.activities.some(
           (other) =>

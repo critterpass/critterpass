@@ -56,6 +56,7 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
   // From here on an answered wish is a must-do with its place.
   const input = withWishAnswers(asked, checked.answers);
   const { frame, pools } = input;
+  const vi = input.locale?.toLowerCase().startsWith('vi') === true;
   const known = new Set(pools.activities.map((poi) => poi.id));
   const mustDoIds = new Set(pools.mustDos.map((slot) => slot.mustDoId));
   const taken = new Set<string>();
@@ -116,8 +117,8 @@ export function normaliseSkeleton(asked: DraftPlanInput, raw: unknown): Skeleton
       return {
         dayNo,
         date,
-        theme: clean(found?.theme, 'A day in town'),
-        area: clean(found?.area, 'the centre'),
+        theme: clean(found?.theme, vi ? 'Một ngày trong phố' : 'A day in town'),
+        area: clean(found?.area, vi ? 'trung tâm' : 'the centre'),
         mustDoIds: mine,
         poiIds,
         mealIds: [],

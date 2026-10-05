@@ -26,12 +26,12 @@ import {
   gradeFullDays,
   gradeHeld,
   gradeHoles,
-  gradeLanguage,
   gradeMustSees,
   gradeRain,
   gradeMustDos,
   gradeRedraftReasons,
 } from './asserts/day-shape-asserts';
+import { gradeDraftLanguage, gradeEssentials, gradeLanguage } from './asserts/language-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import { baselineItinerary } from './baseline';
 import {
@@ -153,6 +153,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
       themes,
       allMustDos,
       names: [...input.pois.values()].map((poi) => poi.name),
+      ...(crew.locale === undefined ? {} : { locale: crew.locale }),
     });
     const fromModel =
       text !==
@@ -161,6 +162,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
         destination: input.destination.split(',')[0] ?? '',
         themes,
         allMustDos,
+        ...(crew.locale === undefined ? {} : { locale: crew.locale }),
       });
     save();
     const output = result.itinerary.days
@@ -182,6 +184,8 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           ...(crew.expect_full_days ? gradeFullDays(result.input, result) : []),
           ...gradeDayFinish(result.input, result.itinerary),
           ...gradeHeld(result.input, result.itinerary),
+          ...gradeEssentials(result.input, result),
+          ...gradeDraftLanguage(crew.locale, result.itinerary, text),
           ...gradeMustSees(result.input, result.itinerary, crew.expect_core_min),
           ...(crew.expect_full_days ? gradeHoles(result.input, result.itinerary) : []),
         ],

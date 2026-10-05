@@ -54,6 +54,10 @@ const KINDS: Readonly<Record<string, Holds>> = {
   show: named('show', 'theatre', 'theater'),
   terrace: named('terrace'),
   forest: named('forest', 'rung'),
+  // The same in Vietnamese, as a title in the organiser's language writes them.
+  chua: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
+  cho: either(category('market'), named('market', 'cho')),
+  thac: named('waterfall', 'fall', 'thac'),
 };
 
 const PLACE_WORDS = new WeakMap<object, ReadonlyMap<string, number>>();

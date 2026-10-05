@@ -76,13 +76,26 @@ function MemberCard({
       style={[styles.card, member.isNewcomer ? styles.newcomer : null, stamp]}
       testID={`invite-manifest-${member.isNewcomer ? 'newcomer' : `member-${index}`}`}
     >
-      <View style={{ transform: [{ rotate: degrees(tilt) }], alignItems: 'center' }}>
+      {/* The tilted block takes the card's full width, so "just now" is set on one whole line
+          instead of being measured at its first word and cut. */}
+      <View
+        style={{
+          transform: [{ rotate: degrees(tilt) }],
+          alignItems: 'center',
+          alignSelf: 'stretch',
+        }}
+      >
         <Avatar name={member.name} joinIndex={index} size="md" />
-        <Text variant="rowTitle" color={theme.color.paper.ink}>
+        <Text variant="rowTitle" color={theme.color.paper.ink} numberOfLines={1}>
           {upper(member.name, locale)}
         </Text>
-        <Text variant="caption" color={theme.color.paper.muted}>
-          {detail}
+        <Text
+          variant="caption"
+          color={theme.color.paper.muted}
+          numberOfLines={1}
+          style={{ textAlign: 'center', alignSelf: 'stretch' }}
+        >
+          {detail.replaceAll(' ', '\u00a0')}
         </Text>
       </View>
     </Animated.View>

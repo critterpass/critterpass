@@ -17,14 +17,15 @@ import { foodRole } from './food-role';
 import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
-import type {
-  Chronotype,
-  CostBands,
-  DayChoice,
-  DayWindow,
-  DraftPoi,
-  TravelMatrix,
-  TripFrame,
+import {
+  isPinId,
+  type Chronotype,
+  type CostBands,
+  type DayChoice,
+  type DayWindow,
+  type DraftPoi,
+  type TravelMatrix,
+  type TripFrame,
 } from './types';
 
 export { ceilGrid, GRID_MIN } from './day-minutes';
@@ -279,7 +280,7 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     items.push({
       stable_id: choice.stableId ?? input.idFor(choice, index),
       kind: choice.kind,
-      poi_id: choice.poiId,
+      poi_id: isPinId(choice.poiId) || choice.poiId === '' ? null : choice.poiId,
       starts_at: instantAt(input.date, start, tz).toISOString(),
       ends_at: instantAt(input.date, end, tz).toISOString(),
       tz,

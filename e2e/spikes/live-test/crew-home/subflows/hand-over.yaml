@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# The phone changes hands: Developer tools signs the kept account ${TARGET} back in
+# (dev-accounts-switch-<n>), the app restarts on Home in the walk's language, and ${SHOT} is what
+# the returning person sees first: the trip card and, under it, what is theirs to do.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../../../../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: ${TARGET}
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 90000
+- runFlow:
+    file: locale.yaml
+    env:
+      LANDS: 'home-header-chat'
+# Sync brings the other person's changes in a moment after the restart.
+- extendedWaitUntil:
+    visible:
+      id: 'home-turn-.*'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: ${SHOT}

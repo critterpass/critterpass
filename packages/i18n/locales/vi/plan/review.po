@@ -99,6 +99,22 @@ msgstr "{guideName} đã sắp xếp lại vài thứ."
 msgid "plan.review.mustDosTouched"
 msgstr "{mustDosTouched, plural, other {điểm nhất định ghé bị ảnh hưởng}}"
 
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.add"
+msgstr "{name} muốn thêm {where}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.remove"
+msgstr "{name} muốn bỏ {place}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.move"
+msgstr "{name} muốn dời {place} sang {at}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swap"
+msgstr "{name} muốn đổi sang {where}"
+
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.tallySoFar"
 msgstr "{needed, plural, other {{yes} trên # đồng ý}}"
@@ -504,6 +520,22 @@ msgstr "Bạn đã đồng ý"
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
 msgstr "Bạn đã đồng ý."
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.addMine"
+msgstr "Bạn muốn thêm {where}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.removeMine"
+msgstr "Bạn muốn bỏ {place}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.moveMine"
+msgstr "Bạn muốn dời {place} sang {at}"
+
+#: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
+msgid "plan.card.title.swapMine"
+msgstr "Bạn muốn đổi sang {where}"
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.yourYes"

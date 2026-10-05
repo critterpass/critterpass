@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "55533cc9-2afe-4503-8918-2ceac2274a23",
+        "id": "d6675016-3f20-4b2b-bfd3-f1272660d134",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One long garden wander, then lunch and dinner with plenty of unhurried time between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, this is the one activity that earns the slower pace, and the flower beds are worth a long look.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this lunch is the keeper, so it stays right where the crew wanted it.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves here so the evening stays easy and the night owl gets a proper late meal.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Slower Day in Đà Lạt\",\n  \"summary\": \"From what Tokek knows so far, the day eases into one long garden visit and keeps both meals, all within a short ride.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden gets the whole unhurried afternoon, since the crew wanted fewer activities and more time at each.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the kept bánh căn stop stays put for lunch, because a slower day never skips a meal.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to another spot in the same area, since one meal place should not be used twice.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1882,
+          "input_tokens": 90,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 233,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 259,
           "service_tier": "standard"
         }
       }

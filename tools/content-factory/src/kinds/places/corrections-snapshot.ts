@@ -23,6 +23,7 @@ interface Row {
   tz: string | null;
   curated: boolean;
   must_see: boolean;
+  essential: boolean;
   source_ids: Record<string, string>;
   target_ids: Record<string, string> | null;
 }
@@ -47,6 +48,7 @@ export async function snapshotRows(pool: pg.Pool, refs: readonly string[]): Prom
         `SELECT p.id, d.slug AS destination, p.name, p.name_local, p.category, p.lat, p.lng, p.address,
                 p.timezone AS tz, p.curation = 'editorial' AS curated,
                 coalesce((p.editorial->>'must_see')::boolean, false) AS must_see,
+                coalesce((p.editorial->>'essential')::boolean, false) AS essential,
                 p.source_ids, target.source_ids AS target_ids
            FROM pois p
            JOIN destinations d ON d.id = p.destination_id

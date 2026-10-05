@@ -1,0 +1,48 @@
+appId: app.critterpass.dev
+---
+# Two frames from the proposal lab, in English then Vietnamese: a member's version after they
+# answered (the pill says the answer, not the reply date), and the lock sheet (its title clear of
+# the close button).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: ../../../proposal/subflows/open-lab.yaml
+- runFlow:
+    file: ../../../proposal/subflows/scene.yaml
+    env: { SCENE: version-answered, READY: version-answered, SHOT: crew-home-en-version-answered }
+- runFlow:
+    file: ../../../proposal/subflows/scene.yaml
+    env: { SCENE: tracker-lock-sheet, READY: tracker-lock-confirm, SHOT: crew-home-en-lock-sheet }
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../../../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../../../onboarding/subflows/back.yaml
+# Back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow: ../../../proposal/subflows/open-lab.yaml
+- runFlow:
+    file: ../../../proposal/subflows/scene.yaml
+    env: { SCENE: version-answered, READY: version-answered, SHOT: crew-home-vi-version-answered }
+- runFlow:
+    file: ../../../proposal/subflows/scene.yaml
+    env: { SCENE: tracker-lock-sheet, READY: tracker-lock-confirm, SHOT: crew-home-vi-lock-sheet }
