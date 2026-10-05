@@ -10,15 +10,15 @@ streams:
       - |
         SELECT * FROM swipe_sessions
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM swipe_yes_votes
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
       - |
         SELECT * FROM swipe_matches
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
 
   # Subscribed with {destination_id} while browsing; approved tips are public to any signed-in reader.
   explore:

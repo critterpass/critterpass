@@ -3,9 +3,13 @@
  * its place; a malformed entry is dropped; and what a redraft took out is what its version leaves
  * out that the draft before it did not.
  */
-import { describe, expect, it } from '@jest/globals';
+import { i18n } from '@lingui/core';
+import { beforeAll, describe, expect, it } from '@jest/globals';
+
+import { ESSENTIAL_GAP_REASONS } from '@cp/domain';
 
 import { leftOutOf, takenOut } from '../data/left-out';
+import { leftOutWhy } from '../data/left-out-copy';
 
 const row = (poiId: string, name: string, reason: string) => ({ poi_id: poiId, name, reason });
 
@@ -42,5 +46,16 @@ describe('takenOut', () => {
     });
     expect(takenOut(before, after).map((place) => place.name)).toEqual(['Valley of Love']);
     expect(takenOut(after, before)).toEqual([]);
+  });
+});
+
+describe('leftOutWhy', () => {
+  beforeAll(() => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+  });
+
+  it('has words for every reason the planner gives', () => {
+    for (const reason of ESSENTIAL_GAP_REASONS) expect(leftOutWhy(reason)).not.toBeNull();
+    expect(leftOutWhy('a_reason_from_a_newer_server')).toBeNull();
   });
 });

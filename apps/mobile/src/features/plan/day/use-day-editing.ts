@@ -4,7 +4,7 @@
  * saying what changed with UNDO (an organiser's) or that it went to the crew (a member's).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- lock kinds and toast ids, never copy (every line is worded through `t`). */
-import type { PlanOp } from '@cp/domain';
+import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useCallback, useLayoutEffect, useRef } from 'react';
@@ -21,6 +21,8 @@ import { reviewRoute } from './routes';
 
 export interface SubmitOptions {
   readonly confirmLocked?: boolean;
+  /** The later stops these ops push for one stop (kept on the version so they can go back). */
+  readonly pushed?: PlanPush;
   /** What an add adds, for the toast ("Tanah Lot"). */
   readonly label?: string;
 }
@@ -89,10 +91,10 @@ export function useDayEditing(plan: TripPlan) {
   const submit = useCallback(
     async (ops: readonly PlanOp[], options: SubmitOptions = {}): Promise<EditOutcome> => {
       const { plan: before, locale: lang } = latest.current;
-      const outcome = await send(
-        ops,
-        options.confirmLocked === undefined ? {} : { confirmLocked: options.confirmLocked },
-      );
+      const outcome = await send(ops, {
+        ...(options.confirmLocked === undefined ? {} : { confirmLocked: options.confirmLocked }),
+        ...(options.pushed === undefined ? {} : { pushed: options.pushed }),
+      });
       if (outcome.kind === 'unavailable' || ops.length === 0) return outcome;
       const tripId = before.trip?.id ?? '';
       const words = describeEdit(ops, {

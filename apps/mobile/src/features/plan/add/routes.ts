@@ -94,19 +94,18 @@ interface NavState {
 }
 
 /**
- * The plan day the sheet was opened from, read off the screens under it: the newest one that is
- * scoped to a day (search opened "for Thu" from that day's plan). The sheet opens on that day
- * even when the screen in between passed only the place.
+ * The plan day the sheet was opened from: the screen right under it, when that screen is about
+ * one day (search opened "for Thu" from that day's plan). A day-scoped screen further down the
+ * stack does not count: she has since moved on from it.
  */
 export function originDayId(state: NavState | undefined): string | undefined {
-  for (const route of [...(state?.routes ?? [])].reverse()) {
-    const inner = originDayId(route.state);
-    if (inner !== undefined) return inner;
-    // The search route carries its day as `day_id`.
-    const params = (route.params ?? {}) as { scope?: unknown; day_id?: unknown };
-    if (params.scope === 'day' && typeof params.day_id === 'string' && params.day_id !== '') {
-      return params.day_id;
-    }
+  // The stack the sheet is on: follow the newest screen down while it holds a stack of its own.
+  let routes = state?.routes ?? [];
+  for (let top = routes.at(-1); top?.state?.routes !== undefined; top = routes.at(-1)) {
+    routes = top.state.routes;
   }
-  return undefined;
+  const params = (routes.at(-2)?.params ?? {}) as { scope?: unknown; day_id?: unknown };
+  return params.scope === 'day' && typeof params.day_id === 'string' && params.day_id !== ''
+    ? params.day_id
+    : undefined;
 }

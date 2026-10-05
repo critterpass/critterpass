@@ -18,14 +18,15 @@ streams:
       - |
         SELECT * FROM price_quotes
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN trip_crew)
 
   trip_pack:
     with:
       trip_destination: |
         SELECT destination_id FROM trips
         WHERE id = subscription.parameter('trip_id')
-          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
+          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active'
+                          AND crew_id IN (SELECT crew_id FROM trips WHERE id = subscription.parameter('trip_id')))
     queries:
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination

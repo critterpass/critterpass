@@ -17,6 +17,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { freeGaps } from './day-gaps';
+import { DraftNote } from './draft-note';
 import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, usePlanClock } from './next-stop';
 import { dateLine, dayOfTrip, stopsLine } from './format';
@@ -104,6 +105,8 @@ export function DaySheet(
           {stopsLine(day.stops.length, route.legs)}
         </Text>
       </PressScale>
+      {/* Her own plan before the crew has one: where it stands, as on the peek. */}
+      <DraftNote model={model} />
       {rows.length === 0 && (day.mine ?? []).length === 0 ? (
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.tripMap.nothingYet', message: 'Nothing planned yet' })}
@@ -122,6 +125,7 @@ export function DaySheet(
             me: model.me,
             guide: model.guide,
             organiser: model.organiser,
+            byHand: model.draft,
             notes: false,
             go: goStop === null ? [] : [goStop],
             picked: props.picked,

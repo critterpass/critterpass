@@ -41,18 +41,20 @@ export function Section({
 }
 
 /**
- * What the cost line can say: a price when there is one; "Free" only for a place known to be free
- * (its price level says so); "No estimate yet" for a place nobody has priced, never "Free"; and
- * nothing for a note with no place and no price.
+ * What the cost line can say: a price when it is the stop's own (a booking's, or one a person put
+ * on it); "Free" only for a place known to be free (its price level says so); "No estimate yet"
+ * for anything else, never "Free" and never the guide's even share of the day's budget, which is
+ * the same for every stop and says nothing about this one; nothing for a bare note.
  */
 export function costKind(
   amountMinor: number | null,
   priceLevel: number | null,
   hasPlace: boolean,
+  own = true,
 ): 'priced' | 'free' | 'unknown' | 'none' {
-  if (amountMinor !== null && amountMinor > 0) return 'priced';
+  if (own && amountMinor !== null && amountMinor > 0) return 'priced';
   if (priceLevel === 0) return 'free';
-  return hasPlace || amountMinor === 0 ? 'unknown' : 'none';
+  return hasPlace || amountMinor !== null ? 'unknown' : 'none';
 }
 
 export function ItemFacts({
@@ -73,7 +75,12 @@ export function ItemFacts({
   // A trip of one: no "each", no "everyone".
   const solo = members.length <= 1;
   const going = members.filter((member) => item.attendeeIds.includes(member.uid));
-  const kind = costKind(item.amountMinor, priceLevel, item.poiId !== null);
+  const kind = costKind(
+    item.amountMinor,
+    priceLevel,
+    item.poiId !== null,
+    item.bookingId !== null || !item.byGuide,
+  );
   const cost =
     kind === 'none'
       ? null

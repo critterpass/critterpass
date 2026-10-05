@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# Live walk, adding to the plan alone: a fresh account on real staging with a locked Bali
+# plan adds a place that pushes the day, and takes it off again. The planning screens are turned on for this phone only.
+- runFlow:
+    file: plan-edits-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-push-en-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+
+- runFlow:
+    file: plan-edits-subflows/push-and-back.yaml
+    env:
+      SHOTS: plan-push-en

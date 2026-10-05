@@ -47,6 +47,10 @@ msgstr "{minutes} phút đi bộ"
 msgid "plan.add.why.driveRide"
 msgstr "{minutes} phút, gọi xe được"
 
+#: ../../apps/mobile/src/features/plan/add/use-opening-check.ts
+msgid "plan.add.closed.late"
+msgstr "{name} đóng cửa lúc {shuts}; điểm này sẽ bắt đầu lúc {at}."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearby"
 msgstr "{name} cách {count} phút nữa. Thêm luôn nhé?"
@@ -54,6 +58,10 @@ msgstr "{name} cách {count} phút nữa. Thêm luôn nhé?"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearbyNextDoor"
 msgstr "{name} ở ngay bên cạnh. Thêm luôn nhé?"
+
+#: ../../apps/mobile/src/features/plan/add/use-opening-check.ts
+msgid "plan.add.closed.shut"
+msgstr "{name} đóng cửa ngày đó; điểm này sẽ bắt đầu lúc {at}."
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.length.minutes"
@@ -119,6 +127,10 @@ msgstr "Hợp nhất vào buổi tối"
 #: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
 msgid "plan.add.why.morning"
 msgstr "Hợp nhất vào buổi sáng"
+
+#: ../../apps/mobile/src/features/plan/add/better-day.ts
+msgid "plan.add.betterOn"
+msgstr "Hợp hơn vào {dayLabel} lúc {time}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"

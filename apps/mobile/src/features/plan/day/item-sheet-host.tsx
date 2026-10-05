@@ -9,7 +9,7 @@
  * says what changed, and the sheet closes.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import type { PlanOp } from '@cp/domain';
+import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { Linking, View } from 'react-native';
@@ -17,6 +17,7 @@ import { Linking, View } from 'react-native';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems, type DayItem } from '@/data/plan/plan-model';
 import { moveToDayOp, removeOp, resizeOp, type DaySlot } from '@/data/plan/plan-ops';
+import { pushOf, useVersionPushes } from '@/data/plan/plan-pushes';
 import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -33,6 +34,8 @@ import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
+import { nowMinOn, pastTimePreview } from './past-time';
+import { pushedBack } from './pushed-back';
 import { gapLine, retimePreview } from './retime-copy';
 import { mapsUrl, placeRoute, reviewRoute } from './routes';
 import { StopDayActions } from './stop-day-actions';
@@ -40,7 +43,7 @@ import { StopDayActions } from './stop-day-actions';
 export interface ItemSheetEditor {
   readonly submit: (
     ops: readonly PlanOp[],
-    options?: { readonly confirmLocked?: boolean },
+    options?: { readonly confirmLocked?: boolean; readonly pushed?: PlanPush },
   ) => Promise<EditOutcome>;
   readonly skipForMe: (item: DayItem) => Promise<boolean>;
 }
@@ -103,18 +106,20 @@ export function ItemSheetHost({
     const date = plan.state.days.find((day) => day.day_no === dayNo)?.date ?? null;
     return date === null ? null : { dayNo, date };
   };
-  /** The day `dayNo` with this stop at its new time: what else has to move, or why it can't. */
-  const timed = (change: { start: number; end: number; dayNo: number }): Retime | null => {
-    const to = slotOf(change.dayNo);
-    if (to === null) return null;
-    const there = dayItems(plan.state, change.dayNo, plan.display, tz);
+  /** The day `dayNo` as this stop would join it, with the minutes between its stops. */
+  const dayFor = (dayNo: number) => {
+    const to = slotOf(dayNo);
+    const there = dayItems(plan.state, dayNo, plan.display, tz);
     const stops =
-      change.dayNo === item.dayNo
-        ? there
-        : [...there, { ...item, dayNo: change.dayNo, start: null, end: null }];
+      dayNo === item.dayNo ? there : [...there, { ...item, dayNo, start: null, end: null }];
     const straight = travelMinutes(stops);
     const between: Travel = travel ?? ((from, next) => straight(from.stableId, next.stableId) ?? 0);
-    return retime(stops, { stableId: item.stableId, ...change }, to, between);
+    return { to, stops, between };
+  };
+  /** The day `dayNo` with this stop at its new time: what else has to move, or why it can't. */
+  const timed = (change: { start: number; end: number; dayNo: number }): Retime | null => {
+    const { to, stops, between } = dayFor(change.dayNo);
+    return to === null ? null : retime(stops, { stableId: item.stableId, ...change }, to, between);
   };
   const pushes = (change: { start: number; end: number; dayNo: number }): readonly PlanOp[] => {
     const result = timed(change);
@@ -130,6 +135,11 @@ export function ItemSheetHost({
     travel ?? ((from, next) => straightHere(from.stableId, next.stableId) ?? 0),
     outOfPlaceOn(slot.date, tz),
   );
+  // What this stop pushed when it came in: taking it off puts exactly those back (else the gap rule).
+  const kept = useVersionPushes(plan.versionId);
+  const back = plan.mode === 'draft' ? null : pushedBack(kept, item.stableId, plan.state);
+  const takeOff = back?.ops ?? gap.ops;
+  const backLine = (day?: string) => back?.line ?? gapLine(gap, day);
   const suggestionId = plan.proposed.has(item.stableId)
     ? openSuggestion(plan, item.stableId)
     : null;
@@ -175,7 +185,7 @@ export function ItemSheetHost({
       members={plan.members}
       canApply={plan.canApply}
       priceLevel={price.rows[0]?.price_level ?? null}
-      removeLine={gapLine(gap)}
+      removeLine={backLine()}
       mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
       suggestion={
         suggestionId === null
@@ -212,10 +222,20 @@ export function ItemSheetHost({
       preview={(change) => {
         const result = timed(change);
         if (result === null) return { line: null, blocked: false };
+        // A time already gone on a day that has begun is never put there as if she had been.
+        const { to, stops, between } = dayFor(change.dayNo);
+        const past =
+          to === null
+            ? null
+            : pastTimePreview({
+                ...{ stops, stop: item, start: change.start, end: change.end, locale, slot: to },
+                nowMin: nowMinOn(to.date, tz),
+                travel: between,
+              });
+        if (past !== null) return past;
         const toDay = change.dayNo === item.dayNo ? null : (dayLabels.get(change.dayNo) ?? null);
         const there = retimePreview(result, locale, toDay);
-        const back =
-          toDay === null || there.blocked ? null : gapLine(gap, dayLabels.get(item.dayNo));
+        const back = toDay === null || there.blocked ? null : backLine(dayLabels.get(item.dayNo));
         return back === null ? there : { ...there, line: `${there.line ?? ''} ${back}`.trim() };
       }}
       comments={
@@ -233,7 +253,11 @@ export function ItemSheetHost({
         onClose,
         onSave: (start, end, confirmLocked) => {
           const others = pushes({ start, end, dayNo: item.dayNo });
-          void editor.submit([resizeOp(item, slot, start, end), ...others], { confirmLocked });
+          const pushed = pushOf(item.stableId, others, plan.state);
+          void editor.submit([resizeOp(item, slot, start, end), ...others], {
+            confirmLocked,
+            ...(pushed && { pushed }),
+          });
           onClose();
         },
         onMoveToDay: (target, confirmLocked, times) => {
@@ -243,13 +267,15 @@ export function ItemSheetHost({
           const end = times?.end ?? item.end;
           const others =
             start === null || end === null ? [] : pushes({ start, end, dayNo: target });
-          void editor.submit([moveToDayOp({ ...item, start, end }, to), ...others, ...gap.ops], {
+          const pushed = pushOf(item.stableId, others, plan.state);
+          void editor.submit([moveToDayOp({ ...item, start, end }, to), ...others, ...takeOff], {
             confirmLocked,
+            ...(pushed && { pushed }),
           });
           onClose();
         },
         onRemove: (confirmLocked) => {
-          void editor.submit([removeOp(item), ...gap.ops], { confirmLocked });
+          void editor.submit([removeOp(item), ...takeOff], { confirmLocked });
           onClose();
         },
         onSkipForMe: onDraft ? null : skipForMe,
