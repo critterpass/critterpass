@@ -52,7 +52,12 @@ appId: app.critterpass.dev
     id: 'pitch-result-0'
 - extendedWaitUntil:
     visible:
-      id: 'pitch-quote'
+      id: 'pitch-card'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
     timeout: 60000
 - waitForAnimationToEnd
 - tapOn:
@@ -132,18 +137,25 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'budget-lock'
 # Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
+# A destination with no stay prices has no room plan to make: the set-up passes straight to the
+# must-dos, for a crew of any size, and the rooms steps below only run when the step shows.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
+      id: 'setup-rooms-lock|must-dos-add'
     timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: money-add-once-rooms
-- scrollUntilVisible:
-    element:
-      id: 'setup-rooms-lock'
-    timeout: 10000
-- tapOn:
-    id: 'setup-rooms-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: money-add-once-rooms
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'

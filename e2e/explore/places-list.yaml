@@ -1,11 +1,10 @@
 appId: app.critterpass.dev
 ---
-# The trip's places as rows (7c-3) for a fresh account with the demo's Bali trip and the planning
-# redesign on: grouped by where each place stands, Tokek's picks sorted by fit with their fit lines.
+# The trip's places as rows (7c-3) for a fresh account with the demo's Bali trip: grouped by where each place stands, Tokek's picks sorted by fit with their fit lines.
 # Swiping a suggestion right saves it to Ideas (it moves to SAVED, NOT IN A DAY) and UNDO puts it
 # back; swiping left hides it and UNDO brings it back. The sort menu lists the orders and the hidden
 # places. MAP goes back with the same chip on.
-# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub →
+# Onboard, seed the demo's Bali trip, then TRIPS → the hub →
 # PLAN (the trip map) → ≡ LIST.
 - runFlow: ../home/subflows/fresh-install.yaml
 - runFlow: ../home/subflows/onboard.yaml
@@ -13,7 +12,6 @@ appId: app.critterpass.dev
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:

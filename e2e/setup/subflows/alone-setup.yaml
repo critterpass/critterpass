@@ -66,17 +66,17 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'pitch-result-0'
-# The guide's closing line ends the pitch; on a long card (Vietnamese runs longer) it sits below
-# the fold, so the card is scrolled to it.
+# ADD TO THE VOTE turns on once the pitch has ended; its closing line is written by the AI and
+# sometimes left out, so the flow waits on the card and the button, never on the line.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-reasons'
+      id: 'pitch-card'
     timeout: 90000
-- scrollUntilVisible:
-    element:
-      id: 'pitch-quote'
-    direction: DOWN
-    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-add'
+      enabled: true
+    timeout: 90000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-pitch-card
 - waitForAnimationToEnd

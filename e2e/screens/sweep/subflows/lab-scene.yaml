@@ -27,15 +27,17 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${SHOT}
-# Back to the list: once, and again while the scene is still up (a sheet over a scene closes first).
-# The list keeps its place, so the row itself can be off screen there.
+# Back to the list: once, and again while the scene is still up (a sheet over a scene closes first,
+# and a raised map sheet lowers one snap at a time). The list keeps its place, so the row itself can
+# be off screen there.
 - back
 - waitForAnimationToEnd:
     timeout: 3000
-- runFlow:
-    when:
+- repeat:
+    while:
       visible:
         id: '${READY}'
+    times: 3
     commands:
       - back
       - waitForAnimationToEnd:

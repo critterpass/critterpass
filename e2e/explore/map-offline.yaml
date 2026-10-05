@@ -1,8 +1,7 @@
 appId: app.critterpass.dev
 ---
 # A destination's places map (7c-1, outside a trip) and its search for a brand-new account, online
-# and then in airplane mode. A fresh install onboards (no crew, no trip), turns the planning
-# redesign on for this phone, taps a guide on Home's first-run grid, and opens the destination's
+# and then in airplane mode. A fresh install onboards (no crew, no trip), taps a guide on Home's first-run grid, and opens the destination's
 # map from its page (never by link). Online, the peek counts the places and offers the region for
 # offline; the list shows the destination's places. With airplane mode on, the map's own field
 # still answers from the places already on this phone, and the map says the region needs
@@ -13,7 +12,6 @@ appId: app.critterpass.dev
     env:
       LANG: en
 - runFlow: ../home/subflows/onboard.yaml
-- runFlow: ../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-guide-pon'

@@ -69,14 +69,18 @@ appId: app.critterpass.dev
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'tab-trips'
+# The hub's last row: one more scroll lifts it clear of the guide's button over the tab bar, which
+# otherwise takes the tap.
 - scrollUntilVisible:
     element:
       id: 'trip-hub-explore'
     direction: DOWN
     timeout: 30000
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'trip-hub-explore'
 - extendedWaitUntil:

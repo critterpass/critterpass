@@ -1,16 +1,16 @@
 appId: app.critterpass.dev
 env:
-  # An open-data record no curated name matches (the Japanese Covered Bridge in Hội An, a real
-  # drive from the centre); matched loosely, since the Chùa Cầu records may be merged later.
+  # An open-data record only the server holds: "Japanese Bridge", a pin with no photo, next to the
+  # curated Japanese Covered Bridge in Hội An (which the guide may already have drafted in).
   PLACE_QUERY: 'japanese bridge'
-  PLACE_TEXT: '(?i).*(japanese covered bridge|ch[ùu]a c[ầa]u).*'
+  PLACE_TEXT: '(?i)japanese bridge'
 ---
 # Searching a real place to add to a fresh trip's day, on staging: a brand-new account locks in a
-# Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1 and adds a stop by
-# search. "My Son" is typed the way a keyboard writes it and still finds places written with their
-# accents. Then a place only the server has (open data, ${PLACE_QUERY} → ${PLACE_TEXT}) is found
-# after the phone's own rows, added, and shown on the day by its own name. A word no place has
-# says "Nothing found".
+# Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1's day plan and adds
+# a stop from its add bar: search, then Add to plan, then ADD. "My Son" is typed the way a keyboard
+# writes it and still finds places written with their accents. Then a place only the server has
+# (open data, ${PLACE_QUERY} → ${PLACE_TEXT}) is found after the phone's own rows, added, and shown
+# on the day by its own name. A word no place has says nothing was found.
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
@@ -52,45 +52,58 @@ env:
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'trip-map|day-plan'
     timeout: 60000
-- tapOn:
-    id: 'plan-day-1'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-map'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+      - tapOn:
+          id: 'trip-map-day-chips-1'
+          optional: true
+      - tapOn:
+          id: 'trip-map-peek-open-day-pill'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'day-plan'
     timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'plan-day-add'
-    direction: DOWN
-    timeout: 15000
 - tapOn:
-    id: 'plan-day-add'
+    id: 'day-plan-day-chips-1'
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-query'
+      id: 'search-screen'
     timeout: 15000
 - tapOn:
-    id: 'plan-add-query'
+    id: 'search-field'
 - inputText: 'My Son'
-# A row, or the sheet saying the trip's places are still arriving: never an empty space. The places
-# land within a couple of minutes on a fresh trip.
+# Rows, or the list still filling in: never an empty space. The places land within a couple of
+# minutes on a fresh trip.
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-place-.*|plan-add-searching'
+      id: 'search-name-results|search-row-.*'
     timeout: 20000
 - takeScreenshot: en-fresh-add-search-first
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-place-.*'
+      text: '(?i).*m[ỹy] s[ơo]n.*'
     timeout: 180000
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-fresh-add-search-my-son
 # A place the phone does not carry (open data, ${PLACE_TEXT}): its row comes from the server.
 - tapOn:
-    id: 'plan-add-query'
+    id: 'search-clear'
+    optional: true
+- tapOn:
+    id: 'search-field'
 - eraseText: 20
 - inputText: ${PLACE_QUERY}
 - extendedWaitUntil:
@@ -104,42 +117,69 @@ env:
     direction: DOWN
     timeout: 30000
 - takeScreenshot: en-fresh-add-search-server-row
+# Its + saves it to the trip first, then Add to plan opens on day 1.
 - tapOn:
-    text: ${PLACE_TEXT}
+    id: 'search-row-add-[0-9]+'
+    childOf:
+      id: 'search-row-[0-9]+'
+      containsDescendants:
+        - text: ${PLACE_TEXT}
 - extendedWaitUntil:
     visible:
       id: 'plan-add-confirm'
       enabled: true
-    timeout: 10000
+    timeout: 30000
 - takeScreenshot: en-fresh-add-search-picked
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm'
+    direction: DOWN
+    timeout: 8000
 - tapOn:
     id: 'plan-add-confirm'
-# The new stop is named by its place, on this phone before the plan's record of it arrives and
-# after.
+# Back on the day plan, the new stop is named by its place, on this phone before the plan's record
+# of it arrives and after.
+# ADD closes the sheet onto the search it came from, which may close too: back only while the
+# search is still up, never past the day plan.
+- waitForAnimationToEnd:
+    timeout: 5000
 - extendedWaitUntil:
     visible:
+      id: 'day-plan|search-screen'
+    timeout: 15000
+- repeat:
+    while:
+      visible:
+        id: 'search-screen'
+    times: 3
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
       text: ${PLACE_TEXT}
+    direction: DOWN
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: en-fresh-add-stop-added
 # A word no place has, on the phone or the server, says so.
-- scrollUntilVisible:
-    element:
-      id: 'plan-day-add'
-    direction: DOWN
-    timeout: 15000
 - tapOn:
-    id: 'plan-day-add'
+    id: 'day-plan-add'
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-query'
+      id: 'search-screen'
     timeout: 15000
 - tapOn:
-    id: 'plan-add-query'
+    id: 'search-field'
 - inputText: 'zzqx'
 - extendedWaitUntil:
     visible:
-      id: 'plan-add-none'
+      id: 'search-name-none|search-no-results'
     timeout: 20000
 - takeScreenshot: en-fresh-add-search-none

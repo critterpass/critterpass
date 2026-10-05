@@ -138,7 +138,8 @@ appId: app.critterpass.dev
     id: 'board-pending'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-boarded
-# In: the friend opens the whole plan from their version and sees day 1.
+# In: the friend opens the whole plan from their version and sees day 1 (the trip map, or the day
+# plan when PLAN opens on the day).
 - tapOn:
     id: 'board-done'
 - scrollUntilVisible:
@@ -147,14 +148,16 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'version-whole-plan'
-# iOS reads each day card whole by its label ("Day 1, Sat, …"), with the card's own id inside it.
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'trip-map|day-plan'
     timeout: 60000
-- assertVisible: '(?i)day 1,.*'
+- extendedWaitUntil:
+    visible:
+      id: '(trip-map|day-plan)-day-chips-1'
+    timeout: 30000
 - waitForAnimationToEnd
-- takeScreenshot: en-3e-1-friend-plan
+- takeScreenshot: en-7a-1-friend-plan
 
 # The organiser locks the crew in: the trip is confirmed.
 - runFlow:

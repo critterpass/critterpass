@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# The place page's screenshots in English, from the Explore lab's scenes.
+# The place page's screenshots (7e-1, 7e-2) in English, from the Explore lab's scenes.
 - runFlow: subflows/lab-en.yaml
 - runFlow:
     file: subflows/place-scenes.yaml

@@ -5,8 +5,7 @@ onFlowComplete:
 ---
 # A real trip's plan with no network (Android only: Maestro's airplane mode cannot cut the iOS
 # simulator's network). A brand-new account locks in a Đà Nẵng trip for today
-# (../happy/subflows/trip-under-way.yaml) and turns the section 7 plan screens on for this phone
-# (../_shared/planning-redesign-on.yaml). Online, PLAN opens the trip map, its day at half and the
+# (../happy/subflows/trip-under-way.yaml). Online, PLAN opens the trip map, its day at half and the
 # day plan; then in airplane mode, after a cold start, the same trip map and day plan draw from
 # what the phone holds, the routed legs and their road lines included.
 - runFlow:
@@ -26,7 +25,6 @@ onFlowComplete:
       id: 'home-header-chat'
     timeout: 60000
 - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
-- runFlow: ../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'

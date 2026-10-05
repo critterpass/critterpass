@@ -198,7 +198,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `fresh-trip-money` | on that trip: three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |
 | `fresh-trip-day` | on that trip: hub on day 1 of 3 → day-of screen (tomorrow's, then back to today) → pack list → background and reopen → relaunch → the briefing settles |
 | `fresh-trip-landing` | no seed: a trip from tomorrow, its flight today typed in by hand → I LANDED → Home turns to the trip being on |
-| `fresh-join-under-way` | no seed, three accounts: a trip from today confirmed → a third joins with the crew code → on the trip (plan, split three ways) |
+| `fresh-trip-plan` | on that trip: PLAN opens the trip map → day 1's plan → search → Add to plan → ADD → the stop moved to day 2 (all days shows it) → a place saved with ♡ in Ideas → the plan check → after a relaunch day 2 still has the stop |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds
