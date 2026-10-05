@@ -134,27 +134,27 @@ appId: app.critterpass.dev
       notVisible:
         id: 'dev-tools-entry'
     file: ../onboarding/subflows/back.yaml
-# A day timeline, from the plan editing lab.
+# A day plan's times, from the plan views lab (any of its rows says the list is up).
 - runFlow:
     file: ../permissions/subflows/open-dev-screen.yaml
     env:
-      SCREEN: plan-edit-lab
-      READY: plan-edit-lab-day
+      SCREEN: plan-views-lab
+      READY: plan-views-lab-.*
 - scrollUntilVisible:
     element:
-      id: 'plan-edit-lab-day'
+      id: 'plan-views-lab-day-plan'
     direction: DOWN
     centerElement: true
-    timeout: 20000
+    timeout: 30000
 - tapOn:
-    id: 'plan-edit-lab-day'
+    id: 'plan-views-lab-day-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'day-plan'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3e-2-24h
+- takeScreenshot: en-7b-1-24h
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow: ../onboarding/subflows/back.yaml
 # The live map's distances, from its lab.

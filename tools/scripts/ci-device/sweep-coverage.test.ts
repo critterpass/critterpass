@@ -40,10 +40,20 @@ describe('UI sweep', () => {
     // Shots of the area subflows a lab scenario runs with the language: taken directly
     // (`${PREFIX}-…`), named by a scene opener's SHOT, or by its SCENE.
     expect(sweepShots(ROOT)).toEqual(
-      expect.arrayContaining(['3f-1-build', '3i-4-cant-read', '3c-10-add-must-do', '3e-1-plan']),
+      expect.arrayContaining([
+        '3f-1-build',
+        '3i-4-cant-read',
+        '3c-10-add-must-do',
+        '7a-1-trip-map',
+      ]),
     );
     expect(designIdOf('3c-1-showdown')).toBe('3c-1');
     expect(designIdOf('crew-new-code')).toBeUndefined();
+  });
+
+  it('counts a screen registered through a named route builder', () => {
+    // `'7c-1': placesMap,` and `'7h-3': dayScreen(checkRoutes.lessDriving)`.
+    expect(registryIds(ROOT).registered).toEqual(expect.arrayContaining(['7c-1', '7h-3', '7g-3']));
   });
 
   it('formats a report with the counts', () => {

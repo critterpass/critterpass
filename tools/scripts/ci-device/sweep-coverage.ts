@@ -74,6 +74,11 @@ export const SCENARIOS: readonly Scenario[] = [
   },
   { name: 'labs-guide', onboard: false, summary: "lab scenes for the guide's sheet" },
   { name: 'labs-plan', onboard: false, summary: 'lab scenes for the draft, the plan and its days' },
+  {
+    name: 'labs-places',
+    onboard: false,
+    summary: 'lab scenes for places, search and Explore in a trip',
+  },
   { name: 'labs-trip', onboard: false, summary: 'lab scenes for the trip day and critters' },
 ];
 
@@ -115,6 +120,30 @@ export const ROUTE_SHOTS: Readonly<Record<string, readonly string[] | { unreacha
   '(tabs)/trips/[tripId]/index': ['3k-1-photo'],
   '(trip)/map/[tripId]': ['3g-4-live-map'],
   '(trip)/map/crew/[crewId]': ['3g-4-live-map'],
+  '(trip)/[tripId]/plan/index': ['7a-1-trip-map', '7i-1-nothing-saved'],
+  '(trip)/[tripId]/plan/map': ['7a-2-trip-map-one-day', '7a-3-trip-map-all-days'],
+  '(trip)/[tripId]/plan/days': ['7b-3-all-days'],
+  '(trip)/[tripId]/day/[day]/index': ['7b-1-day-plan'],
+  '(trip)/[tripId]/day/[day]/map': ['7b-2-day-plan-map-open'],
+  '(trip)/[tripId]/places/index': ['7c-1-places-map', '7c-2-place-picked'],
+  '(trip)/[tripId]/places/list': ['7c-3-places-list'],
+  '(trip)/[tripId]/search/index': ['7d-1-search', '7d-2-plain-words', '7d-4-no-results'],
+  '(trip)/[tripId]/search/link': ['7d-3-add-from-link'],
+  '(trip)/[tripId]/add/[placeId]': ['7f-1-add-to-plan'],
+  '(trip)/[tripId]/ideas/index': ['7f-2-ideas'],
+  '(trip)/[tripId]/ideas/placing/[jobId]': ['7h-6-placing'],
+  '(trip)/[tripId]/review/[changesetId]': ['7h-7-review'],
+  '(trip)/[tripId]/check/index': ['7h-1-check'],
+  '(trip)/[tripId]/check/gap': ['7h-2-ideas'],
+  '(trip)/[tripId]/check/balance': ['7h-5-balance'],
+  '(trip)/[tripId]/check/less-driving/[dayId]': ['7h-3-order'],
+  '(trip)/[tripId]/check/rain/[dayId]': ['7h-4-swaps'],
+  '(trip)/[tripId]/split/[placeId]': ['7e-3-crew-split'],
+  '(trip)/[tripId]/swipe/[sessionId]': ['7g-2-swipe'],
+  '(trip)/[tripId]/explore/index': ['7g-1-destination'],
+  'explore/[destination]': ['7g-3-destination'],
+  'explore/map': ['7c-1-places-map'],
+  'explore/place/[placeId]': ['7e-1-place', '7e-2-further-down'],
   '+not-found': ['not-found'],
 };
 
@@ -204,8 +233,11 @@ export function registryIds(root: string): { registered: string[]; referenced: s
   );
   for (const file of files) {
     const text = readFileSync(path.join(root, file), 'utf8');
-    // A registry entry maps an id to a route: `'3b-4': HOME_ROUTES.inbox` or `'3b-4': '/inbox'`.
-    for (const match of text.matchAll(/'(\d+[a-z]-\d+)'\s*:\s*(?:\w*ROUTES\.|'\/|\(|\w+Route)/g))
+    // A registry entry maps an id to a route: `'3b-4': HOME_ROUTES.inbox`, `'3b-4': '/inbox'`, or a
+    // named builder (`'7c-1': placesMap,`, `'7h-3': dayScreen(checkRoutes.rain)`).
+    for (const match of text.matchAll(
+      /'(\d+[a-z]-\d+)'\s*:\s*(?:\w*ROUTES\.|'\/|\(|\w+Route|[a-z]\w*\s*[,(])/g,
+    ))
       registered.add(match[1] ?? '');
     for (const match of text.matchAll(/hrefFor\('(\d+[a-z]-\d+)'/g)) referenced.add(match[1] ?? '');
   }

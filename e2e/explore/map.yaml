@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# The Explore map and its list view in English, from the Explore lab's scenes.
+# The places map and its list (7c-1…7c-3) in English, from the Explore lab's scenes.
 - runFlow: subflows/lab-en.yaml
 - runFlow:
     file: subflows/map-scenes.yaml

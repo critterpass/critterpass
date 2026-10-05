@@ -430,7 +430,7 @@ appId: app.critterpass.dev
     id: 'invite-manifest-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'trip-map|day-plan'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
@@ -502,7 +502,7 @@ appId: app.critterpass.dev
           id: 'trip-hub-tile-plan'
       - extendedWaitUntil:
           visible:
-            id: 'plan-day-list|plan-empty'
+            id: 'trip-map|day-plan'
           timeout: 30000
           optional: true
       - waitForAnimationToEnd:
@@ -752,7 +752,7 @@ appId: app.critterpass.dev
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'trip-map|day-plan'
     timeout: 60000
 - openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:

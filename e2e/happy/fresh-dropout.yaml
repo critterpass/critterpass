@@ -75,7 +75,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-cant-make-it
 # The sheet's own button. Android's hierarchy leaves the sheet's window out, so the tap goes where
-# the sheet draws its button (above CANCEL); iOS finds the button by its words, which only it
+# the sheet draws its button (the middle of the pink pill above CANCEL); iOS finds the button by its words, which only it
 # matches whole (the title asks "…can't make it?" and the screen under it says "…after all"). The
 # confirm's own id holds no children in iOS's hierarchy.
 - runFlow:
@@ -83,7 +83,7 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - tapOn:
-          point: 50%, 76%
+          point: 50%, 79%
 - runFlow:
     when:
       platform: iOS

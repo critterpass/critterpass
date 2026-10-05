@@ -55,7 +55,7 @@ appId: app.critterpass.dev
           id: 'trip-hub-tile-plan'
       - extendedWaitUntil:
           visible:
-            id: 'plan-day-1|plan-overview.*'
+            id: 'trip-map|day-plan'
           timeout: 3000
       - runFlow: ../../onboarding/subflows/back.yaml
       - extendedWaitUntil:

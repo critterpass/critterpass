@@ -1,0 +1,83 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for places, search and Explore in a trip, in ${LANG}: the destination guide (7g-3), the
+# planning place page (7e-1, 7e-2), the crew split (7e-3), the places map and list (7c-1…7c-3), the
+# swipe deck (7g-2) and Explore in a trip (7g-1) from the Explore lab; then search (7d-1…7d-4) and
+# its offline queue (7i-2) from the search lab. Each lab's scenes go in its list's order. The scenes
+# render the real screens from fixtures, so the sweep compares screens no seed scenario reaches
+# with their renders.
+# Android: the nightly iPhone shard keeps to the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-explore-lab
+            LIST: explore-lab-destination
+      - runFlow:
+          file: ../../../explore/subflows/scene.yaml
+          env:
+            SCENE: destination
+            READY: explore-months
+            SHOT: ${LANG}-7g-3-destination
+      - runFlow:
+          file: ../../../explore/subflows/place-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../explore/subflows/scene.yaml
+          env:
+            SCENE: split
+            READY: split-suggest
+            SHOT: ${LANG}-7e-3-crew-split
+      - runFlow:
+          file: ../../../explore/subflows/map-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../explore/subflows/swipe-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../explore/subflows/scene.yaml
+          env:
+            SCENE: trip-explore
+            READY: explore-trip-gap-when
+            SHOT: ${LANG}-7g-1-destination
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-search-lab
+            LIST: search-lab-7d-1
+      - runFlow:
+          file: ../../../explore/subflows/search-lab-scene.yaml
+          env:
+            SCENE: 7d-1
+            READY: search-clipboard-card
+            SHOT: ${LANG}-7d-1-search
+      - runFlow:
+          file: ../../../explore/subflows/search-lab-scene.yaml
+          env:
+            SCENE: 7d-2
+            READY: search-plain-results
+            SHOT: ${LANG}-7d-2-plain-words
+      - runFlow:
+          file: ../../../explore/subflows/search-lab-scene.yaml
+          env:
+            SCENE: 7d-4
+            READY: search-way-out-pin
+            SHOT: ${LANG}-7d-4-no-results
+      - runFlow:
+          file: ../../../explore/subflows/search-lab-scene.yaml
+          env:
+            SCENE: 7i-2
+            READY: search-queued-card
+            SHOT: ${LANG}-7i-2-offline
+      - runFlow:
+          file: ../../../explore/subflows/search-lab-scene.yaml
+          env:
+            SCENE: 7d-3
+            READY: search-link-save-ideas
+            SHOT: ${LANG}-7d-3-add-from-link
