@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# On the day plan: opens the sheet of ${STOP} (`stop-<n>`), back at the top of the day.
+- scrollUntilVisible:
+    element:
+      id: '${STOP}'
+    direction: DOWN
+    centerElement: true
+    timeout: 15000
+- tapOn:
+    id: '${STOP}'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000

@@ -1,0 +1,30 @@
+appId: app.critterpass.dev
+---
+# On the day plan: removes ${STOP} from the day (its sheet's Remove, then the confirmation), and
+# scrolls back up to the day's map.
+- runFlow:
+    file: open-stop.yaml
+    env:
+      STOP: ${STOP}
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-remove'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'plan-item-remove'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-confirm'
+    timeout: 10000
+- tapOn:
+    text: '^Remove$'
+- extendedWaitUntil:
+    notVisible:
+      id: 'plan-item-sheet'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 15000
