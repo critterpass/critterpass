@@ -140,9 +140,10 @@ appId: app.critterpass.dev
           timeout: 5000
           optional: true
       - takeScreenshot: search-places-08-added-from-row
-# A + she backs out of: the sheet closes and nothing is left in Ideas (SAVED stays empty below).
+# A + she backs out of, on a place only the server holds (the rows after the first): the sheet
+# closes and nothing is left in Ideas (SAVED stays empty below).
 - runFlow: search-places-subflows/search-again.yaml
-- inputText: 'Tanah Lot'
+- inputText: 'Tanah Lot Bali'
 - extendedWaitUntil:
     visible:
       id: 'search-row-add-.*'
@@ -156,7 +157,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'search-row-add-.*'
-          index: 0
+          index: 1
       - extendedWaitUntil:
           visible:
             id: 'plan-add-confirm'
