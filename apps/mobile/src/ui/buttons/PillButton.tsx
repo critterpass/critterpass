@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useFlap } from '@/motion/patterns/flap';
@@ -84,7 +84,14 @@ const useStyles = makeStyles((t) => ({
   },
   outline: { borderWidth: 2, borderColor: t.semantic.border.control },
   disabled: { opacity: 0.4 },
-  label: { textAlign: 'center', flexShrink: 1 },
+  // Android rounds a label's measured width down for some strings ("ĐỔI GIỜ"), and a pill sized to
+  // its words then has a fraction of a point too little and breaks the label in two: a point of
+  // slack on each side keeps a label that fits on one line.
+  label: {
+    textAlign: 'center',
+    flexShrink: 1,
+    paddingHorizontal: Platform.OS === 'android' ? 1 : 0,
+  },
   // A label on two lines gets body-like leading and room above and below, so it never meets the
   // pill's edges (a one-line label keeps the tight display leading).
   twoLines: { paddingVertical: t.space['10'] },
