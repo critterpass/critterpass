@@ -32,7 +32,7 @@ describe('needsPlanDays', () => {
   it('asks for nothing for a member, open dates, or a trip that has a plan or is over', () => {
     expect(needsPlanDays(plan({}, false))).toBe(false);
     expect(needsPlanDays(plan({ start_date: null }))).toBe(false);
-    expect(needsPlanDays(plan({ draft_version_id: 'd1' }))).toBe(false);
+    expect(needsPlanDays(plan({ draft_version_id: 'draft-1' }))).toBe(false);
     expect(needsPlanDays(plan({ current_version_id: 'v1' }))).toBe(false);
     expect(needsPlanDays(plan({ phase: 'post' }))).toBe(false);
     expect(needsPlanDays({ ...plan(), loaded: false })).toBe(false);
