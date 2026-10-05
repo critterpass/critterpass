@@ -57,6 +57,12 @@ function originLabel(origin: DraftOrigin, guideName: string): string {
         ? t({ id: 'planDraft.history.redraftAny', message: 'A day redrafted' })
         : t({ id: 'planDraft.history.redraft', message: `Day ${n} redrafted` });
     }
+    case 'put_back': {
+      const n = origin.dayNo;
+      return n === null
+        ? t({ id: 'planDraft.history.putBackAny', message: 'A redraft you put back' })
+        : t({ id: 'planDraft.history.putBack', message: `Day ${n} redrafted, put back` });
+    }
     case 'changed':
       return t({ id: 'planDraft.history.changed', message: 'Changed by you' });
   }
@@ -91,7 +97,7 @@ export function VersionHistorySheet({
           const when = madeAt(locale, entry.createdAt);
           const days = entry.days;
           const cost =
-            entry.costPpMinor === null || entry.currency === null
+            entry.costPpMinor === null || entry.costPpMinor <= 0 || entry.currency === null
               ? null
               : estimateMoney(locale, entry.costPpMinor, entry.currency);
           return (

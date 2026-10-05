@@ -92,6 +92,10 @@ msgstr ""
 msgid "planDraft.history.redraftAny"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackAny"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr ""
@@ -138,6 +142,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.redraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBack"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx

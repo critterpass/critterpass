@@ -57,17 +57,18 @@ const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, 
   FROM plan_items WHERE version_id = ?`;
 const MUST_DOS_SQL = `SELECT id, owner_id, title, external_action, external_deadline FROM must_dos
   WHERE trip_id = ?`;
-const HISTORY_SQL = `SELECT v.id, v.created_at, v.cost_pp_minor, v.currency,
+const HISTORY_SQL = `SELECT v.id, v.parent_id, v.created_at, v.cost_pp_minor, v.currency,
     (SELECT count(*) FROM plan_days d WHERE d.version_id = v.id) AS days
   FROM itinerary_versions v
   WHERE v.trip_id = ? AND v.visibility = 'organiser' AND v.status IN ('draft', 'superseded')
   ORDER BY v.created_at DESC`;
 const JOBS_SQL = `SELECT id, kind, status, input_hash, result_ref FROM agent_jobs
   WHERE trip_id = ? AND kind IN ('draft', 'redraft') ORDER BY created_at DESC LIMIT 24`;
-const RESERVED_SQL = `SELECT agent_job_id FROM redraft_reservations WHERE trip_id = ? AND status = 'reserved'`;
+const RESERVED_SQL = `SELECT agent_job_id, status FROM redraft_reservations WHERE trip_id = ?`;
 
 interface HistoryRow {
   readonly id: string;
+  readonly parent_id: string | null;
   readonly created_at: string;
   readonly cost_pp_minor: number | null;
   readonly currency: string | null;
@@ -102,7 +103,7 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   const history = useLiveRows<HistoryRow>(HISTORY_SQL, byTrip, ['itinerary_versions', 'plan_days']);
   const jobs = useLiveRows<JobRow>(JOBS_SQL, byTrip, ['agent_jobs']);
   const locale = useActiveLocale();
-  const reserved = useLiveRows<{ agent_job_id: string }>(RESERVED_SQL, byTrip, [
+  const reserved = useLiveRows<{ agent_job_id: string; status: string }>(RESERVED_SQL, byTrip, [
     'redraft_reservations',
   ]);
 
@@ -124,7 +125,9 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   }, [trip, version.rows, days.rows, items.rows, mustDos.rows, locale]);
 
   const openRedraft = useMemo((): OpenRedraft | null => {
-    const waiting = new Set(reserved.rows.map((r) => r.agent_job_id));
+    const waiting = new Set(
+      reserved.rows.filter((r) => r.status === 'reserved').map((r) => r.agent_job_id),
+    );
     const job = jobs.rows.find(
       (row) =>
         row.kind === 'redraft' &&
@@ -136,24 +139,35 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   }, [jobs.rows, reserved.rows]);
 
   const draftJob = jobs.rows.find((row) => row.kind === 'draft');
-  const versionIds = history.rows.map((row) => row.id);
-  const origins = draftOrigins(versionIds, jobs.rows);
-  const currentId = currentDraftId(versionIds, versionId);
+  const versions = history.rows.map((row) => ({ id: row.id, parentId: row.parent_id }));
+  // A redraft she put back gave its unit back: its reservation reads `released`.
+  const putBack = new Set(
+    reserved.rows.filter((r) => r.status === 'released').map((r) => r.agent_job_id),
+  );
+  const origins = draftOrigins(versions, jobs.rows, putBack);
+  const currentId = currentDraftId(versions, versionId);
   return {
     loaded:
       trip !== undefined &&
       (versionId === null || (version.loaded && days.loaded && items.loaded)) &&
       (tripId === null || (mustDos.loaded && jobs.loaded)),
     review,
-    history: history.rows.map((row) => ({
-      id: row.id,
-      createdAt: row.created_at,
-      current: row.id === currentId,
-      origin: origins.get(row.id) ?? { kind: 'changed' },
-      days: row.days,
-      costPpMinor: row.cost_pp_minor,
-      currency: row.currency,
-    })),
+    history: history.rows.flatMap((row) => {
+      const origin = origins.get(row.id);
+      return origin === undefined
+        ? []
+        : [
+            {
+              id: row.id,
+              createdAt: row.created_at,
+              current: row.id === currentId,
+              origin,
+              days: row.days,
+              costPpMinor: row.cost_pp_minor,
+              currency: row.currency,
+            },
+          ];
+    }),
     lastDraftJob: draftJob === undefined ? null : { id: draftJob.id, status: draftJob.status },
     openRedraft,
   };

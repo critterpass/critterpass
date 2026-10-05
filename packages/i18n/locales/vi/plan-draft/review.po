@@ -92,6 +92,10 @@ msgstr "{when} · {days} ngày · mỗi người {cost}"
 msgid "planDraft.history.redraftAny"
 msgstr "Soạn lại một ngày"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackAny"
+msgstr "Một lần soạn lại bạn đã trả về"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
@@ -139,6 +143,10 @@ msgstr "Ngày {n}"
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.redraft"
 msgstr "Soạn lại ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBack"
+msgstr "Soạn lại ngày {n}, đã trả về"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.redraftReadyDay"
