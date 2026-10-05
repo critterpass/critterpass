@@ -16,6 +16,8 @@ export interface PlaceRowIdentity {
   readonly category: string;
   readonly lat: number;
   readonly lng: number;
+  /** In the curated set or a machine pick, when the caller knows. */
+  readonly recommended?: boolean;
 }
 
 const SAME_NAME_M = 300;
@@ -70,6 +72,21 @@ export function sameSearchPlace(
 }
 
 /**
+ * An open-data row that only repeats a recommended place's name ("Tanah Lot" pinned a few
+ * kilometres from Tanah Lot Temple, or on the far coast) is the same place badly pinned, wherever
+ * it lies in the destination: the recommended row, listed before it, answers.
+ */
+function repeatsRecommended(
+  listed: PlaceRowIdentity,
+  row: PlaceRowIdentity,
+  destination: string,
+): boolean {
+  if (listed.recommended !== true || row.recommended !== false) return false;
+  const words = placeNameKey(row.name, destination).split(' ').filter(Boolean);
+  return within(words, placeNameKey(listed.name, destination).split(' '));
+}
+
+/**
  * `rows` in order with one row per place. A later row of a place already listed is dropped, unless
  * the listed row is a hotel listing (`stay`) and the later one has the same name and is not: then
  * the place itself takes the listing's position.
@@ -77,6 +94,7 @@ export function sameSearchPlace(
 export function onePerPlace<T extends PlaceRowIdentity>(rows: readonly T[], destination = ''): T[] {
   const kept: T[] = [];
   for (const row of rows) {
+    if (kept.some((other) => repeatsRecommended(other, row, destination))) continue;
     const at = kept.findIndex((other) => sameSearchPlace(other, row, destination));
     const listed = kept[at];
     if (listed === undefined) kept.push(row);

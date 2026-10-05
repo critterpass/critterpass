@@ -142,20 +142,21 @@ appId: app.critterpass.dev
       - takeScreenshot: search-places-08-added-from-row
 # A + she backs out of: the sheet closes and nothing is left in Ideas (SAVED stays empty below).
 - runFlow: search-places-subflows/search-again.yaml
-- inputText: 'Warung Tanah Lot'
+- inputText: 'Tanah Lot'
 - extendedWaitUntil:
     visible:
-      id: 'search-row-add-0'
+      id: 'search-row-add-.*'
     timeout: 20000
     optional: true
 - hideKeyboard
 - runFlow:
     when:
       visible:
-        id: 'search-row-add-0'
+        id: 'search-row-add-.*'
     commands:
       - tapOn:
-          id: 'search-row-add-0'
+          id: 'search-row-add-.*'
+          index: 0
       - extendedWaitUntil:
           visible:
             id: 'plan-add-confirm'
@@ -252,9 +253,9 @@ appId: app.critterpass.dev
       - back
       - waitForAnimationToEnd:
           timeout: 3000
-# A name that finds nothing.
+# A name that finds nothing (no word of it names a kind of place).
 - runFlow: search-places-subflows/search-again.yaml
-- inputText: 'Zzyqx Warung Qqq'
+- inputText: 'Zzyqx Qqqv'
 - extendedWaitUntil:
     visible:
       id: 'search-name-none'

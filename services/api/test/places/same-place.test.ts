@@ -64,6 +64,23 @@ describe('one row per place in a search answer', () => {
     expect(onePerPlace([batur, long, volcano], 'Bali')).toEqual([batur]);
   });
 
+  it('drops an unrecommended row that only repeats a recommended place’s name, however far', () => {
+    const temple = {
+      ...at('Tanah Lot Temple', 'temple_shrine', -8.6212, 115.0868),
+      recommended: true,
+    };
+    const beach = { ...at('Tanah Lot', 'beach', -8.2, 115.6), recommended: false };
+    const pin = { ...at('Tanah Lot', 'other', -8.6, 115.1), recommended: false };
+    const terrace = {
+      ...at('Tanah Lot Sunset Terrace', 'food', -8.62, 115.087),
+      recommended: false,
+    };
+    expect(onePerPlace([temple, beach, pin, terrace], 'Bali')).toEqual([temple, terrace]);
+    // Two recommended places of one name far apart are both kept.
+    const far = { ...at('Tanah Lot Temple', 'museum', -8.3, 115.5), recommended: true };
+    expect(onePerPlace([temple, far], 'Bali')).toEqual([temple, far]);
+  });
+
   it('keeps neighbours with different names', () => {
     const a = at('Tanah Lot Sunset Terrace', 'food', -8.6212, 115.0868);
     const b = at('Tanah Lot Art Market', 'market', -8.6213, 115.0869);
