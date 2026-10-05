@@ -1,7 +1,8 @@
 /**
  * How a plan change reads in the inbox: the card for a change waiting for the reader's yes ("Minh
  * wants to add Bà Nà Hills · Wed 21 Oct, 07:00"), and the entry when the vote closed, saying what
- * was decided and what changed in the plan instead of a bare score. The rows carry the place, the
+ * was decided and what changed in the plan instead of a bare score, and an organiser's own edit
+ * to the locked plan ("Linh added Sơn Trà · Wed 21 Oct, 12:45"). The rows carry the place, the
  * day and the time; the words and the date's format are the reader's.
  */
 import { msg, plural } from '@lingui/core/macro';
@@ -120,6 +121,38 @@ function decided(item: InboxItem, ctx: InboxRenderContext): string {
   }
 }
 
+/** An organiser's own edit to the locked plan: who changed what, no vote involved. */
+function edited(item: InboxItem, ctx: InboxRenderContext): string {
+  const name = item.actorName;
+  const change = what(item, ctx);
+  if (!single(item)) {
+    const count = Number(item.data['count'] ?? 0);
+    return ctx.i18n._(
+      msg({
+        id: 'home.inbox.planChange.editedMany',
+        message: plural(count, {
+          one: `${name} made # change to the plan`,
+          other: `${name} made # changes to the plan`,
+        }),
+      }),
+    );
+  }
+  switch (text(item.data['op'])) {
+    case 'add':
+      return ctx.i18n._(
+        msg({ id: 'home.inbox.planChange.editedAdd', message: `${name} added ${change}` }),
+      );
+    case 'remove':
+      return ctx.i18n._(
+        msg({ id: 'home.inbox.planChange.editedRemove', message: `${name} dropped ${change}` }),
+      );
+    default:
+      return ctx.i18n._(
+        msg({ id: 'home.inbox.planChange.editedMove', message: `${name} moved ${change}` }),
+      );
+  }
+}
+
 const DECIDED: InboxRenderer = { line: decided };
 
 export const PLAN_CHANGE_RENDERERS: readonly (readonly [string, InboxRenderer])[] = [
@@ -142,4 +175,5 @@ export const PLAN_CHANGE_RENDERERS: readonly (readonly [string, InboxRenderer])[
   [PLAN_CHANGE_INBOX_KIND.applied, DECIDED],
   [PLAN_CHANGE_INBOX_KIND.kept, DECIDED],
   [PLAN_CHANGE_INBOX_KIND.ranOut, DECIDED],
+  [PLAN_CHANGE_INBOX_KIND.edited, { line: edited }],
 ];

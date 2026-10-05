@@ -56,8 +56,22 @@ msgstr ""
 msgid "chat.typing.one"
 msgstr ""
 
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditAdded"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.rsvpOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEdited"
+msgstr ""
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditRemoved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
@@ -86,6 +100,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.tripLocked"
+msgstr ""
+
+#. placeholder {0}: planChange(body, locale)
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planEditMoved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts

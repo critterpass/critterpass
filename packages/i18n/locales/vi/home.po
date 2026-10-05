@@ -26,6 +26,10 @@ msgid "home.inbox.ideasPlaced.title"
 msgstr "{count, plural, other {{guide} đã xếp chỗ cho # ý tưởng}}"
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMany"
+msgstr "{count, plural, other {{name} đã đổi # chỗ trong kế hoạch}}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.askedMany"
 msgstr "{count, plural, other {{name} muốn đổi # chỗ trong kế hoạch}}"
 
@@ -81,9 +85,21 @@ msgstr "{guide}: {tip}"
 msgid "home.inbox.caughtUp.tokek"
 msgstr "{guideName} đang ngủ"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedAdd"
+msgstr "{name} đã thêm {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedRemove"
+msgstr "{name} đã bỏ {change}"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr "{name} đã vào {crew}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.editedMove"
+msgstr "{name} đã dời {change}"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.title"

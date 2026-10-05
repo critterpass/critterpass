@@ -22,6 +22,7 @@ import type pg from 'pg';
 import { registerInboxFanout, type FanoutEvent } from '../inbox/fanout';
 import { localClock } from '../notify/policy';
 import { str } from '../setup/facts';
+import { registerPlanEditFanout } from './edit-inbox';
 
 const OPEN: InboxAction = { id: 'open', style: 'primary' };
 
@@ -224,4 +225,5 @@ export function registerPlanInboxFanouts(): void {
   registerDecided(PLAN_CHANGE_INBOX_KIND.applied, 'applied');
   registerDecided(PLAN_CHANGE_INBOX_KIND.kept, 'kept');
   registerDecided(PLAN_CHANGE_INBOX_KIND.ranOut, 'ran_out');
+  registerPlanEditFanout();
 }

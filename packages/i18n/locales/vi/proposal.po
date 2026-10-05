@@ -136,7 +136,7 @@ msgstr "{after}, hủy trong đơn đặt khi bạn áp dụng"
 msgid "proposal.build.eachAmount"
 msgstr "{amount} mỗi người"
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.some"
 msgstr "{answered}/{recipients} người đã trả lời."
 
@@ -485,7 +485,11 @@ msgstr "Mọi bản đã viết xong và gửi đi."
 msgid "proposal.lock.aloneGoing"
 msgstr "Mọi người khác đều nói không đi được, nên chỉ có bạn. Chuyến đi được xác nhận."
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
+msgid "proposal.inbox.answered.nobodyIn"
+msgstr "Mọi người đã trả lời, nhưng chưa ai nói đi. Có người nói đi thì bạn mới chốt chuyến được."
+
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.allIn"
 msgstr "Mọi người đã trả lời. Chốt chuyến đi để xác nhận nhé."
 
