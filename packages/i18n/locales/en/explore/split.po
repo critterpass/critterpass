@@ -40,6 +40,10 @@ msgstr "All {going}"
 msgid "explore.split.back"
 msgstr "Back"
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.inChat"
+msgstr "In crew chat · Open"
+
 #: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
 msgid "explore.split.noteLabel"
 msgstr "In your own words (optional)"
@@ -52,6 +56,10 @@ msgstr "It's in crew chat as a vote."
 msgid "explore.split.noteLong"
 msgstr "Keep it to 140 characters"
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWaysSaid"
+msgstr "No way out that suits everyone yet. Talk it through in crew chat."
+
 #: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.noWays"
@@ -60,6 +68,10 @@ msgstr "No way out yet. Say where you stand and I’ll look again."
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.refusedBody"
 msgstr "Nothing was posted. Try again."
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.openChat"
+msgstr "Open crew chat"
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts
 msgid "explore.split.vote"

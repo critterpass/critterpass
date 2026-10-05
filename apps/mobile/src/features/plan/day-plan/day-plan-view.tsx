@@ -1,7 +1,10 @@
 /**
- * The day plan (7b-1) as drawn: ← TRIP, ALL DAYS and SHARE, the day chips, the day's title with
- * its date and the rain the forecast or the check found, the live mini-map, the timeline (legs,
- * free time, the guide's notes under the stops they concern) and the add bar.
+ * The day plan (7b-1) as drawn: ← TRIP, ALL DAYS and SHARE, the day chips (weekday over date),
+ * the day's title with its date, its place in the trip and the rain the forecast or the check
+ * found, the live mini-map, the timeline (when to leave the stay, legs, free time, the guide's
+ * notes under the stops they concern, the stops only I have) and the add bar. Today's day links to
+ * day-of (when to leave, who is up), marks what is over and what is next, and offers GO on the
+ * next stop only.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -11,6 +14,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import { DayChips, PlanningTag } from '@/ui/planning';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -22,11 +26,11 @@ import { tokens } from '@cp/design-tokens';
 
 import { freeGaps } from '../trip-map/day-gaps';
 import type { DayRoute } from '../trip-map/day-route';
-import { dateLine, stopsLine } from '../trip-map/format';
-import { goStopsToday } from '../trip-map/next-stop';
+import { dateLine, dayOfTrip, stopsLine } from '../trip-map/format';
+import { dayProgress, nextGoStop, todayOf, usePlanClock } from '../trip-map/next-stop';
 import { dayChips } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
-import { buildStopRows } from '../trip-map/stop-rows';
+import { buildStopRows, mineRows, stayRows } from '../trip-map/stop-rows';
 import type { TripDay } from '../trip-map/trip-days';
 import { AddBar } from './add-bar';
 import { MiniMap } from './mini-map';
@@ -58,6 +62,8 @@ export interface DayPlanViewProps {
   readonly drag: TimelineDrag | null;
   readonly picked?: string | null | undefined;
   readonly onBack: () => void;
+  /** Opens day-of (when to leave, who is up, the pack list); offered on today's day. */
+  readonly onDayOf?: (() => void) | undefined;
   readonly onAllDays: () => void;
   readonly onShare: () => void;
   readonly onSelectDay: (dayNo: number) => void;
@@ -72,6 +78,9 @@ export function DayPlanView(props: DayPlanViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { model, day, route } = props;
+  const now = usePlanClock(model.now);
+  const progress = useMemo(() => dayProgress(day, now, model.tz), [day, now, model.tz]);
+  const goStop = nextGoStop(day, now, model.tz);
   const rows = useMemo(
     () =>
       buildStopRows({
@@ -85,8 +94,9 @@ export function DayPlanView(props: DayPlanViewProps) {
         ),
         members: model.members,
         me: model.me,
+        progress,
       }),
-    [locale, day, route, model.members, model.me, model.tz],
+    [locale, day, route, model.members, model.me, model.tz, progress],
   );
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   const n = day.dayNo;
@@ -131,7 +141,7 @@ export function DayPlanView(props: DayPlanViewProps) {
             />
           </View>
           <DayChips
-            days={dayChips(model.days, locale)}
+            days={dayChips(model.days, locale, todayOf(now, model.tz))}
             selectedDayNo={n}
             onSelect={props.onSelectDay}
             testID="day-plan-day-chips"
@@ -146,6 +156,9 @@ export function DayPlanView(props: DayPlanViewProps) {
                   {dateLine(locale, day.date)}
                 </Text>
               )}
+              <Text variant="caption" color={theme.semantic.text.secondary}>
+                {dayOfTrip(n, model.days.length)}
+              </Text>
               {props.rain === null ? null : (
                 <PlanningTag label={props.rain} color={tokens.color.blue} testID="day-plan-rain" />
               )}
@@ -156,6 +169,16 @@ export function DayPlanView(props: DayPlanViewProps) {
               {t({ id: 'plan.dayPlan.draft', message: 'Your draft. Only you can see it.' })}
             </Text>
           ) : null}
+          {progress === null || props.onDayOf === undefined ? null : (
+            <TextLink
+              label={t({
+                id: 'plan.dayPlan.toDayOf',
+                message: 'Today: when to leave and who’s up',
+              })}
+              onPress={props.onDayOf}
+              testID="day-plan-day-of"
+            />
+          )}
           <MiniMap
             model={model}
             day={day}
@@ -163,13 +186,15 @@ export function DayPlanView(props: DayPlanViewProps) {
             caption={stopsLine(day.stops.length, route.legs)}
             onOpen={props.onOpenMap}
           />
-          {rows.length === 0 ? (
+          {rows.length === 0 && (day.mine ?? []).length === 0 ? (
             <Text variant="body" color={theme.semantic.text.secondary}>
               {t({ id: 'plan.dayPlan.empty', message: 'Nothing planned yet. Add the first stop.' })}
             </Text>
           ) : (
             <StopTimeline
               rows={rows}
+              stay={stayRows(locale, day, route)}
+              mine={mineRows(locale, day)}
               drag={props.drag}
               context={{
                 tripId: model.tripId,
@@ -179,8 +204,10 @@ export function DayPlanView(props: DayPlanViewProps) {
                 members: model.members,
                 me: model.me,
                 guide: model.guide,
+                organiser: model.organiser,
                 notes: true,
-                go: goStopsToday(day, model.now ?? new Date(), model.tz),
+                go: goStop === null ? [] : [goStop],
+                handle: props.drag !== null,
                 picked: props.picked,
                 titleOf: (id) => titles.get(id) ?? '',
                 onOpenStop: (row) => props.onOpenStop(row.stop.stableId),

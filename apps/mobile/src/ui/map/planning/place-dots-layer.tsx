@@ -44,16 +44,27 @@ export interface PlaceDotsLayerProps {
   readonly onPressCluster?: ((cluster: ClusterPress) => void) | undefined;
   /** Prefix for the source and layer ids, unique per map. */
   readonly id?: string | undefined;
+  /**
+   * How a group of places is drawn. `count` (default): a bubble with how many it holds. `quiet`:
+   * a small ring with no number, for a map that numbers a day's stops, where a count reads as one
+   * more stop.
+   */
+  readonly clusters?: 'count' | 'quiet' | undefined;
 }
 
 const { color } = tokens;
+/** A quiet cluster: a ring the size of a few of the guide's dots, lightly filled. */
+const QUIET_CLUSTER_RADIUS = 9;
+const QUIET_CLUSTER_FILL = 0.25;
 
 export function PlaceDotsLayer({
   places,
   onSelectPlace,
   onPressCluster,
   id = 'cp-dots',
+  clusters = 'count',
 }: PlaceDotsLayerProps) {
+  const quiet = clusters === 'quiet';
   const suggestedRef = useRef<GeoJSONSourceRef>(null);
   const saved = useMemo(() => placeDotFeatures(places, 'saved'), [places]);
   const suggested = useMemo(() => placeDotFeatures(places, 'suggested'), [places]);
@@ -110,26 +121,28 @@ export function PlaceDotsLayer({
           type="circle"
           filter={['has', 'point_count']}
           paint={{
-            'circle-radius': clusterRadius,
-            'circle-color': color.ink[800],
-            'circle-stroke-color': color.ink[600],
+            'circle-radius': quiet ? QUIET_CLUSTER_RADIUS : clusterRadius,
+            'circle-color': quiet ? color.ink[100] : color.ink[800],
+            'circle-stroke-color': quiet ? color.ink[100] : color.ink[600],
             'circle-stroke-width': 3,
-            'circle-opacity': litOpacity,
+            'circle-opacity': quiet ? QUIET_CLUSTER_FILL : litOpacity,
             'circle-stroke-opacity': litOpacity,
           }}
         />
-        <Layer
-          id={`${id}-cluster-count`}
-          type="symbol"
-          filter={['has', 'point_count']}
-          layout={{
-            'text-field': ['get', 'point_count_abbreviated'],
-            'text-font': [MAP_LABEL_FONT],
-            'text-size': 13,
-            'text-allow-overlap': true,
-          }}
-          paint={{ 'text-color': color.paper.base, 'text-opacity': litOpacity }}
-        />
+        {quiet ? null : (
+          <Layer
+            id={`${id}-cluster-count`}
+            type="symbol"
+            filter={['has', 'point_count']}
+            layout={{
+              'text-field': ['get', 'point_count_abbreviated'],
+              'text-font': [MAP_LABEL_FONT],
+              'text-size': 13,
+              'text-allow-overlap': true,
+            }}
+            paint={{ 'text-color': color.paper.base, 'text-opacity': litOpacity }}
+          />
+        )}
       </GeoJSONSource>
       <GeoJSONSource id={`${id}-saved`} data={saved} onPress={onPress}>
         <Layer

@@ -1,0 +1,8 @@
+appId: app.critterpass.dev
+---
+# A fixed wait for a map's tiles and routes, which draw after their screen: an id that never shows.
+- extendedWaitUntil:
+    visible:
+      id: 'live-walk-settle'
+    timeout: ${WAIT}
+    optional: true

@@ -2,13 +2,14 @@
  * The day plan's live mini-map (7b-1): the day's route from the stay, numbered as the timeline is,
  * redrawn in the dragged order while a stop is held, with the off-screen stops' edge pills, ⤢ and
  * "5 STOPS · 2H40 IN THE CAR" on a fade of the sheet surface so it reads over any map label. It
- * doesn't pan: a tap opens the day's map full screen (7b-2).
+ * doesn't pan: a tap opens the day's map full screen (7b-2). It opens on the day's stops and fits
+ * them again whenever they change (a stop added, moved or removed), so it never shows an empty map.
  */
 import { useLingui } from '@lingui/react/macro';
 import type { LngLatBounds } from '@maplibre/maplibre-react-native';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
-import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
 import {
   EdgeIndicator,
@@ -22,12 +23,20 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { routeDays } from '../trip-map/day-route';
 import type { TripDay } from '../trip-map/trip-days';
-import { viewPoints } from '../trip-map/trip-map-camera';
+import { fitSignature, openingCamera, viewPoints } from '../trip-map/trip-map-camera';
+import { useFitCamera } from '../trip-map/use-fit-camera';
 import type { TripMapModel } from '../trip-map/sheet-props';
 
 const HEIGHT = 172;
 /** The caption's backing: a fade into the sheet surface, then the surface under the line. */
 const CAPTION_BAND = 48;
+/** An edge pill's name is cut to this, so the pill never outgrows the mini-map. */
+const EDGE_NAME_MAX = 16;
+
+/** A stop's name short enough for an edge pill on the mini-map. */
+export function edgeName(title: string): string {
+  return title.length <= EDGE_NAME_MAX ? title : `${title.slice(0, EDGE_NAME_MAX - 1).trimEnd()}…`;
+}
 
 /** `#rrggbb` with an alpha channel. */
 function withAlpha(hex: string, alpha: number): string {
@@ -84,16 +93,22 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
     });
     return { ...base, stops: stops.map((stop, index) => ({ ...stop, n: index + 1 })) };
   }, [day, order, model.legPaths]);
-  const fitKey = `${String(day.dayNo)}|${String(size.width)}|${String(bounds !== null)}`;
-  useEffect(() => {
-    if (size.width === 0 || bounds === null) return;
-    camera.fitPoints(viewPoints({ ...model, days: [day] }, day));
-    // Fit once per day and size: a drag redraws the line, never the camera.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fitKey]);
-  const first = day.stops.find((stop) => stop.place !== null)?.place;
-  const centre: readonly [number, number] =
-    first == null ? (model.center ?? [0, 0]) : [first.lng, first.lat];
+  const points = useMemo(() => viewPoints({ ...model, days: [day] }, day), [model, day]);
+  useFitCamera(camera, {
+    fitKey: `${fitSignature(day)}|${String(size.width)}`,
+    ready: size.width > 0 && bounds !== null,
+    points,
+    bounds,
+  });
+  // Opens on the day's stops (the middle of them, not the first one): a lost first fit still
+  // shows the day.
+  const [opening] = useState(() =>
+    openingCamera(points, {
+      width: Dimensions.get('window').width - 2 * theme.size.gutter,
+      height: HEIGHT,
+    }),
+  );
+  const centre: readonly [number, number] = opening?.center ?? model.center ?? [0, 0];
   return (
     <PressScale
       onPress={onOpen}
@@ -106,7 +121,7 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
           <PlanningMapCanvas
             initialCenter={[centre[0], centre[1]]}
-            initialZoom={12}
+            initialZoom={opening?.zoom ?? 12}
             compact
             destinationSlug={model.destinationSlug}
             localRegionUri={model.regionUri}
@@ -127,7 +142,7 @@ export function MiniMap({ model, day, order, caption, onOpen }: MiniMapProps) {
           <EdgeIndicator
             stops={(route?.stops ?? []).map((stop) => ({
               ...stop,
-              name: day.stops.find((one) => one.stableId === stop.id)?.title ?? '',
+              name: edgeName(day.stops.find((one) => one.stableId === stop.id)?.title ?? ''),
               color: day.color,
             }))}
             bounds={bounds}

@@ -125,7 +125,18 @@ export function usePlacesData({
   const saved = useSaved();
   const hiddenRows = useLiveRows<{ poi_id: string }>(HIDDEN_SQL, [OWNER_UID_KEY], HIDDEN_TABLES);
 
-  const { stops, items, stay } = useMemo(() => planStops(plan), [plan]);
+  const { stops, items, stay } = useMemo(() => {
+    const read = planStops(plan);
+    // A plan row's own kind is "activity" or "meal": the place's kind is what the list shows.
+    const kinds = new Map(curated.places.map((poi) => [poi.id, poi.category]));
+    return {
+      ...read,
+      stops: read.stops.map((stop) => ({
+        ...stop,
+        category: kinds.get(stop.poiId) ?? stop.category,
+      })),
+    };
+  }, [plan, curated.places]);
   const days = useMemo(
     () => plan.dayRows.map((day) => ({ dayNo: day.day_no, date: day.date })),
     [plan.dayRows],

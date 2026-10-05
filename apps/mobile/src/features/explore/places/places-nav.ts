@@ -44,8 +44,3 @@ export function searchHref(tripId: string | null, scope: 'map' | 'explore'): Hre
 export function splitHref(tripId: string, poiId: string): Href | undefined {
   return hrefFor('7e-3', { tripId, placeId: poiId });
 }
-
-/** The trip's plan hub, for the list's IN THE PLAN row. */
-export function planHref(tripId: string): Href | undefined {
-  return hrefFor('7a-1', { tripId }) ?? hrefFor('3e-1', { tripId });
-}

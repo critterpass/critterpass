@@ -12,6 +12,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { guideWritten } from '../data/guide-text';
+import { tasteWord } from '../swipe-copy';
 import type { WhyLine } from '../swipe-model';
 
 export interface WhyThisSheetProps {
@@ -51,7 +52,7 @@ export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: Why
       });
     }
     if (line.kind === 'taste') {
-      const tag = line.tag;
+      const tag = tasteWord(line.tag);
       return t({ id: 'explore.swipe.whyTaste', message: `It fits what the crew likes: ${tag}.` });
     }
     if (line.kind === 'crewSaved') {

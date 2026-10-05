@@ -154,6 +154,37 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    POIs `curation = 'editorial'`. Place search and detail read every active POI, so they work
    before the approval.
 
+### Correcting places already curated
+
+Wrong pins, duplicates, wrong kinds, names and must-sees are corrected by a hand-made batch, with
+no model call. A batch states only the records it changes; approving it lays them over the live
+release.
+
+1. Write the decisions in `tools/content-factory/src/data/place-corrections/<batch>.json`: per
+   place the record to keep (by content ref), the records that fold into it, and the corrected
+   name, kind or must-see flag. A record that joins the recommended set carries its note.
+   Publishing never moves the point of an existing record: a place pinned in the wrong spot is
+   corrected by keeping the record at the real place and merging the wrong one into it. Merging
+   is also the only way a release takes a record out of the recommended set.
+2. Check every kept point against a map and record what it was checked against in `checked`
+   (OpenStreetMap through `https://photon.komoot.io/api/?q=<name>&lat=<lat>&lon=<lng>`).
+3. Between records at the real place, keep the one the live media release holds a photo for
+   (`poi:<source>-<id>` subjects), then the one more plans point at: a stop of an existing trip
+   keeps pointing at a merged record, and nothing repoints it.
+4. Read the records and their live items (read-only), then build the batch, the validator report
+   and the review page (`work/places/<batch>/corrections.html`):
+
+   ```sh
+   railway run --service api --environment staging -- pnpm --dir <worktree> \
+     content places corrections --batch <batch> --opt snapshot=1
+   pnpm content places corrections --batch <batch>   # rebuild offline from the committed snapshot
+   ```
+
+5. Add each must-see to the destination's pins (step 3 above) under its corrected name, so the
+   flag survives the next generated batch, and rename any pin whose record was renamed.
+6. Queue it like any committed batch (`content places review --batch <batch>` with
+   `DATABASE_URL`), then approve it in the console.
+
 ### Every destination, monthly
 
 The worker's `places.ingest` job runs on the 1st of each month at 02:00 UTC. Its first run fills

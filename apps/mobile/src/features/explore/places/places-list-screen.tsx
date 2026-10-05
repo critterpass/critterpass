@@ -19,14 +19,9 @@ import type { ListKind } from '../sponsored-model';
 import { PLACES_COMMANDS } from './commands';
 import { PlacesListView } from './places-list-view';
 import { CATEGORY_GROUPS, isCategoryGroup, type PlacesFilter } from './places-model';
-import {
-  addToPlanHref,
-  placeHref,
-  planHref,
-  searchHref,
-  splitHref,
-  useCanAddToPlan,
-} from './places-nav';
+import { useSavedOnce } from './pending-store';
+import { usePlaceFacts } from './place-facts';
+import { addToPlanHref, placeHref, searchHref, splitHref, useCanAddToPlan } from './places-nav';
 import type { ResultsMode } from './routes';
 import { usePlaceFits, weekdaysOf } from './use-place-fits';
 import { usePlacesData } from './use-places-data';
@@ -60,7 +55,15 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     results: props.results?.ids ?? null,
     query: props.query,
   });
-  const swipe = useSwipeActions(tripId, data.places, data.uid);
+  const weekdays = useMemo(() => weekdaysOf(data.days, i18n.locale), [data.days, i18n.locale]);
+  const swipe = useSwipeActions(
+    tripId,
+    data.places,
+    data.uid,
+    (dayNo) => weekdays.get(dayNo) ?? null,
+  );
+  const facts = usePlaceFacts(data.destinationId, data.destinationName);
+  const savedOnce = useSavedOnce();
   const canAdd = useCanAddToPlan(tripId);
   const categories = useMemo(
     () => (isCategoryGroup(filter) ? [...CATEGORY_GROUPS[filter]] : []),
@@ -94,7 +97,6 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
     ideas: data.ideas,
     known: suggestions.fits,
   });
-  const weekdays = useMemo(() => weekdaysOf(data.days, i18n.locale), [data.days, i18n.locale]);
   const slot = useSponsoredSlot({ destinationId: data.destinationId, list: SEARCH, tripId });
   const sponsoredEvents = useSponsoredEvents(slot?.placement_id ?? null, SEARCH);
   const go = (href: ReturnType<typeof searchHref>) => {
@@ -109,6 +111,9 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
       inTrip={tripId !== null}
       places={swipe.places}
       crew={data.crew}
+      routes={data.routes}
+      facts={facts}
+      showSwipeHint={!savedOnce}
       stay={data.stay}
       destinationName={data.destinationName}
       guide={guideFor(data.guideSlug)}
@@ -142,7 +147,6 @@ export function PlacesListScreen(props: PlacesListScreenProps) {
       }}
       onAdd={tripId === null || !canAdd ? undefined : (poiId) => go(addToPlanHref(tripId, poiId))}
       onSplit={tripId === null ? undefined : (poiId) => go(splitHref(tripId, poiId))}
-      onPlan={tripId === null ? undefined : () => go(planHref(tripId))}
       onSearch={() => go(searchHref(tripId, tripId === null ? 'explore' : 'map'))}
       onMap={props.onMap}
       onBack={props.onBack}

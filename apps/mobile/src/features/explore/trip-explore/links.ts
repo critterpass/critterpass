@@ -25,6 +25,12 @@ export const tripExploreLinks = {
   ): Href | undefined =>
     hrefFor('7h-2', { tripId, dayId: gap.dayId, from: gap.from, to: gap.to }) ??
     hrefFor('3e-2', { tripId, day: String(gap.dayNo) }),
+  /** Search for a day: where one person fills a free window (the gap filler plans for a crew). */
+  daySearch: (tripId: string, dayId: string): Href | undefined =>
+    hrefFor('7d-1', { tripId, scope: 'day', dayId }),
+  /** The places list on one kind of place (a category group's key). */
+  kind: (tripId: string, group: string): Href | undefined =>
+    hrefFor('7c-3', { tripId, filter: group }),
   allPlaces: (tripId: string, destinationId: string | null): Href | undefined =>
     hrefFor('7c-3', { tripId }) ??
     (destinationId === null ? undefined : exploreRoutes.map(destinationId, { tripId })),

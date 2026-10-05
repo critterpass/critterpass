@@ -38,7 +38,11 @@ import {
   splitCountLabel,
 } from './model';
 import { PlaceDetailView } from './place-detail-view';
+import { areaFromAddress, sellsTickets } from './place-facts';
+import { RemoveForEveryone } from './remove-for-everyone';
+import { useSettleProvisionalIdeas } from './provisional-idea';
 import { useIdeaSave } from './use-idea-save';
+import { usePlaceOnPhone } from './use-place-on-phone';
 
 export interface PlaceDetailScreenProps {
   readonly placeId: string;
@@ -96,13 +100,16 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
             reason: 'free_gap',
           },
   });
-  const cta = detailCta({
+  // The context could not be read with signal: the day is still hers to choose.
+  const unread = context === null && read.status === 'missing' && !offline;
+  const found = detailCta({
     context,
     status: read.status === 'loading' ? 'loading' : offline ? 'offline' : 'ready',
     tz,
     locale,
     addedDay: adding.addedDay,
   });
+  const cta = unread ? ({ kind: 'noFit' } as const) : found;
 
   const savers = (context?.crew.saved_by ?? []).flatMap((uid) => {
     const member = nameOf(uid);
@@ -112,20 +119,19 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   });
   const firstNames = savers.map((member) => member.name.split(' ')[0] ?? member.name);
   const stances = context?.stances ?? null;
+  // The tag opens Crew can't agree; where that has nothing to open (a crew of two) it is left out.
+  const splitHref =
+    tripId === null || crew.length < 3 ? undefined : hrefFor('7e-3', { tripId, placeId });
   const split =
-    stances === null || !stances.split
+    stances === null || !stances.split || splitHref === undefined
       ? null
       : {
           label: splitCountLabel(stances.want.length, stances.ratherNot.length),
-          onPress: (() => {
-            const href =
-              tripId === null || crew.length < 3 ? undefined : hrefFor('7e-3', { tripId, placeId });
-            return href === undefined ? undefined : () => router.push(href);
-          })(),
+          onPress: () => router.push(splitHref),
         };
   const stay = context?.fromStay ?? null;
   const meta = [
-    row.destination_name,
+    areaFromAddress(row.address, row.destination_name),
     stay === null ? null : fromStayLabel(stay.minutes, stay.name),
   ].filter((part): part is string => part !== null && part !== '');
   const bestTime = typeof editorial?.['best_time'] === 'string' ? editorial['best_time'] : null;
@@ -145,11 +151,13 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   const pick = (params: Record<string, string>) =>
     tripId === null ? undefined : hrefFor('7f-1', { tripId, placeId, ...params });
   const otherDays = pick({ pick: 'day' });
+  const onPhone = usePlaceOnPhone(tripId, placeId, row.name);
+  useSettleProvisionalIdeas();
 
   const press = () => {
     if (cta.kind === 'add') {
       const href = pick({ dayId: cta.day.day_id, start: cta.day.start });
-      if (href !== undefined) return router.push(href);
+      if (href !== undefined) return onPhone(() => router.push(href));
       return adding.add();
     }
     if (cta.kind === 'inPlan' && tripId !== null) {
@@ -157,6 +165,9 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
         hrefFor('7b-1', { tripId, day: String(cta.dayNo) }) ?? exploreRoutes.plan(tripId);
       if (href !== undefined) router.push(href);
       return undefined;
+    }
+    if (cta.kind === 'noFit' && otherDays !== undefined) {
+      return onPhone(() => router.push(otherDays));
     }
     if (tripId === null && row.destination_slug !== null) {
       router.push(exploreRoutes.destination(row.destination_slug));
@@ -208,7 +219,8 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
               best,
               sentence: fitSentence(context?.fits ?? null, { locale, stopName }),
               bars: context?.fits?.bars ?? null,
-              onOtherDays: otherDays === undefined ? undefined : () => router.push(otherDays),
+              onOtherDays:
+                otherDays === undefined ? undefined : () => onPhone(() => router.push(otherDays)),
             }
       }
       fitNote={fitNote}
@@ -216,26 +228,34 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
         tripId === null ? null : { keen: savers, qna: context?.qna?.text ?? null, savers: true }
       }
       further={
-        <PlaceFurther
-          guide={guide}
-          context={context}
-          tip={context?.tip ?? null}
-          live={live.details}
-          offers={(() => {
-            const href = exploreRoutes.offers({
-              tripId,
-              name: row.name,
-              date: best?.date ?? today,
-            });
-            return href === undefined
-              ? null
-              : { placeName: row.name, offline, onOpen: () => router.push(href) };
-          })()}
-          onPlace={(poiId) =>
-            router.push(exploreRoutes.place(poiId, { tripId: tripId ?? undefined }))
-          }
-          addPlace={(poiId) => pick({ placeId: poiId })}
-        />
+        <>
+          <RemoveForEveryone
+            tripId={tripId}
+            placeId={placeId}
+            name={row.name}
+            organiser={plan.organiser}
+          />
+          <PlaceFurther
+            guide={guide}
+            context={context}
+            tip={context?.tip ?? null}
+            live={live.details}
+            offers={(() => {
+              const href = exploreRoutes.offers({
+                tripId,
+                name: row.name,
+                date: best?.date ?? today,
+              });
+              return href === undefined || !sellsTickets(row.category)
+                ? null
+                : { placeName: row.name, offline, onOpen: () => router.push(href) };
+            })()}
+            onPlace={(poiId) =>
+              router.push(exploreRoutes.place(poiId, { tripId: tripId ?? undefined }))
+            }
+            addPlace={(poiId) => pick({ placeId: poiId })}
+          />
+        </>
       }
       cta={{
         label:
@@ -243,7 +263,11 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
             ? t({ id: 'explore.detail.planTrip', message: 'Plan a trip here' })
             : ctaLabel(cta),
         tone: cta.kind === 'inPlan' ? 'green' : 'yellow',
-        disabled: tripId !== null && cta.kind !== 'add' && cta.kind !== 'inPlan',
+        disabled:
+          tripId !== null &&
+          cta.kind !== 'add' &&
+          cta.kind !== 'inPlan' &&
+          !(cta.kind === 'noFit' && otherDays !== undefined),
         busy: adding.busy || (tripId !== null && cta.kind === 'loading'),
         onPress: press,
       }}
