@@ -6,17 +6,19 @@
  * the draft leaves out is reported with the reason, so nobody has to guess why it is not there. One
  * inside a long visit on the draft (a bridge at a hill resort) is seen on that visit.
  */
-import type { Itinerary } from '@cp/domain';
+import type { DraftDay, Itinerary } from '@cp/domain';
 import {
   DINNER,
   foodRole,
   isKept,
   minuteOfDate,
+  opensDay,
   RIDE_HOME_MAX_MIN,
   type DraftPoi,
 } from '@cp/planner';
 
-import { homeOf, insideVisit, spanOf } from './areas';
+import { homeOf, hopCap, insideVisit, spanOf } from './areas';
+import { misplacedOpeners } from './openers';
 import type { DraftPlanInput } from './context';
 import { placeOne } from './place-essential';
 import type { SkeletonDay } from './skeleton';
@@ -37,6 +39,8 @@ export type EssentialGap =
   | 'redrafted_out'
   /** Every day it could go on is full of other essentials and long visits. */
   | 'days_full'
+  /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
+  | 'mornings_taken'
   /** Every day it could go on is full of stops the planner may not move. */
   | 'no_room';
 
@@ -112,9 +116,11 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
               ? 'not_offered'
               : open.every((dayNo) => hers.has(dayNo))
                 ? 'held_in_the_way'
-                : open.every((dayNo) => fullOfSights(input, itinerary, dayNo))
-                  ? 'days_full'
-                  : 'no_room';
+                : open.every((dayNo) => morningTaken(input, itinerary, dayNo, poi))
+                  ? 'mornings_taken'
+                  : open.every((dayNo) => fullOfSights(input, itinerary, dayNo))
+                    ? 'days_full'
+                    : 'no_room';
       return { poiId: poi.id, reason };
     });
 }
@@ -145,6 +151,39 @@ function fullOfSights(input: DraftPlanInput, itinerary: Itinerary, dayNo: number
       );
     })
   );
+}
+
+/** Whether `poi` must open its day and day `dayNo` is opened by a place that needs it more. */
+function morningTaken(
+  input: DraftPlanInput,
+  itinerary: Itinerary,
+  dayNo: number,
+  poi: DraftPoi,
+): boolean {
+  const reach = { homeId: homeOf(input), hopCapMin: hopCap(input), travel: input.travel };
+  if (!opensDay(poi, reach)) return false;
+  const day = itinerary.days.find((d) => d.day_no === dayNo);
+  const probe = day === undefined ? [] : misplacedOpeners(input, withStop(day, poi));
+  return probe.some((item) => item.poi_id === poi.id);
+}
+
+/** `day` with `poi` added as its first stop, for asking whether it could open it. */
+function withStop(day: DraftDay, poi: DraftPoi): DraftDay {
+  const first = day.items[0];
+  const stop = {
+    ...(first ?? { tz: 'UTC', currency: 'USD', travel_min: 0, note: null }),
+    stable_id: `probe-${poi.id}`,
+    kind: 'activity' as const,
+    poi_id: poi.id,
+    starts_at: first?.starts_at ?? `${day.date}T00:00:00Z`,
+    ends_at: first?.starts_at ?? `${day.date}T00:00:00Z`,
+    must_do_id: null,
+    booking_id: null,
+    locked_reason: null,
+    cost_model: 'per_person' as const,
+    amount_minor: 0,
+  };
+  return { ...day, items: [stop, ...day.items] };
 }
 
 /** Rounds of placing: an essential that made way for a longer one gets a turn of its own. */

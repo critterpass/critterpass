@@ -93,6 +93,9 @@ export function keepEdgeDaysNearHome(
   }
 }
 
+/** A trip this long has room for a short outing on the morning it leaves. */
+const MORNING_OUT_MIN_DAYS = 5;
+
 /**
  * Plans the destination's outings (./outings) among the essential places still open on some day,
  * and holds `openDays` to them. A trip with no full day, or a destination with no essentials or
@@ -103,6 +106,8 @@ export function outingsFor(
   openDays: Map<string, number[]>,
   days: number,
   asked: ReadonlySet<string>,
+  /** The open days before the edge days were kept near home. */
+  beforeEdges: ReadonlyMap<string, readonly number[]> = openDays,
 ): Outing[] {
   const travel = straightLineMatrix(new Map(places.map((poi) => [poi.id, poi])));
   const home = days < 3 ? null : homeBase(places, travel);
@@ -120,7 +125,29 @@ export function outingsFor(
     days,
     openDays,
     asked,
+    home,
   });
   keepOutingsTogether(openDays, outings, asked);
+  // On a trip with full days to spare, a short outing with no day of its own may take the morning
+  // of the day the crew leaves, when it was open then (the marble caves before the flight home).
+  // One outing gets it: the one with the longest visit (a sight worth a morning, not a drive).
+  if (days >= MORNING_OUT_MIN_DAYS) {
+    const byId = new Map(places.map((poi) => [poi.id, poi]));
+    const visit = (ids: readonly string[]) =>
+      Math.max(0, ...ids.map((id) => byId.get(id)?.durationMin ?? 0));
+    const candidates = outings
+      .flatMap((outing) =>
+        outing.dayNo === null && outing.short
+          ? [outing.poiIds]
+          : outing.joined
+            ? [outing.joined]
+            : [],
+      )
+      .filter((ids) => ids.every((id) => (beforeEdges.get(id) ?? []).includes(days)))
+      .sort((a, b) => visit(b) - visit(a));
+    for (const poiId of candidates[0] ?? []) {
+      openDays.set(poiId, [...new Set([...(openDays.get(poiId) ?? []), days])]);
+    }
+  }
   return outings;
 }

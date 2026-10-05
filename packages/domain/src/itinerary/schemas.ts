@@ -155,6 +155,8 @@ export const ESSENTIAL_GAP_REASONS = [
   'redrafted_out',
   /** Every day it could go on is full of other essentials and long visits. */
   'days_full',
+  /** It needs to open its day, and every day it could open belongs to a place that needs it more. */
+  'mornings_taken',
   'no_room',
 ] as const;
 export type EssentialGapReason = (typeof ESSENTIAL_GAP_REASONS)[number];

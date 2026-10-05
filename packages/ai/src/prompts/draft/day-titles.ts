@@ -61,6 +61,10 @@ export function claimsTransport(
   return !entered;
 }
 const NOON = 12 * 60;
+/** A day titled for its morning has begun by then, and so has the visit it names. */
+const MORNING_ANCHOR_BY_MIN = 10 * 60;
+/** A visit named for an afternoon starts after lunch. */
+const AFTERNOON_FROM_MIN = 13 * 60;
 
 /**
  * Whether the day holds everything its title names, in the order the title names it: each kind
@@ -134,11 +138,19 @@ export function titleFits(
       half = 'am';
       // A morning is over by early afternoon, unless the title goes on to the rest of the day or
       // names the long visit the morning is for ("A morning at Datanla").
-      return splitDay || ends <= MORNING_TITLE_ENDS_MIN || (anchor !== null && anchor.start < NOON);
+      // ("A morning at Datanla"), begun in the morning.
+      return (
+        (splitDay || ends <= MORNING_TITLE_ENDS_MIN || anchor !== null) &&
+        (anchor === null || splitDay || anchor.start <= MORNING_ANCHOR_BY_MIN) &&
+        Math.min(...stops.map((stop) => stop.start)) <= MORNING_ANCHOR_BY_MIN
+      );
     }
     if (PM.has(token)) {
       half = 'pm';
-      return true;
+      // The long visit an afternoon is named for starts after noon.
+      return (
+        anchor === null || anchor.start >= NOON || tokens.some((t) => t !== undefined && AM.has(t))
+      );
     }
     if (LATE.has(token)) {
       half = 'pm';
@@ -183,11 +195,13 @@ const LONG_TITLES = {
     full: (name: string) => `${name}, the whole day`,
     am: (name: string) => `A morning at ${name}`,
     pm: (name: string) => `An afternoon at ${name}`,
+    half: (name: string) => `Half a day at ${name}`,
   },
   vi: {
     full: (name: string) => `${name}, trọn ngày`,
     am: (name: string) => `Buổi sáng ở ${name}`,
     pm: (name: string) => `Buổi chiều ở ${name}`,
+    half: (name: string) => `Nửa ngày ở ${name}`,
   },
 } as const;
 
@@ -216,7 +230,13 @@ export function titleFrom(
   const anchorName = anchor === null ? null : shortName(shownName(input, anchor.poi));
   if (anchor !== null && anchorName !== null) {
     const words = LONG_TITLES[vi ? 'vi' : 'en'];
-    const half = anchor.start < NOON ? words.am : words.pm;
+    // A morning begun in the morning, an afternoon after lunch; a visit across noon is half a day.
+    const half =
+      anchor.start <= MORNING_ANCHOR_BY_MIN
+        ? words.am
+        : anchor.start >= AFTERNOON_FROM_MIN
+          ? words.pm
+          : words.half;
     const title = (spanOf(input, anchor.poi) === 'full' ? words.full : half)(anchorName);
     if (title.length <= TITLE_MAX) return title;
   }
@@ -244,7 +264,11 @@ export function titleFrom(
     .map((entry) => entry.name);
   const both = heads.join(vi ? ' và ' : ' and ');
   if (heads.length === 2 && both.length <= TITLE_MAX) return both;
-  return heads[0] ?? day.theme;
+  if (heads[0] !== undefined) return heads[0];
+  // A day of meals only is named for its first.
+  const first = day.items[0]?.poi_id;
+  const poi = first == null ? undefined : input.pois.get(first);
+  return (poi === undefined ? null : shortName(shownName(input, poi))) ?? day.theme;
 }
 
 export function withFittingTitles(
