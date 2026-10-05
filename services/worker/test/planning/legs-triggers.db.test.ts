@@ -37,7 +37,7 @@ afterAll(async () => {
 });
 
 describe('plan.legs triggers', () => {
-  it('queues one run for the trip when the guide’s draft is ready', async () => {
+  it('queues one run for the trip, at once, when the guide’s draft is ready', async () => {
     const crewId = await one('INSERT INTO crews (name, created_by) VALUES ($1, $2) RETURNING id', [
       'Da Nang',
       owner,
@@ -75,7 +75,8 @@ describe('plan.legs triggers', () => {
       [tripId],
     );
     expect(rows).toEqual([
-      { data: { trip_id: tripId, version_id: versionId }, key: `legs:${tripId}`, later: true },
+      // She opens the draft the moment it lands: its legs do not wait out the edit debounce.
+      { data: { trip_id: tripId, version_id: versionId }, key: `legs:${tripId}`, later: false },
     ]);
   });
 });

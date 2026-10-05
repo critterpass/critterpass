@@ -93,6 +93,63 @@ describe('briefing candidates', () => {
   });
 });
 
+describe('the plan check in the briefing', () => {
+  const kinds = async () =>
+    (
+      await withSystem(world.harness.pool, (tx) =>
+        briefingCandidates(tx, {
+          tripId: world.tripId,
+          userId: world.members[1]!,
+          localDate: '2026-10-15',
+          tz: TRIP_TZ,
+          now: NOW,
+        }),
+      )
+    ).filter((c) => c.kind === 'plan_fix');
+
+  it('names what the check wants fixed on the day, only once it has run on the plan the crew has', async () => {
+    const [day] = await world.q<{ id: string; version_id: string }>(
+      "SELECT id, version_id FROM plan_days WHERE trip_id = $1 AND date = '2026-10-15'",
+      [world.tripId],
+    );
+    await world.q(
+      `INSERT INTO plan_check_issues (trip_id, version_id, kind, severity, day_id, params, rank, fingerprint)
+       VALUES ($1, $2, 'clash', 'fix', $3, '{}'::jsonb, 0, 'clash:test'),
+              ($1, $2, 'rain', 'know', $3, '{}'::jsonb, 1, 'rain:test')`,
+      [world.tripId, day!.version_id, day!.id],
+    );
+    // The check is still running on this plan: nothing is said yet.
+    await world.q(
+      "INSERT INTO plan_checks (trip_id, version_id, status) VALUES ($1, $2, 'running')",
+      [world.tripId, day!.version_id],
+    );
+    expect(await kinds()).toEqual([]);
+    await world.q("UPDATE plan_checks SET status = 'done', fix_count = 1 WHERE trip_id = $1", [
+      world.tripId,
+    ]);
+    const [fix] = await kinds();
+    expect(fix).toMatchObject({
+      action: 'open',
+      facts: { count: 1 },
+      template: "One thing on today's plan needs fixing.",
+      deep_link: `/${world.tripId}/check`,
+    });
+    // Another day's briefing does not carry it.
+    const other = await withSystem(world.harness.pool, (tx) =>
+      briefingCandidates(tx, {
+        tripId: world.tripId,
+        userId: world.members[1]!,
+        localDate: '2026-10-16',
+        tz: TRIP_TZ,
+        now: NOW,
+      }),
+    );
+    expect(other.map((c) => c.kind)).not.toContain('plan_fix');
+    await world.q('DELETE FROM plan_check_issues WHERE trip_id = $1', [world.tripId]);
+    await world.q('DELETE FROM plan_checks WHERE trip_id = $1', [world.tripId]);
+  });
+});
+
 describe('briefing.build', () => {
   it('falls back to the template when the model fails, and builds the day once', async () => {
     const first = await runBriefing(world.harness.pool, mayaParticipant, '2026-10-15', {
