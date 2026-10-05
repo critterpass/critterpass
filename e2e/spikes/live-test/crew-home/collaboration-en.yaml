@@ -1,0 +1,8 @@
+appId: app.critterpass.dev
+---
+# The collaboration storyline on staging, in English: Linh drafts, invites and sends; Minh joins
+# with the crew code and answers; Linh locks. See subflows/walk.yaml.
+- runFlow:
+    file: subflows/walk.yaml
+    env:
+      LOCALE: en

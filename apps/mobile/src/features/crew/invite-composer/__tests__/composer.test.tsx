@@ -87,9 +87,19 @@ async function seed(db: TestLocalFirst['db']) {
     "INSERT INTO trips (id, crew_id, status, destination_id) VALUES (?, ?, 'setup', 'd')",
     [TRIP, CREW],
   );
+  await db.execute(
+    "INSERT INTO join_codes (id, crew_id, code, status, target_kind, created_at) VALUES ('jc', ?, 'BALI66', 'active', 'crew', '2026-09-01')",
+    [CREW],
+  );
+}
+
+/** The screen opens on the link and the crew code; a named seat is the second tab. */
+async function aFriend() {
+  await fireEvent.press(await screen.findByRole('radio', { name: /a friend/iu }));
 }
 
 async function fillFriend() {
+  await aFriend();
   await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
   await fireEvent.changeText(screen.getByTestId('composer-phone'), '+65 9123 4567');
   await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
@@ -142,7 +152,12 @@ describe('invite composer', () => {
     await seed(stack.db);
     await renderWithCrew(<InviteComposerScreen />, stack, services);
     await screen.findByText(/^invite to the bali six$/iu);
-    await fireEvent.press(screen.getByRole('radio', { name: /a link to share/iu }));
+    // It opens on the link, with the crew's code to read out or copy, and no per-friend form.
+    expect(screen.queryByTestId('composer-name')).toBeNull();
+    expect(await screen.findByTestId('composer-code-value')).toHaveTextContent('BALI66');
+    await activate(screen.getByTestId('composer-code-copy'));
+    expect(services.copied).toEqual(['BALI66']);
+    services.copied.length = 0;
     await activate(screen.getByTestId('composer-send-copy'));
     await waitFor(() => expect(services.copied).toEqual(['https://critterpass.app/i/K7M2QX']));
     expect((api.sent[0]?.body as { payload: Record<string, unknown> }).payload).toEqual({
@@ -229,6 +244,7 @@ describe('invite composer', () => {
     stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
     await seed(stack.db);
     await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await aFriend();
     await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
     await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
     expect(
@@ -248,6 +264,7 @@ describe('invite composer', () => {
     stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
     await seed(stack.db);
     await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await aFriend();
     await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
     await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
     await waitFor(() => expect(services.suggested).toHaveLength(1), { timeout: 5000 });
@@ -275,6 +292,7 @@ describe('invite composer', () => {
     stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
     await seed(stack.db);
     await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await aFriend();
     const chip = await screen.findByTestId('composer-tag-nightlife');
     expect(chip).toHaveTextContent('NIGHT OWL');
     expect(screen.getByTestId('composer-tag-sit_down_dining')).toHaveTextContent('PROPER DINNERS');

@@ -13,6 +13,22 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, cùng {1}"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.added"
+msgstr "{change} đã vào kế hoạch"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.removed"
+msgstr "{change} đã ra khỏi kế hoạch"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr "{count, plural, other {{guide} đã xếp chỗ cho # ý tưởng}}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMany"
+msgstr "{count, plural, other {{name} muốn đổi # chỗ trong kế hoạch}}"
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr "{count} ngày"
@@ -76,6 +92,18 @@ msgstr "{name} nhắc bạn"
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.line"
 msgstr "{name} đã nhắc bạn"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedAdd"
+msgstr "{name} muốn thêm {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedRemove"
+msgstr "{name} muốn bỏ {change}"
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMove"
+msgstr "{name} muốn dời {change}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.title"
@@ -153,6 +181,10 @@ msgstr "Chuyến đi thế nào?"
 msgid "home.inbox.title"
 msgstr "Hộp thư"
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.body"
+msgstr "Nhóm đồng ý là mục này vào kế hoạch."
+
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
 msgstr "Mục này đã quay lại danh sách của bạn."
@@ -181,6 +213,10 @@ msgstr "Đang tải trang chủ"
 msgid "home.inbox.loading"
 msgstr "Đang tải hộp thư"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr "Xem qua trước khi đưa vào kế hoạch."
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr "Đánh dấu đã đọc"
@@ -205,6 +241,10 @@ msgstr "Sắp tới"
 msgid "home.nextUp.eyebrow"
 msgstr "Sắp tới · {day}"
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr "Tiếp theo: {time} · {name}"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr "Nơi đó chưa có hướng dẫn viên. Tokek sẽ đi cùng bạn cho tới khi có."
@@ -216,6 +256,10 @@ msgstr "Nhóm chưa gửi gì."
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.guidesEmpty"
 msgstr "Hướng dẫn viên chưa gửi gì."
+
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
+msgstr "Hôm nay không còn gì trong kế hoạch."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
@@ -233,9 +277,9 @@ msgstr "Chưa có gì cần bạn đâu. Ngủ tiếp nhé."
 msgid "home.noTrip.line"
 msgstr "Lịch còn trống. Đề xuất một nơi đi, mình sẽ mở bình chọn."
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
-msgstr "Mở chuyến đi"
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
+msgstr "Mở hôm nay"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
@@ -249,6 +293,10 @@ msgstr "kế hoạch đã xong {progress} phần trăm"
 msgid "home.nextUp.plan"
 msgstr "Kế hoạch {progress}%"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
+msgstr "Xem lại"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.search"
 msgstr "Tìm một nơi"
@@ -256,6 +304,10 @@ msgstr "Tìm một nơi"
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.body"
 msgstr "Tìm một nơi hoặc chọn một hướng dẫn viên để bắt đầu chuyến đi. Cả nhóm có thể bình chọn sau."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.open"
+msgstr "Xem thay đổi"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.open"
@@ -305,13 +357,33 @@ msgstr "Chuyến đi đó đã kết thúc"
 msgid "home.inbox.nudge.vote"
 msgstr "Cả nhóm đang chờ phiếu của bạn."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.keptOne"
+msgstr "Nhóm không đồng ý {change}. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.kept"
+msgstr "Nhóm không đồng ý. Kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.applied"
+msgstr "Nhóm đồng ý. Kế hoạch đã đổi."
+
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr "Lời nhắc chưa gửi được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.moved"
+msgstr "Kế hoạch giờ có {change}"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.full"
 msgstr "Chuyến đi đã đủ chỗ. Bạn đứng thứ {position} chờ chỗ."
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.ranOut"
+msgstr "Hết giờ bình chọn. Kế hoạch giữ nguyên."
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
@@ -333,9 +405,9 @@ msgstr "Mục này đã đóng."
 msgid "home.countdown.today"
 msgstr "Hôm nay"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
-msgstr "Hôm nay · Ngày {day}"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
+msgstr "Hôm nay · Ngày {dayNo}/{dayCount}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -395,6 +467,5 @@ msgid "home.nudge.relayLink"
 msgstr "Nhóm đang giữ chỗ cho bạn trên CritterPass. {url}"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr "Chuyến đi tới"

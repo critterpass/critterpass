@@ -94,6 +94,9 @@ function registerInboxKinds(): void {
     kind: POLL_INBOX_KIND.result,
     async audience(tx, event) {
       const state = await loadPollState(tx, str(event, 'poll_id') ?? '');
+      // A plan change's vote says what was decided in its own words (jobs/plan/inbox.ts), not as
+      // "yes won 2–0".
+      if (state?.poll.kind === 'changeset_approval') return [];
       return state?.poll.eligible_voter_ids ?? [];
     },
     async build(tx, event) {

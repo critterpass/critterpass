@@ -27,6 +27,8 @@ export interface MessageListProps {
   readonly rows: readonly TimelineRow[];
   readonly today: string;
   readonly renderMessage: (row: Extract<TimelineRow, { kind: 'message' }>) => ReactNode;
+  /** Above the first message, once the whole history is loaded (the start of the chat). */
+  readonly header?: ReactNode;
   readonly footer?: ReactNode;
   readonly onLoadOlder: () => void;
   /** The last numbered message is on screen at the bottom. */
@@ -60,6 +62,7 @@ export function MessageList({
   rows,
   today,
   renderMessage,
+  header,
   footer,
   onLoadOlder,
   onSeenLatest,
@@ -143,6 +146,7 @@ export function MessageList({
             )}
           </View>
         )}
+        ListHeaderComponent={<>{header}</>}
         ListFooterComponent={<>{footer}</>}
         contentContainerStyle={styles.content}
         maintainVisibleContentPosition={{ startRenderingFromBottom: true }}

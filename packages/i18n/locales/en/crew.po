@@ -64,6 +64,10 @@ msgstr "A friend"
 msgid "crew.composer.friend"
 msgstr "A friend"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeHint"
+msgstr "A friend opens CritterPass, taps \"Join with a code\" and types it in."
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.link"
 msgstr "A link to share"
@@ -72,11 +76,11 @@ msgstr "A link to share"
 msgid "crew.composer.note"
 msgstr "A note about them"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewNamed"
 msgstr "A seat for {invitee}"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewGeneric"
 msgstr "A seat in the crew"
 
@@ -101,6 +105,10 @@ msgstr "All"
 msgid "crew.referral.at"
 msgstr "At {0} stamps"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.codeCopied"
+msgstr "Code copied"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.collector"
 msgstr "Collector cover"
@@ -108,6 +116,10 @@ msgstr "Collector cover"
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.message"
 msgstr "Come to {crewName} on CritterPass: {url}"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeCopy"
+msgstr "Copy code"
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.copy"
@@ -121,12 +133,16 @@ msgstr "Copy link"
 msgid "crew.referral.covers"
 msgstr "Covers"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewCrew"
 msgstr "Crew"
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLabel"
+msgstr "Crew code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
 msgstr "Crew code"
 
 #. placeholder {0}: code.split('').join(' ')
@@ -356,7 +372,7 @@ msgstr "Pick from contacts"
 msgid "crew.referral.shareMessage"
 msgstr "Plan trips with me on CritterPass: {url}"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewA11y"
 msgstr "Preview of the invite ticket"
 
@@ -496,7 +512,7 @@ msgstr "They leave the crew’s trips; their seat opens for the waitlist."
 msgid "crew.members.removeAccess"
 msgstr "They stop seeing the crew’s chat, plans and money right away."
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewHead"
 msgstr "They’ll see"
 
@@ -532,7 +548,7 @@ msgstr "Who"
 msgid "crew.referral.back"
 msgstr "You"
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.you"
 msgstr "You"
 

@@ -64,6 +64,10 @@ msgstr ""
 msgid "crew.composer.friend"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.link"
 msgstr ""
@@ -72,11 +76,11 @@ msgstr ""
 msgid "crew.composer.note"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewNamed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewGeneric"
 msgstr ""
 
@@ -101,12 +105,20 @@ msgstr ""
 msgid "crew.referral.at"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.codeCopied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.collector"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeCopy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
@@ -121,12 +133,16 @@ msgstr ""
 msgid "crew.referral.covers"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/CrewCode.tsx
+msgid "crew.composer.codeLabel"
 msgstr ""
 
 #. placeholder {0}: code.split('').join(' ')
@@ -356,7 +372,7 @@ msgstr ""
 msgid "crew.referral.shareMessage"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewA11y"
 msgstr ""
 
@@ -496,7 +512,7 @@ msgstr ""
 msgid "crew.members.removeAccess"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.previewHead"
 msgstr ""
 
@@ -532,7 +548,7 @@ msgstr ""
 msgid "crew.referral.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+#: ../../apps/mobile/src/features/crew/invite-composer/InvitePreview.tsx
 msgid "crew.composer.you"
 msgstr ""
 

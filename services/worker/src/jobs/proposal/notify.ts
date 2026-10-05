@@ -2,6 +2,7 @@
  * Proposal pushes: N-07 each recipient's version (from the trip's guide), N-08 a follow-up or
  * resend that came due (to its one member) and N-09 a day before reply-by (to members who have not
  * answered, and the organisers). Copy never says anything is held: nothing is until the crew books.
+ * Registering them also registers the proposal's inbox items (./inbox.ts).
  */
 import type pg from 'pg';
 
@@ -11,6 +12,7 @@ import {
   type RoutedEvent,
 } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
+import { registerProposalInboxFanouts } from './inbox';
 import { registerTripNewsNotifications } from './trip-news';
 
 export const PROPOSAL_PUSH = {
@@ -84,6 +86,7 @@ export function registerProposalNotifications(): void {
   if (registered) return;
   registered = true;
   registerTripNewsNotifications();
+  registerProposalInboxFanouts();
 
   registerNotification({
     key: 'proposal_version',

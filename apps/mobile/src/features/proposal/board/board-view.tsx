@@ -115,7 +115,7 @@ export function BoardView(props: BoardViewProps) {
         <Animated.View style={passStyle}>
           <Ticket
             kind="crew"
-            headStart={t({ id: 'proposal.board.airline', message: 'CritterPass Air' })}
+            headStart={t({ id: 'proposal.board.crewPass', message: 'Crew pass' })}
             headEnd={t({ id: 'proposal.board.gate', message: 'Gate: yes' })}
             from={{ code: ticket.from }}
             to={{ code: ticket.to }}
@@ -153,6 +153,23 @@ export function BoardView(props: BoardViewProps) {
             testID="board-ticket"
           />
         </Animated.View>
+        {/* The pass borrows a boarding pass's look; it must not read as a flight someone booked. */}
+        <Text
+          variant="caption"
+          color={theme.semantic.text.secondary}
+          singleLine={false}
+          testID="board-pass-note"
+        >
+          {ticket.from === '—'
+            ? t({
+                id: 'proposal.board.notAFlight',
+                message: 'This saves your seat on the trip. It is not a flight booking.',
+              })
+            : t({
+                id: 'proposal.board.notAFlightFrom',
+                message: `This saves your seat on the trip. It is not a flight booking: ${ticket.from} is your home airport.`,
+              })}
+        </Text>
         {props.boarded ? (
           <Animated.View
             style={styles.egg}

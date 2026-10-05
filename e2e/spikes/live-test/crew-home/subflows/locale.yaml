@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# The walk's language, from a screen with the Developer tools entry (Home, or a new account's
+# splash): English is the test phone's own; any other is picked in the developer gallery for the
+# running app (it is not saved, so this runs again after every restart). Ends where it began, on
+# the screen that shows ${LANDS}.
+- runFlow:
+    when:
+      true: ${LOCALE != 'en'}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-tools-entry'
+          timeout: 30000
+      - tapOn:
+          id: 'dev-tools-entry'
+      # The list keeps its place from the last visit: back to its top before looking for a row.
+      - scrollUntilVisible:
+          element:
+            id: 'dev-build-marker'
+          direction: UP
+          timeout: 15000
+      - runFlow:
+          file: ../../../../home/subflows/pick-gallery-locale.yaml
+          env:
+            LOCALE: ${LOCALE}
+      - runFlow: ../../../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd
+      - runFlow: ../../../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: ${LANDS}
+          timeout: 30000
+      - waitForAnimationToEnd:
+          timeout: 8000

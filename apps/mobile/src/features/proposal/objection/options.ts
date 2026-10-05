@@ -1,7 +1,7 @@
 /**
  * The private objection's answer as the phone reads it (`submit_private_reason`: the thread and
- * the options the cost engine decided), and when "Ask me on Sunday" lands: the coming Sunday at
- * 19:00 on the member's clock (today, when it is Sunday and still before then).
+ * the options the cost engine decided), and when "ask me later" lands: a time before the answer is
+ * due, named for what it is (tonight, tomorrow morning, Sunday).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 
@@ -57,11 +57,41 @@ export function parseOptions(
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-/** "YYYY-MM-DDT19:00" for the coming Sunday evening, on the device's clock. */
-export function nextSundayEvening(now: Date): string {
-  const at = new Date(now);
-  at.setHours(19, 0, 0, 0);
-  const ahead = (7 - at.getDay()) % 7;
-  at.setDate(at.getDate() + (ahead === 0 && now.getTime() >= at.getTime() ? 7 : ahead));
-  return `${at.getFullYear()}-${pad(at.getMonth() + 1)}-${pad(at.getDate())}T19:00`;
+const localStamp = (at: Date): string =>
+  `${at.getFullYear()}-${pad(at.getMonth() + 1)}-${pad(at.getDate())}T${pad(at.getHours())}:00`;
+
+/** When the guide asks again, on the member's clock, and how the sheet names it. */
+export interface FollowUp {
+  readonly when: 'tonight' | 'tomorrow' | 'sunday';
+  /** "YYYY-MM-DDTHH:00" on the device's clock. */
+  readonly atLocal: string;
+}
+
+/** The guide asks again at least this long before the answer is due, so there is time to give it. */
+const BEFORE_REPLY_BY_MS = 2 * 3_600_000;
+/** Too close to "now" to be worth a reminder. */
+const SOONEST_MS = 3_600_000;
+
+/**
+ * The time "ask me later" lands: the coming Sunday evening when the answer is not due before it,
+ * else this evening (19:00), else tomorrow morning (09:00), whichever is far enough from now and
+ * early enough before the reply-by date. Null when the answer is due too soon for a reminder to
+ * help: the sheet then offers none. A Sunday that is today reads as "tonight".
+ */
+export function followUpAt(now: Date, replyBy: string | null): FollowUp | null {
+  const due = replyBy === null ? Number.POSITIVE_INFINITY : new Date(replyBy).getTime();
+  const fits = (at: Date) =>
+    at.getTime() - now.getTime() >= SOONEST_MS && due - at.getTime() >= BEFORE_REPLY_BY_MS;
+  const tonight = new Date(now);
+  tonight.setHours(19, 0, 0, 0);
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(9, 0, 0, 0);
+  const sunday = new Date(tonight);
+  sunday.setDate(sunday.getDate() + ((7 - sunday.getDay()) % 7));
+  const sameDay = sunday.getDate() === tonight.getDate();
+  if (!sameDay && fits(sunday)) return { when: 'sunday', atLocal: localStamp(sunday) };
+  if (fits(tonight)) return { when: 'tonight', atLocal: localStamp(tonight) };
+  if (fits(tomorrow)) return { when: 'tomorrow', atLocal: localStamp(tomorrow) };
+  return null;
 }
