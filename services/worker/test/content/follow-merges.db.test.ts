@@ -199,6 +199,7 @@ describe('publishing a places release that merges a record', () => {
       [`places-1-${randomUUID()}`, artifact.checksum, JSON.stringify(artifact), owner],
     );
     const published = await withSystem(harness.pool, (tx) => publishRelease(tx, releaseId));
+    expect(published.follows?.failed).toEqual({});
     expect(published.follows?.tables).toMatchObject({
       plan_items: { moved: 1, dropped: 0 },
       must_dos: { moved: 1, dropped: 0 },
@@ -276,6 +277,7 @@ describe('rows left behind by an earlier release', () => {
 
     const lines: string[] = [];
     const dry = await followMerges(harness.pool, { dryRun: true, log: (line) => lines.push(line) });
+    expect(dry.failed).toEqual({});
     expect(dry.tables).toMatchObject({
       plan_items: { moved: 0, dropped: 1 },
       must_dos: { moved: 1, dropped: 0 },
@@ -283,7 +285,6 @@ describe('rows left behind by an earlier release', () => {
       saved_items: { moved: 0, dropped: 1 },
       place_hides: { moved: 1, dropped: 0 },
     });
-    expect(dry.failed).toEqual({});
     expect(dry.trips[trip.tripId]).toBe(3);
     expect(lines.join('\n')).toContain('plan_items: 0 would move, 1 not kept');
     expect(await stopsOf(trip)).toHaveLength(2);
@@ -335,6 +336,7 @@ describe('rows left behind by an earlier release', () => {
     const late = await stop(trip, temple.kept, '14:00', '15:30');
     await merge(temple);
     const done = await followMerges(harness.pool, { log: () => undefined });
+    expect(done.failed).toEqual({});
     expect(done.tables['plan_items']).toEqual({ moved: 1, dropped: 0 });
     expect(await stopsOf(trip)).toEqual([
       { stable_id: early, poi_id: temple.kept, starts_at: bali('09:00') },
