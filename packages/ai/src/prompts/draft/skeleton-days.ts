@@ -126,7 +126,7 @@ export function mealsIn(window: DayWindow): number {
 }
 
 /** Whether the day can still be timed with `poiIds` as its planned stops. */
-function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[]): boolean {
+export function fits(input: DraftPlanInput, day: OutlineDay, poiIds: readonly string[]): boolean {
   const window = dayWindow(input.frame, day.dayNo - 1);
   const fixed = mustDoChoices(input, day);
   const proxies = mealProxies(input, { ...day, poiIds: [...poiIds] });

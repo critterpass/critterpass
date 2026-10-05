@@ -2,11 +2,15 @@
  * A day's title is written with the outline, before the planner trims, fills and reorders the
  * day; so it can promise "a show" the day does not have, or name a part of the map the day never
  * reaches. A title is kept only when the day still holds what it names: every kind of place it
- * mentions (a pagoda, a market, a bar) and every place name it uses. One that does not is written
- * again from the day's own stops.
+ * mentions (a pagoda, a market, a bar; two of them when it says "waterfalls") and every place name
+ * it uses, and it claims no flight or other way of travelling that nobody entered. One that does
+ * not is written again: by the guide first (./retitle.ts), and from the names of the day's own
+ * stops when that fails too.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import { foodRole, isKept, minuteOfDate, nameTokens, type DraftPoi } from '@cp/planner';
+
+import { spanOf } from './areas';
 
 import type { DraftPlanInput } from './context';
 import { shownName } from './shown-names';
@@ -59,8 +63,20 @@ const KINDS: Readonly<Record<string, Holds>> = {
   ho: named('lake', 'ho'),
   chua: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
   cho: either(category('market'), named('market', 'cho')),
+  // "cà phê": "ca" alone is too many other words.
+  phe: (poi) => foodRole(poi) === 'light',
   thac: named('waterfall', 'fall', 'thac'),
 };
+
+/** Words of a place name that say what it is, not which: a title naming only these names none. */
+const COMMON: ReadonlySet<string> = new Set(
+  'the and old town ancient park hill peninsula mountain island bridge street pho ban dao nui bien cau khu lich'.split(
+    ' ',
+  ),
+);
+
+/** What a title check needs to know of a visit's length (the ride from the stay counts). */
+type Spanned = Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>;
 
 const PLACE_WORDS = new WeakMap<object, ReadonlyMap<string, number>>();
 
@@ -92,6 +108,28 @@ const EASE: ReadonlySet<string> = new Set([
   'nhang',
 ]);
 const EASY_RIDE_MAX_MIN = 25;
+/** Words that put something early in the day; such a day has started by `EARLY_BY_MIN`. */
+const EARLY: ReadonlySet<string> = new Set(['early', 'dawn', 'sunrise', 'som']);
+const EARLY_BY_MIN = 9 * 60;
+/** A way of travelling the title takes for granted ("before the flight", "trước giờ bay"). */
+const TRANSPORT =
+  /\b(flights?|fly(ing)?|planes?|airport|take-?off)\b|(giờ|chuyến|sân|máy|lên|ra) bay|chuyến xe|giờ xe|giờ tàu|chuyến tàu/iu;
+
+/**
+ * Whether the title speaks of a flight (or a bus or train to catch) on a day nobody entered one
+ * for: the planner only assumes when the crew arrives and leaves, and never how.
+ */
+export function claimsTransport(
+  input: Pick<DraftPlanInput, 'frame'>,
+  day: Pick<DraftDay, 'theme' | 'date'>,
+): boolean {
+  if (!TRANSPORT.test(day.theme.normalize('NFC'))) return false;
+  const { dates, arrivalMin, departureMin } = input.frame;
+  const entered =
+    (day.date === dates[0] && arrivalMin !== null) ||
+    (day.date === dates[dates.length - 1] && departureMin !== null);
+  return !entered;
+}
 const NOON = 12 * 60;
 
 /**
@@ -101,7 +139,10 @@ const NOON = 12 * 60;
  * title ends by early afternoon, an evening one has a stop in the evening; and a title that
  * calls the day easy has no long ride in it.
  */
-export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: DraftDay): boolean {
+export function titleFits(
+  input: Pick<DraftPlanInput, 'pois' | 'frame' | 'pools' | 'travel'>,
+  day: DraftDay,
+): boolean {
   const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
   const stops = day.items.flatMap((item) => {
     const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
@@ -110,6 +151,19 @@ export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: Dr
     return [{ poi, words, start: at(item.starts_at), ride: item.travel_min }];
   });
   if (stops.length === 0) return true;
+  if (claimsTransport(input, day)) return false;
+  // A day built around a long visit says so: its title names the place.
+  const anchor = longestVisit(input, stops);
+  if (anchor !== null) {
+    const said = new Set(nameTokens(day.theme));
+    const own = nameTokens(`${anchor.poi.name} ${anchor.poi.nameLocal ?? ''}`).filter(
+      (token) => token.length >= 3 && KINDS[token] === undefined && !COMMON.has(token),
+    );
+    if (own.length > 0 && !own.some((token) => said.has(token))) return false;
+  }
+  const names = day.items.map((item) =>
+    (item.poi_id === null ? '' : (input.pois.get(item.poi_id)?.name ?? '')).toLowerCase(),
+  );
   const known = placeWords(input);
   const raw = day.theme.split(/[^\p{L}\p{N}]+/u).filter((word) => word.length > 0);
   const tokens = raw.map((word) => nameTokens(word)[0]);
@@ -134,8 +188,9 @@ export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: Dr
     if (token === undefined) return true;
     if (AM.has(token)) {
       half = 'am';
-      // A morning is over by early afternoon, unless the title goes on to the rest of the day.
-      return splitDay || ends <= MORNING_TITLE_ENDS_MIN;
+      // A morning is over by early afternoon, unless the title goes on to the rest of the day or
+      // names the long visit the morning is for ("A morning at Datanla").
+      return splitDay || ends <= MORNING_TITLE_ENDS_MIN || (anchor !== null && anchor.start < NOON);
     }
     if (PM.has(token)) {
       half = 'pm';
@@ -146,8 +201,16 @@ export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: Dr
       return lastStart >= EVENING_TITLE_FROM_MIN;
     }
     if (EASE.has(token)) return stops.every((stop) => stop.ride <= EASY_RIDE_MAX_MIN);
+    if (EARLY.has(token)) return Math.min(...stops.map((stop) => stop.start)) <= EARLY_BY_MIN;
     const kind = KINDS[token];
-    if (kind !== undefined) return claim((stop) => kind(stop.poi, stop.words));
+    if (kind !== undefined) {
+      // "Waterfalls" promises two, unless it is the word of a stop's own name ("Datanla Falls").
+      const plural = word.toLowerCase();
+      const several =
+        plural !== token && plural.endsWith('s') && !names.some((name) => name.includes(plural));
+      if (several && stops.filter((stop) => kind(stop.poi, stop.words)).length < 2) return false;
+      return claim((stop) => kind(stop.poi, stop.words));
+    }
     const holders = stops.filter((stop) => stop.words.has(token));
     const proper = /^\p{Lu}/u.test(word);
     // A place the title names: a capitalised word one or two of the day's stops carry.
@@ -160,6 +223,30 @@ export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: Dr
   });
 }
 
+/** The day's longest visit of half a day or more, if it has one. */
+function longestVisit<T extends { readonly poi: DraftPoi; readonly start: number }>(
+  input: Spanned,
+  stops: readonly T[],
+): T | null {
+  const long = stops
+    .filter((stop) => spanOf(input, stop.poi) !== null && foodRole(stop.poi) !== 'meal')
+    .sort((a, b) => b.poi.durationMin - a.poi.durationMin);
+  return long[0] ?? null;
+}
+
+const LONG_TITLES = {
+  en: {
+    full: (name: string) => `${name}, the whole day`,
+    am: (name: string) => `A morning at ${name}`,
+    pm: (name: string) => `An afternoon at ${name}`,
+  },
+  vi: {
+    full: (name: string) => `${name}, trọn ngày`,
+    am: (name: string) => `Buổi sáng ở ${name}`,
+    pm: (name: string) => `Buổi chiều ở ${name}`,
+  },
+} as const;
+
 /** The leading name of a place, short enough for a title; null when it has none that short. */
 function shortName(name: string): string | null {
   const lead = (name.split(/\s*(?:,|;|\||\(|\s[-–—]\s)\s*/u)[0] ?? '').trim();
@@ -168,9 +255,27 @@ function shortName(name: string): string | null {
 
 /** A title from the day's own stops: its headline sights, the crew's own first. */
 export function titleFrom(
-  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'destinationLanguages'>,
+  input: Pick<
+    DraftPlanInput,
+    'pois' | 'locale' | 'destinationLanguages' | 'frame' | 'pools' | 'travel'
+  >,
   day: DraftDay,
 ): string {
+  const vi = input.locale?.toLowerCase().startsWith('vi') === true;
+  // A day built around a long visit is named for it: "A morning at Datanla".
+  const timed = day.items.flatMap((item) => {
+    const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+    const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
+    return poi === undefined || item.kind === 'meal' ? [] : [{ poi, start }];
+  });
+  const anchor = longestVisit(input, timed);
+  const anchorName = anchor === null ? null : shortName(shownName(input, anchor.poi));
+  if (anchor !== null && anchorName !== null) {
+    const words = LONG_TITLES[vi ? 'vi' : 'en'];
+    const half = anchor.start < NOON ? words.am : words.pm;
+    const title = (spanOf(input, anchor.poi) === 'full' ? words.full : half)(anchorName);
+    if (title.length <= TITLE_MAX) return title;
+  }
   const ranked = day.items
     .flatMap((item, index) => {
       const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
@@ -193,13 +298,16 @@ export function titleFrom(
     .slice(0, 2)
     .sort((a, b) => a.index - b.index)
     .map((entry) => entry.name);
-  const both = heads.join(input.locale?.toLowerCase().startsWith('vi') === true ? ' và ' : ' and ');
+  const both = heads.join(vi ? ' và ' : ' and ');
   if (heads.length === 2 && both.length <= TITLE_MAX) return both;
   return heads[0] ?? day.theme;
 }
 
 export function withFittingTitles(
-  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'frame' | 'destinationLanguages'>,
+  input: Pick<
+    DraftPlanInput,
+    'pois' | 'locale' | 'frame' | 'destinationLanguages' | 'pools' | 'travel'
+  >,
   itinerary: Itinerary,
 ): { readonly itinerary: Itinerary; readonly retitled: number } {
   let retitled = 0;

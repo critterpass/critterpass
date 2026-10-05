@@ -3,12 +3,13 @@
  * editors): the places a first visit should hold. They lead the trip's core must-sees, so the
  * outline, the day stage and the fills all place them first; once the days are settled, one still
  * missing is put on a day that can take it, a stop nobody asked for giving way if it must; and one
- * the draft leaves out is reported with the reason, so nobody has to guess why it is not there.
+ * the draft leaves out is reported with the reason, so nobody has to guess why it is not there. One
+ * inside a long visit on the draft (a bridge at a hill resort) is seen on that visit.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import { foodRole, isKept, opensDay, RIDE_HOME_MAX_MIN, type DraftPoi } from '@cp/planner';
 
-import { homeOf, hopCap } from './areas';
+import { homeOf, hopCap, insideVisit } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { misplacedOpeners } from './openers';
@@ -24,6 +25,10 @@ export type EssentialGap =
   | 'not_offered'
   /** Every day it could go on holds stops the organiser placed, and it fits around them on none. */
   | 'held_in_the_way'
+  /** It is an outing far from the stay, and the trip has no full day left for it. */
+  | 'needs_a_day'
+  /** A redraft of its day took it out, and no other day had room. */
+  | 'redrafted_out'
   /** Every day it could go on is full of stops the planner may not move. */
   | 'no_room';
 
@@ -43,6 +48,22 @@ function held(itinerary: Itinerary): Set<string> {
   return new Set(itinerary.days.flatMap((day) => day.items.map((item) => item.poi_id ?? '')));
 }
 
+/**
+ * The long visit on the draft that takes in `poi` (the resort a bridge is inside), if any: such
+ * an essential is seen on that visit, not left out.
+ */
+export function visitTakingIn(
+  input: Pick<DraftPlanInput, 'pois' | 'pools' | 'travel'>,
+  itinerary: Itinerary,
+  poi: DraftPoi,
+): DraftPoi | null {
+  for (const id of held(itinerary)) {
+    const anchor = input.pois.get(id);
+    if (anchor !== undefined && insideVisit(input, poi, anchor)) return anchor;
+  }
+  return null;
+}
+
 /** The essentials the draft does not hold, each with why. */
 export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): EssentialLeftOut[] {
   const there = held(itinerary);
@@ -53,13 +74,17 @@ export function essentialsLeftOut(input: DraftPlanInput, itinerary: Itinerary): 
     ...input.pools.mustDos.map((slot) => slot.poiId),
   ]);
   const hers = new Set((input.held ?? []).map((stop) => stop.dayNo));
+  const noDay = new Set(
+    input.pools.outings.filter((outing) => outing.dayNo === null).flatMap((o) => o.poiIds),
+  );
   return essentialsOf(input)
-    .filter((poi) => !there.has(poi.id))
+    .filter((poi) => !there.has(poi.id) && visitTakingIn(input, itinerary, poi) === null)
     .map((poi): EssentialLeftOut => {
       const open = input.pools.openDays.get(poi.id) ?? [];
       const ride = home === null ? 0 : (input.travel(home, poi.id) ?? 0);
-      const reason: EssentialGap =
-        ride > RIDE_HOME_MAX_MIN
+      const reason: EssentialGap = noDay.has(poi.id)
+        ? 'needs_a_day'
+        : ride > RIDE_HOME_MAX_MIN
           ? 'too_far'
           : open.length === 0
             ? 'closed'
@@ -129,12 +154,14 @@ function bestSeats(input: DraftPlanInput, plan: Itinerary, dayNo: number, poi: D
   return [...new Set([...first, ...seats])].slice(0, SEATS_TRIED + first.length);
 }
 
-function placeOne(
+/** `poi` on one of the days in `outlines`; with `addOnly`, never in another stop's seat. */
+export function placeOne(
   input: DraftPlanInput,
   outlines: readonly SkeletonDay[],
   itinerary: Itinerary,
   poi: DraftPoi,
   round: number,
+  addOnly = false,
 ): Itinerary | null {
   const essential = new Map(essentialsOf(input).map((other) => [other.id, other]));
   const open = input.pools.openDays.get(poi.id) ?? [];
@@ -183,6 +210,7 @@ function placeOne(
         const added = tryOn(itinerary, 'add');
         if (added !== null) return added;
       }
+      if (addOnly) continue;
       const baseline = dayFaults(input, itinerary, day.day_no);
       const giveWay = day.items
         .filter((item) => {

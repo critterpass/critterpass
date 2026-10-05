@@ -22,9 +22,11 @@ import {
   withNoteLine,
 } from '@cp/planner';
 
-import { hopCap } from './areas';
+import { hopCap, insideVisit } from './areas';
 import type { DraftPlanInput } from './context';
 import { withFittingTitles } from './day-titles';
+import { essentialsOf } from './essentials';
+import { shownName } from './shown-names';
 
 /** A stretch this long with nothing planned is said to be free. */
 const FREE_HOURS_MIN = 120;
@@ -33,6 +35,16 @@ const FREE_HOURS_MIN = 120;
 export interface PlannerLines {
   readonly longRide: string;
   readonly freeTime: string;
+  /** The same stretch on a day she asked to be slower or lighter. */
+  readonly freeAsAsked: string;
+  /** On a long visit that takes in an essential place of its own. */
+  readonly takesIn: (name: string) => string;
+  /** Lines a redraft adds to its summary. */
+  readonly redraft: {
+    readonly moved: (name: string) => string;
+    readonly leftOut: (name: string) => string;
+    readonly walksKept: string;
+  };
   /** On a stop left in the open air on a day redrafted for rain. */
   readonly outdoors: string;
   readonly noMeal: { readonly lunch: string; readonly dinner: string };
@@ -43,6 +55,13 @@ export interface PlannerLines {
 const EN: PlannerLines = {
   longRide: "Getting here is the day's long ride.",
   freeTime: 'Nothing we know nearby fits the hours after this: they are yours.',
+  freeAsAsked: 'The hours after this are left free, as you asked for a slower day.',
+  takesIn: (name) => `${name} is part of this visit.`,
+  redraft: {
+    moved: (name) => `${name} moves to another day.`,
+    leftOut: (name) => `${name} is off the trip for now: no other day has room for it.`,
+    walksKept: 'I could not cut the walking: these stops are a short stroll apart as they are.',
+  },
   outdoors: 'This one is in the open air and nothing indoors is near: take a raincoat.',
   noMeal: {
     lunch: 'No place we know nearby for lunch: eat where you like.',
@@ -56,6 +75,13 @@ const VI: PlannerLines = {
   longRide: 'Đây là chặng đi dài nhất trong ngày.',
   outdoors: 'Điểm này ở ngoài trời và quanh đây chưa có chỗ nào trong nhà: nhớ mang áo mưa.',
   freeTime: 'Quanh đây chưa có điểm nào vừa với mấy tiếng sau chặng này: khoảng đó là của bạn.',
+  freeAsAsked: 'Mấy tiếng sau chặng này để trống, đúng như bạn muốn một ngày chậm hơn.',
+  takesIn: (name) => `${name} nằm trong chuyến tham quan này.`,
+  redraft: {
+    moved: (name) => `${name} chuyển sang ngày khác.`,
+    leftOut: (name) => `${name} tạm rời chuyến đi: chưa ngày nào khác còn chỗ.`,
+    walksKept: 'Mình chưa bớt được phần đi bộ: các điểm này vốn đã sát nhau.',
+  },
   noMeal: {
     lunch: 'Chúng tôi chưa biết quán nào gần đây cho bữa trưa: bạn cứ ăn ở đâu tùy thích.',
     dinner: 'Chúng tôi chưa biết quán nào gần đây cho bữa tối: bạn cứ ăn ở đâu tùy thích.',
@@ -75,7 +101,12 @@ export const LONG_RIDE_NOTE = EN.longRide;
 export const FREE_TIME_NOTE = EN.freeTime;
 export const NO_MEAL_NOTE = EN.noMeal;
 
-function withRideAndMealNotes(input: DraftPlanInput, day: DraftDay, dayIndex: number): DraftDay {
+function withRideAndMealNotes(
+  input: DraftPlanInput,
+  day: DraftDay,
+  dayIndex: number,
+  freeAsAsked: boolean,
+): DraftDay {
   if (day.items.length === 0) return day;
   const { tz } = input.frame;
   const cap = hopCap(input);
@@ -86,6 +117,14 @@ function withRideAndMealNotes(input: DraftPlanInput, day: DraftDay, dayIndex: nu
     lines.set(index, [...(lines.get(index) ?? []), line]);
   day.items.forEach((item, index) => {
     if (index > 0 && item.travel_min > cap) say(index, words.longRide);
+    // An essential inside this long visit, not a stop of its own, is named on it.
+    const anchor = input.pois.get(item.poi_id ?? '');
+    if (anchor === undefined) return;
+    for (const inside of essentialsOf(input)) {
+      if (insideVisit(input, inside, anchor) && !day.items.some((i) => i.poi_id === inside.id)) {
+        say(index, words.takesIn(shownName(input, inside)));
+      }
+    }
   });
   const had = new Set(
     day.items.flatMap((item) => (item.kind === 'meal' ? [mealAt(at(item.starts_at))] : [])),
@@ -110,7 +149,7 @@ function withRideAndMealNotes(input: DraftPlanInput, day: DraftDay, dayIndex: nu
     const next = day.items[index + 1];
     if (!full || next === undefined || at(next.starts_at) > DINNER_LAST_START_MIN) return;
     const free = at(next.starts_at) - at(item.ends_at) - next.travel_min;
-    if (free >= FREE_HOURS_MIN) say(index, words.freeTime);
+    if (free >= FREE_HOURS_MIN) say(index, freeAsAsked ? words.freeAsAsked : words.freeTime);
   });
   if (lines.size === 0) return day;
   return {
@@ -127,18 +166,28 @@ function withRideAndMealNotes(input: DraftPlanInput, day: DraftDay, dayIndex: nu
 export function withFinalNotes(
   input: DraftPlanInput,
   itinerary: Itinerary,
+  options: {
+    readonly retitle: boolean;
+    /** The day she asked to be slower or lighter: its free hours are free because she asked. */
+    readonly freeAsAsked?: number;
+  } = { retitle: true },
 ): { readonly itinerary: Itinerary; readonly removed: number; readonly retitled: number } {
   const honest = withHonestNotes(itinerary, input.pois, input.frame.tz);
   const dateIndex = new Map(input.frame.dates.map((date, index) => [date, index]));
   const noted = {
     ...honest.itinerary,
     days: honest.itinerary.days.map((day) =>
-      withRideAndMealNotes(input, day, dateIndex.get(day.date) ?? day.day_no - 1),
+      withRideAndMealNotes(
+        input,
+        day,
+        dateIndex.get(day.date) ?? day.day_no - 1,
+        options.freeAsAsked === day.day_no,
+      ),
     ),
   };
-  const titled = withFittingTitles(
-    input,
-    withAssumedTravelNotes(noted, input.frame, plannerLines(input.locale)),
-  );
+  const assumed = withAssumedTravelNotes(noted, input.frame, plannerLines(input.locale));
+  const titled = options.retitle
+    ? withFittingTitles(input, assumed)
+    : { itinerary: assumed, retitled: 0 };
   return { itinerary: titled.itinerary, removed: honest.removed, retitled: titled.retitled };
 }

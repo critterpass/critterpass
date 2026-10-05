@@ -6,7 +6,14 @@
  * passing a near-empty plan off as a draft.
  */
 import { isDeclined, textOf } from '../../structured';
-import { languageLine, personaSystem, type DraftModel } from './context';
+import type { Itinerary } from '@cp/domain';
+import { minuteOfDate } from '@cp/planner';
+
+import { spanOf } from './areas';
+
+import { languageLine, personaSystem, type DraftModel, type DraftPlanInput } from './context';
+import { shownName } from './shown-names';
+import { withoutHedge } from './hedge';
 import type { PersonaId } from '../../persona/schema';
 import { proseProblem } from './schema';
 
@@ -23,13 +30,44 @@ export interface SummaryInput {
   readonly locale?: string;
   /** We know too few places here to fill the days: the line must say so. */
   readonly thin?: boolean;
+  /** Days built around one long visit, the longest first ("day 3: Bà Nà Hills, the whole day"). */
+  readonly longVisits?: readonly string[];
+}
+
+/** The draft's days built around one long visit, as the summary's facts name them. */
+export function longVisitsOf(
+  input: Pick<
+    DraftPlanInput,
+    'pois' | 'frame' | 'locale' | 'destinationLanguages' | 'pools' | 'travel'
+  >,
+  itinerary: Itinerary,
+): string[] {
+  const found = itinerary.days.flatMap((day) => {
+    const long = day.items
+      .flatMap((item) => {
+        const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+        const span = poi === undefined || item.kind === 'meal' ? null : spanOf(input, poi);
+        return poi === undefined || span === null ? [] : [{ poi, span, at: item.starts_at }];
+      })
+      .sort((a, b) => b.poi.durationMin - a.poi.durationMin)[0];
+    if (long === undefined) return [];
+    const start = minuteOfDate(new Date(long.at), day.date, input.frame.tz);
+    const part =
+      long.span === 'full' ? 'the whole day' : start < 13 * 60 ? 'the morning' : 'the afternoon';
+    const line = `day ${day.day_no}: ${shownName(input, long.poi)}, ${part}`;
+    return [{ line, minutes: long.poi.durationMin }];
+  });
+  // The longest first: the line has room for one.
+  return found.sort((a, b) => b.minutes - a.minutes).map((entry) => entry.line);
 }
 
 const TASK = [
   '# Task',
   '',
   'Write one line (under 140 characters) that sums up the trip draft below, in your voice, for the',
-  'organiser who will review it. Words only: no numbers, dates, times, prices, digits, emoji or links.',
+  "organiser who will review it. When the facts give the trip's longest visit, the line names it",
+  'and how long it takes; never name a visit the facts do not give. Words only: no numbers, dates,',
+  'times, prices, digits, emoji or links.',
   'Reply with the line and nothing else.',
 ].join('\n');
 
@@ -65,6 +103,9 @@ export async function writeDraftSummary(model: DraftModel, input: SummaryInput):
     `Destination: ${input.destination}`,
     `Day themes, in order: ${input.themes.join('; ')}`,
     input.allMustDos ? 'Every must-do made it.' : 'Some must-dos did not fit.',
+    ...(input.longVisits?.[0] === undefined
+      ? []
+      : [`The trip's longest visit: ${input.longVisits[0]}.`]),
     ...languageLine(input.locale),
     ...(input.thin === true
       ? ['We know only a few places here: most of each day is still open.']
@@ -81,9 +122,12 @@ export async function writeDraftSummary(model: DraftModel, input: SummaryInput):
       'summary',
     );
     if (isDeclined(result.message)) return templateSummary(input);
-    const line = textOf(result.message)
-      .trim()
-      .replace(/^["“'](.*)["”']$/u, '$1');
+    const line = withoutHedge(
+      textOf(result.message)
+        .trim()
+        .replace(/^["“'](.*)["”']$/u, '$1'),
+      input.guide,
+    );
     if (line.length === 0 || line.length > SUMMARY_MAX || line.includes('\n')) {
       return templateSummary(input);
     }
