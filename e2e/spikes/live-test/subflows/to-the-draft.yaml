@@ -15,8 +15,7 @@ appId: app.critterpass.dev
         id: 'draft-review'
     commands:
       - runFlow: home.yaml
-      - tapOn:
-          id: 'tab-trips'
+      - runFlow: trips-tab.yaml
       - waitForAnimationToEnd:
           timeout: 10000
       - tapOn:
@@ -26,7 +25,7 @@ appId: app.critterpass.dev
           timeout: 10000
       - takeScreenshot: ${SHOT}-hub-button-lands
       - tapOn:
-          text: '(?i)review|xem lại'
+          text: '(?iu)review|xem lại'
           optional: true
 - extendedWaitUntil:
     visible:

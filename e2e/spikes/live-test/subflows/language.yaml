@@ -1,29 +1,45 @@
 appId: app.critterpass.dev
 ---
-# The walk's language. The running app's language is picked in the developer gallery and is not
-# saved, so a Vietnamese walk picks it again after every restart; an English walk does nothing.
-# From a screen with the Developer tools entry (Home, or the splash), and back on it at the end.
+# The walk's language. A Vietnamese walk sets it the way a person would, in Settings › Language and
+# currency: the app keeps the choice and tells the server (so text the server writes follows), and
+# it survives the account switches. Before anyone is signed in (the splash) there is no Settings, so
+# the developer gallery's switch is used there. An English walk does nothing. From Home or the
+# splash, and back on it at the end.
 - runFlow:
     when:
       true: ${output.walkLang == 'vi'}
     commands:
-      - extendedWaitUntil:
-          visible:
-            id: 'dev-tools-entry'
-          timeout: 60000
-      - tapOn:
-          id: 'dev-tools-entry'
       - runFlow:
-          file: ../../../home/subflows/pick-gallery-locale.yaml
-          env:
-            LOCALE: vi
-      - runFlow: ../../../onboarding/subflows/back.yaml
-      - waitForAnimationToEnd:
-          timeout: 5000
-      - runFlow: ../../../onboarding/subflows/back.yaml
-      - extendedWaitUntil:
-          visible:
-            id: 'dev-tools-entry'
-          timeout: 30000
-      - waitForAnimationToEnd:
-          timeout: 5000
+          when:
+            visible:
+              id: 'tab-pass'
+          commands:
+            - runFlow:
+                when:
+                  visible: '(?i)wallet.*'
+                file: app-language.yaml
+      - runFlow:
+          when:
+            notVisible:
+              id: 'tab-pass'
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  id: 'dev-tools-entry'
+                timeout: 60000
+            - tapOn:
+                id: 'dev-tools-entry'
+            - runFlow:
+                file: ../../../home/subflows/pick-gallery-locale.yaml
+                env:
+                  LOCALE: vi
+            - runFlow: ../../../onboarding/subflows/back.yaml
+            - waitForAnimationToEnd:
+                timeout: 5000
+            - runFlow: ../../../onboarding/subflows/back.yaml
+            - extendedWaitUntil:
+                visible:
+                  id: 'dev-tools-entry'
+                timeout: 30000
+            - waitForAnimationToEnd:
+                timeout: 5000

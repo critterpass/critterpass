@@ -3,8 +3,7 @@ appId: app.critterpass.dev
 # From Home to the trip's Ideas, the way the plan offers it (hub, plan tile, the map's sheet
 # raised to all days, Ideas), then the first idea: the crew's split on it when they disagree.
 # ${STANCE} is this person's side (split-pick-want | split-pick-rather-not).
-- tapOn:
-    id: 'tab-trips'
+- runFlow: trips-tab.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'

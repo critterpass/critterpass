@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# Settings › Language and currency › Tiếng Việt, from Home: the Pass tab, the profile, Settings.
+# The choice is kept on the phone and reported to the server. Back on Home at the end.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- scrollUntilVisible:
+    element:
+      text: '(Language and currency|Ngôn ngữ và tiền tệ).*'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: '(Language and currency|Ngôn ngữ và tiền tệ).*'
+- extendedWaitUntil:
+    visible:
+      id: 'you-language'
+    timeout: 15000
+- runFlow:
+    when:
+      notVisible:
+        id: 'you-language-vi'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'you-language-more'
+          direction: DOWN
+          timeout: 10000
+      - tapOn:
+          id: 'you-language-more'
+- scrollUntilVisible:
+    element:
+      id: 'you-language-vi'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- tapOn:
+    id: 'you-language-vi'
+- extendedWaitUntil:
+    visible: '(?iu)ngôn ngữ.*'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: collaboration-app-language-vi
+- runFlow: home.yaml

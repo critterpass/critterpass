@@ -4,8 +4,9 @@ appId: app.critterpass.dev
 # on: Linh (the organiser, Ho Chi Minh City) drafts three days in Đà Nẵng two weeks out, finds she
 # has nobody to send it to and invites; Minh joins from the splash with the crew code; Linh builds
 # the proposal and sends it; Minh reads it, hesitates, looks at the plan and boards; Linh sees who
-# is in and locks the trip; Minh opens the locked plan and adds a stop; Linh reviews it; Minh
-# learns the outcome. Each hand-over captures Home first: what the returning person sees.
+# is in and locks the trip; Minh opens the locked plan and keeps a place in Ideas; Linh puts it on
+# a day; Minh learns the outcome; both swipe. Before any plan reaches him, Minh also keeps a place
+# in Ideas. Each hand-over captures Home first: what the returning person sees.
 # Exploratory steps are optional, so a screen that refuses still leaves its frame and the walk
 # goes on. Frames: collaboration-<nn>-<what>.
 
@@ -163,7 +164,7 @@ appId: app.critterpass.dev
     id: 'add-must-do-keep'
 - extendedWaitUntil:
     visible:
-      text: '(?i)mi quang for breakfast.*'
+      text: '(?iu)mi quang for breakfast.*'
     timeout: 15000
 - scrollUntilVisible:
     element:
@@ -230,7 +231,7 @@ appId: app.critterpass.dev
     timeout: 10000
     optional: true
 - tapOn:
-    text: '(?i)a link to share|.*liên kết.*'
+    text: '(?iu)a link to share|.*liên kết.*'
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
@@ -344,8 +345,7 @@ appId: app.critterpass.dev
 # Set-up, not Minh's doing: the new screens stay on for this phone.
 - runFlow: ../../_shared/planning-redesign-on.yaml
 - runFlow: subflows/language.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow: subflows/trips-tab.yaml
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-17-minh-trips-no-proposal-yet
@@ -356,6 +356,34 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 15000
 - takeScreenshot: collaboration-17b-minh-see-the-plan-before-proposal
+# Before any plan reaches him: he wants the Sơn Trà peninsula, and keeps it in Ideas from the map.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-map'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 20000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-17c-minh-trip-map-before-proposal
+- runFlow:
+    file: subflows/save-to-ideas.yaml
+    env:
+      QUERY: 'Son Tra'
+      SHOT: collaboration-17d-minh-before-plan
 - runFlow: subflows/home.yaml
 - runFlow:
     file: subflows/look-around.yaml
@@ -433,7 +461,7 @@ appId: app.critterpass.dev
 - takeScreenshot: collaboration-26-linh-sending
 - extendedWaitUntil:
     visible:
-      text: '(?i)their version is ready|.*wrote the group version.*'
+      text: '(?iu)their version is ready|.*wrote the group version.*|.*đã sẵn sàng.*'
     timeout: 300000
     optional: true
 - waitForAnimationToEnd
@@ -729,10 +757,17 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-45g-minh-cant-make-it-asked
+# The sheet's own button, under its consequences (the screen behind has a button with the same
+# words).
 - tapOn:
-    text: '(?i)i can.t make it|mình không đi được'
-    childOf:
+    text: '(?iu)i can.t make it|mình không đi được'
+    below:
+      text: '(?iu)(shared costs|chi phí chung).*'
+    optional: true
+- extendedWaitUntil:
+    notVisible:
       id: 'board-out-confirm'
+    timeout: 15000
     optional: true
 - waitForAnimationToEnd:
     timeout: 10000
@@ -832,11 +867,11 @@ appId: app.critterpass.dev
       id: 'chat-composer'
     timeout: 20000
 - tapOn:
-    text: '(?i)(message|nhắn tin).*'
+    text: '(?iu)(message|nhắn tin).*'
     optional: true
 - inputText: 'in! Ba Na?'
 - tapOn:
-    text: '(?i)send|gửi'
+    text: '(?iu)send|gửi'
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
@@ -852,8 +887,7 @@ appId: app.critterpass.dev
     file: subflows/look-around.yaml
     env:
       SHOT: collaboration-53-linh-minh-in
-- tapOn:
-    id: 'tab-trips'
+- runFlow: subflows/trips-tab.yaml
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-54-linh-trip-hub-minh-in
@@ -885,7 +919,7 @@ appId: app.critterpass.dev
     id: 'tracker-lock'
 - waitForAnimationToEnd
 - takeScreenshot: collaboration-57-linh-lock-confirm
-- tapOn: '(?i)yes, lock it in|ừ, chốt luôn'
+- tapOn: '(?iu)yes, lock it in|ừ, chốt luôn'
 - extendedWaitUntil:
     visible:
       id: 'tracker-lock-note'
@@ -910,8 +944,7 @@ appId: app.critterpass.dev
     file: subflows/look-around.yaml
     env:
       SHOT: collaboration-61-minh-trip-locked
-- tapOn:
-    id: 'tab-trips'
+- runFlow: subflows/trips-tab.yaml
 - extendedWaitUntil:
     visible:
       id: 'trip-hub-tile-plan'
@@ -1080,61 +1113,127 @@ appId: app.critterpass.dev
     file: subflows/look-around.yaml
     env:
       SHOT: collaboration-73-linh-change-waiting
-- tapOn:
-    id: 'home-header-chat'
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 20000
-- scrollUntilVisible:
-    element:
-      id: 'changeset-card-.*'
-    direction: DOWN
-    timeout: 20000
-    optional: true
-# She taps the card itself first; its "See the changes" link is the second try.
-- tapOn:
-    id: 'changeset-card-.*'
-    index: 0
-    optional: true
+# Minh's places wait in Ideas: Home's step for her (look-around's …-turn-opens) or the trip's
+# Ideas, and one of them put on a day. That is a change to the locked plan, which Minh should hear
+# about.
+- runFlow: subflows/home.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'home-turn-button'
+    commands:
+      - tapOn:
+          id: 'home-turn-button'
+      - waitForAnimationToEnd:
+          timeout: 10000
 - runFlow:
     when:
       notVisible:
-        id: 'plan-review'
+        id: 'plan-ideas'
     commands:
-      - takeScreenshot: collaboration-73b-linh-tapped-the-change-card
+      - runFlow: subflows/home.yaml
+      - runFlow: subflows/trips-tab.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-plan'
+          direction: DOWN
+          timeout: 30000
+          optional: true
       - tapOn:
-          text: '(?i)see the changes|xem các thay đổi'
+          id: 'trip-hub-tile-plan'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-map-peek'
+          timeout: 60000
+          optional: true
+      - swipe:
+          start: 50%, 70%
+          end: 50%, 46%
+          duration: 700
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - tapOn:
+          id: 'trip-map-all-days'
+          optional: true
+      - scrollUntilVisible:
+          element:
+            id: 'trip-map-ideas'
+          direction: DOWN
+          timeout: 15000
+          optional: true
+      - tapOn:
+          id: 'trip-map-ideas'
           optional: true
 - extendedWaitUntil:
     visible:
-      id: 'plan-review'
+      id: 'plan-ideas'
     timeout: 20000
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: collaboration-74-linh-review-changes
-- scrollUntilVisible:
-    element:
-      id: 'plan-review-yes'
-    direction: DOWN
-    timeout: 15000
-    optional: true
-- takeScreenshot: collaboration-74b-linh-review-changes-lower
+- takeScreenshot: collaboration-74-linh-ideas-waiting
 - tapOn:
-    id: 'plan-review-yes'
+    id: 'plan-idea-handle-.*'
+    index: 0
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-idea-actions'
+    timeout: 10000
+    optional: true
+- takeScreenshot: collaboration-74b-linh-idea-actions
+- tapOn:
+    id: 'plan-idea-action-add'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet|plan-placing'
+    timeout: 20000
     optional: true
 - waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: collaboration-74c-linh-placing-an-idea
+# She picks day 2 when the sheet asks for a day.
+- tapOn:
+    id: 'plan-add-days-2'
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-confirm|plan-placing-action'
+    direction: DOWN
     timeout: 10000
-- takeScreenshot: collaboration-75-linh-review-answered
-# Home by hand: where does each back land after answering?
+    optional: true
+- takeScreenshot: collaboration-74d-linh-placing-lower
+- runFlow:
+    when:
+      visible:
+        id: 'plan-add-confirm'
+    commands:
+      - tapOn:
+          id: 'plan-add-confirm'
+- runFlow:
+    when:
+      visible:
+        id: 'plan-placing-action'
+    commands:
+      - tapOn:
+          id: 'plan-placing-action'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: collaboration-75-linh-placed-an-idea
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: collaboration-75b-linh-placed-settled
+# Home by hand: where does each back land after placing?
 - runFlow:
     file: subflows/walk-back.yaml
     env:
-      SHOT: collaboration-75-linh-after-review
+      SHOT: collaboration-75-linh-after-placing
 - runFlow: subflows/home.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow: subflows/trips-tab.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'
@@ -1146,14 +1245,14 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 15000
-- takeScreenshot: collaboration-76-linh-trip-map-after-review
+- takeScreenshot: collaboration-76-linh-trip-map-after-placing
 - swipe:
     start: 50%, 70%
     end: 50%, 46%
     duration: 700
 - waitForAnimationToEnd:
     timeout: 10000
-- takeScreenshot: collaboration-77-linh-day-plan-after-review
+- takeScreenshot: collaboration-77-linh-day-plan-after-placing
 
 # Minh learns the outcome.
 - runFlow:
@@ -1165,8 +1264,7 @@ appId: app.critterpass.dev
     file: subflows/look-around.yaml
     env:
       SHOT: collaboration-79-minh-outcome
-- tapOn:
-    id: 'tab-trips'
+- runFlow: subflows/trips-tab.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'
@@ -1186,16 +1284,16 @@ appId: app.critterpass.dev
     timeout: 10000
 - takeScreenshot: collaboration-80-minh-day-plan-outcome
 
-# ── Part 5. Swipe together, then where the crew disagrees. Minh first: no to the first two
-# places, yes to the next two. Linh: yes to the first two, no to the next two. The matches are
-# meant to land in Ideas; a place one wants and the other does not is the crew's split.
+# ── Part 5. Swipe together, then where the crew disagrees. Minh first: yes to the first two
+# places, no to the next two. Linh: yes to all four. The first two are matches and land in Ideas;
+# the next two, which she wants and he does not, are the crew's split.
 - runFlow: subflows/home.yaml
 - runFlow:
     file: subflows/swipe-together.yaml
     env:
       SHOT: collaboration-81-minh
-      FIRST: explore-swipe-no
-      SECOND: explore-swipe-yes
+      FIRST: explore-swipe-yes
+      SECOND: explore-swipe-no
 - runFlow:
     file: subflows/hand-over.yaml
     env:
@@ -1210,7 +1308,7 @@ appId: app.critterpass.dev
     env:
       SHOT: collaboration-84-linh
       FIRST: explore-swipe-yes
-      SECOND: explore-swipe-no
+      SECOND: explore-swipe-yes
 - runFlow: subflows/home.yaml
 - runFlow:
     file: subflows/ideas-and-split.yaml

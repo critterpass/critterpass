@@ -1,10 +1,10 @@
 appId: app.critterpass.dev
 ---
-# One person's turn at "Swipe places together", from the trip hub's row: ${FIRST} then ${SECOND}
-# (explore-swipe-yes | explore-swipe-no), two cards each way, a frame per card. ${SHOT} prefixes
-# the frames.
-- tapOn:
-    id: 'tab-trips'
+# One person's turn at "Swipe places together", from the trip hub's row: ${FIRST} on the first two
+# cards, ${SECOND} on the next two (explore-swipe-yes | explore-swipe-no), a frame per card. The
+# guide builds a deck in about two minutes: the wait is framed, and past four minutes the screen's
+# own "Start again" is pressed once. ${SHOT} prefixes the frames.
+- runFlow: trips-tab.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-swipe'
@@ -20,8 +20,32 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'explore-swipe-card'
-    timeout: 90000
+    timeout: 15000
     optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'explore-swipe-card'
+    commands:
+      - takeScreenshot: ${SHOT}-swipe-waiting
+      - extendedWaitUntil:
+          visible:
+            id: 'explore-swipe-card|explore-swipe-retry'
+          timeout: 270000
+          optional: true
+      - runFlow:
+          when:
+            visible:
+              id: 'explore-swipe-retry'
+          commands:
+            - takeScreenshot: ${SHOT}-swipe-stuck
+            - tapOn:
+                id: 'explore-swipe-retry'
+            - extendedWaitUntil:
+                visible:
+                  id: 'explore-swipe-card'
+                timeout: 270000
+                optional: true
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: ${SHOT}-swipe-first-card
@@ -37,30 +61,26 @@ appId: app.critterpass.dev
         id: 'explore-swipe-yes'
     commands:
       - runFlow: ../../../onboarding/subflows/back.yaml
-- tapOn:
-    id: ${FIRST}
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: ${SHOT}-swipe-card-2
-- tapOn:
-    id: ${FIRST}
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: ${SHOT}-swipe-card-3
-- tapOn:
-    id: ${SECOND}
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: ${SHOT}-swipe-card-4
-- tapOn:
-    id: ${SECOND}
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: ${SHOT}-swipe-card-5
+- runFlow:
+    file: swipe-card.yaml
+    env:
+      ANSWER: ${FIRST}
+      SHOT: ${SHOT}-swipe-card-2
+- runFlow:
+    file: swipe-card.yaml
+    env:
+      ANSWER: ${FIRST}
+      SHOT: ${SHOT}-swipe-card-3
+- runFlow:
+    file: swipe-card.yaml
+    env:
+      ANSWER: ${SECOND}
+      SHOT: ${SHOT}-swipe-card-4
+- runFlow:
+    file: swipe-card.yaml
+    env:
+      ANSWER: ${SECOND}
+      SHOT: ${SHOT}-swipe-card-5
 - runFlow:
     file: walk-back.yaml
     env:

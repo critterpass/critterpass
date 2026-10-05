@@ -26,8 +26,7 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: ${SHOT}-chat
 - runFlow: home.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow: trips-tab.yaml
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: ${SHOT}-hub
