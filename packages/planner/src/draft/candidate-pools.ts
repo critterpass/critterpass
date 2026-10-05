@@ -26,7 +26,7 @@ import { foodRole } from './food-role';
 import { keepEdgeDaysNearHome, outingsFor } from './home';
 import type { Outing } from './outings';
 import { mealSlots, mealsInWindow } from './meal-slots';
-import { placeWindow } from './place-time';
+import { placeWindows } from './place-time';
 import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
@@ -110,15 +110,18 @@ function openOnDay(poi: DraftPoi, frame: TripFrame, index: number, timed: boolea
   if (closedOn(frame, poi, date) === 'poi') return false;
   const window = dayWindow(frame, index);
   const visit = ceilGrid(poi.durationMin);
-  const own = timed ? placeWindow(poi, date) : null;
+  const owns = timed ? placeWindows(poi, date) : [];
   if (timed && foodRole(poi) === 'meal') {
     const served = mealSlots(poi, date);
     if (!mealsInWindow(window).some((slot) => served.includes(slot))) return false;
   }
-  return spansOn(poi.hours, date).some((span) => {
-    const start = Math.max(window.startMin, ceilGrid(span.start), own?.fromMin ?? 0);
-    return start + visit <= Math.min(window.endMin, span.end) && start <= (own?.toMin ?? start);
-  });
+  // Any of its times of day will do (a beach early or late).
+  return (owns.length === 0 ? [null] : owns).some((own) =>
+    spansOn(poi.hours, date).some((span) => {
+      const start = Math.max(window.startMin, ceilGrid(span.start), own?.fromMin ?? 0);
+      return start + visit <= Math.min(window.endMin, span.end) && start <= (own?.toMin ?? start);
+    }),
+  );
 }
 
 function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): number {

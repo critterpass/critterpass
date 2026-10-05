@@ -102,6 +102,9 @@ export {
   timeOfDayWindow,
   type PlaceTime,
   type PlaceWindow,
+  placeTimes,
+  placeWindows,
+  windowFor,
 } from './place-time';
 export { estimatedMinutes, routedPairKey, straightLineMatrix, type RoutedPairs } from './travel';
 export { type Reach, earlyNeed, opensDay, startFloor } from './day-start';
