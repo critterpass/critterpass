@@ -26,7 +26,6 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'picker-length'
     text: '3 days .*'
-    optional: true
 - assertVisible:
     id: 'picker-lock'
     text: ${output.lockLabel}
