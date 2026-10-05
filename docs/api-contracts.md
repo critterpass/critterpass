@@ -654,7 +654,7 @@ Later areas plug in with `defineAdminArea` (`services/api/src/admin/registry.ts`
 
 ### 5.10 Health and docs
 
-`GET /health` (liveness, never touches dependencies) → `200 {status: "ok", service, version, commit}`. `GET /ready` → `200 {status: "ok", checks}` or `503 {status: "unavailable", checks}`, where `checks` maps each dependency to `ok`/`fail` (each probe capped at 2 s): `db`, `redis`, and `centrifugo` once the realtime service is wired. Same contract on the worker's private port. `GET /openapi.json` (OpenAPI 3.1), `GET /docs` (Scalar, every tier except production, keyed off `APP_ENV`).
+`GET /health` (liveness, never touches dependencies) → `200 {status: "ok", service, version, commit}`; on the api, `503 {status: "starting", …}` until its job producer has started, so the deploy health check keeps the previous deployment serving until commands can queue their jobs. `GET /ready` → `200 {status: "ok", checks}` or `503 {status: "unavailable", checks}`, where `checks` maps each dependency to `ok`/`fail` (each probe capped at 2 s): `db`, `redis`, on the api `jobs` (the job producer has started), and `centrifugo` once the realtime service is wired. Same contract on the worker's private port. `GET /openapi.json` (OpenAPI 3.1), `GET /docs` (Scalar, every tier except production, keyed off `APP_ENV`).
 
 ## 6. AI tool registry (`packages/ai/src/tools/`, P13)
 
