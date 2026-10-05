@@ -1,0 +1,28 @@
+use_default_settings: true
+
+general:
+  instance_name: critterpass-search
+
+search:
+  safe_search: 1
+  formats:
+    - html
+    - json
+
+server:
+  limiter: false
+  image_proxy: false
+  public_instance: false
+
+# More web engines so one suspended engine does not empty the results.
+engines:
+  - name: bing
+    disabled: false
+  - name: mojeek
+    disabled: false
+  - name: startpage
+    disabled: false
+  - name: qwant
+    disabled: false
+  - name: bing images
+    disabled: false
