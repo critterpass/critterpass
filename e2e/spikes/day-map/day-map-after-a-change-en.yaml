@@ -69,12 +69,19 @@ appId: app.critterpass.dev
     file: subflows/retime-stop.yaml
     env:
       STOP: stop-3
+# The toast's UNDO, while it is still up (it leaves after a few seconds).
 - extendedWaitUntil:
     visible:
       id: 'island-toast-open'
-    timeout: 10000
-- tapOn:
-    id: 'island-toast-open'
+    timeout: 4000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'island-toast-open'
+    commands:
+      - tapOn:
+          id: 'island-toast-open'
 - scrollUntilVisible:
     element:
       id: 'day-plan-mini-map'
