@@ -23,7 +23,7 @@ appId: app.critterpass.dev
     id: 'dev-nav-plan-edit-lab'
 - extendedWaitUntil:
     visible:
-      id: 'plan-edit-lab-day'
+      text: 'Plan editing lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
@@ -222,7 +222,7 @@ appId: app.critterpass.dev
       id: 'plan-comments'
     direction: DOWN
     timeout: 10000
-- takeScreenshot: en-3e-2-item-comments
+- takeScreenshot: en-7b-1-item-comments
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
@@ -254,7 +254,7 @@ appId: app.critterpass.dev
     id: 'dev-nav-plan-edit-lab'
 - extendedWaitUntil:
     visible:
-      id: 'plan-edit-lab-day'
+      text: 'Plan editing lab'
     timeout: 15000
 - scrollUntilVisible:
     element:
@@ -453,7 +453,7 @@ appId: app.critterpass.dev
       id: 'plan-comments'
     direction: DOWN
     timeout: 10000
-- takeScreenshot: vi-3e-2-item-comments
+- takeScreenshot: vi-7b-1-item-comments
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:

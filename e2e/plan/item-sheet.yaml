@@ -1,0 +1,244 @@
+appId: app.critterpass.dev
+---
+# A stop's item sheet from the plan editing lab (apps/mobile/src/app/(dev)/plan-edit-lab.tsx), in
+# English then Vietnamese: for an organiser, for a member (with the suggest step), and a booked
+# item's warning. Shots are named `<lang>-7b-1-item-<state>` (the sheet opens over the day plan).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-edit-lab'
+    direction: DOWN
+    timeout: 20000
+# A list still settling from the scroll takes a tap as a stop: let it settle first.
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'dev-nav-plan-edit-lab'
+# The lab's own title: the scenes at the top of its list change as screens come and go.
+- extendedWaitUntil:
+    visible:
+      text: 'Plan editing lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-7b-1-item-sheet
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-7b-1-item-sheet-member
+# The changed time's SUGGEST sits at the foot of the details: they scroll inside the sheet.
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- assertVisible:
+    id: 'plan-item-sheet'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-7b-1-item-sheet-member-suggest
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-booked'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-booked'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-4'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-4'
+# The day is only picked until SAVE at the sheet's foot commits it.
+- tapOn:
+    id: 'plan-item-save'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-7b-1-item-booked-warning
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-booked'
+    timeout: 10000
+# Vietnamese: switch the app language in the component gallery, then the same scenes.
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-edit-lab'
+    direction: DOWN
+    timeout: 20000
+# A list still settling from the scroll takes a tap as a stop: let it settle first.
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'dev-nav-plan-edit-lab'
+# The lab's own title: the scenes at the top of its list change as screens come and go.
+- extendedWaitUntil:
+    visible:
+      text: 'Plan editing lab'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-7b-1-item-sheet
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: vi-7b-1-item-sheet-member
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-booked'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-booked'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-4'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-4'
+# The day is only picked until SAVE at the sheet's foot commits it.
+- tapOn:
+    id: 'plan-item-save'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: vi-7b-1-item-booked-warning
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-booked'
+    timeout: 10000
