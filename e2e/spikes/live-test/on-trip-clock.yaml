@@ -35,8 +35,14 @@ appId: app.critterpass.dev
       id: 'plan-time-start-value'
     timeout: 10000
     optional: true
-- copyTextFrom:
-    id: 'plan-time-start-value'
+- evalScript: ${maestro.copiedText = '00:00'}
+- runFlow:
+    when:
+      visible:
+        id: 'plan-time-start-value'
+    commands:
+      - copyTextFrom:
+          id: 'plan-time-start-value'
 - evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var nowMin = now.getUTCHours() * 60 + now.getUTCMinutes(); var parts = maestro.copiedText.split(':'); var start = Number(parts[0]) * 60 + Number(parts[1]); var target = Math.ceil((nowMin + 40) / 15) * 15; output.taps = Math.max(0, Math.round((start - target) / 15)); output.done = 0}
 - repeat:
     while:
@@ -44,6 +50,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'plan-time-start-earlier'
+          optional: true
       - evalScript: ${output.done = output.done + 1}
 - takeScreenshot: on-trip-clock-02-second-stop-moved-near
 - scrollUntilVisible:
@@ -78,8 +85,14 @@ appId: app.critterpass.dev
       id: 'plan-time-start-value'
     timeout: 10000
     optional: true
-- copyTextFrom:
-    id: 'plan-time-start-value'
+- evalScript: ${maestro.copiedText = '00:00'}
+- runFlow:
+    when:
+      visible:
+        id: 'plan-time-start-value'
+    commands:
+      - copyTextFrom:
+          id: 'plan-time-start-value'
 - evalScript: ${var now = new Date(Date.now() + 7 * 3600000); var nowMin = now.getUTCHours() * 60 + now.getUTCMinutes(); var parts = maestro.copiedText.split(':'); var start = Number(parts[0]) * 60 + Number(parts[1]); var target = Math.floor((nowMin - 30) / 15) * 15; output.taps = Math.max(0, Math.round((start - target) / 15)); output.done = 0}
 - repeat:
     while:
@@ -87,6 +100,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'plan-time-start-earlier'
+          optional: true
       - evalScript: ${output.done = output.done + 1}
 - takeScreenshot: on-trip-clock-05-first-stop-moved-to-now
 - scrollUntilVisible:

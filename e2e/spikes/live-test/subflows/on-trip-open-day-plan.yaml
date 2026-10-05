@@ -17,22 +17,25 @@ appId: app.critterpass.dev
       id: 'trip-map-peek|day-plan'
     timeout: 30000
     optional: true
-- runFlow:
-    when:
+# The pull sometimes leaves the sheet where it was: try it up to three times.
+- repeat:
+    while:
       visible:
         id: 'trip-map-peek'
+    times: 3
     commands:
       - swipe:
-          start: 50%, 70%
-          end: 50%, 46%
+          start: 50%, 72%
+          end: 50%, 44%
+          duration: 600
       - extendedWaitUntil:
           visible:
             id: 'trip-map-half'
-          timeout: 10000
+          timeout: 8000
           optional: true
-      - tapOn:
-          id: 'trip-map-open-day'
-          optional: true
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'day-plan'
