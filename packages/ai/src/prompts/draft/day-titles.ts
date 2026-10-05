@@ -9,6 +9,7 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 import { foodRole, isKept, minuteOfDate, nameTokens, type DraftPoi } from '@cp/planner';
 
 import type { DraftPlanInput } from './context';
+import { shownName } from './shown-names';
 
 const TITLE_MAX = 60;
 const MORNING_TITLE_ENDS_MIN = 13 * 60 + 30;
@@ -55,6 +56,7 @@ const KINDS: Readonly<Record<string, Holds>> = {
   terrace: named('terrace'),
   forest: named('forest', 'rung'),
   // The same in Vietnamese, as a title in the organiser's language writes them.
+  ho: named('lake', 'ho'),
   chua: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
   cho: either(category('market'), named('market', 'cho')),
   thac: named('waterfall', 'fall', 'thac'),
@@ -68,57 +70,107 @@ function placeWords(input: Pick<DraftPlanInput, 'pois'>): ReadonlyMap<string, nu
   if (known !== undefined) return known;
   const words = new Map<string, number>();
   for (const poi of input.pois.values()) {
-    for (const word of new Set(nameTokens(poi.name))) words.set(word, (words.get(word) ?? 0) + 1);
+    for (const word of new Set(nameTokens(`${poi.name} ${poi.nameLocal ?? ''}`))) {
+      words.set(word, (words.get(word) ?? 0) + 1);
+    }
   }
   PLACE_WORDS.set(input.pois, words);
   return words;
 }
 
-function stopsOf(input: Pick<DraftPlanInput, 'pois'>, day: DraftDay): DraftPoi[] {
-  return day.items.flatMap((item) => {
-    const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
-    return poi === undefined ? [] : [poi];
-  });
-}
+const AM: ReadonlySet<string> = new Set(['morning', 'sang']);
+const PM: ReadonlySet<string> = new Set(['afternoon', 'chieu']);
+const LATE: ReadonlySet<string> = new Set(['evening', 'night', 'nightcap']);
+/** Words that promise an easy day; such a day has no ride over `EASY_RIDE_MAX_MIN`. */
+const EASE: ReadonlySet<string> = new Set([
+  'easy',
+  'gentle',
+  'soft',
+  'slow',
+  'lazy',
+  'nhe',
+  'nhang',
+]);
+const EASY_RIDE_MAX_MIN = 25;
+const NOON = 12 * 60;
 
-/** Whether the day holds everything its title names. */
+/**
+ * Whether the day holds everything its title names, in the order the title names it: each kind
+ * of place and each place it mentions is a stop of the day, the second after the first; what it
+ * puts in the morning is before noon and what it puts in the afternoon after; a morning-only
+ * title ends by early afternoon, an evening one has a stop in the evening; and a title that
+ * calls the day easy has no long ride in it.
+ */
 export function titleFits(input: Pick<DraftPlanInput, 'pois' | 'frame'>, day: DraftDay): boolean {
-  const stops = stopsOf(input, day);
+  const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
+  const stops = day.items.flatMap((item) => {
+    const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+    if (poi === undefined) return [];
+    const words = new Set(nameTokens(`${poi.name} ${poi.nameLocal ?? ''}`));
+    return [{ poi, words, start: at(item.starts_at), ride: item.travel_min }];
+  });
   if (stops.length === 0) return true;
-  const own = new Map(stops.map((poi) => [poi.id, new Set(nameTokens(poi.name))]));
-  const names = new Set([...own.values()].flatMap((words) => [...words]));
   const known = placeWords(input);
   const raw = day.theme.split(/[^\p{L}\p{N}]+/u).filter((word) => word.length > 0);
-  const at = (iso: string) => minuteOfDate(new Date(iso), day.date, input.frame.tz);
+  const tokens = raw.map((word) => nameTokens(word)[0]);
   const ends = Math.max(...day.items.map((item) => at(item.ends_at)));
-  const lastStart = Math.max(...day.items.map((item) => at(item.starts_at)));
+  const lastStart = Math.max(...stops.map((stop) => stop.start));
+  const splitDay = tokens.some(
+    (token) => token !== undefined && (PM.has(token) || LATE.has(token)),
+  );
+  let cursor = 0;
+  let half: 'am' | 'pm' | null = null;
+  // The first stop at or after the last one named that `is` what the title says, in its half.
+  const claim = (is: (stop: (typeof stops)[number]) => boolean): boolean => {
+    const inHalf = (stop: (typeof stops)[number]) =>
+      half === null || (half === 'am' ? stop.start < NOON : stop.start >= NOON);
+    const found = stops.findIndex((stop, index) => index >= cursor && is(stop) && inHalf(stop));
+    if (found === -1) return false;
+    cursor = found;
+    return true;
+  };
   return raw.every((word, index) => {
-    const token = nameTokens(word)[0];
+    const token = tokens[index];
     if (token === undefined) return true;
-    // A morning is over by early afternoon; an evening or a night has a stop in it.
-    if (token === 'morning') return ends <= MORNING_TITLE_ENDS_MIN;
-    if (token === 'evening' || token === 'night' || token === 'nightcap') {
+    if (AM.has(token)) {
+      half = 'am';
+      // A morning is over by early afternoon, unless the title goes on to the rest of the day.
+      return splitDay || ends <= MORNING_TITLE_ENDS_MIN;
+    }
+    if (PM.has(token)) {
+      half = 'pm';
+      return true;
+    }
+    if (LATE.has(token)) {
+      half = 'pm';
       return lastStart >= EVENING_TITLE_FROM_MIN;
     }
+    if (EASE.has(token)) return stops.every((stop) => stop.ride <= EASY_RIDE_MAX_MIN);
     const kind = KINDS[token];
-    if (kind !== undefined) {
-      return stops.some((poi) => kind(poi, own.get(poi.id) ?? new Set<string>()));
+    if (kind !== undefined) return claim((stop) => kind(stop.poi, stop.words));
+    const holders = stops.filter((stop) => stop.words.has(token));
+    const proper = /^\p{Lu}/u.test(word);
+    // A place the title names: a capitalised word one or two of the day's stops carry.
+    if (proper && holders.length > 0 && holders.length <= 2 && token.length >= 3) {
+      return claim((stop) => stop.words.has(token));
     }
-    if (names.has(token)) return true;
+    if (holders.length > 0) return true;
     // A proper name the day does not carry: a capitalised word that only place names use.
-    const proper = index > 0 && /^\p{Lu}/u.test(word);
-    return !(proper && token.length >= 4 && known.has(token));
+    return !(proper && index > 0 && token.length >= 4 && known.has(token));
   });
 }
 
 /** The leading name of a place, short enough for a title; null when it has none that short. */
-function shortName(poi: DraftPoi): string | null {
-  const lead = (poi.name.split(/\s*(?:,|;|\||\(|\s[-–—]\s)\s*/u)[0] ?? '').trim();
+function shortName(name: string): string | null {
+  const lead = (name.split(/\s*(?:,|;|\||\(|\s[-–—]\s)\s*/u)[0] ?? '').trim();
   return lead.length > 0 && lead.length <= NAME_MAX ? lead : null;
 }
 
 /** A title from the day's own stops: its headline sights, the crew's own first. */
-export function titleFrom(input: Pick<DraftPlanInput, 'pois' | 'locale'>, day: DraftDay): string {
+export function titleFrom(
+  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'destinationLanguages'>,
+  day: DraftDay,
+): string {
   const ranked = day.items
     .flatMap((item, index) => {
       const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
@@ -135,7 +187,7 @@ export function titleFrom(input: Pick<DraftPlanInput, 'pois' | 'locale'>, day: D
     );
   const heads = ranked
     .flatMap((entry) => {
-      const name = shortName(entry.poi);
+      const name = shortName(shownName(input, entry.poi));
       return name === null ? [] : [{ name, index: entry.index }];
     })
     .slice(0, 2)
@@ -147,7 +199,7 @@ export function titleFrom(input: Pick<DraftPlanInput, 'pois' | 'locale'>, day: D
 }
 
 export function withFittingTitles(
-  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'frame'>,
+  input: Pick<DraftPlanInput, 'pois' | 'locale' | 'frame' | 'destinationLanguages'>,
   itinerary: Itinerary,
 ): { readonly itinerary: Itinerary; readonly retitled: number } {
   let retitled = 0;

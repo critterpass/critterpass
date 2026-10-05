@@ -99,6 +99,11 @@ export interface DraftPlanInput {
    * notes in it, and the planner's own lines follow; absent, the words are English.
    */
   readonly locale?: string;
+  /**
+   * The destination's own languages (BCP 47, e.g. `['vi']`). When the organiser's `locale` is one
+   * of them, places are shown under their local names (./shown-names.ts).
+   */
+  readonly destinationLanguages?: readonly string[];
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
 }
 

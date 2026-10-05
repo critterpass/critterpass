@@ -95,6 +95,19 @@ describe('the hop cap', { timeout: 60_000 }, () => {
     expect(longHops(['island'], far, 40, undefined, 'home')).toEqual([{ index: 0, over: 160 }]);
   });
 
+  it('lets one sight a day be a modest out-and-back, never a meal, never twice', () => {
+    // A pagoda 25 minutes out between two stops in town: a 42-minute detour.
+    const travel = line({ a: 0, pagoda: 25, b: 4, c: 6, far: 28 });
+    const sights = () => true;
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40)).toEqual([{ index: 1, over: 2 }]);
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40, undefined, null, sights)).toEqual([]);
+    expect(longHops(['a', 'pagoda', 'b'], travel, 40, undefined, null, () => false)).toEqual([
+      { index: 1, over: 2 },
+    ]);
+    const twice = longHops(['a', 'pagoda', 'b', 'far', 'c'], travel, 40, undefined, null, sights);
+    expect(twice.map((hop) => hop.index)).toEqual([3]);
+  });
+
   it('flags the stop that sends the crew out and back between two stops that sit together', () => {
     const travel = line({ a: 0, b: 6, lunch: 30 });
     // 30 out and 24 back for stops six minutes apart: a 48-minute detour.

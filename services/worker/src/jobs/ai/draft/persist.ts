@@ -4,7 +4,7 @@
  * the version it already wrote and returns it. The trip's previous draft is superseded and the
  * trip moves on to review; a trip no longer drafting (the organiser cancelled) saves nothing.
  */
-import type { DraftPlanInput, RepairOutcome } from '@cp/ai';
+import { essentialsLeftOut, shownName, type DraftPlanInput, type RepairOutcome } from '@cp/ai';
 import { dropReplacedDraft, writeBookedPlanItems } from '@cp/db';
 import { closedOn, itineraryMetrics, mustDosKept } from '@cp/planner';
 import type {
@@ -54,7 +54,7 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
       if (poi === undefined) continue;
       places[poi.id] = {
-        name: poi.name,
+        name: shownName(input, poi),
         category: poi.category,
         lat: poi.lat,
         lng: poi.lng,
@@ -68,6 +68,13 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       }
     }
   }
+  // Counted on the draft as it is saved (her own stops back in place).
+  const leftOut = essentialsLeftOut(input, itinerary).flatMap((gap) => {
+    const poi = input.pois.get(gap.poiId);
+    return poi === undefined
+      ? []
+      : [{ poi_id: poi.id, name: shownName(input, poi), reason: gap.reason }];
+  });
   const dates = tripDates(trip);
   // A must-do she placed herself was never the guide's to place: it counts as made.
   const asked = new Set(input.frame.mustDos.map((m) => m.id));
@@ -98,6 +105,8 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       must_do_id: entry.mustDoId,
       reason: entry.reason,
     })),
+    // What the review screen says was left out, by the name the organiser reads.
+    ...(leftOut.length === 0 ? {} : { essentials_left_out: leftOut }),
   };
 }
 

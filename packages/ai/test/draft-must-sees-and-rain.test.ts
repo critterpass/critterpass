@@ -41,7 +41,12 @@ describe('the core must-sees of a trip', { timeout: 60_000 }, () => {
     expect(core).toHaveLength(20);
     expect(coreMustSees(planInput(crew))).toEqual(core);
     const names = core.map(name);
-    for (const known of ['Langbiang', 'Hồ Xuân Hương', 'Thiền Viện Trúc Lâm', 'Datanla Falls']) {
+    for (const known of [
+      'Langbiang',
+      'Xuân Hương Lake',
+      'Trúc Lâm Zen Monastery',
+      'Datanla Falls',
+    ]) {
       expect(names.some((n) => n.normalize('NFC').startsWith(known.normalize('NFC')))).toBe(true);
     }
     expect(core.every((id) => input.pois.get(id)?.mustSee === true)).toBe(true);
@@ -180,6 +185,30 @@ describe('the essential handful', { timeout: 60_000 }, () => {
     expect(gaps.filter((gap) => gap.reason === 'no_room').map((gap) => name(gap.poiId))).toEqual(
       [],
     );
+  });
+
+  it('blames her stops only when every day it could go on has them in the way', () => {
+    const empty: Itinerary = {
+      currency: 'USD',
+      days: input.frame.dates.map((date, index) => ({
+        day_no: index + 1,
+        date,
+        theme: '',
+        items: [],
+      })),
+    };
+    const peak = essentials.find((poi) => poi.name === 'Langbiang') as DraftPoi;
+    const open = input.pools.openDays.get(peak.id) ?? [];
+    expect(open).toEqual([2, 3]);
+    const item = baselineItinerary(input).days[1]
+      ?.items[0] as Itinerary['days'][number]['items'][number];
+    const hers = (dayNo: number) => ({ dayNo, item: { ...item, locked_reason: 'user' as const } });
+    const reason = (held: ReturnType<typeof hers>[]) =>
+      essentialsLeftOut({ ...input, held }, empty).find((gap) => gap.poiId === peak.id)?.reason;
+    expect(reason([hers(2), hers(3)])).toBe('held_in_the_way');
+    // A day without her stops could have held it: that is want of room, not her doing.
+    expect(reason([hers(2)])).toBe('no_room');
+    expect(reason([])).toBe('no_room');
   });
 
   it('says why an essential is not in a draft', () => {
