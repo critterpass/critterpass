@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# A fresh install, before any config has synced (signed out, from the splash): Developer tools
+# reads the planning redesign as on, from the default, so the section 7 screens show without the
+# shared config or an override.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-planning-redesign-source-default'
+    timeout: 30000
+- assertVisible:
+    id: 'dev-planning-redesign-state-on'
+- waitForAnimationToEnd
+- takeScreenshot: shell-planning-redesign-default
