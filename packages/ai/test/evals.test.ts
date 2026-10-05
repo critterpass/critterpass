@@ -5,15 +5,27 @@ import { runSuite } from '../evals/lib/runner';
 import { caseVarsSchema, loadSuite } from '../evals/lib/suite';
 import { SUITES, suitesForChanges } from '../evals/suites';
 
-// The draft suite runs the whole drafting pipeline for every golden crew: allow for a slow runner.
+async function meetsThreshold(suite: (typeof SUITES)[number]): Promise<void> {
+  const report = await runSuite(suite, { mode: 'replay' });
+  const failures = report.cases.filter((c) => c.outcome === 'fail');
+  expect(failures).toEqual([]);
+  expect(report.ok).toBe(true);
+  expect(report.graded).toBeGreaterThan(0);
+}
+
+// The draft suite runs the whole drafting pipeline (outline, days, repair, settling) for every
+// golden crew and redraft: about 27 s of CPU on a developer Mac, and CI runners are about three
+// times slower and shared. It gets a budget of its own with room for the cases still to come; the
+// other suites keep theirs.
+describe('the draft suite in replay', { timeout: 480_000 }, () => {
+  it('draft meets its replay threshold', () => meetsThreshold('draft'));
+});
+
 describe('eval suites in replay', { timeout: 180_000 }, () => {
-  it.each(SUITES)('%s meets its replay threshold', async (suite) => {
-    const report = await runSuite(suite, { mode: 'replay' });
-    const failures = report.cases.filter((c) => c.outcome === 'fail');
-    expect(failures).toEqual([]);
-    expect(report.ok).toBe(true);
-    expect(report.graded).toBeGreaterThan(0);
-  });
+  it.each(SUITES.filter((suite) => suite !== 'draft'))(
+    '%s meets its replay threshold',
+    meetsThreshold,
+  );
 
   it('skips llm-rubric assertions without a model instead of passing them', async () => {
     const report = await runSuite('persona', { mode: 'replay' });
