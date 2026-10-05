@@ -13,8 +13,9 @@ import { searchPlaceCandidates, type PlaceSearchResultItem } from '../../places/
 import type { TravelSource } from '../fit/context';
 import { minutesFrom, type SearchMinutes } from './anchor';
 import { areaFromAddress } from './area';
-import { hasAttribute, MEAL_CATEGORIES } from './filters';
+import { CATEGORY_NEAR_WORD, hasAttribute, MEAL_CATEGORIES } from './filters';
 import { daySpans, openForMeal, openPast, type DaySpans } from './hours';
+import { kindNounMatcher, namedFirst } from './kind-nouns';
 
 /** Candidates the hard filters may return before the soft ones narrow them. */
 const CANDIDATE_LIMIT = 150;
@@ -45,16 +46,32 @@ export interface SearchContext {
   readonly straight: { readonly driveFactor: number; readonly walkMaxM: number };
   readonly near?: { readonly lat: number; readonly lng: number };
   readonly category?: PoiCategory;
+  /** The question as typed, for the noun it names. */
+  readonly words?: string;
 }
 
-function categoriesOf(filter: SearchFilter): readonly PoiCategory[] | undefined {
-  if (filter.categories !== undefined && filter.categories.length > 0) return filter.categories;
-  return filter.meal === undefined ? undefined : MEAL_CATEGORIES[filter.meal];
+/**
+ * The kinds of place to look in and the words to look for. A meal with a kind of place nobody
+ * eats at ("dinner" and "beaches") looks in the meal's kinds for places that mention the other
+ * ("beach" in the name, address or tags).
+ */
+export function hardFilters(filter: SearchFilter): {
+  readonly categories: readonly PoiCategory[] | undefined;
+  readonly text: string;
+} {
+  const text = filter.text?.trim() ?? '';
+  const meal = filter.meal === undefined ? undefined : MEAL_CATEGORIES[filter.meal];
+  const asked = filter.categories ?? [];
+  if (asked.length === 0) return { categories: meal, text };
+  if (meal === undefined || asked.some((category) => meal.includes(category))) {
+    return { categories: asked, text };
+  }
+  const near = asked.flatMap((category) => CATEGORY_NEAR_WORD[category] ?? []).join(' ');
+  return { categories: meal, text: text === '' ? near : text };
 }
 
 export async function evaluate(ctx: SearchContext, filter: SearchFilter): Promise<Evaluated[]> {
-  const text = filter.text?.trim() ?? '';
-  const categories = categoriesOf(filter);
+  const { categories, text } = hardFilters(filter);
   const first = ctx.stops[0];
   const near = ctx.near ?? (text === '' && first !== undefined ? first : undefined);
   const candidates = await searchPlaceCandidates(
@@ -83,7 +100,7 @@ export async function evaluate(ctx: SearchContext, filter: SearchFilter): Promis
     ctx.travel,
     ctx.straight,
   );
-  return looked.map(({ item, days }) => {
+  const evaluated = looked.map(({ item, days }): Evaluated => {
     const measured = minutes.get(item.id) ?? null;
     const misses: SoftMiss[] = [];
     for (const attribute of filter.attributes ?? []) {
@@ -103,4 +120,6 @@ export async function evaluate(ctx: SearchContext, filter: SearchFilter): Promis
       misses,
     };
   });
+  const named = kindNounMatcher(ctx.words);
+  return named === null ? evaluated : namedFirst(evaluated, (place) => named(place.item));
 }

@@ -7,7 +7,7 @@
 import { i18n as lingui } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
-import { silentLine, splitOptionsParser, suggestPost, votePost } from '../split-model';
+import { silentLine, splitFooter, splitOptionsParser, suggestPost, votePost } from '../split-model';
 
 beforeAll(() => {
   lingui.loadAndActivate({ locale: 'en', messages: {} });
@@ -70,5 +70,23 @@ describe('split decisions', () => {
     expect(silentLine(['r'], 'me', name, list)).toBe("Rin hasn't said");
     expect(silentLine(['me'], 'me', name, list)).toBe("You haven't said");
     expect(silentLine([], 'me', name, list)).toBeNull();
+  });
+});
+
+describe('splitFooter', () => {
+  const base = { posted: false, loading: false, options: 2, said: true, canChat: true };
+
+  it('offers the buttons while there are ways and nothing was posted', () => {
+    expect(splitFooter(base)).toEqual({ kind: 'post' });
+  });
+
+  it('leaves only the way into crew chat once a way was posted', () => {
+    expect(splitFooter({ ...base, posted: true })).toEqual({ kind: 'chat', reason: 'posted' });
+  });
+
+  it('with no ways, opens crew chat only after she has said where she stands', () => {
+    expect(splitFooter({ ...base, options: 0 })).toEqual({ kind: 'chat', reason: 'no_ways' });
+    expect(splitFooter({ ...base, options: 0, said: false })).toEqual({ kind: 'none' });
+    expect(splitFooter({ ...base, options: 0, loading: true })).toEqual({ kind: 'none' });
   });
 });

@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import { planGaps, type GapItemRow } from '../plan-gaps';
-import { nextGap, pickState } from '../trip-explore-model';
+import { kindCounts, nextGap, pickState } from '../trip-explore-model';
 
 const uid = (n: number) => `00000000-0000-4000-8000-00000000000${String(n)}`;
 const day = (n: number) => `00000000-0000-4000-9000-00000000000${String(n)}`;
@@ -117,5 +117,85 @@ describe('free windows from the synced plan', () => {
     expect(spa).toBeDefined();
     expect(spa?.gap.who_free).toHaveLength(4);
     expect(spa?.busyName).toBe('Karsa Spa');
+  });
+
+  describe('for someone travelling alone', () => {
+    const solo = (items: GapItemRow[]) =>
+      planGaps({
+        tz: 'Asia/Makassar',
+        driveFactor: 1,
+        participants: [uid(1)],
+        days: [
+          { day_id: day(1), day_no: 1, date: '2026-10-22' },
+          { day_id: day(2), day_no: 2, date: '2026-10-23' },
+        ],
+        items,
+      });
+
+    it('leaves a day with one early stop open for the rest of it', () => {
+      // 07:00–07:45 local on the second day (UTC+8).
+      const gaps = solo([
+        item({ starts_at: '2026-10-22T23:00:00Z', ends_at: '2026-10-22T23:45:00Z' }),
+      ]);
+      const friday = gaps.filter((entry) => entry.date === '2026-10-23');
+      expect(friday.map((entry) => [entry.gap.from, entry.gap.to])).toEqual([['07:45', '22:00']]);
+      expect(friday[0]?.gap.who_free).toEqual([uid(1)]);
+      expect(friday[0]?.gap.after_item).toBe(uid(9));
+    });
+
+    it('counts a day with no stop as free all day', () => {
+      const first = solo([]).find((entry) => entry.date === '2026-10-22');
+      expect([first?.gap.from, first?.gap.to]).toEqual(['07:00', '22:00']);
+    });
+
+    it('has no window on a day whose stops leave less than an hour anywhere', () => {
+      const gaps = solo([
+        item({
+          stable_id: uid(7),
+          starts_at: '2026-10-22T23:30:00Z',
+          ends_at: '2026-10-23T05:00:00Z',
+        }),
+        item({ starts_at: '2026-10-23T05:30:00Z', ends_at: '2026-10-23T13:30:00Z' }),
+      ]);
+      expect(gaps.filter((entry) => entry.date === '2026-10-23')).toEqual([]);
+    });
+
+    it('offers the stretch between two stops when it is an hour or more', () => {
+      const gaps = solo([
+        item({
+          stable_id: uid(7),
+          starts_at: '2026-10-22T23:00:00Z',
+          ends_at: '2026-10-23T03:00:00Z',
+        }),
+        item({ starts_at: '2026-10-23T05:00:00Z', ends_at: '2026-10-23T14:00:00Z' }),
+      ]);
+      expect(
+        gaps
+          .filter((entry) => entry.date === '2026-10-23')
+          .map((entry) => [entry.gap.from, entry.gap.to]),
+      ).toEqual([['11:00', '13:00']]);
+    });
+  });
+});
+
+describe('the kinds of place to browse', () => {
+  const groupOf = (category: string) =>
+    category === 'food' || category === 'market' ? 'food' : category === 'beach' ? 'beaches' : null;
+
+  it('adds the categories of a kind together, fullest first, and drops what has no kind', () => {
+    expect(
+      kindCounts(
+        [
+          { category: 'beach', n: 40 },
+          { category: 'food', n: 90 },
+          { category: 'market', n: 11 },
+          { category: 'transit', n: 30 },
+        ],
+        groupOf,
+      ),
+    ).toEqual([
+      { group: 'food', count: 101 },
+      { group: 'beaches', count: 40 },
+    ]);
   });
 });

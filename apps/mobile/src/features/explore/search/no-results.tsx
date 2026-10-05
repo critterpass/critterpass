@@ -126,6 +126,8 @@ export interface NoResultsProps {
   readonly answer: PlainAnswer;
   /** "Ubud": where the search looked. */
   readonly area: string;
+  /** The area is the whole destination ("in Bali"), not a spot searched around ("near Ubud"). */
+  readonly whole?: boolean | undefined;
   readonly limitMinutes: number | null;
   readonly guide: GuideId;
   readonly guideName: string;
@@ -164,7 +166,9 @@ export function NoResults(props: NoResultsProps) {
       <Text variant="h1" testID="search-no-results-title">
         {area === ''
           ? t({ id: 'search.none.titleHere', message: 'Nothing like that here' })
-          : t({ id: 'search.none.title', message: `Nothing like that near ${area}` })}
+          : props.whole === true
+            ? t({ id: 'search.none.titleIn', message: `Nothing like that in ${area}` })
+            : t({ id: 'search.none.title', message: `Nothing like that near ${area}` })}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
         {closest === '' ? lead : `${lead} ${closest}`}

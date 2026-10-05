@@ -6,7 +6,14 @@
 import type { SearchChip, SearchParseResult } from '@cp/domain';
 import { describe, expect, it } from '@jest/globals';
 
-import { chipKey, filtersFor, plainSearchQuery, type PlainAnswer } from '../plain-filters';
+import { onlyDayLeft } from '../chip-words';
+import {
+  chipKey,
+  filtersFor,
+  plainSearchQuery,
+  readPlainAnswer,
+  type PlainAnswer,
+} from '../plain-filters';
 import { initialPlain, parsedOrName, plainReducer, type PlainState } from '../use-plain-search';
 
 const WED = '0199a3f0-0000-7000-8000-00000000da03';
@@ -42,6 +49,7 @@ const answer = (names: string[]): PlainAnswer => ({
   })),
   softMisses: [],
   waysOut: [],
+  close: null,
   nearest: null,
 });
 
@@ -149,5 +157,57 @@ describe('plain-words search', () => {
     expect(
       filtersFor(state.filters, { kind: 'pin', params: {}, count: 0, areas: [], openLate: null }),
     ).toBeNull();
+  });
+});
+
+describe('an answer with nothing that matches everything', () => {
+  const place = { id: '0199a3f0-0000-7000-8000-000000000021', name: 'Warung Pantai' };
+
+  it('keeps the places a looser search found and what it left out', () => {
+    const read = readPlainAnswer({
+      results: [],
+      soft_misses: [],
+      close: { results: [place, { name: 'no id' }], dropped: ['open_past', 7] },
+    });
+    expect(read.places).toEqual([]);
+    expect(read.close?.places.map((entry) => entry.name)).toEqual(['Warung Pantai']);
+    expect(read.close?.dropped).toEqual(['open_past']);
+  });
+
+  it('has no close places from an older server or an empty looser search', () => {
+    expect(readPlainAnswer({ results: [] }).close).toBeNull();
+    expect(readPlainAnswer({ results: [], close: { results: [], dropped: [] } }).close).toBeNull();
+  });
+
+  it('sends the question as typed beside the filters, and retries a failed search', () => {
+    const state = parsed();
+    const query = plainSearchQuery(state.filters, { tripId: 't', destinationId: 'd' }, QUESTION);
+    expect(new URLSearchParams(query.split('?')[1]).get('words')).toBe(QUESTION);
+    const failed = plainReducer(state, { type: 'failed', round: state.round, offline: false });
+    expect(failed.search).toBe('failed');
+    const again = plainReducer(failed, { type: 'retry' });
+    expect(again.search).toBe('loading');
+    expect(again.round).toBe(failed.round + 1);
+  });
+});
+
+describe('a chip that leaves out days', () => {
+  const day = (n: number, weekday: string) => ({
+    id: `0199a3f0-0000-7000-8000-00000000da0${String(n)}`,
+    dayNo: n,
+    date: null,
+    weekday,
+  });
+  const days = [day(1, 'Mon'), day(2, 'Tue'), day(3, 'Wed'), day(4, 'Thu')];
+  const ids = (...nos: number[]) => nos.map((n) => days[n - 1]?.id ?? '');
+
+  it('names the one day left when every other day is left out', () => {
+    expect(onlyDayLeft(ids(2, 3, 4), days)).toBe('Mon');
+  });
+
+  it('stays a "not" when one day is left out or several are left', () => {
+    expect(onlyDayLeft(ids(3), days)).toBeNull();
+    expect(onlyDayLeft(ids(1, 2), days)).toBeNull();
+    expect(onlyDayLeft(ids(1), days.slice(0, 2))).toBeNull();
   });
 });

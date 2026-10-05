@@ -199,6 +199,7 @@ function PlainScene() {
 const NOTHING: PlainAnswer = {
   places: [],
   softMisses: [],
+  close: null,
   waysOut: [
     {
       kind: 'widen',

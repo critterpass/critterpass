@@ -7,6 +7,7 @@
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import type { Href } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -17,6 +18,7 @@ import { impact, toast } from '@/motion';
 import { guideFor } from '../format';
 import { usePlaceDetailContext } from '../place-detail/context';
 import { fromStayLabel, splitCountLabel } from '../place-detail/model';
+import { areaFromAddress } from '../place-detail/place-facts';
 import { usePoi, useTripCrew } from '../place-queries';
 import { useMyUid } from '../queries';
 import {
@@ -24,9 +26,10 @@ import {
   postPlaceDecisionCommand,
   setPlaceStanceCommand,
 } from './commands';
-import { useStances } from './queries';
+import { useStances, useTripCrewId } from './queries';
 import {
   silentLine,
+  splitFooter,
   splitOptionsParser,
   suggestPost,
   votePost,
@@ -75,6 +78,9 @@ export function SplitScreen({
   });
   const options: readonly SplitOptionView[] = dataOf(read) ?? [];
   const [chosen, setChosen] = useState(0);
+  // A way she posted from this screen: the buttons give way to the chat, so it is posted once.
+  const [posted, setPosted] = useState(false);
+  const crewId = useTripCrewId(tripId);
   const say = useCommand(setPlaceStanceCommand);
   const clear = useCommand(clearPlaceStanceCommand);
   const post = useCommand(postPlaceDecisionCommand);
@@ -99,6 +105,7 @@ export function SplitScreen({
       mode: decision.mode,
     });
     if (result.kind === 'applied') {
+      setPosted(true);
       impact('success');
       toast.show({
         id: `split-posted-${placeId}`,
@@ -114,9 +121,19 @@ export function SplitScreen({
   };
   const suggest = suggestPost(options, chosen);
   const vote = votePost(options);
+  const footer = splitFooter({
+    posted,
+    loading: read.status === 'loading',
+    options: options.length,
+    said: mine !== null,
+    canChat: crewId !== null,
+  });
+  const openChat = () => {
+    if (crewId !== null) router.push(`/crew/${crewId}/chat` as Href);
+  };
   const stay = context?.fromStay ?? null;
   const meta = [
-    row?.destination_name ?? null,
+    areaFromAddress(row?.address, row?.destination_name),
     stay === null ? null : fromStayLabel(stay.minutes, stay.name),
   ].filter((part): part is string => part !== null && part !== '');
 
@@ -160,19 +177,41 @@ export function SplitScreen({
         read.status === 'loading'
           ? t({ id: 'explore.split.thinking', message: `${guide.name} is working out a way.` })
           : options.length === 0
-            ? t({
-                id: 'explore.split.noWays',
-                message: 'No way out yet. Say where you stand and I’ll look again.',
-              })
+            ? mine === null
+              ? t({
+                  id: 'explore.split.noWays',
+                  message: 'No way out yet. Say where you stand and I’ll look again.',
+                })
+              : t({
+                  id: 'explore.split.noWaysSaid',
+                  message: 'No way out that suits everyone yet. Talk it through in crew chat.',
+                })
             : null
       }
       chosen={chosen}
       onChoose={setChosen}
       suggest={
-        suggest === null ? null : { label: suggest.label, onPress: () => void send(suggest) }
+        suggest === null || footer.kind !== 'post'
+          ? null
+          : { label: suggest.label, onPress: () => void send(suggest) }
       }
-      vote={vote === null ? null : { label: vote.label, onPress: () => void send(vote) }}
+      vote={
+        vote === null || footer.kind !== 'post'
+          ? null
+          : { label: vote.label, onPress: () => void send(vote) }
+      }
       posting={post.pending}
+      chat={
+        footer.kind !== 'chat'
+          ? undefined
+          : {
+              label:
+                footer.reason === 'posted'
+                  ? t({ id: 'explore.split.inChat', message: 'In crew chat · Open' })
+                  : t({ id: 'explore.split.openChat', message: 'Open crew chat' }),
+              onPress: openChat,
+            }
+      }
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
     />
   );

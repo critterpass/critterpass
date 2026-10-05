@@ -7,6 +7,7 @@
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { PICK_KIND_ORDER } from './category';
 import { useLiveRows } from './data/live-rows';
 
 export interface DestinationRow {
@@ -43,6 +44,60 @@ export function useDestinationRow(ref: string | null): {
     DESTINATION_TABLES,
   );
   return { row: live.rows[0] ?? null, loaded: live.loaded };
+}
+
+/** How many of one kind lead before the next kind has its turn (as the api's picks read). */
+const PICKS_PER_KIND = 3;
+const KIND_RANK_SQL = `(CASE category ${PICK_KIND_ORDER.map(
+  (kind, index) => `WHEN '${kind}' THEN ${String(index)}`,
+).join(' ')} ELSE ${String(PICK_KIND_ORDER.length)} END)`;
+
+/**
+ * The recommended places this phone holds for a destination, in the order the api's picks read
+ * uses: the editors' must-sees, then the automatic picks by rank; where neither ranks a place,
+ * sights lead, three of a kind at a time. Never by name. Stays are never picks.
+ */
+const LOCAL_PICKS_SQL = `WITH ranked AS (
+    SELECT id, name, category, pick_rank,
+      (curation = 'editorial' AND json_extract(editorial, '$.must_see') = 1) AS must_see,
+      ${KIND_RANK_SQL} AS kind_rank
+    FROM pois
+    WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL
+      AND category <> 'stay' AND (curation = 'editorial' OR pick_rank IS NOT NULL)),
+  turns AS (
+    SELECT *, row_number() OVER (PARTITION BY must_see, kind_rank ORDER BY id) AS in_kind
+    FROM ranked)
+  SELECT id AS poiId, name, category FROM turns
+  ORDER BY must_see DESC, pick_rank IS NULL, pick_rank,
+    (in_kind - 1) / ${String(PICKS_PER_KIND)}, kind_rank, in_kind
+  LIMIT ?`;
+
+export interface LocalPick {
+  readonly poiId: string;
+  readonly name: string;
+  readonly category: string;
+}
+
+export function useLocalPicks(destinationId: string | null, limit: number): readonly LocalPick[] {
+  return useLiveRows<LocalPick>(
+    LOCAL_PICKS_SQL,
+    destinationId === null ? null : [destinationId, limit],
+    ['pois'],
+  ).rows;
+}
+
+const KINDS_SQL = `SELECT category, count(*) AS n FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL GROUP BY category`;
+
+/** How many places of each category this phone holds for a destination. */
+export function usePlaceKindCounts(
+  destinationId: string | null,
+): readonly { readonly category: string; readonly n: number }[] {
+  return useLiveRows<{ category: string; n: number }>(
+    KINDS_SQL,
+    destinationId === null ? null : [destinationId],
+    ['pois'],
+  ).rows;
 }
 
 export interface SeasonMonthRow {

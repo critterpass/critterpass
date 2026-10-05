@@ -29,3 +29,12 @@ export function useStances(tripId: string, poiId: string): readonly StanceLine[]
     [rows],
   );
 }
+
+const CREW_SQL = 'SELECT crew_id FROM trips WHERE id = ?';
+
+/** The crew a trip belongs to, for the way into its chat. */
+export function useTripCrewId(tripId: string): string | null {
+  return (
+    useLiveRows<{ crew_id: string | null }>(CREW_SQL, [tripId], ['trips']).rows[0]?.crew_id ?? null
+  );
+}
