@@ -166,10 +166,12 @@ env:
     visible:
       id: 'plan-item-save'
     timeout: 15000
+# The day pills sit under the sheet's footer until the details scroll: centred before the tap.
 - scrollUntilVisible:
     element:
       id: 'plan-item-move-2'
     direction: DOWN
+    centerElement: true
     timeout: 10000
 - tapOn:
     id: 'plan-item-move-2'
@@ -186,6 +188,11 @@ env:
       - waitForAnimationToEnd:
           timeout: 3000
 - takeScreenshot: plan-move-to-day-2
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+      enabled: true
+    timeout: 10000
 - tapOn:
     id: 'plan-item-save'
 - extendedWaitUntil:
