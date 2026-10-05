@@ -15,12 +15,12 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useSaidLate } from '@/features/plan';
 import { getLocationEngine } from '@/lib/location/use-location-status';
 import { toast } from '@/motion';
-import { CpMap } from '@/ui/map/CpMap';
 
 import { useLiveRows } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
 import { reportRunningLateCommand } from '../../leave-by/commands';
 import { saidLateLines, saidPushDetail } from './copy';
+import { LateMap } from './late-map';
 import { LateView } from './late-view';
 import { saidLateModel } from './said-late-model';
 
@@ -79,21 +79,10 @@ export function SaidLateScreen(props: {
   const fix = getLocationEngine()?.recentFixes().at(-1) ?? null;
   const map =
     stop.place === null || sync.phase === 'offline' ? null : (
-      <CpMap
-        places={[
-          {
-            id: stableId,
-            name: stop.title,
-            iconKey: 'pin',
-            categoryLabel: '',
-            lat: stop.place.lat,
-            lng: stop.place.lng,
-          },
-        ]}
-        initialCenter={[stop.place.lng, stop.place.lat]}
-        {...(fix === null
-          ? {}
-          : { youLocation: [fix.lng, fix.lat], locationStatus: 'granted-in-destination' as const })}
+      <LateMap
+        place={{ id: stableId, name: stop.title, lat: stop.place.lat, lng: stop.place.lng }}
+        you={fix}
+        destinationSlug={said.destinationSlug}
       />
     );
   return (

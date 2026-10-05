@@ -7,8 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names and storage keys, never copy. */
 import { generateUuidV7, type RecordVisitPayload } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
-import { useCallback } from 'react';
-import { createMMKV, useMMKVString } from 'react-native-mmkv';
+import { useCallback, useMemo, useState } from 'react';
+import { createMMKV, useMMKVListener, useMMKVString } from 'react-native-mmkv';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
@@ -88,4 +88,28 @@ export function useStopCheckIn(tripId: string, stableId: string, poiId: string |
     });
   }, [raw, setRaw, send, tripId, poiId]);
   return { checkIn, state, advance };
+}
+
+/**
+ * What this phone said at the trip's stops, by stable id, kept up as she says more: the day plan
+ * and the day-of screen read a stop she marked done as over, and one she is at as on now.
+ */
+export function useSaidStops(tripId: string | null): ReadonlyMap<string, 'here' | 'done'> {
+  const prefix = `${KEY}:${tripId ?? ''}:`;
+  const [version, setVersion] = useState(0);
+  useMMKVListener((key) => {
+    if (key.startsWith(prefix)) setVersion((n) => n + 1);
+  }, store());
+  return useMemo(() => {
+    const said = new Map<string, 'here' | 'done'>();
+    if (tripId === null) return said;
+    for (const key of store().getAllKeys()) {
+      if (!key.startsWith(prefix)) continue;
+      const state = checkInState(parseCheckIn(store().getString(key)));
+      if (state !== 'ahead') said.set(key.slice(prefix.length), state);
+    }
+    return said;
+    // `version` re-reads the store after a change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefix, tripId, version]);
 }

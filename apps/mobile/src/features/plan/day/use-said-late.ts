@@ -21,6 +21,8 @@ export interface SaidLateView {
   readonly loaded: boolean;
   readonly me: string | null;
   readonly guideSlug: string | null;
+  /** The trip's destination, whose map tiles the screen draws. */
+  readonly destinationSlug: string | null;
   /** Null when the stop is not on today's plan (moved, removed, another day). */
   readonly stop: {
     readonly title: string;
@@ -60,6 +62,7 @@ export function useSaidLate(tripId: string, stableId: string, minutes: number): 
     loaded: plan.loaded,
     me: plan.uid,
     guideSlug: plan.trip?.guide_slug ?? null,
+    destinationSlug: plan.trip?.destination_slug ?? null,
   };
   const none = () => Promise.resolve(false);
   if (found === null || found.stop.start === null) {

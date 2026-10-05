@@ -44,6 +44,13 @@ describe('what leads the day-of screen', () => {
     expect(dayLead(DAY, true, at('21:00'))).toEqual({ kind: 'done' });
   });
 
+  it('leads with the stop after one she marked done early', () => {
+    const marked = DAY.map((entry, index) =>
+      index === 0 ? { ...entry, moment: 'done' as const } : entry,
+    );
+    expect(dayLead(marked, true, at('09:00'))).toMatchObject({ kind: 'next', id: 'Che bo' });
+  });
+
   it('leads another day with its first stop whatever the hour, and a day with no stops is free', () => {
     expect(dayLead(DAY, false, at('21:00'))).toEqual({
       kind: 'first',

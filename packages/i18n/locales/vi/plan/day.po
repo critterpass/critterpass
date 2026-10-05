@@ -72,7 +72,7 @@ msgstr "{only} phút"
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.othersMoved"
-msgstr "{others, plural, other { · # điểm dừng khác cũng dời}}"
+msgstr "{others, plural, other { · dời thêm # điểm}}"
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.pushedBy"
@@ -292,7 +292,7 @@ msgstr "Chưa có kế hoạch. Ngủ nướng, hoặc thêm gì đó."
 
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
 msgid "plan.edit.nowAt"
-msgstr "Giờ mới: {range}"
+msgstr "Mới: {range}"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"

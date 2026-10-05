@@ -15,12 +15,12 @@ import { lateStep } from '@/features/plan';
 import { useGuideText } from '@/lib/i18n/guide-text';
 import { getLocationEngine } from '@/lib/location/use-location-status';
 import { toast } from '@/motion';
-import { CpMap } from '@/ui/map/CpMap';
 
 import { useLiveRows, useOwnerUid } from '../../hub/data/live-rows';
 import { guideName, guideOr } from '../../hub/guide';
 import { chooseLateOptionCommand } from '../commands';
 import { lateLines } from './copy';
+import { LateMap } from './late-map';
 import { LateView } from './late-view';
 import { lateModel, type LateRowData } from './model';
 import { SaidLateScreen } from './said-late-screen';
@@ -34,8 +34,9 @@ const PLACE_SQL = `SELECT p.id, p.name, p.lat, p.lng FROM disruptions d
     AND i.stable_id = json_extract(d.affected, '$.item_stable_ids[0]')
   JOIN pois p ON p.id = i.poi_id
   WHERE d.id = ?`;
-const GUIDE_SQL = `SELECT g.slug AS guide_slug, g.name AS guide_name FROM disruptions d
-  JOIN trips t ON t.id = d.trip_id LEFT JOIN guides g ON g.id = t.guide_id WHERE d.id = ?`;
+const GUIDE_SQL = `SELECT g.slug AS guide_slug, g.name AS guide_name, dest.slug AS destination_slug
+  FROM disruptions d JOIN trips t ON t.id = d.trip_id LEFT JOIN guides g ON g.id = t.guide_id
+  LEFT JOIN destinations dest ON dest.id = t.destination_id WHERE d.id = ?`;
 const NAMES_SQL = `SELECT u.id, coalesce(u.display_name, '') AS name FROM users u
   WHERE u.id IN (SELECT value FROM json_each(?))`;
 
@@ -76,11 +77,11 @@ export function KnownLateScreen({ id }: { readonly id: string }) {
     [id],
     ['disruptions', 'trips', 'plan_items', 'pois'],
   ).rows[0];
-  const trip = useLiveRows<{ guide_slug: string | null; guide_name: string | null }>(
-    GUIDE_SQL,
-    [id],
-    ['disruptions', 'trips', 'guides'],
-  ).rows[0];
+  const trip = useLiveRows<{
+    guide_slug: string | null;
+    guide_name: string | null;
+    destination_slug: string | null;
+  }>(GUIDE_SQL, [id], ['disruptions', 'trips', 'guides', 'destinations']).rows[0];
   const guide = guideOr(trip?.guide_slug);
   const model = useMemo(() => (row === null ? null : lateModel(row, me)), [row, me]);
   const party = useLiveRows<{ id: string; name: string }>(
@@ -94,22 +95,7 @@ export function KnownLateScreen({ id }: { readonly id: string }) {
   const offline = sync.phase === 'offline';
   const map =
     place === undefined || offline ? null : (
-      <CpMap
-        places={[
-          {
-            id: place.id,
-            name: place.name,
-            iconKey: 'pin',
-            categoryLabel: '',
-            lat: place.lat,
-            lng: place.lng,
-          },
-        ]}
-        initialCenter={[place.lng, place.lat]}
-        {...(fix === null
-          ? {}
-          : { youLocation: [fix.lng, fix.lat], locationStatus: 'granted-in-destination' as const })}
-      />
+      <LateMap place={place} you={fix} destinationSlug={trip?.destination_slug ?? null} />
     );
 
   return (

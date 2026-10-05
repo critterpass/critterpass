@@ -14,8 +14,21 @@ export function todayOf(now: Date, tz: string): string {
   return toLocalWallTime(now, tz).date;
 }
 
-/** The stable ids of today's stops still to go, in order; empty on any other day. */
-export function goStopsToday(day: TripDay, now: Date, tz: string): readonly string[] {
+/** What she said herself at a stop of today, by stable id: she is there, or she is done there. */
+export type SaidStops = ReadonlyMap<string, 'here' | 'done'>;
+
+const NOTHING_SAID: SaidStops = new Map();
+
+/**
+ * The stable ids of today's stops still to go, in order; empty on any other day. A stop she marked
+ * done is over whatever the clock says.
+ */
+export function goStopsToday(
+  day: TripDay,
+  now: Date,
+  tz: string,
+  said: SaidStops = NOTHING_SAID,
+): readonly string[] {
   const wall = toLocalWallTime(now, tz);
   if (day.date === null || day.date !== wall.date) return [];
   const [hours = 0, minutes = 0] = wall.time.split(':').map(Number);
@@ -24,6 +37,7 @@ export function goStopsToday(day: TripDay, now: Date, tz: string): readonly stri
     .filter((stop) => {
       if (stop.place === null || stop.poiId === null) return false;
       if (day.personal?.get(stop.stableId) === 'skipping') return false;
+      if (said.get(stop.stableId) === 'done') return false;
       const ends = stop.end ?? stop.start;
       return ends === null || ends > nowMinutes;
     })
@@ -31,8 +45,13 @@ export function goStopsToday(day: TripDay, now: Date, tz: string): readonly stri
 }
 
 /** The one stop the trip map's day sheet offers GO on, or null. */
-export function nextGoStop(day: TripDay, now: Date, tz: string): string | null {
-  return goStopsToday(day, now, tz)[0] ?? null;
+export function nextGoStop(
+  day: TripDay,
+  now: Date,
+  tz: string,
+  said: SaidStops = NOTHING_SAID,
+): string | null {
+  return goStopsToday(day, now, tz, said)[0] ?? null;
 }
 
 export type StopMoment = 'done' | 'now' | 'next';
@@ -44,8 +63,17 @@ export interface DayProgress {
   readonly moments: ReadonlyMap<string, StopMoment>;
 }
 
-/** Where `now` falls in `day`; null on any day that is not today on the trip's clock. */
-export function dayProgress(day: TripDay, now: Date, tz: string): DayProgress | null {
+/**
+ * Where `now` falls in `day`; null on any day that is not today on the trip's clock. What she said
+ * goes before the clock: a stop she marked done is over (the next one becomes next, even early),
+ * and a stop she said she is at is on now.
+ */
+export function dayProgress(
+  day: TripDay,
+  now: Date,
+  tz: string,
+  said: SaidStops = NOTHING_SAID,
+): DayProgress | null {
   const wall = toLocalWallTime(now, tz);
   if (day.date === null || day.date !== wall.date) return null;
   const [hours = 0, minutes = 0] = wall.time.split(':').map(Number);
@@ -55,8 +83,9 @@ export function dayProgress(day: TripDay, now: Date, tz: string): DayProgress | 
   for (const stop of day.stops) {
     if (stop.start === null) continue;
     const end = stop.end ?? stop.start;
-    if (end <= nowMinutes) moments.set(stop.stableId, 'done');
-    else if (stop.start <= nowMinutes) moments.set(stop.stableId, 'now');
+    const word = said.get(stop.stableId);
+    if (word === 'done' || end <= nowMinutes) moments.set(stop.stableId, 'done');
+    else if (word === 'here' || stop.start <= nowMinutes) moments.set(stop.stableId, 'now');
     else if (!next && day.personal?.get(stop.stableId) !== 'skipping') {
       moments.set(stop.stableId, 'next');
       next = true;

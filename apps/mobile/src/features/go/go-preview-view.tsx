@@ -178,7 +178,8 @@ export function GoPreviewView(props: GoPreviewViewProps) {
           <Stack gap="16">
             <Stack gap="4">
               <Text variant="eyebrow">{t({ id: 'go.preview.eyebrow', message: 'GO' })}</Text>
-              <Text variant="h2" numberOfLines={2}>
+              {/* The whole name, however long: it is where she is going. */}
+              <Text variant="h2" singleLine={false} testID="go-place-name">
                 {props.place.name}
               </Text>
             </Stack>

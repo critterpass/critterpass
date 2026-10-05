@@ -150,6 +150,9 @@ appId: app.critterpass.dev
     notVisible:
       id: 'plan-item-sheet'
     timeout: 10000
+# Done is read outside the sheet: the first stop no longer offers GO.
+- assertNotVisible:
+    id: 'stop-1-go'
 - takeScreenshot: ${SHOTS}-10-day-plan-before-running-late
 # 5. Running 30 minutes late for the second stop.
 - scrollUntilVisible:
@@ -173,10 +176,12 @@ appId: app.critterpass.dev
     id: 'late-option-push'
 - assertVisible:
     id: 'late-option-skip'
+- assertVisible:
+    id: 'late-back'
 - runFlow:
     file: settle.yaml
     env:
-      WAIT: 5000
+      WAIT: 10000
 - takeScreenshot: ${SHOTS}-11-running-late-what-moves
 - tapOn:
     id: 'late-choose'
@@ -244,7 +249,7 @@ appId: app.critterpass.dev
       - runFlow:
           file: settle.yaml
           env:
-            WAIT: 4000
+            WAIT: 10000
       - takeScreenshot: ${SHOTS}-16-running-late-from-day-of
       - tapOn:
           id: 'late-back'
