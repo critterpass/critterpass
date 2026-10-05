@@ -26,5 +26,5 @@ export function matchPlaceRef(
     intent === 'add'
       ? hrefFor('7f-1', { ...params, ...(dayId === undefined ? {} : { dayId }) })
       : undefined;
-  return add ?? hrefFor('7e-1', params) ?? hrefFor('3d-3', params);
+  return add ?? hrefFor('7e-1', params);
 }

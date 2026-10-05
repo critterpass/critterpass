@@ -87,10 +87,6 @@ msgstr "Giá vé khứ hồi rẻ nhất đã thấy, từ từng sân bay gần
 msgid "explore.panel.loading"
 msgstr "Đang xem giá vé"
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.closed"
-msgstr "Đóng cửa ngày {day}. Chọn ngày khác cho nơi này nhé."
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.sardiLine"
 msgstr "Đến vì cá mòi nướng. Ở lại cũng vì cá mòi nướng."
@@ -103,10 +99,6 @@ msgstr "Kế hoạch của các nhóm ›"
 msgid "explore.months.subtitle"
 msgstr "Độ đông theo tháng"
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.title"
-msgstr "Độ đông ngày {day}"
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.directFrom"
 msgstr "Bay thẳng từ {origin}"
@@ -115,18 +107,6 @@ msgstr "Bay thẳng từ {origin}"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.hero.back"
 msgstr "Khám phá"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.after"
-msgstr "Đi sau {time}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.around"
-msgstr "Đi khoảng {time}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.before"
-msgstr "Đi trước {time}"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
@@ -153,10 +133,6 @@ msgstr "Đang tải cẩm nang"
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.map"
 msgstr "Bản đồ {0}"
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.none"
-msgstr "Chưa có dữ liệu độ đông cho nơi này. Đi sớm hoặc muộn là chắc nhất."
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.noFare"

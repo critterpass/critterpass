@@ -71,7 +71,7 @@ export const exploreRoutes = {
   passPlus: (): Href | undefined => hrefFor('4a-1', { entry: 'explore_sponsored' }),
   /** The search for any place (the vote area's sheet). */
   search: (): Href | undefined => hrefFor('3b-7'),
-  plan: (tripId: string): Href | undefined => hrefFor('3e-1', { tripId }),
+  plan: (tripId: string): Href | undefined => hrefFor('plan-hub', { tripId }),
   /**
    * Partner offers for an activity, in the partners' own words (the suppliers area's screen). The
    * offers screen works inside a trip, so there is none to open without one.
@@ -93,20 +93,4 @@ registerScreens({
   // Explore's front page and the saved hub have no design render: other areas open them by name.
   'explore-home': () => exploreRoutes.home(),
   'explore-saved': () => exploreRoutes.saved(),
-  '3d-1': (params) =>
-    exploreRoutes.destination(params['placeId'] ?? '', {
-      tripId: params['tripId'],
-      crewId: params['crewId'],
-    }),
-  '3d-3': (params) =>
-    exploreRoutes.place(params['placeId'] ?? '', {
-      destinationId: params['destinationId'],
-      tripId: params['tripId'],
-    }),
-  '3d-2': (params) => exploreRoutes.swipe(params['tripId'] ?? '', params['sessionId'] ?? 'new'),
-  '3d-4': (params) =>
-    exploreRoutes.map(params['destinationId'] ?? '', {
-      tripId: params['tripId'],
-      placeId: params['placeId'],
-    }),
 });

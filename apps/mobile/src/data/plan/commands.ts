@@ -3,13 +3,10 @@
  * command. Each may wait in the offline queue, as the server accepts them all through the offline
  * door: an organiser's edit (`apply_plan_ops`, or `apply_draft_ops` on her own draft) or a member's proposal (`create_changeset` then
  * `send_changeset`) shows at once from its queued payload, and a vote, comment or +1 lands the same
- * way. A screen that needs the server's own answer before it moves on (the change review, a
- * member's day reorder) sends the online form of the same command (`…Online`), which resolves
- * with that answer.
+ * way. A screen that needs the server's own answer before it moves on (the change review) sends
+ * the online form of the same command (`…Online`), which resolves with that answer.
  *
- * The outbox words each queued command from what it carries: a day reorder reads "New day order",
- * any other plan edit "A plan edit"; a place added from its own screen reads "A place added to the
- * plan" (`addPlaceToPlanCommand`, the same command).
+ * The outbox words each queued command from what it carries: a plan edit reads "A plan edit".
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
@@ -27,10 +24,7 @@ import { defineClientCommand, type ClientCommandSpec } from '@/data/commands/sum
 export const applyPlanOpsCommand = defineClientCommand<ApplyPlanOpsPayload>({
   name: 'apply_plan_ops',
   offline: true,
-  summarize: (payload) =>
-    payload.ops.length > 0 && payload.ops.every((op) => op.op === 'reorder_days')
-      ? msg({ id: 'plan.overview.queued.reorder', message: 'New day order' })
-      : msg({ id: 'plan.day.queued.edit', message: 'A plan edit' }),
+  summarize: () => msg({ id: 'plan.day.queued.edit', message: 'A plan edit' }),
 });
 
 export const APPLY_PLAN_OPS = applyPlanOpsCommand.name;
@@ -49,24 +43,12 @@ export const ensurePlanDaysCommand = defineClientCommand<{ trip_id: string }>({
   offline: true,
 });
 
-/** The organiser adds a place straight to the plan from the place's own screen. */
-export const addPlaceToPlanCommand: ClientCommandSpec<ApplyPlanOpsPayload> = {
-  ...applyPlanOpsCommand,
-  summarize: () => msg({ id: 'explore.queued.planAdd', message: 'A place added to the plan' }),
-};
-
 export const createChangesetCommand = defineClientCommand<CreateChangesetPayload>({
   name: 'create_changeset',
   offline: true,
   summarize: () =>
     msg({ id: 'plan.day.queued.proposal', message: 'A change for the crew to okay' }),
 });
-
-/** A member suggests a place from the place's own screen: the same change set, worded for it. */
-export const proposePlaceCommand: ClientCommandSpec<CreateChangesetPayload> = {
-  ...createChangesetCommand,
-  summarize: () => msg({ id: 'explore.queued.proposal', message: 'A place for the crew to okay' }),
-};
 
 export const sendChangesetCommand = defineClientCommand<{
   changeset_id: string;
@@ -125,7 +107,6 @@ export const reviewHandPlanOnline: ClientCommandSpec<{ trip_id: string; base_ver
   offline: false,
 };
 
-export const createChangesetOnline = online(createChangesetCommand);
 export const sendChangesetOnline = online(sendChangesetCommand);
 export const applyChangesetOnline = online(applyChangesetCommand);
 

@@ -1,15 +1,12 @@
 /**
- * What the trip's PLAN opens. With `planning.redesign` off: the earlier overview (3e-1). With it
- * on, `plan.hub` picks the trip map (7a-1) or a day plan (7b-1); the day plan opens on today while
- * the trip runs, else the first day with stops, else day 1.
+ * What the trip's PLAN opens: `plan.hub` picks the trip map (7a-1) or a day plan (7b-1); the day
+ * plan opens on today while the trip runs, else the first day with stops, else day 1.
  */
-import type { PlanningSwitch } from '@/lib/navigation/planning-switch';
+export type PlanEntry = 'map' | 'day';
 
-export type PlanEntry = 'overview' | 'map' | 'day';
-
-export function planEntry(state: PlanningSwitch): PlanEntry {
-  if (!state.redesign) return 'overview';
-  return state.hub === 'day' ? 'day' : 'map';
+/** Only `day` opens the day plan; anything else, the trip map. */
+export function planEntry(hub: string): PlanEntry {
+  return hub === 'day' ? 'day' : 'map';
 }
 
 export interface HubDay {

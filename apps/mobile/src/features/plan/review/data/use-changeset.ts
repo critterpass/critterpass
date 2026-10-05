@@ -15,7 +15,7 @@ import type { ClientCommandSpec } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
-import { useLiveRows } from '../../overview/data/live-rows';
+import { useLiveRows } from '@/data/plan/live-rows';
 import { idArray, jsonArray } from '../../overview/data/plan-rows';
 import { usePlanData, type PlanData } from '../../overview/data/use-plan-data';
 import {

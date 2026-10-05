@@ -1,14 +1,18 @@
 /**
- * Lab scenes for the planning place page (7e-1, 7e-2): Tirta Empul inside a trip as the organiser
- * and as a member, already in the plan, split in the crew, with no trip, and hours not known.
- * ♡ and the button work on the page; nothing is sent.
+ * Lab scenes for the place page (7e-1, 7e-2): Tirta Empul inside a trip as the organiser and as a
+ * member, already in the plan, split in the crew, with no trip, and hours not known; and a Đà Nẵng
+ * beach with no photo of its own, filled in by Foursquare's live facts, or with the Foursquare
+ * photo kept from an earlier open (Foursquare's credit on the hero). ♡ and the button work on
+ * the page; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 
+import { BEACH_FOURSQUARE } from '../../dev/lab-place-media';
 import { guideFor } from '../../format';
+import { liveFacts, type PlaceLive } from '../../place-live';
 import { LAB_PICK_MEDIA } from '../../trip-explore/dev/lab-pick-media';
 import { readPlaceDetail } from '../context';
 import { PlaceFurther } from '../further';
@@ -102,6 +106,66 @@ const WIRE = {
   split: null,
 };
 
+// Staging stock photos of Đà Nẵng, one per photo: Wikimedia refuses Android's image loader.
+const STOCK = 'https://media.staging.critterpass.app/c/media';
+const LIVE_PHOTOS = [
+  '01a0f4a2-e2d1-7495-adc0-1b6fc321be89',
+  '01a0f4a2-e2c8-7be5-a86b-7c1df14c1f4b',
+  '01a0f4a2-e2cd-76ae-bac3-790439413f56',
+  '01a0f4a2-e2d4-7bb3-8b51-0913d642c105',
+].map((photoId, index) => ({
+  url: `${STOCK}/${photoId}/${index === 0 ? '1242' : '480'}.webp`,
+  width: 3,
+  height: 2,
+}));
+
+/** Foursquare's live facts for Mỹ Khê's Phạm Văn Đồng end: photos, rating, tips, call and website. */
+const MY_KHE_LIVE: PlaceLive = {
+  available: true,
+  openNow: true,
+  closedPermanently: false,
+  hours: null,
+  priceLevel: 2,
+  rating: 8.6,
+  photos: LIVE_PHOTOS,
+  tips: [
+    { text: 'Go at sunrise: the sand is cool and the fishing boats are coming in.', createdAt: '' },
+    { text: 'Loungers are 50k for the day, and the showers behind them are free.', createdAt: '' },
+  ],
+  website: 'https://danangfantasticity.com',
+  phone: '+84 236 3550 111',
+  attribution: { name: 'Foursquare', url: 'https://foursquare.com' },
+};
+
+interface ScenePlace {
+  readonly name: string;
+  readonly category: string;
+  readonly guide: string;
+  readonly area: string;
+  /** The guide's best time, the line a page outside a trip shows. */
+  readonly bestTime: string;
+  /** The guide's tip outside a trip (inside one it comes with the trip's context). */
+  readonly tip: string | null;
+}
+
+const TIRTA_EMPUL: ScenePlace = {
+  name: 'Tirta Empul',
+  category: 'temple_shrine',
+  guide: 'tokek',
+  area: 'Tampaksiring',
+  bestTime: 'Go at opening, before the tour buses.',
+  tip: 'Start at the left pool and work right. Skip the last two spouts, they’re for funerals.',
+};
+
+const MY_KHE: ScenePlace = {
+  name: 'Phạm Văn Đồng Beach',
+  category: 'beach',
+  guide: 'chava',
+  area: 'Sơn Trà',
+  bestTime: 'Go at sunrise, before the sand heats up.',
+  tip: null,
+};
+
 const SAVERS = [
   { key: 'a', name: 'Alex', joinIndex: 2 },
   { key: 'r', name: 'Rin', joinIndex: 3 },
@@ -112,8 +176,13 @@ function Scene({
   trip = true,
   savedAtStart = false,
   photo = null,
+  place = TIRTA_EMPUL,
+  live = null,
 }: {
   readonly patch?: Record<string, unknown>;
+  readonly place?: ScenePlace;
+  /** Foursquare's live facts for the place, as the page reads them. */
+  readonly live?: PlaceLive | null;
   readonly trip?: boolean;
   /** ♡ already on: the viewer saved it (the 7e-1 render). */
   readonly savedAtStart?: boolean;
@@ -121,25 +190,24 @@ function Scene({
 }) {
   const { t, i18n } = useLingui();
   const [saved, setSaved] = useState(savedAtStart);
-  const [added, setAdded] = useState<number | null>(null);
   const context = trip ? readPlaceDetail({ ...WIRE, ...patch }) : null;
-  const guide = guideFor('tokek');
+  const guide = guideFor(place.guide);
+  const facts = liveFacts(live, { hours: null, priceLevel: null, hasPhoto: photo !== null });
   const cta = detailCta({
     context,
     status: 'ready',
     tz: 'Asia/Makassar',
     locale: i18n.locale,
-    addedDay: added,
   });
   const best = context?.fits?.best ?? null;
   const stances = context?.stances ?? null;
   return (
     <PlaceDetailView
-      name="Tirta Empul"
-      category="temple_shrine"
+      name={place.name}
+      category={place.category}
       guide={guide}
       photo={photo}
-      heroUrl={null}
+      heroUrl={facts.heroUrl}
       saved={saved}
       offline={false}
       onBack={() => undefined}
@@ -154,7 +222,7 @@ function Scene({
             }
           : null
       }
-      meta={['Tampaksiring', ...(trip ? [fromStayLabel(45, 'Villa Sayan')] : [])]}
+      meta={[place.area, ...(trip ? [fromStayLabel(45, 'Villa Sayan')] : [])]}
       facts={context?.facts ?? null}
       fits={
         best === null
@@ -177,15 +245,15 @@ function Scene({
                 message: "Its hours aren't known, so I can't fit it yet.",
               })
             : null
-          : 'Go at opening, before the tour buses.'
+          : place.bestTime
       }
       crew={trip ? { keen: SAVERS, qna: context?.qna?.text ?? null, savers: true } : null}
       further={
         <PlaceFurther
           guide={guide}
           context={context}
-          tip={context?.tip ?? WIRE.tip}
-          live={null}
+          tip={context?.tip ?? place.tip}
+          live={facts.details}
           offers={null}
           onPlace={() => undefined}
           addPlace={() => '/explore'}
@@ -198,7 +266,7 @@ function Scene({
         tone: cta.kind === 'inPlan' ? 'green' : 'yellow',
         disabled: trip && cta.kind !== 'add' && cta.kind !== 'inPlan',
         busy: false,
-        onPress: () => setAdded(best?.day_no ?? null),
+        onPress: () => undefined,
       }}
       onChat={() => undefined}
       onGo={() => undefined}
@@ -225,6 +293,10 @@ export const PLACE_DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   'place-detail-no-trip': () => <Scene trip={false} />,
+  'place-detail-live': () => <Scene trip={false} live={MY_KHE_LIVE} place={MY_KHE} />,
+  'place-detail-foursquare-photo': () => (
+    <Scene trip={false} photo={BEACH_FOURSQUARE} place={MY_KHE} />
+  ),
   'place-detail-hours-unknown': () => (
     <Scene
       patch={{

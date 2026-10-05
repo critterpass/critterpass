@@ -127,4 +127,4 @@ export function useDayEditing(plan: TripPlan) {
   return { ...editor, submit };
 }
 
-export { announceEdit, fitWarningText } from './edit-copy';
+export { announceEdit } from './edit-copy';

@@ -20,14 +20,6 @@ msgid "plan.day.queued.comment"
 msgstr ""
 
 #: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.planAdd"
-msgstr ""
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "explore.queued.proposal"
-msgstr ""
-
-#: ../../apps/mobile/src/data/plan/commands.ts
 msgid "plan.day.queued.edit"
 msgstr ""
 
@@ -49,10 +41,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
-msgstr ""
-
-#: ../../apps/mobile/src/data/plan/commands.ts
-msgid "plan.overview.queued.reorder"
 msgstr ""
 
 #: ../../apps/mobile/src/data/plan/commands.ts

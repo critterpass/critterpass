@@ -49,3 +49,13 @@ export function money(locale: string, amountMinor: number, currency: string): st
     maximumFractionDigits: amountMinor % 10 ** digits === 0 ? 0 : digits,
   });
 }
+
+/** "Mon" for a local date, in the reader's language; empty while the date is open. */
+export function weekdayOf(date: string | null, locale: string): string {
+  if (date === null) return '';
+  // Midday UTC keeps the calendar date in every zone.
+  // eslint-disable-next-line lingui/no-unlocalized-strings
+  const at = new Date(`${date}T12:00:00Z`);
+  if (Number.isNaN(at.getTime())) return '';
+  return new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(at);
+}

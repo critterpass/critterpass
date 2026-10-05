@@ -19,7 +19,6 @@ appId: app.critterpass.dev
     timeout: 60000
 - runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
 - waitForAnimationToEnd
-- runFlow: ../../_shared/planning-redesign-on.yaml
 - waitForAnimationToEnd
 # 1. The plan and its first check.
 - runFlow: plan-views-subflows/back-to-trip-map.yaml

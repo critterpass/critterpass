@@ -1,7 +1,8 @@
 /**
- * A plan item's sheet wired to the plan editor, as the day view (3e-2) and the day plan (7b-1)
- * open it: change the time, move it to another day, take it off the plan or skip it just for me,
- * its comments, and the place or the maps app. A new time or day is timed against the rest of that
+ * A plan item's sheet wired to the plan editor, as the day plan (7b-1) opens it: change the time,
+ * move it to another day, take it off the plan or skip it just for me, its comments, and the place
+ * or the maps app. When the crew's plan moved under (or took out) a change I made for myself, the
+ * sheet leads with it: keep mine, or go with the crew. A new time or day is timed against the rest of that
  * day before it is saved: the stops after it are pushed only as far as they need, the sheet says
  * so in one line, and a change that would run into a booked or must-do stop can't be saved. Every
  * change goes through the editor (an organiser's applies, a member's becomes a change set), which
@@ -11,7 +12,7 @@
 import type { PlanOp, PlanPush } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { Linking } from 'react-native';
+import { Linking, View } from 'react-native';
 
 import { useLiveRows } from '@/data/plan/live-rows';
 import { dayItems, type DayItem } from '@/data/plan/plan-model';
@@ -21,10 +22,14 @@ import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor'
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
+import { guideSticker } from '@/ui/avatar/guides';
+import { useTheme } from '@/ui/theme';
 
 import { ItemComments } from '../collab/item-comments';
+import { ClashCard } from '../overlay/clash-card';
+import { useResolveClash } from '../overlay/data/use-personal-plan';
+import { usePersonalLayer } from '../trip-map/personal-layer';
 import { retime, type Retime, type Travel } from '../day-plan/reschedule';
-import { guideOf } from '../timeline/day-timeline';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
@@ -78,6 +83,7 @@ export function ItemSheetHost({
 }) {
   const { t } = useLingui();
   const locale = useLocale();
+  const theme = useTheme();
   const tripId = plan.trip?.id ?? '';
   const tz = plan.trip?.tz ?? item.tz;
   const mustDoId = plan.itemRows.find((row) => row.stable_id === item.stableId)?.must_do_id ?? null;
@@ -141,6 +147,14 @@ export function ItemSheetHost({
   // Her own draft, before the crew has a plan: nobody else is on it yet, so there is nothing to
   // skip "just me", no day-of actions and no thread to comment in.
   const onDraft = plan.mode === 'draft';
+  const personal = usePersonalLayer(onDraft ? null : (plan.trip?.id ?? null), plan.uid, plan.state);
+  const clash = personal.layer.clashes.find((entry) => entry.stableId === item.stableId) ?? null;
+  const resolveClash = useResolveClash();
+  const settle = (keep: boolean) => {
+    if (clash === null) return;
+    void resolveClash(clash.personalOpsId, keep);
+    onClose();
+  };
   const skipForMe = () => {
     void editor.skipForMe(item).then(() =>
       toast.show({
@@ -151,6 +165,18 @@ export function ItemSheetHost({
     onClose();
   };
 
+  const dayActions = (
+    <StopDayActions
+      tripId={tripId}
+      item={item}
+      date={slot.date}
+      tz={tz}
+      onClose={onClose}
+      onSkipForMe={skipForMe}
+      solo={plan.members.length <= 1}
+      day={{ stops: here, slot, submit: (ops) => void editor.submit(ops) }}
+    />
+  );
   return (
     <ItemDetailSheet
       item={item}
@@ -179,17 +205,18 @@ export function ItemSheetHost({
             }
       }
       lead={
-        onDraft ? null : (
-          <StopDayActions
-            tripId={tripId}
-            item={item}
-            date={slot.date}
-            tz={tz}
-            onClose={onClose}
-            onSkipForMe={skipForMe}
-            solo={plan.members.length <= 1}
-            day={{ stops: here, slot, submit: (ops) => void editor.submit(ops) }}
-          />
+        onDraft ? null : clash === null ? (
+          dayActions
+        ) : (
+          <View style={{ gap: theme.space['12'] }}>
+            <ClashCard
+              clash={clash}
+              label={item.title}
+              onKeep={() => settle(true)}
+              onDrop={() => settle(false)}
+            />
+            {dayActions}
+          </View>
         )
       }
       preview={(change) => {
@@ -218,7 +245,7 @@ export function ItemSheetHost({
             uid={plan.uid}
             item={item}
             members={plan.members}
-            guide={guideOf(plan.trip?.guide_slug ?? null)}
+            guide={guideSticker(plan.trip?.guide_slug)}
           />
         )
       }

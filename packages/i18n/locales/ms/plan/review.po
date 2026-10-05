@@ -7,12 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
 
-#. placeholder {0}: props.vote.yes
-#. placeholder {1}: props.vote.needed
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.tally"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.collision.travel"
 msgstr ""
@@ -21,16 +15,7 @@ msgstr ""
 msgid "plan.review.collision.overlap"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.memberDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.member"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
 msgid "plan.review.bookingsMoved"
 msgstr ""
 
@@ -84,18 +69,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.explainPlain"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.guideDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.guide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
-msgid "plan.review.mustDosTouched"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts
@@ -155,7 +128,6 @@ msgid "plan.review.why.after"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.personal"
 msgstr ""
 
@@ -203,18 +175,6 @@ msgstr ""
 msgid "plan.review.closesMinutes"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backDay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backDays"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.delay"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.notice.approved"
@@ -224,25 +184,12 @@ msgstr ""
 msgid "plan.review.notice.approvedSolo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.dropout"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.dropped"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
 msgid "plan.review.each"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.calm"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.chat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
@@ -255,14 +202,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-totals.tsx
 msgid "plan.review.money.thousand"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.toggleHint"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.kept"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
@@ -297,14 +236,6 @@ msgstr ""
 msgid "plan.review.needsYou"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.added"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
-msgid "plan.review.noCost"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.left.noDay"
 msgstr ""
@@ -314,7 +245,6 @@ msgid "plan.card.state.draft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.no"
 msgstr ""
 
@@ -324,10 +254,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
 msgid "plan.push.reject"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.noMustDo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
@@ -340,10 +266,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.why.onTheWay"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.summary.mustDo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
@@ -362,10 +284,6 @@ msgstr ""
 msgid "plan.card.state.stale"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.backPlan"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.eyebrow"
 msgstr ""
@@ -382,28 +300,12 @@ msgstr ""
 msgid "plan.review.sendSelf"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.applyNow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-copy.ts
 msgid "plan.review.putInNow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.weather"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.state.expired"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.redraft"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/change-card.tsx
-msgid "plan.review.removed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/needs-you-list.tsx
@@ -428,10 +330,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.summary.touches"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-copy.ts
-msgid "plan.review.tag.swap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
@@ -467,16 +365,7 @@ msgid "plan.review.notice.expired"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.missing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.warn.booking"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.warn.mustDo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-screen.tsx
@@ -496,7 +385,6 @@ msgid "plan.review.why.dry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changes-review-view.tsx
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.yes"
 msgstr ""
 
@@ -508,16 +396,8 @@ msgstr ""
 msgid "plan.review.youSaidNo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.votedNo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/changes-state-copy.ts
 msgid "plan.review.youSaidYes"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/review-view.tsx
-msgid "plan.review.votedYes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/chat-card-title.ts

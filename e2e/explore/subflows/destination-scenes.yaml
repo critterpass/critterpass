@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # The destination guide, a month priced for the crew and each of its states, a Vietnamese crew's
 # Đà Nẵng in đồng and the guest guide's page (3b-8), prefixed `${PREFIX}` and named by `${SCREEN}`
-# (7g-3 with the planning screens on: the guide sits on the hero).
+# (7g-3: the guide sits on the hero).
 - runFlow:
     file: scene.yaml
     env: { SCENE: destination, READY: explore-months, SHOT: '${PREFIX}-${SCREEN}-destination' }

@@ -87,10 +87,6 @@ msgstr ""
 msgid "explore.panel.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.closed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.sardiLine"
 msgstr ""
@@ -103,10 +99,6 @@ msgstr ""
 msgid "explore.months.subtitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.directFrom"
 msgstr ""
@@ -114,18 +106,6 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.hero.back"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.after"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.around"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.before"
 msgstr ""
 
 #. placeholder {0}: guide.name
@@ -152,10 +132,6 @@ msgstr ""
 #. placeholder {0}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.map"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
-msgid "explore.crowd.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

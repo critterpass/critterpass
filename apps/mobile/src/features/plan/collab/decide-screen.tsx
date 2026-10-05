@@ -15,12 +15,12 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTyping } from '@/data/realtime/use-typing';
 import { impact } from '@/motion/feedback';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { guideSticker } from '@/ui/avatar/guides';
 import { Composer } from '@/ui/chat/Composer';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 
 import { dayDate } from '../day/format';
 import { useDayEditing } from '../day/use-day-editing';
-import { guideOf } from '../timeline/day-timeline';
 import { CommentThread } from './comment-thread';
 import { buildDecision } from './decision-model';
 import { DecideView } from './decide-view';
@@ -191,7 +191,7 @@ export function DecideScreen({
             members={plan.members}
             uid={plan.uid}
             typing={typing.typing}
-            guide={guideOf(plan.trip?.guide_slug ?? null)}
+            guide={guideSticker(plan.trip?.guide_slug)}
             kept={comments.kept}
             now={comments.now}
             onPlusOne={(id, on) => void comments.plusOne(id, on)}

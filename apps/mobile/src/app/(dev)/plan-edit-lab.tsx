@@ -9,7 +9,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-/** Plan editing screens (3e-2, 3g-2 and their states) over fixed fixtures, for review and shots. */
+/** A stop's sheet over the day plan (7b-1) and the live decision (3g-2), over fixed fixtures, for review and shots. */
 export default function PlanEditLab() {
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>

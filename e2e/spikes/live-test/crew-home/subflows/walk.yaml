@@ -12,7 +12,6 @@ appId: app.critterpass.dev
     env:
       HOME_IATA: SGN
       HOME_QUERY: 'Ho Chi'
-- runFlow: ../../../../_shared/planning-redesign-on.yaml
 - runFlow:
     file: ../../../../screens/sweep/subflows/open-link.yaml
     env:
@@ -309,8 +308,6 @@ appId: app.critterpass.dev
     timeout: 8000
 - takeScreenshot: crew-home-${LOCALE}-08-minh-manifest
 - runFlow: home.yaml
-# Set-up, not Minh's doing: the new planning screens stay on for this phone.
-- runFlow: ../../../../_shared/planning-redesign-on.yaml
 # Before anything is sent he reads one true message, on Home, the hub and the plan.
 - extendedWaitUntil:
     visible:

@@ -46,7 +46,6 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "plan/overlay": () => import('../../locales/en/plan/overlay').then((m) => m.messages),
   "plan/overview": () => import('../../locales/en/plan/overview').then((m) => m.messages),
   "plan/review": () => import('../../locales/en/plan/review').then((m) => m.messages),
-  "plan/timeline": () => import('../../locales/en/plan/timeline').then((m) => m.messages),
   "plan/trip-map": () => import('../../locales/en/plan/trip-map').then((m) => m.messages),
   "plan/views": () => import('../../locales/en/plan/views').then((m) => m.messages),
   "planning/fit": () => import('../../locales/en/planning/fit').then((m) => m.messages),

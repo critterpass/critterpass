@@ -11,7 +11,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { fitLine } from '@/data/fit/fit-line';
 import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { dayTileColour } from '@/features/plan/overview/day-card';
+import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 
 import { NO_TRIP_GUIDE } from '../../plan-guide';
 import { CREW, useLabDays } from '../../add/dev/add-scenes';

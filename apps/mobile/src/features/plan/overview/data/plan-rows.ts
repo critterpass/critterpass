@@ -1,8 +1,8 @@
 /**
- * The overview's own local reads beside the plan (`@/data/plan` reads the trip, days, items and
- * crew): open decision polls, the destination's centroid forecast, and applied guide change sets.
- * All synced rows; the queries run against the device database and re-run whenever one of their
- * tables changes.
+ * Local reads beside the plan (`@/data/plan` reads the trip, days, items and crew): open decision
+ * polls, the forecast row's shape the plan fixtures use, and JSON array columns as SQLite holds
+ * them. The queries run against the device database and re-run whenever one of their tables
+ * changes.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 
@@ -24,29 +24,6 @@ export interface WeatherRow {
   readonly hourly: string;
   readonly marine: string | null;
 }
-
-export const WEATHER_SQL = `SELECT date, hourly, marine FROM weather_snapshots
-  WHERE destination_id = ? AND point_key = 'centroid'`;
-export const WEATHER_TABLES = ['weather_snapshots'];
-
-export interface GuideChangeRow {
-  readonly id: string;
-  readonly ops: string | null;
-  readonly updated_at: string | null;
-}
-
-export const GUIDE_CHANGES_SQL = `SELECT id, ops, updated_at FROM change_sets
-  WHERE trip_id = ? AND author_kind = 'guide' AND status = 'applied'
-  ORDER BY updated_at DESC LIMIT 20`;
-export const GUIDE_CHANGES_TABLES = ['change_sets'];
-
-/** `local_state` key holding the newest guide change this device has swept on the plan. */
-export function guideSeenKey(tripId: string): string {
-  return `plan.guide_seen.${tripId}`;
-}
-
-export const SEEN_SQL = 'SELECT value FROM local_state WHERE id = ?';
-export const SEEN_TABLES = ['local_state'];
 
 /** A JSON array column (`attendee_ids`, `ops`) as read from SQLite; malformed → []. */
 export function jsonArray<T>(value: string | null): T[] {

@@ -9,7 +9,7 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-/** Plan overview (3e-1), review changes (3e-3) and the map and calendar views, for review and shots. */
+/** The trip map, the day plan and all days (7a, 7b), the calendar export and the change set chat card, for review and shots. */
 export default function PlanViewsLab() {
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>

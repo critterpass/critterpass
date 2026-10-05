@@ -5,22 +5,18 @@
 import type { ReactNode } from 'react';
 
 import { DESTINATION_SCENES } from './destination-scenes';
-import { MAP_SCENES } from './map-scenes';
 import { PLACE_DETAIL_SCENES } from '../place-detail/dev/place-detail-scenes';
 import { PLACES_SCENES } from '../places/dev/places-scenes';
 import { SPLIT_SCENES } from '../split/dev/split-scenes';
-import { PLACE_SCENES } from './place-scenes';
 import { SAVED_SCENES } from './saved-scenes';
 import { SWIPE_SCENES } from './swipe-scenes';
 import { TRIP_EXPLORE_SCENES } from '../trip-explore/dev/trip-explore-scenes';
 
 export const EXPLORE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DESTINATION_SCENES,
-  ...PLACE_SCENES,
   ...PLACE_DETAIL_SCENES,
   ...SPLIT_SCENES,
   ...SAVED_SCENES,
-  ...MAP_SCENES,
   ...PLACES_SCENES,
   ...SWIPE_SCENES,
   ...TRIP_EXPLORE_SCENES,
