@@ -124,6 +124,7 @@ export function ChangeCard({ card, index, kept, locale, tz, onToggle }: ChangeCa
     card.kind === 'change' && card.before !== null ? lineText(card.before, locale, tz) : null;
   const shifted = card.kind === 'shifts' ? card.count : 0;
   const maxMin = card.kind === 'shifts' ? card.maxMin : 0;
+  const movedTo = card.kind === 'change' ? (card.movedToDay ?? 0) : 0;
   const after =
     card.kind === 'shifts'
       ? t({
@@ -133,9 +134,11 @@ export function ChangeCard({ card, index, kept, locale, tz, onToggle }: ChangeCa
             other: `# stops move by up to ${maxMin} min`,
           }),
         })
-      : card.after !== null
-        ? lineText(card.after, locale, tz)
-        : t({ id: 'planDraft.change.dropped', message: 'Taken out' });
+      : card.movedToDay !== null
+        ? t({ id: 'planDraft.change.movedToDay', message: `Moved to day ${movedTo}` })
+        : card.after !== null
+          ? lineText(card.after, locale, tz)
+          : t({ id: 'planDraft.change.dropped', message: 'Taken out' });
   const reason = card.kind === 'change' ? card.reason : null;
   const toggleLabel = kept
     ? t({ id: 'planDraft.change.keep', message: 'Keep this change' })

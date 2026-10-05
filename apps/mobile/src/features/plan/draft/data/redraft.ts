@@ -2,7 +2,8 @@
  * A redraft's changes as the diff screen lays them out. The server diffs the day on stable item
  * ids (`add`, `remove`, `retime`, `swap`); the screen shows each change as one card, old line
  * struck and new line under it, so a stop taken out and a stop put in at about the same time read
- * as one swap. Two or more small time shifts fold into one summary card. Each card knows every
+ * as one swap; a stop moved to another day is its own card, saying which day. Two or more small
+ * time shifts fold into one summary card. Each card knows every
  * stable id it stands for, so toggling it off keeps all of them as they were.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- op names and regex, never copy. */
@@ -21,6 +22,8 @@ export type ChangeCard =
       readonly before: CardLine | null;
       readonly after: CardLine | null;
       readonly reason: string | null;
+      /** The day the stop moved to, when the redraft moved it rather than taking it out. */
+      readonly movedToDay: number | null;
     }
   | {
       /** Small time shifts, summed up in one line. */
@@ -77,7 +80,9 @@ export function changeCards(
 ): ChangeCard[] {
   const reasonOf = (change: RedraftChange | undefined): string | null =>
     change === undefined ? null : (reasons.get(change.stable_id) ?? change.reason);
-  const removes = changes.filter((c) => c.op === 'remove').sort(byStart);
+  const movedOut = (c: RedraftChange) => c.op === 'remove' && c.moved_to_day !== undefined;
+  const moves = changes.filter(movedOut);
+  const removes = changes.filter((c) => c.op === 'remove' && !movedOut(c)).sort(byStart);
   const adds = changes.filter((c) => c.op === 'add').sort(byStart);
   const edits = changes.filter((c) => c.op === 'swap' || c.op === 'retime');
   const shifts = edits.filter(
@@ -105,6 +110,22 @@ export function changeCards(
         before,
         after,
         reason: truthfulReason(reasonOf(into) ?? reasonOf(out)),
+        movedToDay: null,
+      },
+    });
+  }
+  for (const move of moves) {
+    const before = lineOf(move.before, places);
+    cards.push({
+      at: before?.startsAt ?? '',
+      card: {
+        kind: 'change',
+        key: move.stable_id,
+        stableIds: [move.stable_id],
+        before,
+        after: null,
+        reason: truthfulReason(reasonOf(move)),
+        movedToDay: move.moved_to_day ?? null,
       },
     });
   }
@@ -121,6 +142,7 @@ export function changeCards(
         before,
         after,
         reason: truthfulReason(reasonOf(edit)),
+        movedToDay: null,
       },
     });
   }

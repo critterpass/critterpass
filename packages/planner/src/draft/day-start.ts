@@ -5,7 +5,8 @@
  * usual start and never before half past seven: by the afternoon it is cloud, heat or crowds, and
  * since nearly every place says "early morning", it is these the planner honours first. And once
  * the crew is out early for a stop with a time of its own (a breakfast it asked for), the next
- * stop follows on instead of waiting for the usual hour, when that wait is two hours or less.
+ * stop follows on instead of waiting for the usual hour, when that wait is two hours or less. A
+ * day the crew asked to start later is never opened sooner by a sight: they asked for the morning.
  */
 import { placeTime } from './place-time';
 import type { DayWindow, DraftPoi, TravelMatrix } from './types';
@@ -46,7 +47,7 @@ export function startFloor(
   earlierEndMin: number | null,
 ): number {
   let floor = window.startMin;
-  if (opener && window.startMin <= MORNING_WINDOW_BY_MIN) {
+  if (opener && window.laterStart !== true && window.startMin <= MORNING_WINDOW_BY_MIN) {
     const early = Math.max(EARLIEST_OPEN_MIN, window.startMin - EARLY_BY_MIN);
     floor = Math.min(floor, Math.max(early, window.earliestMin ?? 0));
   }

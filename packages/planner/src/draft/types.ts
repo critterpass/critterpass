@@ -167,4 +167,6 @@ export interface DayWindow {
    */
   readonly earliestMin?: number;
   readonly latestMin?: number;
+  /** The crew asked this day to start later: nothing opens it before `startMin`. */
+  readonly laterStart?: boolean;
 }

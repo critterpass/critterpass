@@ -238,6 +238,11 @@ export const redraftChangeSchema = z.object({
   after: redraftItemSnapshotSchema.nullable(),
   /** The guide's reason for this change (words only). */
   reason: z.string().max(240).nullable(),
+  /**
+   * A `remove` whose stop the redraft moved to another day: that day's number (`after` is the
+   * stop there). Absent on a stop that left the trip, and on every other op.
+   */
+  moved_to_day: z.number().int().positive().optional(),
 });
 export type RedraftChange = z.infer<typeof redraftChangeSchema>;
 
