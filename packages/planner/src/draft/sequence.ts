@@ -13,7 +13,7 @@ import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
 import { DINNER, LUNCH, mealAt, mealDuration, mealSlotAt, servingOn } from './meal-slots';
-import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
+import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './place-time';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
@@ -120,7 +120,8 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     if (opener && (sights > 0 || mealsBefore > 0)) notFirst += 1;
     if (held === null && choice.kind !== 'meal') sights += 1;
     if (choice.kind === 'meal' && !breakfast) mealsBefore += 1;
-    const own = held !== null || choice.kind === 'meal' ? null : placeWindow(poi, input.date);
+    const windows = held !== null || choice.kind === 'meal' ? [] : placeWindows(poi, input.date);
+    const own = windows.length === 0 ? null : windowFor(windows, start);
     if (own !== null) start = Math.max(start, own.fromMin);
     const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
     // Hours that are only a guess never move a held stop or count against it.
@@ -139,7 +140,7 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     }
     // Held to its time of day: too late for it is broken; running past the usual end is not.
     if (held !== null && start > held.toMin) broken += 1;
-    if (own !== null && start > own.toMin) broken += 1;
+    if (windows.length > 0 && (own === null || start > own.toMin)) broken += 1;
     if (held === null && choice.kind !== 'meal' && start > MORNING_ENDS_MIN) {
       late += placeTime(poi) === 'morning' ? 1 : 0;
     }
