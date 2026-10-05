@@ -17,6 +17,9 @@ export const PLACES_QUEUES = {
   ingest: 'places.ingest',
   mapRegionRegister: 'places.map_region_register',
   pick: 'places.pick',
+  profile: 'places.profile',
+  profileTranslate: 'places.profile_translate',
+  profileWarm: 'places.profile_warm',
 } as const;
 
 export const PLACES_QUEUE_SPECS = {
@@ -51,6 +54,27 @@ export const PLACES_QUEUE_SPECS = {
     retryDelay: 60,
     expireInSeconds: 10 * 60,
   },
+  // Keyed by place: one profile run at a time per place, and one more waiting behind it.
+  'places.profile': {
+    policy: 'stately',
+    retryLimit: 1,
+    retryDelay: 60,
+    expireInSeconds: 5 * 60,
+  },
+  // Keyed by place and language: one translation of a profile at a time.
+  'places.profile_translate': {
+    policy: 'stately',
+    retryLimit: 2,
+    retryDelay: 30,
+    expireInSeconds: 2 * 60,
+  },
+  // Keyed by destination: the top places of a pitched or planned destination, queued once.
+  'places.profile_warm': {
+    policy: 'stately',
+    retryLimit: 2,
+    retryDelay: 60,
+    expireInSeconds: 5 * 60,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function placesQueueSpecs(
@@ -70,6 +94,9 @@ export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEU
     'places.ingest': "Plans a destination's open-data place tiles, or every destination's monthly",
     'places.map_region_register': 'Registers region map packs that appeared on the tiles bucket',
     'places.pick': 'Picks the places to suggest in a destination without a curated set',
+    'places.profile': "Writes one place's AI profile from web pages, with cited facts and photos",
+    'places.profile_translate': "Translates one place's AI profile into a reader's language",
+    'places.profile_warm': "Queues the profiles of a pitched or planned destination's top places",
   };
 
 export const foursquareMatchJobSchema = z.object({
@@ -89,4 +116,34 @@ export type PlacesPickJob = z.infer<typeof placesPickJobSchema>;
 /** The `places.pick` singleton key: one run per destination at a time. */
 export function placesPickKey(slug: string): string {
   return `pick:${slug}`;
+}
+
+export const placesProfileJobSchema = z.object({
+  poi_id: z.uuid(),
+  /** Write again even when a profile exists (an operator's re-run or a reported problem). */
+  force: z.boolean().optional(),
+});
+export type PlacesProfileJob = z.infer<typeof placesProfileJobSchema>;
+
+/** The `places.profile` singleton key: one run per place at a time. */
+export function placesProfileKey(poiId: string): string {
+  return `profile:${poiId}`;
+}
+
+export const placesProfileTranslateJobSchema = z.object({
+  poi_id: z.uuid(),
+  /** An app locale the profile has no text in yet. */
+  locale: z.string().min(2).max(16),
+});
+export type PlacesProfileTranslateJob = z.infer<typeof placesProfileTranslateJobSchema>;
+
+export function placesProfileTranslateKey(poiId: string, locale: string): string {
+  return `profile-translate:${poiId}:${locale}`;
+}
+
+export const placesProfileWarmJobSchema = z.object({ destination_id: z.uuid() });
+export type PlacesProfileWarmJob = z.infer<typeof placesProfileWarmJobSchema>;
+
+export function placesProfileWarmKey(destinationId: string): string {
+  return `profile-warm:${destinationId}`;
 }
