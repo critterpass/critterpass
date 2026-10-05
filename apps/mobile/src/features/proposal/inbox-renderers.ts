@@ -105,7 +105,10 @@ export function registerProposalInboxRenderers(): void {
     line: (item, ctx) => {
       const place = text(item.data['place']);
       return ctx.i18n._(
-        msg({ id: 'proposal.inbox.locked', message: `${place} is locked in. The trip is on.` }),
+        msg({
+          id: 'proposal.inbox.lockedIn',
+          message: `${place} is locked in. The trip is confirmed.`,
+        }),
       );
     },
   });

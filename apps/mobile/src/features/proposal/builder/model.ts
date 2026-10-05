@@ -129,3 +129,20 @@ export function sameConfig(a: BuilderConfig, b: BuilderConfig): boolean {
     a.replyBy === b.replyBy
   );
 }
+
+/** The proposal id a create command answered with. */
+export function proposalIdOf(result: unknown): string | null {
+  const id = (result as { proposal_id?: unknown } | null)?.proposal_id;
+  return typeof id === 'string' ? id : null;
+}
+
+/** The builder's choices as the create command takes them. */
+export function toWire(config: BuilderConfig) {
+  return {
+    format: config.format,
+    show_cost: config.showCost,
+    personal: config.personal,
+    ...(config.replyBy === null ? {} : { reply_by: config.replyBy }),
+    options: [],
+  };
+}

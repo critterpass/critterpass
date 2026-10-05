@@ -12,11 +12,6 @@ msgstr ""
 msgid "explore.swipe.matches"
 msgstr ""
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
-msgid "explore.swipe.building"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.progress"
 msgstr ""
@@ -35,6 +30,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.swipe.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.stuck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.pickingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
@@ -121,6 +128,10 @@ msgstr ""
 msgid "explore.swipe.seeIdeas"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
 msgid "explore.swipe.cardActions"
 msgstr ""
@@ -135,6 +146,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
 msgid "explore.swipe.doneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.arriving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/deck-summary.tsx

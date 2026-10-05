@@ -160,6 +160,10 @@ msgstr "Done"
 msgid "trip.hub.tile.draft"
 msgstr "Draft"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.afterSetup"
+msgstr "Drafted after set-up"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
 msgstr "Early start"
@@ -216,6 +220,10 @@ msgstr "Lands {time}"
 msgid "trip.hub.leaveByToday"
 msgstr "Leave by"
 
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.leavingIn"
+msgstr "Leaving in"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.loading"
 msgstr "Loading {guideName}'s briefing"
@@ -235,6 +243,10 @@ msgstr "Next up"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr "No trips yet"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.notYet"
+msgstr "Not yet"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.noneFrom"
