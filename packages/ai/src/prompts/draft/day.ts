@@ -150,6 +150,8 @@ export function scheduleChoices(
     bands: input.bands,
     currency: input.frame.currency,
     tz: input.frame.tz,
+    homeId: homeOf(input),
+    hopCapMin: hopCap(input),
     idFor: (choice, index) =>
       input.idFor(`${day.dayNo}:${attempt}:${order[index] ?? index}:${choice.poiId}`),
   });

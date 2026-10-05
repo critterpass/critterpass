@@ -16,6 +16,8 @@ const DINNER_FROM_MIN = 17 * 60 + 30;
 export interface DraftPoi {
   readonly id: string;
   readonly name: string;
+  /** The place's name in the destination's own language, when our editors gave one. */
+  readonly nameLocal?: string | null;
   /** `pois.category` (`temple_shrine`, `food`, ...). */
   readonly category: string;
   readonly lat: number;

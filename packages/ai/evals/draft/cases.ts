@@ -41,10 +41,14 @@ const citySchema = z.object({
   destination: z.string(),
   tz: z.string(),
   bands: z.object({ food_pp_day_minor: z.int(), fun_pp_day_minor: z.int() }),
+  /** The destination's own languages (a reader of one sees local place names). */
+  languages: z.array(z.string()).default([]),
   pois: z.array(
     z.object({
       id: z.uuid(),
       name: z.string(),
+      /** The name in the destination's own language, when our editors gave one. */
+      name_local: z.string().optional(),
       category: z.string(),
       lat: z.number(),
       lng: z.number(),
@@ -105,6 +109,8 @@ export const crewCaseSchema = z.object({
     .default([]),
   /** Every day between the first and last must have lunch, dinner and at least four stops. */
   expect_full_days: z.boolean().default(false),
+  /** The day is graded as a traveller would: openers first, meals near, no hole after breakfast. */
+  expect_day_rules: z.boolean().default(false),
   /** The language the organiser reads: the draft is written in it. */
   locale: z.string().optional(),
   /** How many of the trip's core must-sees the draft must hold at least. */
@@ -181,6 +187,7 @@ export function planInput(
       {
         id: p.id,
         name: p.name,
+        ...(p.name_local === undefined ? {} : { nameLocal: p.name_local }),
         category: p.category,
         lat: p.lat,
         lng: p.lng,
@@ -289,6 +296,7 @@ export function planInput(
     frame,
     pois,
     ...(crew.locale === undefined ? {} : { locale: crew.locale }),
+    destinationLanguages: city.languages,
     pools: candidatePools({
       pois: [...pois.values()].filter((poi) => !heldPlaces.has(poi.id)),
       frame,
