@@ -103,6 +103,70 @@ appId: app.critterpass.dev
       id: 'day-plan'
     timeout: 15000
     optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: ${SHOTS}-06b-day-2-after-undo
+# The same again with the next place, kept this time: a stop in the way is pushed, never sat on.
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'spa'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-1'
+    timeout: 30000
+- hideKeyboard
+- tapOn:
+    id: 'search-row-add-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-06c-second-add-sheet
+- tapOn:
+    id: 'plan-add-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-06d-second-add-toast
+- runFlow:
+    when:
+      notVisible:
+        id: 'day-plan'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: ${SHOTS}-06e-day-2-after-add
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-06f-day-2-after-add-lower
 
 # 2. A time: the second stop an hour later, from its sheet.
 - scrollUntilVisible:
@@ -338,3 +402,81 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: ${SHOTS}-23-day-2-at-the-end-lower
+
+# 6. A second time change, taken back with UNDO.
+- scrollUntilVisible:
+    element:
+      id: 'stop-3'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-3'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-save'
+    timeout: 15000
+    optional: true
+- repeat:
+    times: 2
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+          optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${SHOTS}-24-second-time-preview
+- tapOn:
+    id: 'plan-item-save'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn: '(?i)change it anyway|Vẫn đổi'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-25-second-time-toast
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 12000
+    optional: true
+- takeScreenshot: ${SHOTS}-26-second-time-undone
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-sheet'
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'edits-wait'
+    timeout: 6000
+    optional: true
+- takeScreenshot: ${SHOTS}-27-day-2-after-time-undo
+
+# 7. Where three kinds of place are suggested for: a sunset temple, a bar, a restaurant.
+- runFlow:
+    file: suggested-time.yaml
+    env:
+      QUERY: 'Tanah Lot'
+      SHOT: ${SHOTS}-28-suggested-sunset-temple
+- runFlow:
+    file: suggested-time.yaml
+    env:
+      QUERY: '40 Thieves'
+      SHOT: ${SHOTS}-29-suggested-bar
+- runFlow:
+    file: suggested-time.yaml
+    env:
+      QUERY: 'Naughty Nuri'
+      SHOT: ${SHOTS}-30-suggested-restaurant
