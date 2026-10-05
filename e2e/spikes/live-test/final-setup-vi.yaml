@@ -21,6 +21,7 @@ appId: app.critterpass.dev
       QUERY: 'Da Lat'
       DAYS: 4
       PICK_DATE: '2026-10-22'
+      LAST_DATE: '2026-10-25'
       BUDGET: '5000000'
 
 # Must-dos: one of the guide's examples (they show only while the list is empty), then one in her

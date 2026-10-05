@@ -20,6 +20,7 @@ appId: app.critterpass.dev
       QUERY: 'da nang'
       DAYS: 3
       PICK_DATE: ''
+      LAST_DATE: ''
       BUDGET: '8000000'
 - tapOn:
     id: 'must-dos-example-0'

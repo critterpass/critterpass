@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # From first-run Home to the empty must-dos list: ${QUERY} found from "somewhere else", pitched with
 # no crew (the page starts a crew of one), added to the vote, locked in from Home's board, then
-# When (${DAYS} days: from ${PICK_DATE}, or the sheet's first window when PICK_DATE is ''), the
+# When (${DAYS} days: ${PICK_DATE} to ${LAST_DATE}, or the sheet's first window when PICK_DATE is ''), the
 # budget, and rooms when they show. Frames ${P}-13…46.
 - extendedWaitUntil:
     visible:
@@ -149,15 +149,32 @@ appId: app.critterpass.dev
     id: ${'picker-length-' + DAYS}
 - waitForAnimationToEnd
 - takeScreenshot: ${P}-38-picker-length-asked
+# A fixed first and last day (PICK_DATE, LAST_DATE) inside the month the sheet opens on, tapped by
+# the cells' ids: the shared picker subflow reads English month names, and this sheet may be in
+# Vietnamese.
 - runFlow:
     when:
       true: ${PICK_DATE != ''}
     commands:
       - runFlow:
-          file: ../../../happy/subflows/pick-days.yaml
-          env:
-            PICK_DATE: ${PICK_DATE}
-            PICK_DAYS: ${DAYS}
+          when:
+            notVisible:
+              id: ${'heat-pick-' + PICK_DATE}
+          commands:
+            - tapOn:
+                id: 'picker-today'
+                optional: true
+            - waitForAnimationToEnd
+      - tapOn:
+          id: 'picker-clear'
+          optional: true
+      - tapOn:
+          id: ${'heat-pick-' + PICK_DATE}
+      - waitForAnimationToEnd
+      - takeScreenshot: ${P}-39-picker-first-day
+      - tapOn:
+          id: ${'heat-pick-' + LAST_DATE}
+      - waitForAnimationToEnd
 - runFlow:
     when:
       true: ${PICK_DATE == ''}
