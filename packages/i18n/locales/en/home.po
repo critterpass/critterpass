@@ -237,6 +237,10 @@ msgstr "Next up"
 msgid "home.nextUp.eyebrow"
 msgstr "Next up · {day}"
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr "Next: {time} · {name}"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr "No guide there yet. Tokek will cover until one moves in."
@@ -248,6 +252,10 @@ msgstr "Nothing from the crew yet."
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.guidesEmpty"
 msgstr "Nothing from the guides yet."
+
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
+msgstr "Nothing more on the plan today."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
@@ -265,9 +273,9 @@ msgstr "Nothing needs you yet. Back to sleep."
 msgid "home.noTrip.line"
 msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
-msgstr "Open the trip"
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
+msgstr "Open today"
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.body"
@@ -389,9 +397,9 @@ msgstr "This one has closed."
 msgid "home.countdown.today"
 msgstr "Today"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
-msgstr "Today · Day {day}"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
+msgstr "Today · Day {dayNo} of {dayCount}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -451,6 +459,5 @@ msgid "home.nudge.relayLink"
 msgstr "Your crew is saving you a spot on CritterPass. {url}"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr "Your next trip"

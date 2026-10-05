@@ -237,6 +237,10 @@ msgstr ""
 msgid "home.nextUp.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
@@ -247,6 +251,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.guidesEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
@@ -265,8 +273,8 @@ msgstr ""
 msgid "home.noTrip.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
@@ -389,8 +397,8 @@ msgstr ""
 msgid "home.countdown.today"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -451,6 +459,5 @@ msgid "home.nudge.relayLink"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr ""

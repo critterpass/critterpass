@@ -5,17 +5,23 @@
  * Tapping it grows into the trip hub once that screen is registered. A trip still choosing its place reads "Your next
  * trip". The countdown starts when the trip is locked in: until then the card says whose turn it
  * is, with the one button for the viewer's next step, in a strip under it (./trip-turn-row.tsx). The title is
- * one line under the sticker, shrunk to fit, so a name never breaks inside a word. The
+ * one line under the sticker, shrunk to fit, so a name never breaks inside a word. From the first
+ * day's midnight on the trip's clock the card is today's ("TODAY · DAY 1 OF 3"), with the next stop
+ * and one button into the day under it (./today-strip.tsx), whether or not the trip's status has
+ * switched yet. The
  * destination's photo sits under it as a duotone of the card's colour when one exists.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
+import { useContext } from 'react';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import type { HomeTripInput } from '@cp/domain';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -34,6 +40,8 @@ import { CountdownChip } from './countdown-chip';
 import { guideOr, guideTone, tripDay } from './format';
 import { homeRoutes } from './routes';
 import { tripIsLockedIn } from './slots';
+import { TodayStrip } from './today-strip';
+import { tripDayOf } from './trip-day';
 import { TripTurnRow } from './trip-turn-row';
 
 export const NEXT_UP_STICKER = 124;
@@ -54,6 +62,8 @@ export function tripCardId(tripId: string): string {
   return `trip-card-${tripId}`;
 }
 
+const systemNow = (): Date => new Date();
+
 export interface NextUpCardProps {
   readonly trip: HomeTripInput;
   /** The countdown's clock (tests pin it). */
@@ -71,18 +81,28 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
   const place =
     trip.destinationName ?? t({ id: 'home.nextUp.untitled', message: 'Your next trip' });
   const day = trip.startDate === null ? null : tripDay(locale, trip.startDate);
+  // From the first day's midnight on the trip's clock the card is today's, whatever the status.
+  const at = (now ?? systemNow)();
+  // The day's plan is read from the session's database; a bare render (no session) draws none.
+  const localFirst = useContext(LocalFirstContext);
+  const onTrip = tripDayOf(trip, at);
+  const dayNo = onTrip?.day ?? 0;
+  const dayCount = onTrip?.days ?? 0;
   const eyebrow = upper(
-    day === null
-      ? t({ id: 'home.nextUp.eyebrowUndated', message: 'Next up' })
-      : t({ id: 'home.nextUp.eyebrow', message: `Next up · ${day}` }),
+    onTrip !== null
+      ? t({ id: 'home.inTrip.eyebrowOf', message: `Today · Day ${dayNo} of ${dayCount}` })
+      : day === null
+        ? t({ id: 'home.nextUp.eyebrowUndated', message: 'Next up' })
+        : t({ id: 'home.nextUp.eyebrow', message: `Next up · ${day}` }),
     locale,
   );
-  // A countdown to the second says the trip is settled: it starts at the lock.
+  // A countdown to the second says the trip is settled: it starts at the lock, and stops on the
+  // first day.
   const target =
-    trip.countdownTargetAt === null || !tripIsLockedIn(trip.status)
+    onTrip !== null || trip.countdownTargetAt === null || !tripIsLockedIn(trip.status)
       ? null
       : new Date(trip.countdownTargetAt);
-  const progress = trip.planProgress;
+  const progress = onTrip === null ? trip.planProgress : 0;
   const hub = homeRoutes.tripHub(trip.id);
   const theme = useTheme();
   const photo = heroAt(useDestinationMedia(trip.destinationSlug ?? null).items);
@@ -94,7 +114,7 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
 
   const card = (
     <Card
-      testID={testID}
+      testID={onTrip === null ? testID : 'home-in-trip'}
       tone={guideTone(guide)}
       halftone={photo === null}
       radius="cardBig"
@@ -108,11 +128,21 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
         />
       }
       accessibilityLabel={[eyebrow, title, spoken].filter(Boolean).join(', ')}
-      {...(hub === undefined ? {} : { onPress: () => void zoomTo(tripCardId(trip.id), hub) })}
+      {...(hub === undefined
+        ? {}
+        : {
+            onPress: () =>
+              onTrip === null ? void zoomTo(tripCardId(trip.id), hub) : router.push(hub),
+          })}
     >
       <View style={styles.sticker} pointerEvents="none">
         <Animated.View style={bob}>
-          <Sticker kind={sticker.kind} name={sticker.name} size={CARD_STICKER} pose="wave" />
+          <Sticker
+            kind={sticker.kind}
+            name={sticker.name}
+            size={CARD_STICKER}
+            pose={onTrip === null ? 'wave' : 'cheer'}
+          />
         </Animated.View>
       </View>
       <Stack gap="8">
@@ -153,7 +183,15 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
   return (
     <Stack gap="8">
       {card}
-      <TripTurnRow tripId={trip.id} guide={sticker.name} />
+      {onTrip === null || localFirst === null ? null : (
+        <TodayStrip
+          tripId={trip.id}
+          tz={trip.tz}
+          today={onTrip.today}
+          minuteIso={new Date(Math.floor(at.getTime() / 60_000) * 60_000).toISOString()}
+        />
+      )}
+      <TripTurnRow tripId={trip.id} guide={sticker.name} onlyMine={onTrip !== null} />
     </Stack>
   );
 }

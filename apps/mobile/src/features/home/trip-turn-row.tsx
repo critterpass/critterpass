@@ -20,15 +20,17 @@ export interface TripTurnRowProps {
   readonly tripId: string;
   /** The trip's guide, by name ("Chà Vá"). */
   readonly guide: string;
+  /** On a trip day only a step that is the viewer's to take is said: "locked in" is old news. */
+  readonly onlyMine?: boolean;
 }
 
 /** States that have nothing to say on Home: the vote has its own board. */
 const QUIET: ReadonlySet<string> = new Set(['none', 'vote']);
 
-export function TripTurnRow({ tripId, guide }: TripTurnRowProps) {
+export function TripTurnRow({ tripId, guide, onlyMine = false }: TripTurnRowProps) {
   const locale = useLocale();
   const view = useTripTurnView(tripId, { locale, guide });
-  if (view === null || QUIET.has(view.kind)) return null;
+  if (view === null || QUIET.has(view.kind) || (onlyMine && !view.mine)) return null;
   const { href, button } = view;
   return (
     <Card testID={`home-turn-${view.kind}`}>

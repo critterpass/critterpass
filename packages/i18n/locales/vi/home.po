@@ -237,6 +237,10 @@ msgstr "Sắp tới"
 msgid "home.nextUp.eyebrow"
 msgstr "Sắp tới · {day}"
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr "Tiếp theo: {time} · {name}"
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr "Nơi đó chưa có hướng dẫn viên. Tokek sẽ đi cùng bạn cho tới khi có."
@@ -248,6 +252,10 @@ msgstr "Nhóm chưa gửi gì."
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.guidesEmpty"
 msgstr "Hướng dẫn viên chưa gửi gì."
+
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
+msgstr "Hôm nay không còn gì trong kế hoạch."
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.watching"
@@ -265,9 +273,9 @@ msgstr "Chưa có gì cần bạn đâu. Ngủ tiếp nhé."
 msgid "home.noTrip.line"
 msgstr "Lịch còn trống. Đề xuất một nơi đi, mình sẽ mở bình chọn."
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
-msgstr "Mở chuyến đi"
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
+msgstr "Mở hôm nay"
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.body"
@@ -389,9 +397,9 @@ msgstr "Mục này đã đóng."
 msgid "home.countdown.today"
 msgstr "Hôm nay"
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
-msgstr "Hôm nay · Ngày {day}"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
+msgstr "Hôm nay · Ngày {dayNo}/{dayCount}"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
@@ -451,6 +459,5 @@ msgid "home.nudge.relayLink"
 msgstr "Nhóm đang giữ chỗ cho bạn trên CritterPass. {url}"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr "Chuyến đi tới"
