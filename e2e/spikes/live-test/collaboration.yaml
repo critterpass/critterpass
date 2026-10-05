@@ -379,7 +379,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 10000
 - takeScreenshot: collaboration-17c-minh-trip-map-before-proposal
-# The PLAN tile is not a way in before a plan exists: Explore Đà Nẵng, its map, and the map's search.
+# The PLAN tile is not a way in before a plan exists: Explore Đà Nẵng and its search.
 - runFlow:
     when:
       notVisible:
@@ -396,29 +396,15 @@ appId: app.critterpass.dev
           optional: true
       - extendedWaitUntil:
           visible:
-            id: 'explore-destination'
+            id: 'explore-trip'
           timeout: 30000
           optional: true
       - waitForAnimationToEnd:
           timeout: 8000
       - takeScreenshot: collaboration-17c2-minh-explore-before-proposal
-      - scrollUntilVisible:
-          element:
-            id: 'explore-open-map'
-          direction: DOWN
-          timeout: 20000
-          optional: true
       - tapOn:
-          id: 'explore-open-map'
-          optional: true
-      - extendedWaitUntil:
-          visible:
-            id: 'explore-map-search'
-          timeout: 30000
-          optional: true
-      - takeScreenshot: collaboration-17c3-minh-explore-map-before-proposal
-      - tapOn:
-          id: 'explore-map-search'
+          id: 'explore-trip-search|explore-trip-search-pinned'
+          index: 0
           optional: true
 - runFlow:
     file: subflows/save-to-ideas.yaml
