@@ -46,6 +46,23 @@ export const ICELAND_PINS: readonly PinnedPlace[] = [
   { name: 'Kerið Crater', nameLocal: 'Kerið', lat: 64.041, lng: -20.8848, essential: true },
   { name: 'Fagradalsfjall', lat: 63.8935, lng: -22.305, essential: true },
   { name: 'Reykjadalur Hot Spring Thermal River', lat: 64.0219, lng: -21.2107, essential: true },
+  {
+    name: 'Blue Lagoon',
+    nameLocal: 'Bláa lónið',
+    lat: 63.8804,
+    lng: -22.4476,
+    category: 'nature',
+    essential: true,
+  },
+  // Where visitors land: in the set, not flagged.
+  {
+    name: 'Keflavík International Airport',
+    nameLocal: 'Keflavíkurflugvöllur',
+    lat: 63.9953,
+    lng: -22.6239,
+    category: 'transit',
+    mustSee: false,
+  },
   { name: 'The Settlement Exhibition', lat: 64.1474, lng: -21.9425 },
   { name: 'Tjörnin', lat: 64.1453, lng: -21.9399 },
   { name: 'Höfði House', lat: 64.1465, lng: -21.9063 },

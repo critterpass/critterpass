@@ -33,6 +33,7 @@ export function retimePreview(
       const earliest = clock(locale, refusal.earliest);
       return {
         blocked: true,
+        useStart: refusal.earliest,
         line: t({
           id: 'plan.retime.tooEarly',
           message: `${stop} runs until ${until}. Start at ${earliest} or later.`,

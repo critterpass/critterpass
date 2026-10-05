@@ -17,7 +17,7 @@ import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
-import { dayRoute, useDayReading } from '@/features/plan';
+import { dayRoute, LateEntry, saidLateRoute, useDayReading } from '@/features/plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { openPermissionSettings, requestWithPrimer } from '@/lib/permissions';
@@ -205,6 +205,18 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
             }
       }
       goDetail={go?.detail ?? null}
+      // Late for the stop the hero names, while it is still ahead today.
+      late={
+        relation !== 'today' ||
+        planDayNo === null ||
+        lead === null ||
+        lead.kind === 'done' ? null : (
+          <LateEntry
+            onPick={(minutes) => router.push(saidLateRoute(tripId, lead.id, minutes))}
+            testID="trip-day-late"
+          />
+        )
+      }
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,

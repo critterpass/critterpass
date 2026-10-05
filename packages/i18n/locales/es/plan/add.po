@@ -100,6 +100,22 @@ msgstr ""
 msgid "plan.add.why.before"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.afterDark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.sunset"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.evening"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.morning"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"
 msgstr ""
@@ -222,6 +238,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.meal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx

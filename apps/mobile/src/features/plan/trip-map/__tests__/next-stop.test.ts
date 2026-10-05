@@ -3,7 +3,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { DayItem } from '@/data/plan/plan-model';
 
-import { goStopsToday, nextGoStop } from '../next-stop';
+import { dayProgress, goStopsToday, nextGoStop } from '../next-stop';
 import type { TripDay } from '../trip-days';
 
 const TZ = 'Asia/Ho_Chi_Minh';
@@ -58,5 +58,33 @@ describe('the stops GO is offered on in the plan', () => {
 
   it('offers nothing once every stop of today has ended', () => {
     expect(nextGoStop(day('2026-10-04', STOPS.slice(0, 2)), NOW, TZ)).toBeNull();
+  });
+});
+
+describe('what she said herself goes before the clock', () => {
+  // 08:00 on 4 October in Đà Nẵng: nothing has started.
+  const EARLY = new Date('2026-10-04T01:00:00Z');
+  const today = day('2026-10-04', [
+    { ...stop('market', 9 * 60), end: 10 * 60 },
+    { ...stop('museum', 12 * 60), end: 14 * 60 },
+    stop('bridge', 18 * 60),
+  ]);
+
+  it('reads a stop she marked done as over: no GO, and the one after it is next', () => {
+    const said = new Map([['market', 'done' as const]]);
+    expect(nextGoStop(today, EARLY, TZ)).toBe('market');
+    expect(nextGoStop(today, EARLY, TZ, said)).toBe('museum');
+    const moments = dayProgress(today, EARLY, TZ, said)?.moments;
+    expect(moments?.get('market')).toBe('done');
+    expect(moments?.get('museum')).toBe('next');
+    expect(moments?.has('bridge')).toBe(false);
+  });
+
+  it('reads a stop she said she is at as on now, before its hour', () => {
+    const said = new Map([['market', 'here' as const]]);
+    const moments = dayProgress(today, EARLY, TZ, said)?.moments;
+    expect(moments?.get('market')).toBe('now');
+    expect(moments?.get('museum')).toBe('next');
+    expect(nextGoStop(today, EARLY, TZ, said)).toBe('market');
   });
 });

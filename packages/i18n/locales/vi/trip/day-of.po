@@ -167,6 +167,10 @@ msgstr "Bỏ {label}"
 msgid "trip.alarm.note.exactAction"
 msgstr "Reo đúng phút"
 
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.late"
+msgstr "Trễ {minutes} phút"
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.toDayPlan"
 msgstr "Xem kế hoạch ngày"

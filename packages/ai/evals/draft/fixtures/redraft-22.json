@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d6675016-3f20-4b2b-bfd3-f1272660d134",
+        "id": "a2317acf-22c0-4382-b275-a9a5730e6d08",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Day in Đà Lạt\",\n  \"summary\": \"From what Tokek knows so far, the day eases into one long garden visit and keeps both meals, all within a short ride.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden gets the whole unhurried afternoon, since the crew wanted fewer activities and more time at each.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, the kept bánh căn stop stays put for lunch, because a slower day never skips a meal.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to another spot in the same area, since one meal place should not be used twice.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One gentle market wander, then a long lunch and a long dinner with plenty of room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p40\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the market is the one activity that fits a slower day and it is uncurated, so treat the hours as a guess.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this is the kept lunch and it stays right where it belongs.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves here so the evening stays in the same part of the map as the market.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 90,
+          "input_tokens": 78,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 259,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 237,
           "service_tier": "standard"
         }
       }

@@ -100,6 +100,22 @@ msgstr "Đã có trong lịch trình: {dayLabel} lúc {time}. Chọn nơi muốn
 msgid "plan.add.why.before"
 msgstr "Trước {0}"
 
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.afterDark"
+msgstr "Hợp nhất khi trời đã tối"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.sunset"
+msgstr "Đẹp nhất lúc hoàng hôn"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.evening"
+msgstr "Hợp nhất vào buổi tối"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.morning"
+msgstr "Hợp nhất vào buổi sáng"
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"
 msgstr "Giữa {a} và {b}"
@@ -223,6 +239,10 @@ msgstr "VẪN ĐỀ XUẤT CHO {dayLabel}"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "Cả nhóm sẽ bỏ phiếu trước khi thêm vào. Bạn sẽ được báo kết quả."
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.meal"
+msgstr "Xếp vào giờ ăn"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

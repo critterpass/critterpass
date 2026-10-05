@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "aa209b14-57a8-499e-97f0-2459bd9a4adc",
+        "id": "dbe3716e-2ffa-4d94-957d-4c117640ca5f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Surprising Cusco Day\",\n  \"summary\": \"A gentle day around the old centre with a twist: after the must-see Qorikancha, we wander the artisan lanes of San Blas and end with a quiet meal, skipping the usual big sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the golden temple, because some stories must be told twice.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the photo and market lovers: tiny workshops, blue doors, and no crowds.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A low-key lunch with proper vegetarian plates, the kind locals keep for themselves.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We close the afternoon with the Cathedral, a heavy history lesson softened by the quiet hour.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Morena, where the crew can rest their feet and share the day's unexpected finds.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Surprising Cusco Stroll\",\n  \"summary\": \"A gentle day through Cusco's old heart, mixing sacred stones with an unexpected wander through San Blas.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked for history, so we begin where Inti (the sun) once met Inca gold.\",\n      \"poi_id\": \"p2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short walk away, the cathedral keeps its colonial secrets close.\",\n      \"poi_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of green things, as the crew prefers.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: we skip the ruins for once and get lost among the blue doors and tiny workshops of San Blas.\",\n      \"poi_id\": \"p6\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 102,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 383,
+          "output_tokens": 306,
           "service_tier": "standard"
         }
       }

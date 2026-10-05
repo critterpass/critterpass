@@ -13,6 +13,7 @@ export function ItemConfirm({
   removing,
   canApply,
   mustDoMine,
+  solo = false,
   onConfirm,
   onCancel,
 }: {
@@ -21,6 +22,8 @@ export function ItemConfirm({
   readonly canApply: boolean;
   /** The must-do is the reader's own. */
   readonly mustDoMine: boolean;
+  /** A trip of one: nobody else to speak of. */
+  readonly solo?: boolean;
   readonly onConfirm: () => void;
   readonly onCancel: () => void;
 }) {
@@ -48,10 +51,12 @@ export function ItemConfirm({
               message: 'Someone asked for this one. They’ll see the change.',
             })
         : removing
-          ? t({
-              id: 'plan.day.item.removeLine',
-              message: 'It comes off the day for everyone going.',
-            })
+          ? solo
+            ? t({ id: 'plan.day.item.removeLineSolo', message: 'It comes off your day.' })
+            : t({
+                id: 'plan.day.item.removeLine',
+                message: 'It comes off the day for everyone going.',
+              })
           : t({ id: 'plan.day.item.pinnedLine', message: 'Someone pinned it where it is.' });
   return (
     <ConfirmSheet

@@ -5,12 +5,12 @@
  * mounts (a live answer for this view only, never stored; straight-line when none is mounted).
  */
 import {
-  editorialOverlaySchema,
   EMPTY_HOURS,
   knownHours,
   nextOpen,
   openAt,
   poiCategorySchema,
+  readEditorialOverlay,
   straightLineEtaProvider,
   DomainError,
   type EditorialOverlay,
@@ -112,7 +112,7 @@ export async function getPlaceDetail(
     address: row.address,
     priceLevel: row.price_level,
     tags: row.tags,
-    editorial: editorialOverlaySchema.parse(row.editorial),
+    editorial: readEditorialOverlay(row.editorial),
     hours: hours ?? EMPTY_HOURS,
     hoursVerifiedAt: row.hours_verified_at?.toISOString() ?? null,
     openNow,

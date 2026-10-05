@@ -395,6 +395,66 @@ describe('content.publish', () => {
     expect(await essential()).toBe(false);
   });
 
+  it('stores no null line: a null clears an earlier value and leaves no key behind', async () => {
+    // A place whose stored note has etiquette and, from an earlier publish, a line stored as null.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, curation, editorial)
+       SELECT id, 'Pantai Pura Geger', 'beach', -8.504, 115.2546, '{"fsq_os": "geger"}', 'editorial',
+         '{"etiquette": "Wear a sarong.", "entry_short": "Free", "crowd_hint": null}'
+         FROM destinations WHERE slug = 'bali'`,
+    );
+    const item = (id: string, name: string): ContentItem<'places'> => ({
+      ref: `fsq_os:${id}`,
+      destination: 'bali',
+      name,
+      name_local: null,
+      category: 'beach',
+      lat: -8.504,
+      lng: 115.2546,
+      address: null,
+      tz: 'Asia/Makassar',
+      tags: ['culture'],
+      hours: null,
+      licence: {
+        source: 'fsq_os',
+        source_id: id,
+        licence: 'Apache-2.0',
+        attribution: 'Foursquare Open Source Places',
+      },
+      editorial: {
+        why_go: 'A beach below a clifftop temple.',
+        best_time: 'Morning',
+        time_needed_min: 30,
+        crowd_hint: 'Quiet',
+        etiquette: null,
+      },
+      merge_into: null,
+      possible_duplicate_of: null,
+    });
+    const items = [item('geger', 'Pantai Pura Geger'), item('mengiat', 'Pantai Mengiat')];
+    await publish(await approved('places', 40, items));
+    const stored = () =>
+      harness.pool.query<{ name: string; editorial: Record<string, unknown>; xmin: string }>(
+        `SELECT name, editorial, xmin::text AS xmin FROM pois WHERE category = 'beach' ORDER BY name`,
+      );
+    const note = {
+      why_go: 'A beach below a clifftop temple.',
+      best_time: 'Morning',
+      time_needed_min: 30,
+      crowd_hint: 'Quiet',
+    };
+    const first = await stored();
+    expect(first.rows.map((row) => [row.name, row.editorial])).toEqual([
+      // Created from the item: no etiquette key.
+      ['Pantai Mengiat', note],
+      // Etiquette cleared, the fact a release does not carry kept, no null left.
+      ['Pantai Pura Geger', { ...note, entry_short: 'Free' }],
+    ]);
+    // A row that already reads as its item says is still left alone.
+    await publish(await approved('places', 41, items));
+    expect((await stored()).rows.map((row) => row.xmin)).toEqual(first.rows.map((row) => row.xmin));
+  });
+
   it('has the picks of every destination a places release wrote to made again', async () => {
     // An open-data warung the pick job chose before Bali had any curated place.
     await harness.pool.query(

@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { sessionHeaders } from '@/data/app-session/device-session';
 import type { WireFitContext } from '@/data/fit/local-fit';
 import { useLiveRows } from '@/data/plan/live-rows';
+import { parseIds } from '@/data/plan/plan-model';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
 import type { NearbyAdd } from './add-model';
@@ -89,9 +90,10 @@ export function useAddFit(
   return { ...answer, status };
 }
 
-const PLACE_SQL = `SELECT p.id, p.category, p.lat, p.lng, p.hours,
+const PLACE_SQL = `SELECT p.id, p.name, p.category, p.lat, p.lng, p.hours, p.tags,
     json_extract(p.editorial, '$.time_needed_min') AS time_needed_min,
-    json_extract(p.editorial, '$.best_time') IS NOT NULL AS best_time
+    json_extract(p.editorial, '$.best_time') IS NOT NULL AS best_time,
+    json_extract(p.editorial, '$.best_time') AS best_time_text
   FROM pois p WHERE p.id = ?`;
 const CROWDS_SQL = `SELECT poi_id, dow, hourly, source, approved_at FROM crowd_forecasts
   WHERE poi_id = ?`;
@@ -100,12 +102,16 @@ const STANCES_SQL = `SELECT stance, count(*) AS n FROM place_stances
 
 interface PlaceRow {
   readonly id: string;
+  readonly name: string;
   readonly category: string;
   readonly lat: number;
   readonly lng: number;
   readonly hours: string | null;
   readonly time_needed_min: number | null;
   readonly best_time: number;
+  readonly best_time_text: string | null;
+  /** A JSON text array, or a Postgres array literal. */
+  readonly tags: string | null;
 }
 
 function parseHours(raw: string | null) {
@@ -118,6 +124,7 @@ function parseHours(raw: string | null) {
 }
 
 export interface PlaceCopy {
+  readonly name?: string;
   readonly category: string;
   readonly lat: number;
   readonly lng: number;
@@ -168,6 +175,10 @@ export function useFitPlace(
       crowds: poiId === null ? null : (crowdWeeks(curves).get(poiId) ?? null),
       stances: { want, ratherNot },
       bestTime: row?.best_time === 1,
+      // What the time of day the place is for is read from, as the server reads it.
+      name: row?.name ?? copy?.name ?? '',
+      tags: parseIds(row?.tags ?? null),
+      bestTimeText: typeof row?.best_time_text === 'string' ? row.best_time_text : null,
     };
   }, [copy, crowds.rows, place.rows, poiId, stances.rows]);
 }

@@ -121,11 +121,15 @@ async function writeIdeaFits(tx: pg.PoolClient, loaded: LoadedCheck, now: Date):
     hours: unknown;
     time_needed_min: number | null;
     best_time: boolean;
+    best_time_text: string | null;
+    name: string;
+    tags: string[];
     want: number;
     rather_not: number;
   }>(
     `SELECT i.id, i.poi_id, p.category, p.lat, p.lng, p.hours,
             (p.editorial->>'time_needed_min')::int AS time_needed_min, (p.editorial ? 'best_time') AS best_time,
+            p.editorial->>'best_time' AS best_time_text, p.name, p.tags,
             (SELECT count(*) FROM place_stances s WHERE s.trip_id = i.trip_id AND s.poi_id = i.poi_id AND s.stance = 'want')::int AS want,
             (SELECT count(*) FROM place_stances s WHERE s.trip_id = i.trip_id AND s.poi_id = i.poi_id AND s.stance = 'rather_not')::int AS rather_not
        FROM trip_ideas i JOIN pois p ON p.id = i.poi_id
@@ -156,6 +160,9 @@ async function writeIdeaFits(tx: pg.PoolClient, loaded: LoadedCheck, now: Date):
       crowds: weeks.get(row.poi_id) ?? null,
       stances: { want: row.want, ratherNot: row.rather_not },
       bestTime: row.best_time,
+      name: row.name,
+      tags: row.tags,
+      bestTimeText: row.best_time_text,
       stableId: inPlan.get(row.poi_id) ?? null,
     });
     const stored: StoredFit = { ...fit, version_id: versionId, computed_at: now.toISOString() };

@@ -59,13 +59,14 @@ function sourceIdMatch(source: string, param: string): string {
 /** True for a row that already reads as the item says (parameters as in the overlay `UPDATE`). */
 const AS_PUBLISHED = `name = $2 AND name_local IS NOT DISTINCT FROM $3 AND category = $4
   AND tags IS NOT DISTINCT FROM $5 AND curation = 'editorial' AND timezone IS NOT DISTINCT FROM $7
-  AND (editorial || $6::jsonb) = editorial AND ($8::jsonb IS NULL OR hours = $8::jsonb)`;
+  AND jsonb_strip_nulls(editorial || $6::jsonb) = editorial AND ($8::jsonb IS NULL OR hours = $8::jsonb)`;
 
 /**
  * Overlays editorial text, the must-see flag, taste tags and verified hours onto curated POIs,
  * matched by source id; a POI the importer has not brought in yet is created from the release
  * item. The overlay is merged key by key: what the item does not carry (an absent `must_see`, the
- * researched place facts) stays as it is, and `must_see: false` clears the flag.
+ * researched place facts) stays as it is, and `must_see: false` clears the flag. No null is ever
+ * stored: a line the item carries as null (no etiquette) clears an earlier value and leaves no key.
  *
  * A places release re-states every curated place of every destination, so a row that already
  * reads as its item says is left alone: rewriting thousands of unchanged rows would churn the two
@@ -90,7 +91,8 @@ export async function writePlaces(
     const { source, source_id } = poi.licence;
     const editorial = JSON.stringify(poi.editorial);
     const updated = await tx.query(
-      `UPDATE pois SET name = $2, name_local = $3, category = $4, tags = $5, editorial = editorial || $6::jsonb,
+      `UPDATE pois SET name = $2, name_local = $3, category = $4, tags = $5,
+         editorial = jsonb_strip_nulls(editorial || $6::jsonb),
          curation = 'editorial', timezone = $7,
          hours = COALESCE($8::jsonb, hours),
          hours_verified_at = CASE WHEN $8::jsonb IS NULL THEN hours_verified_at ELSE now() END
@@ -115,7 +117,7 @@ export async function writePlaces(
     await tx.query(
       `INSERT INTO pois (destination_id, name, name_local, category, lat, lng, address, tags, editorial,
          curation, timezone, hours, hours_verified_at, source_ids)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'editorial', $10, COALESCE($11::jsonb, '{}'::jsonb),
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, jsonb_strip_nulls($9::jsonb), 'editorial', $10, COALESCE($11::jsonb, '{}'::jsonb),
          CASE WHEN $11::jsonb IS NULL THEN NULL ELSE now() END, jsonb_build_object($12::text, $13::text))`,
       [
         destinationId,

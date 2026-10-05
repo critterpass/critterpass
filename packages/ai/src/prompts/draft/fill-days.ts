@@ -10,6 +10,8 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 import {
   DINNER,
   dayWindow,
+  detourMin,
+  mealAcrossTown,
   foodRole,
   isKept,
   mealsInWindow,
@@ -23,6 +25,7 @@ import { hopCap } from './areas';
 import { addOne, dayFaults, fillMeals, nearFirst, type Attempt } from './complete-days';
 import type { DraftPlanInput } from './context';
 import { coreMustSees } from './must-sees';
+import { misplacedOpeners } from './openers';
 import type { SkeletonDay } from './skeleton';
 import { byVariety } from './variety';
 
@@ -80,7 +83,14 @@ function withNearerMeals(input: DraftPlanInput, outline: SkeletonDay, start: Iti
     const at = day?.items.findIndex((item) => item.stable_id === meal.stable_id) ?? -1;
     if (day === undefined || at === -1 || isKept(meal)) continue;
     const around = Math.max(meal.travel_min, day.items[at + 1]?.travel_min ?? 0);
-    if (around <= far) continue;
+    const next = day.items[at + 1];
+    const prev = day.items[at - 1];
+    const across =
+      prev?.poi_id != null &&
+      next?.poi_id != null &&
+      meal.poi_id !== null &&
+      mealAcrossTown(prev.poi_id, meal.poi_id, next.poi_id, input.travel);
+    if (around <= far && !across) continue;
     const without = {
       ...itinerary,
       days: itinerary.days.map((d) =>
@@ -164,9 +174,16 @@ export function fillThinDays(
         const at = core.indexOf(poi.id);
         return at === -1 ? core.length : at;
       };
+      // Where the hole is, a place on the way between its neighbours before one across town.
+      const beside = [day.items[hole.at - 1]?.poi_id, day.items[hole.at]?.poi_id];
+      const out = (poi: DraftPoi) => {
+        const [a, b] = beside;
+        if (hole.minutes < HOLE_MIN || a == null || b == null) return 0;
+        return Math.min(2, Math.floor(Math.max(0, detourMin(a, poi.id, b, input.travel)) / 15));
+      };
       const candidates = byVariety(
         input,
-        [...offered].sort((a, b) => rank(a) - rank(b)),
+        [...offered].sort((a, b) => out(a) - out(b) || rank(a) - rank(b)),
         here,
         [...used].filter((id): id is string => id !== null),
       );
@@ -178,6 +195,7 @@ export function fillThinDays(
         (before, after, filled) =>
           after.hard <= before.hard &&
           after.meals <= before.meals &&
+          misplacedOpeners(input, filled).length === 0 &&
           (thin ||
             (lateOpen
               ? filled.items[0]?.kind !== 'meal'

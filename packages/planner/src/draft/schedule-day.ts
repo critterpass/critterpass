@@ -14,6 +14,7 @@ import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '
 import { localMinute } from '../feasibility/grid';
 import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
+import { opensDay, startFloor } from './day-start';
 import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindow } from './place-time';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
@@ -224,13 +225,17 @@ export interface ScheduleDayInput {
   readonly bands: CostBands | null;
   readonly currency: string;
   readonly tz: string;
+  /** Where the crew sleeps and how far a day reaches: a long or far outdoor sight opens the day. */
+  readonly homeId?: string | null;
+  readonly hopCapMin?: number;
   /** The stable id for the `index`th pick (derived by the caller so a rerun gives the same ids). */
   readonly idFor: (choice: DayChoice, index: number) => string;
 }
 
 export function scheduleDay(input: ScheduleDayInput): DraftDay {
   const items: DraftItem[] = [];
-  let at = input.window.startMin;
+  // The clock starts where a stop that opens the day may (each stop then waits for its own floor).
+  let at = startFloor(input.window, true, null);
   let previous: string | null = null;
   let lunched = false;
   input.choices.forEach((choice, index) => {
@@ -238,7 +243,7 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
     const travelMin = previous === null ? 0 : (input.travel(previous, choice.poiId) ?? 0);
     let start = ceilGrid(at + travelMin);
     // A stop held to its time of day waits for it, and may open the day earlier than usual.
-    // Nothing else starts before the usual day, even after an early held stop.
+    // Nothing else starts before the usual day, save what ./day-start lets open or follow on.
     const held = poi === undefined ? null : heldWindow(poi, input.date, choice.when);
     // An untimed meal waits for its stretch: lunch while there is time for one, else dinner.
     if (choice.kind === 'meal' && held === null) {
@@ -247,8 +252,11 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
         choice.mealSlot === 'dinner' ? DINNER.startMin : mealSlotAt(start, lunched).startMin,
       );
     }
-    if (held === null) start = Math.max(start, input.window.startMin);
-    else if (previous === null || start < held.fromMin) {
+    const opener =
+      held === null && choice.kind !== 'meal' && poi !== undefined && opensDay(poi, input);
+    if (held === null) {
+      start = Math.max(start, startFloor(input.window, opener, previous === null ? null : at));
+    } else if (previous === null || start < held.fromMin) {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
     }
     // A place that is for the evening (or the sunset, or after dark) waits for it.

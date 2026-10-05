@@ -12,6 +12,8 @@ import type { DraftPoi, TravelMatrix } from './types';
 const HOME_SAMPLE = 120;
 /** With fewer sights than this near home, the last day is not held to it. */
 const MIN_NEAR_HOME = 3;
+/** A trip this short has at most one day that is neither the first nor the last. */
+const SHORT_TRIP_DAYS = 3;
 
 function sampled(places: readonly DraftPoi[]): DraftPoi[] {
   const step = Math.max(1, places.length / HOME_SAMPLE);
@@ -64,8 +66,8 @@ export function nearHome(
 
 /**
  * Takes the first and the last day off the open days of every place too far from home for them
- * (must-dos aside: `exempt`): the day the crew leaves keeps to a short hop from the door, the day
- * it lands to one ride (no mountain an hour out, straight off the plane). A one-day trip is left.
+ * (must-dos aside: `exempt`): the day the crew leaves and the afternoon it lands keep to a short hop
+ * from the door (no pagoda across town straight off the plane; the far ones go on full days). A one-day trip is left.
  */
 export function keepEdgeDaysNearHome(
   openDays: Map<string, number[]>,
@@ -78,7 +80,8 @@ export function keepEdgeDaysNearHome(
   const cap = hopCapMin(places, travel);
   const edges = [
     { day: lastDay, near: nearHome(places, travel, cap) },
-    { day: 1, near: nearHome(places, travel, cap, true) },
+    // A trip of three days has one full day: its arrival afternoon may go a ride out of town.
+    { day: 1, near: nearHome(places, travel, cap, lastDay <= SHORT_TRIP_DAYS) },
   ];
   for (const { day: edge, near } of edges) {
     if (near === null) continue;
