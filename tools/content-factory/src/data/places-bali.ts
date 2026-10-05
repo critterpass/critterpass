@@ -34,7 +34,7 @@ export const BALI_PINS: readonly PinnedPlace[] = [
     lat: -8.2545,
     lng: 115.3361,
   },
-  { name: 'Uluwatu Temple', nameLocal: 'Pura Luhur Uluwatu', lat: -8.8291, lng: 115.0864 },
+  { name: 'Pura Luhur Uluwatu', lat: -8.8291, lng: 115.0864 },
   { name: 'Tanah Lot Temple', nameLocal: 'Pura Tanah Lot', lat: -8.6212, lng: 115.0868 },
   { name: 'Taman Ayun Temple', nameLocal: 'Pura Taman Ayun', lat: -8.5419, lng: 115.1725 },
   { name: 'Goa Gajah (Elephant Cave)', nameLocal: 'Pura Goa Gajah', lat: -8.523, lng: 115.2867 },

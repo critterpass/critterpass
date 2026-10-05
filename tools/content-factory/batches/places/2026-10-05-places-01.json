@@ -1128,8 +1128,8 @@
     {
       "ref": "fsq_os:4c3446883896e21eee47eb90",
       "destination": "bali",
-      "name": "Uluwatu Temple",
-      "name_local": "Pura Luhur Uluwatu",
+      "name": "Pura Luhur Uluwatu",
+      "name_local": null,
       "category": "temple_shrine",
       "lat": -8.829105239964123,
       "lng": 115.08644381256121,
@@ -10419,5 +10419,5 @@
     "generated_at": "2026-10-05T00:00:00+07:00"
   },
   "approved_by": null,
-  "checksum": "018d89cb9eb89b04febc93528ab95f4381216669e3fa7155f036a3b2d09f1284"
+  "checksum": "8cfea76ced4f812a837bf420a8923b775116dc28cede1e0dcbb6831de588ad90"
 }
