@@ -1,7 +1,7 @@
 /**
  * The guide drafts around what the organiser already placed, on the whole `ai.draft` job with
  * recorded model replies: her stops come out of the draft with their own ids, times, people and
- * pins, nothing of the guide's overlaps them, a stop she has not timed yet is still there, her
+ * pins, her lunch is the day's only lunch, nothing of the guide's overlaps them or leaves a hole, a stop she has not timed yet is still there, her
  * plan stays in the history behind the guide's draft, and the places the crew saved to Ideas are
  * offered to the guide. A place she already put on a day is not offered again and a must-do she
  * placed herself counts as made. A one-day redraft holds the stops she added by hand, and every
@@ -28,6 +28,7 @@ import { holdDay, loadHeldStops } from '../../../../src/jobs/ai/draft/held-stops
 import { load } from '../../../../src/jobs/ai/draft/job-context';
 import { loadBaseDraft, saveCandidate } from '../../../../src/jobs/ai/draft/redraft-store';
 import { startJobsHarness, until, type JobsHarness } from '../../../helpers/jobs-harness';
+import { addHandStop, kyoto, seedHandPlan, type HandStop } from './hand-plan';
 import { RECORDING, replay, seedTrip } from './kyoto-trip';
 
 let harness: JobsHarness;
@@ -40,38 +41,11 @@ const stops = {
   someday: randomUUID(),
   wish: randomUUID(),
 };
-const { start, days: dayCount, must_dos: mustDos } = RECORDING.crew;
-const dateOf = (dayNo: number) =>
-  new Date(Date.parse(`${start}T00:00:00Z`) + (dayNo - 1) * 86_400_000).toISOString().slice(0, 10);
-const kyoto = (dayNo: number, hour: number) =>
-  new Date(`${dateOf(dayNo)}T${String(hour).padStart(2, '0')}:00:00+09:00`);
+const mustDos = RECORDING.crew.must_dos;
 const wishPlace = mustDos[0]?.poi_id as string;
-
-async function addStop(
-  stable: string,
-  dayNo: number,
-  hours: readonly [number, number] | null,
-  place: { poiId: string } | { pin: { name: string; lat: number; lng: number } },
-  attendees: readonly string[] | null = null,
-) {
-  await harness.pool.query(
-    `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, poi_id,
-       custom_place, attendee_ids, category, created_by_kind, notes)
-     SELECT $1, d.id, $2, $3, $5, $6, 'Asia/Tokyo', $7, $8, $9, 'other', 'user', 'Mine'
-       FROM plan_days d WHERE d.version_id = $1 AND d.day_no = $4`,
-    [
-      handPlan,
-      tripId,
-      stable,
-      dayNo,
-      hours === null ? null : kyoto(dayNo, hours[0]),
-      hours === null ? null : kyoto(dayNo, hours[1]),
-      'poiId' in place ? place.poiId : null,
-      'pin' in place ? JSON.stringify(place.pin) : null,
-      attendees,
-    ],
-  );
-}
+const pin = (name: string, lat: number, lng: number) => ({ pin: { name, lat, lng } });
+const addStop = (stop: HandStop) =>
+  addHandStop(harness.pool, { versionId: handPlan, tripId }, stop);
 
 function stepContext(): AgentStepContext {
   return {
@@ -86,28 +60,28 @@ function stepContext(): AgentStepContext {
 beforeAll(async () => {
   harness = await startJobsHarness();
   ({ tripId, organiser } = await seedTrip(harness.pool));
-  const { rows } = await harness.pool.query<{ id: string }>(
-    `INSERT INTO itinerary_versions (trip_id, visibility, status, origin, coverage)
-     VALUES ($1, 'organiser', 'draft', 'hand', $2) RETURNING id`,
-    [tripId, JSON.stringify({ places: {} })],
-  );
-  handPlan = rows[0]?.id as string;
-  for (let dayNo = 1; dayNo <= dayCount; dayNo += 1) {
-    await harness.pool.query(
-      'INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, $3, $4)',
-      [handPlan, tripId, dayNo, dateOf(dayNo)],
-    );
-  }
-  await harness.pool.query('UPDATE trips SET draft_version_id = $2 WHERE id = $1', [
-    tripId,
-    handPlan,
-  ]);
-  // Lunch across the middle of day 2, a walk on day 3, and a stop with no time yet.
-  await addStop(stops.lunch, 2, [11, 14], { pin: { name: 'Aunt Mai', lat: 35.01, lng: 135.76 } }, [
-    organiser,
-  ]);
-  await addStop(stops.walk, 3, [15, 17], { pin: { name: 'River walk', lat: 35.0, lng: 135.77 } });
-  await addStop(stops.someday, 4, null, { pin: { name: 'Tea with Aki', lat: 35.02, lng: 135.75 } });
+  handPlan = await seedHandPlan(harness.pool, tripId);
+  // Lunch with an aunt on day 2, a walk on day 3, and a stop with no time yet.
+  await addStop({
+    stableId: stops.lunch,
+    dayNo: 2,
+    hours: [12, 13],
+    place: pin('Aunt Mai', 35.01, 135.76),
+    attendees: [organiser],
+    category: 'food',
+  });
+  await addStop({
+    stableId: stops.walk,
+    dayNo: 3,
+    hours: [15, 17],
+    place: pin('River walk', 35.0, 135.77),
+  });
+  await addStop({
+    stableId: stops.someday,
+    dayNo: 4,
+    hours: null,
+    place: pin('Tea with Aki', 35.02, 135.75),
+  });
 }, 240_000);
 
 afterEach(async () => {
@@ -120,7 +94,7 @@ afterAll(async () => {
 
 describe('a draft over a plan she started by hand', () => {
   it('does not offer her place again, counts her must-do as made and offers saved ideas', async () => {
-    await addStop(stops.wish, 1, [10, 12], { poiId: wishPlace });
+    await addStop({ stableId: stops.wish, dayNo: 1, hours: [10, 12], place: { poiId: wishPlace } });
     const idea = RECORDING.city.pois.find((p) => !mustDos.some((m) => m.poi_id === p.id));
     await harness.pool.query(
       `INSERT INTO trip_ideas (trip_id, poi_id, name, category, lat, lng, backer_ids, sources)
@@ -135,10 +109,21 @@ describe('a draft over a plan she started by hand', () => {
     ]);
     expect(loaded.held[0]?.item).toMatchObject({ locked_reason: 'user', poi_id: wishPlace });
     expect(loaded.held[0]?.item.must_do_id).not.toBeNull();
-    expect(loaded.input.pois.has(wishPlace)).toBe(false);
+    // The planner knows her place and her stops, and is offered neither again.
+    expect(loaded.input.pois.has(wishPlace)).toBe(true);
+    const given = loaded.input.held ?? [];
+    expect(given.map((stop) => stop.item.stable_id)).toEqual(
+      loaded.held.map((stop) => stop.item.stable_id),
+    );
+    // Her lunch is the day's meal, and her pin stands as a place of its own for this draft.
+    expect(given[1]?.item).toMatchObject({ kind: 'meal', poi_id: stops.lunch });
+    expect(loaded.input.pois.get(stops.lunch)?.name).toBe('Aunt Mai');
+    expect(loaded.held[1]?.item.poi_id).toBeNull();
+    expect(loaded.input.locale).toBe('en');
     expect(loaded.input.frame.mustDos).toHaveLength(mustDos.length - 1);
     expect(loaded.trip.mustDos).toHaveLength(mustDos.length);
     const offered = [...loaded.input.pools.activities, ...loaded.input.pools.eateries];
+    expect(offered.some((poi) => poi.id === wishPlace || poi.id === stops.lunch)).toBe(false);
     expect(offered.some((poi) => poi.id === idea?.id)).toBe(true);
     await harness.pool.query('DELETE FROM plan_items WHERE stable_id = $1', [stops.wish]);
   });
@@ -184,7 +169,7 @@ describe('a draft over a plan she started by hand', () => {
       created_by_kind: string;
       custom_place: { name: string } | null;
       attendee_ids: string[] | null;
-      locked_reason: string | null;
+      category: string;
     }>(
       `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.created_by_kind, i.custom_place,
               i.attendee_ids, i.category, i.locked_reason, i.notes
@@ -194,12 +179,12 @@ describe('a draft over a plan she started by hand', () => {
     const mine = (id: string) => items.find((item) => item.stable_id === id);
     expect(mine(stops.lunch)).toMatchObject({
       day_no: 2,
-      starts_at: kyoto(2, 11),
-      ends_at: kyoto(2, 14),
+      starts_at: kyoto(2, 12),
+      ends_at: kyoto(2, 13),
       created_by_kind: 'user',
       custom_place: { name: 'Aunt Mai' },
       attendee_ids: [organiser],
-      category: 'other',
+      category: 'food',
       locked_reason: null,
       notes: 'Mine',
     });
@@ -210,21 +195,30 @@ describe('a draft over a plan she started by hand', () => {
       custom_place: { name: 'Tea with Aki' },
     });
 
-    // The guide planned the rest, and none of its stops runs into hers.
-    const guides = items.filter((item) => item.created_by_kind === 'guide');
-    expect(guides.length).toBeGreaterThan(6);
-    for (const id of [stops.lunch, stops.walk]) {
-      const held = mine(id);
-      const clashing = guides.filter(
-        (item) =>
-          item.day_no === held?.day_no &&
-          item.locked_reason === null &&
-          item.starts_at !== null &&
-          item.ends_at !== null &&
-          item.starts_at < (held.ends_at as Date) &&
-          (held.starts_at as Date) < item.ends_at,
-      );
-      expect(clashing).toEqual([]);
+    // The guide planned the rest around hers: her lunch is the day's only lunch, nothing runs
+    // into a stop of hers, and no day of hers is left with a hole of more than two hours.
+    expect(items.filter((item) => item.created_by_kind === 'guide').length).toBeGreaterThan(6);
+    const timed = (dayNo: number) =>
+      items
+        .filter((item) => item.day_no === dayNo && item.starts_at !== null)
+        .sort((a, b) => (a.starts_at as Date).getTime() - (b.starts_at as Date).getTime());
+    const lunches = timed(2).filter(
+      (item) =>
+        (item.category === 'meal' || item.category === 'food') &&
+        (item.starts_at as Date) >= kyoto(2, 11) &&
+        (item.starts_at as Date) <= kyoto(2, 14),
+    );
+    expect(lunches.map((item) => item.stable_id)).toEqual([stops.lunch]);
+    for (const dayNo of [2, 3]) {
+      const gaps = timed(dayNo)
+        .slice(1)
+        .map((item, i) => {
+          const before = timed(dayNo)[i]?.ends_at as Date;
+          return ((item.starts_at as Date).getTime() - before.getTime()) / 60_000;
+        });
+      expect(gaps.length).toBeGreaterThan(1);
+      expect(Math.min(...gaps)).toBeGreaterThanOrEqual(0);
+      expect(Math.max(...gaps)).toBeLessThanOrEqual(120);
     }
     const coverage = draftCoverageSchema.parse(draft?.coverage);
     expect(coverage.must_dos.total).toBe(mustDos.length);
@@ -257,7 +251,7 @@ describe('a draft over a plan she started by hand', () => {
       ...(base?.itinerary.days[0]?.items[0] as DraftItem),
       stable_id: randomUUID(),
       starts_at: kyoto(2, 12).toISOString(),
-      ends_at: kyoto(2, 13).toISOString(),
+      ends_at: kyoto(2, 14).toISOString(),
     };
     const redone = holdDay({ ...(day2 as DraftDay), items: [across] }, held, travel).day;
     expect(redone.items.map((item) => item.stable_id)).toEqual([stops.lunch]);
@@ -295,6 +289,6 @@ describe('a draft over a plan she started by hand', () => {
       [candidate, stops.lunch],
     );
     const hers = { created_by_kind: 'user', place: 'Aunt Mai', attendee_ids: [organiser] };
-    expect(lunch).toEqual([{ ...hers, starts_at: kyoto(2, 11) }]);
+    expect(lunch).toEqual([{ ...hers, starts_at: kyoto(2, 12) }]);
   });
 });

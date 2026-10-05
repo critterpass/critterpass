@@ -8,12 +8,12 @@ msgstr ""
 "Language: vi\n"
 
 #. placeholder {0}: shown(item.amountMinor, item.currency)
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.costEach"
 msgstr "{0} mỗi người"
 
 #. placeholder {0}: shown(item.amountMinor, item.currency)
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.costGroup"
 msgstr "{0} cho cả nhóm"
 
@@ -28,9 +28,63 @@ msgstr "{0} đang ở đây"
 msgid "plan.day.fit.travel"
 msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 
+#. placeholder {0}: suggester.name
+#: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
+msgid "plan.day.item.suggestedBy"
+msgstr "{0} đã đề xuất một thay đổi"
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.addedMany"
+msgstr "{count, plural, other {Đã thêm # địa điểm}}"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.retimed"
+msgstr "{count, plural, other {# điểm dừng có giờ mới}}"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.removedMany"
+msgstr "{count, plural, other {Đã bỏ # điểm dừng}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.hours"
+msgstr "{hours} giờ"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.hoursMinutes"
+msgstr "{hours} giờ {rest}"
+
+#. placeholder {0}: clock(locale, value)
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.pick"
+msgstr "{label} {0}. Chọn giờ"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.minutes"
+msgstr "{only} phút"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.othersMoved"
+msgstr "{others, plural, other { · # điểm dừng khác cũng dời}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.pushedBy"
+msgstr "{pushed, plural, other {# điểm dừng sau đó lùi {by}}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.pushed"
+msgstr "{pushed, plural, other {# điểm dừng sau đó cũng lùi lại}}"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.tooEarly"
+msgstr "{stop} kéo dài đến {until}. Hãy bắt đầu từ {earliest} trở đi."
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.aStop"
+msgstr "Một điểm dừng"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.from"
@@ -56,9 +110,17 @@ msgstr "Thêm vào ngày"
 msgid "plan.day.addCard"
 msgstr "Thêm vào ngày"
 
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.addedTo"
+msgstr "Đã thêm vào {place}"
+
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.added"
 msgstr "Thêm vào ngày"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.addedOne"
+msgstr "Đã thêm vào lịch trình"
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.anyTime"
@@ -68,15 +130,19 @@ msgstr "Lúc nào cũng được"
 msgid "plan.day.booked"
 msgstr "Đã đặt"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.booking"
 msgstr "Đặt chỗ"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undoLate"
+msgstr "Không hoàn tác được nữa"
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.changeConfirm"
 msgstr "Vẫn đổi"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.cost"
 msgstr "Chi phí"
 
@@ -89,12 +155,17 @@ msgid "plan.day.untitled"
 msgstr "Ngày {dayNo}"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.item.dayChip"
 msgstr "Ngày {dayNo}"
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.eyebrow"
 msgstr "Ngày {dayNo} / {dayCount}"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.daysReordered"
+msgstr "Đã đổi thứ tự các ngày"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.earlier"
@@ -104,11 +175,15 @@ msgstr "Sớm hơn 15 phút"
 msgid "plan.day.time.ends"
 msgstr "Kết thúc"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.everyone"
 msgstr "Cả nhóm"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.fitsDay"
+msgstr "Vừa với {toDay}. Hôm đó không có gì phải dời."
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.costFree"
 msgstr "Miễn phí"
 
@@ -124,7 +199,7 @@ msgstr "Giờ mở cửa, ảnh và cách đi tới"
 msgid "plan.day.proposedLine"
 msgstr "Sẽ đổi khi mọi người đồng ý."
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.removeLine"
 msgstr "Mục này sẽ bị bỏ khỏi ngày của mọi người đi cùng."
 
@@ -144,9 +219,22 @@ msgstr "Đang tìm địa điểm…"
 msgid "plan.day.item.moveTo"
 msgstr "Chuyển sang"
 
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.movedTo"
+msgstr "Đã chuyển sang {place}"
+
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.waitingShort"
 msgstr "Cần đồng ý"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.reordered"
+msgstr "Thứ tự mới"
+
+#. placeholder {0}: ctx.dayName(day)
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.reorderedDay"
+msgstr "Thứ tự mới cho {0}"
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
@@ -160,9 +248,13 @@ msgstr "chưa có dự báo"
 msgid "plan.day.add.noSaved"
 msgstr "Chưa có địa điểm đã lưu ở đây."
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.notes"
 msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.nothingMoves"
+msgstr "Không có gì khác phải dời."
 
 #: ../../apps/mobile/src/features/plan/day/search-states.tsx
 msgid "plan.day.add.noResults"
@@ -172,6 +264,10 @@ msgstr "Không tìm thấy “{typed}”."
 msgid "plan.day.freeLine"
 msgstr "Chưa có kế hoạch. Ngủ nướng, hoặc thêm gì đó."
 
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.nowAt"
+msgstr "Giờ mới: {range}"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr "Mở bản đồ"
@@ -179,6 +275,10 @@ msgstr "Mở bản đồ"
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedLine"
 msgstr "Mở ra nếu vẫn muốn đổi."
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.mustDoLine"
+msgstr "Mở ra để vẫn dời được."
 
 #. placeholder {0}: titleOf(warning.relatedId, all)
 #: ../../apps/mobile/src/features/plan/day/edit-copy.ts
@@ -198,18 +298,26 @@ msgstr "Chờ gửi"
 msgid "plan.day.rainWindow"
 msgstr "mưa {0}"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.removeConfirm"
 msgstr "Bỏ"
 
 #. placeholder {0}: item.title
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.removeTitle"
 msgstr "Bỏ {0}?"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.remove"
 msgstr "Bỏ khỏi ngày"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.removedFrom"
+msgstr "Đã bỏ khỏi {from}"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.removed"
+msgstr "Đã bỏ khỏi lịch trình"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.save"
@@ -227,6 +335,10 @@ msgstr "Tìm"
 msgid "plan.day.add.searchingMore"
 msgstr "Đang tìm thêm địa điểm…"
 
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.see"
+msgstr "XEM"
+
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.queued"
 msgstr "Sẽ gửi khi có mạng"
@@ -243,13 +355,17 @@ msgstr "Bỏ qua, chỉ mình tôi"
 msgid "plan.day.skippedToast"
 msgstr "Đã bỏ qua, chỉ riêng bạn"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.lockedLine"
 msgstr "Có người đã muốn mục này. Họ sẽ thấy thay đổi."
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictSomeone"
 msgstr "Có người cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.pinnedLine"
+msgstr "Có người đã ghim nó ở giờ này."
 
 #: ../../apps/mobile/src/features/plan/day/day-screen.tsx
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
@@ -276,25 +392,57 @@ msgstr "Bỏ khỏi ngày"
 msgid "plan.day.lockedToast"
 msgstr "Mục đó đã được đặt"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.pinnedToast"
+msgstr "Điểm này đã được ghim giờ"
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.tooLate"
+msgstr "Như vậy ngày hôm đó sẽ kéo qua nửa đêm."
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.runsIntoMustDo"
+msgstr "Như vậy sẽ chạm vào {stop}, một mục bắt buộc nên giữ nguyên giờ."
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.runsIntoBooked"
+msgstr "Như vậy sẽ chạm vào {stop}, đã đặt chỗ nên giữ nguyên giờ."
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.mustDoToast"
+msgstr "Đây là mục bắt buộc"
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.bookedLine"
 msgstr "Đặt chỗ vẫn giữ nguyên. Hãy hỏi nhà cung cấp xem có đổi được không."
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.memberLine"
 msgstr "Cả nhóm đồng ý rồi mới đổi."
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undoLateLine"
+msgstr "Lịch trình đã thay đổi từ lúc đó."
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undoneLine"
+msgstr "Lịch trình đã trở lại như cũ."
 
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictLine"
 msgstr "Thay đổi của họ được giữ. Hãy thử lại của bạn."
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.lockedTitle"
 msgstr "Đây là mục bắt buộc"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
 msgid "plan.day.item.bookedTitle"
 msgstr "Mục này đã được đặt"
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.pinnedTitle"
+msgstr "Điểm này đã được ghim giờ"
 
 #: ../../apps/mobile/src/features/plan/day/day-screen.tsx
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
@@ -305,7 +453,7 @@ msgstr "Mục này không còn trong lịch"
 msgid "plan.day.add.arriving"
 msgstr "Các địa điểm của chuyến đi vẫn đang tải về. Chúng sẽ hiện ở đây khi tải xong."
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.bookingLine"
 msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
 
@@ -313,9 +461,29 @@ msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
 msgid "plan.day.add.tryAgain"
 msgstr "Thử lại"
 
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undoOfflineLine"
+msgstr "Thử lại khi có mạng."
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undo"
+msgstr "HOÀN TÁC"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undoOffline"
+msgstr "Cần có mạng để hoàn tác"
+
+#: ../../apps/mobile/src/features/plan/day/edit-copy.ts
+msgid "plan.edit.undone"
+msgstr "Đã hoàn tác"
+
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.waiting"
 msgstr "Chờ cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.suggestionLine"
+msgstr "Đang chờ cả nhóm đồng ý."
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.ownLabel"
@@ -325,9 +493,17 @@ msgstr "Kế hoạch là gì?"
 msgid "plan.day.item.when"
 msgstr "Khi nào"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
 msgid "plan.day.item.who"
 msgstr "Ai đi"
+
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.mustDoMineLine"
+msgstr "Chính bạn đã yêu cầu mục này."
+
+#: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
+msgid "plan.day.item.suggestedByYou"
+msgstr "Bạn đã đề xuất một thay đổi"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"

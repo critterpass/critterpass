@@ -16,7 +16,8 @@ export const saveIdeaCommand = defineClientCommand<SaveIdeaPayload>({
   summarize: () => msg({ id: 'plan.ideas.queued.save', message: 'A place saved to Ideas' }),
 });
 
-export const removeIdeaCommand = defineClientCommand<{ idea_id: string }>({
+/** Takes back the caller's own save; `for_everyone` (organisers) takes the idea off for the crew. */
+export const removeIdeaCommand = defineClientCommand<{ idea_id: string; for_everyone?: true }>({
   name: 'remove_idea',
   offline: true,
   summarize: () => msg({ id: 'plan.ideas.queued.remove', message: 'A place taken off Ideas' }),

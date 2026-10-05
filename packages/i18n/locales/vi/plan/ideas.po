@@ -68,9 +68,25 @@ msgstr "Một nơi đã bỏ khỏi Ý tưởng"
 msgid "plan.placing.foot"
 msgstr "Khoảng mười giây. Cứ đi nếu muốn, {guideName} sẽ báo bạn."
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.add"
+msgstr "Thêm vào một ngày"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
+msgid "plan.ideas.more"
+msgstr "Thêm vào một ngày, hoặc bỏ"
+
 #: ../../apps/mobile/src/features/plan/ideas/idea-row.tsx
 msgid "plan.ideas.addToDay"
 msgstr "Thêm vào một ngày…"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.inPlan"
+msgstr "Đã có trong lịch trình · {dayLabel}"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.inPlanLine"
+msgstr "Đã có trong lịch trình vào {day}."
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.placing.backToIdeas"
@@ -83,6 +99,10 @@ msgstr "Quay lại chuyến đi"
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
 msgid "plan.ideas.dropOnADay"
 msgstr "THẢ VÀO MỘT NGÀY"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.findPlaces"
+msgstr "Tìm địa điểm để lưu"
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.fitPending"
@@ -112,6 +132,10 @@ msgstr "Để lại nơi cả nhóm chưa thống nhất cho bạn"
 msgid "plan.placing.needsYouPending"
 msgstr "Để lại những gì cần bạn"
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.move"
+msgstr "Dời sang ngày khác"
+
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeNone"
 msgstr "Chưa nơi nào vừa như hiện tại."
@@ -140,6 +164,22 @@ msgstr "Xếp giúp tôi"
 msgid "plan.ideas.placeThem"
 msgstr "XẾP GIÚP TÔI"
 
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.removeAll"
+msgstr "Bỏ cho cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/ideas/idea-actions.tsx
+msgid "plan.ideas.action.remove"
+msgstr "Bỏ khỏi mục đã lưu của tôi"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedAll"
+msgstr "Đã bỏ khỏi Ý tưởng của cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.removedMine"
+msgstr "Đã bỏ khỏi mục đã lưu của bạn"
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.routing"
 msgstr "Đang xếp đường cho {days}"
@@ -155,3 +195,7 @@ msgstr "Lưu nơi từ tìm kiếm, dán link TikTok hoặc Maps, hay quẹt cù
 #: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
 msgid "plan.ideas.placeFailedLine"
 msgstr "Thử lại khi có sóng."
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.undo"
+msgstr "HOÀN TÁC"
