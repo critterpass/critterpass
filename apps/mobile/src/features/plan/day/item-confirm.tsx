@@ -14,6 +14,7 @@ export function ItemConfirm({
   canApply,
   mustDoMine,
   solo = false,
+  alsoMoves = null,
   onConfirm,
   onCancel,
 }: {
@@ -24,6 +25,8 @@ export function ItemConfirm({
   readonly mustDoMine: boolean;
   /** A trip of one: nobody else to speak of. */
   readonly solo?: boolean;
+  /** What else the removal moves on the day, said before it is confirmed. */
+  readonly alsoMoves?: string | null;
   readonly onConfirm: () => void;
   readonly onCancel: () => void;
 }) {
@@ -64,6 +67,7 @@ export function ItemConfirm({
       title={title}
       consequences={[
         line,
+        ...(alsoMoves === null ? [] : [alsoMoves]),
         ...(canApply
           ? []
           : [

@@ -130,19 +130,22 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-budget
 - tapOn:
     id: 'budget-lock'
-# Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
+# Rooms are only asked of a crew that shares them: a traveller on her own goes straight on.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-rooms
-- scrollUntilVisible:
-    element:
-      id: 'setup-rooms-lock'
-    timeout: 10000
-- tapOn:
-    id: 'setup-rooms-lock'
+      id: 'must-dos-add|setup-rooms-lock'
+    timeout: 45000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'
