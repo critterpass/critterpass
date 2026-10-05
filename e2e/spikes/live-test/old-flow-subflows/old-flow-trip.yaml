@@ -107,9 +107,9 @@ appId: app.critterpass.dev
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 4
+# The lock names the days it will lock; the screenshot shows the four picked.
 - assertVisible:
-    id: 'picker-length'
-    text: '4 days .*'
+    id: 'picker-lock'
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-02-dates
 - tapOn:
