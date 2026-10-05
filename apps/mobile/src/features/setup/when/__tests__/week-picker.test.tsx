@@ -105,3 +105,25 @@ describe('a trip of one', () => {
     expect(screen.getByLabelText('October 2')).toBeTruthy();
   });
 });
+
+describe('a lock that did not go through', () => {
+  it('says so on the sheet, above the lock, which stays to try again', async () => {
+    const months = heatMonths([], SPAN);
+    await renderSetup(
+      <WeekPicker
+        months={months}
+        startMonth={0}
+        total={1}
+        lengthDays={3}
+        today="2026-10-01"
+        busy={false}
+        failure="Locking needs signal. Try again in a moment."
+        onLock={jest.fn()}
+        onDismiss={() => undefined}
+        initialPick={{ anchor: null, range: { start: '2026-10-08', end: '2026-10-10' } }}
+      />,
+    );
+    expect(screen.getByTestId('picker-failure')).toHaveTextContent(/needs signal/u);
+    expect(screen.getByTestId('picker-lock')).toBeTruthy();
+  });
+});

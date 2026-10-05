@@ -127,8 +127,26 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-dates-sheet-open
 - tapOn:
     id: 'picker-length-3'
-- tapOn:
-    id: 'picker-best-0'
+# The first window it suggests; when her calendar has not come in yet there is none, and she taps
+# a day two weeks out (three days follow from it).
+- runFlow:
+    when:
+      visible:
+        id: 'picker-best-0'
+    commands:
+      - tapOn:
+          id: 'picker-best-0'
+- runFlow:
+    when:
+      notVisible:
+        id: 'picker-best-0'
+    commands:
+      - evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+      - runFlow:
+          file: ../../happy/subflows/pick-days.yaml
+          env:
+            PICK_DATE: ${output.pickDate}
+            PICK_DAYS: 3
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'

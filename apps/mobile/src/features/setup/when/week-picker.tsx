@@ -64,6 +64,8 @@ export interface WeekPickerProps {
   /** Today (`YYYY-MM-DD`): nothing earlier can be picked. */
   readonly today?: string | undefined;
   readonly busy: boolean;
+  /** Why the last lock did not go through, said on the sheet itself (the step is behind it). */
+  readonly failure?: string | null;
   readonly onLock: (start: string, end: string) => void;
   readonly onDismiss: () => void;
   /** Opens on this pick (the lab's scenes). */
@@ -85,6 +87,7 @@ export function WeekPicker({
   lengthDays,
   today,
   busy,
+  failure = null,
   onLock,
   onDismiss,
   initialPick,
@@ -253,6 +256,11 @@ export function WeekPicker({
             </Text>
           ) : null}
         </Stack>
+        {failure === null ? null : (
+          <Text variant="bodySm" color={theme.semantic.state.urgent} testID="picker-failure">
+            {failure}
+          </Text>
+        )}
         {picked !== null && problem === null ? (
           <PillButton
             label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}

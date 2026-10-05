@@ -129,19 +129,23 @@ appId: app.critterpass.dev
 # organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
 - tapOn:
     id: 'budget-skip'
-# Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
-# LOOKS GOOD accepts the even split.
+# Rooms: a crew of one with no stay to pick has nothing to decide, and setup goes straight on to
+# the must-dos. Should the step show (a place with stay prices), LOOKS GOOD takes the even split.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
+      id: 'must-dos-add|setup-rooms-lock'
     timeout: 30000
-# A crew of one takes the even split: no stay is picked (LOOKS GOOD accepts it).
-- scrollUntilVisible:
-    element:
-      id: 'setup-rooms-lock'
-    timeout: 10000
-- tapOn:
-    id: 'setup-rooms-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'
