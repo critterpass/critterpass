@@ -375,6 +375,10 @@ msgid "proposal.crowd.boost"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.out"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.cantMake"
 msgstr ""
 
@@ -686,11 +690,11 @@ msgstr ""
 msgid "proposal.alone.lockAlone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
 msgstr ""
 
@@ -769,6 +773,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onThePlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.waitlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
@@ -1179,7 +1187,7 @@ msgstr ""
 msgid "proposal.sent.tracker"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.confirmYes"
 msgstr ""
 
@@ -1193,6 +1201,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.onlyHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.maybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
@@ -1218,6 +1230,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.taste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx

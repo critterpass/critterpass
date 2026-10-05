@@ -24,8 +24,10 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import {
+  lockConfirmLabel,
   lockConsequences,
   lockCopy,
+  lockTitle,
   trackerBack,
   trackerChip,
   trackerLine,
@@ -156,14 +158,10 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       />
       {asking && (state.kind === 'ready' || state.kind === 'alone') ? (
         <ProposalConfirm
-          title={
-            state.kind === 'alone'
-              ? t({ id: 'proposal.lock.titleAlone', message: 'Lock the plan in?' })
-              : t({ id: 'proposal.lock.title', message: 'Lock the crew in?' })
-          }
+          title={lockTitle(state.kind === 'alone')}
           consequences={lockConsequences(state)}
           fit
-          confirmLabel={t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' })}
+          confirmLabel={lockConfirmLabel()}
           mode="button"
           onConfirm={() => void onLock()}
           onCancel={() => setAsking(false)}

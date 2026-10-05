@@ -375,6 +375,10 @@ msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.out"
+msgstr "Không đi được"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.cantMake"
 msgstr "Không đi được"
 
@@ -686,11 +690,11 @@ msgstr "Chốt luôn"
 msgid "proposal.alone.lockAlone"
 msgstr "Chốt đi một mình"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.title"
 msgstr "Chốt danh sách nhóm?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
 msgstr "Chốt kế hoạch?"
 
@@ -770,6 +774,10 @@ msgstr "Cháy quá"
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onThePlan"
 msgstr "Có trong kế hoạch"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.waitlisted"
+msgstr "Đang chờ chỗ"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.waitlisted"
@@ -1179,7 +1187,7 @@ msgstr "Ai đi?"
 msgid "proposal.sent.tracker"
 msgstr "Ai đi?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.confirmYes"
 msgstr "Ừ, chốt luôn"
 
@@ -1194,6 +1202,10 @@ msgstr "Có người nói đi thì bạn mới chốt chuyến được."
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.onlyHere"
 msgstr "Chỉ ở đây mới có."
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.maybe"
+msgstr "Bạn nói có thể"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
@@ -1219,6 +1231,10 @@ msgstr "Bạn đã nói không đi được."
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.taste"
 msgstr "Bạn sẽ mê"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.in"
+msgstr "Bạn có tên rồi"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.youreIn"

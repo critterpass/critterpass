@@ -6,7 +6,13 @@ import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
 import { makeStyles } from '@/ui/theme';
 
 const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
+  // The title starts under the sheet's close button, so a long one (in any language) never runs
+  // beneath it.
+  body: {
+    paddingHorizontal: th.space['20'],
+    paddingTop: th.space['32'],
+    paddingBottom: th.space['24'],
+  },
 }));
 
 export function ProposalConfirm(props: ConfirmSheetProps & { readonly fit?: boolean }) {

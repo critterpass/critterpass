@@ -34,7 +34,7 @@ import { useProposalTrip } from '../data/trip';
 import { useHasWishes } from '../data/wishes';
 import { ObjectionSheet } from '../objection/objection-host';
 import { ProposalLoading } from '../proposal-loading';
-import { stopWhen, tripLine, versionChip } from '../labels';
+import { answerChip, stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
 import { HypeBar } from './hype-bar';
 import { ShareCard } from './share-card';
@@ -162,7 +162,8 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         personalised={!group && hasWishes}
         organiser={organiser?.uid === viewer ? '' : (organiser?.name ?? '')}
         guide={trip.guide}
-        chip={chip}
+        // Once answered, the pill says the answer: the reply date has done its job.
+        chip={answer === null ? chip : answerChip(answer)}
         pending={version === null || version.status === 'pending'}
         fallbackNote={version?.fallbackNote ?? null}
         group={group}

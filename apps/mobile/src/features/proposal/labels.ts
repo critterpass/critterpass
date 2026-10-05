@@ -56,6 +56,20 @@ export function stopWhen(
   return stop.startsAt === null ? day : `${day} · ${clock(locale, stop.startsAt, stop.tz)}`;
 }
 
+/** The chip on a member's version once they have answered: their answer, in place of the date. */
+export function answerChip(answer: 'in' | 'maybe' | 'out' | 'waitlisted'): string {
+  switch (answer) {
+    case 'in':
+      return t({ id: 'proposal.version.chip.in', message: 'You’re in' });
+    case 'maybe':
+      return t({ id: 'proposal.version.chip.maybe', message: 'You said maybe' });
+    case 'out':
+      return t({ id: 'proposal.version.chip.out', message: 'Can’t make it' });
+    case 'waitlisted':
+      return t({ id: 'proposal.version.chip.waitlisted', message: 'On the waitlist' });
+  }
+}
+
 /** The deadline chip on a member's version. */
 export function versionChip(
   locale: string,
@@ -224,4 +238,14 @@ export function lockConsequences(state: LockState): string[] {
       : []),
     ...after,
   ];
+}
+
+export function lockTitle(alone = false): string {
+  return alone
+    ? t({ id: 'proposal.lock.titleAlone', message: 'Lock the plan in?' })
+    : t({ id: 'proposal.lock.title', message: 'Lock the crew in?' });
+}
+
+export function lockConfirmLabel(): string {
+  return t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' });
 }

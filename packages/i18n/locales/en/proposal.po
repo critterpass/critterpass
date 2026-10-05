@@ -375,6 +375,10 @@ msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.out"
+msgstr "Can’t make it"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.cantMake"
 msgstr "Can’t make it"
 
@@ -686,11 +690,11 @@ msgstr "Lock it in"
 msgid "proposal.alone.lockAlone"
 msgstr "Lock it in alone"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.title"
 msgstr "Lock the crew in?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.titleAlone"
 msgstr "Lock the plan in?"
 
@@ -770,6 +774,10 @@ msgstr "On fire"
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.onThePlan"
 msgstr "On the plan"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.waitlisted"
+msgstr "On the waitlist"
 
 #: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.waitlisted"
@@ -1179,7 +1187,7 @@ msgstr "Who’s in?"
 msgid "proposal.sent.tracker"
 msgstr "Who’s in?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.confirmYes"
 msgstr "Yes, lock it in"
 
@@ -1194,6 +1202,10 @@ msgstr "You can lock the trip in once someone says they’re in."
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.why.onlyHere"
 msgstr "You can only do this here."
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.maybe"
+msgstr "You said maybe"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
@@ -1219,6 +1231,10 @@ msgstr "You said you can’t make it."
 #: ../../apps/mobile/src/features/proposal/data/reasons.ts
 msgid "proposal.reason.taste"
 msgstr "You’ll love this"
+
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.version.chip.in"
+msgstr "You’re in"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.youreIn"
