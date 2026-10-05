@@ -183,6 +183,9 @@ export const PIPELINES: readonly PipelineSpec[] = [
   { id: 'pro-pages', tier: 'pro', thinking: true, pages: true },
   { id: 'pro-pages-nothink', tier: 'pro', thinking: false, pages: true },
   { id: 'fast-pages-fsq', tier: 'fast', thinking: false, pages: true, fsq: true },
+  // No paid search; written by run-free.ts, listed here so the scorer includes them.
+  { id: 'fast-memory-row', tier: 'fast', thinking: false, pages: false },
+  { id: 'pro-nothink-free-pages', tier: 'pro', thinking: false, pages: false },
 ];
 
 interface RawFact {

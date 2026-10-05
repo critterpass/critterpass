@@ -340,8 +340,10 @@ const rows = PIPELINES.map((spec) => {
   const mean = (xs: number[]) =>
     xs.length === 0 ? NaN : xs.reduce((a, b) => a + b, 0) / xs.length;
   const ms = rs.map((r) => r.ms + r.evidenceMs).sort((a, b) => a - b);
-  const searchUsd =
-    rs.length * 2 * TAVILY_USD_PER_CREDIT + (spec.pages ? rs.length * TAVILY_USD_PER_CREDIT : 0);
+  const paidSearch = !['fast-memory-row', 'pro-nothink-free-pages'].includes(spec.id);
+  const searchUsd = !paidSearch
+    ? 0
+    : rs.length * 2 * TAVILY_USD_PER_CREDIT + (spec.pages ? rs.length * TAVILY_USD_PER_CREDIT : 0);
   return {
     pipeline: spec.id,
     written: `${written.length}/${rs.length}`,

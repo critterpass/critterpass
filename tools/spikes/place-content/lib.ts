@@ -195,7 +195,7 @@ const fold = (text: string) =>
   text.normalize('NFKD').replace(/\p{M}/gu, '').replace(/đ/giu, 'd').toLowerCase();
 
 /** The page's text from a little before its first mention of the place, clipped. */
-function window(text: string, near: readonly string[]): string {
+export function window(text: string, near: readonly string[]): string {
   const flat = text.replace(/\s+/gu, ' ').trim();
   const folded = fold(flat);
   const hits = near
