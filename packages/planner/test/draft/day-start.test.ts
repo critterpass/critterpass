@@ -101,6 +101,27 @@ describe('when a day begins', () => {
     expect(clock(plan([stop(P.museum), stop(P.lunch, 'meal')]).items[0]?.starts_at)).toBe('10:00');
   });
 
+  it('never opens a day the crew asked to start later before its later hour', () => {
+    const late = dayWindow({ ...FRAME, laterStartDays: [2] }, 1);
+    expect(late.startMin).toBeGreaterThanOrEqual(10 * 60 + 30);
+    expect(startFloor(late, true, null)).toBe(late.startMin);
+    const input = { date: FRAME.dates[1] as string, pois, window: late, ...reach };
+    const choices = [stop(peak), stop(P.lunch, 'meal'), stop(P.museum)];
+    const order = bestOrder({ ...input, choices }).order;
+    let next = 0;
+    const day = scheduleDay({
+      ...input,
+      dayNo: 2,
+      theme: 'A day',
+      choices: order.map((index) => choices[index] as DayChoice),
+      bands: null,
+      currency: 'VND',
+      tz: TZ,
+      idFor: () => id(6100 + (next += 1)),
+    });
+    expect(clock(day.items[0]?.starts_at) >= '10:30').toBe(true);
+  });
+
   it('follows a breakfast the crew asked for with the first sight, not with a hole', () => {
     const breakfast: DayChoice = {
       ...stop(P.lunch, 'meal'),

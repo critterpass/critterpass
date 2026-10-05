@@ -142,12 +142,19 @@ export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
     latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
   }
-  if (frame.laterStartDays?.includes(dayIndex + 1) === true) {
+  const laterStart = frame.laterStartDays?.includes(dayIndex + 1) === true;
+  if (laterStart) {
     const later = Math.max(startMin + LATER_START_BY_MIN, LATER_START_FLOOR_MIN);
     // A short last day keeps at least a lunch-length stretch.
     startMin = Math.max(startMin, Math.min(later, endMin - LATER_START_BY_MIN));
   }
-  return { startMin, endMin: Math.max(startMin, endMin), earliestMin, latestMin };
+  return {
+    startMin,
+    endMin: Math.max(startMin, endMin),
+    earliestMin,
+    latestMin,
+    ...(laterStart ? { laterStart } : {}),
+  };
 }
 
 /**
