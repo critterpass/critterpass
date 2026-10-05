@@ -142,9 +142,11 @@ export function issues(locale: string) {
           title: w.title,
           body: w.body,
           summary: byHand ? null : fixSummary(issue, ctx, previews[index] ?? {}),
-          fixLabel: byHand
-            ? openByHandLabel(issue.stable_ids.length > 0)
-            : fixKindLabel(issue, !member),
+          // On her draft a crew-plan fixer screen becomes the way to the stop.
+          fixLabel:
+            byHand && issue.fix?.kind === 'screen' && issue.fix.screen !== 'too_far'
+              ? openByHandLabel(issue.stable_ids.length > 0)
+              : fixKindLabel(issue, !member),
           busy: false,
           onFix: () => undefined,
           detail:
