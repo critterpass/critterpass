@@ -363,6 +363,10 @@ msgstr "Sent to the crew"
 msgid "plan.day.item.skip"
 msgstr "Skip it, just me"
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Skip this stop"
+
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Skipped, just for you"

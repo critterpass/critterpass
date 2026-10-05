@@ -70,6 +70,9 @@ export interface ItemDetailActions {
   readonly onClose: () => void;
 }
 
+/** More lines than any place name takes at the largest text size. */
+const TITLE_LINES = 8;
+
 type Pending = { readonly kind: 'save' } | { readonly kind: 'remove' };
 
 export function ItemDetailSheet({
@@ -146,7 +149,17 @@ export function ItemDetailSheet({
 
   return (
     <Sheet
-      title={upper(item.title, locale)}
+      header={
+        // A long place name wraps until it is whole: the sheet scrolls, so nothing is cut.
+        <Text
+          variant="h1"
+          numberOfLines={TITLE_LINES}
+          singleLine={false}
+          accessibilityRole="header"
+        >
+          {upper(item.title, locale)}
+        </Text>
+      }
       detents={['large']}
       onDismiss={actions.onClose}
       accessibilityLabel={item.title}
@@ -216,7 +229,11 @@ export function ItemDetailSheet({
                 />
               ) : null}
               <TextLink
-                label={t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })}
+                label={
+                  members.length <= 1
+                    ? t({ id: 'plan.day.item.skipSolo', message: 'Skip this stop' })
+                    : t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })
+                }
                 onPress={actions.onSkipForMe}
                 testID="plan-item-skip"
               />
