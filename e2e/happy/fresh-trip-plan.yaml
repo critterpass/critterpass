@@ -348,8 +348,6 @@ env:
     timeout: 60000
 - tapOn:
     text: '(?i)^see$'
-    childOf:
-      id: 'all-days-check'
 - extendedWaitUntil:
     visible:
       id: 'plan-check-title'
