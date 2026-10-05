@@ -10,7 +10,9 @@ import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { fileURLToPath } from 'node:url';
 
+import { runMigrations } from '@cp/db';
 import { startPostgres } from '@cp/db/testing';
+import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 interface ExportedSpan {
@@ -114,6 +116,11 @@ beforeAll(async () => {
   ]);
   stopPostgres = () => postgres.stop();
   const databaseUrl = postgres.getConnectionUri();
+  // Migrated, as every deployment's database is: the api's job producer needs the pg-boss schema,
+  // and /health answers ready only once that producer has started.
+  const migrator = new pg.Pool({ connectionString: databaseUrl, max: 2 });
+  await runMigrations(migrator);
+  await migrator.end();
   baseUrl = `http://127.0.0.1:${apiPort}`;
   api = spawn(
     process.execPath,
