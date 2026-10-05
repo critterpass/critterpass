@@ -3,8 +3,8 @@ appId: app.critterpass.dev
 # The day plan's map after the day changes under it, walked by a fresh account on real staging (a
 # three-day Đà Nẵng trip that starts today, the set-up of ../live-test), on the trip's second day
 # so it never depends on the hour. Each change makes a new plan version; the frames show the day's
-# map drawn on its stops after each one: 01 the day, 02 after a stop is removed, 03 after another
-# removal and its UNDO, 04 after "Skip it, just me".
+# map drawn on its stops after each one: 01 the day, 02 after a stop moves later, 03 after another
+# move and its UNDO, 04 after "Skip it, just me".
 - runFlow:
     file: ../live-test/subflows/on-trip-start-english.yaml
     env:
@@ -49,27 +49,37 @@ appId: app.critterpass.dev
     env:
       WAIT: 8000
 - takeScreenshot: day-map-en-01-day-two
-# A stop removed.
+# A stop moved 15 minutes later.
 - runFlow:
-    file: subflows/remove-stop.yaml
+    file: subflows/retime-stop.yaml
     env:
       STOP: stop-2
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 15000
 - runFlow:
     file: ../live-test/subflows/settle.yaml
     env:
       WAIT: 8000
-- takeScreenshot: day-map-en-02-after-remove
-# Another removed, and put back with the toast's UNDO.
+- takeScreenshot: day-map-en-02-after-a-move
+# Another moved, and put back with the toast's UNDO.
 - runFlow:
-    file: subflows/remove-stop.yaml
+    file: subflows/retime-stop.yaml
     env:
-      STOP: stop-1
+      STOP: stop-3
 - extendedWaitUntil:
     visible:
       id: 'island-toast-open'
     timeout: 10000
 - tapOn:
     id: 'island-toast-open'
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
+    timeout: 15000
 - runFlow:
     file: ../live-test/subflows/settle.yaml
     env:
@@ -80,11 +90,21 @@ appId: app.critterpass.dev
     file: subflows/open-stop.yaml
     env:
       STOP: stop-1
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-skip'
+    direction: DOWN
+    timeout: 15000
 - tapOn:
     id: 'plan-item-skip'
 - extendedWaitUntil:
     notVisible:
       id: 'plan-item-sheet'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-mini-map'
+    direction: UP
     timeout: 15000
 - runFlow:
     file: ../live-test/subflows/settle.yaml

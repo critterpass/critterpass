@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# On the day plan: moves ${STOP} 15 minutes later (start and end) from its sheet, saves, takes a
+# "change it anyway" when the move pushes the next stop, and scrolls back up to the day's map.
+- runFlow:
+    file: open-stop.yaml
+    env:
+      STOP: ${STOP}
+- tapOn:
+    id: 'plan-time-end-later'
+- tapOn:
+    id: 'plan-time-start-later'
+- tapOn:
+    id: 'plan-item-save'
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-confirm'
+    commands:
+      - tapOn:
+          text: '^Change it anyway$'
+- extendedWaitUntil:
+    notVisible:
+      id: 'plan-item-sheet'
+    timeout: 15000
