@@ -211,19 +211,25 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'plan-item-save'
     optional: true
+# The toast lasts six seconds: shoot it the moment it (or the must-do question) shows.
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message|plan-item-confirm'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-10-time-toast
 - runFlow:
     when:
       visible:
         id: 'plan-item-confirm'
     commands:
-      - takeScreenshot: ${SHOTS}-09b-time-confirm
       - tapOn: '(?i)change it anyway|Vẫn đổi'
-- extendedWaitUntil:
-    visible:
-      id: 'island-toast-message'
-    timeout: 10000
-    optional: true
-- takeScreenshot: ${SHOTS}-10-time-toast
+      - extendedWaitUntil:
+          visible:
+            id: 'island-toast-message'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: ${SHOTS}-10-time-toast-confirmed
 - runFlow:
     when:
       visible:
@@ -317,19 +323,25 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'plan-item-save'
     optional: true
+# The toast lasts six seconds: shoot it the moment it (or the must-do question) shows.
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message|plan-item-confirm'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-17-move-toast
 - runFlow:
     when:
       visible:
         id: 'plan-item-confirm'
     commands:
-      - takeScreenshot: ${SHOTS}-16b-move-confirm
       - tapOn: '(?i)change it anyway|Vẫn đổi'
-- extendedWaitUntil:
-    visible:
-      id: 'island-toast-message'
-    timeout: 10000
-    optional: true
-- takeScreenshot: ${SHOTS}-17-move-toast
+      - extendedWaitUntil:
+          visible:
+            id: 'island-toast-message'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: ${SHOTS}-17-move-toast-confirmed
 - runFlow:
     when:
       visible:
@@ -426,18 +438,25 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'plan-item-save'
     optional: true
+# The toast lasts six seconds: shoot it the moment it (or the must-do question) shows.
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message|plan-item-confirm'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-25-second-time-toast
 - runFlow:
     when:
       visible:
         id: 'plan-item-confirm'
     commands:
       - tapOn: '(?i)change it anyway|Vẫn đổi'
-- extendedWaitUntil:
-    visible:
-      id: 'island-toast-message'
-    timeout: 10000
-    optional: true
-- takeScreenshot: ${SHOTS}-25-second-time-toast
+      - extendedWaitUntil:
+          visible:
+            id: 'island-toast-message'
+          timeout: 10000
+          optional: true
+      - takeScreenshot: ${SHOTS}-25-second-time-toast-confirmed
 - tapOn:
     id: 'island-toast-open'
     optional: true
