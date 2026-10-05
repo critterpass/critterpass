@@ -1,0 +1,86 @@
+appId: app.critterpass.dev
+---
+# From Home with a locked Bali plan and the planning screens on, a traveller on her own: a place
+# added from a day (the sheet's first suggestion can be added, and says "Just you"), UNDO, the
+# search row losing its "In the plan" mark with the undo, and where a bar is suggested for.
+# A walk, not a check: steps the app refuses are optional. ${SHOTS} prefixes the screenshots.
+- runFlow: back-to-trip-map.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 60000
+- tapOn:
+    id: 'trip-map-day-chips-2'
+    optional: true
+- swipe:
+    start: 50%, 70%
+    end: 50%, 46%
+    duration: 700
+- tapOn:
+    id: 'trip-map-open-day'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'day-plan-add'
+    direction: DOWN
+    timeout: 15000
+    optional: true
+- tapOn:
+    id: 'day-plan-add'
+- extendedWaitUntil:
+    visible:
+      id: 'search-screen'
+    timeout: 15000
+- tapOn:
+    id: 'search-field'
+    optional: true
+- inputText: 'spa'
+- extendedWaitUntil:
+    visible:
+      id: 'search-row-add-0'
+    timeout: 30000
+- hideKeyboard
+- takeScreenshot: ${SHOTS}-01-search-before
+- tapOn:
+    id: 'search-row-add-0'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-why'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${SHOTS}-02-add-sheet
+- tapOn:
+    id: 'plan-add-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-message'
+    timeout: 10000
+    optional: true
+- takeScreenshot: ${SHOTS}-03-added-toast
+- tapOn:
+    id: 'island-toast-open'
+    optional: true
+# "Undone" is said once the plan on the phone is the restored one.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)undone|đã hoàn tác'
+    timeout: 15000
+    optional: true
+- takeScreenshot: ${SHOTS}-04-undone-row-without-mark
+# Where a bar and a sunset temple are suggested for: each first suggestion can be added.
+- runFlow:
+    file: suggested-time.yaml
+    env:
+      QUERY: '40 Thieves'
+      SHOT: ${SHOTS}-05-suggested-bar
+- runFlow:
+    file: suggested-time.yaml
+    env:
+      QUERY: 'Tanah Lot'
+      SHOT: ${SHOTS}-06-suggested-sunset-temple

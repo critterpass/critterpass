@@ -194,7 +194,13 @@ export {
   type WeatherSource,
 } from './context';
 export { dayGaps, findGaps, type DayGap } from './gaps';
-export { kindTimeOf, type KindTime } from './kind-time';
+export {
+  kindTimeOf,
+  kindWindows,
+  minutesOutside,
+  type KindTime,
+  type KindWindows,
+} from './kind-time';
 export { gapIdeas, type GapCandidate } from './gap-ideas';
 export {
   assembleFitContext,

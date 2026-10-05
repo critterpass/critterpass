@@ -6,14 +6,14 @@
  * rows that did not change. A curated destination is left alone.
  */
 import { createGateway, type AiUsageRecord } from '@cp/ai';
-import { recommendedSql } from '@cp/db';
+import { recommendedSql, withSystem } from '@cp/db';
 import { fixtureTransport } from '@cp/ai/testing';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { loadDraftPlaces } from '../../../src/jobs/ai/draft/load-places';
 import { ensurePlacePicks } from '../../../src/jobs/ai/draft/place-picks';
 import { placesPickJob } from '../../../src/jobs/places/pick';
-import { runPlacePick } from '../../../src/places/pick/run';
+import { loadFill, runPlacePick } from '../../../src/places/pick/run';
 import { silent, startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
 import {
   FILL,
@@ -199,6 +199,21 @@ describe('places.pick for a destination without a curated set', () => {
       status: 'skipped',
       reason: 'unknown_destination',
     });
+  });
+});
+
+describe('the open-data fill of a large catalogue', () => {
+  it('reads only the best rows, so a bucket never fills from below them', async () => {
+    const fill = (scan?: number) =>
+      withSystem(harness.pool, (tx) => loadFill(tx, daLat.destinationId, 100, scan));
+    const every = Object.values(await fill()).flat();
+    const best = Object.values(await fill(5)).flat();
+    expect(best).toHaveLength(5);
+    const floor = Math.min(...best.map((row) => row.quality));
+    const kept = new Set(best.map((row) => row.id));
+    for (const row of every.filter((candidate) => !kept.has(candidate.id))) {
+      expect(row.quality, row.name).toBeLessThanOrEqual(floor);
+    }
   });
 });
 
