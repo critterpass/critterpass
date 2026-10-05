@@ -627,6 +627,14 @@ msgstr "Only you two see this."
 msgid "plan.check.ask.private"
 msgstr "Only you two see this. Nothing moves to make room."
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr "Open the day"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
+msgstr "Open the stop"
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.titleOverlap"
 msgstr "Overlap: {first} and {second}"

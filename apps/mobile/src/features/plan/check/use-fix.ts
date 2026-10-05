@@ -3,7 +3,8 @@
  * organiser's applies at once with an undo in the trip feed; a member's goes to the crew), a
  * too-far card opens its short sheet first, and the bigger fixes open their own screen. A card
  * whose fix landed slides off; an issue from an older plan than the server's is stale: it leaves
- * too, and the check runs again on the new plan by itself.
+ * too, and the check runs again on the new plan by itself. On an organiser's own draft no fix is
+ * sent: the card opens the stop for her to change by hand (`ByHand`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes and screen names, never copy. */
 import type { PlanCheckIssue } from '@cp/domain';
@@ -20,9 +21,22 @@ export type FixAction =
   | { readonly kind: 'apply' }
   | { readonly kind: 'too_far' }
   | { readonly kind: 'screen'; readonly href: Href }
+  /** No fix of the guide's can be sent for this plan: the way to the stop, to change it by hand. */
+  | { readonly kind: 'by_hand'; readonly href: Href }
   | { readonly kind: 'none' };
 
-export function fixActionOf(issue: PlanCheckIssue, tripId: string): FixAction {
+/**
+ * Where a card leads when the guide's fixes cannot be sent: on an organiser's own draft (they
+ * need the crew's plan on the server), the stop's own sheet. Null: nothing to open for the issue.
+ * Leave it out and the card offers its fix.
+ */
+export type ByHand = (issue: PlanCheckIssue) => Href | null;
+
+export function fixActionOf(issue: PlanCheckIssue, tripId: string, byHand?: ByHand): FixAction {
+  if (byHand !== undefined) {
+    const href = byHand(issue);
+    return href === null ? { kind: 'none' } : { kind: 'by_hand', href };
+  }
   const fix = issue.fix;
   if (fix === null || fix.kind === 'none') return { kind: 'none' };
   if (fix.kind === 'apply') return { kind: 'apply' };

@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # Before the crew has a plan, on the plan ideas lab: Ideas on an organiser's own draft (day chips,
 # no PLACE THEM FOR ME), Ideas for a member who has no plan to see yet, and Add to plan for that
-# member (it saves to Ideas and names no day), in English then Vietnamese.
+# member (it saves to Ideas and names no day), and the plan check on an organiser's own draft
+# (each card opens its stop), in English then Vietnamese.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -27,6 +28,11 @@ appId: app.critterpass.dev
     env:
       SCENE: add-to-plan-before-plan
       SHOT: en-before-plan-add-to-plan
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: check-own-draft
+      SHOT: en-own-draft-check
 # The app in Vietnamese (picked for the running app, so no relaunch from here on).
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow: ../plan/subflows/dev-tools-again.yaml
@@ -52,3 +58,8 @@ appId: app.critterpass.dev
     env:
       SCENE: add-to-plan-before-plan
       SHOT: vi-before-plan-add-to-plan
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: check-own-draft
+      SHOT: vi-own-draft-check

@@ -137,3 +137,10 @@ export function fixReasonWords(reason: string): string | null {
         : null;
   }
 }
+
+/** On her own draft a card opens the stop (or the day) for her to change it herself. */
+export function openByHandLabel(hasStop: boolean): string {
+  return hasStop
+    ? t({ id: 'plan.check.fixLabel.openStop', message: 'Open the stop' })
+    : t({ id: 'plan.check.fixLabel.openDay', message: 'Open the day' });
+}

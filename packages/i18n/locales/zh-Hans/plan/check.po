@@ -617,6 +617,14 @@ msgstr ""
 msgid "plan.check.ask.private"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.titleOverlap"
 msgstr ""

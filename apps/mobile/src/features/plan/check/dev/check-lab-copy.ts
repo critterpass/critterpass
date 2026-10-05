@@ -10,7 +10,7 @@ import { t } from '@lingui/core/macro';
 
 import { checkedAgo, dayTag, weekdayName } from '../format';
 import type { IssueCardProps } from '../issue-card';
-import { fixKindLabel, fixSummary } from '../fix-copy';
+import { fixKindLabel, fixSummary, openByHandLabel } from '../fix-copy';
 import { issueWords, kindTag, knowLine, type IssueContext } from '../issue-copy';
 import { nearerDetail, nearerUseLabel } from '../check-copy';
 import { driveLine } from '../format';
@@ -128,7 +128,8 @@ export function issues(locale: string) {
     { swap: { to: '16:30', withName: 'Karsa Spa' } },
   ];
   return {
-    cards: (member: boolean, open: boolean): IssueCardProps[] =>
+    /** `byHand`: on an organiser's own draft, where a card opens its stop instead of a fix. */
+    cards: (member: boolean, open: boolean, byHand = false): IssueCardProps[] =>
       ISSUES.map((issue, index) => {
         const w = issueWords(issue, ctx);
         const date = ctx.dayDate(issue.day_id);
@@ -140,8 +141,10 @@ export function issues(locale: string) {
           ],
           title: w.title,
           body: w.body,
-          summary: fixSummary(issue, ctx, previews[index] ?? {}),
-          fixLabel: fixKindLabel(issue, !member),
+          summary: byHand ? null : fixSummary(issue, ctx, previews[index] ?? {}),
+          fixLabel: byHand
+            ? openByHandLabel(issue.stable_ids.length > 0)
+            : fixKindLabel(issue, !member),
           busy: false,
           onFix: () => undefined,
           detail:

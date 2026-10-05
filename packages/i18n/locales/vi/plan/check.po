@@ -627,6 +627,14 @@ msgstr "Chỉ hai người thấy."
 msgid "plan.check.ask.private"
 msgstr "Chỉ hai người thấy. Không có gì bị dời để lấy chỗ."
 
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openDay"
+msgstr "Mở ngày"
+
+#: ../../apps/mobile/src/features/plan/check/fix-copy.ts
+msgid "plan.check.fixLabel.openStop"
+msgstr "Mở điểm dừng"
+
 #: ../../apps/mobile/src/features/plan/check/issue-copy.ts
 msgid "plan.check.clash.titleOverlap"
 msgstr "Trùng giờ: {first} và {second}"
