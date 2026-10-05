@@ -1,0 +1,2538 @@
+{
+  "kind": "places",
+  "version": 1,
+  "items": [
+    {
+      "ref": "fsq_os:4e017a8a18a8abfb3f6dd139",
+      "destination": "vn-da-lat",
+      "name": "Bảo Đại Summer Palace (Dinh III)",
+      "name_local": "Dinh Bảo Đại III",
+      "category": "museum",
+      "lat": 11.930207694987718,
+      "lng": 108.42934623707544,
+      "address": "Triệu Việt Vương",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "history",
+        "museums"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4e017a8a18a8abfb3f6dd139",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Explore a former residence of Emperor Bao Dai, now a museum on Triệu Việt Vương street.",
+        "best_time": "Morning",
+        "time_needed_min": 45,
+        "crowd_hint": "Moderate",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Tham quan dinh thự xưa của vua Bảo Đại, nay là bảo tàng trên đường Triệu Việt Vương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Đông vừa phải"
+        }
+      }
+    },
+    {
+      "ref": "overture:14de2be4-a85a-4617-9817-a03b0da74512",
+      "destination": "vn-da-lat",
+      "name": "Crazy House",
+      "name_local": "Biệt thự Hằng Nga",
+      "category": "museum",
+      "lat": 11.934700965881348,
+      "lng": 108.43079376220703,
+      "address": "2 Đường Huỳnh Thúc Kháng",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "culture",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "14de2be4-a85a-4617-9817-a03b0da74512",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Explore the surreal architecture of this famous Dalat building.",
+        "best_time": "Early morning before tour groups",
+        "time_needed_min": 60,
+        "crowd_hint": "Popular, expect queues",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá lối kiến trúc kỳ lạ của ngôi biệt thự nổi tiếng của Đà Lạt.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới",
+          "crowd_hint": "Đông khách, thường phải xếp hàng"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4cedcfefb80da093c8672400",
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Cathedral",
+      "name_local": "Nhà thờ Con Gà",
+      "category": "temple_shrine",
+      "lat": 11.936483811955725,
+      "lng": 108.43769617303442,
+      "address": "15 Trần Phú St.",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "culture",
+        "history",
+        "temples",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4cedcfefb80da093c8672400",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Visit the cathedral known as the Chicken Church for its rooster weathervane.",
+        "best_time": "Weekday mornings for fewer visitors",
+        "time_needed_min": 30,
+        "crowd_hint": "Quiet outside of mass times",
+        "etiquette": "Dress modestly; cover shoulders and knees, and be quiet inside.",
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé nhà thờ được gọi là Nhà thờ Con Gà, vì có con gà trống chỉ hướng gió.",
+          "best_time": "Sáng các ngày trong tuần, ít khách hơn",
+          "crowd_hint": "Yên tĩnh ngoài giờ lễ",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; giữ yên lặng bên trong."
+        }
+      }
+    },
+    {
+      "ref": "overture:c29b9a71-e3f4-417a-8f2f-8b333e903492",
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Flower Garden",
+      "name_local": "Vườn hoa thành phố Đà Lạt",
+      "category": "nature",
+      "lat": 11.950374603271484,
+      "lng": 108.44969940185547,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "c29b9a71-e3f4-417a-8f2f-8b333e903492",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "See flower beds and landscaped greenery in this Da Lat park.",
+        "best_time": "Early morning before tour groups.",
+        "time_needed_min": 45,
+        "crowd_hint": "Popular with tour groups.",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm các luống hoa và cây cảnh được chăm chút trong công viên giữa Đà Lạt.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới.",
+          "crowd_hint": "Nhiều đoàn khách du lịch ghé."
+        }
+      }
+    },
+    {
+      "ref": "overture:4fa1f37f-c42e-436f-b787-f8b64136c048",
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Market",
+      "name_local": "Chợ Đà Lạt",
+      "category": "market",
+      "lat": 11.94261646270752,
+      "lng": 108.43701934814453,
+      "address": "Nguyễn Thị Minh Khai street",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "markets",
+        "local_life",
+        "street_food",
+        "thrifty"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "4fa1f37f-c42e-436f-b787-f8b64136c048",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Browse stalls for local produce, snacks and souvenirs in this central market.",
+        "best_time": "Morning, when the produce and flower stalls are full",
+        "time_needed_min": 60,
+        "crowd_hint": "Busy in the evening.",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo các sạp nông sản, quà vặt và đồ lưu niệm ở khu chợ trung tâm.",
+          "best_time": "Buổi sáng, lúc các sạp rau và hoa bày đầy đủ nhất",
+          "crowd_hint": "Đông vào buổi tối."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:501a83f0e4b07dd937479238",
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Night Market",
+      "name_local": "Chợ đêm Đà Lạt",
+      "category": "market",
+      "lat": 11.942282473096844,
+      "lng": 108.43702537786022,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "markets",
+        "local_life",
+        "street_food",
+        "shopping"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "501a83f0e4b07dd937479238",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Browse stalls for street food, souvenirs, and local goods in the evening.",
+        "best_time": "Evening, after dark, when the street in front of the market fills with stalls",
+        "time_needed_min": 75,
+        "crowd_hint": "Busy after dark, especially weekends",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo các hàng đồ ăn vặt, quà lưu niệm và đặc sản địa phương khi trời tối.",
+          "best_time": "Buổi tối, khi trời tối hẳn và con đường trước chợ kín hàng quán",
+          "crowd_hint": "Đông sau khi trời tối, nhất là cuối tuần"
+        }
+      }
+    },
+    {
+      "ref": "overture:32959149-e391-4eca-977e-d7ec398452d1",
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Railway Station",
+      "name_local": "Ga Đà Lạt",
+      "category": "museum",
+      "lat": 11.94162654876709,
+      "lng": 108.45455932617188,
+      "address": "1, Đường Quang Trung",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "history",
+        "culture",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "32959149-e391-4eca-977e-d7ec398452d1",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Admire the French colonial architecture of this historic railway station.",
+        "best_time": "Morning when the tourist train departs.",
+        "time_needed_min": 45,
+        "crowd_hint": "Can be busy when trains arrive.",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm kiến trúc thời Pháp của nhà ga lâu đời này.",
+          "best_time": "Buổi sáng, lúc chuyến tàu du lịch khởi hành.",
+          "crowd_hint": "Có thể đông khi tàu về ga."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:e30e15394f714de94514fa4a",
+      "destination": "vn-da-lat",
+      "name": "Datanla Falls",
+      "name_local": "Thác Datanla",
+      "category": "nature",
+      "lat": 11.901089,
+      "lng": 108.44898,
+      "address": "Prenn mountain pass",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "adventure",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "e30e15394f714de94514fa4a",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "See Datanla Falls tumbling down a forested slope.",
+        "best_time": "Morning: the coaster queues grow from mid-morning",
+        "time_needed_min": 150,
+        "crowd_hint": "Busy on weekends and holidays",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Datanla đổ xuống sườn đồi phủ rừng.",
+          "best_time": "Buổi sáng: từ giữa buổi, hàng chờ máng trượt dài dần",
+          "crowd_hint": "Đông vào cuối tuần và ngày lễ"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4e420312b0fb09b6086a589f",
+      "destination": "vn-da-lat",
+      "name": "Lâm Viên Square",
+      "name_local": "Quảng Trường Lâm Viên",
+      "category": "museum",
+      "lat": 11.939125,
+      "lng": 108.445333,
+      "address": "Yersin",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "local_life",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4e420312b0fb09b6086a589f",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Da Lat's central square on Yersin street.",
+        "best_time": "Late afternoon for cooler air and people-watching",
+        "time_needed_min": 30,
+        "crowd_hint": "Can be busy with locals and visitors",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quảng trường trung tâm của Đà Lạt, trên đường Yersin.",
+          "best_time": "Chiều muộn, khi trời mát và phố xá nhộn nhịp",
+          "crowd_hint": "Có thể đông cả người địa phương lẫn khách du lịch"
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q3217169",
+      "destination": "vn-da-lat",
+      "name": "Langbiang",
+      "name_local": "Đỉnh Langbiang",
+      "category": "nature",
+      "lat": 12.04722222,
+      "lng": 108.44,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "hiking",
+        "photo_spots",
+        "adventure"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q3217169",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "Hike or ride to the summit for views over the highlands.",
+        "best_time": "Half the morning: up by jeep, or walk 1.5 to 2 hours",
+        "time_needed_min": 180,
+        "crowd_hint": "Weekends busy",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Leo bộ hoặc đi xe lên đỉnh để ngắm toàn cảnh cao nguyên.",
+          "best_time": "Nửa buổi sáng: lên bằng xe jeep, hoặc đi bộ 1,5 đến 2 giờ",
+          "crowd_hint": "Cuối tuần đông"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4da12d1fb521224bf19eefed",
+      "destination": "vn-da-lat",
+      "name": "Linh Phước Pagoda",
+      "name_local": "Chùa Linh Phước",
+      "category": "temple_shrine",
+      "lat": 11.944380971976617,
+      "lng": 108.49942096611736,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4da12d1fb521224bf19eefed",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "See the mosaic-covered Buddhist temple and its long dragon sculpture.",
+        "best_time": "Early morning before tour groups",
+        "time_needed_min": 60,
+        "crowd_hint": "Popular with tour buses",
+        "etiquette": "Cover shoulders and knees; remove shoes before entering shrine rooms.",
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm ngôi chùa khảm sành sứ và tượng rồng dài của chùa.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới",
+          "crowd_hint": "Nhiều xe du lịch ghé",
+          "etiquette": "Che vai và đầu gối; cởi giày trước khi vào chánh điện."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4e6adf53483bf2d9e66ed137",
+      "destination": "vn-da-lat",
+      "name": "Trúc Lâm Zen Monastery",
+      "name_local": "Thiền viện Trúc Lâm Đà Lạt",
+      "category": "temple_shrine",
+      "lat": 11.903439008394573,
+      "lng": 108.43590682063957,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4e6adf53483bf2d9e66ed137",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "A peaceful Zen monastery at the top of the cable car, looking over the lake below, with gardens of shrubs clipped into animal shapes.",
+        "best_time": "Morning, with the cable car from Robin Hill",
+        "time_needed_min": 90,
+        "crowd_hint": "Popular with tourists",
+        "etiquette": "Dress modestly, cover shoulders and knees; remove shoes before entering temples.",
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thiền viện thanh tịnh ở điểm cuối tuyến cáp treo, nhìn xuống hồ nước bên dưới, khu vườn có những bụi cây cắt tỉa hình thú.",
+          "best_time": "Buổi sáng, đi cáp treo từ đồi Robin",
+          "crowd_hint": "Đông khách du lịch",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào chánh điện."
+        }
+      }
+    },
+    {
+      "ref": "overture:2abc4a5b-6668-4341-b6df-68fc163094ad",
+      "destination": "vn-da-lat",
+      "name": "Valley of Love",
+      "name_local": "Thung lũng Tình Yêu",
+      "category": "nature",
+      "lat": 11.980088233947754,
+      "lng": 108.45024871826172,
+      "address": "7 Đường Mai Anh Đào",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "2abc4a5b-6668-4341-b6df-68fc163094ad",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Wander landscaped gardens, flower beds and lakes in Da Lat's Valley of Love.",
+        "best_time": "Weekday mornings before tour groups",
+        "time_needed_min": 150,
+        "crowd_hint": "Busy with tour groups on weekends and holidays.",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thong thả dạo vườn cảnh, luống hoa và hồ nước ở Thung lũng Tình Yêu.",
+          "best_time": "Sáng các ngày trong tuần, trước khi các đoàn khách tới",
+          "crowd_hint": "Đông đoàn khách vào cuối tuần và ngày lễ."
+        }
+      }
+    },
+    {
+      "ref": "overture:2bfd52f7-6da1-4594-852f-2388c819d7d4",
+      "destination": "vn-da-lat",
+      "name": "Xuân Hương Lake",
+      "name_local": "Hồ Xuân Hương",
+      "category": "nature",
+      "lat": 11.943314552307129,
+      "lng": 108.44786834716797,
+      "address": "Đà Lạt",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "2bfd52f7-6da1-4594-852f-2388c819d7d4",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Enjoy the natural scenery of this lake in the heart of Đà Lạt.",
+        "best_time": "Early morning or late afternoon",
+        "time_needed_min": 60,
+        "crowd_hint": "Popular with locals and tourists",
+        "etiquette": null,
+        "must_see": true,
+        "essential": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Tận hưởng cảnh sắc của hồ nước nằm giữa lòng Đà Lạt.",
+          "best_time": "Sáng sớm hoặc chiều muộn",
+          "crowd_hint": "Người địa phương lẫn khách du lịch đều thích ghé"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:56a5d3d9498e6402f92c5f47",
+      "destination": "vn-da-lat",
+      "name": "An Cafe",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.941725270695612,
+      "lng": 108.43374832622241,
+      "address": "63 Bis, Ba Tháng Hai Street",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "56a5d3d9498e6402f92c5f47",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Relax at a café on Ba Tháng Hai.",
+        "best_time": "Morning coffee",
+        "time_needed_min": 45,
+        "crowd_hint": "Steady through the day",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngồi thư giãn ở quán cà phê trên đường Ba Tháng Hai.",
+          "best_time": "Ly cà phê buổi sáng",
+          "crowd_hint": "Khách đều đều suốt ngày"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:563b4d32cd109d1223bea5d1",
+      "destination": "vn-da-lat",
+      "name": "Artist Alley Restaurant",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.946487,
+      "lng": 108.435272,
+      "address": "124/1 Pham Dinh Phung",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "sit_down_dining",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "563b4d32cd109d1223bea5d1",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Restaurant on Phạm Đình Phùng.",
+        "best_time": "Dinner",
+        "time_needed_min": 60,
+        "crowd_hint": "Evening rush",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng trên đường Phạm Đình Phùng.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Đông vào giờ ăn tối"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5150167fe4b0eeb90d5ec225",
+      "destination": "vn-da-lat",
+      "name": "Bánh tráng nướng Dì Đinh",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.942791,
+      "lng": 108.428628,
+      "address": "Ngã tư Hoàng Diệu - Trần Nhật Duật (Yogout cũ)",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "street_food",
+        "local_life",
+        "thrifty"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5150167fe4b0eeb90d5ec225",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Visit this grilled rice paper stall for a quick, savory snack.",
+        "best_time": "Late afternoon to evening.",
+        "time_needed_min": 15,
+        "crowd_hint": "Often has a small queue.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé xe bánh tráng nướng này cho một món ăn vặt mặn, nhanh gọn.",
+          "best_time": "Chiều muộn đến tối.",
+          "crowd_hint": "Thường có vài người xếp hàng."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5113bb51e4b0078a4cd79ebc",
+      "destination": "vn-da-lat",
+      "name": "Bicycle Up",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.944931507547881,
+      "lng": 108.43483869777562,
+      "address": "82 Trương Công Định",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5113bb51e4b0078a4cd79ebc",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Coffee stop at this café on Trương Công Định.",
+        "best_time": "Mid-morning for a quiet break",
+        "time_needed_min": 30,
+        "crowd_hint": "Casual café crowd",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán trên đường Trương Công Định.",
+          "best_time": "Giữa buổi sáng, khi quán còn yên tĩnh",
+          "crowd_hint": "Khách cà phê bình thường"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:57ce82e3498ec0379d63fcd5",
+      "destination": "vn-da-lat",
+      "name": "Bùi Văn Ngọ Coffee",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.924784115226881,
+      "lng": 108.44694173564642,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "57ce82e3498ec0379d63fcd5",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Coffee at this café.",
+        "best_time": "Morning or quiet afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "Local coffee spot",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán này.",
+          "best_time": "Buổi sáng hoặc buổi chiều vắng khách",
+          "crowd_hint": "Quán cà phê của người địa phương"
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q42293656",
+      "destination": "vn-da-lat",
+      "name": "Châu Sơn Monastery",
+      "name_local": "Đan viện Thánh Mẫu Châu Sơn",
+      "category": "temple_shrine",
+      "lat": 11.809217,
+      "lng": 108.577551,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q42293656",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "Visit a Catholic monastery in Đơn Dương.",
+        "best_time": "Early morning for quiet",
+        "time_needed_min": 60,
+        "crowd_hint": "Respectful silence",
+        "etiquette": "Dress modestly and keep quiet.",
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm đan viện Công giáo ở Đơn Dương.",
+          "best_time": "Sáng sớm, khi còn yên tĩnh",
+          "crowd_hint": "Nơi cần giữ yên lặng",
+          "etiquette": "Ăn mặc kín đáo và giữ yên lặng."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4e18540188777e96476ef981",
+      "destination": "vn-da-lat",
+      "name": "Chè Hé",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.942840276769376,
+      "lng": 108.43517901307551,
+      "address": "11A Đường 3 Tháng 2",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "street_food",
+        "local_life",
+        "thrifty"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4e18540188777e96476ef981",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Have a bowl of chè (sweet soup) at this shop on 3 Tháng 2 street.",
+        "best_time": "Afternoon or evening dessert",
+        "time_needed_min": 20,
+        "crowd_hint": "Small shop, short waits.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn một chén chè ở quán trên đường 3 Tháng 2.",
+          "best_time": "Món tráng miệng buổi chiều hoặc tối",
+          "crowd_hint": "Quán nhỏ, chờ không lâu."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5e38fc6c678a8700073cfbca",
+      "destination": "vn-da-lat",
+      "name": "Da Lat Mountain View",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.938673,
+      "lng": 108.46329,
+      "address": "25 Hoàng Hoa Thám",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5e38fc6c678a8700073cfbca",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stop for coffee at this café on Hoàng Hoa Thám.",
+        "best_time": "Mid-morning.",
+        "time_needed_min": 30,
+        "crowd_hint": "Local café, quieter outside peak hours.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán trên đường Hoàng Hoa Thám.",
+          "best_time": "Giữa buổi sáng.",
+          "crowd_hint": "Quán của người địa phương, vắng hơn ngoài giờ cao điểm."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4d1488696d1037041e1622bd",
+      "destination": "vn-da-lat",
+      "name": "Dalat Nights Café",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.926036055324598,
+      "lng": 108.44529968671844,
+      "address": "Tô Hiến Thành",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4d1488696d1037041e1622bd",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stop for a coffee break on Tô Hiến Thành street.",
+        "best_time": "Mid-morning or after lunch",
+        "time_needed_min": 30,
+        "crowd_hint": "Casual café crowd",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Nghỉ chân uống cà phê trên đường Tô Hiến Thành.",
+          "best_time": "Giữa buổi sáng hoặc sau bữa trưa",
+          "crowd_hint": "Khách cà phê bình thường"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:649bcea1c91a8d2df6c1fe30",
+      "destination": "vn-da-lat",
+      "name": "Đa Phú Hill",
+      "name_local": "Đồi Đa Phú",
+      "category": "nature",
+      "lat": 11.981289,
+      "lng": 108.405493,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "hiking",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "649bcea1c91a8d2df6c1fe30",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Climb this hill for open views and fresh air.",
+        "best_time": "Early morning",
+        "time_needed_min": 60,
+        "crowd_hint": "Usually quiet",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Leo đồi để ngắm cảnh rộng mở và hít thở không khí trong lành.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Thường vắng"
+        }
+      }
+    },
+    {
+      "ref": "overture:aa703b5a-961e-4907-8391-1aa77b38277e",
+      "destination": "vn-da-lat",
+      "name": "Đa Phước Cao Đài Temple",
+      "name_local": "Thánh thất Đa Phước",
+      "category": "temple_shrine",
+      "lat": 11.944257736206055,
+      "lng": 108.50249481201172,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "aa703b5a-961e-4907-8391-1aa77b38277e",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Visit a Cao Dai temple.",
+        "best_time": "Morning or late afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "Quiet",
+        "etiquette": "Dress modestly, cover shoulders and knees; remove shoes before entering.",
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Viếng một thánh thất Cao Đài.",
+          "best_time": "Buổi sáng hoặc chiều muộn",
+          "crowd_hint": "Yên tĩnh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4d1e86cc756e8cfa5bab5a54",
+      "destination": "vn-da-lat",
+      "name": "Domaine De Marie",
+      "name_local": "Nhà thờ Domaine de Marie",
+      "category": "temple_shrine",
+      "lat": 11.949314,
+      "lng": 108.430279,
+      "address": "Hẻm 6 Mai Anh",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture",
+        "history",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4d1e86cc756e8cfa5bab5a54",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Visit a Catholic convent and chapel known for its architecture and quiet garden.",
+        "best_time": "Morning for quiet",
+        "time_needed_min": 30,
+        "crowd_hint": "Usually calm",
+        "etiquette": "Dress modestly; cover shoulders and knees.",
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm tu viện và nhà nguyện Công giáo nổi tiếng với kiến trúc và khu vườn yên tĩnh.",
+          "best_time": "Buổi sáng, khi còn yên tĩnh",
+          "crowd_hint": "Thường yên ả",
+          "etiquette": "Ăn mặc kín đáo; che vai và đầu gối."
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q16480637",
+      "destination": "vn-da-lat",
+      "name": "Đơn Dương Lake",
+      "name_local": "Hồ Đơn Dương",
+      "category": "nature",
+      "lat": 11.863888888,
+      "lng": 108.613611111,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q16480637",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "Relax by the lakeshore and take in the surrounding highland scenery.",
+        "best_time": "Early morning or late afternoon for calm water and soft light.",
+        "time_needed_min": 45,
+        "crowd_hint": "Usually quiet, with local visitors on weekends.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn bên bờ hồ, ngắm cảnh cao nguyên xung quanh.",
+          "best_time": "Sáng sớm hoặc chiều muộn, khi mặt hồ phẳng lặng và nắng dịu.",
+          "crowd_hint": "Thường vắng, cuối tuần có khách địa phương."
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q10825676",
+      "destination": "vn-da-lat",
+      "name": "Elephant Waterfalls",
+      "name_local": "Thác Voi",
+      "category": "nature",
+      "lat": 11.82342,
+      "lng": 108.33468,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "hiking",
+        "photo_spots",
+        "adventure"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q10825676",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "See a powerful waterfall and walk down to its base.",
+        "best_time": "Early morning before crowds",
+        "time_needed_min": 90,
+        "crowd_hint": "Can be slippery; popular midday",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm dòng thác hùng vĩ và đi bộ xuống tận chân thác.",
+          "best_time": "Sáng sớm, trước khi đông khách",
+          "crowd_hint": "Đường có thể trơn; đông vào buổi trưa"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5d2850057226a50024def8a5",
+      "destination": "vn-da-lat",
+      "name": "Fresh Garden",
+      "name_local": null,
+      "category": "nature",
+      "lat": 11.946021,
+      "lng": 108.408235,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5d2850057226a50024def8a5",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stroll through a park filled with flower gardens.",
+        "best_time": "Morning or late afternoon for cooler weather.",
+        "time_needed_min": 45,
+        "crowd_hint": "Quieter on weekdays.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo bộ trong khu vườn ngập tràn hoa.",
+          "best_time": "Buổi sáng hoặc chiều muộn, khi trời mát.",
+          "crowd_hint": "Vắng hơn vào ngày thường."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:50ee4489e4b0b97edef4ae1f",
+      "destination": "vn-da-lat",
+      "name": "Góc Hà Thành",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.943994389586113,
+      "lng": 108.43467450654958,
+      "address": "53 Trương Công Định",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "sit_down_dining",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "50ee4489e4b0b97edef4ae1f",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Enjoy Vietnamese cuisine at this restaurant on Trương Công Định.",
+        "best_time": "Meal times.",
+        "time_needed_min": 60,
+        "crowd_hint": "Steady flow of diners.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức món Việt ở nhà hàng trên đường Trương Công Định.",
+          "best_time": "Giờ ăn.",
+          "crowd_hint": "Khách ra vào đều đặn."
+        }
+      }
+    },
+    {
+      "ref": "overture:bd1d36af-1948-48dd-8334-c210877e0cdd",
+      "destination": "vn-da-lat",
+      "name": "Golden Valley",
+      "name_local": "Thung lũng Vàng",
+      "category": "nature",
+      "lat": 12.006377220153809,
+      "lng": 108.38221740722656,
+      "address": "Suối Vàng",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "easy_pace",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "bd1d36af-1948-48dd-8334-c210877e0cdd",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Explore a landscaped park in pine forest by the Suối Vàng stream.",
+        "best_time": "Morning for cooler weather and clear light",
+        "time_needed_min": 60,
+        "crowd_hint": "Can get busy on weekends with local visitors.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá công viên cảnh quan giữa rừng thông bên suối Vàng.",
+          "best_time": "Buổi sáng, khi trời mát và nắng trong",
+          "crowd_hint": "Cuối tuần có thể đông khách địa phương."
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q32250999",
+      "destination": "vn-da-lat",
+      "name": "Gougah Waterfall",
+      "name_local": "Thác Gougah",
+      "category": "nature",
+      "lat": 11.683333333,
+      "lng": 108.35,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "hiking",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q32250999",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "Visit a waterfall in forested countryside.",
+        "best_time": "Early morning",
+        "time_needed_min": 60,
+        "crowd_hint": "May be quiet",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé một con thác giữa vùng quê nhiều rừng.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Có thể vắng"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5ccd51fe9d74680039b26c21",
+      "destination": "vn-da-lat",
+      "name": "Horizon Coffee",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.923496,
+      "lng": 108.44832,
+      "address": "31/6 3/4",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5ccd51fe9d74680039b26c21",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Coffee spot on 3/4 street.",
+        "best_time": "Any time for coffee.",
+        "time_needed_min": 30,
+        "crowd_hint": "Likely local crowd.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường 3/4.",
+          "best_time": "Uống cà phê lúc nào cũng được.",
+          "crowd_hint": "Có lẽ chủ yếu khách địa phương."
+        }
+      }
+    },
+    {
+      "ref": "overture:af79cbf2-a2a1-4441-aa4e-0f56650c9575",
+      "destination": "vn-da-lat",
+      "name": "In The Forest Đà Lạt",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.928302764892578,
+      "lng": 108.45479583740234,
+      "address": "86/7 Khe Sanh, Phường 10, Đà Lạt",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "af79cbf2-a2a1-4441-aa4e-0f56650c9575",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Enjoy coffee at this café in the Khe Sanh area.",
+        "best_time": "Afternoon for a quiet break",
+        "time_needed_min": 45,
+        "crowd_hint": "Tucked away, limited seating",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức cà phê ở quán trong khu Khe Sanh.",
+          "best_time": "Buổi chiều, để nghỉ ngơi yên tĩnh",
+          "crowd_hint": "Quán khuất, ít chỗ ngồi"
+        }
+      }
+    },
+    {
+      "ref": "overture:d9e39c42-19ec-47eb-9cc7-870777775ce2",
+      "destination": "vn-da-lat",
+      "name": "K'Ho Coffee",
+      "name_local": null,
+      "category": "food",
+      "lat": 12.009653091430664,
+      "lng": 108.41287994384766,
+      "address": "2 Duy Tân/1 Đăng Gia",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "d9e39c42-19ec-47eb-9cc7-870777775ce2",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Coffee from a working farm, served at the farm's café.",
+        "best_time": "Morning",
+        "time_needed_min": 45,
+        "crowd_hint": "Quieter on weekdays",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Cà phê từ một nông trại đang canh tác, pha ngay tại quán của nông trại.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Vắng hơn vào ngày thường"
+        }
+      }
+    },
+    {
+      "ref": "overture:faf6ef45-f18c-472b-97d0-a1fc2b388d6b",
+      "destination": "vn-da-lat",
+      "name": "Kong cafe Dalat",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.936430931091309,
+      "lng": 108.48342895507812,
+      "address": "Dã Chiến",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "faf6ef45-f18c-472b-97d0-a1fc2b388d6b",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A café on Dã Chiến for coffee or a light break.",
+        "best_time": "Morning",
+        "time_needed_min": 45,
+        "crowd_hint": "Popular with locals",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Dã Chiến, ghé uống cà phê hoặc nghỉ chân.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      }
+    },
+    {
+      "ref": "overture:eb0d16eb-188f-4b4b-ae9a-d0bca60a07a3",
+      "destination": "vn-da-lat",
+      "name": "Lake of Sighs",
+      "name_local": "Hồ Than Thở",
+      "category": "nature",
+      "lat": 11.955404281616211,
+      "lng": 108.47711944580078,
+      "address": "Hồ Xuân Hương, 22 Đường Nguyễn Trãi",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "eb0d16eb-188f-4b4b-ae9a-d0bca60a07a3",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A serene lake in Da Lat.",
+        "best_time": "Early morning for calm water.",
+        "time_needed_min": 45,
+        "crowd_hint": "Popular but spread out.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Một hồ nước yên bình ở Đà Lạt.",
+          "best_time": "Sáng sớm, khi mặt hồ phẳng lặng.",
+          "crowd_hint": "Khách đông nhưng tản ra khắp nơi."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5108c9c8e4b0ea465ab04b77",
+      "destination": "vn-da-lat",
+      "name": "Lam Dong Museum",
+      "name_local": "Bảo Tàng Lâm Đồng",
+      "category": "museum",
+      "lat": 11.940789595361816,
+      "lng": 108.45984937408303,
+      "address": "4 Đ. Hùng Vương",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "museums",
+        "history",
+        "culture",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5108c9c8e4b0ea465ab04b77",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Provincial museum with exhibits on local history and culture.",
+        "best_time": "Morning",
+        "time_needed_min": 60,
+        "crowd_hint": "Quiet on weekdays",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Bảo tàng của tỉnh, trưng bày về lịch sử và văn hóa địa phương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:55169c31498eb8bdba98552f",
+      "destination": "vn-da-lat",
+      "name": "Lẩu Bò Ba Toa Quán Gỗ",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.941382388734784,
+      "lng": 108.42954874574801,
+      "address": "Hoàng Diệu Đà Lạt",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "sit_down_dining",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "55169c31498eb8bdba98552f",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Enjoy beef hotpot on Hoàng Diệu street.",
+        "best_time": "Dinner hours",
+        "time_needed_min": 60,
+        "crowd_hint": "Typical restaurant crowds",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn lẩu bò trên đường Hoàng Diệu.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Đông như các quán ăn khác"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5614882c498ede773b46869d",
+      "destination": "vn-da-lat",
+      "name": "Là Việt Coffee",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.95677428234854,
+      "lng": 108.43512621289412,
+      "address": "200 Nguyễn Công Trứ",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5614882c498ede773b46869d",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Try locally roasted Vietnamese coffee at this roaster's café on Nguyễn Công Trứ.",
+        "best_time": "Mid-morning when the roast is fresh",
+        "time_needed_min": 30,
+        "crowd_hint": "Busy on weekends",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê Việt rang tại chỗ ở quán của xưởng rang trên đường Nguyễn Công Trứ.",
+          "best_time": "Giữa buổi sáng, khi cà phê vừa rang",
+          "crowd_hint": "Đông vào cuối tuần"
+        }
+      }
+    },
+    {
+      "ref": "overture:e8f9084c-e546-433c-a98b-2da69a9e78b1",
+      "destination": "vn-da-lat",
+      "name": "Le Chalet Dalat Cafe & Bistro",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.934915542602539,
+      "lng": 108.43085479736328,
+      "address": "5 Đường Huỳnh Thúc Kháng",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "sit_down_dining"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "e8f9084c-e546-433c-a98b-2da69a9e78b1",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Café and bistro on Huỳnh Thúc Kháng for coffee or a casual meal.",
+        "best_time": "Late afternoon",
+        "time_needed_min": 60,
+        "crowd_hint": "Can get busy at lunch",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê kiêm bistro trên đường Huỳnh Thúc Kháng, ghé uống cà phê hoặc ăn nhẹ.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Có thể đông vào buổi trưa"
+        }
+      }
+    },
+    {
+      "ref": "overture:5327219f-ad16-4957-94e9-773726567ad3",
+      "destination": "vn-da-lat",
+      "name": "Le Rabelais",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.937718391418457,
+      "lng": 108.44050598144531,
+      "address": "12 Ð, 2 Đ. Trần Phú",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "sit_down_dining"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "5327219f-ad16-4957-94e9-773726567ad3",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "French restaurant on Trần Phú for a formal sit-down meal.",
+        "best_time": "Dinner",
+        "time_needed_min": 90,
+        "crowd_hint": "Quiet weekday evenings",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng Pháp trên đường Trần Phú cho một bữa ăn trang trọng.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Vắng vào tối các ngày trong tuần"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4c05e35e5753c928082f3af1",
+      "destination": "vn-da-lat",
+      "name": "Liên Hoa Bakery",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.942799186172264,
+      "lng": 108.43509061378718,
+      "address": "15-17-19 3 Thang 2 phường 1",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "local_life",
+        "thrifty"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4c05e35e5753c928082f3af1",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Pick up fresh bread and pastries at this bakery on 3 Thang 2.",
+        "best_time": "Early morning",
+        "time_needed_min": 15,
+        "crowd_hint": "Busy before work",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé mua bánh mì và bánh ngọt mới ra lò ở tiệm bánh trên đường 3 Tháng 2.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Đông trước giờ đi làm"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:511474e7c84c65a2f878705a",
+      "destination": "vn-da-lat",
+      "name": "Linh Sơn Pagoda",
+      "name_local": "Chùa Linh Sơn",
+      "category": "temple_shrine",
+      "lat": 11.949905002048286,
+      "lng": 108.43689207810415,
+      "address": "Nguyễn Văn Trỗi",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "511474e7c84c65a2f878705a",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "A Buddhist temple on Nguyễn Văn Trỗi for quiet contemplation.",
+        "best_time": "Morning",
+        "time_needed_min": 30,
+        "crowd_hint": "Usually peaceful",
+        "etiquette": "Dress modestly, cover shoulders and knees.",
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngôi chùa trên đường Nguyễn Văn Trỗi, nơi tĩnh tâm yên lặng.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Thường thanh tịnh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5e3d3ab9b8c06600085ad0fb",
+      "destination": "vn-da-lat",
+      "name": "Lululola",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.920108,
+      "lng": 108.441973,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "nightlife",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5e3d3ab9b8c06600085ad0fb",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Music café for live performances alongside coffee and drinks.",
+        "best_time": "Evening",
+        "time_needed_min": 90,
+        "crowd_hint": "Popular with music fans",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê nhạc có biểu diễn trực tiếp, kèm cà phê và đồ uống.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông người mê nhạc"
+        }
+      }
+    },
+    {
+      "ref": "overture:0e074dc4-08b5-4e08-90ac-b10b199d7c49",
+      "destination": "vn-da-lat",
+      "name": "Lưng Chừng",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.920859336853027,
+      "lng": 108.44721984863281,
+      "address": "31/8 Đường 3/4",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "0e074dc4-08b5-4e08-90ac-b10b199d7c49",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Stop for coffee at a small café on Đường 3/4.",
+        "best_time": "Mid-afternoon for a quiet break",
+        "time_needed_min": 30,
+        "crowd_hint": "Casual neighbourhood café",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê ở quán nhỏ trên đường 3/4.",
+          "best_time": "Giữa buổi chiều, khi quán yên tĩnh",
+          "crowd_hint": "Quán cà phê nhỏ trong khu dân cư, không cầu kỳ"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5d32a9e2e2efbf0008c64e39",
+      "destination": "vn-da-lat",
+      "name": "Mây Lang Thang",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.941354,
+      "lng": 108.46575,
+      "address": "7B",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "nightlife",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5d32a9e2e2efbf0008c64e39",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Music café for coffee and live music in Đà Lạt.",
+        "best_time": "Evening for performances",
+        "time_needed_min": 60,
+        "crowd_hint": "Lively when music is on",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê nhạc ở Đà Lạt, có cà phê và nhạc sống.",
+          "best_time": "Buổi tối, lúc có biểu diễn",
+          "crowd_hint": "Sôi động khi có nhạc"
+        }
+      }
+    },
+    {
+      "ref": "overture:7c8a87d2-2c8c-47b5-8e69-25a996dd8093",
+      "destination": "vn-da-lat",
+      "name": "Mộng Mơ Hill",
+      "name_local": "Đồi Mộng Mơ",
+      "category": "nature",
+      "lat": 11.97765064239502,
+      "lng": 108.4454345703125,
+      "address": "Phù Đổng Thiên Vương",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "7c8a87d2-2c8c-47b5-8e69-25a996dd8093",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A landscaped hillside with flower beds and viewpoints, popular for a stroll.",
+        "best_time": "Late afternoon",
+        "time_needed_min": 90,
+        "crowd_hint": "Busy on weekends",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Sườn đồi được trồng hoa, có nhiều điểm ngắm cảnh, nơi nhiều người thích dạo chơi.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Đông vào cuối tuần"
+        }
+      }
+    },
+    {
+      "ref": "overture:45d65c3c-b4a2-4071-bdd5-94e142bc6382",
+      "destination": "vn-da-lat",
+      "name": "Nem Nướng Bà Hùng",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.95163345336914,
+      "lng": 108.43331146240234,
+      "address": "328 Đường Phan Đình Phùng",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "sit_down_dining",
+        "local_life"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "45d65c3c-b4a2-4071-bdd5-94e142bc6382",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Eat nem nướng (grilled pork rolls) at this restaurant.",
+        "best_time": "Lunch or dinner hours",
+        "time_needed_min": 45,
+        "crowd_hint": "Can get busy at peak meal times",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn nem nướng ở quán này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:56652144498e64f8eb3de749",
+      "destination": "vn-da-lat",
+      "name": "One More Cafe",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.94412,
+      "lng": 108.433086,
+      "address": "77 Đường Hai Bà Trưng",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "56652144498e64f8eb3de749",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stop for coffee and light bites at this café on Hai Ba Trung.",
+        "best_time": "Afternoon break",
+        "time_needed_min": 30,
+        "crowd_hint": "Typically relaxed",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê, ăn nhẹ ở quán trên đường Hai Bà Trưng.",
+          "best_time": "Nghỉ chân buổi chiều",
+          "crowd_hint": "Thường thoải mái"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:598696a2c4df1d5dfa9b0f64",
+      "destination": "vn-da-lat",
+      "name": "Panorama Dalat Cafe",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.946667,
+      "lng": 108.490138,
+      "address": "Vong Xoat 723",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "598696a2c4df1d5dfa9b0f64",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stop for coffee at this café on Vong Xoat.",
+        "best_time": "Late morning or early afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "Usually relaxed",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán này.",
+          "best_time": "Cuối buổi sáng hoặc đầu giờ chiều",
+          "crowd_hint": "Thường thoải mái"
+        }
+      }
+    },
+    {
+      "ref": "editorial:wikidata-Q10825668",
+      "destination": "vn-da-lat",
+      "name": "Pongour Waterfall",
+      "name_local": "Thác Pongour",
+      "category": "nature",
+      "lat": 11.6875,
+      "lng": 108.265,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "hiking",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "editorial",
+        "source_id": "wikidata-Q10825668",
+        "licence": "CritterPass editorial",
+        "attribution": "CritterPass"
+      },
+      "editorial": {
+        "why_go": "See a wide terraced waterfall and walk along its tiers.",
+        "best_time": "Late morning after mist clears",
+        "time_needed_min": 90,
+        "crowd_hint": "Quieter on weekdays",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Pongour trải rộng thành nhiều tầng và đi bộ dọc theo các tầng thác.",
+          "best_time": "Cuối buổi sáng, khi sương đã tan",
+          "crowd_hint": "Vắng hơn vào ngày thường"
+        }
+      }
+    },
+    {
+      "ref": "overture:2868c09e-5814-40b9-9d8d-10f9892eb5ad",
+      "destination": "vn-da-lat",
+      "name": "Prenn Pass",
+      "name_local": "Đèo Prenn",
+      "category": "nature",
+      "lat": 11.904502868652344,
+      "lng": 108.45073699951172,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "2868c09e-5814-40b9-9d8d-10f9892eb5ad",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Drive or ride through a scenic mountain pass near Da Lat.",
+        "best_time": "Morning for clear views",
+        "time_needed_min": 30,
+        "crowd_hint": "Traffic can pick up on weekends",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Lái ô tô hoặc chạy xe máy qua con đèo nhiều cảnh đẹp gần Đà Lạt.",
+          "best_time": "Buổi sáng, khi trời trong",
+          "crowd_hint": "Xe cộ có thể đông vào cuối tuần"
+        }
+      }
+    },
+    {
+      "ref": "overture:3982f2b2-efbf-42bd-b083-29ca3525ac15",
+      "destination": "vn-da-lat",
+      "name": "Prenn Waterfall",
+      "name_local": "Thác Prenn",
+      "category": "nature",
+      "lat": 11.876646995544434,
+      "lng": 108.47019958496094,
+      "address": "Đèo Prenn, P3",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "hiking"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "3982f2b2-efbf-42bd-b083-29ca3525ac15",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "See Prenn Waterfall in a forested area just outside Da Lat.",
+        "best_time": "Morning before crowds",
+        "time_needed_min": 90,
+        "crowd_hint": "Popular with tour groups",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Prenn giữa khu rừng ngay ngoại ô Đà Lạt.",
+          "best_time": "Buổi sáng, trước khi đông khách",
+          "crowd_hint": "Nhiều đoàn khách du lịch ghé"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:67ed59202312366fc773321e",
+      "destination": "vn-da-lat",
+      "name": "Quán Hoa Sữa",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.943564,
+      "lng": 108.435368,
+      "address": "3F Đường Tăng Bạt Hổ",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "local_life",
+        "thrifty",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "67ed59202312366fc773321e",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Soy-milk stall on Tăng Bạt Hổ street.",
+        "best_time": "Late afternoon or evening",
+        "time_needed_min": 15,
+        "crowd_hint": "Quick stop, limited seating",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa đậu nành trên đường Tăng Bạt Hổ.",
+          "best_time": "Chiều muộn hoặc buổi tối",
+          "crowd_hint": "Ghé nhanh, ít chỗ ngồi"
+        }
+      }
+    },
+    {
+      "ref": "overture:bb37ab00-2858-4c35-a193-79222e98e371",
+      "destination": "vn-da-lat",
+      "name": "Still Cafe",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.944252014160156,
+      "lng": 108.45443725585938,
+      "address": "59 Nguyễn Trãi",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "bb37ab00-2858-4c35-a193-79222e98e371",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A café on Nguyen Trai street for coffee and light bites.",
+        "best_time": "Afternoon",
+        "time_needed_min": 45,
+        "crowd_hint": "Moderate at weekends",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Nguyễn Trãi, có cà phê và đồ ăn nhẹ.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Cuối tuần đông vừa phải"
+        }
+      }
+    },
+    {
+      "ref": "overture:2f5b82a8-ff4c-47e6-bd47-b3fedf388b7e",
+      "destination": "vn-da-lat",
+      "name": "The Married Beans",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.942298889160156,
+      "lng": 108.42284393310547,
+      "address": "92 Đường Hoàng Diệu",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "2f5b82a8-ff4c-47e6-bd47-b3fedf388b7e",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Grab coffee at a café on Hoàng Diệu street.",
+        "best_time": "Morning or afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "No special crowd note",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê ở quán trên đường Hoàng Diệu.",
+          "best_time": "Buổi sáng hoặc buổi chiều",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5e5e38ff602d7c00076874b7",
+      "destination": "vn-da-lat",
+      "name": "Tiệm Cà Phê Cheo Veooo",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.938142,
+      "lng": 108.482179,
+      "address": "116 Đ. Hùng Vương",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5e5e38ff602d7c00076874b7",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Stop for Vietnamese coffee at this Hùng Vương street café.",
+        "best_time": "Mid-afternoon for a quiet break",
+        "time_needed_min": 30,
+        "crowd_hint": "Small café; can fill quickly.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê Việt ở quán trên đường Hùng Vương.",
+          "best_time": "Giữa buổi chiều, khi quán yên tĩnh",
+          "crowd_hint": "Quán nhỏ, dễ kín chỗ."
+        }
+      }
+    },
+    {
+      "ref": "overture:6836d27d-87e9-4021-93b5-2cdefbfa11c5",
+      "destination": "vn-da-lat",
+      "name": "Tiệm cà phê Nhà Bên Suối",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.902286529541016,
+      "lng": 108.44435119628906,
+      "address": "3 Trúc Lâm Yên Tử",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "6836d27d-87e9-4021-93b5-2cdefbfa11c5",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Have a coffee at this café on Trúc Lâm Yên Tử street.",
+        "best_time": "Early morning for a calm start",
+        "time_needed_min": 30,
+        "crowd_hint": "Likely quiet local café.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán trên đường Trúc Lâm Yên Tử.",
+          "best_time": "Sáng sớm, cho một khởi đầu nhẹ nhàng",
+          "crowd_hint": "Có lẽ là quán vắng của người địa phương."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:5c20a8befe3740002cb7c91f",
+      "destination": "vn-da-lat",
+      "name": "Tiệm Cà Phê Túi Mơ To",
+      "name_local": null,
+      "category": "food",
+      "lat": 11.941054,
+      "lng": 108.483647,
+      "address": "Hẻm 31 Sào Nam",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "coffee",
+        "local_life",
+        "thrifty"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "5c20a8befe3740002cb7c91f",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "Have a coffee at this small café down Hẻm 31 Sào Nam.",
+        "best_time": "Mid-morning or mid-afternoon",
+        "time_needed_min": 30,
+        "crowd_hint": "A small alley spot; limited seating.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán nhỏ trong hẻm 31 Sào Nam.",
+          "best_time": "Giữa buổi sáng hoặc giữa buổi chiều",
+          "crowd_hint": "Quán nhỏ trong hẻm, ít chỗ ngồi."
+        }
+      }
+    },
+    {
+      "ref": "fsq_os:4da557d70437667c9b29985b",
+      "destination": "vn-da-lat",
+      "name": "Trại Mát Station",
+      "name_local": "Ga Trại Mát",
+      "category": "other",
+      "lat": 11.94625,
+      "lng": 108.500952,
+      "address": null,
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "local_life",
+        "photo_spots"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "fsq_os",
+        "source_id": "4da557d70437667c9b29985b",
+        "licence": "Apache-2.0",
+        "attribution": "Foursquare Open Source Places"
+      },
+      "editorial": {
+        "why_go": "End point of the scenic tourist train from Dalat Railway Station.",
+        "best_time": "When the tourist train arrives.",
+        "time_needed_min": 30,
+        "crowd_hint": "Busy when trains come in.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm cuối của chuyến tàu du lịch ngắm cảnh từ ga Đà Lạt.",
+          "best_time": "Lúc tàu du lịch về ga.",
+          "crowd_hint": "Đông khi tàu về."
+        }
+      }
+    },
+    {
+      "ref": "overture:5415d2a0-d421-4309-ad0d-fb45cb575cf8",
+      "destination": "vn-da-lat",
+      "name": "Tuyền Lâm Lake",
+      "name_local": "Hồ Tuyền Lâm",
+      "category": "nature",
+      "lat": 11.892999649047852,
+      "lng": 108.42498779296875,
+      "address": "Đường Bến Du Thuyền",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "nature",
+        "photo_spots",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "5415d2a0-d421-4309-ad0d-fb45cb575cf8",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "A large lake surrounded by pine forest in Da Lat.",
+        "best_time": "Sunrise or late afternoon for lighting.",
+        "time_needed_min": 90,
+        "crowd_hint": "Can be busy on weekends.",
+        "etiquette": null,
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Hồ nước rộng giữa rừng thông ở Đà Lạt.",
+          "best_time": "Bình minh hoặc chiều muộn, khi ánh sáng đẹp.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      }
+    },
+    {
+      "ref": "overture:6bc5b1a5-157c-4c36-ad2a-7ee83f22050c",
+      "destination": "vn-da-lat",
+      "name": "Vạn Hạnh Zen Monastery",
+      "name_local": "Thiền viện Vạn Hạnh",
+      "category": "temple_shrine",
+      "lat": 11.963744163513184,
+      "lng": 108.44400024414062,
+      "address": "142 Đường Phù Đổng Thiên Vương",
+      "tz": "Asia/Ho_Chi_Minh",
+      "tags": [
+        "temples",
+        "culture",
+        "easy_pace"
+      ],
+      "hours": null,
+      "licence": {
+        "source": "overture",
+        "source_id": "6bc5b1a5-157c-4c36-ad2a-7ee83f22050c",
+        "licence": "CDLA-Permissive-2.0",
+        "attribution": "Overture Maps Foundation"
+      },
+      "editorial": {
+        "why_go": "Visit a quiet Zen monastery on Phù Đổng Thiên Vương street to see temple architecture and calm grounds.",
+        "best_time": "Early morning for a quieter visit",
+        "time_needed_min": 40,
+        "crowd_hint": "Usually quiet; respectful silence appreciated.",
+        "etiquette": "Dress modestly, cover shoulders and knees; remove shoes where indicated.",
+        "must_see": true
+      },
+      "merge_into": null,
+      "possible_duplicate_of": null,
+      "i18n": {
+        "vi": {
+          "why_go": "Viếng thiền viện yên tĩnh trên đường Phù Đổng Thiên Vương, ngắm kiến trúc chùa và khuôn viên thanh tịnh.",
+          "best_time": "Sáng sớm, khi còn vắng",
+          "crowd_hint": "Thường vắng; nên giữ yên lặng.",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày ở những nơi có yêu cầu."
+        }
+      }
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-10-05-places-06",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-10-05T16:30:00+07:00"
+  },
+  "approved_by": null,
+  "checksum": "910736d8e3ea4157f624b404146b8b2443fd232fb8cfc26ae06b274fecff9c3a"
+}

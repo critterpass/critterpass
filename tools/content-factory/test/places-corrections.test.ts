@@ -216,6 +216,19 @@ describe('place corrections', () => {
     });
   });
 
+  it('adds a language to the note and keeps the languages it does not state', () => {
+    const live = liveItem('overture:kept', { i18n: { ja: { why_go: '聖なる泉の寺院。' } } });
+    const [item] = correctionItems(
+      [place({ i18n: { vi: { why_go: 'Ngôi đền có suối thiêng.', best_time: 'Sáng sớm' } } })],
+      [row('overture:kept', { item: live })],
+    );
+    expect(item?.i18n).toEqual({
+      ja: { why_go: '聖なる泉の寺院。' },
+      vi: { why_go: 'Ngôi đền có suối thiêng.', best_time: 'Sáng sớm' },
+    });
+    expect(item?.editorial).toEqual(live.editorial);
+  });
+
   it('restates a hidden record with hide and without its flags, and refuses one a trip points at', () => {
     const flagged = liveItem('overture:far', {
       editorial: { ...liveItem('overture:far').editorial, must_see: true, essential: true },

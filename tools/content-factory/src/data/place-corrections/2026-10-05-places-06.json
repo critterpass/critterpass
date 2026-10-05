@@ -1,0 +1,974 @@
+{
+  "batch": "2026-10-05-places-06",
+  "checked_at": "2026-10-05T16:30:00+07:00",
+  "places": [
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e017a8a18a8abfb3f6dd139",
+      "stored_name": "Bảo Đại Summer Palace (Dinh III)",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tham quan dinh thự xưa của vua Bảo Đại, nay là bảo tàng trên đường Triệu Việt Vương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:14de2be4-a85a-4617-9817-a03b0da74512",
+      "stored_name": "Crazy House",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá lối kiến trúc kỳ lạ của ngôi biệt thự nổi tiếng của Đà Lạt.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới",
+          "crowd_hint": "Đông khách, thường phải xếp hàng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4cedcfefb80da093c8672400",
+      "stored_name": "Đà Lạt Cathedral",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé nhà thờ được gọi là Nhà thờ Con Gà, vì có con gà trống chỉ hướng gió.",
+          "best_time": "Sáng các ngày trong tuần, ít khách hơn",
+          "crowd_hint": "Yên tĩnh ngoài giờ lễ",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; giữ yên lặng bên trong."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c29b9a71-e3f4-417a-8f2f-8b333e903492",
+      "stored_name": "Đà Lạt Flower Garden",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm các luống hoa và cây cảnh được chăm chút trong công viên giữa Đà Lạt.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới.",
+          "crowd_hint": "Nhiều đoàn khách du lịch ghé."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:4fa1f37f-c42e-436f-b787-f8b64136c048",
+      "stored_name": "Đà Lạt Market",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo các sạp nông sản, quà vặt và đồ lưu niệm ở khu chợ trung tâm.",
+          "best_time": "Buổi sáng, lúc các sạp rau và hoa bày đầy đủ nhất",
+          "crowd_hint": "Đông vào buổi tối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:501a83f0e4b07dd937479238",
+      "stored_name": "Đà Lạt Night Market",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo các hàng đồ ăn vặt, quà lưu niệm và đặc sản địa phương khi trời tối.",
+          "best_time": "Buổi tối, khi trời tối hẳn và con đường trước chợ kín hàng quán",
+          "crowd_hint": "Đông sau khi trời tối, nhất là cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:32959149-e391-4eca-977e-d7ec398452d1",
+      "stored_name": "Đà Lạt Railway Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm kiến trúc thời Pháp của nhà ga lâu đời này.",
+          "best_time": "Buổi sáng, lúc chuyến tàu du lịch khởi hành.",
+          "crowd_hint": "Có thể đông khi tàu về ga."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:e30e15394f714de94514fa4a",
+      "stored_name": "Datanla Falls",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Datanla đổ xuống sườn đồi phủ rừng.",
+          "best_time": "Buổi sáng: từ giữa buổi, hàng chờ máng trượt dài dần",
+          "crowd_hint": "Đông vào cuối tuần và ngày lễ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e420312b0fb09b6086a589f",
+      "stored_name": "Lâm Viên Square",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quảng trường trung tâm của Đà Lạt, trên đường Yersin.",
+          "best_time": "Chiều muộn, khi trời mát và phố xá nhộn nhịp",
+          "crowd_hint": "Có thể đông cả người địa phương lẫn khách du lịch"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q3217169",
+      "stored_name": "Langbiang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Leo bộ hoặc đi xe lên đỉnh để ngắm toàn cảnh cao nguyên.",
+          "best_time": "Nửa buổi sáng: lên bằng xe jeep, hoặc đi bộ 1,5 đến 2 giờ",
+          "crowd_hint": "Cuối tuần đông"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4da12d1fb521224bf19eefed",
+      "stored_name": "Linh Phước Pagoda",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm ngôi chùa khảm sành sứ và tượng rồng dài của chùa.",
+          "best_time": "Sáng sớm, trước khi các đoàn khách tới",
+          "crowd_hint": "Nhiều xe du lịch ghé",
+          "etiquette": "Che vai và đầu gối; cởi giày trước khi vào chánh điện."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e6adf53483bf2d9e66ed137",
+      "stored_name": "Trúc Lâm Zen Monastery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thiền viện thanh tịnh ở điểm cuối tuyến cáp treo, nhìn xuống hồ nước bên dưới, khu vườn có những bụi cây cắt tỉa hình thú.",
+          "best_time": "Buổi sáng, đi cáp treo từ đồi Robin",
+          "crowd_hint": "Đông khách du lịch",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào chánh điện."
+        }
+      },
+      "why": "Note in Vietnamese; the English line rewritten from the guide.",
+      "merge": [],
+      "revise": {
+        "why_go": "A peaceful Zen monastery at the top of the cable car, looking over the lake below, with gardens of shrubs clipped into animal shapes."
+      },
+      "claim": {
+        "said": "Visit a Zen monastery in Da Lat.",
+        "finding": "Wikivoyage: the monastery is at the top of where the cable car drops you off, has a magnificent view over the dams below, and its gardens are full of landscaped shrubs in animal form; extremely peaceful. The thin line is replaced with what the guide says, in both languages.",
+        "source": "https://en.wikivoyage.org/wiki/Da_Lat"
+      }
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2abc4a5b-6668-4341-b6df-68fc163094ad",
+      "stored_name": "Valley of Love",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thong thả dạo vườn cảnh, luống hoa và hồ nước ở Thung lũng Tình Yêu.",
+          "best_time": "Sáng các ngày trong tuần, trước khi các đoàn khách tới",
+          "crowd_hint": "Đông đoàn khách vào cuối tuần và ngày lễ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2bfd52f7-6da1-4594-852f-2388c819d7d4",
+      "stored_name": "Xuân Hương Lake",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tận hưởng cảnh sắc của hồ nước nằm giữa lòng Đà Lạt.",
+          "best_time": "Sáng sớm hoặc chiều muộn",
+          "crowd_hint": "Người địa phương lẫn khách du lịch đều thích ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:56a5d3d9498e6402f92c5f47",
+      "stored_name": "An Cafe",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngồi thư giãn ở quán cà phê trên đường Ba Tháng Hai.",
+          "best_time": "Ly cà phê buổi sáng",
+          "crowd_hint": "Khách đều đều suốt ngày"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:563b4d32cd109d1223bea5d1",
+      "stored_name": "Artist Alley Restaurant",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng trên đường Phạm Đình Phùng.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Đông vào giờ ăn tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5150167fe4b0eeb90d5ec225",
+      "stored_name": "Bánh tráng nướng Dì Đinh",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé xe bánh tráng nướng này cho một món ăn vặt mặn, nhanh gọn.",
+          "best_time": "Chiều muộn đến tối.",
+          "crowd_hint": "Thường có vài người xếp hàng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5113bb51e4b0078a4cd79ebc",
+      "stored_name": "Bicycle Up",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán trên đường Trương Công Định.",
+          "best_time": "Giữa buổi sáng, khi quán còn yên tĩnh",
+          "crowd_hint": "Khách cà phê bình thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:57ce82e3498ec0379d63fcd5",
+      "stored_name": "Bùi Văn Ngọ Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán này.",
+          "best_time": "Buổi sáng hoặc buổi chiều vắng khách",
+          "crowd_hint": "Quán cà phê của người địa phương"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q42293656",
+      "stored_name": "Châu Sơn Monastery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm đan viện Công giáo ở Đơn Dương.",
+          "best_time": "Sáng sớm, khi còn yên tĩnh",
+          "crowd_hint": "Nơi cần giữ yên lặng",
+          "etiquette": "Ăn mặc kín đáo và giữ yên lặng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e18540188777e96476ef981",
+      "stored_name": "Chè Hé",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn một chén chè ở quán trên đường 3 Tháng 2.",
+          "best_time": "Món tráng miệng buổi chiều hoặc tối",
+          "crowd_hint": "Quán nhỏ, chờ không lâu."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5e38fc6c678a8700073cfbca",
+      "stored_name": "Da Lat Mountain View",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán trên đường Hoàng Hoa Thám.",
+          "best_time": "Giữa buổi sáng.",
+          "crowd_hint": "Quán của người địa phương, vắng hơn ngoài giờ cao điểm."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4d1488696d1037041e1622bd",
+      "stored_name": "Dalat Nights Café",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nghỉ chân uống cà phê trên đường Tô Hiến Thành.",
+          "best_time": "Giữa buổi sáng hoặc sau bữa trưa",
+          "crowd_hint": "Khách cà phê bình thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:649bcea1c91a8d2df6c1fe30",
+      "stored_name": "Đa Phú Hill",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Leo đồi để ngắm cảnh rộng mở và hít thở không khí trong lành.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:aa703b5a-961e-4907-8391-1aa77b38277e",
+      "stored_name": "Đa Phước Cao Đài Temple",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Viếng một thánh thất Cao Đài.",
+          "best_time": "Buổi sáng hoặc chiều muộn",
+          "crowd_hint": "Yên tĩnh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4d1e86cc756e8cfa5bab5a54",
+      "stored_name": "Domaine De Marie",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm tu viện và nhà nguyện Công giáo nổi tiếng với kiến trúc và khu vườn yên tĩnh.",
+          "best_time": "Buổi sáng, khi còn yên tĩnh",
+          "crowd_hint": "Thường yên ả",
+          "etiquette": "Ăn mặc kín đáo; che vai và đầu gối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q16480637",
+      "stored_name": "Đơn Dương Lake",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn bên bờ hồ, ngắm cảnh cao nguyên xung quanh.",
+          "best_time": "Sáng sớm hoặc chiều muộn, khi mặt hồ phẳng lặng và nắng dịu.",
+          "crowd_hint": "Thường vắng, cuối tuần có khách địa phương."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q10825676",
+      "stored_name": "Elephant Waterfalls",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm dòng thác hùng vĩ và đi bộ xuống tận chân thác.",
+          "best_time": "Sáng sớm, trước khi đông khách",
+          "crowd_hint": "Đường có thể trơn; đông vào buổi trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5d2850057226a50024def8a5",
+      "stored_name": "Fresh Garden",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo bộ trong khu vườn ngập tràn hoa.",
+          "best_time": "Buổi sáng hoặc chiều muộn, khi trời mát.",
+          "crowd_hint": "Vắng hơn vào ngày thường."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:50ee4489e4b0b97edef4ae1f",
+      "stored_name": "Góc Hà Thành",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức món Việt ở nhà hàng trên đường Trương Công Định.",
+          "best_time": "Giờ ăn.",
+          "crowd_hint": "Khách ra vào đều đặn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bd1d36af-1948-48dd-8334-c210877e0cdd",
+      "stored_name": "Golden Valley",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá công viên cảnh quan giữa rừng thông bên suối Vàng.",
+          "best_time": "Buổi sáng, khi trời mát và nắng trong",
+          "crowd_hint": "Cuối tuần có thể đông khách địa phương."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q32250999",
+      "stored_name": "Gougah Waterfall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé một con thác giữa vùng quê nhiều rừng.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Có thể vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5ccd51fe9d74680039b26c21",
+      "stored_name": "Horizon Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường 3/4.",
+          "best_time": "Uống cà phê lúc nào cũng được.",
+          "crowd_hint": "Có lẽ chủ yếu khách địa phương."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:af79cbf2-a2a1-4441-aa4e-0f56650c9575",
+      "stored_name": "In The Forest Đà Lạt",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức cà phê ở quán trong khu Khe Sanh.",
+          "best_time": "Buổi chiều, để nghỉ ngơi yên tĩnh",
+          "crowd_hint": "Quán khuất, ít chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d9e39c42-19ec-47eb-9cc7-870777775ce2",
+      "stored_name": "K'Ho Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Cà phê từ một nông trại đang canh tác, pha ngay tại quán của nông trại.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Vắng hơn vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:faf6ef45-f18c-472b-97d0-a1fc2b388d6b",
+      "stored_name": "Kong cafe Dalat",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Dã Chiến, ghé uống cà phê hoặc nghỉ chân.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Được người địa phương ưa chuộng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:eb0d16eb-188f-4b4b-ae9a-d0bca60a07a3",
+      "stored_name": "Lake of Sighs",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Một hồ nước yên bình ở Đà Lạt.",
+          "best_time": "Sáng sớm, khi mặt hồ phẳng lặng.",
+          "crowd_hint": "Khách đông nhưng tản ra khắp nơi."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5108c9c8e4b0ea465ab04b77",
+      "stored_name": "Lam Dong Museum",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bảo tàng của tỉnh, trưng bày về lịch sử và văn hóa địa phương.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:55169c31498eb8bdba98552f",
+      "stored_name": "Lẩu Bò Ba Toa Quán Gỗ",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn lẩu bò trên đường Hoàng Diệu.",
+          "best_time": "Giờ ăn tối",
+          "crowd_hint": "Đông như các quán ăn khác"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5614882c498ede773b46869d",
+      "stored_name": "Là Việt Coffee",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thử cà phê Việt rang tại chỗ ở quán của xưởng rang trên đường Nguyễn Công Trứ.",
+          "best_time": "Giữa buổi sáng, khi cà phê vừa rang",
+          "crowd_hint": "Đông vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e8f9084c-e546-433c-a98b-2da69a9e78b1",
+      "stored_name": "Le Chalet Dalat Cafe & Bistro",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê kiêm bistro trên đường Huỳnh Thúc Kháng, ghé uống cà phê hoặc ăn nhẹ.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Có thể đông vào buổi trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5327219f-ad16-4957-94e9-773726567ad3",
+      "stored_name": "Le Rabelais",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nhà hàng Pháp trên đường Trần Phú cho một bữa ăn trang trọng.",
+          "best_time": "Bữa tối",
+          "crowd_hint": "Vắng vào tối các ngày trong tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4c05e35e5753c928082f3af1",
+      "stored_name": "Liên Hoa Bakery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé mua bánh mì và bánh ngọt mới ra lò ở tiệm bánh trên đường 3 Tháng 2.",
+          "best_time": "Sáng sớm",
+          "crowd_hint": "Đông trước giờ đi làm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:511474e7c84c65a2f878705a",
+      "stored_name": "Linh Sơn Pagoda",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngôi chùa trên đường Nguyễn Văn Trỗi, nơi tĩnh tâm yên lặng.",
+          "best_time": "Buổi sáng",
+          "crowd_hint": "Thường thanh tịnh",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5e3d3ab9b8c06600085ad0fb",
+      "stored_name": "Lululola",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê nhạc có biểu diễn trực tiếp, kèm cà phê và đồ uống.",
+          "best_time": "Buổi tối",
+          "crowd_hint": "Đông người mê nhạc"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:0e074dc4-08b5-4e08-90ac-b10b199d7c49",
+      "stored_name": "Lưng Chừng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê ở quán nhỏ trên đường 3/4.",
+          "best_time": "Giữa buổi chiều, khi quán yên tĩnh",
+          "crowd_hint": "Quán cà phê nhỏ trong khu dân cư, không cầu kỳ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5d32a9e2e2efbf0008c64e39",
+      "stored_name": "Mây Lang Thang",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê nhạc ở Đà Lạt, có cà phê và nhạc sống.",
+          "best_time": "Buổi tối, lúc có biểu diễn",
+          "crowd_hint": "Sôi động khi có nhạc"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7c8a87d2-2c8c-47b5-8e69-25a996dd8093",
+      "stored_name": "Mộng Mơ Hill",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Sườn đồi được trồng hoa, có nhiều điểm ngắm cảnh, nơi nhiều người thích dạo chơi.",
+          "best_time": "Chiều muộn",
+          "crowd_hint": "Đông vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:45d65c3c-b4a2-4071-bdd5-94e142bc6382",
+      "stored_name": "Nem Nướng Bà Hùng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ăn nem nướng ở quán này.",
+          "best_time": "Giờ ăn trưa hoặc tối",
+          "crowd_hint": "Có thể đông vào giờ cao điểm"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:56652144498e64f8eb3de749",
+      "stored_name": "One More Cafe",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê, ăn nhẹ ở quán trên đường Hai Bà Trưng.",
+          "best_time": "Nghỉ chân buổi chiều",
+          "crowd_hint": "Thường thoải mái"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:598696a2c4df1d5dfa9b0f64",
+      "stored_name": "Panorama Dalat Cafe",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dừng chân uống cà phê ở quán này.",
+          "best_time": "Cuối buổi sáng hoặc đầu giờ chiều",
+          "crowd_hint": "Thường thoải mái"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q10825668",
+      "stored_name": "Pongour Waterfall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Pongour trải rộng thành nhiều tầng và đi bộ dọc theo các tầng thác.",
+          "best_time": "Cuối buổi sáng, khi sương đã tan",
+          "crowd_hint": "Vắng hơn vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2868c09e-5814-40b9-9d8d-10f9892eb5ad",
+      "stored_name": "Prenn Pass",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lái ô tô hoặc chạy xe máy qua con đèo nhiều cảnh đẹp gần Đà Lạt.",
+          "best_time": "Buổi sáng, khi trời trong",
+          "crowd_hint": "Xe cộ có thể đông vào cuối tuần"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3982f2b2-efbf-42bd-b083-29ca3525ac15",
+      "stored_name": "Prenn Waterfall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm thác Prenn giữa khu rừng ngay ngoại ô Đà Lạt.",
+          "best_time": "Buổi sáng, trước khi đông khách",
+          "crowd_hint": "Nhiều đoàn khách du lịch ghé"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:67ed59202312366fc773321e",
+      "stored_name": "Quán Hoa Sữa",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán sữa đậu nành trên đường Tăng Bạt Hổ.",
+          "best_time": "Chiều muộn hoặc buổi tối",
+          "crowd_hint": "Ghé nhanh, ít chỗ ngồi"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bb37ab00-2858-4c35-a193-79222e98e371",
+      "stored_name": "Still Cafe",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quán cà phê trên đường Nguyễn Trãi, có cà phê và đồ ăn nhẹ.",
+          "best_time": "Buổi chiều",
+          "crowd_hint": "Cuối tuần đông vừa phải"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2f5b82a8-ff4c-47e6-bd47-b3fedf388b7e",
+      "stored_name": "The Married Beans",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê ở quán trên đường Hoàng Diệu.",
+          "best_time": "Buổi sáng hoặc buổi chiều",
+          "crowd_hint": "Không có gì đáng lưu ý về lượng khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5e5e38ff602d7c00076874b7",
+      "stored_name": "Tiệm Cà Phê Cheo Veooo",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ghé uống cà phê Việt ở quán trên đường Hùng Vương.",
+          "best_time": "Giữa buổi chiều, khi quán yên tĩnh",
+          "crowd_hint": "Quán nhỏ, dễ kín chỗ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6836d27d-87e9-4021-93b5-2cdefbfa11c5",
+      "stored_name": "Tiệm cà phê Nhà Bên Suối",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán trên đường Trúc Lâm Yên Tử.",
+          "best_time": "Sáng sớm, cho một khởi đầu nhẹ nhàng",
+          "crowd_hint": "Có lẽ là quán vắng của người địa phương."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5c20a8befe3740002cb7c91f",
+      "stored_name": "Tiệm Cà Phê Túi Mơ To",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Uống cà phê ở quán nhỏ trong hẻm 31 Sào Nam.",
+          "best_time": "Giữa buổi sáng hoặc giữa buổi chiều",
+          "crowd_hint": "Quán nhỏ trong hẻm, ít chỗ ngồi."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4da557d70437667c9b29985b",
+      "stored_name": "Trại Mát Station",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm cuối của chuyến tàu du lịch ngắm cảnh từ ga Đà Lạt.",
+          "best_time": "Lúc tàu du lịch về ga.",
+          "crowd_hint": "Đông khi tàu về."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5415d2a0-d421-4309-ad0d-fb45cb575cf8",
+      "stored_name": "Tuyền Lâm Lake",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Hồ nước rộng giữa rừng thông ở Đà Lạt.",
+          "best_time": "Bình minh hoặc chiều muộn, khi ánh sáng đẹp.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6bc5b1a5-157c-4c36-ad2a-7ee83f22050c",
+      "stored_name": "Vạn Hạnh Zen Monastery",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Viếng thiền viện yên tĩnh trên đường Phù Đổng Thiên Vương, ngắm kiến trúc chùa và khuôn viên thanh tịnh.",
+          "best_time": "Sáng sớm, khi còn vắng",
+          "crowd_hint": "Thường vắng; nên giữ yên lặng.",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày ở những nơi có yêu cầu."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "vn-da-lat",
+      "name": "Bùi Văn Ngọ Coffee, The Married Beans",
+      "why": "Their English notes say almost nothing (\"Coffee at this café\"; \"No special crowd note\"). Neither the records (no address for Bùi Văn Ngọ; an address only for The Married Beans) nor Wikivoyage says more, so the Vietnamese is as thin as the English. A better line needs a source."
+    }
+  ]
+}
