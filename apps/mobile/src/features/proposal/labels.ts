@@ -199,20 +199,28 @@ export function lockConsequences(state: LockState): string[] {
       ...after,
     ];
   }
-  const going = state.going + 1;
-  const { maybes, silent } = state;
+  // The messages keep the placeholders their translations were written with (an expression is
+  // numbered, a bare name is not): a renamed variable would blank the count in every language.
   return [
-    t({ id: 'proposal.lock.going', message: `${going} going, the trip is confirmed.` }),
-    ...(maybes > 0
+    t({
+      id: 'proposal.lock.going',
+      message: `${state.going + 1} going, the trip is confirmed.`,
+    }),
+    ...(state.maybes > 0
       ? [
           t({
             id: 'proposal.lock.maybes',
-            message: `${maybes} maybe go on the waitlist for a freed seat.`,
+            message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
           }),
         ]
       : []),
-    ...(silent > 0
-      ? [t({ id: 'proposal.lock.silent', message: `${silent} who haven’t answered are out.` })]
+    ...(state.silent > 0
+      ? [
+          t({
+            id: 'proposal.lock.silent',
+            message: `${state.silent} who haven’t answered are out.`,
+          }),
+        ]
       : []),
     ...after,
   ];

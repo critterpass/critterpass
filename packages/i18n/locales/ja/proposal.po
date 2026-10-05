@@ -17,6 +17,11 @@ msgstr ""
 msgid "proposal.dropout.each"
 msgstr ""
 
+#. placeholder {0}: state.going + 1
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.going"
+msgstr ""
+
 #. placeholder {0}: tally.in
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.in"
@@ -46,6 +51,11 @@ msgstr ""
 #. placeholder {0}: tally.maybe
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.maybe"
+msgstr ""
+
+#. placeholder {0}: state.maybes
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.maybes"
 msgstr ""
 
 #. placeholder {0}: tally.noReply
@@ -96,6 +106,11 @@ msgstr ""
 #. placeholder {0}: waiting.length
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waiting"
+msgstr ""
+
+#. placeholder {0}: state.silent
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.silent"
 msgstr ""
 
 #. placeholder {0}: info.name
@@ -159,10 +174,6 @@ msgstr ""
 msgid "proposal.confirmed.going"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.going"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
 msgid "proposal.turn.drafting"
 msgstr ""
@@ -177,10 +188,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
-msgstr ""
-
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.maybes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
@@ -253,10 +260,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/proposal/labels.ts
-msgid "proposal.lock.silent"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/turn/copy.ts
@@ -800,12 +803,12 @@ msgstr ""
 msgid "proposal.why.seeDay"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
-msgid "proposal.objection.openPlan"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
 msgid "proposal.confirmed.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.openPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
