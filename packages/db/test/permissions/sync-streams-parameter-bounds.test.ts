@@ -121,7 +121,7 @@ async function seedCaller(pool: pg.Pool, shape: Shape) {
     const tripIds: string[] = [];
     for (let i = 0; i < shape.trips; i += 1) {
       const trip = await tx.query<{ id: string }>(
-        "INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'confirmed', $2) RETURNING id",
+        "INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'voting', $2) RETURNING id",
         [crewIds[i % crewIds.length], dest],
       );
       tripIds.push(trip.rows[0]!.id);
