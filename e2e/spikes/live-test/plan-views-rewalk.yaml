@@ -22,7 +22,6 @@ appId: app.critterpass.dev
       id: 'home-mode-.*'
     timeout: 60000
 - runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
-- runFlow: ../../_shared/planning-redesign-on.yaml
 - waitForAnimationToEnd
 - tapOn:
     id: 'tab-trips'

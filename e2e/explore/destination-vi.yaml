@@ -1,14 +1,12 @@
 appId: app.critterpass.dev
 ---
-# The destination guide (7g-3) in Vietnamese, from the Explore lab's scenes with the planning
-# screens turned on for this phone.
+# The destination guide (7g-3) in Vietnamese, from the Explore lab's scenes.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
     timeout: 60000
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'dev-tools-entry'
 - runFlow:

@@ -6,7 +6,7 @@
 import { Redirect } from 'expo-router';
 
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
+import { usePlanHub } from '@/lib/navigation/plan-hub-setting';
 
 import { todayIn } from '../overview/data/use-plan-data';
 import { TripMapScreen } from '../trip-map/trip-map-screen';
@@ -30,7 +30,7 @@ function DayHub({ tripId }: { readonly tripId: string }) {
 }
 
 export function PlanHubScreen({ tripId }: { readonly tripId: string }) {
-  const entry = planEntry(usePlanningSwitch().hub);
+  const entry = planEntry(usePlanHub());
   if (entry === 'map') return <TripMapScreen tripId={tripId} />;
   return <DayHub tripId={tripId} />;
 }
