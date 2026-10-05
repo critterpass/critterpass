@@ -297,6 +297,12 @@ describe('IslandToast', () => {
         getByGestureTestId('island-toast-dismiss-tap'),
       ]),
     );
+    for (const id of ['island-toast-open-tap', 'island-toast-dismiss-tap']) {
+      const tap = getByGestureTestId(id) as unknown as {
+        config: { simultaneousWith?: readonly unknown[] };
+      };
+      expect(tap.config.simultaneousWith).toContain(claim);
+    }
   });
 
   it('stays on screen, still taking its touches, while it leaves', async () => {

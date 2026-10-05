@@ -44,6 +44,48 @@ appId: app.critterpass.dev
     visible:
       id: 'day-plan'
     timeout: 30000
+# 0. A stop moved 15 minutes from its own sheet, then UNDO from the toast over the header.
+- scrollUntilVisible:
+    element:
+      id: 'stop-3'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'stop-3'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-time-start-later'
+    timeout: 20000
+- tapOn:
+    id: 'plan-time-start-later'
+- tapOn:
+    id: 'plan-item-save'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-open'
+    timeout: 20000
+- takeScreenshot: follow-up-en-02a-moved-toast
+- tapOn:
+    id: 'island-toast-open'
+    waitToSettleTimeoutMs: 500
+- extendedWaitUntil:
+    visible:
+      text: 'Undone|Can.t undo that now|Undo needs signal'
+    timeout: 20000
+    optional: true
+- takeScreenshot: follow-up-en-02b-undo-answer
+- assertNotVisible:
+    id: 'plan-share-sheet'
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: follow-up-en-02c-after-undo
+- scrollUntilVisible:
+    element:
+      id: 'stop-2'
+    direction: UP
+    timeout: 10000
 # 1. A push from the stop's sheet, then UNDO from the toast over the header.
 - tapOn:
     id: 'stop-2'
@@ -71,12 +113,20 @@ appId: app.critterpass.dev
 - takeScreenshot: follow-up-en-03-pushed-toast-under-header
 - tapOn:
     id: 'island-toast-open'
+    waitToSettleTimeoutMs: 500
+- takeScreenshot: follow-up-en-04a-undo-tapped
+- extendedWaitUntil:
+    visible:
+      text: 'Undone|Can.t undo that now|Undo needs signal'
+    timeout: 20000
+    optional: true
+- takeScreenshot: follow-up-en-04b-undo-answer
+- assertNotVisible:
+    id: 'plan-share-sheet'
 - runFlow:
     file: subflows/settle.yaml
     env:
-      WAIT: 6000
-- assertNotVisible:
-    id: 'plan-share-sheet'
+      WAIT: 4000
 - takeScreenshot: follow-up-en-04-after-undo
 # 2. I'm here on the first stop.
 - scrollUntilVisible:

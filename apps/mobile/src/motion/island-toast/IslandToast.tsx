@@ -162,6 +162,9 @@ export function IslandToast({ Text }: IslandToastProps) {
     })
     .simultaneousWithExternalGesture(openTap, dismissTap)
     .withTestId('island-toast-claim');
+  // Declared on both sides, so the buttons are never cancelled by the claim on either platform.
+  openTap.simultaneousWithExternalGesture(claim);
+  dismissTap.simultaneousWithExternalGesture(claim);
   const pillGesture = Gesture.Simultaneous(gesture, claim);
 
   const animatedStyle = useAnimatedStyle(() => ({
