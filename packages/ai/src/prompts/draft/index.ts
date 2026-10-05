@@ -40,7 +40,7 @@ export {
   type SkeletonDay,
   type SkeletonPlan,
 } from './skeleton';
-export { templateSummary, writeDraftSummary, type SummaryInput } from './summary';
+export { longVisitsOf, templateSummary, writeDraftSummary, type SummaryInput } from './summary';
 export { derivedUuid } from './ids';
 export { withWishAnswers, wishOptions, type WishAnswer } from './wish-answers';
 export {

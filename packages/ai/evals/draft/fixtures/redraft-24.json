@@ -4,47 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "029f798b-3f07-4f26-9a6f-7105a937d119",
+        "id": "5ad5733e-3830-4c89-9061-f04648a99ccd",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Stroll Through Đà Lạt\",\n  \"summary\": \"A gentle day in the city centre with one kept market meal, one kept pagoda visit, and plenty of time to just wander and sit.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Morning is when the market truly wakes up, so we start here and let the stalls set the pace.\",\n      \"note\": \"Morning is when the market truly wakes up, so we start here and let the stalls set the pace.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"The kept lunch stop, because a slower day still needs a proper sit-down feast.\",\n      \"note\": \"The kept lunch stop, because a slower day still needs a proper sit-down feast.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"The kept pagoda visit, and with fewer stops we can linger among the mosaics without watching the clock.\",\n      \"note\": \"The kept pagoda visit, and with fewer stops we can linger among the mosaics without watching the clock.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays because even a lazy day in the hills deserves a warm, unhurried bowl at a proper table.\",\n      \"note\": \"Dinner stays because even a lazy day in the hills deserves a warm, unhurried bowl at a proper table.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Slow Day, Full Belly\",\n  \"summary\": \"A gentle day around the market, the square and a long lunch, with the evening kept for coffee and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Morning market wander, slow as you like. The crew can sniff every stall twice.\",\n      \"note_voice\": \"Morning market wander, slow as you like. Sniff every stall twice, I would.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, easy stop by the square. No rush, just a look around.\",\n      \"note_voice\": \"A short, easy stop by the square. No rush, just a look around.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays right here. Sit down, take your time, let the nem nướng do the talking.\",\n      \"note_voice\": \"Lunch stays right here. Sit down, take your time, let the nem nướng do the talking.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Evening coffee, because a slow day still needs a warm cup after dark.\",\n      \"note_voice\": \"Evening coffee, because a slow day still needs a warm cup after dark.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a sit-down spot, easy and long. The night owl in you will thank me.\",\n      \"note_voice\": \"Dinner in a sit-down spot, easy and long. The night owl in you will thank me.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 42,
+          "input_tokens": 93,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2560,
-          "output_tokens": 391,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 455,
           "service_tier": "standard"
         }
       }
     },
-    "redraft-repair": {
+    "titles": {
       "status": 200,
       "body": {
-        "id": "a7067c88-01c8-4be1-ab41-d47b852b3d09",
+        "id": "784c1d5d-84ca-48dc-9b00-78852c60ec61",
         "type": "message",
         "role": "assistant",
-        "model": "deepseek-v4-pro",
+        "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow morning, long lunch, lake air\",\n  \"summary\": \"A late, gentle Tuesday with one market wander, a long sit-down lunch, and an easy lakeside stroll before a quiet dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We keep the market because it is the city's heartbeat, and a slow wander here beats rushing anywhere else.\",\n      \"note\": \"We keep the market because it is the city's heartbeat, and a slow wander here beats rushing anywhere else.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"The one place we must not lose. Sit long, order twice, and tell the cook ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A lakeside loop fits the easy pace, and the afternoon light on the water is free of charge.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet sit-down dinner in the centre, because a slower day still ends with a proper table.\"\n    }\n  ]\n}\n```"
+            "text": "Day 2: Market first, then a slow feast"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 86,
+          "input_tokens": 241,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2560,
-          "output_tokens": 319,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

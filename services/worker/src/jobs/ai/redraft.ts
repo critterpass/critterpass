@@ -7,18 +7,16 @@
  * private version for the organiser to keep or revert. A day that comes back unchanged, or a job
  * that finally fails, releases the reservation: only a delivered change counts.
  */
-import { runRedraft, type RedraftOutcome } from '@cp/ai';
+import { runRedraft, shownName, type RedraftOutcome } from '@cp/ai';
 import { emitEvent, outbox, withSystem } from '@cp/db';
 import {
-  channelName,
   DRAFT_QUEUES,
   DRAFT_RT,
-  REDRAFT_COUNTER_RT,
   REDRAFT_REASON_KEYS,
+  type DraftDay,
   type RedraftResult,
 } from '@cp/domain';
 import { itineraryMetrics, redraftDiff, redraftMetrics } from '@cp/planner';
-import type pg from 'pg';
 import { z } from 'zod';
 
 import {
@@ -30,7 +28,9 @@ import { load, modelFor, type DraftModelFactory } from './draft/job-context';
 import { holdDay } from './draft/held-stops';
 import { staysPpMinor } from './draft/plan-input';
 import { candidateCoverage, loadBaseDraft, saveCandidate } from './draft/redraft-store';
+import { loadRoutedLegs, onTheRoad } from './draft/road-minutes';
 import { draftChannel } from './draft/steps';
+import { readerLocale, release } from './draft/redraft-release';
 
 const redraftInputSchema = z.object({
   trip_id: z.uuid(),
@@ -40,57 +40,20 @@ const redraftInputSchema = z.object({
   base_version: z.uuid(),
 });
 
+/** What the redraft step keeps for the steps after it. */
+type RedraftStep = Pick<RedraftOutcome, 'day' | 'title' | 'summary'> & {
+  /** Other days an essential moved onto (absent on a job saved before they could). */
+  readonly others?: readonly DraftDay[];
+  /** Essentials the redraft took out of the trip, by place id. */
+  readonly left_out?: readonly string[];
+};
+
 export interface RedraftJobDeps {
   readonly model?: DraftModelFactory | undefined;
 }
 
-/** Releases the job's reservation (and its quota unit) and gives the trip back to review. */
-async function release(tx: pg.PoolClient, jobId: string, tripId: string): Promise<void> {
-  const { rows } = await tx.query<{ quota_period_key: string | null }>(
-    `UPDATE redraft_reservations SET status = 'released', settled_at = now()
-      WHERE agent_job_id = $1 AND status = 'reserved' RETURNING quota_period_key`,
-    [jobId],
-  );
-  const key = rows[0]?.quota_period_key ?? null;
-  if (key !== null) {
-    await tx.query("SELECT app.release_quota('trip', $1, 'redrafts', $2)", [tripId, key]);
-  }
-  await tx.query(
-    "UPDATE trips SET status = 'draft_review' WHERE id = $1 AND status = 'redrafting'",
-    [tripId],
-  );
-  const counter = await tx.query<{ used: number }>(
-    `SELECT coalesce((SELECT count FROM usage_counters WHERE subject_kind = 'trip' AND subject_id = $1
-                        AND metric = 'redrafts' AND period_key = 'lifetime'), 0)::int AS used`,
-    [tripId],
-  );
-  const limits = await tx.query<{ redraft_limit: number }>(
-    'SELECT redraft_limit FROM trip_entitlements WHERE trip_id = $1',
-    [tripId],
-  );
-  const limit = limits.rows[0]?.redraft_limit ?? 3;
-  await outbox(tx, channelName('trip', tripId), REDRAFT_COUNTER_RT, {
-    used: counter.rows[0]?.used ?? 0,
-    limit: limit >= 2_147_483_647 ? null : limit,
-  });
-}
-
 function inputOf(ctx: AgentStepContext) {
   return redraftInputSchema.parse(ctx.input);
-}
-
-/** The app language of the organiser who asked, when she set one (else her account's). */
-async function readerLocale(pool: pg.Pool, userId: string | null): Promise<{ locale?: string }> {
-  if (userId === null) return {};
-  const { rows } = await withSystem(pool, (tx) =>
-    tx.query<{ locale: string | null }>(
-      `SELECT coalesce(s.app_locale, u.locale) AS locale
-         FROM users u LEFT JOIN user_settings s ON s.user_id = u.id WHERE u.id = $1`,
-      [userId],
-    ),
-  );
-  const locale = rows[0]?.locale ?? null;
-  return locale === null ? {} : { locale };
 }
 
 async function redraftStage(ctx: AgentStepContext, deps: RedraftJobDeps) {
@@ -170,8 +133,19 @@ export function redraftJob(deps: RedraftJobDeps): AgentJobDefinition {
         id: 'redraft',
         maxTries: 2,
         run: async (ctx) => {
-          const { outcome } = await redraftStage(ctx, deps);
-          return { day: outcome.day, title: outcome.title, summary: outcome.summary };
+          const { outcome, base } = await redraftStage(ctx, deps);
+          // Another day changes only when an essential the day lost was moved onto it.
+          const others = outcome.itinerary.days.filter((day) => {
+            const was = base.days.find((d) => d.day_no === day.day_no);
+            return day.day_no !== outcome.day.day_no && JSON.stringify(was) !== JSON.stringify(day);
+          });
+          return {
+            day: outcome.day,
+            title: outcome.title,
+            summary: outcome.summary,
+            others,
+            left_out: outcome.leftOut,
+          };
         },
       },
       {
@@ -188,20 +162,22 @@ export function redraftJob(deps: RedraftJobDeps): AgentJobDefinition {
             plan.travel,
           );
           if (base === null) throw new Error('base_version_gone');
-          const redrafted = ctx.results.redraft as Pick<
-            RedraftOutcome,
-            'day' | 'title' | 'summary'
-          >;
+          const redrafted = ctx.results.redraft as RedraftStep;
           const baseDay = base.itinerary.days.find((d) => d.day_no === input.day);
           if (baseDay === undefined) throw new Error('no_base_day');
           const itinerary = {
             ...base.itinerary,
-            days: base.itinerary.days.map((d) => (d.day_no === input.day ? redrafted.day : d)),
+            days: base.itinerary.days.map((d) =>
+              d.day_no === input.day
+                ? redrafted.day
+                : ((redrafted.others ?? []).find((o) => o.day_no === d.day_no) ?? d),
+            ),
           };
           const changes = redraftDiff(baseDay, redrafted.day);
+          const legs = await withSystem(ctx.pool, (tx) => loadRoutedLegs(tx, trip.tripId));
           const metrics = redraftMetrics({
-            base: baseDay,
-            candidate: redrafted.day,
+            base: onTheRoad(baseDay, legs, plan.pois),
+            candidate: onTheRoad(redrafted.day, legs, plan.pois),
             candidateItinerary: itinerary,
             requiredMustDoIds: plan.pools.mustDos.map((slot) => slot.mustDoId),
             crewSize: Math.max(1, trip.members.length),
@@ -220,7 +196,7 @@ export function redraftJob(deps: RedraftJobDeps): AgentJobDefinition {
           const diff = ctx.results.diff as Pick<RedraftResult, 'changes' | 'metrics'> & {
             itinerary: RedraftOutcome['itinerary'];
           };
-          const redrafted = ctx.results.redraft as Pick<RedraftOutcome, 'title' | 'summary'>;
+          const redrafted = ctx.results.redraft as RedraftStep;
           return withSystem(ctx.pool, async (tx) => {
             const changed = diff.changes.length > 0;
             let candidate: string | null = null;
@@ -247,6 +223,10 @@ export function redraftJob(deps: RedraftJobDeps): AgentJobDefinition {
                   input.base_version,
                   diff.itinerary,
                   plan.pois,
+                  (redrafted.left_out ?? []).flatMap((poiId) => {
+                    const poi = plan.pois.get(poiId);
+                    return poi === undefined ? [] : [{ poi_id: poiId, name: shownName(plan, poi) }];
+                  }),
                 ),
               });
             } else {

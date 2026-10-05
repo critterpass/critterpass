@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b2cb3ebe-2930-40d7-aa44-495f6c9a9e1e",
+        "id": "65d78099-2f7b-441a-8198-208292812b55",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Ubud Day\",\n  \"summary\": \"A gentler day around Ubud with rice terraces, a palace, a market wander and good vegan-friendly meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing we keep, and for good reason. The sun won’t wait, so we go early.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of vegan plates for everyone. Terima kasih (thank you), Alchemy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"No temples today, Leo. A palace counts as a building with a nice door, not a shrine.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow browse for colours and carvings, and no incense required.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian choices, and time to sit and talk it all over.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Ubud Eats and Easy Wanders\",\n  \"summary\": \"A gentler day around Ubud with the rice terraces, a market wander, and a long relaxed dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The sun won’t wait, and neither do these green steps. We keep the classic view.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little market time instead of more temples, Leo. Bright colours, no incense required.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick coffee break, because a slower day still deserves a good sit-down.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian choices and room to linger. Terima kasih (thank you) to a long evening.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 101,
+          "input_tokens": 76,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 371,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 287,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "3538d913-d230-4385-94e2-b0c6e89728d2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Market mornings and a temple afternoon"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 312,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

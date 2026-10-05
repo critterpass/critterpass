@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3e2721c0-8129-43e8-a2a2-e6f766cbb298",
+        "id": "be314dbc-c384-4f72-9894-f39212599ae0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco Centro, sin prisas\",\n  \"summary\": \"A relaxed Sunday around the heart of Cusco, with the market, the plaza, a sweet museum stop and meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start among fruit stalls and morning chatter, right in the centre.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We wander the plaza slowly, perfect for photos and people-watching.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch just around the corner, easy on the wallet and kind to vegetarians.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little museum stop to keep the afternoon light and local.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner nearby, with courtyard air and no rush before the evening winds down.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco Centro, Easy Sunday\",\n  \"summary\": \"A gentle day around the heart of Cusco: market colours, the main square, a sweet museum stop and a relaxed meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Pedro Market keeps us on foot and in local life, with free colours and street snacks.\",\n      \"note_original\": \"San Pedro Market keeps us on foot and in local life, with free colours and street snacks.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Plaza de Armas is right nearby, so we soak up the history without a long ride.\",\n      \"note_original\": \"Plaza de Armas is right nearby, so we soak up the history without a long ride.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"ChocoMuseo adds a sweet, easy stop while we are already in the centre.\",\n      \"note_original\": \"ChocoMuseo adds a sweet, easy stop while we are already in the centre.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"La Bodega 138 sits beside our route and suits the thrifty mood without skimping on warmth.\",\n      \"note_original\": \"La Bodega 138 sits beside our route and suits the thrifty mood without skimping on warmth.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 11,
+          "input_tokens": 58,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 351,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 385,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "2af991fc-7d6c-45df-a63e-697333889550",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Market, plaza and chocolate before the terraces"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 255,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

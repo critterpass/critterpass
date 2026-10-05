@@ -7860,13 +7860,13 @@
         "lng": 108.43591,
         "hours": null,
         "price_level": null,
-        "duration_min": 60,
+        "duration_min": 90,
         "tags": ["temples", "culture"],
         "must_see": true,
         "editorial": true,
         "name_local": "Thiền viện Trúc Lâm Đà Lạt",
         "why_go": "Visit a Zen monastery in Da Lat.",
-        "best_time": "Morning",
+        "best_time": "Morning, with the cable car from Robin Hill",
         "essential": true
       },
       {
@@ -9184,13 +9184,13 @@
         "lng": 108.44898,
         "hours": null,
         "price_level": null,
-        "duration_min": 60,
+        "duration_min": 150,
         "tags": ["nature", "adventure", "photo_spots"],
         "must_see": true,
         "editorial": true,
         "name_local": "Thác Datanla",
         "why_go": "See Datanla Falls tumbling down a forested slope.",
-        "best_time": "Early morning to avoid crowds at the waterfall",
+        "best_time": "Morning: the coaster queues grow from mid-morning",
         "essential": true
       },
       {
@@ -9773,7 +9773,7 @@
         "lng": 108.45025,
         "hours": null,
         "price_level": null,
-        "duration_min": 90,
+        "duration_min": 150,
         "tags": ["nature", "photo_spots", "easy_pace"],
         "must_see": true,
         "editorial": true,
@@ -12912,7 +12912,7 @@
         "tags": ["nature", "photo_spots", "easy_pace"],
         "must_see": true,
         "editorial": true,
-        "why_go": "See Cam Ly Waterfall, a natural cascade on Hoàng Văn Thụ street.",
+        "why_go": "A small waterfall at the western edge of town; the stream carries the city's waste water and often smells, so it is a brief look at most.",
         "best_time": "Early morning or late afternoon"
       },
       {
@@ -13275,7 +13275,7 @@
         "editorial": true,
         "name_local": "Đỉnh Langbiang",
         "why_go": "Hike or ride to the summit for views over the highlands.",
-        "best_time": "Early morning for clear views",
+        "best_time": "Half the morning: up by jeep, or walk 1.5 to 2 hours",
         "essential": true
       },
       {
@@ -13697,11 +13697,13 @@
         "lng": 108.43835,
         "hours": null,
         "price_level": null,
-        "duration_min": 75,
+        "duration_min": 35,
         "tags": [],
         "must_see": false,
         "editorial": false,
-        "wish_only": true
+        "wish_only": true,
+        "best_time": "Lunch or early dinner",
+        "why_go": "Slurp bánh canh, a thick noodle soup, at this eatery on Nhà Chung."
       },
       {
         "id": "01a1053c-4d63-78ba-b6e5-b1be3192619c",
@@ -15268,7 +15270,7 @@
         "lng": 108.34065,
         "hours": null,
         "price_level": null,
-        "duration_min": 90,
+        "duration_min": 120,
         "tags": ["beach", "easy_pace", "local_life", "photo_spots"],
         "must_see": true,
         "editorial": true,
@@ -17831,13 +17833,13 @@
         "lng": 108.30935,
         "hours": null,
         "price_level": null,
-        "duration_min": 240,
+        "duration_min": 180,
         "tags": ["nature", "beach", "hiking", "photo_spots"],
         "must_see": true,
         "editorial": true,
         "name_local": "Bán đảo Sơn Trà",
         "why_go": "Dramatic coastline and forest trails on the peninsula.",
-        "best_time": "Dry season",
+        "best_time": "Most of a morning or an afternoon round the peninsula",
         "essential": true
       },
       {
@@ -17848,13 +17850,13 @@
         "lng": 108.13128,
         "hours": null,
         "price_level": null,
-        "duration_min": 30,
+        "duration_min": 60,
         "tags": ["nature", "photo_spots", "adventure", "history"],
         "must_see": true,
         "editorial": true,
         "name_local": "Đèo Hải Vân",
         "why_go": "Drive or ride over this scenic mountain pass with panoramic coastal views.",
-        "best_time": "Early morning for clear skies and fewer vehicles",
+        "best_time": "Ridden as half a day from Đà Nẵng, or on the way to Huế",
         "essential": true
       },
       {
@@ -17925,12 +17927,12 @@
         "lng": 107.98875,
         "hours": null,
         "price_level": null,
-        "duration_min": 240,
+        "duration_min": 420,
         "tags": ["adventure", "photo_spots", "nature", "packed_days"],
         "must_see": true,
         "editorial": true,
         "why_go": "A mountain resort with cool air, gardens, and the famous Golden Bridge.",
-        "best_time": "Early morning to beat cable car queues.",
+        "best_time": "A whole day: go up on the first cable cars, before the queues",
         "essential": true
       },
       {
@@ -18529,7 +18531,7 @@
         "lng": 108.26381,
         "hours": null,
         "price_level": null,
-        "duration_min": 90,
+        "duration_min": 150,
         "tags": ["nature", "hiking", "temples", "adventure"],
         "must_see": true,
         "editorial": true,
@@ -18849,13 +18851,13 @@
         "lng": 108.32781,
         "hours": null,
         "price_level": null,
-        "duration_min": 180,
+        "duration_min": 240,
         "tags": ["culture", "history", "photo_spots", "local_life"],
         "must_see": true,
         "editorial": true,
         "name_local": "Phố cổ Hội An",
         "why_go": "Wander lantern-lit lanes of this UNESCO-listed old town with historic houses, shops, and riverside charm.",
-        "best_time": "Early morning for quiet or evening for lanterns",
+        "best_time": "Half a day: late afternoon into the evening, for the lanterns",
         "essential": true
       },
       {
@@ -19136,13 +19138,13 @@
         "lng": 108.34124,
         "hours": null,
         "price_level": null,
-        "duration_min": 90,
+        "duration_min": 150,
         "tags": ["culture", "local_life", "photo_spots"],
         "must_see": true,
         "editorial": true,
         "name_local": "Đảo Ký Ức Hội An",
         "why_go": "An outdoor cultural park that recreates Hoi An's heritage with performances and atmospheric evening shows.",
-        "best_time": "Evening for the main show"
+        "best_time": "Evening: arrive by 19:00 for the show at 20:00"
       },
       {
         "id": "01a0f301-fcc4-73bf-841f-24ca1a6b05e1",
@@ -20540,13 +20542,13 @@
         "lng": 108.12445,
         "hours": null,
         "price_level": null,
-        "duration_min": 120,
+        "duration_min": 150,
         "tags": ["history", "culture", "temples", "photo_spots"],
         "must_see": true,
         "editorial": true,
         "name_local": "Thánh địa Mỹ Sơn",
         "why_go": "Ancient Cham temple complex surrounded by jungle.",
-        "best_time": "Early morning before tour groups.",
+        "best_time": "Half a day from Hội An with the ride: go at opening, before the heat",
         "essential": true
       },
       {
@@ -20557,13 +20559,13 @@
         "lng": 108.52037,
         "hours": null,
         "price_level": null,
-        "duration_min": 240,
+        "duration_min": 360,
         "tags": ["nature", "beach", "adventure"],
         "must_see": true,
         "editorial": true,
         "name_local": "Cù lao Chàm",
         "why_go": "Pristine beaches, coral reefs and clear water for snorkeling.",
-        "best_time": "Dry season for calm seas; early morning for boat trips."
+        "best_time": "A whole day from Hội An: boats leave around 8:00 and return mid-afternoon"
       },
       {
         "id": "01a0f302-0727-7409-913f-620f66380f4c",

@@ -35,7 +35,7 @@ import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@5';
+export const DAY_PROMPT_VERSION = 'draft-day@6';
 
 const TASK = [
   '# Task',
@@ -58,6 +58,8 @@ const TASK = [
   "  way from the day's other places is a detour: leave it out unless it is a must-do. A day may",
   '  change its part of the map once (a morning out, then back to town), never twice. Never use a',
   '  place marked too far for this day; pick the meal places nearest the stops around them.',
+  '- A place that takes half the day has its morning or afternoon: at most one coffee or snack beside',
+  '  it in that half. A place that takes the whole day has the day to itself, with its meals.',
   '- Each note is one short line in your voice about the place itself: what to see, eat or do there.',
   '  Words only: no numbers, times, prices, digits or links. Do not name a meal or a time of day in a',
   '  note (breakfast, lunch, dinner, morning, tonight, after dark) unless the list marks the stop for',
@@ -171,9 +173,9 @@ export function buildDayRequest(
   const limit = stopBudget(window.endMin - window.startMin);
   const edge =
     index === 0
-      ? ' It is the landing day.'
+      ? ' It is the day the crew arrives.'
       : index === input.frame.dates.length - 1
-        ? ' The crew flies home after it.'
+        ? ' The crew leaves after it.'
         : '';
   const meals = mealsNeeded(input, day.dayNo);
   const sunAt = sunsetAt(input, day);

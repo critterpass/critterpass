@@ -6,7 +6,7 @@
 import type { Itinerary } from '@cp/domain';
 
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
-import { essentialsOf } from '../../../src/prompts/draft/essentials';
+import { essentialsOf, visitTakingIn } from '../../../src/prompts/draft/essentials';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
 import type { RedraftOutcome } from '../../../src/prompts/draft/redraft';
 
@@ -70,7 +70,7 @@ export function gradeEssentials(input: DraftPlanInput, result: DraftPlanResult):
   const held = new Set(result.itinerary.days.flatMap((d) => d.items.map((i) => i.poi_id)));
   const why = new Map(result.essentialsLeftOut.map((gap) => [gap.poiId, gap.reason]));
   return essentialsOf(input).flatMap((poi) => {
-    if (held.has(poi.id)) return [];
+    if (held.has(poi.id) || visitTakingIn(input, result.itinerary, poi) !== null) return [];
     const reason = why.get(poi.id);
     if (reason === undefined) return [`essential: ${poi.name} is missing and nothing says why`];
     return reason === 'no_room' && result.itinerary.days.length >= 4
