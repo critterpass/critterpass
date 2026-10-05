@@ -119,9 +119,13 @@ beforeAll(async () => {
     [destination.id],
   ));
   ({ id: tripId } = await one<{ id: string }>(
-    "INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'confirmed', $2) RETURNING id",
+    "INSERT INTO trips (crew_id, status, destination_id) VALUES ($1, 'setup', $2) RETURNING id",
     [crewId, destination.id],
   ));
+  // The plan has gone out but is not locked yet: the status guard only moves a trip step by step.
+  for (const status of ['drafting', 'draft_review', 'proposed']) {
+    await harness.pool.query('UPDATE trips SET status = $2 WHERE id = $1', [tripId, status]);
+  }
   for (const [uid, role, rsvp] of [
     [linh, 'organiser', 'in'],
     [minh, 'member', 'maybe'],
@@ -139,6 +143,14 @@ afterAll(async () => {
 });
 
 describe("an organiser's edit to the locked plan", () => {
+  it('stays quiet while the plan is still being agreed', async () => {
+    const base = await version([]);
+    const next = await version([[randomUUID(), sonTra, '2026-10-21T05:45:00Z']]);
+    expect(await fanOutEvent(harness.pool, await edit(next, base))).toMatchObject({ filed: 0 });
+    // Locked in: the rest of the edits are announced.
+    await harness.pool.query("UPDATE trips SET status = 'confirmed' WHERE id = $1", [tripId]);
+  });
+
   it('tells everyone else going what changed, with one chat line', async () => {
     const baNaStop = randomUUID();
     const base = await version([[baNaStop, baNa, '2026-10-21T00:00:00Z']]);
@@ -186,13 +198,5 @@ describe("an organiser's edit to the locked plan", () => {
       'plan_edit_moved',
       'plan_edited',
     ]);
-  });
-
-  it('stays quiet while the plan is still being agreed', async () => {
-    await harness.pool.query("UPDATE trips SET status = 'voting' WHERE id = $1", [tripId]);
-    const base = await version([]);
-    const next = await version([[randomUUID(), sonTra, '2026-10-21T05:45:00Z']]);
-    expect(await fanOutEvent(harness.pool, await edit(next, base))).toMatchObject({ filed: 0 });
-    await harness.pool.query("UPDATE trips SET status = 'confirmed' WHERE id = $1", [tripId]);
   });
 });
