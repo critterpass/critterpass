@@ -259,6 +259,10 @@ msgstr "Go"
 msgid "trip.disruptions.forecast.stale"
 msgstr "I couldn't check in the last three hours. This is the last I saw."
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skip"
+msgstr "Just for you. It stays on the plan."
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.option.keep"
 msgstr "Keep {day}"
@@ -322,6 +326,10 @@ msgstr "No map offline. Your pick goes out when you're back."
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.tally.none"
 msgstr "Nobody has voted yet."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.pick"
+msgstr "Nothing has changed yet. Pick what to do."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.missing"
@@ -414,6 +422,10 @@ msgstr "Skip {title}"
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.skip"
 msgstr "Skip it"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skipped"
+msgstr "Skipped, just for you"
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.option.swap"
@@ -570,6 +582,10 @@ msgstr "You're offline. Your vote goes out when you're back."
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
 msgstr "You're on time again."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.told"
+msgstr "Your crew has been told. What you can do about it shows here in a moment."
 
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.vote"

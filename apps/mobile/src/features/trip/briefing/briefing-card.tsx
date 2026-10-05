@@ -1,7 +1,7 @@
 /**
  * The guide's morning briefing on the hub (3k-1): a yellow card with the guide's sticker, "today"
  * and up to three lines with their chips; or a skeleton while the first local read is pending; one
- * line from the guide when nothing needs me today (and when the next briefing comes); a failed
+ * line from the guide when the briefing has nothing new (and when the next one comes); a failed
  * build; yesterday's lines while offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
@@ -39,12 +39,16 @@ function shortDate(locale: string, date: string): string {
   });
 }
 
-/** The guide's own line when nothing needs me today, with when the next briefing comes. */
+/**
+ * The guide's own line when today's briefing has nothing in it, with when the next one comes. It
+ * speaks for the briefing only ("nothing new from me"): the plan's check may still have something
+ * to fix, and says so on the plan.
+ */
 function useNothingToday(next: NextBriefing): string {
   const locale = useLocale();
   const { t } = useLingui();
   if (next === null) {
-    return t({ id: 'trip.briefing.empty', message: 'Nothing needs you today. Enjoy it.' });
+    return t({ id: 'trip.briefing.empty', message: 'Nothing new from me today. Enjoy it.' });
   }
   if (next.on === 'today') {
     return t({
@@ -55,13 +59,13 @@ function useNothingToday(next: NextBriefing): string {
   if (next.on === 'tomorrow') {
     return t({
       id: 'trip.briefing.noneTomorrow',
-      message: "Nothing needs you today. I'll check again tomorrow morning.",
+      message: "Nothing new from me today. I'll check again tomorrow morning.",
     });
   }
   const start = shortDate(locale, next.date);
   return t({
     id: 'trip.briefing.noneFrom',
-    message: `Nothing needs you today. My morning briefings start ${start}.`,
+    message: `Nothing from me yet. My morning briefings start ${start}.`,
   });
 }
 

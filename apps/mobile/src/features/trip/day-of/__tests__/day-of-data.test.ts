@@ -31,20 +31,30 @@ describe('what leads the day-of screen', () => {
   it('leads today with the stop still ahead, and says the day is done after the last one', () => {
     expect(dayLead(DAY, true, at('09:00'))).toEqual({
       kind: 'first',
+      id: 'Han Market',
       time: '14:00',
       title: 'Han Market',
     });
     expect(dayLead(DAY, true, at('17:45'))).toEqual({
       kind: 'next',
+      id: 'Che bo',
       time: '18:00',
       title: 'Che bo',
     });
     expect(dayLead(DAY, true, at('21:00'))).toEqual({ kind: 'done' });
   });
 
+  it('leads with the stop after one she marked done early', () => {
+    const marked = DAY.map((entry, index) =>
+      index === 0 ? { ...entry, moment: 'done' as const } : entry,
+    );
+    expect(dayLead(marked, true, at('09:00'))).toMatchObject({ kind: 'next', id: 'Che bo' });
+  });
+
   it('leads another day with its first stop whatever the hour, and a day with no stops is free', () => {
     expect(dayLead(DAY, false, at('21:00'))).toEqual({
       kind: 'first',
+      id: 'Han Market',
       time: '14:00',
       title: 'Han Market',
     });

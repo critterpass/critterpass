@@ -72,6 +72,8 @@ export interface TimelineEntryData extends DayTimelineEntry {
 export type DayLead =
   | {
       readonly kind: 'first' | 'next';
+      /** The stop's stable id. */
+      readonly id: string;
       readonly time: string;
       readonly title: string;
       /** The stop's place, when it has one (GO opens on it). */
@@ -82,7 +84,7 @@ export type DayLead =
 /**
  * The stop the quiet hero shows. Another day leads with its first stop. Today leads with the next
  * stop still ahead, and says the day is done once the last one has started; a day with no stops is
- * a free day (null). A stop I skip for myself never leads: the hero, its time and its GO are the
+ * a free day (null). A stop I marked done early gives way to the one after it. A stop I skip for myself never leads: the hero, its time and its GO are the
  * first stop I am going to.
  */
 export function dayLead(
@@ -93,11 +95,23 @@ export function dayLead(
   const going = timeline.filter((entry) => entry.skipped !== true);
   const first = going[0];
   if (first === undefined) return null;
-  if (!isToday) return { kind: 'first', time: first.time, title: first.title, poiId: first.poiId };
-  const next = going.find((entry) => entry.startsAt.getTime() > now.getTime());
+  if (!isToday) {
+    return {
+      kind: 'first',
+      id: first.id,
+      time: first.time,
+      title: first.title,
+      poiId: first.poiId,
+    };
+  }
+  // A stop she marked done herself is over, even when its hour has not come.
+  const next = going.find(
+    (entry) => entry.startsAt.getTime() > now.getTime() && entry.moment !== 'done',
+  );
   if (next === undefined) return { kind: 'done' };
   return {
     kind: next === first ? 'first' : 'next',
+    id: next.id,
     time: next.time,
     title: next.title,
     poiId: next.poiId,
