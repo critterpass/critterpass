@@ -18,4 +18,3 @@ streams:
       - SELECT * FROM poll_options WHERE crew_id IN my_crews
       - SELECT * FROM ballots WHERE crew_id IN my_crews
       - SELECT * FROM pitches WHERE crew_id IN my_crews
-
