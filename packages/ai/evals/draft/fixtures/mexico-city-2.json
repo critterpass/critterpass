@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "6ded4b0c-3a84-48d2-9ec6-9c833cc92b61",
+        "id": "54d6d78d-f37f-4bde-a4fa-9365d7ee31a8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lucha libre night\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Coyoacán\",\n      \"area\": \"Area C and Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p2\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Centro and Chapultepec\",\n      \"area\": \"Area A and Area E\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p3\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Centro after dark\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Pyramids and canals\",\n      \"area\": \"Area C and Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Markets and museums\",\n      \"area\": \"Area A and Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p2\", \"p9\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 82,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 203,
+          "output_tokens": 197,
           "service_tier": "standard"
         }
       }
@@ -28,7 +28,7 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d1919a29-3a54-4e31-b000-1ef34cf383cd",
+        "id": "eaf93f23-e3d9-45e9-ae18-d179ab03ace5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -41,34 +41,10 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 116,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 6,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "312af1bf-5882-47a7-894d-3ee3e2dc54b1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Roma Norte's leafy streets and old mansions are a lovely warm-up stroll.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan tacos al pastor that even carnivores line up for.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The cathedral of lucha libre: masks, mayhem and flying bodies.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 610,
+          "input_tokens": 240,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 166,
+          "output_tokens": 6,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "d4459d50-e05b-4218-83a1-5c3b94b46ecd",
+        "id": "15b73d9a-b1c3-4095-8a13-fb7c4108a937",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Al pastor carved off the trompo, tucked into tiny tacos with a splash of salsa.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A maze of stalls where the city's cooks come for rare chiles, insects and the good vanilla.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Al pastor carved off the trompo, tucked into tiny tacos with a splash of salsa.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 489,
+          "input_tokens": 488,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 89,
+          "output_tokens": 47,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "4a5a2abd-a716-4542-a636-49bf23f7cab9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The heart of the old city, where the stones hum with centuries of stories.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tacos that prove plants can party, with salsa that bites back.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Masked giants, flying bodies, and a crowd that roars like one big axolotl.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 480,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 121,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "56cdb264-7c08-4f31-8e4e-a9b44d188c67",
+        "id": "07da704f-dfcb-41d3-b2a5-198843140608",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A warm little wander through my city — masks, museums, and the grand old square, all wrapped up nicely."
+            "text": "Centro nights, pyramids, canals and the great museum — every must-do made it, so exhale, it's all here."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 231,
+          "input_tokens": 225,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 23,
+          "output_tokens": 27,
           "service_tier": "standard"
         }
       }

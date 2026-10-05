@@ -29,6 +29,7 @@ import { dayName } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
 import { retimePreview } from './retime-copy';
 import { mapsUrl, placeRoute, reviewRoute } from './routes';
+import { StopDayActions } from './stop-day-actions';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -81,6 +82,11 @@ export function ItemSheetHost({
     mustDoId === null ? null : [mustDoId],
     ['must_dos'],
   );
+  const price = useLiveRows<{ price_level: number | null }>(
+    'SELECT price_level FROM pois WHERE id = ?',
+    item.poiId === null ? null : [item.poiId],
+    ['pois'],
+  );
   const dayLabels = new Map(
     plan.state.days.flatMap((day) =>
       day.date === null ? [] : [[day.day_no, dayName(locale, day.date)] as const],
@@ -111,6 +117,15 @@ export function ItemSheetHost({
     ? openSuggestion(plan, item.stableId)
     : null;
   const suggester = plan.members.find((member) => member.uid === plan.proposed.get(item.stableId));
+  const skipForMe = () => {
+    void editor.skipForMe(item).then(() =>
+      toast.show({
+        id: 'plan-skipped',
+        title: t({ id: 'plan.day.skippedToast', message: 'Skipped, just for you' }),
+      }),
+    );
+    onClose();
+  };
 
   return (
     <ItemDetailSheet
@@ -119,6 +134,7 @@ export function ItemSheetHost({
       dayLabels={dayLabels}
       members={plan.members}
       canApply={plan.canApply}
+      priceLevel={price.rows[0]?.price_level ?? null}
       mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
       suggestion={
         suggestionId === null
@@ -136,6 +152,17 @@ export function ItemSheetHost({
                 router.push(reviewRoute(tripId, suggestionId));
               },
             }
+      }
+      lead={
+        <StopDayActions
+          tripId={tripId}
+          item={item}
+          date={slot.date}
+          tz={tz}
+          onClose={onClose}
+          onSkipForMe={skipForMe}
+          solo={plan.members.length <= 1}
+        />
       }
       preview={(change) => {
         const result = timed(change);
@@ -175,15 +202,7 @@ export function ItemSheetHost({
           void editor.submit([removeOp(item)], { confirmLocked });
           onClose();
         },
-        onSkipForMe: () => {
-          void editor.skipForMe(item).then(() =>
-            toast.show({
-              id: 'plan-skipped',
-              title: t({ id: 'plan.day.skippedToast', message: 'Skipped, just for you' }),
-            }),
-          );
-          onClose();
-        },
+        onSkipForMe: skipForMe,
         onOpenPlace: (poiId) => {
           const href = placeRoute(poiId, tripId);
           if (href !== undefined) router.push(href);

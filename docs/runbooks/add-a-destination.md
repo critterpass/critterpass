@@ -321,6 +321,38 @@ for a rebuild.
      pnpm build:pmtiles --destination da-nang --max-heap-mb 4096
    ```
 
+### Widening a destination's box
+
+A sight just outside the box (the Blue Lagoon lay 5 km west of Iceland's, Teotihuacán 10 km north
+of Mexico City's) becomes an ordinary place of the destination by widening the box. A sight far
+outside, or one no road reaches, is not handled this way. In order:
+
+1. In the repo: the new `bounds` in `tools/maps/destinations.ts` and the same box in
+   `tools/routing-tiles/boxes.json`. The content factory lets a place in only inside both
+   (`dayTripReach`), so a corrections batch can state the sight from then on, as a `new_records`
+   entry named by the id Overture or FSQ OS holds it under.
+2. On staging, the place box (this replaces the stored value):
+
+   ```sh
+   railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \
+     ingest -- --set-bounds "iceland:-22.80,63.70,-19.50,64.85"
+   ```
+
+   `boxes-from-db.ts --check` (see `tools/routing-tiles/src/boxes-from-db.ts`) then reads the
+   same box the repo holds.
+3. Ingest the destination on the worker (`ingest -- --enqueue --only <slug>`). An ingest writes
+   the source's name, kind and point over every record it reads, curated ones too, so the
+   corrected names and kinds of the destination read as the sources' until the next places
+   release is published: publish one straight after.
+4. Rebuild the pack (`gh workflow run map-regions.yml -f destination=<slug>`): it goes up as the
+   next `tiles-v<n>`, and the app takes the newest registered version.
+5. Rebuild the routing tiles with `gh workflow run routing-tiles.yml` and no `only` (a published
+   run holds only the boxes it was given), then restart the `valhalla` service, which reads the
+   manifest at boot. The stored box is widened by 30 km at build, so a sight under 30 km out is
+   already on the graph and this step can wait for the weekly run.
+6. Publish the places batch. Before the pack is registered its places draw on the world tiles
+   alone.
+
 ## 7. Guide content
 
 Phrase cards are per language (`phrases` kind); check the language is in the live release, with

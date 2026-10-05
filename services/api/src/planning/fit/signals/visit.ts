@@ -18,6 +18,9 @@ export interface PlaceRow {
   readonly hours: unknown;
   readonly time_needed_min: number | null;
   readonly best_time: boolean;
+  /** What our editors wrote about when to go, and the place's tags: the time of day it is for. */
+  readonly best_time_text: string | null;
+  readonly tags: string[];
   readonly curated: boolean;
 }
 
@@ -35,6 +38,7 @@ export async function readPlaceRows(
     `SELECT id, name, category, lat, lng, hours,
             (editorial->>'time_needed_min')::int AS time_needed_min,
             (editorial ? 'best_time') AS best_time,
+            editorial->>'best_time' AS best_time_text, tags,
             (curation = 'editorial') AS curated
        FROM pois WHERE id = ANY($1::uuid[]) AND status = 'active'`,
     [poiIds],
@@ -77,6 +81,9 @@ export async function readFitPlaces(
       crowds: crowds.get(row.id) ?? null,
       stances: stances.get(row.id) ?? null,
       bestTime: row.best_time,
+      name: row.name,
+      tags: row.tags,
+      bestTimeText: row.best_time_text,
       stableId: inPlan.get(row.id) ?? null,
     },
   }));

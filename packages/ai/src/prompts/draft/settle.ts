@@ -18,6 +18,7 @@ import {
 
 import { fillMeals } from './complete-days';
 import { placeEssentials } from './essentials';
+import { withoutMisplacedOpeners } from './openers';
 import { fillThinDays } from './fill-days';
 import type { DraftPlanInput } from './context';
 import { scheduleChoices } from './day';
@@ -246,6 +247,8 @@ export function settle(
   }
   let filled = 0;
   if (options.fillThin) {
+    // A long outdoor sight that could not open its day comes off it, to open another.
+    itinerary = withoutMisplacedOpeners(input, outlines, itinerary);
     const essential = placeEssentials(input, outlines, itinerary);
     itinerary = essential.itinerary;
     filled += essential.added;

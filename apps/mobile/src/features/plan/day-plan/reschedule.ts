@@ -6,7 +6,7 @@
  * pinned stop, or past midnight, is refused with the stop that blocks it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- refusal kinds, never copy. */
-import type { PlanOp } from '@cp/domain';
+import { estimateStraightLineEta, type PlanOp } from '@cp/domain';
 
 import type { DayItem } from '@/data/plan/plan-model';
 import { moveOp, type DaySlot } from '@/data/plan/plan-ops';
@@ -36,6 +36,31 @@ export type Reschedule =
 
 /** Minutes from one stop to the next (0 when unknown). */
 export type Travel = (from: DayItem, to: DayItem) => number;
+
+/**
+ * Minutes between two stops from the screen's stored legs (either direction), else the
+ * straight-line estimate between their places, else 0 when a place is unknown.
+ */
+export function legTravel(
+  legs: readonly { readonly from: string; readonly to: string; readonly minutes: number }[],
+): Travel {
+  return (from, to) => {
+    const stored = legs.find(
+      (leg) =>
+        (leg.from === from.stableId && leg.to === to.stableId) ||
+        (leg.from === to.stableId && leg.to === from.stableId),
+    );
+    if (stored !== undefined) return stored.minutes;
+    if (from.place === null || to.place === null) return 0;
+    return estimateStraightLineEta({
+      originLat: from.place.lat,
+      originLng: from.place.lng,
+      destLat: to.place.lat,
+      destLng: to.place.lng,
+      mode: 'auto',
+    }).minutes;
+  };
+}
 
 /** Booked, somebody's must-do, or pinned by hand: it keeps its time until its own sheet moves it. */
 export function isPinned(stop: DayItem): boolean {

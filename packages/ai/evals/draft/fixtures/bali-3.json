@@ -4,119 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cb34f776-050a-496a-95e2-ee5de2965aaf",
+        "id": "b03c2ef8-88f0-4afc-a0de-87662e920271",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Ubud (Area C)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Arrival & Monkey Magic\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\n        \"m3\"\n      ],\n      \"poi_ids\": [\n        \"p9\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ridge Walk & Royal Ubud\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p7\",\n        \"p6\",\n        \"p12\",\n        \"p14\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Tegallalang & Tirta Empul\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p3\",\n        \"p5\"\n      ]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Uluwatu & Tanah Lot\",\n      \"area\": \"Area B and E\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p1\"\n      ]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Waterfall Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": []\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Ease-In\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Rice Fields & Royalty\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Clifftop Sunsets\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Waterfalls & Beach Clubs\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p8\", \"p13\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Ubud Farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p9\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1091,
+          "input_tokens": 55,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 339,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "64dc8af2-4c17-4d6c-a26d-698cd6e44a5c",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk the green steps of the rice terraces and let the valley do the talking.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Join the locals in the spring pools and let the holy water cool your spirit.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 266,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 81,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "4dc184cd-c643-4fca-b741-490bbf43f3e1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Monkeys, mossy temples, and a forest that feels older than the island itself.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Bargain with a grin and leave with something you didn't know you needed.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 340,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 84,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-5": {
-      "status": 200,
-      "body": {
-        "id": "8aeebf54-7fcd-4e92-af66-9e33ca8109a1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A hidden cascade where light slips through the canyon like a secret.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 233,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 41,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-4": {
-      "status": 200,
-      "body": {
-        "id": "eca3aaf5-db70-4ef1-a69b-66f6760338fd",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Clifftop shrine with a view that makes you forget your feet.\",\"must_do_id\":\"m2\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper plate of Balinese chicken rice, halal and full of spice.\"},{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sea temple on a rock, best when the tide rolls in around it.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 398,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 125,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 298,
           "service_tier": "standard"
         }
       }
@@ -124,23 +28,119 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "2929caa0-1bb1-4aed-bb2f-f38118848603",
+        "id": "d67e1604-fd23-47fa-9fa5-1d23ba3f4394",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The ridge unfurls like a green ribbon, all palms and morning breeze.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Carved doors and royal courtyards, quiet enough to hear the geckos gossip.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus ponds frame the temple like a postcard that learned to breathe.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A shady corner for something cool, with frangipani drifting past the glass.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The terraces ripple like green stairs carved by patient hands.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Holy springs where the water feels older than the stones.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 329,
+          "input_tokens": 316,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 156,
+          "output_tokens": 71,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-5": {
+      "status": 200,
+      "body": {
+        "id": "c57c32f9-ce31-430c-b082-073b624e7d0e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The palace courtyards are a quiet little pocket of royal history.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Haggle with a grin and leave with something that actually feels like Bali.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 261,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 77,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "707c4df1-1ab9-4cfa-8d33-08e223ccd39d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Clifftop temple with cheeky monkeys and a view that makes you forget your name.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A proper plate of Balinese chicken rice, halal and full of local soul.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 394,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 85,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "90e05eaf-d256-4862-9a45-9717f85d3b90",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Monkeys, mossy temples, and more mischief than a gecko can gossip about.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A breezy pit stop with drinks that taste like the jungle had a good idea.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 296,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 84,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "aab687a4-5598-4bba-8bb6-8781304f356c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Chase sunbeams into that hidden canyon waterfall, it feels like a secret the jungle kept for you.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sink your toes into the sand and let the waves do the talking for a while.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Stick around after dark for the beats, the pool, and that easy Bali glow.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 288,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 128,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "b99c8b1c-1ba9-40a2-b94c-d16bfdf1d15d",
+        "id": "079198c7-f9e9-4a1c-a745-baa71469747c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Monkeys, rice terraces, a water blessing and a sunset temple — the whole sunny loop, start to farewell."
+            "text": "Sunrise in Ubud, royalty and rice, then cliffs, falls and beach clubs — every must-do made it, terima kasih (thank you)."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 210,
+          "input_tokens": 201,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 32,
           "service_tier": "standard"
         }
       }

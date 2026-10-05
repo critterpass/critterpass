@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b2739514-9def-4d0f-bbcd-05f340e16e96",
+        "id": "8defb03a-c405-4e41-ba77-56b5030b7a8a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Tasty Trot Through Lisbon\",\n  \"summary\": \"A slower, food-first day around the old town, mixing a morning market, a castle visit, and a proper sit-down meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the perfect breakfast for the eyes and the stomach, even if the grilled sardines are still asleep.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A bit of history and a view to work up a proper appetite.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we must not skip, and a fine place to hide from the midday sun.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper, wallet-friendly sit-down meal to keep the crew fuelled for the rest of the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Tasty, Easy Lisbon Day\",\n  \"summary\": \"A slower day built around a proper museum visit, a relaxed Alfama wander, and plenty of good eating from lunch through dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one must-see of the day, kept right where it belongs. Take your time with the art.\",\n      \"start_by\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch, because a slower day still needs a good meal. The garden setting is a treat.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the old lanes. No rush, just the city doing its thing.\",\n      \"start_by\": \"23:59\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with real Portuguese soul. Small plates, big flavour, and a proper end to the day.\",\n      \"start_by\": \"21:45\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 65,
+          "input_tokens": 72,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 315,
+          "output_tokens": 324,
           "service_tier": "standard"
         }
       }

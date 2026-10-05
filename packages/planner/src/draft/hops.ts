@@ -4,7 +4,8 @@
  * together (a lunch across the island between two museums in town), is a hop too far. How long is
  * too long comes from the destination itself: three times the usual spacing of the places we may
  * plan with, never under forty minutes. One longer ride a day is fine (a morning out at the
- * peninsula, then back to town for lunch and the afternoon), up to half as long again; a second
+ * peninsula, then back to town for lunch and the afternoon; or a sight a little way out and back),
+ * up to half as long again; a second
  * one makes a day of zigzags. The ride out to the day's first stop counts as that one longer ride
  * when home is known: a day trip is where the day is spent, and it is not left for another far
  * place. Nor is the ride home to dinner at the end of a day out
@@ -12,7 +13,7 @@
  * together, those two aside, stay under a road budget (twice the cap, never under two hours): a
  * day of rides that each pass is still a day spent on the road.
  */
-import type { DraftPoi, TravelMatrix } from './types';
+import type { DayChoice, DraftPoi, TravelMatrix } from './types';
 
 const MIN_HOP_CAP_MIN = 40;
 const MAX_HOP_CAP_MIN = 120;
@@ -84,6 +85,8 @@ export function longHops(
   capMin: number,
   dinnerAt?: number,
   homeId?: string | null,
+  /** Stops that are sights, not meals: one of them may be the day's out-and-back (see below). */
+  sightAt?: (index: number) => boolean,
 ): Hop[] {
   const between = (a: number, b: number): number => {
     const from = poiIds[a];
@@ -119,9 +122,16 @@ export function longHops(
       continue;
     }
     const leg = ride(i - 1, i);
-    const detour = i + 1 < poiIds.length ? leg + ride(i, i + 1) - ride(i - 1, i + 1) : 0;
+    // Out and back is the day's shape when the next ride is the one back to town or home.
+    const outAndBack = home(i + 1);
+    const detour =
+      i + 1 < poiIds.length && !outAndBack ? leg + ride(i, i + 1) - ride(i - 1, i + 1) : 0;
     if (detour > capMin) {
-      found.push({ index: i, over: Math.round(detour - capMin) });
+      // A sight a little way out and back (a pagoda across town) may be the day's one longer
+      // ride; a meal never is, and a second one is a day of zigzags.
+      const once = sightAt?.(i) === true && detour <= longRideMin(capMin) && longRides === 0;
+      if (once) longRides += 1;
+      else found.push({ index: i, over: Math.round(detour - capMin) });
       continue;
     }
     if (leg <= capMin) continue;
@@ -193,4 +203,58 @@ export function dinnerIsRideHome(
   return !dinnerPlaces.some((place) =>
     before.some((stop) => stop !== place.id && (travel(stop, place.id) ?? 0) <= reach),
   );
+}
+
+/** A lunch or dinner this far out of the way of the stops either side of it is across town. */
+export const MEAL_DETOUR_MAX_MIN = 20;
+
+/** How far out of the way a stop is: the rides to and from it, less the ride between its neighbours. */
+export function detourMin(
+  before: string,
+  stop: string,
+  after: string,
+  travel: TravelMatrix,
+): number {
+  const leg = (a: string, b: string) => travel(a, b) ?? 0;
+  return leg(before, stop) + leg(stop, after) - leg(before, after);
+}
+
+/**
+ * Whether a meal at `stop` is across town from the stops either side of it: the rides to and
+ * from it are more than `MEAL_DETOUR_MAX_MIN` longer than the ride between them, and they are
+ * nearer each other than either is to the meal (two neighbours with lunch in the centre between
+ * them; not a lunch on the way back to town from a mountain).
+ */
+export function mealAcrossTown(
+  before: string,
+  stop: string,
+  after: string,
+  travel: TravelMatrix,
+): boolean {
+  const leg = (a: string, b: string) => travel(a, b) ?? 0;
+  const direct = leg(before, after);
+  return (
+    detourMin(before, stop, after, travel) > MEAL_DETOUR_MAX_MIN &&
+    direct < Math.min(leg(before, stop), leg(stop, after))
+  );
+}
+
+/**
+ * The meals of a day (indexes in visiting order) eaten across town from the stops either side:
+ * a meal belongs near the stop before or after it. A meal that opens or ends the day has one
+ * neighbour and is never out of the way; nor is the dinner the crew rides home to (`dinnerAt`),
+ * or a meal the crew placed or asked for itself.
+ */
+export function mealDetours(
+  stops: readonly Pick<DayChoice, 'poiId' | 'kind' | 'mustDoId' | 'fixed'>[],
+  travel: TravelMatrix,
+  dinnerAt?: number,
+): number[] {
+  return stops.flatMap((stop, index) => {
+    const before = stops[index - 1];
+    const after = stops[index + 1];
+    if (stop.kind !== 'meal' || before === undefined || after === undefined) return [];
+    if (index === dinnerAt || stop.mustDoId !== null || (stop.fixed ?? null) !== null) return [];
+    return mealAcrossTown(before.poiId, stop.poiId, after.poiId, travel) ? [index] : [];
+  });
 }

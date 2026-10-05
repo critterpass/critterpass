@@ -100,6 +100,22 @@ msgstr "Already in your plan: {dayLabel} at {time}. Pick where it moves."
 msgid "plan.add.why.before"
 msgstr "Before {0}"
 
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.afterDark"
+msgstr "Best after dark"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.sunset"
+msgstr "Best around sunset"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.evening"
+msgstr "Best in the evening"
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.morning"
+msgstr "Best in the morning"
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.between"
 msgstr "Between {a} and {b}"
@@ -223,6 +239,10 @@ msgstr "SUGGEST FOR {dayLabel} ANYWAY"
 #: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
 msgid "plan.add.voteNote"
 msgstr "The crew votes on this before it goes in. You’ll hear back."
+
+#: ../../apps/mobile/src/features/plan/add/add-kind-copy.ts
+msgid "plan.add.why.meal"
+msgstr "Timed for a meal"
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

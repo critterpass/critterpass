@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "310517cd-53a2-41ed-9bc2-8ff7ee1fedc1",
+        "id": "d5e55863-808c-497c-a3dc-40a09db15cf5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area B, Reykjavik centre\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Reykjavik icons and evening warmth\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p6\",\n        \"p3\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Local life and city views\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p12\",\n        \"p4\",\n        \"p14\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Reykjavik area B\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Blue Lagoon soak\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Reykjavik highlights and Sky Lagoon\",\n      \"area\": \"B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p1\",\n        \"p3\",\n        \"p6\",\n        \"p2\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 709,
+          "input_tokens": 69,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 167,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 155,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "9402605c-bb2d-430f-b34b-3afe296aea49",
+        "id": "476cdb51-7e71-4231-9e6d-2538922e1348",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A long soak in those milky blue waters, with steam curling around you like a warm secret.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 258,
+          "input_tokens": 256,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 6,
+          "output_tokens": 48,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "8f327e9a-aad5-4505-bd64-b5ee2b898e41",
+        "id": "9b7b95b6-3b5b-4392-b399-7cce62e7b66e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper rummage through Icelandic bric-a-brac and local treats.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that leave you feeling rather virtuous.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big glass dome with a view that makes the city look like a toy town.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fresh, bright plates that make you feel rather virtuous.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long soak with the ocean right there, steam and salt air.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 550,
+          "input_tokens": 553,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 162,
+          "output_tokens": 158,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "20fd5c92-f34a-4fbf-8fdd-87a30da4a8fa",
+        "id": "13b792e9-dd3e-41b8-a1e2-b76635bd4191",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Reykjavik's icons, a warm evening, then local life and city views — every must-do snug in the nest."
+            "text": "A gentle soak, then the city and another lagoon — every must-do tucked in, my friend."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 222,
+          "input_tokens": 225,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 27,
+          "output_tokens": 20,
           "service_tier": "standard"
         }
       }

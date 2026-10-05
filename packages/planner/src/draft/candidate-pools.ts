@@ -256,7 +256,14 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   // One row per place. A must-do's own place stands for it, so no list offers it a second time.
   const places = collapseSamePlaces(
     input.pois.filter((poi) => openDays.has(poi.id)),
-    { keep: mustDoPois, ignore: input.ignoreNames ?? [] },
+    // Two essential places are never one (the market and the night market in front of it).
+    {
+      keep: new Set([
+        ...mustDoPois,
+        ...input.pois.filter((poi) => poi.essential === true).map((poi) => poi.id),
+      ]),
+      ignore: input.ignoreNames ?? [],
+    },
   );
   const open = places.kept.filter((poi) => !mustDoPois.has(poi.id));
   const ranking: Ranking = {

@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "7bda58ae-7016-424d-b070-0a1acd1d2a78",
+        "id": "9809f3d1-9212-45ce-a310-0b7d59fc67d1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A, near Kyoto Station and the museum quarter\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Museum calm and lantern-lit lanes\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Shrines, history and a last stroll\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p10\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A, near Kyoto Station and the museum quarter\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"First brush with old Kyoto\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Castles, shrines and a last stroll\",\n      \"area\": \"Area B and Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p2\", \"p9\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 777,
+          "input_tokens": 9,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 155,
+          "cache_read_input_tokens": 1920,
+          "output_tokens": 156,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "6ad637a6-1655-49aa-a7b5-618f407ac076",
+        "id": "7b358f03-2b5b-41d0-8e77-3060db47343b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk the nightingale floors and imagine the shogun’s ears twitching.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp the ramen like you mean it; the broth is the whole point.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A thousand wooden guardians, all staring at once. Blink first.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nightingale floors and gold-leaf screens. Walk softly and listen.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet bowl of ramen done properly. Slurp with intent.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The silver pavilion is quieter than its golden cousin. The moss garden is the real show.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 437,
+          "input_tokens": 448,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 118,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "fc31f15a-0a1b-422c-9f67-5f7147c3a4af",
+        "id": "a8f12592-86d3-4ebb-bb49-a7d13125b429",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The national collection, from tea bowls to scrolls. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades and the occasional maiko passing. The deer will cope without you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done properly, in more ways than you thought possible.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns, narrow lanes, and the river just there. Worth one message.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Old screens and quiet rooms, history with its shoes off.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades and the occasional maiko slipping past like a rumour.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns over the canal, the city's best narrow walk.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done so well you'll stop making jokes about it.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 578,
+          "input_tokens": 569,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 225,
+          "output_tokens": 212,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "27108c06-adb3-417d-88a7-3fa8f651e5f0",
+        "id": "0ad90af3-a3a6-49ea-8bf0-f8d0dc37ce76",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Museum calm, lantern lanes, shrines and one last stroll — the whole Kyoto draft, shoes off and eyes up."
+            "text": "Old Kyoto first, then shrines and a castle stroll — every must-do tucked in, shoes off."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 216,
+          "input_tokens": 215,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 25,
+          "output_tokens": 21,
           "service_tier": "standard"
         }
       }

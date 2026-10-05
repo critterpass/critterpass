@@ -154,6 +154,7 @@ export function buildPlanInput(
       .filter((m) => m.poiId === null)
       .map((m) => ({ id: m.id, text: m.title, options: options.wished?.options.get(m.id) ?? [] })),
     idFor: (key) => derivedUuid(`${options.jobId}:${key}`),
+    ...(trip.languages === undefined ? {} : { destinationLanguages: trip.languages }),
     skeletonRoute: options.skeletonRoute,
   };
 }

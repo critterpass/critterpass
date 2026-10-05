@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "957d301a-1604-4350-9f10-8220801e06a4",
+        "id": "4c4e0e3d-f97c-46b6-abb5-3d5a80bb3aa4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"A slower day out west and into the city, keeping the railway museum and swapping the castle for a free bamboo wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, open all day, and the photo crew will forgive us for skipping a paid museum. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew's museum taste gets its fix here.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"We trade ticket desks for open air, keeping the railway museum and adding a free bamboo stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, early wander before the crowds and the ticket counters.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew asked for museums.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 943,
+          "input_tokens": 47,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 191,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }

@@ -204,6 +204,36 @@ describe('GET /v1/places/:id', () => {
     expect(body.nextOpenAt).toBeNull();
   });
 
+  it('answers for a curated place whose stored note holds a null line and a key it does not know', async () => {
+    // What the places release stored for a place without etiquette, plus a flag from a later version.
+    const { rows } = await pool.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, curation, editorial)
+       VALUES ($1, 'Demachi Futaba', 'food', 35.0301, 135.7696, 'editorial', $2) RETURNING id`,
+      [
+        destinationId,
+        JSON.stringify({
+          why_go: 'A sweet shop known for mame mochi.',
+          best_time: 'Morning',
+          time_needed_min: 20,
+          crowd_hint: 'Queues most days',
+          etiquette: null,
+          must_see: true,
+          a_later_flag: true,
+        }),
+      ],
+    );
+    const response = await buildTestApp().request(`/v1/places/${rows[0]?.id}`);
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { editorial: Record<string, unknown> };
+    expect(body.editorial).toEqual({
+      why_go: 'A sweet shop known for mame mochi.',
+      best_time: 'Morning',
+      time_needed_min: 20,
+      crowd_hint: 'Queues most days',
+      must_see: true,
+    });
+  });
+
   it('returns 404 NOT_FOUND for an unknown POI', async () => {
     const app = buildTestApp();
     const response = await app.request('/v1/places/00000000-0000-7000-8000-0000000000ff');
