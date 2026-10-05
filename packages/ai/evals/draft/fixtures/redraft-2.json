@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "87e4b556-ec15-4330-b866-494b1e7c62c5",
+        "id": "bc2fc54a-b5b7-499e-a1d1-cb6c90d71843",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Kyoto Day\",\n  \"summary\": \"A slower day with one temple, one long evening stroll, and two gentle vegan meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here because the crew needs vegan, and a slow start suits the morning after Pontocho.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet temple instead of two, with time to sit and look.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The kept must-do, after dark as it should be.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back at the same vegan spot, because it is the only meal place that fits and the day stays gentle.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"A gentle morning temple, a long late lunch, and Pontocho after dark with room to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Time to sit with the garden instead of checking the next stop.\",\n      \"poi_id\": \"p6\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long vegan lunch in the same part of town. Shoes off, phone down, eyes up.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one non-negotiable. We keep it, and we keep it unhurried.\",\n      \"poi_id\": \"p13\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1226,
+          "input_tokens": 74,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 295,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 241,
           "service_tier": "standard"
         }
       }

@@ -1,50 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ded372ea-1b82-46e6-898f-f293e7a8a217",
+        "id": "3e6e2e4a-9cf2-4361-93e7-4b68ff4fb7e7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt một góc, trọn một ngày\",\n  \"summary\": \"Một ngày chậm rãi quanh khu trung tâm, cà phê sáng, món ngon trưa chiều và quán nhỏ ấm cúng sau khi trời tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đi bộ nhẹ nhàng ở quảng trường cho tỉnh ngủ, ngắm nhịp sống Đà Lạt buổi sáng.\"\n    },\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa gọn mà đậm vị phố, bánh căn nóng hổi ngay trong khu này.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ghé nhà thờ Con Gà ngắm kiến trúc xưa, chỗ này gần và hợp buổi sáng.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến ngồi xuống ăn nem nướng thong thả, ngon quá (so tasty) là vừa.\"\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sau bữa tối ghé Lululola nhâm nhi cà phê, hợp với cú đêm và không phải đi xa.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Đà Lạt một góc, trọn một ngày\",\n  \"summary\": \"Ngày thứ tư cứ thong thả trong lòng Đà Lạt, từ bữa trưa ấm bụng đến cà phê đêm, không cần rời xa khu trung tâm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi xuống cho đàng hoàng, nem nướng thơm lừng đúng kiểu Đà Lạt, ăn chậm cho đã.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tản bộ quanh quảng trường, nhìn nhịp sống phố núi trôi nhẹ, chẳng cần đi đâu xa.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ghé nhà thờ Con Gà buổi sáng muộn, ngắm kiến trúc xưa và hít thở không khí yên ả.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến ngồi xuống Góc Hà Thành, món Hà Nội giữa Đà Lạt, ấm áp và chậm rãi.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sau bữa tối, ghé Mây Lang Thang nhâm nhi cà phê, nghe đêm Đà Lạt kể chuyện.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1327,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 436,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "041ae909-14e3-4d35-b2af-5ceda13e2f90",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, trọn một góc phố\",\n  \"summary\": \"Một ngày nhẹ tênh ở quanh khu trung tâm, cà phê sáng, bữa trưa ngồi lại, chiều dạo phố và tối thảnh thơi bên ly nước ấm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khởi động muộn cho hợp ý crew, quảng trường rộng rãi để hít thở không khí Đà Lạt mà chẳng phải đi đâu xa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Trưa nay ngồi lại cho đàng hoàng, nem nướng thơm lừng kiểu địa phương, ăn chậm rãi mới đúng chất dễ chịu.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vườn xanh gần đây cho buổi chiều lười biếng, ngắm cây cối mà chẳng cần rời khỏi khu quen thuộc.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến ghé quán cà phê quen, ngồi một góc ấm cúng, đúng kiểu cú đêm thư giãn sau ngày nhẹ nhàng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngay cạnh chỗ cà phê, đồ ăn ngon lành mà khỏi phải di chuyển thêm bước nào đáng kể.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 76,
+          "input_tokens": 114,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2432,
-          "output_tokens": 556,
+          "output_tokens": 466,
           "service_tier": "standard"
         }
       }

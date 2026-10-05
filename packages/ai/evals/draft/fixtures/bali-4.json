@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "058504e5-d57a-412e-85af-a61f4828c7a1",
+        "id": "05b22b5b-01e0-4a7e-948c-005d5dedaab8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud First Impressions\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Monkeys and Morning Air\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "{\n  \"stay_area\": \"Ubud (Area A)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Icons and Sunset Coast\",\n      \"area\": \"A then D\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud Temples and Rice Fields\",\n      \"area\": \"A then C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p10\", \"p3\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 823,
+          "input_tokens": 725,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 139,
+          "output_tokens": 150,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "3a07ce23-f750-4410-a1bb-71bf35392faa",
+        "id": "e8d35a51-4d8e-4541-a4ff-26f04e810a7e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Monkeys with serious attitude and temple corners worth a slow wander.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Open ridge air, green on both sides, and the kind of walk that clears your head.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Water temple in the heart of town, lotus pond and carved walls.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Elephant cave with ancient carvings and a mossy jungle path.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 316,
+          "input_tokens": 359,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 80,
+          "output_tokens": 76,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "b5063d9f-e5c6-4a56-899d-088ec9ca1ae8",
+        "id": "7f2118c0-d389-4e7d-8458-a34310b387df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin and leave with something you didn’t know you needed.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The palace doors are grand, but the carvings are the real show.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus pond out front, quiet corners inside — a lovely pause.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny plates, big flavours, and the sambal means business.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin among the sarongs and silver, the market hums with local life.\",\"must_do_id\":\"m1\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Stone guardians and carved doors tell the old royal stories, free to wander.\",\"must_do_id\":\"m2\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool for honest Balinese plates and a cold drink, easy on the wallet.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 612,
+          "input_tokens": 577,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 154,
+          "output_tokens": 144,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "f31bdaff-146a-47f8-9151-6041ff75b389",
+        "id": "b9541697-8107-41a2-aba8-8b9fe26de25e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Ubud welcomes you, then the monkeys wake you — every must-do's in, so just pack your sense of wonder."
+            "text": "Ubud icons, a temple or two, then sunset on the coast — every must-do's in, so rise and shine."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 183,
+          "input_tokens": 192,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 25,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

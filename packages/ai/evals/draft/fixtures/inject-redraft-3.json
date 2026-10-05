@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "61f4ba5c-257b-43f8-ace6-69757bbc74e5",
+        "id": "3d30bd52-c5dc-4f3c-8c1b-db9669f19a62",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Different Lisbon Tuesday\",\n  \"summary\": \"A slower day wandering Alfama and the hills, with a tram ride, a market, and a proper sit-down lunch and dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays, of course. Some views are non-negotiable.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander through the flea market, because every good day needs a little treasure hunting.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian options, because even sardines have friends who don't eat fish.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A tram ride through the old streets, because walking is overrated after lunch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, where the night owls can stretch their wings.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a proper tasca, because a day in Lisbon should end with something warm on the table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Belém morning, a Bairro night\",\n  \"summary\": \"We keep the tower as our one must, then cross town to wander Bairro Alto, eat well and let the evening take over.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one thing we refuse to drop. Belém Tower still stands, so we still go.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A flea market with more stories than a sardine has bones. Perfect for a slow wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian options and a price that makes everyone smile.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The tram rattles through the old streets like a tin of sardines on wheels.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a tasca that knows how to feed a vegetarian without a fuss.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark. The night owls get their reward, the early birds get a story.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 845,
+          "input_tokens": 77,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 429,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 438,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "632d62da-6b79-4c2f-8bff-78146ba9812c",
+        "id": "76d3cbc1-b825-481a-b310-e65f95987878",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Sunday in Reykjavik\",\n  \"summary\": \"A slower day with just two unhurried activities, leaving plenty of room to breathe between meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We start high for the view and let the city wake up around us.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with good vegetarian plates, no rush at all.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one must-do of the day, kept with time to simply watch it blow.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner back in town, where the kitchen knows how to feed a vegetarian well.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Golden Circle Sunday\",\n  \"summary\": \"A gentler pace through Iceland's iconic sights, with time to breathe at Geysir and a quiet evening back in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we must not miss — give the steam and spout the unhurried hour it deserves.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wander down Laugavegur for a bit of city life, coffee and window-shopping at a stroll.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly bite before the street winds down for the evening.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian options, a warm end to an easy day.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1003,
+          "input_tokens": 730,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 259,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 276,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "8a1058da-f502-43be-89f8-1de2b176b884",
+        "id": "a71b959d-6ac9-4151-bc0d-486841c1fbf9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Sunday in Reykjavik\",\n  \"summary\": \"A gentle day with one kept wonder and one unhurried city stop, leaving plenty of time to breathe between meals.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one stop we promised ourselves: Geysir gets the full hour, and the steam does the talking.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A single city pause instead of three: the tower view lets us see Reykjavik without chasing it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays put, and the vegetarian options here mean nobody has to negotiate with the menu.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Gentle Golden Circle Sunday\",\n  \"summary\": \"A slower Sunday with one kept wonder, one added stop nearby, and proper meals in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-see geyser stays, with plenty of time to watch it blow its top.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy lighthouse stroll nearby keeps the day light and salty.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A cosy vegetarian-friendly lunch before the afternoon winds down.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper vegetarian options, and no long hop this time.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 142,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1152,
-          "output_tokens": 257,
+          "output_tokens": 287,
           "service_tier": "standard"
         }
       }

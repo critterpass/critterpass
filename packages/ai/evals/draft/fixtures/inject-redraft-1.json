@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "c402747e-a0c8-4d36-87a5-185a8a93101a",
+        "id": "15b227d6-6a2b-4ff9-8d93-c52e2d246e45",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"Two golden temples, a long lunch, and an evening meal with room to breathe in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one thing that stays, and it deserves the extra time.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet vegan lunch after the gold leaf, because a slower day still eats well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, then the afternoon is yours to wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle vegetarian dinner to end the day without rushing.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower Kyoto day\",\n  \"summary\": \"A gentle day with two temples, a long lunch, and an easy evening meal, leaving room to breathe between stops.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The golden pavilion deserves a slow look, not a sprint.\",\n      \"note\": \"Kept as the one must-do; arrive early before the crowds and let the reflection do the talking.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A kaiseki (multi-course Kyoto meal) lunch that suits the vegetarians and gives everyone a proper rest.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One more temple, close by, and a shorter visit so the afternoon stays unhurried.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with plenty of vegetarian choices, and no one has to rush off anywhere after.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1268,
+          "input_tokens": 886,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 277,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 301,
           "service_tier": "standard"
         }
       }

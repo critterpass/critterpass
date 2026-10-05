@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f429461a-e2a5-43af-bf13-9c1f9028c51f",
+        "id": "da6b5800-4a7d-40f3-8b46-c45be323cc7b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Belém to Bairro Alto Day\",\n  \"summary\": \"A day that starts by the river in Belém, then eases into the city for a tram ride, a bite, and a night out, all without a long ride.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one and only Belém Tower, a must for the history buffs and photo hounds. Come for the grilled sardines, stay for the grilled sardines... and the tower.\",\n      \"note_clean\": \"The one and only Belém Tower, a must for the history buffs and photo hounds.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A classic Tram 28 ride to get us from the riverside into the heart of the city, no long rides needed.\",\n      \"note_clean\": \"A classic Tram 28 ride to get us from the riverside into the heart of the city.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Ao 26, a vegan spot that keeps everyone happy without a fuss. Grilled sardines? Not today, my friends.\",\n      \"note_clean\": \"Lunch at Ao 26, a vegan spot that keeps everyone happy without a fuss.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Miradouro da Senhora do Monte for a breath of fresh air and a view that makes you forget the climb.\",\n      \"note_clean\": \"Miradouro da Senhora do Monte for a breath of fresh air and a view that makes you forget the climb.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\",\n      \"note_clean\": \"Bairro Alto after dark, because the night owls deserve a little festa of their own.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Belém and Bairro Alto Day\",\n  \"summary\": \"We keep the Belém Tower must-do, then gather the rest of the day around Bairro Alto so every stop sits close together with no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The must-do tower stays put; history and a proper photo spot all in one.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark keeps the night owls happy and the whole afternoon nearby.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A handy halal spot with vegetarian options, right beside the evening wander.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The miradouro stays because it is a short ride from Belém and open all day.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tram 28 keeps us moving without a long ride and shows off the old streets.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at the vegan project suits everyone and sits in the same area as the tram.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Feira da Ladra adds local life and a free wander, still close to the rest.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1128,
+          "input_tokens": 104,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 524,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 437,
           "service_tier": "standard"
         }
       }

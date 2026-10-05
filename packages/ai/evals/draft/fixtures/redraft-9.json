@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "911c5fcf-dbc1-4ebc-9253-f9422b01a861",
+        "id": "b2739514-9def-4d0f-bbcd-05f340e16e96",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Food-Lover's Lisbon Day\",\n  \"summary\": \"We wander Alfama's lanes, browse the flea market, keep the museum promise, and graze our way to a proper sit-down dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle morning wander to build an appetite, with photo corners around every bend.\",\n      \"note\": \"A gentle morning wander to build an appetite, with photo corners around every bend.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sniffing out market snacks and old treasures before the crowds get peckish.\",\n      \"note\": \"Sniffing out market snacks and old treasures before the crowds get peckish.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter, garden-minded lunch to keep everyone moving without a food coma.\",\n      \"note\": \"A lighter, garden-minded lunch to keep everyone moving without a food coma.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one promise we keep: a proper dose of art and calm in the afternoon.\",\n      \"note\": \"The one promise we keep: a proper dose of art and calm in the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner with small plates to share, because Ana said pastries but we all know dinner is the real festa.\",\n      \"note\": \"A proper sit-down dinner with small plates to share, because Ana said pastries but we all know dinner is the real festa.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Tasty Trot Through Lisbon\",\n  \"summary\": \"A slower, food-first day around the old town, mixing a morning market, a castle visit, and a proper sit-down meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the perfect breakfast for the eyes and the stomach, even if the grilled sardines are still asleep.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A bit of history and a view to work up a proper appetite.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one stop we must not skip, and a fine place to hide from the midday sun.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper, wallet-friendly sit-down meal to keep the crew fuelled for the rest of the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1217,
+          "input_tokens": 65,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 447,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 315,
           "service_tier": "standard"
         }
       }

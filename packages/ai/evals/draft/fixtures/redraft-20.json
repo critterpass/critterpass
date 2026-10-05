@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5ca23013-30c0-4df7-bd71-16f130c6dd51",
+        "id": "10e2542b-e7b7-47f0-a04d-f2c101385af1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"title\":\"Ubud Eats and Surprise Beats\",\"summary\":\"A slower Ubud day built around food: market-style bites, a proper long dinner, and one unexpected nightlife stop to close it out.\",\"stops\":[{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle first bite in Ubud, easy on the late-starting crew and full of things to share.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A little history between meals, quick enough to keep the day lazy.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A slow green walk to stretch the legs and build an appetite, no rush at all.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"The big sit-down splurge stays put, terima kasih (thank you) very much.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The surprise: after all that Ubud calm, a loud golden-hour beach club for the night owls.\"}]}"
+            "text": "{\n  \"title\": \"A Tasty Ubud Surprise\",\n  \"summary\": \"A slower, food-filled day around Ubud with a proper feast and a cheeky surprise stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, green start before the sun gets bossy.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"History and shade, a gentle wander before the heat.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate, the kind of stop you remember.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple surprise, lotus ponds and calm air.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner, kept as the crew wished.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 969,
+          "input_tokens": 73,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 252,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 284,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "0b3b2453-737c-4f93-a869-5937838b362f",
+        "id": "e45b87c4-4314-4eab-85bb-d6a98c4e57db",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Bites and Surprises\",\n  \"summary\": \"A slower Ubud day built around markets, a proper sit-down dinner, and one unexpected detour the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with smoothie bowls and good coffee, because the sun won't wait but we can.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick dose of royal history before the heat gets bossy.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A cave temple with a little mystery, the kind of surprise this day was missing.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local plate, the sort of food stop the crew asked for, and terima kasih (thank you) to whoever found it.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The splurge dinner stays, slow and celebratory, because some nights deserve a long table.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Ubud Eats and Unexpected Twists\",\n  \"summary\": \"A slow, food-filled day around Ubud with a proper feast, a market-style bite, and one surprise after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with vegan plates and good coffee, because the crew likes late mornings and I know a guy who swears by the smoothie bowls.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick lotus-pond temple visit to stretch the legs before the next bite, terima kasih (thank you) to whoever suggested a slower pace.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local warung stop for fragrant rice and crispy chicken, the kind of unplanned snack stop this crew would never expect.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little history between meals, because even a food day needs a story or two.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The big splurge dinner stays, and the crew earns it after a day of grazing.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise nightcap by the beach, because the sun won’t wait and neither should the night owls.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 124,
+          "input_tokens": 94,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 332,
+          "output_tokens": 411,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "05634794-09c5-462d-9e1b-aee33f3ea1c9",
+        "id": "35788793-ec45-4550-99a6-acf99d9c9273",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area B\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama arrival\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p9\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Belém icons\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p5\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Castle and farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p10\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "{\n  \"stay_area\": \"Area B\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama arrival\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p9\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Belém icons\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p5\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Castle and views\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p10\", \"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1875,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 197,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 193,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "f71e7e25-486f-423b-b1ac-776e1a6731d3",
+        "id": "ee332971-d6a4-4dbb-9a46-b2bf7d0fd9a8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the old walls for the best farewell view over the red rooftops and the river.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the flea market stalls for tiles, trinkets and a proper slice of local life.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hop on the rattling old tram and hold tight as it squeezes through the Alfama lanes.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The castle walls have seen everything, and the views over the red rooftops are pure Lisbon gold.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rattle through the old quarters on the little yellow tram, hanging on for dear life and loving it.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A world of art from ancient Egypt to modern masters, all under one very calm roof.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "738ebd33-9e0f-47e5-8fb9-a748d9613bf9",
+        "id": "c960d77d-8712-4797-9474-9f7e197a2956",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Wander the old lanes and catch laundry flapping like bunting above the cobbles.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The city opens up like a postcard from up here, all terracotta roofs and river light.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A garden of a plate, even for the herbivores among you.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Street food under one roof, from pastéis to piri-piri chaos.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm spices and a proper vegetarian curry to end the day.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Get lost on purpose in Alfama's tiled lanes and laundry-strewn balconies.\"},{\"poi_id\":\"p18\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A garden of a meal, all leafy calm and proper vegetarian comfort.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The city's best free balcony, with Lisbon spread out like a postcard.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A food hall circus where the street food comes with a roof and a queue.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny tasca with big flavours and a chalkboard that changes with the market.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 505,
+          "input_tokens": 121,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 273,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 194,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "15159ebf-b8e8-4a60-b2bd-f6afe0248f26",
+        "id": "b903c06f-1419-4243-a202-7781f903d981",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"That fairy-tale fortress on the water, all Manueline stone and sea spray.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The cloisters alone are worth the queue, like lace carved from limestone.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan comfort food that even a sardine respects, rich and surprisingly hearty.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old factory turned creative hive, full of street art, bookshops and odd corners.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Back for round two, because the crew needs dinner and this kitchen delivers.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Winding lanes and tiny bars, the city's night pulse after the sun dips.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Stand where the Tagus meets the Atlantic and let the old stone tell you about sailors and cannons.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Manueline stonework so rich it looks like the sea carved it between voyages.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Vegan comfort food that even a sardine like me respects, hearty and full of flavour.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Warehouse walls turned into street art, little shops and the smell of fresh coffee.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Back for round two, because good vegan food near the river is worth the return.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 353,
+          "input_tokens": 97,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 326,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 204,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "e8bb2918-5918-4733-b0ea-cdb05e691498",
+        "id": "97b3f2b5-d8c0-478e-a948-4020389fdf00",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Alfama arrival, Belém icons, castle farewell — every must-do in, and grilled sardines. Every. Single. Night."
+            "text": "Alfama, Belém, castle views — every must-do in, so come for the grilled sardines. Stay for the grilled sardines."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 161,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 28,
+          "output_tokens": 30,
           "service_tier": "standard"
         }
       }

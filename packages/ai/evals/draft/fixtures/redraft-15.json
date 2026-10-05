@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "887df8f1-be5b-4a02-8ef7-161ef0c5d585",
+        "id": "fb59d931-ac47-4bb4-be6c-c744cd925533",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Thrifty Sunday in Cusco\",\n  \"summary\": \"We trade one pricey stop for free local colour, keep the terraces, and still eat well without breaking the bank.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked for nature, so we keep the ancient terraces before the day warms up.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through market stalls gives us local life and street snacks for very little.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"We swap the fancier kitchen for this cheaper, veg-friendly spot to keep the budget happy.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An easy, free stroll around the square lets the photo lovers capture the evening light.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Thrifty Sunday in Cusco\",\n  \"summary\": \"A relaxed day around the old town, swapping the terraces for free plazas and a lighter bite so the crew keeps more soles in their pockets.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked to keep this one, so we start early among the terraces before the day warms up.\",\n      \"start\": \"09:00\",\n      \"end\": \"10:15\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander around the square gives the photo lovers their shot and the thrifty soul a happy heart.\",\n      \"start\": \"10:45\",\n      \"end\": \"11:30\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market stays, but we come for the bustle and street snacks rather than a sit-down meal.\",\n      \"start\": \"11:45\",\n      \"end\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter, lower-priced lunch keeps the day easy on the wallet and the belly.\",\n      \"start\": \"13:15\",\n      \"end\": \"14:15\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A small museum with a sweet smell, and the entry costs less than the fancier stops we dropped.\",\n      \"start\": \"14:30\",\n      \"end\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in a courtyard with local flavours, chosen because it is gentler on the budget than the old pick.\",\n      \"start\": \"19:00\",\n      \"end\": \"20:15\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1163,
+          "input_tokens": 11,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 270,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 508,
           "service_tier": "standard"
         }
       }

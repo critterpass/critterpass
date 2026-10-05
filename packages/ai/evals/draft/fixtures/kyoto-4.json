@@ -1,50 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "c0817534-36ad-4893-83f9-b94c2d55e707",
+        "id": "c1ecf83d-6457-4b09-977f-faf3ec756a9d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Castle and lantern-lit alley\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Shrines, market and Gion\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p7\", \"p2\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Bamboo and temple calm\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p5\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Castle and lantern-lit alleys\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden pavilion and thousand gates\",\n      \"area\": \"Area A to Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Wooden stage and market lanes\",\n      \"area\": \"Area B to Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p4\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1792,
+          "input_tokens": 956,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 194,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "b3542b63-e1a5-4e39-8856-fda5630b09f4",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Walk the nightingale floors and let the painted screens do the talking.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tofu done with more care than most temples get.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lanterns, wooden shutters, and the feeling the alley is winking at you.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 526,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 115,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 199,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "6d524396-3f22-49a7-9e04-173a1af42a47",
+        "id": "9d5f01a1-c3f5-4427-8084-2bea7aed778b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Old treasures behind a calm facade; give the bronze mirrors a long look.\"},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quiet canal-side stroll where the city hum softens to water and stone.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wooden stage, big view, and the kind of quiet that makes you forget your phone.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Market lanes with everything on a stick and the good kind of crowd noise.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 304,
+          "input_tokens": 354,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 79,
+          "output_tokens": 82,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "9faaca06-b28d-4aec-8d53-05db21d6bfc9",
+        "id": "3381123c-6018-490e-989a-7c120844e077",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A thousand golden statues, each with a different face. Count the arms, lose the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Graze the stalls like a tanuki in a bin. Pickles, skewers, and the odd thing you can't name.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Rich, porky broth and noodles worth the queue. Slurp loudly, it's a compliment.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades and the ghost of a geisha's sleeve. Walk slow, the street remembers.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp little dumplings, hot from the pan. Order more than seems sensible.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The gold leaf does the talking; you just stand there and blink.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"A thousand wooden faces, all of them better at sitting still than you.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Slurp loudly. It is the local applause.\"},{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Walk until the gates outnumber your excuses.\"},{\"poi_id\":\"p22\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Crisp little parcels of joy, best eaten while they hiss.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 623,
+          "input_tokens": 599,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 297,
+          "output_tokens": 176,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "5a03843e-ca65-4cd6-a08d-89cd9bdb646d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Nightingale floors squeak underfoot, so walk lightly and let the castle do the talking.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wooden facades and tea-house lanterns, best taken slowly with your phone in your pocket.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lanterns wake up here after dark, and the narrow alley does the rest.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tofu done with quiet precision, a gentle splurge that still feels like Kyoto.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 522,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "76e078a2-b7b1-4b8d-92ab-6cf8f6d6f455",
+        "id": "63e0da9f-fa88-4b3c-a535-8de8e6af48e6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A castle, lantern lanes, shrines, a market, Gion, the Philosopher's Path and the museum — all in, no dentist."
+            "text": "Castle, gold, gates and a wooden stage — every must-do in, shoes off, phone down, eyes up."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 223,
+          "input_tokens": 220,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 30,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }

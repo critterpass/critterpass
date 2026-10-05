@@ -1,34 +1,34 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "0754e32e-0454-429c-bb9a-95750e283580",
+        "id": "310517cd-53a2-41ed-9bc2-8ff7ee1fedc1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Reykjavik\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Warm welcome and city lights\",\n      \"area\": \"B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p1\", \"p6\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Soak, shop and say goodbye\",\n      \"area\": \"B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p12\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area B, Reykjavik centre\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Reykjavik icons and evening warmth\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p1\",\n        \"p6\",\n        \"p3\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Local life and city views\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p12\",\n        \"p4\",\n        \"p14\"\n      ]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 806,
+          "input_tokens": 709,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 145,
+          "output_tokens": 167,
           "service_tier": "standard"
         }
       }
     },
-    "day-2": {
+    "day-1": {
       "status": 200,
       "body": {
-        "id": "cfe23dcf-f91e-4f77-b8f6-3605d323f03b",
+        "id": "9402605c-bb2d-430f-b34b-3afe296aea49",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -41,7 +41,7 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 255,
+          "input_tokens": 258,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
           "output_tokens": 6,
@@ -49,26 +49,26 @@
         }
       }
     },
-    "day-1": {
+    "day-2": {
       "status": 200,
       "body": {
-        "id": "23231d65-7fbb-4920-abc2-3fe5060138a1",
+        "id": "8f327e9a-aad5-4505-bd64-b5ee2b898e41",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A steel boat dreaming of the sea, lovely against the winter light.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that make vegetables feel like a celebration.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A glass honeycomb by the harbour, glowing softly as the evening settles.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The arctic char pan is the kind of warm welcome you’ll write home about.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A proper rummage through Icelandic bric-a-brac and local treats.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, honest plates that leave you feeling rather virtuous.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big glass dome with a view that makes the city look like a toy town.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 652,
+          "input_tokens": 550,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 258,
+          "output_tokens": 162,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "5c6bb25b-1123-467e-ad04-9ae84759f3e9",
+        "id": "20fd5c92-f34a-4fbf-8fdd-87a30da4a8fa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A cosy Reykjavik hello, then a soak-and-shop farewell — every must-do tucked in, my friend."
+            "text": "Reykjavik's icons, a warm evening, then local life and city views — every must-do snug in the nest."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 221,
+          "input_tokens": 222,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 26,
+          "output_tokens": 27,
           "service_tier": "standard"
         }
       }

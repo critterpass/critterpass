@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3cf60fb7-a715-4969-8946-6af3b3e17a1c",
+        "id": "5536eaab-7b11-4076-b852-9b50bcd7012a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Softer Day in Reykjavik\",\n  \"summary\": \"We trade bus rides for breathing room, keeping the Blue Lagoon and letting the city's rhythm slow us down.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that stays, because some waters are worth the journey all on their own.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Softer Day in Reykjavik\",\n  \"summary\": \"We drop the long ride and keep things gentle with one unhurried stop, leaving the rest of the day loose.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one place we keep, and now we can truly soak in it without watching the clock.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1008,
+          "input_tokens": 112,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 108,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 110,
           "service_tier": "standard"
         }
       }

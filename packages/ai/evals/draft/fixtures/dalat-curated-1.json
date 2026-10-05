@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "c0859f87-da13-4226-b287-81bdd99a4f84",
+        "id": "8afd91f8-6395-412c-bb26-9c8cbd3d595e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing in the city\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p14\", \"p165\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Coffee, markets and city corners\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p136\", \"p23\", \"p49\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Lakes, hills and a nightcap\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p16\", \"p173\", \"p180\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Gentle morning, then goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p131\", \"p48\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the centre\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p165\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"classic Dalat sights\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p11\", \"p136\", \"p131\", \"p23\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"temples, hills and waterfalls\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p16\", \"p90\", \"p173\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"gentle morning, then goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p48\", \"p200\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 2,
+          "input_tokens": 1348,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 4224,
-          "output_tokens": 300,
+          "cache_read_input_tokens": 3584,
+          "output_tokens": 301,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "610175d7-5b78-44f9-bf7b-c97ddae2898b",
+        "id": "f81f9003-86f8-4150-84be-f5a671c70587",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow loop around the lake, watching the paddle boats and the pines. Gentle on the legs, easy on the eyes.\"\n    },\n    {\n      \"poi_id\": \"p80\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crab noodle soup that tastes like a warm hug from a local auntie. Slurp loudly, it’s the only way.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle green wander before the long flight home, with flowers doing all the talking.\"\n    },\n    {\n      \"poi_id\": \"p85\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of phở to send you off warm, the way a goodbye should taste.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 514,
+          "input_tokens": 519,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 139,
+          "output_tokens": 120,
           "service_tier": "standard"
         }
       }
@@ -52,47 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "5e302f35-d426-4b1d-87fc-19b967e5397e",
+        "id": "7b6f4373-bdb5-471d-bd19-73afe23a986d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty staircases and fairy-tale corners everywhere. Go slow, the house likes to surprise you.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big flower-shaped building by the lake. Good spot to watch the city wake up around you.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stalls stacked with dried fruit, coffee and warm jackets. Sniff the strawberries before you buy.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Hot pot bubbling at the table, steam in your face, beef going in pink. Exactly what a cool mountain evening wants.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty staircases and fairy-tale corners everywhere, like someone dreamed the whole house after too much coffee.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Poke through the dried fruit and knitted hats; the market hums with local life once the afternoon cools.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Roll-your-own nem nướng with a mountain of herbs, and the grill smoke does half the work for you.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A moody little cocktail den for a night owl; the drinks lean theatrical and the lights stay low.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 578,
+          "input_tokens": 481,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 242,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "ca672cd3-496b-40fb-b9d8-2997a18bbd62",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up the hill to the pagoda, the lake spreads out below like a green silk scarf.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pine slopes, still water, and a path so gentle you could nap while walking. Almost.\"\n    },\n    {\n      \"poi_id\": \"p350\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A hot bowl of turmeric noodles, pork and shrimp, just what the hills ordered.\"\n    },\n    {\n      \"poi_id\": \"p180\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pink grass on the slopes, the kind of view that makes you forget your feet.\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sit down, slow down, and let the local plates do the talking.\"\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee, low light, and the hum of the hill town after dark. A proper nightcap.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 698,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 334,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 246,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "73aa7474-de28-4572-b503-ce13511fa7d0",
+        "id": "ab95b5b3-104f-486c-a6f1-b8a5e24f750f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Little sizzling rice cakes with quail egg and a crispy edge, best eaten hot off the pan.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old station sits like a postcard, all art deco lines and a steam engine that never left.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cool, quiet rooms full of hill tribe textiles and old photographs of the highlands.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Silky rice sheets and tender chicken, the kind of bowl locals queue for without checking the clock.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A tucked-away table where the art on the walls is almost as good as the claypot on your plate.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Clouds in a cup and fairy lights in the pines, a slow place to end the evening.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn straight off the griddle, crispy edges and a quail egg on top. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the old palace rooms and imagine the view from the terrace. Very classic Dalat.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old station is pure photo bait, all curves and faded paint. Take your time on the platform.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow loop around the lake, watch the paddle boats and the pine hills behind town.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Silky rice sheets and tender chicken, a proper local lunch. Cảm ơn (thank you) to the cook.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sit down in the alley, order something slow, and let the evening roll in with the artists.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 787,
+          "input_tokens": 745,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 351,
+          "output_tokens": 361,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "6b91b538-7604-4e43-84b2-8c66c2aa1d99",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Up the hill to the pagoda first, the lake view from the gardens is the calmest start to a Đà Lạt day.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The falls are right below the pagoda, so we roll downhill to the roar and the mist.\"\n    },\n    {\n      \"poi_id\": \"p350\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl of mì Quảng (turmeric noodles with pork, shrimp and a sesame cracker) to refuel before the lake.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pine hills around a quiet lake, perfect for a slow wander and a long look at the water.\"\n    },\n    {\n      \"poi_id\": \"p146\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Prenn falls with its little bridge and gardens, a gentle green stop before the light goes soft.\"\n    },\n    {\n      \"poi_id\": \"p284\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Hill chicken, cold beer, and the easy hum of a local dinner spot to close the day.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 735,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 362,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "3b5913d3-f486-4274-a811-0c0086f681b2",
+        "id": "3716ee7b-1a75-48c8-a002-7a9e4a42d0c8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Đà Lạt, done gentle: museum, old station, lakes and hills, then a soft goodbye — every must-do tucked in."
+            "text": "Đà Lạt, hills and temples and a soft goodbye — every must-do's in, and I'd still sneak a mì Quảng first."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 249,
+          "input_tokens": 257,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 640,
-          "output_tokens": 28,
+          "output_tokens": 31,
           "service_tier": "standard"
         }
       }

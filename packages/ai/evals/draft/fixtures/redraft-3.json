@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "83f28a94-68a2-4954-b549-9f36a5c350ff",
+        "id": "957d301a-1604-4350-9f10-8220801e06a4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Gion and steel, wallet intact\",\n  \"summary\": \"A quieter Kyoto day that keeps the railway museum but swaps the castle for a free Gion wander, with no meal stop planned.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so the early birds can drift through Gion before the crowds wake up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one paid stop, and worth every coin for the crew's museum itch.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"A slower day out west and into the city, keeping the railway museum and swapping the castle for a free bamboo wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free, open all day, and the photo crew will forgive us for skipping a paid museum. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew's museum taste gets its fix here.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1076,
+          "input_tokens": 943,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 186,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 191,
           "service_tier": "standard"
         }
       }

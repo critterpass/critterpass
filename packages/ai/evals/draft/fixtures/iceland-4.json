@@ -1,34 +1,34 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "a118a5c3-acab-45c3-bec0-cfee28a83e55",
+        "id": "34873d2e-a930-43bf-a8d5-2b2703d4cccc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"City lights and harbour air\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden Circle and local life\",\n      \"area\": \"Area B, C, F\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\", \"p8\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Museums and farewell stroll\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Reykjavik first light\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p1\", \"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden Circle and city soul\",\n      \"area\": \"Area B, C, F\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p7\", \"p8\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Local Reykjavik farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p13\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 883,
+          "input_tokens": 937,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 198,
+          "output_tokens": 204,
           "service_tier": "standard"
         }
       }
     },
-    "day-2": {
+    "day-3": {
       "status": 200,
       "body": {
-        "id": "477aaa7b-d022-43fa-9049-f633b263e8ff",
+        "id": "826ef99e-5c07-4658-9e45-84f7fcc72441",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -41,7 +41,7 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 258,
+          "input_tokens": 306,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
           "output_tokens": 6,
@@ -52,47 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "43f57f05-5396-4412-8d67-4d8e45ccba8e",
+        "id": "605bdfa0-735d-4f90-8fee-433f134c8cbe",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops and the harbour beyond.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"A gleaming steel boat on the shore, perfect for a windswept photo with the sea behind.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the honeycomb glass facade and catch the harbour light bouncing off the water.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fresh, hearty plates that even a puffin would trade a sandeel for.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Climb the tower for a sweeping view over the colourful rooftops.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"A gleaming steel boat by the sea, perfect for a windswept photo.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the honeycomb glass facade and catch the harbour light inside.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm, hearty plates that even a puffin would trade a sandeel for.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 549,
+          "input_tokens": 488,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 228,
+          "output_tokens": 214,
           "service_tier": "standard"
         }
       }
     },
-    "day-3": {
+    "day-2": {
       "status": 200,
       "body": {
-        "id": "eaf4bbb3-331a-42c9-a9bb-78f29a4f48d6",
+        "id": "45ad9934-41ad-497e-a2bd-fb23d30b8375",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"A walk through Iceland's story, from settlement to modern day, all under one roof.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lively food hall where everyone can find something tasty, from lamb to lentil soup.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Life-size models of the gentle giants swimming in our waters, a humbling sight.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"A treasure chest of Viking swords and saga threads, perfect for the history buffs among you.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rummage through knitted jumpers and old vinyl while the locals haggle over dried fish.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Their sourdough and pastries are the stuff of local legend, and the coffee keeps the early birds chirping.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Life-sized blue whales hanging from the ceiling make you feel wonderfully small and very far from the high street.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy lighthouse walk where the sea air scrubs your lungs and the sunset paints the bay for free.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A buzzing food hall where everyone in the crew can chase their own craving, from lamb soup to a vegan feast.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 511,
+          "input_tokens": 502,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 176,
+          "output_tokens": 356,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "69adedb0-f2e2-4f56-884d-9a070e6a14b5",
+        "id": "4b1a2618-3d3a-4608-bdd0-9cde09287095",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Reykjavik in three warm bites: harbour glow, the Golden Circle, then museums and a last stroll."
+            "text": "Reykjavik, the Golden Circle and a warm goodbye — your whole Icelandic wish list, snugly in one trip."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 224,
+          "input_tokens": 227,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 0,
-          "output_tokens": 24,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

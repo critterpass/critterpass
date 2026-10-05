@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f05918d2-5852-4d20-9550-8c352d64bec9",
+        "id": "3a5d060e-74f5-4852-a754-f3e5c207d058",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\"title\":\"Slow Tuesday, Sea Breeze and Noodles\",\"summary\":\"A late, easy day around An Bang and the nearby lanes, with a beach stroll, a temple pause and two unhurried local meals.\",\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A slow morning deserves soft sand and a long look at the water. No rush, just the sea doing its thing.\"},{\"poi_id\":\"p92\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quiet temple stop to let the day settle in, close to the beach and easy on the legs.\"},{\"poi_id\":\"p13\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Lunch that tastes like a local kitchen, not a timetable. Chicken rice, warm and filling.\"},{\"poi_id\":\"p16\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A little green pause between meals, where the afternoon moves at walking speed.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Dinner of soft rice cakes, the kind of street food that makes you say ngon quá (so tasty) quietly to yourself.\"}]}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle late-start day that swaps the early museum for an easy stroll, a beach sunset, and a proper dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow morning calls for a quiet green wander instead of rushing to a museum. Kazik Park keeps the pace easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee or a snack break, never a meal — perfect for a late start when breakfast has already been skipped.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays in the same neighbourhood, so the crew can refuel without racing across town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach is best for the sunset, and a later start means we catch it without an early alarm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner by the water, street food style. From the trees I can already smell the snails.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1707,
+          "input_tokens": 1362,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 267,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 386,
           "service_tier": "standard"
         }
       }

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "448497e1-55a9-47eb-8068-1caa6e8b854c",
+        "id": "6be22e39-eab8-42a4-bbfe-0fb13d0637f6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Reykjavik on a Lighter Purse\",\n  \"summary\": \"A gentler Sunday around Reykjavik that keeps the whales but swaps the pricier stops for free local colour and cheaper plates.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see, so the whales stay put and the budget bends around them.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through the flea market, perfect for thrifty souls and a proper sniff of local life.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride out for a free, windswept lighthouse and a photo or two without spending a króna.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A modest lunch stop with rye bread and vegetarian plates, easy on the wallet and very Icelandic.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A browse along Laugavegur, where window-shopping costs nothing and the street does the entertaining.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at the food hall keeps everyone happy and the bill friendlier than the old grill stop.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Reykjavik on a lighter purse\",\n  \"summary\": \"A thriftier Sunday that keeps the whales but swaps the far-flung falls for harbour air, market chatter and a cheaper bite.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-see stays put, even if the whales refuse to chip in for the ticket.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free wander through Kolaportið, where the only price is whatever trinket talks you into it.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grótta's lighthouse costs nothing and gives the early birds their sea breeze without a bill.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at Kaffi Loki keeps the wallet calm and the rye bread warm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Hlemmur Mathöll, where a food hall means five different opinions and one shared table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1295,
+          "input_tokens": 1033,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 401,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 388,
           "service_tier": "standard"
         }
       }

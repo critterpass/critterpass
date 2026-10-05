@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "5c7eab9d-1276-451a-8d5b-822f4a10fdfa",
+        "id": "55533cc9-2afe-4503-8918-2ceac2274a23",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slower Day in Đà Lạt\",\n  \"summary\": \"One long garden wander, then a gentle crawl between two meals with the evening left wide open.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, the flower garden earns the whole afternoon for a slow wander, and the hours are only a guess so we start early.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this one stays because the crew asked for it, and the good bánh căn in this area is worth lingering over.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves to a nearby area so the day keeps one gentle rhythm and nobody rushes a hot pot.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slower day in Đà Lạt\",\n  \"summary\": \"One long garden wander, then lunch and dinner with plenty of unhurried time between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, this is the one activity that earns the slower pace, and the flower beds are worth a long look.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"From what Tokek knows so far, this lunch is the keeper, so it stays right where the crew wanted it.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"From what Tokek knows so far, dinner moves here so the evening stays easy and the night owl gets a proper late meal.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1872,
+          "input_tokens": 1882,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 251,
+          "output_tokens": 233,
           "service_tier": "standard"
         }
       }
