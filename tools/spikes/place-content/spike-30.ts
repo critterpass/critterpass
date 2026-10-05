@@ -6,7 +6,7 @@
  * Env: SEARXNG_URL, SPIKE30_OUT, plus the worker's keys (railway run). Writes results.json.
  */
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { createDecisionClient } from '../../../packages/ai/src/decide/client';
@@ -19,6 +19,12 @@ import { generate, renderPages, window, type Page } from './lib';
 import { BEST_TIMES, factProblem, PROFILE_RULES, PROFILE_SCHEMA } from './profile';
 
 const SEARX = process.env.SEARXNG_URL ?? '';
+/** `pro`: steps in sequence, 3 pages, pro write. `flash`: steps in parallel, 2 pages, flash write. */
+const RUN = process.env.SPIKE30_RUN === 'flash' ? 'flash' : 'pro';
+const FAST = RUN === 'flash';
+/** Engines SearXNG reported unresponsive, counted over the run. */
+const blocked = new Map<string, number>();
+let searxQueries = 0;
 const OUT30 = process.env.SPIKE30_OUT ?? '/Volumes/CPLanes/tmp/spike-30';
 const PHOTOS = join(OUT30, 'photos');
 mkdirSync(PHOTOS, { recursive: true });
@@ -151,7 +157,14 @@ async function searx(q: string, language: string, categories = 'general'): Promi
     signal: AbortSignal.timeout(20_000),
   });
   if (!response.ok) return [];
-  return ((await response.json()) as { results?: SearxResult[] }).results ?? [];
+  searxQueries += 1;
+  const body = (await response.json()) as {
+    results?: SearxResult[];
+    unresponsive_engines?: [string, string][];
+  };
+  for (const [engine] of body.unresponsive_engines ?? [])
+    blocked.set(engine, (blocked.get(engine) ?? 0) + 1);
+  return body.results ?? [];
 }
 
 const SKIP =
@@ -204,7 +217,7 @@ async function evidence(p: Place) {
   ];
   const pages: Page[] = [];
   for (const url of candidates) {
-    if (pages.length >= 3) break;
+    if (pages.length >= (FAST ? 2 : 3)) break;
     const page = await fetchPage(url, near);
     if (page !== null) pages.push(page);
   }
@@ -331,7 +344,11 @@ async function photos(p: Place, key: string) {
 
 async function runPlace(p: Place, index: number) {
   const key = `${p.city}-${String(index + 1).padStart(2, '0')}`;
-  const [labels, jevMs] = await timed(() => jevLabels(p));
+  const started = performance.now();
+  // Flash run: Jev, photos and search start together; only the write waits for the pages.
+  const labelsP = timed(() => jevLabels(p));
+  const picsP = FAST ? timed(() => photos(p, key)) : null;
+  const [labels, jevMs] = FAST ? [null, 0] : await labelsP;
   const [ev, searchMs] = await timed(() => evidence(p));
   const all = [...ev.pages, ...ev.snippets];
   const user = [
@@ -344,13 +361,13 @@ async function runPlace(p: Place, index: number) {
   ].join('\n');
   const [gen, writeMs] = await timed(() =>
     generate({
-      tier: 'pro',
+      tier: FAST ? 'fast' : 'pro',
       thinking: false,
       system: PROFILE_RULES,
       user,
       schema: PROFILE_SCHEMA,
       maxTokens: 2_500,
-      label: 'spike30-profile',
+      label: `spike30-profile-${RUN}`,
     }),
   );
   const profile = gen.json as {
@@ -364,7 +381,11 @@ async function runPlace(p: Place, index: number) {
     dish: string | null;
     facts: { kind: string; en: string; vi: string; source_url: string; quote: string }[];
   } | null;
-  const [second, secondMs] = await timed(() => deepseekCheck(p));
+  const wantsSecond =
+    !FAST || (profile?.facts ?? []).some((f) => f.kind === 'entry' || f.kind === 'hours');
+  const [second, secondMs] = wantsSecond
+    ? await timed(() => deepseekCheck(p))
+    : [{ answer: null, result_urls: [] as string[], cost_usd: 0, skipped: true }, 0];
   const ownHost = p.website === null ? null : new URL(p.website).hostname.replace(/^www\./u, '');
   const facts = (profile?.decision === 'write' ? profile.facts : []).map((f) => {
     const cite = factProblem(f as never, all);
@@ -383,8 +404,12 @@ async function runPlace(p: Place, index: number) {
       kept,
     };
   });
-  const [pics, photoMs] = await timed(() => photos(p, key));
+  const [pics, photoMs] = picsP === null ? await timed(() => photos(p, key)) : await picsP;
+  const [labelsDone, jevMsDone] = FAST ? await labelsP : [labels, jevMs];
+  const wallMs = Math.round(performance.now() - started);
   const result = {
+    run: RUN,
+    wall_seconds: wallMs / 1000,
     key,
     city: p.city,
     tier: p.tier,
@@ -396,7 +421,7 @@ async function runPlace(p: Place, index: number) {
       town: p.town,
       website: p.website,
     },
-    jev: labels,
+    jev: labelsDone,
     profile:
       profile?.decision === 'write'
         ? {
@@ -415,21 +440,21 @@ async function runPlace(p: Place, index: number) {
     sources_read: ev.pages.map((pg) => pg.url),
     photos: pics,
     seconds: {
-      jev: jevMs / 1000,
+      jev: jevMsDone / 1000,
       search_and_fetch: searchMs / 1000,
       write: writeMs / 1000,
       second_source: secondMs / 1000,
       photos: photoMs / 1000,
     },
     cost_usd: {
-      jev: labels.cost_usd,
+      jev: labelsDone?.cost_usd ?? 0,
       write: gen.costMicros / 1e6,
       second_source: second.cost_usd,
       search: 0,
     },
   };
   console.log(
-    `${key} ${p.tier.padEnd(9)} ${p.name.slice(0, 28).padEnd(28)} facts ${facts.filter((f) => f.kept).length}/${facts.length} photos ${pics.length} ${((jevMs + searchMs + writeMs + secondMs + photoMs) / 1000).toFixed(1)} s`,
+    `${RUN} ${key} ${p.tier.padEnd(9)} ${p.name.slice(0, 28).padEnd(28)} facts ${facts.filter((f) => f.kept).length}/${facts.length} photos ${pics.length} ${((jevMs + searchMs + writeMs + secondMs + photoMs) / 1000).toFixed(1)} s`,
   );
   return result;
 }
@@ -440,6 +465,16 @@ const queue = places.map((p, i) => ({
   p,
   i: places.filter((q, j) => j < i && q.city === p.city).length,
 }));
+const previous = existsSync(join(OUT30, 'results.json'))
+  ? (
+      JSON.parse(readFileSync(join(OUT30, 'results.json'), 'utf8')) as {
+        places: { run?: string }[];
+      }
+    ).places
+      .map((r) => ({ run: 'pro', ...r }))
+      .filter((r) => r.run !== RUN)
+  : [];
+const runStarted = performance.now();
 async function worker(): Promise<void> {
   for (let job = queue.shift(); job !== undefined; job = queue.shift()) {
     try {
@@ -452,7 +487,7 @@ async function worker(): Promise<void> {
       JSON.stringify(
         {
           generated_at: new Date().toISOString(),
-          places: [...results].sort((a, b) => a.key.localeCompare(b.key)),
+          places: [...previous, ...[...results].sort((a, b) => a.key.localeCompare(b.key))],
         },
         null,
         2,
@@ -460,5 +495,7 @@ async function worker(): Promise<void> {
     );
   }
 }
-await Promise.all(Array.from({ length: 5 }, worker));
-console.log(`done ${results.length}/${places.length}`);
+await Promise.all(Array.from({ length: FAST ? 10 : 5 }, worker));
+console.log(
+  `done ${results.length}/${places.length} in ${Math.round(performance.now() - runStarted) / 1000} s; searxng queries ${searxQueries}, unresponsive engines ${JSON.stringify(Object.fromEntries(blocked))}`,
+);
