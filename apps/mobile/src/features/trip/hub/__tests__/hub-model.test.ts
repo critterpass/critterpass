@@ -33,10 +33,15 @@ describe('hub phase', () => {
     const now = new Date('2026-09-25T10:00:00Z');
     expect(hubHeader(TRIP, [], now)).toEqual({
       phase: 'pre',
+      byAir: false,
       target: new Date('2026-10-11T16:00:00Z'),
     });
     const mine = { ...TRIP, countdownTargetAt: '2026-10-11T23:00:00Z' };
-    expect(hubHeader(mine, [FLIGHT], now)).toEqual({ phase: 'pre', target: FLIGHT.departsAt });
+    expect(hubHeader(mine, [FLIGHT], now)).toEqual({
+      phase: 'pre',
+      target: FLIGHT.departsAt,
+      byAir: true,
+    });
   });
 
   it('is a travel day from my flight until I land, then day 1', () => {
