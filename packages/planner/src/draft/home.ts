@@ -7,7 +7,7 @@
 import { foodRole } from './food-role';
 import { hopCapMin } from './hops';
 import { keepOutingsTogether, planOutings, type Outing } from './outings';
-import { straightLineMatrix } from './travel';
+import { straightLineMatrix, type RoutedPairs } from './travel';
 import type { DraftPoi, TravelMatrix } from './types';
 
 /** Places sampled for the middle, taken evenly across the list. */
@@ -108,8 +108,9 @@ export function outingsFor(
   asked: ReadonlySet<string>,
   /** The open days before the edge days were kept near home. */
   beforeEdges: ReadonlyMap<string, readonly number[]> = openDays,
+  routed?: RoutedPairs,
 ): Outing[] {
-  const travel = straightLineMatrix(new Map(places.map((poi) => [poi.id, poi])));
+  const travel = straightLineMatrix(new Map(places.map((poi) => [poi.id, poi])), routed);
   const home = days < 3 ? null : homeBase(places, travel);
   if (home === null) return [];
   const outings = planOutings({

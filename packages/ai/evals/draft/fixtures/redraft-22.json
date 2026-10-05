@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "34f5d94c-d13e-413c-8455-7c1bc25a546b",
+        "id": "7dc1fd04-3bc4-4c48-86fe-06acedbc7d24",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Day Around the Market\",\n  \"summary\": \"One unhurried market wander, then lunch and dinner kept simple and close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p40\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The only activity today, so there is time to browse slowly and let the stalls lead.\",\n      \"poi_id\": \"p40\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the crew asked, and it sits right where the slow morning already was.\",\n      \"poi_id\": \"p22\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the same area, so the evening is as easy as the afternoon.\",\n      \"poi_id\": \"p98\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Day Among the Flowers\",\n  \"summary\": \"One long, easy nature stop, with lunch and dinner kept close by in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Keeping the flower garden as the single long, slow wander of the day; plenty of time to just sit and watch the petals.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Lunch stays right here, as it should on a slower day.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner keeps the evening easy and local, no rush after the garden.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 125,
+          "input_tokens": 28,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2432,
-          "output_tokens": 239,
+          "cache_read_input_tokens": 2304,
+          "output_tokens": 272,
           "service_tier": "standard"
         }
       }

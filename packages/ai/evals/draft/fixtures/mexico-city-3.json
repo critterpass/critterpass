@@ -4,47 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "b1c54178-b71c-4ec1-94e7-69adcaa22e3a",
+        "id": "52fe9ce1-29a4-49be-8e49-8bca4779cb22",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area E, near the Zócalo\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Chapultepec Castle\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Anthropology\",\n      \"area\": \"Area A and Area C\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Xochimilco and Coyoacán\",\n      \"area\": \"Area B and Area D\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Frida Kahlo and Historic Center\",\n      \"area\": \"Area D and Area E\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p4\", \"p3\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area C (Condesa/Roma or Coyoacán)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Chapultepec Castle\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Teotihuacan and Anthropology\",\n      \"area\": \"Area A and Area C\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p11\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Xochimilco and Coyoacán\",\n      \"area\": \"Area B and Area C\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\", \"p10\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Frida Kahlo and Historic Center\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 646,
+          "input_tokens": 49,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 261,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "4cf69e2a-b7f8-4277-9a57-0615b24162d3",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the Avenue of the Dead and climb the Pyramid of the Sun for a view that humbles even an axolotl.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 98,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 77,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 273,
           "service_tier": "standard"
         }
       }
@@ -52,47 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "662a6312-44f4-4d74-bbe0-d1657a482b4d",
+        "id": "3ae37033-004c-4bd6-8454-73ea7c56e4aa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The blue house where Frida lived and painted, full of her spirit and her garden.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great Aztec temple ruins right beside the cathedral, with a museum of treasures.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Aztec ruins right in the heart of the city, with a museum full of stone serpents and old gods.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"The blue house where Frida lived and painted, full of her dresses, corsets and quiet corners.\"}]}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 50,
+          "input_tokens": 254,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 121,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "3aac3889-f713-4bd8-949e-69b1119de3f5",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The castle sits high above the city, full of murals and old rooms with a view that stretches for miles.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green lung in the middle of the concrete, perfect for a slow wander under the trees.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny tacos al pastor carved straight off the trompo, a classic first bite of the city.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 42,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 184,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 98,
           "service_tier": "standard"
         }
       }
@@ -100,47 +52,71 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "1631d11c-8458-487e-a055-44bb64d0a7bf",
+        "id": "fd97d6e6-e011-4a02-aa9c-75737e198e81",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Glide the ancient canals on a painted trajinera, past floating gardens and mariachi boats.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright, casual plates that make even the pickiest eater in your crew smile.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the tostadas, blue-corn quesadillas and churros while the market hums around you.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stand in the great square where the city's layers of history meet under one enormous flag.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A slow, theatrical tasting menu that turns Mexican ingredients into tiny works of art.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Glide the old canals on a painted trajinera, with birdsong and floating kitchens all around.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright seafood room where the tuna tostadas deserve their fame.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the market's tiled lanes for blue-corn quesadillas and a proper Coyoacán bustle.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 32,
+          "input_tokens": 335,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 287,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 130,
           "service_tier": "standard"
         }
       }
     },
-    "titles": {
+    "day-1": {
       "status": 200,
       "body": {
-        "id": "36c70765-c193-4360-a3c4-bc8071e8aab8",
+        "id": "1ec8b6f0-befb-4f08-86d8-3b98acec05f8",
         "type": "message",
         "role": "assistant",
-        "model": "deepseek-flash",
+        "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "3: Trajineras, then Pujol"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The castle crowns the hill with murals, marble staircases and the whole city spread below.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the lakes and shaded paths of the park, where the city slows down and the squirrels run the show.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Vegan tacos al pastor that even carnivores order twice, with a salsa bar worth the trip alone.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 223,
+          "input_tokens": 308,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 11,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 185,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "67d179d9-11db-4b62-81bd-ef9afe7d8027",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the Avenue of the Dead and climb the Pyramid of the Sun for a view that has watched over this valley for centuries.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bright, lively spot for a proper sit-down lunch with fresh flavours and plenty of vegetarian choices.\"\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The great stone Aztec calendar and the colossal Olmec heads are the stars of this vast museum.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm, fragrant halal cooking that feels like a quiet feast before the evening's noise.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Masks, capes and flying bodies: the crowd roars and the arena shakes with pure theatre.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 319,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 297,
           "service_tier": "standard"
         }
       }
@@ -148,14 +124,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "a335c712-cf72-4c9a-b0e8-78f6c8b6bb1e",
+        "id": "a66010cd-0961-414e-9f6b-9ee2e7bf0bd2",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "A warm wander through my city: castle, ruins and trajineras, Frida, and one fine feast — with a whole morning given to Teotihuacan."
+            "text": "A warm wander through castles, pyramids, canals and Frida — with a whole morning given to Teotihuacan."
           }
         ],
         "stop_reason": "end_turn",
@@ -164,7 +140,7 @@
           "input_tokens": 215,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 35,
+          "output_tokens": 24,
           "service_tier": "standard"
         }
       }

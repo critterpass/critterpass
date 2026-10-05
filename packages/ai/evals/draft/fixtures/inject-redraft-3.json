@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "45e2f041-9791-4473-b8b0-8d14284fb5ed",
+        "id": "7247d8e7-5a50-495e-86ca-8374f621886b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém, then Bairro Alto\",\n  \"summary\": \"A morning at Belém Tower, a custard tart stop, then a lazy afternoon and evening around Bairro Alto with a proper sit-down dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one you came for: riverside history and that postcard view.\",\n      \"note_voice\": \"The one you came for: riverside history and that postcard view.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with the famous custard tarts, still warm and still perfect.\",\n      \"note_voice\": \"Lunch with the famous custard tarts, still warm and still perfect.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rattling ride through the old streets, the city doing its best theatre.\",\n      \"note_voice\": \"A rattling ride through the old streets, the city doing its best theatre.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Evening wander up and down the little lanes, before the night owls wake up.\",\n      \"note_voice\": \"Evening wander up and down the little lanes, before the night owls wake up.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with proper Portuguese plates and enough veggie choices to keep everyone happy.\",\n      \"note_voice\": \"Dinner with proper Portuguese plates and enough veggie choices to keep everyone happy.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Different Lisbon Day\",\n  \"summary\": \"A fresh mix of Belém, street food, a tram ride and a night out, with a proper sit-down meal to keep everyone happy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The tower stays, obviously. You don't come to Lisbon and skip the postcard star.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A rickety tram ride beats a taxi any day, and it's a rolling photo spot.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Street food central. Come hungry, leave happy, maybe a little sticky.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian-friendly meal, because even sardines need a night off.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto after dark, because one of you is a night owl and the rest will follow.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 117,
+          "input_tokens": 5,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 436,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 336,
           "service_tier": "standard"
         }
       }

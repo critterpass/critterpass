@@ -31,7 +31,7 @@ import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
 import { spansOn } from './sequence';
-import { straightLineMatrix } from './travel';
+import { straightLineMatrix, type RoutedPairs } from './travel';
 import type { DraftPoi, TripFrame } from './types';
 
 /** Taste tag → place categories and tags it points at. */
@@ -89,6 +89,8 @@ export interface CandidatePoolsInput {
   readonly include?: readonly string[];
   /** Phrases naming the destination itself, ignored when comparing place names. */
   readonly ignoreNames?: readonly (readonly string[])[];
+  /** Minutes the routing service already gave between places of the destination (./travel). */
+  readonly routed?: RoutedPairs;
 }
 
 /** Meal places ranked for a trip (each day's list is the nearest of these). */
@@ -235,12 +237,19 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
   keepEdgeDaysNearHome(
     openDays,
     input.pois,
-    straightLineMatrix(byId),
+    straightLineMatrix(byId, input.routed),
     frame.dates.length,
     mustDoPlaces,
   );
   // Far essentials that sit together are one outing on one full day; a short trip takes the best.
-  const outings = outingsFor(input.pois, openDays, frame.dates.length, mustDoPlaces, beforeEdges);
+  const outings = outingsFor(
+    input.pois,
+    openDays,
+    frame.dates.length,
+    mustDoPlaces,
+    beforeEdges,
+    input.routed,
+  );
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();

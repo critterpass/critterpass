@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "8dba7eca-ee28-4e30-a1b7-7a0eb17660b5",
+        "id": "366d702a-b251-41aa-8c3f-b8d717c60f8c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Soft landing by the lake\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p131\",\n        \"p20\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Langbiang and pagoda day\",\n      \"area\": \"Area D, Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p355\"\n      ]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Waterfalls and old Đà Lạt\",\n      \"area\": \"Area B, Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p90\",\n        \"p16\",\n        \"p11\"\n      ]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Markets and morning light\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\n        \"p165\",\n        \"p3\",\n        \"p136\"\n      ]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival ease and night market\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p20\", \"p218\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Langbiang outing and pagoda\",\n      \"area\": \"Area B and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p355\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Waterfalls and lake views\",\n      \"area\": \"Area A and Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p90\", \"p173\", \"p131\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Morning market and palace\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p165\", \"p11\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 18,
+          "input_tokens": 44,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 5120,
-          "output_tokens": 327,
+          "cache_read_input_tokens": 4992,
+          "output_tokens": 295,
           "service_tier": "standard"
         }
       }
@@ -28,71 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "7a547ab5-125f-46e3-91a4-b4c11ef0b779",
+        "id": "44ff68d7-a788-442f-95c5-a376c871e24b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Morning light hits the stalls just right here — dried flowers, coffee beans, and the hum of local life.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Silky rice sheets and tender chicken, the kind of bowl that makes you say ngon quá (so tasty).\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market wakes up loud and lovely: dried flowers, coffee beans, and the smell of rice paper grilling.\"\n    },\n    {\n      \"poi_id\": \"p41\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Silky rice sheets and tender chicken, with a broth that tastes like someone's grandmother made it. Ngon quá (so tasty).\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 374,
+          "input_tokens": 485,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 131,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "e82b38ca-a4ab-458a-84f6-c7854cebbaad",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p90\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The falls roar long before you see them; ride the little coaster down and let the mist wake you up.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Step into the old king's rooms and imagine the view before the pines grew tall.\"},{\"poi_id\":\"p215\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A gentle hill of gardens and odd little photo corners, perfect for a slow wander.\"},{\"poi_id\":\"p284\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool, order the chicken, and let the evening noise of the city do the talking.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 109,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2304,
-          "output_tokens": 168,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-1": {
-      "status": 200,
-      "body": {
-        "id": "2faffbf3-c72f-4e1e-ac1a-68e7bc391f40",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow lap around the lake is the softest hello Đà Lạt knows. Watch the paddle boats and the pine hills doing nothing in a hurry.\"\n    },\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty staircases, fairy-tale walls, and a view that makes you feel like you wandered into a dream. Go slow, it leans that way.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"The beef hotpot here is the kind of warm that settles a first night in the highlands. Let the broth do the talking.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stalls glowing after dark, grilled corn smoke, and the whole town out for a wander. This is where the evening finds its rhythm.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 26,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 274,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 136,
           "service_tier": "standard"
         }
       }
@@ -100,23 +52,71 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "081f5ef2-f9f9-446b-bb80-8486d7342d20",
+        "id": "6ffb5c9a-2f61-4ee4-a456-32208ccce627",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Tiny sizzling rice cakes with quail egg and scallion oil, made right in front of you. Grab a low stool and watch the street wake up.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Big open square with the lake behind it and locals strolling at a very relaxed pace. Good spot to sit and let the coffee settle.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quiet monastery by the lake with pine trees and a long path to wander. The calm here is the real attraction.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A tucked-away spot with warm lighting and dishes made for lingering over. Feels like a friend's dining room.\"\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee and a sweet treat in a cosy corner, the kind of place that makes you forget the clock. A gentle way to close the night.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Tiny sizzling rice cakes with quail egg and scallion oil, eaten hot off the clay mould. Watch the cook work the row of pans.\"\n    },\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the sculpted gardens and the lake, then climb the hill for the view over the pine valley. Easy on the legs, big on photos.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet sit-down spot with local art on the walls and a menu that rewards a slow evening. Order something you cannot pronounce.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 605,
+          "input_tokens": 641,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 331,
+          "output_tokens": 210,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "b3cf8563-3b08-4486-adfd-72a825f659ba",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty walkways and fairy-tale corners, like a dream that forgot to wake up.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old cog-railway charm with a vintage locomotive posing for your photos.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Hot pot bubbling away, the kind of sit-down warmth a mountain evening asks for.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stalls glowing after sunset, grilled skewers and the hum of local life.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 538,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 223,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "b78590dd-2d75-4286-b831-89553e2077f7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The falls roar through the pines and the mist cools your face. Take the little roller-coaster down if you like a giggle with your scenery.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pine hills wrap around the water and the light goes soft and silver. Perfect for a slow wander with no agenda.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The lake sits right in town, calm as a mirror. Walk the shore and watch the swan boats drift.\"\n    },\n    {\n      \"poi_id\": \"p284\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Pull up a plastic stool and let the smoky grilled chicken arrive with cold beer and a noisy, happy crowd. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The night market buzzes with lights, snacks and local life. A gentle stroll through the stalls rounds off the evening.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 644,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 322,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "c018a88e-4292-4656-97b0-cc509e0eb09d",
+        "id": "f17c9ebd-b059-4846-8c60-895edae217d0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: Datanla, pagoda and a sweet café\nDay 3: Waterfalls, palace and a hillside meal\nDay 4: Morning market and cathedral light"
+            "text": "Day 3: A morning at the falls, then lake views\nDay 4: Morning gardens, palace, then market"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 317,
+          "input_tokens": 202,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 38,
+          "output_tokens": 25,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "55a2a863-4d77-4477-89eb-53a6bb3ffb2e",
+        "id": "5050bd01-c61d-4f33-91f5-9f75430b0dbb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Soft landing by the lake, a morning at Datanla with pagoda and café, Valley of Love, then market and cathedral light — every must-do in, hẹn gặp lại!"
+            "text": "Four easy days in Đà Lạt, from market nights to Langbiang, falls, the lake and the flower garden — all the must-dos made it in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 223,
+          "input_tokens": 215,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 42,
+          "output_tokens": 35,
           "service_tier": "standard"
         }
       }
