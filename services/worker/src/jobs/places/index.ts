@@ -1,5 +1,6 @@
 /**
- * `places.ingest` (monthly, 1st at 02:00 UTC): refreshes every destination's open-data places.
+ * `places.ingest` (monthly, 1st at 02:00 UTC): refreshes every destination's open-data places, or
+ * only those of the countries in `PLACES_REFRESH_COUNTRIES` (ISO codes, comma-separated) when set.
  *
  * The cron's run (no `slug`) is the fan-out: it fills missing `place_bounds`, then, when the FSQ OS
  * Places catalog is configured, starts an export run (`src/places/fsq-export-runs.ts`) and queues
@@ -14,6 +15,7 @@
  * (services/api/src/places/on-demand-ingest.ts), and a destination without a place box gets one
  * before it is planned.
  */
+import { withSystem } from '@cp/db';
 import { DEFAULT_QUEUE_SPEC, PLACES_QUEUES, queueSpec, type QueueSpec } from '@cp/domain';
 import type pg from 'pg';
 import type { PgBoss } from 'pg-boss';
@@ -68,6 +70,30 @@ const chunkSchema = z.object({
   /** The destination jobs' priority once the export lands (a one-destination run keeps its own). */
   priority: z.number().int().optional(),
 });
+
+/**
+ * The countries the monthly refresh covers (`PLACES_REFRESH_COUNTRIES`, e.g. `VN` or `VN,TH`), as
+ * upper-case ISO codes; null for every destination.
+ */
+export function refreshCountries(env: NodeJS.ProcessEnv = process.env): readonly string[] | null {
+  const codes = (env['PLACES_REFRESH_COUNTRIES'] ?? '')
+    .split(',')
+    .map((code) => code.trim().toUpperCase())
+    .filter((code) => /^[A-Z]{2}$/.test(code));
+  return codes.length === 0 ? null : [...new Set(codes)];
+}
+
+/** The slugs of the destinations whose critter set is in one of `countries`. */
+async function slugsInCountries(pool: pg.Pool, countries: readonly string[]): Promise<string[]> {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ slug: string }>(
+      `SELECT d.slug FROM destinations d JOIN critter_sets s ON s.id = d.critter_set_id
+        WHERE s.country = ANY($1::text[]) ORDER BY d.slug`,
+      [countries],
+    ),
+  );
+  return rows.map((row) => row.slug);
+}
 
 /** Queues one destination ingest per slug, reading FSQ OS from `fsqRunId` when given. */
 async function queueDestinations(
@@ -167,13 +193,17 @@ export function placesIngestJob(options: PlacesJobsOptions = {}): AnyJobDefiniti
       if (bounds.unresolved.length > 0) {
         logger.warn({ unresolved: bounds.unresolved }, 'destinations without place bounds');
       }
-      const targets = await ingestTargets(pool, { except: data?.except ?? [] });
+      const countries = refreshCountries();
+      const targets = await ingestTargets(pool, {
+        except: data?.except ?? [],
+        ...(countries === null ? {} : { slugs: await slugsInCountries(pool, countries) }),
+      });
       if (fsqOsSource() !== 'iceberg' || targets.length === 0) {
         await queueDestinations(
           boss,
           targets.map((target) => target.slug),
         );
-        logger.info({ destinations: targets.length }, 'places ingest fanned out');
+        logger.info({ destinations: targets.length, countries }, 'places ingest fanned out');
         return { destinations: targets.length, filledBounds: bounds.filled.length };
       }
       const run = await startExport(pool, boss, targets, { replaceOlder: true, priority: 0 });

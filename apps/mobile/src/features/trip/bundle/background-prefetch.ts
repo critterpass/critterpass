@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { AppState } from 'react-native';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { OFFLINE_TRIPS_SQL } from '@/data/powersync/offline-trip-holds';
 
 import { useLiveRows } from '../hub/data/live-rows';
 import { refreshTripDays } from './bundle-manager';
@@ -20,12 +21,6 @@ import type { TripDayServices } from './services';
 export const PREFS_KIND = 'trip_day_prefs';
 export const AUTO_ID = `${PREFS_KIND}:auto`;
 const EVERY_MS = 30 * 60 * 1000;
-const LEAD_DAYS = 2;
-
-const TRIPS_SQL = `SELECT id FROM trips
-  WHERE status IN ('confirmed', 'pre_trip', 'in_trip')
-    AND start_date IS NOT NULL AND julianday(start_date) - julianday(?) <= ${LEAD_DAYS}
-    AND julianday(coalesce(end_date, start_date)) >= julianday(?)`;
 export const AUTO_SQL = 'SELECT data FROM local_private WHERE id = ?';
 
 export function autoDownloadOn(rows: readonly { data: string }[]): boolean {
@@ -45,7 +40,7 @@ export function useDayBundlePrefetch(
 ): void {
   const { db } = useLocalFirst();
   const today = new Date().toISOString().slice(0, 10);
-  const trips = useLiveRows<{ id: string }>(TRIPS_SQL, [today, today], ['trips']);
+  const trips = useLiveRows<{ id: string }>(OFFLINE_TRIPS_SQL, [today, today], ['trips']);
   const auto = autoDownloadOn(
     useLiveRows<{ data: string }>(AUTO_SQL, [AUTO_ID], ['local_private']).rows,
   );
