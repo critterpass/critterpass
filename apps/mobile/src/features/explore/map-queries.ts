@@ -7,6 +7,8 @@
 import { shownPlaceName } from '@cp/domain';
 import { useMemo } from 'react';
 
+import { editorialFor } from '@/data/places/editorial-note';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 import { useReadsLocalNames } from '@/data/places/use-shown-names';
 
 import { useLiveRows } from './data/live-rows';
@@ -47,10 +49,11 @@ export function useDestinationPois(destinationId: string | null): {
     POIS_TABLES,
   );
   const readsLocal = useReadsLocalNames(destinationId);
+  const locale = useActiveLocale();
   const places = useMemo(
     () =>
       live.rows.map((row): MapPoi => {
-        const editorial = parse(row.editorial) as {
+        const editorial = editorialFor(row.editorial, locale) as {
           must_see?: unknown;
           why_go?: unknown;
           best_time?: unknown;
@@ -73,7 +76,7 @@ export function useDestinationPois(destinationId: string | null): {
               : null,
         };
       }),
-    [live.rows, readsLocal],
+    [live.rows, readsLocal, locale],
   );
   return { places, loaded: live.loaded };
 }
