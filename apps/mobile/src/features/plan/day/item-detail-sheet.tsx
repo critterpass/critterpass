@@ -24,6 +24,7 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { clock } from './format';
 import { ItemConfirm } from './item-confirm';
 import { ItemFacts, Section } from './item-facts';
 import { TimeRangeField } from './time-range-field';
@@ -50,6 +51,8 @@ export interface ChangePreview {
   readonly line: string | null;
   /** The change can't be saved as it is. */
   readonly blocked: boolean;
+  /** The first start that would work, offered in one tap when the chosen one is taken. */
+  readonly useStart?: number;
 }
 
 export interface ItemDetailActions {
@@ -67,6 +70,9 @@ export interface ItemDetailActions {
   readonly onClose: () => void;
 }
 
+/** More lines than any place name takes at the largest text size. */
+const TITLE_LINES = 8;
+
 type Pending = { readonly kind: 'save' } | { readonly kind: 'remove' };
 
 export function ItemDetailSheet({
@@ -78,6 +84,7 @@ export function ItemDetailSheet({
   actions,
   dayLabels,
   mustDoMine = false,
+  priceLevel = null,
   suggestion = null,
   preview,
 }: {
@@ -91,6 +98,8 @@ export function ItemDetailSheet({
   readonly dayLabels?: ReadonlyMap<number, string>;
   /** The must-do is the reader's own. */
   readonly mustDoMine?: boolean;
+  /** The place's price level (0 = known to be free); null = not known. */
+  readonly priceLevel?: number | null;
   /** A change to this stop the crew is still deciding on. */
   readonly suggestion?: { readonly line: string; readonly onSee: () => void } | null;
   readonly preview?: (change: {
@@ -140,7 +149,17 @@ export function ItemDetailSheet({
 
   return (
     <Sheet
-      title={upper(item.title, locale)}
+      header={
+        // A long place name wraps until it is whole: the sheet scrolls, so nothing is cut.
+        <Text
+          variant="h1"
+          numberOfLines={TITLE_LINES}
+          singleLine={false}
+          accessibilityRole="header"
+        >
+          {upper(item.title, locale)}
+        </Text>
+      }
       detents={['large']}
       onDismiss={actions.onClose}
       accessibilityLabel={item.title}
@@ -187,7 +206,7 @@ export function ItemDetailSheet({
                 />
               </Section>
             ) : null}
-            <ItemFacts item={item} members={members} />
+            <ItemFacts item={item} members={members} priceLevel={priceLevel} />
             <Section label={t({ id: 'plan.day.item.moveTo', message: 'Move to' })}>
               <Row gap="6" wrap>
                 {dayNos.map((option) => (
@@ -210,7 +229,11 @@ export function ItemDetailSheet({
                 />
               ) : null}
               <TextLink
-                label={t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })}
+                label={
+                  members.length <= 1
+                    ? t({ id: 'plan.day.item.skipSolo', message: 'Skip this stop' })
+                    : t({ id: 'plan.day.item.skip', message: 'Skip it, just me' })
+                }
                 onPress={actions.onSkipForMe}
                 testID="plan-item-skip"
               />
@@ -234,6 +257,21 @@ export function ItemDetailSheet({
                 {effect.line}
               </Text>
             )}
+            {effect.useStart === undefined || start === null || end === null ? null : (
+              <TextLink
+                label={t({
+                  id: 'plan.day.item.useStart',
+                  message: `Start at ${clock(locale, effect.useStart)} instead`,
+                })}
+                onPress={() =>
+                  setTimes({
+                    start: effect.useStart ?? start,
+                    end: (effect.useStart ?? start) + (end - start),
+                  })
+                }
+                testID="plan-item-use-start"
+              />
+            )}
             <PillButton
               label={saveLabel}
               disabled={!changed || effect.blocked}
@@ -250,6 +288,7 @@ export function ItemDetailSheet({
             removing={confirming.kind === 'remove'}
             canApply={canApply}
             mustDoMine={mustDoMine}
+            solo={members.length <= 1}
             onConfirm={() => run(confirming, true)}
             onCancel={() => setConfirming(null)}
           />

@@ -203,6 +203,14 @@ msgstr "It changes once they say yes."
 msgid "plan.day.item.removeLine"
 msgstr "It comes off the day for everyone going."
 
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.removeLineSolo"
+msgstr "It comes off your day."
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.justYou"
+msgstr "Just you"
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.later"
 msgstr "Later by 15 minutes"
@@ -239,6 +247,10 @@ msgstr "New order for {0}"
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
 msgstr "New time"
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr "No estimate yet"
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
@@ -351,6 +363,10 @@ msgstr "Sent to the crew"
 msgid "plan.day.item.skip"
 msgstr "Skip it, just me"
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Skip this stop"
+
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Skipped, just for you"
@@ -371,6 +387,11 @@ msgstr "Someone pinned it where it is."
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr "Someone removed it while you had it open."
+
+#. placeholder {0}: clock(locale, effect.useStart)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.useStart"
+msgstr "Start at {0} instead"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"

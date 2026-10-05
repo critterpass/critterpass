@@ -7,6 +7,7 @@
 import type { FitGrade, FitReason } from '@cp/domain';
 
 import type { FitThresholds, MealWindows } from './context';
+import { minutesOutside, type KindWindows } from './kind-time';
 import { clockOf, type DayModel } from './day-model';
 import { crowdReasons, rainCheck, slotIsBusy, type CrowdDay } from './reasons';
 import type { Candidate } from './slot';
@@ -20,6 +21,8 @@ export interface GradeInput {
   readonly split: { readonly want: number; readonly ratherNot: number } | null;
   readonly thresholds: FitThresholds;
   readonly meals: MealWindows;
+  /** The hours of the day the place is for (./kind-time). */
+  readonly kind: KindWindows;
 }
 
 export interface GradedSlot {
@@ -27,6 +30,10 @@ export interface GradedSlot {
   readonly grade: Exclude<FitGrade, 'no'>;
   /** Lower is better among slots of one grade: a meal window kept free or used for food. */
   readonly mealPenalty: number;
+  /** Minutes outside the place's own hours of the day (a bar at ten in the morning); 0 inside. */
+  readonly ownTimeGap: number;
+  /** Minutes outside where a place with no hour of its own is nudged to (not its opening minute). */
+  readonly usualTimeGap: number;
   readonly reasons: FitReason[];
 }
 
@@ -47,7 +54,12 @@ function mealPenalty(input: GradeInput, candidate: Candidate): number {
   const { lunch, dinner, breakfast } = input.meals;
   const within = (window: { fromMin: number; toMin: number }) =>
     candidate.start >= window.fromMin && candidate.start < window.toMin;
-  if (input.food) return within(lunch) || within(dinner) || within(breakfast) ? 0 : 1;
+  if (input.food) {
+    // A meal place inside its own meal stretch (../draft/day-rules) is where it belongs.
+    if (input.kind.own.length > 0 && minutesOutside(input.kind.own, candidate.start) === 0)
+      return 0;
+    return within(lunch) || within(dinner) || within(breakfast) ? 0 : 1;
+  }
   const swallows = [lunch, dinner].some((window) => {
     const covered =
       Math.min(candidate.end, window.toMin) - Math.max(candidate.start, window.fromMin);
@@ -109,22 +121,47 @@ export function gradeCandidate(input: GradeInput, candidate: Candidate): GradedS
     candidate,
     grade: tradeOff || candidate.needsMove !== null ? 'possible' : 'good',
     mealPenalty: mealPenalty(input, candidate),
+    ownTimeGap: minutesOutside(input.kind.own, start),
+    // A place that fills up later is best early: the crowd decides, not the clock.
+    usualTimeGap: reasons.some((reason) => reason.code === 'busy_from')
+      ? 0
+      : minutesOutside([input.kind.usual], start),
     reasons,
   };
 }
 
 const RANK: Readonly<Record<GradedSlot['grade'], number>> = { good: 0, possible: 1 };
 
-/** The day's slot: the best grade, then a meal window respected, then the earliest. */
+/** A slot inside the place's own hours of the day that moves no stop. */
+export const inOwnTime = (slot: GradedSlot): boolean =>
+  slot.ownTimeGap === 0 && slot.candidate.needsMove === null;
+
+/** What a slot is ranked by, most important first; lower is better. */
+function rankOf(slot: GradedSlot): readonly number[] {
+  return [
+    inOwnTime(slot) ? 0 : 1,
+    RANK[slot.grade],
+    slot.ownTimeGap,
+    slot.mealPenalty,
+    slot.usualTimeGap,
+    slot.candidate.start,
+  ];
+}
+
+/**
+ * The day's slot: inside the place's own hours of the day when one is free there (a bar in the
+ * evening, a restaurant at a meal), then the best grade, the nearest to those hours, a meal window
+ * respected, from mid-morning on, then the earliest.
+ */
 export function pickSlot(slots: readonly GradedSlot[]): GradedSlot | null {
   let best: GradedSlot | null = null;
+  let bestRank: readonly number[] = [];
   for (const slot of slots) {
-    if (
-      best === null ||
-      RANK[slot.grade] < RANK[best.grade] ||
-      (RANK[slot.grade] === RANK[best.grade] && slot.mealPenalty < best.mealPenalty)
-    ) {
+    const rank = rankOf(slot);
+    const at = rank.findIndex((value, index) => value !== bestRank[index]);
+    if (best === null || (at !== -1 && (rank[at] ?? 0) < (bestRank[at] ?? 0))) {
       best = slot;
+      bestRank = rank;
     }
   }
   return best;

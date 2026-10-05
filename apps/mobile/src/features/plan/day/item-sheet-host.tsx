@@ -81,6 +81,11 @@ export function ItemSheetHost({
     mustDoId === null ? null : [mustDoId],
     ['must_dos'],
   );
+  const price = useLiveRows<{ price_level: number | null }>(
+    'SELECT price_level FROM pois WHERE id = ?',
+    item.poiId === null ? null : [item.poiId],
+    ['pois'],
+  );
   const dayLabels = new Map(
     plan.state.days.flatMap((day) =>
       day.date === null ? [] : [[day.day_no, dayName(locale, day.date)] as const],
@@ -119,6 +124,7 @@ export function ItemSheetHost({
       dayLabels={dayLabels}
       members={plan.members}
       canApply={plan.canApply}
+      priceLevel={price.rows[0]?.price_level ?? null}
       mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
       suggestion={
         suggestionId === null
