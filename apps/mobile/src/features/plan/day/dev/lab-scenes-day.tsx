@@ -1,11 +1,13 @@
 /**
  * Plan lab scenes for a stop's sheet over the day plan (7b-1, the Bali Six's third day): as the
- * organiser, as a member, and a booked stop's warning.
+ * organiser, as a member, a booked stop's warning, and a change of mine the crew's plan moved under
+ * (keep mine, or go with the crew).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
+import { ClashCard } from '../../overlay/clash-card';
 import { DayPlanScene } from '../../trip-map/dev/plan-screens-scenes';
 import { ItemDetailSheet } from '../item-detail-sheet';
 import { DINNER, LAB_MEMBERS, TERRACES, WALK } from './lab-fixtures';
@@ -31,7 +33,7 @@ const actions = {
   onClose: closeScene,
 };
 
-function sheet(item: DayItem, canApply = true): ReactNode {
+function sheet(item: DayItem, canApply = true, lead: ReactNode = null): ReactNode {
   return (
     <>
       {labDay()}
@@ -40,6 +42,7 @@ function sheet(item: DayItem, canApply = true): ReactNode {
         dayNos={[1, 2, 3, 4, 5, 6, 7, 8]}
         members={LAB_MEMBERS}
         canApply={canApply}
+        lead={lead}
         actions={actions}
       />
     </>
@@ -50,4 +53,15 @@ export const DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'item-sheet': () => sheet(TERRACES),
   'item-sheet-member': () => sheet(WALK, false),
   'item-sheet-booked': () => sheet(DINNER),
+  'item-sheet-clash': () =>
+    sheet(
+      WALK,
+      false,
+      <ClashCard
+        clash={{ personalOpsId: 'p-walk', stableId: WALK.stableId, kind: 'changed_by_crew' }}
+        label={WALK.title}
+        onKeep={closeScene}
+        onDrop={closeScene}
+      />,
+    ),
 };
