@@ -9,6 +9,7 @@ import path from 'node:path';
 import type pg from 'pg';
 import { z } from 'zod';
 
+import { createPool } from '../../src/client';
 import { withSystem } from '../../src/tx';
 
 const minor = z.number().int().nonnegative();
@@ -63,5 +64,38 @@ export async function seedCostIndices(pool: pg.Pool, slugs?: readonly string[]):
         ],
       );
     }
+  });
+}
+
+/**
+ * `pnpm --filter @cp/db seed:cost-indices <slug> [<slug>…]`: writes the drafts of places that are
+ * live without a guide-destination seed entry (Đà Lạt). Nothing existing is overwritten.
+ */
+async function main(): Promise<void> {
+  const slugs = process.argv.slice(2).filter((arg) => arg !== '--');
+  if (slugs.length === 0) throw new Error('usage: seed:cost-indices <slug> [<slug>…]');
+  const connectionString = process.env['DATABASE_URL'] ?? process.env['DATABASE_DIRECT_URL'];
+  if (!connectionString) throw new Error('DATABASE_URL or DATABASE_DIRECT_URL is required');
+  const pool = createPool(connectionString);
+  try {
+    await seedCostIndices(pool, slugs);
+    const { rows } = await withSystem(pool, (tx) =>
+      tx.query<{ id: string; slug: string; stay_type: string; reviewed: boolean }>(
+        `SELECT i.id, d.slug, i.stay_type, i.reviewed_at IS NOT NULL AS reviewed
+           FROM destination_cost_indices i JOIN destinations d ON d.id = i.destination_id
+          WHERE d.slug = ANY($1::text[]) ORDER BY d.slug, i.stay_type`,
+        [slugs],
+      ),
+    );
+    for (const row of rows) console.log(JSON.stringify(row));
+  } finally {
+    await pool.end();
+  }
+}
+
+if (import.meta.main) {
+  main().catch((error: unknown) => {
+    console.error(error);
+    process.exitCode = 1;
   });
 }

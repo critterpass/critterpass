@@ -91,11 +91,11 @@ describe('destination_cost_indices in the catalogue stream', () => {
 });
 
 describe('editorial cost index seed', () => {
-  it('covers every live destination and loads as unreviewed drafts, idempotently', async () => {
+  it('covers every guide destination and loads as unreviewed drafts, idempotently', async () => {
     const rows = readCostIndexSeed();
-    expect(new Set(rows.map((r) => r.destination))).toEqual(
-      new Set(DESTINATIONS.map((d) => d.slug)),
-    );
+    // Places live without a guide-destination seed entry (Đà Lạt) carry drafts too.
+    const seeded = new Set(rows.map((r) => r.destination));
+    for (const { slug } of DESTINATIONS) expect(seeded.has(slug), slug).toBe(true);
     await withSystem(db.pool, (tx) =>
       tx.query("INSERT INTO destinations (slug, name) VALUES ('kyoto', 'Kyoto'), ('bali', 'Bali')"),
     );
