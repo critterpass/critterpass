@@ -16,9 +16,12 @@ import { toast } from '@/motion/island-toast';
 import { saveIdeaCommand } from '../search/commands';
 import { holdProvisionalIdea } from './provisional-idea';
 
+// An idea the phone queued itself has no name until the server's row syncs: the sheet would open
+// empty on it, so only a named idea counts as the place being here.
 const HELD_SQL = `SELECT 1 AS held FROM pois WHERE id = ?1
   UNION ALL
   SELECT 1 FROM trip_ideas WHERE trip_id = ?2 AND poi_id = ?1 AND deleted_at IS NULL
+    AND coalesce(name, '') <> ''
   LIMIT 1`;
 
 interface Reader {
