@@ -13,7 +13,7 @@ import {
   type CreateChangesetPayload,
   type PlanState,
 } from '@cp/domain';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
@@ -144,7 +144,47 @@ export function replayQueued(
   return { state, touched };
 }
 
+/**
+ * The plan, held steady while the trip moves to a new version. Every change that makes one (an
+ * edit, an undo, a skip "just me", a fix) swaps the version the rows are read from, and its rows
+ * arrive a moment later: in between the plan would read as not loaded and every screen on it would
+ * blank (the day plan dropped its whole view, its map with it, and came back on a map with nothing
+ * drawn). Until the new version's rows are in, the last plan read stays on screen.
+ */
 export function useTripPlan(tripId: string | null, options: TripPlanOptions = {}): TripPlan {
+  const read = useTripPlanRows(tripId, options);
+  // The last loaded plan with a version, kept as React keeps a value from an earlier render. It is
+  // replaced when what it was read from changes, never on the plan object's identity alone: until
+  // a render commits, the plan is rebuilt on every pass, and comparing it by identity looped.
+  const [last, setLast] = useState<TripPlan | null>(null);
+  if (read.loaded && read.versionId !== null && changedSince(last, read)) setLast(read);
+  return holdThroughSwitch(last, read);
+}
+
+/**
+ * The plan's own rows changed since `previous`: the trip, the version, its days or its stops, each
+ * kept state once loaded. Not the crew or the open change sets: those can still be loading while
+ * the plan reads as loaded, and a list still loading is a new empty list on every render.
+ */
+export function changedSince(previous: TripPlan | null, next: TripPlan): boolean {
+  return (
+    previous === null ||
+    previous.versionId !== next.versionId ||
+    previous.trip !== next.trip ||
+    previous.dayRows !== next.dayRows ||
+    previous.itemRows !== next.itemRows
+  );
+}
+
+/** `next`, or `previous` while `next` is the same trip's plan still loading another version. */
+export function holdThroughSwitch(previous: TripPlan | null, next: TripPlan): TripPlan {
+  if (next.loaded || previous === null || !previous.loaded) return next;
+  const sameTrip = next.trip !== null && next.trip.id === previous.trip?.id;
+  const switching = next.versionId !== null && next.versionId !== previous.versionId;
+  return sameTrip && switching ? previous : next;
+}
+
+function useTripPlanRows(tripId: string | null, options: TripPlanOptions): TripPlan {
   const choice = options.version ?? 'current';
   const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
   const uid = uidRows.rows[0]?.value ?? null;

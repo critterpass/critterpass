@@ -92,6 +92,10 @@ msgstr "{when} · {days} ngày · mỗi người {cost}"
 msgid "planDraft.history.redraftAny"
 msgstr "Soạn lại một ngày"
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.redraftedOut"
+msgstr "Một lần soạn lại đã bỏ nơi này, và không ngày nào khác còn chỗ."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.putBackAny"
 msgstr "Một lần soạn lại bạn đã trả về"
@@ -132,7 +136,7 @@ msgstr "Đóng cửa {when}: {area}"
 msgid "planDraft.miss.closed"
 msgstr "đóng cửa vào ngày của bạn"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.closed"
 msgstr "Đóng cửa vào những ngày bạn đi."
 
@@ -188,13 +192,21 @@ msgstr "Xếp thêm: {what}"
 msgid "planDraft.miss.unknown"
 msgstr "mình không tìm ra chỗ đó"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.notOffered"
 msgstr "Mình chưa kịp cân nhắc nơi này."
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
 msgstr "nó làm hỏng cả ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.needsDay"
+msgstr "Nơi này cần trọn một ngày, mà không còn ngày nào trống."
+
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.morningsTaken"
+msgstr "Nơi này hợp nhất vào buổi sáng, mà các buổi sáng đã dành cho những nơi cần hơn."
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
@@ -220,7 +232,7 @@ msgstr "Có thay đổi từ lúc đó: {what}. Thêm việc phải làm mới t
 msgid "planDraft.empty.title"
 msgstr "Chưa có bản nháp"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.held"
 msgstr "Không còn chỗ quanh các điểm bạn đã xếp."
 
@@ -228,7 +240,7 @@ msgstr "Không còn chỗ quanh các điểm bạn đã xếp."
 msgid "planDraft.miss.noTime"
 msgstr "không còn chỗ trong lịch"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.noRoom"
 msgstr "Các ngày không còn chỗ."
 
@@ -304,6 +316,10 @@ msgstr "ngân sách"
 msgid "planDraft.stale.dates"
 msgstr "ngày đi"
 
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
+msgid "planDraft.leftOut.daysFull"
+msgstr "Các ngày đã kín."
+
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.failedTitle"
 msgstr "Bản nháp chưa xong"
@@ -320,7 +336,7 @@ msgstr "Kế hoạch bạn tự lên"
 msgid "planDraft.stale.rooms"
 msgstr "phòng"
 
-#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+#: ../../apps/mobile/src/features/plan/draft/data/left-out-copy.ts
 msgid "planDraft.leftOut.tooFar"
 msgstr "Quá xa so với một ngày của chuyến này."
 
