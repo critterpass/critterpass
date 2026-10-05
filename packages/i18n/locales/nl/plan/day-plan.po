@@ -36,6 +36,10 @@ msgstr ""
 msgid "plan.dayPlan.dayTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.backDraft"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
 msgid "plan.dayPlan.moveDown"
 msgstr ""

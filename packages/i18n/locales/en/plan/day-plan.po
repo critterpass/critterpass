@@ -36,6 +36,10 @@ msgstr "Back to the trip"
 msgid "plan.dayPlan.dayTitle"
 msgstr "Day {n}"
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.backDraft"
+msgstr "Draft"
+
 #: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
 msgid "plan.dayPlan.moveDown"
 msgstr "Move down"

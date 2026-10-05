@@ -36,6 +36,10 @@ msgstr "Về chuyến đi"
 msgid "plan.dayPlan.dayTitle"
 msgstr "Ngày {n}"
 
+#: ../../apps/mobile/src/features/plan/day-plan/day-plan-view.tsx
+msgid "plan.dayPlan.backDraft"
+msgstr "Bản nháp"
+
 #: ../../apps/mobile/src/features/plan/day-plan/stop-timeline.tsx
 msgid "plan.dayPlan.moveDown"
 msgstr "Chuyển xuống"

@@ -117,6 +117,9 @@ export function ItemSheetHost({
     ? openSuggestion(plan, item.stableId)
     : null;
   const suggester = plan.members.find((member) => member.uid === plan.proposed.get(item.stableId));
+  // Her own draft, before the crew has a plan: nobody else is on it yet, so there is nothing to
+  // skip "just me", no day-of actions and no thread to comment in.
+  const onDraft = plan.mode === 'draft';
   const skipForMe = () => {
     void editor.skipForMe(item).then(() =>
       toast.show({
@@ -154,15 +157,17 @@ export function ItemSheetHost({
             }
       }
       lead={
-        <StopDayActions
-          tripId={tripId}
-          item={item}
-          date={slot.date}
-          tz={tz}
-          onClose={onClose}
-          onSkipForMe={skipForMe}
-          solo={plan.members.length <= 1}
-        />
+        onDraft ? null : (
+          <StopDayActions
+            tripId={tripId}
+            item={item}
+            date={slot.date}
+            tz={tz}
+            onClose={onClose}
+            onSkipForMe={skipForMe}
+            solo={plan.members.length <= 1}
+          />
+        )
       }
       preview={(change) => {
         const result = timed(change);
@@ -171,13 +176,15 @@ export function ItemSheetHost({
         return retimePreview(result, locale, toDay);
       }}
       comments={
-        <ItemComments
-          tripId={tripId}
-          uid={plan.uid}
-          item={item}
-          members={plan.members}
-          guide={guideOf(plan.trip?.guide_slug ?? null)}
-        />
+        onDraft ? null : (
+          <ItemComments
+            tripId={tripId}
+            uid={plan.uid}
+            item={item}
+            members={plan.members}
+            guide={guideOf(plan.trip?.guide_slug ?? null)}
+          />
+        )
       }
       actions={{
         onClose,
@@ -202,7 +209,7 @@ export function ItemSheetHost({
           void editor.submit([removeOp(item)], { confirmLocked });
           onClose();
         },
-        onSkipForMe: skipForMe,
+        onSkipForMe: onDraft ? null : skipForMe,
         onOpenPlace: (poiId) => {
           const href = placeRoute(poiId, tripId);
           if (href !== undefined) router.push(href);

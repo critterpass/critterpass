@@ -21,6 +21,7 @@ import { POLLS_SQL, POLLS_TABLES, type OpenPollRow } from '../overview/data/plan
 import { todayIn } from '../overview/data/use-plan-data';
 import type { CuratedPlace } from './map-places';
 import { usePersonalLayer } from './personal-layer';
+import { draftStageOf } from './draft-stage';
 import { buildTripDays, type TripDay } from './trip-days';
 
 export { categoryChips, litPlaces, mapPlaces, NO_FILTER, type MapFilter } from './map-places';
@@ -59,7 +60,8 @@ export function isReadOnly(plan: TripPlan): boolean {
       trip.phase === 'cancelled' ||
       trip.my_rsvp === 'out' ||
       trip.my_role === null ||
-      plan.mode === 'draft')
+      // Her own draft is hers to edit, except while the guide is drafting or redrafting it.
+      (plan.mode === 'draft' && draftStageOf(trip.status) === 'guideWorking'))
   );
 }
 
