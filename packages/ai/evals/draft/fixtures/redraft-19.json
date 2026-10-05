@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2cfdf2d7-1e1c-402e-9f27-67fdb832ba5b",
+        "id": "3f0e47c1-2bdb-439a-b18d-e7ce79a931dc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Roma Morning\",\n  \"summary\": \"A gentle day with a long, unhurried walk through Roma Norte and time to simply soak up the neighbourhood.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one true keeper for a sleepy crew: a free, all-day wander with no rush and plenty of local life.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Roma Norte, sin prisa\",\n  \"summary\": \"A slow morning and a long wander through Roma Norte, with the rest of the day left open for whatever the crew feels like.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do of the day, taken at a lazy pace so the crew can soak up the local life and photo spots without rushing.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 140,
+          "input_tokens": 128,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 109,
+          "output_tokens": 123,
           "service_tier": "standard"
         }
       }

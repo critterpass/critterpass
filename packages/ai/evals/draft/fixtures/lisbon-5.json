@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "809c66da-847c-4b50-8f21-8e1551ae2951",
+        "id": "1595409a-c479-460a-8ac0-4f40fdd537d6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Alfama arrival and castle views\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Belém outing and MAAT\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m3\", \"m2\"],\n      \"poi_ids\": [\"p2\", \"p5\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Oceanário and evening in Bairro Alto\",\n      \"area\": \"Area C and Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p11\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Gulbenkian and local life\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p8\", \"p12\", \"p13\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Tram ride and farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and Castle Views\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Monuments and Riverside\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p2\", \"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Old Town and Nightlife\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p3\", \"p11\", \"p12\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Art, Views and Local Vibes\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p8\", \"p5\", \"p13\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Tram Ride Farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 92,
+          "input_tokens": 122,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2176,
-          "output_tokens": 315,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 303,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-5": {
       "status": 200,
       "body": {
-        "id": "1ee11725-f5ea-439a-8587-71006be6e5e5",
+        "id": "8df23bf3-f783-4e1b-8c2e-ba0655430410",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old tram rattles through Alfama and Baixa like a tin of very happy sardines.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The rattling old tram climbs through Alfama and Baixa, every window a postcard. Hold on tight and let the city do the talking.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 40,
+          "input_tokens": 296,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 69,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "27dbce04-0b23-45c4-86ac-e2762fd4a144",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Oceanário is a whole underwater world, from penguins to sunfish. Give the sea otters a wave from me.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bairro Alto wakes up late, all narrow lanes and tiny bars. Follow the sound of fado and clinking glasses.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 120,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 136,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 79,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "917983b1-83ae-439c-9c52-1dec5eaf2791",
+        "id": "8ac52201-0d84-4b91-9357-67be55745d12",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Climb the old tower and imagine the ships that once set sail from here.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The cloisters are pure Manueline stone lace, worth a slow wander.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The rooftop curves over the river like a wave, perfect for photos.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Old factory turned creative village, full of murals and little shops.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Stand where the caravels once set sail, all Manueline stone and river wind.\"},{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The cloisters alone are worth the queue, like lace carved from limestone.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"A swooping riverside shell with views that make photographers weep happily.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 26,
+          "input_tokens": 411,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 151,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 118,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "ea252d15-bdb2-4d71-86ab-bef9e71a5b12",
+        "id": "d4d33f3f-82af-47e5-a858-d71a2c7e4e4b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the tangle of lanes and laundry lines where the real Alfama hums.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the old ramparts and let the red rooftops roll all the way to the river.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The city's highest lookout, where the sunset paints the castle gold.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm spices and rich curries, a proper sit-down feast for the whole crew.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Climb up and let the old stones tell you their stories, with the whole city spread out below like a feast.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The highest of the viewpoints, where the rooftops turn gold and the river winks back at you.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm spices and rich curries, a proper sit-down feast that suits everyone at the table.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 22,
+          "input_tokens": 377,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 225,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 186,
           "service_tier": "standard"
         }
       }
@@ -124,23 +100,47 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "15bfe10c-baaf-4290-9889-8fc5ade10025",
+        "id": "bbe47fef-8742-482d-bd0f-303f9a624077",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rummage through Lisbon's oldest flea market, where every stall hides a story.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the Gulbenkian's gardens and galleries, a calm treasure chest of art.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a bite among the bustle, but save room for the seafood later.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Garlicky shrimp and clattering plates, the city's loudest love letter to shellfish.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A world-class collection in a calm garden setting, with art from ancient Egypt to modern masters.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A food hall with something for everyone, and plenty of halal-friendly stalls to choose from.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Street art, quirky shops and a laid-back creative buzz in an old industrial complex.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 406,
+          "input_tokens": 369,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 224,
+          "output_tokens": 174,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "3a0485af-1328-4df0-8f80-2b9fbd29f31c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Get lost in the old lanes, where every corner has a story and a cat judging you.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rummage for treasures among the tiles and old postcards at the flea market.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Garlicky, messy, glorious seafood. Bring your appetite and a bib.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The narrow streets wake up late and sing until the small hours.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 395,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 221,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "b600e277-bc33-406a-a4e6-afd1ed79983b",
+        "id": "513f5f6b-2396-4784-a74e-0930062bff58",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunny Lisbon days, castle views, Belém, the Oceanário morning, and grilled sardines every single night."
+            "text": "A sunny Lisbon wander from castle views to riverside monuments, old-town nights, art and a farewell tram — every must-do tucked in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 160,
+          "input_tokens": 134,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 24,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

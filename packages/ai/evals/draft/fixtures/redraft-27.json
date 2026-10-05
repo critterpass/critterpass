@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9407dc6a-fbac-4041-90d2-311cc4fd49e0",
+        "id": "0e9b5f02-fdfc-4138-a5fb-5a5c288964d6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, ấm trong nhà\",\n  \"summary\": \"Trời mưa nên mình đổi hết các điểm ngoài trời sang chỗ có mái che, vẫn giữ trọn vị Đà Lạt từ sáng đến tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mưa thì vào Dinh III ngắm đồ xưa, khô ráo mà vẫn sang.\"\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ga Đà Lạt có mái che, chụp ảnh đẹp mà không ướt áo.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Trưa nay ngồi ăn nem nướng ấm bụng, hợp ngày mưa.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng Lâm Đồng kể chuyện phố núi, trú mưa lại thêm hiểu Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chiều mưa ngồi cà phê Mây Lang Thang, nhìn phố qua cửa kính.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ăn tại Le Chalet, ấm cúng và đủ chỗ ngồi lâu.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, ấm trong nhà\",\n  \"summary\": \"Trời mưa nên mình đổi hết sang chỗ có mái che, vẫn trọn một ngày Đà Lạt nhẹ nhàng từ chùa, dinh thự đến quán xá ấm cúng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chùa có mái che, mưa vẫn thong thả ngắm khảm sành, không ướt lông.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III kín gió, vừa tránh mưa vừa xem đồ xưa, hợp người thích nhàn nhã.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi bàn ấm, nem nướng cuốn rau thơm, mưa ngoài kia kệ mưa.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng trong nhà, trưa mưa vào đây chậm rãi xem lịch sử địa phương.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến khu phức hợp có mái che, ăn chơi nhẹ nhàng, khỏi ướt giày đỏ.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bistro ấm cúng, cà phê và món ngon, kết ngày mưa thật dịu.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 77,
+          "input_tokens": 60,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 3072,
-          "output_tokens": 467,
+          "cache_read_input_tokens": 2944,
+          "output_tokens": 513,
           "service_tier": "standard"
         }
       }
