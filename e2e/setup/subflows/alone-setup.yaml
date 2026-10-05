@@ -109,9 +109,9 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 
-# The dates sheet: three days, two weeks out. What is picked, Clear and the lock are all in view
-# under the calendar, and a trip of one shows no counts.
-- evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 14 * 86400000).toISOString().slice(0, 10)}
+# The dates sheet: three days, the first window it suggests (the same taps in either language).
+# What is picked, Clear and the lock are all in view under the calendar, and a trip of one shows
+# no counts.
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'
@@ -125,11 +125,14 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-dates-sheet-open
-- runFlow:
-    file: ../../happy/subflows/pick-days.yaml
-    env:
-      PICK_DATE: ${output.pickDate}
-      PICK_DAYS: 3
+- tapOn:
+    id: 'picker-length-3'
+- tapOn:
+    id: 'picker-best-0'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
 - assertVisible:
     id: 'picker-length'
 - assertVisible:
