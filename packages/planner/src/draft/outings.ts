@@ -10,7 +10,8 @@
  * A place that takes the whole day (./long-visits) is an outing wherever it is.
  */
 import { foodRole } from './food-role';
-import { visitSpan } from './long-visits';
+import { DINNER } from './meal-slots';
+import { FULL_DAY_VISIT_MIN, partOfVisit, visitSpan } from './long-visits';
 import { isTheirs, type DraftPoi, type TravelMatrix } from './types';
 import type { TimedDay, TimedStop } from './validate-day-sense';
 
@@ -81,10 +82,15 @@ export function planOutings(input: OutingsInput): Outing[] {
       (a, b) => b.durationMin - a.durationMin || (a.id < b.id ? -1 : 1),
     );
     const out = Math.min(...ordered.map(fromHome));
-    const between = ordered
+    // A place inside the longest one (a bridge at the resort) is seen on its visit: no extra time.
+    const head = ordered[0] as DraftPoi;
+    const own = ordered.filter(
+      (poi, index) => index === 0 || !partOfVisit(poi, head, fromHome(head)),
+    );
+    const between = own
       .slice(1)
-      .reduce((sum, poi, index) => sum + (travel((ordered[index] as DraftPoi).id, poi.id) ?? 0), 0);
-    const visits = ordered.reduce((sum, poi) => sum + poi.durationMin, 0);
+      .reduce((sum, poi, index) => sum + (travel((own[index] as DraftPoi).id, poi.id) ?? 0), 0);
+    const visits = own.reduce((sum, poi) => sum + poi.durationMin, 0);
     return {
       places: ordered,
       minutes: Math.round(out * 2 + between + visits),
@@ -139,8 +145,8 @@ export function keepOutingsTogether(
 }
 
 /**
- * The stops of an outing's day that are neither its places nor near them: a sight back in town
- * after a day out is a second ride out. Meals and light stops are the day's to have anywhere, and
+ * The stops of a whole-day outing's day that are neither its places nor near them: a sight back
+ * in town after a day out is a second ride out. Meals and light stops are the day's to have anywhere, and
  * a stop the crew placed or asked for is theirs.
  */
 export function offTheOuting(
@@ -149,11 +155,14 @@ export function offTheOuting(
   travel: TravelMatrix,
   hopCapMin: number | undefined,
 ): TimedStop[] {
-  const outing = outings.find((o) => o.dayNo === day.dayNo);
+  // Only an outing that takes the whole day; a shorter one leaves the other half for town.
+  const outing = outings.find((o) => o.dayNo === day.dayNo && o.minutes >= FULL_DAY_VISIT_MIN);
   if (outing === undefined || hopCapMin === undefined) return [];
   const reach = hopCapMin * TOGETHER_SHARE;
   return day.stops.filter(
     (stop) =>
+      // After dinner the crew is back near the stay: an evening out there is no second ride out.
+      stop.startMin < DINNER.startMin &&
       stop.item.kind !== 'meal' &&
       foodRole(stop.poi) !== 'light' &&
       stop.item.must_do_id === null &&

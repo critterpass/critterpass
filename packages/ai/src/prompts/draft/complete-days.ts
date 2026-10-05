@@ -14,6 +14,7 @@ import {
   stopKind,
   withinReach,
   type DraftPoi,
+  type WishTime,
 } from '@cp/planner';
 
 import { hopCap } from './areas';
@@ -89,6 +90,8 @@ export function addOne(
   position?: number,
   /** The meal the new stop is for (a dinner waits for dinner time on a day with no lunch). */
   slot?: 'lunch' | 'dinner',
+  /** The time of day the new stop is held to (an evening out stays after dinner). */
+  when?: WishTime,
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
@@ -101,6 +104,7 @@ export function addOne(
       mustDoId: null,
       note: editorsLine(input, poi),
       ...(slot === 'dinner' ? { mealSlot: 'dinner' as const } : {}),
+      ...(when === undefined ? {} : { when }),
     });
     const activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null);
     const next = scheduleChoices(

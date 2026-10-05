@@ -85,6 +85,8 @@ export function fillEvenings(
       undefined,
       undefined,
       day.items.length,
+      undefined,
+      'night',
     );
     if (next === null) continue;
     itinerary = next;

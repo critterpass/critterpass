@@ -270,7 +270,7 @@ export function languageLine(locale: string | undefined): string[] {
   if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
   const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(locale) ?? locale;
   return [
-    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English. Place names stay exactly as the lists write them.`,
+    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English, and no English gloss in brackets after a word. Place names stay exactly as the lists write them.`,
   ];
 }
 

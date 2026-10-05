@@ -14,85 +14,15 @@ import { spanOf } from './areas';
 
 import type { DraftPlanInput } from './context';
 import { shownName } from './shown-names';
+import { capitalisedRuns, COMMON, KINDS, placeStrings, placeWords } from './title-words';
 
 const TITLE_MAX = 60;
 const MORNING_TITLE_ENDS_MIN = 13 * 60 + 30;
 const EVENING_TITLE_FROM_MIN = 17 * 60 + 30;
 const NAME_MAX = 30;
 
-/** Whether a stop (its place and the words of its name) is the kind of place a title word means. */
-type Holds = (poi: DraftPoi, words: ReadonlySet<string>) => boolean;
-const category =
-  (...kinds: string[]): Holds =>
-  (poi) =>
-    kinds.includes(poi.category);
-const named =
-  (...words: string[]): Holds =>
-  (_, own) =>
-    words.some((word) => own.has(word));
-const either =
-  (...tests: Holds[]): Holds =>
-  (poi, own) =>
-    tests.some((test) => test(poi, own));
-const church: Holds = (_, own) =>
-  own.has('church') || own.has('cathedral') || (own.has('nha') && own.has('tho'));
-
-/** Words a title uses for a kind of place, and what a stop must be for the day to hold one. */
-const KINDS: Readonly<Record<string, Holds>> = {
-  temple: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
-  pagoda: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
-  shrine: category('temple_shrine'),
-  church,
-  market: either(category('market'), named('market', 'cho', 'pasar')),
-  beach: either(category('beach'), named('beach', 'bai', 'pantai')),
-  museum: either(category('museum'), named('museum')),
-  waterfall: named('waterfall', 'fall', 'thac'),
-  fall: named('waterfall', 'fall', 'thac'),
-  lake: named('lake', 'ho', 'danau'),
-  station: named('station', 'ga'),
-  garden: named('garden', 'vuon', 'taman'),
-  bar: either(category('nightlife'), named('bar', 'pub')),
-  cocktail: category('nightlife'),
-  nightlife: category('nightlife'),
-  coffee: (poi) => foodRole(poi) === 'light',
-  cafe: (poi) => foodRole(poi) === 'light',
-  show: named('show', 'theatre', 'theater'),
-  terrace: named('terrace'),
-  forest: named('forest', 'rung'),
-  // The same in Vietnamese, as a title in the organiser's language writes them.
-  ho: named('lake', 'ho'),
-  chua: (poi, own) => poi.category === 'temple_shrine' && !church(poi, own),
-  cho: either(category('market'), named('market', 'cho')),
-  // "cà phê": "ca" alone is too many other words.
-  phe: (poi) => foodRole(poi) === 'light',
-  thac: named('waterfall', 'fall', 'thac'),
-};
-
-/** Words of a place name that say what it is, not which: a title naming only these names none. */
-const COMMON: ReadonlySet<string> = new Set(
-  'the and old town ancient park hill peninsula mountain island bridge street pho ban dao nui bien cau khu lich'.split(
-    ' ',
-  ),
-);
-
 /** What a title check needs to know of a visit's length (the ride from the stay counts). */
 type Spanned = Pick<DraftPlanInput, 'pools' | 'pois' | 'travel'>;
-
-const PLACE_WORDS = new WeakMap<object, ReadonlyMap<string, number>>();
-
-/** Every word of every place name we know here, with how many places carry it. */
-function placeWords(input: Pick<DraftPlanInput, 'pois'>): ReadonlyMap<string, number> {
-  const known = PLACE_WORDS.get(input.pois);
-  if (known !== undefined) return known;
-  const words = new Map<string, number>();
-  for (const poi of input.pois.values()) {
-    for (const word of new Set(nameTokens(`${poi.name} ${poi.nameLocal ?? ''}`))) {
-      words.set(word, (words.get(word) ?? 0) + 1);
-    }
-  }
-  PLACE_WORDS.set(input.pois, words);
-  return words;
-}
 
 const AM: ReadonlySet<string> = new Set(['morning', 'sang']);
 const PM: ReadonlySet<string> = new Set(['afternoon', 'chieu']);
@@ -159,7 +89,9 @@ export function titleFits(
     const own = nameTokens(`${anchor.poi.name} ${anchor.poi.nameLocal ?? ''}`).filter(
       (token) => token.length >= 3 && KINDS[token] === undefined && !COMMON.has(token),
     );
-    if (own.length > 0 && !own.some((token) => said.has(token))) return false;
+    // By its name, or by what it is ("a morning at the falls").
+    const byKind = [...said].some((token) => KINDS[token]?.(anchor.poi, anchor.words) === true);
+    if (own.length > 0 && !own.some((token) => said.has(token)) && !byKind) return false;
   }
   const names = day.items.map((item) =>
     (item.poi_id === null ? '' : (input.pois.get(item.poi_id)?.name ?? '')).toLowerCase(),
@@ -183,6 +115,18 @@ export function titleFits(
     cursor = found;
     return true;
   };
+  // A name of two or more words ("Sơn Trà", "Mỹ Khê") that a place we know carries is a place the
+  // day must hold: its syllables are too short to be checked one by one.
+  const strings = placeStrings(input);
+  const named = stops.map(
+    (stop) => ` ${nameTokens(`${stop.poi.name} ${stop.poi.nameLocal ?? ''}`).join(' ')} `,
+  );
+  for (const run of capitalisedRuns(raw)) {
+    const phrase = ` ${run.flatMap((word) => nameTokens(word)).join(' ')} `;
+    const carriers = strings.filter((s) => s.includes(phrase)).length;
+    // A phrase many places carry is the town's own name ("Đà Lạt Market"), not one place.
+    if (carriers > 0 && carriers < 3 && !named.some((s) => s.includes(phrase))) return false;
+  }
   return raw.every((word, index) => {
     const token = tokens[index];
     if (token === undefined) return true;

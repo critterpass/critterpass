@@ -155,6 +155,9 @@ const DROPPED_CODES: ReadonlySet<DraftViolationCode> = new Set([
   'MEAL_OFF_HOURS',
   'REPEAT_DISH',
   'LONG_HOP',
+  'CROWDED_LONG_VISIT',
+  'OFF_THE_OUTING',
+  'INSIDE_ANOTHER_STOP',
 ]);
 
 export interface DropResult {

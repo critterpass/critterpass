@@ -65,9 +65,9 @@ const TASK = [
   '# Task',
   '',
   'Write one line (under 140 characters) that sums up the trip draft below, in your voice, for the',
-  "organiser who will review it. When the facts give the trip's longest visit, the line names it",
-  'and how long it takes; never name a visit the facts do not give. Words only: no numbers, dates,',
-  'times, prices, digits, emoji or links.',
+  'organiser who will review it. When the facts give a day built around one place, the line says',
+  'so in passing (a whole day at it, a morning there); never name one the facts do not give.',
+  'Words only: no numbers, dates, times, prices, digits, emoji or links.',
   'Reply with the line and nothing else.',
 ].join('\n');
 
@@ -105,30 +105,37 @@ export async function writeDraftSummary(model: DraftModel, input: SummaryInput):
     input.allMustDos ? 'Every must-do made it.' : 'Some must-dos did not fit.',
     ...(input.longVisits?.[0] === undefined
       ? []
-      : [`The trip's longest visit: ${input.longVisits[0]}.`]),
+      : [`A day built around one place: ${input.longVisits[0]}.`]),
     ...languageLine(input.locale),
     ...(input.thin === true
       ? ['We know only a few places here: most of each day is still open.']
       : []),
   ].join('\n');
-  try {
+  const system = personaSystem(input.guide, input.thin === true ? THIN_TASK : TASK);
+  const ask = async (content: string, key: string): Promise<string | null> => {
     const result = await model.call(
       'draft.summary',
-      {
-        system: personaSystem(input.guide, input.thin === true ? THIN_TASK : TASK),
-        messages: [{ role: 'user', content: facts }],
-        temperature: 0.7,
-      },
-      'summary',
+      { system, messages: [{ role: 'user', content }], temperature: 0.7 },
+      key,
     );
-    if (isDeclined(result.message)) return templateSummary(input);
-    const line = withoutHedge(
+    if (isDeclined(result.message)) return null;
+    return withoutHedge(
       textOf(result.message)
         .trim()
         .replace(/^["“'](.*)["”']$/u, '$1'),
       input.guide,
     );
-    if (line.length === 0 || line.length > SUMMARY_MAX || line.includes('\n')) {
+  };
+  try {
+    let line = await ask(facts, 'summary');
+    // A line too long for the review screen is asked for once more, shorter.
+    if (line !== null && line.length > SUMMARY_MAX && !line.includes('\n')) {
+      line = await ask(
+        `${facts}\n\nYour line was ${line.length} characters: "${line}". Write it again, under 140 characters.`,
+        'summary-shorter',
+      );
+    }
+    if (line === null || line.length === 0 || line.length > SUMMARY_MAX || line.includes('\n')) {
       return templateSummary(input);
     }
     return proseProblem(line, SUMMARY_MAX, input.names ?? []) === null

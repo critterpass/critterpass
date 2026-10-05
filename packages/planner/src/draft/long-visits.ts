@@ -104,6 +104,8 @@ export function longVisitFaults(
   day: TimedDay,
   edge: boolean,
   rideOf: (poi: DraftPoi) => number = () => 0,
+  /** Whether two places are one outing (the peninsula and the pagoda on it): never rivals. */
+  together: (a: string, b: string) => boolean = () => false,
 ): LongVisitFault[] {
   const faults: LongVisitFault[] = [];
   for (const anchor of day.stops) {
@@ -119,17 +121,23 @@ export function longVisitFaults(
         stop !== anchor &&
         stop.item.kind !== 'meal' &&
         !partOfVisit(stop.poi, anchor.poi, rideOf(anchor.poi)) &&
-        (span === 'full' ||
-          (halfOf(stop.startMin) === half && (half === 'am' || stop.startMin < DINNER.startMin))),
+        !together(stop.poi.id, anchor.poi.id) &&
+        // After dinner is the evening's, whatever the day held.
+        stop.startMin < DINNER.startMin &&
+        (span === 'full' || halfOf(stop.startMin) === half),
     );
     let light = 0;
+    const asked = (stop: TimedStop) => stop.item.must_do_id !== null || isTheirs(stop.item);
     for (const stop of company) {
       const isLight = foodRole(stop.poi) === 'light';
       if (isLight && light === 0) {
         light += 1;
         continue;
       }
-      faults.push({ dayNo: day.dayNo, stop });
+      // What the crew asked for stays; the long visit nobody asked for is the one at fault, and
+      // two the crew asked for together are their call.
+      if (asked(stop) && asked(anchor)) continue;
+      faults.push({ dayNo: day.dayNo, stop: asked(stop) ? anchor : stop });
     }
   }
   return faults;

@@ -10,7 +10,8 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 import { alignStableIds, isKept, opensDay, withinReach, type DraftPoi } from '@cp/planner';
 
 import { homeOf, hopCap } from './areas';
-import { essentialsOf, placeOne } from './essentials';
+import { essentialsOf } from './essentials';
+import { placeOne } from './place-essential';
 import type { RedraftPlanInput } from './redraft-input';
 import { isOutdoors, wantsIndoors } from './redraft-rain';
 import type { SkeletonDay } from './skeleton';

@@ -21,6 +21,9 @@ export function dayShapeViolations(
   const lastIndex = input.frame.dates.length - 1;
   const home = input.homeId ?? null;
   const rideOf = (poi: DraftPoi) => (home === null ? 0 : (input.travel(home, poi.id) ?? 0));
+  const outings = input.outings ?? [];
+  const together = (a: string, b: string) =>
+    outings.some((outing) => outing.poiIds.includes(a) && outing.poiIds.includes(b));
   const at = (code: DraftViolationCode, dayNo: number, stop: TimedStop): DraftViolation => ({
     code,
     dayNo,
@@ -35,7 +38,7 @@ export function dayShapeViolations(
         at('OFF_THE_OUTING', day.dayNo, stop),
       ),
       ...insideFaults(day, rideOf).map((stop) => at('INSIDE_ANOTHER_STOP', day.dayNo, stop)),
-      ...longVisitFaults(day, edge, rideOf).map((fault) =>
+      ...longVisitFaults(day, edge, rideOf, together).map((fault) =>
         at('CROWDED_LONG_VISIT', fault.dayNo, fault.stop),
       ),
     ];
