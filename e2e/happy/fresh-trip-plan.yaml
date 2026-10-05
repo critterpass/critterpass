@@ -185,8 +185,24 @@ env:
     direction: DOWN
     centerElement: true
     timeout: 10000
-- tapOn:
-    id: 'plan-item-move-2'
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'plan-item-move-2'
+    commands:
+      - tapOn:
+          id: 'plan-item-move-2'
+# The pills are named by their dates ("Tue 6 Oct"); when the sheet's ids are not in the hierarchy
+# the second pill, day 2, is tapped by its words.
+- runFlow:
+    when:
+      notVisible:
+        id: 'plan-item-move-2'
+    commands:
+      - tapOn:
+          text: '(?i)^\w{3} \d{1,2} \w{3}$'
+          index: 1
 - waitForAnimationToEnd:
     timeout: 3000
 # Its own time taken on day 2: the sheet offers the first start that works, and the offer goes once
