@@ -108,10 +108,10 @@ function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
     } else if (previous === null || start < held.fromMin) {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
     }
-    // A breakfast the crew asked for opens the day; nothing comes before it.
+    // A breakfast the crew asked for opens the day: an order with a stop before it is broken.
     const breakfast =
       choice.kind === 'meal' && (choice.when === 'morning' || choice.when === 'sunrise');
-    if (breakfast && previous !== null) notFirst += 1;
+    if (breakfast && previous !== null) broken += 1;
     // A stop that opens the day comes before every other sight of it.
     if (opener && sights > 0) notFirst += 1;
     if (held === null && choice.kind !== 'meal') sights += 1;

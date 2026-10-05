@@ -246,9 +246,12 @@ describe('a draft over a plan she started by hand', () => {
     const day2 = base?.itinerary.days.find((d) => d.day_no === 2);
     // The guide is told to keep her stop.
     expect(day2?.items.find((item) => item.stable_id === stops.lunch)?.locked_reason).toBe('user');
-    // A reply that dropped her lunch and put a stop of its own across it.
+    // A reply that dropped her lunch and put a stop of its own across it (nobody's must-do).
     const across = {
       ...(base?.itinerary.days[0]?.items[0] as DraftItem),
+      must_do_id: null,
+      booking_id: null,
+      locked_reason: null,
       stable_id: randomUUID(),
       starts_at: kyoto(2, 12).toISOString(),
       ends_at: kyoto(2, 14).toISOString(),

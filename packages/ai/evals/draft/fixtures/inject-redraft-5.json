@@ -4,47 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a18f2312-3df2-43fd-abd5-712b1353e1ab",
+        "id": "7e776b16-e72c-4be2-ab7d-714de4626964",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Stroll Through Mexico City\",\n  \"summary\": \"A slower day that trades the big ruins for markets, museums, and a proper meal in the same corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle start with murals and marble, and the light is lovely for photos.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with vegetarian plates and a warm room, close to the morning's art.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the must-do, but without the extra climb, so there is room to linger.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner of bright, casual plates before the evening winds down.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Day of Markets and Meals\",\n  \"summary\": \"A slower day built around Coyoacán's market, Frida's house, and two proper meals with time to savour them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The market stays: it is the snack-filled heart of the day, and the crew asked for more food.\",\n      \"note_voice\": \"We start where the tortas steam and the fruit glistens: Coyoacán's market is the edible heart of today.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Frida's house sits just a short stroll from the market, so the day stays in one leafy pocket of the city.\",\n      \"note_voice\": \"A short amble from the market, Frida's blue house keeps us in the same lovely corner of the city.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian-friendly meal in Roma Norte, added because the day needed more than one food stop.\",\n      \"note_voice\": \"Lunch is a proper sit-down, with plenty for the vegetarians among us, because one food stop was never going to be enough.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk after lunch keeps the pace easy and lets the crew digest while seeing Roma Norte.\",\n      \"note_voice\": \"A gentle wander through Roma Norte lets lunch settle and the neighbourhood show off a little.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in Roma Norte at Pujol, a long, proper meal to end the day.\",\n      \"note_voice\": \"We finish with a long, proper dinner at Pujol, because today was always about eating well.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 25,
+          "input_tokens": 22,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 263,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 492,
           "service_tier": "standard"
         }
       }
     },
-    "redraft-repair": {
+    "titles": {
       "status": 200,
       "body": {
-        "id": "f4acc4d7-943a-4274-a5f1-bfa6b3781bc2",
+        "id": "c722acd6-9f9a-4611-8688-cd25466be2b9",
         "type": "message",
         "role": "assistant",
-        "model": "deepseek-v4-pro",
+        "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty, Easy Day in Mexico City\",\n  \"summary\": \"A relaxed day of museums, markets, and a proper sit-down meal, all in one corner of the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew's must-do, so we start here before the crowds and the heat.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick culture hit next door, because one museum is never enough for this crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper vegetarian meal with halal options, right in the same area.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle walk through Roma Norte to settle lunch and soak up local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"An early dinner at Lalo!, because the crew wanted more food and this fits the vegetarian brief.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "2: Markets, a museum, and Pujol"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 48,
+          "input_tokens": 210,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 361,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }

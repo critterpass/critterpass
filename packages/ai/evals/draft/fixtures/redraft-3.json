@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "4c4e0e3d-f97c-46b6-abb5-3d5a80bb3aa4",
+        "id": "ee9a07b3-ad40-47a9-bbb4-c041f371afdd",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Lighter, Freer Kyoto Day\",\n  \"summary\": \"We trade ticket desks for open air, keeping the railway museum and adding a free bamboo stroll.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, early wander before the crowds and the ticket counters.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one paid stop worth keeping, and the crew asked for museums.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Arashiyama on a Shoestring\",\n  \"summary\": \"A slower, cheaper day in the bamboo and temple air, keeping the two must-sees and dropping the pricier stops.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and open all day, so the early birds get the grove before the crowds and the cameras get their light.\",\n      \"id\": \"stop_1\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one temple the crew asked for, and only a coin or two. Shoes off, phone down, eyes up.\",\n      \"id\": \"stop_2\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The railway museum stays, even if it is the pricier one — Rin asked about skipping museums, not the trains. Worth one message.\",\n      \"id\": \"stop_3\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 47,
+          "input_tokens": 25,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 167,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 272,
           "service_tier": "standard"
         }
       }

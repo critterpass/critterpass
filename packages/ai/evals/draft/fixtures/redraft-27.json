@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "8bdc0017-0e20-4111-8952-71c9c1c9b91d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đà Lạt mưa, mình đi trong nhà\",\n  \"summary\": \"Trời mưa nên mình bỏ hết mấy điểm ngoài trời, đổi sang một ngày ấm cúng trong nhà: chùa, dinh thự, bảo tàng và quán xá ngon lành.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Chùa Linh Phước vẫn đẹp dù trời mưa, mái che kín nên mình cứ thong thả mà ngắm.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p11\",\n      \"note\": \"Dinh III là chỗ trú mưa sang chảnh, vừa xem lịch sử vừa khô ráo cả buổi sáng.\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng Lâm Đồng kín gió, hợp cho chiều mưa và tìm hiểu đời sống địa phương.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng Bà Hùng ngồi bàn ấm, chậm rãi cuốn ăn cho bõ công tránh mưa.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Mây Lang Thang có mái che và cà phê ấm, ngồi nghe mưa rơi ngoài cửa kính.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Le Chalet Dalat Cafe & Bistro tối nay vừa ăn vừa nghỉ, không cần ra ngoài ướt áo.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1741,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 544,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}
