@@ -20,6 +20,7 @@ import {
 } from '@/data/legs/day-legs';
 import type { LegPaths } from '@/data/legs/version-leg-paths';
 import { LEGS_SQL } from '@/data/legs/use-day-legs';
+import { useLegsPending } from '@/data/legs/use-legs-pending';
 import { useLiveRows } from '@/data/plan/live-rows';
 import type { RouteDay } from '@/ui/map/planning';
 
@@ -79,6 +80,8 @@ export function routeOf(
   order?: readonly string[],
   /** Routed legs seen before (and added to); a pair with no routed leg now reads from it. */
   remembered?: KnownLegs,
+  /** The version's legs are on their way: an estimate is marked as standing in for one. */
+  pending = false,
 ): DayRoute {
   const ends = endsOf(day, order);
   const byPair = new Set(stored.map((leg) => `${leg.from_key}>${leg.to_key}`));
@@ -98,7 +101,8 @@ export function routeOf(
     const before = remembered?.get(key);
     if (before !== undefined) return before;
     if (from.point === null || to.point === null) return null;
-    return estimateLeg({ key: from.key, ...from.point }, { key: to.key, ...to.point });
+    const estimate = estimateLeg({ key: from.key, ...from.point }, { key: to.key, ...to.point });
+    return pending ? { ...estimate, pending: true } : estimate;
   });
   const offset = day.stay === null || ends.length === 0 ? 0 : 1;
   const count = ends.length - 2 * offset;
@@ -119,9 +123,11 @@ export function useDayRoute(versionId: string | null, day: TripDay | null): DayR
     versionId === null || day?.dayId == null ? null : [versionId, day.dayId],
     LEGS_TABLES,
   );
+  const pending = useLegsPending(versionId);
   return useMemo(
-    () => (day === null ? { legs: [], after: [] } : routeOf(day, stored.rows, undefined, known)),
-    [day, stored.rows],
+    () =>
+      day === null ? { legs: [], after: [] } : routeOf(day, stored.rows, undefined, known, pending),
+    [day, pending, stored.rows],
   );
 }
 

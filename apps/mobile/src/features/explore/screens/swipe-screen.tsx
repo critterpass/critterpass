@@ -5,12 +5,14 @@
  * adds everyone else who said yes (an earlier match keeps the day it was suggested for). The verdicts this phone gave are kept on the phone; everyone's yes
  * votes and the matches come from the synced trip.
  */
+import { shownName } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion';
@@ -37,6 +39,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const locale = i18n.locale;
   const { redesign } = usePlanningSwitch();
   const session = useSwipeSession(tripId, sessionId, { saveYes: redesign });
+  const readsLocal = useReadsLocalNames(session.row?.destination_id);
   const crew = useTripCrew(tripId);
   const planned = usePlannedPlaces(tripId);
   const sync = useSyncStatus();
@@ -71,7 +74,11 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const outcome = match === null ? null : (outcomes.get(match.id) ?? null);
   useEffect(() => {
     if (match === null || outcome === null) return;
-    const place = places.get(match.poiId)?.name ?? '';
+    const deckPlace = places.get(match.poiId);
+    const place =
+      deckPlace === undefined
+        ? ''
+        : shownName({ name: deckPlace.name, nameLocal: deckPlace.name_local }, readsLocal);
     const guideName = guide.name;
     const day = outcome.kind === 'suggested' ? outcome.dayNo : 0;
     toast.show({
@@ -106,7 +113,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
     ).map((uid) => crew.find((member) => member.uid === uid)?.name ?? '');
     return {
       poiId: card.poi_id,
-      name: place.name,
+      name: shownName({ name: place.name, nameLocal: place.name_local }, readsLocal),
       category: place.category,
       meta: swipeMeta(
         place.category,

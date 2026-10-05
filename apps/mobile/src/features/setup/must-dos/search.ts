@@ -7,7 +7,7 @@
  * day (FITS, or CLASH when it is closed on all of them); unknown hours carry no pill.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, a route path and wire values, never copy. */
-import { hoursSchema, WEEKDAYS, type Hours } from '@cp/domain';
+import { hoursSchema, shownName, WEEKDAYS, type Hours } from '@cp/domain';
 import { useEffect, useState } from 'react';
 
 import { matchPlaces } from '@/data/places/match-places';
@@ -46,6 +46,7 @@ interface LocalPlace {
 interface OnlinePlace {
   readonly id: string;
   readonly name: string;
+  readonly nameLocal?: string | null;
   readonly address: string | null;
   readonly tags: readonly string[];
 }
@@ -122,12 +123,15 @@ export function useMustDoSearch(options: {
   readonly destinationId: string | null;
   readonly query: string;
   readonly dates: readonly string[];
+  /** The reader sees places under their local names here (`@cp/domain` `readsLocalNames`). */
+  readonly readsLocal?: boolean;
 }): SearchState {
   const { db } = useLocalFirst();
   const { services, destinationId } = options;
+  const readsLocal = options.readsLocal === true;
   const query = options.query.trim();
   const dateKey = options.dates.join(',');
-  const key = `${destinationId ?? ''}\u0000${query}\u0000${dateKey}`;
+  const key = `${destinationId ?? ''}\u0000${query}\u0000${dateKey}\u0000${String(options.readsLocal === true)}`;
   const [found, setFound] = useState<{ readonly key: string; readonly state: SearchState } | null>(
     null,
   );
@@ -168,7 +172,7 @@ export function useMustDoSearch(options: {
           const known = byId.get(place.id);
           return {
             id: place.id,
-            name: place.name,
+            name: shownName(place, readsLocal),
             blurb: blurbOf(known, place.address),
             pill: pillFor(place.tags, hoursOf(known?.hours ?? null), dates),
           };
@@ -183,7 +187,7 @@ export function useMustDoSearch(options: {
       live = false;
       clearTimeout(timer);
     };
-  }, [db, services, destinationId, query, dateKey, key]);
+  }, [db, services, destinationId, query, dateKey, key, readsLocal]);
   if (query === '') return { kind: 'idle' };
   if (found?.key === key) return found.state;
   // While the next keystroke's results load, keep the last ones on screen.

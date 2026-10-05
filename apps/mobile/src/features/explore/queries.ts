@@ -4,7 +4,11 @@
  * place is saved (a queued save or unsave shows at once) and how a queued command settled.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { shownName } from '@cp/domain';
+import { useMemo } from 'react';
+
 import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
 import { PICK_KIND_ORDER } from './category';
@@ -67,7 +71,7 @@ const LOCAL_PICKS_SQL = `WITH ranked AS (
   turns AS (
     SELECT *, row_number() OVER (PARTITION BY must_see, kind_rank ORDER BY id) AS in_kind
     FROM ranked)
-  SELECT id AS poiId, name, category FROM turns
+  SELECT id AS poiId, name, name_local AS nameLocal, category FROM turns
   ORDER BY must_see DESC, pick_rank IS NULL, pick_rank,
     (in_kind - 1) / ${String(PICKS_PER_KIND)}, kind_rank, in_kind
   LIMIT ?`;
@@ -79,11 +83,20 @@ export interface LocalPick {
 }
 
 export function useLocalPicks(destinationId: string | null, limit: number): readonly LocalPick[] {
-  return useLiveRows<LocalPick>(
+  const readsLocal = useReadsLocalNames(destinationId);
+  const rows = useLiveRows<LocalPick & { readonly nameLocal: string | null }>(
     LOCAL_PICKS_SQL,
     destinationId === null ? null : [destinationId, limit],
     ['pois'],
   ).rows;
+  return useMemo(
+    () =>
+      rows.map(({ nameLocal, ...pick }) => ({
+        ...pick,
+        name: shownName({ name: pick.name, nameLocal }, readsLocal),
+      })),
+    [rows, readsLocal],
+  );
 }
 
 const KINDS_SQL = `SELECT category, count(*) AS n FROM pois

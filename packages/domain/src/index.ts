@@ -130,14 +130,7 @@ export {
   poiCategorySchema,
   type PoiCategory,
 } from './places/categories';
-export {
-  EMPTY_EDITORIAL_OVERLAY,
-  editorialOverlaySchema,
-  editorialPhotoSchema,
-  readEditorialOverlay,
-  type EditorialOverlay,
-  type EditorialPhoto,
-} from './places/editorial';
+export * from './places/editorial';
 export {
   EMPTY_HOURS,
   WEEKDAYS,
@@ -155,6 +148,7 @@ export {
 export { closesSoon, nextOpen, openAt } from './places/open-at';
 export { openSpans, openThrough, type OpenSpan } from './places/open-spans';
 export { DEFAULT_VISIT_MIN, visitMinutes } from './places/visit-minutes';
+export * from './places/shown-names';
 export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';

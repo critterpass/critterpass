@@ -4,7 +4,7 @@
  * written from it; supplier content never enters a release. Opening hours researched from official
  * sites are proposals until a person verifies them (see `hoursProposalSchema`).
  */
-import { hoursSchema, poiCategorySchema } from '@cp/domain';
+import { editorialTranslationsSchema, hoursSchema, poiCategorySchema } from '@cp/domain';
 import { z } from 'zod';
 
 import {
@@ -152,12 +152,22 @@ export const poiItemSchema = z
      * at it. A hidden record is neither merged nor a must-see.
      */
     hide: z.literal(true).optional(),
+    /**
+     * The note in other app languages (`{"vi": {why_go, best_time, …}}`), written by an editor
+     * from the English lines with the same facts. Publishing stores it as `editorial.i18n`; an
+     * item without it clears what was stored. Readers pick a line through `localizedEditorial`.
+     */
+    i18n: editorialTranslationsSchema.optional(),
   })
   .strict()
   .refine(
     (poi) => poi.hide !== true || (poi.merge_into === null && poi.editorial.must_see !== true),
     { message: 'a hidden place is neither merged nor a must-see', path: ['hide'] },
-  );
+  )
+  .refine((poi) => poi.i18n?.en === undefined, {
+    message: 'the English note is the note itself, not a translation',
+    path: ['i18n', 'en'],
+  });
 export type PoiItem = z.infer<typeof poiItemSchema>;
 
 /** Opening hours read from an official venue or tourism site, waiting for a person to verify them. */
