@@ -2,11 +2,12 @@ import { act, fireEvent, renderHook, waitFor } from '@testing-library/react-nati
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo, Platform, StyleSheet, Text } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, State } from 'react-native-gesture-handler';
+import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
-import { hasDynamicIsland, IslandToast } from '../IslandToast';
+import { HEADER_CLEARANCE_PT, hasDynamicIsland, IslandToast, LEAVE_MS } from '../IslandToast';
 import type { ToastTextProps } from '../IslandToast';
 import { toastQueue, useToastQueue } from '../queue';
 
@@ -214,10 +215,12 @@ describe('IslandToast', () => {
     await act(() => {
       toastQueue.show({ id: 'a', title: 'Pass issued' });
     });
-    const screen = await renderToast(islandMetrics);
+    await renderToast(islandMetrics);
 
     expect(await lastHidden()).toEqual([true, 'fade']);
-    await fireEvent.press(screen.getByLabelText('Dismiss'));
+    await act(() => {
+      toastQueue.dismiss();
+    });
     expect(await lastHidden()).toEqual([false, 'fade']);
   });
 
@@ -231,7 +234,8 @@ describe('IslandToast', () => {
     const pill = await waitFor(() => screen.getByTestId('island-toast-pill'));
     expect(await lastHidden()).toBeUndefined();
     const host = StyleSheet.flatten(pill.parent?.props.style as StyleProp<ViewStyle>);
-    expect(host?.top).toBe(bannerMetrics.insets.top);
+    // Below the row of header controls, never on one.
+    expect(host?.top).toBe(bannerMetrics.insets.top + HEADER_CLEARANCE_PT);
   });
 
   it('the dismiss action clears the current toast', async () => {
@@ -241,7 +245,74 @@ describe('IslandToast', () => {
     const { getByLabelText } = await renderToast();
 
     await waitFor(() => expect(getByLabelText('Dismiss')).toBeTruthy());
-    await fireEvent.press(getByLabelText('Dismiss'));
+    await act(() => {
+      fireGestureHandler(getByGestureTestId('island-toast-dismiss-tap'), [
+        { state: State.BEGAN },
+        { state: State.ACTIVE },
+        { state: State.END },
+      ]);
+      jest.advanceTimersByTime(20);
+    });
     expect(toastQueue.getCurrent()).toBeNull();
+  });
+
+  it('runs its action from a tap on the action, and from the screen reader', async () => {
+    const onPress = jest.fn();
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Moved', action: { label: 'UNDO', onPress } });
+    });
+    const screen = await renderToast();
+    await waitFor(() => expect(screen.getByLabelText('UNDO')).toBeTruthy());
+    await act(() => {
+      fireGestureHandler(getByGestureTestId('island-toast-open-tap'), [
+        { state: State.BEGAN },
+        { state: State.ACTIVE },
+        { state: State.END },
+      ]);
+      jest.advanceTimersByTime(20);
+    });
+    expect(onPress).toHaveBeenCalledTimes(1);
+    await fireEvent(screen.getByLabelText('UNDO'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'activate' },
+    });
+    expect(onPress).toHaveBeenCalledTimes(2);
+  });
+
+  it('claims every touch on the pill, alongside its own buttons, so nothing under it fires', async () => {
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Moved', action: { label: 'UNDO', onPress: () => {} } });
+    });
+    await renderToast();
+    const claim = getByGestureTestId('island-toast-claim') as unknown as {
+      handlerName: string;
+      handlers: { onTouchesDown?: unknown };
+      config: { simultaneousWith?: readonly unknown[] };
+    };
+    // A manual gesture that activates on touch-down: it cancels any gesture under the pill.
+    expect(claim.handlerName).toBe('ManualGestureHandler');
+    expect(claim.handlers.onTouchesDown).toBeDefined();
+    expect(claim.config.simultaneousWith).toEqual(
+      expect.arrayContaining([
+        getByGestureTestId('island-toast-open-tap'),
+        getByGestureTestId('island-toast-dismiss-tap'),
+      ]),
+    );
+  });
+
+  it('stays on screen, still taking its touches, while it leaves', async () => {
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Moved', action: { label: 'UNDO', onPress: () => {} } });
+    });
+    const screen = await renderToast();
+    await waitFor(() => expect(screen.getByTestId('island-toast-pill')).toBeTruthy());
+    await act(() => {
+      toastQueue.dismiss();
+    });
+    // Dismissed, but the pill is still there, leaving.
+    expect(screen.queryByTestId('island-toast-pill')).not.toBeNull();
+    await act(() => {
+      jest.advanceTimersByTime(LEAVE_MS + 50);
+    });
+    await waitFor(() => expect(screen.queryByTestId('island-toast-pill')).toBeNull());
   });
 });
