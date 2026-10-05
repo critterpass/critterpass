@@ -19,3 +19,24 @@ appId: app.critterpass.dev
 - takeScreenshot: collaboration-00-setup-dates-today
 - tapOn:
     id: 'picker-lock'
+# A press on LOCK has been seen to do nothing (the sheet stays, no message). When it is still up
+# after a while, that is framed and the button pressed again.
+- extendedWaitUntil:
+    notVisible:
+      id: 'picker-lock'
+    timeout: 15000
+    optional: true
+- repeat:
+    while:
+      visible:
+        id: 'picker-lock'
+    times: 3
+    commands:
+      - takeScreenshot: collaboration-00b-lock-pressed-sheet-still-up
+      - tapOn:
+          id: 'picker-lock'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'picker-lock'
+          timeout: 20000
+          optional: true
