@@ -74,6 +74,11 @@ export interface KindModule<K extends ContentKind> {
     outputs: ReadonlyMap<string, unknown>,
   ) => Promise<readonly unknown[]>;
   readonly validators: Validators<K>;
+  /**
+   * What an assembled item keeps from its live item (the live release's items, when there is
+   * one), before the validators run.
+   */
+  readonly carry?: (items: readonly unknown[], previous: readonly ContentItem<K>[]) => unknown[];
   /** Units the model could not answer may stay missing (their records are researched by hand). */
   readonly partialGeneration?: boolean;
   readonly render?: (
