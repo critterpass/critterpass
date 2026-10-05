@@ -1,7 +1,8 @@
 /**
  * Lab scenes for the place page (7e-1, 7e-2): Tirta Empul inside a trip as the organiser and as a
  * member, already in the plan, split in the crew, with no trip, and hours not known; and a Đà Nẵng
- * beach with no photo of its own filled in by Foursquare's live facts. ♡ and the button work on
+ * beach with no photo of its own, filled in by Foursquare's live facts, or with the Foursquare
+ * photo kept from an earlier open (Foursquare's credit on the hero). ♡ and the button work on
  * the page; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
@@ -9,6 +10,7 @@ import type { PlaceMediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 
+import { BEACH_FOURSQUARE } from '../../dev/lab-place-media';
 import { guideFor } from '../../format';
 import { liveFacts, type PlaceLive } from '../../place-live';
 import { LAB_PICK_MEDIA } from '../../trip-explore/dev/lab-pick-media';
@@ -155,6 +157,15 @@ const TIRTA_EMPUL: ScenePlace = {
   tip: 'Start at the left pool and work right. Skip the last two spouts, they’re for funerals.',
 };
 
+const MY_KHE: ScenePlace = {
+  name: 'Phạm Văn Đồng Beach',
+  category: 'beach',
+  guide: 'chava',
+  area: 'Sơn Trà',
+  bestTime: 'Go at sunrise, before the sand heats up.',
+  tip: null,
+};
+
 const SAVERS = [
   { key: 'a', name: 'Alex', joinIndex: 2 },
   { key: 'r', name: 'Rin', joinIndex: 3 },
@@ -179,7 +190,6 @@ function Scene({
 }) {
   const { t, i18n } = useLingui();
   const [saved, setSaved] = useState(savedAtStart);
-  const [added, setAdded] = useState<number | null>(null);
   const context = trip ? readPlaceDetail({ ...WIRE, ...patch }) : null;
   const guide = guideFor(place.guide);
   const facts = liveFacts(live, { hours: null, priceLevel: null, hasPhoto: photo !== null });
@@ -188,7 +198,6 @@ function Scene({
     status: 'ready',
     tz: 'Asia/Makassar',
     locale: i18n.locale,
-    addedDay: added,
   });
   const best = context?.fits?.best ?? null;
   const stances = context?.stances ?? null;
@@ -257,7 +266,7 @@ function Scene({
         tone: cta.kind === 'inPlan' ? 'green' : 'yellow',
         disabled: trip && cta.kind !== 'add' && cta.kind !== 'inPlan',
         busy: false,
-        onPress: () => setAdded(best?.day_no ?? null),
+        onPress: () => undefined,
       }}
       onChat={() => undefined}
       onGo={() => undefined}
@@ -284,19 +293,9 @@ export const PLACE_DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   'place-detail-no-trip': () => <Scene trip={false} />,
-  'place-detail-live': () => (
-    <Scene
-      trip={false}
-      live={MY_KHE_LIVE}
-      place={{
-        name: 'Phạm Văn Đồng Beach',
-        category: 'beach',
-        guide: 'chava',
-        area: 'Sơn Trà',
-        bestTime: 'Go at sunrise, before the sand heats up.',
-        tip: null,
-      }}
-    />
+  'place-detail-live': () => <Scene trip={false} live={MY_KHE_LIVE} place={MY_KHE} />,
+  'place-detail-foursquare-photo': () => (
+    <Scene trip={false} photo={BEACH_FOURSQUARE} place={MY_KHE} />
   ),
   'place-detail-hours-unknown': () => (
     <Scene

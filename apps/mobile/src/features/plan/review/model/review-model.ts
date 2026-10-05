@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and keys, never copy. */
 import { decideAutonomy, type ChangeSetOp } from '@cp/domain';
 
-import { localTime, type PlanDay, type PlanItem } from '../../overview/model/plan-model';
+import { localTime, type PlanItem } from '../../overview/model/plan-model';
 
 export interface ChangeSide {
   /** Weekday (only when the change moves the item to another day), start time and label. */
@@ -96,19 +96,6 @@ export function buildChangeCards(
       mustDo: (item?.mustDoId ?? null) !== null || (op.after?.must_do_id ?? null) !== null,
     };
   });
-}
-
-/** `{Weekday} {time} {label}` with the parts a side has; the weekday only when the day moves. */
-export function sideText(
-  change: ChangeSide,
-  days: readonly PlanDay[],
-  withDay: boolean,
-  weekdayOf: (date: string | null) => string,
-): string {
-  const date = days.find((day) => day.dayNo === change.dayNo)?.date ?? null;
-  return [withDay ? weekdayOf(date) : '', change.time ?? '', change.label]
-    .filter((part) => part !== '')
-    .join(' ');
 }
 
 export type DeciderPrediction =

@@ -1,8 +1,7 @@
 /**
  * The day screens' words for how an edit went: one toast for every change, saying what changed
  * ("Tanah Lot · Added to Thu, Oct 22 · 16:30") with UNDO for an organiser's applied edit, or that a
- * member's went to the crew with a way to see it. Also the words for a fit warning on a stop (what
- * it overlaps, how short the time to get there is).
+ * member's went to the crew with a way to see it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- toast ids, never copy (every line is worded through `t`). */
 import type { PlanOp, PlanState } from '@cp/domain';
@@ -13,7 +12,6 @@ import type { EditOutcome, UndoOutcome } from '@/data/plan/use-plan-editor';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 
-import type { FitWarning } from './fit-check';
 import { clock, clockRange } from './format';
 
 export interface EditContext {
@@ -238,17 +236,4 @@ export function announceChange(
  */
 export function announceEdit(_outcome: EditOutcome): void {
   // The editor has already announced it.
-}
-
-/** A fit warning in words: what a stop overlaps, or how short the time to get there is. */
-export function fitWarningText(warning: FitWarning, all: readonly DayItem[]): string {
-  const titleOf = (id: string | undefined, items: readonly DayItem[]) =>
-    items.find((item) => item.stableId === id)?.title ?? '';
-  // The placeholders stay positional ({0}, {1}) as the catalogs translate them.
-  return warning.code === 'OVERLAP'
-    ? t({ id: 'plan.day.fit.overlap', message: `Overlaps ${titleOf(warning.relatedId, all)}` })
-    : t({
-        id: 'plan.day.fit.travel',
-        message: `${warning.minutes ?? 0} min short to get here from ${titleOf(warning.relatedId, all)}`,
-      });
 }

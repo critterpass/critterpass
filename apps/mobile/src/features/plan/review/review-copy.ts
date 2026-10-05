@@ -1,35 +1,10 @@
 /**
- * The review's words built from the change set: the trigger tag, the headline ("4 changes for the
- * rain"), the guide's summary of which days moved and whether a must-do was touched, the back
- * label over the days it spans, and the send button with the yeses it needs.
+ * The review's words built from the change set: the headline ("4 changes for the rain"), the send
+ * button with the yeses it needs, and what went wrong with a send.
  */
 import { plural, t } from '@lingui/core/macro';
 
-import type { ChangeCard, DeciderPrediction } from './model/review-model';
-
-export function triggerTag(
-  trigger: string | null,
-): { readonly label: string; readonly tone: 'info' | 'warning' | 'plain' } | null {
-  switch (trigger ?? '') {
-    case 'weather':
-      return {
-        label: t({ id: 'plan.review.tag.weather', message: 'Rain forecast' }),
-        tone: 'info',
-      };
-    case 'dropout':
-      return { label: t({ id: 'plan.review.tag.dropout', message: 'Dropout' }), tone: 'warning' };
-    case 'delay':
-      return { label: t({ id: 'plan.review.tag.delay', message: 'Delay' }), tone: 'warning' };
-    case 'chat':
-      return { label: t({ id: 'plan.review.tag.chat', message: 'From the chat' }), tone: 'plain' };
-    case 'redraft':
-      return { label: t({ id: 'plan.review.tag.redraft', message: 'Redraft' }), tone: 'plain' };
-    case 'swap':
-      return { label: t({ id: 'plan.review.tag.swap', message: 'Swap' }), tone: 'plain' };
-    default:
-      return null;
-  }
-}
+import type { DeciderPrediction } from './model/review-model';
 
 export function reviewTitle(trigger: string | null, count: number): string {
   switch (trigger ?? '') {
@@ -57,63 +32,6 @@ export function reviewTitle(trigger: string | null, count: number): string {
         message: plural(count, { one: '# change to the plan', other: '# changes to the plan' }),
       });
   }
-}
-
-/** "Wednesday and Thursday" for the days the changes land on, in the reader's language. */
-export function dayNames(dates: readonly string[], locale: string): string {
-  const names = [...new Set(dates)].sort().map((date) =>
-    new Intl.DateTimeFormat(locale, { weekday: 'long', timeZone: 'UTC' }).format(
-      // Midday UTC keeps the calendar date in every zone.
-      // eslint-disable-next-line lingui/no-unlocalized-strings
-      new Date(`${date}T12:00:00Z`),
-    ),
-  );
-  return new Intl.ListFormat(locale, { style: 'long', type: 'conjunction' }).format(names);
-}
-
-export function reviewSummary(input: {
-  readonly byGuide: boolean;
-  readonly guideName: string;
-  readonly authorName: string | null;
-  readonly days: string;
-  readonly mustDosTouched: number;
-}): string {
-  const { guideName, days } = input;
-  const author = input.authorName ?? '';
-  const who = input.byGuide
-    ? days === ''
-      ? t({ id: 'plan.review.summary.guide', message: `${guideName} rearranged a few things.` })
-      : t({ id: 'plan.review.summary.guideDays', message: `${guideName} rearranged ${days}.` })
-    : days === ''
-      ? t({ id: 'plan.review.summary.member', message: `${author} suggested these.` })
-      : t({
-          id: 'plan.review.summary.memberDays',
-          message: `${author} suggested changes to ${days}.`,
-        });
-  const mustDos =
-    input.mustDosTouched === 0
-      ? t({
-          id: 'plan.review.summary.noMustDo',
-          message: 'Nothing anyone marked as a must-do was touched.',
-        })
-      : t({
-          id: 'plan.review.summary.mustDo',
-          message: 'One of them touches a must-do.',
-        });
-  return `${who} ${mustDos}`;
-}
-
-/** "Day 3–4" over the days the changes touch, or "Plan" when they name none. */
-export function backLabel(cards: readonly ChangeCard[]): string {
-  const days = cards
-    .flatMap((card) => [card.before?.dayNo, card.after?.dayNo])
-    .filter((day): day is number => typeof day === 'number');
-  if (days.length === 0) return t({ id: 'plan.review.backPlan', message: 'Plan' });
-  const first = Math.min(...days);
-  const last = Math.max(...days);
-  return first === last
-    ? t({ id: 'plan.review.backDay', message: `Day ${first}` })
-    : t({ id: 'plan.review.backDays', message: `Day ${first}–${last}` });
 }
 
 export function sendLabel(prediction: DeciderPrediction): string {

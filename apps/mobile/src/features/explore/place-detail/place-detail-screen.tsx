@@ -90,7 +90,6 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
     status: read.status === 'loading' ? 'loading' : offline ? 'offline' : 'ready',
     tz,
     locale,
-    addedDay: null,
   });
   const cta = unread ? ({ kind: 'noFit' } as const) : found;
 

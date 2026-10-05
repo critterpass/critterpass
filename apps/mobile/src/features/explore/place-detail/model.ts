@@ -44,14 +44,11 @@ export interface CtaInput {
   readonly status: 'loading' | 'ready' | 'offline';
   readonly tz: string;
   readonly locale: string;
-  /** A day this page just added the place to. */
-  readonly addedDay: number | null;
 }
 
 /** What the page's main button does and says; the label always names the day and the time. */
 export function detailCta(input: CtaInput): DetailCta {
   const { context } = input;
-  if (input.addedDay !== null) return { kind: 'inPlan', dayNo: input.addedDay, time: null };
   if (context === null) return { kind: input.status === 'offline' ? 'offline' : 'loading' };
   if (context.in_plan !== null) {
     const at = context.in_plan.starts_at;
