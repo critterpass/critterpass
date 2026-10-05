@@ -1,0 +1,204 @@
+{
+  "source": "Live recording from DeepSeek v4 pro with its web_search server tool (route place.profile_check) for the same place, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "61897280-6620-4675-aa75-94f7562fd157",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "server_tool_use",
+          "id": "call_00_TEVlykrTgtFHaJ0L2s5l3300",
+          "name": "web_search",
+          "input": {
+            "query": "Dinh Bảo Đại III Bảo Đại Summer Palace Dinh III Đà Lạt entry fee hours"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        },
+        {
+          "type": "server_tool_use",
+          "id": "call_01_Ng0FyUJYSoZc2rI3E1hS4905",
+          "name": "web_search",
+          "input": {
+            "query": "Bao Dai Summer Palace Dinh III Da Lat ticket price opening hours"
+          },
+          "caller": {
+            "type": "direct"
+          }
+        },
+        {
+          "type": "web_search_tool_result",
+          "tool_use_id": "call_00_TEVlykrTgtFHaJ0L2s5l3300",
+          "content": [
+            {
+              "type": "web_search_result",
+              "title": "Dalat - Bao Dai Palace 3 (Dinh 3 Summer Palace) | Trip.com Dalat - Explore the final summer retreat of Emperor Bao Dai, Vietnam’s last monarch",
+              "url": "https://in.trip.com/moments/detail/dalat-1393-152955000?locale=en-IN#1",
+              "encrypted_content": "72SqeMxVCylL0hZHZCtufAel5di4H9qIPoW8au24wSzlq/4R76iC5GzM5C6sKHyYEvldSi4I/DFbxJ1wzB8ovjNIBdQblohZp1LzxFHNRXHXK64wxPxI2W/QlH0KcNUhxZ1nGMAlaTp85gsQt0TC6RWTZxh+ra3ymAmb+aYWjJbzxoObjlFmAGiYGJZ3dKxoYvZWQqOgccxPei+EExQJ5MVyyR3AGKzdbWx77RMJ3hZtYFpvZtNbBUAj7crJiWGXjBXXFh1l1sLbZBwTgaC8Td08L00Lf3xhiN3+rx/8jvtzV9Vz8UPmjX3hMbfNTvqrIDHCZ5i3pryWfPV5awwx7z/BpDoEQBxyX1XbHnLvWPBrY0CZJeUrG7UETqMyNg==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Da Lat - Bao Dai Palace 3 (Dinh Summer Palace 3) | Trip.com Dalat - Da Lat - Bao Dai Palace 3 (Dinh Summer Palace 3) The last summer palace of Emperor Bao Dai, the last king of Vietnam",
+              "url": "https://in.trip.com/moments/detail/dalat-1393-152955000#1",
+              "encrypted_content": "Q1Iej+CtTn0W/KJYd+LfjDjkG5L2pusnTT5xdpRmJepNi3ocPbwXv7Mqb9Ck0QXZ+kH8oh3o/L6UHaRRissoJb2IDdli37IYpt+Ofve8W08qoxgTMU6CffPFScflrbcDPfSuc/FFinUE9xxhgsuul17M++VzozYk0dV6wmTm8t7u7yrxMlEdZ925HGwZXHwr47UwWpYFvpIoa/lXQoto0zpoGmhm2/sDGHjXq7ekZ2rDPV/m0A+3bhYiNKJWD6RmoffM3uGUAPQyt9QTUlfPjoiudZq6pT8QfDocJu/9MfXzBdVTmxfvHS7j30F86tWflI4sHjzWwxhEOx7h2QTuYRH9U0uPIjzdNAHBYpgswGgV4KQVhfQ1nCJNnTIpT/FN",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "保大3号避暑行宫 - 越南末代皇帝保大的避暑行宫",
+              "url": "https://baike.baidu.com/item/%E4%BF%9D%E5%A4%A73%E5%8F%B7%E9%81%BF%E6%9A%91%E8%A1%8C%E5%AE%AB/1120471#1",
+              "encrypted_content": "itdaiKeCKBzBHt1hIgiaUVKT0GVJ0wvX8P7176z65cSiDChPXN+aeAm0i1l6nDswaQeUDYG1w83PdQSGPlv8XYBux9Tni/JAViIOZDEzVlbLtpuWzTAPyGsUoHCdN9RFtq1w9ZTNfU3LTueb3IHMxzNnJOfVIjWCFyLcloDx7O6srp1weueYqzm+a8rFQQTwmM+rnWr1oJXbwpUHxYE6u104RcsDMNf0bSWANj7jMov2m7dvYIEKgC9jCtaiDUzPhkbf+xNPm8GLT0GUQFF0d60B4v/Pizyemi2SAE8EeWU6xqXO8eJLOBV75QkKuqKl41EGW/3JJZ2cmKYbM4AuQmqcrqVIWrasHCNFYWYQvqkyOcezuuUCjd3K9GME+ZPSDXZMPGMRU9W3FDIMEkg54TGQo2FNVMPeKZz9KFFFipnIT5p0VvpzRT34X50EAI4lB4EkhJM+7qUDxrZCNWJWd4dqfWdQkLz0S4SN321m6dWB6jW6k5SuTiuRMRuWjGEuPXE0DSSjEjb+7sr/XRv4VOxn2ZvwK6UJwYGGikt1f2uevV3NX0p3tXwYkap1JPuWxNV9xS6NE7tTGQ9wtwecWZ5tW67k5D84x4WTx+6BTmCIge2yLmWP/eok+W2KAEzKNM9y5Cf9f30yEM+pUTUfPvJx6LJxE/AqSPJbZ3fmufTHhepVFpfFbBVjx7JxdKeucNBaxPPk1hUFCtODR0/C49KbjBK6VTvlFW3orldPuor9NqjiLDX5cUxF1QWuXocVjRUxX+UQFTS4jxkIK8zxARCJu5KOO8VUT/UQsOKc9kGv5Pe8lUgjO9UxZShTG4h3TjZUU8gs6qCb+Iwi/hYn1eodZrGGQTpZKdyk4dbkg3r3Pfs=",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Istana Kerajaan Wajib Kunjungi di Da Lat | Trip.com Dalat - Istana Bao Dai adalah salah satu ikon wisata di Da Lat, dulunya merupakan istana musim panas Kaisar Bao Dai, kaisar terakhir Vie...",
+              "url": "https://id.trip.com/moments/detail/dalat-1393-142175020?locale=id-ID#1",
+              "encrypted_content": "08Rzkjcw9EiHXbogFmYIYcGTlAe3Jj0HjzxJcmv/s8WzuEG0mLMUDkXbEOvFbSMxoBJAjIRPqpaBPJw4jwjV+8gJnU1QQpFEXCe+7NCU5XJWD+sNSje/wED41Ij/ddSljg/KNJoy1PPkFf0uEiOqCvPlEf5gY+rD5ObzWlhIUTPUSFYUAsbBqTgrxE93lcJCiWyHEsLYiRRnTmL/AJADkrBVp0Z/7giC1uuO6yN6Drorwge7O+3xBhUx+vUv2w/L6X8FAj8zfIbpYRtWCoCqx1JAOqp/xf+MgN/IidvUu2DaXbxpeQu5orC/6/148rtAL352k8O/rD3cbVW4gPOBXMEpu6opHbwjB9LVntImcLGdaspVF0UfCfA+LAeSWeaywQ3TS3yMiDFEjpjeA4/ihZVEPiWcQz2YMgiXwE2LsmPHeltf5JJCRYOi3OFc9IN5T69Ua3isCQbDK4hFr/n887mQBqTPgg==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Dinh Bảo Đại | Chốn nghỉ dưỡng của hoàng gia tại Đà Lạt",
+              "url": "https://www.grandmercuredalat.com/vi/places/bao-dai-emperor-summer-palace/#dedge_footer-popup-content",
+              "encrypted_content": "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",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Da Lat: Bao Dai Summer Palace Entry Ticket | GetYourGuide - Da Lat: Bao Dai Summer Palace Entry Ticket",
+              "url": "https://tours.olympicair.com/dalat-l976/da-lat-bao-dai-summer-palace-entry-ticket-t1387408/?ranking_uuid=5ae3609b-27c9-47cb-b1f0-ebdfc691fac2&q=Dalat#1",
+              "encrypted_content": "bJ6dMnQaDQ8yoKbqTRYHRF6nHQUSk6BBLd+qGGpruAbhaCxuYP81lBNkNyNFNudbJZTmf7A1rtqB4dLJlszo8/3Pfjwe1SDnuKO7NIm07zTydb0XbJC0ENrT3As/Zr8E1kG7fUtqmiHwg7dKm6woBNUWr+WaFh2JCnOkrmjI9ArawywqGCvJAkXKVMu4Mprqgq350rticy5zQ162PKUAw7VNjCyymBlX3WyqAbmh7UUwZntWERsMXrUqKsbcRW31L1Br7KtmF7Lwq+1Yh0h9ZfQZtwgLOp+LWZPQFGuw+fdvHBeEtUy27vCfJimncM5LJ+ZOBcbMQxp56aIr5eGnimp3OkrVkW4Z3GFY0M2uQmJ94N9XBE5Mjb1yNUzhwzoewO5xNB7VBcAtiQXuXmE7mfWM1++CZax/QT6OPps+9of3r7FHntkVI2uzsK+IaHb/tL5rivbOUQLdiLu7ma6baMOD+qF0xJQdJG+Kqy7IyzsCF9yIytb0nFjet5KCc1g3nlUHsEjSQslemovP5r4tRsef37mjN6X/hLtl4KA3nbI0CYPe8OeY20vZgq34Cmc9AIi/C4fVAsbnGeuM6czJJljzK8cZmc7WFE9sWFG9M+icGlbA5or6PaGoF1JaNCAwaZVI+0bKt54eZ+t8le+L4hmG9LXASIwaxjkMPxXz8p4ZMRBcGSk5KoL/4JQqq+SOyXduaQ==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Bao Dai Palace III | A Famous Tourist Attraction in Da Lat",
+              "url": "https://vietdreamtravel.vn/bao-dai-palace-iii/#respond",
+              "encrypted_content": "e9TA5GeiyboH54rZjsTlBVSkijHzbv0VESBSQwIk0iiX+I4Z+iYBNtfjHNrZUwmTNzWjdjyfHiyoWSkEQOQDR2ATi6+w26ROosRuGkh6HsokgP52BJtnvb6oi8kOVYiXWSM7PSJrAE5UimfW6wBRpAGGsWbBPDw2+VDWTsaxqOZZuvlrQypcA8TOiEu6kJYVsb95m/KnVxbJl5amDL6FMD/3wKyQEnw1MfLhMXH/km2YInQUhnJ92cPjd/c115R5PwdEkJ2KRX+AjFowhdtTb3EpCdAQwEK8ZrxZTZQYKRiofPEOu/Sk1d9zXIZ0RVFtMOvY/B+yA6l9zNuyh1aTzZz4twrtV9lTULIWo1rduhhx/G0gI9iRxKmU1v6j/VM640Cx9SlkZzxxqHmAbhypyBiPyXCzpaeoSl2W8lOeS5A0cM7WqfqUD/xfStWlwVlAhQYjnpUbJBZSXZVkkNGD8iDigS2XMsrXlM5kwdloR3/rfvY+UXNw/6hKkJPQtVA0ZAQ8lu+rNJbsmcjr4Rov82kCiqJW9a2Ws8E8ryoZCgh/sggdZWONRSGnJ33MU//3+4asGdLFPxdoUY/QVMLr7duQ8UUc+T6sWRBc4fa6PmHZnext9hqmRHUU8MVf1t9zC/y2KyL0FDv5bMmf+fMl3GD0KUlq+xj+hfkvhkM3m9ImKPmIwWsxRo4uJByr5ddQKOuzViTACxSf9wbxDAhZBeZ7XtjUXZwSqrP2Z05d3DQpar7dxm1FCeL9ZidWeFJTH7TbSNcSjw+EhomPonFV8hYUjsa18vlr6F499nP6IaQ+l761U3qolOuLEuUb4FRvlBK5L8nNDupPgaUOUexE1qwtT89Ps7iroC+jYEImwfCdtuVjR9t/0cigdJHs6uvP7H2KZYvP5hZhH1y1GrppAAZixK445oeT2qiPO2yfSxhwc48Aqt6daGvhYh3a5/kIzhbCbZVo9KSnjNvILIbIBfHHQoCUq1tVyL/mJVZAfWC19vob7WdvHqXquJbGHCNnL8YHcIah2nYTGDzTeShfQyJvvxWSi33v6y5+IwRb",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "동남아 여행 | 베트남 자유여행 달랏 바오다이 궁전 | 쿠니의 아웃도어 라이프 - 동남아 여행 | 베트남 자유여행 달랏 바오다이 궁전",
+              "url": "https://view.mk.co.kr/trip-food/article/164398/amp/?utm_source=mkview&utm_medium=yarpp_add&utm_campaign=slot04&noamp=mobile#1",
+              "encrypted_content": "WNaq/vN8wbTkYS349cZeCdM64riuEy9aOLSRgWgn5jGmnbXcfkD+U0a4rUWYQ1Wd5uz5zY3beUpIhfZp9lDPemZI2xycG9iVjtoW27NJ7A9UFcxFMnObA3PlHs+yZwfdeCpD7Fwi2hav3yb8jyLseqcqLaPLNIb5zXsUzY6EOP5HuSPHtSIwzzJDgVLq52eRv4cXgtpGFL/a79NUszlsh1yaVXeLJbxIQyKd4UxxgAtgVCLZj88aNPT1lnsS6W6ZqOvZSDIgfjN/F0LM87GXf0nMvklTWB1AckZPDNt+sOp/9H5/wCm5aiWKtDNEvB3ZOREinG7OBL5p+ESd/UnuadmcY3h/ao+CC6vr0nZy2Mm6bYzywkh1PZSQsTmrP0halvqp/J8Q/ziqhTFVVI75GF+c+xvgpk17QV3+mtzcv1uA2IF7h8MAT0J8hjNyxh3cS8xUrX79DfkOpZXgazn8OHxIRZ9I6YxSOSvX5WQiD+uRdVQUuyYaodnC3rE4BphIQuetpiaCvj85yRvvcta2bdinjsyy3lE17SuO1PlzvLwVcHvA80lyQh3avm1rHfciAO4s+ZdqNRSqbMTxN5L/mTjady0pwjpQnRUoHIPCb771mqaPtXPuLMgac74sII+Rl8tFKa7e13PgnoUNtY5jrRPJaTm+hqm0hLjf4EFS7yptQ+MNYh0U8UVPIO3BwyMLpShQ+S+y8wZPIBmqHn8ZsF3Psf0SWJXPhkiffHrBz9UwVV4LDi0qLmwzUeiIFrxQgsSaZeeKOYqNU8Zp5IRYg9jQiqjpAKROrsVVAL1gRb5m2/kgBQBFUOZK0scAm2BJwAxggL0kUNovFTio+0y6DP/bKTWCyU8aPvNuiN301KpKO42B97I/WWtdHgN7tO+ILBu2kRGG+OICZhs6JXu0ILqpkS0oGzjkDwWGyyOu0QSFpDnB4gsFSa8=",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "DALAT LAST KING SUMMER PALACE - BAO DAI PALACE (2025) All You Need to Know BEFORE You Go (w/ Reviews) - Dalat Last King Summer Palace - Bao Dai PalaceIf you own this business, claim it for free now to update business info, respond t...",
+              "url": "https://www.tripadvisor.com.sg/Attraction_Review-g293922-d28023373-Reviews-Dalat_Last_King_Summer_Palace_Bao_Dai_Palace-Da_Lat_Lam_Dong_Province.html#1",
+              "encrypted_content": "V1sk+RXx+mrX80WbvFrHoGEj6bw6pcAT8KESyxgC59U8XLq5dpt/wjmkCMPaPOZAd2S61yQ61YF1I4Sy3om+9i8azLi4G+Ps6lcpLloUL/ANANiOVoE3NO3IRvR9/e7ufXjQqKYCQctGyUNyU1o96TE7HVR47MFEyfmrwNLIobOqnGNwy4w/7BL6shxO6ThGj+MNN0w9nsmXHWBV6rvNOKoGph0imGwBvKMvohanha+05XqWT9izR2DjytjmY422RHGMOnUp29ZUxLlu/wNojKqo5jBb1SXM0DITQpI5lDIsMojFlAjv8c8jZ7lsZP0sOefc2hDATWkkG0JOor9DUk1LjaWQXrLoT3MjN/xRVrTTgZXCP2ejEDkAx2hOFYJtL16y0hxLagmx+9FUDJqNDEwlEnW0wVvDhr4NmPBBewINWJahzRC5gG8fWnxk8aO4kwUCpia9FKI91jKuIsn2QrVW4Vt+cSDvO4isCzC1ecd1vuz6tDYJUDE3TCAPgMwqOJ8jcKcP4knqYfay/43SU6Vu1CN/LvlRSXGyVTytFbH6sGvAHoPWcQStCOxDEcysFcVTZp1+VnrQM7WCsVTfg+0VVhFP2zkm8siSKPDyDuoWhiJAkO2IfhJfjEai6t49udsXgXIgUNNXwCKWTGeXGHK5pZG/5up5qbfhYK6UbUdFOX4Qzh34nJGAdsgiRdyzb3NGcrpg60CBj8jFXfXEPHab74IztzvMAY7gjjsVSucHdkyY276II79c5loYN0QlDst56VEDakbOHvgSKW4Yjcbo/Ex1EXkk5lVOt8a0KuoDth1ODjRn1G+nBpYlzg4Q5prP24uK5vnuojBEJUND/vs2IIlWT1Iiw+Yl8hxmNAT+ydrTMZ4/G5iDT1jLCtzTXxNJoWxogfM+yOf6bxD71v9/HsziS/DYvwltYqZvzGqGaPr+SPwcezSPleHSArqaYdl5cyfGYB4fFZd+hoJ80kbRHDyxZHC0pMVfoQuBpoWyjfeN4ULbji7xqlnuH4EWNS1ACZYAFjqKPIKTMpjUSRtvWqlsPSMBnP3hjbbKExlNtb4SpKrQKHv3k0Kict640IoDVRSC84nHJ81Ispba1PWJMDNk0qbfATcHl9T1RZZXXBsDjsayrpfAhcGGWsO7PYsbaqiamfoQSw6xLs819y3HLQKvkzV0H6OnES2lS2QEz90fBARhP/QPigoIkyYsCVaAPjWMsEmo/7/7pJy+jk4Ohzsw1cHiBrpn156twKzzSqH1Woc83bimPpCyW2jgi21vEMLlcoHAAyrRHiVBj9AqgCuMH/x8OPGZkbXIrneHx5XwtJfO462HJG8cKdgFnxnqgbJDtgKAGSHrw5ipxng91Pt05qa5KbMo8eki4GzfzWbUaHW5cVV645d4x42BEc+uQQbMWYH1pwNGL9pj6O6Zx9NXsnx4vZXmOBVNgASXMlA/pFFgf2s4SUZHn2FLU/sAohaX7ykmS3Z/L71F1IScheqXCZFuAh+WnrR+7++SxvuDJHb4QmcEr7EEHWZTok48BXuerH6HBZk/0eyrPZT5RWKdNwdYh2wykjbfH7/gehy0+eYVslE/evvyUJYZIig9KGIADevWf/h1RCWldlc=",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Explore Bao Dai’s Summer Palace: Vietnam’s Historical Gem",
+              "url": "https://www.asiatouradvisor.com/bao-dai-summer-palace/liang-biang-mountain/",
+              "encrypted_content": "VA+BJSbmjyi8UO7eLv2sZ+FT4Lm5Jhds4/Kuf8u4AJ6YJepbB1vpNDneM3AYPEjCempdHU/Gk4RYBByaAWW3P7TxFpEoIwVQQgd9CcQ/N/GAiXyX+4ZJHH4UMIZ1s3zYz0hcoukGGTtAZoGQCm25hXdf9Os2IC0uxm8kApANiGMhTTFsN2hhTepkV8JclKfTUStzmmqqsqoKMImHBSaifTXh2L01pR2xoZ+CAAthoJgaoYwEH9u8m41msPM5BLXbK89sSQpfCC0zZ/ywedSR98fZRXA2i/Gg+mCc19rjHeXm/FrFpgjQ8isCDRV+zuvjzHHJJY6FZ+KfBItZTKqyrPhJzyzsj+pq8fDJ3leh81RMEVEv3IxCAmKmSGOzSi/0Yq3dXwfGXJO9Sa0/SJLo+PRSVGY7TnbceENRtmC3qYFuyxl35EqozW7UOskjiXYEhmgaCJHFEEGPLQW9CMnUc928qM8atCsirjQ1KAA3fW75ftLk9FVRxIS5l56yoFQUGSC9+YnIe4y66g4aP58215/jQVeeewKEATTwc5XTgbVPEurIUkoNbDDyXv2etvAue/sThXehRHurmxe/x3yWRTxA/Ds=",
+              "page_age": null
+            }
+          ]
+        },
+        {
+          "type": "web_search_tool_result",
+          "tool_use_id": "call_01_Ng0FyUJYSoZc2rI3E1hS4905",
+          "content": [
+            {
+              "type": "web_search_result",
+              "title": "Da Lat - Bao Dai Palace 3 (Dinh Summer Palace 3) | Trip.com Dalat - Da Lat - Bao Dai Palace 3 (Dinh Summer Palace 3) The last summer palace of Emperor Bao Dai, the last king of Vietnam",
+              "url": "https://in.trip.com/moments/detail/dalat-1393-152955000#1",
+              "encrypted_content": "Di+fNzR5vNRQTk4us0xbvfRa4ToL/ZbrG2cRzEhTVy74lEzPNQTBRyEa4umwwTXKAaU5fUoiIyx+je4x4djEidSg1MlcaO7P2rHaAOX8C8dB+32rHmJKjVYinEte/ZBJiwqtaTnf9boU/rEP1vYSK93mZ7W3ul9XDCyb36D/Pu/3wAUIHWa7fOCnCGqu7GY3lMc9ewy/wasQssEuA/fqSk8/x6h02pCL32lmMdqtzkOhcM5vEznUju26zY2VQdrX544/NwGcxxIZBMyc88IyQV7WQjlrO+zFv+01brxdhLd6zW5tcazpbggsJ16Xl4XQsNylDDi5yj7vMD9XAF8+GwKxe032OpiKSqdDaM1hOufMGQZP+LHBrXLWoEGDnvB7",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "保大3号避暑行宫 - 越南末代皇帝保大的避暑行宫",
+              "url": "https://baike.baidu.com/item/%E4%BF%9D%E5%A4%A73%E5%8F%B7%E9%81%BF%E6%9A%91%E8%A1%8C%E5%AE%AB/1120471#1",
+              "encrypted_content": "JQ8b7KldCEdW1SDyWI7F8cYA4yW9v2LAKyHZb6ghhPDOyfpwdpqvo3bMJ78pMr8IpTXFNH4Y+6HOFXwMzPnh8AgKnk30bkNDjAw0ncjqIeqBjRdr1qtiOHhWgNWGKyTSFONcugCIJbmF1DS8LStIu2Gztw67oayNQjKvL7owwSGA/E+ixM+2Nf/SUBvGa/KXnV7TQ9bC/+OlvIscvFSjvuj4eH9tckmqnB4Rd9bKXxaCEjbOb5Dniqe1cR4AmE+NichVLXGlrKp6a6bu5/WBiv/+MEV0Qee0P4y+920QONoXw0aYoEOlm7EGSl4TDvzBF4wgead8BcKqKPdT26qDsZp70mhfqZofLFsYv1l3ZC5bRP/a37XKxpp44y8t8cp9s5a8hLaKguxdFj81RWllxh4QughlmgX4+wUykgWOtLBw/wJ+SKjx04FeUAZOpAxLssvivAi4s6Cidd0wOSvwk/1P9rZ7o4GMqk0HRPdpwvwUZjBaITMLENW5Dg0ZSg3/8Zu9AwWSf5GpckolZh+zh7ZdReQL9BneJlFr+4JBwRMIuATp+3sh/EQQmIdZ4q7KpFCuLmHW4WJ6n3mZnrM6iTdCWc82li5oH4s4RsS5FvKcirAxzTQqt9dgGcm7usvhBAqTOnwGUxAN2XpFfimHTBGPZW3dKck/STKqGNpizrFGtF+48RUynSZsNbCrxKEHZvFdlkwit8frLVpTvNWxMukVeeazz6W31YpmsCsXTCscFAz5zyffnB2K6djdIk3VSHrsYAi/lhbTH9enoLvwZf9vTCQevnL22yrcKOMQvN3s8PFF8XqvL4VuSLctFV57VmZj4TaCjCTW5ytuVjiOFQ7m7Mi1Ej8yqHvt",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Istana Kerajaan Wajib Kunjungi di Da Lat | Trip.com Dalat - Istana Bao Dai adalah salah satu ikon wisata di Da Lat, dulunya merupakan istana musim panas Kaisar Bao Dai, kaisar terakhir Vie...",
+              "url": "https://id.trip.com/moments/detail/dalat-1393-142175020?locale=id-ID#1",
+              "encrypted_content": "ORB7caBBjItoOUmWBcdn3uKHWrc7M3ln4Otgs96IlTASjjT0yJK25PKOlzQjiiyOi3fBNbKIF+BrHY8OBAcv1Cn1oud73b7CRkCKh5FKDUPffG/vrMUqoYmEZcr0jIXSCsJPUNAPxf0RY5OyttN3fCT+sxHAokO9Sn9smaLydrPnDxUYyleTwqLFcoiCJSxhPXoF96U+0kIQkx3sB7WhV/DHrtk+wDL2/0KMTLrzJX8Q/KMSjBQFKEPiXgp18pzzHMTyN5eRJlXKT6C6y/n7QHz/Ved5afFTeA1QDRq8gMbdkyWTWRRSXUisS69oejs0UfFG3f+mSWbeukJPJEqn0nYeFpQ98zd8dJW10A0/mT08h4rKknVJyer+YBab7zMLreAQD9r154g5jAdFUPr0MAsEj2G093y9/dzC5vbhk6PQfv/TMUTYCO5ivCxH6qkZgluC1z9AGRCm8vUZdhtepyk42Ah8xg==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Enjoy the atmosphere of a royal vacation and enter the only palace open to visitors in Vietnam: Bao Dai Summer Palace | Trip.com Dalat",
+              "url": "https://id.trip.com/moments/detail/dalat-1393-127233164?locale=en-ID",
+              "encrypted_content": "Id6d3vg6I/G/VLEZ/eeaskHxmUNDaMrghD2WkzSBwg4A+pO7CMVayCd1NQDviewmlbBmrzQoDgOdCQ3EH4Lzrh/KIj3IlSGY6zdsIRRdP2ITfiQJxgOreRNsJfOMsVPNamP07qAwXexpn2XYwaRj+QQtb4wC4dl6Gb/+s9lhPKwdwID9BZu5NI+aNJwcJWU0N0QLxNabcpU+hM2RGC2jZNmOvVKBjfe/HeqxErZ+ImqSNu3dUB+/1nb4Zjp3iqIrHynkTw8rT+rQlIEWAD75IWETE/VBMMQEYZfAYFQptmnro27jcmYQ9wsGOp3JX53idim66WycfM/kwrF11uV+gAdMCxpykE+MWLPW8ob3E7YLn3DVBrHqeeJaJwRa15Gq2IS6/uT0whGNuKOw3IaIwbgNi3/+Nq/dlXrCcPVpvNb41PUEfQ==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Palais d’été de Bao Dai | Lonely Planet",
+              "url": "https://www.lonelyplanet.fr/poi/palais-dete-de-bao-dai",
+              "encrypted_content": "SU7Qe3P/fyPyt63GTMsq9wbeXqigyZbaPsskbuM/xTiD3ggVHX986ZagoL2c981DR/TK2H0qv+Hxo8KHYPwasNi20i5tweGc5RJzTO3D6ZlZ1PX8lJc704Ywf1LyGXF9V8Z6",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Dinh 3 Đà Lạt - dinh thự tráng lệ, huyền bí ẩn mình giữa rừng thông - VinWonders - Turn your device in landscape mode",
+              "url": "https://vinwonders.com/vi/wonderpedia/news/dinh-3-da-lat/#1",
+              "encrypted_content": "5RxSJQ9vlGlDnk+ItKHCcUKwCkrrDCFmYbvHJK6TzglqCSSuOLLrg6FTWISNJ5fZ9vJ7mp9tPAO7NgptdGWTnd2B/WmKqrNppOIikrwwzlMZ2C4jrPH9TvQfNMidrhqG6LlEr3dsbFL2lt76kofd71A7P3Lc96N5IyFXEmjeG56+Eko664lvk/JC6RXJKYBZw+5iwG7QQhihKCWfs6BfQnamGsa3wKteiyvo9mFGrmw87Pxp4gBhfEbdy7Q4wD/MEkv5nx87nxZRm2uqKQ+BXgO0GRYw14B9DeDH/v4eyvPV2hkJA6NMs69AHIa0Fhg6hdM1Js7coSaf41sQ+ZJiq57fkQAcYDwnGUPP7JdTWhzdlGw3o+wvgLmwo8kQ5Ncs9AR5WaSOVQ35+yEmxkz/6lURoLaDCTdpvsUvsuJT3xnr2xVxawduseOMDMcjGHs+ZrfCh74bYqv95HoX4Ez9aFytg55md1wn9aGywHU0XvmYW+TV3THuY4bNOfHz9c0f8cFEOQ16e1NcvupydMzOIuZR7vkjho0vf2OoABqdKtd1Yio4sPVmWlwc87T6uKfw7dzGCehqXlD2wgzQpdBYyPDpIp3yabcQz/ZMbOW8DcXbXtOLNDKpYwThSPEIIaPNfxQMgHcTi1VzHvJ8luA7tECg3Jdv5G7L4F4b1qCoRTFW0bdv1cjNoagV3bachvI7r+GkA1qSLl2THE39dtKLIfldskT2ak0rjB+6h1z/GT2t4Wr6JLMDHXNbtbgWyHGAcZ0OJzjBsviIF3GeKehINQQrlSQ2heDC0uM/0iDe0JsiHsUuMOFjVOUcN2f6S5YxXpmebL3wnLla636CjX1UGBcvu0DsnQCCZAg5lklRlQegH+zBmfYkbJsQtRfNfZBZAkhr28pfnGYrntYH2bN+95hhC1HV/BYqVHDKtXnfmUlViprBnibkampfF3NUWa2cQaLKWQ==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Bao Dai Palace III | A Famous Tourist Attraction in Da Lat",
+              "url": "https://vietdreamtravel.vn/bao-dai-palace-iii/#respond",
+              "encrypted_content": "qOgUJSygnwxarepyb1X9iUXz7ZaoJGYEn36u3J+zRIVrC2lInOvpl3zSx5+/7kihh/OvlzNYSS4ngvD3bi2kKNQ4FGD03TfIFlSbNnMST6Nu2m2xK1tgFcV4D6e/UmGM219c9A2ERrIQ9I1KriYJJrxELzdvmEPUwnGGh8elHHc0/rDslXdHRC5JNi2mP0SkW9u8Gh7l5Oj9M6/wY6O19kkSwuC4mNWaiLcOc5siqkV7cPu9QztQcAW1PJLwwUmNMzBH1L2I3dBlyG5wwG5rShYARtUTYvb10nLGAa66EiSchiKC3eerSpZas+Kxwcarh6QZa5Fttc3yVDUXhj/uZzeASqULaMWYHW+s0OgTQt/2atKBkKA+8k3oy0Xsl02SbcruPyJh8xBR4J5aRk+3aYVJ0JZcsit+f3Pu1NjNQ8hvbTTRQkb6LOJNWeqSC5zty1/itJ6jdu/XZrNBDPaV2xLIPLrwfSSxwGDbFclNRc0QRF9yZKc3BMyjWHvSUFN8INfbbrQqiXZeWK3fb3FMkTJex/1wusp0MrZLeOWQ/y3iB6wwEFAPakltTWdHHhJeR6jPnXgzUFKZwt8AhWSOuDsTujO/XQ==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "동남아 여행 | 베트남 자유여행 달랏 바오다이 궁전 | 쿠니의 아웃도어 라이프 - 동남아 여행 | 베트남 자유여행 달랏 바오다이 궁전",
+              "url": "https://view.mk.co.kr/trip-food/article/164398/amp/?utm_source=mkview&utm_medium=yarpp_add&utm_campaign=slot04&noamp=mobile#1",
+              "encrypted_content": "Y8vWojQI42g/EcB54J9TelZO8IFh9TTGjf/MdfEFCPPRG7ngToVdpnkhMtLRO/ggSNzjNbanv0ObzipkQTZXU5Mh33n20Mpsigww/cp0T/kspHr0J7OZ2zaUbW8Gu5N0fqA8yYqhlsj27pbGO7B2fU9Se+gaf9CMKsAlvBcgYD697MkrKnO5GKaOYVzy+ueJAq48HB2POWUB9l8i7eFFNxZq8Y1F8wvBvzjFZZzloPPEHnFlmEQczjZjLuDkSpkcKzCQWZ+9nMVzwjzcTWIU0HfRxDS9fNeW95dPHzOb3mqEoyfMKfGTPjbWkdIvPK1+uW5gjapZvgiJ5kzRr4JgyFU3eephkKsE/uWk8y++GsHVKoLrY52eLCXGlx62/73wEt51lfoMG7aHaeRpwXZqm4vaMb3uVFCtekye0qeF7439RYcrSOLKD1xmIIDsRmv1RUwDqltoOG9RAiNmg+Q/tanYjvpnKQuAPqOks1HOokanYI91zEuop9YDld6k2HBFdokFs38yhyf+ZaD6dI7PbrgnqccFgGyQzg/L9OPskr84cazDHHEPGIUU06n/sochAeCjdS7F3IvvELlNTlzlkI/dGK4QaQH8bB9M9waJBhEDar7Jns4VwuHVR9BIPLNXU4vitND8Gu35LhH2hxjmUj0l+XxDgZxvmAJI4u/oZ/lU9VSfgwkdYcz5guFSffVljqtQXN4wdW0IdVMGY/khC5IJCKOKU93q6Q1MdEuFgI/xkujQOzZdqqXO5/EpwIGNVLe/MqEItiYZY3sZ9J1T/E0VhwKran++gEli9tzwkUvRyTDAd1OqBfS2ZQWkxzH72YxAXh+QKPcedGVW1TwyRJOGdFcMVko3SqDVKA/HnVMy4A92aRgV0xg9fOZFPo2LT7JQhRrI6h623j4VauJWS+sghxiyvhaW/nP1PEc+FXLNPllcIscC+/jdRZdbW5AscGDP1YspEYhF8I/DBa8wll0BQ4hkS3igOPrqiAdVAq7oWj131Y1CVIY40RNOrKsGos7sUU1f+A6ASdsRhtZHihoZzg4Jf08Oz3567wCBacSNyXiACmZv7TNbfBk9uft/RhjuF2KA4ELashG/XxI6UMYPY5+zHjE=",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Explore Bao Dai’s Summer Palace: Vietnam’s Historical Gem",
+              "url": "https://www.asiatouradvisor.com/bao-dai-summer-palace/vietnam-cambodia-tours/",
+              "encrypted_content": "xbCLCjWCsJ8oGsVX234tLldeFXXvnB8zYmXDK1Zu0alEcVUmoKkc+PmhLfEheGjHaZUhVztzUxEVrEtOWJEs4sDY2VDcZXIbBbUIAb+XBY4xJeATpz+4VRx0yEBFaZTwHMMqYuKowlnHKUpCu28Rtk0V3nhWIUpeyaa+aJgB2CMwbGHuHwSuv5uZaFWIFvoZLkzCSSZhBiML87wLadnHy7oWyT4U7/7wsd40KKlpEy0Y+rcRxc7GGMK3NWwu6q2l8zXnE8T47fWambaLmvdJVjPGojlFzX4dd56E8OAo3XsGvYxBszyWGRHkmdcKVEuQs8+PKRQB56dx3w+bnJrIRKdCl8RFuAfla0KM6xAvgCGkuQ6vl7mZpCmdNWD98OICGQnpb5J5IzsXXf8J0Qtpm/E95DoUQCSCxfhaxU4Ss+vO0w7iFePmcKuGII5ijXzoWJKMMdo4XwXueAtyEqLGwWtbM+L0qkoQAA==",
+              "page_age": null
+            },
+            {
+              "type": "web_search_result",
+              "title": "Explore Bao Dai’s Summer Palace: Vietnam’s Historical Gem",
+              "url": "https://www.asiatouradvisor.com/bao-dai-summer-palace/liang-biang-mountain/",
+              "encrypted_content": "Y9fmXTW2pxMHFpsX5lkC3Aa+jZZwfzPZesEyKgzDeTSKbRDxKILxOrIzzXVciLeCObVAo7wcjpCzLlatsMwc1FWJWUk0UJg0DKYsc4bPDiuoiiZ4+X/FfyqbW0DfaSqirenxe3yZOaNBduVwV3vmqd43HQB11/sVyeE3Jf0yVl8PUDVMgKzuMb8L6Udd8/PneTwR68UP4hxVao4SZKytU8/ELYeZMHqtGOwNiIZ4yvXHMf7sA+NCVJrwY91xESlErd9EAOHo62AHB5CUpxqCPAlE0lNGB5+kzdsC1x389xCXQiRipjeWH+TkDhH2wDdVG5J9QFvv7Kly0APFMbLx/F7SsETHcotCd5AMRXE0EVslpKj2N+qDbvqLsYJgkqqzI5MHW2iTrd12LRnpSeXiErNcvLHUUiZgKZKO91FUDhkp3TyJDgi7kQJ5NUH8LXqO3dEpv/i5MCARoCZGvXiFhauPpPARx/2UhA==",
+              "page_age": null
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "{\"entry_fee\": \"30,000 VND / person\", \"hours\": \"7:00 AM – 5:30 PM daily\", \"closed_or_renovating\": null, \"urls\": [\"https://vietdreamtravel.vn/bao-dai-palace-iii/\", \"https://vinwonders.com/vi/wonderpedia/news/dinh-3-da-lat/\", \"https://in.trip.com/moments/detail/dalat-1393-152955000\"]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 5317,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 220,
+        "service_tier": "standard",
+        "server_tool_use": {
+          "web_search_requests": 2
+        }
+      }
+    }
+  }
+}

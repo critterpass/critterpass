@@ -141,7 +141,21 @@ export function placesProfileTranslateKey(poiId: string, locale: string): string
   return `profile-translate:${poiId}:${locale}`;
 }
 
-export const placesProfileWarmJobSchema = z.object({ destination_id: z.uuid() });
+export const placesProfileWarmJobSchema = z.object({
+  destination_id: z.uuid(),
+  /** Top places to queue (default 30). */
+  limit: z.number().int().min(1).max(300).optional(),
+  /** The operator's pre-fill: lowest priority, behind every reader and every trip. */
+  prefill: z.boolean().optional(),
+  /** Seconds between two of its profile jobs, and before the first. */
+  spacing_s: z.number().int().min(0).max(3_600).optional(),
+  offset_s: z
+    .number()
+    .int()
+    .min(0)
+    .max(7 * 24 * 3_600)
+    .optional(),
+});
 export type PlacesProfileWarmJob = z.infer<typeof placesProfileWarmJobSchema>;
 
 export function placesProfileWarmKey(destinationId: string): string {

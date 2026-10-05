@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek flash (route place.profile_translate) translating that profile into French, 2026-10-06.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "41e42e2b-8deb-42e0-9f23-b41a0efe5641",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"why_go\",\"text\":\"Un groupe traverse la villa d'été du dernier empereur, perchée sur une colline de pins, avec 25 pièces au mobilier d'origine et de vieilles photographies royales.\"},{\"id\":\"best_time\",\"text\":\"Tôt le matin ou en fin d'après-midi, pour le calme et une belle lumière\"},{\"id\":\"crowd\",\"text\":\"Affluence des groupes de touristes à partir de la fin de matinée ; plus tranquille tôt ou après le milieu d'après-midi\"},{\"id\":\"fact0\",\"text\":\"Ouvert 07:00 – 17:30 tous les jours, jours fériés compris\"},{\"id\":\"fact1\",\"text\":\"Chaussons de protection à l'intérieur pour préserver les parquets\"},{\"id\":\"fact2\",\"text\":\"Comptez environ une heure pour les pièces et les jardins\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 453,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 205,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), results as the place pipeline's run of 6 Oct 2026 returned them for this place.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Bảo Đại Summer Palace (Dinh III) Đà Lạt Vietnam opening hours entrance fee",
+      "number_of_results": 0,
+      "results": [
+        {
+          "url": "https://viet-go.com/en/attractions/bao-dai-summer-palace",
+          "title": "Bao Dai Summer Palace (Dinh III) in Da Lat | Viet-Go",
+          "content": "The summer residence of Vietnam's last emperor, 25 rooms with original furniture.",
+          "engine": "bing"
+        },
+        {
+          "url": "https://www.tripadvisor.com/Attraction_Review-g293922-d311050",
+          "title": "Bao Dai's Summer Palace - Tripadvisor",
+          "content": "Reviews and photos.",
+          "engine": "bing"
+        }
+      ],
+      "answers": [],
+      "corrections": [],
+      "infoboxes": [],
+      "suggestions": [],
+      "unresponsive_engines": [["startpage", "CAPTCHA"]]
+    }
+  }
+}

@@ -39,6 +39,7 @@ import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
 import { mapRegionRegisterJob, placesJobs } from './jobs/places';
 import { placePickDeps, placesPickJob } from './jobs/places/pick';
+import { placeProfileDeps, placeProfileJobs } from './places/profile/jobs';
 import { planningJobs } from './jobs/planning';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
@@ -106,6 +107,9 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...pitchJobs(env, assertRouteOn, llmObservability),
     ...setupJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     placesPickJob(placePicks),
+    ...placeProfileJobs(
+      placeProfileDeps(env, { pool, assertRouteOn, telemetry: llmObservability }),
+    ),
     ...draftJobs(env, { pool, assertRouteOn, telemetry: llmObservability, placePicks }),
     ...moneyJobs(env, { pool, assertRouteOn, telemetry: llmObservability }),
     ...bookingsJobs(env, pool, assertRouteOn, llmObservability),
