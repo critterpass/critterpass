@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 
-import type { DayItem } from '@/data/plan/plan-model';
+import { minutesOnDay, type DayItem } from '@/data/plan/plan-model';
 import type { DaySlot } from '@/data/plan/plan-ops';
 
 import { retime, type Travel } from '../day-plan/reschedule';
@@ -74,4 +74,10 @@ export function pastTimePreview(input: {
           })
         : t({ id: 'plan.retime.past', message: `${at} has passed.` }),
   };
+}
+
+/** Minutes after midnight now on `date` in `tz`, when `date` is today; null on any other day. */
+export function nowMinOn(date: string, tz: string, now: Date = new Date()): number | null {
+  const minutes = minutesOnDay(now.toISOString(), tz, date);
+  return minutes >= 0 && minutes < 24 * 60 ? minutes : null;
 }
