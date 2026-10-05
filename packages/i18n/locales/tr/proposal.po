@@ -136,7 +136,7 @@ msgstr ""
 msgid "proposal.build.eachAmount"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.some"
 msgstr ""
 
@@ -485,7 +485,11 @@ msgstr ""
 msgid "proposal.lock.aloneGoing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
+msgid "proposal.inbox.answered.nobodyIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.allIn"
 msgstr ""
 

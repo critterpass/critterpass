@@ -107,9 +107,17 @@ function registerAnswered(): void {
       const answer = ownAnswer(event);
       const tripId = str(event, 'trip_id');
       if (answer === null || tripId === null) return null;
-      const { rows } = await tx.query<{ id: string; recipients: number; answered: number }>(
+      const { rows } = await tx.query<{
+        id: string;
+        recipients: number;
+        answered: number;
+        going: number;
+        out: number;
+      }>(
         `SELECT p.id, count(v.id)::int AS recipients,
-                count(v.id) FILTER (WHERE tp.rsvp = ANY ($2::text[]))::int AS answered
+                count(v.id) FILTER (WHERE tp.rsvp = ANY ($2::text[]))::int AS answered,
+                count(v.id) FILTER (WHERE tp.rsvp = 'in')::int AS going,
+                count(v.id) FILTER (WHERE tp.rsvp = 'out')::int AS out
            FROM proposals p
            LEFT JOIN proposal_versions v ON v.proposal_id = p.id
            LEFT JOIN trip_participants tp ON tp.trip_id = p.trip_id AND tp.user_id = v.recipient_id
@@ -131,6 +139,10 @@ function registerAnswered(): void {
           place: trip.place,
           answered: proposal.answered,
           recipients: proposal.recipients,
+          // The lock needs someone in (or everyone out), so the app can tell "lock it" from
+          // "nobody is in yet" once everyone has answered.
+          going: proposal.going,
+          out: proposal.out,
         },
         actions: [OPEN],
         deepLink: `/proposal/${proposal.id}/tracker`,

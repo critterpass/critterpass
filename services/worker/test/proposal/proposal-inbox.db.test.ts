@@ -88,7 +88,14 @@ describe('the proposal in the inbox', () => {
       needs_you: true,
       open: true,
       deep_link: `/proposal/${world.proposalId}/tracker`,
-      data: { user_id: world.users.Rin, rsvp: 'in', answered: 2, recipients: 5 },
+      data: {
+        user_id: world.users.Rin,
+        rsvp: 'in',
+        answered: 2,
+        recipients: 5,
+        going: 1,
+        out: 0,
+      },
     });
   });
 
@@ -100,6 +107,8 @@ describe('the proposal in the inbox', () => {
     expect(answered.find((item) => item.open)?.data).toMatchObject({
       user_id: world.users.Dev,
       rsvp: 'out',
+      going: 1,
+      out: 1,
     });
   });
 

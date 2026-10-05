@@ -136,7 +136,7 @@ msgstr "{after}, cancelled in the booking once you apply"
 msgid "proposal.build.eachAmount"
 msgstr "{amount} each"
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.some"
 msgstr "{answered} of {recipients} answered so far."
 
@@ -485,7 +485,11 @@ msgstr "Every version is written and sent."
 msgid "proposal.lock.aloneGoing"
 msgstr "Everyone else said they can’t make it, so it’s just you. The trip is confirmed."
 
-#: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
+msgid "proposal.inbox.answered.nobodyIn"
+msgstr "Everyone has answered, but nobody is in yet. You can lock the trip once someone's in."
+
+#: ../../apps/mobile/src/features/proposal/inbox-answer-copy.ts
 msgid "proposal.inbox.answered.allIn"
 msgstr "Everyone has answered. Lock the trip to confirm it."
 

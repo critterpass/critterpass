@@ -10,6 +10,7 @@ import { PROPOSAL_INBOX_KIND } from '@cp/domain';
 import { registerInboxRenderer, type InboxItem, type InboxRenderContext } from '@/features/home';
 
 import { instantDate } from './data/format';
+import { answeredBody } from './inbox-answer-copy';
 
 const text = (value: unknown): string => (typeof value === 'string' ? value : '');
 
@@ -75,27 +76,7 @@ export function registerProposalInboxRenderers(): void {
   registerInboxRenderer(PROPOSAL_INBOX_KIND.answered, {
     icon: 'ticket',
     tone: 'green',
-    card: (item, ctx) => {
-      const answered = Number(item.data['answered'] ?? 0);
-      const recipients = Number(item.data['recipients'] ?? 0);
-      return {
-        title: answeredLine(item, ctx),
-        body:
-          recipients > 0 && answered >= recipients
-            ? ctx.i18n._(
-                msg({
-                  id: 'proposal.inbox.answered.allIn',
-                  message: 'Everyone has answered. Lock the trip to confirm it.',
-                }),
-              )
-            : ctx.i18n._(
-                msg({
-                  id: 'proposal.inbox.answered.some',
-                  message: `${answered} of ${recipients} answered so far.`,
-                }),
-              ),
-      };
-    },
+    card: (item, ctx) => ({ title: answeredLine(item, ctx), body: answeredBody(item, ctx) }),
     line: answeredLine,
     actionLabel: (_action, _item, ctx) =>
       ctx.i18n._(msg({ id: 'proposal.inbox.answered.open', message: "Who's in?" })),
