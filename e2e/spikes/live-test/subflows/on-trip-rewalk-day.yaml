@@ -875,7 +875,7 @@ appId: app.critterpass.dev
       WAIT: 5000
 - takeScreenshot: ${SHOTS}-62-move-shown
 - tapOn:
-    id: 'plan-item-confirm'
+    id: 'plan-item-save'
     optional: true
 - takeScreenshot: ${SHOTS}-63-moved-at-once
 - runFlow:
@@ -933,7 +933,7 @@ appId: app.critterpass.dev
       WAIT: 3000
 - takeScreenshot: ${SHOTS}-66-remove-asks
 - tapOn:
-    id: 'plan-item-confirm'
+    text: '(BỎ|REMOVE)'
     optional: true
 - takeScreenshot: ${SHOTS}-67-removed-at-once
 - tapOn:
