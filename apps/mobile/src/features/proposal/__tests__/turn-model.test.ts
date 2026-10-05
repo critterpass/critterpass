@@ -49,7 +49,14 @@ describe('the organiser', () => {
       recipients: [{ rsvp: 'in' }, { rsvp: 'opened' }],
     });
     expect(waiting).toEqual({
-      turn: { kind: 'waiting_for_answers', answered: 1, total: 2, replyBy: sent.replyBy },
+      turn: {
+        kind: 'waiting_for_answers',
+        answered: 1,
+        total: 2,
+        going: 1,
+        maybeNames: [],
+        replyBy: sent.replyBy,
+      },
       mine: false,
       target: 'tracker',
     });
@@ -65,6 +72,17 @@ describe('the organiser', () => {
       mine: true,
       target: 'tracker',
     });
+  });
+
+  it('names who said maybe when nobody is in yet', () => {
+    const turn = tripTurn({
+      ...base,
+      status: 'proposed',
+      crewSize: 2,
+      proposal: sent,
+      recipients: [{ rsvp: 'maybe', name: 'Minh' }],
+    }).turn;
+    expect(turn).toMatchObject({ kind: 'waiting_for_answers', going: 0, maybeNames: ['Minh'] });
   });
 
   it('cannot lock with nobody in, unless everyone said they are out', () => {
@@ -124,6 +142,17 @@ describe('everyone', () => {
     });
     // Before the lock the trip's own step comes first.
     expect(tripTurn({ ...base, planVote: { by: 'Minh' } }).turn.kind).toBe('finish_draft');
+  });
+
+  it('asks the organiser to place what the crew saved to Ideas after the lock', () => {
+    const locked = { ...base, status: 'pre_trip', ideasWaiting: 2 };
+    expect(tripTurn(locked)).toEqual({
+      turn: { kind: 'ideas_waiting', count: 2 },
+      mine: true,
+      target: 'ideas',
+    });
+    expect(tripTurn({ ...locked, role: 'member' }).turn.kind).toBe('locked');
+    expect(tripTurn({ ...locked, planVote: { by: 'Minh' } }).turn.kind).toBe('plan_vote');
   });
 
   it('reads locked once the trip is confirmed, and only then', () => {

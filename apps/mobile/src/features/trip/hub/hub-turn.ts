@@ -89,7 +89,8 @@ export function planVoteEntry(
   turn: TripTurnView | null,
   open: (() => void) | undefined,
 ): HubNext[] {
-  if (turn?.kind !== 'plan_vote' || open === undefined) return [];
+  if ((turn?.kind !== 'plan_vote' && turn?.kind !== 'ideas_waiting') || open === undefined)
+    return [];
   return [
     {
       icon: 'ticket',

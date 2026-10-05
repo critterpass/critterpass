@@ -38,6 +38,14 @@ const PLAN_VOTE_SQL = `SELECT cs.id, u.display_name AS author_name
     AND NOT EXISTS (SELECT 1 FROM ballots b WHERE b.poll_id = p.id AND b.user_id = ?2)
   ORDER BY cs.created_at LIMIT 1`;
 const PLAN_VOTE_TABLES = ['change_sets', 'polls', 'ballots', 'users'];
+/** Places crewmates saved to Ideas since the lock that no stop of the plan holds yet. */
+const IDEAS_WAITING_SQL = `SELECT count(*) AS n FROM trip_ideas i
+  JOIN trips t ON t.id = i.trip_id
+  WHERE i.trip_id = ?1 AND i.deleted_at IS NULL AND i.created_by <> ?2
+    AND julianday(i.created_at) > julianday(?3)
+    AND (i.poi_id IS NULL OR NOT EXISTS (SELECT 1 FROM plan_items p
+      WHERE p.version_id = t.current_version_id AND p.poi_id = i.poi_id))`;
+const IDEAS_WAITING_TABLES = ['trip_ideas', 'trips', 'plan_items'];
 
 export function turnHref(
   target: TurnTarget | null,
@@ -47,6 +55,8 @@ export function turnHref(
   changeSetId: string | null = null,
 ): Href | undefined {
   switch (target) {
+    case 'ideas':
+      return hrefFor('7f-2', { tripId });
     case 'review':
       return changeSetId === null
         ? undefined
@@ -82,6 +92,14 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     tripId === null || trip == null ? null : [tripId, trip.me],
     PLAN_VOTE_TABLES,
   );
+  const lockedAt = proposal?.lockedAt ?? null;
+  const waiting = useLiveRows<{ n: number | null }>(
+    IDEAS_WAITING_SQL,
+    tripId === null || trip == null || !trip.isOrganiser || lockedAt === null
+      ? null
+      : [tripId, trip.me, lockedAt],
+    IDEAS_WAITING_TABLES,
+  );
   if (tripId === null || trip == null || proposal === undefined) return null;
   const vote = votes.rows[0] ?? null;
   const me = trip.people.find((person) => person.uid === trip.me);
@@ -94,6 +112,7 @@ export function useTripTurn(tripId: string | null): TripTurnView | null {
     // Everyone else in the crew, those who said out included: their answer counts as one.
     recipients: trip.people.filter((person) => person.uid !== trip.me),
     planVote: vote === null ? null : { by: firstName(vote.author_name) },
+    ideasWaiting: Number(waiting.rows[0]?.n ?? 0),
   });
   const organiser = trip.isOrganiser ? '' : (trip.people.find((p) => p.organiser)?.name ?? '');
   return {
