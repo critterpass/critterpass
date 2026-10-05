@@ -16,9 +16,13 @@ import {
 
 import type { LastGoodCache, WireParser } from '@/data/travel-data/client';
 import type { ReadState } from '@/data/travel-data/freshness';
-import { useTravelRead } from '@/data/travel-data/use-travel-read';
+import { query, useTravelRead } from '@/data/travel-data/use-travel-read';
 
-import { placeContextPath } from '../data/use-place-context';
+/** The place's context inside a trip (`/v1/places/{id}/context`); none outside one. */
+function placeContextPath(poiId: string | null, tripId: string | null): string | null {
+  if (poiId === null || tripId === null) return null;
+  return `/v1/places/${encodeURIComponent(poiId)}/context${query({ trip_id: tripId })}`;
+}
 
 export interface FitDayView {
   readonly day_id: string;

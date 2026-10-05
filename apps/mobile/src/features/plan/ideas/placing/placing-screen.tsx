@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
-import { dayTileColour } from '@/features/plan/overview/day-card';
+import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 

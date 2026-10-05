@@ -9,7 +9,8 @@ import type { Href } from 'expo-router';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
-import { dayTileColour, weekdayOf } from '../overview/day-card';
+import { weekdayOf } from '../day/format';
+import { dayTileColour } from '../overview/model/day-colour';
 import { changeReason, leftLine, needsMoveExplainer, placedReason, wasLine } from './changes-copy';
 import type { ChangeRow, NeedsYouRow } from './changes-review-view';
 import type { LeftForYou } from './data/use-review-extras';

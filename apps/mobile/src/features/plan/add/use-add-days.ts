@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useEnsurePlanDays } from '@/data/plan/use-plan-days';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { dayName } from '@/features/plan/day/format';
-import { dayTileColour } from '@/features/plan/overview/day-card';
+import { dayTileColour } from '@/features/plan/overview/model/day-colour';
 import { chipWeekday, dayOfMonth } from '@/features/plan/trip-map/format';
 import type { DayChip } from '@/ui/planning';
 

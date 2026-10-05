@@ -10,7 +10,7 @@ import { createElement } from 'react';
 import { registerChatCard, type ChatCardProps } from '@/features/crew';
 import { Skeleton } from '@/ui/states/Skeleton';
 
-import { useLiveRows } from '../overview/data/live-rows';
+import { useLiveRows } from '@/data/plan/live-rows';
 import { ChangesetChatCard } from './changeset-chat-card';
 
 const TRIP_SQL = 'SELECT trip_id FROM change_sets WHERE id = ?';
