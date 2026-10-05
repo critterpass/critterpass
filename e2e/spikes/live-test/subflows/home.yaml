@@ -1,6 +1,7 @@
 appId: app.critterpass.dev
 ---
-# Home, from wherever the walk is: the app link, the one-time "Open" prompt, then the header.
+# Home, from wherever the walk is: the app link, the one-time "Open" prompt, then the header. A
+# bare app link can bring back the screen the app was on (the Trips tab): HOME is tapped then.
 - openLink:
     link: critterpass-dev://
     optional: true
@@ -11,7 +12,25 @@ appId: app.critterpass.dev
       - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-header-chat|tab-home'
     timeout: 60000
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 3
+    commands:
+      - tapOn:
+          id: 'tab-home'
+          optional: true
+      - extendedWaitUntil:
+          visible:
+            id: 'home-header-chat'
+          timeout: 10000
+          optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
