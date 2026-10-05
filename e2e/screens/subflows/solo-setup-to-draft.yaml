@@ -84,16 +84,23 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'budget-skip'
 # Rooms: a crew of one shares one room, so LOOKS GOOD accepts the even split.
+# A destination with no stay prices has no room plan to make: the set-up passes straight to the
+# must-dos, for a crew of any size, and the rooms steps below only run when the step shows.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
+      id: 'setup-rooms-lock|must-dos-add'
     timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'setup-rooms-lock'
-    timeout: 10000
-- tapOn:
-    id: 'setup-rooms-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'
