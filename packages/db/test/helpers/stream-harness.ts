@@ -8,10 +8,27 @@
  * (`IN my_crews`) are inlined, `auth.user_id()` and `subscription.parameter('x')` become bind
  * parameters. Syntax the translation does not know is rejected rather than guessed at; the running
  * service validates the same file end to end (test/smoke/powersync-health.ts).
+ *
+ * {@link startParameterReplay} counts a connection's cost as the service does: the service's own
+ * compiler (pinned to the PowerSync image's), an index of every published row, its querier.
  */
+import { readFile } from 'node:fs/promises';
+import * as sqlite from 'node:sqlite';
+
+import {
+  DEFAULT_HYDRATION_STATE,
+  nodeSqlite,
+  RequestParameters,
+  SqlSyncRules,
+  type SqliteJsonRow,
+} from '@powersync/service-sync-rules';
 import type pg from 'pg';
 
-import { loadSyncConfig, type SyncConfig } from '../../../../infra/powersync/build-config';
+import {
+  GENERATED_PATH,
+  loadSyncConfig,
+  type SyncConfig,
+} from '../../../../infra/powersync/build-config';
 import { buildPermissionFixture, type ActorKind, type PermissionFixture } from './fixtures';
 import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './pg-container';
 
@@ -179,6 +196,104 @@ export async function startStreamHarness(): Promise<StreamHarness> {
     async stop() {
       await db.drop();
       await container.stop();
+    },
+  };
+}
+
+export interface HeldSubscription {
+  readonly stream: string;
+  readonly parameters: Readonly<Record<string, string>>;
+}
+
+/** What one connection costs: the limits are 1,000 of each in the pinned service. */
+export interface ParameterCost {
+  /** Rows every parameter lookup returned, counted before de-duplication, as the service does. */
+  readonly results: number;
+  readonly buckets: number;
+}
+
+interface StreamSubscription {
+  parameters: Readonly<Record<string, string>>;
+  priorityOverride: null;
+  opaque_id: number;
+}
+
+export interface ParameterReplay {
+  cost(userId: string, subscriptions: readonly HeldSubscription[]): Promise<ParameterCost>;
+}
+
+/** A Postgres value as logical replication hands it to the service's SQLite evaluator. */
+function toSqlite(value: unknown): string | number | bigint | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'boolean') return value ? 1n : 0n;
+  if (typeof value === 'number') return Number.isInteger(value) ? BigInt(value) : value;
+  if (typeof value === 'bigint' || typeof value === 'string') return value;
+  if (value instanceof Date) return value.toISOString().replace('T', ' ');
+  return JSON.stringify(value);
+}
+
+/** Compiles the generated stream file and indexes the published rows as they stand: seed first. */
+export async function startParameterReplay(pool: pg.Pool): Promise<ParameterReplay> {
+  const yaml = await readFile(GENERATED_PATH, 'utf8');
+  const { config, errors } = SqlSyncRules.fromYaml(yaml, {
+    defaultSchema: 'public',
+    throwOnError: false,
+  });
+  const fatal = errors.filter((error) => error.type !== 'warning');
+  if (fatal.length > 0) throw new Error(fatal.map((error) => error.message).join('; '));
+  const rules = config.hydrate({
+    hydrationState: DEFAULT_HYDRATION_STATE,
+    sqlite: nodeSqlite(sqlite),
+  });
+  const ref = (name: string) => ({ connectionTag: 'default', schema: 'public', name });
+  const published = await pool.query<{ tablename: string }>(
+    "SELECT tablename FROM pg_publication_tables WHERE pubname = 'powersync' AND schemaname = 'public'",
+  );
+  const index = new Map<string, SqliteJsonRow[]>();
+  for (const { tablename } of published.rows) {
+    if (!rules.tableSyncsParameters(ref(tablename))) continue;
+    const { rows } = await pool.query<Record<string, unknown>>(`SELECT * FROM public.${tablename}`);
+    for (const row of rows) {
+      const record = Object.fromEntries(
+        Object.entries(row).map(([column, value]) => [column, toSqlite(value)]),
+      );
+      for (const out of rules.evaluateParameterRow(ref(tablename), record)) {
+        if (!('lookup' in out)) continue;
+        const key = out.lookup.serializedRepresentation;
+        index.set(key, [...(index.get(key) ?? []), ...out.bucketParameters]);
+      }
+    }
+  }
+  return {
+    async cost(userId, subscriptions) {
+      const streams: Record<string, StreamSubscription[]> = {};
+      subscriptions.forEach(({ stream, parameters }, i) => {
+        (streams[stream] ??= []).push({ parameters, priorityOverride: null, opaque_id: i });
+      });
+      const parameters = new RequestParameters(
+        { userIdJson: userId, parsedPayload: { sub: userId }, parameters: {} },
+        {},
+      );
+      const { querier, errors: querierErrors } = rules.getBucketParameterQuerier({
+        globalParameters: parameters,
+        hasDefaultStreams: true,
+        streams,
+      });
+      if (querierErrors.length > 0) {
+        throw new Error(querierErrors.map((error) => error.message).join('; '));
+      }
+      let results = 0;
+      const dynamic = await querier.queryDynamicBucketDescriptions({
+        getParameterSets: (lookups) =>
+          Promise.resolve(
+            lookups.map((lookup) => {
+              const rows = index.get(lookup.serializedRepresentation) ?? [];
+              results += rows.length;
+              return { lookup, rows };
+            }),
+          ),
+      });
+      return { results, buckets: dynamic.length + querier.staticBuckets.length };
     },
   };
 }
