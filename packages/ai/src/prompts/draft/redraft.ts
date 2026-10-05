@@ -15,6 +15,7 @@ import {
   aliases,
   clockText,
   crewLine,
+  languageLine,
   personaSystem,
   placeLine,
   placeNames,
@@ -39,7 +40,7 @@ import {
   RAIN_TARGET,
   wantsIndoors,
 } from './redraft-rain';
-import { languageLine, REASON_TEXT, reasonTarget } from './redraft-reasons';
+import { REASON_TEXT, reasonTarget } from './redraft-reasons';
 import { validate } from './repair';
 import { withFinalNotes } from './final-notes';
 import { settle } from './settle';

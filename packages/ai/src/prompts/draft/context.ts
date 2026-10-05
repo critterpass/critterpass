@@ -49,6 +49,12 @@ export interface UntimedMustDo {
 export interface HeldStop {
   readonly dayNo: number;
   readonly item: DraftItem;
+  /**
+   * Where the stop is when it sits on a dropped pin (`item.poi_id` null: no place of ours). Give
+   * the stops to `withHeldStops` and the planner knows the pin's position and name; the stop's
+   * `poi_id` stays null in everything that comes back.
+   */
+  readonly pin?: { readonly name: string; readonly lat: number; readonly lng: number };
 }
 
 export interface DraftPlanInput {
@@ -245,6 +251,18 @@ export function editorsNote(poi: DraftPoi): string {
     poi.bestTime === null || poi.bestTime === undefined ? null : `best time: ${poi.bestTime}`,
   ].filter((part): part is string => part !== null);
   return parts.length === 0 ? '' : `; our editors: ${parts.join('; ')}`;
+}
+
+/**
+ * Which language the guide writes in, for a reader who does not read English: every word the crew
+ * will read (day titles and themes, summaries, notes). Nothing for an English reader.
+ */
+export function languageLine(locale: string | undefined): string[] {
+  if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
+  const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(locale) ?? locale;
+  return [
+    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English. Place names stay exactly as the lists write them.`,
+  ];
 }
 
 export function crewLine(input: DraftPlanInput): string {

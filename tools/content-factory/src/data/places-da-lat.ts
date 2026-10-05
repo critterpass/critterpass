@@ -8,17 +8,83 @@ import type { PairRuling } from '../kinds/places/merges';
 import type { PinnedPlace } from '../kinds/places/pins';
 
 export const DA_LAT_PINS: readonly PinnedPlace[] = [
+  // Essentials the lists above did not pin.
+  { name: 'Langbiang', nameLocal: 'Đỉnh Langbiang', lat: 12.0472, lng: 108.44, essential: true },
+  {
+    name: 'Linh Phước Pagoda',
+    nameLocal: 'Chùa Linh Phước',
+    lat: 11.9444,
+    lng: 108.4994,
+    essential: true,
+  },
+  {
+    name: 'Valley of Love',
+    nameLocal: 'Thung lũng Tình Yêu',
+    lat: 11.9801,
+    lng: 108.4502,
+    essential: true,
+  },
+  {
+    name: 'Đà Lạt Flower Garden',
+    nameLocal: 'Vườn hoa thành phố Đà Lạt',
+    lat: 11.9504,
+    lng: 108.4497,
+    essential: true,
+  },
+  {
+    name: 'Xuân Hương Lake',
+    nameLocal: 'Hồ Xuân Hương',
+    lat: 11.9433,
+    lng: 108.4479,
+    essential: true,
+  },
+  {
+    name: 'Đà Lạt Railway Station',
+    nameLocal: 'Ga Đà Lạt',
+    lat: 11.9416,
+    lng: 108.4546,
+    category: 'museum',
+    essential: true,
+  },
+  { name: 'Datanla Falls', nameLocal: 'Thác Datanla', lat: 11.9011, lng: 108.449, essential: true },
+  {
+    name: 'Trúc Lâm Zen Monastery',
+    nameLocal: 'Thiền viện Trúc Lâm Đà Lạt',
+    lat: 11.9034,
+    lng: 108.4359,
+    essential: true,
+  },
+  {
+    name: 'Bảo Đại Summer Palace (Dinh III)',
+    nameLocal: 'Dinh Bảo Đại III',
+    lat: 11.9302,
+    lng: 108.4293,
+    essential: true,
+  },
+  {
+    name: 'Đà Lạt Cathedral',
+    nameLocal: 'Nhà thờ Con Gà',
+    lat: 11.9365,
+    lng: 108.4377,
+    essential: true,
+  },
   // Sights the landmark list misses or matches to a record at the wrong point.
   {
     name: 'Crazy House',
+    essential: true,
     nameLocal: 'Biệt thự Hằng Nga',
     lat: 11.9347,
     lng: 108.4308,
     category: 'museum',
   },
-  { name: 'Dalat Market', lat: 11.9426, lng: 108.437 },
-  { name: 'Chợ Đêm Đà Lạt (Dalat Night Market)', lat: 11.9423, lng: 108.437 },
-  { name: 'Dinh Bao Dai III', lat: 11.9302, lng: 108.4293 },
+  { name: 'Đà Lạt Market', essential: true, lat: 11.9426, lng: 108.437 },
+  {
+    name: 'Đà Lạt Night Market',
+    essential: true,
+    nameLocal: 'Chợ đêm Đà Lạt',
+    lat: 11.9423,
+    lng: 108.437,
+  },
   { name: 'Lam Dong Museum', lat: 11.9408, lng: 108.4598 },
   {
     name: 'Da Lat Pedagogy College',
@@ -27,8 +93,18 @@ export const DA_LAT_PINS: readonly PinnedPlace[] = [
     lat: 11.9463,
     lng: 108.4525,
     kind: 'a college in a French-era school building, the former Lycée Yersin',
+    // A working college, not among the sights a short first visit leads with: in the set, not flagged.
+    mustSee: false,
   },
-  { name: 'Quảng Trường Lâm Viên', lat: 11.939, lng: 108.445, kind: "the town's central square" },
+  {
+    name: 'Lâm Viên Square',
+    essential: true,
+    nameLocal: 'Quảng Trường Lâm Viên',
+    category: 'museum',
+    lat: 11.939,
+    lng: 108.445,
+    kind: "the town's central square",
+  },
   { name: 'Đồi Đa Phú', lat: 11.9813, lng: 108.4055, kind: 'a hill', category: 'nature' },
   { name: 'Fresh Garden', lat: 11.946, lng: 108.4082, kind: 'a flower garden park' },
   // Landmarks whose notes need to know what they are.

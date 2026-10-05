@@ -1,6 +1,7 @@
 /**
- * The places people come to a destination for. Our editors flag the must-sees; among them the
- * ones a trip should hold first are those that take the longest to see and sit nearest where the
+ * The places people come to a destination for. Our editors flag the must-sees and, where they
+ * have, the essential handful among them (./essentials.ts), which always leads. Until a
+ * destination has essentials, the must-sees a trip should hold first are those that take the longest to see and sit nearest where the
  * crew stays (a mountain three hours long before a chapel of half an hour; the lake in town
  * before the reservoir an hour out). A trip's days are filled with these before anything else:
  * the outline is told to place them, the planner places the ones the guide left out, and a day
@@ -25,11 +26,14 @@ export function coreMustSees(
   const home = homeOf(input);
   const worth = (poi: DraftPoi) =>
     poi.durationMin - (home === null ? 0 : (input.travel(home, poi.id) ?? 0));
-  const core = input.pools.activities
-    .filter((poi) => poi.mustSee && foodRole(poi) === null)
-    .map((poi, rank) => ({ poi, rank, worth: worth(poi) }))
-    .sort((a, b) => b.worth - a.worth || a.rank - b.rank)
-    .slice(0, input.frame.dates.length * CORE_PER_DAY)
+  // The essential handful our editors flag leads, every one of it; the rest by their worth.
+  const ranked = input.pools.activities
+    .filter((poi) => (poi.mustSee || poi.essential === true) && foodRole(poi) === null)
+    .map((poi, rank) => ({ poi, rank, worth: worth(poi), first: poi.essential === true ? 0 : 1 }))
+    .sort((a, b) => a.first - b.first || b.worth - a.worth || a.rank - b.rank);
+  const essentials = ranked.filter((entry) => entry.first === 0).length;
+  const core = ranked
+    .slice(0, Math.max(essentials, input.frame.dates.length * CORE_PER_DAY))
     .map((entry) => entry.poi.id);
   CORE.set(input.pools, core);
   return core;

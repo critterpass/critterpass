@@ -45,6 +45,8 @@ export function nearFirst(
 }
 
 function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
+  // Our editors write in English: a reader of another language gets no line rather than theirs.
+  if (input.locale !== undefined && !input.locale.toLowerCase().startsWith('en')) return null;
   const line = poi.whyGo ?? null;
   return line !== null && proseProblem(line, 200, placeNames(input)) === null ? line : null;
 }
@@ -185,7 +187,13 @@ export function fillMeals(
       if (next === null) {
         const baseline = dayFaults(input, itinerary, outline.dayNo);
         const giveWay = day.items
-          .filter((item) => !isKept(item) && item.kind === 'activity')
+          // An essential place never gives way to a meal: the day says it has none instead.
+          .filter(
+            (item) =>
+              !isKept(item) &&
+              item.kind === 'activity' &&
+              input.pois.get(item.poi_id ?? '')?.essential !== true,
+          )
           .reverse();
         for (const item of giveWay) {
           const lighter = {

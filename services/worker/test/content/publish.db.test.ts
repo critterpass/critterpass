@@ -372,6 +372,27 @@ describe('content.publish', () => {
       { name: 'Tegallalang Rice Terrace', must_see: false, entry: 'Ticket', why },
       { name: 'Tegenungan Waterfall', must_see: true, entry: null, why },
     ]);
+
+    // The essential tier beside it merges the same way: set, kept when not stated, cleared by false.
+    const ridge = item('ridge', 'Campuhan Ridge Walk', true);
+    const tier = (essential: boolean) => ({
+      ...ridge,
+      editorial: { ...ridge.editorial, essential },
+    });
+    const essential = async () => {
+      const found = await harness.pool.query<{ essential: boolean | null }>(
+        `SELECT (editorial ->> 'essential')::boolean AS essential FROM pois
+          WHERE name = 'Campuhan Ridge Walk'`,
+      );
+      return found.rows[0]?.essential;
+    };
+    expect(await essential()).toBeNull();
+    await publish(await approved('places', 30, [tier(true)]));
+    expect(await essential()).toBe(true);
+    await publish(await approved('places', 31, [ridge]));
+    expect(await essential()).toBe(true);
+    await publish(await approved('places', 32, [tier(false)]));
+    expect(await essential()).toBe(false);
   });
 
   it('has the picks of every destination a places release wrote to made again', async () => {
