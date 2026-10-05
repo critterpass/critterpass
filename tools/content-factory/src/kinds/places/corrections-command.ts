@@ -22,6 +22,7 @@ import {
   correctionsPaths,
   loadCorrections,
 } from './corrections';
+import { outOfReach } from './corrections-new-records';
 import { renderCorrectionsReview } from './corrections-page';
 import { snapshotRows } from './corrections-snapshot';
 import { placesKind } from './pois';
@@ -34,12 +35,18 @@ export async function placeCorrectionsCommand(
   if (args.snapshot) {
     if (args.pool === null) throw new Error('the snapshot reads the database: set DATABASE_URL');
     const decisions = correctionsFileSchema.parse(readJson<unknown>(paths.corrections));
-    const rows = await snapshotRows(args.pool, correctionRefs(decisions.places));
+    const rows = await snapshotRows(
+      args.pool,
+      correctionRefs(decisions.places),
+      new Set(decisions.new_records.map((record) => record.ref)),
+    );
     writeJson(paths.before, { taken_at: args.now.toISOString(), rows });
     log(`corrections: snapshot of ${rows.length} records in ${paths.before}`);
   }
   const { file, before } = loadCorrections(args.batchKey);
   if (file.batch !== args.batchKey) throw new Error(`${paths.corrections} is for ${file.batch}`);
+  const beyond = outOfReach(file.new_records);
+  if (beyond.length > 0) throw new Error(beyond.join('; '));
   const items = correctionItems(file.places, before);
   const report = runValidators('places', items, placesKind.validators);
   for (const problem of report.batch) log(`  ${problem.severity}: ${problem.message}`);
