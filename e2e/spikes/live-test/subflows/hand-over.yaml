@@ -10,10 +10,12 @@ appId: app.critterpass.dev
           file: ../../../proposal/subflows/switch-account.yaml
           env:
             TARGET: ${TARGET}
+# The restart can bring back the screen the app was last on (the Trips tab): Home by its tab.
 - extendedWaitUntil:
     visible:
-      id: 'home-header-chat'
+      id: 'home-header-chat|tab-home'
     timeout: 90000
+- runFlow: home.yaml
 - runFlow: language.yaml
 # Sync brings the other person's changes in a moment after the restart.
 - waitForAnimationToEnd:
