@@ -41,6 +41,8 @@ export interface SearchTrip {
   readonly placeNames: ReadonlyMap<string, string>;
   /** The weekday (else the day number) a place is planned on, by place id. */
   readonly planDays: ReadonlyMap<string, string>;
+  /** The plan holds a stay: "near the stay" has somewhere to measure from. */
+  readonly hasStay: boolean;
 }
 
 function guideOf(slug: string | null | undefined): GuideId {
@@ -101,6 +103,7 @@ export function useSearchTrip(tripId: string): SearchTrip {
     itemTitles,
     placeNames: plan.places,
     planDays,
+    hasStay: plan.itemRows.some((item) => item.category === 'stay' && item.status !== 'cancelled'),
   };
 }
 

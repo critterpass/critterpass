@@ -15,13 +15,14 @@ import { stageFiles } from '../../stages/state';
 import { runValidators } from '../../validators/registry';
 import { readJson, writeJson, writeText } from '../../work';
 import {
-  correctionCounts,
-  correctionItems,
   correctionRefs,
   correctionsFileSchema,
   correctionsPaths,
   loadCorrections,
 } from './corrections';
+import { correctionCounts } from './corrections-counts';
+import { batchItems } from './corrections-hidden';
+import { outOfReach } from './corrections-new-records';
 import { renderCorrectionsReview } from './corrections-page';
 import { snapshotRows } from './corrections-snapshot';
 import { placesKind } from './pois';
@@ -34,13 +35,19 @@ export async function placeCorrectionsCommand(
   if (args.snapshot) {
     if (args.pool === null) throw new Error('the snapshot reads the database: set DATABASE_URL');
     const decisions = correctionsFileSchema.parse(readJson<unknown>(paths.corrections));
-    const rows = await snapshotRows(args.pool, correctionRefs(decisions.places));
+    const rows = await snapshotRows(
+      args.pool,
+      correctionRefs(decisions),
+      new Set(decisions.new_records.map((record) => record.ref)),
+    );
     writeJson(paths.before, { taken_at: args.now.toISOString(), rows });
     log(`corrections: snapshot of ${rows.length} records in ${paths.before}`);
   }
   const { file, before } = loadCorrections(args.batchKey);
   if (file.batch !== args.batchKey) throw new Error(`${paths.corrections} is for ${file.batch}`);
-  const items = correctionItems(file.places, before);
+  const beyond = outOfReach(file.new_records);
+  if (beyond.length > 0) throw new Error(beyond.join('; '));
+  const items = batchItems(file, before);
   const report = runValidators('places', items, placesKind.validators);
   for (const problem of report.batch) log(`  ${problem.severity}: ${problem.message}`);
   for (const item of report.items.filter((r) => r.severity === 'fail')) {
@@ -68,13 +75,15 @@ export async function placeCorrectionsCommand(
   );
   const page = path.join(files.paths.dir, 'corrections.html');
   writeText(page, renderCorrectionsReview(file, before));
-  for (const destination of new Set(file.places.map((place) => place.destination))) {
+  const destinations = new Set([...file.places, ...file.hidden].map((entry) => entry.destination));
+  for (const destination of destinations) {
     const counts = correctionCounts(
       file.places.filter((place) => place.destination === destination),
       before,
     );
+    const hidden = file.hidden.filter((entry) => entry.destination === destination).length;
     log(
-      `  ${destination}: ${counts.places} places · ${counts.merges} merges · ${counts.kindChanges} kinds · ${counts.movedPoints} moved points · ${counts.mustSees} must-sees · ${counts.essentials} essentials · ${counts.added} added`,
+      `  ${destination}: ${counts.places} places · ${counts.merges} merges · ${counts.kindChanges} kinds · ${counts.renames} names · ${counts.movedPoints} moved points · ${counts.mustSees} must-sees · ${counts.essentials} essentials · ${counts.added} added · ${hidden} hidden`,
     );
   }
   log(`corrections: ${items.length} items in ${files.paths.artifact}; review ${page}`);

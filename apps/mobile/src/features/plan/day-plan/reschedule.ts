@@ -138,6 +138,8 @@ export type Retime =
       readonly pushed: number;
       /** Minutes every pushed stop moves by, when they all move by the same. */
       readonly pushedBy: number | null;
+      /** The last stop pushed and when it would now start: where the push ends up. */
+      readonly last: { readonly stop: DayItem; readonly start: number } | null;
     }
   | { readonly ok: false; readonly refusal: RetimeRefusal };
 
@@ -145,13 +147,18 @@ export type Retime =
  * One stop of the day at a new time (`edited`; a stop arriving from another day is in `stops`
  * too): stops before it keep their times, stops after it are pushed later only as far as the stop
  * before and the way between need. Two neighbours never need more room than they already had.
+ *
+ * `fitted`: the new time is one the fit engine chose with its own (routed) minutes. It is never
+ * second-guessed with this screen's estimate: only a real overlap refuses it or pushes a stop.
  */
 export function retime(
   stops: readonly DayItem[],
   edited: { readonly stableId: string; readonly start: number; readonly end: number },
   slot: DaySlot,
   travel: Travel,
+  options: { readonly fitted?: boolean } = {},
 ): Retime {
+  const fitted = options.fitted === true;
   const isEdited = (stop: DayItem) => stop.stableId === edited.stableId;
   const had = stops.filter((stop) => stop.start !== null && stop.end !== null);
   // A stop arriving from another day has no time here yet, so no neighbours to keep room with.
@@ -176,10 +183,17 @@ export function retime(
   let previous: DayItem | null = null;
   let previousEnd = 0;
   let reached = false;
+  let last: { stop: DayItem; start: number } | null = null;
   for (const stop of order) {
     const span = spanOf(stop);
     const length = span.end - span.start;
-    const earliest = previous === null ? 0 : ceilGrid(previousEnd + room(previous, stop));
+    const beside = isEdited(stop) || (previous !== null && isEdited(previous));
+    const earliest =
+      previous === null
+        ? 0
+        : fitted && beside && span.start >= previousEnd
+          ? previousEnd
+          : ceilGrid(previousEnd + room(previous, stop));
     let start = span.start;
     if (isEdited(stop)) {
       reached = true;
@@ -192,11 +206,18 @@ export function retime(
       const op = moveOp(stop, slot, start);
       if (op !== null) ops.push(op);
       shifts.push(start - span.start);
+      last = { stop, start };
     }
     if (start + length > DAY_END) return { ok: false, refusal: { kind: 'too_late' } };
     previous = stop;
     previousEnd = start + length;
   }
   const same = shifts.every((shift) => shift === shifts[0]);
-  return { ok: true, ops, pushed: shifts.length, pushedBy: same ? (shifts[0] ?? null) : null };
+  return {
+    ok: true,
+    ops,
+    pushed: shifts.length,
+    pushedBy: same ? (shifts[0] ?? null) : null,
+    last,
+  };
 }

@@ -43,6 +43,8 @@ export interface AddSheetViewProps {
   /** "Nowhere fits yet", or the offline note, in place of the reasons. */
   readonly note: string | null;
   readonly who: ReactNode;
+  /** The first start that works, one tap away, when the chosen time is taken. */
+  readonly useStart?: { readonly time: string; readonly onPress: () => void } | null;
   /** Above the button, for a member: confirming starts a crew vote. */
   readonly voteNote?: string | null;
   readonly cta: string;
@@ -114,6 +116,16 @@ export function AddSheetView(props: AddSheetViewProps) {
           <Text variant="bodySm" color={theme.semantic.text.secondary} testID="plan-add-vote-note">
             {props.voteNote}
           </Text>
+        )}
+        {props.useStart == null ? null : (
+          <TextLink
+            label={t({
+              id: 'plan.add.useStart',
+              message: `Start at ${props.useStart.time} instead`,
+            })}
+            onPress={props.useStart.onPress}
+            testID="plan-add-use-start"
+          />
         )}
         <PillButton
           label={props.cta}

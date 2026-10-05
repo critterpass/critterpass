@@ -56,7 +56,7 @@ function EmptyScene({ paste }: { readonly paste: boolean }) {
         onPasted={noop}
       />
       <TypedExamples
-        examples={plainExamples({ destination: 'Bali', freeWeekday: null })}
+        examples={plainExamples({ destination: 'Bali', freeWeekday: null, stay: true })}
         onAsk={noop}
         still
       />

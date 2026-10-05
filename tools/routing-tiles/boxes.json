@@ -9,7 +9,7 @@
     {
       "slug": "cusco",
       "reason": "live",
-      "bbox": [-72.3, -13.7, -71.7, -13.2]
+      "bbox": [-72.3, -13.7, -71.62, -13.2]
     },
     {
       "slug": "da-nang",
@@ -19,7 +19,7 @@
     {
       "slug": "iceland",
       "reason": "live",
-      "bbox": [-22.35, 63.7, -19.5, 64.85]
+      "bbox": [-22.8, 63.7, -19.5, 64.85]
     },
     {
       "slug": "id-labuan-bajo",
@@ -54,7 +54,7 @@
     {
       "slug": "lisbon",
       "reason": "live",
-      "bbox": [-9.55, 38.6, -9, 38.85]
+      "bbox": [-9.55, 38.6, -9, 38.98]
     },
     {
       "slug": "ma-marrakech",
@@ -64,7 +64,7 @@
     {
       "slug": "mexico-city",
       "reason": "live",
-      "bbox": [-99.35, 19.1, -98.85, 19.6]
+      "bbox": [-99.35, 19.1, -98.78, 19.8]
     },
     {
       "slug": "mx-cancun",

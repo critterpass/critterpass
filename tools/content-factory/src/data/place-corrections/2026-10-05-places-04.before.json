@@ -1,0 +1,51 @@
+{
+  "taken_at": "2026-10-05T05:10:13.767Z",
+  "rows": [
+    {
+      "id": "01a0eddb-6997-7f0e-8325-96154ec66b80",
+      "ref": "fsq_os:4b0586fff964a520587a22e3",
+      "destination": "mexico-city",
+      "name": "Jardín Centenario (Coyoacán)",
+      "name_local": "Jardín Centenario",
+      "category": "nature",
+      "lat": 19.349242606880264,
+      "lng": -99.1640132735548,
+      "address": "Jardín Centenario S/N",
+      "tz": "America/Mexico_City",
+      "curated": true,
+      "must_see": true,
+      "essential": true,
+      "merged_into": null,
+      "item": {
+        "ref": "fsq_os:4b0586fff964a520587a22e3",
+        "destination": "mexico-city",
+        "name": "Jardín Centenario (Coyoacán)",
+        "name_local": "Jardín Centenario",
+        "category": "nature",
+        "lat": 19.349242606880264,
+        "lng": -99.1640132735548,
+        "address": "Jardín Centenario S/N",
+        "tz": "America/Mexico_City",
+        "tags": ["nature", "local_life", "easy_pace"],
+        "hours": null,
+        "licence": {
+          "source": "fsq_os",
+          "source_id": "4b0586fff964a520587a22e3",
+          "licence": "Apache-2.0",
+          "attribution": "Foursquare Open Source Places"
+        },
+        "editorial": {
+          "why_go": "A leafy central garden for a quiet break and people-watching near Coyoacán's historic core.",
+          "best_time": "Late afternoon when it cools down",
+          "time_needed_min": 30,
+          "crowd_hint": "Busy on weekends with families",
+          "etiquette": null,
+          "must_see": true,
+          "essential": true
+        },
+        "merge_into": null,
+        "possible_duplicate_of": null
+      }
+    }
+  ]
+}

@@ -40,7 +40,9 @@ function nearOf(reply: SearchParseReply, digest: SearchParseDigest): MaxMinutes 
   const near = reply.near;
   if (near === null) return null;
   if (near.from === 'stay') {
-    return digest.stayName === null ? 'invalid' : { from: 'stay', minutes: near.minutes };
+    // No stay yet: there is nowhere to measure from, so that part is left out and the rest of
+    // the question still stands ("somewhere quiet for dinner near the stay" is still a quiet dinner).
+    return digest.stayName === null ? null : { from: 'stay', minutes: near.minutes };
   }
   if (near.from === 'place') {
     const place = digest.places.find((_, index) => placeRef(index) === near.ref);

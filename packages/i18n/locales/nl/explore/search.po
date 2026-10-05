@@ -75,6 +75,10 @@ msgstr ""
 msgid "search.offline.works.waits"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindBelow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/search-rows.ts
 msgid "search.row.kilometres"
 msgstr ""
@@ -311,6 +315,10 @@ msgstr ""
 msgid "search.none.pin"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddressLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
 msgstr ""
@@ -469,6 +477,10 @@ msgstr ""
 msgid "search.chip.category.museum"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.alike"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nature"
 msgstr ""
@@ -483,6 +495,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/chip-words.ts
 msgid "search.chip.category.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneNamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
@@ -507,6 +523,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/link-paste.tsx
 msgid "search.paste.nothingCopied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-not-found.tsx
+msgid "search.name.noneAddress"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/no-results.tsx
@@ -605,6 +625,10 @@ msgstr ""
 msgid "search.chip.category.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.name.kindPlaces"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/search/offline-results.tsx
 msgid "search.offline.queuedLine"
 msgstr ""
@@ -687,6 +711,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.dinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinnerNoStay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx

@@ -24,6 +24,7 @@ interface Row {
   curated: boolean;
   must_see: boolean;
   essential: boolean;
+  trip_refs: number;
   source_ids: Record<string, string>;
   target_ids: Record<string, string> | null;
 }
@@ -31,7 +32,12 @@ interface Row {
 const refsOf = (ids: Record<string, string>) =>
   SOURCES.flatMap((source) => (ids[source] === undefined ? [] : [`${source}:${ids[source]}`]));
 
-export async function snapshotRows(pool: pg.Pool, refs: readonly string[]): Promise<BeforeRow[]> {
+/** `mayBeNew` names the refs the catalogue may not hold yet: those are left out when absent. */
+export async function snapshotRows(
+  pool: pg.Pool,
+  refs: readonly string[],
+  mayBeNew: ReadonlySet<string> = new Set(),
+): Promise<BeforeRow[]> {
   const live = await liveArtifact(pool, 'places');
   const items = new Map(
     (live === undefined ? [] : loadRelease(live, 'places').items).map((item) => [item.ref, item]),
@@ -49,6 +55,9 @@ export async function snapshotRows(pool: pg.Pool, refs: readonly string[]): Prom
                 p.timezone AS tz, p.curation = 'editorial' AS curated,
                 coalesce((p.editorial->>'must_see')::boolean, false) AS must_see,
                 coalesce((p.editorial->>'essential')::boolean, false) AS essential,
+                ((SELECT count(*) FROM plan_items x WHERE x.poi_id = p.id)
+                 + (SELECT count(*) FROM trip_ideas x WHERE x.poi_id = p.id)
+                 + (SELECT count(*) FROM must_dos x WHERE x.poi_id = p.id))::int AS trip_refs,
                 p.source_ids, target.source_ids AS target_ids
            FROM pois p
            JOIN destinations d ON d.id = p.destination_id
@@ -61,8 +70,9 @@ export async function snapshotRows(pool: pg.Pool, refs: readonly string[]): Prom
     }
     return rows;
   });
-  return refs.map((ref) => {
+  return refs.flatMap((ref) => {
     const row = found.find((candidate) => refsOf(candidate.source_ids).includes(ref));
+    if (row === undefined && mayBeNew.has(ref)) return [];
     if (row === undefined) throw new Error(`${ref} is not an active place`);
     const { source_ids, target_ids, ...fields } = row;
     // A record two sources hold has one item; a second item under its other id would fight it.

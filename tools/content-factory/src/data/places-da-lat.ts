@@ -105,17 +105,17 @@ export const DA_LAT_PINS: readonly PinnedPlace[] = [
     lng: 108.445,
     kind: "the town's central square",
   },
-  { name: 'Đồi Đa Phú', lat: 11.9813, lng: 108.4055, kind: 'a hill', category: 'nature' },
+  { name: 'Đa Phú Hill', lat: 11.9813, lng: 108.4055, kind: 'a hill', category: 'nature' },
   { name: 'Fresh Garden', lat: 11.946, lng: 108.4082, kind: 'a flower garden park' },
   // Landmarks whose notes need to know what they are.
   {
-    name: 'Thung lũng Vàng Đà Lạt',
+    name: 'Golden Valley',
     lat: 12.0064,
     lng: 108.3822,
     kind: 'a landscaped valley park in pine forest by the Suối Vàng stream',
   },
   {
-    name: 'Ga Trại Mát',
+    name: 'Trại Mát Station',
     lat: 11.946,
     lng: 108.501,
     kind: 'the station where the tourist train from Ga Đà Lạt ends',
@@ -127,6 +127,9 @@ export const DA_LAT_PINS: readonly PinnedPlace[] = [
     lng: 108.4206,
     kind: 'a waterfall',
     category: 'nature',
+    // The stream carries the city's waste water and is commonly described as polluted: in the
+    // set, not flagged.
+    mustSee: false,
   },
   {
     name: 'Nem Nướng Bà Hùng',

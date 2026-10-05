@@ -8,6 +8,8 @@
  */
 import { loadPollState } from '@cp/db';
 import {
+  ensureInboxKinds,
+  PLAN_CHANGE_INBOX_KINDS,
   PLAN_CHANGE_CHAT_LINE,
   PLAN_CHANGE_INBOX_KIND,
   planChangeLineBody,
@@ -217,6 +219,7 @@ let registered = false;
 export function registerPlanInboxFanouts(): void {
   if (registered) return;
   registered = true;
+  ensureInboxKinds(PLAN_CHANGE_INBOX_KINDS);
   registerVoteNeeded();
   registerDecided(PLAN_CHANGE_INBOX_KIND.applied, 'applied');
   registerDecided(PLAN_CHANGE_INBOX_KIND.kept, 'kept');

@@ -39,6 +39,16 @@ export function registerInboxKind(spec: InboxKindSpec): void {
   kinds.set(spec.kind, spec);
 }
 
+/**
+ * Registers the kinds that are not registered yet. A process that appends a kind's events calls
+ * this with the kind lists it relies on: the package is marked free of side effects, so a bundle
+ * that only reads the registry would otherwise drop the modules that fill it, and the events
+ * would queue no fan-out.
+ */
+export function ensureInboxKinds(specs: readonly InboxKindSpec[]): void {
+  for (const spec of specs) if (!kinds.has(spec.kind)) kinds.set(spec.kind, spec);
+}
+
 export function getInboxKind(kind: string): InboxKindSpec | undefined {
   return kinds.get(kind);
 }
