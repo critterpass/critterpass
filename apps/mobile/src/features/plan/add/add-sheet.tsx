@@ -73,7 +73,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   const guide = usePlanGuide().name;
   const editor = useDayEditing(plan);
   const saveToIdeas = useSaveToIdeas(tripId);
-  const { subject } = useAddSubject(tripId, placeId);
+  const { subject, loaded: subjectRead } = useAddSubject(tripId, placeId);
   const tz = plan.trip?.tz ?? 'UTC';
   const poiId = subject?.poiId ?? null;
   const server = useAddFit(tripId, poiId, plan.versionId);
@@ -102,14 +102,18 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
     itemRows: plan.itemRows,
     titleOf: (id) => plan.display.get(id)?.title ?? null,
   });
+  // The phone has not read the place or the plan yet (a sync batch can hold its reads for a few
+  // seconds): the sheet waits, and never reads as blank or as having no signal.
+  const reading = !subjectRead || !plan.loaded || subject === null;
   // Nothing says where it goes yet: the answer is still on its way.
   const waiting =
-    picked === null &&
-    poiId !== null &&
-    server.status === 'loading' &&
-    server.fit === null &&
-    preset.after === undefined &&
-    preset.startMin === undefined;
+    reading ||
+    (picked === null &&
+      poiId !== null &&
+      server.status === 'loading' &&
+      server.fit === null &&
+      preset.after === undefined &&
+      preset.startMin === undefined);
   const openStart = (dayNo: number) => openStartOn(plan, dayNo, tz);
   const first = picked ?? initialChoice(server.fit, preset, days, tz, existing, openStart);
   const day = days.find((entry) => entry.dayNo === first?.dayNo) ?? null;
@@ -271,7 +275,7 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
       reasons={nowhere || waiting ? [] : whyTiles(why)}
       note={
         into?.line ??
-        (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
+        (!reading && server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
       }
       who={
         <WhoGoing
