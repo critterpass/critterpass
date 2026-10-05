@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "42a63e52-3d7d-4d1f-9336-ac181a7a62da",
+        "id": "15bd751a-1cc5-48d6-a557-435e6af668f9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, cà phê ngắm phố\",\n  \"summary\": \"Một ngày chậm rãi ở Đà Lạt, bớt đi bộ, thêm thời gian ngồi cà phê ngắm cảnh và ăn uống đúng điệu.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p129\",\n      \"note\": \"Thung Lũng Tình Yêu vẫn là điểm hẹn sáng nay, đi xe tới nơi rồi thong thả dạo, không cần cuốc bộ xa.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa đúng chất Đà Lạt, bánh căn nóng hổi ăn xong còn kịp nghỉ trưa cho đã.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chiều ngồi cà phê view đẹp theo đúng gu, khỏi đi bộ nhiều mà vẫn thấy phố núi.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p165\",\n      \"note\": \"Chợ Đà Lạt ghé muộn một chút, vừa mát vừa ít chen chúc, ngắm nghía rồi ăn tối luôn cũng tiện.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán quen ăn bữa đàng hoàng, khỏi phải đi xa, ngon quá (so tasty) là vừa.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, cà phê ngắm phố\",\n  \"summary\": \"Một ngày chậm rãi ở Đà Lạt, bớt đi bộ, thêm thời gian ngồi cà phê ngắm cảnh và ăn uống đúng kiểu người địa phương.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p129\",\n      \"note\": \"Thung Lũng Tình Yêu vẫn là điểm nhấn, sáng sớm ở đây đẹp như tranh, tha hồ chụp ảnh mà không phải vội.\"\n    },\n    {\n      \"poi_id\": \"p191\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa đúng chất Đà Lạt, bánh căn nóng hổi ăn kèm nước chấm, ngon quá (so tasty) là phải.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p165\",\n      \"note\": \"Chợ Đà Lạt buổi chiều nhộn nhịp, đi lòng vòng ngắm hàng hóa, ngửi mùi cà phê rang là thấy cuộc sống địa phương rồi.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thay chỗ đi bộ xa bằng quán cà phê view đẹp, ngồi một chỗ nhìn phố núi lên đèn, đúng kiểu thong thả.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi xuống đàng hoàng, đồ ăn ngon, không gian ấm cúng, hợp với người thích ngồi lại lâu một chút.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 24,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2816,
-          "output_tokens": 496,
+          "output_tokens": 528,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "12725383-05c7-4b58-9e43-edfc92423057",
+        "id": "cd2c2a85-fd43-48d9-8fbb-8a325f645991",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, cà phê ngắm phố\",\n  \"summary\": \"Một ngày chậm rãi ở Đà Lạt, bớt đi bộ, thêm thời gian ngồi cà phê ngắm cảnh và ăn uống đủ bữa.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p129\",\n      \"note\": \"Thung lũng Tình Yêu vẫn là điểm nhấn buổi sáng, đi xe tới nơi cho đỡ mỏi chân.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi lại cho đàng hoàng, nem nướng Đà Lạt ăn chậm mới thấy ngon quá.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p165\",\n      \"note\": \"Chợ Đà Lạt vẫn giữ vì là nơi thấy rõ nhịp sống địa phương, ghé nhẹ một vòng rồi ngồi nghỉ.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thay vườn hoa bằng quán cà phê view đẹp, ngồi lâu một chút cho đúng kiểu Đà Lạt chiều.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi lại ở quán cà phê bistro, vừa ăn vừa ngắm phố lên đèn.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đà Lạt thong thả, sáng vườn hoa\",\n  \"summary\": \"Một ngày chậm rãi ở Đà Lạt, bớt đi bộ, thêm thời gian ngồi cà phê ngắm phố và giữ trọn hai bữa ăn ngon.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p129\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thung lũng xanh mát, đi dạo thật chậm cho đã mắt rồi hẵng rời đi.\"\n    },\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh căn nóng hổi ngay trong khu vực, ăn no rồi mới tính chuyện tiếp.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ Đà Lạt buổi sáng vui lắm, cứ thong thả mà ngó nghiêng, không cần vội.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quán cà phê view đẹp, ngồi một chỗ ngắm phố núi, khỏi phải cuốc bộ nhiều.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi xuống ăn cho đàng hoàng, ngon quá (so tasty) thì cứ khen đầu bếp.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,31 @@
           "input_tokens": 54,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2816,
-          "output_tokens": 477,
+          "output_tokens": 449,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "f45babd6-aa6e-4076-90e7-556999db1d08",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Sáng vườn hoa, chiều chợ, tối bánh căn"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 172,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 23,
           "service_tier": "standard"
         }
       }

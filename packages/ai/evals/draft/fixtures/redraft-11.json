@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "e1fb7f0b-556f-48a9-8c15-1cd7568442b1",
+        "id": "e923ad5a-b9d8-49de-bd8d-09d3818a3503",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Golden Circle, Unhurried\",\n  \"summary\": \"A slower day out to Gullfoss and Geysir, with time to breathe at each wonder and a relaxed evening back in the city.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The great falls stay, of course. We linger here now, no need to rush the spray.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Geysir keeps its place. Half a day is plenty to watch the earth breathe.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet lunch back in town, with proper bread and no hurry.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little sea air at the lighthouse, the only extra stop on a gentler day.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays, as it should. The kitchen knows its way around a vegetable.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Golden Circle, Slowly\",\n  \"summary\": \"A gentler day out to Gullfoss and Geysir, with time to breathe and a proper meal back in town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Still the big one. We keep Gullfoss, and now you actually have time to stand and stare at it.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Geysir stays too. Fewer stops means no rushing away before it blows its top.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late lunch back in the city, with proper vegetarian plates and good coffee for the one who needs it.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Grillmarkaðurinn, because even a slow day ends with a feast.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 59,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 375,
+          "output_tokens": 306,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "c389a37e-74ec-4160-90f4-84ae1192666f",
+        "id": "f9d94943-00b9-40a7-a8dd-3f53219198b3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Golden Circle and a Quiet Evening\",\n  \"summary\": \"A slower day out to Gullfoss and Geysir, with a long, easy lunch in the city and an early dinner before the evening closes in.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The great falls stay, of course — you do not rush a wonder like this.\",\n      \"note_about\": \"Kept as the day's anchor; more time to stand and listen to the water.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Geysir keeps its place; a slower day means you can wait for the steam to gather properly.\",\n      \"note_about\": \"Kept; the half-day visit leaves room to breathe.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down lunch with good vegetarian plates, and we arrive well before the kitchen winds down.\",\n      \"note_about\": \"Lunch kept; Sandholt fits the slower pace and the vegetarian need.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays here for the evening; one grand meal is enough, and the vegetarian options are solid.\",\n      \"note_about\": \"Dinner kept; the only evening meal place that suits the crew.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Golden Circle and City Lights\",\n  \"summary\": \"A slower day with Gullfoss and Geysir at the heart, then back to the city for a lighthouse stroll and a proper dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The great falls stay, of course. More time to just stand and listen to the water.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Geysir still earns its keep. We linger here a little longer today.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet lighthouse walk to fill the lungs with sea air before dinner.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays put. Vegetarian options and a proper sit-down after a slower day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 121,
+          "input_tokens": 95,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 373,
+          "output_tokens": 310,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "b2ca8e97-7ee7-48fe-aefd-55906deb0a12",
+        "id": "88b14287-d317-46c3-b45f-ffca72a22726",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Geysir, then Gullfoss all day"
+            "text": "2: A morning among the geysers\n3: Gullfoss, the whole day\n4: An evening at the grill"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 201,
+          "input_tokens": 200,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 12,
+          "output_tokens": 27,
           "service_tier": "standard"
         }
       }

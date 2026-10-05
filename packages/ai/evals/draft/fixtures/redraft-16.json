@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "32bc5d68-68d7-402c-9b0d-ff054dbc13cf",
+        "id": "abb5b76c-04da-4bbd-aa3d-4625595675f5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cusco Flavours and Sights\",\n  \"summary\": \"A relaxed afternoon and evening in Cusco, pairing a chocolate museum with market-style lunch and a proper dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course. Sweet learning before the savoury part of our day.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A light, market-fresh lunch stop with plenty of vegetarian choices for our crew.\",\n      \"start_by\": \"21:00\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper sit-down dinner to end the day, with good vegetarian options and a warm room.\",\n      \"start_by\": \"20:45\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Cusco Flavours and Sunset\",\n  \"summary\": \"A relaxed afternoon tasting Cusco's food scene, from market-style snacks to a proper Andean dinner, with a sweet museum stop in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the chocolate stop, of course — a little sweetness before the savoury part of the day.\",\n      \"start_by\": \"18:00\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for the market for lunch, so I chose Pachapapa for its courtyard, wood-fired flavours and proper Andean plates.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A second food stop, lighter and later, for snacks and a drink — because more food was the whole point.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 249,
+          "output_tokens": 271,
           "service_tier": "standard"
         }
       }

@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3f0e47c1-2bdb-439a-b18d-e7ce79a931dc",
+        "id": "2351bb5a-80ca-40c1-8e98-c511023dab10",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Roma Norte, sin prisa\",\n  \"summary\": \"A slow morning and a long wander through Roma Norte, with the rest of the day left open for whatever the crew feels like.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do of the day, taken at a lazy pace so the crew can soak up the local life and photo spots without rushing.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slow Saturday in Roma Norte\",\n  \"summary\": \"A gentle morning wandering Roma Norte, with the afternoon free to rest and soak up the neighbourhood at your own pace.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"We keep the Roma Norte walk as the heart of the day, with no rush and plenty of time to admire the corners and light.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 128,
+          "input_tokens": 107,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 123,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 118,
           "service_tier": "standard"
         }
       }

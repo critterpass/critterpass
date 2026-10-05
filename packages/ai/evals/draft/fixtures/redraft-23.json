@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1ad5aa98-113a-4eb5-961c-7d56fa42c593",
+        "id": "aaf5352c-8714-4e18-a9c5-6a1338249084",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Day in Denpasar\",\n  \"summary\": \"A slower day close together, with one temple visit, easy local meals and plenty of time left free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, sweet temple stop to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, because a lighter day still eats well.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and easy, with the evening left open for whatever feels right.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Gentle Day Around Bajra Sandhi\",\n  \"summary\": \"A slow, close-to-home day around the Bajra Sandhi monument with easy meals nearby and plenty of time left to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one big sight today, and it is right on our doorstep, so we keep the ride short and the pace easy.\",\n      \"area\": \"D\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is a quick, tasty babi guling stop just around the corner from the monument.\",\n      \"area\": \"D\"\n    },\n    {\n      \"poi_id\": \"p76\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays close too, a no-fuss local bowl so the evening feels light and unhurried.\",\n      \"area\": \"D\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 122,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2176,
-          "output_tokens": 230,
+          "output_tokens": 250,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "d8f34425-7a73-4cba-a835-bbc04042fe2e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Gentle Day Around Bajra Sandhi\",\n  \"summary\": \"A slower, close-to-home day around the Bajra Sandhi monument with easy temple stops and meals right beside them.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one big sight stays, and it is right in our little corner of the map.\",\n      \"must_do_id\": \"p58\"\n    },\n    {\n      \"poi_id\": \"p51\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick temple stop nearby keeps the day light and still gives you that culture fix.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p55\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch is a short stroll from the temple, so no long rides and no rush.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays close to the monument, a calm sit-down to end the easy day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 147,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 304,
           "service_tier": "standard"
         }
       }

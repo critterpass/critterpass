@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ca4fb6ae-0977-4f9d-ae8d-4e89fd6be1b9",
+        "id": "032babfd-2943-475a-a8fc-c9d96ff97a0a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Reykjavik, Unhurried\",\n  \"summary\": \"A slower day with just the Blue Lagoon, leaving plenty of room to breathe, soak, and let the bus rides fade from memory.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that earns its keep. Half a day of warm water and quiet, no rushing anywhere.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slower Reykjavik Day\",\n  \"summary\": \"A gentler day with time to soak in the Blue Lagoon and wander through Perlan, keeping the rides short and the pace easy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The Blue Lagoon stays, of course. We just give it the long, lazy soak it deserves.\",\n      \"note_original\": \"The Blue Lagoon stays, of course. We just give it the long, lazy soak it deserves.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Perlan keeps the day gentle, with its wide views and calm halls, and it sits close by.\",\n      \"note_original\": \"Perlan keeps the day gentle, with its wide views and calm halls, and it sits close by.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 16,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 131,
+          "output_tokens": 231,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "a502112c-a111-48ef-ad53-86fae3024852",
+        "id": "c5c77672-87f0-404e-9f34-016e38f3973b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "3: A morning at the Blue Lagoon"
+            "text": "3: Half a day soaking, then Perlan"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 179,
+          "input_tokens": 186,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 9,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }

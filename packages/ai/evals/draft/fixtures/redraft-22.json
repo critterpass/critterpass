@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "7dc1fd04-3bc4-4c48-86fe-06acedbc7d24",
+        "id": "c08be939-2236-4cc3-bf71-6d1ef358d4af",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slower Day Among the Flowers\",\n  \"summary\": \"One long, easy nature stop, with lunch and dinner kept close by in the same part of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Keeping the flower garden as the single long, slow wander of the day; plenty of time to just sit and watch the petals.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Lunch stays right here, as it should on a slower day.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner keeps the evening easy and local, no rush after the garden.\",\n      \"note_voice\": \"Not my island, but I’ve done my homework.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slow Day Among Đà Lạt Blooms\",\n  \"summary\": \"One long garden visit, a kept street-food lunch, and a relaxed dinner in the same corner of town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kept as the single activity: a full, unhurried wander among the flower beds suits the slower pace.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do lunch stays, with time to linger over the bánh căn instead of rushing off.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner remains in the same area, so the evening is about the meal and the night air, not more stops.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 28,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2304,
-          "output_tokens": 272,
+          "output_tokens": 232,
           "service_tier": "standard"
         }
       }

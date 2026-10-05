@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "d7ab30ca-a59e-4477-bf12-38e2b0023012",
+        "id": "c6dd3f19-9979-4d57-8637-aae3a37a2978",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and city lights\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p61\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Waterfalls and far nature\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p140\", \"p141\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gardens, lakes and landmarks\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p16\", \"p130\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Coffee and slow goodbye\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p47\", \"p114\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p22\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and city wander\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p17\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Waterfalls and far nature\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p140\", \"p141\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Gardens, lakes and nightlife\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p4\", \"p16\", \"p61\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Palace and coffee farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p138\", \"p47\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p22\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 83,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 3968,
-          "output_tokens": 290,
+          "output_tokens": 292,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "86c17bde-1eaf-4964-9b36-9a174ccdc0d1",
+        "id": "cb236d5c-af0a-4c42-ae26-a373be1b3d1b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p124\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Not my island, but I’ve done my homework. A slow wander among the blooms suits a farewell morning.\"\n    },\n    {\n      \"poi_id\": \"p71\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Street-food soul in a bowl, the kind of smoky broth that lingers after the last sip.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p138\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old palace still holds its faded grandeur, and the gardens are a quiet wander.\"\n    },\n    {\n      \"poi_id\": \"p71\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A smoky bowl of bún bò here is the right farewell before the road.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 581,
+          "input_tokens": 587,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 127,
+          "output_tokens": 118,
           "service_tier": "standard"
         }
       }
@@ -52,47 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "0bcdb5f1-64f0-4203-a8c1-2787c0ea45fb",
+        "id": "b84a2745-8a0f-4050-9d39-535ea3136de3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p111\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty fairytale architecture that feels like walking through a sculpture.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old French colonial campus with a lovely bell tower and quiet courtyards.\"\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Casual spot with a rooftop feel and decent bites near the centre.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A maze-like bar where you squeeze through tiny passages to find your drink.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p111\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Twisty fairytale architecture that feels like walking through a dream. Go slow and look up.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Grilled rice paper with egg and toppings, a proper street-side snack. Watch them crisp it over coals.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bubbling pot of chicken and lemongrass, best eaten hot with herbs and a squeeze of lime.\"\n    },\n    {\n      \"poi_id\": \"p113\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Loud, neon and lively after dark. Good for a night owl who wants to see the city awake.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 470,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 213,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "f8b4b922-1d08-484c-a3e8-5d5d7478f1bd",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the terraced beds and glasshouses; the blooms here are the city's postcard.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow loop around the lake gives you pine hills, pedal boats and cool air.\"\n    },\n    {\n      \"poi_id\": \"p92\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy corner for a midday plate; the kind of spot where you linger over coffee.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old-school golf club grounds with wide lawns and a view back toward the water.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Crisp little rice cakes topped with egg and scallion, cooked right in front of you.\"\n    },\n    {\n      \"poi_id\": \"p113\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A late-night dance floor if you still have energy after the cool mountain air.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 910,
+          "input_tokens": 718,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 333,
+          "output_tokens": 242,
           "service_tier": "standard"
         }
       }
@@ -100,23 +76,47 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "6df4750d-71b7-4e74-ac98-358a940989e0",
+        "id": "01117cea-f90a-4534-8319-3f502407b0a1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wild, less-trodden waterfall where the water crashes hard and the mist hangs in the air.\"\n    },\n    {\n      \"poi_id\": \"p112\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grilled nem with herbs and dipping sauce, the kind of street bite this town does best.\"\n    },\n    {\n      \"poi_id\": \"p141\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Golden stream country, open and quiet, with piney air and water running over smooth rock.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp grilled rice paper with egg and toppings, a smoky snack worth the wait.\"\n    },\n    {\n      \"poi_id\": \"p60\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed dinner spot with local comfort food and a good view of the evening cool.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p140\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A wild, unpolished cascade where the water crashes hard and the air smells of wet stone.\"\n    },\n    {\n      \"poi_id\": \"p112\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grilled sausage with herbs and rice paper, the kind of street bite this town does best.\"\n    },\n    {\n      \"poi_id\": \"p141\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Golden water tumbling through quiet forest, a long slow wander with the sound of the falls.\"\n    },\n    {\n      \"poi_id\": \"p47\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A serious local coffee stop, good beans and a calm corner to sit with the afternoon.\"\n    },\n    {\n      \"poi_id\": \"p60\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed plate near the centre, easy after a day of chasing waterfalls.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 866,
+          "input_tokens": 861,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 283,
+          "output_tokens": 280,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "cd7535f8-7a7b-432b-a737-f8f89dc2e8af",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander the terraced blooms and glasshouses; the flower beds here are the city’s postcard come to life.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stroll the lakeshore path where pedal boats bob and the pine hills lean over the water.\"\n    },\n    {\n      \"poi_id\": \"p92\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy bistro stop with coffee-friendly corners and a menu that suits a slow midday refuel.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Crisp little rice cakes topped with egg and scallion, cooked in tiny clay pans right in front of you.\"\n    },\n    {\n      \"poi_id\": \"p61\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A maze-like bar where the corridors twist and the drinks come with a side of playful confusion.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 922,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 294,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "e9099d03-8290-4468-a15f-34ecef67ab92",
+        "id": "0c9ada72-afea-4b54-9b15-1a615e0508c6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Morning at the falls, afternoon by the water\n3: Gardens, a lake, and a slow café morning\n4: A flower park morning and a warm bowl"
+            "text": "2: A morning chasing falls, then a golden stream\n3: Gardens, a lake, and the evening buzz\n4: A palace morning, then coffee farewells"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 377,
+          "input_tokens": 376,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 35,
+          "output_tokens": 34,
           "service_tier": "standard"
         }
       }
@@ -148,14 +148,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "07a49af2-a3ae-49cd-a35a-6bc87d68f57b",
+        "id": "cf85b271-5563-41c8-bcce-be196a94cfb9",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Easy arrival and city lights, then a morning at the falls, a lakeside afternoon, and a full day among the flowers."
+            "text": "Đà Lạt in four easy beats: land and wander, a morning on the falls and the golden stream, flowers and the lake, then the summer palace — every must-do in."
           }
         ],
         "stop_reason": "end_turn",
@@ -164,7 +164,7 @@
           "input_tokens": 235,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 26,
+          "output_tokens": 38,
           "service_tier": "standard"
         }
       }

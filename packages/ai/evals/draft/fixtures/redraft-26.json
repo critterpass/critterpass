@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "577c7871-0902-4d68-8720-095236a1b918",
+        "id": "a6b19ad3-0791-46e7-9b29-b71b22c12231",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt ngày mưa, trong nhà thôi\",\n  \"summary\": \"Trời hay mưa nên mình đổi hết sang chỗ có mái che, vẫn đủ chậm rãi cho một ngày Đà Lạt ấm cúng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Trời mưa thì vào Dinh III ngắm đồ xưa, khô ráo lại có chuyện để kể.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng trong nhà, đi thong thả vừa đúng kiểu dễ chịu của bạn.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng ngồi bàn cho ấm bụng, mưa ngoài kia kệ mưa.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cà phê chiều, ngồi trong nhà nhìn phố mưa, chậm rãi đúng gu.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi lại lâu một chút, chỗ này vừa cà phê vừa đồ ăn, hợp người thích ngồi bàn.\",\n      \"note_en\": \"\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tối mưa thì vào khu giải trí có mái che, vẫn có chút nhộn nhịp cho cú đêm.\",\n      \"note_en\": \"\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Mưa Đà Lạt, trong nhà cho ấm\",\n  \"summary\": \"Trời hay mưa nên mình đổi cả ngày vào chỗ có mái che, vẫn trọn vị Đà Lạt từ sáng tới tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ có mái che, ngắm kiến trúc xưa mà không ướt áo.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p23\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bảo tàng trong nhà, chậm rãi xem lịch sử và văn hoá Đà Lạt cho khỏi lo mưa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nem nướng ngồi bàn ấm bụng, ngon quá (so tasty) là đúng bài.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III kín gió, đi một vòng nghe chuyện vua Bảo Đại mà không cần ô.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán cà phê bistro trong nhà, vừa ăn vừa nghe mưa rơi ngoài hiên.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết ngày bằng ly cà phê đêm, chỗ này có mái che nên mưa cứ rơi ngoài kia.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 93,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2688,
-          "output_tokens": 532,
+          "output_tokens": 549,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "3c3c871c-b05d-4f15-9e02-d555bf261cc5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Mưa Đà Lạt, ấm trong nhà\n3: Bảo tàng Lâm Đồng buổi sáng\n3: Ga Đà Lạt, chuyến tàu ký ức\n3: Cà phê Le Chalet giữa trưa\n3: Dinh Bảo Đại III chiều mưa\n3: Nem nướng Bà Hùng tối nay\n3: Mây Lang Thang đêm ấm"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 187,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 111,
           "service_tier": "standard"
         }
       }

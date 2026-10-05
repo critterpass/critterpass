@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d68cebf8-31f1-4711-a983-c0f9a9b48271",
+        "id": "ac370fba-105b-430c-bc9f-87943470435c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Sunset, Sea and a Slow Sunday\",\n  \"summary\": \"A lighter day that skips the temples and heads from the coast to Ubud for an easy wander, a proper meal, and a long evening by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one temple worth keeping, and the sea air does the talking. Rise and shine, the sun won’t wait.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"No more temples, so we swap stone for stalls. A little colour, a little haggling, very Ubud.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a leafy, vegan heart. Terima kasih (thank you) to whoever found this one.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"We end where the night begins. The crew wanted nightlife, so here’s the long, lazy version of it.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Sunset Shrines and Night Lights\",\n  \"summary\": \"A slower day that keeps the crew's two must-sees and swaps the rest for a market wander and a long, easy dinner in the same corner of the island.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple stays, of course. Rise and shine, the sun won't wait.\",\n      \"start_by\": \"17:30\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Leo has had enough temples, so we swap the waterfall for a lazy browse among the market stalls.\",\n      \"start_by\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, slow dinner with proper vegetarian options. Terima kasih (thank you) for trusting me with the evening.\",\n      \"start_by\": \"20:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"We end where the night begins. The Potato Head is a must, and I know a guy who swears by the sunset there.\",\n      \"start_by\": \"21:00\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 67,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 319,
+          "output_tokens": 341,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "3133d420-5546-4d48-b8c5-c0ea6d2f039e",
+        "id": "563f447e-42b4-487e-8428-7921e28be61a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cliffs, Falls and Feasts\",\n  \"summary\": \"A slower day swapping temples for a waterfall, an art market and a long dinner, while keeping the sunset and beach club moments the crew loves.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one temple we keep, and for good reason: the sea temple at sunset is pure Bali. Leo, you can sit this one out with a coconut if the temple fatigue is real.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for Uluwatu Temple: a waterfall with light rays through the canyon. Nature wins today, and it is a proper adventure.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market stop instead of another shrine: local life, photo spots and a little shopping. The sun won’t wait, so we go early.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays at Alchemy: fresh, vegan and exactly what a slower day needs. Terima kasih (thank you) to whoever found this one.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Kept as the nightcap, but we arrive before last entry so nobody misses the after-dark magic. Rise and shine, night owls.\",\n      \"must_do_id\": \"m4\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a long, slow feast at Locavore NXT: vegetarian options for everyone, and a proper way to end the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Coast, Falls and a Sunset Club\",\n  \"summary\": \"A slower Sunday that keeps the two must-sees, swaps the temple for a waterfall and a market, and ends with dinner and the Potato Head after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The crew asked to keep this one, and the sea temple is worth the early start. Rise and shine.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the temple Leo has seen enough of: cool air, green moss and a bit of adventure.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little local life and shopping before dinner, and it suits the photo spot taste too.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays vegetarian and easy, with plenty of time before the club. Terima kasih (thank you) for the veggies.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The must-see after dark, now timed so we arrive well before closing and stay within the day.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 104,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 520,
+          "output_tokens": 366,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "0351cc5f-13cf-4ed7-8cac-b7d251dbeb1d",
+        "id": "6e3d7b46-feea-4f9b-9c6c-6f2e08605166",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: Market, café and a temple at sunset"
+            "text": "Day 2: Morning market, falls and a sunset club"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 317,
+          "input_tokens": 190,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 10,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

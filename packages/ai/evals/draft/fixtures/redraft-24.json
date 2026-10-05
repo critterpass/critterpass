@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "dac82746-f8c6-4b00-8c97-977c73d4a012",
+        "id": "d5ae8918-cea5-4aa1-9007-749b3c8e2126",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Đà Lạt Day\",\n  \"summary\": \"A gentle day around the market, the square and a long lunch, with the pagoda kept for its morning calm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the city's heartbeat, so we start here and let the morning unfold slowly.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p8\",\n      \"note\": \"Kept for its quiet morning light and the slow climb up to the mosaic dragon.\",\n      \"must_do_id\": \"p8\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"Lunch stays as planned: nem nướng is a sit-down treat worth lingering over.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The square is an easy wander after lunch, no rush, just local life and a photo or two.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is a proper sit-down at Góc Hà Thành, because a slow day deserves a long table.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Sips and Market Light\",\n  \"summary\": \"A gentle day around the market and square, with long meals and no rush from stop to stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market is the heart of local life, so we start here while the morning energy is still soft.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"p157\",\n      \"note\": \"KEEP: lunch stays right by the market, a sit-down plate of nem nướng with no clock watching.\",\n      \"must_do_id\": \"p157\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short wander by the square keeps the day easy and gives the legs a little stretch.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p169\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner goes long and a little fancy, a slow splurge to close the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 1,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2688,
-          "output_tokens": 384,
+          "output_tokens": 313,
           "service_tier": "standard"
         }
       }

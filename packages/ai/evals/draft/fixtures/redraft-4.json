@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "d8a0e5f9-0026-4b8d-8b8f-62b583f69ced",
+        "id": "c88d39de-de33-499b-ac44-51ff20b33d8e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Kyoto, One Bite at a Time\",\n  \"summary\": \"A day that starts with the thousand-armed Kannon and ends with skewers, with a market and a proper meal in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The thousand-armed Kannon doesn’t need your camera, just your attention.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin wants to eat her way through the day, so we start here. Snack first, ask questions later.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl before the afternoon. Cheap, warm, and exactly what the market didn’t sell you.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The viewpoint earns its keep. Go after lunch, when the light softens and the crowds thin.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow wander through Gion. No plan, no rush—just old wood and the sound of your own footsteps.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p21\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner on sticks. The crew wanted food, so we end the day the way Rin started it: with another bite.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Day of Tastes and Temples\",\n  \"summary\": \"Kyoto's flavours take the lead, from market snacks to a proper sit-down meal, with the day's essential temple kept in the middle.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. We start here before the market wakes, so the quiet still belongs to the statues.\",\n      \"note\": \"Shoes off, phone down, eyes up. We start here before the market wakes, so the quiet still belongs to the statues.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin asked to eat her way through the day. This is where she starts, and the rest of us follow the steam.\",\n      \"note\": \"Rin asked to eat her way through the day. This is where she starts, and the rest of us follow the steam.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, not a snack. Cheap, warm, and exactly what a market morning should end with.\",\n      \"note\": \"A proper bowl, not a snack. Cheap, warm, and exactly what a market morning should end with.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The viewpoint earns its keep after lunch. The deer will cope without you; the blossoms won't wait.\",\n      \"note\": \"The viewpoint earns its keep after lunch. The deer will cope without you; the blossoms won't wait.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow walk through Gion, where the old Kyoto still hums between the teahouses.\",\n      \"note\": \"A slow walk through Gion, where the old Kyoto still hums between the teahouses.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is gyoza, because Rin's day of eating deserves a crispy finish and the budget stays happy.\",\n      \"note\": \"Dinner is gyoza, because Rin's day of eating deserves a crispy finish and the budget stays happy.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 76,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 472,
+          "output_tokens": 584,
           "service_tier": "standard"
         }
       }

@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a8b923c6-03ce-42cf-a0ad-7962e6639c08",
+        "id": "7a393501-f5c4-45bc-b755-85152e179b38",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cusco Surprises and Sacred Stones\",\n  \"summary\": \"A day of expected wonders and an unexpected descent into the Sacred Valley's green terraces, with a proper market-town meal in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden walls of Qorikancha still hold their secrets, a fine start before the day's surprise.\",\n      \"note_voice\": \"The golden walls of Qorikancha still hold their secrets, a fine start before the day's surprise.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick stop at the Cathedral, because no day in Cusco is complete without a nod to its heavy silver and heavier history.\",\n      \"note_voice\": \"A quick stop at the Cathedral, because no day in Cusco is complete without a nod to its heavy silver and heavier history.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Pisac ruins, as promised, with its long views and longer climbs.\",\n      \"note_voice\": \"Pisac ruins, as promised, with its long views and longer climbs.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: Moray's sunken terraces, a green amphitheatre where the Incas played with Inti (the sun) and soil.\",\n      \"note_voice\": \"The surprise: Moray's sunken terraces, a green amphitheatre where the Incas played with Inti (the sun) and soil.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A laid-back dinner at La Bodega 138, where the vegetarian options are as warm as the welcome.\",\n      \"note_voice\": \"A laid-back dinner at La Bodega 138, where the vegetarian options are as warm as the welcome.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Cusco, With a Twist\",\n  \"summary\": \"A day that mixes the crew's must-see history with a quiet, unexpected stop among the terraces of Moray.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The old stones of Qorikancha still hold their secrets, and it is the right way to start a day of surprises.\",\n      \"poi_id\": \"p2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short visit to the cathedral, because its paintings hide stories most visitors walk right past.\",\n      \"poi_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper lunch with good vegetarian plates, and a chance to rest the legs before the long ride.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Pisac stays, of course. The hike up there is the kind of tired you thank me for later.\",\n      \"poi_id\": \"p9\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Moray is the surprise: giant green rings in the earth that feel like a secret the mountains kept for us.\",\n      \"poi_id\": \"p11\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 52,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 512,
+          "output_tokens": 392,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "8c7069d6-1a86-414f-a9f2-b33661cb1618",
+        "id": "7d1a355e-5283-4a90-a0e0-a5cfe481e161",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Cusco's Hidden Corners\",\n  \"summary\": \"A day of classic Cusco sights with a surprise twist, from the sun temple to a quiet local meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Qorikancha stays: the crew must feel the old stones and Inti (the sun) on their faces.\",\n      \"start_by\": \"16:15\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Cathedral is a quiet surprise after the temple, and its cool air is a welcome pause.\",\n      \"start_by\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here keeps our vegetarian friends smiling, and the kitchen never rushes you.\",\n      \"start_by\": \"20:45\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Pisac ruins stay for the hikers, but we go slow so nobody feels the altitude bite.\",\n      \"start_by\": \"15:00\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at La Bodega is the hidden gem: simple, warm, and easy on the wallet.\",\n      \"start_by\": \"22:00\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Cusco Surprises and Sacred Stones\",\n  \"summary\": \"A day that pairs the crew's must-see Inca stones with an unexpected, slow wander through a living salt landscape and a proper market-table lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked for history, so Qorikancha stays — Inti (the sun) once shone on gold here, and the stones still hold that warmth.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple full of paintings and quiet corners — a good surprise for the culture lovers, and it sits right by our lunch.\",\n      \"start\": \"10:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper vegetarian plates, because every belly in this crew deserves a happy pause.\",\n      \"start\": \"12:00\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The hiking taste gets its reward up at Pisac — a long, lovely wander among terraces and old stones.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a salt mine that looks like snow on the hillside, and a photo spot nobody expected on a history day.\",\n      \"start\": \"16:30\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 101,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 387,
+          "output_tokens": 412,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "6eeb443f-4f45-4434-9366-1f64ca8eb2fd",
+        "id": "6c11ad6e-630d-4394-8181-8189322925fb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: Temple, cathedral, then Pisac's long afternoon"
+            "text": "2: Sacred stones, a market lunch, and a long afternoon among ruins"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 136,
+          "input_tokens": 251,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 14,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 15,
           "service_tier": "standard"
         }
       }

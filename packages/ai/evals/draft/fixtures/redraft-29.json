@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9876a0a3-08a4-46bd-81db-5eb99e009e03",
+        "id": "aaca8ef6-0926-4d10-aa7d-65a50ff89357",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đêm Đà Lạt khẽ chạm vai\",\n  \"summary\": \"Chiều thả bộ bên hồ, tối ghé chợ đêm rồi kết bằng một ly cocktail thật chậm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Xuân Hương Lake\",\n      \"note\": \"Giữ lại hồ cho buổi chiều muộn, lúc gió vừa dịu và mặt nước bắt đầu ánh lên.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối đổi vị bằng nem nướng, ngồi xuống ăn chậm rãi trước khi phố lên đèn.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nho nhỏ cho tối nay: chợ đêm nhộn nhịp, đi lòng vòng nghe người ta mặc cả.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết ngày bằng một góc quầy ấm, nhấp một ngụm và nhìn phố núi về khuya.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đà Lạt về đêm, chút lạ mà quen\",\n  \"summary\": \"Chiều thong thả ngắm hồ, tối lạc vào chợ đêm và kết bằng một ly cocktail ấm trong góc phố núi.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Giữ hồ lại vì chiều muộn ở đây dịu nhất, gió nhẹ và mặt nước đổi màu rất khó quên.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Điều bất ngờ cho tối nay: chợ đêm ồn ào, thơm mùi bắp nướng, nhìn đời Đà Lạt thức dậy sau hoàng hôn.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối ngồi xuống đàng hoàng, nem nướng cuốn rau tươi, ngon quá, ăn chậm cho ấm bụng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết đêm bằng một quầy bar nhỏ, thứ người ta ít ngờ giữa phố núi, nhạc nhẹ và ánh đèn vàng.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 66,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 363,
+          "output_tokens": 437,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "18e27554-0e6f-4e75-b9b5-98ee239eded8",
+        "id": "298dcea3-5950-4486-8236-fe7d976eba79",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Chiều Đà Lạt Khác Lạ Đến Khuya\",\n  \"summary\": \"Một buổi chiều thong thả từ hồ Xuân Hương, ghé chợ đêm cho có chút bất ngờ, rồi kết thúc bằng bữa tối ngồi xuống ấm bụng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Xuân Hương Lake\",\n      \"note\": \"Giữ lại vì hồ là chốn ai đến Đà Lạt cũng muốn ngắm một lần, chiều muộn lại càng thư thả.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Đà Lạt Night Market\",\n      \"note\": \"Thêm chợ đêm để có chút bất ngờ ngoài mấy điểm quen thuộc, người một mình đi dạo chợ cũng vui.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"Mây Lang Thang\",\n      \"note\": \"Ghé ngồi uống cà phê tối, ngắm phố núi lên đèn, hợp với người thích đêm và không vội.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"Lẩu Bò Ba Toa Quán Gỗ\",\n      \"note\": \"Bữa tối ngồi xuống đúng kiểu, lẩu bò nóng cho đêm Đà Lạt se lạnh, ngon quá.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Chiều Đà Lạt, Đêm Bất Ngờ\",\n  \"summary\": \"Một buổi chiều thong thả bên hồ và phố, rồi tối bất ngờ với ly cocktail và khu chợ đêm rộn ràng.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ Xuân Hương chiều thứ hai vắng, gió nhẹ, đi một vòng cho tỉnh ngủ.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Quảng trường Lâm Viên lúc chiều muộn, người Đà Lạt ra hóng gió, mình ngồi ké một góc.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lẩu bò nóng cho bữa tối, ngồi một mình cũng thấy ấm bụng.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nè: ly cocktail sau bữa tối, nhạc nhỏ, đèn mờ, khác hẳn mọi ngày.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 92,
+          "input_tokens": 98,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 430,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "5e4ed528-5ba3-4adb-a3cf-a7932ac33c64",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "1: Chợ đêm, cà phê và lẩu bò"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 188,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 18,
+          "output_tokens": 360,
           "service_tier": "standard"
         }
       }

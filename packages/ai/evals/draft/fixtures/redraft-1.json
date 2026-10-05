@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "826cb240-b6f5-41f2-834c-fa2da862496c",
+        "id": "f460db8d-8ce3-4467-9ba7-083f2a8fa6e1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Golden Temple and Quiet Streets\",\n  \"summary\": \"A slow, close-knit day around Kinkaku-ji and Ginkaku-ji, with a vegan lunch between temples and no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch right beside the temples. Fancier than street food, but it keeps the day short.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The silver one, a short ride from the gold. Two temples, no fuss.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Slow Loop Around the North\",\n  \"summary\": \"A gentle day around the northern temples, with a long lunch and no long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The golden one stays. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Right next door, and a calmer counterpoint to the gold leaf.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan set lunch beside the temples. Kaiseki (multi-course Kyoto meal) pace, no rush.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 124,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 250,
+          "output_tokens": 206,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "a0bd06fa-63ed-4152-981e-4048744985a2",
+        "id": "b149f449-7ccb-4b63-9bd6-c8e786d97330",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: Temples, a museum, and an evening alley"
+            "text": "2: Two temples, one long north loop"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 239,
+          "input_tokens": 240,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 14,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }

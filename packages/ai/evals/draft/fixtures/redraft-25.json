@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "bf288028-2b6f-49a5-9efe-d89137053f6c",
+        "id": "a0899e83-f5de-463d-aa82-714f075a305a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt quanh một góc phố\",\n  \"summary\": \"Một ngày thong thả quanh khu vực trung tâm, từ sáng muộn đến tối, ăn uống ngay cạnh những điểm dừng chân.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa nhẹ nhàng, ngay khu vực trung tâm, hợp với người thích khởi động muộn.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đi dạo quanh hồ cho chậm rãi, không cần đi xa vẫn thấy Đà Lạt hiền lành.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p136\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà ga cổ gần hồ, ghé xem kiến trúc và chụp vài tấm ảnh cho có chất Đà Lạt.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi xuống ăn nem nướng đúng kiểu, ngon quá, khỏi cần đi đâu xa.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sau bữa tối, ghé khu phức hợp gần đó cho hợp với cú đêm, không phải chạy xe lòng vòng.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Một ngày thong thả quanh Đà Lạt\",\n  \"summary\": \"Một ngày nhẹ nhàng quanh khu vực trung tâm, vừa đủ để thưởng thức hương vị địa phương và nhịp sống về đêm.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p179\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa đúng chất Đà Lạt, gọn nhẹ mà ấm bụng trước khi dạo phố.\"\n    },\n    {\n      \"poi_id\": \"p180\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đồi cỏ hồng chiều nhẹ tênh, đứng đây nhìn mây trôi là thấy lòng chậm lại.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi xuống quen kiểu người địa phương, nem nướng cuốn rau thơm, ngon quá.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sau bữa tối, ghé khu phức hợp này cho đúng chất cú đêm, không cần đi xa.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 70,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 485,
+          "output_tokens": 366,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "54016ac6-a17a-4af0-aadd-83d01fa53fda",
+        "id": "ac15a0a3-3e81-4356-ba77-a8c7ca3a4f7b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Một ngày thong thả quanh Đà Lạt\",\n  \"summary\": \"Một ngày nhẹ nhàng ở Đà Lạt, đi bộ giữa những điểm gần nhau, ăn ngon và ngắm thành phố lên đèn.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ Xuân Hương ngay trung tâm, đi một vòng chậm rãi cho tỉnh ngủ, không cần đi xa.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa trưa ngồi xuống cho đàng hoàng, nem nướng Đà Lạt đúng kiểu, ăn xong còn sức đi tiếp.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dinh III gần hồ, vào xem một chút lịch sử nhẹ nhàng, không cần chạy đâu xa.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p286\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vườn hoa cũng ở khu này, dạo chậm, chụp vài tấm, hợp với ngày không muốn di chuyển nhiều.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối ngồi quán xinh xinh, cà phê và đồ ăn nhẹ, vừa ăn vừa nhìn phố.\",\n      \"area\": \"A\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khu Marché gần đó, ghé xem không khí về đêm, đi bộ một chút rồi về nghỉ.\",\n      \"area\": \"A\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Một Ngày Thong Thả Ven Hồ\",\n  \"summary\": \"Đà Lạt nhẹ tênh, đi bộ loanh quanh một góc, ăn ngon và ngắm cảnh cho tới tối.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khởi động muộn cho đúng chất nghỉ dưỡng, đi một vòng hồ cho tỉnh táo rồi tính chuyện ăn uống.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Trưa rồi, ngồi xuống ăn nem nướng cho đàng hoàng, khỏi cần chạy đâu xa.\"\n    },\n    {\n      \"poi_id\": \"p180\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đồi cỏ hồng ngay gần đó, đứng ngắm một lát cho bõ công lên Đà Lạt.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ghé quán cà phê quen thuộc, ngồi xuống nhâm nhi cho hết buổi chiều lười biếng.\"\n    },\n    {\n      \"poi_id\": \"p330\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối đến, chọn một chỗ ngồi ấm cúng, ăn tối thong thả trước khi ra phố.\"\n    },\n    {\n      \"poi_id\": \"p144\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Khu phức hợp về đêm ngay trong khu, đi dạo một vòng cho biết Đà Lạt không chỉ có thông reo.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,31 @@
           "input_tokens": 99,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 563,
+          "output_tokens": 510,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "2383da57-f86d-4687-b1f5-1e4f78f579c0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Thong Thả Quanh Hồ Xuân Hương\n4: Sớm Ở Dinh Bảo Đại, Chiều Lên Đồi Cỏ Hồng\n5: Chùa Trúc Lâm, Nem Nướng, Cà Phê Đêm\n6: Chợ Đà Lạt, Quán Ăn, Ngắm Sương\n7: Thác Datanla, Cả Ngày Trong Rừng Thông\n8: Lang Thang Phố Núi, Ăn Vặt Chợ Đêm\n9: Cà Phê Sớm, Vườn Hoa, Chiều Núi\n10: Đồi Chè Cầu Đất, Sáng Sớm Sương Mù\n11: Hồ Tuyền Lâm, Thuyền Và Nắng\n12: Chùa Linh Phước, Đường Hầm Đất Sét\n13: Núi Langbiang, Ngày Trọn Vẹn\n14: Thung Lũng Tình Yêu, Chiều Muộn\n15: Chợ Đêm"
+          }
+        ],
+        "stop_reason": "max_tokens",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 214,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 256,
           "service_tier": "standard"
         }
       }

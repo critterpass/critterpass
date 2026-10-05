@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "aded0c11-e2e6-4c25-ba19-a43208812e93",
+        "id": "f6fdcc76-08cb-4213-8346-9b12f21722b6",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Slow Day Around Ubud\",\n  \"summary\": \"A gentle day around Ubud with one rice terrace visit, a long vegan lunch and an easy temple stop kept free.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p3\",\n      \"note\": \"The one activity for today, kept slow and green. The sun won’t wait, so we start here before it gets hot.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays as planned. Take your time here, terima kasih (thank you) to the kitchen for the long pause.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free temple stop to wind down the afternoon, easy on the budget and the feet.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner kept simple and cheap, a local plate to close the day.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"A Slow, Easy Bali Day\",\n  \"summary\": \"A gentle day around Ubud with one quiet temple stop, a long lunch, and a relaxed dinner, keeping things easy on the wallet.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free, peaceful temple stop to ease into the day. The lotus pond does half the relaxing for you.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays at Alchemy. It is a little pricier, but a long, calm vegan meal fits the slow mood.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a humble warung. Simple, cheap, and exactly what a relaxed evening calls for.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 111,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1792,
-          "output_tokens": 280,
+          "output_tokens": 261,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "c152ecb6-a8bc-4191-8448-39948991fe7f",
+        "id": "2c657a63-5c0f-428e-bcb2-ba5bee3f6c8d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Ubud Morning\",\n  \"summary\": \"A gentle day with one temple visit, a long lunch, and dinner in the same leafy pocket of Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free lotus-pond temple to start the day soft and easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch here stays put—vegan, calm, and close by.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p3\",\n      \"note\": \"The rice terrace remains the one big sight, kept for its green calm.\",\n      \"must_do_id\": \"p3\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, cheap dinner to end the day without fuss.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Slow, Sunny Wander\",\n  \"summary\": \"A gentle day with one long, free beach visit and two easy meals, leaving plenty of time to just breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The sun won’t wait, but we can. A long, free stretch of sand with no rush at all.\",\n      \"price\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A laid-back lunch nearby, easy on the wallet and the pace.\",\n      \"price\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner in the same relaxed corner of the map, terima kasih (thank you) for a slow day.\",\n      \"price\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 11,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1920,
-          "output_tokens": 289,
+          "output_tokens": 234,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "3a4db81b-f7e0-4b09-9210-6bbf636e853f",
+        "id": "dd97441f-8c9e-45d7-b925-87c61f0cab80",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "2: A temple, a terrace, a slow Ubud day"
+            "text": "2: A slow day from café to beach"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 302,
+          "input_tokens": 285,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 13,
+          "output_tokens": 9,
           "service_tier": "standard"
         }
       }

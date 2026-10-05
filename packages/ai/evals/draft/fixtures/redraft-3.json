@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "cf92bddb-07dd-4363-b59d-50a803f1317c",
+        "id": "bf0bcc37-2331-4d05-958c-c7a7b9ef448b",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Gion, Rails and Castle Walls\",\n  \"summary\": \"A leaner Kyoto day with one paid stop kept and the castle swapped for a free wander through Gion.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free and full of local life, so the wallet gets a rest while the eyes do the work.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one priced stop worth keeping, and the crew asked for museums.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Gion and Castle, No Ticket Queue\",\n  \"summary\": \"A slower, cheaper day in one corner of the city: lantern-lit streets, a castle, and the railway museum the crew asked to keep.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Free from dawn to dusk, and the most photogenic street in Gion. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Still a castle, still a ticket, but less than the museum. Worth one message to the group.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked to keep this one, so it stays. Start by three and the trains will still be waiting.\",\n      \"must_do_id\": \"m2\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 21,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1408,
-          "output_tokens": 180,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "167b6def-2eb7-4f8e-8ea1-d0d945748381",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "2: A morning in Gion, then the railway museum"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 179,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 12,
+          "output_tokens": 267,
           "service_tier": "standard"
         }
       }

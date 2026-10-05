@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "f288717d-e3ef-4d99-a97d-9c002a82f1d0",
+        "id": "ba44a81e-46a4-4269-a894-be78e804b069",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Hidden Gems and Quiet Wonders\",\n  \"summary\": \"A day that trades the usual beach buzz for a waterfall, a sacred spring, and a surprise stop the crew won't see coming.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine. We keep the waterfall because it is the one thing you must see, and the early light makes it magic.\",\n      \"note\": \"The sun won't wait, and neither should you. This is the must-see, so we start here before the day warms up.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the soul. You came for adventure, but a dip in a holy spring is the local secret you did not know you needed.\"\n    }\n  ]\n}\n```"
+            "text": "{\"title\":\"Hidden Temple and Beach Club Day\",\"summary\":\"Start with the waterfall the crew already loves, then add a purifying temple visit and end with a beach club night out.\",\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"The sun won’t wait, so we keep this early wonder as the day’s first splash.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A surprise stop for a blessing and a good soak, something this day did not have yet.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"After dark it turns into the kind of loud, lazy fun nobody saw coming.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 124,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 220,
+          "output_tokens": 163,
           "service_tier": "standard"
         }
       }

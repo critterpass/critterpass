@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "b8333a79-8ca0-4249-8c88-b952cac0fe06",
+        "id": "6e0737dd-a23c-4510-930f-d14f4f9c36cd",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Slow Morning, A Lantern Evening\",\n  \"summary\": \"A gentle day with one temple, a long vegan lunch, and Pontocho after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple is enough after a late Pontocho night. Forty-five unhurried minutes, then we eat.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch suits every taste in the crew and gives the morning room to breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one thing we keep from the old plan. Shoes off, phone down, eyes up after dark.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Softer Kyoto Morning\",\n  \"summary\": \"A slower day with one temple, a long lunch, and Pontocho after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple is enough for a tired crew. This one is short and cool inside.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The night owls get their alley. The deer will cope without you.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,31 @@
           "input_tokens": 59,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 252,
+          "output_tokens": 231,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "cf57f790-f385-4776-a226-44f5b1fa1fdd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: A temple morning, then Pontocho after dark"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 187,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 12,
           "service_tier": "standard"
         }
       }

@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "069ba954-ac96-4172-9b68-d0ca3f69b0c2",
+        "id": "6ee7c5df-fc54-45cc-b809-3a19ac63b9c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Belém and a Different Vibe\",\n  \"summary\": \"A slower Sunday around Belém with the tower kept as the anchor, then a different market and an evening in Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The tower stays: you don't come to Lisbon and skip this one. History with a sea breeze.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Different from the usual museum run: a proper Lisbon market, all day, no rush.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, Bairro Alto does what it does best. Grilled sardines, every single night.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"Belém, with a different rhythm\",\n  \"summary\": \"A slower Sunday around Belém, keeping the tower and swapping the rest for a calmer, local-flavoured wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one sight people come here for, and it is still standing, so we are too.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A market wander with no rush, because a slower day still needs a little local life.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, Bairro Alto does what Bairro Alto does best.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 69,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 238,
+          "output_tokens": 213,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "9594a37d-52a8-416a-aafe-1bdbf1078901",
+        "id": "6bee460e-9013-41bf-9197-0313d8f059d0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Belém Tower and a Different Vibe\",\n  \"summary\": \"A slower Sunday around Belém with the tower as the anchor and a different local stop to round it out.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one everyone comes for, and it still earns its spot. Grilled sardines can wait; history cannot.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A different local stop for this redraft, with plenty of corners to wander and photo spots to keep the crew happy.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Belém by Day, Bairro Alto by Night\",\n  \"summary\": \"A slower Sunday with the must-see tower, then a wander through the evening buzz of Bairro Alto.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one everyone comes for, so it stays. History with a river view.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Different from the market day: after-dark lanes, photo spots, and a little nightlife.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 101,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1280,
-          "output_tokens": 170,
+          "output_tokens": 162,
           "service_tier": "standard"
         }
       }
