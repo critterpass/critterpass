@@ -55,8 +55,8 @@ describe('picking days', () => {
     expect(await screen.findByText(/october 2026/iu)).toBeTruthy();
     await fireEvent.press(screen.getByTestId('heat-pick-2026-10-02'));
     await fireEvent.press(screen.getByTestId('heat-pick-2026-10-06'));
-    expect(screen.getByLabelText('October 2, first day, 0 of 1 free')).toBeTruthy();
-    expect(screen.getByLabelText('October 6, last day, 0 of 1 free')).toBeTruthy();
+    expect(screen.getByLabelText('October 2, first day')).toBeTruthy();
+    expect(screen.getByLabelText('October 6, last day')).toBeTruthy();
     await fireEvent.press(await screen.findByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-06'));
   });
@@ -86,5 +86,22 @@ describe('picking days', () => {
     await fireEvent.press(screen.getByTestId('picker-clear'));
     expect(screen.queryByTestId('picker-lock')).toBeNull();
     expect(screen.queryByTestId('picker-length')).toBeNull();
+  });
+});
+
+describe('a trip of one', () => {
+  it('shows no counts: nothing under the dates and no "can make it" line', async () => {
+    await renderSetup(picker(jest.fn(), '2026-10-05'));
+    await fireEvent(screen.getByTestId('picker-month'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'decrement' },
+    });
+    await fireEvent.press(await screen.findByTestId('heat-pick-2026-10-08'));
+    expect(screen.getByTestId('picker-length')).toBeTruthy();
+    expect(screen.queryByTestId('picker-free')).toBeNull();
+    expect(screen.queryByText('0/1')).toBeNull();
+    expect(screen.queryByText('1/1')).toBeNull();
+    // A day already past is a plain day that cannot be picked.
+    expect(screen.queryByTestId('heat-pick-2026-10-02')).toBeNull();
+    expect(screen.getByLabelText('October 2')).toBeTruthy();
   });
 });

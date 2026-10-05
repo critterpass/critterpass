@@ -400,6 +400,14 @@ msgstr ""
 msgid "vote.reveal.lockedIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedInBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.lockedIn"
+msgstr ""
+
 #. placeholder {0}: p.name
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "crew.queued.create"

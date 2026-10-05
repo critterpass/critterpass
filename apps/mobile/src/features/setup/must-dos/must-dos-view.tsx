@@ -41,6 +41,8 @@ export interface MustDosViewProps {
   readonly onOpenDraft?: () => void;
   readonly onAdd: () => void;
   readonly onDraft: () => void;
+  /** Drafts with nothing on the list (offered only where the server takes that move). */
+  readonly onDraftWithout?: (() => void) | undefined;
   readonly onRemove: (item: MustDoItem) => void;
   readonly onRemind: (item: MustDoItem) => void;
 }
@@ -60,6 +62,7 @@ export function MustDosView({
   onOpenDraft,
   onAdd,
   onDraft,
+  onDraftWithout,
   onRemove,
   onRemind,
 }: MustDosViewProps) {
@@ -97,8 +100,19 @@ export function MustDosView({
     )
   ) : trip.isOrganiser ? (
     model.items.length === 0 && canAdd ? (
-      // Nothing to draft from yet: adding one is the next thing to do, so it is the button.
-      <PillButton label={addLabel} onPress={onAdd} testID="must-dos-add" />
+      // Nothing to draft from yet: adding one is the next thing to do, so it is the button; she
+      // may still draft with none.
+      <>
+        <PillButton label={addLabel} onPress={onAdd} testID="must-dos-add" />
+        {onDraftWithout === undefined ? null : (
+          <TextLink
+            label={t({ id: 'setup.mustDos.draftWithout', message: 'Draft without one' })}
+            onPress={onDraftWithout}
+            disabled={drafting}
+            testID="must-dos-draft-without"
+          />
+        )}
+      </>
     ) : (
       <>
         <PillButton

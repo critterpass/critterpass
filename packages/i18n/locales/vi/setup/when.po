@@ -28,7 +28,6 @@ msgid "setup.when.line.all"
 msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. Đủ cả rồi.}}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr "{days, plural, other {# ngày}}"
 
@@ -105,12 +104,24 @@ msgid "setup.when.cellA11y"
 msgstr "{when}, {free} trên {total} người rảnh"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnlyPlain"
+msgstr "{when}, ngày đầu và ngày cuối"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yOnly"
 msgstr "{when}, ngày đầu và ngày cuối, {free} trên {total} người rảnh"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirstPlain"
+msgstr "{when}, ngày đầu"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yFirst"
 msgstr "{when}, ngày đầu, {free} trên {total} người rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLastPlain"
+msgstr "{when}, ngày cuối"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yLast"

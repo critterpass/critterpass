@@ -86,7 +86,8 @@ export function Heatmap({
       day: 'numeric',
       timeZone: 'UTC',
     });
-    return heatCellLabel(when, day.free, total, edgesIn(filled, day.date));
+    const past = today !== undefined && day.date < today;
+    return heatCellLabel(when, day.free, total, edgesIn(filled, day.date), total > 1 && !past);
   };
   return (
     <View style={styles.card} testID="setup-heatmap">
@@ -118,7 +119,7 @@ export function Heatmap({
         renderDay={(date) => {
           const day = byDate.get(date);
           if (day === undefined) return null;
-          const closed = onSelectDay !== undefined && today !== undefined && date < today;
+          const closed = today !== undefined && date < today;
           return (
             <HeatCell
               day={day}

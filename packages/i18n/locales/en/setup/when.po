@@ -28,7 +28,6 @@ msgid "setup.when.line.all"
 msgstr "{calendars, plural, one {From {synced} synced calendar. Everyone’s in.} other {From {synced} synced calendars. Everyone’s in.}}"
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr "{days, plural, one {# day} other {# days}}"
 
@@ -105,12 +104,24 @@ msgid "setup.when.cellA11y"
 msgstr "{when}, {free} of {total} free"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnlyPlain"
+msgstr "{when}, first and last day"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yOnly"
 msgstr "{when}, first and last day, {free} of {total} free"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirstPlain"
+msgstr "{when}, first day"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yFirst"
 msgstr "{when}, first day, {free} of {total} free"
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLastPlain"
+msgstr "{when}, last day"
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yLast"

@@ -28,7 +28,6 @@ msgid "setup.when.line.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr ""
 
@@ -105,11 +104,23 @@ msgid "setup.when.cellA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yOnlyPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yOnly"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yFirstPlain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
 msgid "setup.when.cellA11yFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heat-cell.tsx
+msgid "setup.when.cellA11yLastPlain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/heat-cell.tsx

@@ -47,6 +47,8 @@ export function isOverBand(band: BandView, target: number): boolean {
 function statusLine(band: BandView, over: boolean): string | null {
   const { set, of } = band;
   if (band.kind === 'waiting') {
+    // A trip of one has nobody's max to wait for.
+    if (of <= 1) return null;
     return t({ id: 'setup.budget.card.waiting', message: `${set} of ${of} set` });
   }
   if (band.kind === 'infeasible') return null;
@@ -107,10 +109,12 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const ink = theme.semantic.text.onAccent;
   const caption =
     band.kind === 'waiting'
-      ? band.of < BUDGET_K_MIN
-        ? // A crew under four never reaches a band or dots: say what does hold.
-          t({ id: 'setup.budget.card.captionSmallCrew', message: 'every max stays private' })
-        : t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
+      ? band.of <= 1
+        ? null
+        : band.of < BUDGET_K_MIN
+          ? // A crew under four never reaches a band or dots: say what does hold.
+            t({ id: 'setup.budget.card.captionSmallCrew', message: 'every max stays private' })
+          : t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
       : band.dots === null
         ? t({ id: 'setup.budget.card.captionNoDots', message: 'the band sits under every max' })
         : t({ id: 'setup.budget.card.caption', message: 'each dot is someone’s max' });
@@ -123,7 +127,9 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
     <Card tone="yellow" halftone style={styles.card} testID="budget-sweet-spot">
       <Row justify="space-between" align="center" style={styles.head}>
         <Text variant="eyebrow" color={ink} style={styles.eyebrow}>
-          {t({ id: 'setup.budget.card.eyebrow', message: 'Sweet spot, each' })}
+          {band.kind === 'waiting' && band.of <= 1
+            ? t({ id: 'setup.budget.card.eyebrowAlone', message: 'Sweet spot' })
+            : t({ id: 'setup.budget.card.eyebrow', message: 'Sweet spot, each' })}
         </Text>
         {status === null ? null : (
           <Text
@@ -172,13 +178,13 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
               sweetSpot={target}
               minLabel={money(locale, track.minMinor, currency)}
               maxLabel={money(locale, track.maxMinor, currency)}
-              {...(captionBelow ? {} : { caption })}
+              {...(captionBelow || caption === null ? {} : { caption })}
               summary={summary}
             />
           </View>
         </View>
       </GestureDetector>
-      {captionBelow ? (
+      {captionBelow && caption !== null ? (
         <Text variant="monoData" color={ink} style={styles.caption} testID="budget-caption">
           {caption}
         </Text>
