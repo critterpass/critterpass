@@ -6,17 +6,23 @@
 import type { PinnedPlace } from '../kinds/places/pins';
 
 export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
-  { name: 'Marble Mountains', nameLocal: 'Ngũ Hành Sơn', lat: 16.0029, lng: 108.2638 },
-  { name: 'Tam Thai Pagoda', nameLocal: 'Chùa Tam Thai', lat: 16.0039, lng: 108.2627 },
   {
-    name: 'Lady Buddha Statue',
-    nameLocal: 'Tượng Phật Quan Thế Âm',
-    lat: 16.0997,
-    lng: 108.277,
-    category: 'temple_shrine',
+    name: 'Marble Mountains',
+    essential: true,
+    nameLocal: 'Ngũ Hành Sơn',
+    lat: 16.0029,
+    lng: 108.2638,
   },
-  { name: 'Bà Nà Hills', lat: 15.9972, lng: 107.9888, category: 'nature' },
-  { name: 'Golden Bridge', nameLocal: 'Cầu Vàng', lat: 15.9947, lng: 107.9966, category: 'museum' },
+  { name: 'Tam Thai Pagoda', nameLocal: 'Chùa Tam Thai', lat: 16.0039, lng: 108.2627 },
+  { name: 'Bà Nà Hills', essential: true, lat: 15.9972, lng: 107.9888, category: 'nature' },
+  {
+    name: 'Golden Bridge',
+    essential: true,
+    nameLocal: 'Cầu Vàng',
+    lat: 15.9947,
+    lng: 107.9966,
+    category: 'museum',
+  },
   {
     name: 'French Village',
     nameLocal: 'Làng Pháp',
@@ -26,11 +32,13 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
   },
   {
     name: 'Bảo Tàng Điêu Khắc Chăm Đà Nẵng (Danang Museum of Cham Sculpture)',
+    essential: true,
     lat: 16.0605,
     lng: 108.2234,
   },
   {
     name: 'Hải Vân Pass',
+    essential: true,
     nameLocal: 'Đèo Hải Vân',
     lat: 16.1877,
     lng: 108.1313,
@@ -47,9 +55,15 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
   { name: 'Sun Wheel', nameLocal: 'Vòng quay Mặt Trời', lat: 16.0416, lng: 108.2271 },
   { name: 'Carp-Dragon Statue', nameLocal: 'Tượng Cá Chép Hóa Rồng', lat: 16.0629, lng: 108.2299 },
   { name: 'Chàm Islands', lat: 15.9524, lng: 108.5204 },
-  { name: 'Bãi Biển An Bàng (An Bang Beach)', lat: 15.9136, lng: 108.3406 },
+  { name: 'Bãi Biển An Bàng (An Bang Beach)', essential: true, lat: 15.9136, lng: 108.3406 },
   { name: 'Non Nước Beach', nameLocal: 'Bãi tắm Non Nước', lat: 16.0028, lng: 108.27 },
-  { name: 'Japanese Covered Bridge', nameLocal: 'Chùa Cầu', lat: 15.8769, lng: 108.3262 },
+  {
+    name: 'Japanese Covered Bridge',
+    essential: true,
+    nameLocal: 'Chùa Cầu',
+    lat: 15.8769,
+    lng: 108.3262,
+  },
   { name: 'Tấn Ký Old House', nameLocal: 'Nhà cổ Tấn Ký', lat: 15.8765, lng: 108.3277 },
   { name: 'Phùng Hưng Old House', nameLocal: 'Nhà cổ Phùng Hưng', lat: 15.8772, lng: 108.3258 },
   { name: 'Fujian Assembly Hall', nameLocal: 'Hội quán Phúc Kiến', lat: 15.8775, lng: 108.3306 },
@@ -70,7 +84,7 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
     lng: 108.2627,
     category: 'nature',
   },
-  { name: 'Mỹ Sơn', lat: 15.7632, lng: 108.1244 },
+  { name: 'Mỹ Sơn', essential: true, lat: 15.7632, lng: 108.1244 },
   { name: 'East Sea Park', nameLocal: 'Công viên Biển Đông', lat: 16.0703, lng: 108.2456 },
   {
     name: 'Thuận Phước Bridge',
