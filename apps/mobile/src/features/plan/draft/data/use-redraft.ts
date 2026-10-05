@@ -1,8 +1,10 @@
 /**
  * One redraft, live: its job (synced row, `redraft.result` on `trip_draft:{trip_id}`, and a
  * `GET /v1/jobs/{id}` poll while it runs), the server's diff once it is delivered, the names of
- * the places both versions name, the day's title before the redraft and whether the organiser has
- * already kept or put it back (its reservation settled).
+ * the places both versions name, the day's title before and after the redraft and whether the
+ * organiser has already kept or put it back (its reservation settled). The guide writes in
+ * English; titles and each change's reason are read in the organiser's language from the synced
+ * rows of both versions as soon as their translations are in.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, paths and wire values, never copy. */
 import {
@@ -15,6 +17,8 @@ import {
 import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { useChannel } from '@/data/realtime/use-channel';
+import { guideText } from '@/lib/i18n/guide-text';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import type { JobStatus } from './job';
 import { parseJson, useLiveRows } from './rows';
@@ -26,8 +30,12 @@ export interface RedraftView {
   readonly status: JobStatus | null;
   readonly result: RedraftResult | null;
   readonly places: Readonly<Record<string, DraftPlace>>;
-  /** The day's title in the draft the redraft was asked against. */
+  /** The day's title in the draft the redraft was asked against, as the organiser reads it. */
   readonly baseTitle: string | null;
+  /** The redrafted day's title as the organiser reads it (null until its row has synced). */
+  readonly newTitle: string | null;
+  /** Stable id → the guide's reason for the redrafted stop, where it has been translated. */
+  readonly reasons: ReadonlyMap<string, string>;
   /** `committed` once kept or put back, `released` when it did not count. */
   readonly settled: string | null;
 }
@@ -35,7 +43,21 @@ export interface RedraftView {
 const JOB_SQL = 'SELECT id, status, result_ref FROM agent_jobs WHERE id = ?';
 const RESERVATION_SQL = 'SELECT status FROM redraft_reservations WHERE agent_job_id = ?';
 const VERSIONS_SQL = 'SELECT id, coverage FROM itinerary_versions WHERE id IN (?, ?)';
-const BASE_DAY_SQL = 'SELECT theme FROM plan_days WHERE version_id = ? AND day_no = ?';
+const DAY_SQL = 'SELECT theme, i18n FROM plan_days WHERE version_id = ? AND day_no = ?';
+const NOTES_SQL = `SELECT i.stable_id, i.notes, i.i18n FROM plan_items i
+  JOIN plan_days d ON d.id = i.day_id
+  WHERE i.version_id = ? AND d.day_no = ? AND i.notes IS NOT NULL`;
+
+interface DayTitleRow {
+  readonly theme: string | null;
+  readonly i18n: string | null;
+}
+
+interface NoteRow {
+  readonly stable_id: string;
+  readonly notes: string | null;
+  readonly i18n: string | null;
+}
 
 const STATUSES: ReadonlySet<string> = new Set([
   'queued',
@@ -114,11 +136,28 @@ export function useRedraft(tripId: string, redraftId: string): RedraftView {
   const versions = useLiveRows<{ id: string; coverage: string | null }>(VERSIONS_SQL, versionIds, [
     'itinerary_versions',
   ]);
-  const baseDay = useLiveRows<{ theme: string | null }>(
-    BASE_DAY_SQL,
+  const locale = useActiveLocale();
+  const baseDay = useLiveRows<DayTitleRow>(
+    DAY_SQL,
     result === null ? null : [result.base_version_id, result.day_no],
     ['plan_days'],
   );
+  const candidate =
+    result === null || result.candidate_version_id === null
+      ? null
+      : [result.candidate_version_id, result.day_no];
+  const newDay = useLiveRows<DayTitleRow>(DAY_SQL, candidate, ['plan_days']);
+  const notes = useLiveRows<NoteRow>(NOTES_SQL, candidate, ['plan_items', 'plan_days']);
+  const reasons = useMemo(() => {
+    const read = new Map<string, string>();
+    for (const row of notes.rows) {
+      const text = guideText('plan_item', row, 'notes', locale);
+      if (text !== null && text !== '' && text !== row.notes) read.set(row.stable_id, text);
+    }
+    return read;
+  }, [notes.rows, locale]);
+  const titleOf = (row: DayTitleRow | undefined): string | null =>
+    row === undefined ? null : guideText('plan_day', row, 'theme', locale);
   const places = useMemo(() => {
     const merged: Record<string, DraftPlace> = {};
     for (const version of versions.rows) {
@@ -133,7 +172,9 @@ export function useRedraft(tripId: string, redraftId: string): RedraftView {
     status,
     result,
     places,
-    baseTitle: baseDay.rows[0]?.theme ?? null,
+    baseTitle: titleOf(baseDay.rows[0]),
+    newTitle: titleOf(newDay.rows[0]),
+    reasons,
     settled:
       reservation.rows[0]?.status === 'reserved' ? null : (reservation.rows[0]?.status ?? null),
   };

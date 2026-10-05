@@ -1,12 +1,14 @@
 /**
  * Which must-dos made the draft: "✓ ALL 5 MUST-DOS MADE IT" with their owners' avatars, or
- * "3 OF 5 MADE IT" with a line per missing one saying whose it is and why it did not fit. An
+ * "3 OF 5 MADE IT" with a line per missing one saying whose it is and why it did not fit, and the
+ * one thing to do about it (pick the place it meant, or ask for a day to be changed around it). An
  * over-budget draft adds how far over the locked target it is, per person.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import type { MustDoMissReason } from '@cp/domain';
 import { View } from 'react-native';
 
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
@@ -33,7 +35,8 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  missing: { paddingStart: MARK + th.space['10'], gap: th.space['4'] },
+  missing: { paddingStart: MARK + th.space['10'], gap: th.space['8'] },
+  miss: { gap: th.space['2'], alignItems: 'flex-start' },
 }));
 
 function why(reason: MustDoMissReason): string {
@@ -49,7 +52,31 @@ function why(reason: MustDoMissReason): string {
   }
 }
 
-export function CoverageStrip({ model }: { readonly model: ReviewModel['mustDos'] }) {
+export type MissedMustDo = ReviewModel['mustDos']['missing'][number];
+
+/* eslint-disable lingui/no-unlocalized-strings -- action keys, never copy. */
+/** What the organiser can do about a must-do that did not make it; null when nothing helps. */
+export function missAction(reason: MustDoMissReason): 'pick_place' | 'change_day' | null {
+  switch (reason) {
+    case 'unknown_place':
+      return 'pick_place';
+    case 'no_time':
+    case 'dropped':
+      return 'change_day';
+    case 'closed':
+      return null;
+  }
+}
+/* eslint-enable lingui/no-unlocalized-strings */
+
+export function CoverageStrip({
+  model,
+  onFix,
+}: {
+  readonly model: ReviewModel['mustDos'];
+  /** Opens the way to fix one missing must-do (see `missAction`). */
+  readonly onFix?: ((miss: MissedMustDo) => void) | undefined;
+}) {
   const styles = useStyles();
   const theme = useTheme();
   if (model.total === 0) return null;
@@ -57,8 +84,17 @@ export function CoverageStrip({ model }: { readonly model: ReviewModel['mustDos'
   const total = model.total;
   const made = model.made;
   const headline = all
-    ? t({ id: 'planDraft.coverage.all', message: `All ${total} must-dos made it` })
-    : t({ id: 'planDraft.coverage.some', message: `${made} of ${total} must-dos made it` });
+    ? t({
+        id: 'planDraft.coverage.all',
+        message: plural(total, { one: 'Your must-do made it', other: 'All # must-dos made it' }),
+      })
+    : t({
+        id: 'planDraft.coverage.some',
+        message: plural(total, {
+          one: `${made} of # must-do made it`,
+          other: `${made} of # must-dos made it`,
+        }),
+      });
   const colour = all ? theme.semantic.state.success : theme.semantic.state.warning;
   return (
     <View style={styles.card} testID="draft-coverage">
@@ -89,14 +125,27 @@ export function CoverageStrip({ model }: { readonly model: ReviewModel['mustDos'
             const title = miss.title;
             const owner = miss.owner?.name ?? '';
             const reason = why(miss.reason);
+            const action = onFix === undefined ? null : missAction(miss.reason);
             return (
-              <Text
-                key={`${title}-${index}`}
-                variant="bodySm"
-                color={theme.semantic.text.secondary}
-              >
-                {t({ id: 'planDraft.coverage.missing', message: `${title} (${owner}): ${reason}` })}
-              </Text>
+              <View key={`${title}-${index}`} style={styles.miss}>
+                <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                  {t({
+                    id: 'planDraft.coverage.missing',
+                    message: `${title} (${owner}): ${reason}`,
+                  })}
+                </Text>
+                {action === null ? null : (
+                  <TextLink
+                    label={
+                      action === 'pick_place'
+                        ? t({ id: 'planDraft.coverage.pickPlace', message: 'Pick the place' })
+                        : t({ id: 'planDraft.coverage.fitIn', message: 'Change a day to fit it' })
+                    }
+                    onPress={() => onFix?.(miss)}
+                    testID={`draft-miss-fix-${index}`}
+                  />
+                )}
+              </View>
             );
           })}
         </View>

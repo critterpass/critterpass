@@ -55,7 +55,8 @@ export async function markStale(
   }
   if (what.includes('fits')) {
     await tx.query(
-      `UPDATE must_dos SET fit_status = 'unknown', fit_note = NULL, target_day = NULL
+      `UPDATE must_dos SET fit_status = 'unknown', fit_note = NULL, target_day = NULL,
+              fit_checked_at = NULL
         WHERE trip_id = $1 AND deleted_at IS NULL`,
       [tripId],
     );

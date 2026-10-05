@@ -19,7 +19,6 @@ import { Row } from '@/ui/layout/Row';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Avatar } from '@/ui/people/Avatar';
 import { PressScale } from '@/ui/press/PressScale';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -120,8 +119,6 @@ export function AddSheetView({
   more,
 }: AddSheetViewProps) {
   const styles = useStyles();
-  // 3c-10 draws no ✕: the grabber (and a swipe down) is the way back.
-  useNoBackByDesign();
   const theme = useTheme();
   const guide = guideSticker(trip.guide);
   const place = trip.destinationName;
@@ -133,23 +130,24 @@ export function AddSheetView({
   return (
     <Sheet
       {...(onDismiss === undefined ? {} : { onDismiss })}
-      closable={false}
+      header={
+        <Row align="center" style={styles.head}>
+          <Text variant="eyebrow" accessibilityRole="header">
+            {title}
+          </Text>
+          <Row align="center" style={styles.who}>
+            <Avatar name={me.name} joinIndex={me.joinIndex} size="sm" decorative />
+            <Text variant="label" color={theme.semantic.text.secondary}>
+              {t({ id: 'setup.addMustDo.as', message: `As ${name}` })}
+            </Text>
+          </Row>
+        </Row>
+      }
       accessibilityLabel={title}
       testID="add-must-do"
     >
       <SheetScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.body}>
-          <Row align="center" style={styles.head}>
-            <Text variant="eyebrow" accessibilityRole="header">
-              {title}
-            </Text>
-            <Row align="center" style={styles.who}>
-              <Avatar name={me.name} joinIndex={me.joinIndex} size="sm" decorative />
-              <Text variant="label" color={theme.semantic.text.secondary}>
-                {t({ id: 'setup.addMustDo.as', message: `As ${name}` })}
-              </Text>
-            </Row>
-          </Row>
           <GuideLine
             guide={trip.guide}
             name={guide.name}

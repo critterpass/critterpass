@@ -5,6 +5,7 @@ import {
   changeCards,
   excludedIds,
   metricChips,
+  partialKeepClashes,
   redraftPhase,
   truthfulReason,
 } from '../data/redraft';
@@ -148,5 +149,43 @@ describe('the redraft screen phase', () => {
 
   it('shows a redraft already kept or put back as settled', () => {
     expect(at({ status: 'succeeded', outcome: 'changed', settled: 'committed' })).toBe('settled');
+  });
+});
+
+describe('keeping only some of a redraft', () => {
+  const span = (poi: string, from: string, to: string): RedraftItemSnapshot => ({
+    poi_id: poi,
+    kind: 'activity',
+    starts_at: `2027-04-05T${from}:00+09:00`,
+    ends_at: `2027-04-05T${to}:00+09:00`,
+    amount_minor: 0,
+  });
+  // The palace goes, and the college moves up into its morning slot.
+  const changes = [
+    change('remove', 'palace', span('nara', '10:00', '12:00'), null),
+    change('retime', 'college', span('temple', '12:30', '14:00'), span('temple', '10:00', '11:30')),
+    change('add', 'coffee', null, span('tea', '13:30', '14:45')),
+  ];
+
+  it('is fine as a whole, and with a change left out that touches nothing else', () => {
+    expect(partialKeepClashes(changes, [])).toBe(false);
+    expect(partialKeepClashes(changes, ['coffee'])).toBe(false);
+  });
+
+  it('clashes when a stop kept in its old slot meets one moved into it', () => {
+    expect(partialKeepClashes(changes, ['palace'])).toBe(true);
+  });
+
+  it('clashes when a stop left at its old time meets one put in there', () => {
+    expect(partialKeepClashes(changes, ['college'])).toBe(true);
+  });
+
+  it('reads a translated reason where one has synced', () => {
+    const cards = changeCards(
+      [change('add', 'coffee', null, span('tea', '13:30', '14:45'), 'A slow pour.')],
+      PLACES,
+      new Map([['coffee', 'Một ly pha chậm.']]),
+    );
+    expect(cards[0]).toMatchObject({ reason: 'Một ly pha chậm.' });
   });
 });

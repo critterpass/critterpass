@@ -2,7 +2,9 @@
  * The rooms step (3c-6), connected: the plan from synced rows with this phone's queued moves on
  * top, every move sent as `set_room_assignment` on the plan's version (queued offline), a refused
  * version re-read and the move re-applied on the latest plan, LOOKS GOOD locking the rooms (needs
- * signal), and a member's wishes and swap request.
+ * signal), and a member's wishes and swap request. When setup arrives here with nothing to decide
+ * (no stay on offer, no rooms to split, a step the server lets pass), the organiser is taken
+ * straight on to the must-dos; the step stays in the stepper to open later.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, step names and notice keys, never copy. */
 import { useEffect, useRef, useState } from 'react';
@@ -30,6 +32,31 @@ import { useRoomsData } from './rooms-data';
 import { RoomsView, type RoomsModel, type RoomsNotice } from './rooms-view';
 import type { StayOption } from './stay-picker';
 
+/**
+ * Trips already taken past an empty rooms step in this session: a move the server refuses brings
+ * setup back here, and it must then stay rather than leave again.
+ */
+const passedEmpty = new Set<string>();
+
+/** Whether the rooms step has nothing for the organiser to decide right now. */
+export function nothingToDecide(input: {
+  readonly loaded: boolean;
+  readonly isOrganiser: boolean;
+  readonly onRooms: boolean;
+  readonly hasPlan: boolean;
+  readonly stayCount: number;
+  readonly skippable: boolean;
+}): boolean {
+  return (
+    input.loaded &&
+    input.isOrganiser &&
+    input.onRooms &&
+    !input.hasPlan &&
+    input.stayCount === 0 &&
+    input.skippable
+  );
+}
+
 /** Room chips after a tap: "don't care" stands alone, at most four. */
 export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): RoomChipKey[] {
   if (chips.includes(chip)) return chips.filter((c) => c !== chip);
@@ -43,6 +70,8 @@ export function RoomsStep({ trip, shell }: StepProps) {
   const crewMoney = useCrewMoney(trip.tripId);
   // A stay picked while the answer was still on its way, and then refused by the server.
   const stayRefusal = useRefusedCommand('set_stay_choice');
+  // A step move the server refused: setup was brought back here and must stay.
+  const stepRefusal = useRefusedCommand('set_setup_step');
   const assign = useCommand(setRoomAssignmentCommand);
   const lock = useCommand(lockRoomsCommand);
   const step = useCommand(setSetupStepCommand);
@@ -104,6 +133,25 @@ export function RoomsStep({ trip, shell }: StepProps) {
     stayCount: data.stays.length,
     mustDoCount: 0,
   };
+  const skippable = isSkippable('rooms', facts);
+  const empty = nothingToDecide({
+    loaded: data.loaded,
+    isOrganiser: trip.isOrganiser,
+    onRooms: trip.step === 'rooms',
+    hasPlan: plan !== null,
+    stayCount: data.stays.length,
+    skippable,
+  });
+  // Decided once per mount: whether this visit passes straight through.
+  const [passing] = useState(() => !passedEmpty.has(trip.tripId));
+  const pass = passing && empty && stepRefusal.loaded && !stepRefusal.refused;
+  useEffect(() => {
+    if (!pass) return;
+    passedEmpty.add(trip.tripId);
+    void step.send({ trip_id: trip.tripId, step: 'must_dos' });
+    shell.onSelectStep('must_dos');
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, when the step turns out empty.
+  }, [pass]);
   const model: RoomsModel = {
     plan,
     stays,
@@ -116,7 +164,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
         ? null
         : perPersonPrice(plan, trip.me, fractionDigits(currency)),
     currency,
-    skippable: isSkippable('rooms', facts),
+    skippable,
     notice:
       notice ??
       (stayRefusal.refused
@@ -129,6 +177,8 @@ export function RoomsStep({ trip, shell }: StepProps) {
     locking: lock.pending,
   };
 
+  // Nothing to show on the way past: the must-dos step is already opening.
+  if (pass) return null;
   return (
     <RoomsView
       trip={trip}

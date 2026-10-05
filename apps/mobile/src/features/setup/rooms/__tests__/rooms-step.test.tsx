@@ -238,12 +238,12 @@ describe('member view', () => {
 });
 
 describe('no stay prices', () => {
-  it('lets LOOKS GOOD accept the even split and move on to must-dos', async () => {
+  it('takes the organiser straight on to must-dos, and stays put if setup comes back', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
     const trip = { ...kyotoTrip({ step: 'rooms', dates: true }), isSolo: true };
     const onSelectStep = jest.fn();
     i18n.loadAndActivate({ locale: 'en', messages: {} });
-    await render(
+    const tree = (
       <I18nProvider i18n={i18n}>
         <SafeAreaProvider initialMetrics={METRICS}>
           <GestureHandlerRootView>
@@ -254,18 +254,26 @@ describe('no stay prices', () => {
             </LocalFirstProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
-      </I18nProvider>,
+      </I18nProvider>
     );
-    expect(await screen.findByTestId('setup-rooms-even')).toBeTruthy();
-    expect(screen.queryByTestId('setup-rooms-skip')).toBeNull();
-
-    await fireEvent.press(screen.getByTestId('setup-rooms-lock'));
+    // Nothing to decide (no stay on offer, no rooms): the step passes itself.
+    const first = await render(tree);
     await waitFor(async () =>
       expect(await queued(stack!.db, 'set_setup_step')).toEqual([
         { trip_id: TRIP_ID, step: 'must_dos' },
       ]),
     );
     expect(onSelectStep).toHaveBeenCalledWith('must_dos');
+    expect(screen.queryByTestId('setup-rooms-even')).toBeNull();
+    await first.unmount();
+
+    // Brought back here (a refused move, or the organiser opening the step): it is shown, and
+    // LOOKS GOOD accepts the even split.
+    await render(tree);
+    expect(await screen.findByTestId('setup-rooms-even')).toBeTruthy();
+    expect(screen.queryByTestId('setup-rooms-skip')).toBeNull();
+    await fireEvent.press(screen.getByTestId('setup-rooms-lock'));
+    await waitFor(async () => expect(await queued(stack!.db, 'set_setup_step')).toHaveLength(2));
     expect(await queued(stack.db, 'lock_rooms')).toHaveLength(0);
   });
 });

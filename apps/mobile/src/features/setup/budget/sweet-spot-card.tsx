@@ -1,7 +1,7 @@
 /**
  * The yellow sweet-spot card (3c-5): "SWEET SPOT, EACH" with the under-all check, the target as a
  * rolling amount, and the track with the knob among anonymous dots. The knob drags (or steps with a
- * screen reader) in the crew's $50 steps, ticking on every step and warning as it crosses the top of
+ * screen reader) in the crew's steps (₫500,000, $50), ticking on every step and warning as it crosses the top of
  * the band. Dots are bucketed positions from the server; nothing here knows whose, or any max.
  */
 import { BUDGET_K_MIN } from '@cp/domain';

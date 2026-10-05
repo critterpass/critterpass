@@ -134,7 +134,7 @@ export const setMustDosCommand = defineCommand({
       if (changed.length > 0) {
         await tx.query(
           `UPDATE must_dos SET fit_status = 'unknown', fit_note = NULL, target_day = NULL,
-                  external_action = 'none', external_deadline = NULL
+                  external_action = 'none', external_deadline = NULL, fit_checked_at = NULL
             WHERE id = ANY($1::uuid[])`,
           [changed],
         );
