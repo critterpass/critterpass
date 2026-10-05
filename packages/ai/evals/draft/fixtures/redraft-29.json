@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a3d6fa93-fc47-4502-bb75-8f87658faeca",
+        "id": "7c943051-2304-4516-80ea-9ec522dc5c73",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Đà Lạt về đêm, chút lạ mà quen\",\n  \"summary\": \"Một buổi chiều thong thả bên hồ, rồi lạc vào quán rượu nhỏ và kết thúc bằng bữa tối ngồi bệt đậm chất địa phương.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p131\",\n      \"note\": \"Giữ hồ lại vì chiều muộn ở đây dịu lắm, gió nhẹ và nắng xiên qua hàng thông, đúng kiểu thư thả cho người thích muộn.\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nè: quán rượu nhỏ xíu, ánh đèn mờ, ngồi một góc nghe nhạc là thấy Đà Lạt khác hẳn ban ngày.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tối nay đổi vị, nem nướng cuốn rau rừng ăn kèm bánh tráng giòn tan, ngon quá (so tasty) là phải nói ngay với cô chủ quán.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm là chỗ người Đà Lạt ra chơi chứ không chỉ khách du lịch, cứ thả bộ ngắm đồ rồi mua gì đó ăn vặt cho vui.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Đêm Đà Lạt khác lạ\",\n  \"summary\": \"Một buổi chiều muộn thong thả ở Đà Lạt, bắt đầu bằng một góc khuất lạ, rồi dạo hồ, chợ đêm và kết bằng cocktail.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nè: một khu vườn tươi xanh ngay giữa lòng phố, chậm rãi hít hà trước khi trời tối.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p131\",\n      \"note\": \"Hồ Xuân Hương vẫn ở đây, nhưng giờ này gió nhẹ và ánh chiều buông rất tình.\",\n      \"must_do_id\": \"p131\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm Đà Lạt lên đèn, đi lòng vòng ngửi mùi bắp nướng và ngắm người ta bán hàng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết đêm bằng một ly cocktail ở Sartorista, chỗ ngồi khuất và nhạc vừa đủ để thả hồn.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1329,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 455,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "9cd75811-7b2e-4686-8336-b13e430a99d1",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"title\": \"Chiều lạ mà quen ở Đà Lạt\",\n  \"summary\": \"Một buổi chiều thong thả từ kiến trúc lạ mắt đến khu chợ đêm rộn ràng, khép lại bằng bữa tối ấm cúng giữa lòng phố.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p103\",\n      \"note\": \"Ngôi nhà không giống bất kỳ nơi nào khác, vẫn là điểm nhấn khó quên cho buổi chiều.\"\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Một quán cà phê treo lơ lửng giữa đồi thông, nơi dân địa phương hay ngồi ngắm hoàng hôn.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm lên đèn, mùi bắp nướng và sữa đậu nành quyện vào gió se lạnh.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bữa tối đúng chất Đà Lạt, nồi lẩu bò nghi ngút khói giữa tiết trời se se.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 81,
+          "input_tokens": 49,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2688,
-          "output_tokens": 389,
+          "output_tokens": 423,
           "service_tier": "standard"
         }
       }

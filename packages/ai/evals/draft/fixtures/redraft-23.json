@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "46eab5a3-16dc-4e07-bacd-e4d2f7290797",
+        "id": "cc99774b-34b5-4c4d-8394-43796b197b69",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Bajra Sandhi and Denpasar Bites\",\n  \"summary\": \"A gentle day around Denpasar, with one unhurried museum stop and two local meals close by.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one big stop today: history and culture without rushing, and it is right in the middle of our meal spots.\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch a short hop away, quick and tasty so the afternoon stays free.\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner beside the same area, a slow sit-down to end the easy day.\"\n    }\n  ]\n}\n```"
+            "text": "{\n  \"title\": \"A Gentle Day Around Denpasar\",\n  \"summary\": \"A slower, closer-to-home day with one cultural stop and two easy local meals, leaving plenty of room to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one sight that stays: a calm museum morning, and the sun won’t wait for a long drive.\",\n      \"must_do_id\": \"p58\"\n    },\n    {\n      \"poi_id\": \"p56\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quick, thrifty bite right in the same area, so the day stays light on wheels and heavy on flavour.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays in the neighbourhood too; sit down, slow down, terima kasih (thank you) for an easy evening.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 36,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2432,
-          "output_tokens": 222,
+          "output_tokens": 253,
           "service_tier": "standard"
         }
       }
@@ -28,14 +28,14 @@
     "redraft-repair": {
       "status": 200,
       "body": {
-        "id": "daa67af9-d3ef-425c-bb4e-060d16a3f48e",
+        "id": "2e6524fa-6bd8-450c-b091-f4acaf80b1e0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Ubud Temples and Easy Bites\",\n  \"summary\": \"A gentle day around Ubud's temples with time left free, keeping meals close by and the pace light.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p35\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple by the river to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p36\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Another Ubud temple nearby, easy to visit and full of local life.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch beside the temples, calm and close by.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p38\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner still in Ubud, with local flavours and no long ride back.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Denpasar Eats and a Museum\",\n  \"summary\": \"A gentle day around Denpasar with one museum stop, a local lunch and a relaxed dinner, leaving plenty of free time.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p58\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p58\",\n      \"note\": \"The one sight for today: Bajra Sandhi keeps the culture fix without a long ride.\",\n      \"must_do_id\": \"p58\"\n    },\n    {\n      \"poi_id\": \"p59\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the museum, so the day stays slow and easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p150\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Naughty Nuri's, close by and lively enough for a relaxed evening.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 61,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2432,
-          "output_tokens": 282,
+          "output_tokens": 244,
           "service_tier": "standard"
         }
       }

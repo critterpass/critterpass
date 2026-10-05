@@ -4,14 +4,14 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cd6798aa-a9e7-466c-95ed-4d677eaa42bf",
+        "id": "891ceb41-4bb5-4818-b5de-d5712cfa425a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Castle and lantern-lit alleys\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden pavilion and thousand gates\",\n      \"area\": \"Area A and B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Market stroll and temple calm\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p3\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"wishes\": [],\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Castle arrival and lantern-lit lanes\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p7\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Golden pavilion and shrine gates\",\n      \"area\": \"Area A and B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p1\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Market stroll and museum farewell\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p14\"]\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -28,14 +28,14 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "d2e532b7-25b8-4344-978e-c7a532ef4a37",
+        "id": "45966233-5db6-41cd-aabf-02c6d046fd42",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The wooden stage leans out over the maples like it's listening to the city.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Work the stalls from the pickled end to the sweet end, and let the samples do the talking.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Snack your way down the arcade and let the pickle vendors talk you into one more sample.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The wooden stage hangs over the hillside like a dare — worth the climb for the view back over the city.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -44,7 +44,7 @@
           "input_tokens": 311,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 122,
+          "output_tokens": 127,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "53d14894-5aa9-43ef-b32a-a5cfdc390c43",
+        "id": "7b064dcb-1321-43a3-8fdc-aa1e0b93352e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Nightingale floors squeak underfoot, so the shogun always knew who was coming.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wooden facades and tea-house lanterns, and if you're lucky, a maiko slipping past.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done Kyoto-style, delicate and surprisingly rich.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Narrow alley of glowing signs and riverside air, best when the lanterns wake up.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Walk the nightingale floors and keep an eye out for the falcon murals in the Ninomaru Palace.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet stroll past the old teahouses; the lanterns start to glow as the light fades.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warm tofu skin and yuba bowls, a gentle way to settle in after the castle.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Slip down the narrow alley where the river breeze carries the smell of yakitori and old wood.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 230,
+          "input_tokens": 486,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 229,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 240,
           "service_tier": "standard"
         }
       }
@@ -76,14 +76,14 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "ceffa247-9f1c-4653-afbb-170aed961555",
+        "id": "ef9a8569-664a-4dc3-a627-609594b42254",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the thousand gates before the crowds find them.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The golden pavilion floats on its mirror pond. Worth the detour.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Rich, porky broth and noodles made by people who care.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A thousand wooden buddhas, all watching you at once.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp-edged gyoza, cheap enough to order one more round.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Walk the vermilion tunnel before the crowds find it.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The gold leaf does all the talking. You just blink.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Slurp the broth like you mean it. Shoes off, phone down.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A thousand wooden faces, all of them patient.\"\n    },\n    {\n      \"poi_id\": \"p22\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crisp little parcels. Order one more plate than seems wise.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -92,7 +92,7 @@
           "input_tokens": 560,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1024,
-          "output_tokens": 258,
+          "output_tokens": 254,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "d5a0501d-9ddf-4324-8ce7-cb2085d29ec3",
+        "id": "558f9a3f-45c2-473b-af6f-ded5927d1217",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "3: Market bites, temple bells, soba after"
+            "text": "3: A temple, a market, a farewell"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 174,
+          "input_tokens": 190,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 384,
-          "output_tokens": 11,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "01207299-140d-48e5-bd87-20b9b290b62b",
+        "id": "ffd7e485-a7e4-4b1c-aca3-810092e015d4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Three days of castles, gold, and gates — every must-do in, shoes off, phone down, eyes up."
+            "text": "Three days of gold, gates and lantern-lit lanes, with a temple and a market to wave you off."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 179,
+          "input_tokens": 177,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 24,
+          "output_tokens": 22,
           "service_tier": "standard"
         }
       }

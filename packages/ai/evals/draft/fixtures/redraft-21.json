@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "c2e4028c-b215-4e5c-bce3-eafa75a5be82",
+        "id": "741e5fb1-c24f-484f-89d9-f01e4653bae4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle start with a museum visit, a beach stroll, and a long, lazy dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A museum is a fine way to ease into a late morning, and this one is worth the wander.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach asks for nothing but your feet in the sand. Perfect for a slow day.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A late lunch of chicken rice, the kind of local life that fills a belly without hurry.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"After dark, the beach club glows. A little nightlife for the one who likes late starts.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p49\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner by the water, a sit-down spot to watch the evening roll in. Ngon quá (so tasty).\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A lazy start, a beach stroll, and a long, easy lunch by the water, with the evening left open for whatever feels right.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\",\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch in the same area, no rush. Cơm gà is filling, local, and exactly what a slow beach day calls for.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, shady wander after lunch. Kazik Park is small, green, and keeps the afternoon unhurried.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and light. Bánh bèo is a snack-sized meal, perfect for a day that never got in a hurry.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,7 +20,7 @@
           "input_tokens": 112,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2560,
-          "output_tokens": 380,
+          "output_tokens": 350,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "ae60dc6e-d11e-4bdd-a25a-8308b62336ab",
+        "id": "dd3a33ba-a68e-459b-9a0e-babf3df17815",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Day 2: A museum morning, beach by afternoon"
+            "text": "2: Slow morning, sea breeze afternoon"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 244,
+          "input_tokens": 240,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 11,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

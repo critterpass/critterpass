@@ -4,47 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "961d89e9-6ccd-428b-8254-3b55df8c9e8e",
+        "id": "704d5e3e-2d42-4e83-ae3f-fd1c4159208a",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area E (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Ease-In\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p6\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Tegallalang & Tirta Empul Outing\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Tanah Lot & Uluwatu\",\n      \"area\": \"Area A and D\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p2\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Ubud Farewell\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p7\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area E (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Ease-In\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Tegallalang & Tirta Empul Outing\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Tanah Lot & Uluwatu\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p2\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Ubud Temples & Farewell\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p10\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 54,
+          "input_tokens": 816,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2304,
-          "output_tokens": 252,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-3": {
-      "status": 200,
-      "body": {
-        "id": "d1bea500-4ad1-42bf-89f5-0ee1c8df289f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple on its rocky outcrop, best seen as the tide rolls in.\"\n    }\n  ]\n}\n```"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 349,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 68,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 249,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "6c3e5a6a-5ae0-4098-9bb9-7956dbc572b2",
+        "id": "887a6f4c-0df3-4c57-80e1-726fd4b0d8b1",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The sun won’t wait, but the beats here will carry you long after it dips.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Little plates, big flavours, and plenty of green things to share.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Sunset cocktails and beats at the beach club, the perfect ease-in for the crew.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper local warung with plenty of veggie options, terima kasih (thank you) to that.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 614,
+          "input_tokens": 599,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 119,
+          "output_tokens": 127,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "0a73dc4c-f7fa-496f-9ac4-7b7e027e42e4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sea temple on its rock, best seen with the tide swirling around it.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Clifftop shrine where the monkeys are as bold as the views.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A maze of stalls full of carvings, textiles and little treasures.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 347,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 166,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "638e9fed-c095-4d43-a011-dfb339526b17",
+        "id": "c5d1bc22-84ac-4f63-9cec-6c2cec0f4529",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The macaques here run the show, so keep your sunglasses close and your snacks hidden.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy ridge path with green views that make you forget you are still in town.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone make this a calm little photo stop.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The long-tailed locals run the show here, so keep your sunglasses on your head and your heart open.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The carved cave mouth is a proper old soul, and the bathing pools are a quiet little secret.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus flowers and carved stone, a gentle farewell for the eyes before you fly.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 373,
+          "input_tokens": 391,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 170,
+          "output_tokens": 177,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "e0d85ade-f179-440e-ae6d-ce2845437c8a",
+        "id": "7caff9c6-6d0c-4fd8-9c69-49e3ea7df491",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Walk the emerald steps of the rice terraces before the sun gets cheeky.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Let the holy springs rinse the road dust off your spirit.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Grab a bright, veggie-friendly bite where the smoothie bowls look like art.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Sneak a peek at the old palace gates and the stories carved into them.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces ripple like a green ocean, and the sun makes every step a postcard.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The holy springs wash away more than dust, and the carvings watch over it all.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy spot with plenty of green on the plate for the whole crew.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old palace gates are a quiet bit of royal Ubud, carved and cool in the shade.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 280,
+          "input_tokens": 24,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 156,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 231,
           "service_tier": "standard"
         }
       }
@@ -124,23 +124,23 @@
     "titles": {
       "status": 200,
       "body": {
-        "id": "68fb5158-1b4c-4b7e-b3ea-5c1d7c0e74b2",
+        "id": "26e85a9f-0d01-41bb-8945-aedf2b8df0ea",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "1: A café afternoon, a beach club evening\n3: A morning at the market, temples after"
+            "text": "1: A café and a beach club evening\n3: A morning at the art market, a temple afternoon"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 359,
+          "input_tokens": 355,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 256,
-          "output_tokens": 21,
+          "output_tokens": 22,
           "service_tier": "standard"
         }
       }
@@ -148,23 +148,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "0eea3c67-5260-4461-919e-16510802cc89",
+        "id": "8398003e-8919-4629-a6be-d2962c696ddf",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Café afternoons, a beach club evening, then temples, markets and a farewell — Bali, all of it, and every must-do made it in."
+            "text": "A café morning, a beach-club afternoon, then temples, rice terraces and ridge walks — every must-do squeezed in, terima kasih (thank you) for that."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 180,
+          "input_tokens": 310,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 256,
-          "output_tokens": 34,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 37,
           "service_tier": "standard"
         }
       }

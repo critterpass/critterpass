@@ -4,14 +4,14 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "541df2ee-8354-4390-aa1e-5eba9421be15",
+        "id": "0b0b3ec5-a397-4eb8-99a0-f3ef4170e592",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Softer Kyoto Morning\",\n  \"summary\": \"A slow, gentle day after Pontocho: one temple, a long lunch, and the evening left to wander.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One temple, not three. Forty-five unhurried minutes among the thousand buddhas.\",\n      \"poi_id\": \"p12\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch where the vegan crew can eat well and sit long. Shoes off, phone down, eyes up.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one thing that stays. After dark, as it should be.\",\n      \"poi_id\": \"p13\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"A Softer Morning, A Livelier Night\",\n  \"summary\": \"A gentle temple visit, a long lunch, then the evening kept for Pontocho.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"One quiet hall of a thousand buddhas is enough after a late Pontocho night. Shoes off, phone down, eyes up.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A long, easy vegan lunch here suits six tired legs and every taste at the table.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one unmissable stop stays, and now there is room to wander it slowly after dark.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -20,31 +20,7 @@
           "input_tokens": 111,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 246,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "titles": {
-      "status": 200,
-      "body": {
-        "id": "f6470fd9-2347-471e-b5e0-1bf3fd2b458f",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-flash",
-        "content": [
-          {
-            "type": "text",
-            "text": "3: A temple morning, a café morning, an evening alley"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 172,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 384,
-          "output_tokens": 13,
+          "output_tokens": 253,
           "service_tier": "standard"
         }
       }

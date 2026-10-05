@@ -4,23 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "d627f716-294d-4a7e-9d69-da8fb802dfab",
+        "id": "43c7ee12-ca27-421b-87a5-6c93b9759942",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area B, riverside Đà Nẵng\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Riverside ease\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p101\", \"p82\", \"p258\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Hội An day trip\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p211\", \"p16\", \"p208\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Local flavours\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p108\", \"p131\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p95\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+            "text": "{\n  \"stay_area\": \"Area B, near the river and Chợ Hàn\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"River lights and market ease\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p101\", \"p258\", \"p251\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Hội An day trip\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p211\", \"p16\", \"p208\", \"p221\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Marble Mountains morning\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p193\", \"p194\", \"p59\", \"p198\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p95\",\n      \"day_no\": 3,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 94,
+          "input_tokens": 2021,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 4352,
-          "output_tokens": 244,
+          "cache_read_input_tokens": 2432,
+          "output_tokens": 260,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "1e180677-6826-474b-9970-12bf44df6f29",
+        "id": "e1e5b3ca-e2fb-4c73-9a52-b20ccdd60267",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p108\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dive into the stalls for bánh bèo and a proper market holler. Best when the herbs are still dewy.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A bowl of fish cake noodles with all the greens. Slurp loud, it’s the local applause.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old sandstone dancers and gods, cool air, zero monkeys stealing your map. Take it slow.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ancient sandstone dancers and gods, all watching you with the same patient smile I give tourists.\"\n    },\n    {\n      \"poi_id\": \"p98\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Fish cake noodles in a broth that tastes like the sea decided to be kind. Slurp loudly, it's the local applause.\"\n    },\n    {\n      \"poi_id\": \"p108\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Squeeze past the fabric stalls to the back, where the bánh bèo ladies steam little rice cakes and gossip like tree monkeys.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 534,
+          "input_tokens": 24,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1536,
-          "output_tokens": 189,
+          "cache_read_input_tokens": 2048,
+          "output_tokens": 194,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4823acee-7147-436d-911e-e5a233be8243",
+        "id": "6b39f626-d950-4886-a870-c52c5f02520f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p101\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Duck through the river-side aisles of chợ Hàn (Hàn market, the central market by the river) and sniff out the dried squid and sesame crackers.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Stroll the seaward lawns of East Sea Park and let the onshore breeze reset your travel head.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a stool at Chả Bò Bà Quýt and let the charred beef rolls do the talking. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p258\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wait for the dragon to breathe fire over the water; from the bridge you get the best view of its scales.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p101\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Duck into chợ Hàn (Hàn market, the central market by the river) for a first taste of local life — dried squid, coffee beans, and the good kind of chaos.\"\n    },\n    {\n      \"poi_id\": \"p283\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"My Khe stretches long and easy — perfect for a barefoot wander and a first look at the East Sea.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Grab a stool and let the chả bò do the talking — smoky, savoury, and very Đà Nẵng. Ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p258\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The dragon breathes colour over the river once the sky goes dark — stand on the east bank and let it roar.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 515,
+          "input_tokens": 518,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1536,
-          "output_tokens": 268,
+          "output_tokens": 281,
           "service_tier": "standard"
         }
       }
@@ -76,14 +76,14 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "981cbd3f-9cd4-4aa2-9cc1-a041acb95180",
+        "id": "a776c7b5-2360-4204-8a54-03f0cbee24c7",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p95\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Crew of one, bowl of turmeric noodles first thing. The sesame cracker is the best spoon.\"\n    },\n    {\n      \"poi_id\": \"p211\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old yellow walls, silk lanterns, slow corners. Give it the whole morning and let the town set the pace.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crispy turmeric pancake, herbs in one hand, rice paper in the other. Roll, dip, repeat.\"\n    },\n    {\n      \"poi_id\": \"p208\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The little bridge with the temple on top. Cross it slowly, the wood has stories.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, gentle waves, a beach chair with your name on it. This is the easy part of the day.\"\n    },\n    {\n      \"poi_id\": \"p230\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns and old Hội An life staged under the evening sky. Stay for the lights on the water.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet table after the show. The vegetarian set here is a gentle way to end the day.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p95\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Crew of one, bowl of turmeric noodles, pork and shrimp. Ngon quá (so tasty) and the day is already winning.\"\n    },\n    {\n      \"poi_id\": \"p211\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old shophouses, lanterns and slow corners. Half a day disappears here like a snack in my troop.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Crispy turmeric pancakes rolled with herbs. Street food at its loud, happy best.\"\n    },\n    {\n      \"poi_id\": \"p208\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The little bridge with the temple inside. Stand in the middle and let the river do the talking.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Soft sand, easy waves, beach chairs. The sea does not care about your schedule.\"\n    },\n    {\n      \"poi_id\": \"p230\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns, silk and stories after sunset. The old town glows like it knows a secret.\"\n    },\n    {\n      \"poi_id\": \"p31\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm sit-down with local flavours and a vegetarian corner. Good spot to rest the feet and feed the soul.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
@@ -92,7 +92,31 @@
           "input_tokens": 47,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2304,
-          "output_tokens": 415,
+          "output_tokens": 413,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "062a3828-5364-451e-a193-56a39b6083f3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "3: Museum, market, and a beach park morning"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 135,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 11,
           "service_tier": "standard"
         }
       }
@@ -100,23 +124,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "fca287e1-0797-494b-95c7-159235806920",
+        "id": "cf3bf0b7-73b0-4ddb-b7bc-9d2dc65cff47",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Riverside ease, a Hội An morning, then local flavours — every must-do tucked in."
+            "text": "River lights, a Hội An morning, then chợ Cồn and the sea breeze — all the must-dos, none of the fuss."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 208,
+          "input_tokens": 219,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 768,
-          "output_tokens": 21,
+          "output_tokens": 32,
           "service_tier": "standard"
         }
       }
