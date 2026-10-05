@@ -216,6 +216,10 @@ msgid "trip.list.emptyTitle"
 msgstr "No trips yet"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneFrom"
+msgstr "Nothing from me yet. My morning briefings start {start}."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.noneYet"
 msgstr "Nothing from me yet. Today's briefing comes this morning."
 
@@ -225,15 +229,11 @@ msgstr "Nothing more today"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.empty"
-msgstr "Nothing needs you today. Enjoy it."
+msgstr "Nothing new from me today. Enjoy it."
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.noneTomorrow"
-msgstr "Nothing needs you today. I'll check again tomorrow morning."
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.noneFrom"
-msgstr "Nothing needs you today. My morning briefings start {start}."
+msgstr "Nothing new from me today. I'll check again tomorrow morning."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.noVotes"
