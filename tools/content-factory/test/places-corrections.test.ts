@@ -189,7 +189,7 @@ describe('place corrections', () => {
     const items = correctionItems(
       [
         place({
-          revise: { why_go: 'A holy spring temple at Tampaksiring.' },
+          revise: { why_go: 'A holy spring temple at Tampaksiring.', time_needed_min: 120 },
           merge: [{ ref: 'overture:far', stored_name: 'Tirta Empul', kept_note: true }],
         }),
       ],
@@ -206,6 +206,7 @@ describe('place corrections', () => {
     expect(items[0]?.editorial).toEqual({
       ...liveItem('overture:kept').editorial,
       why_go: 'A holy spring temple at Tampaksiring.',
+      time_needed_min: 120,
     });
     expect(items[1]).toMatchObject({
       ref: 'overture:far',

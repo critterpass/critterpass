@@ -28,8 +28,10 @@ const point = (row: { lat: number; lng: number }) => `${row.lat.toFixed(5)}, ${r
 /** The revised lines of a note, with the claim they answer and its source. */
 function noteLines(place: PlaceCorrection, kept: BeforeRow): string {
   const revised = Object.entries(place.revise ?? {}).map(([line, text]) => {
-    const was = kept.item?.editorial[line as 'why_go' | 'best_time' | 'crowd_hint' | 'etiquette'];
-    return `<p><span class="k">Note</span> <s>${escape(was ?? '')}</s> → ${escape(text ?? '')}</p>`;
+    const key = line as keyof NonNullable<PlaceCorrection['revise']>;
+    const shown = (value: string | number | null | undefined) =>
+      escape(typeof value === 'number' ? `${value} min` : (value ?? ''));
+    return `<p><span class="k">${key === 'time_needed_min' ? 'Visit' : 'Note'}</span> <s>${shown(kept.item?.editorial[key])}</s> → ${shown(text)}</p>`;
   });
   const claim =
     place.claim === undefined
@@ -68,7 +70,7 @@ function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>
   const checked = place.checked;
   const where =
     checked === undefined
-      ? 'not re-checked (a correction to the name alone)'
+      ? 'not re-checked: the point is not touched'
       : `checked against ${escape(checked.source)}, ${
           checked.off_m > FAR_M
             ? `<b class="warn">${distance(checked.off_m)} from it</b>`
