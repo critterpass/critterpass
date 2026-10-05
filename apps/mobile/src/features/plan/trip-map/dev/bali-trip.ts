@@ -254,3 +254,8 @@ export function labEmptyDaysModel(): TripMapModel {
     check: { fixes: 0, know: 0, done: true },
   });
 }
+
+/** A member with places saved, before the organiser has shared any plan. */
+export function labNoPlanYetModel(): TripMapModel {
+  return { ...labEmptyModel(), organiser: false, ideas: labTripModel().ideas.slice(0, 3) };
+}

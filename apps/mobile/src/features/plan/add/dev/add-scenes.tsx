@@ -28,7 +28,7 @@ import {
   reasonTiles,
   whyTitle,
 } from '../add-copy';
-import { inPlanLine, nowhereLine, saveToIdeasLabel } from '../add-states-copy';
+import { beforePlanLine, inPlanLine, nowhereLine, saveToIdeasLabel } from '../add-states-copy';
 import { AddSheetView } from '../add-sheet-view';
 import { WhoGoing } from '../who-going';
 
@@ -92,12 +92,15 @@ interface Variant {
   readonly organiser?: boolean;
   readonly whoOpen?: boolean;
   readonly already?: boolean;
-  readonly note?: 'nowhere' | 'offline';
+  /** `beforePlan`: a member before the plan is shared (no days to add to). */
+  readonly note?: 'nowhere' | 'offline' | 'beforePlan';
 }
 
 function AddScene({ organiser = true, whoOpen = false, already = false, note }: Variant) {
   const locale = useLocale();
   const days = useLabDays(note !== 'offline');
+  // Nothing to put it on: no day takes it, or there is no plan to see yet.
+  const off = note === 'nowhere' || note === 'beforePlan';
   const day = note === undefined ? SATURDAY : { ...SATURDAY, grade: 'no' as const, reasons: [] };
   const label = `${new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(new Date('2026-10-17T12:00:00Z')).toUpperCase()} 17`;
   const month = new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' }).format(
@@ -111,16 +114,18 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
         line={
           already
             ? inPlanLine(label, '18:00')
-            : note === 'nowhere'
-              ? nowhereLine()
-              : pickedLine(NO_TRIP_GUIDE.name)
+            : note === 'beforePlan'
+              ? beforePlanLine('Linh')
+              : note === 'nowhere'
+                ? nowhereLine()
+                : pickedLine(NO_TRIP_GUIDE.name)
         }
-        days={days}
-        dayNo={note === 'nowhere' ? null : 6}
+        days={note === 'beforePlan' ? [] : days}
+        dayNo={off ? null : 6}
         onDay={noop}
-        dayHeader={note === 'nowhere' ? '' : dayHeader(label, day)}
+        dayHeader={off ? '' : dayHeader(label, day)}
         block={
-          note === 'nowhere' ? null : (
+          off ? null : (
             <AddBlock
               leave={leaveLine(day, 480)}
               time="08:00"
@@ -145,8 +150,8 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
             />
           )
         }
-        whyTitle={note === 'nowhere' ? '' : whyTitle('08:00')}
-        reasons={note === 'nowhere' ? [] : reasonTiles(day, month)}
+        whyTitle={off ? '' : whyTitle('08:00')}
+        reasons={off ? [] : reasonTiles(day, month)}
         note={note === 'offline' ? offlineNote(NO_TRIP_GUIDE.name) : null}
         who={
           <WhoGoing
@@ -160,14 +165,14 @@ function AddScene({ organiser = true, whoOpen = false, already = false, note }: 
         cta={
           already
             ? moveLabel(label, '08:00')
-            : note === 'nowhere'
+            : off
               ? saveToIdeasLabel()
               : addLabel(label, '08:00', organiser)
         }
         busy={false}
         disabled={false}
         onAdd={noop}
-        onSaveLater={note === 'nowhere' ? null : noop}
+        onSaveLater={off ? null : noop}
       />
     </Scaffold>
   );
@@ -185,4 +190,5 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'add-to-plan-already': scene({ already: true }),
   'add-to-plan-nowhere': scene({ note: 'nowhere' }),
   'add-to-plan-offline': scene({ note: 'offline' }),
+  'add-to-plan-before-plan': scene({ organiser: false, note: 'beforePlan' }),
 };

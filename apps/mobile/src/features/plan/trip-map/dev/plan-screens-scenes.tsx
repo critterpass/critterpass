@@ -18,7 +18,13 @@ import { DayPlanView } from '../../day-plan/day-plan-view';
 import { estimatedRoute } from '../day-route';
 import type { TripMapModel } from '../sheet-props';
 import { TripMapView } from '../trip-map-view';
-import { labDraftModel, labEmptyDaysModel, labEmptyModel, labTripModel } from './bali-trip';
+import {
+  labDraftModel,
+  labEmptyDaysModel,
+  labEmptyModel,
+  labNoPlanYetModel,
+  labTripModel,
+} from './bali-trip';
 
 const noop = () => undefined;
 
@@ -46,16 +52,18 @@ function TripMapScene({
   /** The destination has no region pack: a slug the tiles host has never heard of. */
   readonly noPack?: boolean;
   /** Before the crew has a plan: her own draft, or the trip's days with nothing on them yet. */
-  readonly before?: 'draft' | 'days';
+  readonly before?: 'draft' | 'days' | 'member';
 }) {
   const [model] = useState(() => ({
     ...(before === 'draft'
       ? labDraftModel()
       : before === 'days'
         ? labEmptyDaysModel()
-        : empty
-          ? labEmptyModel()
-          : labTripModel()),
+        : before === 'member'
+          ? labNoPlanYetModel()
+          : empty
+            ? labEmptyModel()
+            : labTripModel()),
     ...(today ? { now: ON_DAY_3 } : {}),
     ...(noPack ? { destinationSlug: 'lab-no-region-pack' } : {}),
   }));
@@ -196,6 +204,7 @@ export const PLAN_SCREENS_SCENES: Readonly<Record<string, () => ReactNode>> = {
   // Before the crew has a plan: the trip's days with nothing on them, and her draft with the
   // check's tags on its days.
   'trip-map-days-before-draft': () => <TripMapScene snap="half" before="days" />,
+  'trip-map-no-plan-yet': () => <TripMapScene snap="half" before="member" />,
   'trip-map-own-draft': () => <TripMapScene snap="peek" before="draft" />,
   'trip-map-own-draft-day': () => <TripMapScene snap="half" before="draft" />,
   'day-plan-days-before-draft': () => <DayPlanScene before="days" />,

@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # A plan before the draft, on the plan views lab's Bali trip: the trip's days with nothing on them
 # yet (the trip map's sheet and the day plan), then the organiser's own draft with the plan check's
-# tags on its days (the trip map at peek and on a day, and the day plan), in English then
-# Vietnamese.
+# tags on its days (the trip map at peek and on a day, and the day plan), and the trip map of a
+# member with places saved and no plan to see yet, in English then Vietnamese.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -20,6 +20,11 @@ appId: app.critterpass.dev
     env:
       SCENE: day-plan-days-before-draft
       SHOT: en-days-before-draft-day-plan
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-no-plan-yet
+      SHOT: en-no-plan-yet-trip-map
 - runFlow:
     file: subflows/lab-shot.yaml
     env:
@@ -64,6 +69,11 @@ appId: app.critterpass.dev
     env:
       SCENE: day-plan-days-before-draft
       SHOT: vi-days-before-draft-day-plan
+- runFlow:
+    file: subflows/lab-shot.yaml
+    env:
+      SCENE: trip-map-no-plan-yet
+      SHOT: vi-no-plan-yet-trip-map
 - runFlow:
     file: subflows/lab-shot.yaml
     env:

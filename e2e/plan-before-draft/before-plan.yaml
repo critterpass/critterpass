@@ -1,0 +1,54 @@
+appId: app.critterpass.dev
+---
+# Before the crew has a plan, on the plan ideas lab: Ideas on an organiser's own draft (day chips,
+# no PLACE THEM FOR ME), Ideas for a member who has no plan to see yet, and Add to plan for that
+# member (it saves to Ideas and names no day), in English then Vietnamese.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-ideas-lab.yaml
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: ideas-own-draft
+      SHOT: en-own-draft-ideas
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: ideas-before-plan
+      SHOT: en-before-plan-ideas
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: add-to-plan-before-plan
+      SHOT: en-before-plan-add-to-plan
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow: subflows/open-ideas-lab.yaml
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: ideas-own-draft
+      SHOT: vi-own-draft-ideas
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: ideas-before-plan
+      SHOT: vi-before-plan-ideas
+- runFlow:
+    file: subflows/ideas-lab-shot.yaml
+    env:
+      SCENE: add-to-plan-before-plan
+      SHOT: vi-before-plan-add-to-plan
