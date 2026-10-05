@@ -63,7 +63,7 @@ export function WhoGoing({ members, out, open, onOpen, onToggle }: WhoGoingProps
           <AvatarStack members={going} size="sm" max={6} />
         </View>
         {solo ? (
-          <Text variant="body" style={styles.link} singleLine testID="plan-add-who-solo">
+          <Text variant="body" singleLine testID="plan-add-who-solo">
             {summary}
           </Text>
         ) : (
