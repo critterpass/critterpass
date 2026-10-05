@@ -5,6 +5,7 @@
 import { plural, t } from '@lingui/core/macro';
 
 import type { Retime } from '../day-plan/reschedule';
+import type { GapClose } from './close-gap';
 import { clock } from './format';
 import type { ChangePreview } from './item-detail-sheet';
 
@@ -72,23 +73,62 @@ export function retimePreview(
     };
   }
   const by = pushedBy === null ? null : durationText(pushedBy);
+  const count =
+    by === null
+      ? t({
+          id: 'plan.retime.pushed',
+          message: plural(pushed, {
+            one: '# later stop moves later too',
+            other: '# later stops move later too',
+          }),
+        })
+      : t({
+          id: 'plan.retime.pushedBy',
+          message: plural(pushed, {
+            one: `# later stop moves by ${by}`,
+            other: `# later stops move by ${by}`,
+          }),
+        });
+  // Where the push ends up, not only how many: a day pushed into the night says so.
+  const last = result.last;
+  const stop = last?.stop.title ?? '';
+  const at = last === null ? '' : clock(locale, last.start);
   return {
     blocked: false,
     line:
-      by === null
-        ? t({
-            id: 'plan.retime.pushed',
-            message: plural(pushed, {
-              one: '# later stop moves later too',
-              other: '# later stops move later too',
-            }),
-          })
+      last === null || pushed < 2
+        ? count
         : t({
-            id: 'plan.retime.pushedBy',
-            message: plural(pushed, {
-              one: `# later stop moves by ${by}`,
-              other: `# later stops move by ${by}`,
-            }),
+            id: 'plan.retime.lastAt',
+            message: `${count}. ${stop} would start at ${at}.`,
           }),
   };
+}
+
+/**
+ * "3 later stops move 1 h 25 earlier." when taking a stop off its day lets the stops after it go
+ * back to the time of day they are for; with `day`, said of that day ("On Tue 20 Oct, …"). Null
+ * when nothing moves.
+ */
+export function gapLine(gap: GapClose, day?: string): string | null {
+  const { moved, movedBy } = gap;
+  if (moved === 0) return null;
+  const by = movedBy === null ? null : durationText(movedBy);
+  const line =
+    by === null
+      ? t({
+          id: 'plan.retime.backEarlier',
+          message: plural(moved, {
+            one: '# later stop moves earlier.',
+            other: '# later stops move earlier.',
+          }),
+        })
+      : t({
+          id: 'plan.retime.backEarlierBy',
+          message: plural(moved, {
+            one: `# later stop moves ${by} earlier.`,
+            other: `# later stops move ${by} earlier.`,
+          }),
+        });
+  return day === undefined ? line : t({ id: 'plan.retime.onDay', message: `On ${day}: ${line}` });
 }

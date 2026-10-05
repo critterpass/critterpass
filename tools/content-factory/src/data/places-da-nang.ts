@@ -31,7 +31,7 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
     category: 'museum',
   },
   {
-    name: 'Bảo Tàng Điêu Khắc Chăm Đà Nẵng (Danang Museum of Cham Sculpture)',
+    name: 'Museum of Cham Sculpture',
     essential: true,
     lat: 16.0605,
     lng: 108.2234,
@@ -44,7 +44,7 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
     lng: 108.1313,
     category: 'nature',
   },
-  { name: 'Nhà thờ Chính Tòa Đà Nẵng (Da Nang Cathedral)', lat: 16.0667, lng: 108.2235 },
+  { name: 'Da Nang Cathedral', lat: 16.0667, lng: 108.2235 },
   {
     name: 'Han River Bridge',
     nameLocal: 'Cầu Sông Hàn',
@@ -55,7 +55,7 @@ export const DA_NANG_SIGHTS: readonly PinnedPlace[] = [
   { name: 'Sun Wheel', nameLocal: 'Vòng quay Mặt Trời', lat: 16.0416, lng: 108.2271 },
   { name: 'Carp-Dragon Statue', nameLocal: 'Tượng Cá Chép Hóa Rồng', lat: 16.0629, lng: 108.2299 },
   { name: 'Chàm Islands', lat: 15.9524, lng: 108.5204 },
-  { name: 'Bãi Biển An Bàng (An Bang Beach)', essential: true, lat: 15.9136, lng: 108.3406 },
+  { name: 'An Bàng Beach', essential: true, lat: 15.9136, lng: 108.3406 },
   { name: 'Non Nước Beach', nameLocal: 'Bãi tắm Non Nước', lat: 16.0028, lng: 108.27 },
   {
     name: 'Japanese Covered Bridge',

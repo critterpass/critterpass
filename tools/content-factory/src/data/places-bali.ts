@@ -22,7 +22,7 @@ export const BALI_PINS: readonly PinnedPlace[] = [
     category: 'temple_shrine',
   },
   {
-    name: 'Lempuyang Temple (Gates of Heaven)',
+    name: 'Lempuyang Temple',
     nameLocal: 'Pura Penataran Agung Lempuyang',
     lat: -8.3916,
     lng: 115.6309,
@@ -56,9 +56,9 @@ export const BALI_PINS: readonly PinnedPlace[] = [
     lng: 115.0868,
   },
   { name: 'Taman Ayun Temple', nameLocal: 'Pura Taman Ayun', lat: -8.5419, lng: 115.1725 },
-  { name: 'Goa Gajah (Elephant Cave)', nameLocal: 'Pura Goa Gajah', lat: -8.523, lng: 115.2867 },
+  { name: 'Goa Gajah', nameLocal: 'Pura Goa Gajah', lat: -8.523, lng: 115.2867 },
   {
-    name: 'Saraswati Temple (Ubud Water Palace)',
+    name: 'Saraswati Temple',
     nameLocal: 'Pura Taman Kemuda Saraswati',
     lat: -8.5059,
     lng: 115.2615,
@@ -122,10 +122,10 @@ export const BALI_PINS: readonly PinnedPlace[] = [
   { name: 'Tukad Cepung Waterfall', lat: -8.441, lng: 115.3877 },
   { name: 'Kanto Lampo Waterfall', lat: -8.5322, lng: 115.3313 },
   { name: 'Bali Botanic Garden', nameLocal: 'Kebun Raya Bali', lat: -8.2815, lng: 115.1564 },
-  { name: 'Twin Lakes Viewpoint (Buyan and Tamblingan)', lat: -8.2467, lng: 115.1004 },
+  { name: 'Twin Lakes Viewpoint', lat: -8.2467, lng: 115.1004 },
   { name: 'Handara Gate', lat: -8.2531, lng: 115.1582 },
   {
-    name: 'Garuda Wisnu Kencana Cultural Park (GWK)',
+    name: 'GWK Cultural Park',
     essential: true,
     lat: -8.8091,
     lng: 115.1668,

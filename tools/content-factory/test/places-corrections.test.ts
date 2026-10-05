@@ -5,12 +5,13 @@ import { loadRelease, type ContentItem } from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
 import {
-  correctionCounts,
   correctionItems,
   loadCorrections,
   type BeforeRow,
   type PlaceCorrection,
 } from '../src/kinds/places/corrections';
+import { correctionCounts } from '../src/kinds/places/corrections-counts';
+import { batchItems, hiddenItems } from '../src/kinds/places/corrections-hidden';
 import { outOfReach, withNewRecords } from '../src/kinds/places/corrections-new-records';
 import { placesKind } from '../src/kinds/places/pois';
 import { runValidators } from '../src/validators/registry';
@@ -63,6 +64,7 @@ const row = (ref: string, over: Partial<BeforeRow> = {}): BeforeRow => ({
   curated: true,
   must_see: false,
   essential: false,
+  trip_refs: 0,
   merged_into: null,
   item: liveItem(ref),
   ...over,
@@ -213,6 +215,33 @@ describe('place corrections', () => {
     });
   });
 
+  it('restates a hidden record with hide and without its flags, and refuses one a trip points at', () => {
+    const flagged = liveItem('overture:far', {
+      editorial: { ...liveItem('overture:far').editorial, must_see: true, essential: true },
+    });
+    const hidden = [
+      {
+        destination: 'bali',
+        ref: 'overture:far',
+        stored_name: 'Tirta Empul',
+        why: 'Pinned in Kuta.',
+      },
+    ];
+    const [item] = hiddenItems(hidden, [row('overture:far', { item: flagged })], new Set());
+    expect(item).toMatchObject({ ref: 'overture:far', hide: true, merge_into: null });
+    expect(item?.editorial).toEqual(liveItem('overture:far').editorial);
+    expect(() =>
+      hiddenItems(hidden, [row('overture:far', { item: flagged, trip_refs: 2 })], new Set()),
+    ).toThrow(/2 trip stops/u);
+    // Not both corrected and hidden, and only a record the live release states.
+    expect(() => hiddenItems(hidden, [row('overture:far')], new Set(['overture:far']))).toThrow(
+      /twice/u,
+    );
+    expect(() => hiddenItems(hidden, [row('overture:far', { item: null })], new Set())).toThrow(
+      /no live item/u,
+    );
+  });
+
   it('builds the item of a record that joins the recommended set from its note', () => {
     const before = [row('overture:kept', { curated: false, item: null })];
     expect(() => correctionItems([place()], before)).toThrow(/needs a note/u);
@@ -294,7 +323,7 @@ describe('committed corrections batches', () => {
     '%s is what its decisions and snapshot build, and passes the validators',
     (batchKey) => {
       const { file, before } = loadCorrections(batchKey);
-      const items = correctionItems(file.places, before);
+      const items = batchItems(file, before);
       const artifact = loadRelease(
         readJson<unknown>(path.join(FACTORY_DIR, 'batches', 'places', `${batchKey}.json`)),
         'places',

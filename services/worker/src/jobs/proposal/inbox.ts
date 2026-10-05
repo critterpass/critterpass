@@ -5,6 +5,8 @@
  * everyone holding a place. Items carry ids, a place name and counts; the app words them.
  */
 import {
+  ensureInboxKinds,
+  PROPOSAL_INBOX_KINDS,
   PROPOSAL_ANSWERS,
   PROPOSAL_INBOX_KIND,
   proposalAnswerResolveKey,
@@ -169,6 +171,7 @@ let registered = false;
 export function registerProposalInboxFanouts(): void {
   if (registered) return;
   registered = true;
+  ensureInboxKinds(PROPOSAL_INBOX_KINDS);
   registerReceived();
   registerAnswered();
   registerTripLocked();

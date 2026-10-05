@@ -50,6 +50,10 @@ msgid "plan.edit.removedMany"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.lastAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
 msgid "plan.retime.hours"
 msgstr ""
 
@@ -64,6 +68,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/late-entry.tsx
 msgid "plan.day.late.minutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlierBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.backEarlier"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/retime-copy.ts
@@ -306,6 +318,10 @@ msgstr ""
 msgid "plan.edit.nowAt"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/retime-copy.ts
+msgid "plan.retime.onDay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.maps"
 msgstr ""
@@ -426,8 +442,8 @@ msgstr ""
 msgid "plan.day.item.goneLine"
 msgstr ""
 
-#. placeholder {0}: clock(locale, effect.useStart)
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#. placeholder {0}: clock(locale, useStart)
+#: ../../apps/mobile/src/features/plan/day/sheet-foot.tsx
 msgid "plan.day.item.useStart"
 msgstr ""
 

@@ -65,6 +65,25 @@ const draftUndo = new Map<string, readonly PlanOp[]>();
 const UNDO_ATTEMPTS = 4;
 const UNDO_RETRY_MS = 1200;
 
+const SYNC_POLL_MS = 150;
+const SYNC_WAIT_MS = 6000;
+
+/** Resolves once the trip's current version on this phone is `versionId` (or the wait runs out). */
+async function planSynced(
+  db: { getAll<T>(sql: string, params?: unknown[]): Promise<T[]> },
+  tripId: string,
+  versionId: string,
+): Promise<void> {
+  for (let waited = 0; waited < SYNC_WAIT_MS; waited += SYNC_POLL_MS) {
+    const rows = await db.getAll<{ v: string | null }>(
+      'SELECT current_version_id AS v FROM trips WHERE id = ?',
+      [tripId],
+    );
+    if (rows[0]?.v === versionId) return;
+    await new Promise((resolve) => setTimeout(resolve, SYNC_POLL_MS));
+  }
+}
+
 export type EditOutcome =
   | { readonly kind: 'applied'; readonly opId: string }
   | { readonly kind: 'proposed'; readonly changesetId: string }
@@ -198,14 +217,20 @@ export function usePlanEditor(plan: TripPlan, reasons: ChangeReasons, events: Pl
       }
       for (let attempt = 0; attempt < UNDO_ATTEMPTS; attempt += 1) {
         const result = await takeBack.send({ trip_id: tripId, op_id: latestOpId(opId) });
-        if (result.kind === 'applied') return 'undone';
+        if (result.kind === 'applied') {
+          // Said once the plan on this phone is the restored one, so every screen that reads it
+          // (the day, a search row's "In the plan") already shows it back as it was.
+          const restored = (result.result as { version_id?: unknown } | null)?.version_id;
+          if (typeof restored === 'string') await planSynced(db, tripId, restored);
+          return 'undone';
+        }
         if (result.kind === 'unavailable') return 'unavailable';
         if (result.kind !== 'rejected' || result.code !== 'NOT_FOUND') return 'moved_on';
         await new Promise((resolve) => setTimeout(resolve, UNDO_RETRY_MS));
       }
       return 'unavailable';
     },
-    [takeBack, applyDraft],
+    [takeBack, applyDraft, db],
   );
 
   const whoChanged = useCallback(

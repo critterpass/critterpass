@@ -133,13 +133,34 @@ describe('checkSearchParseReply', () => {
     });
   });
 
-  it('rejects "near the stay" on a trip with no stay', () => {
+  it('leaves "near the stay" out on a trip with no stay and keeps the rest of the question', () => {
+    const noStay = { ...digest, stayName: null };
     const check = checkSearchParseReply(
+      reply({
+        meal: 'dinner',
+        attributes: ['quiet'],
+        open_past: '22:00',
+        near: { from: 'stay', ref: null, minutes: 15 },
+      }),
+      'somewhere quiet for dinner near the stay, open late',
+      noStay,
+    );
+    if (!check.ok) throw new Error(check.reason);
+    // The night whose dinner is booked is still left out, as with a stay.
+    expect(check.result.filters).toMatchObject({
+      meal: 'dinner',
+      attributes: ['quiet'],
+      open_past: '22:00',
+    });
+    expect(check.result.filters.max_minutes).toBeUndefined();
+    expect(check.result.chips.map((chip) => chip.code)).not.toContain('max_minutes');
+    // Nothing else understood: the whole question is searched by name.
+    const alone = checkSearchParseReply(
       reply({ near: { from: 'stay', ref: null, minutes: 15 } }),
       'near the hotel',
-      { ...digest, stayName: null },
+      noStay,
     );
-    expect(check).toEqual({ ok: false, reason: 'unknown_ref' });
+    expect(alone.ok && alone.result).toEqual({ filters: { text: 'near the hotel' }, chips: [] });
   });
 
   it('keeps left-over words regardless of accents and searches the whole question when nothing parsed', () => {

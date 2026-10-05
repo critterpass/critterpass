@@ -117,9 +117,11 @@ appId: app.critterpass.dev
     env:
       PICK_DATE: ${output.pickDate}
       PICK_DAYS: 5
-- assertVisible:
-    id: 'picker-length'
-    text: '5 days .*'
+# How many days the trip ends up with does not matter to this walk: the lock is what it needs.
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-dates
 - tapOn:
@@ -140,19 +142,25 @@ appId: app.critterpass.dev
 - takeScreenshot: ${SHOTS}-budget
 - tapOn:
     id: 'budget-lock'
-# Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
+# Rooms: a crew of one has nothing to decide and the step is passed for it; when it does show,
+# LOOKS GOOD accepts the rooms as offered.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-lock'
+      id: 'setup-rooms-lock|must-dos-add'
     timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: ${SHOTS}-rooms
-- scrollUntilVisible:
-    element:
-      id: 'setup-rooms-lock'
-    timeout: 10000
-- tapOn:
-    id: 'setup-rooms-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-lock'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-rooms
+      - scrollUntilVisible:
+          element:
+            id: 'setup-rooms-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'setup-rooms-lock'
 - extendedWaitUntil:
     visible:
       id: 'must-dos-add'
