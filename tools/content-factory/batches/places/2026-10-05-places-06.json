@@ -479,7 +479,7 @@
         "attribution": "Foursquare Open Source Places"
       },
       "editorial": {
-        "why_go": "Visit a Zen monastery in Da Lat.",
+        "why_go": "A peaceful Zen monastery at the top of the cable car, looking over the lake below, with gardens of shrubs clipped into animal shapes.",
         "best_time": "Morning, with the cable car from Robin Hill",
         "time_needed_min": 90,
         "crowd_hint": "Popular with tourists",
@@ -491,7 +491,7 @@
       "possible_duplicate_of": null,
       "i18n": {
         "vi": {
-          "why_go": "Viếng một thiền viện ở Đà Lạt.",
+          "why_go": "Thiền viện thanh tịnh ở điểm cuối tuyến cáp treo, nhìn xuống hồ nước bên dưới, khu vườn có những bụi cây cắt tỉa hình thú.",
           "best_time": "Buổi sáng, đi cáp treo từ đồi Robin",
           "crowd_hint": "Đông khách du lịch",
           "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào chánh điện."
@@ -2534,5 +2534,5 @@
     "generated_at": "2026-10-05T16:30:00+07:00"
   },
   "approved_by": null,
-  "checksum": "eba64f327ff79032ac673d79cb4f2886a1948b73028c3fa5897c5fe479a8f2ee"
+  "checksum": "910736d8e3ea4157f624b404146b8b2443fd232fb8cfc26ae06b274fecff9c3a"
 }

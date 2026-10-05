@@ -1,5 +1,5 @@
 {
-  "taken_at": "2026-10-05T07:42:18.349Z",
+  "taken_at": "2026-10-05T08:19:26.328Z",
   "rows": [
     {
       "id": "01a1053c-2fd3-7324-a7de-8d86acacbcac",
@@ -15,7 +15,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 22,
+      "trip_refs": 26,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4e017a8a18a8abfb3f6dd139",
@@ -62,7 +62,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 78,
+      "trip_refs": 82,
       "merged_into": null,
       "item": {
         "ref": "overture:14de2be4-a85a-4617-9817-a03b0da74512",
@@ -109,7 +109,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 42,
+      "trip_refs": 46,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4cedcfefb80da093c8672400",
@@ -156,7 +156,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 20,
+      "trip_refs": 24,
       "merged_into": null,
       "item": {
         "ref": "overture:c29b9a71-e3f4-417a-8f2f-8b333e903492",
@@ -203,7 +203,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 57,
+      "trip_refs": 61,
       "merged_into": null,
       "item": {
         "ref": "overture:4fa1f37f-c42e-436f-b787-f8b64136c048",
@@ -250,7 +250,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 10,
+      "trip_refs": 14,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:501a83f0e4b07dd937479238",
@@ -297,7 +297,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 49,
+      "trip_refs": 53,
       "merged_into": null,
       "item": {
         "ref": "overture:32959149-e391-4eca-977e-d7ec398452d1",
@@ -344,7 +344,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 36,
+      "trip_refs": 40,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:e30e15394f714de94514fa4a",
@@ -391,7 +391,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 55,
+      "trip_refs": 59,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4e420312b0fb09b6086a589f",
@@ -485,7 +485,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 30,
+      "trip_refs": 34,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4da12d1fb521224bf19eefed",
@@ -532,7 +532,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 38,
+      "trip_refs": 42,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4e6adf53483bf2d9e66ed137",
@@ -579,7 +579,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 20,
+      "trip_refs": 24,
       "merged_into": null,
       "item": {
         "ref": "overture:2abc4a5b-6668-4341-b6df-68fc163094ad",
@@ -626,7 +626,7 @@
       "curated": true,
       "must_see": true,
       "essential": true,
-      "trip_refs": 57,
+      "trip_refs": 61,
       "merged_into": null,
       "item": {
         "ref": "overture:2bfd52f7-6da1-4594-852f-2388c819d7d4",
@@ -719,7 +719,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 37,
+      "trip_refs": 41,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:563b4d32cd109d1223bea5d1",
@@ -949,7 +949,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 13,
+      "trip_refs": 16,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:4e18540188777e96476ef981",
@@ -1363,7 +1363,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 10,
+      "trip_refs": 13,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:50ee4489e4b0b97edef4ae1f",
@@ -1731,7 +1731,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 37,
+      "trip_refs": 41,
       "merged_into": null,
       "item": {
         "ref": "fsq_os:5108c9c8e4b0ea465ab04b77",
@@ -2237,7 +2237,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 32,
+      "trip_refs": 33,
       "merged_into": null,
       "item": {
         "ref": "overture:45d65c3c-b4a2-4071-bdd5-94e142bc6382",
@@ -2881,7 +2881,7 @@
       "curated": true,
       "must_see": true,
       "essential": false,
-      "trip_refs": 4,
+      "trip_refs": 5,
       "merged_into": null,
       "item": {
         "ref": "overture:6bc5b1a5-157c-4c36-ad2a-7ee83f22050c",

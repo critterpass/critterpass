@@ -176,14 +176,22 @@
       "stated": true,
       "i18n": {
         "vi": {
-          "why_go": "Viếng một thiền viện ở Đà Lạt.",
+          "why_go": "Thiền viện thanh tịnh ở điểm cuối tuyến cáp treo, nhìn xuống hồ nước bên dưới, khu vườn có những bụi cây cắt tỉa hình thú.",
           "best_time": "Buổi sáng, đi cáp treo từ đồi Robin",
           "crowd_hint": "Đông khách du lịch",
           "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào chánh điện."
         }
       },
-      "why": "Note in Vietnamese.",
-      "merge": []
+      "why": "Note in Vietnamese; the English line rewritten from the guide.",
+      "merge": [],
+      "revise": {
+        "why_go": "A peaceful Zen monastery at the top of the cable car, looking over the lake below, with gardens of shrubs clipped into animal shapes."
+      },
+      "claim": {
+        "said": "Visit a Zen monastery in Da Lat.",
+        "finding": "Wikivoyage: the monastery is at the top of where the cable car drops you off, has a magnificent view over the dams below, and its gardens are full of landscaped shrubs in animal form; extremely peaceful. The thin line is replaced with what the guide says, in both languages.",
+        "source": "https://en.wikivoyage.org/wiki/Da_Lat"
+      }
     },
     {
       "destination": "vn-da-lat",
@@ -956,5 +964,11 @@
       "merge": []
     }
   ],
-  "left_alone": []
+  "left_alone": [
+    {
+      "destination": "vn-da-lat",
+      "name": "Bùi Văn Ngọ Coffee, The Married Beans",
+      "why": "Their English notes say almost nothing (\"Coffee at this café\"; \"No special crowd note\"). Neither the records (no address for Bùi Văn Ngọ; an address only for The Married Beans) nor Wikivoyage says more, so the Vietnamese is as thin as the English. A better line needs a source."
+    }
+  ]
 }
