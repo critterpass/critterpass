@@ -20,10 +20,10 @@ import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor'
 import type { TripPlan } from '@/data/plan/use-trip-plan';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { ItemComments } from '../collab/item-comments';
 import { retime, type Retime, type Travel } from '../day-plan/reschedule';
-import { guideOf } from '../timeline/day-timeline';
 import { closeGap, outOfPlaceOn } from './close-gap';
 import { travelMinutes } from './fit-check';
 import { dayName } from './format';
@@ -198,7 +198,7 @@ export function ItemSheetHost({
             uid={plan.uid}
             item={item}
             members={plan.members}
-            guide={guideOf(plan.trip?.guide_slug ?? null)}
+            guide={guideSticker(plan.trip?.guide_slug)}
           />
         )
       }

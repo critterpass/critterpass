@@ -25,7 +25,7 @@ import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
-import { useRainWindow } from '../timeline/use-rain-window';
+import { useRainWindow } from './use-rain-window';
 import { clock } from '../day/format';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useBackToTrip } from './back-to-trip';
