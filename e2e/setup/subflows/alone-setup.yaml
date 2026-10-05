@@ -78,6 +78,8 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 60000
 - waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-pitch-card
+- waitForAnimationToEnd
 - tapOn:
     id: 'pitch-add'
 - waitForAnimationToEnd

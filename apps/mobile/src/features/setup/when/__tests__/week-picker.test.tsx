@@ -63,8 +63,8 @@ describe('picking days', () => {
 
   it('locks the suggested planned length after one tap, or re-picks its last day', async () => {
     const onLock = jest.fn();
+    // With today known it opens on this month.
     await renderSetup(picker(onLock, '2026-10-01'));
-    await fireEvent.press(screen.getByTestId('picker-today'));
     await fireEvent.press(await screen.findByTestId('heat-pick-2026-10-02'));
     expect(screen.getByTestId('picker-ghost')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('picker-lock'));
@@ -77,7 +77,6 @@ describe('picking days', () => {
 
   it('can’t pick a day before today, and clears back to nothing picked', async () => {
     await renderSetup(picker(jest.fn(), '2026-10-05'));
-    await fireEvent.press(screen.getByTestId('picker-today'));
     expect(await screen.findByTestId('heat-2026-10-04')).toBeTruthy();
     expect(screen.queryByTestId('heat-pick-2026-10-04')).toBeNull();
     await fireEvent.press(screen.getByTestId('heat-pick-2026-10-05'));
@@ -125,5 +124,31 @@ describe('a lock that did not go through', () => {
     );
     expect(screen.getByTestId('picker-failure')).toHaveTextContent(/needs signal/u);
     expect(screen.getByTestId('picker-lock')).toBeTruthy();
+  });
+});
+
+describe('the month it opens on', () => {
+  it('is this month when no window is offered, whatever month the step suggested', async () => {
+    const months = heatMonths([], SPAN);
+    await renderSetup(
+      <WeekPicker
+        months={months}
+        startMonth={initialMonth(months, NEXT_MONTH)}
+        total={1}
+        lengthDays={3}
+        today="2026-10-05"
+        busy={false}
+        onLock={jest.fn()}
+        onDismiss={() => undefined}
+      />,
+    );
+    expect(screen.getByText(/october 2026/iu)).toBeTruthy();
+    // Paged on, "Today" brings her back.
+    await fireEvent(screen.getByTestId('picker-month'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'increment' },
+    });
+    expect(await screen.findByText(/november 2026/iu)).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('picker-today'));
+    expect(await screen.findByText(/october 2026/iu)).toBeTruthy();
   });
 });

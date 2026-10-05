@@ -116,6 +116,55 @@ export async function linesInReaderLanguage(
   }
 }
 
+export interface ReaderPitch {
+  /** The English lines to store (a reason the reader could not get in her language is left out). */
+  readonly kept: PitchModelSection[];
+  /** What the reader sees: each kept line in her language where there is one. */
+  readonly shown: PitchModelSection[];
+  /** Field → the reader's text, when every kept line has one; null otherwise. */
+  readonly translation: Readonly<Record<string, string>> | null;
+}
+
+/**
+ * The model's lines for a reader of another language. The model writes each line in her language
+ * as well (`local`); a line it gave no valid local text for is said again by the translation
+ * route. A reason still only in English is left out when another reason has her language, so the
+ * card never mixes languages; a headline or closing line without one stays as written.
+ */
+export async function pitchForReader(
+  gateway: Pick<Gateway, 'callModel'>,
+  facts: PitchFacts,
+  lines: readonly PitchModelSection[],
+  locale: string,
+  context: UsageContext,
+): Promise<ReaderPitch> {
+  const missing = lines.filter((line) => line.local === undefined);
+  const filled =
+    missing.length === 0
+      ? []
+      : (await linesInReaderLanguage(gateway, facts, missing, locale, context)).shown;
+  let next = 0;
+  const withLocal = lines.map((line) => {
+    if (line.local !== undefined) return line;
+    const said = filled[next];
+    next += 1;
+    return said === undefined || said.text === line.text ? line : { ...line, local: said.text };
+  });
+  const anyReason = withLocal.some((line) => line.s === 'reason' && line.local !== undefined);
+  const kept = withLocal.filter(
+    (line) => !(line.s === 'reason' && line.local === undefined && anyReason),
+  );
+  const fields = fieldsOf(kept);
+  const complete = kept.every((line) => line.local !== undefined);
+  return {
+    kept: kept.map(({ local: _local, ...line }) => line as PitchModelSection),
+    shown: kept.map((line) => (line.local === undefined ? line : { ...line, text: line.local })),
+    translation: complete
+      ? Object.fromEntries(kept.map((line, index) => [fields[index] ?? '', line.local ?? '']))
+      : null,
+  };
+}
+
 /** Stores the reader's translation with the pitch, keyed to the text it was made from. */
 export async function storePitchTranslation(
   tx: pg.PoolClient,
