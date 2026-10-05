@@ -10,15 +10,18 @@ import type pg from 'pg';
 import { queuePlanCheck } from '../jobs/planning/check';
 import { queueTripLegs } from '../jobs/planning/legs';
 
-/** `merged (id, kept)`: every merged record with the record its chain of merges ends at. */
-export const MERGED = `WITH RECURSIVE chain AS (
-    SELECT id, merged_into_id AS kept, 1 AS depth FROM pois WHERE merged_into_id IS NOT NULL
-    UNION ALL
-    SELECT c.id, p.merged_into_id, c.depth + 1 FROM chain c JOIN pois p ON p.id = c.kept
-     WHERE p.merged_into_id IS NOT NULL AND c.depth < 8
-  ), merged AS (
-    SELECT DISTINCT ON (id) id, kept FROM chain WHERE kept <> id ORDER BY id, depth DESC
-  )`;
+/**
+ * `LATERAL (...) m` giving `m.kept` for a row whose place (`column`) is a merged record: the record
+ * its merges end at, up to three merges deep (a deeper chain is followed further by the next run).
+ * Read from the row's side, by the place's id, so no statement scans the whole catalogue.
+ */
+export const keptOf = (column: string): string => `LATERAL (
+    SELECT coalesce(p3.merged_into_id, p2.merged_into_id, p1.merged_into_id) AS kept
+      FROM pois p1
+      LEFT JOIN pois p2 ON p2.id = p1.merged_into_id
+      LEFT JOIN pois p3 ON p3.id = p2.merged_into_id
+     WHERE p1.id = ${column} AND p1.merged_into_id IS NOT NULL
+  ) m`;
 
 const LIVE = ['draft', 'proposed', 'current'];
 
@@ -36,13 +39,13 @@ export interface PlanChanges {
 export async function followPlans(tx: pg.PoolClient): Promise<PlanChanges> {
   // A day of a plan still being made that would hold the place twice keeps one stop.
   const { rows: gone } = await tx.query<{ trip_id: string; version_id: string; key: string }>(
-    `${MERGED}, placed AS (
+    `WITH placed AS (
        SELECT i.id, i.trip_id, i.version_id, i.day_id, i.stable_id, i.starts_at, i.must_do_id,
-              coalesce(m.kept, i.poi_id) AS place, (m.id IS NOT NULL) AS follows,
+              coalesce(m.kept, i.poi_id) AS place, (m.kept IS NOT NULL) AS follows,
               (i.booking_id IS NOT NULL OR i.locked_reason IS NOT NULL
                OR EXISTS (SELECT 1 FROM leave_bys l WHERE l.plan_item_id = i.id)
                OR EXISTS (SELECT 1 FROM journey_checks j WHERE j.item_id = i.id)) AS held
-         FROM plan_items i LEFT JOIN merged m ON m.id = i.poi_id
+         FROM plan_items i LEFT JOIN ${keptOf('i.poi_id')} ON true
          JOIN itinerary_versions v ON v.id = i.version_id
          JOIN trips t ON t.id = i.trip_id
         WHERE i.poi_id IS NOT NULL AND i.status IS DISTINCT FROM 'cancelled'
@@ -67,7 +70,10 @@ export async function followPlans(tx: pg.PoolClient): Promise<PlanChanges> {
     [LIVE],
   );
   const { rows: moved } = await tx.query<{ trip_id: string; version_id: string; key: string }>(
-    `${MERGED} UPDATE plan_items i SET poi_id = m.kept FROM merged m WHERE i.poi_id = m.id
+    `WITH moving AS (
+       SELECT i.id, m.kept FROM plan_items i JOIN ${keptOf('i.poi_id')} ON true
+     )
+     UPDATE plan_items i SET poi_id = moving.kept FROM moving WHERE i.id = moving.id
      RETURNING i.trip_id, i.version_id, i.stable_id::text AS key`,
   );
   const touched = [...gone, ...moved];

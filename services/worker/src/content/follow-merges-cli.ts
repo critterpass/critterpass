@@ -61,8 +61,9 @@ export async function followMerges(
 }
 
 async function main(): Promise<void> {
-  const connectionString = process.env['DATABASE_URL'];
-  if (connectionString === undefined) throw new Error('DATABASE_URL is required');
+  // The direct connection, as the worker's own job runtime uses: the pooler takes no role option.
+  const connectionString = process.env['DATABASE_DIRECT_URL'] ?? process.env['DATABASE_URL'];
+  if (connectionString === undefined) throw new Error('DATABASE_DIRECT_URL is required');
   const pool = createPool({ connectionString, max: 1 });
   // The legs and check runs are queued in the same transaction as the move (and rolled back with
   // it on a dry run), so this process sends jobs like the worker does.

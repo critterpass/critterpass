@@ -3,7 +3,7 @@
  * wrongly pinned records into the record at the real place (`pois.merged_into_id`); readers hide
  * merged records, but a trip's stop, a must-do, an idea, a save, a swipe answer or a hidden place
  * keeps the id it has, and with it the old pin. Here every such row is moved to the kept record
- * (through a chain of merges to its end), and where the kept record is already on the same day or
+ * (through a chain of merges), and where the kept record is already on the same day or
  * list, one is kept:
  *
  * - Plans: every version's stops follow, whatever the trip's state, and nothing about their times
@@ -23,7 +23,7 @@
  */
 import type pg from 'pg';
 
-import { followPlans, MERGED, type Change } from './follow-merges-plans';
+import { followPlans, keptOf, type Change } from './follow-merges-plans';
 
 interface Follower {
   readonly table: string;
@@ -85,8 +85,10 @@ function followerSql(follower: Follower): string {
   const trip = follower.trip ? 't.trip_id' : 'NULL::uuid';
   const where = follower.where === undefined ? '' : `WHERE ${follower.where}`;
   if (key === null) {
-    return `${MERGED}, followed AS (
-        UPDATE ${table} t SET ${column} = m.kept FROM merged m WHERE t.${column} = m.id
+    return `WITH moving AS (
+        SELECT t.id, m.kept FROM ${table} t JOIN ${keptOf(`t.${column}`)} ON true
+      ), followed AS (
+        UPDATE ${table} t SET ${column} = moving.kept FROM moving WHERE t.id = moving.id
         RETURNING ${trip} AS trip_id
       ) SELECT 'moved' AS what, trip_id FROM followed`;
   }
@@ -97,7 +99,7 @@ function followerSql(follower: Follower): string {
                                  ORDER BY t.id) > 1
               OR EXISTS (SELECT 1 FROM ${table} o
                           WHERE o.${column} = m.kept AND o.id <> t.id AND ${same})) AS taken
-        FROM ${table} t JOIN merged m ON m.id = t.${column} ${where}
+        FROM ${table} t JOIN ${keptOf(`t.${column}`)} ON true ${where}
     )`;
   const followed = `followed AS (
       UPDATE ${table} t SET ${column} = m.kept FROM moving m
@@ -105,10 +107,10 @@ function followerSql(follower: Follower): string {
       RETURNING t.id
     )`;
   if (follower.drop === false) {
-    return `${MERGED}, ${moving}, ${followed}
+    return `WITH ${moving}, ${followed}
       SELECT 'moved' AS what, m.trip_id FROM followed f JOIN moving m ON m.id = f.id`;
   }
-  return `${MERGED}, ${moving}, gone AS (
+  return `WITH ${moving}, gone AS (
       DELETE FROM ${table} t USING moving m WHERE t.id = m.id AND m.taken
       RETURNING t.id
     ), ${followed}
@@ -120,10 +122,10 @@ function followerSql(follower: Follower): string {
 /** Ideas: one live idea per trip and place; the kept one takes the others' backers and sources. */
 async function followIdeas(tx: pg.PoolClient): Promise<Change[]> {
   const { rows } = await tx.query<Change>(
-    `${MERGED}, placed AS (
-       SELECT i.id, i.trip_id, coalesce(m.kept, i.poi_id) AS place, (m.id IS NOT NULL) AS follows,
+    `WITH placed AS (
+       SELECT i.id, i.trip_id, coalesce(m.kept, i.poi_id) AS place, (m.kept IS NOT NULL) AS follows,
               i.backer_ids, i.sources, i.created_at
-         FROM trip_ideas i LEFT JOIN merged m ON m.id = i.poi_id
+         FROM trip_ideas i LEFT JOIN ${keptOf('i.poi_id')} ON true
         WHERE i.poi_id IS NOT NULL AND i.deleted_at IS NULL
      ), ranked AS (
        SELECT p.*, bool_or(p.follows) OVER (PARTITION BY p.trip_id, p.place) AS touched,
@@ -157,8 +159,11 @@ async function followIdeas(tx: pg.PoolClient): Promise<Change[]> {
   );
   // Ideas no longer live (taken back, or folded just now) follow too; no rule binds them.
   await tx.query(
-    `${MERGED} UPDATE trip_ideas i SET poi_id = m.kept FROM merged m
-      WHERE i.poi_id = m.id AND i.deleted_at IS NOT NULL`,
+    `WITH moving AS (
+       SELECT i.id, m.kept FROM trip_ideas i JOIN ${keptOf('i.poi_id')} ON true
+        WHERE i.deleted_at IS NOT NULL
+     )
+     UPDATE trip_ideas i SET poi_id = moving.kept FROM moving WHERE i.id = moving.id`,
   );
   return rows;
 }
@@ -166,7 +171,10 @@ async function followIdeas(tx: pg.PoolClient): Promise<Change[]> {
 /** Must-dos follow; one owner's two must-dos for what is now one place become one. */
 async function followMustDos(tx: pg.PoolClient): Promise<Change[]> {
   const { rows } = await tx.query<{ id: string; trip_id: string }>(
-    `${MERGED} UPDATE must_dos d SET poi_id = m.kept FROM merged m WHERE d.poi_id = m.id
+    `WITH moving AS (
+       SELECT d.id, m.kept FROM must_dos d JOIN ${keptOf('d.poi_id')} ON true
+     )
+     UPDATE must_dos d SET poi_id = moving.kept FROM moving WHERE d.id = moving.id
      RETURNING d.id, d.trip_id`,
   );
   const { rows: folded } = await tx.query<{ trip_id: string }>(
