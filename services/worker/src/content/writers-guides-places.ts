@@ -91,7 +91,8 @@ export async function writePlaces(
       throw new PublishRefusedError(`destination ${poi.destination} does not exist`);
     }
     const { source, source_id } = poi.licence;
-    const editorial = JSON.stringify(poi.editorial);
+    // Translations travel with the note; `null` clears what an earlier release stored.
+    const editorial = JSON.stringify({ ...poi.editorial, i18n: poi.i18n ?? null });
     const updated = await tx.query(
       `UPDATE pois SET name = $2, name_local = $3, category = $4, tags = $5,
          editorial = jsonb_strip_nulls(editorial || $6::jsonb),

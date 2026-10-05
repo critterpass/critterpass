@@ -130,14 +130,7 @@ export {
   poiCategorySchema,
   type PoiCategory,
 } from './places/categories';
-export {
-  EMPTY_EDITORIAL_OVERLAY,
-  editorialOverlaySchema,
-  editorialPhotoSchema,
-  readEditorialOverlay,
-  type EditorialOverlay,
-  type EditorialPhoto,
-} from './places/editorial';
+export * from './places/editorial';
 export {
   EMPTY_HOURS,
   WEEKDAYS,
