@@ -31,6 +31,7 @@ import {
   gradeMustDos,
   gradeRedraftReasons,
 } from './asserts/day-shape-asserts';
+import { gradeDayRules } from './asserts/day-rules-asserts';
 import { gradeDraftLanguage, gradeEssentials, gradeLanguage } from './asserts/language-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import { baselineItinerary } from './baseline';
@@ -185,6 +186,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           ...gradeDayFinish(result.input, result.itinerary),
           ...gradeHeld(result.input, result.itinerary),
           ...gradeEssentials(result.input, result),
+          ...(crew.expect_day_rules ? gradeDayRules(result.input, result.itinerary) : []),
           ...gradeDraftLanguage(crew.locale, result.itinerary, text),
           ...gradeMustSees(result.input, result.itinerary, crew.expect_core_min),
           ...(crew.expect_full_days ? gradeHoles(result.input, result.itinerary) : []),

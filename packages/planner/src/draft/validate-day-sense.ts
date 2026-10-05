@@ -173,6 +173,7 @@ function hopChecks(input: DaySenseInput, day: TimedDay): DaySenseViolation[] {
     input.hopCapMin,
     rideHome ? dinnerAt : undefined,
     input.homeId,
+    (index) => day.stops[index]?.item.kind !== 'meal',
   );
   return hops.flatMap((hop) => {
     const far = day.stops[hop.index];

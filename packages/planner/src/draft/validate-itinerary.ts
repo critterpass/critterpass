@@ -11,6 +11,7 @@ import type { DraftItem, Itinerary } from '@cp/domain';
 
 import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
+import { opensDay, startFloor } from './day-start';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
 import {
@@ -152,6 +153,8 @@ function dayChecks(
   dayNo: number,
   dayIndex: number,
   date: string,
+  /** When the stop before this one ended (local minute); null for the day's first. */
+  earlierEndMin: number | null,
 ): DraftViolation[] {
   const out: DraftViolation[] = [];
   const at = (code: DraftViolationCode, extra: Partial<DraftViolation> = {}): DraftViolation => ({
@@ -182,7 +185,11 @@ function dayChecks(
   }
   // A booking or a stop placed by hand is the crew's own call, whenever it is.
   if (isTheirs(item)) return out;
-  const from = held === null ? window.startMin : (window.earliestMin ?? window.startMin);
+  // The day opens sooner for a stop that opens it, or one that follows an early stop (./day-start).
+  const from =
+    held === null
+      ? startFloor(window, opensDay(poi, input), earlierEndMin)
+      : (window.earliestMin ?? window.startMin);
   const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
   if (start < from || end > until) {
     const base = baseWindow(input.frame);
@@ -204,7 +211,11 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
     const stops: TimedStop[] = [];
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
-      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date));
+      const ends = day.items
+        .filter((other) => other !== item && other.ends_at <= item.starts_at)
+        .map((other) => minuteOfDate(new Date(other.ends_at), day.date, input.frame.tz));
+      const earlierEnd = ends.length === 0 ? null : Math.max(...ends);
+      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date, earlierEnd));
       const poi = placeOf(input, item);
       if (poi === undefined) continue;
       poiOf.set(item.stable_id, poi.id);

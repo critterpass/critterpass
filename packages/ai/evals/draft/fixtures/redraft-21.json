@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "3a5d060e-74f5-4852-a754-f3e5c207d058",
+        "id": "812656fd-3e88-4c66-aaaf-24985cb7231d",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle late-start day that swaps the early museum for an easy stroll, a beach sunset, and a proper dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A slow morning calls for a quiet green wander instead of rushing to a museum. Kazik Park keeps the pace easy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Coffee or a snack break, never a meal — perfect for a late start when breakfast has already been skipped.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays in the same neighbourhood, so the crew can refuel without racing across town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach is best for the sunset, and a later start means we catch it without an early alarm.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p53\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner by the water, street food style. From the trees I can already smell the snails.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle start with a museum and a snack, then the beach and a quiet temple before a proper local dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"We keep the museum, but with a late start we arrive after the morning rush and still get the good light in the old halls.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"A little bánh đập break after the museum, because a slow morning deserves a crunchy snack and no hurry.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach at Phạm Văn Đồng fits the late start perfectly: soft sand, sea air, and nobody asking us to be anywhere early.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short temple stop to catch the late-afternoon calm, right by the water and easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is mì Quảng, the bowl that makes a slow day feel complete. Cảm ơn (thank you) to the cook, and ngon quá (so tasty) after the first bite.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 1362,
+          "input_tokens": 82,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 386,
+          "cache_read_input_tokens": 2432,
+          "output_tokens": 389,
           "service_tier": "standard"
         }
       }
