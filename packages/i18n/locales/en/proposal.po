@@ -257,8 +257,8 @@ msgid "proposal.hype.pct"
 msgstr "{pct}%"
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
-msgid "proposal.inbox.locked"
-msgstr "{place} is locked in. The trip is on."
+msgid "proposal.inbox.lockedIn"
+msgstr "{place} is locked in. The trip is confirmed."
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.reacted"

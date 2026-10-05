@@ -257,7 +257,7 @@ msgid "proposal.hype.pct"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/inbox-renderers.ts
-msgid "proposal.inbox.locked"
+msgid "proposal.inbox.lockedIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
