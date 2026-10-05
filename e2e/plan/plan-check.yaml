@@ -3,8 +3,7 @@ appId: app.critterpass.dev
 # The plan check (7h-1) from the plan ideas lab, in English then Vietnamese: three to fix and two
 # to know for an organiser, a member's SUGGEST with an organiser's private ask on top, a too-far
 # card opened on its nearer place, the check running, and all clear. Then the real screen on a
-# brand-new traveller's own trip (../happy/subflows/trip-under-way.yaml, the redesign on for this
-# phone): Home, the trip, PLAN, and the trip map's CHECK once the check has run. Shots are named `<lang>-7h-1-<state>`.
+# brand-new traveller's own trip (../happy/subflows/trip-under-way.yaml): Home, the trip, PLAN, and the trip map's CHECK once the check has run. Shots are named `<lang>-7h-1-<state>`.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -403,7 +402,6 @@ appId: app.critterpass.dev
       id: 'home-header-chat'
     timeout: 60000
 - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
-- runFlow: ../_shared/planning-redesign-on.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'

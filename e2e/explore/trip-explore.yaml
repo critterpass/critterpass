@@ -69,7 +69,6 @@ appId: app.critterpass.dev
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'tab-trips'
 - scrollUntilVisible:

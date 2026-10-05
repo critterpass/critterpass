@@ -1,11 +1,10 @@
 appId: app.critterpass.dev
 ---
-# The trip's places map (7c-1) for a fresh account with the demo's Bali trip and the planning
-# redesign on. The peek counts the places in view; a chip leaves every place on the map (the others
+# The trip's places map (7c-1) for a fresh account with the demo's Bali trip. The peek counts the places in view; a chip leaves every place on the map (the others
 # fade) and its count in the chip row; ≡ LIST shows the same places as rows. A picked place (7c-2)
 # is shot in the lab scenes (map.yaml, map-vi.yaml): dots and bubbles are drawn on the map, outside
 # the view tree a flow can tap, and the place page no longer links to the map.
-# Onboard, seed the demo's Bali trip, turn the redesign on, then TRIPS → the hub →
+# Onboard, seed the demo's Bali trip, then TRIPS → the hub →
 # PLAN (the trip map) → ≡ LIST.
 - runFlow: ../home/subflows/fresh-install.yaml
 - runFlow: ../home/subflows/onboard.yaml
@@ -13,7 +12,6 @@ appId: app.critterpass.dev
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo
-- runFlow: ../_shared/planning-redesign-on.yaml
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
