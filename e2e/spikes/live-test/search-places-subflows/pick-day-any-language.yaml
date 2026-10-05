@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Taps ${PICK_DATE} (YYYY-MM-DD) in the open day picker in any app language: back to this month,
+# then a month on at a time until the day's cell shows (the month header is not read, so a
+# Vietnamese "Tháng 10" works as well as "October").
+- extendedWaitUntil:
+    visible:
+      id: 'picker-grid'
+    timeout: 10000
+- runFlow:
+    when:
+      notVisible:
+        id: 'heat-pick-${PICK_DATE}'
+    commands:
+      - tapOn:
+          id: 'picker-today'
+          optional: true
+      - waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'heat-pick-${PICK_DATE}'
+    times: 4
+    commands:
+      - swipe:
+          from:
+            id: 'picker-grid'
+          direction: LEFT
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'heat-pick-${PICK_DATE}'

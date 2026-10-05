@@ -6,8 +6,11 @@ import type { ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
+import { shownName } from '@cp/domain';
+
 import { fitLine } from '@/data/fit/fit-line';
 import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { useTheme } from '@/ui';
 
 import { ChipBlock, excludeLine, type ChipWords } from './chip-row';
@@ -40,7 +43,12 @@ function metaOf(place: PlainPlace): string | undefined {
   return parts.length === 0 ? undefined : parts.join(' · ');
 }
 
-export function plainRows(places: readonly PlainPlace[], trip: SearchTrip): PlainRow[] {
+export function plainRows(
+  places: readonly PlainPlace[],
+  trip: SearchTrip,
+  /** The reader sees the destination's local names. */
+  readsLocal = false,
+): PlainRow[] {
   const weekdays = new Map(trip.days.map((day) => [day.dayNo, day.weekday ?? String(day.dayNo)]));
   return places.map((place) => {
     const line = fitLine(place.fit, {
@@ -52,7 +60,7 @@ export function plainRows(places: readonly PlainPlace[], trip: SearchTrip): Plai
     if (day !== undefined) {
       return {
         key: place.id,
-        title: place.name,
+        title: shownName(place, readsLocal),
         meta: t({ id: 'search.row.inPlan', message: `In the plan · ${day}` }),
         icon: placeIcon(place.category),
         fitLine: undefined,
@@ -61,7 +69,7 @@ export function plainRows(places: readonly PlainPlace[], trip: SearchTrip): Plai
     }
     return {
       key: place.id,
-      title: place.name,
+      title: shownName(place, readsLocal),
       meta: metaOf(place),
       icon: placeIcon(place.category),
       fitLine: line === null ? undefined : { text: line.text, tone: line.tone },
@@ -90,13 +98,18 @@ export function PlainSection(props: PlainSectionProps) {
   const theme = useTheme();
   const { state, trip } = props;
   const [softShown, setSoftShown] = useState(false);
+  const readsLocal = useReadsLocalNames(trip.destinationId);
   const answer = state.answer;
   const rows = useMemo(
     () =>
       answer === null
         ? []
-        : plainRows(softShown ? [...answer.places, ...answer.softMisses] : answer.places, trip),
-    [answer, softShown, trip],
+        : plainRows(
+            softShown ? [...answer.places, ...answer.softMisses] : answer.places,
+            trip,
+            readsLocal,
+          ),
+    [answer, softShown, trip, readsLocal],
   );
   const photos = usePlaceTilePhotos(rows.map((row) => row.key));
   const note =
@@ -107,8 +120,8 @@ export function PlainSection(props: PlainSectionProps) {
   const onMap = props.onMap;
   const close = settled && answer.places.length === 0 && !softShown ? answer.close : null;
   const closeRows = useMemo(
-    () => (close === null ? [] : plainRows(close.places, trip)),
-    [close, trip],
+    () => (close === null ? [] : plainRows(close.places, trip, readsLocal)),
+    [close, trip, readsLocal],
   );
   const closePhotos = usePlaceTilePhotos(closeRows.map((row) => row.key));
   // A search that timed out or could not reach the api reads the same to her as one that failed:

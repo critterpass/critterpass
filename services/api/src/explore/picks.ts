@@ -10,7 +10,7 @@
  * once.
  */
 import { QUALITY_SCORE, recommendedSql } from '@cp/db';
-import { distinctPlaces } from '@cp/domain';
+import { distinctPlaces, localizedEditorial, readEditorialOverlay } from '@cp/domain';
 import type pg from 'pg';
 
 import { onePerPlace } from '../places/same-place';
@@ -79,13 +79,19 @@ export async function readPicks(
 ): Promise<DestinationPick[]> {
   const taste = await tasteTags(tx, tripId);
   const { rows } = await tx.query<
-    DestinationPick & { lat: number; lng: number; destination: string }
+    Omit<DestinationPick, 'why_go'> & {
+      lat: number;
+      lng: number;
+      destination: string;
+      editorial: unknown;
+      reader_locale: string;
+    }
   >(
     `WITH ranked AS (
        SELECT p.id AS poi_id, p.name, p.name_local, p.category, p.tags, p.lat, p.lng, p.pick_rank,
               (SELECT d.name FROM destinations d WHERE d.id = p.destination_id) AS destination,
               coalesce((p.editorial->>'must_see')::boolean, false) AS must_see,
-              p.editorial->>'why_go' AS why_go,
+              p.editorial, app.user_locale(app.uid()) AS reader_locale,
               cardinality(ARRAY(SELECT lower(t) FROM unnest(p.tags) t
                                  INTERSECT SELECT unnest($2::text[]))) AS taste_matches,
               ${pickKindRankSql('p')} AS kind_rank, ${QUALITY_SCORE} AS quality
@@ -97,15 +103,20 @@ export async function readPicks(
                    PARTITION BY must_see, kind_rank
                    ORDER BY taste_matches DESC, quality DESC, poi_id) AS in_kind
          FROM ranked)
-     SELECT poi_id, name, name_local, category, tags, lat, lng, destination, must_see, why_go,
-            taste_matches
+     SELECT poi_id, name, name_local, category, tags, lat, lng, destination, must_see, editorial,
+            reader_locale, taste_matches
        FROM turns
       ORDER BY must_see DESC, pick_rank ASC NULLS LAST, (in_kind - 1) / $4::int, kind_rank, in_kind
       LIMIT $3`,
     [destinationId, taste, PICKS_LIMIT * READ_PER_PICK, PICKS_PER_KIND],
   );
   const destination = rows[0]?.destination ?? '';
-  return onePerPlace(distinctPlaces(rows, destination), destination)
+  // The note's reason in the reader's app language where it has been written in it.
+  const picks = rows.map(({ editorial, reader_locale: locale, ...row }) => ({
+    ...row,
+    why_go: localizedEditorial(readEditorialOverlay(editorial), locale).why_go ?? null,
+  }));
+  return onePerPlace(distinctPlaces(picks, destination), destination)
     .slice(0, PICKS_LIMIT)
     .map(({ lat: _lat, lng: _lng, destination: _destination, ...pick }) => pick);
 }

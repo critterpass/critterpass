@@ -135,6 +135,8 @@ export function rowWords(place: SearchPlace, context: RowContext): RowWords {
   }
   const parts: string[] = [];
   if (place.source === 'idea') parts.push(t({ id: 'search.row.saved', message: 'In your Ideas' }));
+  // The place's other name ("Valley of Love" beside "Thung lũng Tình Yêu") leads the facts.
+  if (place.nameLocal !== null && place.nameLocal !== '') parts.push(place.nameLocal);
   const kind = kindWord(place.category);
   if (kind !== null) parts.push(kind);
   const area =
@@ -146,6 +148,5 @@ export function rowWords(place: SearchPlace, context: RowContext): RowWords {
     place.distanceM ??
     (at !== null && context.from !== null ? metresBetween(context.from, at) : null);
   if (metres !== null && metres !== undefined) parts.push(distanceWords(metres));
-  if (parts.length === 0 && place.nameLocal !== null) parts.push(place.nameLocal);
   return { meta: parts.length === 0 ? undefined : parts.join(' · '), inPlan: false };
 }

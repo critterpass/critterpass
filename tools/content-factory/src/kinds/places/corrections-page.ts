@@ -44,7 +44,23 @@ function noteLines(place: PlaceCorrection, kept: BeforeRow): string {
 <p><span class="k">Visit</span> ${escape(place.note.best_time)} · ${place.note.time_needed_min} min · ${escape(place.note.crowd_hint)}${
           place.note.etiquette === null ? '' : ` · ${escape(place.note.etiquette)}`
         }</p>`;
-  return `${claim}${revised.join('')}${added}`;
+  return `${claim}${revised.join('')}${added}${translations(place, kept)}`;
+}
+
+const TEXT_LINES = ['why_go', 'best_time', 'crowd_hint', 'etiquette'] as const;
+
+/** Each translated line beside the English it was written from. */
+function translations(place: PlaceCorrection, kept: BeforeRow): string {
+  return Object.entries(place.i18n ?? {})
+    .map(([locale, text]) => {
+      const english = { ...kept.item?.editorial, ...place.revise };
+      const rows = TEXT_LINES.filter((line) => text[line] !== undefined).map(
+        (line) =>
+          `<tr><td class="meta">${line}</td><td>${escape(english[line] ?? '')}</td><td>${escape(text[line] ?? '')}</td></tr>`,
+      );
+      return `<table class="tr"><tr><th></th><th>English</th><th>${escape(locale)}</th></tr>${rows.join('')}</table>`;
+    })
+    .join('');
 }
 
 function placeBlock(place: PlaceCorrection, rows: ReadonlyMap<string, BeforeRow>): string {
@@ -163,7 +179,7 @@ p{margin:2px 0}.place{padding:8px 0;border-bottom:1px solid #ddd}.k{display:inli
 .meta{color:#888;font-size:12px}.id{color:#999;font:11px ui-monospace,monospace}.star{color:#b45309;font-size:11px;text-transform:uppercase}
 .new{color:#047857;font-size:11px;text-transform:uppercase}.quiet{color:#666;font-size:11px;text-transform:uppercase}.warn{color:#b91c1c}
 table{border-collapse:collapse;margin:6px 0;font-size:13px}td,th{padding:2px 10px 2px 0;text-align:left;vertical-align:top}th{color:#666;font-weight:500}
-.cols{columns:2}li{margin:3px 0}
+.cols{columns:2}li{margin:3px 0}.tr td{width:48%}
 </style></head><body><h1>Place corrections · ${escape(file.batch)}</h1>
 <p>A proposal: nothing is queued or published. Points were checked on ${escape(file.checked_at.slice(0, 10))} against OpenStreetMap (through photon.komoot.io).</p>
 <p>Publishing never moves the point of an existing record. A place pinned in the wrong spot is corrected by keeping the record that sits at the real place and merging the wrong one into it; a merged record leaves search, suggestions and drafts. A stop of an existing trip that points at a merged record keeps pointing at it.</p>
