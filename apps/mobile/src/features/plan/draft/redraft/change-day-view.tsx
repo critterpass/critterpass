@@ -222,14 +222,15 @@ export function ChangeDayView(props: ChangeDayViewProps) {
                   ]}
                   testID={`change-day-${n}`}
                 >
-                  <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
-                    {String(n)}
-                  </Text>
+                  {/* Named by date like the plan's day chips: the weekday over the day of the month. */}
                   <Text
                     variant="label"
                     color={selected ? theme.semantic.text.onAccent : theme.semantic.text.secondary}
                   >
                     {wd}
+                  </Text>
+                  <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
+                    {String(Number(d.date.slice(8, 10)))}
                   </Text>
                 </Pressable>
               );
