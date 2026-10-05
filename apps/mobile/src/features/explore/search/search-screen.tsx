@@ -36,7 +36,7 @@ import { OfflineBanner } from './offline-banner';
 import { OfflineSection } from './offline-section';
 import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
-import { onePerPlace } from './search-rows';
+import { useShownRows } from './use-shown-rows';
 import { parseNear, poiRef, scopeLabel } from './search-scope';
 import { SearchView } from './search-view';
 import { TypedLinkCard } from './typed-link-card';
@@ -107,7 +107,7 @@ export function SearchScreen(props: SearchScreenProps) {
     near,
     fetchPlaces,
   });
-  const rows = useMemo(() => onePerPlace(search.rows), [search.rows]);
+  const rows = useShownRows(search.rows, trip.destinationId);
   const rowIds = useMemo(
     () => rows.flatMap((row) => (row.poiId === null ? [] : [row.poiId])),
     [rows],

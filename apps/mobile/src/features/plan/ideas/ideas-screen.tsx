@@ -15,6 +15,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { fitLine } from '@/data/fit/fit-line';
 import { useTripIdeas } from '@/data/ideas/use-trip-ideas';
 import { screenCredits, usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
+import { usePlaceNamer } from '@/data/places/use-shown-names';
 import { useTripPlan } from '@/data/plan/use-trip-plan';
 import { dayTileColour, weekdayOf } from '@/features/plan/overview/day-card';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -63,6 +64,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const guideName = usePlanGuide().name;
   const saved = useTripIdeas(tripId);
   const { loaded } = saved;
+  const namer = usePlaceNamer(plan.trip?.destination_id);
   const start = useCommand(startIdeaPlacementOnline);
   const remove = useCommand(removeIdeaCommand);
   const save = useCommand(saveIdeaCommand);
@@ -130,7 +132,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
     toast.dismiss();
     toast.show({
       id: removedToastId(idea.id),
-      title: idea.name,
+      title: namer.name(idea),
       subtitle: removedToast(forEveryone),
       action: {
         label: undoLabel(),
@@ -200,7 +202,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       <IdeaRow
         key={idea.id}
         ideaId={idea.id}
-        name={idea.name.toUpperCase()}
+        name={namer.name(idea).toUpperCase()}
         icon={ideaIcon(idea.category)}
         photo={idea.poiId === null ? undefined : photos.get(idea.poiId)}
         fitLine={
@@ -270,7 +272,7 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
       />
       {open === null ? null : (
         <IdeaActions
-          name={open.name.toUpperCase()}
+          name={namer.name(open).toUpperCase()}
           inPlan={stopDay(open)}
           onAddToDay={() => {
             setOpenId(null);
