@@ -36,6 +36,8 @@ export interface DayReading {
   readonly stops: ReadonlyMap<string, DayStopReading>;
   /** A stop's note as this person reads it. */
   readonly notesOf: (stableId: string) => string | null | undefined;
+  /** A stop's name as every plan screen shows it (`stopName`). */
+  readonly titleOf: (stableId: string) => string | null | undefined;
   /** The stops only I have that day. */
   readonly mine: readonly {
     readonly id: string;
@@ -90,6 +92,7 @@ export function useDayReading(
         ]),
       ),
       notesOf: (stableId: string) => plan.display.get(stableId)?.notes,
+      titleOf: (stableId: string) => plan.display.get(stableId)?.title,
       mine:
         day === null || date === null
           ? []
