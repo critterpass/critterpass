@@ -15287,7 +15287,8 @@
         "name_local": "Cầu Vàng",
         "why_go": "Walk across the iconic bridge held by giant stone hands.",
         "best_time": "Early morning before tour buses arrive",
-        "essential": true
+        "essential": true,
+        "essential_rank": 6
       },
       {
         "id": "01a0f2fd-211f-7a2d-9049-7c2595e2706b",
@@ -15468,7 +15469,8 @@
         "editorial": true,
         "why_go": "A laid-back stretch of sand with gentle waves and local seafood shacks.",
         "best_time": "Early morning or late afternoon to avoid midday heat.",
-        "essential": true
+        "essential": true,
+        "essential_rank": 12
       },
       {
         "id": "01a0f2fd-2a1f-733f-85cf-08085e08ac77",
@@ -17054,7 +17056,8 @@
         "editorial": true,
         "why_go": "Central market popular for souvenirs, dried goods and local snacks.",
         "best_time": "Late morning after cruise groups clear",
-        "essential": true
+        "essential": true,
+        "essential_rank": 10
       },
       {
         "id": "01a0f2fd-6339-7ca8-a577-2bd141b4d83d",
@@ -17714,7 +17717,8 @@
         "editorial": true,
         "why_go": "See the world's largest collection of Cham stone carvings, many from nearby Mỹ Sơn, in a French colonial building.",
         "best_time": "Opening hour to avoid tours",
-        "essential": true
+        "essential": true,
+        "essential_rank": 11
       },
       {
         "id": "01a0f2fd-7ee8-7da5-8bc0-7de2559a6862",
@@ -18032,7 +18036,8 @@
         "name_local": "Bán đảo Sơn Trà",
         "why_go": "Dramatic coastline and forest trails on the peninsula.",
         "best_time": "Most of a morning or an afternoon round the peninsula",
-        "essential": true
+        "essential": true,
+        "essential_rank": 3
       },
       {
         "id": "01a0f2fd-8836-73c1-8041-0a2f69a25fc1",
@@ -18049,7 +18054,8 @@
         "name_local": "Đèo Hải Vân",
         "why_go": "Drive or ride over this scenic mountain pass with panoramic coastal views.",
         "best_time": "Ridden as half a day from Đà Nẵng, or on the way to Huế",
-        "essential": true
+        "essential": true,
+        "essential_rank": 14
       },
       {
         "id": "01a0f2fd-8859-78bf-a126-a64ffebd31c0",
@@ -18125,7 +18131,8 @@
         "editorial": true,
         "why_go": "A mountain resort with cool air, gardens, and the famous Golden Bridge.",
         "best_time": "A whole day: go up on the first cable cars, before the queues",
-        "essential": true
+        "essential": true,
+        "essential_rank": 5
       },
       {
         "id": "01a0f2fd-a64e-7f1a-b952-910c8a82112b",
@@ -18730,7 +18737,8 @@
         "name_local": "Ngũ Hành Sơn",
         "why_go": "Explore caves, shrines and viewpoints on the most famous Marble Mountain.",
         "best_time": "Early morning to beat the heat",
-        "essential": true
+        "essential": true,
+        "essential_rank": 7
       },
       {
         "id": "01a0f301-5749-7045-814d-4ea663fb4359",
@@ -19003,7 +19011,8 @@
         "name_local": "Chùa Cầu",
         "why_go": "Cross Hội An's covered bridge, first built by the town's Japanese merchants some four centuries ago and rebuilt since in Vietnamese and Chinese styles.",
         "best_time": "Early morning before crowds or at dusk when lanterns glow.",
-        "essential": true
+        "essential": true,
+        "essential_rank": 2
       },
       {
         "id": "01a0f301-aa82-7be6-aaee-5f1d49752e00",
@@ -19050,7 +19059,8 @@
         "name_local": "Phố cổ Hội An",
         "why_go": "Wander lantern-lit lanes of this UNESCO-listed old town with historic houses, shops, and riverside charm.",
         "best_time": "Half a day: late afternoon into the evening, for the lanterns",
-        "essential": true
+        "essential": true,
+        "essential_rank": 1
       },
       {
         "id": "01a0f301-b5e1-7c8c-98fd-b20c38021c47",
@@ -19804,7 +19814,8 @@
         "name_local": "Cầu Rồng",
         "why_go": "Iconic dragon-shaped bridge that spits fire and water on weekend evenings.",
         "best_time": "Weekend evenings for the 9pm fire show",
-        "essential": true
+        "essential": true,
+        "essential_rank": 8
       },
       {
         "id": "01a0f302-ad00-73a5-8e29-ae73df5b360e",
@@ -20226,7 +20237,8 @@
         "name_local": "Bãi biển Mỹ Khê",
         "why_go": "Relax on a long stretch of sand with gentle waves, a short ride from the city.",
         "best_time": "Early morning for calm water and fewer crowds, or late afternoon for sunset.",
-        "essential": true
+        "essential": true,
+        "essential_rank": 9
       },
       {
         "id": "01a0f303-4a19-7b5d-8487-9aa1ddb81a99",
@@ -20679,7 +20691,8 @@
         "name_local": "Chùa Linh Ứng",
         "why_go": "A large pagoda complex with a towering Lady Buddha statue overlooking the sea.",
         "best_time": "Early morning or late afternoon for light and fewer crowds",
-        "essential": true
+        "essential": true,
+        "essential_rank": 4
       },
       {
         "id": "01a0f303-f93c-7603-85d2-14c08725d688",
@@ -20741,7 +20754,8 @@
         "name_local": "Thánh địa Mỹ Sơn",
         "why_go": "Ancient Cham temple complex surrounded by jungle.",
         "best_time": "Half a day from Hội An with the ride: go at opening, before the heat",
-        "essential": true
+        "essential": true,
+        "essential_rank": 13
       },
       {
         "id": "01a10319-8235-7f8b-85e6-d94b9e48cf8e",

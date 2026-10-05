@@ -61,6 +61,8 @@ const citySchema = z.object({
       must_see: z.boolean(),
       /** One of the handful a first visit should hold (our editors' second tier). */
       essential: z.boolean().optional(),
+      /** Our editors' rank among the essentials, 1 first. */
+      essential_rank: z.int().min(1).optional(),
       editorial: z.boolean(),
       why_go: z.string().optional(),
       best_time: z.string().optional(),
@@ -209,6 +211,7 @@ export function planInput(
         editorial: p.editorial,
         mustSee: p.must_see,
         ...(p.essential === true ? { essential: true } : {}),
+        ...(p.essential_rank === undefined ? {} : { essentialRank: p.essential_rank }),
         whyGo: p.why_go ?? null,
         bestTime: p.best_time ?? null,
       },

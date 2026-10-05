@@ -2417,7 +2417,8 @@
     "expect_full_days": false,
     "expect_day_rules": false,
     "expect_plan_rules": true,
-    "locale": "vi"
+    "locale": "vi",
+    "expect_places": ["Sơn Trà Peninsula"]
   },
   {
     "id": "bali-real-1",

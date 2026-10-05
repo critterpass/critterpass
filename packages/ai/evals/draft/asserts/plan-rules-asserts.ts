@@ -7,7 +7,7 @@
  * hole filled or left free because she asked, and a new title when its sights changed.
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
-import { foodRole, isKept, minuteOfDate, redraftDiff } from '@cp/planner';
+import { foodRole, isKept, minuteOfDate, rankedFirst, redraftDiff } from '@cp/planner';
 
 import { spanOf } from '../../../src/prompts/draft/areas';
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
@@ -185,4 +185,51 @@ export function gradePlaces(result: DraftPlanResult, names: readonly string[]): 
   return names
     .filter((name) => !held.has(name))
     .map((name) => `place: ${name} is not in the draft`);
+}
+
+/**
+ * Our editors' rank holds: an essential reported as outranked has a better-ranked essential on
+ * every day it could have gone on, and one left out for want of a day or of room has no
+ * worse-ranked essential holding half of one of those days or more in its place.
+ */
+export function gradeRanks(result: DraftPlanResult): string[] {
+  const { input, itinerary } = result;
+  const essentialsOn = (dayNo: number) =>
+    (itinerary.days.find((d) => d.day_no === dayNo)?.items ?? []).flatMap((item) => {
+      const poi = input.pois.get(item.poi_id ?? '');
+      return poi?.essential === true ? [poi] : [];
+    });
+  return result.essentialsLeftOut.flatMap((gap) => {
+    const poi = input.pois.get(gap.poiId);
+    if (poi === undefined) return [];
+    const open = input.pools.openDays.get(poi.id) ?? [];
+    if (gap.reason === 'outranked') {
+      const fair = open.every((dayNo) =>
+        essentialsOn(dayNo).some((other) => rankedFirst(other, poi) === true),
+      );
+      return fair ? [] : [`rank: ${poi.name} reported outranked without a better-ranked rival`];
+    }
+    if (poi.essentialRank === undefined || !['no_room', 'days_full'].includes(gap.reason))
+      return [];
+    const worse = open.flatMap((dayNo) =>
+      essentialsOn(dayNo).filter(
+        (other) =>
+          rankedFirst(poi, other) === true &&
+          spanOf(input, other) !== null &&
+          // Part of a day out led by a better-ranked place (An Bàng with Hội An) is that one's.
+          !input.pools.outings.some(
+            (o) =>
+              o.dayNo === dayNo &&
+              o.poiIds.includes(other.id) &&
+              o.poiIds.some((id) => {
+                const lead = input.pois.get(id);
+                return lead !== undefined && rankedFirst(lead, poi) === true;
+              }),
+          ),
+      ),
+    );
+    return worse.length === 0
+      ? []
+      : [`rank: ${poi.name} left out while ${worse[0]?.name ?? '?'} (ranked lower) has its day`];
+  });
 }
