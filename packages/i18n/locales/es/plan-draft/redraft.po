@@ -108,7 +108,7 @@ msgstr ""
 msgid "planDraft.diff.identical"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
 msgid "planDraft.diff.revertedToast"
 msgstr ""
 
@@ -279,6 +279,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.which"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.diff.revertedSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx

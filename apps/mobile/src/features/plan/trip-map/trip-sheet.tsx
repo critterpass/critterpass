@@ -65,13 +65,15 @@ export function TripSheet(
         <Text variant="eyebrow" color={theme.semantic.text.secondary} style={styles.title}>
           {head}
         </Text>
-        <PillButton
-          size="sm"
-          variant="secondary"
-          label={t({ id: 'plan.tripMap.share', message: 'Share' })}
-          onPress={props.onShare}
-          testID="trip-map-share"
-        />
+        {model.draft ? null : (
+          <PillButton
+            size="sm"
+            variant="secondary"
+            label={t({ id: 'plan.tripMap.share', message: 'Share' })}
+            onPress={props.onShare}
+            testID="trip-map-share"
+          />
+        )}
       </View>
       <View style={styles.row}>
         <Text variant="h1" style={styles.title}>

@@ -1,0 +1,67 @@
+appId: app.critterpass.dev
+---
+# From home or the developer tools list: opens the plan views lab's scene ${SCENE}, takes the
+# screenshot ${SHOT}, and backs out to the developer tools list (or home), leaving the app's
+# language as it was.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+# The list keeps its place between visits: back to its head, then down to the lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# A tap while the list still settles can miss: the lab's first row says it opened.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'plan-views-lab-${SCENE}'
+# The map's tiles and the sheet's settle.
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+# Android back lowers a raised map sheet one snap before it leaves the screen; the lab's own list
+# is one more back away.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-plan-views-lab'
+    times: 6
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+      # An iOS edge swipe can carry past the tools list to home: back into the tools from there.
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'

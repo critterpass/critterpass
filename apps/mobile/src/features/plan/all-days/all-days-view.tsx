@@ -93,13 +93,15 @@ export function AllDaysView(props: AllDaysViewProps) {
       <ScrollView scrollEnabled={!props.dragging} contentContainerStyle={styles.scroll}>
         <View style={styles.head}>
           <BackEyebrow label={back} onPress={props.onBack} testID="all-days-back" />
-          <PillButton
-            size="sm"
-            variant="secondary"
-            label={t({ id: 'plan.allDays.share', message: 'Share' })}
-            onPress={props.onShare}
-            testID="all-days-share"
-          />
+          {model.draft ? null : (
+            <PillButton
+              size="sm"
+              variant="secondary"
+              label={t({ id: 'plan.allDays.share', message: 'Share' })}
+              onPress={props.onShare}
+              testID="all-days-share"
+            />
+          )}
         </View>
         <Text variant="h1">
           {place === ''

@@ -132,6 +132,10 @@ msgstr "Closed {when}: {area}"
 msgid "planDraft.miss.closed"
 msgstr "closed on your dates"
 
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.closed"
+msgstr "Closed on your dates."
+
 #: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
 msgid "planDraft.history.current"
 msgstr "Current"
@@ -185,12 +189,20 @@ msgid "planDraft.miss.unknown"
 msgstr "I couldn’t find the place"
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.notOffered"
+msgstr "I didn’t get to consider it."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.dropped"
 msgstr "it broke the day around it"
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
 msgstr "Keeping a redrafted day"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.line"
+msgstr "Left out: {name}."
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 msgid "planDraft.loading.label"
@@ -209,8 +221,16 @@ msgid "planDraft.empty.title"
 msgstr "No draft yet"
 
 #: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.held"
+msgstr "No room around your stops."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
 msgid "planDraft.miss.noTime"
 msgstr "no room in the days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.noRoom"
+msgstr "No room in the days."
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.failedLine"
@@ -248,6 +268,14 @@ msgstr "Restore"
 msgid "planDraft.queued.restore"
 msgstr "Restoring an earlier draft"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestoreAny"
+msgstr "Restoring brings back the draft as it was redrafted. It doesn’t use a redraft."
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.putBackRestore"
+msgstr "Restoring brings back the draft with day {n} as redrafted. It doesn’t use a redraft."
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.title"
 msgstr "Setup changed since this draft"
@@ -263,6 +291,10 @@ msgstr "Source"
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
 msgid "planDraft.history.restoredSub"
 msgstr "Still only you can see it."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.takenOut"
+msgstr "Taken out of the trip: {name}"
 
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.budget"
@@ -280,9 +312,17 @@ msgstr "The draft didn’t finish"
 msgid "planDraft.stale.mustDos"
 msgstr "the must-dos"
 
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.own"
+msgstr "The plan you started"
+
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.rooms"
 msgstr "the rooms"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.leftOut.tooFar"
+msgstr "Too far for a day of this trip."
 
 #: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
 msgid "planDraft.empty.retry"

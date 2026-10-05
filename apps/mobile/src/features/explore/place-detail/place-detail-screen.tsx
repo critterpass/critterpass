@@ -68,7 +68,7 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
   useExploreStream(row.destination_id);
   const offline = useSyncStatus().phase === 'offline';
   const crew = useTripCrew(tripId);
-  const plan = useTripPlan(tripId);
+  const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const read = usePlaceDetailContext(placeId, tripId);
   const context = dataOf(read) ?? null;
   const tz = facts.tz ?? row.timezone ?? row.destination_tz ?? 'UTC';
@@ -219,6 +219,17 @@ export function PlaceDetailScreen({ placeId, row, tripId, onBack }: PlaceDetailS
               best,
               sentence: fitSentence(context?.fits ?? null, { locale, stopName }),
               bars: context?.fits?.bars ?? null,
+              planned:
+                cta.kind !== 'inPlan'
+                  ? null
+                  : {
+                      date:
+                        plan.dayRows.find((dayRow) => dayRow.day_no === cta.dayNo)?.date ??
+                        best.date,
+                      time: cta.time,
+                      grade:
+                        context?.fits?.days.find((one) => one.day_no === cta.dayNo)?.grade ?? null,
+                    },
               onOtherDays:
                 otherDays === undefined ? undefined : () => onPhone(() => router.push(otherDays)),
             }
