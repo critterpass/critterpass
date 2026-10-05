@@ -13,7 +13,14 @@ import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
-import type { DraftPoi, TravelMatrix, TripFrame } from './types';
+import {
+  isKept,
+  isTheirs,
+  placeIdOf,
+  type DraftPoi,
+  type TravelMatrix,
+  type TripFrame,
+} from './types';
 import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
@@ -66,6 +73,8 @@ export interface ValidateItineraryInput {
   readonly mealPlaces?: readonly DraftPoi[];
   /** The longest ride between two stops of a day (./hops); without it hops are not checked. */
   readonly hopCapMin?: number;
+  /** The place the crew sleeps near (./home): the ride out to a day's first stop then counts. */
+  readonly homeId?: string | null;
 }
 
 export interface ValidationResult {
@@ -111,6 +120,32 @@ function heldAt(
   return heldWindow(poi, date, when);
 }
 
+/**
+ * The place a stop is at. A stop of the crew's own on a dropped pin has none of ours: it is
+ * looked up under its pin id, and when the caller gave no place for the pin it still stands (as
+ * a stop with no known position), so it is never an unknown place and still counts as the meal
+ * or the stop it is.
+ */
+function placeOf(input: ValidateItineraryInput, item: DraftItem): DraftPoi | undefined {
+  const id = placeIdOf(item);
+  const known = id === null ? undefined : input.pois.get(id);
+  if (known !== undefined || id === null || item.poi_id !== null) return known;
+  return {
+    id,
+    name: item.note ?? '',
+    category: 'other',
+    lat: 0,
+    lng: 0,
+    tz: item.tz,
+    hours: null,
+    priceLevel: null,
+    tags: [],
+    durationMin: 0,
+    editorial: false,
+    mustSee: false,
+  };
+}
+
 function dayChecks(
   input: ValidateItineraryInput,
   item: DraftItem,
@@ -126,12 +161,12 @@ function dayChecks(
     ...(item.poi_id === null ? {} : { poiId: item.poi_id }),
     ...extra,
   });
-  const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+  const poi = placeOf(input, item);
   if (poi === undefined) return [at('UNKNOWN_POI')];
   if (closedOn(input.frame, poi, date) === 'poi') out.push(at('CLOSED_ON_DATE'));
   if (
     item.kind === 'meal' &&
-    item.must_do_id === null &&
+    !isKept(item) &&
     !input.frame.diets.every((diet) => suitsDiet(poi.tags, diet))
   ) {
     out.push(at('DIETARY'));
@@ -145,6 +180,8 @@ function dayChecks(
   if (held !== null && (start < held.fromMin || start > held.toMin)) {
     out.push(at('WRONG_TIME_OF_DAY'));
   }
+  // A booking or a stop placed by hand is the crew's own call, whenever it is.
+  if (isTheirs(item)) return out;
   const from = held === null ? window.startMin : (window.earliestMin ?? window.startMin);
   const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
   if (start < from || end > until) {
@@ -168,7 +205,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
       violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date));
-      const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+      const poi = placeOf(input, item);
       if (poi === undefined) continue;
       poiOf.set(item.stable_id, poi.id);
       stops.push({
@@ -186,7 +223,8 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
         dayNo: day.day_no,
         // Hours that are only a guess never count against a must-do held to its time of day.
         hours:
-          poi.hoursGuessed === true && heldAt(input, item, poi, day.date) !== null
+          isTheirs(item) ||
+          (poi.hoursGuessed === true && heldAt(input, item, poi, day.date) !== null)
             ? null
             : poi.hours,
         mustDoId: item.must_do_id,
@@ -206,6 +244,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
       travel: input.travel,
       mealPlaces: input.mealPlaces,
       hopCapMin: input.hopCapMin,
+      homeId: input.homeId,
     }),
   );
   const feasibility = checkFeasibility({

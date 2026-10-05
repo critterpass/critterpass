@@ -11,18 +11,32 @@ export function syncedLine(model: WhenModel): string {
   const calendars = model.synced;
   const synced = countWord(calendars);
   const missing = model.total - model.synced;
+  // The phone's calendar is already in (or on its way) while its counts have not come back yet:
+  // saying "your days aren't in" beside "your calendar is in" would contradict the row below.
+  const reading =
+    model.synced === 0 &&
+    (model.calendar.status === 'synced' || model.calendar.status === 'syncing');
+  if (reading) {
+    return t({ id: 'setup.when.line.reading', message: 'Reading your calendar…' });
+  }
   if (model.solo) {
+    if (model.mode === 'pick') {
+      return t({
+        id: 'setup.when.line.pickSolo',
+        message: 'Your calendar looks open. Pick the days you want.',
+      });
+    }
     return model.synced === 0
       ? t({
           id: 'setup.when.line.noneSolo',
-          message: 'Your days aren’t in yet. Connect a calendar or mark days by hand.',
+          message: 'Your days aren’t in yet. Pick the dates, or connect a calendar first.',
         })
       : t({ id: 'setup.when.line.solo', message: 'From your calendar.' });
   }
   if (model.synced === 0) {
     return t({
       id: 'setup.when.line.none',
-      message: 'Nobody has shared their days yet. Connect a calendar or mark days by hand.',
+      message: 'Nobody has shared their days yet. Pick the dates, or connect a calendar first.',
     });
   }
   if (missing <= 0) {

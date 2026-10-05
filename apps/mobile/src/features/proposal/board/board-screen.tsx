@@ -15,6 +15,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 
+import { rememberAnswer } from '../data/answered-here';
 import { setRsvpCommand, setRsvpQueuedCommand } from '../data/commands';
 import { wholeMoney } from '../data/format';
 import { useFindProposalTrip, useProposal, useVersions } from '../data/proposal';
@@ -72,6 +73,10 @@ export function BoardScreen(props: {
     let next = boardOutcome(await now.send(payload));
     if (next.kind === 'unreachable') next = boardOutcome(await queued.send(payload));
     setOutcome(next);
+    // The member's version shows the answer at once, before the participant row syncs back.
+    if (next.kind === 'boarded' || next.kind === 'pending' || next.kind === 'answered') {
+      rememberAnswer(props.proposalId, status);
+    }
     if (next.kind === 'boarded') feedback.emit('success');
     if (next.kind === 'refused') {
       feedback.emit('error');

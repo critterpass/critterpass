@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: turn.organiser
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingBy"
+msgstr "{0} vẫn đang lên kế hoạch"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.going"
 msgstr "{count} người đi"
@@ -14,6 +19,10 @@ msgstr "{count} người đi"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.saved"
 msgstr "{count} đã lưu"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.inCrew"
+msgstr "{crew} người trong nhóm"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.days"
@@ -119,9 +128,17 @@ msgstr "Có mặt ở sân bay trước"
 msgid "trip.hub.beThereBy"
 msgstr "Có mặt trước"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftWriting"
+msgstr "Đang được viết"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComing"
+msgstr "Sắp có"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.booked"
@@ -138,6 +155,10 @@ msgstr "Ngày {dayNo}/{days}"
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.done"
 msgstr "Xong"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draft"
+msgstr "Bản nháp"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
@@ -251,6 +272,10 @@ msgstr "Đã nhắc {who}."
 msgid "trip.briefing.nudgedSome"
 msgstr "Đã nhắc."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftPrivate"
+msgstr "Chỉ mình bạn thấy"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.open"
 msgstr "Mở"
@@ -311,6 +336,10 @@ msgstr "đang thiết lập"
 msgid "trip.hub.ticker.someone"
 msgstr "Ai đó"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingPlain"
+msgstr "Vẫn đang lên kế hoạch"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipe"
 msgstr "Cùng quẹt chọn địa điểm"
@@ -323,10 +352,6 @@ msgstr "Đổi chuyến"
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.takeOff"
 msgstr "Cất cánh sau"
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.ticker.status.review"
-msgstr "Bản nháp đã sẵn sàng để xem"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
@@ -343,6 +368,10 @@ msgstr "Lịch trình đã chốt"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.proposed"
 msgstr "Lịch trình đã gửi cho cả nhóm"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.planning"
+msgstr "Kế hoạch vẫn đang được soạn"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.inTrip"
@@ -412,6 +441,10 @@ msgstr "bạn nợ"
 #: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
 msgid "trip.briefing.queued"
 msgstr "Bản tin của bạn"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.yourDraft"
+msgstr "Bản nháp của bạn đã xong"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"

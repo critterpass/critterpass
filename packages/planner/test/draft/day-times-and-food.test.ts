@@ -9,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 import {
   dayWindow,
   foodRole,
+  mealDuration,
   placeTime,
   placeWindow,
   scheduleDay,
@@ -43,12 +44,13 @@ describe('the time of day a place is for', () => {
     expect(sunset?.toMin).toBeLessThanOrEqual(19 * 60);
   });
 
-  it('keeps daylight places out of the night, and leaves a museum or a square alone', () => {
+  it('keeps daylight places out of the night, and leaves a square alone', () => {
     const sunset = placeWindow(P.pagoda, date);
     expect(sunset?.fromMin).toBe(0);
     expect(sunset?.toMin).toBeGreaterThanOrEqual(16 * 60);
     expect(sunset?.toMin).toBeLessThanOrEqual(19 * 60);
-    expect(placeWindow(P.museum, date)).toBeNull();
+    expect(placeWindow(P.museum, date)?.toMin).toBe(sunset?.toMin);
+    expect(placeWindow(place(30, 'Town Square', 'other'), date)).toBeNull();
     // The guide put the pagoda after dinner; the planner brings it back into the day.
     const plan = drafted(1, [
       stop(P.museum),
@@ -120,6 +122,15 @@ describe('food', () => {
     expect(foodRole(shop(43, 'Quán Ngon', { durationMin: 20, tags: ['sit_down_dining'] }))).toBe(
       'meal',
     );
+  });
+
+  it('gives a sit-down dinner an hour, and leaves a noodle counter its own time', () => {
+    const table = shop(49, 'Nhà hàng Hoa Sữa', { durationMin: 30, tags: ['sit_down_dining'] });
+    const counter = shop(50, 'Hủ Tíu Hồng', { durationMin: 30, tags: ['street_food'] });
+    expect(mealDuration(table, 18 * 60, 30)).toBe(60);
+    expect(mealDuration(table, 12 * 60, 30)).toBe(30);
+    expect(mealDuration(counter, 18 * 60, 30)).toBe(30);
+    expect(mealDuration({ ...table, durationMin: 90 }, 19 * 60, 90)).toBe(90);
   });
 
   it('knows a dish wherever the name carries it', () => {

@@ -1,6 +1,6 @@
 /** Fixed people, picks and answers for the proposal lab scenes (Đà Nẵng, a crew of four). */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { Pick } from '../data/picks';
+import { pickTag, type Pick } from '../data/picks';
 import type { ProposalVersion } from '../data/proposal';
 import type { Saving } from '../data/savings';
 import type { CrewPerson, RsvpStatus } from '../data/trip';
@@ -135,3 +135,22 @@ export const LAB_SUGGESTIONS = [
     copy: 'Resend to An at 21:00 their time, with Mì Quảng up front?',
   },
 ];
+
+/** The card's tag as a reader with wishes on record sees it. */
+export const labTag = (pick: Pick): string =>
+  pickTag(pick, { uid: null, hasWishes: true, guideName: 'Chà Vá' });
+
+/** NOT SURE YET with the cost picked and one skip taken; the answer is due after Sunday. */
+export const LAB_OBJECTION = {
+  guide: 'chava',
+  guideName: 'Chà Vá',
+  organiserName: 'Khanh',
+  freeCancelLine: null,
+  replyBy: null,
+  reason: 'cost',
+  answer: { threadId: 't1', options: LAB_OPTIONS },
+  chosen: ['skip:ba-na'],
+  pending: false,
+  failed: false,
+  later: { when: 'sunday', atLocal: '2026-10-04T19:00' },
+} as const;

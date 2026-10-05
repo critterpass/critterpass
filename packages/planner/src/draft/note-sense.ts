@@ -81,7 +81,8 @@ export const ASSUMED_DEPARTURE_NOTE =
 /** A stop's line is at most this long (what the prose check allows a note). */
 const NOTE_MAX = 200;
 
-function withLine(note: string | null, line: string): string {
+/** `note` with `line` after it (once); the line alone when both would run too long. */
+export function withNoteLine(note: string | null, line: string): string {
   if (note === null || note.includes(line)) return line;
   const joined = `${note} ${line}`;
   return joined.length <= NOTE_MAX ? joined : line;
@@ -91,7 +92,14 @@ function withLine(note: string | null, line: string): string {
  * Says what the planner assumed where no arrival or departure is known: on the first stop of the
  * first day and the last stop of the last day (a one-stop trip says the departure only).
  */
-export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): Itinerary {
+export function withAssumedTravelNotes(
+  itinerary: Itinerary,
+  frame: TripFrame,
+  lines: { readonly arrival: string; readonly departure: string } = {
+    arrival: ASSUMED_ARRIVAL_NOTE,
+    departure: ASSUMED_DEPARTURE_NOTE,
+  },
+): Itinerary {
   const first = frame.dates[0];
   const last = frame.dates[frame.dates.length - 1];
   const mark = (day: DraftDay): DraftDay => {
@@ -104,9 +112,9 @@ export function withAssumedTravelNotes(itinerary: Itinerary, frame: TripFrame): 
       ...day,
       items: day.items.map((item, index) =>
         index === at.arrival
-          ? { ...item, note: withLine(item.note, ASSUMED_ARRIVAL_NOTE) }
+          ? { ...item, note: withNoteLine(item.note, lines.arrival) }
           : index === at.departure
-            ? { ...item, note: withLine(item.note, ASSUMED_DEPARTURE_NOTE) }
+            ? { ...item, note: withNoteLine(item.note, lines.departure) }
             : item,
       ),
     };

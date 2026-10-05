@@ -23,7 +23,17 @@ import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
-import { lockCopy, trackerBack, trackerChip, trackerLine, trackerName, tripLine } from '../labels';
+import {
+  lockConfirmLabel,
+  lockConsequences,
+  lockCopy,
+  lockTitle,
+  trackerBack,
+  trackerChip,
+  trackerLine,
+  trackerName,
+  tripLine,
+} from '../labels';
 import { proposalRoutes } from '../routes';
 import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
@@ -82,12 +92,9 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
     setAsking(false);
     const result = await lock.send({ proposal_id: proposal.id });
     if (result.kind === 'applied') {
+      // The locked-in card ("The trip is on") is the confirmation: no toast over its header.
       setLockedNow(true);
       feedback.emit('success');
-      toast.show({
-        id: 'proposal-locked',
-        title: t({ id: 'proposal.lock.done', message: 'Locked in. The trip is confirmed.' }),
-      });
     } else {
       feedback.emit('error');
       toast.show({
@@ -151,44 +158,10 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       />
       {asking && (state.kind === 'ready' || state.kind === 'alone') ? (
         <ProposalConfirm
-          title={
-            state.kind === 'alone'
-              ? t({ id: 'proposal.alone.title', message: 'Lock the plan in?' })
-              : t({ id: 'proposal.lock.title', message: 'Lock the crew in?' })
-          }
-          consequences={
-            state.kind === 'alone'
-              ? [
-                  t({
-                    id: 'proposal.lock.alone',
-                    message:
-                      'Everyone else said they can’t make it, so it’s just you. The trip is confirmed, and friends who join later land on this plan.',
-                  }),
-                ]
-              : [
-                  t({
-                    id: 'proposal.lock.going',
-                    message: `${state.going + 1} going, the trip is confirmed.`,
-                  }),
-                  ...(state.maybes > 0
-                    ? [
-                        t({
-                          id: 'proposal.lock.maybes',
-                          message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
-                        }),
-                      ]
-                    : []),
-                  ...(state.silent > 0
-                    ? [
-                        t({
-                          id: 'proposal.lock.silent',
-                          message: `${state.silent} who haven’t answered are out.`,
-                        }),
-                      ]
-                    : []),
-                ]
-          }
-          confirmLabel={t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' })}
+          title={lockTitle(state.kind === 'alone')}
+          consequences={lockConsequences(state)}
+          fit
+          confirmLabel={lockConfirmLabel()}
           mode="button"
           onConfirm={() => void onLock()}
           onCancel={() => setAsking(false)}

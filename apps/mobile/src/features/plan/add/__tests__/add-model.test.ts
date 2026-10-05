@@ -9,6 +9,7 @@ import type { DayFit, PlaceFit, PlanState } from '@cp/domain';
 import { toChangeSetOps } from '@/data/plan/plan-ops';
 
 import { addOps, initialChoice, pickDay, pickTime, shownDayFit, type AddDay } from '../add-model';
+import { isWhereItIs, stopOfPlace } from '../placed-stop';
 
 const TZ = 'Asia/Makassar';
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
@@ -155,5 +156,47 @@ describe('add to plan choices', () => {
         attendee_ids: [id(9)],
       },
     });
+  });
+});
+
+describe('a place that is already in the plan', () => {
+  const stop = { stableId: id(7), dayNo: 2, startMin: 18 * 60 };
+  const rows = [
+    { stable_id: id(7), poi_id: id(1), poi_lat: -8.5, poi_lng: 115.26 },
+    { stable_id: id(8), poi_id: id(2), poi_lat: -8.51, poi_lng: 115.262 },
+  ];
+  const titles = new Map([
+    [id(7), 'Ubud Coffee Roastery'],
+    [id(8), 'Pura Dalem Ubud'],
+  ]);
+  const titleOf = (stableId: string) => titles.get(stableId) ?? null;
+
+  it('is found by its place, and by its name on the same spot when the catalogue holds it twice', () => {
+    const place = { poiId: id(1), name: 'Ubud Coffee', lat: 0, lng: 0 };
+    expect(stopOfPlace(place, rows, titleOf)?.stable_id).toBe(id(7));
+    const twin = { poiId: id(99), name: ' pura dalem ubud ', lat: -8.5101, lng: 115.2621 };
+    expect(stopOfPlace(twin, rows, titleOf)?.stable_id).toBe(id(8));
+    const namesake = { poiId: id(99), name: 'Pura Dalem Ubud', lat: -8.7, lng: 115.1 };
+    expect(stopOfPlace(namesake, rows, titleOf)).toBe(undefined);
+  });
+
+  it('opens on the day it was opened from, never on where the stop already is', () => {
+    const fromDayFive = initialChoice(FIT, { dayNo: 5 }, DAYS, TZ, stop);
+    expect(fromDayFive).toEqual({ dayNo: 5, startMin: 480, timePicked: false });
+    expect(isWhereItIs(fromDayFive, stop)).toBe(false);
+    // A day with no fitted slot keeps the stop's own time rather than inventing one.
+    expect(initialChoice(FIT, { dayNo: 1 }, DAYS, TZ, stop)).toEqual({
+      dayNo: 1,
+      startMin: 18 * 60,
+      timePicked: false,
+    });
+  });
+
+  it('has nothing to move while the choice is still the stop’s own day and time', () => {
+    const nothingKnown = initialChoice(null, {}, DAYS, TZ, stop);
+    expect(nothingKnown).toEqual({ dayNo: 2, startMin: 18 * 60, timePicked: false });
+    expect(isWhereItIs(nothingKnown, stop)).toBe(true);
+    expect(isWhereItIs(pickTime(nothingKnown!, 19 * 60), stop)).toBe(false);
+    expect(isWhereItIs(nothingKnown, null)).toBe(false);
   });
 });

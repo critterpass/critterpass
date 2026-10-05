@@ -74,7 +74,7 @@ export async function placeCorrectionsCommand(
       before,
     );
     log(
-      `  ${destination}: ${counts.places} places · ${counts.merges} merges · ${counts.kindChanges} kinds · ${counts.movedPoints} moved points · ${counts.mustSees} must-sees · ${counts.added} added`,
+      `  ${destination}: ${counts.places} places · ${counts.merges} merges · ${counts.kindChanges} kinds · ${counts.movedPoints} moved points · ${counts.mustSees} must-sees · ${counts.essentials} essentials · ${counts.added} added`,
     );
   }
   log(`corrections: ${items.length} items in ${files.paths.artifact}; review ${page}`);

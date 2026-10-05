@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "6fab220f-a32d-4678-9e70-8418135a147b",
+        "id": "0dd8c898-9412-45c4-b139-1251f47d82d4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area E\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": []\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and nature\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p6\", \"p7\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Temples and rice terraces\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p10\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Beach club farewell\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p8\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area E (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud ease-in\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p4\", \"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples and rice terraces\",\n      \"area\": \"Area B and Area E\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p10\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Coast, cliffs and sunset\",\n      \"area\": \"Area A, Area D and Area C\",\n      \"must_do_ids\": [\"m1\", \"m4\"],\n      \"poi_ids\": [\"p2\", \"p8\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Ubud morning\",\n      \"area\": \"Area E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p9\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 57,
+          "input_tokens": 1029,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2048,
-          "output_tokens": 240,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 265,
           "service_tier": "standard"
         }
       }
@@ -28,7 +28,7 @@
     "day-4": {
       "status": 200,
       "body": {
-        "id": "5a761f3e-1f02-4fff-9a9b-96317a51f120",
+        "id": "8e2c1a81-0fbd-4f51-a439-b58fe1e5d474",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
@@ -41,7 +41,7 @@
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 280,
+          "input_tokens": 264,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
           "output_tokens": 6,
@@ -49,50 +49,50 @@
         }
       }
     },
-    "day-1": {
+    "day-3": {
       "status": 200,
       "body": {
-        "id": "2381f99b-01bd-4a59-801d-bd25c57fc68e",
+        "id": "eace0767-f517-4959-ba7f-28d0fb50d6c8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Sea temple on a rock, best when the tide rolls in and the light turns gold.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset drinks, a pool, and the island's easiest good time after dark.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny plates of Balinese comfort food, with plenty of green things to share.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Clifftop temple where the sea does the praying for you.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset cocktails, ocean breeze, and a crowd that knows how to stay up late.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 497,
+          "input_tokens": 336,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 123,
+          "output_tokens": 82,
           "service_tier": "standard"
         }
       }
     },
-    "day-3": {
+    "day-1": {
       "status": 200,
       "body": {
-        "id": "7afa4fed-7508-40d1-a7f1-40c2582e3a90",
+        "id": "7c7a8b7c-96eb-4807-a0fc-5ce5e297b63c",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The terraces ripple like a green ocean, and the early light makes every step a postcard.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"Holy springs where the water is said to wash more than just dust off your shoulders.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The cave mouth yawns with carvings, and inside it feels like the island is whispering.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The macaques run the show here, so keep your sunglasses close and your snacks hidden.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A breezy ridge walk with green views that ease you straight into Ubud time.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A calm little pause for something cool, with a menu that loves plants as much as you do.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Tiny local plates, big flavours, and plenty of good things for the veggie crew.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 384,
+          "input_tokens": 450,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 127,
+          "output_tokens": 165,
           "service_tier": "standard"
         }
       }
@@ -100,23 +100,71 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "01fdec0c-8bf5-4d93-87f9-1867447d63e2",
+        "id": "d8a002ed-15ec-4bba-8b20-444bcdbbc3b8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Start with the ridge walk while the air is still soft and the views stretch wide.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander among long-tailed macaques and mossy temple gates in the forest.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Hunt for carved wood, batik and little treasures in the market stalls.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Step into the old royal courtyard and admire its carved stone doors.\"},{\"poi_id\":\"p14\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A breezy pause for something cool and plant-based, never a full meal.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A long detour for lunch, but the vegetarian plates make it tempting.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces ripple like a green ocean, and the sun loves them.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The holy springs here have washed away worries for a thousand years.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"An ancient cave mouth carved with demons, and a quiet courtyard beyond.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone, right in the heart of Ubud.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy all-day spot with proper salads and strong coffee.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 415,
+          "input_tokens": 462,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 226,
+          "output_tokens": 263,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "repair-1-3": {
+      "status": 200,
+      "body": {
+        "id": "9197ab62-ed45-4acf-98cb-5c8f9e4b950d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Clifftop temple with sea spray and a view that earns its fame.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset drinks, a pool, and beats that roll on after dark.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 177,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 81,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "repair-2-3": {
+      "status": 200,
+      "body": {
+        "id": "8edc30b5-dd72-4c55-8341-2917e0b041b3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Clifftop temple with sea spray and a postcard view, terima kasih (thank you) to the tide for the drama.\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"Sunset cocktails, ocean breeze and beats that roll in after dark.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 49,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 93,
           "service_tier": "standard"
         }
       }
@@ -124,23 +172,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "87ef6e17-45ed-44cc-8588-683d2e8dd0ed",
+        "id": "121fc3e0-fee7-4777-8fba-be40d931f28f",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset hello, jungle heart, temple mornings, and a sandy goodbye — every must-do tucked in."
+            "text": "Easy Ubud start, temple-and-terrace days, a sunset coast, then one last Ubud morning — every must-do tucked in."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 191,
+          "input_tokens": 193,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 21,
+          "output_tokens": 28,
           "service_tier": "standard"
         }
       }

@@ -1,16 +1,16 @@
 /**
- * The picks a version highlights (3f-3), joined to the plan they came from: the stop's name, its
- * day and start, and the reason tag the guide gave ("YOU PICKED STREET FOOD"). Before the crew
+ * The picks a version highlights (3f-3), joined to the plan they came from and set in the plan's
+ * own order (day, then time): the stop's name, its day and start, whose must-do it is, and the
+ * reason tag the guide gave ("YOU PICKED STREET FOOD"; the words are in ./reasons.ts). Before the crew
  * can read the plan itself (a draft is the organiser's), a pick is named by the story slide the
  * guide wrote about it; one with neither is dropped.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { isProposalReasonTag, type ProposalReasonTag } from '@cp/domain';
-import { t } from '@lingui/core/macro';
-
 import { useGuideText } from '@/lib/i18n/guide-text';
 
+import { firstName } from './format';
 import type { Highlight, Slide } from './proposal';
+import { GROUP_TAG_DAY, GROUP_TAG_MUST_DO, cardLabel } from './reasons';
 import { parseJson, useLiveRows } from './rows';
 
 export interface Pick {
@@ -26,6 +26,11 @@ export interface Pick {
   /** What the guide wrote about the stop and its day, as this person reads them. */
   readonly note: string | null;
   readonly dayTheme: string | null;
+  /** Whose must-do the stop is, when it is one: what is actually known about why it is there. */
+  readonly mustDoOwnerId?: string | null;
+  readonly mustDoOwnerName?: string | null;
+  /** The stop's place in the catalogue, when it has one: its page can be opened. */
+  readonly poiId?: string | null;
 }
 
 interface ItemRow {
@@ -40,67 +45,44 @@ interface ItemRow {
   readonly i18n: string | null;
   readonly theme: string | null;
   readonly day_i18n: string | null;
+  readonly must_do_owner?: string | null;
+  readonly must_do_owner_name?: string | null;
 }
 
 const ITEMS_SQL = `SELECT i.stable_id, i.poi_id, p.name, i.category, d.day_no, i.starts_at, i.tz,
-    i.notes, i.i18n, d.theme, d.i18n AS day_i18n
+    i.notes, i.i18n, d.theme, d.i18n AS day_i18n, m.owner_id AS must_do_owner,
+    u.display_name AS must_do_owner_name
   FROM plan_items i
   JOIN trips t ON t.id = i.trip_id
   LEFT JOIN plan_days d ON d.id = i.day_id
   LEFT JOIN pois p ON p.id = i.poi_id
+  LEFT JOIN must_dos m ON m.id = i.must_do_id
+  LEFT JOIN users u ON u.id = m.owner_id
   WHERE i.trip_id = ? AND i.version_id = coalesce(t.current_version_id, t.draft_version_id)`;
-const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois', 'trips'];
+const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois', 'trips', 'must_dos', 'users'];
 
-/** Tags a group version may carry: what the stop is, never a claim about the reader. */
-export const GROUP_TAG_MUST_DO = 'group_must_do';
-export const GROUP_TAG_DAY = 'group_day';
+export {
+  cardLabel,
+  GROUP_TAG_DAY,
+  GROUP_TAG_MUST_DO,
+  pickTag,
+  reasonLabel,
+  reasonWhy,
+} from './reasons';
 
-/** The card's tag for each reason the guide may give (one per tag in the shared list). */
-const REASON_LABELS: Readonly<Record<ProposalReasonTag, () => string>> = {
-  your_must_do: () => t({ id: 'proposal.reason.mustDo', message: 'Your must-do' }),
-  matches_taste: () => t({ id: 'proposal.reason.taste', message: 'You’ll love this' }),
-  crew_favourite: () => t({ id: 'proposal.reason.crew', message: 'Crew favourite' }),
-  good_value: () => t({ id: 'proposal.reason.value', message: 'Good value' }),
-  only_here: () => t({ id: 'proposal.reason.onlyHere', message: 'Only here' }),
-};
-
-/** Longest guide-written tag the card shows; a longer one falls back to the reason tag's label. */
-const CARD_LABEL_MAX = 24;
-
-export function cardLabel(label: string | undefined): string | null {
-  const line = label?.trim() ?? '';
-  return line === '' || line.length > CARD_LABEL_MAX ? null : line;
+/** Day by day, earlier first; a stop with no day or time goes after those that have one. */
+export function inPlanOrder<T extends PlanSlot>(picks: readonly T[]): T[] {
+  const day = (slot: PlanSlot) => slot.dayNo ?? Number.MAX_SAFE_INTEGER;
+  // Instants are ISO strings: they sort as text. "~" sorts after every digit.
+  const time = (slot: PlanSlot) => slot.startsAt ?? '~';
+  return [...picks].sort(
+    (a, b) => day(a) - day(b) || (time(a) < time(b) ? -1 : time(a) > time(b) ? 1 : 0),
+  );
 }
 
-export function reasonLabel(tag: string, dayNo: number | null = null): string {
-  if (tag === GROUP_TAG_MUST_DO)
-    return t({ id: 'proposal.reason.groupMustDo', message: 'Must-do' });
-  if (tag === GROUP_TAG_DAY) {
-    return dayNo === null
-      ? t({ id: 'proposal.reason.onThePlan', message: 'On the plan' })
-      : t({ id: 'proposal.reason.day', message: `Day ${dayNo}` });
-  }
-  // A tag this app does not know yet reads as the place-only reason.
-  return (isProposalReasonTag(tag) ? REASON_LABELS[tag] : REASON_LABELS.only_here)();
-}
-
-/** Why the guide put it there, in a sentence for the why sheet. */
-export function reasonWhy(tag: string, guideName: string): string {
-  switch (tag) {
-    case 'your_must_do':
-      return t({ id: 'proposal.why.mustDo', message: 'You added it as a must-do in setup.' });
-    case 'matches_taste':
-      return t({
-        id: 'proposal.why.taste',
-        message: `It matches what you picked in your this-or-thats, so ${guideName} put it in.`,
-      });
-    case 'crew_favourite':
-      return t({ id: 'proposal.why.crew', message: 'Most of the crew wanted this one.' });
-    case 'good_value':
-      return t({ id: 'proposal.why.value', message: 'It gives a lot for what it costs.' });
-    default:
-      return t({ id: 'proposal.why.onlyHere', message: 'You can only do this here.' });
-  }
+interface PlanSlot {
+  readonly dayNo: number | null;
+  readonly startsAt: string | null;
 }
 
 export function usePicks(
@@ -112,7 +94,7 @@ export function usePicks(
   const byId = new Map(rows.map((row) => [row.stable_id, row]));
   const names = usePlaceNames(tripId);
   const text = useGuideText();
-  return highlights.flatMap((h) => {
+  const picks = highlights.flatMap((h): Pick[] => {
     const row = byId.get(h.item_id);
     const slide = slides.find((s) => s.item_id === h.item_id);
     const placed = row?.poi_id == null ? undefined : names.get(row.poi_id);
@@ -136,9 +118,14 @@ export function usePicks(
           row === undefined
             ? null
             : text('plan_day', { theme: row.theme, i18n: row.day_i18n }, 'theme'),
+        poiId: row?.poi_id ?? null,
+        mustDoOwnerId: row?.must_do_owner ?? null,
+        mustDoOwnerName: firstName(row?.must_do_owner_name ?? null) || null,
       },
     ];
   });
+  // The guide lists what it thinks the reader will love first; a traveller reads a plan in order.
+  return inPlanOrder(picks);
 }
 
 export interface StopTime {
@@ -205,7 +192,7 @@ export function groupPicks(rows: readonly PlanRow[], limit = 5): Pick[] {
     days.add(row.day_no);
     picks.push(toPick(row, GROUP_TAG_DAY));
   }
-  return picks.slice(0, limit);
+  return inPlanOrder(picks.slice(0, limit));
 }
 
 const PLACES_SQL = `SELECT v.coverage FROM itinerary_versions v

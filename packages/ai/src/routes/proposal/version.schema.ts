@@ -117,6 +117,8 @@ export interface VersionItem {
   readonly category: string | null;
   /** The recipient asked for this one. */
   readonly must_do: boolean;
+  /** When the stop starts on the trip's own clock, `HH:MM` (24 h); absent when it has no time. */
+  readonly time?: string | null;
 }
 
 /** A saving the cost engine priced for this recipient; `amount` is the display label. */

@@ -190,6 +190,13 @@ export const lockProposalCommand = defineCommand({
         unanswered: unanswered.length,
       });
       if (!isConfirmedOrLater(after)) throw new DomainError('STATE_INVALID', { state: after });
+      // The lock, as a system line in crew chat naming who locked it (the app words it).
+      await tx.query(
+        `SELECT app.post_crew_system_message($1, 'trip_locked', $2,
+           (SELECT split_part(trim(display_name), ' ', 1) FROM users WHERE id = $2)
+             || ' locked the trip in')`,
+        [proposal.crew_id, ctx.uid],
+      );
       const waitlisted = people.filter((p) => p.rsvp === 'waitlisted').length + maybe.length;
       const out = people.filter((p) => p.rsvp === 'out').length + unanswered.length;
       return { proposal_id: proposal.id, trip_status: 'confirmed', in: inCount, waitlisted, out };

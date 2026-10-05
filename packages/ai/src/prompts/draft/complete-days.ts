@@ -6,12 +6,13 @@
  */
 import type { DraftDay, Itinerary } from '@cp/domain';
 import {
+  choicesOfDay,
+  isKept,
   longRideMin,
   mealSlots,
   RIDE_HOME_MAX_MIN,
   stopKind,
   withinReach,
-  type DayChoice,
   type DraftPoi,
 } from '@cp/planner';
 
@@ -43,16 +44,9 @@ export function nearFirst(
     .map((entry) => entry.poi);
 }
 
-function choicesOf(day: DraftDay): DayChoice[] {
-  return day.items.map((item) => ({
-    poiId: item.poi_id ?? '',
-    kind: item.kind,
-    mustDoId: item.must_do_id,
-    note: item.note,
-  }));
-}
-
 function editorsLine(input: DraftPlanInput, poi: DraftPoi): string | null {
+  // Our editors write in English: a reader of another language gets no line rather than theirs.
+  if (input.locale !== undefined && !input.locale.toLowerCase().startsWith('en')) return null;
   const line = poi.whyGo ?? null;
   return line !== null && proseProblem(line, 200, placeNames(input)) === null ? line : null;
 }
@@ -93,17 +87,20 @@ export function addOne(
   baseline?: Faults,
   /** Where in the day's order the new stop goes (default: last; the planner may still reorder). */
   position?: number,
+  /** The meal the new stop is for (a dinner waits for dinner time on a day with no lunch). */
+  slot?: 'lunch' | 'dinner',
 ): Itinerary | null {
   const day = itinerary.days.find((d) => d.day_no === outline.dayNo);
   if (day === undefined) return null;
   const before = baseline ?? dayFaults(input, itinerary, outline.dayNo);
   for (const poi of candidates) {
-    const choices = choicesOf(day);
+    const choices = choicesOfDay(day);
     choices.splice(position ?? choices.length, 0, {
       poiId: poi.id,
       kind: stopKind(poi),
       mustDoId: null,
       note: editorsLine(input, poi),
+      ...(slot === 'dinner' ? { mealSlot: 'dinner' as const } : {}),
     });
     const activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null);
     const next = scheduleChoices(
@@ -161,18 +158,42 @@ export function fillMeals(
         .map((id) => input.pois.get(id))
         .filter((poi): poi is DraftPoi => poi !== undefined);
       const nearby = nearFirst(input, input.pools.eateries, here, slot === 'dinner');
-      const candidates = [...new Set([...listed, ...nearby])].filter(
+      // The nearest first, wherever they were listed: the day may have moved since the outline.
+      const ringed = nearFirst(
+        input,
+        [...new Set([...listed, ...nearby])],
+        here,
+        slot === 'dinner',
+      );
+      const candidates = [...new Set([...ringed, ...listed])].filter(
         (poi) => !used.has(poi.id) && mealSlots(poi, outline.date).includes(slot),
       );
       // The meal lands and nothing else breaks for it.
       const lands = (before: Faults, after: Faults) =>
         after.hard <= before.hard && after.meals < before.meals;
       const key = `meal-${outline.dayNo}-${slot}`;
-      let next = addOne(input, outline, itinerary, candidates.slice(0, 12), lands, key);
+      let next = addOne(
+        input,
+        outline,
+        itinerary,
+        candidates.slice(0, 12),
+        lands,
+        key,
+        undefined,
+        undefined,
+        undefined,
+        slot,
+      );
       if (next === null) {
         const baseline = dayFaults(input, itinerary, outline.dayNo);
         const giveWay = day.items
-          .filter((item) => item.must_do_id === null && item.kind === 'activity')
+          // An essential place never gives way to a meal: the day says it has none instead.
+          .filter(
+            (item) =>
+              !isKept(item) &&
+              item.kind === 'activity' &&
+              input.pois.get(item.poi_id ?? '')?.essential !== true,
+          )
           .reverse();
         for (const item of giveWay) {
           const lighter = {
@@ -192,6 +213,8 @@ export function fillMeals(
             `${key}-for-${item.stable_id}`,
             undefined,
             baseline,
+            undefined,
+            slot,
           );
           if (next !== null) break;
         }

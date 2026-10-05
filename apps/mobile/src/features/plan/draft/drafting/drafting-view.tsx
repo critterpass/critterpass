@@ -80,11 +80,12 @@ function lineFor(phase: DraftPhase, days: number): string {
       return phase.slow
         ? t({
             id: 'planDraft.drafting.slow',
-            message: 'Taking a bit longer than usual. I’ll ping you when it’s ready.',
+            message: 'Taking longer than usual. You can leave: I’ll tell you when it’s ready.',
           })
         : t({
             id: 'planDraft.drafting.line',
-            message: 'About 20 seconds. You review it before anyone else sees it.',
+            message:
+              'This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else.',
           });
     case 'offline':
       return t({
@@ -115,7 +116,8 @@ function lineFor(phase: DraftPhase, days: number): string {
     case 'done':
       return t({
         id: 'planDraft.drafting.line',
-        message: 'About 20 seconds. You review it before anyone else sees it.',
+        message:
+          'This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else.',
       });
   }
 }
@@ -149,11 +151,20 @@ function Footer({
     case 'running':
     case 'starting':
       return (
-        <TextLink
-          label={t({ id: 'planDraft.drafting.cancel', message: 'Stop drafting' })}
-          onPress={onCancel}
-          testID="drafting-cancel"
-        />
+        <>
+          {/* The draft is written on the server: leaving does not stop it. */}
+          <PillButton
+            label={t({ id: 'planDraft.drafting.leave', message: 'Come back later' })}
+            variant="secondary"
+            onPress={onBack}
+            testID="drafting-leave"
+          />
+          <TextLink
+            label={t({ id: 'planDraft.drafting.cancel', message: 'Stop drafting' })}
+            onPress={onCancel}
+            testID="drafting-cancel"
+          />
+        </>
       );
     case 'offline':
     case 'done':

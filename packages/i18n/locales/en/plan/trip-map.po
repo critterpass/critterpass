@@ -29,6 +29,10 @@ msgstr "{count} · about {length} in the car"
 msgid "plan.tripMap.gap.some"
 msgstr "{count} of you are free · {who}, till {until}"
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.inCrew"
+msgstr "{crew} in the crew"
+
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.countdown"
 msgstr "{days, plural, one {Tomorrow} other {# days to go}}"
@@ -273,6 +277,10 @@ msgstr "Markets"
 msgid "plan.tripMap.empty.swipeLine"
 msgstr "Matches stay"
 
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingMeanwhile"
+msgstr "Meanwhile, save the places you want. They wait in Ideas."
+
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.moveStops"
 msgstr "Move a stop to another day"
@@ -423,6 +431,10 @@ msgstr "Swipe together"
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.temples"
 msgstr "Temples"
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingTitle"
+msgstr "The plan is on its way"
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.wholeTrip"

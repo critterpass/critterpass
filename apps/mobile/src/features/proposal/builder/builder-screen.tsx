@@ -102,7 +102,14 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         guideName={guideName}
         recipients={trip.recipients}
         versions={versions}
-        onTracker={() => router.replace(proposalRoutes.tracker(outId))}
+        onTracker={() => {
+          // The private draft is retired once the plan is out: nothing is left under Who's in
+          // that leads back to "only you see this".
+          // The stack is back to its first screen (the draft, when she came from it), which
+          // the tracker then replaces.
+          if (router.canDismiss()) router.dismissAll();
+          router.replace(proposalRoutes.tracker(outId));
+        }}
       />
     );
   }
@@ -139,7 +146,6 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         locking={lockAlone.pending}
         onBack={back}
         onLock={() => void onLock()}
-
         onInvite={() => router.push(`/crew/${trip.crewId}/invite`)}
       />
     );

@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "c9794167-e34e-4d55-bfe5-c7761ae91c04",
+        "id": "319ad96d-ba1b-446d-a92c-da60244642cb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A slower, softer Bali day\",\n  \"summary\": \"One gentle temple visit, a free wander, and two easy meals around the same leafy corner of Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free lotus-pond temple to start the day without rushing.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A simple, cheap local lunch so the budget can breathe.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A calm vegan dinner to wind down, terima kasih (thank you) to a gentle day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A slow, sunny Bali day\",\n  \"summary\": \"One quiet temple visit, a long lazy lunch and a simple dinner, all in the same leafy corner of Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We swapped the rice terraces for this free lotus pond temple, so the morning stays gentle and the wallet stays happy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays at Alchemy because a slower day still deserves a long, easy vegan spread.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner moves to this simple warung, a cheaper and cosier way to end the day.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 75,
+          "input_tokens": 80,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 1664,
-          "output_tokens": 227,
+          "output_tokens": 246,
           "service_tier": "standard"
         }
       }

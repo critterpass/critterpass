@@ -11,5 +11,6 @@ export * from './events';
 export * from './rt';
 export * from './queues';
 export * from './changesets';
+export * from './inbox-kinds';
 export * from './templates';
 export * from './calendar-feed';

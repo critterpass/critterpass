@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-04.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "613ffaa7-0cf8-46f3-98e1-56a1dfa99637",
+        "id": "444dcdc3-8be7-46b9-8015-85a8ac4ebb38",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Area A (Seminyak)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud culture and green walks\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p7\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Temples and rice terraces\",\n      \"area\": \"Area D\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p5\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "{\n  \"stay_area\": \"Area B (Ubud)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud ease-in\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p6\", \"p9\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Temples and terraces\",\n      \"area\": \"Area D and B\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p5\", \"p4\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Soft farewell\",\n      \"area\": \"Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\", \"p14\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 29,
+          "input_tokens": 110,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 2048,
-          "output_tokens": 196,
+          "output_tokens": 194,
           "service_tier": "standard"
         }
       }
@@ -28,47 +28,23 @@
     "day-3": {
       "status": 200,
       "body": {
-        "id": "8a52a8d6-6386-4f10-9322-c775eaf23b29",
+        "id": "a20557ac-7a17-42d0-93ce-060b0841a05e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The terraces ripple like a green ocean, and the sun loves them.\"}]}"
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A soft green ridge walk, easy on the legs and kind on the soul.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 317,
+          "input_tokens": 310,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 896,
-          "output_tokens": 42,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "b2c1779a-6ec5-4587-8fe6-76b5deeaa07b",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A green ridge walk with breezes and rice-field views, easy on late risers.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus ponds and carved stone at a temple that feels tucked away from the buzz.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you) for a long lunch of fresh, bright plates that please everyone.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A splurge-worthy tasting journey with clever vegetarian twists and serious flavour.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 265,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 163,
+          "output_tokens": 43,
           "service_tier": "standard"
         }
       }
@@ -76,23 +52,47 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "8c337936-7666-42cd-9c98-ff5515cf42be",
+        "id": "a9562a49-a9ed-448c-b508-30fbd6a792a3",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Toes in the sand, sun on your face, and the whole evening ahead of you.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Local flavours in a lively little spot, perfect for a proper sit-down feed.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy little pause with something fresh and green in your cup.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Wander the stalls before the day cools, and haggle with a grin.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A long, slow splurge of a meal with plenty of green on the plate.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you) for a proper local bite, loud and easy.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 403,
+          "input_tokens": 90,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 170,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 122,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "66957d38-013f-4305-9e55-faefe91ac4ee",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The terraces ripple like a green ocean, and the morning light makes every step worth it.\",\"must_do_id\":null},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A bright, breezy spot with plates that wake up even the sleepiest crew.\",\"must_do_id\":null},{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Soft sand, salty air, and a horizon that knows how to put on a show.\",\"must_do_id\":\"m1\"},{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Music, cocktails, and a pool that glows once the stars come out.\",\"must_do_id\":null}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 438,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 191,
           "service_tier": "standard"
         }
       }
@@ -100,14 +100,14 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "9cefabd9-3588-4b60-8c20-3fe7a5377ea7",
+        "id": "dccddc6c-7c94-4f09-834a-37a3de8c36aa",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Sunset ease, Ubud green, temples and terraces — every must-do made it, and the sun won't wait."
+            "text": "Bali: easy Ubud start, rice terraces and Seminyak sun, then a soft goodbye — all your must-dos made it in."
           }
         ],
         "stop_reason": "end_turn",
@@ -116,7 +116,7 @@
           "input_tokens": 191,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 26,
+          "output_tokens": 31,
           "service_tier": "standard"
         }
       }

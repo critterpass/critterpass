@@ -15,9 +15,17 @@ msgstr "{count} going ›"
 msgid "plan.add.dayHeader.free"
 msgstr "{dayLabel} · FREE DAY"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.waiting"
+msgstr "{guide} is finding the best day and time."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.line"
 msgstr "{guide} picked the day and time. Change anything."
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.guidePick"
+msgstr "{guide} would pick {dayLabel}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.length.hours"
@@ -42,6 +50,10 @@ msgstr "{minutes} min, a ride works"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.nearby"
 msgstr "{name} is {count} min on. Add it too?"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.nearbyNextDoor"
+msgstr "{name} is right next door. Add it too?"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.length.minutes"
@@ -71,13 +83,26 @@ msgstr "Add it too"
 msgid "plan.add.cta.add"
 msgstr "ADD TO {dayLabel} · {time}"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.addAnyway"
+msgstr "ADD TO {dayLabel} ANYWAY"
+
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.eyebrow"
 msgstr "ADD TO THE PLAN"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.inPlan"
+msgstr "Already in your plan: {dayLabel} at {time}. Pick where it moves."
+
+#. placeholder {0}: b ?? ''
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.already"
-msgstr "Already in the plan on {dayLabel}. Pick where it moves."
+msgid "plan.add.why.before"
+msgstr "Before {0}"
+
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.between"
+msgstr "Between {a} and {b}"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.busy"
@@ -102,6 +127,10 @@ msgstr "Dry mornings in {month}"
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.everyone"
 msgstr "Everyone ›"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.waiting"
+msgstr "FINDING THE BEST TIME…"
 
 #: ../../apps/mobile/src/features/plan/add/add-sheet-view.tsx
 msgid "plan.add.saveLater"
@@ -131,9 +160,13 @@ msgstr "No free time that day"
 msgid "plan.add.offline"
 msgstr "No signal: {guideName} works out the reasons once you’re back."
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.line.nowhere"
+msgstr "Nothing fits yet. Pick a day to add it anyway, or keep it in Ideas."
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
-msgid "plan.add.nowhere"
-msgstr "Nowhere fits yet. Pick a day, or save it for later."
+msgid "plan.add.why.needsMoveNamed"
+msgstr "Only fits if {stop} moves"
 
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.needsMove"
@@ -147,6 +180,10 @@ msgstr "Opening hours not known yet"
 msgid "plan.add.why.opens"
 msgstr "Opens at {time}"
 
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.pickElsewhere"
+msgstr "PICK ANOTHER DAY OR TIME"
+
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.why.quiet"
 msgstr "Quiet till about {hour}"
@@ -155,9 +192,21 @@ msgstr "Quiet till about {hour}"
 msgid "plan.add.why.rain"
 msgstr "Rain likely {from}–{to}"
 
-#: ../../apps/mobile/src/features/plan/add/add-sheet.tsx
+#: ../../apps/mobile/src/features/plan/add/add-copy.ts
+msgid "plan.add.why.after"
+msgstr "Right after {a}"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.ideas"
+msgstr "SAVE TO IDEAS"
+
+#: ../../apps/mobile/src/features/plan/add/use-save-to-ideas.ts
 msgid "plan.add.savedToast"
 msgstr "Saved to Ideas"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.seeIdeas"
+msgstr "SEE IDEAS"
 
 #: ../../apps/mobile/src/features/plan/add/add-block.tsx
 msgid "plan.add.time.a11y"
@@ -166,6 +215,14 @@ msgstr "Starts {time}. Change the time"
 #: ../../apps/mobile/src/features/plan/add/add-copy.ts
 msgid "plan.add.cta.suggest"
 msgstr "SUGGEST FOR {dayLabel} · {time}"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.cta.suggestAnyway"
+msgstr "SUGGEST FOR {dayLabel} ANYWAY"
+
+#: ../../apps/mobile/src/features/plan/add/add-states-copy.ts
+msgid "plan.add.voteNote"
+msgstr "The crew votes on this before it goes in. You’ll hear back."
 
 #: ../../apps/mobile/src/features/plan/add/who-going.tsx
 msgid "plan.add.who.title"

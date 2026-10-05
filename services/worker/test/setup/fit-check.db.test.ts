@@ -70,8 +70,10 @@ async function state(id: string) {
     fit_note: string | null;
     external_action: string;
     external_deadline: string | null;
+    checked: boolean;
   }>(
-    `SELECT fit_status, fit_note, external_action, external_deadline::text AS external_deadline
+    `SELECT fit_status, fit_note, external_action, external_deadline::text AS external_deadline,
+            fit_checked_at IS NOT NULL AS checked
        FROM must_dos WHERE id = $1`,
     [id],
   );
@@ -129,7 +131,12 @@ describe('ai.fit_check', () => {
       fit_status: 'clash',
       fit_note: 'Moss Temple is closed on your dates.',
     });
-    expect(await state(ids.freeform!)).toMatchObject({ fit_status: 'unknown', fit_note: null });
+    // No verdict is still a finished check: the row is stamped so the app stops saying "checking".
+    expect(await state(ids.freeform!)).toMatchObject({
+      fit_status: 'unknown',
+      fit_note: null,
+      checked: true,
+    });
     expect(await state(ids.ghibli!)).toMatchObject({
       external_action: 'book_ahead',
       external_deadline: '2027-03-06',

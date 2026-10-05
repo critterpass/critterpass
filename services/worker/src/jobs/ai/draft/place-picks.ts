@@ -94,6 +94,7 @@ export async function draftSummary(
     themes,
     allMustDos: allMustDosMade(save),
     names: [...input.pois.values()].map((p) => p.name),
+    ...(input.locale === undefined ? {} : { locale: input.locale }),
     ...(thin ? { thin: true } : {}),
   });
 }

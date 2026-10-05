@@ -6,7 +6,7 @@
  * stays; without one, the sheet still adds, with no dots and no reasons.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, SQL and wire values, never copy. */
-import { knownHours, placeFitSchema, type PlaceFit } from '@cp/domain';
+import { knownHours, placeFitSchema, visitMinutes, type PlaceFit } from '@cp/domain';
 import { crowdWeeks, isOutdoorCategory, type CrowdCurveRow, type FitPlace } from '@cp/planner';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -14,6 +14,8 @@ import { sessionHeaders } from '@/data/app-session/device-session';
 import type { WireFitContext } from '@/data/fit/local-fit';
 import { useLiveRows } from '@/data/plan/live-rows';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+
+import type { NearbyAdd } from './add-model';
 
 const TIMEOUT_MS = 10_000;
 
@@ -205,4 +207,16 @@ export function useNearbyPlace(tripId: string, poiId: string | null): NearbyPlac
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
   return nearby.key === key ? nearby.place : null;
+}
+
+/** The nearby place as the block after this one: how far on it is and how long a visit takes. */
+export function nearbyAddOf(nearby: NearbyPlace | null): NearbyAdd | null {
+  if (nearby === null) return null;
+  return {
+    poiId: nearby.poi_id,
+    name: nearby.name,
+    category: nearby.category,
+    minutes: nearby.minutes,
+    lengthMin: visitMinutes({ category: nearby.category, timeNeededMin: null }),
+  };
 }

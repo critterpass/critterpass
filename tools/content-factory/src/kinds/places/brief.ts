@@ -158,7 +158,9 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
         [...pinned, ...matched.map((m) => m.poiId)],
         leftOut,
       );
-      const mustSee = new Set([...pinned, ...matched.map((m) => m.poiId)]);
+      const mustSee = new Set(
+        [...pinned, ...matched.map((m) => m.poiId)].filter((id) => pins.get(id)?.mustSee !== false),
+      );
       const curated = [...new Set([...pinned, ...selected])];
       const { rows } = await pool.query<{
         id: string;
@@ -212,6 +214,7 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
             hours: row.hours_verified_at === null ? null : row.hours,
             duplicate: null,
             ...(mustSee.has(row.id) ? { mustSee: true } : {}),
+            ...(pins.get(row.id)?.essential === true ? { essential: true } : {}),
             ...(kind === undefined ? {} : { kind }),
           },
         ];

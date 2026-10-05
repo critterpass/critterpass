@@ -8,7 +8,7 @@
 import type { Itinerary } from '@cp/domain';
 
 import { dayMetrics } from './metrics';
-import type { DraftPoi } from './types';
+import { isKept, type DraftPoi } from './types';
 import type { DraftViolation, DraftViolationCode } from './validate-itinerary';
 
 export interface RepairReason {
@@ -176,8 +176,10 @@ export function dropViolations(
   const days = itinerary.days.map((day) => ({
     ...day,
     items: day.items.filter((item) => {
+      // A booking or a stop the organiser placed is theirs to move: it stays, fault and all.
+      const theirs = item.must_do_id === null && item.locked_reason !== null;
       const goes =
-        bad.has(item.stable_id) || (offTime.has(item.stable_id) && item.must_do_id === null);
+        !theirs && (bad.has(item.stable_id) || (offTime.has(item.stable_id) && !isKept(item)));
       if (!goes) return true;
       dropped.push({ stableId: item.stable_id, mustDoId: item.must_do_id });
       return false;

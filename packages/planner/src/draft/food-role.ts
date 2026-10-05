@@ -53,6 +53,10 @@ const LIGHT_WORDS: readonly (readonly string[])[] = [
   ['smoothie'],
   ['sinh', 'to'],
   ['boba'],
+  // Street snacks eaten standing, whatever the row says of how long a visit takes.
+  ['banh', 'trang'],
+  ['sua', 'chua'],
+  ['sua', 'dau'],
 ];
 
 /** Name runs that say a kitchen cooks meals, whatever else the name says. */

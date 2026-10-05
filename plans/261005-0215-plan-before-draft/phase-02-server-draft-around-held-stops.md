@@ -38,6 +38,14 @@ A **held stop** is a row of the organiser's draft with `created_by_kind = 'user'
 - With T1 (`job-context.ts`, `plan-input.ts`): idea places join the list `candidatePools` always offers.
 - Status: done — 7415dba7b
 
-## What this phase cannot do from the worker
+### T4. The planner is given her stops
+- Files: `services/worker/src/jobs/ai/draft/{held-stops,job-context,plan-input,validate-repair}.ts`, `services/worker/test/jobs/ai/draft/{held-stops.db.test.ts,hand-plan.ts}`.
+- Her stops go in as `DraftPlanInput.held` before the outline, with the organiser's app language as `locale`. A stop of hers at a meal place (or filed as food) that starts at lunch or dinner time is the day's meal. A stop on a dropped pin gets a stand-in place for the draft (the pin, under the stop's id, never offered), so the planner routes and times around it; the saved row is hers.
+- Who narrows the offer: the worker, where the offer is built. The planner tells her place or must-do apart from the guide's only within one day, so her places and the must-dos she placed herself are kept out of the pools and the frame for the whole trip; her places stay in the planner's place map (names for the guide, travel times).
+- Putting her stops back after the check stage stays as the guarantee.
+- Test: a draft over a hand-started plan with a held lunch: one lunch that day, her stops back with their ids and times, no overlap and no gap over two hours on her days, first check clean with no repair call.
+- Status: done
 
-The guide is not told what a day already holds, and the scheduler does not time its stops around her blocks: both live in the plan-quality lane's packages. Until they do, a guide stop that lands on hers is taken out afterwards, which can leave a hole (a lunch that gave way is not replaced). Asked of that lane: `DraftPlanInput` takes the held stops per day; the day and repair requests name them; `scheduleChoices`, `fillMeals` and `fillThinDays` time and fill around them. The worker then passes them in before the check stage; putting them back afterwards stays as the guarantee.
+## Left for the planner lane
+
+A one-day redraft with a pinned stop has no recorded model run: the hold is tested at the store level only.

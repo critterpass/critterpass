@@ -23,6 +23,18 @@ msgstr "{fit} việc vừa."
 msgid "setup.addMustDo.found"
 msgstr "{guideName} tìm thấy"
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.draftWriting"
+msgstr "{guideName} đang lên nháp. Xem tới đâu rồi"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.writingLine"
+msgstr "{guideName} đang viết bản nháp. Mất vài phút; bạn cứ rời đi rồi quay lại."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.readyLine"
+msgstr "Bản nháp của {guideName} đã sẵn sàng."
+
 #: ../../apps/mobile/src/features/setup/must-dos/typing-row.tsx
 msgid "setup.mustDos.typing"
 msgstr "{name} đang gõ"
@@ -30,6 +42,14 @@ msgstr "{name} đang gõ"
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.prompt"
 msgstr "{name} ơi, đến {place} mà thiếu điều gì thì chưa trọn?"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.open"
+msgstr "{open, plural, other {Mình sẽ tìm ngày cho # việc còn lại trong bản nháp.}}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.openAll"
+msgstr "{open, plural, other {Đã ghi. Mình sẽ tìm ngày phù hợp trong bản nháp.}}"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.header"
@@ -95,10 +115,6 @@ msgstr "Lên lịch trình"
 msgid "setup.mustDos.pill.entriesClose"
 msgstr "Hạn đăng ký {date}"
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.line"
-msgstr "Mỗi người thêm một điều mà thiếu nó chuyến đi chưa trọn."
-
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.fits"
 msgstr "Vừa"
@@ -131,6 +147,10 @@ msgstr "Bốc thăm"
 msgid "setup.addMustDo.more.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.title"
+msgstr "Việc phải làm"
+
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
 msgstr "Không có nơi nào ở {place} khớp. Giữ nguyên lời của bạn nhé."
@@ -151,10 +171,6 @@ msgstr ""
 msgid "setup.mustDos.line.empty"
 msgstr "Chưa ai thêm. Bạn mở hàng nhé."
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
-msgid "setup.mustDos.title"
-msgstr "Mỗi người một việc"
-
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.attribution"
 msgstr ""
@@ -166,6 +182,10 @@ msgstr "Nhắc tôi đăng ký"
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.remove"
 msgstr "Xoá"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.seeDraft"
+msgstr "Xem bản nháp"
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pending"
@@ -190,3 +210,7 @@ msgstr "Đang chờ gửi"
 #: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
 msgid "setup.addMustDo.more.loading"
 msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line"
+msgstr "Những điều thiếu thì chuyến đi chưa trọn. Mỗi người tối đa năm việc."

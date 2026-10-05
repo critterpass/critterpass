@@ -2,8 +2,8 @@
  * Fit over HTTP on the real stack: a participant gets each place's grade per day, an outsider gets
  * NOT_FOUND, an organiser's draft day is theirs alone, before the crew has a plan an organiser's fit
  * reads her own draft while a member has no days, fifty places answer in one request, an
- * unapproved editorial crowd curve never shapes a fit, and nearby places and gap ideas read the
- * same plan.
+ * unapproved editorial crowd curve never shapes a fit, a visit to a place filed as a stay is a stop
+ * of its day, and nearby places and gap ideas read the same plan.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -198,6 +198,45 @@ describe('POST /v1/trips/{id}/fit', () => {
       busyPlace,
     ]);
     expect(await reasons()).toContain('busy_from');
+  });
+});
+
+describe('a visit to a place filed as a stay', () => {
+  it('is a stop of its day like any other: a place fits there only if the visit moves', async () => {
+    const other = await seedCurrentPlan(harness.pool, b.tripId);
+    const date = other.dates[2] as string;
+    await withSystem(harness.pool, async (tx) => {
+      const { rows: dest } = await tx.query<{ destination_id: string }>(
+        'SELECT destination_id FROM trips WHERE id = $1',
+        [b.tripId],
+      );
+      const house = await tx.query<{ id: string }>(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, curation)
+         VALUES ($1, 'Crazy House', 'stay', 35.01, 135.78, 'editorial') RETURNING id`,
+        [dest[0]?.destination_id],
+      );
+      // The crew visits it for the whole of the temple's opening hours on the free third day.
+      await tx.query(
+        `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz,
+           category, poi_id)
+         SELECT $1, d.id, $2, $3, $4, $5, 'Asia/Tokyo', 'activity', $6
+           FROM plan_days d WHERE d.version_id = $1 AND d.day_no = 3`,
+        [
+          other.versionId,
+          b.tripId,
+          randomUUID(),
+          new Date(`${date}T08:00:00+09:00`),
+          new Date(`${date}T18:00:00+09:00`),
+          house.rows[0]?.id,
+        ],
+      );
+    });
+    const { status, body } = await post(b.organiser, b.tripId, { poi_ids: [places[2]] });
+    expect(status).toBe(200);
+    const third = (body as unknown as Fits).fits[0]?.days.find((day) => day.day_no === 3);
+    // The place only fits that day if the visit moves: the visit is in the way, not ignored.
+    expect(third?.grade).toBe('possible');
+    expect(third?.reasons.map((reason) => reason.code)).toContain('needs_move');
   });
 });
 

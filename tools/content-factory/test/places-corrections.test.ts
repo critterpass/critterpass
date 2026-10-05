@@ -61,6 +61,7 @@ const row = (ref: string, over: Partial<BeforeRow> = {}): BeforeRow => ({
   tz: null,
   curated: true,
   must_see: false,
+  essential: false,
   merged_into: null,
   item: liveItem(ref),
   ...over,
@@ -151,6 +152,63 @@ describe('place corrections', () => {
       tz: 'Asia/Makassar',
       licence: { source: 'fsq_os', source_id: 'unseen', licence: 'Apache-2.0' },
       editorial: { why_go: 'A holy spring temple.' },
+    });
+  });
+
+  it('sets the essential tier with the must-see flag and takes both off a merged record', () => {
+    const items = correctionItems(
+      [
+        place({
+          must_see: true,
+          essential: true,
+          merge: [{ ref: 'overture:far', stored_name: 'Tirta Empul' }],
+        }),
+      ],
+      [
+        row('overture:kept'),
+        row('overture:far', {
+          must_see: true,
+          essential: true,
+          item: liveItem('overture:far', {
+            editorial: { ...liveItem('overture:far').editorial, must_see: true, essential: true },
+          }),
+        }),
+      ],
+    );
+    expect(items[0]?.editorial).toMatchObject({ must_see: true, essential: true });
+    expect(items[1]?.editorial).toMatchObject({ must_see: false, essential: false });
+    // A kept record whose correction says nothing of the tier leaves it unstated.
+    const [plain] = correctionItems([place({ must_see: true })], [row('overture:kept')]);
+    expect(plain?.editorial).not.toHaveProperty('essential');
+  });
+
+  it('replaces only the revised lines of a note, and gives a merged record the kept note on request', () => {
+    const items = correctionItems(
+      [
+        place({
+          revise: { why_go: 'A holy spring temple at Tampaksiring.' },
+          merge: [{ ref: 'overture:far', stored_name: 'Tirta Empul', kept_note: true }],
+        }),
+      ],
+      [
+        row('overture:kept'),
+        row('overture:far', {
+          item: liveItem('overture:far', {
+            tags: ['history'],
+            editorial: { ...liveItem('overture:far').editorial, why_go: 'A 10th-century temple.' },
+          }),
+        }),
+      ],
+    );
+    expect(items[0]?.editorial).toEqual({
+      ...liveItem('overture:kept').editorial,
+      why_go: 'A holy spring temple at Tampaksiring.',
+    });
+    expect(items[1]).toMatchObject({
+      ref: 'overture:far',
+      merge_into: 'overture:kept',
+      tags: ['temples', 'culture'],
+      editorial: { why_go: 'A holy spring temple at Tampaksiring.' },
     });
   });
 

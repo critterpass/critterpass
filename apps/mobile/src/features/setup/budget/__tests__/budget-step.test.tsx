@@ -301,9 +301,9 @@ describe('the knob before the organiser touches it', () => {
       [TRIP_ID],
     );
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
-    // Nothing priced yet: a third along the sixty-step track.
+    // Nothing priced yet: two $50 steps a day over the trip's eight days.
     const track = await screen.findByTestId('budget-track');
-    expect(track.props.accessibilityValue).toEqual({ text: '$1,000' });
+    expect(track.props.accessibilityValue).toEqual({ text: '$800' });
     // The destination's cost index syncs: 2 nights at $40 + 3 days at $45 = $215 at the least,
     // so the track runs $200 to $500 and the start is a third along it, not pinned to its end.
     await stack.db.execute("UPDATE trips SET destination_id = 'dest-1' WHERE id = ?", [TRIP_ID]);

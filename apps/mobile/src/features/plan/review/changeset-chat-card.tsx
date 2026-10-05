@@ -1,24 +1,26 @@
 /**
- * The change set's card in crew chat (message type `changeset`): what it is, where the vote
- * stands (voting, approved, rejected, expired, stale), yes / not this for the people it touches,
- * and a way into the full review. Exported for the chat renderer and the guide chat.
+ * The change set's card in crew chat (message type `changeset`): what the change is in a sentence
+ * ("Minh wants to add Bà Nà Hills, Wed 07:00"), where the vote stands (voting, approved, rejected,
+ * expired, stale), yes / not this for the people it touches, and the full review, which the whole
+ * card opens. Exported for the chat renderer and the guide chat.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { memberFirstName } from '@/ui/people/member-name';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { planRoutes } from '../overview/routes';
 import { useChangeset, useChangesetActions } from './data/use-changeset';
 import type { ChangesetState } from './model/review-model';
-import { reviewTitle } from './review-copy';
+import { changeTitle } from './chat-card-title';
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -82,7 +84,9 @@ export function ChangesetChatCardView(props: ChangesetChatCardViewProps) {
   const yes = props.yes;
   const needed = props.needed;
   return (
-    <View style={styles.card} testID={props.testID}>
+    // The whole card opens the review. It is not one accessible element: the answers and the
+    // link inside it stay reachable on their own.
+    <Pressable style={styles.card} onPress={props.onOpen} accessible={false} testID={props.testID}>
       <View style={styles.top}>
         <Text variant="eyebrow">
           {upper(t({ id: 'plan.card.eyebrow', message: 'Plan change' }), locale)}
@@ -93,7 +97,9 @@ export function ChangesetChatCardView(props: ChangesetChatCardViewProps) {
           </Text>
         </View>
       </View>
-      <Text variant="title">{upper(props.title, locale)}</Text>
+      <Text variant="title" singleLine={false}>
+        {upper(props.title, locale)}
+      </Text>
       {props.state === 'voting' ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.card.tally', message: `${yes} of ${needed} yeses so far` })}
@@ -124,7 +130,7 @@ export function ChangesetChatCardView(props: ChangesetChatCardViewProps) {
         label={t({ id: 'plan.card.open', message: 'See the changes' })}
         onPress={props.onOpen}
       />
-    </View>
+    </Pressable>
   );
 }
 
@@ -143,10 +149,29 @@ export function ChangesetChatCard({
   const answered = tally !== null && (tally.yes.includes(uid) || tally.no.includes(uid));
   const canVote =
     view.state === 'voting' && tally !== null && tally.eligible.includes(uid) && !answered;
+  const locale = useLocale();
   if (view.status !== 'ready') return null;
+  const byGuide = view.row?.author_kind !== 'user';
+  const author = view.plan.members.find((m) => m.user_id === view.row?.author_id);
+  const dayLabel = (dayNo: number): string | null => {
+    const date = view.days.find((day) => day.dayNo === dayNo)?.date ?? null;
+    // Midday UTC keeps the calendar date in every zone.
+    return date === null
+      ? null
+      : new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a date literal, never copy.
+          new Date(`${date}T12:00:00Z`),
+        );
+  };
   return (
     <ChangesetChatCardView
-      title={reviewTitle(view.row?.trigger ?? null, view.cards.length)}
+      title={changeTitle({
+        cards: view.cards,
+        trigger: view.row?.trigger ?? null,
+        author: byGuide ? null : memberFirstName(author?.display_name ?? null),
+        mine: view.mine,
+        dayLabel,
+      })}
       state={view.state}
       yes={tally?.yes.length ?? 0}
       needed={tally?.needed ?? 0}

@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# Live walk, changing the plan, read in Vietnamese: the same walk as plan-edits-walk-en.yaml with
+# the running app switched to Vietnamese after the set-up. Shots are `plan-edits-vi-<nn>-<what>`.
+- runFlow:
+    file: plan-edits-subflows/locked-bali-plan.yaml
+    env:
+      SHOTS: plan-edits-vi-00-setup
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../_shared/planning-redesign-on.yaml
+- runFlow: plan-edits-subflows/in-vietnamese.yaml
+- runFlow:
+    file: plan-edits-subflows/edits.yaml
+    env:
+      SHOTS: plan-edits-vi

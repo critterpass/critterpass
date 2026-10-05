@@ -5,7 +5,7 @@
  * 30-day retention of `route_cache`.
  */
 import { onEventAppended, sendInTx, withSystem } from '@cp/db';
-import { legsJobFor } from '@cp/domain';
+import { legsJobFor, PLAN_LEGS_DEBOUNCE_SECONDS, PLANNING_QUEUES } from '@cp/domain';
 import {
   createPlanningTravel,
   createSqlRouteCache,
@@ -20,29 +20,36 @@ import type { JobRegistryDeps } from '../../../job-registry';
 import { registerRetentionRule } from '../../maint/retention-rules';
 import { planLegsJob } from './job';
 
-/** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
-export async function legsEventHook(
-  tx: pg.PoolClient,
-  event: { readonly type: string; readonly tripId: string | null },
-): Promise<void> {
-  const request = legsJobFor(event);
-  if (request === null) return;
+/**
+ * Queues the trip's debounced `plan.legs` run on its newest plan version: what a plan event asks
+ * for, and what a correction to the places its stops point at asks for too.
+ */
+export async function queueTripLegs(tx: pg.PoolClient, tripId: string): Promise<void> {
   const { rows } = await tx.query<{ version_id: string | null }>(
     `SELECT coalesce(t.current_version_id,
                      (SELECT v.id FROM itinerary_versions v
                        WHERE v.trip_id = t.id AND v.status IN ('draft', 'proposed')
                        ORDER BY v.created_at DESC LIMIT 1)) AS version_id
        FROM trips t WHERE t.id = $1`,
-    [event.tripId],
+    [tripId],
   );
   const versionId = rows[0]?.version_id;
   if (versionId == null) return;
   await sendInTx(
     tx,
-    request.queue,
-    { trip_id: event.tripId, version_id: versionId },
-    request.options,
+    PLANNING_QUEUES.legs,
+    { trip_id: tripId, version_id: versionId },
+    { singletonKey: `legs:${tripId}`, startAfter: PLAN_LEGS_DEBOUNCE_SECONDS },
   );
+}
+
+/** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
+export async function legsEventHook(
+  tx: pg.PoolClient,
+  event: { readonly type: string; readonly tripId: string | null },
+): Promise<void> {
+  if (legsJobFor(event) === null || event.tripId === null) return;
+  await queueTripLegs(tx, event.tripId);
 }
 
 export function workerPlanningTravel(
