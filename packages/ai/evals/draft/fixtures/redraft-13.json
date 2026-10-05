@@ -4,47 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "a4ff4caf-d368-4347-a389-f58601024921",
+        "id": "d8dcf4d4-680e-43b3-8354-5940faa01070",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"A Gentle Reykjavik Day\",\n  \"summary\": \"A slower day sticking close to the water and the hills, with just the Blue Lagoon and a wander through Perlan.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one unmissable soak, kept as the heart of the day and given all the time it deserves.\",\n      \"note\": \"The one unmissable soak, kept as the heart of the day and given all the time it deserves.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A calm indoor pause with a view, close by and easy on the legs after the lagoon.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Blue Lagoon Day\",\n  \"summary\": \"A single, unhurried soak at the Blue Lagoon, with the rest of the day left open to breathe.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one stop that matters today. We linger here properly, no rushing back to a bus.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 112,
+          "input_tokens": 26,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 197,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "redraft-repair": {
-      "status": 200,
-      "body": {
-        "id": "5ae4653a-a669-48db-ad8d-2a9bdfbb4bf9",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\n  \"title\": \"A gentler Reykjavik day\",\n  \"summary\": \"We slow right down, keep the Blue Lagoon, and swap the long hop for a calm morning by the harbour.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet harbour-side start, easy on tired legs and close to the water.\",\n      \"note\": \"A quiet harbour-side start, easy on tired legs and close to the water.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The one must-do stays, with a long unhurried soak instead of rushing between stops.\"\n    }\n  ]\n}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 133,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 181,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 109,
           "service_tier": "standard"
         }
       }

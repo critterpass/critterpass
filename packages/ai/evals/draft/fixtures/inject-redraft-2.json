@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "1e9e67a9-aea2-4f60-a573-977da757c4d9",
+        "id": "990a4b97-6f01-4719-867b-de270c20a515",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Cheaper, Slower Bali Day\",\n  \"summary\": \"We keep the rice terraces, then slow down around Ubud with free and lower-priced stops and a lighter vegan lunch.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the terraces; the sun won’t wait.\",\n      \"note\": \"The must-do stays, and it is already easy on the wallet.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A free palace stop keeps the day gentle and kind to the budget.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter vegan lunch in Ubud, terima kasih (thank you) to a place everyone can eat.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The ridge walk is free, open all day, and gives the crew room to breathe.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Ubud Rice, Temples and a Lighter Wallet\",\n  \"summary\": \"A gentler day around Ubud and nearby, keeping the rice terraces and holy spring while swapping the far waterfall and cliff temple for a market wander and a vegan meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Rise and shine for the rice terraces — they stay, and they are still the green heart of the day.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The holy spring keeps its place; the crew’s wellness soul would never forgive me if it left.\",\n      \"must_do_id\": \"m3\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The waterfall and cliff temple were lovely but far and priced; the market is close, lively and easy on the budget.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A vegan dinner that suits everyone, and the price is gentler than the fancy tasting menu.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 114,
+          "input_tokens": 89,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 287,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 325,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "07b71e4b-a59f-442b-ad90-4b7b48d887dc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Ubud Rice, Water and a Vegan Table\",\n  \"summary\": \"A lighter, cheaper day around the rice terraces and a waterfall, then a vegan meal in Ubud.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The terraces stay: they are the postcard moment, and the price is gentle on the wallet.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Tirta Empul stays too, a must for the temple lover and the wellness seeker in the crew.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A waterfall day keeps the nature fan smiling, and it costs less than the temple we dropped.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Alchemy keeps our vegetarian crew happy without the fancier price tag.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 113,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 277,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "46a519db-5851-4e10-b29b-fc0d98f95a44",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Day 2: Temples, rice terraces, a vegan table"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 307,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 14,
           "service_tier": "standard"
         }
       }

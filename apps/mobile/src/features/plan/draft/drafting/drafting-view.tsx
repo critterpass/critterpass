@@ -6,7 +6,7 @@
  * everything folds away and `onDone` opens the draft.
  */
 import { plural, t } from '@lingui/core/macro';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -39,7 +39,13 @@ export interface DraftingViewProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  body: { flex: 1, paddingHorizontal: th.space['20'], gap: th.space['12'] },
+  scroll: { flex: 1 },
+  body: {
+    flexGrow: 1,
+    paddingHorizontal: th.space['20'],
+    paddingBottom: th.space['12'],
+    gap: th.space['12'],
+  },
   head: { alignItems: 'center', gap: th.space['8'] },
   centred: { textAlign: 'center' },
   marquee: { marginHorizontal: -th.space['20'] },
@@ -193,7 +199,13 @@ export function DraftingView({
   return (
     <Scaffold variant="scene" edges={['top', 'bottom']} background={<GuideGlow guide={guide} />}>
       <Fold leaving={leaving} onLeft={onDone} testID={testID}>
-        <View style={styles.body}>
+        {/* Scrolls when the words run long (a three-line title in Vietnamese), so the last step
+            is never drawn under the buttons. */}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.body}
+          showsVerticalScrollIndicator={false}
+        >
           <GuideInRings guide={guide} active={working} />
           <View style={styles.head}>
             {phase.kind === 'offline' ? <OfflinePill /> : null}
@@ -221,7 +233,7 @@ export function DraftingView({
               <DayMarquee days={dayCards} />
             </View>
           ) : null}
-        </View>
+        </ScrollView>
         <View style={styles.footer}>
           <Footer phase={phase} onRetry={onRetry} onCancel={onCancel} onBack={onBack} />
         </View>

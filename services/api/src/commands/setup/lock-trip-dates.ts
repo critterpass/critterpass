@@ -254,6 +254,7 @@ export const setSetupStepCommand = defineCommand({
           roomCount: counts.rows[0]?.rooms ?? 0,
           stayCount: counts.rows[0]?.stays ?? 0,
           mustDoCount: counts.rows[0]?.must_dos ?? 0,
+          withoutMustDos: payload.without_must_dos === true,
         },
         payload.step,
       );

@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "7c943051-2304-4516-80ea-9ec522dc5c73",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"title\": \"Đêm Đà Lạt khác lạ\",\n  \"summary\": \"Một buổi chiều muộn thong thả ở Đà Lạt, bắt đầu bằng một góc khuất lạ, rồi dạo hồ, chợ đêm và kết bằng cocktail.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p48\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Bất ngờ nè: một khu vườn tươi xanh ngay giữa lòng phố, chậm rãi hít hà trước khi trời tối.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p131\",\n      \"note\": \"Hồ Xuân Hương vẫn ở đây, nhưng giờ này gió nhẹ và ánh chiều buông rất tình.\",\n      \"must_do_id\": \"p131\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ đêm Đà Lạt lên đèn, đi lòng vòng ngửi mùi bắp nướng và ngắm người ta bán hàng.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kết đêm bằng một ly cocktail ở Sartorista, chỗ ngồi khuất và nhạc vừa đủ để thả hồn.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 49,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 423,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

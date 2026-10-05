@@ -44,6 +44,8 @@ export const itineraryVersions = pgTable('itinerary_versions', {
   origin: text('origin'),
   /** When the plan check last ran on this organiser-only draft. */
   checkedAt: timestamp('checked_at', { withTimezone: true, mode: 'date' }),
+  /** The stops an edit pushed later and from when (`planPushesSchema`), while still undoable. */
+  pushes: jsonb('pushes'),
 });
 
 export const planDays = pgTable('plan_days', {

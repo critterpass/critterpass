@@ -27,7 +27,7 @@ export function dayTitle(date: string, locale: string): string {
 export type DetailCta =
   | { readonly kind: 'loading' }
   | { readonly kind: 'offline' }
-  /** No plan yet: nothing to tap but the guide. */
+  /** No plan she can see yet (a member before it is shared): nothing to tap but the guide. */
   | { readonly kind: 'noPlan' }
   /** No slot is suggested: the button opens Add to plan for her to choose the day. */
   | { readonly kind: 'noFit' }
@@ -61,7 +61,8 @@ export function detailCta(input: CtaInput): DetailCta {
       time: at === null ? null : toLocalWallTime(new Date(at), input.tz).time.slice(0, 5),
     };
   }
-  if (context.base_version === null) return { kind: 'noPlan' };
+  // The plan she sees: the crew's, or her own draft before there is one.
+  if (context.planVersion === null) return { kind: 'noPlan' };
   const best = context.fits?.best ?? null;
   if (best === null) return { kind: 'noFit' };
   const weekday = weekdayOf(best.date, input.locale);
@@ -91,7 +92,7 @@ export function ctaLabel(cta: DetailCta): string {
     case 'noFit':
       return t({ id: 'explore.detail.chooseDay', message: 'Choose a day' });
     case 'noPlan':
-      return t({ id: 'explore.detail.noPlan', message: 'No plan to add to yet' });
+      return t({ id: 'explore.detail.noPlan', message: 'The plan isn’t shared yet' });
     case 'offline':
       return t({ id: 'explore.detail.offline', message: 'Adding needs a connection' });
     case 'loading':

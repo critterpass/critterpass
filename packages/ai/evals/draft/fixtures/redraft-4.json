@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "30b2df65-ba53-41e7-bd34-43946d121138",
+        "id": "f140bf66-20a5-4953-a471-714c725cdfe5",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasting Walk Through Kyoto\",\n  \"summary\": \"A slower day for Rin's appetite, wandering from temple calm to market snacks and a proper evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the one must-do. Shoes off, phone down, eyes up.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin gets her market wander. Graze slowly, the stalls reward patience.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper lunch that respects the budget. Slurp loudly, it is a compliment.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle stroll to settle lunch before the evening appetite returns.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with options for everyone, and Rin can keep eating her way through the day.\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Kyoto, One Bite at a Time\",\n  \"summary\": \"A slower day built around Rin's appetite: temple quiet, market snacks, and a proper sit-down meal without chasing across the map.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The thousand statues earn a slow look before the eating begins.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rin's first course. Graze the stalls, share everything, and let the market do the talking.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper bowl, warm and cheap. Lunch stays simple so the day can keep snacking.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet walk to settle lunch. The old street is the palate cleanser between courses.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner with a little theatre. Rin gets her proper meal, and the rest of us get to watch.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 94,
+          "input_tokens": 125,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1664,
-          "output_tokens": 306,
+          "cache_read_input_tokens": 1792,
+          "output_tokens": 389,
           "service_tier": "standard"
         }
       }

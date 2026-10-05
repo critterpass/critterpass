@@ -7,7 +7,6 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids and route params, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
@@ -19,7 +18,7 @@ import { DayChips, TokekNote } from '@/ui/planning';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { planRoutes } from '../overview/routes';
+import { DraftNote } from './draft-note';
 import { dateLine, dayOfTrip, stopsLine } from './format';
 import { todayOf } from './next-stop';
 import { checkingLine, dayChips, peekCheckLine } from './sheet-copy';
@@ -130,22 +129,7 @@ export function PeekSheet(
           testID="trip-map-check"
         />
       )}
-      {model.draft ? (
-        <TokekNote
-          guide={model.guide.id}
-          sticker={<GuideSticker guide={model.guide.id} />}
-          name={model.guide.name}
-          line={t({
-            id: 'plan.tripMap.draftOnly',
-            message: 'This is your draft. Only you can see it until you send it.',
-          })}
-          action={{
-            label: t({ id: 'plan.tripMap.draftReview', message: 'Review' }),
-            onPress: () => router.push(planRoutes.draft(model.tripId)),
-          }}
-          testID="trip-map-draft"
-        />
-      ) : null}
+      <DraftNote model={model} />
       {review === undefined ? null : (
         <TokekNote
           guide={model.guide.id}

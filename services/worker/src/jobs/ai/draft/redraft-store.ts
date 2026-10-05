@@ -179,6 +179,8 @@ export async function candidateCoverage(
   baseVersionId: string,
   itinerary: Itinerary,
   pois: ReadonlyMap<string, DraftPoi>,
+  /** Essentials the redraft took out of the trip, by the name the organiser reads. */
+  redraftedOut: readonly { readonly poi_id: string; readonly name: string }[] = [],
 ): Promise<DraftCoverage | null> {
   const { rows } = await tx.query<{ coverage: unknown }>(
     'SELECT coverage FROM itinerary_versions WHERE id = $1',
@@ -225,9 +227,19 @@ export async function candidateCoverage(
       reason: 'dropped' as const,
     })),
   ];
+  // The base's essentials still missing, and those this redraft took out, saying so.
+  const held = new Set(itinerary.days.flatMap((day) => day.items.map((item) => item.poi_id)));
+  const leftOut = [
+    ...(base.essentials_left_out ?? []).filter(
+      (gap) => !held.has(gap.poi_id) && !redraftedOut.some((out) => out.poi_id === gap.poi_id),
+    ),
+    ...redraftedOut.map((out) => ({ ...out, reason: 'redrafted_out' as const })),
+  ];
+  const { essentials_left_out: _before, ...rest } = base;
   return {
-    ...base,
+    ...rest,
     places,
+    ...(leftOut.length === 0 ? {} : { essentials_left_out: leftOut }),
     must_dos: {
       total: base.must_dos.total,
       made: Math.max(0, base.must_dos.total - missing.length),

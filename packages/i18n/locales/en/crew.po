@@ -456,6 +456,14 @@ msgstr "Start a crew"
 msgid "crew.start.create"
 msgstr "Start the crew"
 
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.notReady"
+msgstr "Still getting your pass ready. Try again in a moment."
+
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
+msgid "crew.start.slow"
+msgstr "Still working on it. The connection is slow; this can take a little while."
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.take"
 msgstr "Take the seat"
@@ -464,7 +472,7 @@ msgstr "Take the seat"
 msgid "crew.settings.failed"
 msgstr "That didn’t go through. Try again with signal."
 
-#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+#: ../../apps/mobile/src/features/crew/start-crew/create-note.tsx
 msgid "crew.start.failed"
 msgstr "That didn’t go through. You may be in ten crews already."
 

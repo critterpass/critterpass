@@ -4,47 +4,23 @@
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "f21bdea8-9436-4e81-97e5-37f5a69531f8",
+        "id": "dcc9ca1e-6ead-4158-b16c-8fe4c2080d34",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"stay_area\": \"Centro Histórico, near Alameda Central\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Llegada y sabores locales\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p3\", \"p12\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Arte, historia y despedida\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p1\", \"p4\", \"p6\"]\n    }\n  ],\n  \"wishes\": []\n}"
+            "text": "```json\n{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Arrival and local flavours\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p12\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"History and grand art\",\n      \"area\": \"Area A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p4\"]\n    }\n  ],\n  \"wishes\": []\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 9,
+          "input_tokens": 115,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1792,
-          "output_tokens": 158,
-          "service_tier": "standard"
-        }
-      }
-    },
-    "day-2": {
-      "status": 200,
-      "body": {
-        "id": "e64fa6ae-f8a0-4ac5-9c00-3be844533620",
-        "type": "message",
-        "role": "assistant",
-        "model": "deepseek-v4-pro",
-        "content": [
-          {
-            "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Marble palace of murals and art deco swagger, a fitting farewell bow.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bright, casual plates with plenty of veggie love near the action.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Aztec ruins right in the old heart, history under your feet.\"}]}"
-          }
-        ],
-        "stop_reason": "end_turn",
-        "stop_sequence": null,
-        "usage": {
-          "input_tokens": 520,
-          "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
-          "output_tokens": 116,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 139,
           "service_tier": "standard"
         }
       }
@@ -52,23 +28,71 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "fc8b8ad8-1bef-46c4-a98d-9a5e9442da0f",
+        "id": "3723fcf7-91b0-4f23-b1d0-cb94d9847857",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A stroll through Roma Norte’s leafy streets, where art deco facades and tiny galleries hide in plain sight.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Al pastor carved straight off the trompo, tucked into warm tortillas with a splash of salsa.\"},{\"poi_id\":\"p17\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"A tasting menu that turns Mexican ingredients into quiet, precise little surprises.\"}]}"
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"A splurge that earns its reputation, with a tasting menu that turns Mexican ingredients into little works of art.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Classic al pastor carved straight from the trompo, a proper first bite of the city.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 530,
+          "input_tokens": 55,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 768,
+          "cache_read_input_tokens": 1280,
           "output_tokens": 128,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "a6a99492-e456-441c-886a-41fa60e9ba48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Murals by the greats and that glowing curtain of glass, all under one marble roof.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bright plates and fresh juices, a cheerful spot to refuel without fuss.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The old Aztec heart of the city, still whispering under the stones.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 483,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 170,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "3d2b6356-bd05-4911-88a9-6a21a9078f36",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning at the Anthropology Museum"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 200,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }
@@ -76,23 +100,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "f23bf38c-0d3f-4500-98b6-cb1c19239946",
+        "id": "fccf34d6-f537-4cfe-9795-9e5a9d5ca7eb",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Arrival flavours, then art and a fond farewell — every must-do tucked in, and I barely had to nag."
+            "text": "A gentle landing into local flavours, then a whole morning lost happily in the Anthropology Museum."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 224,
+          "input_tokens": 197,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 0,
-          "output_tokens": 24,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 18,
           "service_tier": "standard"
         }
       }

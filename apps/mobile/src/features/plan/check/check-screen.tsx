@@ -20,6 +20,7 @@ import { usePlanGuide } from '../plan-guide';
 import { AskCard } from './ask-card';
 import {
   appliedToast,
+  draftAppliedToast,
   backTripLabel,
   balanceRowLabel,
   checkBody,
@@ -29,6 +30,7 @@ import {
   clearNotice,
   failedNotice,
   failedToast,
+  guideWorkingToast,
   fixAllLabel,
   keptToast,
   movedLine,
@@ -37,6 +39,7 @@ import {
   nearerUseLabel,
   runningNotice,
   sentToast,
+  sharedToast,
   staleToast,
   swappedLine,
   unfitToast,
@@ -47,22 +50,29 @@ import { fixAll } from './data/fixer-api';
 import { useCheckContext } from './data/use-check-context';
 import { useFixPreviews } from './data/use-fix-previews';
 import { useMemberAsks } from './data/use-member-ask';
-import { fixKindLabel, fixSummary } from './fix-copy';
+import { fixKindLabel, fixSummary, openByHandLabel } from './fix-copy';
 import { useFixedDays } from './fixed-days';
 import { checkedAgo, dayTag, driveLine } from './format';
 import type { IssueCardProps } from './issue-card';
 import { issueWords, kindTag, knowLine } from './issue-copy';
 import { checkRoutes } from './routes';
-import { fixActionOf, useFix, type FixOutcome } from './use-fix';
+import { stopHref } from './stop-href';
+import { fixActionOf, useFix, type ByHand, type FixOutcome } from './use-fix';
 
 export function CheckScreen({ tripId }: { readonly tripId: string }) {
-  const plan = useTripPlan(tripId);
+  const plan = useTripPlan(tripId, { version: 'draft-or-current' });
   const guideName = usePlanGuide().name;
-  const check = usePlanCheck(tripId);
+  // Her own draft, before the crew has a plan: its issues are listed the same, and each card
+  // opens its stop for her to change by hand (the guide's fixes are sent for the crew's plan).
+  const onDraft = plan.mode === 'draft';
+  const check = usePlanCheck(tripId, onDraft ? plan.versionId : null);
+  const byHand: ByHand | undefined = onDraft
+    ? (issue) => stopHref(tripId, plan.dayRows, issue)
+    : undefined;
   const ctx = useCheckContext(plan);
   const [motionMode] = useMotionMode();
   const versionId = check.check?.version_id ?? null;
-  const runner = useFix(versionId);
+  const runner = useFix(versionId, onDraft);
   const answer = useCommand(answerMemberAskCommand);
   const asks = useMemberAsks(tripId);
   const [open, setOpen] = useState<string | null>(null);
@@ -81,26 +91,32 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
     (instant: string, dayId: string | null = null) => ctx.clock(instant, dayId),
     [ctx],
   );
-  const previews = useFixPreviews(tripId, versionId, fixes, ctx.name, clock);
+  const previews = useFixPreviews(tripId, versionId, onDraft ? [] : fixes, ctx.name, clock);
   const organiser = plan.organiser;
 
   const after = (outcome: FixOutcome, done: string) => {
     const words =
       outcome.kind === 'applied'
-        ? appliedToast(done)
+        ? onDraft
+          ? draftAppliedToast(done)
+          : appliedToast(done)
         : outcome.kind === 'sent'
           ? sentToast()
           : outcome.kind === 'stale'
             ? staleToast(guideName)
             : outcome.kind === 'unfit'
               ? unfitToast()
-              : failedToast();
+              : outcome.kind === 'guideWorking'
+                ? guideWorkingToast(guideName)
+                : outcome.kind === 'shared'
+                  ? sharedToast()
+                  : failedToast();
     toast.show({ id: `plan-check-${outcome.kind}`, ...words });
   };
 
   const onFix = async (issue: PlanCheckIssue) => {
-    const action = fixActionOf(issue, tripId);
-    if (action.kind === 'screen') {
+    const action = fixActionOf(issue, tripId, byHand);
+    if (action.kind === 'screen' || action.kind === 'by_hand') {
       router.push(action.href);
       return;
     }
@@ -121,7 +137,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
   const cards: IssueCardProps[] = fixes.map((issue) => {
     const words = issueWords(issue, ctx);
     const preview = previews.get(issue.id) ?? {};
-    const action = fixActionOf(issue, tripId);
+    const action = fixActionOf(issue, tripId, byHand);
     const date = ctx.dayDate(issue.day_id);
     const nearer = issue.kind === 'too_far' ? (preview.nearer ?? null) : null;
     return {
@@ -132,8 +148,13 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
       ],
       title: words.title,
       body: words.body,
-      summary: fixSummary(issue, ctx, preview),
-      fixLabel: action.kind === 'none' ? null : fixKindLabel(issue, organiser),
+      summary: onDraft ? null : fixSummary(issue, ctx, preview),
+      fixLabel:
+        action.kind === 'none'
+          ? null
+          : action.kind === 'by_hand'
+            ? openByHandLabel(issue.stable_ids.length > 0)
+            : fixKindLabel(issue, organiser),
       busy: runner.busy === issue.id,
       onFix: () => void onFix(issue),
       detail:
@@ -160,14 +181,18 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
                       }),
               onKeep: () => {
                 setOpen(null);
-                runner.keep(issue, organiser);
-                if (organiser) toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
+                // A keep is the crew plan's: on her own draft the card just leaves.
+                runner.keep(issue, organiser && !onDraft);
+                if (organiser && !onDraft)
+                  toast.show({ id: 'plan-check-kept', ...keptToast(guideName) });
               },
             },
     };
   });
 
-  const fixable = fixes.filter((issue) => fixActionOf(issue, tripId).kind !== 'none');
+  const fixable = onDraft
+    ? []
+    : fixes.filter((issue) => fixActionOf(issue, tripId, byHand).kind !== 'none');
   const status = check.check?.status ?? null;
   // Waiting for its next run: the server says so once the new plan syncs; until then a fix that
   // just landed on the version this check read, or a day a fixer screen changed, says it here.
@@ -220,7 +245,7 @@ export function CheckScreen({ tripId }: { readonly tripId: string }) {
         )
       }
       balance={
-        organiser
+        organiser && !onDraft
           ? {
               label: balanceRowLabel(),
               onPress: () => router.push(checkRoutes.balance(tripId)),

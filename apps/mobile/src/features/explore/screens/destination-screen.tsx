@@ -13,6 +13,7 @@ import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { heroAt, useDestinationMedia, useSubjectMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
+import { useReadsLocalNames } from '@/data/places/use-shown-names';
 import { dataOf } from '@/data/travel-data/freshness';
 
 import type { ActionsMode } from '../components/destination-actions';
@@ -88,9 +89,10 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   // The guide's read gives the picks; when it sent none or did not load, the recommended places
   // this phone holds draw the row, so a place with places never reads as unwritten.
   const localPicks = useLocalPicks(id, PICKS_SHOWN);
+  const readsLocal = useReadsLocalNames(id);
   const organic = useMemo(
-    () => picksOrLocal(pickEntries(data?.picks ?? []), localPicks),
-    [data?.picks, localPicks],
+    () => picksOrLocal(pickEntries(data?.picks ?? [], readsLocal), localPicks),
+    [data?.picks, localPicks, readsLocal],
   );
   const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
   const sponsoredEvents = useSponsoredEvents(paid?.placementId ?? null, 'picks');

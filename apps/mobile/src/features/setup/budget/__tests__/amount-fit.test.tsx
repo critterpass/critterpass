@@ -109,6 +109,16 @@ describe('the sweet-spot amount on a 375 pt phone', () => {
     expect(shown('$', '12,350').widest).toBeLessThanOrEqual(CARD_ROOM);
   });
 
+  it('still shows the amount when the track’s far end changes under it', async () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    const view = await render(card('USD', 1_235_000, 600_000, 5_000));
+    await settle(CARD_ROOM);
+    // Prices arrive and the track ends elsewhere: the glyphs on screen are not laid out again,
+    // and the amount must not wait for them.
+    await view.rerender(card('USD', 1_135_000, 600_000, 5_000));
+    expect(screen.getByTestId('budget-amount-box').props.style).toMatchObject({ opacity: 1 });
+  });
+
   it.each<[string, string, string, number, string, number]>([
     ['en', 'VND', '₫', 90_000_000, '90,000,000', 1_300_000],
     ['id', 'IDR', 'Rp', 1_500_000_000, '15.000.000', 79_000_000],

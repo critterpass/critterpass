@@ -10,15 +10,25 @@ import type { CrewPerson, RsvpStatus } from '../data/trip';
 
 export type TurnRole = 'organiser' | 'member';
 
+export type SetupStep = 'when' | 'budget' | 'rooms' | 'must_dos';
+const SETUP_ORDER: readonly SetupStep[] = ['when', 'budget', 'rooms', 'must_dos'];
+
+/** The set-up steps from the one the trip stopped at; all of them when it has not started. */
+export function setupLeft(step: string | null | undefined): SetupStep[] {
+  const at = SETUP_ORDER.indexOf(step as SetupStep);
+  return step === 'done' ? [] : SETUP_ORDER.slice(Math.max(0, at));
+}
+
 /** Where the step's one button leads. */
 export type TurnTarget =
-  'setup' | 'drafting' | 'draft' | 'builder' | 'proposal' | 'tracker' | 'review';
+  'setup' | 'drafting' | 'draft' | 'builder' | 'proposal' | 'tracker' | 'review' | 'ideas';
 
 export type Answer = 'in' | 'maybe' | 'out' | 'waitlisted';
 
 export type Turn =
   | { readonly kind: 'vote' }
-  | { readonly kind: 'setup' }
+  /** `left`: the set-up steps still to do, in order (`when`, `budget`, `rooms`, `must_dos`). */
+  | { readonly kind: 'setup'; readonly left: readonly SetupStep[] }
   /** The guide is writing (or rewriting) the organiser's draft. */
   | { readonly kind: 'guide_drafting' }
   /** The organiser's private draft is ready and there is nobody to send it to yet. */
@@ -33,6 +43,10 @@ export type Turn =
       readonly kind: 'waiting_for_answers';
       readonly answered: number;
       readonly total: number;
+      /** Recipients who said they are in. */
+      readonly going: number;
+      /** First names of those who said maybe. */
+      readonly maybeNames: readonly string[];
       readonly replyBy: string | null;
     }
   /** Everyone has answered (or everyone is out): the organiser can lock. */
@@ -40,6 +54,8 @@ export type Turn =
   | { readonly kind: 'locked' }
   /** After the lock: a crewmate's change to the plan waits for the viewer's yes. */
   | { readonly kind: 'plan_vote'; readonly by: string }
+  /** After the lock: places the crew saved to Ideas wait for the organiser to put them in a day. */
+  | { readonly kind: 'ideas_waiting'; readonly count: number }
   | { readonly kind: 'none' };
 
 export interface TripTurn {
@@ -58,9 +74,13 @@ export interface TurnInput {
   readonly proposal: { readonly status: string; readonly replyBy: string | null } | null;
   readonly myRsvp: RsvpStatus | null;
   /** Everyone the proposal went to (the crew other than the viewer). */
-  readonly recipients: readonly Pick<CrewPerson, 'rsvp'>[];
+  readonly recipients: readonly (Pick<CrewPerson, 'rsvp'> & { readonly name?: string })[];
   /** A plan change open for a vote the viewer has not cast, by its author's first name. */
   readonly planVote?: { readonly by: string } | null;
+  /** Places crewmates saved to Ideas since the lock that are not in the plan yet. */
+  readonly ideasWaiting?: number;
+  /** Where the trip's set-up stopped (`trips.setup_step`). */
+  readonly setupStep?: string | null;
 }
 
 const LOCKED = new Set(['confirmed', 'pre_trip', 'in_trip', 'post_trip', 'archived']);
@@ -97,7 +117,14 @@ function proposed(input: TurnInput): TripTurn {
   if (total > 0 && answered === total && (going > 0 || everyoneOut)) {
     return step({ kind: 'lock', going: going + 1, crew: total + 1 }, true, 'tracker');
   }
-  return step({ kind: 'waiting_for_answers', answered, total, replyBy }, false, 'tracker');
+  const maybeNames = input.recipients
+    .filter((p) => p.rsvp === 'maybe' && p.name !== undefined && p.name !== '')
+    .map((p) => p.name ?? '');
+  return step(
+    { kind: 'waiting_for_answers', answered, total, going, maybeNames, replyBy },
+    false,
+    'tracker',
+  );
 }
 
 export function tripTurn(input: TurnInput): TripTurn {
@@ -107,7 +134,7 @@ export function tripTurn(input: TurnInput): TripTurn {
       return step({ kind: 'vote' }, true, null);
     case 'won':
     case 'setup':
-      return step({ kind: 'setup' }, true, 'setup');
+      return step({ kind: 'setup', left: setupLeft(input.setupStep) }, true, 'setup');
     case 'drafting':
       return organiser
         ? step({ kind: 'guide_drafting' }, false, 'drafting')
@@ -128,8 +155,11 @@ export function tripTurn(input: TurnInput): TripTurn {
       return proposed(input);
     default:
       if (!isLockedIn(input.status)) return step({ kind: 'none' }, false, null);
-      return input.planVote == null
-        ? step({ kind: 'locked' }, false, null)
-        : step({ kind: 'plan_vote', by: input.planVote.by }, true, 'review');
+      if (input.planVote != null) {
+        return step({ kind: 'plan_vote', by: input.planVote.by }, true, 'review');
+      }
+      return organiser && (input.ideasWaiting ?? 0) > 0
+        ? step({ kind: 'ideas_waiting', count: input.ideasWaiting ?? 0 }, true, 'ideas')
+        : step({ kind: 'locked' }, false, null);
   }
 }

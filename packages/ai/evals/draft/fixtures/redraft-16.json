@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "2bbf5b9f-e7ed-4958-ac2a-8c5cf44f84c0",
+        "id": "4519aeb1-dc83-4ef0-9061-553e813f0f13",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Tasty Cusco Afternoon\",\n  \"summary\": \"An afternoon of Cusco flavours and sights, from a chocolate museum to a proper dinner with a market-style lunch stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Tom's sweet tooth gets its due at the chocolate museum, a must-do that keeps the day delicious.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A stroll through San Blas for local snacks and market vibes, the perfect foodie warm-up.\",\n      \"start\": \"15:15\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cicciolina serves as our lunch stop, with vegetarian options for the crew and room to linger.\",\n      \"start\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter dinner at Green Point keeps the food theme going without weighing us down before the evening.\",\n      \"start\": \"20:00\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Market Bites and Cusco Sweets\",\n  \"summary\": \"A gentle afternoon of chocolate, a proper market-style lunch and a quiet evening bite, all in the heart of Cusco.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\",\n      \"note\": \"The chocolate stop stays, of course — sweet teeth are part of the crew.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom asked for a market lunch, so Green Point gives us that fresh, casual bite without fuss.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"San Blas keeps the market mood going with its little stalls and local nibbles.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper Andean dinner to close the day, because more food means a real meal, not just snacks.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 92,
+          "input_tokens": 1,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1408,
-          "output_tokens": 314,
+          "cache_read_input_tokens": 1664,
+          "output_tokens": 298,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "81817228-8781-4c36-abe6-a99e2cdc609f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "1: An afternoon of chocolate and San Blas"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 232,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 10,
           "service_tier": "standard"
         }
       }

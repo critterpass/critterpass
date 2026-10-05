@@ -18,6 +18,7 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { seatBoost } from '../crowd/boost-slot';
 import { CrowdSheet } from '../crowd/crowd-sheet';
 import { lockProposalCommand } from '../data/commands';
+import { fixesLine, useFixesToMake } from '../data/known-issues';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
@@ -70,6 +71,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   // The server's answer to LOCK shows at once; the synced proposal row follows.
   const [lockedNow, setLockedNow] = useState(false);
   const member = trip != null && !trip.isOrganiser;
+  const lockIssues = fixesLine(useFixesToMake(proposal?.tripId ?? null), true);
 
   useEffect(() => {
     if (member) router.replace(proposalRoutes.open(proposalId));
@@ -159,7 +161,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       {asking && (state.kind === 'ready' || state.kind === 'alone') ? (
         <ProposalConfirm
           title={lockTitle(state.kind === 'alone')}
-          consequences={lockConsequences(state)}
+          consequences={[...lockConsequences(state), ...(lockIssues === null ? [] : [lockIssues])]}
           fit
           confirmLabel={lockConfirmLabel()}
           mode="button"

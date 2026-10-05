@@ -1,0 +1,197 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "d5b45934-c1a2-4272-b310-120e936a5177",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area C, gần sông Hàn và biển Mỹ Khê\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều xuống phố, tối ra sông\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p108\", \"p258\", \"p251\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Một ngày Hội An và Ngũ Hành Sơn\",\n      \"area\": \"Area D và Area B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p211\", \"p208\", \"p16\", \"p193\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sơn Trà xanh, biển chiều êm\",\n      \"area\": \"Area A và Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p310\", \"p147\", \"p283\", \"p179\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Bà Nà Hills trọn một ngày\",\n      \"area\": \"Area F\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p153\", \"p4\"]\n    },\n    {\n      \"day_no\": 5,\n      \"theme\": \"Sáng chợ, trưa tạm biệt\",\n      \"area\": \"Area C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p101\", \"p131\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p13\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2634,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2688,
+          "output_tokens": 416,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-5": {
+      "status": 200,
+      "body": {
+        "id": "602cbc08-c77f-4940-b4e9-62f6039ada2f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p101\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ Hàn buổi sáng rộn ràng, ngó nghiêng quà cáp rồi mặc cả một chút cho vui.\"\n    },\n    {\n      \"poi_id\": \"p180\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bún chả cá nóng hổi, nước dùng ngọt thơm, ăn xong là vừa bụng để lên đường.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 570,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 160,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "a8c0e61f-59bf-4587-a6e3-11d95a823943",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cây cầu vàng nằm giữa mây, đứng đó mà ngắm núi rừng Bà Nà, nhớ chụp vài kiểu ảnh cho cả đoàn.\"\n    },\n    {\n      \"poi_id\": \"p154\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Làng Pháp nhỏ xinh, đi dạo giữa những bức tường rêu phong, thấy mình như lạc sang trời Âu giữa lòng Bà Nà.\"\n    },\n    {\n      \"poi_id\": \"p161\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh bèo mềm, nước mắm đậm đà, ăn một lần là nhớ hoài cái vị quê Đà Nẵng.\"\n    },\n    {\n      \"poi_id\": \"p149\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi trên nhà hàng nổi, gió sông thổi mát rượi, gắp miếng cá tươi ngon mà ngắm hoàng hôn buông.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 507,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 341,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "ebe8b257-fccf-42fd-b295-b4a73097bbf3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p108\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chợ Cồn buổi chiều vẫn rộn ràng, cứ thả bộ qua các quầy bánh tráng, chè và đồ khô mà ngắm nhịp chợ.\"\n    },\n    {\n      \"poi_id\": \"p113\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Nhà hàng Madame Lân nấu món miền Trung chỉn chu, gọi vài món nhỏ chia nhau cho ấm bụng trước khi ra sông.\"\n    },\n    {\n      \"poi_id\": \"p251\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Han River Bridge lên đèn soi bóng xuống nước, đứng trên bờ hóng gió sông thấy thành phố hiền hẳn ra.\"\n    },\n    {\n      \"poi_id\": \"p258\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dragon Bridge về đêm phun lửa phun nước, đám đông reo hò mà mình cứ đứng từ xa ngắm cho trọn màn.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 581,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 331,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "2466260c-2e3d-4639-85cc-842b240322ae",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Tô mì Quảng đậm đà, ngồi sát bếp nhìn khói bay lên là đúng bài.\"\n    },\n    {\n      \"poi_id\": \"p208\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Chùa Cầu cong cong như lông mày, đứng giữa cầu nghe nước chảy dưới chân.\"\n    },\n    {\n      \"poi_id\": \"p211\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Phố cổ vàng ươm, cứ thong thả mà đi, góc nào cũng chụp được ảnh đẹp.\"\n    },\n    {\n      \"poi_id\": \"p225\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cơm gà xé tay, rau răm thơm nức, ăn xong còn muốn gọi thêm đĩa nữa.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Biển An Bàng hiền khô, cát mịn, sóng vỗ nhẹ như đang ru mình vậy.\"\n    },\n    {\n      \"poi_id\": \"p50\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Taco nóng hổi, cay cay, ăn kèm chút gió biển là hết sảy.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 789,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 426,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "32a3c9f0-bfa6-407d-95cd-1b59cf9aa676",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p310\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lên đây nhìn tượng Phật Bà cao giữa trời, gió Sơn Trà thổi mát rượi cả lông.\"\n    },\n    {\n      \"poi_id\": \"p147\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Đi một vòng bán đảo, gặp cả họ hàng nhà tôi đang ngồi vắt vẻo trên cành.\"\n    },\n    {\n      \"poi_id\": \"p123\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Bánh xèo giòn rụm, cuốn rau sống chấm nước mắm, ngon quá.\"\n    },\n    {\n      \"poi_id\": \"p131\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Vào xem tượng Chăm cổ, từng đường nét đá kể chuyện nghìn năm.\"\n    },\n    {\n      \"poi_id\": \"p96\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Ốc hút vèo vèo, cay cay mặn mặn, ngồi lai rai tới khuya cũng được.\"\n    },\n    {\n      \"poi_id\": \"p296\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Chỗ này tối lên đèn đẹp, ngồi nhâm nhi ngắm phố biển về đêm.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 839,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 426,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "1ef9f8cf-4c8d-4ed1-9d3f-5fbd9c613d4a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Phố cổ, biển và những món ngon\n5: Sáng núi đá, trưa chợ Hàn"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 272,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 33,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "10958a11-a7fe-4d7c-bb33-2f88bad755b2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Đà Nẵng trọn vị: phố lên đèn, Hội An sớm mai, Sơn Trà xanh, một ngày trọn Bà Nà Hills, Ngũ Hành Sơn lúc bình minh."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 177,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 57,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

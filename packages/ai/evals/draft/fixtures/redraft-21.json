@@ -4,23 +4,47 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "812656fd-3e88-4c66-aaaf-24985cb7231d",
+        "id": "741e5fb1-c24f-484f-89d9-f01e4653bae4",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A gentle start with a museum and a snack, then the beach and a quiet temple before a proper local dinner by the water.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"We keep the museum, but with a late start we arrive after the morning rush and still get the good light in the old halls.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"KEEP\",\n      \"note\": \"A little bánh đập break after the museum, because a slow morning deserves a crunchy snack and no hurry.\"\n    },\n    {\n      \"poi_id\": \"p82\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The beach at Phạm Văn Đồng fits the late start perfectly: soft sand, sea air, and nobody asking us to be anywhere early.\"\n    },\n    {\n      \"poi_id\": \"p34\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short temple stop to catch the late-afternoon calm, right by the water and easy on the legs.\"\n    },\n    {\n      \"poi_id\": \"p42\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner is mì Quảng, the bowl that makes a slow day feel complete. Cảm ơn (thank you) to the cook, and ngon quá (so tasty) after the first bite.\"\n    }\n  ]\n}\n```"
+            "text": "```json\n{\n  \"title\": \"Slow Morning, Sea Breeze Afternoon\",\n  \"summary\": \"A lazy start, a beach stroll, and a long, easy lunch by the water, with the evening left open for whatever feels right.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\",\n      \"note\": \"With a late start, the beach is the perfect first stop. Soft sand, easy pace, and the sea air does the waking up for you.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch in the same area, no rush. Cơm gà is filling, local, and exactly what a slow beach day calls for.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, shady wander after lunch. Kazik Park is small, green, and keeps the afternoon unhurried.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and light. Bánh bèo is a snack-sized meal, perfect for a day that never got in a hurry.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 82,
+          "input_tokens": 112,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 2432,
-          "output_tokens": 389,
+          "cache_read_input_tokens": 2560,
+          "output_tokens": 350,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "dd3a33ba-a68e-459b-9a0e-babf3df17815",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: Slow morning, sea breeze afternoon"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 240,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 8,
           "service_tier": "standard"
         }
       }

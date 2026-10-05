@@ -1,0 +1,648 @@
+{
+  "batch": "2026-10-05-places-08",
+  "checked_at": "2026-10-05T18:30:00+07:00",
+  "places": [
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c14c83ca5eb76b0d839c2b7",
+      "stored_name": "An Bàng Beach",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bãi cát thư thả, sóng êm, có những quán hải sản bình dân của người địa phương.",
+          "best_time": "Sáng sớm hoặc chiều muộn, tránh nắng trưa.",
+          "crowd_hint": "Có thể đông vào cuối tuần."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b3b9719e-6f66-42b8-977c-efa6dca57933",
+      "stored_name": "Bà Nà Hills",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu nghỉ dưỡng trên núi với không khí mát lạnh, những khu vườn và Cầu Vàng nổi tiếng.",
+          "best_time": "Trọn một ngày: lên bằng những chuyến cáp treo đầu tiên, trước khi xếp hàng",
+          "crowd_hint": "Rất đông vào cuối tuần và ngày lễ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:be1924fb-ea5c-4090-bd7f-64ab6d4ae930",
+      "stored_name": "Dragon Bridge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Cây cầu hình rồng biểu tượng của thành phố, phun lửa và phun nước vào tối cuối tuần.",
+          "best_time": "Tối cuối tuần, xem rồng phun lửa lúc 9 giờ",
+          "crowd_hint": "Rất đông người vào tối có biểu diễn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5b63eff0a795bd002c263d12",
+      "stored_name": "Golden Bridge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đi bộ trên cây cầu biểu tượng được nâng bởi đôi bàn tay đá khổng lồ.",
+          "best_time": "Sáng sớm, trước khi xe du lịch tới",
+          "crowd_hint": "Rất đông vào buổi trưa"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f3489554-d23a-4359-8aba-b3ef0f000b98",
+      "stored_name": "Hải Vân Pass",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Lái ô tô hoặc chạy xe máy qua con đèo nhiều cảnh đẹp, ngắm toàn cảnh bờ biển.",
+          "best_time": "Đi nửa ngày từ Đà Nẵng, hoặc trên đường ra Huế",
+          "crowd_hint": "Có thể lộng gió, buổi trưa đông xe du lịch."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4ca6b653b7106dcb733161a5",
+      "stored_name": "Han Market",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu chợ trung tâm, nơi nhiều người mua quà lưu niệm, đồ khô và đặc sản ăn vặt.",
+          "best_time": "Cuối buổi sáng, khi các đoàn khách tàu biển đã rời đi",
+          "crowd_hint": "Thường có đoàn khách du lịch"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b22df935-e10a-43c7-aade-6e1de5322f3c",
+      "stored_name": "Hội An Ancient Town",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Dạo những con phố lồng đèn của phố cổ được UNESCO công nhận, với nhà cổ, cửa hàng và vẻ đẹp ven sông.",
+          "best_time": "Nửa ngày: từ chiều muộn đến tối, để ngắm đèn lồng",
+          "crowd_hint": "Rất đông vào buổi tối và cuối tuần",
+          "etiquette": "Tôn trọng nhà dân và phong tục nơi đền miếu."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:84ac47c6-9a6f-4fa5-a337-30b7c36924d5",
+      "stored_name": "Japanese Covered Bridge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Đi qua Chùa Cầu của Hội An, do thương nhân Nhật trong phố dựng lần đầu khoảng bốn thế kỷ trước, về sau được xây lại theo lối Việt và Hoa.",
+          "best_time": "Sáng sớm trước khi đông, hoặc lúc chạng vạng khi đèn lồng sáng.",
+          "crowd_hint": "Buổi trưa đông; nên đi ngày thường.",
+          "etiquette": "Ăn mặc kín đáo; cởi giày nếu vào ngôi miếu nhỏ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:04bbd4f3-7737-45d6-9d11-6b1e70c6a6ac",
+      "stored_name": "Linh Ứng Pagoda (Lady Buddha)",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quần thể chùa lớn với tượng Quan Âm cao vút nhìn ra biển.",
+          "best_time": "Sáng sớm hoặc chiều muộn, ánh sáng đẹp và ít khách",
+          "crowd_hint": "Có thể đông vào cuối tuần",
+          "etiquette": "Che vai và đầu gối; cởi giày khi vào điện thờ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b6aaa228-5e0a-4642-b3a7-0a082afcac57",
+      "stored_name": "Marble Mountains",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá hang động, đền chùa và điểm ngắm cảnh trên ngọn núi nổi tiếng nhất của Ngũ Hành Sơn.",
+          "best_time": "Sáng sớm, tránh nắng nóng",
+          "crowd_hint": "Nhiều đoàn khách du lịch"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e0d32b5d4c0f6d6b3ee5e9f",
+      "stored_name": "Museum of Cham Sculpture",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm bộ sưu tập điêu khắc đá Chăm lớn nhất thế giới, nhiều hiện vật từ Mỹ Sơn gần đó, trong tòa nhà thời Pháp.",
+          "best_time": "Giờ mở cửa, tránh các đoàn khách",
+          "crowd_hint": "Có thể đông đoàn khách"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6eb596b4-7e24-458a-8b4f-c9514d9a7889",
+      "stored_name": "My Khe Beach",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thư giãn trên bãi cát dài, sóng êm, cách thành phố một đoạn ngắn.",
+          "best_time": "Sáng sớm khi biển lặng và vắng người, hoặc chiều muộn ngắm hoàng hôn.",
+          "crowd_hint": "Đông vào cuối tuần và ngày lễ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q391406",
+      "stored_name": "Mỹ Sơn",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Quần thể đền tháp Chăm cổ giữa rừng.",
+          "best_time": "Nửa ngày từ Hội An kể cả đường đi: đến lúc mở cửa, trước khi trời nóng",
+          "crowd_hint": "Đông nhất từ 9 đến 11 giờ sáng.",
+          "etiquette": "Ăn mặc lịch sự, che vai và đầu gối; không trèo lên công trình."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5e6d91fd5bc03b0008a4b012",
+      "stored_name": "Sơn Trà Peninsula",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bờ biển hùng vĩ và những lối mòn xuyên rừng trên bán đảo.",
+          "best_time": "Gần trọn buổi sáng hoặc buổi chiều để đi vòng bán đảo",
+          "crowd_hint": "Thuê xe máy để chủ động"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50053596e4b06cd60bccdccf",
+      "stored_name": "Bàn Cờ Peak",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Điểm ngắm cảnh trên đỉnh bán đảo Sơn Trà, có chòi bàn cờ và toàn cảnh thành phố, biển.",
+          "best_time": "Bình minh hoặc chiều muộn, khi trời mát và trong.",
+          "crowd_hint": "Ngày thường vắng; lúc hoàng hôn nhiều xe máy hơn."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e4f9790b61cf637a4f6d002",
+      "stored_name": "Bánh Mì Phượng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức ổ bánh mì nhân đầy đặn đã làm nên tên tuổi của quán với người mê bánh mì.",
+          "best_time": "Giữa buổi sáng, sau giờ ăn sáng đông khách",
+          "crowd_hint": "Giờ cao điểm có thể xếp hàng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f3ccda1e4b030292acdda5d",
+      "stored_name": "Bánh Xèo Bà Dưỡng",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Tìm đến quán quen nép trong hẻm, bánh xèo vàng nghệ giòn rụm nhân tôm, thịt và giá.",
+          "best_time": "Cuối buổi sáng hoặc đầu giờ chiều, trước giờ đóng cửa",
+          "crowd_hint": "Thường phải chờ bàn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:aefd0a435c7e451af092e124",
+      "stored_name": "Cantonese Assembly Hall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá hội quán của người Quảng Đông đã được trùng tu, với những họa tiết rồng công phu.",
+          "best_time": "Chiều muộn, khi nắng dịu",
+          "crowd_hint": "Có thể đông vào buổi trưa",
+          "etiquette": "Cởi giày nếu vào khu vực bàn thờ"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:57130644498ec101096d9691",
+      "stored_name": "Carp-Dragon Statue",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm tượng cá chép hóa rồng, biểu tượng của nỗ lực và sự đổi thay.",
+          "best_time": "Hoàng hôn, khi ánh sáng đẹp",
+          "crowd_hint": "Yên tĩnh, ngoài những người dừng chân chụp ảnh"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "editorial:wikidata-Q386184",
+      "stored_name": "Chàm Islands",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bãi biển hoang sơ, rạn san hô và nước trong, hợp để lặn ngắm san hô.",
+          "best_time": "Trọn một ngày từ Hội An: tàu đi khoảng 8 giờ và về giữa buổi chiều",
+          "crowd_hint": "Đông vào cuối tuần và ngày lễ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4d06dae830a58cfa6473ade7",
+      "stored_name": "Con Market",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu chợ có mái che tấp nập, nhiều món ăn đường phố, nông sản và hàng địa phương.",
+          "best_time": "Buổi sáng, khi hàng hóa còn tươi",
+          "crowd_hint": "Đông đúc, nên giữ đồ cẩn thận"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c26198a136d20a14ba5e461",
+      "stored_name": "Da Nang Cathedral",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm ngôi nhà thờ Gothic màu hồng và con gà trống chỉ hướng gió.",
+          "best_time": "Buổi sáng ngày thường, ít khách hơn",
+          "crowd_hint": "Phía trước là điểm chụp ảnh được ưa chuộng",
+          "etiquette": "Ăn mặc kín đáo và giữ yên lặng bên trong"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67d2563adbb7a47b289665e7",
+      "stored_name": "Danang Museum",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bảo tàng thành phố nhỏ gọn về lịch sử địa phương và hiện vật thời chiến, hợp để tìm hiểu nhanh.",
+          "best_time": "Giữa buổi sáng các ngày trong tuần.",
+          "crowd_hint": "Thường vắng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e1ced9dfa7653a9b2deeef6",
+      "stored_name": "East Sea Park",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Công viên ven biển có lối đi bộ, gió biển mát và cảnh bình minh.",
+          "best_time": "Sáng sớm hoặc chiều muộn, khi thời tiết dễ chịu",
+          "crowd_hint": "Đông lúc bình minh và hoàng hôn"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:a51e626d-f85c-4814-aab8-4b95b6a9ae14",
+      "stored_name": "French Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khu làng Pháp ở Bà Nà với đường lát đá và kiến trúc như lâu đài, giữa không khí núi mát lạnh.",
+          "best_time": "Sáng sớm, tránh đông",
+          "crowd_hint": "Đông sau mỗi đợt cáp treo lên"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:689188bdc1f97118187e6975",
+      "stored_name": "Fujian Assembly Hall",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm tay nghề truyền thống của người Phúc Kiến và những khoảng sân yên bình.",
+          "best_time": "Chiều muộn, nắng dịu và ít khách hơn",
+          "crowd_hint": "Khách qua lại vừa phải",
+          "etiquette": "Che vai và đầu gối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:92c680ad-8a6a-4818-b70c-b44a8c1b9cb5",
+      "stored_name": "Han River Bridge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Xem cầu quay mở cho tàu thuyền qua, cảnh tượng diễn ra hằng đêm.",
+          "best_time": "Khuya, khoảng 11 giờ đêm khi cầu quay",
+          "crowd_hint": "Nhiều người tụ tập hai bên bờ sông."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8fa93014-60f3-42a6-89a3-9183c2683b7d",
+      "stored_name": "Hội An Market",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Chợ ven sông trong phố cổ Hội An, có nông sản và các hàng ăn.",
+          "best_time": "Sáng sớm, lúc chợ nhộn nhịp người địa phương",
+          "crowd_hint": "Đông người mua và khách du lịch"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:796b8445-d0f9-47d3-b63b-d34133aa2149",
+      "stored_name": "Hội An Memories Land",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Công viên văn hóa ngoài trời tái hiện di sản Hội An, có các tiết mục biểu diễn và show diễn buổi tối nhiều cảm xúc.",
+          "best_time": "Buổi tối: đến trước 19 giờ cho buổi diễn lúc 20 giờ",
+          "crowd_hint": "Đông khách xem biểu diễn buổi tối"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fb85b7ae4b04b94bea76464",
+      "stored_name": "Huyền Không Cave",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Hang động yên tĩnh, thường dùng để thiền, ánh sáng tự nhiên dịu nhẹ bên trong.",
+          "best_time": "Giữa buổi sáng, khi nắng chiếu vào hang",
+          "crowd_hint": "Vô cùng tĩnh lặng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f842b4ce4b05b009467b674",
+      "stored_name": "Mì Quảng Bà Mua",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Nếm mì Quảng nghệ đặc trưng của Đà Nẵng trong quán bình dân của người địa phương.",
+          "best_time": "Giờ trưa, khi nước dùng vừa nấu.",
+          "crowd_hint": "Đông vào giữa trưa; nên đến trước 11 giờ 30."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e47650ae4cd9d94fb300732",
+      "stored_name": "Museum of Trade Ceramics",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Khám phá mảnh gốm và đồ gốm kể lại vai trò của Hội An trên con đường tơ lụa và hương liệu trên biển.",
+          "best_time": "Buổi sáng hoặc chiều muộn",
+          "crowd_hint": "Có thể đông các nhóm đi bộ tham quan"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:525c90e262824a47b0f2fd2e",
+      "stored_name": "Nhà hàng Madame Lân",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thưởng thức nhiều món Việt nấu khéo trong không gian thoáng đãng, thư thái.",
+          "best_time": "Bữa trưa hoặc tối sớm, đỡ phải chờ.",
+          "crowd_hint": "Được cả người địa phương lẫn khách du lịch ưa chuộng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:41d52a3c-c865-41d7-804f-4c254e80ec48",
+      "stored_name": "Non Nước Beach",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bãi biển đẹp, nước trong, phía sau là Ngũ Hành Sơn.",
+          "best_time": "Buổi sáng, ánh sáng trên núi đẹp nhất.",
+          "crowd_hint": "Có thể đông gần các khu nghỉ dưỡng."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6d7c6a18-15ba-41b1-bd98-f8e3ab8bd291",
+      "stored_name": "Non Nước Stone Carving Village",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Làng đá mỹ nghệ và bảo tàng giới thiệu nghề truyền thống của Non Nước, gần Ngũ Hành Sơn.",
+          "best_time": "Buổi sáng, trước khi trời nóng",
+          "crowd_hint": "Vắng vào ngày thường"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e2d110dc65bcaf4003f9eff",
+      "stored_name": "Phùng Hưng Old House",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Bước vào ngôi nhà phố truyền thống còn nguyên vẹn, kiến trúc gỗ tinh xảo.",
+          "best_time": "Buổi sáng hoặc chiều muộn, tránh nắng trưa.",
+          "crowd_hint": "Không gian nhỏ; có đoàn khách là thấy chật.",
+          "etiquette": "Ăn mặc lịch sự, cởi giày nếu được yêu cầu."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e635a50d4c06542ab56b7de",
+      "stored_name": "Quan Công Temple",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm ngôi miếu Hoa sắc đỏ và vàng thờ Quan Công, do cộng đồng Minh Hương trong phố lập nên, có pho tượng lớn ở hậu điện.",
+          "best_time": "Sáng sớm hoặc chiều muộn; buổi trưa rất nóng.",
+          "crowd_hint": "Đông đoàn khách; nên đi sớm.",
+          "etiquette": "Ăn mặc kín đáo; không dùng đèn flash bên trong."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:65f7f860-b94a-4fbd-929d-a6d0b116f090",
+      "stored_name": "Sun Wheel",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngắm toàn cảnh từ vòng quay biểu tượng của thành phố.",
+          "best_time": "Ngay trước hoàng hôn",
+          "crowd_hint": "Ngày lễ có thể phải xếp hàng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f61627ae4b0b665cf870293",
+      "stored_name": "Tam Thai Pagoda",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Ngôi chùa cổ trên sườn núi với những điện thờ thanh tịnh và tầm nhìn rộng ra xung quanh.",
+          "best_time": "Sáng sớm, trước khi nóng và đông",
+          "crowd_hint": "Có thể đông đoàn khách",
+          "etiquette": "Ăn mặc kín đáo, che vai và đầu gối; cởi giày trước khi vào điện thờ."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4bcadc4db6c49c745f379191",
+      "stored_name": "Tấn Ký Old House",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Thăm ngôi nhà của một gia đình thương nhân bên sông, kết hợp lối kiến trúc Việt, Hoa và Nhật.",
+          "best_time": "Buổi sáng, trước các đoàn khách.",
+          "crowd_hint": "Giữa trưa đông đoàn khách.",
+          "etiquette": "Ăn mặc lịch sự, cởi giày nếu được yêu cầu."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:33ccad97-e28b-4c07-a2a9-ef28d836e5de",
+      "stored_name": "Thanh Hà Terracotta Park",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Không gian trưng bày như bảo tàng về nghệ thuật đất nung và kỹ thuật làm gốm truyền thống.",
+          "best_time": "Lúc nào trong giờ mở cửa",
+          "crowd_hint": "Thường vắng"
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e7742ac483b0cf5ed88c28b",
+      "stored_name": "Thuận Phước Bridge",
+      "stated": true,
+      "i18n": {
+        "vi": {
+          "why_go": "Cây cầu treo nhìn ra vịnh Đà Nẵng và cảng biển.",
+          "best_time": "Chiều muộn, ngắm hoàng hôn.",
+          "crowd_hint": "Ít xe; dễ dừng lại chốc lát."
+        }
+      },
+      "why": "Note in Vietnamese.",
+      "merge": []
+    }
+  ],
+  "left_alone": []
+}

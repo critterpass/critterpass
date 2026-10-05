@@ -146,6 +146,10 @@ msgid "setup.budget.infeasible.title"
 msgstr "One budget is below the cheapest plan"
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.typed.labelAlone"
+msgstr "Or type an amount"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.typed.label"
 msgstr "Or type an amount, each"
 
@@ -156,6 +160,10 @@ msgstr "Over someone’s max"
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lineSmallCrew"
 msgstr "Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineAlone"
+msgstr "Pick what feels comfy for this trip. It guides what gets suggested."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"
@@ -190,6 +198,10 @@ msgstr "Skip the budget"
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.stays"
 msgstr "Stays"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.eyebrowAlone"
+msgstr "Sweet spot"
 
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.a11y"

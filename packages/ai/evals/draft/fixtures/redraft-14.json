@@ -4,23 +4,71 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "dbe3716e-2ffa-4d94-957d-4c117640ca5f",
+        "id": "9b8f1356-8964-4781-abf3-64cd3a7ec4ad",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Surprising Cusco Stroll\",\n  \"summary\": \"A gentle day through Cusco's old heart, mixing sacred stones with an unexpected wander through San Blas.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The crew asked for history, so we begin where Inti (the sun) once met Inca gold.\",\n      \"poi_id\": \"p2\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short walk away, the cathedral keeps its colonial secrets close.\",\n      \"poi_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with plenty of green things, as the crew prefers.\",\n      \"poi_id\": \"p19\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise twist: we skip the ruins for once and get lost among the blue doors and tiny workshops of San Blas.\",\n      \"poi_id\": \"p6\"\n    }\n  ]\n}"
+            "text": "```json\n{\n  \"title\": \"Salt, Stars and a Quiet Temple\",\n  \"summary\": \"A slower, unexpected Cusco day pairing the kept Pisac ruins and Qorikancha with the Maras salt mines and a laid-back vegetarian dinner.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The big hike out to Pisac stays — those terraces are too good to skip, and the early birds get the best light.\",\n      \"note_original\": \"The big hike out to Pisac stays — those terraces are too good to skip, and the early birds get the best light.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the photo lovers: the salt pans look like a giant white honeycomb, and nobody expects that on a Cusco day.\",\n      \"note_original\": \"A surprise for the photo lovers: the salt pans look like a giant white honeycomb, and nobody expects that on a Cusco day.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Qorikancha stays as the essential history stop — the Inca stonework under the Spanish walls always quiets the group.\",\n      \"note_original\": \"Qorikancha stays as the essential history stop — the Inca stonework under the Spanish walls always quiets the group.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at La Bodega 138, a casual spot with proper vegetarian plates and no fuss — a gentle end to a long day.\",\n      \"note_original\": \"Dinner at La Bodega 138, a casual spot with proper vegetarian plates and no fuss — a gentle end to a long day.\"\n    }\n  ]\n}\n```"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 102,
+          "input_tokens": 62,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1152,
-          "output_tokens": 306,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 456,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "06e31a80-bcc8-49ae-b5ef-6ce5d2b183eb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Salt, Sun and a Secret Terrace\",\n  \"summary\": \"A slower day that keeps the crew's must-sees, adds a surprise stop among the terraces, and ends with a vegetarian meal in the old town.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-see Pisac ruins stay put: half a day of hiking and history, with Inti (the sun) on our side.\",\n      \"start_time\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the photo lovers: the salt mines are a natural mirror maze, and nobody expects this much sparkle before lunch.\",\n      \"start_time\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The unexpected stop: Moray's circular terraces are a quiet, green amphitheatre that feels like a secret the Incas left for us.\",\n      \"start_time\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Back to the old town for Qorikancha, the crew's other must-see, where the stones still hold the warmth of the day.\",\n      \"start_time\": \"16:30\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Morena Peruvian Kitchen: vegetarian options for everyone, and a calm end to a day full of surprises.\",\n      \"start_time\": \"19:00\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 77,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 430,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "titles": {
+      "status": 200,
+      "body": {
+        "id": "2a5afe34-7fab-4e6d-9941-c6ba4534fe33",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "2: A morning at Qorikancha\n3: Pisac ruins, half the day\n4: Maras salt mines, half the day\n5: Evening at La Bodega"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 254,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 256,
+          "output_tokens": 39,
           "service_tier": "standard"
         }
       }

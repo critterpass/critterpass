@@ -6,14 +6,14 @@
  */
 import { foodRole } from './food-role';
 import { hopCapMin } from './hops';
+import { keepOutingsTogether, planOutings, type Outing } from './outings';
+import { straightLineMatrix } from './travel';
 import type { DraftPoi, TravelMatrix } from './types';
 
 /** Places sampled for the middle, taken evenly across the list. */
 const HOME_SAMPLE = 120;
 /** With fewer sights than this near home, the last day is not held to it. */
 const MIN_NEAR_HOME = 3;
-/** A trip this short has at most one day that is neither the first nor the last. */
-const SHORT_TRIP_DAYS = 3;
 
 function sampled(places: readonly DraftPoi[]): DraftPoi[] {
   const step = Math.max(1, places.length / HOME_SAMPLE);
@@ -80,8 +80,7 @@ export function keepEdgeDaysNearHome(
   const cap = hopCapMin(places, travel);
   const edges = [
     { day: lastDay, near: nearHome(places, travel, cap) },
-    // A trip of three days has one full day: its arrival afternoon may go a ride out of town.
-    { day: 1, near: nearHome(places, travel, cap, lastDay <= SHORT_TRIP_DAYS) },
+    { day: 1, near: nearHome(places, travel, cap) },
   ];
   for (const { day: edge, near } of edges) {
     if (near === null) continue;
@@ -92,4 +91,63 @@ export function keepEdgeDaysNearHome(
       else openDays.delete(poiId);
     }
   }
+}
+
+/** A trip this long has room for a short outing on the morning it leaves. */
+const MORNING_OUT_MIN_DAYS = 5;
+
+/**
+ * Plans the destination's outings (./outings) among the essential places still open on some day,
+ * and holds `openDays` to them. A trip with no full day, or a destination with no essentials or
+ * no known home, has none.
+ */
+export function outingsFor(
+  places: readonly DraftPoi[],
+  openDays: Map<string, number[]>,
+  days: number,
+  asked: ReadonlySet<string>,
+  /** The open days before the edge days were kept near home. */
+  beforeEdges: ReadonlyMap<string, readonly number[]> = openDays,
+): Outing[] {
+  const travel = straightLineMatrix(new Map(places.map((poi) => [poi.id, poi])));
+  const home = days < 3 ? null : homeBase(places, travel);
+  if (home === null) return [];
+  const outings = planOutings({
+    places: places.filter(
+      (poi) =>
+        openDays.has(poi.id) &&
+        (poi.essential === true || asked.has(poi.id)) &&
+        foodRole(poi) !== 'meal',
+    ),
+    travel,
+    homeId: home.id,
+    hopCapMin: hopCapMin(places, travel),
+    days,
+    openDays,
+    asked,
+    home,
+  });
+  keepOutingsTogether(openDays, outings, asked);
+  // On a trip with full days to spare, a short outing with no day of its own may take the morning
+  // of the day the crew leaves, when it was open then (the marble caves before the flight home).
+  // One outing gets it: the one with the longest visit (a sight worth a morning, not a drive).
+  if (days >= MORNING_OUT_MIN_DAYS) {
+    const byId = new Map(places.map((poi) => [poi.id, poi]));
+    const visit = (ids: readonly string[]) =>
+      Math.max(0, ...ids.map((id) => byId.get(id)?.durationMin ?? 0));
+    const candidates = outings
+      .flatMap((outing) =>
+        outing.dayNo === null && outing.short
+          ? [outing.poiIds]
+          : outing.joined
+            ? [outing.joined]
+            : [],
+      )
+      .filter((ids) => ids.every((id) => (beforeEdges.get(id) ?? []).includes(days)))
+      .sort((a, b) => visit(b) - visit(a));
+    for (const poiId of candidates[0] ?? []) {
+      openDays.set(poiId, [...new Set([...(openDays.get(poiId) ?? []), days])]);
+    }
+  }
+  return outings;
 }

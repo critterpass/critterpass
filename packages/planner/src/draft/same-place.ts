@@ -16,7 +16,10 @@ import type { DraftPoi } from './types';
 const SAME_PLACE_M = 150;
 const NAME_OVERLAP = 0.6;
 
-export function metresBetween(a: DraftPoi, b: DraftPoi): number {
+export function metresBetween(
+  a: Pick<DraftPoi, 'lat' | 'lng'>,
+  b: Pick<DraftPoi, 'lat' | 'lng'>,
+): number {
   const rad = Math.PI / 180;
   const x = (b.lng - a.lng) * rad * Math.cos(((a.lat + b.lat) / 2) * rad);
   const y = (b.lat - a.lat) * rad;

@@ -12,6 +12,7 @@ import type { DayRoute } from './day-route';
 import type { CuratedPlace } from './map-places';
 import type { CheckCounts } from './sheet-copy';
 import type { TripDay } from './trip-days';
+import type { DraftStage } from './draft-stage';
 
 export interface TripMapModel {
   readonly tripId: string;
@@ -33,6 +34,9 @@ export interface TripMapModel {
   readonly organiser: boolean;
   /** The organiser's own draft, shown to them before the crew has a plan. */
   readonly draft: boolean;
+  /** Where that draft is: hers to build, with the guide, or ready to review. */
+  readonly draftStage?: DraftStage | undefined;
+  readonly draftVersionId?: string | null | undefined;
   readonly readOnly: boolean;
   readonly guide: { readonly id: GuideId; readonly name: string };
   readonly check: CheckCounts;

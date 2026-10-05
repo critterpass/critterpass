@@ -5,7 +5,7 @@
  * model). And when the places we know still cannot fill the days, the draft says so: its summary
  * line tells the organiser, and the job logs it.
  */
-import { writeDraftSummary, type DraftModel, type DraftPlanInput } from '@cp/ai';
+import { longVisitsOf, writeDraftSummary, type DraftModel, type DraftPlanInput } from '@cp/ai';
 import { pickCoverage, withSystem } from '@cp/db';
 import type pg from 'pg';
 import type { PgBoss } from 'pg-boss';
@@ -96,5 +96,6 @@ export async function draftSummary(
     names: [...input.pois.values()].map((p) => p.name),
     ...(input.locale === undefined ? {} : { locale: input.locale }),
     ...(thin ? { thin: true } : {}),
+    longVisits: longVisitsOf(input, save.outcome.itinerary),
   });
 }

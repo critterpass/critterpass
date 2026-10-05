@@ -10,6 +10,7 @@ import { pitchSectionsSchema, type PitchStreamEvent } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { storePitchTranslation } from '../../src/routes/pitch-reader-language';
+import { startJobProducer } from '../../src/jobs/producer';
 import { registerPitchRoutes } from '../../src/routes/pitches';
 import type { CommandDoorsHarness, SignedIn } from '../routes/command-doors-harness';
 import { buildPollCrew, insertPlace, startPollDoors, type PollCrew } from './poll-fixture';
@@ -21,6 +22,8 @@ let crew: PollCrew;
 let kyoto: string;
 let deepseek: FixtureTransport = fixtureTransport([]);
 let useModel = true;
+// A pitch stored for a crew with a reader of another language queues its translation.
+let producer: Awaited<ReturnType<typeof startJobProducer>> | undefined;
 
 beforeAll(async () => {
   const gateway = createGateway({
@@ -37,6 +40,10 @@ beforeAll(async () => {
       now: () => NOW,
     });
   });
+  const { connectionString } = (
+    harness.pool as unknown as { options: { connectionString: string } }
+  ).options;
+  producer = await startJobProducer({ connectionString, logger: { error: () => undefined } });
   crew = await buildPollCrew(harness, 6);
   kyoto = await insertPlace(harness, 'Kyoto', 'kyoto', 'live');
   const q = (sql: string, params: unknown[]) => harness.pool.query(sql, params);
@@ -66,6 +73,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
+  await producer?.stop({ graceful: false });
   await harness?.stop();
 });
 
@@ -121,6 +129,32 @@ describe('POST /v1/pitches', () => {
     const request = JSON.stringify(deepseek.requests[0]);
     expect(request).toContain('$412');
     expect(request).not.toMatch(/budget/iu);
+  });
+
+  it('keeps a reader of another language waiting with signs of life, then shows every line', async () => {
+    // No cached pitch, and the translation call has no recording: the lines come as written.
+    await harness.pool.query('DELETE FROM pitches WHERE crew_id = $1', [crew.crewId]);
+    deepseek = fixtureTransport(['pitch-01']);
+    const reader = crew.members[4]!;
+    await harness.pool.query("UPDATE users SET locale = 'vi' WHERE id = $1", [reader.uid]);
+    const { events } = await pitch(reader, { crew_id: crew.crewId, place_id: kyoto, month: 4 });
+    await harness.pool.query('UPDATE users SET locale = NULL WHERE id = $1', [reader.uid]);
+    const types = events.map((event) => event.type);
+    // Held lines are answered with "working" frames before any text shows.
+    expect(types.indexOf('working')).toBeGreaterThan(-1);
+    expect(types.indexOf('working')).toBeLessThan(types.indexOf('headline'));
+    expect(types.filter((type) => type !== 'working')).toEqual([
+      'sticker',
+      'chip',
+      'chip',
+      'chip',
+      'headline',
+      'reason',
+      'reason',
+      'reason',
+      'quote',
+      'done',
+    ]);
   });
 
   it('replays the cached pitch fast and without the model', async () => {

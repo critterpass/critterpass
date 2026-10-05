@@ -111,6 +111,8 @@ export const crewCaseSchema = z.object({
   expect_full_days: z.boolean().default(false),
   /** The day is graded as a traveller would: openers first, meals near, no hole after breakfast. */
   expect_day_rules: z.boolean().default(false),
+  /** Hold the plan to the rules of how a day reads (./asserts/plan-rules-asserts.ts). */
+  expect_plan_rules: z.boolean().default(false),
   /** The language the organiser reads: the draft is written in it. */
   locale: z.string().optional(),
   /** How many of the trip's core must-sees the draft must hold at least. */
@@ -141,6 +143,8 @@ export const redraftCaseSchema = z.object({
   chat: z.array(z.object({ author: z.string(), text: z.string() })),
   /** The language the organiser reads (the redraft writes in it). */
   locale: z.string().optional(),
+  /** The day as staging held it, by place name in order (default: the baseline's day). */
+  base_day: z.array(z.string()).optional(),
 });
 export type RedraftCase = z.infer<typeof redraftCaseSchema>;
 

@@ -11,6 +11,14 @@ msgstr ""
 msgid "plan.ideas.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodyDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.bodySaved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/ideas/placing/placing-copy.ts
 msgid "plan.placing.hours"
 msgstr ""
@@ -35,7 +43,7 @@ msgstr ""
 msgid "plan.placing.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailed"
 msgstr ""
 
@@ -45,6 +53,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-view.tsx
@@ -191,10 +203,18 @@ msgstr ""
 msgid "plan.ideas.emptyLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/ideas/ideas-screen.tsx
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.beforePlanAny"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.placeFailedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
 msgid "plan.ideas.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/ideas/ideas-copy.ts
+msgid "plan.ideas.fitNeedsPlan"
 msgstr ""
