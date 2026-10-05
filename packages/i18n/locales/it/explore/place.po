@@ -33,6 +33,10 @@ msgstr ""
 msgid "explore.detail.fits.when"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.better"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.fromStay"
 msgstr ""
@@ -99,6 +103,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.also"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.where"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
@@ -244,6 +252,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDayAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.inPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.thereNot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.thereCatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.there"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx

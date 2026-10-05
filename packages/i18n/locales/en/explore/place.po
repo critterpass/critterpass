@@ -33,6 +33,10 @@ msgstr "{0}, and {1}."
 msgid "explore.detail.fits.when"
 msgstr "{day} at {time}"
 
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.better"
+msgstr "{day} at {time} works too."
+
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.fromStay"
 msgstr "{duration} from {stayName}"
@@ -100,6 +104,10 @@ msgstr "{weekday} after {afterName} works too."
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.why.also"
 msgstr "{weekday} works too."
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.where"
+msgstr "{where} at {at}"
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
 msgid "explore.save.save"
@@ -245,6 +253,22 @@ msgstr "In day {day}"
 #: ../../apps/mobile/src/features/explore/place-detail/model.ts
 msgid "explore.detail.inDayAt"
 msgstr "In day {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.inPlan"
+msgstr "In the plan"
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.thereNot"
+msgstr "It doesn’t fit well there."
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.thereCatch"
+msgstr "It fits there, with a catch."
+
+#: ../../apps/mobile/src/features/explore/place-detail/when-it-fits.tsx
+msgid "explore.detail.fits.there"
+msgstr "It fits there."
 
 #: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
 msgid "explore.swipe.whyTaste"

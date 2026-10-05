@@ -94,7 +94,7 @@ export function WhenItFits({
                 ? t({ id: 'explore.detail.fits.when', message: `${day} at ${time}` })
                 : at === null
                   ? where
-                  : t({ id: 'explore.detail.fits.when', message: `${where} at ${at}` }),
+                  : t({ id: 'explore.detail.fits.where', message: `${where} at ${at}` }),
               i18n.locale,
             )}
           </Text>
