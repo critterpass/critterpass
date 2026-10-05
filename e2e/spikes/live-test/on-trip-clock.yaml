@@ -434,6 +434,8 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 5000
+- takeScreenshot: on-trip-clock-29b-what-rose-on-arrival
+- runFlow: subflows/on-trip-pass-arrival.yaml
 - scrollUntilVisible:
     element:
       id: 'stop-.*-note'
@@ -500,6 +502,10 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'tab-home'
     optional: true
+- runFlow: subflows/on-trip-pass-arrival.yaml
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: on-trip-clock-36b-home-trip-on
 - tapOn:
     id: 'home-header-inbox'
     optional: true

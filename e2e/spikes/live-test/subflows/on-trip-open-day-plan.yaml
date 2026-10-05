@@ -43,3 +43,4 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 5000
+- runFlow: on-trip-pass-arrival.yaml

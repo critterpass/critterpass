@@ -3,12 +3,14 @@ appId: app.critterpass.dev
 # Back to the trip's hub from wherever the walk is: the system back until the TRIPS tab's hub
 # shows (a sheet, a map sheet's snap and a pushed screen each take one), tapping the tab when the
 # tab bar is in reach.
+- runFlow: on-trip-pass-arrival.yaml
 - repeat:
     while:
       notVisible:
         id: 'trip-hub'
     times: 6
     commands:
+      - runFlow: on-trip-pass-arrival.yaml
       - runFlow:
           when:
             visible:
