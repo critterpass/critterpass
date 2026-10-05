@@ -33,15 +33,27 @@ appId: app.critterpass.dev
     env:
       SCENE: check-own-draft
       SHOT: en-own-draft-check
-# The app in Vietnamese (picked for the running app, so no relaunch from here on).
-- runFlow: ../onboarding/subflows/back.yaml
-- runFlow: ../plan/subflows/dev-tools-again.yaml
+# The app in Vietnamese, from a fresh start (picked for the running app, so no relaunch after).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:
       LOCALE: vi
 - runFlow: ../onboarding/subflows/back.yaml
-- runFlow: ../plan/subflows/dev-tools-again.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
 - runFlow: subflows/open-ideas-lab.yaml
 - runFlow:
     file: subflows/ideas-lab-shot.yaml
