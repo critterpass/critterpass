@@ -8,9 +8,12 @@ import {
   currencySymbol,
   estimatesOf,
   initialTarget,
+  isUnpriced,
   money,
   snap,
   trackOf,
+  typedAmountMinor,
+  widenTrack,
   type AggregateRow,
 } from '../model';
 
@@ -143,5 +146,53 @@ describe('budget amounts', () => {
           )) as unknown as typeof Intl.NumberFormat,
       );
     expect(money('en', 135_000, 'USD')).toBe('$1,350');
+  });
+});
+
+describe('the track with nothing priced', () => {
+  const waiting = bandView(null, 1);
+  const STEP_VND = 500_000;
+
+  it('is sized from the trip’s length in the crew’s own step, never from zero', () => {
+    const track = trackOf(waiting, null, STEP_VND, 4);
+    expect(track).toEqual({ minMinor: 500_000, maxMinor: 12_000_000, stepMinor: STEP_VND });
+    expect(initialTarget(waiting, track, null, 4)).toBe(4_000_000);
+    expect(isUnpriced(waiting, null)).toBe(true);
+  });
+
+  it('assumes three days before the dates are locked', () => {
+    expect(trackOf(waiting, null, STEP_VND, null).maxMinor).toBe(9_000_000);
+  });
+
+  it('leaves a priced trip’s track alone', () => {
+    const estimates = estimatesOf({ ...SOURCE, fares: [] });
+    expect(isUnpriced(waiting, estimates)).toBe(false);
+    expect(trackOf(waiting, estimates, 5_000, 4).maxMinor).toBe(150_000);
+  });
+});
+
+describe('a typed amount', () => {
+  it('reads whole units however the reader groups them', () => {
+    expect(typedAmountMinor('4.000.000', 'VND')).toBe(4_000_000);
+    expect(typedAmountMinor('4,000,000 ₫', 'VND')).toBe(4_000_000);
+    expect(typedAmountMinor('1,350.50', 'USD')).toBe(135_000);
+    expect(typedAmountMinor('1350', 'USD')).toBe(135_000);
+    expect(typedAmountMinor('', 'VND')).toBeNull();
+    expect(typedAmountMinor('0', 'VND')).toBeNull();
+  });
+
+  it('stretches the track when no band limits it, and snaps onto the step', () => {
+    const waiting = bandView(null, 1);
+    const track = trackOf(waiting, null, 500_000, 4);
+    const wide = widenTrack(track, waiting, 20_250_000);
+    expect(wide.maxMinor).toBe(20_500_000);
+    expect(snap(20_250_000, wide)).toBe(20_500_000);
+    expect(snap(1, wide)).toBe(500_000);
+  });
+
+  it('never stretches past the crew’s band', () => {
+    const band = bandView({ ...ROW, maxes_count: 6, member_count: 6, infeasible: 0 }, 6);
+    const track = trackOf(band, null, 5_000);
+    expect(widenTrack(track, band, 999_999_999)).toBe(track);
   });
 });

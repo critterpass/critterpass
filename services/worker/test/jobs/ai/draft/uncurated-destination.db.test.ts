@@ -190,6 +190,21 @@ describe('a draft in a destination without a curated set', () => {
         index === 1 ? second : { day_no: index + 1, date, theme: '', items: [] },
       ),
     };
+    // The trip has its days already: an empty plan nobody put a stop on.
+    const emptyPlan = await withSystem(harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO itinerary_versions (trip_id, visibility, status, origin)
+         VALUES ($1, 'organiser', 'draft', 'dates') RETURNING id`,
+        [tripId],
+      );
+      const id = rows[0]?.id as string;
+      await tx.query(
+        'INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, 1, $3)',
+        [id, tripId, frame.dates[0]],
+      );
+      await tx.query('UPDATE trips SET draft_version_id = $2 WHERE id = $1', [tripId, id]);
+      return id;
+    });
     const saved = await withSystem(harness.pool, (tx) =>
       persistDraft(tx, {
         jobId: randomUUID(),
@@ -207,6 +222,13 @@ describe('a draft in a destination without a curated set', () => {
       }),
     );
     const versionId = saved?.versionId as string;
+    // The guide's draft takes the empty plan's place: the history holds the draft alone.
+    const { rows: versions } = await harness.pool.query(
+      `SELECT id, origin, parent_id FROM itinerary_versions
+        WHERE trip_id = $1 AND (id = $2 OR id = $3)`,
+      [tripId, versionId, emptyPlan],
+    );
+    expect(versions).toEqual([{ id: versionId, origin: 'guide', parent_id: null }]);
 
     const base = await loadBaseDraft(
       harness.pool,
@@ -232,8 +254,15 @@ describe('a draft in a destination without a curated set', () => {
     };
     const request = JSON.stringify(buildRedraftRequest(redraft).messages);
     expect(request).toContain('## The day now\\n- no stops');
-    // Its candidates come from the pools; the lake is on day two, so day one may not use it.
-    expect(request).toContain('Chùa Linh Phước');
+    // Its candidates come from the pools (those open on the landing day, which stays near the
+    // stay); the lake is on day two, so day one may not use it.
+    const offered = drafted.input.pools.activities.filter(
+      (poi) =>
+        poi.name !== 'Hồ Xuân Hương' &&
+        (drafted.input.pools.openDays.get(poi.id) ?? []).includes(1),
+    );
+    expect(offered.length).toBeGreaterThan(0);
+    expect(offered.some((poi) => request.includes(poi.name))).toBe(true);
     expect(request).not.toContain('Hồ Xuân Hương');
 
     // Only an organiser of the trip reads the version's days.

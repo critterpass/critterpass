@@ -1,0 +1,32 @@
+appId: app.critterpass.dev
+---
+# Home, from wherever the walk is: the app link and the one-time "Open" prompt; where the link
+# leaves another screen on top (a draft that rose by itself), system back until the header shows.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 8000
+    optional: true
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 4
+    commands:
+      - runFlow: ../../../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000

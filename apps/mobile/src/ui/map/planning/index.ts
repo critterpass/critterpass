@@ -1,7 +1,7 @@
 export { EdgeIndicator, type EdgeIndicatorProps, type EdgeStop } from './edge-indicator';
 export { edgePlacement, type EdgePlacement, type EdgeSide } from './edge-position';
 export { MapLabel, LABEL_POP_MS, type MapLabelProps } from './map-label';
-export { planningMapStyle, regionSourceUrl, regionTilesUrl } from './map-style';
+export { planningMapStyle, regionTilesUrl } from './map-style';
 export {
   DIMMED_OPACITY,
   STREET_ZOOM,

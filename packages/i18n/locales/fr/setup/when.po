@@ -28,6 +28,7 @@ msgid "setup.when.line.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 msgid "setup.when.picker.length"
 msgstr ""
 
@@ -188,6 +189,10 @@ msgid "setup.when.line.solo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howLong"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.cta.lock"
 msgstr ""
@@ -241,11 +246,15 @@ msgid "setup.ask.words"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickAnyway"
+msgid "setup.when.pickOtherDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.pickOtherDays"
+msgid "setup.when.pickDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickMyself"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
@@ -254,6 +263,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.reading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.howTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
@@ -270,10 +287,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.syncing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
-msgid "setup.when.picker.howTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
@@ -334,6 +347,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.synced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.pickSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx

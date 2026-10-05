@@ -11,7 +11,7 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { makeStyles, Text, useTheme } from '@/ui';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine, type GuideId } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
@@ -126,6 +126,8 @@ export interface NoResultsProps {
   readonly answer: PlainAnswer;
   /** "Ubud": where the search looked. */
   readonly area: string;
+  /** The area is the whole destination ("in Bali"), not a spot searched around ("near Ubud"). */
+  readonly whole?: boolean | undefined;
   readonly limitMinutes: number | null;
   readonly guide: GuideId;
   readonly guideName: string;
@@ -138,7 +140,7 @@ export interface NoResultsProps {
 export function NoResults(props: NoResultsProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const sticker = GUIDE_STICKERS[props.guide];
+  const sticker = guideSticker(props.guide);
   const area = props.area;
   const nearest = props.answer.nearest;
   const limit = props.limitMinutes;
@@ -164,7 +166,9 @@ export function NoResults(props: NoResultsProps) {
       <Text variant="h1" testID="search-no-results-title">
         {area === ''
           ? t({ id: 'search.none.titleHere', message: 'Nothing like that here' })
-          : t({ id: 'search.none.title', message: `Nothing like that near ${area}` })}
+          : props.whole === true
+            ? t({ id: 'search.none.titleIn', message: `Nothing like that in ${area}` })
+            : t({ id: 'search.none.title', message: `Nothing like that near ${area}` })}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
         {closest === '' ? lead : `${lead} ${closest}`}

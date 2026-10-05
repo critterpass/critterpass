@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { PlanningKitScene } from '../../../planning/dev/kit-scene';
+import { NoRegionPackScene } from './no-pack-scene';
 import { PlanningMapPerfScene } from './perf-scene';
 import { TripMapScene } from './trip-map-scene';
 
@@ -8,5 +9,8 @@ import { TripMapScene } from './trip-map-scene';
 export const PLANNING_MAP_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'trip-map': () => <TripMapScene />,
   perf: () => <PlanningMapPerfScene />,
+  'no-pack': () => <NoRegionPackScene />,
+  'no-pack-city': () => <NoRegionPackScene name="city" />,
+  'no-pack-long': () => <NoRegionPackScene name="longest" />,
   kit: () => <PlanningKitScene />,
 };

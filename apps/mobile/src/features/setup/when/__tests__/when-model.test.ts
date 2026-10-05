@@ -8,6 +8,7 @@ import {
   heatMonths,
   heatStep,
   initialMonth,
+  suggestedBest,
   syncedCount,
   toOption,
   whenMode,
@@ -96,6 +97,14 @@ describe('dates step model', () => {
     expect(whenMode([partial], 6)).toBe('no_fit');
     expect(whenMode([], 3)).toBe('computing');
     expect(whenMode([], 0)).toBe('empty');
+  });
+
+  it('never puts forward a week that starts before the earliest day worth suggesting', () => {
+    const soon = toOption({ ...OPTION, kind: 'best', start_date: '2027-04-02' });
+    expect(whenMode([soon], 1, '2027-04-04')).toBe('pick');
+    expect(suggestedBest([soon], '2027-04-04')).toBeNull();
+    expect(whenMode([soon], 1, '2027-04-02')).toBe('best');
+    expect(suggestedBest([soon], '2027-04-02')).toBe(soon);
   });
 
   it('opens on the best window’s month', () => {

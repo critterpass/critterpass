@@ -8,7 +8,7 @@
 import type { Itinerary } from '@cp/domain';
 
 import { dayMetrics } from './metrics';
-import type { DraftPoi } from './types';
+import { isKept, type DraftPoi } from './types';
 import type { DraftViolation, DraftViolationCode } from './validate-itinerary';
 
 export interface RepairReason {
@@ -35,7 +35,9 @@ export interface RepairTargetsInput {
   readonly crewSize: number;
 }
 
-const TEXT: Readonly<Record<DraftViolationCode, (name: string) => string>> = {
+const TEXT: Readonly<
+  Record<DraftViolationCode, (name: string, violation: DraftViolation) => string>
+> = {
   UNKNOWN_POI: () => 'One stop is not a place from the list. Use only ids from the list.',
   CLOSED_AT_TIME: (name) =>
     `${name} is closed at the time it landed. Move it or pick another place.`,
@@ -51,6 +53,16 @@ const TEXT: Readonly<Record<DraftViolationCode, (name: string) => string>> = {
   DUPLICATE_PLACE: (name) => `${name} is already on another day. Pick a different place.`,
   EXTRA_MEAL: (name) =>
     `${name} is a second meal in the same stretch. Keep one lunch and one dinner.`,
+  MEAL_OFF_HOURS: (name) =>
+    `${name} is a meal that landed between meal times. Put lunch after the morning's stops and dinner at the end of the day.`,
+  MEAL_MISSING: (_name, violation) =>
+    violation.slot === 'dinner'
+      ? 'The day has no dinner. Add a dinner place from the meal list at the end of the day.'
+      : 'The day has no lunch. Add a lunch place from the meal list in the middle of the day.',
+  REPEAT_DISH: (name) =>
+    `${name} serves what the crew already eats that day or the day before. Pick a meal place with another dish.`,
+  LONG_HOP: (name) =>
+    `${name} is a long ride from the stops around it. Pick a place near the others, or leave it out.`,
   MUST_DO_MISSING: (name) => `${name} is a must-do and is missing. Fit it into this day.`,
   OVER_BUDGET: () => 'The trip is over budget. Pick cheaper stops on this day.',
 };
@@ -82,7 +94,7 @@ export function repairTargets(input: RepairTargetsInput): RepairTarget[] {
         stableId: null,
         poiId,
         mustDoId: violation.mustDoId,
-        text: text(nameOf(input.pois, poiId ?? undefined)),
+        text: text(nameOf(input.pois, poiId ?? undefined), violation),
       });
       continue;
     }
@@ -98,7 +110,7 @@ export function repairTargets(input: RepairTargetsInput): RepairTarget[] {
           stableId: null,
           poiId: null,
           mustDoId: null,
-          text: text(''),
+          text: text('', violation),
         });
         left -= day.cost_pp_minor;
       }
@@ -110,7 +122,7 @@ export function repairTargets(input: RepairTargetsInput): RepairTarget[] {
       stableId: violation.stableId,
       poiId: violation.poiId ?? null,
       mustDoId: violation.mustDoId ?? null,
-      text: text(nameOf(input.pois, violation.poiId)),
+      text: text(nameOf(input.pois, violation.poiId), violation),
     });
   }
   return [...byDay.entries()]
@@ -134,6 +146,9 @@ const DROPPED_CODES: ReadonlySet<DraftViolationCode> = new Set([
   'DIETARY',
   'DUPLICATE_PLACE',
   'EXTRA_MEAL',
+  'MEAL_OFF_HOURS',
+  'REPEAT_DISH',
+  'LONG_HOP',
 ]);
 
 export interface DropResult {
@@ -141,21 +156,31 @@ export interface DropResult {
   readonly dropped: readonly { readonly stableId: string; readonly mustDoId: string | null }[];
 }
 
-/** Removes every item that still breaks an item-level rule. */
+/**
+ * Removes every item that still breaks an item-level rule. A stop that is not a must-do and
+ * landed outside the time of day its place is for goes too.
+ */
 export function dropViolations(
   itinerary: Itinerary,
   violations: readonly DraftViolation[],
 ): DropResult {
-  const bad = new Set(
-    violations
-      .filter((v) => DROPPED_CODES.has(v.code) && v.stableId !== null)
-      .map((v) => v.stableId as string),
-  );
+  const flagged = (codes: (code: DraftViolationCode) => boolean) =>
+    new Set(
+      violations
+        .filter((v) => codes(v.code) && v.stableId !== null)
+        .map((v) => v.stableId as string),
+    );
+  const bad = flagged((code) => DROPPED_CODES.has(code));
+  const offTime = flagged((code) => code === 'WRONG_TIME_OF_DAY');
   const dropped: { stableId: string; mustDoId: string | null }[] = [];
   const days = itinerary.days.map((day) => ({
     ...day,
     items: day.items.filter((item) => {
-      if (!bad.has(item.stable_id)) return true;
+      // A booking or a stop the organiser placed is theirs to move: it stays, fault and all.
+      const theirs = item.must_do_id === null && item.locked_reason !== null;
+      const goes =
+        !theirs && (bad.has(item.stable_id) || (offTime.has(item.stable_id) && !isKept(item)));
+      if (!goes) return true;
       dropped.push({ stableId: item.stable_id, mustDoId: item.must_do_id });
       return false;
     }),

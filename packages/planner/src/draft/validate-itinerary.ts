@@ -2,17 +2,26 @@
  * The draft validator: every drafted item is checked against the places we know (no invented
  * ids), their opening hours in the place's zone, cited closures on the date, the travel matrix, the
  * 15-minute grid, the day's capacity (its usable window, including the flight buffers on the first
- * and last day), the crew's diets on every meal, one visit per place, must-do coverage and the
- * budget. Chronotype windows only make a plan tight, never invalid. Violations carry their day so
- * the repair pass can redo only the days that need it.
+ * and last day), the crew's diets on every meal, must-do coverage and the budget, and against what
+ * makes a day read like a day (./validate-day-sense: meals in meal stretches, no place or dish
+ * twice, places at their time of day, no hop too far). Chronotype windows only make a plan tight,
+ * never invalid. Violations carry their day so the repair pass can redo only the days that need it.
  */
-import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
+import type { DraftItem, Itinerary } from '@cp/domain';
 
 import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
-import { baseWindow, dayWindow, LUNCH_BEFORE_MIN, minuteOfDate } from './schedule-day';
-import type { DraftPoi, TravelMatrix, TripFrame } from './types';
+import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
+import {
+  isKept,
+  isTheirs,
+  placeIdOf,
+  type DraftPoi,
+  type TravelMatrix,
+  type TripFrame,
+} from './types';
+import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
 export const DRAFT_VIOLATION_CODES = [
@@ -28,6 +37,10 @@ export const DRAFT_VIOLATION_CODES = [
   'DIETARY',
   'DUPLICATE_PLACE',
   'EXTRA_MEAL',
+  'MEAL_OFF_HOURS',
+  'MEAL_MISSING',
+  'REPEAT_DISH',
+  'LONG_HOP',
   'MUST_DO_MISSING',
   'OVER_BUDGET',
 ] as const;
@@ -40,8 +53,10 @@ export interface DraftViolation {
   readonly stableId: string | null;
   readonly poiId?: string;
   readonly mustDoId?: string;
-  /** Minutes short or over (travel, overlap); per-person amount over (budget). */
+  /** Minutes short or over (travel, overlap, a hop); per-person amount over (budget). */
   readonly amount?: number;
+  /** The meal a day is missing (`MEAL_MISSING`). */
+  readonly slot?: 'lunch' | 'dinner';
 }
 
 export interface ValidateItineraryInput {
@@ -51,6 +66,15 @@ export interface ValidateItineraryInput {
   readonly travel: TravelMatrix;
   /** Must-dos that can be placed at all (a known place open on some trip date). */
   readonly requiredMustDoIds: readonly string[];
+  /**
+   * Meal places that suit the crew. With them a day that runs through lunch or dinner and has
+   * neither is reported, as long as one of them could still serve it.
+   */
+  readonly mealPlaces?: readonly DraftPoi[];
+  /** The longest ride between two stops of a day (./hops); without it hops are not checked. */
+  readonly hopCapMin?: number;
+  /** The place the crew sleeps near (./home): the ride out to a day's first stop then counts. */
+  readonly homeId?: string | null;
 }
 
 export interface ValidationResult {
@@ -96,13 +120,38 @@ function heldAt(
   return heldWindow(poi, date, when);
 }
 
+/**
+ * The place a stop is at. A stop of the crew's own on a dropped pin has none of ours: it is
+ * looked up under its pin id, and when the caller gave no place for the pin it still stands (as
+ * a stop with no known position), so it is never an unknown place and still counts as the meal
+ * or the stop it is.
+ */
+function placeOf(input: ValidateItineraryInput, item: DraftItem): DraftPoi | undefined {
+  const id = placeIdOf(item);
+  const known = id === null ? undefined : input.pois.get(id);
+  if (known !== undefined || id === null || item.poi_id !== null) return known;
+  return {
+    id,
+    name: item.note ?? '',
+    category: 'other',
+    lat: 0,
+    lng: 0,
+    tz: item.tz,
+    hours: null,
+    priceLevel: null,
+    tags: [],
+    durationMin: 0,
+    editorial: false,
+    mustSee: false,
+  };
+}
+
 function dayChecks(
   input: ValidateItineraryInput,
   item: DraftItem,
   dayNo: number,
   dayIndex: number,
   date: string,
-  seen: Set<string>,
 ): DraftViolation[] {
   const out: DraftViolation[] = [];
   const at = (code: DraftViolationCode, extra: Partial<DraftViolation> = {}): DraftViolation => ({
@@ -112,19 +161,15 @@ function dayChecks(
     ...(item.poi_id === null ? {} : { poiId: item.poi_id }),
     ...extra,
   });
-  const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+  const poi = placeOf(input, item);
   if (poi === undefined) return [at('UNKNOWN_POI')];
   if (closedOn(input.frame, poi, date) === 'poi') out.push(at('CLOSED_ON_DATE'));
   if (
     item.kind === 'meal' &&
-    item.must_do_id === null &&
+    !isKept(item) &&
     !input.frame.diets.every((diet) => suitsDiet(poi.tags, diet))
   ) {
     out.push(at('DIETARY'));
-  }
-  if (item.kind === 'activity') {
-    if (seen.has(poi.id)) out.push(at('DUPLICATE_PLACE'));
-    seen.add(poi.id);
   }
   const start = minuteOfDate(new Date(item.starts_at), date, input.frame.tz);
   const end = minuteOfDate(new Date(item.ends_at), date, input.frame.tz);
@@ -135,6 +180,8 @@ function dayChecks(
   if (held !== null && (start < held.fromMin || start > held.toMin)) {
     out.push(at('WRONG_TIME_OF_DAY'));
   }
+  // A booking or a stop placed by hand is the crew's own call, whenever it is.
+  if (isTheirs(item)) return out;
   const from = held === null ? window.startMin : (window.earliestMin ?? window.startMin);
   const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
   if (start < from || end > until) {
@@ -145,43 +192,29 @@ function dayChecks(
   return out;
 }
 
-/** One lunch and one dinner a day: a second meal in the same stretch is one too many. */
-function extraMeals(day: DraftDay, tz: string): DraftViolation[] {
-  const slots = new Set<string>();
-  const out: DraftViolation[] = [];
-  for (const item of day.items) {
-    if (item.kind !== 'meal') continue;
-    const slot =
-      minuteOfDate(new Date(item.starts_at), day.date, tz) < LUNCH_BEFORE_MIN ? 'lunch' : 'dinner';
-    if (slots.has(slot)) {
-      out.push({
-        code: 'EXTRA_MEAL',
-        dayNo: day.day_no,
-        stableId: item.stable_id,
-        ...(item.poi_id === null ? {} : { poiId: item.poi_id }),
-      });
-    }
-    slots.add(slot);
-  }
-  return out;
-}
-
 export function validateItinerary(input: ValidateItineraryInput): ValidationResult {
   const violations: DraftViolation[] = [];
-  const seen = new Set<string>();
+  const timedDays: TimedDay[] = [];
   const dayOf = new Map<string, number>();
   const poiOf = new Map<string, string>();
   const feasibilityItems: FeasibilityItem[] = [];
   const dateIndex = new Map(input.frame.dates.map((date, index) => [date, index]));
   for (const day of input.itinerary.days) {
     const dayIndex = dateIndex.get(day.date) ?? day.day_no - 1;
-    violations.push(...extraMeals(day, input.frame.tz));
+    const stops: TimedStop[] = [];
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
-      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date, seen));
-      const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+      violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date));
+      const poi = placeOf(input, item);
       if (poi === undefined) continue;
       poiOf.set(item.stable_id, poi.id);
+      stops.push({
+        item,
+        poi,
+        startMin: minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz),
+        endMin: minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz),
+        held: heldAt(input, item, poi, day.date) !== null,
+      });
       feasibilityItems.push({
         stableId: item.stable_id,
         startsAt: new Date(item.starts_at),
@@ -190,13 +223,30 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
         dayNo: day.day_no,
         // Hours that are only a guess never count against a must-do held to its time of day.
         hours:
-          poi.hoursGuessed === true && heldAt(input, item, poi, day.date) !== null
+          isTheirs(item) ||
+          (poi.hoursGuessed === true && heldAt(input, item, poi, day.date) !== null)
             ? null
             : poi.hours,
         mustDoId: item.must_do_id,
       });
     }
+    stops.sort((a, b) => a.startMin - b.startMin);
+    timedDays.push({
+      dayNo: day.day_no,
+      date: day.date,
+      window: dayWindow(input.frame, dayIndex),
+      stops,
+    });
   }
+  violations.push(
+    ...daySenseViolations({
+      days: timedDays,
+      travel: input.travel,
+      mealPlaces: input.mealPlaces,
+      hopCapMin: input.hopCapMin,
+      homeId: input.homeId,
+    }),
+  );
   const feasibility = checkFeasibility({
     items: feasibilityItems,
     members: input.frame.members,

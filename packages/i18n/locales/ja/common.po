@@ -172,6 +172,10 @@ msgstr ""
 msgid "common.critter.formLocked"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/map/RegionPackNotice.tsx
+msgid "common.map.regionPackOnItsWay"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
 msgid "common.monetize.activeMonths"
 msgstr ""

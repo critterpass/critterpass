@@ -40,6 +40,10 @@ msgstr ""
 msgid "explore.split.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.inChat"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/split/stance-picker.tsx
 msgid "explore.split.noteLabel"
 msgstr ""
@@ -52,6 +56,10 @@ msgstr ""
 msgid "explore.split.noteLong"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.noWaysSaid"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/split/dev/split-scenes.tsx
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.noWays"
@@ -59,6 +67,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/split-screen.tsx
 msgid "explore.split.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/split/split-screen.tsx
+msgid "explore.split.openChat"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/split/split-model.ts

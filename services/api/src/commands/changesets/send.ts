@@ -3,7 +3,9 @@
  * The decider policy defaults by who the change touches (./../../plan/decider-policy.ts); a change
  * that touches only the author applies at once. Otherwise an approval poll opens for the affected
  * members, closing by the policy window and never after the earliest supplier hold, its deadline
- * timer is armed, and the change set's card lands in crew chat.
+ * timer is armed, and the change set's card lands in crew chat. Sending is the author's yes: when
+ * the change touches them too, their ballot is cast with it, and a vote that yes already decides
+ * closes at once.
  */
 import { appendDomainEvent, outbox, scheduleEvent } from '@cp/db';
 import {
@@ -31,7 +33,8 @@ import {
   requireVisibleChangeSet,
   type ChangeSetRow,
 } from '../../plan/changeset-store';
-import { tripVoters } from '../../plan/access';
+import { tripOrganiserIds, tripVoters } from '../../plan/access';
+import { castFirstBallot, settleVote } from '../../plan/changeset-vote';
 import { chooseDeciderPolicy } from '../../plan/decider-policy';
 import { loadPlanState, lockTripPlan, replay } from '../../plan/versioning';
 import { queryIn } from '../../plan/providers';
@@ -182,21 +185,54 @@ export const sendChangesetCommand = defineCommand({
         pollId,
       ]),
     );
-    await appendDomainEvent(tx, {
-      type: 'change_set.proposed',
-      aggregateKind: 'change_set',
-      aggregateId: row.id,
-      actorKind: 'user',
-      actorId: ctx.uid,
-      payload: { trip_id: row.trip_id, change_set_id: row.id },
-      crewId: row.crew_id,
-      tripId: row.trip_id,
-    });
+    row = { ...row, status: 'voting', poll_id: pollId };
+    let decided = false;
+    if (eligible.includes(ctx.uid)) {
+      const { rows: yes } = await asSystemRole(tx, () =>
+        tx.query<{ id: string }>(
+          'SELECT id FROM poll_options WHERE poll_id = $1 ORDER BY position LIMIT 1',
+          [pollId],
+        ),
+      );
+      await castFirstBallot(tx, row, {
+        pollId,
+        optionId: yes[0]?.id ?? null,
+        uid: ctx.uid,
+        via: ctx.via,
+        opId: ctx.opId,
+        now,
+      });
+      const result = await settleVote(tx, row, {
+        pollId,
+        rules: {
+          policy: choice.policy,
+          threshold: choice.threshold,
+          eligible,
+          organiserIds: await tripOrganiserIds(tx, row.trip_id),
+        },
+        uid: ctx.uid,
+      });
+      decided = result === 'approve' || result === 'reject';
+    }
+    // Nobody is asked for a yes on a vote the author's own already decided.
+    if (!decided) {
+      await appendDomainEvent(tx, {
+        type: 'change_set.proposed',
+        aggregateKind: 'change_set',
+        aggregateId: row.id,
+        actorKind: 'user',
+        actorId: ctx.uid,
+        payload: { trip_id: row.trip_id, change_set_id: row.id },
+        crewId: row.crew_id,
+        tripId: row.trip_id,
+      });
+    }
     const outcome = await outcomeOf(tx, row.id);
     await publishPlan(tx, row.trip_id, PLAN_RT.changesetSent, {
       change_set_id: row.id,
       poll_id: pollId,
       policy: choice.policy,
+      yes: outcome.yes,
       needed: outcome.needed,
       eligible: outcome.eligible,
       closes_at: choice.closesAt.toISOString(),

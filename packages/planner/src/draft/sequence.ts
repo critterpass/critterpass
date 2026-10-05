@@ -1,12 +1,18 @@
 /**
  * Visiting order: the guide's order is kept whenever it works. When it does not (a place would
- * close before the visit ends, the day would run past its window, or two meals would land in the
- * same stretch), the planner tries the other orders of the same stops and takes the workable one
- * closest to the guide's (fewest swapped pairs, then the earliest finish). The stops themselves
+ * close before the visit ends, the day would run past its window, a meal would land outside its
+ * stretch or twice in one, a place would miss the time of day it is for, a stop would be a hop too
+ * far, or the crew would wait an hour with nothing planned), the planner tries the other orders of
+ * the same stops and takes the workable one closest to the guide's (fewest broken stops, then the
+ * fewest morning places left for later in the day, then the least waiting, then the fewest swapped
+ * pairs, then the earliest finish). The stops themselves
  * never change here: dropping or swapping a place is the guide's call, in the repair pass.
  */
 import { ceilGrid, spansOn } from './day-minutes';
-import { defaultDurationMin, DINNER, LUNCH, mealSlotAt } from './schedule-day';
+import { dinnerIsRideHome, longHops } from './hops';
+import { DINNER, LUNCH, mealAt, mealDuration, mealSlotAt, servingOn } from './meal-slots';
+import { MORNING_ENDS_MIN, placeTime, placeWindow } from './place-time';
+import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
 
@@ -15,43 +21,85 @@ export { spansOn } from './day-minutes';
 /** Orders are searched exhaustively up to this many stops (7! = 5040 timelines). */
 export const MAX_SEARCHED_STOPS = 7;
 
+/** Waiting counts in steps of this many minutes: a shorter wait never reorders a day. */
+const IDLE_STEP_MIN = 45;
+/** A meal this long after its stretch opens is a late one, and counts like waiting. */
+const LATE_MEAL_MIN = 60;
+
 export interface SequenceInput {
   readonly date: string;
   readonly choices: readonly DayChoice[];
   readonly pois: ReadonlyMap<string, DraftPoi>;
   readonly window: DayWindow;
   readonly travel: TravelMatrix;
+  /** The longest ride between two stops that is still one part of the map (./hops). */
+  readonly hopCapMin?: number;
+  /** The place the crew sleeps near (./home): the ride out to the first stop then counts. */
+  readonly homeId?: string | null;
+  /** The destination's zone, for stops that keep their own times (default: the place's own). */
+  readonly tz?: string;
+  /** Meal places that suit the crew: with none near the day, its dinner is a ride home (./hops). */
+  readonly mealPlaces?: readonly DraftPoi[];
 }
 
-/** How many stops of `order` break hours, the window or the meal rule, and when the day ends. */
-function timeline(
-  input: SequenceInput,
-  order: readonly DayChoice[],
-): { readonly broken: number; readonly end: number } {
+interface Timeline {
+  /** Stops that break hours, the window, a meal stretch, their time of day or the hop rule. */
+  readonly broken: number;
+  /** Minutes spent waiting for a place to open, a meal stretch or a time of day. */
+  readonly idle: number;
+  /** Morning places that start after the morning. */
+  readonly late: number;
+  readonly end: number;
+}
+
+function timeline(input: SequenceInput, order: readonly DayChoice[]): Timeline {
   let at = input.window.startMin;
   let previous: string | null = null;
   let broken = 0;
+  let idle = 0;
+  let late = 0;
   const meals = new Set<string>();
-  for (const choice of order) {
+  let dinnerAt: number | undefined;
+  for (const [index, choice] of order.entries()) {
     const poi = input.pois.get(choice.poiId);
+    // A stop with its own times stands where it is: the order must reach it in time.
+    const fixed = fixedMinutes(choice, input.date, poi?.tz ?? input.tz ?? 'UTC');
+    if (fixed !== null) {
+      const ride = previous === null ? 0 : (input.travel(previous, choice.poiId) ?? 0);
+      const arrived = ceilGrid(at + ride);
+      if (previous !== null && arrived > fixed.startMin) broken += 1;
+      idle += Math.max(0, fixed.startMin - Math.max(arrived, input.window.startMin));
+      if (choice.kind === 'meal') {
+        const slot = mealAt(fixed.startMin);
+        if (slot !== null) meals.add(slot);
+        if (slot === 'dinner') dinnerAt ??= index;
+      }
+      at = Math.max(at, fixed.endMin);
+      previous = choice.poiId;
+      continue;
+    }
     if (poi === undefined) {
       broken += 1;
       continue;
     }
-    let start = ceilGrid(at + (previous === null ? 0 : (input.travel(previous, poi.id) ?? 0)));
-    if (choice.kind === 'meal') {
-      const meal = mealSlotAt(start, meals.has('lunch'));
-      start = Math.max(start, meal.startMin);
-      const slot = meal === LUNCH ? 'lunch' : 'dinner';
-      if (meals.has(slot)) broken += 1;
-      meals.add(slot);
-    }
+    const reached = ceilGrid(at + (previous === null ? 0 : (input.travel(previous, poi.id) ?? 0)));
+    let start = reached;
     // A stop held to its time of day waits for it; nothing else starts before the usual day.
     const held = heldWindow(poi, input.date, choice.when);
+    const untimedMeal = choice.kind === 'meal' && held === null;
+    if (untimedMeal) {
+      const from =
+        choice.mealSlot === 'dinner'
+          ? DINNER.startMin
+          : mealSlotAt(start, meals.has('lunch')).startMin;
+      start = Math.max(start, from);
+    }
     if (held === null) start = Math.max(start, input.window.startMin);
     else if (previous === null || start < held.fromMin) {
       start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
     }
+    const own = held !== null || choice.kind === 'meal' ? null : placeWindow(poi, input.date);
+    if (own !== null) start = Math.max(start, own.fromMin);
     const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
     // Hours that are only a guess never move a held stop or count against it.
     const hours = held !== null && poi.hoursGuessed === true ? null : poi.hours;
@@ -60,16 +108,67 @@ function timeline(
     );
     if (span === undefined) broken += 1;
     else start = Math.max(start, ceilGrid(span.start));
+    // A meal its place's opening pushed past lunch waits for dinner (as `scheduleDay` times it).
+    if (untimedMeal && mealAt(start) === null && start < DINNER.startMin) {
+      const evening = spansOn(hours, input.date).find(
+        (s) => Math.max(DINNER.startMin, ceilGrid(s.start)) + duration <= s.end,
+      );
+      if (evening !== undefined) start = Math.max(DINNER.startMin, ceilGrid(evening.start));
+    }
     // Held to its time of day: too late for it is broken; running past the usual end is not.
     if (held !== null && start > held.toMin) broken += 1;
-    at = start + duration;
+    if (own !== null && start > own.toMin) broken += 1;
+    if (held === null && choice.kind !== 'meal' && start > MORNING_ENDS_MIN) {
+      late += placeTime(poi) === 'morning' ? 1 : 0;
+    }
+    if (choice.kind === 'meal') {
+      const slot = mealAt(start);
+      // An untimed meal outside every stretch, or a second one in the same stretch.
+      if (slot === null ? untimedMeal : meals.has(slot)) broken += 1;
+      if (slot !== null) meals.add(slot);
+      if (slot === 'dinner') dinnerAt ??= index;
+    }
+    idle += Math.max(0, start - Math.max(reached, input.window.startMin));
+    if (choice.kind === 'meal') idle += mealLateness(start, held?.fromMin ?? null);
+    at = start + (choice.kind === 'meal' ? mealDuration(poi, start, duration) : duration);
     if (
       at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
     )
       broken += 1;
     previous = poi.id;
   }
-  return { broken, end: at };
+  if (input.hopCapMin !== undefined) {
+    const ids = order.map((choice) => choice.poiId);
+    const rideHome =
+      dinnerAt !== undefined &&
+      input.mealPlaces !== undefined &&
+      dinnerIsRideHome(
+        ids.slice(0, dinnerAt),
+        servingOn(input.mealPlaces, input.date, 'dinner'),
+        input.travel,
+        input.hopCapMin,
+      );
+    broken += longHops(
+      ids,
+      input.travel,
+      input.hopCapMin,
+      rideHome ? dinnerAt : undefined,
+      input.homeId,
+    ).length;
+  }
+  return { broken, idle: Math.floor(idle / IDLE_STEP_MIN), late, end: at };
+}
+
+/**
+ * How late a meal is: a lunch or dinner more than an hour into its stretch, or a breakfast a
+ * must-do asked for that does not open the day.
+ */
+function mealLateness(start: number, heldFrom: number | null): number {
+  const slot = mealAt(start);
+  if (heldFrom !== null) return slot === 'breakfast' || slot === null ? start - heldFrom : 0;
+  if (slot === 'lunch') return Math.max(0, start - LUNCH.startMin - LATE_MEAL_MIN);
+  if (slot === 'dinner') return Math.max(0, start - DINNER.startMin - LATE_MEAL_MIN);
+  return 0;
 }
 
 function inversions(order: readonly number[]): number {
@@ -94,65 +193,45 @@ function* permutations(items: number[], k = items.length): Generator<number[]> {
   }
 }
 
-/** The meals a place can serve on a date: open for a whole meal inside the lunch or dinner stretch. */
-export function mealSlots(poi: DraftPoi, date: string): ('lunch' | 'dinner')[] {
-  const spans = spansOn(poi.hours, date);
-  const serves = (window: { startMin: number; endMin: number }) =>
-    spans.some(
-      (span) =>
-        Math.max(span.start, window.startMin) + poi.durationMin <=
-        Math.min(span.end, window.endMin + 60),
-    );
-  return [
-    ...(serves(LUNCH) ? (['lunch'] as const) : []),
-    ...(serves(DINNER) ? (['dinner'] as const) : []),
-  ];
-}
-
-/** The meals a day window runs through: lunch when it starts by the end of lunchtime and runs past
- * half past twelve, dinner when it starts by seven and runs to eight. */
-export function mealsInWindow(window: DayWindow): ('lunch' | 'dinner')[] {
-  return [
-    ...(window.startMin <= LUNCH.endMin && window.endMin >= 12 * 60 + 30
-      ? (['lunch'] as const)
-      : []),
-    ...(window.startMin <= 19 * 60 && window.endMin >= 20 * 60 ? (['dinner'] as const) : []),
-  ];
-}
-
 export interface PlannedOrder {
   /** Indexes of the choices in visiting order. */
   readonly order: number[];
-  /** Stops that still break hours, the window or the meal rule in that order. */
+  /** Stops that still break a rule in that order. */
   readonly broken: number;
 }
 
 /**
  * The order to visit `choices` in: the guide's own order when it works, else the order with the
- * fewest broken stops, then the fewest swapped pairs, then the earliest finish.
+ * fewest broken stops, then the fewest late morning places, then the least waiting, then the
+ * fewest swapped pairs, then the earliest finish.
  */
 export function bestOrder(input: SequenceInput): PlannedOrder {
   const identity = input.choices.map((_, index) => index);
   const own = timeline(input, input.choices);
-  if (own.broken === 0 || input.choices.length > MAX_SEARCHED_STOPS) {
+  const fine = own.broken === 0 && own.idle === 0 && own.late === 0;
+  if (fine || input.choices.length > MAX_SEARCHED_STOPS) {
     return { order: identity, broken: own.broken };
   }
-  let best: { order: number[]; broken: number; swaps: number; end: number } | null = null;
+  let best: { order: number[]; key: readonly number[] } | null = null;
   for (const order of permutations([...identity])) {
-    const { broken, end } = timeline(
+    const { broken, idle, late, end } = timeline(
       input,
       order.map((index) => input.choices[index] as DayChoice),
     );
-    const swaps = inversions(order);
-    if (
-      best === null ||
-      broken < best.broken ||
-      (broken === best.broken && (swaps < best.swaps || (swaps === best.swaps && end < best.end)))
-    ) {
-      best = { order, broken, swaps, end };
-    }
+    const key = [broken, late, idle, inversions(order), end];
+    if (best === null || before(key, best.key)) best = { order, key };
   }
-  return best === null ? { order: identity, broken: own.broken } : best;
+  return best === null
+    ? { order: identity, broken: own.broken }
+    : { order: best.order, broken: best.key[0] ?? 0 };
+}
+
+function before(a: readonly number[], b: readonly number[]): boolean {
+  for (let i = 0; i < a.length; i += 1) {
+    const diff = (a[i] ?? 0) - (b[i] ?? 0);
+    if (diff !== 0) return diff < 0;
+  }
+  return false;
 }
 
 export function visitOrder(input: SequenceInput): number[] {

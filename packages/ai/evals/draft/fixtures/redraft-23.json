@@ -1,0 +1,53 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "325a2e99-1e2b-4a87-9e0c-b3ca4b2bdf7d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A gentle Kintamani kind of day\",\n  \"summary\": \"One temple, two easy meals and plenty of room to breathe around the caldera.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one must-see stays, and the morning light makes it shine without any rush.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, so the only ride is the one you already took.\"\n    },\n    {\n      \"poi_id\": \"p150\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays put in the same pocket of Bali, easy and familiar after a slow day.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 1610,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 220,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "122498ae-1ed3-4b39-956e-6a587e7da012",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A gentle Batur day\",\n  \"summary\": \"One temple, two easy meals and plenty of room to breathe around Kintamani.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"p5\",\n      \"note\": \"The one temple worth the morning light, and it keeps the day close to home.\",\n      \"must_do_id\": \"p5\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the temple, so nobody spends the day in a car.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p150\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner stays local and lively, with the long ride swapped for a short one.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 98,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 2176,
+          "output_tokens": 230,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

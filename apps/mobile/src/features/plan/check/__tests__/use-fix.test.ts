@@ -62,6 +62,17 @@ describe('what FIX does', () => {
     expect([...cardsAfter(new Set(), id(10), stale)]).toEqual([id(10)]);
   });
 
+  it('keeps the card when the real drive leaves no room for the move', () => {
+    const unfit = fixOutcome({
+      kind: 'rejected',
+      opId: 'e',
+      code: 'STATE_INVALID',
+      detail: { reason: 'fix_would_clash' },
+    });
+    expect(unfit).toEqual({ kind: 'unfit' });
+    expect(cardsAfter(new Set(), id(10), unfit).size).toBe(0);
+  });
+
   it('keeps the card when the fix did not get through', () => {
     const failed = fixOutcome({ kind: 'unavailable', opId: 'd', code: 'NETWORK' });
     expect(failed).toEqual({ kind: 'failed' });

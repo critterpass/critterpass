@@ -1,26 +1,50 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "ace220c0-47fd-4b58-af6b-bd5aa4f640f0",
+        "id": "aab8c4dd-a027-4dc1-a986-013018dce203",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Sunday Close to Home\",\n  \"summary\": \"A relaxed day wandering the historic heart and nearby markets, with churros to keep everyone sweet.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Kept as the crew's must-do, the big history fix before the day slows down.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet, quick refuel after the pyramids, because churros make any walk better.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the far-flung market, keeping the history lovers close to the centre.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free stroll through the Zócalo to soak up local life without a long ride.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market stop stays, now a short walk from the square instead of a trek across town.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper taco dinner nearby, because no one should end a market day hungry.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A cosy Sunday close to the centre\",\n  \"summary\": \"A gentle day around the Zócalo and Chapultepec, with history, green space and meals right beside the sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The one long ride of the day, kept for the pyramids and their ancient pull.\",\n      \"start\": \"09:00\",\n      \"end\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause in Chapultepec to stretch legs after the ruins.\",\n      \"start\": \"13:00\",\n      \"end\": \"14:30\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, easy on the wallet and the conscience.\",\n      \"start\": \"14:45\",\n      \"end\": \"15:30\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short hop to the Zócalo for a dose of open-air history.\",\n      \"start\": \"16:00\",\n      \"end\": \"16:45\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Templo Mayor sits next door, so the old city unfolds without another ride.\",\n      \"start\": \"17:00\",\n      \"end\": \"18:30\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner a short stroll from the ruins, with options for every taste.\",\n      \"start\": \"19:00\",\n      \"end\": \"20:15\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 36,
+          "input_tokens": 75,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1280,
-          "output_tokens": 383,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 469,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "redraft-repair": {
+      "status": 200,
+      "body": {
+        "id": "054a74a8-b06e-410b-a096-6f6a10e225b9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Day in Mexico City\",\n  \"summary\": \"A gentle day wandering through the heart of the city, with history, green spaces, and a proper meal without long rides.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The pyramids are the one big journey, so we start here and let the rest of the day stay close and calm.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A leafy pause after the ruins, just a short ride away, to stretch the legs and breathe.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch right beside the park, easy on the wallet and kind to the veggie crew.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The Zócalo rounds out the day with a bit of living history, close to the evening air.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 124,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 278,
           "service_tier": "standard"
         }
       }

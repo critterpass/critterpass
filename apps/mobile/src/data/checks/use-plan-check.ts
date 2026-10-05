@@ -44,6 +44,11 @@ export interface IssueRow {
 export interface PlanCheckView {
   readonly loaded: boolean;
   readonly check: CheckRow | null;
+  /**
+   * The check is waiting for its next run (the plan changed and its legs are being stored): the
+   * counts and issues are what is known so far, of days the change did not touch.
+   */
+  readonly checking: boolean;
   /** Issues to fix first, then things to know, each in the check's rank order. */
   readonly fixes: readonly PlanCheckIssue[];
   readonly know: readonly PlanCheckIssue[];
@@ -70,6 +75,11 @@ export function issuesFrom(rows: readonly IssueRow[]): PlanCheckIssue[] {
   });
 }
 
+/** A row whose run is queued or under way; the counts on it are the last known ones. */
+export function isChecking(check: Pick<CheckRow, 'status'> | null): boolean {
+  return check?.status === 'queued' || check?.status === 'running';
+}
+
 export function usePlanCheck(tripId: string | null): PlanCheckView {
   const checks = useLiveRows<CheckRow>(CHECK_SQL, tripId === null ? null : [tripId], CHECK_TABLES);
   const check = checks.rows[0] ?? null;
@@ -84,6 +94,7 @@ export function usePlanCheck(tripId: string | null): PlanCheckView {
     return {
       loaded: checks.loaded && (version === null || issues.loaded),
       check,
+      checking: isChecking(check),
       fixes: all.filter((issue) => issue.severity === 'fix'),
       know: all.filter((issue) => issue.severity === 'know'),
     };

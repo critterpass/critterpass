@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "bdea7a86-5f7f-403a-83f2-94ccfc193e5f",
+        "id": "dcdf44ee-fd57-4263-8721-ba82de3aa893",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Day of Surprising Ubud\",\n  \"summary\": \"Monkeys, markets, and a palace twist with a proper feed in between.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The crew's must-do, and the monkeys always bring the unexpected. Rise and shine, early birds.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little local life and shopping to keep things lively before lunch.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The surprise: a free palace stop nobody saw coming. I know a guy.\",\n      \"start\": \"13:00\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet temple to wind down after the palace. The sun won't wait.\",\n      \"start\": \"15:00\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Day of Unexpected Bali\",\n  \"summary\": \"A slower, surprising day mixing sacred nature, local market life, and a beach club after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The monkeys are the real bosses here, and they know it. Keep your sunglasses close.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A temple where water does the talking. The crew didn't expect this kind of calm.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sunset, beats, and a pool with a view. A nightcap for the night owl in all of us.\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 109,
+          "input_tokens": 80,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 288,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 213,
           "service_tier": "standard"
         }
       }

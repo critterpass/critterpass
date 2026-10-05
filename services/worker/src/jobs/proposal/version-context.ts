@@ -1,6 +1,7 @@
 /**
  * What the guide may know when writing one recipient's version, read through `guide_reader` (the
- * `llm.*` views, scoped to that recipient and trip): the plan, the destination and dates, their own
+ * `llm.*` views, scoped to that recipient and trip): the plan with each stop's time on the trip's
+ * own clock (so the words fit the hour), the destination and dates, their own
  * public taste tags and first names for the no-names check. Their must-dos, their own share and the
  * savings the cost engine priced for them come from code. Never another member's budget, private
  * reason or passive signal.
@@ -116,10 +117,15 @@ export async function loadVersionContext(
       day_no: number | null;
       category: string | null;
       must_do_id: string | null;
+      local_time: string | null;
     }>(
-      `SELECT i.stable_id, p.name AS poi_name, d.day_no, i.category, i.must_do_id
+      `SELECT i.stable_id, p.name AS poi_name, d.day_no, i.category, i.must_do_id,
+              to_char(i.starts_at AT TIME ZONE coalesce(i.tz, t.tz, dest.tz, 'UTC'), 'HH24:MI')
+                AS local_time
          FROM plan_items i
          JOIN plan_days d ON d.id = i.day_id
+         JOIN trips t ON t.id = i.trip_id
+         LEFT JOIN destinations dest ON dest.id = t.destination_id
          LEFT JOIN pois p ON p.id = i.poi_id
         WHERE i.version_id = $1 AND i.trip_id = $2
         ORDER BY d.day_no NULLS LAST, i.starts_at NULLS LAST, i.stable_id`,
@@ -143,6 +149,7 @@ export async function loadVersionContext(
     day: item.day_no,
     category: item.category,
     must_do: item.must_do_id !== null && own.mustDos.has(item.must_do_id),
+    time: item.local_time,
   }));
   const { cost, locale } = own;
   const share = target.show_cost ? cost.share : null;

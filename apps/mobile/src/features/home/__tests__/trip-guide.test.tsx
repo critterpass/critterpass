@@ -33,22 +33,24 @@ const trip = (over: Partial<TripGuideRow>): TripGuideRow => ({
 });
 
 describe('the current trip’s guide', () => {
-  it('is the guide of a trip under way or locked in', () => {
-    expect(currentTripGuide([trip({ status: 'in_trip' })])).toEqual({ guideId: 'chava' });
-    expect(currentTripGuide([trip({ status: 'confirmed' })])).toEqual({ guideId: 'chava' });
-    expect(currentTripGuide([trip({ status: 'pre_trip' })])).toEqual({ guideId: 'chava' });
+  it('is the guide of the trip Home shows: under way, locked in, or still being planned', () => {
+    for (const status of ['in_trip', 'confirmed', 'pre_trip', 'setup', 'drafting', 'proposed']) {
+      expect(currentTripGuide([trip({ status })])).toEqual({ guideId: 'chava' });
+    }
   });
 
-  it('leaves the default with no trip, or one still being planned or already over', () => {
+  it('leaves the default with no trip, one that is over, or one with no guide yet', () => {
     expect(currentTripGuide([])).toBeNull();
-    for (const status of ['voting', 'won', 'setup', 'drafting', 'draft_review', 'proposed']) {
-      expect(currentTripGuide([trip({ status })])).toBeNull();
-    }
     expect(currentTripGuide([trip({ status: 'post_trip' })])).toBeNull();
     expect(currentTripGuide([trip({ status: 'cancelled' })])).toBeNull();
-    // A guide the app has no sticker for, or a trip with none.
+    // A guide this phone does not know, or a trip still voting on its place.
     expect(currentTripGuide([trip({ guide_slug: 'someone-new' })])).toBeNull();
-    expect(currentTripGuide([trip({ guide_slug: null })])).toBeNull();
+    expect(currentTripGuide([trip({ status: 'voting', guide_slug: null })])).toBeNull();
+    // A trip with no guide yet gives way to the next one that has one.
+    const voting = trip({ id: 'a', status: 'voting', start_date: null, guide_slug: null });
+    expect(currentTripGuide([voting, trip({ id: 'b', status: 'drafting' })])).toEqual({
+      guideId: 'chava',
+    });
   });
 
   it('prefers the trip under way, then the one that starts first', () => {
@@ -75,7 +77,7 @@ describe('the shell’s guide', () => {
   }
   const shown = () => String(screen.getByTestId('guide').props.children);
 
-  it('follows the Home crew’s trip as it is locked in', async () => {
+  it('follows the Home crew’s trip from the draft to the trip itself', async () => {
     stack = await openTestLocalFirst({ holdUploads: true });
     provideActiveGuide(useCurrentTripGuide);
     await seedCrew(stack);
@@ -89,9 +91,8 @@ describe('the shell’s guide', () => {
         <Probe />
       </LocalFirstProvider>,
     );
-    // Still being drafted: as before, the default guide.
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    expect(shown()).toBe(DEFAULT_GUIDE.guideId);
+    // Still being drafted: Home already shows this trip, so its guide is the shell's.
+    await until(() => shown() === 'chava');
     await stack.db.execute("UPDATE trips SET status = 'confirmed' WHERE id = ?", [TRIP]);
     await until(() => shown() === 'chava');
     // Another crew's trip is not this Home's.

@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { PicksEntryWire } from '@cp/domain';
 
-import { createImpressionGate, pickEntries, withSlot } from '../sponsored-model';
+import { createImpressionGate, pickEntries, picksOrLocal, withSlot } from '../sponsored-model';
 
 const item = (id: string) => ({
   poi_id: id,
@@ -44,13 +44,26 @@ describe('picks with a sponsored slot', () => {
     expect(pickEntries([paid('s')])).toEqual([]);
   });
 
-  it('leaves out places that are not must-sees, and shows no row without any', () => {
+  it('keeps only the must-sees where the guide marks any', () => {
     const plain: PicksEntryWire = { kind: 'organic', item: { ...item('bar'), must_see: false } };
     expect(pickEntries([organic('a'), plain, organic('b')]).map((card) => card.poiId)).toEqual([
       'a',
       'b',
     ]);
-    expect(pickEntries([plain, paid('s'), plain])).toEqual([]);
+  });
+
+  it('shows the recommended places as ranked where nothing is marked a must-see', () => {
+    const pick = (id: string): PicksEntryWire => ({
+      kind: 'organic',
+      item: { ...item(id), must_see: false },
+    });
+    expect(pickEntries([pick('a'), pick('b'), paid('s'), pick('c')]).map((c) => c.poiId)).toEqual([
+      'a',
+      'b',
+      's',
+      'c',
+    ]);
+    expect(pickEntries([paid('s')])).toEqual([]);
   });
 
   it('shows none for someone who gets none', () => {
@@ -83,5 +96,26 @@ describe('impressions', () => {
     expect(first('p', 'picks')).toBe(false);
     expect(first('p', 'search')).toBe(true);
     expect(first('q', 'picks')).toBe(true);
+  });
+});
+
+describe('picks when the server sent few or none', () => {
+  const card = (id: string) => ({ poiId: id, name: id, category: 'food', sponsored: null });
+  const local = ['x', 'y', 'z'].map((id) => ({ poiId: id, name: id, category: 'nature' }));
+
+  it('draws the recommended places the phone holds when the server sent none', () => {
+    expect(picksOrLocal([], local).map((pick) => pick.poiId)).toEqual(['x', 'y', 'z']);
+  });
+
+  it('leaves a full server row alone', () => {
+    const server = ['a', 'b', 'c', 'd'].map(card);
+    expect(picksOrLocal(server, local).map((pick) => pick.poiId)).toEqual(['a', 'b', 'c', 'd']);
+  });
+
+  it('leaves out places in the plan and tops the row up without repeating a place', () => {
+    const server = [card('a'), card('x')];
+    expect(
+      picksOrLocal(server, local, { skip: new Set(['a', 'y']) }).map((pick) => pick.poiId),
+    ).toEqual(['x', 'z']);
   });
 });

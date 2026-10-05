@@ -1,24 +1,34 @@
 /**
  * A plan item's sheet wired to the plan editor, as the day view (3e-2) and the day plan (7b-1)
  * open it: change the time, move it to another day, take it off the plan or skip it just for me,
- * its comments, and the place or the maps app. Every change goes through the editor (an
- * organiser's applies, a member's becomes a change set), and the sheet closes.
+ * its comments, and the place or the maps app. A new time or day is timed against the rest of that
+ * day before it is saved: the stops after it are pushed only as far as they need, the sheet says
+ * so in one line, and a change that would run into a booked or must-do stop can't be saved. Every
+ * change goes through the editor (an organiser's applies, a member's becomes a change set), which
+ * says what changed, and the sheet closes.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
+import type { PlanOp } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { Linking } from 'react-native';
 
-import type { DayItem } from '@/data/plan/plan-model';
+import { useLiveRows } from '@/data/plan/live-rows';
+import { dayItems, type DayItem } from '@/data/plan/plan-model';
 import { moveToDayOp, removeOp, resizeOp, type DaySlot } from '@/data/plan/plan-ops';
 import type { EditOutcome, PlanEditorEvents } from '@/data/plan/use-plan-editor';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
-import type { PlanOp } from '@cp/domain';
 
 import { ItemComments } from '../collab/item-comments';
+import { retime, type Retime, type Travel } from '../day-plan/reschedule';
 import { guideOf } from '../timeline/day-timeline';
+import { travelMinutes } from './fit-check';
+import { dayName } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
-import { mapsUrl, placeRoute } from './routes';
+import { retimePreview } from './retime-copy';
+import { mapsUrl, placeRoute, reviewRoute } from './routes';
 
 export interface ItemSheetEditor {
   readonly submit: (
@@ -35,31 +45,113 @@ function openInMaps(item: DayItem): void {
   void Linking.openURL(mapsUrl(item.title, item.place.lat, item.place.lng));
 }
 
+/** The open change set that touches `stableId`, if the crew is still deciding on one. */
+function openSuggestion(plan: TripPlan, stableId: string): string | null {
+  for (const set of plan.openChangesets) {
+    if (set.ops?.includes(`"${stableId}"`) === true) return set.id;
+  }
+  return null;
+}
+
 export function ItemSheetHost({
   plan,
   item,
   slot,
   editor,
-  announce,
+  travel,
   onClose,
 }: {
   readonly plan: TripPlan;
   readonly item: DayItem;
   readonly slot: DaySlot;
   readonly editor: ItemSheetEditor;
-  readonly announce: (outcome: EditOutcome) => void;
+  /** Unused: the editor says how an edit went itself. */
+  readonly announce?: (outcome: EditOutcome) => void;
+  /** Minutes between two stops (stored legs when the screen has them); straight-line otherwise. */
+  readonly travel?: Travel;
   readonly onClose: () => void;
 }) {
   const { t } = useLingui();
+  const locale = useLocale();
+  const tripId = plan.trip?.id ?? '';
+  const tz = plan.trip?.tz ?? item.tz;
+  const mustDoId = plan.itemRows.find((row) => row.stable_id === item.stableId)?.must_do_id ?? null;
+  const owner = useLiveRows<{ owner_id: string | null }>(
+    'SELECT owner_id FROM must_dos WHERE id = ?',
+    mustDoId === null ? null : [mustDoId],
+    ['must_dos'],
+  );
+  const price = useLiveRows<{ price_level: number | null }>(
+    'SELECT price_level FROM pois WHERE id = ?',
+    item.poiId === null ? null : [item.poiId],
+    ['pois'],
+  );
+  const dayLabels = new Map(
+    plan.state.days.flatMap((day) =>
+      day.date === null ? [] : [[day.day_no, dayName(locale, day.date)] as const],
+    ),
+  );
+  const slotOf = (dayNo: number): DaySlot | null => {
+    const date = plan.state.days.find((day) => day.day_no === dayNo)?.date ?? null;
+    return date === null ? null : { dayNo, date };
+  };
+  /** The day `dayNo` with this stop at its new time: what else has to move, or why it can't. */
+  const timed = (change: { start: number; end: number; dayNo: number }): Retime | null => {
+    const to = slotOf(change.dayNo);
+    if (to === null) return null;
+    const there = dayItems(plan.state, change.dayNo, plan.display, tz);
+    const stops =
+      change.dayNo === item.dayNo
+        ? there
+        : [...there, { ...item, dayNo: change.dayNo, start: null, end: null }];
+    const straight = travelMinutes(stops);
+    const between: Travel = travel ?? ((from, next) => straight(from.stableId, next.stableId) ?? 0);
+    return retime(stops, { stableId: item.stableId, ...change }, to, between);
+  };
+  const pushes = (change: { start: number; end: number; dayNo: number }): readonly PlanOp[] => {
+    const result = timed(change);
+    return result?.ok === true ? result.ops : [];
+  };
+  const suggestionId = plan.proposed.has(item.stableId)
+    ? openSuggestion(plan, item.stableId)
+    : null;
+  const suggester = plan.members.find((member) => member.uid === plan.proposed.get(item.stableId));
+
   return (
     <ItemDetailSheet
       item={item}
       dayNos={plan.state.days.map((candidate) => candidate.day_no)}
+      dayLabels={dayLabels}
       members={plan.members}
       canApply={plan.canApply}
+      priceLevel={price.rows[0]?.price_level ?? null}
+      mustDoMine={owner.rows[0]?.owner_id != null && owner.rows[0].owner_id === plan.uid}
+      suggestion={
+        suggestionId === null
+          ? null
+          : {
+              line:
+                suggester === undefined || suggester.uid === plan.uid
+                  ? t({ id: 'plan.day.item.suggestedByYou', message: 'You suggested a change' })
+                  : t({
+                      id: 'plan.day.item.suggestedBy',
+                      message: `${suggester.name} suggested a change`,
+                    }),
+              onSee: () => {
+                onClose();
+                router.push(reviewRoute(tripId, suggestionId));
+              },
+            }
+      }
+      preview={(change) => {
+        const result = timed(change);
+        if (result === null) return { line: null, blocked: false };
+        const toDay = change.dayNo === item.dayNo ? null : (dayLabels.get(change.dayNo) ?? null);
+        return retimePreview(result, locale, toDay);
+      }}
       comments={
         <ItemComments
-          tripId={plan.trip?.id ?? ''}
+          tripId={tripId}
           uid={plan.uid}
           item={item}
           members={plan.members}
@@ -69,19 +161,24 @@ export function ItemSheetHost({
       actions={{
         onClose,
         onSave: (start, end, confirmLocked) => {
-          void editor.submit([resizeOp(item, slot, start, end)], { confirmLocked }).then(announce);
+          const others = pushes({ start, end, dayNo: item.dayNo });
+          void editor.submit([resizeOp(item, slot, start, end), ...others], { confirmLocked });
           onClose();
         },
-        onMoveToDay: (target, confirmLocked) => {
-          const to = plan.state.days.find((candidate) => candidate.day_no === target);
-          if (to?.date == null) return;
-          void editor
-            .submit([moveToDayOp(item, { dayNo: target, date: to.date })], { confirmLocked })
-            .then(announce);
+        onMoveToDay: (target, confirmLocked, times) => {
+          const to = slotOf(target);
+          if (to === null) return;
+          const start = times?.start ?? item.start;
+          const end = times?.end ?? item.end;
+          const others =
+            start === null || end === null ? [] : pushes({ start, end, dayNo: target });
+          void editor.submit([moveToDayOp({ ...item, start, end }, to), ...others], {
+            confirmLocked,
+          });
           onClose();
         },
         onRemove: (confirmLocked) => {
-          void editor.submit([removeOp(item)], { confirmLocked }).then(announce);
+          void editor.submit([removeOp(item)], { confirmLocked });
           onClose();
         },
         onSkipForMe: () => {
@@ -93,7 +190,10 @@ export function ItemSheetHost({
           );
           onClose();
         },
-        onOpenPlace: (poiId) => router.push(placeRoute(poiId)),
+        onOpenPlace: (poiId) => {
+          const href = placeRoute(poiId, tripId);
+          if (href !== undefined) router.push(href);
+        },
         onOpenMaps: () => openInMaps(item),
       }}
     />

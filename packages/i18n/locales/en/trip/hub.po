@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: turn.organiser
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingBy"
+msgstr "{0} is still planning"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.going"
 msgstr "{count} going"
@@ -15,13 +20,17 @@ msgstr "{count} going"
 msgid "trip.hub.tile.saved"
 msgstr "{count} saved"
 
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.inCrew"
+msgstr "{crew} in the crew"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.days"
 msgstr "{days, plural, one {# day} other {# days}}"
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.guestGuide"
-msgstr "{guideName} is a guest here"
+msgid "trip.hub.learningGuide"
+msgstr "{guideName} is still learning · picks unchecked"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.title"
@@ -119,9 +128,17 @@ msgstr "Be at the airport by"
 msgid "trip.hub.beThereBy"
 msgstr "Be there by"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftWriting"
+msgstr "Being written"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr "Bookings"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComing"
+msgstr "Coming"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.booked"
@@ -138,6 +155,10 @@ msgstr "Day {dayNo} of {days}"
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.done"
 msgstr "Done"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draft"
+msgstr "Draft"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
@@ -251,6 +272,10 @@ msgstr "Nudged {who}."
 msgid "trip.briefing.nudgedSome"
 msgstr "Nudged."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftPrivate"
+msgstr "Only you see it"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.open"
 msgstr "Open"
@@ -311,6 +336,10 @@ msgstr "setting up"
 msgid "trip.hub.ticker.someone"
 msgstr "Someone"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingPlain"
+msgstr "Still being planned"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipe"
 msgstr "Swipe places together"
@@ -323,10 +352,6 @@ msgstr "Switch trip"
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.takeOff"
 msgstr "Take off in"
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.ticker.status.review"
-msgstr "The draft is ready to review"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
@@ -343,6 +368,10 @@ msgstr "The plan is locked in"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.proposed"
 msgstr "The plan is out to the crew"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.planning"
+msgstr "The plan is still being worked on"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.inTrip"
@@ -412,6 +441,10 @@ msgstr "you owe"
 #: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
 msgid "trip.briefing.queued"
 msgstr "Your briefing"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.yourDraft"
+msgstr "Your draft is ready"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"

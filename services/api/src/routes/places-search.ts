@@ -35,7 +35,10 @@ export interface PlaceSearchRow {
   readonly country: string | null;
   readonly country_code: string | null;
   readonly coverage: 'live' | 'guest';
-  /** The live guide's persona, or `tokek` covering as the guest guide. */
+  /**
+   * The live guide's persona, or `tokek` covering as the guest guide; while guides go by city, the
+   * guide of the destination's own critter.
+   */
   readonly guide: string;
   /** Silhouette ids of the locals to find here (critter keys; never names). */
   readonly locals: readonly string[];
@@ -50,6 +53,11 @@ const querySchema = z.object({
 const SEARCHES_PER_UID_RULE = { windowSeconds: 60, max: 120 };
 /** Below this similarity a row is not a match (prefix matches always are). */
 const MIN_SCORE = 0.3;
+/**
+ * A row must also score this share of the best match: "Da Lat" typed in full is Đà Lạt, not the
+ * Lake District, while a typo with no exact match still finds its nearest names.
+ */
+const NEAR_BEST = 0.6;
 
 interface Row {
   id: string;
@@ -58,6 +66,8 @@ interface Row {
   code: string | null;
   coverage: 'live' | 'guest';
   guide: string | null;
+  /** The guide of the destination's own critter, while guides go by city. */
+  city_guide: string | null;
   set_id: string | null;
 }
 
@@ -71,6 +81,8 @@ export async function searchDestinations(
      scored AS (
        SELECT d.id, d.name, coalesce(s.name, d.country) AS country, upper(s.code) AS code,
               d.coverage, s.guide_slug AS guide, s.id AS set_id,
+              (SELECT g.slug FROM guides g
+                WHERE g.critter_key = d.critter_key AND app.guides_per_city()) AS city_guide,
               greatest(
                 similarity(app.unaccent_immutable(lower(d.name)), q.t),
                 word_similarity(q.t, app.unaccent_immutable(lower(d.name))),
@@ -82,12 +94,13 @@ export async function searchDestinations(
          FROM destinations d
          LEFT JOIN critter_sets s ON s.id = d.critter_set_id
          CROSS JOIN q
-        WHERE d.critter_set_id IS NULL OR s.id IS NOT NULL)
-     SELECT id, name, country, code, coverage, guide, set_id FROM scored
-      WHERE score >= $2
+        WHERE d.critter_set_id IS NULL OR s.id IS NOT NULL),
+     matched AS (SELECT *, max(score) OVER () AS best FROM scored WHERE score >= $2)
+     SELECT id, name, country, code, coverage, guide, city_guide, set_id FROM matched
+      WHERE score >= best * $4
       ORDER BY score DESC, (coverage = 'live') DESC, name
       LIMIT $3`,
-    [q, MIN_SCORE, limit],
+    [q, MIN_SCORE, limit, NEAR_BEST],
   );
   const setIds = [...new Set(rows.flatMap((row) => (row.set_id === null ? [] : [row.set_id])))];
   const locals = await tx.query<{ key: string; set_id: string; city: string }>(
@@ -108,7 +121,7 @@ export async function searchDestinations(
       country: row.country,
       country_code: row.code,
       coverage: row.coverage,
-      guide: row.coverage === 'live' ? (row.guide ?? 'tokek') : 'tokek',
+      guide: row.city_guide ?? (row.coverage === 'live' ? (row.guide ?? 'tokek') : 'tokek'),
       locals: (inCity.length > 0 ? inCity : inPlace.slice(0, 3)).map((local) => local.key),
     };
   });

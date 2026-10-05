@@ -193,6 +193,14 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     critical: false,
     description: 'Live camera behind the encounter scene; off shows the illustrated scene',
   },
+  'guides.per_city': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: true,
+    description:
+      "A trip's guide is the critter of its destination's city; off gives every city its country's guide",
+  },
   ...PLANNING_CONFIG_KEYS,
   ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
   ...serviceKeys(),

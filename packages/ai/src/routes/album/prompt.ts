@@ -7,7 +7,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 import type { AlbumNoteFacts } from '@cp/domain';
 import { ALBUM_NOTE_MAX, ALBUM_SCORE_FORMAT, type AlbumThumbnail } from './schema';
@@ -62,7 +62,7 @@ const NOTE_TASK = [
 export function buildAlbumNoteRequest(guide: PersonaId, facts: AlbumNoteFacts): GatewayInput {
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(guide)) },
       { type: 'text', text: NOTE_TASK },
     ],
     messages: [

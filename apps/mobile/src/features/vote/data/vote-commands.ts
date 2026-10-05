@@ -8,6 +8,7 @@ import type {
   AddPollCandidatePayload,
   AdvancePollStagePayload,
   CastBallotPayload,
+  CreateCrewPayload,
   CreatePollPayload,
   CreateTripPayload,
 } from '@cp/domain';
@@ -89,4 +90,14 @@ export const unsavePlaceCommand = defineClientCommand<{ place_id: string }>({
 export const requestPlaceCommand = defineClientCommand<{ query: string }>({
   name: 'request_place',
   offline: true,
+});
+
+/**
+ * Starting a crew from a place page, for someone with no crew who wants to pitch: the same
+ * `create_crew` the crew area sends, queued the same way.
+ */
+export const createCrewCommand = defineClientCommand<CreateCrewPayload>({
+  name: 'create_crew',
+  offline: true,
+  summarize: (p) => msg({ id: 'crew.queued.create', message: `New crew: ${p.name}` }),
 });

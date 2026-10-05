@@ -157,6 +157,14 @@ describe('content.publish', () => {
       'Temple Tokek',
       'Tokek',
     ]);
+    // A released critter is the guide of its city: its guide row comes with the release.
+    const guides = await harness.pool.query(
+      'SELECT slug, name, colour, accent FROM guides WHERE critter_key = $1',
+      ['cp-112'],
+    );
+    expect(guides.rows).toEqual([
+      { slug: 'tokek', name: 'Tokek', colour: 'yellow', accent: '#ffd84a' },
+    ]);
     const window = await harness.pool.query<{ months: number[] }>(
       "SELECT months FROM legendary_windows WHERE key = 'golden-tokek'",
     );
@@ -297,6 +305,156 @@ describe('content.publish', () => {
     ]);
   });
 
+  it('sets and clears the must-see flag and leaves the other editorial fields alone', async () => {
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, editorial)
+       SELECT d.id, seed.name, 'nature', -8.4312, 115.2793, jsonb_build_object('fsq_os', seed.ref),
+         seed.editorial::jsonb
+       FROM destinations d, (VALUES
+         ('Tegallalang Rice Terrace', 'terrace', '{"entry_short": "Ticket", "must_see": true}'),
+         ('Campuhan Ridge Walk', 'ridge', '{"entry_short": "Free"}'),
+         ('Tegenungan Waterfall', 'falls', '{"must_see": true}')
+       ) AS seed(name, ref, editorial) WHERE d.slug = 'bali'`,
+    );
+    const item = (
+      id: string,
+      name: string,
+      mustSee: boolean | undefined,
+    ): ContentItem<'places'> => ({
+      ref: `fsq_os:${id}`,
+      destination: 'bali',
+      name,
+      name_local: null,
+      category: 'nature',
+      lat: -8.4312,
+      lng: 115.2793,
+      address: null,
+      tz: 'Asia/Makassar',
+      tags: ['nature'],
+      hours: null,
+      licence: {
+        source: 'fsq_os',
+        source_id: id,
+        licence: 'Apache-2.0',
+        attribution: 'Foursquare Open Source Places',
+      },
+      editorial: {
+        why_go: 'Green terraces north of Ubud.',
+        best_time: 'Early morning',
+        time_needed_min: 60,
+        crowd_hint: 'Busy by ten',
+        etiquette: null,
+        ...(mustSee === undefined ? {} : { must_see: mustSee }),
+      },
+      merge_into: null,
+      possible_duplicate_of: null,
+    });
+    await publish(
+      await approved('places', 3, [
+        item('terrace', 'Tegallalang Rice Terrace', false),
+        item('ridge', 'Campuhan Ridge Walk', true),
+        item('falls', 'Tegenungan Waterfall', undefined),
+      ]),
+    );
+    const { rows } = await harness.pool.query<{
+      name: string;
+      must_see: boolean | null;
+      entry: string | null;
+      why: string;
+    }>(
+      `SELECT name, (editorial ->> 'must_see')::boolean AS must_see, editorial ->> 'entry_short' AS entry,
+         editorial ->> 'why_go' AS why
+       FROM pois WHERE category = 'nature' ORDER BY name`,
+    );
+    const why = 'Green terraces north of Ubud.';
+    expect(rows).toEqual([
+      { name: 'Campuhan Ridge Walk', must_see: true, entry: 'Free', why },
+      { name: 'Tegallalang Rice Terrace', must_see: false, entry: 'Ticket', why },
+      { name: 'Tegenungan Waterfall', must_see: true, entry: null, why },
+    ]);
+
+    // The essential tier beside it merges the same way: set, kept when not stated, cleared by false.
+    const ridge = item('ridge', 'Campuhan Ridge Walk', true);
+    const tier = (essential: boolean) => ({
+      ...ridge,
+      editorial: { ...ridge.editorial, essential },
+    });
+    const essential = async () => {
+      const found = await harness.pool.query<{ essential: boolean | null }>(
+        `SELECT (editorial ->> 'essential')::boolean AS essential FROM pois
+          WHERE name = 'Campuhan Ridge Walk'`,
+      );
+      return found.rows[0]?.essential;
+    };
+    expect(await essential()).toBeNull();
+    await publish(await approved('places', 30, [tier(true)]));
+    expect(await essential()).toBe(true);
+    await publish(await approved('places', 31, [ridge]));
+    expect(await essential()).toBe(true);
+    await publish(await approved('places', 32, [tier(false)]));
+    expect(await essential()).toBe(false);
+  });
+
+  it('stores no null line: a null clears an earlier value and leaves no key behind', async () => {
+    // A place whose stored note has etiquette and, from an earlier publish, a line stored as null.
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids, curation, editorial)
+       SELECT id, 'Pantai Pura Geger', 'beach', -8.504, 115.2546, '{"fsq_os": "geger"}', 'editorial',
+         '{"etiquette": "Wear a sarong.", "entry_short": "Free", "crowd_hint": null}'
+         FROM destinations WHERE slug = 'bali'`,
+    );
+    const item = (id: string, name: string): ContentItem<'places'> => ({
+      ref: `fsq_os:${id}`,
+      destination: 'bali',
+      name,
+      name_local: null,
+      category: 'beach',
+      lat: -8.504,
+      lng: 115.2546,
+      address: null,
+      tz: 'Asia/Makassar',
+      tags: ['culture'],
+      hours: null,
+      licence: {
+        source: 'fsq_os',
+        source_id: id,
+        licence: 'Apache-2.0',
+        attribution: 'Foursquare Open Source Places',
+      },
+      editorial: {
+        why_go: 'A beach below a clifftop temple.',
+        best_time: 'Morning',
+        time_needed_min: 30,
+        crowd_hint: 'Quiet',
+        etiquette: null,
+      },
+      merge_into: null,
+      possible_duplicate_of: null,
+    });
+    const items = [item('geger', 'Pantai Pura Geger'), item('mengiat', 'Pantai Mengiat')];
+    await publish(await approved('places', 40, items));
+    const stored = () =>
+      harness.pool.query<{ name: string; editorial: Record<string, unknown>; xmin: string }>(
+        `SELECT name, editorial, xmin::text AS xmin FROM pois WHERE category = 'beach' ORDER BY name`,
+      );
+    const note = {
+      why_go: 'A beach below a clifftop temple.',
+      best_time: 'Morning',
+      time_needed_min: 30,
+      crowd_hint: 'Quiet',
+    };
+    const first = await stored();
+    expect(first.rows.map((row) => [row.name, row.editorial])).toEqual([
+      // Created from the item: no etiquette key.
+      ['Pantai Mengiat', note],
+      // Etiquette cleared, the fact a release does not carry kept, no null left.
+      ['Pantai Pura Geger', { ...note, entry_short: 'Free' }],
+    ]);
+    // A row that already reads as its item says is still left alone.
+    await publish(await approved('places', 41, items));
+    expect((await stored()).rows.map((row) => row.xmin)).toEqual(first.rows.map((row) => row.xmin));
+  });
+
   it('has the picks of every destination a places release wrote to made again', async () => {
     // An open-data warung the pick job chose before Bali had any curated place.
     await harness.pool.query(
@@ -323,9 +481,47 @@ describe('content.publish', () => {
     expect(rows).toEqual([{ name: 'Warung Bu Made', pick_rank: 1 }]);
   });
 
+  it('leaves a place alone when a later release says the same and rewrites one that changed', async () => {
+    await harness.pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+       SELECT d.id, seed.name, 'museum', -8.5069, 115.2625, jsonb_build_object('fsq_os', seed.ref)
+       FROM destinations d, (VALUES ('Museum Puri Lukisan', 'lukisan'), ('Neka Art Museum', 'neka'))
+         AS seed(name, ref) WHERE d.slug = 'bali'`,
+    );
+    const museum = (id: string, name: string): ContentItem<'places'> => ({
+      ...poi(`fsq_os:${id}`, name, null),
+      category: 'museum',
+    });
+    // The row's transaction id changes whenever the row is written again.
+    const written = async () => {
+      const { rows } = await harness.pool.query<{ name: string; xmin: string }>(
+        `SELECT name, xmin::text AS xmin FROM pois WHERE category = 'museum'
+         ORDER BY source_ids ->> 'fsq_os'`,
+      );
+      return rows;
+    };
+    await publish(
+      await approved('places', 20, [
+        museum('lukisan', 'Museum Puri Lukisan'),
+        museum('neka', 'Neka Art Museum'),
+      ]),
+    );
+    const before = await written();
+    await publish(
+      await approved('places', 21, [
+        museum('lukisan', 'Museum Puri Lukisan'),
+        museum('neka', 'Neka Art Museum Ubud'),
+      ]),
+    );
+    const after = await written();
+    expect(after.map((row) => row.name)).toEqual(['Museum Puri Lukisan', 'Neka Art Museum Ubud']);
+    expect(after[0]!.xmin).toBe(before[0]!.xmin);
+    expect(after[1]!.xmin).not.toBe(before[1]!.xmin);
+  });
+
   it('publishes persona packs for live guides, read back through the persona loader shape', async () => {
     await harness.pool.query(
-      "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow')",
+      "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow') ON CONFLICT (slug) DO NOTHING",
     );
     const pack = { ...REPO_PACKS.tokek, version: 'content-test', status: 'draft' };
     const item: ContentItem<'personas'> = {

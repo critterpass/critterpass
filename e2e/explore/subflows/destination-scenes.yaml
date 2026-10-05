@@ -80,6 +80,14 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       {
+        SCENE: destination-learning,
+        READY: explore-limited,
+        SHOT: '${PREFIX}-${SCREEN}-guide-still-learning',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
         SCENE: destination-pick-crew,
         READY: explore-pitch-crews,
         SHOT: '${PREFIX}-${SCREEN}-pick-crew',

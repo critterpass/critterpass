@@ -60,6 +60,44 @@ export function withSwipe(swiped: Swiped, poiId: string, verdict: Verdict): Swip
   return { ...withoutSwipe(swiped, poiId), [poiId]: verdict };
 }
 
+/** A trip idea as the deck reads it: the place and who backs it. */
+export interface DeckIdea {
+  readonly id: string;
+  readonly poiId: string | null;
+  readonly backerIds: readonly string[];
+}
+
+/**
+ * Whether a yes saves the place to the trip's Ideas under the swiper's name: every yes does, alone
+ * or not, unless they already back the idea for that place (a match later adds the others).
+ */
+export function yesSaves(
+  verdict: Verdict,
+  poiId: string,
+  me: string | null,
+  ideas: readonly DeckIdea[],
+): boolean {
+  if (verdict !== 'yes') return false;
+  const idea = ideas.find((entry) => entry.poiId === poiId);
+  return idea === undefined || me === null || !idea.backerIds.includes(me);
+}
+
+/**
+ * The idea an undone yes takes the swiper back out of: the synced one they back for the place, else
+ * the one this phone just asked for (`sent`, by place id) and has not seen come back yet.
+ */
+export function ideaToTakeBack(
+  poiId: string,
+  me: string | null,
+  ideas: readonly DeckIdea[],
+  sent: Readonly<Record<string, string>>,
+): string | null {
+  const idea = ideas.find(
+    (entry) => entry.poiId === poiId && me !== null && entry.backerIds.includes(me),
+  );
+  return idea?.id ?? sent[poiId] ?? null;
+}
+
 export interface YesVote {
   readonly poiId: string;
   readonly userId: string;

@@ -5,8 +5,8 @@
  * bookings). It answers with the new day's stops, a title, a summary and a reason per stop; the
  * planner times and checks them, repairs once, and re-keys the day on the old stable ids.
  */
-import type { DraftDay, Itinerary, RedraftReason } from '@cp/domain';
-import { alignStableIds, dayWindow, dropViolations, type ValidationResult } from '@cp/planner';
+import type { DraftDay, Itinerary } from '@cp/domain';
+import { alignStableIds, dayWindow, redraftDiff, type ValidationResult } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
@@ -15,64 +15,45 @@ import {
   aliases,
   clockText,
   crewLine,
+  languageLine,
   personaSystem,
   placeLine,
   placeNames,
   weekdayOf,
   type DraftModel,
-  type DraftPlanInput,
 } from './context';
+import { areasOf } from './areas';
 import { stopBudget } from './budget';
+import { fillMeals } from './complete-days';
 import { scheduleChoices, toChoices } from './day';
-import { trimForMustDos, validate } from './repair';
+import {
+  plannedRedraft,
+  redraftDay,
+  redraftSkeletonDay,
+  withKept,
+  type RedraftPlanInput,
+} from './redraft-input';
+import {
+  indoorsInstead,
+  isOutdoors,
+  leftOutdoors,
+  RAIN_TARGET,
+  wantsIndoors,
+} from './redraft-rain';
+import { REASON_TEXT, reasonTarget } from './redraft-reasons';
+import { validate } from './repair';
+import { withFinalNotes } from './final-notes';
+import { settle } from './settle';
 import { proseProblem, REDRAFT_FORMAT, redraftReplySchema } from './schema';
-import type { SkeletonDay } from './skeleton';
 
-export const REDRAFT_PROMPT_VERSION = 'redraft-day@1';
+export const REDRAFT_PROMPT_VERSION = 'redraft-day@3';
 
-const REASON_TEXT: Readonly<Record<RedraftReason, string>> = {
-  slower: 'slower: fewer stops and more time at each',
-  cheaper: 'cheaper: free and lower-priced places',
-  less_train: 'less travel: stops close together, no long rides',
-  more_food: 'more food: markets, snacks and a proper meal',
-  swap_it_out: 'swap it out: mostly different places',
-  surprise_me: 'surprise me: something the crew would not expect',
-};
-
-/** What each reason asks of the new day, measured against the day as it stands. */
-function reasonTarget(reason: RedraftReason, day: DraftDay): string {
-  const stops = day.items.length;
-  const food = day.items.filter((item) => item.kind === 'meal').length;
-  switch (reason) {
-    case 'slower':
-      return `Slower means at most ${Math.max(1, stops - 1)} stops (the day has ${stops} now).`;
-    case 'cheaper':
-      return 'Cheaper means swapping at least one priced stop for a free or lower-priced one.';
-    case 'less_train':
-      return 'Less travel means stops closer together than now: drop or swap the one furthest away.';
-    case 'more_food':
-      return `More food means more than ${food} food stops: add a market or a meal place.`;
-    case 'swap_it_out':
-      return 'Swap it out means most stops not marked KEEP become different places.';
-    case 'surprise_me':
-      return 'Surprise me means at least one place of a kind this day does not have yet.';
-  }
-}
-
-export interface ChatLine {
-  readonly id: string;
-  readonly author: string;
-  readonly text: string;
-  readonly at: string;
-}
-
-export interface RedraftPlanInput extends DraftPlanInput {
-  readonly base: Itinerary;
-  readonly dayNo: number;
-  readonly reasons: readonly RedraftReason[];
-  readonly note: string | null;
-  readonly chat: readonly ChatLine[];
-}
+export {
+  plannedRedraft,
+  redraftSkeletonDay,
+  type ChatLine,
+  type RedraftPlanInput,
+} from './redraft-input';
 
 const TASK = [
   '# Task',
@@ -80,9 +61,13 @@ const TASK = [
   "Redraft one day of the crew's trip for the organiser, for the reasons given.",
   '',
   '- Keep every stop marked KEEP, with its must_do_id. Change the rest as the reasons ask: the new',
-  '  day must differ from the day now (for "slower", fewer stops; never the same list back).',
+  '  day must differ from the day now (for "slower", fewer activities; never the same list back).',
   '- Use only ids from the lists; never invent one, and never use a place from another day.',
-  '- Add lunch and dinner from the meal list when the day runs through meal times (kind "meal").',
+  '- Keep lunch and dinner (kind "meal") whenever the day runs through meal times, whatever the',
+  '  reasons: a slower or lighter day drops activities, never a meal. Pick them from the meal list,',
+  '  one place per meal and no place twice; with too few meal places, plan the meals there are.',
+  '- Keep the day in one part of the map: stops in the same area or areas listed as near each other.',
+  '  Area letters are for you alone: never write one in a title, the summary or a note.',
   '- Order the stops so each place is open for its whole visit, and stay within the stop limit.',
   '- The note on each stop says why it is there or what changed, in your voice.',
   '- Title (under 40 characters), summary (one sentence) and notes are words only: no numbers,',
@@ -92,46 +77,12 @@ const TASK = [
   "  an amount, a budget, a link, an id or anyone's private detail.",
 ].join('\n');
 
-function redraftDay(input: RedraftPlanInput): DraftDay {
-  const day = input.base.days.find((d) => d.day_no === input.dayNo);
-  if (day === undefined) throw new Error(`redraft: no day ${input.dayNo}`);
-  return day;
-}
-
-export function redraftSkeletonDay(input: RedraftPlanInput): SkeletonDay {
-  const day = redraftDay(input);
-  const elsewhere = usedElsewhere(input);
-  const open = (id: string) => (input.pools.openDays.get(id) ?? []).includes(day.day_no);
-  return {
-    dayNo: day.day_no,
-    date: day.date,
-    theme: day.theme,
-    area: '',
-    mustDoIds: day.items.flatMap((item) => (item.must_do_id === null ? [] : [item.must_do_id])),
-    poiIds: input.pools.activities
-      .filter((poi) => !elsewhere.has(poi.id) && open(poi.id))
-      .slice(0, 12)
-      .map((poi) => poi.id),
-    mealIds: input.pools.meals
-      .filter((poi) => !elsewhere.has(poi.id) && open(poi.id))
-      .slice(0, 6)
-      .map((poi) => poi.id),
-    spareIds: [],
-  };
-}
-
-function usedElsewhere(input: RedraftPlanInput): Set<string> {
-  return new Set(
-    input.base.days
-      .filter((d) => d.day_no !== input.dayNo)
-      .flatMap((d) => d.items.map((item) => item.poi_id ?? '')),
-  );
-}
-
 export function buildRedraftRequest(
-  input: RedraftPlanInput,
+  asked: RedraftPlanInput,
   fix: readonly string[] = [],
 ): GatewayInput {
+  const input = plannedRedraft(asked);
+  const areas = areasOf(input);
   const day = redraftDay(input);
   const skeleton = redraftSkeletonDay(input);
   const window = dayWindow(input.frame, day.day_no - 1);
@@ -146,21 +97,40 @@ export function buildRedraftRequest(
         : poi?.priceLevel
           ? ` | price ${'$'.repeat(poi.priceLevel)}`
           : '';
-    return `- ${poi?.name ?? 'a stop'} (${alias.place(item.poi_id ?? 'none')}) | ${item.kind}${price}${must}${keep}`;
+    const area = poi === undefined ? undefined : areas.of(poi.id);
+    const where = area === undefined ? '' : ` | area ${area}`;
+    const air = poi !== undefined && wantsIndoors(input) && isOutdoors(poi) ? ' | outdoors' : '';
+    return `- ${poi?.name ?? 'a stop'} (${alias.place(item.poi_id ?? 'none')}) | ${item.kind}${where}${air}${price}${must}${keep}`;
   });
   const neighbours = input.base.days
     .filter((d) => Math.abs(d.day_no - day.day_no) === 1)
     .map((d) => `- Day ${d.day_no}: ${d.theme}`);
   const place = (id: string) => {
     const poi = input.pois.get(id);
-    return poi === undefined ? [] : [placeLine(input, poi, day.date)];
+    if (poi === undefined) return [];
+    const open = wantsIndoors(input) && isOutdoors(poi) ? ' | outdoors' : '';
+    return [`${placeLine(input, poi, day.date, areas.of(poi.id))}${open}`];
   };
+  const meals = [
+    ...new Set([
+      ...day.items.filter((i) => i.kind === 'meal').map((i) => i.poi_id ?? ''),
+      ...skeleton.mealIds,
+    ]),
+  ].flatMap(place);
   const text = [
     `Destination: ${input.destination}. Day ${day.day_no} of ${input.base.days.length}: ${weekdayOf(day.date)} ${day.date}, now "${day.theme}".`,
     `The day runs ${clockText(window.startMin)}–${clockText(window.endMin)}: at most ${stopBudget(window.endMin - window.startMin)} stops, meals included.`,
     crewLine(input),
+    ...languageLine(input.locale),
     `Reasons: ${input.reasons.map((r) => REASON_TEXT[r]).join('; ') || 'see the organiser note'}.`,
-    ...input.reasons.map((r) => `- ${reasonTarget(r, day)}`),
+    ...(wantsIndoors(input) ? [`- ${RAIN_TARGET}`] : []),
+    ...input.reasons.map(
+      (r) =>
+        `- ${reasonTarget(r, { day, frame: input.frame, hopCapMin: areas.capMin, mealsOffered: meals.length > 0 })}`,
+    ),
+    '',
+    '## Areas (places with the same letter are a short ride apart)',
+    ...areas.links,
     '',
     '## The day now',
     ...(current.length > 0 ? current : ['- no stops']),
@@ -177,12 +147,9 @@ export function buildRedraftRequest(
     ].flatMap(place),
     '',
     '## Meal places',
-    ...[
-      ...new Set([
-        ...day.items.filter((i) => i.kind === 'meal').map((i) => i.poi_id ?? ''),
-        ...skeleton.mealIds,
-      ]),
-    ].flatMap(place),
+    ...(meals.length > 0
+      ? meals
+      : ['- none that suits the crew is free this day: plan no meal stop, and never invent one']),
     ...(fix.length > 0
       ? ['', '## Your last plan broke these rules; fix them', ...fix.map((f) => `- ${f}`)]
       : []),
@@ -246,8 +213,9 @@ export function ownViolations(
 
 export async function runRedraft(
   model: DraftModel,
-  input: RedraftPlanInput,
+  asked: RedraftPlanInput,
 ): Promise<RedraftOutcome> {
+  const input = plannedRedraft(asked);
   const base = redraftDay(input);
   const skeleton = redraftSkeletonDay(input);
   let unknownIds = 0;
@@ -264,34 +232,57 @@ export async function runRedraft(
     const title = proseProblem(reply.title, 60, names) === null ? reply.title : null;
     const summary = proseProblem(reply.summary, 200, names) === null ? reply.summary : null;
     proseRejected += parsed.proseRejected + (title === null ? 1 : 0) + (summary === null ? 1 : 0);
-    const scheduled = scheduleChoices(input, skeleton, parsed.choices, key);
-    const day = alignStableIds(base, { ...scheduled, theme: title ?? base.theme });
+    const scheduled = scheduleChoices(input, skeleton, withKept(base, parsed.choices), key);
+    // A day the guide left without its lunch or dinner gets one from the places beside it.
+    const fed = fillMeals(
+      input,
+      [skeleton],
+      withDay(input.base, { ...scheduled, theme: title ?? base.theme }),
+    ).itinerary.days.find((d) => d.day_no === input.dayNo);
+    const day = alignStableIds(base, fed ?? { ...scheduled, theme: title ?? base.theme });
     outcome = { day, title, summary };
     const own = ownViolations(validate(input, withDay(input.base, day)), base);
-    if (own.length === 0) break;
+    // The same day back answers nothing: the guide is asked once more, told so.
+    const same = own.length === 0 && redraftDiff(base, day).length === 0;
+    const wet = own.length === 0 ? leftOutdoors(input, day) : [];
+    if (own.length === 0 && !same && wet.length === 0) break;
+    if (wet.length > 0 && !same) {
+      fix = wet.map((poi) => `rain: ${poi.name} is outdoors; swap it for a place under a roof`);
+      continue;
+    }
+    if (same) {
+      fix = ['the day is the same as before: change at least one stop that is not marked KEEP'];
+      continue;
+    }
     fix = own.map((v) => {
       const poi = v.poiId === undefined ? undefined : input.pois.get(v.poiId);
       return `${v.code.toLowerCase().replaceAll('_', ' ')}${poi === undefined ? '' : `: ${poi.name} (${aliases(input).place(poi.id)})`}`;
     });
   }
   if (outcome === undefined) throw new Error('redraft: no reply');
-  let itinerary = withDay(input.base, outcome.day);
-  let final = validate(input, itinerary);
-  if (ownViolations(final, base).some((v) => v.dayNo === input.dayNo)) {
-    itinerary = trimForMustDos(input, [skeleton], itinerary, {
-      ...final,
-      violations: final.violations.filter((v) => v.dayNo === input.dayNo),
-    });
-    final = validate(input, itinerary);
-  }
-  if (ownViolations(final, base).some((v) => v.dayNo === input.dayNo)) {
-    const cut = dropViolations(
-      itinerary,
-      final.violations.filter((v) => v.dayNo === input.dayNo),
-    );
-    itinerary = cut.itinerary;
-    final = validate(input, itinerary);
-  }
+  // What the guide could not put right on the day, the planner settles (stops give way, meals
+  // are filled); the day keeps the ids its stops had.
+  const settled = settle(
+    input,
+    [skeleton],
+    withDay(input.base, outcome.day),
+    validate(input, withDay(input.base, outcome.day)),
+    { dayNo: input.dayNo, fillThin: false },
+  );
+  // A stop left in the open air on a rain redraft goes indoors when a place offered fits.
+  const dry = indoorsInstead(input, skeleton, settled.itinerary);
+  const settledDays = {
+    ...dry,
+    days: dry.days.map((d) => (d.day_no === input.dayNo ? alignStableIds(base, d) : d)),
+  };
+  // The day's notes and title are finished the way a draft's are; the other days stay as they were.
+  const finished = withFinalNotes(input, settledDays).itinerary.days.find(
+    (d) => d.day_no === input.dayNo,
+  );
+  const itinerary = finished === undefined ? settledDays : withDay(settledDays, finished);
+  const final = settled.final;
   const day = itinerary.days.find((d) => d.day_no === input.dayNo) as DraftDay;
-  return { ...outcome, day, itinerary, final, unknownIds, proseRejected };
+  // A title the day no longer matched was written again from its stops.
+  const title = outcome.title === null ? null : day.theme;
+  return { ...outcome, title, day, itinerary, final, unknownIds, proseRejected };
 }

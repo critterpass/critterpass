@@ -220,6 +220,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'plan-item-move-4'
+# The day is only picked until SAVE at the sheet's foot commits it.
+- tapOn:
+    id: 'plan-item-save'
 - extendedWaitUntil:
     visible:
       id: 'plan-item-confirm'
@@ -548,6 +551,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'plan-item-move-4'
+# The day is only picked until SAVE at the sheet's foot commits it.
+- tapOn:
+    id: 'plan-item-save'
 - extendedWaitUntil:
     visible:
       id: 'plan-item-confirm'

@@ -1,7 +1,8 @@
 /**
  * Home's header (3b-2, 3b-6): "HEY {NAME} ›" to the profile, the crew switcher ▾ (the crews sheet),
  * the crew pill (member faces, chat, unread from the chat) and the bell with the needs-you count.
- * The bell rings once, with a light haptic, whenever the count goes up.
+ * The bell rings once, with a light haptic, whenever the count goes up, and an arrival that needs
+ * the user (placed ideas, a plan to answer, a crewmate's answer) is said once as a toast.
  */
 import { resolveMemberStyle } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
@@ -14,6 +15,7 @@ import { HomeHeader } from '@/ui/shell/HomeHeader';
 
 import { useChatUnread } from './data/session-rows';
 import type { HomeCrew } from './data/use-home-state';
+import { useInboxToast } from './inbox/use-inbox-toast';
 import { crewChatRoute, HOME_ROUTES, homeRoutes } from './routes';
 
 export interface HomeHeaderBarProps {
@@ -36,6 +38,8 @@ export function HomeHeaderBar({ name, crew, needsYou, uid }: HomeHeaderBarProps)
   const locale = useLocale();
   const unreadChat = useChatUnread(crew.id, uid);
   useRingHaptic(needsYou);
+  // Home stays mounted under the screens pushed over it, so an arrival is said wherever she is.
+  useInboxToast(uid);
   return (
     <HomeHeader
       name={name}

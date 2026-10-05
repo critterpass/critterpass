@@ -7,6 +7,11 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
 
+#. placeholder {0}: turn.organiser
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingBy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.going"
 msgstr ""
@@ -15,12 +20,16 @@ msgstr ""
 msgid "trip.hub.tile.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.inCrew"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
-msgid "trip.hub.guestGuide"
+msgid "trip.hub.learningGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
@@ -119,8 +128,16 @@ msgstr ""
 msgid "trip.hub.beThereBy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftWriting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
@@ -137,6 +154,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
@@ -251,6 +272,10 @@ msgstr ""
 msgid "trip.briefing.nudgedSome"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.draftPrivate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.open"
 msgstr ""
@@ -311,6 +336,10 @@ msgstr ""
 msgid "trip.hub.ticker.someone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
+msgid "trip.hub.tile.planComingPlain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipe"
 msgstr ""
@@ -322,10 +351,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.takeOff"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
-msgid "trip.hub.ticker.status.review"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -342,6 +367,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.proposed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.planning"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -411,6 +440,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
 msgid "trip.briefing.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.yourDraft"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts

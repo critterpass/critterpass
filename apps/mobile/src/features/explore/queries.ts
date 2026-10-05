@@ -4,8 +4,10 @@
  * place is saved (a queued save or unsave shows at once) and how a queued command settled.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { DESTINATION_GUIDE_TABLES, destinationGuideSql, useGuidesPerCity } from '@/data/guides';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { PICK_KIND_ORDER } from './category';
 import { useLiveRows } from './data/live-rows';
 
 export interface DestinationRow {
@@ -16,26 +18,86 @@ export interface DestinationRow {
   readonly currency: string | null;
   readonly best_months: string | null;
   readonly tz: string | null;
+  /** `live` once the destination has a checked set of picks. */
+  readonly coverage: string | null;
   readonly guide_slug: string | null;
 }
 
-const DESTINATION_SQL = `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz,
-    (SELECT s.guide_slug FROM critter_sets s
-      WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug
+const PLACE_GUIDE_SQL = `(SELECT s.guide_slug FROM critter_sets s
+      WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1)`;
+const destinationSql = (
+  perCity: boolean,
+) => `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz, d.coverage,
+    ${destinationGuideSql(perCity, 'd.critter_key', PLACE_GUIDE_SQL)} AS guide_slug
   FROM destinations d WHERE d.id = ? OR d.slug = ? LIMIT 1`;
-const DESTINATION_TABLES = ['destinations', 'critter_sets'];
+const DESTINATION_TABLES = ['destinations', 'critter_sets', ...DESTINATION_GUIDE_TABLES];
 
 /** The destination by id or slug; `loaded` turns true once the catalogue has answered. */
 export function useDestinationRow(ref: string | null): {
   readonly row: DestinationRow | null;
   readonly loaded: boolean;
 } {
+  const perCity = useGuidesPerCity();
   const live = useLiveRows<DestinationRow>(
-    DESTINATION_SQL,
+    destinationSql(perCity),
     ref === null || ref === '' ? null : [ref, ref],
     DESTINATION_TABLES,
   );
   return { row: live.rows[0] ?? null, loaded: live.loaded };
+}
+
+/** How many of one kind lead before the next kind has its turn (as the api's picks read). */
+const PICKS_PER_KIND = 3;
+const KIND_RANK_SQL = `(CASE category ${PICK_KIND_ORDER.map(
+  (kind, index) => `WHEN '${kind}' THEN ${String(index)}`,
+).join(' ')} ELSE ${String(PICK_KIND_ORDER.length)} END)`;
+
+/**
+ * The recommended places this phone holds for a destination, in the order the api's picks read
+ * uses: the editors' must-sees, then the automatic picks by rank; where neither ranks a place,
+ * sights lead, three of a kind at a time. Never by name. Stays are never picks.
+ */
+const LOCAL_PICKS_SQL = `WITH ranked AS (
+    SELECT id, name, category, pick_rank,
+      (curation = 'editorial' AND json_extract(editorial, '$.must_see') = 1) AS must_see,
+      ${KIND_RANK_SQL} AS kind_rank
+    FROM pois
+    WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL
+      AND category <> 'stay' AND (curation = 'editorial' OR pick_rank IS NOT NULL)),
+  turns AS (
+    SELECT *, row_number() OVER (PARTITION BY must_see, kind_rank ORDER BY id) AS in_kind
+    FROM ranked)
+  SELECT id AS poiId, name, category FROM turns
+  ORDER BY must_see DESC, pick_rank IS NULL, pick_rank,
+    (in_kind - 1) / ${String(PICKS_PER_KIND)}, kind_rank, in_kind
+  LIMIT ?`;
+
+export interface LocalPick {
+  readonly poiId: string;
+  readonly name: string;
+  readonly category: string;
+}
+
+export function useLocalPicks(destinationId: string | null, limit: number): readonly LocalPick[] {
+  return useLiveRows<LocalPick>(
+    LOCAL_PICKS_SQL,
+    destinationId === null ? null : [destinationId, limit],
+    ['pois'],
+  ).rows;
+}
+
+const KINDS_SQL = `SELECT category, count(*) AS n FROM pois
+  WHERE destination_id = ? AND status = 'active' AND merged_into_id IS NULL GROUP BY category`;
+
+/** How many places of each category this phone holds for a destination. */
+export function usePlaceKindCounts(
+  destinationId: string | null,
+): readonly { readonly category: string; readonly n: number }[] {
+  return useLiveRows<{ category: string; n: number }>(
+    KINDS_SQL,
+    destinationId === null ? null : [destinationId],
+    ['pois'],
+  ).rows;
 }
 
 export interface SeasonMonthRow {
@@ -169,14 +231,21 @@ export interface GuideDestination {
   readonly guide_slug: string | null;
 }
 
-const GUIDE_DESTINATIONS_SQL = `SELECT d.id, d.slug, d.name, s.guide_slug FROM critter_sets s
+const guideDestinationsSql = (perCity: boolean) => `SELECT d.id, d.slug, d.name,
+    ${destinationGuideSql(perCity, 'd.critter_key', 's.guide_slug')} AS guide_slug
+  FROM critter_sets s
     JOIN destinations d ON d.id = s.destination_id WHERE s.guide_slug IS NOT NULL`;
-const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations'];
+const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations', ...DESTINATION_GUIDE_TABLES];
 
 /** Every destination with a guide of its own, from the synced catalogue. */
 export function useGuideDestinations(): {
   readonly rows: readonly GuideDestination[];
   readonly loaded: boolean;
 } {
-  return useLiveRows<GuideDestination>(GUIDE_DESTINATIONS_SQL, [], GUIDE_DESTINATIONS_TABLES);
+  const perCity = useGuidesPerCity();
+  return useLiveRows<GuideDestination>(
+    guideDestinationsSql(perCity),
+    [],
+    GUIDE_DESTINATIONS_TABLES,
+  );
 }

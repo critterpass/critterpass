@@ -53,10 +53,17 @@ export interface PhaseHeaderProps {
   /** The destination photo behind the header; null keeps the plain dark header. */
   readonly media?: MediaAsset | null;
   readonly mediaLowData?: boolean;
-  readonly planning: { readonly label: string; readonly onPress: () => void } | null;
+  /** The planning block: a state line, a button, or both. */
+  readonly planning: {
+    readonly note?: string | undefined;
+    readonly label?: string | undefined;
+    readonly onPress?: (() => void) | undefined;
+  } | null;
+  /** Active crew members: before the trip is locked the header counts the crew, not seats. */
+  readonly crewSize?: number | undefined;
   /** Another trip to go to: the SWITCH TRIP pill. */
   readonly onSwitch: (() => void) | null;
-  /** The guide is a guest at this destination: says so under the destination. */
+  /** The destination has no checked picks yet: the guide says so under the destination. */
   readonly guestGuideName: string | null;
 }
 
@@ -132,7 +139,12 @@ export function PhaseHeader(props: PhaseHeaderProps) {
   const cream = theme.semantic.text.primary;
   const dates = props.startDate === null ? null : tripDates(locale, props.startDate, props.endDate);
   const count = props.going;
-  const going = t({ id: 'trip.hub.going', message: `${count} going` });
+  const crew = props.crewSize;
+  // Nobody is "going" until the crew has answered: while planning, the crew is who is here.
+  const going =
+    header.phase === 'planning' && crew !== undefined
+      ? t({ id: 'trip.hub.inCrew', message: `${crew} in the crew` })
+      : t({ id: 'trip.hub.going', message: `${count} going` });
   // Each part keeps its words together, so a line too long for the row breaks after the dot.
   const meta = upper(
     [dates, going]
@@ -253,18 +265,28 @@ export function PhaseHeader(props: PhaseHeaderProps) {
       {guideName === null ? null : (
         <View style={styles.below}>
           <InfoPill>
-            {t({ id: 'trip.hub.guestGuide', message: `${guideName} is a guest here` })}
+            {t({
+              id: 'trip.hub.learningGuide',
+              message: `${guideName} is still learning · picks unchecked`,
+            })}
           </InfoPill>
         </View>
       )}
       {header.phase === 'planning' && props.planning !== null ? (
-        <View style={{ marginTop: theme.space['12'] }}>
-          <PillButton
-            label={props.planning.label}
-            tone="yellow"
-            onPress={props.planning.onPress}
-            testID="trip-hub-planning-cta"
-          />
+        <View style={{ marginTop: theme.space['12'], gap: theme.space['12'] }}>
+          {props.planning.note === undefined ? null : (
+            <Text variant="body" color={cream} singleLine={false} testID="trip-hub-planning-note">
+              {props.planning.note}
+            </Text>
+          )}
+          {props.planning.label === undefined || props.planning.onPress === undefined ? null : (
+            <PillButton
+              label={props.planning.label}
+              tone="yellow"
+              onPress={props.planning.onPress}
+              testID="trip-hub-planning-cta"
+            />
+          )}
         </View>
       ) : null}
     </View>

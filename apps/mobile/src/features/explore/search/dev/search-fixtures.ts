@@ -51,6 +51,7 @@ export function labSearchTrip(): SearchTrip {
     tz: 'Asia/Makassar',
     itemTitles: new Map([[LAB_TRIP.locavore, 'Locavore']]),
     placeNames: new Map(),
+    planDays: new Map(),
   };
 }
 

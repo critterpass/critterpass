@@ -7,7 +7,7 @@
  * instructions planted in crew text changed nothing: same checks, no exceptions.
  */
 import type { Itinerary } from '@cp/domain';
-import { minuteOfDate, redraftDiff } from '@cp/planner';
+import { isTheirs, minuteOfDate, redraftDiff } from '@cp/planner';
 
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
@@ -20,7 +20,11 @@ type WishExpectation = CrewCase['expect_wishes'][number];
 export function unknownIdsIn(input: DraftPlanInput, itinerary: Itinerary): string[] {
   return itinerary.days.flatMap((day) =>
     day.items.flatMap((item) =>
-      item.poi_id !== null && input.pois.has(item.poi_id) ? [] : [item.poi_id ?? 'none'],
+      // A stop of the organiser's own on a dropped pin has no place of ours, by design.
+      (item.poi_id !== null && input.pois.has(item.poi_id)) ||
+      (item.poi_id === null && isTheirs(item))
+        ? []
+        : [item.poi_id ?? 'none'],
     ),
   );
 }

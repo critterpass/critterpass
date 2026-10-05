@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "05c21206-2ede-40a9-b82c-6f853d652b0e",
+        "id": "6c112fcf-6300-4cf3-ae19-c0f11d6f5bf0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Cusco close and cosy\",\n  \"summary\": \"A gentle day around the city centre, keeping the planetarium and swapping the far terraces for the Museo Inka so everything sits close together.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the far terraces; it keeps the history lovers happy and stays right in town.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"Kept as the must-do; we end the day under Inti (the sun (Quechua)) and the stars without a long ride.\",\n      \"must_do_id\": \"m3\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"Cusco close and easy\",\n  \"summary\": \"A relaxed Sunday around the old centre, with market colours, a sweet stop and meals beside the plazas.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The crew loves local life and a bargain, so we start with the market's bustle and street snacks.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander for the easy pace and photo lovers, right beside the market.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch stays close to the plaza, with good options for the whole crew.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little museum stop, short and indoors, to keep the afternoon unhurried.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The cathedral adds history and a photo moment, still a short stroll from everything else.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a thrifty favourite, close to the day's other stops.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 122,
+          "input_tokens": 11,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 896,
-          "output_tokens": 200,
+          "cache_read_input_tokens": 1536,
+          "output_tokens": 419,
           "service_tier": "standard"
         }
       }

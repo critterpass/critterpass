@@ -3,7 +3,9 @@
  * to days by fit, the scarcest first (the idea with the fewest days that take it goes before the
  * ones that fit anywhere). Nothing already in the plan moves: an idea that only fits by moving a
  * stop, an idea the crew is split on, and an idea no day takes are left for the person to decide,
- * each with why. A day never goes past the pace limit. Pure and deterministic: ties go to the
+ * each with why. A placed idea is a stop for the whole crew, so it only goes where the whole crew
+ * is free: a slot that works for some of them while the others are at another stop (booked or
+ * not) is no slot for it. A day never goes past the pace limit. Pure and deterministic: ties go to the
  * lower idea id, and the order the ideas arrive in never changes the answer.
  */
 import type { FitGrade, FitReason, PlaceFit } from '@cp/domain';
@@ -68,9 +70,18 @@ const isSplit = (place: FitPlace): boolean =>
 const byId = <T extends { readonly ideaId: string }>(a: T, b: T): number =>
   a.ideaId < b.ideaId ? -1 : a.ideaId > b.ideaId ? 1 : 0;
 
+/** The slot is only for the part of the crew that is free then (`who_free`). */
+const forSomeOnly = (day: PlaceFit['days'][number]): boolean =>
+  day.reasons.some((reason) => reason.code === 'who_free');
+
+/** The days that take the place as they are: a slot for the whole crew, with no stop moved. */
 function fitsWithoutMoving(fit: PlaceFit): PlaceFit['days'] {
   return fit.days.filter(
-    (day) => day.grade !== 'no' && day.slot !== null && (day.needs_move ?? null) === null,
+    (day) =>
+      day.grade !== 'no' &&
+      day.slot !== null &&
+      (day.needs_move ?? null) === null &&
+      !forSomeOnly(day),
   );
 }
 

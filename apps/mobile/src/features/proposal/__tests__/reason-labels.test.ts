@@ -6,7 +6,8 @@ import { PROPOSAL_REASON_TAGS } from '@cp/domain';
 import { i18n } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
-import { cardLabel, reasonLabel, reasonWhy } from '../data/picks';
+import { cardLabel, pickTag, reasonLabel, reasonWhy } from '../data/picks';
+import type { PickReason } from '../data/reasons';
 
 beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
@@ -35,8 +36,32 @@ describe('reason labels', () => {
     expect(cardLabel('A LABEL FAR TOO LONG FOR A CARD')).toBeNull();
   });
 
-  it('explains every shared reason tag', () => {
-    const why = PROPOSAL_REASON_TAGS.map((tag) => reasonWhy(tag, 'Chà Vá'));
-    expect(new Set(why).size).toBe(PROPOSAL_REASON_TAGS.length);
+  const pick = (over: Partial<PickReason>): PickReason => ({
+    reasonTag: 'matches_taste',
+    reasonLabel: 'SUNRISE, YOUR WAY',
+    dayNo: 1,
+    ...over,
+  });
+  const minh = { uid: 'u-minh', hasWishes: false, guideName: 'Chà Vá' };
+  const linh = { uid: 'u-linh', hasWishes: true, guideName: 'Chà Vá' };
+
+  it('never tells a reader with no wishes on record that they picked something', () => {
+    const plain = reasonWhy(pick({}), minh);
+    expect(plain).toBe(reasonWhy(pick({ reasonTag: 'crew_favourite' }), minh));
+    expect(plain).not.toBe(reasonWhy(pick({}), linh));
+    // The guide's own tag is a claim about the reader: without wishes the card names the day.
+    expect(pickTag(pick({}), minh)).toBe(reasonLabel('group_day', 1));
+    expect(pickTag(pick({}), linh)).toBe('SUNRISE, YOUR WAY');
+    expect(pickTag(pick({ reasonTag: 'your_must_do', reasonLabel: null }), linh)).toBe(
+      reasonLabel('group_day', 1),
+    );
+  });
+
+  it('names what is known: whose must-do the stop is', () => {
+    const hers = pick({ mustDoOwnerId: 'u-linh', mustDoOwnerName: 'Linh' });
+    expect(pickTag(hers, linh)).toBe(reasonLabel('your_must_do'));
+    expect(pickTag(hers, minh)).toBe(reasonLabel('group_must_do'));
+    expect(reasonWhy(hers, minh)).toContain('Linh');
+    expect(reasonWhy(hers, linh)).not.toContain('Linh');
   });
 });

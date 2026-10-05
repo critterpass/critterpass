@@ -4,6 +4,7 @@
  * settled elsewhere simply leaves); everything else collapses into the quiet EARLIER list, 50 rows
  * a page. With nothing left, Tokek sleeps where the cards were. Opening an item marks it read.
  */
+import { currentAppPath } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -108,7 +109,8 @@ function InboxContent() {
 
   const open = (item: InboxItem) => {
     actions.markRead(item);
-    if (item.deepLink !== null) router.push(item.deepLink);
+    // Rows filed earlier name the trip hub and its day by their former paths.
+    if (item.deepLink !== null) router.push(currentAppPath(item.deepLink));
   };
 
   const shownCards = cards.filter((item) => matches(item, active));

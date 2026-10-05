@@ -12,13 +12,14 @@ import { useLiveRows } from '@/data/plan/live-rows';
 import { usePendingReviews, type PendingReview } from '@/data/plan/use-pending-reviews';
 import { useTripPlan, type TripPlan } from '@/data/plan/use-trip-plan';
 import { useRegionPack } from '@/data/places/useRegionPack';
-import { isGuideStickerId } from '@/ui/avatar/guides';
+import { guideIdOr, guideSticker } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { DESTINATION_PLACES_SQL, PLACES_TABLES } from '../day/queries';
 import { POLLS_SQL, POLLS_TABLES, type OpenPollRow } from '../overview/data/plan-rows';
 import { todayIn } from '../overview/data/use-plan-data';
 import type { CuratedPlace } from './map-places';
+import { usePersonalLayer } from './personal-layer';
 import { buildTripDays, type TripDay } from './trip-days';
 
 export { categoryChips, litPlaces, mapPlaces, NO_FILTER, type MapFilter } from './map-places';
@@ -44,8 +45,8 @@ export interface TripMapData {
 export function guideFor(plan: TripPlan): TripMapData['guide'] {
   const slug = plan.trip?.guide_slug ?? null;
   return {
-    id: isGuideStickerId(slug) && slug !== 'chava' ? slug : 'tokek',
-    name: plan.trip?.guide_name ?? 'Tokek',
+    id: guideIdOr(slug),
+    name: plan.trip?.guide_name ?? guideSticker(slug).name,
   };
 }
 
@@ -74,6 +75,8 @@ export function useTripDays(plan: TripPlan): {
     POLLS_TABLES,
   );
   const check = usePlanCheck(tripId);
+  // "Just me" lies over the crew's plan only: a draft is nobody's but its author's.
+  const personal = usePersonalLayer(plan.mode === 'group' ? tripId : null, plan.uid, plan.state);
   const days = useMemo(
     () =>
       buildTripDays({
@@ -84,8 +87,9 @@ export function useTripDays(plan: TripPlan): {
         tz: plan.trip?.tz ?? 'UTC',
         polls: polls.rows,
         issues: [...check.fixes, ...check.know],
+        personal,
       }),
-    [plan, polls.rows, check.fixes, check.know],
+    [plan, polls.rows, check.fixes, check.know, personal],
   );
   return { days, check, polls: polls.rows };
 }

@@ -12,7 +12,7 @@ import type { FitLine } from '@/data/fit/fit-line';
 import type { StackMember } from '@/ui/people/AvatarStack';
 
 import { minutesBetween, NEXT_DOOR_MIN } from './label-sync';
-import { cardDescription, cardDescriptionOn } from './places-copy';
+import { cardDescription, cardDescriptionOn, inPlanLine } from './places-copy';
 import type { HubPlace } from './places-model';
 import type { CarouselEntry } from './places-carousel';
 
@@ -42,11 +42,13 @@ export interface CarouselEntriesInput {
   readonly tz: string | null;
   readonly fits: ReadonlyMap<string, FitLine>;
   readonly saversOf: (place: HubPlace) => readonly StackMember[];
+  /** Each plan day's short weekday, for a planned place's "In the plan · Tue". */
+  readonly weekdays?: ReadonlyMap<number, string> | undefined;
 }
 
 export function useCarouselEntries(input: CarouselEntriesInput): CarouselEntry[] {
   const { i18n } = useLingui();
-  const { carousel, stay, tz, fits, saversOf } = input;
+  const { carousel, stay, tz, fits, saversOf, weekdays } = input;
   return useMemo(() => {
     const now = new Date();
     const anchor = carousel[0];
@@ -67,12 +69,23 @@ export function useCarouselEntries(input: CarouselEntriesInput): CarouselEntry[]
         description,
         facts: hoursToday(place.hours, tz, now),
         savers: saversOf(place),
-        fit: fits.get(place.id),
+        // A place already on a day says which, and is never offered a second day.
+        fit:
+          place.standing === 'plan'
+            ? {
+                text: inPlanLine(
+                  place.dayNo,
+                  place.dayNo === null ? null : (weekdays?.get(place.dayNo) ?? null),
+                ),
+                tone: 'fits',
+              }
+            : fits.get(place.id),
+        planned: place.standing === 'plan',
         nextDoor:
           index > 0 && anchor !== undefined && minutesBetween(anchor, place) <= NEXT_DOOR_MIN,
       };
     });
     // `i18n.locale` re-words the cards when the language changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [carousel, stay, tz, fits, saversOf, i18n.locale]);
+  }, [carousel, stay, tz, fits, saversOf, weekdays, i18n.locale]);
 }

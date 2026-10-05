@@ -1,6 +1,7 @@
 /**
  * The photo at the top of a place's page (the old page and the planning one), pushing in slowly as
- * the page opens, with its credit and the "not this place" label.
+ * the page opens, with its credit and the "not this place" label. A place with no photo shows its
+ * kind's doodle on the kind's colour.
  *
  * The credit is always readable: it sits at the bottom of the photo on a line of its own, above
  * the sheet's overlap and above anything the page draws on the photo there (the old page's chips),
@@ -22,6 +23,7 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon } from '../category';
+import { CATEGORY_ACCENT } from '../place-detail/category-accent';
 import { isGenericPhoto } from '../place-photo';
 import { GenericPhotoLabel } from './generic-photo-label';
 
@@ -70,6 +72,8 @@ export function PlacePhoto({ photo, heroUrl, category, accent, captionInset }: P
       : withTiming(PUSH_IN, { duration: tokens.motion.duration.story, easing: pushEasing });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable shared value ref.
   }, [reduced]);
+  const swatch = theme.color[CATEGORY_ACCENT[category] ?? 'blue'];
+  const tile = typeof swatch === 'string' ? swatch : swatch.base;
   const push = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
   const credited = photo?.attribution_required === true;
   return (
@@ -99,11 +103,15 @@ export function PlacePhoto({ photo, heroUrl, category, accent, captionInset }: P
           testID="explore-place-hero-live"
         />
       ) : photo === null ? (
-        <View style={[styles.fill, styles.doodle]}>
+        // No photo of its own and none live: the kind's own tile, in the kind's colour.
+        <View
+          style={[styles.fill, styles.doodle, { backgroundColor: tile }]}
+          testID="explore-place-hero-tile"
+        >
           <Icon
             name={categoryIcon(category)}
             size={72}
-            color={theme.semantic.text.secondary}
+            color={theme.semantic.text.onAccent}
             decorative
           />
         </View>

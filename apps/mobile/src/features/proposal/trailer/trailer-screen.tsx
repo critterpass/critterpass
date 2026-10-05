@@ -1,8 +1,10 @@
 /**
  * The proposal trailer (3f-2): the member's version as a story ({GUIDE} PRESENTS, the trip line,
  * ✕), five-second slides with the headline stamping in, the crew's public reactions floating up
- * the side as they sync, quick replies (OKAY WOW, 6AM??, I'M IN) that post a reaction, and
- * I'M IN (to boarding) or MAYBE (to the member's version, where they can ask the guide). The story
+ * the side as they sync (lifted above the slide's words), quick replies that assume nothing about
+ * the plan's hours (OKAY WOW, ON FIRE, I'M IN) and post a reaction, and
+ * I'M IN (to boarding) or MAYBE (to the member's version, where all three answers and the guide
+ * are). Slides about a stop play in the plan's order. The story
  * holds while the quick replies are open. With no slides written yet it goes straight to the version.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- reaction kinds are wire values, never copy. */
@@ -10,12 +12,12 @@ import type { ProposalReaction } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ReactionFloats } from '@/ui/chat/ReactionFloats';
@@ -35,10 +37,14 @@ import { ProposalLoading } from '../proposal-loading';
 import { stopWhen, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { reactionWords } from '../your-version/hype-bar';
+import { slidesInPlanOrder } from './slide-order';
 import { replyPanelAfter, storyHeld } from './story-hold';
 import { TrailerSlide } from './trailer-slide';
 
-const QUICK: readonly ProposalReaction[] = ['okay_wow', 'six_am', 'im_in'];
+/** Replies that fit any slide: none of them assumes what time a stop is. */
+const QUICK: readonly ProposalReaction[] = ['okay_wow', 'fire', 'im_in'];
+/** How far up the screen the reactions float, clear of a slide's headline and line. */
+const FLOAT_LIFT = 0.3;
 
 const useStyles = makeStyles((th) => ({
   header: {
@@ -67,6 +73,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   const locale = useLocale();
   const react = useCommand(reactProposalCommand);
   const [quick, setQuick] = useState(false);
+  const { height } = useWindowDimensions();
   const version = versions.find((v) => v.recipientId === trip?.me) ?? null;
   const empty = version !== null && version.slides.length === 0 && version.status !== 'pending';
 
@@ -77,7 +84,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   if (proposal == null || trip == null || version === null || version.slides.length === 0) {
     return <ProposalLoading testID="trailer-loading" />;
   }
-  const info = GUIDE_STICKERS[trip.guide];
+  const info = guideSticker(trip.guide);
   /** "Day 2 · 06:00" for a slide about a plan stop; the progress segments already say which slide. */
   const stopLine = (itemId: string | null): string | null => {
     const stop = itemId === null ? undefined : stops.get(itemId);
@@ -91,7 +98,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
       <StoryPlayer
         testID="trailer-player"
         held={storyHeld(quick)}
-        segments={version.slides.map((slide, index) => ({
+        segments={slidesInPlanOrder(version.slides, stops).map((slide, index) => ({
           id: `${index}`,
           label: `${slide.headline}. ${slide.body}`,
           content: (
@@ -121,13 +128,16 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
           </View>
         }
         overlay={
-          <ReactionFloats
-            reactions={[...reactions].reverse().map((r) => ({
-              id: `${r.userId}-${r.at}`,
-              author: names.get(r.userId) ?? '',
-              text: reactionWords(r.kind),
-            }))}
-          />
+          <View style={{ transform: [{ translateY: -height * FLOAT_LIFT }] }}>
+            <ReactionFloats
+              max={2}
+              reactions={[...reactions].reverse().map((r) => ({
+                id: `${r.userId}-${r.at}`,
+                author: names.get(r.userId) ?? '',
+                text: reactionWords(r.kind),
+              }))}
+            />
+          </View>
         }
         hint={t({ id: 'proposal.trailer.hint', message: 'Tap for the next one · hold to pause' })}
         onFinished={toVersion}

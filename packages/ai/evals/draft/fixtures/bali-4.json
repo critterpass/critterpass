@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "skeleton": {
       "status": 200,
       "body": {
-        "id": "cbf07d85-cbe2-49ee-841c-8e3de9e5f2dc",
+        "id": "05b22b5b-01e0-4a7e-948c-005d5dedaab8",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\"stay_area\":\"Ubud\",\"days\":[{\"day_no\":1,\"theme\":\"Ubud culture and market\",\"area\":\"Ubud\",\"must_do_ids\":[\"m1\",\"m2\"],\"poi_ids\":[\"p9\",\"p6\",\"p12\",\"p7\"]},{\"day_no\":2,\"theme\":\"Morning rice terrace farewell\",\"area\":\"Tegallalang\",\"must_do_ids\":[],\"poi_ids\":[\"p3\",\"p10\"]}]}"
+            "text": "{\n  \"stay_area\": \"Ubud (Area A)\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Ubud Icons and Sunset Coast\",\n      \"area\": \"A then D\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p1\", \"p13\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud Temples and Rice Fields\",\n      \"area\": \"A then C\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p12\", \"p10\", \"p3\"]\n    }\n  ],\n  \"wishes\": []\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 74,
+          "input_tokens": 725,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 99,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 150,
           "service_tier": "standard"
         }
       }
@@ -28,23 +28,23 @@
     "day-2": {
       "status": 200,
       "body": {
-        "id": "d7f7ca84-1024-4b5e-a1f9-d59d9f18576d",
+        "id": "e8d35a51-4d8e-4541-a4ff-26f04e810a7e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The sun won’t wait, and neither should you — one last wander through those green steps before the airport calls.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Water temple in the heart of town, lotus pond and carved walls.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Elephant cave with ancient carvings and a mossy jungle path.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 708,
+          "input_tokens": 359,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 73,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 76,
           "service_tier": "standard"
         }
       }
@@ -52,23 +52,23 @@
     "day-1": {
       "status": 200,
       "body": {
-        "id": "4aee740c-8263-41e8-8630-a7b9fa347489",
+        "id": "7f2118c0-d389-4e7d-8458-a34310b387df",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine, the market's calling.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Palace first, then we hunt for treasures.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A green stop to keep the crew glowing.\"\n    }\n  ]\n}\n```"
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Bargain with a grin among the sarongs and silver, the market hums with local life.\",\"must_do_id\":\"m1\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Stone guardians and carved doors tell the old royal stories, free to wander.\",\"must_do_id\":\"m2\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Pull up a stool for honest Balinese plates and a cold drink, easy on the wallet.\"}]}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 731,
+          "input_tokens": 577,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 512,
-          "output_tokens": 152,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 144,
           "service_tier": "standard"
         }
       }
@@ -76,23 +76,23 @@
     "summary": {
       "status": 200,
       "body": {
-        "id": "193f6626-2628-4793-bb5b-cfd7ba3cdb22",
+        "id": "b9541697-8107-41a2-aba8-8b9fe26de25e",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-flash",
         "content": [
           {
             "type": "text",
-            "text": "Culture, market, and a rice-terrace goodbye — every must-do's in, so the sun won't wait."
+            "text": "Ubud icons, a temple or two, then sunset on the coast — every must-do's in, so rise and shine."
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 185,
+          "input_tokens": 192,
           "cache_creation_input_tokens": 0,
           "cache_read_input_tokens": 128,
-          "output_tokens": 24,
+          "output_tokens": 26,
           "service_tier": "standard"
         }
       }

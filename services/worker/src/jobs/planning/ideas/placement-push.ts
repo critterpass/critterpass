@@ -1,12 +1,38 @@
 /**
  * The quiet ping when Tokek has placed the ideas, to the person who asked only, opening their
- * private review (7h-7). The catalogue sends it only while their app is in the background: on the
- * placing screen the review simply replaces it. The text carries a count, never a place or a name.
+ * private review (7h-7): a push, which the app shows as a banner when it is open (except on the
+ * placing screen, where the review simply replaces it), and an inbox row that waits until the
+ * review is sent, applied or overtaken. Both carry a count, never a place or a name.
  */
-import { IDEAS_PLACED_BODY, IDEAS_PLACED_NONE_BODY, IDEAS_PLACED_TITLE } from '@cp/domain';
+import {
+  IDEAS_INBOX_KIND,
+  IDEAS_PLACED_BODY,
+  IDEAS_PLACED_NONE_BODY,
+  IDEAS_PLACED_TITLE,
+  ideasPlacedResolveKey,
+} from '@cp/domain';
+import type pg from 'pg';
 
+import { registerInboxFanout } from '../../inbox/fanout';
 import { registerNotification } from '../../notify/register';
 import { setupFacts, str } from '../../setup/facts';
+
+/** How long an unopened review stays on top of the inbox. */
+const REVIEW_WAITS_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** Stops still waiting in the requester's draft; 0 when nothing was placed or it has moved on. */
+async function placedCount(
+  tx: pg.PoolClient,
+  changeSetId: string | null,
+  uid: string,
+): Promise<number> {
+  const { rows } = await tx.query<{ count: number }>(
+    `SELECT jsonb_array_length(ops)::int AS count FROM change_sets
+      WHERE id = $1 AND author_id = $2 AND status = 'draft'`,
+    [changeSetId, uid],
+  );
+  return rows[0]?.count ?? 0;
+}
 
 let registered = false;
 
@@ -26,12 +52,7 @@ export function registerPlacementPush(): void {
       const facts = await setupFacts(tx, tripId);
       if (facts === undefined) return null;
       const changeSetId = str(event, 'change_set_id');
-      const { rows } = await tx.query<{ count: number }>(
-        `SELECT jsonb_array_length(ops)::int AS count FROM change_sets
-          WHERE id = $1 AND author_id = $2 AND status = 'draft'`,
-        [changeSetId, uid],
-      );
-      const count = rows[0]?.count ?? 0;
+      const count = await placedCount(tx, changeSetId, uid);
       return {
         title: IDEAS_PLACED_TITLE,
         body: count === 0 ? IDEAS_PLACED_NONE_BODY : IDEAS_PLACED_BODY,
@@ -45,6 +66,29 @@ export function registerPlacementPush(): void {
             : `/trip/${tripId}/review/${changeSetId}`,
         ctx: { change_set_id: changeSetId, job_id: str(event, 'job_id') },
         collapseVars: { trip_id: tripId },
+      };
+    },
+  });
+  registerInboxFanout({
+    kind: IDEAS_INBOX_KIND.placed,
+    audience: (_tx, event) => {
+      const requester = str(event, 'user_id');
+      return Promise.resolve(requester === null ? [] : [requester]);
+    },
+    async build(tx, event, uid) {
+      const tripId = str(event, 'trip_id');
+      const changeSetId = str(event, 'change_set_id');
+      if (tripId === null || changeSetId === null || str(event, 'user_id') !== uid) return null;
+      const count = await placedCount(tx, changeSetId, uid);
+      if (count === 0) return null;
+      return {
+        tripId,
+        actorId: null,
+        data: { change_set_id: changeSetId, job_id: str(event, 'job_id'), count },
+        actions: [{ id: 'open', style: 'primary' }],
+        deepLink: `/trip/${tripId}/review/${changeSetId}`,
+        expiresAt: new Date(event.occurredAt.getTime() + REVIEW_WAITS_MS),
+        resolveKey: ideasPlacedResolveKey(changeSetId),
       };
     },
   });

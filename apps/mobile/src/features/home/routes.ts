@@ -45,6 +45,8 @@ export const homeRoutes = {
   destination: (placeId: string): Href | undefined => hrefFor('3d-1', { placeId }),
   placeSearch: (): Href | undefined => hrefFor('3b-7'),
   tripHub: (tripId: string): Href | undefined => hrefFor('3k-1', { tripId }),
+  /** The trip's day-of screen, on today. */
+  tripDay: (tripId: string): Href | undefined => hrefFor('3k-2', { tripId }),
   recap: (tripId: string): Href | undefined => hrefFor('3m-1', { tripId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
   pitch: (crewId: string): Href | undefined => hrefFor('3b-3', { crewId }),

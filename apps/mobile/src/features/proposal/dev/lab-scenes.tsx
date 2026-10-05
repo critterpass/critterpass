@@ -1,10 +1,8 @@
 /**
- * Every proposal lab scene by name, for the (dev) proposal lab and its screenshot flows, in the
- * order the flows visit them: the builder (3f-1), your version (3f-3), not sure yet (3f-4), slide
- * to board (3f-5) and who's in (3f-6), each drawn from the pure views with fixed data. Labels,
- * money and dates come from the catalog and the formatters the real screens use, so a capture in
- * another language proves the copy; only what the server would send (names, places, the guide's
- * own lines) is fixture text.
+ * Every proposal lab scene by name, for the (dev) proposal lab and its screenshot flows: the
+ * builder (3f-1), your version (3f-3), not sure yet (3f-4), slide to board (3f-5) and who's in
+ * (3f-6), each drawn from the pure views with fixed data. Labels, money and dates come from the
+ * catalog and the real formatters; only what the server would send is fixture text.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
@@ -17,37 +15,22 @@ import { SendProgress } from '../builder/send-progress';
 import { BoardView, type BoardViewProps } from '../board/board-view';
 import { SeatSheet } from '../board/seat-sheet';
 import { instantDate, wholeMoney } from '../data/format';
-import {
-  eachPrice,
-  lockCopy,
-  trackerBack,
-  stopWhen,
-  trackerChip,
-  trackerLine,
-  trackerName,
-  tripDates,
-  tripLine,
-  versionChip,
-} from '../labels';
+import { answerChip, eachPrice, stopWhen, tripDates, tripLine, versionChip } from '../labels';
 import { ObjectionSheetView } from '../objection/objection-sheet';
-import { ConfirmedCard } from '../tracker/confirmed-card';
-import { lockState, publicStatus, tally } from '../tracker/model';
-import { SuggestionsView } from '../tracker/suggestions';
-import { TrackerView } from '../tracker/tracker-view';
 import { HypeBar } from '../your-version/hype-bar';
 import { ShareCard } from '../your-version/share-card';
 import { YourVersionView } from '../your-version/your-version-view';
 import { Dismissable } from './dismissable';
 import { DROPOUT_SCENES } from './lab-scenes-dropout';
+import { TRACKER_SCENES } from './lab-scenes-tracker';
 import {
-  LAB_OPTIONS,
-  LAB_PEOPLE,
+  LAB_OBJECTION,
   LAB_GROUP_PICKS,
   LAB_PICKS,
   LAB_RECIPIENTS,
   LAB_SAVINGS,
-  LAB_SUGGESTIONS,
   LAB_VERSIONS,
+  labTag,
 } from './lab-fixtures';
 
 const noop = () => undefined;
@@ -56,7 +39,6 @@ const noop = () => undefined;
 const DESTINATION = 'Đà Nẵng';
 const START = '2026-10-02';
 const END = '2026-10-04';
-const SENT_AT = '2026-10-01T02:00:00.000Z';
 const REPLY_BY = '2026-10-01T14:00:00.000Z';
 const SHARE_MINOR = 4_200_000;
 const CURRENCY = 'VND';
@@ -91,7 +73,12 @@ const builder = (locale: string, over: Partial<BuilderViewProps> = {}) => (
   />
 );
 
-const version = (locale: string, sheet: ReactNode = null, group = false) => (
+const version = (
+  locale: string,
+  sheet: ReactNode = null,
+  group = false,
+  answer: 'in' | null = null,
+) => (
   <>
     <YourVersionView
       name="Linh"
@@ -100,11 +87,14 @@ const version = (locale: string, sheet: ReactNode = null, group = false) => (
       onPlan={noop}
       preview={false}
       guide="chava"
-      chip={versionChip(locale, null, REPLY_BY)}
+      chip={answer === null ? versionChip(locale, null, REPLY_BY) : answerChip(answer)}
       pending={false}
       fallbackNote={null}
       picks={group ? LAB_GROUP_PICKS : LAB_PICKS}
       when={(pick) => stopWhen(locale, pick)}
+      tag={labTag}
+      personalised
+      organiser="Winston"
       share={
         <ShareCard
           locale={locale}
@@ -121,12 +111,13 @@ const version = (locale: string, sheet: ReactNode = null, group = false) => (
           latest={{ name: 'Minh', kind: 'six_am' }}
         />
       }
-      answered={null}
+      answer={answer}
       onBack={noop}
       onPick={noop}
       onIn={noop}
+      onMaybe={noop}
+      onOut={noop}
       onAsk={noop}
-      onOut={null}
     />
     {sheet}
   </>
@@ -160,49 +151,6 @@ const board = (locale: string, over: Partial<BoardViewProps> = {}) => (
     {...over}
   />
 );
-
-const tracker = (locale: string, locked: boolean) => {
-  const copy = lockCopy(
-    lockState(
-      locked ? 'locked' : 'sent',
-      LAB_PEOPLE.filter((p) => !p.organiser),
-    ),
-  );
-  return (
-    <TrackerView
-      back={trackerBack({ destination: DESTINATION })}
-      chip={trackerChip(locale, locked, null, REPLY_BY)}
-      rows={LAB_PEOPLE.map((p) => ({
-        uid: p.uid,
-        name: trackerName(p, p.organiser),
-        joinIndex: p.joinIndex,
-        status: publicStatus(p),
-        line: trackerLine(locale, p, SENT_AT),
-      }))}
-      tally={tally(LAB_PEOPLE)}
-      confirmed={
-        locked ? (
-          <ConfirmedCard
-            guide="chava"
-            going={tally(LAB_PEOPLE).in}
-            tripLine={tripLine(locale, DESTINATION, START, END)}
-            onPlan={noop}
-          />
-        ) : null
-      }
-      suggestions={
-        locked ? null : (
-          <SuggestionsView rows={LAB_SUGGESTIONS} guide="chava" onAct={noop} onDismiss={noop} />
-        )
-      }
-      lockLabel={copy.label}
-      lockNote={copy.note}
-      locking={false}
-      onBack={noop}
-      onLock={noop}
-    />
-  );
-};
 
 /** A scene draws itself in the app's language: the lab passes the active locale. */
 export type LabScene = (locale: string) => ReactNode;
@@ -253,6 +201,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, LabScene>> = {
     />
   ),
   version: (locale) => version(locale),
+  'version-answered': (locale) => version(locale, null, false, 'in'),
   'version-group': (locale) => version(locale, null, true),
   'not-sure': (locale) =>
     version(
@@ -260,18 +209,10 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, LabScene>> = {
       <Dismissable>
         {(close) => (
           <ObjectionSheetView
-            guide="chava"
-            guideName="Chà Vá"
-            organiserName="Khanh"
+            {...LAB_OBJECTION}
             locale={locale}
             baseMinor={SHARE_MINOR}
             currency={CURRENCY}
-            freeCancelLine={null}
-            reason="cost"
-            answer={{ threadId: 't1', options: LAB_OPTIONS }}
-            chosen={['skip:ba-na']}
-            pending={false}
-            failed={false}
             onReason={noop}
             onToggle={noop}
             onAskCrew={noop}
@@ -290,8 +231,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, LabScene>> = {
       <Dismissable>{(close) => <SeatSheet position={1} cap={6} onClose={close} />}</Dismissable>
     </>
   ),
-  tracker: (locale) => tracker(locale, false),
-  'tracker-locked': (locale) => tracker(locale, true),
+  ...TRACKER_SCENES,
   ...DROPOUT_SCENES,
 };
 

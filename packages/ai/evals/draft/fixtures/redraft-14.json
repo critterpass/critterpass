@@ -1,26 +1,26 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
   "calls": {
     "redraft": {
       "status": 200,
       "body": {
-        "id": "9ed3a173-b6a3-4266-b566-df642e5509f6",
+        "id": "aa209b14-57a8-499e-97f0-2459bd9a4adc",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"Sun, stars and a hidden courtyard\",\n  \"summary\": \"A day that starts with Inti (the sun (Quechua)) on ancient stone, then slips into a neighbourhood the crew has not yet met, with a planetarium after dark.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept as the must-do anchor, so the crew still feels the old Inca pulse before the surprise begins.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The unexpected turn: a slow wander through San Blas, all workshops, blue doors and quiet corners no one asked for but everyone will photograph.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch at a proper vegetarian table, easy on the wallet and kind to every belly in the crew.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Kept as the after-dark surprise: Cusco’s sky told through Inca eyes, a fitting close for a day that began with Inti.\"\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Surprising Cusco Day\",\n  \"summary\": \"A gentle day around the old centre with a twist: after the must-see Qorikancha, we wander the artisan lanes of San Blas and end with a quiet meal, skipping the usual big sights.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"We keep the golden temple, because some stories must be told twice.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A surprise for the photo and market lovers: tiny workshops, blue doors, and no crowds.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A low-key lunch with proper vegetarian plates, the kind locals keep for themselves.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We close the afternoon with the Cathedral, a heavy history lesson softened by the quiet hour.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at Morena, where the crew can rest their feet and share the day's unexpected finds.\",\n      \"must_do_id\": null\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 118,
+          "input_tokens": 102,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 1024,
-          "output_tokens": 322,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 383,
           "service_tier": "standard"
         }
       }

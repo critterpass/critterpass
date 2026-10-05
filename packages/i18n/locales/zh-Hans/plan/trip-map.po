@@ -29,8 +29,8 @@ msgstr ""
 msgid "plan.tripMap.gap.some"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
-msgid "plan.tripMap.dateDayOf"
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.inCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
@@ -145,6 +145,7 @@ msgstr ""
 msgid "plan.tripMap.empty.draftLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.pick"
 msgstr ""
@@ -159,6 +160,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.askDraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.backAtStay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
@@ -181,6 +186,14 @@ msgstr ""
 msgid "plan.tripMap.checkDetail"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checkingAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
+msgid "plan.tripMap.check.checking"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.tag.clash"
 msgstr ""
@@ -199,6 +212,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.dayTitle"
 msgstr ""
@@ -207,11 +221,7 @@ msgstr ""
 msgid "plan.tripMap.chip.day"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
-msgid "plan.tripMap.chip.dayWeekday"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/format.ts
 msgid "plan.tripMap.dayOf"
 msgstr ""
 
@@ -251,6 +261,10 @@ msgstr ""
 msgid "plan.tripMap.ideas"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.leaveStay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.draft"
 msgstr ""
@@ -261,6 +275,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingMeanwhile"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
+msgid "plan.tripMap.moveStops"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
@@ -276,6 +298,7 @@ msgid "plan.tripMap.cat.nightlife"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/share-text.ts
 #: ../../apps/mobile/src/features/plan/trip-map/sheet-copy.ts
 msgid "plan.tripMap.nothingYet"
 msgstr ""
@@ -288,7 +311,26 @@ msgstr ""
 msgid "plan.tripMap.check.clear"
 msgstr ""
 
+#. placeholder {0}: row.nowLine
+#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
+msgid "plan.tripMap.now"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.onlyYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openStop"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
+msgid "plan.tripMap.openDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/day-sheet.tsx
+#: ../../apps/mobile/src/features/plan/trip-map/peek-sheet.tsx
 msgid "plan.tripMap.openDayHint"
 msgstr ""
 
@@ -340,6 +382,7 @@ msgstr ""
 msgid "plan.tripMap.chip.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-layers.tsx
 msgid "plan.tripMap.label.saved"
 msgstr ""
@@ -355,6 +398,14 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
 msgid "plan.tripMap.see"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/picked-card.tsx
+msgid "plan.tripMap.openPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/share-sheet.tsx
+msgid "plan.tripMap.sendPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
@@ -373,16 +424,16 @@ msgstr ""
 msgid "plan.tripMap.label.stop"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/trip-map/stop-list.tsx
-msgid "plan.tripMap.swap"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
 msgid "plan.tripMap.empty.swipe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-map-filters.ts
 msgid "plan.tripMap.cat.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/empty-trip-sheet.tsx
+msgid "plan.tripMap.empty.comingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/trip-sheet.tsx
@@ -419,4 +470,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.personal.skipping"
 msgstr ""

@@ -41,12 +41,21 @@ export function pillLabel(pill: FitPill, locale: string): string {
   }
 }
 
-/** The guide's line under the list: how many fit, what clashes, and any lottery's truth. */
-export function summaryLine(items: readonly MustDoItem[], waitingCount: number): string | null {
+/**
+ * The guide's line under the list: how many fit, what clashes, and any lottery's truth. A must-do
+ * with no verdict (her own words, a place with no opening hours on file) is not "being checked"
+ * for ever: once the guide has looked, or once the draft has been asked for (`settled`), the line
+ * says the draft will find its day.
+ */
+export function summaryLine(
+  items: readonly MustDoItem[],
+  waitingCount: number,
+  settled = false,
+): string | null {
   if (items.length === 0) return null;
-  const checked = items.filter((item) => item.fit !== 'unknown' && !item.pending);
+  const checking = items.filter((item) => item.pending || (!item.checked && !settled));
   const parts: string[] = [];
-  if (checked.length < items.length) {
+  if (checking.length > 0) {
     parts.push(
       t({ id: 'setup.mustDos.line.checking', message: 'Checking them against the dates.' }),
     );
@@ -54,6 +63,7 @@ export function summaryLine(items: readonly MustDoItem[], waitingCount: number):
     const fit = items.filter((item) => item.fit === 'fits').length;
     const tight = items.filter((item) => item.fit === 'tight').length;
     const clash = items.filter((item) => item.fit === 'clash').length;
+    const open = items.filter((item) => item.fit === 'unknown').length;
     if (fit === items.length) {
       parts.push(
         t({
@@ -80,6 +90,25 @@ export function summaryLine(items: readonly MustDoItem[], waitingCount: number):
               other: "# clash with the dates, so I'll find them other days.",
             }),
           }),
+        );
+      }
+      if (open > 0) {
+        parts.push(
+          open === items.length
+            ? t({
+                id: 'setup.mustDos.line.openAll',
+                message: plural(open, {
+                  one: "Noted. I'll find its day in the draft.",
+                  other: "Noted. I'll find their days in the draft.",
+                }),
+              })
+            : t({
+                id: 'setup.mustDos.line.open',
+                message: plural(open, {
+                  one: "I'll find a day for the other one in the draft.",
+                  other: "I'll find days for the other # in the draft.",
+                }),
+              }),
         );
       }
     }

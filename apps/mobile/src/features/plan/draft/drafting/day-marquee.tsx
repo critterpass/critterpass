@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { LOOP_PRESETS, sampleLoopPreset, useMotionMode, useSharedClock } from '@/motion';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -28,6 +29,7 @@ const useStyles = makeStyles((th) => ({
 function Pills({ days }: { readonly days: readonly DayCard[] }) {
   const styles = useStyles();
   const theme = useTheme();
+  const locale = useLocale();
   const accents = [
     theme.color.orange,
     theme.color.yellow,
@@ -43,7 +45,7 @@ function Pills({ days }: { readonly days: readonly DayCard[] }) {
           style={[styles.pill, { backgroundColor: accents[index % accents.length] }]}
         >
           <Text variant="title" numberOfLines={1} color={theme.semantic.text.onAccent}>
-            {dayCardLabel(day)}
+            {dayCardLabel(day, locale)}
           </Text>
         </View>
       ))}

@@ -1,10 +1,13 @@
 /**
  * The destination page's two ways forward. PITCH TO THE CREW puts the place on a crew's board:
- * with one crew it goes there, with several the user picks which, with none the page says a pitch
- * needs a crew. SOLO TRIP asks once, then starts a trip for one that skips the vote.
+ * with one crew it goes there, with several the user picks which, with none the crew is started
+ * right here (a name, one button) and the pitch carries on. SOLO TRIP asks once, then starts a trip for one that skips the vote.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
+
+import { QuickCrewStart } from '@/features/vote';
 
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -45,6 +48,8 @@ export function DestinationActions(props: DestinationActionsProps) {
   const styles = useStyles();
   const { t, i18n } = useLingui();
   const { placeName, guideName } = props;
+  // A crew started from this page: the form stays up until the crew has synced and the pitch opens.
+  const [starting, setStarting] = useState(false);
   if (props.mode === 'solo') {
     return (
       <Stack style={styles.card} testID="explore-solo-confirm">
@@ -73,13 +78,17 @@ export function DestinationActions(props: DestinationActionsProps) {
   }
   return (
     <Stack gap="10">
-      {props.mode !== 'crews' ? null : props.crews.length === 0 ? (
-        <Text variant="bodySm" testID="explore-pitch-no-crew">
-          {t({
-            id: 'explore.pitch.noCrew',
-            message: 'Pitching needs a crew. Start one from Home, or take this one solo.',
-          })}
-        </Text>
+      {props.mode !== 'crews' ? null : props.crews.length === 0 || starting ? (
+        <QuickCrewStart
+          placeName={placeName}
+          crewIds={props.crews.map((crew) => crew.id)}
+          onStarted={() => setStarting(true)}
+          onReady={(crewId) => {
+            setStarting(false);
+            props.onPickCrew(crewId);
+          }}
+          testID="explore-pitch-no-crew"
+        />
       ) : (
         <Stack gap="8" testID="explore-pitch-crews">
           <Text variant="bodySm">

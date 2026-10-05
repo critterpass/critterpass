@@ -270,7 +270,20 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   '3k-1-no-bookings': () => <Hub bookings={0} quests={false} overrides={{ ticker: [] }} />,
   '3k-1-ticker-line': () => <Ticker />,
-  '3k-1-guest-guide': () => <Hub overrides={{ guestGuide: true, onSwitch: noop }} />,
+  // A city's own guide where nobody has checked its picks: Đà Lạt with Ngựa.
+  '3k-1-guest-guide': () => (
+    <Hub
+      overrides={{
+        ...DA_NANG,
+        destination: 'Đà Lạt',
+        colour: guideColour('ngua'),
+        guide: 'ngua',
+        guideName: 'Ngựa',
+        guestGuide: true,
+        onSwitch: noop,
+      }}
+    />
+  ),
   '3k-1-loading': () => <Hub overrides={{ state: 'loading' }} />,
   'trips-switcher': () => <Switcher />,
   'trips-empty': () => <TripListView state="ready" trips={[]} onOpen={noop} onHome={noop} />,

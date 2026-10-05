@@ -18,6 +18,7 @@ import type {
   CastBallotPayload,
   ChangesetDecision,
   CreateChangesetPayload,
+  UndoPlanEditPayload,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
@@ -97,6 +98,12 @@ export const applyChangesetCommand = defineClientCommand<{
 function online<Payload>(spec: ClientCommandSpec<Payload>): ClientCommandSpec<Payload> {
   return { name: spec.name, offline: false };
 }
+
+/** Takes back the plan version one of my own edits made; asked online, as the toast waits on it. */
+export const undoPlanEditOnline: ClientCommandSpec<UndoPlanEditPayload> = {
+  name: 'undo_plan_edit',
+  offline: false,
+};
 
 export const createChangesetOnline = online(createChangesetCommand);
 export const sendChangesetOnline = online(sendChangesetCommand);

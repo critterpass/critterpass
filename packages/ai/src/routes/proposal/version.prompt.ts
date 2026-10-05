@@ -8,7 +8,7 @@
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import { translateLanguageName } from '../translate/prompt';
 import {
   MAX_SLIDES,
@@ -18,7 +18,7 @@ import {
 } from './version.schema';
 
 export const VERSION_ROUTE = 'proposal.personal' as const;
-export const VERSION_PROMPT_VERSION = 'proposal-version@2';
+export const VERSION_PROMPT_VERSION = 'proposal-version@3';
 
 const TASK = [
   '# Task',
@@ -34,6 +34,14 @@ const TASK = [
   '  capitals, about why it suits this person in particular ("YOU PICKED STREET FOOD",',
   '  "SUNRISE CHASER", "EASY-ISH PACE"). No numbers, no names. Use `only_here` only for a stop',
   '  that exists nowhere else.',
+  '- After the lead slide, slides and highlights follow the plan: day by day, earlier `time` first.',
+  "- Each plan item says when it happens: `time` (24 h, the place's own clock) and `part_of_day`.",
+  '  Your words must fit it: no sunrise, dawn, breakfast or morning for a stop in the afternoon or',
+  '  evening, no "first" for a stop that is not the first of its day. When an item has no `time`,',
+  '  name no time of day for it at all.',
+  '- `asked_for_something` says whether this person told us what they want (a must-do or taste',
+  '  tags). When it is false they picked nothing: never say or label that they picked, chose,',
+  '  asked for or wanted anything; describe what the stop is instead.',
   '- `savings`: the saving options by id that suit them; never invent one.',
   '- Every number you write (money, dates, days, counts) must appear in the data exactly as given.',
   '  Never count or work anything out (no number of nights or days). If the data has no share,',
@@ -67,18 +75,34 @@ export function replyLanguage(locale: string | undefined): string {
     : ` [Reply language: ${translateLanguageName(locale)}.]`;
 }
 
+export type PartOfDay = 'morning' | 'midday' | 'afternoon' | 'evening' | 'night';
+
+/** The part of the day an `HH:MM` start falls in; null when the stop has no time. */
+export function partOfDay(time: string | null | undefined): PartOfDay | null {
+  const hour = /^(\d{2}):\d{2}$/u.exec(time ?? '')?.[1];
+  if (hour === undefined) return null;
+  const h = Number(hour);
+  if (h < 5 || h >= 22) return 'night';
+  if (h < 11) return 'morning';
+  if (h < 14) return 'midday';
+  return h < 18 ? 'afternoon' : 'evening';
+}
+
 function describe(context: VersionContext): string {
   return JSON.stringify({
     for: context.recipientFirstName,
     destination: context.destination,
     dates: context.dates,
     taste_tags: context.tasteTags,
+    asked_for_something: context.tasteTags.length > 0 || context.items.some((i) => i.must_do),
     share: context.share,
     savings: context.savings.map((s) => ({ id: s.id, label: s.label, saves: s.amount })),
     plan: context.items.map((item) => ({
       id: item.id,
       title: item.title,
       day: item.day,
+      time: item.time ?? null,
+      part_of_day: partOfDay(item.time),
       category: item.category,
       their_must_do: item.must_do,
     })),
@@ -89,7 +113,7 @@ export function buildVersionRequest(context: VersionContext): GatewayInput {
   const language = replyLanguage(context.locale);
   return {
     system: [
-      { type: 'text', text: renderPersonaBlock(REPO_PACKS[context.guide]) },
+      { type: 'text', text: renderPersonaBlock(resolvePersonaPack(context.guide)) },
       { type: 'text', text: language === '' ? TASK : `${TASK}\n${READER_LANGUAGE_RULES}` },
     ],
     messages: [

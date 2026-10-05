@@ -2,7 +2,9 @@
  * The day plan route's screen (7b-1) over the synced plan: the day's stops with legs and the
  * check's notes, the reorder (organiser applies, member proposes; an impossible order says why),
  * the item sheet for a tapped stop, the add bar (search scoped to the day once registered, the
- * earlier add sheet until then), SHARE and who else is on the day right now.
+ * earlier add sheet until then), SHARE and who else is on the day right now. The day shown is the
+ * trip's chosen day, shared with the trip map, the open day map and all days; "← TRIP" lands on
+ * the trip map whatever is stacked in between, and today's day links to day-of.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- design ids, route params and toast ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -13,19 +15,22 @@ import { estimateLeg } from '@/data/legs/day-legs';
 import { addOp, type DaySlot } from '@/data/plan/plan-ops';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
-import { useScreenHref } from '@/lib/navigation/screen-registry';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { usePlanPresence } from '../collab/use-presence';
 import { AddItemSheet } from '../day/add-item-sheet';
 import { ItemSheetHost } from '../day/item-sheet-host';
 import { announceEdit, useDayEditing } from '../day/use-day-editing';
 import { tripPlanRoutes } from '../hub/routes';
+import { useChosenDay, useOpenOnDate } from '../trip-map/chosen-day';
 import { useDayRoute } from '../trip-map/day-route';
 import { ShareSheet } from '../trip-map/share-sheet';
 import { useTripMapModel } from '../trip-map/use-trip-map-model';
 import { useRainWindow } from '../timeline/use-rain-window';
 import { clock } from '../day/format';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useBackToTrip } from './back-to-trip';
+import { DayGone } from './day-gone';
 import { DayPlanView } from './day-plan-view';
 import { refusalLine } from './refusal';
 import type { Travel } from './reschedule';
@@ -34,18 +39,26 @@ import { useReorder } from './use-reorder';
 export function DayPlanScreen({
   tripId,
   dayNo: initialDay,
+  date,
   item,
 }: {
   readonly tripId: string;
   readonly dayNo: number;
+  /** The day to open on by its date (`YYYY-MM-DD`), when a link names it that way. */
+  readonly date?: string | null | undefined;
   readonly item?: string | undefined;
 }) {
   const { t } = useLingui();
   const locale = useLocale();
   const { data, model } = useTripMapModel(tripId);
   const { plan } = data;
-  const [dayNo, setDayNo] = useState(initialDay);
+  const [chosen, setDayNo] = useChosenDay(tripId, date == null ? initialDay : null);
+  const finding = useOpenOnDate(tripId, date, model.days, data.loaded);
+  const dayNo = chosen ?? initialDay;
   const [openId, setOpenId] = useState<string | null>(item ?? null);
+  const backToTrip = useBackToTrip(tripId);
+  // Day-of for today (when to leave, who is up), once that screen has joined the registry.
+  const dayOf = hrefFor('3k-2', { tripId });
   const [adding, setAdding] = useState(false);
   const [sharing, setSharing] = useState(false);
   const day = model.days.find((entry) => entry.dayNo === dayNo) ?? null;
@@ -73,7 +86,8 @@ export function DayPlanScreen({
     submit: (ops) => editor.submit(ops),
     editable: !model.readOnly && day?.date != null,
   });
-  if (!data.loaded || day === null) return null;
+  if (!data.loaded || finding) return null;
+  if (day === null) return <DayGone onBack={backToTrip} />;
 
   const rainIssue = day.issues.find((issue) => issue.kind === 'rain');
   const rain =
@@ -125,12 +139,16 @@ export function DayPlanScreen({
                 },
               }
         }
-        onBack={() =>
-          router.canGoBack() ? router.back() : router.replace(tripPlanRoutes.map(tripId))
-        }
+        onBack={backToTrip}
+        // Back to day-of when it is underneath (the day was opened from it), else onto it.
+        onDayOf={dayOf === undefined ? undefined : () => router.dismissTo(dayOf)}
         onAllDays={() => router.push(tripPlanRoutes.days(tripId, dayNo))}
         onShare={() => setSharing(true)}
-        onSelectDay={setDayNo}
+        onSelectDay={(n) => {
+          // A stop's sheet belongs to the day it was opened on.
+          setOpenId(null);
+          setDayNo(n);
+        }}
         onOpenMap={() => router.push(tripPlanRoutes.dayMap(tripId, dayNo))}
         onOpenStop={setOpenId}
         onAdd={() => (search === undefined ? setAdding(true) : router.push(search))}
@@ -143,6 +161,7 @@ export function DayPlanScreen({
           slot={slot}
           editor={editor}
           announce={announceEdit}
+          travel={travel}
           onClose={() => setOpenId(null)}
         />
       )}
@@ -165,7 +184,9 @@ export function DayPlanScreen({
           }}
         />
       ) : null}
-      {sharing ? <ShareSheet plan={plan} onClose={() => setSharing(false)} /> : null}
+      {sharing ? (
+        <ShareSheet plan={plan} days={model.days} onClose={() => setSharing(false)} />
+      ) : null}
     </>
   );
 }

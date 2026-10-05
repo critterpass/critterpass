@@ -13,6 +13,22 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMany"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/format.ts
 msgid "home.age.days"
 msgstr ""
@@ -61,6 +77,10 @@ msgstr ""
 msgid "home.inbox.tip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.memberJoined"
 msgstr ""
@@ -71,6 +91,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedRemove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.askedMove"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -91,6 +123,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
 msgid "home.inbox.caughtUp.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.searchBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.nearHome"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
@@ -141,6 +181,10 @@ msgstr ""
 msgid "home.inbox.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.body"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.refusedBody"
 msgstr ""
@@ -169,6 +213,10 @@ msgstr ""
 msgid "home.inbox.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.body"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.markAll"
 msgstr ""
@@ -193,6 +241,10 @@ msgstr ""
 msgid "home.nextUp.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.next"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
 msgstr ""
@@ -203,6 +255,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.guidesEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
@@ -221,12 +277,8 @@ msgstr ""
 msgid "home.noTrip.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.open"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
+#: ../../apps/mobile/src/features/home/today-strip.tsx
+msgid "home.today.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -239,6 +291,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.ideasPlaced.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -269,8 +337,8 @@ msgstr ""
 msgid "home.inbox.generic"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhere"
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.startCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
@@ -289,12 +357,32 @@ msgstr ""
 msgid "home.inbox.nudge.vote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.keptOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.kept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.applied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.moved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
+msgid "home.inbox.planChange.ranOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
@@ -317,12 +405,8 @@ msgstr ""
 msgid "home.countdown.today"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
-msgid "home.inTrip.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
-msgid "home.inbox.caughtUp.tokek"
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.inTrip.eyebrowOf"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -383,6 +467,5 @@ msgid "home.nudge.relayLink"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
-#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.nextUp.untitled"
 msgstr ""

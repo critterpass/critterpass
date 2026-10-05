@@ -14,7 +14,9 @@ import { makeStyles, Text, useTheme } from '@/ui';
 import { AddButton, PhotoCredit, PlaceRow } from '@/ui/planning';
 import { Skeleton } from '@/ui/states/Skeleton';
 
+import { NameNotFound } from './name-not-found';
 import { placeIcon } from './place-icons';
+import type { RowWords } from './search-rows';
 
 const useStyles = makeStyles((th) => ({
   card: { borderRadius: th.radius.lg, backgroundColor: th.semantic.bg.raised, overflow: 'hidden' },
@@ -30,6 +32,16 @@ export interface NameResultsProps {
   readonly onOpen: (place: PlaceCandidate) => void;
   readonly onAdd: (place: PlaceCandidate) => void;
   readonly onPickLive: (place: LivePlace) => void;
+  /** The row's second line and whether the place is already on a day. */
+  readonly words?: ((place: PlaceCandidate) => RowWords) | undefined;
+  /** The ways on when no place has that name; absent, nothing is drawn (the lab's bare lists). */
+  readonly notFound?:
+    | {
+        readonly guideName: string;
+        readonly onDropPin: () => void;
+        readonly onAsk: () => void;
+      }
+    | undefined;
 }
 
 function addLabel(place: PlaceCandidate): string {
@@ -37,9 +49,12 @@ function addLabel(place: PlaceCandidate): string {
   return t({ id: 'search.row.add', message: `Add ${name}` });
 }
 
-function sourceLine(place: PlaceCandidate): string | undefined {
-  if (place.source === 'idea') return t({ id: 'search.row.saved', message: 'In your Ideas' });
-  return undefined;
+function plainWords(place: PlaceCandidate): RowWords {
+  const meta =
+    place.source === 'idea'
+      ? t({ id: 'search.row.saved', message: 'In your Ideas' })
+      : (place.nameLocal ?? undefined);
+  return { meta, inPlan: false };
 }
 
 export function NameResults({
@@ -50,34 +65,44 @@ export function NameResults({
   onOpen,
   onAdd,
   onPickLive,
+  words = plainWords,
+  notFound,
 }: NameResultsProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
     <View style={{ gap: theme.space['14'] }} testID="search-name-results">
       {rows.length === 0 && state === 'searching' ? <Skeleton preset="list" repeat={2} /> : null}
+      {rows.length === 0 && state === 'none' && notFound !== undefined ? (
+        <NameNotFound {...notFound} />
+      ) : null}
       {rows.length === 0 ? null : (
         <View style={styles.card}>
-          {rows.map((place, index) => (
-            <PlaceRow
-              key={place.poiId ?? place.id}
-              title={place.name}
-              meta={sourceLine(place) ?? place.nameLocal ?? undefined}
-              icon={placeIcon(place.category)}
-              {...(place.poiId === null ? undefined : photos?.get(place.poiId)?.tile)}
-              onPress={() => onOpen(place)}
-              trailing={
-                place.poiId === null ? undefined : (
-                  <AddButton
-                    accessibilityLabel={addLabel(place)}
-                    onPress={() => onAdd(place)}
-                    testID={`search-row-add-${String(index)}`}
-                  />
-                )
-              }
-              testID={`search-row-${String(index)}`}
-            />
-          ))}
+          {rows.map((place, index) => {
+            const row = words(place);
+            return (
+              <PlaceRow
+                key={place.poiId ?? place.id}
+                title={place.name}
+                meta={row.meta}
+                icon={placeIcon(place.category)}
+                {...(place.poiId === null ? undefined : photos?.get(place.poiId)?.tile)}
+                onPress={() => onOpen(place)}
+                trailing={
+                  place.poiId === null || row.inPlan ? undefined : (
+                    <AddButton
+                      accessibilityLabel={addLabel(place)}
+                      onPress={() => onAdd(place)}
+                      testID={`search-row-add-${String(index)}`}
+                    />
+                  )
+                }
+                testID={
+                  row.inPlan ? `search-row-in-plan-${String(index)}` : `search-row-${String(index)}`
+                }
+              />
+            );
+          })}
         </View>
       )}
       {live.kind === 'done' && live.places.length > 0 ? (

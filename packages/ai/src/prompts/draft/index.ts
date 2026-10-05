@@ -5,9 +5,12 @@ export {
   hoursOn,
   type DraftModel,
   type DraftPlanInput,
+  type HeldStop,
   type UntimedMustDo,
 } from './context';
 export { stopBudget } from './budget';
+export { withHeldStops } from './held';
+export { essentialsLeftOut, type EssentialGap, type EssentialLeftOut } from './essentials';
 export { buildDayRequest, draftOneDay, toChoices, type DayContext } from './day';
 export { draftDays, runDraftPlan, type DraftedDays, type DraftPlanResult } from './pipeline';
 export {
@@ -23,8 +26,11 @@ export {
   requiredMustDoIds,
   validate,
   validateAndRepair,
+  withFinalNotes,
   type RepairOutcome,
+  type RepairPass,
 } from './repair';
+export { areasOf, hopCap } from './areas';
 export { proseProblem } from './schema';
 export {
   buildSkeletonRequest,

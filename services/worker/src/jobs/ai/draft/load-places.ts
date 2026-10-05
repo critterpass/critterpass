@@ -65,6 +65,7 @@ function toDraftPoi(row: PoiRow): DraftPoi {
   const editorial = (row.editorial ?? {}) as {
     time_needed_min?: unknown;
     must_see?: unknown;
+    essential?: unknown;
     why_go?: unknown;
     best_time?: unknown;
   };
@@ -94,6 +95,8 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     // Where nothing is curated, the well-known places the model named stand in for must-sees, so
     // the sights a town is known for take their seats before the open-data fill.
     mustSee: editorial.must_see === true || row.pick_source === 'named',
+    // The handful a first visit should hold (our editors flag at most fifteen a destination).
+    ...(editorial.essential === true ? { essential: true } : {}),
     detail: filled + (known ? 1 : 0),
     whyGo: text(editorial.why_go),
     bestTime: text(editorial.best_time),

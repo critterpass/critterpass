@@ -5,16 +5,17 @@
  * votes, approvals, RSVP follow-ups, payments); an unknown kind still gets a readable row.
  */
 import type { I18n, MessageDescriptor } from '@lingui/core';
-import { msg } from '@lingui/core/macro';
+import { msg, plural } from '@lingui/core/macro';
 
-import { INBOX_KIND, type InboxAction } from '@cp/domain';
+import { IDEAS_INBOX_KIND, INBOX_KIND, type InboxAction } from '@cp/domain';
 
 import type { CardTone } from '@/ui/cards/tone';
 import type { DoodleName } from '@/ui/icons/generated';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 
 import { guideOr } from '../format';
 import type { InboxItem } from './inbox-data';
+import { PLAN_CHANGE_RENDERERS } from './plan-change-renderers';
 
 export interface InboxRenderContext {
   readonly i18n: I18n;
@@ -50,7 +51,7 @@ const say = (ctx: InboxRenderContext, descriptor: MessageDescriptor): string =>
   ctx.i18n._(descriptor);
 
 function guideName(item: InboxItem): string {
-  return GUIDE_STICKERS[guideOr(text(item.data['guide']))].name;
+  return guideSticker(guideOr(text(item.data['guide']))).name;
 }
 
 const FALLBACK: InboxRenderer = {
@@ -96,9 +97,27 @@ function nudgeAbout(reason: string, ctx: InboxRenderContext): string {
   }
 }
 
+function placedLine(item: InboxItem, ctx: InboxRenderContext): string {
+  const guide = guideName(item);
+  const count = Number(item.data['count'] ?? 0);
+  return say(
+    ctx,
+    msg({
+      id: 'home.inbox.ideasPlaced.title',
+      message: plural(count, {
+        one: `${guide} found a spot for # idea`,
+        other: `${guide} found a spot for # ideas`,
+      }),
+    }),
+  );
+}
+
 let registered = false;
 
-/** Home's own kinds: crewmates joining, invite opens, nudges, the guide's changes, fare drops. */
+/**
+ * Home's own kinds: crewmates joining, invite opens, nudges, the guide's changes and placed
+ * ideas, plan changes put to a vote, fare drops.
+ */
 export function registerHomeInboxRenderers(): void {
   if (registered) return;
   registered = true;
@@ -154,6 +173,25 @@ export function registerHomeInboxRenderers(): void {
     },
     actionLabel: (_action, _item, ctx) => say(ctx, msg({ id: 'home.inbox.undo', message: 'Undo' })),
   });
+
+  // The guide finished placing the reader's ideas: their review waits until it is sent or applied.
+  registerInboxRenderer(IDEAS_INBOX_KIND.placed, {
+    card: (item, ctx) => ({
+      title: placedLine(item, ctx),
+      body: say(
+        ctx,
+        msg({
+          id: 'home.inbox.ideasPlaced.body',
+          message: 'Look them over before they go in the plan.',
+        }),
+      ),
+    }),
+    line: placedLine,
+    actionLabel: (_action, _item, ctx) =>
+      say(ctx, msg({ id: 'home.inbox.ideasPlaced.open', message: 'Review' })),
+  });
+
+  for (const [kind, renderer] of PLAN_CHANGE_RENDERERS) registerInboxRenderer(kind, renderer);
 
   registerInboxRenderer(INBOX_KIND.tipPriceDrop, {
     line: (item, ctx) => {

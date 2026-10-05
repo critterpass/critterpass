@@ -11,15 +11,19 @@ import { usePlaceTilePhotos } from '@/data/media/use-place-tile-photos';
 import { useTheme } from '@/ui';
 
 import { ChipBlock, excludeLine, type ChipWords } from './chip-row';
+import { ClosePlaces, PlainFailed } from './plain-close';
 import type { PlainAnswer, PlainPlace } from './plain-filters';
 import { PlainResults, type PlainRow } from './plain-results';
 import { placeIcon } from './place-icons';
+import { kindWord } from './search-rows';
 import type { PlainState } from './use-plain-search';
 import type { SearchTrip } from './use-search-trip';
 import { t } from '@lingui/core/macro';
 
 function metaOf(place: PlainPlace): string | undefined {
   const parts: string[] = [];
+  const kind = kindWord(place.category);
+  if (kind !== null) parts.push(kind);
   if (place.area !== null) parts.push(place.area);
   if (place.minutes !== null) {
     const minutes = place.minutes.value;
@@ -44,6 +48,17 @@ export function plainRows(places: readonly PlainPlace[], trip: SearchTrip): Plai
       tz: trip.tz,
       stopName: (stableId) => trip.itemTitles.get(stableId) ?? null,
     });
+    const day = trip.planDays.get(place.id);
+    if (day !== undefined) {
+      return {
+        key: place.id,
+        title: place.name,
+        meta: t({ id: 'search.row.inPlan', message: `In the plan · ${day}` }),
+        icon: placeIcon(place.category),
+        fitLine: undefined,
+        inPlan: true,
+      };
+    }
     return {
       key: place.id,
       title: place.name,
@@ -60,8 +75,11 @@ export interface PlainSectionProps {
   readonly words: ChipWords;
   readonly onRemove: (key: string) => void;
   readonly onOpen: (poiId: string) => void;
-  readonly onAdd: (poiId: string) => void;
-  readonly onMap: (() => void) | undefined;
+  readonly onAdd: (poiId: string, name: string) => void;
+  /** MAP for the places on screen; absent until the places map is registered. */
+  readonly onMap: ((placeIds: readonly string[]) => void) | undefined;
+  /** Runs the same search again after one that failed. */
+  readonly onRetry?: (() => void) | undefined;
   /** What to show when the answer has no places (the ways out). */
   readonly empty: (answer: PlainAnswer) => ReactNode;
   /** Shown under the places found (street addresses). */
@@ -86,6 +104,21 @@ export function PlainSection(props: PlainSectionProps) {
       ? null
       : excludeLine(state.excludeReason, trip.days, trip.itemTitles);
   const settled = state.search === 'ready' && answer !== null;
+  const onMap = props.onMap;
+  const close = settled && answer.places.length === 0 && !softShown ? answer.close : null;
+  const closeRows = useMemo(
+    () => (close === null ? [] : plainRows(close.places, trip)),
+    [close, trip],
+  );
+  const closePhotos = usePlaceTilePhotos(closeRows.map((row) => row.key));
+  if (state.search === 'failed' && props.onRetry !== undefined) {
+    return (
+      <View style={{ gap: theme.space['20'] }}>
+        <PlainFailed onRetry={props.onRetry} />
+        {props.after}
+      </View>
+    );
+  }
   return (
     <View style={{ gap: theme.space['20'] }}>
       <ChipBlock
@@ -96,7 +129,19 @@ export function PlainSection(props: PlainSectionProps) {
         guideName={trip.guideName}
         onRemove={props.onRemove}
       />
-      {settled && answer.places.length === 0 && !softShown ? (
+      {close !== null ? (
+        <ClosePlaces
+          rows={closeRows}
+          photos={closePhotos}
+          dropped={close.dropped}
+          chips={state.chips}
+          words={props.words}
+          onOpen={props.onOpen}
+          onAdd={props.onAdd}
+          onMap={onMap === undefined ? undefined : () => onMap(closeRows.map((row) => row.key))}
+          after={props.after}
+        />
+      ) : settled && answer.places.length === 0 && !softShown ? (
         props.empty(answer)
       ) : (
         <>
@@ -109,7 +154,7 @@ export function PlainSection(props: PlainSectionProps) {
             onSoftMisses={() => setSoftShown(true)}
             onOpen={props.onOpen}
             onAdd={props.onAdd}
-            onMap={props.onMap}
+            onMap={onMap === undefined ? undefined : () => onMap(rows.map((row) => row.key))}
           />
           {props.after}
         </>

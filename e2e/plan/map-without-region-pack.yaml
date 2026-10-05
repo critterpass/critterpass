@@ -1,0 +1,100 @@
+appId: app.critterpass.dev
+---
+# A destination with no region pack on the bare planning canvas: the map still draws, on the world
+# tiles alone, and says a detailed map is on its way, with a short, a long and a very long name
+# (the line stays above the map's mark and attribution button, inside the gutters), in English and
+# in Vietnamese. The trip map's own flow is trip-map-without-region-pack.yaml.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-planning-map-lab
+      SCENE: planning-map-lab-no-pack
+# The tiles host is asked once whether the pack exists; the line shows on its "not there".
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- assertVisible: 'A detailed map of Đà Lạt is on its way.'
+# The world tiles and the style's sprites arrive over the network.
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-map-without-region-pack
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-planning-map-lab
+      SCENE: planning-map-lab-no-pack-city
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-map-without-region-pack-long-name
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-planning-map-lab
+      SCENE: planning-map-lab-no-pack-long
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-map-without-region-pack-longest-name
+# The app in Vietnamese (picked for the running app, so no relaunch from here on).
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    file: subflows/open-lab-scene.yaml
+    env:
+      LAB: dev-nav-planning-map-lab
+      SCENE: planning-map-lab-no-pack-long
+- extendedWaitUntil:
+    visible:
+      id: 'map-region-pack-notice'
+    timeout: 20000
+- assertVisible: 'Bản đồ chi tiết của Thành phố Phan Rang – Tháp Chàm sắp có.'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-map-without-region-pack-longest-name

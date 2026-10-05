@@ -23,18 +23,18 @@ import {
   crewSize,
   heatMonths,
   initialMonth,
+  suggestedBest,
   syncedCount,
   whenMode,
   type WindowOption,
 } from './model';
+import { DEFAULT_LENGTH_DAYS, suggestFrom } from './range';
 import { useWhenData } from './use-when-data';
 import { WeekPicker } from './week-picker';
 import { useUnsyncedMembers } from './use-unsynced';
 import { WhenView, type WhenFailure } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
-
-const DEFAULT_LENGTH_DAYS = 7;
 
 function failureOf(code: string): WhenFailure {
   if (code === 'NETWORK' || code.startsWith('HTTP_')) return 'offline';
@@ -56,17 +56,19 @@ export function WhenStep({ trip, shell }: StepProps) {
   const months = heatMonths(data.summaries);
   const total = crewSize(data.summaries, trip.members.length);
   const synced = syncedCount(data.summaries);
-  const mode = whenMode(data.options, synced);
-  const best = data.options.find((option) => option.kind === 'best') ?? null;
-  const noFit = mode === 'no_fit' ? data.options.filter((option) => option.kind !== 'best') : [];
-  const pick = noFit.find((option) => option.isPick) ?? noFit[0];
-  const selectedId = chosen ?? pick?.id ?? null;
-  const startMonth = initialMonth(months, best);
   // The picker spans the whole horizon, so the organiser can pick a week before anyone has shared.
   const horizon = syncRange(
     new Date(services.now()),
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+  // A week that starts in the next few days is never put forward as the one to lock.
+  const earliest = suggestFrom(horizon.from);
+  const mode = whenMode(data.options, synced, earliest);
+  const best = suggestedBest(data.options, earliest);
+  const noFit = mode === 'no_fit' ? data.options.filter((option) => option.kind !== 'best') : [];
+  const pick = noFit.find((option) => option.isPick) ?? noFit[0];
+  const selectedId = chosen ?? pick?.id ?? null;
+  const startMonth = initialMonth(months, best);
   const pickerMonths = heatMonths(data.summaries, horizon);
 
   const onLock = (start: string, end: string) => {

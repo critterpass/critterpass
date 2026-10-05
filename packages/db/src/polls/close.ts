@@ -188,10 +188,7 @@ async function settleDestination(
   const { rows } = await tx.query<{ status: string }>(
     `UPDATE trips t
         SET status = 'won', destination_id = $2,
-            guide_id = coalesce((SELECT g.id FROM destinations d
-                                   LEFT JOIN critter_sets s ON s.id = d.critter_set_id
-                                   JOIN guides g ON g.slug = coalesce(s.guide_slug, 'tokek')
-                                  WHERE d.id = $2), t.guide_id),
+            guide_id = coalesce(app.destination_guide_id($2), t.guide_id),
             is_guest_guide = (SELECT d.coverage = 'guest' FROM destinations d WHERE d.id = $2)
       WHERE t.id = $1 AND t.status = 'voting'
       RETURNING status`,

@@ -6,19 +6,22 @@
  * must-do, a redraft note, chat) only ever enters inside an untrusted data block.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import { WEEKDAYS, type Hours } from '@cp/domain';
-import type {
-  CandidatePools,
-  CostBands,
-  DraftPoi,
-  TravelMatrix,
-  TripFrame,
-  WishTime,
+import { WEEKDAYS, type DraftItem, type Hours } from '@cp/domain';
+import {
+  foodRole,
+  placeTime,
+  type CandidatePools,
+  type CostBands,
+  type DraftPoi,
+  type PlaceTime,
+  type TravelMatrix,
+  type TripFrame,
+  type WishTime,
 } from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
 import { renderPersonaBlock } from '../../persona/layering';
-import { REPO_PACKS } from '../../persona/loader';
+import { resolvePersonaPack } from '../../persona/resolve';
 import type { PersonaId } from '../../persona/schema';
 import type { UsageContext } from '../../usage';
 
@@ -40,6 +43,18 @@ export interface WishAnswer {
 export interface UntimedMustDo {
   readonly mustDoId: string;
   readonly reason: 'no_show_day' | 'no_day_fits';
+}
+
+/** A stop the organiser already placed on a day (see `DraftPlanInput.held`). */
+export interface HeldStop {
+  readonly dayNo: number;
+  readonly item: DraftItem;
+  /**
+   * Where the stop is when it sits on a dropped pin (`item.poi_id` null: no place of ours). Give
+   * the stops to `withHeldStops` and the planner knows the pin's position and name; the stop's
+   * `poi_id` stays null in everything that comes back.
+   */
+  readonly pin?: { readonly name: string; readonly lat: number; readonly lng: number };
 }
 
 export interface DraftPlanInput {
@@ -72,6 +87,18 @@ export interface DraftPlanInput {
   readonly untimed?: readonly UntimedMustDo[];
   /** Stable ids for scheduled stops; the same key always gives the same id. */
   readonly idFor: (key: string) => string;
+  /**
+   * Stops already on a day that are the organiser's own (placed by hand, `locked_reason: 'user'`,
+   * or booked): the guide is told of them and plans the rest of the day around them, and the
+   * planner never moves, trims or drops one. Each keeps its place (when it has one), its times,
+   * its kind (`meal` when it serves as the day's lunch or dinner) and its id.
+   */
+  readonly held?: readonly HeldStop[];
+  /**
+   * The language the organiser reads (BCP 47, e.g. `vi`). A redraft writes its title, summary and
+   * notes in it, and the planner's own lines follow; absent, the words are English.
+   */
+  readonly locale?: string;
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
 }
 
@@ -101,7 +128,7 @@ export function placeNames(input: Pick<DraftPlanInput, 'pois'>): string[] {
 
 export function personaSystem(guide: PersonaId, task: string): Anthropic.Messages.TextBlockParam[] {
   return [
-    { type: 'text', text: renderPersonaBlock(REPO_PACKS[guide]) },
+    { type: 'text', text: renderPersonaBlock(resolvePersonaPack(guide)) },
     { type: 'text', text: task },
   ];
 }
@@ -172,10 +199,28 @@ export function aliases(input: Pick<DraftPlanInput, 'pois' | 'frame'>): Aliases 
   return made;
 }
 
+const TIME_LABEL: Readonly<Record<PlaceTime, string>> = {
+  morning: 'best in the morning',
+  sunset: 'for the sunset',
+  evening: 'an evening place',
+  after_dark: 'for after dark',
+};
+
+/** What the planner knows a place is for: a break, or a time of day it holds the stop to. */
+export function purposeOf(poi: DraftPoi): string | null {
+  const time = placeTime(poi);
+  const parts = [
+    foodRole(poi) === 'light' ? 'coffee or snack break, never a meal' : null,
+    time === null ? null : TIME_LABEL[time],
+  ].filter((part): part is string => part !== null);
+  return parts.length === 0 ? null : parts.join(', ');
+}
+
 export function placeLine(
   input: Pick<DraftPlanInput, 'pois' | 'frame'>,
   poi: DraftPoi,
   date: string | null,
+  area?: string,
 ): string {
   const parts = [
     aliases(input).place(poi.id),
@@ -183,6 +228,9 @@ export function placeLine(
     poi.category,
     `visit ${poi.durationMin} min`,
   ];
+  if (area !== undefined) parts.push(`area ${area}`);
+  const purpose = purposeOf(poi);
+  if (purpose !== null) parts.push(purpose);
   if (date !== null) {
     parts.push(hoursOn(poi.hours, date));
     const latest = lastStartOn(poi.hours, date, poi.durationMin);
@@ -203,6 +251,18 @@ export function editorsNote(poi: DraftPoi): string {
     poi.bestTime === null || poi.bestTime === undefined ? null : `best time: ${poi.bestTime}`,
   ].filter((part): part is string => part !== null);
   return parts.length === 0 ? '' : `; our editors: ${parts.join('; ')}`;
+}
+
+/**
+ * Which language the guide writes in, for a reader who does not read English: every word the crew
+ * will read (day titles and themes, summaries, notes). Nothing for an English reader.
+ */
+export function languageLine(locale: string | undefined): string[] {
+  if (locale === undefined || locale.toLowerCase().startsWith('en')) return [];
+  const name = new Intl.DisplayNames(['en'], { type: 'language' }).of(locale) ?? locale;
+  return [
+    `Write every title, theme, summary and note in ${name} (${locale}), in your own voice: not one sentence in English. Place names stay exactly as the lists write them.`,
+  ];
 }
 
 export function crewLine(input: DraftPlanInput): string {

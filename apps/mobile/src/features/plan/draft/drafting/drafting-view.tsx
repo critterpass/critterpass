@@ -8,7 +8,7 @@
 import { plural, t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { guideSticker } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -80,11 +80,12 @@ function lineFor(phase: DraftPhase, days: number): string {
       return phase.slow
         ? t({
             id: 'planDraft.drafting.slow',
-            message: 'Taking a bit longer than usual. I’ll ping you when it’s ready.',
+            message: 'Taking longer than usual. You can leave: I’ll tell you when it’s ready.',
           })
         : t({
             id: 'planDraft.drafting.line',
-            message: 'About 20 seconds. You review it before anyone else sees it.',
+            message:
+              'This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else.',
           });
     case 'offline':
       return t({
@@ -115,7 +116,8 @@ function lineFor(phase: DraftPhase, days: number): string {
     case 'done':
       return t({
         id: 'planDraft.drafting.line',
-        message: 'About 20 seconds. You review it before anyone else sees it.',
+        message:
+          'This takes a few minutes. You can leave: I’ll tell you when it’s ready, and you see it before anyone else.',
       });
   }
 }
@@ -149,11 +151,20 @@ function Footer({
     case 'running':
     case 'starting':
       return (
-        <TextLink
-          label={t({ id: 'planDraft.drafting.cancel', message: 'Stop drafting' })}
-          onPress={onCancel}
-          testID="drafting-cancel"
-        />
+        <>
+          {/* The draft is written on the server: leaving does not stop it. */}
+          <PillButton
+            label={t({ id: 'planDraft.drafting.leave', message: 'Come back later' })}
+            variant="secondary"
+            onPress={onBack}
+            testID="drafting-leave"
+          />
+          <TextLink
+            label={t({ id: 'planDraft.drafting.cancel', message: 'Stop drafting' })}
+            onPress={onCancel}
+            testID="drafting-cancel"
+          />
+        </>
       );
     case 'offline':
     case 'done':
@@ -176,7 +187,7 @@ export function DraftingView({
 }: DraftingViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const guideName = GUIDE_STICKERS[guide].name;
+  const guideName = guideSticker(guide).name;
   const rows = steps.filter((row) => (VISIBLE_STEP_IDS as readonly string[]).includes(row.id));
   const working = phase.kind === 'running' || phase.kind === 'starting' || phase.kind === 'done';
   return (

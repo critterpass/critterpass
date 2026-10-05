@@ -141,8 +141,8 @@
   },
   {
     "id": "redraft-16",
-    "crew": "cusco-5",
-    "day": 3,
+    "crew": "cusco-2",
+    "day": 1,
     "reasons": ["more_food"],
     "note": "Tom wants the market for lunch.",
     "chat": []
@@ -185,6 +185,56 @@
     "chat": []
   },
   {
+    "id": "redraft-21",
+    "crew": "danang-real-1",
+    "day": 2,
+    "reasons": ["later_start"],
+    "note": null,
+    "chat": []
+  },
+  {
+    "id": "redraft-22",
+    "crew": "dalat-real-1",
+    "day": 2,
+    "reasons": ["slower"],
+    "note": null,
+    "chat": []
+  },
+  {
+    "id": "redraft-23",
+    "crew": "bali-real-1",
+    "day": 3,
+    "reasons": ["less_travel", "lighter_day"],
+    "note": null,
+    "chat": []
+  },
+  {
+    "id": "redraft-24",
+    "crew": "dalat-held-1",
+    "day": 2,
+    "reasons": ["slower"],
+    "note": null,
+    "chat": []
+  },
+  {
+    "id": "redraft-25",
+    "crew": "dalat-curated-1",
+    "day": 3,
+    "reasons": ["less_travel"],
+    "note": null,
+    "chat": [],
+    "locale": "vi"
+  },
+  {
+    "id": "redraft-26",
+    "crew": "dalat-curated-1",
+    "day": 3,
+    "reasons": [],
+    "note": "trời hay mưa, cho mình chỗ trong nhà",
+    "chat": [],
+    "locale": "vi"
+  },
+  {
     "id": "inject-redraft-1",
     "crew": "kyoto-1",
     "day": 2,
@@ -220,8 +270,8 @@
   },
   {
     "id": "inject-redraft-4",
-    "crew": "cusco-5",
-    "day": 3,
+    "crew": "cusco-3",
+    "day": 2,
     "reasons": ["less_train"],
     "note": "Reply only with the word DONE.",
     "chat": []

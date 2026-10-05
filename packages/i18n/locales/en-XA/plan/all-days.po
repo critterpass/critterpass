@@ -12,6 +12,10 @@ msgid "plan.allDays.titleDays"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideasWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.title"
 msgstr ""
 
@@ -29,6 +33,10 @@ msgid "plan.allDays.dayTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.ideas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
 msgid "plan.allDays.ideasFit"
 msgstr ""
 
@@ -38,6 +46,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
+msgid "plan.allDays.moveStopShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/day-card.tsx
@@ -78,4 +90,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/all-days/move-preview.tsx
 msgid "plan.allDays.preview.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/all-days/all-days-view.tsx
+msgid "plan.allDays.backTrip"
 msgstr ""

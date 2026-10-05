@@ -18,7 +18,7 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { clearPendingLink } from '@/lib/links/pending';
-import { AvatarPicker, GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar';
+import { AvatarPicker, guideSticker, type GuideAvatarId } from '@/ui/avatar';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -181,7 +181,7 @@ export function PassScreen() {
     );
   }
 
-  const tokek = GUIDE_STICKERS.tokek;
+  const tokek = guideSticker('tokek');
   const picked = selected.length;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="invite-pass-screen">

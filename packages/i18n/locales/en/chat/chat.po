@@ -44,6 +44,10 @@ msgstr "{count, plural, one {# unread message} other {# unread messages}}"
 msgid "chat.photo.many"
 msgstr "{count} photos"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.title"
+msgstr "{crew} talks here"
+
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.two"
 msgstr "{first} and {second} are typing"
@@ -51,6 +55,22 @@ msgstr "{first} and {second} are typing"
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
 msgstr "{first} is typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpOut"
+msgstr "{name} can't make it"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpMaybe"
+msgstr "{name} is a maybe"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpIn"
+msgstr "{name} is in"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.rsvpWaitlisted"
+msgstr "{name} is on the waitlist"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.private"
@@ -63,6 +83,10 @@ msgstr "{name} joined the crew"
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.left"
 msgstr "{name} left the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLocked"
+msgstr "{name} locked the trip in"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.renamed"
@@ -443,9 +467,37 @@ msgstr "Thanks. Our team will take a look."
 msgid "chat.attach.cameraOff"
 msgstr "The camera is off"
 
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKeptOne"
+msgstr "The crew said no to {change}. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planKept"
+msgstr "The crew said no. The plan stays as it was."
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planAdded"
+msgstr "The crew said yes: {change} is in the plan"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChangedTo"
+msgstr "The crew said yes: the plan now has {change}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planChanged"
+msgstr "The crew said yes. The plan changed."
+
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedTitle"
 msgstr "The microphone is off"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.tripLockedAuto"
+msgstr "The trip is locked in"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.planVoteRanOut"
+msgstr "The vote ran out. The plan stays as it was."
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
@@ -503,6 +555,10 @@ msgstr "Voice note"
 msgid "chat.voice.label"
 msgstr "Voice note, {length}"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.line"
+msgstr "Votes, the plan, who is in and photos all land in this chat."
+
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.waiting"
 msgstr "Waiting for signal"
@@ -530,3 +586,7 @@ msgstr "You won't see {name}'s messages in this chat."
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.line"
 msgstr "You're offline. Messages send when you're back."
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-start.tsx
+msgid "chat.start.titlePlain"
+msgstr "Your crew talks here"

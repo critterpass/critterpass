@@ -13,6 +13,8 @@ export function matchPlaceRef(
   destinationId: string | null,
   place: { readonly poiId: string | null },
   intent: 'open' | 'add',
+  /** The day a search was opened for: Add to plan opens on it. */
+  dayId?: string,
 ): Href | undefined {
   if (place.poiId === null) return undefined;
   const params = {
@@ -20,6 +22,9 @@ export function matchPlaceRef(
     placeId: place.poiId,
     ...(destinationId === null ? {} : { destinationId }),
   };
-  const add = intent === 'add' ? hrefFor('7f-1', params) : undefined;
+  const add =
+    intent === 'add'
+      ? hrefFor('7f-1', { ...params, ...(dayId === undefined ? {} : { dayId }) })
+      : undefined;
   return add ?? hrefFor('7e-1', params) ?? hrefFor('3d-3', params);
 }

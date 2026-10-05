@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-05.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "e841007c-f6f3-4152-b76b-5232b110d1ce",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Area A\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Chiều Đà Lạt nhẹ nhàng\",\n      \"area\": \"A\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p165\", \"p14\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Sáng hồ, chiều thác\",\n      \"area\": \"B\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p90\", \"p16\", \"p173\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Langbiang và phố núi\",\n      \"area\": \"E\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p355\", \"p131\", \"p286\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Chợ và quà Đà Lạt\",\n      \"area\": \"A\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p3\", \"p11\"]\n    }\n  ],\n  \"wishes\": [\n    {\n      \"wish_id\": \"w1\",\n      \"poi_id\": \"p63\",\n      \"day_no\": 2,\n      \"when\": \"morning\",\n      \"weekdays\": []\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 110,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 4864,
+          "output_tokens": 309,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "f0745439-b1c0-4069-b27c-8f666a6613b4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ghé sớm ngắm gà trống trên nóc, nghe chuông ngân giữa phố núi.\"\n    },\n    {\n      \"poi_id\": \"p346\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tô phở nóng, nước dùng trong, ngồi xuống là thấy ấm cả người.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 579,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 142,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "d0f4242e-2679-41ef-b153-574205459503",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p103\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Leo lên những nhánh cây bê tông, ngắm Đà Lạt từ tổ chim khổng lồ.\"\n    },\n    {\n      \"poi_id\": \"p165\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Dạo một vòng chợ, ngửi mùi khô bò và cà phê rang ngay góc quầy.\"\n    },\n    {\n      \"poi_id\": \"p157\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cuốn nem nướng với rau tươi, chấm chút tương ngọt, ngon quá (so tasty).\"\n    },\n    {\n      \"poi_id\": \"p218\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Ngồi xuống quầy, nghe đá lạnh kêu leng keng trong ly cocktail.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 641,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 276,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "cc7fc4b8-4c19-4625-89e2-b428b6186221",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p355\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lên đỉnh Langbiang hít gió núi, ngắm cả một vùng phố núi thu nhỏ dưới chân mình.\"},{\"poi_id\":\"p80\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Bánh canh cua nóng hổi, ngọt từ cua thật, ăn xong muốn ngồi thêm chút cho ấm bụng.\"},{\"poi_id\":\"p215\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Đồi Mộng Mơ đi thong thả, chỗ nào cũng thành góc ảnh, nhớ chừa pin máy.\"},{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Dinh Bảo Đại III nhìn đồ cũ kể chuyện xưa, không gian yên ắng rất hợp kiểu đi chậm.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Chè Hé gọi một ly ngọt mát, ngồi nhìn phố núi chuyển màu là đúng chất Đà Lạt.\"},{\"poi_id\":\"p284\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Quán gà đồi nhậu kiểu bình dân, gà dai thơm, ngồi tới tối nghe phố núi rì rào.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 755,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 364,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "b0b01d8f-30f9-4126-a90e-e37aea68cdfa",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p63\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Bánh căn nóng giòn, nước chấm thơm lừng, ngồi xì xụp như dân bản địa.\"\n    },\n    {\n      \"poi_id\": \"p90\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Thác đổ trắng xóa giữa rừng thông, đứng gần là mát rượi cả người.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Sân chùa nhìn xuống hồ, gió thổi qua tùng, lòng nhẹ như khói hương.\"\n    },\n    {\n      \"poi_id\": \"p173\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Hồ rộng, nước xanh, đi dạo ven bờ nghe chim hót trên ngọn thông.\"\n    },\n    {\n      \"poi_id\": \"p33\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Góc nhỏ ấm cúng, đồ ăn bày đẹp mắt, ngồi xuống là muốn nán lại lâu.\"\n    },\n    {\n      \"poi_id\": \"p52\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cà phê đêm Đà Lạt, nhạc nhẹ, ánh đèn vàng, ngồi một góc nhìn phố núi.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 779,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 430,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "44a79dd0-c55c-4895-b021-2598fd4264b3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Đà Lạt se lạnh, thông reo — lịch trình đủ cả hồ, thác, Langbiang, ga cổ; duyệt đi nhé!"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 174,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 42,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

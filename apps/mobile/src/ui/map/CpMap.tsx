@@ -35,6 +35,7 @@ import { clusterBounds, clusterPlaces, isWithinBounds, type MapPlace } from './c
 import { ClusterBubble } from './ClusterBubble';
 import { DoodlePin } from './DoodlePin';
 import { GuideSpriteSlot } from './GuideSpriteSlot';
+import { noticeBottom, RegionPackNotice } from './RegionPackNotice';
 import { RouteLine } from './RouteLine';
 import type { useFlyTo } from './useFlyTo';
 import { YouDot } from './YouDot';
@@ -47,6 +48,8 @@ export { clusterPlaces } from './clusterPlaces';
 // against the real spec by `tools/maps/build-style.ts`'s own `validateCritterpassDarkStyle`, not
 // re-validated structurally at runtime here).
 const criterpassDarkStyle = criterpassDarkStyleJson as unknown as StyleSpecification;
+/** Where MapLibre puts its mark and attribution button when the caller does not say. */
+const ORNAMENT_DEFAULT = 8;
 const WORLD_SOURCE_URL = (criterpassDarkStyle.sources['world'] as { url: string }).url;
 
 export type LocationStatus =
@@ -64,6 +67,9 @@ export interface CpMapProps {
   /** True once the caller knows a destination pack exists but neither a remote nor local source
    *  is usable right now (offline, no download yet) — the map spec's "region not downloaded offline". */
   readonly offlineUnavailable?: boolean;
+  /** The destination has no region pack yet (`useRegionTiles`): with `destinationName`, the map
+   *  says a detailed one is on its way. */
+  readonly regionPackAwaited?: boolean;
   readonly youLocation?: LngLat;
   readonly locationStatus?: LocationStatus;
   readonly destinationName?: string;
@@ -96,6 +102,7 @@ export function CpMap({
   initialCenter,
   regionSourceUrl,
   offlineUnavailable = false,
+  regionPackAwaited = false,
   youLocation,
   locationStatus = 'unknown',
   destinationName,
@@ -268,6 +275,15 @@ export function CpMap({
         ) : null}
       </MapLibreMap>
 
+      {regionPackAwaited && !offlineUnavailable && destinationName ? (
+        <RegionPackNotice
+          place={destinationName}
+          bottom={noticeBottom({
+            ornamentBottom: ornamentBottom ?? ORNAMENT_DEFAULT,
+            insetBottom: 0,
+          })}
+        />
+      ) : null}
       {locationStatus === 'denied' ? (
         <Text testID="map-location-denied" style={styles.banner}>
           {locationDeniedText}
