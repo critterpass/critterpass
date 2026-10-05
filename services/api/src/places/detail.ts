@@ -140,7 +140,6 @@ export async function getPlaceDetail(
               category: row.category,
               reviewed: typeof row.editorial.why_go === 'string' && row.editorial.why_go !== '',
             },
-            row.reader_locale,
             options.profile,
           ),
         }),

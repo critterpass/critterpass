@@ -1257,6 +1257,9 @@ importers:
       '@cp/entitlements':
         specifier: workspace:*
         version: link:../../packages/entitlements
+      '@cp/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       '@cp/planner':
         specifier: workspace:*
         version: link:../../packages/planner

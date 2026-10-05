@@ -22,6 +22,7 @@
     "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@cp/i18n": "workspace:*",
     "@cp/entitlements": "workspace:*",
     "@cp/planner": "workspace:*",
     "@cp/suppliers": "workspace:*",

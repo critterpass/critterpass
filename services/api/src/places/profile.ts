@@ -8,7 +8,6 @@
  */
 import { sendInTx } from '@cp/db';
 import {
-  isAppLocale,
   PLACES_QUEUES,
   placeProfileTextSchema,
   placesProfileKey,
@@ -20,6 +19,7 @@ import {
   type PlaceProfileWire,
   type PoiCategory,
 } from '@cp/domain';
+import { locales } from '@cp/i18n';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -58,6 +58,43 @@ interface ProfileRow {
 const factsSchema = z.array(z.object({ kind: z.enum(PLACE_FACT_KINDS), source_url: z.string() }));
 const photosSchema = z.array(z.object({ key: z.string(), source_page: z.string() }));
 const sourcesSchema = z.array(z.object({ url: z.string(), title: z.string() }));
+
+/** Every language the app ships text in (`@cp/i18n`), the pseudo-locale aside. */
+const PROFILE_LOCALES: readonly string[] = locales
+  .filter((entry) => entry.pseudo !== true)
+  .map((entry) => entry.code);
+
+/** The app language a locale tag (`de-DE`, `pt_BR`, `zh-Hant-TW`, `in`) reads in, or null. */
+export function profileLocaleOf(tag: string | null | undefined): string | null {
+  if (tag === null || tag === undefined || tag.trim() === '') return null;
+  const clean = tag.trim().replace(/_/gu, '-').toLowerCase();
+  const exact = PROFILE_LOCALES.find((code) => code.toLowerCase() === clean);
+  if (exact !== undefined) return exact;
+  const primary = clean.split('-')[0] ?? '';
+  const language = primary === 'in' ? 'id' : primary;
+  return PROFILE_LOCALES.find((code) => code.toLowerCase().split('-')[0] === language) ?? null;
+}
+
+/**
+ * The reader's language for a profile, from any of the app's languages (not only those the server
+ * writes its own copy in): the chosen app language, else the latest device's, else the account's.
+ */
+export async function profileReaderLocale(tx: pg.PoolClient, uid: string): Promise<string> {
+  const { rows } = await tx.query<{ tags: (string | null)[] }>(
+    `SELECT ARRAY[
+       (SELECT s.app_locale FROM user_settings s WHERE s.user_id = $1),
+       (SELECT d.locale FROM devices d WHERE d.user_id = $1
+         ORDER BY d.last_seen_at DESC NULLS LAST LIMIT 1),
+       (SELECT u.locale FROM users u WHERE u.id = $1)
+     ] AS tags`,
+    [uid],
+  );
+  for (const tag of rows[0]?.tags ?? []) {
+    const locale = profileLocaleOf(tag);
+    if (locale !== null) return locale;
+  }
+  return 'en';
+}
 
 async function allowed(
   redis: RateLimitRedisClient | undefined,
@@ -114,7 +151,6 @@ function readyWire(row: ProfileRow, locale: string, mediaBaseUrl: string | undef
 export async function readPlaceProfile(
   tx: pg.PoolClient,
   place: { readonly id: string; readonly category: string; readonly reviewed: boolean },
-  readerLocale: string,
   options: ProfileReadOptions,
 ): Promise<PlaceProfileWire | null> {
   if (place.reviewed || PROFILE_SKIPPED_CATEGORIES.has(place.category as PoiCategory)) return null;
@@ -139,12 +175,12 @@ export async function readPlaceProfile(
   }
   if (row.status === 'pending') return { status: 'pending' };
   if (row.status !== 'ready') return null;
+  const readerLocale = await profileReaderLocale(tx, options.uid);
   const ready = readyWire(row, readerLocale, options.mediaBaseUrl);
   if (ready === null) return null;
   if (
     !ready.translated &&
     readerLocale !== 'en' &&
-    isAppLocale(readerLocale) &&
     (await allowed(
       options.redis,
       'place_profile_translate',

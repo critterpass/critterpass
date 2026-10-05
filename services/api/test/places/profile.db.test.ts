@@ -20,6 +20,7 @@ let pool: pg.Pool;
 let producer: PgBoss;
 let english: string;
 let french: string;
+let german: string;
 let destinationId: string;
 
 const TEXT = {
@@ -71,9 +72,11 @@ beforeAll(async () => {
   });
   english = randomUUID();
   french = randomUUID();
+  german = randomUUID();
   await pool.query(
-    "INSERT INTO users (id, status, locale) VALUES ($1, 'registered', 'en'), ($2, 'registered', 'fr')",
-    [english, french],
+    `INSERT INTO users (id, status, locale)
+     VALUES ($1, 'registered', 'en'), ($2, 'registered', 'fr'), ($3, 'registered', 'de-DE')`,
+    [english, french, german],
   );
   const { rows } = await pool.query<{ id: string }>(
     `INSERT INTO destinations (slug, name, country, coverage, tz)
@@ -142,6 +145,24 @@ describe('GET /v1/places/{id} profile', () => {
 
     expect(await read(french, id)).toMatchObject({ status: 'ready', locale: 'en' });
     expect(await jobs('places.profile_translate', id)).toEqual([{ poi_id: id, locale: 'fr' }]);
+
+    // German is an app language the server writes no copy of its own in: still translated.
+    expect(await read(german, id)).toMatchObject({ status: 'ready', locale: 'en' });
+    expect(await jobs('places.profile_translate', id)).toEqual([
+      { poi_id: id, locale: 'fr' },
+      { poi_id: id, locale: 'de' },
+    ]);
+    await withSystem(pool, (tx) =>
+      tx.query(
+        `UPDATE place_profiles SET texts = texts || jsonb_build_object('de', texts->'en' ||
+           '{"why_go": "Die Sommervilla des letzten Kaisers."}'::jsonb) WHERE poi_id = $1`,
+        [id],
+      ),
+    );
+    expect(await read(german, id)).toMatchObject({
+      locale: 'de',
+      whyGo: 'Die Sommervilla des letzten Kaisers.',
+    });
     expect(await jobs('places.profile', id)).toEqual([]);
   });
 
