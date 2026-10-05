@@ -4,23 +4,23 @@
     "redraft": {
       "status": 200,
       "body": {
-        "id": "14783418-29f0-4e31-8903-011526e2e77f",
+        "id": "2bbf5b9f-e7ed-4958-ac2a-8c5cf44f84c0",
         "type": "message",
         "role": "assistant",
         "model": "deepseek-v4-pro",
         "content": [
           {
             "type": "text",
-            "text": "{\n  \"title\": \"A Food-Loving Cusco Afternoon\",\n  \"summary\": \"We trade a packed schedule for a slower, tastier wander through Cusco, with a market-style lunch, a sweet museum stop, and a proper evening meal.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"We begin in San Blas, where the little lanes and food stalls wake up the appetite before lunch.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tom gets his market wish in spirit here, a laid-back lunch spot with honest local flavours and no fuss.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The chocolate museum stays, because a food day without a little cacao would be a crime.\",\n      \"start_by\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"We finish with a proper sit-down dinner at Cicciolina, where the day slows into a warm, well-fed evening.\",\n      \"start_by\": null\n    }\n  ]\n}"
+            "text": "{\n  \"title\": \"A Tasty Cusco Afternoon\",\n  \"summary\": \"An afternoon of Cusco flavours and sights, from a chocolate museum to a proper dinner with a market-style lunch stop.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Tom's sweet tooth gets its due at the chocolate museum, a must-do that keeps the day delicious.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A stroll through San Blas for local snacks and market vibes, the perfect foodie warm-up.\",\n      \"start\": \"15:15\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Cicciolina serves as our lunch stop, with vegetarian options for the crew and room to linger.\",\n      \"start\": \"17:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A lighter dinner at Green Point keeps the food theme going without weighing us down before the evening.\",\n      \"start\": \"20:00\"\n    }\n  ]\n}"
           }
         ],
         "stop_reason": "end_turn",
         "stop_sequence": null,
         "usage": {
-          "input_tokens": 860,
+          "input_tokens": 92,
           "cache_creation_input_tokens": 0,
-          "cache_read_input_tokens": 640,
-          "output_tokens": 321,
+          "cache_read_input_tokens": 1408,
+          "output_tokens": 314,
           "service_tier": "standard"
         }
       }
