@@ -71,11 +71,15 @@ appId: app.critterpass.dev
       SEED: dev-seed-demo
 - tapOn:
     id: 'tab-trips'
+# Centred: at the foot of the screen the guide's bar takes the tap.
 - scrollUntilVisible:
     element:
       id: 'trip-hub-explore'
     direction: DOWN
+    centerElement: true
     timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'trip-hub-explore'
 - extendedWaitUntil:

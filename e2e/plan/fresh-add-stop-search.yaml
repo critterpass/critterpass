@@ -1,9 +1,9 @@
 appId: app.critterpass.dev
 env:
-  # An open-data record no curated name matches (the Japanese Covered Bridge in Hội An, a real
-  # drive from the centre); matched loosely, since the Chùa Cầu records may be merged later.
+  # An open-data record only the server holds: "Japanese Bridge", a pin with no photo, next to the
+  # curated Japanese Covered Bridge in Hội An (which the guide may already have drafted in).
   PLACE_QUERY: 'japanese bridge'
-  PLACE_TEXT: '(?i).*(japanese covered bridge|ch[ùu]a c[ầa]u).*'
+  PLACE_TEXT: '(?i)japanese bridge'
 ---
 # Searching a real place to add to a fresh trip's day, on staging: a brand-new account locks in a
 # Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1's day plan and adds
