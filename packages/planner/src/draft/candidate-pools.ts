@@ -23,7 +23,8 @@
  * seats to them unless somebody typed their names.
  */
 import { foodRole } from './food-role';
-import { keepEdgeDaysNearHome } from './home';
+import { keepEdgeDaysNearHome, outingsFor } from './home';
+import type { Outing } from './outings';
 import { mealSlots, mealsInWindow } from './meal-slots';
 import { placeWindow } from './place-time';
 import { collapseSamePlaces } from './same-place';
@@ -73,6 +74,8 @@ export interface CandidatePools {
   readonly meals: readonly DraftPoi[];
   /** Every meal place that suits the crew, best first: each day's own list is cut from these. */
   readonly eateries: readonly DraftPoi[];
+  /** The destination's outings (./outings), each with the day it is planned on, or none. */
+  readonly outings: readonly Outing[];
   /** Days (numbers) each pooled place can be visited on. */
   readonly openDays: ReadonlyMap<string, readonly number[]>;
 }
@@ -235,6 +238,8 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     frame.dates.length,
     mustDoPlaces,
   );
+  // Far essentials that sit together are one outing on one full day; a short trip takes the best.
+  const outings = outingsFor(input.pois, openDays, frame.dates.length, mustDoPlaces);
   const mustDos: MustDoSlot[] = [];
   const unplaceable: { mustDoId: string; reason: 'unknown_place' | 'closed' }[] = [];
   const mustDoPois = new Set<string>();
@@ -301,5 +306,5 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     { ...ranking, mustSees: Math.floor(MAX_EATERIES / 4) },
   );
   const meals = eateries.slice(0, Math.min(30, Math.max(12, days * 3)));
-  return { mustDos, unplaceable, activities, sights, meals, eateries, openDays };
+  return { mustDos, unplaceable, activities, sights, meals, eateries, openDays, outings };
 }

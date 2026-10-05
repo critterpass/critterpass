@@ -63,6 +63,12 @@ const TEXT: Readonly<
     `${name} serves what the crew already eats that day or the day before. Pick a meal place with another dish.`,
   LONG_HOP: (name) =>
     `${name} is a long ride from the stops around it. Pick a place near the others, or leave it out.`,
+  CROWDED_LONG_VISIT: (name) =>
+    `${name} crowds a place that takes half the day or all of it. Give the long visit its time: move ${name} to another day, or leave it out.`,
+  OFF_THE_OUTING: (name) =>
+    `${name} is back in town on a day out. Keep the day to the outing's places and meals near them.`,
+  INSIDE_ANOTHER_STOP: (name) =>
+    `${name} is inside a bigger place on this day, and its visit takes it in. Leave ${name} out.`,
   MUST_DO_MISSING: (name) => `${name} is a must-do and is missing. Fit it into this day.`,
   OVER_BUDGET: () => 'The trip is over budget. Pick cheaper stops on this day.',
 };

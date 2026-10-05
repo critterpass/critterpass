@@ -187,7 +187,8 @@ describe('a must-do held to its time of day', () => {
     const frame = { ...frameWith([m]), chronotypes: { [id(901)]: 'night_owl' as const } };
     const plan = timed(frame, 1, [choice(D.marble.id, m.id, 'morning'), choice(D.myKhe.id)]);
     expect(plan.stops[0]).toMatchObject({ poiId: D.marble.id, start: 8 * 60 });
-    expect(plan.stops[1]).toMatchObject({ poiId: D.myKhe.id, start: 10 * 60 });
+    // The beach after it keeps to a beach's hours (from mid-afternoon), not to the early start.
+    expect(plan.stops[1]).toMatchObject({ poiId: D.myKhe.id, start: 15 * 60 });
     expect(plan.violations).toEqual([]);
   });
 

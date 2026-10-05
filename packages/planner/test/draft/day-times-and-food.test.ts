@@ -10,6 +10,7 @@ import {
   dayWindow,
   foodRole,
   mealDuration,
+  noteNamesAnotherTime,
   placeTime,
   placeWindow,
   scheduleDay,
@@ -124,12 +125,14 @@ describe('food', () => {
     );
   });
 
-  it('gives a sit-down dinner an hour, and leaves a noodle counter its own time', () => {
+  it('gives a sit-down dinner an hour, any dinner three quarters, a lunch at a table the same', () => {
     const table = shop(49, 'Nhà hàng Hoa Sữa', { durationMin: 30, tags: ['sit_down_dining'] });
     const counter = shop(50, 'Hủ Tíu Hồng', { durationMin: 30, tags: ['street_food'] });
     expect(mealDuration(table, 18 * 60, 30)).toBe(60);
-    expect(mealDuration(table, 12 * 60, 30)).toBe(30);
-    expect(mealDuration(counter, 18 * 60, 30)).toBe(30);
+    expect(mealDuration(table, 12 * 60, 30)).toBe(45);
+    expect(mealDuration(counter, 18 * 60, 30)).toBe(45);
+    // A bowl at a counter at noon takes what it takes.
+    expect(mealDuration(counter, 12 * 60, 30)).toBe(30);
     expect(mealDuration({ ...table, durationMin: 90 }, 19 * 60, 90)).toBe(90);
   });
 
@@ -177,5 +180,28 @@ describe('food', () => {
       requiredMustDoIds: [],
     }).violations.filter((v) => v.code === 'REPEAT_DISH');
     expect(found.map((v) => v.poiId)).toEqual([other.id]);
+  });
+});
+
+describe('a beach and a line about when', () => {
+  const date = FRAME.dates[1] as string;
+
+  it('keeps a beach to early or late in the day, never the hours around noon', () => {
+    const late = placeWindow(place(130, 'Bãi Mỹ Khê', 'beach'), date);
+    expect(late?.fromMin).toBe(15 * 60);
+    const early = placeWindow(place(131, 'Bãi Sớm', 'beach', { bestTime: 'Early morning' }), date);
+    expect(early).toMatchObject({ fromMin: 0, toMin: 10 * 60 + 30 });
+  });
+
+  it('takes a line off when it names another time, in Vietnamese too', () => {
+    const sunset = 17 * 60 + 30;
+    expect(noteNamesAnotherTime('nên tiện ghé sau bữa trưa', 10 * 60, sunset)).toBe(true);
+    expect(noteNamesAnotherTime('nên tiện ghé sau bữa trưa', 13 * 60 + 30, sunset)).toBe(false);
+    expect(noteNamesAnotherTime('Handy after lunch', 10 * 60, sunset)).toBe(true);
+    expect(noteNamesAnotherTime('Một bữa tối ấm cúng', 12 * 60, sunset)).toBe(true);
+    expect(noteNamesAnotherTime('Một bữa tối ấm cúng', 18 * 60, sunset)).toBe(false);
+    expect(noteNamesAnotherTime('Ghé trước bữa trưa', 10 * 60, sunset)).toBe(false);
+    // "sang" alone is no time of day ("sang trọng" is "elegant").
+    expect(noteNamesAnotherTime('Quán sang trọng, yên tĩnh', 15 * 60, sunset)).toBe(false);
   });
 });

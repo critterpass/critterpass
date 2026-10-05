@@ -124,6 +124,9 @@ export function timeOfDayWindow(time: PlaceTime, poi: DraftPoi, date: string): P
 export const MORNING_ENDS_MIN = 11 * 60;
 
 /** Places seen by daylight: nobody is sent to a temple, a waterfall, a beach or a museum after dark. */
+/** A morning beach is begun by half past ten; an afternoon one from three. */
+const BEACH_MORNING_BY_MIN = 10 * 60 + 30;
+const BEACH_AFTERNOON_FROM_MIN = 15 * 60;
 /** A daylight visit may run this long past sunset. */
 const DUSK_MIN = 30;
 const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach', 'museum']);
@@ -137,6 +140,19 @@ const DAYLIGHT: ReadonlySet<string> = new Set(['temple_shrine', 'nature', 'beach
  */
 export function placeWindow(poi: DraftPoi, date: string): PlaceWindow | null {
   const time = placeTime(poi);
+  // A beach is for early or late in the day, never the hours around noon: early when our
+  // editors say the morning, else from mid-afternoon to dusk.
+  if (poi.category === 'beach' && (time === null || time === 'morning')) {
+    const sunset = sunsetMin(poi, date);
+    const window =
+      time === 'morning'
+        ? { fromMin: 0, toMin: BEACH_MORNING_BY_MIN }
+        : {
+            fromMin: BEACH_AFTERNOON_FROM_MIN,
+            toMin: Math.max(BEACH_AFTERNOON_FROM_MIN, floorGrid(sunset - 30)),
+          };
+    return withinHours(poi, date, window);
+  }
   if (time === null || time === 'morning') {
     const byDay = time === 'morning' || DAYLIGHT.has(poi.category);
     if (!byDay || poi.category === 'nightlife' || poi.tags.includes('nightlife')) return null;

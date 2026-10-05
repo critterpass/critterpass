@@ -149,6 +149,10 @@ export const ESSENTIAL_GAP_REASONS = [
   'too_far',
   'not_offered',
   'held_in_the_way',
+  /** It is an outing far from the stay, and the trip has no full day left for it. */
+  'needs_a_day',
+  /** A redraft of its day took it out, and no other day had room. */
+  'redrafted_out',
   'no_room',
 ] as const;
 export type EssentialGapReason = (typeof ESSENTIAL_GAP_REASONS)[number];
