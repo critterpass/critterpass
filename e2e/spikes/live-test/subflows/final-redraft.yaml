@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # One CHANGE A DAY from the draft: day ${DAY}, her words ${NOTE} only (no reason chip), typed as
 # she would. Frames ${SHOT}-…: the sheet, her words, the wait, the last-free question if it shows
 # (answered USE IT), the answer read to its end, then KEEP IT (or back, when nothing changed) and
-# the day as it now reads. PLAIN is the same words without marks, typed only if the marks fail.
+# the day as it now reads.
 - scrollUntilVisible:
     element:
       id: 'draft-change-day'
@@ -27,24 +27,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'change-day-note'
-- inputText:
-    text: ${NOTE}
-    optional: true
+- inputText: ${NOTE}
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOT}-2-her-words
-# Should the phone's driver fail to type the marks, the field stays empty and the hint stays: she
-# writes it without them (PLAIN), and the frame before says so.
-- runFlow:
-    when:
-      visible:
-        id: 'change-day-hint'
-    commands:
-      - takeScreenshot: ${SHOT}-2x-marks-not-typed
-      - tapOn:
-          id: 'change-day-note'
-      - inputText: ${PLAIN}
-      - waitForAnimationToEnd
-      - takeScreenshot: ${SHOT}-2y-typed-plain
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOT}-3-ready

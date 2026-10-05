@@ -64,7 +64,6 @@ appId: app.critterpass.dev
       SHOT: final-en-70-beach-afternoon
       DAY: 2
       NOTE: 'Too much rushing around. Give us a slow afternoon at the beach'
-      PLAIN: 'Too much rushing around. Give us a slow afternoon at the beach'
       KEEP: 'yes'
 - runFlow:
     file: subflows/final-redraft.yaml
@@ -72,7 +71,6 @@ appId: app.critterpass.dev
       SHOT: final-en-80-surprise-put-back
       DAY: 1
       NOTE: 'Surprise me'
-      PLAIN: 'Surprise me'
       KEEP: 'no'
 - runFlow:
     file: subflows/final-after.yaml

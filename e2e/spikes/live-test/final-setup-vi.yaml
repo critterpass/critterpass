@@ -2,9 +2,10 @@ appId: app.critterpass.dev
 ---
 # The founder's own trip, read in Vietnamese on staging: onboarding in the phone's English, the app
 # switched to Tiếng Việt in its own Language setting (reported to the server), Đà Lạt for one,
-# Thu 22 to Sun 25 Oct 2026, a must-do in her words (typed with its marks) and one of the guide's
-# examples, the draft read day by day, then three redrafts in her words: rain with marks, rain
-# without marks, slower with less walking (the last free one asks first). Frames final-vi-<nn>.
+# Thu 22 to Sun 25 Oct 2026, one of the guide's must-do examples and one in her words, the draft
+# read day by day, then three redrafts in her words: rain, slower with less walking, a late start
+# on the last day (the last free one asks first). Android's driver cannot type Vietnamese marks
+# ("Unicode not supported"), so she writes without them. Frames final-vi-<nn>.
 - runFlow:
     file: subflows/final-onboard.yaml
     env:
@@ -25,7 +26,7 @@ appId: app.critterpass.dev
       BUDGET: '5000000'
 
 # Must-dos: one of the guide's examples (they show only while the list is empty), then one in her
-# own words, typed with its marks.
+# own words.
 - tapOn:
     id: 'must-dos-example-0'
 - extendedWaitUntil:
@@ -42,9 +43,7 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'add-must-do-field'
-- inputText:
-    text: 'Ăn bánh căn buổi sáng'
-    optional: true
+- inputText: 'An banh can buoi sang'
 - extendedWaitUntil:
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
@@ -52,19 +51,6 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: final-vi-49-must-do-own-words
-- runFlow:
-    when:
-      notVisible:
-        id: 'add-must-do-keep'
-    commands:
-      - tapOn:
-          id: 'add-must-do-field'
-      - inputText: 'An banh can buoi sang'
-      - extendedWaitUntil:
-          visible:
-            id: 'add-must-do-keep'
-          timeout: 20000
-      - takeScreenshot: final-vi-49b-must-do-typed-plain
 - tapOn:
     id: 'add-must-do-keep'
 - extendedWaitUntil:
@@ -83,26 +69,23 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/final-redraft.yaml
     env:
-      SHOT: final-vi-70-rain-marks
+      SHOT: final-vi-70-rain
       DAY: 3
-      NOTE: 'Trời hay mưa, cho mình chỗ trong nhà'
-      PLAIN: 'troi hay mua, cho minh cho trong nha'
-      KEEP: 'yes'
-- runFlow:
-    file: subflows/final-redraft.yaml
-    env:
-      SHOT: final-vi-80-rain-plain
-      DAY: 2
       NOTE: 'troi hay mua, cho minh cho trong nha'
-      PLAIN: 'troi hay mua, cho minh cho trong nha'
       KEEP: 'yes'
 - runFlow:
     file: subflows/final-redraft.yaml
     env:
-      SHOT: final-vi-85-slower
+      SHOT: final-vi-80-slower
       DAY: 2
-      NOTE: 'chậm hơn, ít đi bộ'
-      PLAIN: 'cham hon, it di bo'
+      NOTE: 'cham hon, it di bo'
+      KEEP: 'yes'
+- runFlow:
+    file: subflows/final-redraft.yaml
+    env:
+      SHOT: final-vi-85-late-start
+      DAY: 4
+      NOTE: 'ngay cuoi cho minh ngu nuong, di muon mot chut'
       KEEP: 'yes'
 - runFlow:
     file: subflows/final-after.yaml
