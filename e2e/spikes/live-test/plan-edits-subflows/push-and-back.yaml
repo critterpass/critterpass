@@ -135,15 +135,16 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     text: '(?i)desa spa'
+# The sheet is up once its SAVE is; REMOVE sits below the comments.
 - extendedWaitUntil:
     visible:
-      id: 'plan-item-remove'
+      id: 'plan-item-save'
     timeout: 15000
 - scrollUntilVisible:
     element:
       id: 'plan-item-remove'
     direction: DOWN
-    timeout: 10000
+    timeout: 20000
 - tapOn:
     id: 'plan-item-remove'
 - waitForAnimationToEnd:
