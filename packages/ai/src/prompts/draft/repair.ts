@@ -14,6 +14,7 @@ import { repairTargets, type ValidationResult } from '@cp/planner';
 import { fillMeals } from './complete-days';
 import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay } from './day';
+import { essentialsLeftOut, type EssentialLeftOut } from './essentials';
 import { withFinalNotes } from './final-notes';
 import { settle, trimForMustDos, withoutUnservedMeals } from './settle';
 import type { SkeletonPlan } from './skeleton';
@@ -41,6 +42,8 @@ export interface RepairOutcome {
   readonly notesRemoved: number;
   /** Days whose title no longer matched their stops and was written again from them. */
   readonly retitled: number;
+  /** The destination's essential places the draft does not hold, each with why. */
+  readonly essentialsLeftOut: readonly EssentialLeftOut[];
 }
 
 export interface RepairPass {
@@ -172,5 +175,6 @@ export async function validateAndRepair(
     filled,
     notesRemoved: noted.removed,
     retitled: noted.retitled,
+    essentialsLeftOut: essentialsLeftOut(input, noted.itinerary),
   };
 }

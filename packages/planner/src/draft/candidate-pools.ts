@@ -145,7 +145,10 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
   const score = new Map(
     pois.map((poi) => [
       poi.id,
-      (poi.mustSee ? 6 : 0) + (poi.editorial ? 4 : 0) + tasteScore(poi, ranking.tastes),
+      (poi.essential === true ? 100 : 0) +
+        (poi.mustSee ? 6 : 0) +
+        (poi.editorial ? 4 : 0) +
+        tasteScore(poi, ranking.tastes),
     ]),
   );
   const picked: DraftPoi[] = [];

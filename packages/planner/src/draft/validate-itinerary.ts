@@ -13,7 +13,14 @@ import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
-import { isKept, isTheirs, type DraftPoi, type TravelMatrix, type TripFrame } from './types';
+import {
+  isKept,
+  isTheirs,
+  placeIdOf,
+  type DraftPoi,
+  type TravelMatrix,
+  type TripFrame,
+} from './types';
 import { daySenseViolations, type TimedDay, type TimedStop } from './validate-day-sense';
 import { heldWindow, type StartWindow } from './wish-time';
 
@@ -113,6 +120,32 @@ function heldAt(
   return heldWindow(poi, date, when);
 }
 
+/**
+ * The place a stop is at. A stop of the crew's own on a dropped pin has none of ours: it is
+ * looked up under its pin id, and when the caller gave no place for the pin it still stands (as
+ * a stop with no known position), so it is never an unknown place and still counts as the meal
+ * or the stop it is.
+ */
+function placeOf(input: ValidateItineraryInput, item: DraftItem): DraftPoi | undefined {
+  const id = placeIdOf(item);
+  const known = id === null ? undefined : input.pois.get(id);
+  if (known !== undefined || id === null || item.poi_id !== null) return known;
+  return {
+    id,
+    name: item.note ?? '',
+    category: 'other',
+    lat: 0,
+    lng: 0,
+    tz: item.tz,
+    hours: null,
+    priceLevel: null,
+    tags: [],
+    durationMin: 0,
+    editorial: false,
+    mustSee: false,
+  };
+}
+
 function dayChecks(
   input: ValidateItineraryInput,
   item: DraftItem,
@@ -128,7 +161,7 @@ function dayChecks(
     ...(item.poi_id === null ? {} : { poiId: item.poi_id }),
     ...extra,
   });
-  const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+  const poi = placeOf(input, item);
   if (poi === undefined) return [at('UNKNOWN_POI')];
   if (closedOn(input.frame, poi, date) === 'poi') out.push(at('CLOSED_ON_DATE'));
   if (
@@ -172,7 +205,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
       violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date));
-      const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
+      const poi = placeOf(input, item);
       if (poi === undefined) continue;
       poiOf.set(item.stable_id, poi.id);
       stops.push({

@@ -23,6 +23,7 @@ import {
   aliases,
   clockText,
   crewLine,
+  languageLine,
   personaSystem,
   placeLine,
   weekdayOf,
@@ -34,7 +35,7 @@ import { DAY_FORMAT } from './schema';
 import type { SkeletonDay } from './skeleton';
 import { whenOf } from './wish-answers';
 
-export const DAY_PROMPT_VERSION = 'draft-day@4';
+export const DAY_PROMPT_VERSION = 'draft-day@5';
 
 const TASK = [
   '# Task',
@@ -186,6 +187,7 @@ export function buildDayRequest(
       : `This day needs ${meals.join(' and ')}: one place for each.`,
     ...(sunAt === null ? [] : [`The sun sets around ${clockText(sunAt)}.`]),
     crewLine(input),
+    ...languageLine(input.locale),
     ...(own.length === 0
       ? []
       : [

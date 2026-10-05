@@ -7658,7 +7658,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Visit the cathedral known as the Chicken Church for its rooster weathervane.",
-        "best_time": "Weekday mornings for fewer visitors"
+        "best_time": "Weekday mornings for fewer visitors",
+        "essential": true
       },
       {
         "id": "01a1053c-2fcc-72ea-bdea-97673f19aba0",
@@ -7747,7 +7748,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "See the mosaic-covered Buddhist temple and its long dragon sculpture.",
-        "best_time": "Early morning before tour groups"
+        "best_time": "Early morning before tour groups",
+        "essential": true
       },
       {
         "id": "01a1053c-2fd0-7583-b67e-b6edc8bdefa2",
@@ -7806,7 +7808,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Explore a former residence of Emperor Bao Dai, now a museum on Triệu Việt Vương street.",
-        "best_time": "Morning"
+        "best_time": "Morning",
+        "essential": true
       },
       {
         "id": "01a1053c-2fd6-76e4-9cf9-2e8bcc2b24bd",
@@ -7937,7 +7940,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Visit a Zen monastery in Da Lat.",
-        "best_time": "Morning"
+        "best_time": "Morning",
+        "essential": true
       },
       {
         "id": "01a1053c-2fdd-77b6-869f-4f4f61e5097f",
@@ -9339,7 +9343,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "See Datanla Falls tumbling down a forested slope.",
-        "best_time": "Early morning to avoid crowds at the waterfall"
+        "best_time": "Early morning to avoid crowds at the waterfall",
+        "essential": true
       },
       {
         "id": "01a1053c-327b-78a4-9783-5b0f63917864",
@@ -9618,7 +9623,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Explore the surreal architecture of this famous Dalat building.",
-        "best_time": "Early morning before tour groups"
+        "best_time": "Early morning before tour groups",
+        "essential": true
       },
       {
         "id": "01a1053c-38d0-7d02-bea8-26f60e438c72",
@@ -10134,7 +10140,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Wander landscaped gardens, flower beds and lakes in Da Lat's Valley of Love.",
-        "best_time": "Weekday mornings before tour groups"
+        "best_time": "Weekday mornings before tour groups",
+        "essential": true
       },
       {
         "id": "01a1053c-3dc8-7fd2-82ae-28ce3165db1f",
@@ -10164,7 +10171,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Enjoy the natural scenery of this lake in the heart of Đà Lạt.",
-        "best_time": "Early morning or late afternoon"
+        "best_time": "Early morning or late afternoon",
+        "essential": true
       },
       {
         "id": "01a1053c-3de5-7bdb-81c3-1acc453c5707",
@@ -10239,7 +10247,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Admire the French colonial architecture of this historic railway station.",
-        "best_time": "Morning when the tourist train departs."
+        "best_time": "Morning when the tourist train departs.",
+        "essential": true
       },
       {
         "id": "01a1053c-3f7e-722c-90fa-eb4d2f57b2cf",
@@ -10856,7 +10865,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Browse stalls for local produce, snacks and souvenirs in this central market.",
-        "best_time": "Early morning or late afternoon."
+        "best_time": "Early morning or late afternoon.",
+        "essential": true
       },
       {
         "id": "01a1053c-4697-76a6-9c49-6ef7c0646a1b",
@@ -11004,7 +11014,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "A large lake surrounded by pine forest in Da Lat.",
-        "best_time": "Sunrise or late afternoon for lighting."
+        "best_time": "Sunrise or late afternoon for lighting.",
+        "essential": true
       },
       {
         "id": "01a1053c-484c-72a6-82b5-4b594c10cdd9",
@@ -13545,7 +13556,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "See flower beds and landscaped greenery in this Da Lat park.",
-        "best_time": "Early morning before tour groups."
+        "best_time": "Early morning before tour groups.",
+        "essential": true
       },
       {
         "id": "01a1053c-79df-769e-90cd-3d86ccbeaad7",
@@ -14916,7 +14928,8 @@
         "must_see": true,
         "editorial": true,
         "why_go": "Hike or ride to the summit for views over the highlands.",
-        "best_time": "Early morning for clear views"
+        "best_time": "Early morning for clear views",
+        "essential": true
       },
       {
         "id": "01a108e2-6b0c-7a93-9518-2941f16ae0ea",

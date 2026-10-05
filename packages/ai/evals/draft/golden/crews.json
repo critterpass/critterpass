@@ -1693,7 +1693,8 @@
       }
     ],
     "expect_full_days": true,
-    "expect_core_min": 10
+    "expect_core_min": 10,
+    "locale": "vi"
   },
   {
     "id": "dalat-held-1",
@@ -1820,6 +1821,18 @@
         "start": "14:30",
         "end": "15:30",
         "kind": "activity"
+      },
+      {
+        "day": 3,
+        "poi_id": null,
+        "pin": {
+          "name": "Nhà bà ngoại",
+          "lat": 11.9465,
+          "lng": 108.4419
+        },
+        "start": "12:00",
+        "end": "13:30",
+        "kind": "meal"
       }
     ]
   },

@@ -13,6 +13,7 @@ import {
   aliases,
   clockText,
   crewLine,
+  languageLine,
   editorsNote,
   personaSystem,
   placeLine,
@@ -24,7 +25,7 @@ import { coreMustSees } from './must-sees';
 import { SKELETON_FORMAT } from './schema';
 import { wishHandle, wishOptions } from './wish-answers';
 
-export const SKELETON_PROMPT_VERSION = 'draft-skeleton@5';
+export const SKELETON_PROMPT_VERSION = 'draft-skeleton@6';
 
 const TASK = [
   '# Task',
@@ -107,6 +108,7 @@ export function buildSkeletonRequest(input: DraftPlanInput): GatewayInput {
   const facts = [
     `Destination: ${input.destination}. ${frame.dates.length} days.`,
     crewLine(input),
+    ...languageLine(input.locale),
     input.stayType === null
       ? ''
       : `The crew stays in a ${input.stayType.replaceAll('_', ' ')}: pick the area for it (stay_area).`,
