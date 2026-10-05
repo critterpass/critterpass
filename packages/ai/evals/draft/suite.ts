@@ -34,7 +34,7 @@ import {
 import { gradeDayRules } from './asserts/day-rules-asserts';
 import { gradeDraftLanguage, gradeEssentials, gradeLanguage } from './asserts/language-asserts';
 import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
-import { gradePlanRules, gradeRedraftRules } from './asserts/plan-rules-asserts';
+import { gradePlaces, gradePlanRules, gradeRedraftRules } from './asserts/plan-rules-asserts';
 import { baselineItinerary } from './baseline';
 import { withBaseDay } from './base-day';
 import { pooled } from './pool';
@@ -195,6 +195,7 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
           ...gradeMustSees(result.input, result.itinerary, crew.expect_core_min),
           ...(crew.expect_full_days ? gradeHoles(result.input, result.itinerary) : []),
           ...(crew.expect_plan_rules ? gradePlanRules(result.input, result, text) : []),
+          ...gradePlaces(result, crew.expect_places),
         ],
         `${output} || ${text}`,
       ),
