@@ -97,12 +97,13 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'explore-open-map'
+# The map opens on its peek (a count and LIST); a picked place shows the carousel instead.
 - extendedWaitUntil:
     visible:
-      id: 'places-carousel'
+      id: 'places-peek|places-carousel'
     timeout: 60000
 - tapOn:
-    id: 'places-carousel-list|places-to-list'
+    id: 'places-peek-list|places-carousel-list'
 - extendedWaitUntil:
     visible:
       id: 'places-[a-z]+-0'
