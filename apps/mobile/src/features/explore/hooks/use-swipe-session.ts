@@ -56,7 +56,7 @@ function readSwiped(key: string): Swiped {
   }
 }
 
-const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule,
+const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule, s.created_at,
     coalesce(t.tz, d.tz) AS tz, t.start_date, t.end_date, d.name AS destination_name,
     (SELECT g.slug FROM guides g WHERE g.id = t.guide_id) AS guide_slug
   FROM swipe_sessions s JOIN trips t ON t.id = s.trip_id
@@ -81,6 +81,7 @@ export interface SessionRow {
   readonly deck: string | null;
   readonly started_by: string | null;
   readonly match_rule: number | null;
+  readonly created_at: string | null;
   readonly tz: string | null;
   readonly start_date: string | null;
   readonly end_date: string | null;
