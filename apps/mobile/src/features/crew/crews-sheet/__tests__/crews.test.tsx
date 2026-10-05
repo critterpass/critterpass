@@ -234,7 +234,8 @@ describe('start a crew', () => {
     await renderCrew(<StartCrewScreen />);
     await fireEvent.changeText(screen.getByTestId('start-crew-name'), '  Lombok   Gang ');
     await activate(screen.getByTestId('start-crew-create'));
-    expect(await screen.findByText(/arrives once you’re back online/u)).toBeTruthy();
+    // Signal is fine here: the code is on its way with the next sync, not waiting to be online.
+    expect(await screen.findByTestId('start-crew-code-pending')).toHaveTextContent(/on their way/u);
     const payload = (await queuedPayload('create_crew')) as { crew_id: string; name: string };
     expect(payload.name).toBe('Lombok Gang');
     await stack.db.execute(

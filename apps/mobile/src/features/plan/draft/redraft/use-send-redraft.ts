@@ -12,7 +12,17 @@ import { requestRedraftCommand } from '../data/commands';
 import { redraftOutcome, type RedraftOutcome } from '../data/redraft-request';
 import { draftRoutes, type RedraftAsk } from '../routes';
 
-export function useSendRedraft(tripId: string, baseVersion: string | null) {
+/**
+ * `over`: screens of this flow stacked under the caller (the change-a-day sheet under the
+ * last-redraft question). They are left behind once the redraft is under way, so back from the
+ * redraft screen returns to the draft, not to a sheet that has already been sent.
+ */
+export function useSendRedraft(
+  tripId: string,
+  baseVersion: string | null,
+  over = 0,
+  onSent?: () => void,
+) {
   const request = useCommand(requestRedraftCommand);
   const [outcome, setOutcome] = useState<RedraftOutcome | null>(null);
   const send = async (ask: RedraftAsk) => {
@@ -28,9 +38,11 @@ export function useSendRedraft(tripId: string, baseVersion: string | null) {
       ...(ask.free ? { free_reason: 'late_must_do' as const } : {}),
     });
     const next = redraftOutcome(result);
-    if (next.kind === 'started')
+    if (next.kind === 'started') {
+      onSent?.();
+      if (over > 0) router.dismiss(over);
       router.replace(draftRoutes.redraft(tripId, next.redraftId, ask.day));
-    else setOutcome(next);
+    } else setOutcome(next);
   };
   return { send, outcome, pending: request.pending, clear: () => setOutcome(null) };
 }

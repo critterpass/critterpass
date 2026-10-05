@@ -31,9 +31,9 @@ msgstr "{n, plural, other {Đã lên # ngày}}"
 msgid "planDraft.step.readProfiles"
 msgstr "{n, plural, other {Đã đọc # hồ sơ sở thích}}"
 
-#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
-msgid "planDraft.drafting.line"
-msgstr "Khoảng 20 giây. Bạn duyệt trước khi ai khác thấy."
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.stops"
+msgstr "{stops, plural, other {Ngày {n} · # điểm dừng}}"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.back"
@@ -67,9 +67,17 @@ msgstr "Đang xem giờ mở cửa"
 msgid "planDraft.working.season"
 msgstr "Đang xem mùa"
 
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.leave"
+msgstr "Để sau quay lại"
+
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.dayCard"
 msgstr "Ngày {n} · {theme}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard.outlined"
+msgstr "Ngày {n} · đã phác xong"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.again"
@@ -137,11 +145,15 @@ msgstr "Dừng lên nháp"
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.slow"
-msgstr "Lâu hơn thường lệ một chút. Xong mình báo bạn."
+msgstr "Lâu hơn thường lệ. Bạn cứ rời đi: xong mình sẽ báo."
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
 msgid "planDraft.fail.other"
 msgstr "Bước này chưa ổn."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
+msgstr "Mất vài phút. Bạn cứ rời đi: xong mình sẽ báo, và bạn xem trước mọi người."
 
 #: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
 msgid "planDraft.drafting.retry"

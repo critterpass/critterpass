@@ -67,7 +67,10 @@ export interface RedraftDiffViewProps {
   readonly tz: string;
   readonly phase: DiffPhase;
   readonly dayNo: number | null;
+  /** The guide's own summary (written in English: passed only to a reader of English). */
   readonly summary: string | null;
+  /** The changes left ticked would put two stops at the same time: keeping waits. */
+  readonly clash?: boolean;
   readonly cards: readonly ChangeCardModel[];
   readonly chips: readonly MetricChip[];
   readonly off: ReadonlySet<string>;
@@ -203,11 +206,19 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
               </Text>
             </View>
           </View>
-          {props.summary === null ? null : (
-            <Text variant="body" color={theme.semantic.text.secondary}>
-              {props.summary}
-            </Text>
-          )}
+          <Text variant="body" color={theme.semantic.text.secondary} testID="redraft-summary">
+            {props.summary ??
+              t({
+                id: 'planDraft.diff.summaryPlain',
+                message: `Here’s what ${guideName} would change.`,
+              })}
+          </Text>
+          <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'planDraft.diff.howTo',
+              message: 'Untick a change to leave that stop as it was.',
+            })}
+          </Text>
           {props.cards.map((card, index) => (
             <ChangeCard
               key={card.key}
@@ -222,10 +233,24 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
           <MetricChips chips={props.chips} locale={props.locale} />
         </ScrollView>
         <View style={styles.footer}>
+          {props.clash === true ? (
+            <Text
+              variant="bodySm"
+              color={theme.semantic.state.warning}
+              style={styles.centred}
+              testID="redraft-clash"
+            >
+              {t({
+                id: 'planDraft.diff.clash',
+                message:
+                  'Leaving that one out would put two stops at the same time. Tick it again, or put the whole day back and ask differently.',
+              })}
+            </Text>
+          ) : null}
           <PillButton
             label={t({ id: 'planDraft.diff.keep', message: 'Keep it' })}
             onPress={props.onKeep}
-            disabled={!kept}
+            disabled={!kept || props.clash === true}
             loading={props.sending}
             sheen
             testID="redraft-keep"

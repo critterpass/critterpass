@@ -1,8 +1,9 @@
 /**
  * One day of the private draft: number tile in the guide's colour, the day's title, "FRI · first
- * stop at 11:20, second stop" (or a lottery date, or nothing booked on purpose), the avatars of
- * whoever's must-do lands on it, else BOOKED when a wallet booking sits on the day, or an OPTIONAL
- * tag. Rows drop in one after another (opacity 0,
+ * stop at 11:20, then every other stop" (or a lottery date, or nothing booked on purpose), the
+ * avatars of whoever's must-do lands on it, else BOOKED when a wallet booking sits on the day. A
+ * day with nobody's must-do on it carries no tag: it is as much part of the plan as the others.
+ * Rows drop in one after another (opacity 0,
  * ty −12 → 0, 400 ms, from 520 ms, 80 ms apart), then the owners' avatars stamp on. A kept redraft
  * flaps its title in place.
  */
@@ -56,13 +57,6 @@ const useStyles = makeStyles((th) => ({
   },
   text: { flex: 1, gap: th.space['2'] },
   owners: { flexDirection: 'row' },
-  tag: {
-    borderWidth: 1,
-    borderColor: th.semantic.border.control,
-    borderRadius: th.radius.lg,
-    paddingHorizontal: th.space['10'],
-    paddingVertical: th.space['4'],
-  },
 }));
 
 function useDrop(index: number) {
@@ -101,16 +95,17 @@ export function dayDetail(locale: string, day: ReviewDay): string {
     const first = day.stops[0]?.name ?? '';
     return t({ id: 'planDraft.day.lottery', message: `${wd} · ${first}, lottery result ${date}` });
   }
-  const [first, second] = day.stops;
+  const [first, ...rest] = day.stops;
   if (first === undefined) {
     return t({ id: 'planDraft.day.free', message: `${wd} · Nothing booked, on purpose` });
   }
   const name = first.name;
   const at = clock(locale, first.startsAt, first.tz);
-  if (second === undefined) {
+  if (rest.length === 0) {
     return t({ id: 'planDraft.day.one', message: `${wd} · ${name} at ${at}` });
   }
-  const next = second.name;
+  // Every stop of the day, so the list reads as the plan it asks her to approve.
+  const next = rest.map((stop) => stop.name).join(', ');
   return t({ id: 'planDraft.day.two', message: `${wd} · ${name} at ${at}, ${next}` });
 }
 
@@ -130,7 +125,6 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
   const { displayValue: title, style: flap } = patterns.useFlap({ value: day.title });
   const detail = dayDetail(locale, day);
   const n = day.dayNo;
-  const optional = t({ id: 'planDraft.day.optional', message: 'Optional' });
   const closed = t({
     id: 'planDraft.day.closedNote',
     message: 'Something here is closed that day',
@@ -142,7 +136,6 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
     day.title,
     detail,
     day.booked === true ? booked : undefined,
-    day.optional ? optional : undefined,
     day.closed ? closed : undefined,
     ...day.owners.map((owner) => owner.name),
   ]
@@ -161,7 +154,7 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
             {title}
           </Text>
         </Animated.View>
-        <Text variant="bodySm" color={theme.semantic.text.secondary} numberOfLines={2}>
+        <Text variant="bodySm" color={theme.semantic.text.secondary} numberOfLines={4}>
           {detail}
         </Text>
         {day.closed ? (
@@ -188,12 +181,6 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
           label={upper(booked, locale)}
           testID={`draft-day-booked-${n}`}
         />
-      ) : day.optional ? (
-        <View style={styles.tag}>
-          <Text variant="label" color={theme.semantic.text.secondary}>
-            {optional}
-          </Text>
-        </View>
       ) : null}
     </View>
   );

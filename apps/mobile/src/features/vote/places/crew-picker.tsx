@@ -1,9 +1,10 @@
 /**
  * PITCH TO THE CREW when the page was not opened from a crew: with one crew the pitch goes there
- * straight away, with several the user picks which, and with none the page says a pitch needs a
- * crew and leaves the solo trip as the way to go.
+ * straight away, with several the user picks which, and with none the crew is started right here
+ * (a name, one button) and the pitch carries on.
  */
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
@@ -11,23 +12,31 @@ import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 
 import type { CrewChoice } from '../data/use-place-save';
+import { QuickCrewStart } from './quick-crew-start';
 
 export function CrewPicker({
   crews,
+  placeName,
   onPick,
 }: {
   readonly crews: readonly CrewChoice[];
+  readonly placeName: string;
   readonly onPick: (crewId: string) => void;
 }) {
   const { t } = useLingui();
-  if (crews.length === 0) {
+  const [starting, setStarting] = useState(false);
+  if (crews.length === 0 || starting) {
     return (
-      <Text variant="bodySm" testID="crew-picker-none">
-        {t({
-          id: 'vote.guest.noCrew',
-          message: 'Pitching needs a crew. Start one from Crew, or take this one solo.',
-        })}
-      </Text>
+      <QuickCrewStart
+        placeName={placeName}
+        crewIds={crews.map((crew) => crew.id)}
+        onStarted={() => setStarting(true)}
+        onReady={(crewId) => {
+          setStarting(false);
+          onPick(crewId);
+        }}
+        testID="crew-picker-none"
+      />
     );
   }
   return (

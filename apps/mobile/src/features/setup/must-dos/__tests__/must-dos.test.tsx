@@ -103,12 +103,12 @@ describe('the list', () => {
     expect(screen.getByText(/one clashes with the dates/i)).toBeTruthy();
   });
 
-  it('keeps Draft my trip off until someone has added one', async () => {
+  it('offers adding one, not drafting, until someone has added one', async () => {
     stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
     await seedKyoto(stack);
     await renderWith(stack, services().value, step(WINSTON));
-    const draft = await screen.findByTestId('must-dos-draft');
-    expect(draft.props.accessibilityState).toMatchObject({ disabled: true });
+    expect(await screen.findByTestId('must-dos-add')).toBeTruthy();
+    expect(screen.queryByTestId('must-dos-draft')).toBeNull();
   });
 });
 

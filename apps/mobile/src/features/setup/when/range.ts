@@ -24,6 +24,19 @@ export interface RangePick {
 
 export const EMPTY_PICK: RangePick = { anchor: null, range: null };
 
+/**
+ * A window is only suggested when it starts at least this many days from today: nobody plans a
+ * trip with friends for tomorrow because a calendar happens to be empty. Picking such days by
+ * hand stays possible.
+ */
+export const SUGGEST_LEAD_DAYS = 3;
+
+/** The trip lengths offered as one-tap choices in the picker. */
+export const LENGTH_CHOICES = [2, 3, 4, 5, 7] as const;
+
+/** The length assumed before the organiser says how many days. */
+export const DEFAULT_LENGTH_DAYS = 3;
+
 export function addDays(date: string, days: number): string {
   return new Date(dateValue(date).getTime() + days * DAY_MS).toISOString().slice(0, 10);
 }
@@ -31,6 +44,23 @@ export function addDays(date: string, days: number): string {
 /** Whole days from `from` to `to` (negative when `to` is earlier). */
 export function daysBetween(from: string, to: string): number {
   return Math.round((dateValue(to).getTime() - dateValue(from).getTime()) / DAY_MS);
+}
+
+/** The first day a suggested window may start on. */
+export function suggestFrom(today: string): string {
+  return addDays(today, SUGGEST_LEAD_DAYS);
+}
+
+/** The pick after the organiser says how many days: a chosen range keeps its first day. */
+export function resizePick(
+  pick: RangePick,
+  lengthDays: number,
+  lastDate: string | null,
+): RangePick {
+  if (pick.range === null) return pick;
+  const wanted = addDays(pick.range.start, clampLength(lengthDays) - 1);
+  const end = lastDate !== null && wanted > lastDate ? lastDate : wanted;
+  return { anchor: null, range: { start: pick.range.start, end } };
 }
 
 export function rangeLength(range: DayRange): number {

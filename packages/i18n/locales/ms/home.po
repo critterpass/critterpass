@@ -125,6 +125,14 @@ msgstr ""
 msgid "home.inbox.caughtUp.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.searchBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.nearHome"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.failed"
 msgstr ""
@@ -151,10 +159,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.earlier"
-msgstr ""
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhereOwnGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/explore-row.tsx
@@ -277,10 +281,6 @@ msgstr ""
 msgid "home.today.open"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
-msgstr ""
-
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr ""
@@ -295,6 +295,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
@@ -329,8 +337,8 @@ msgstr ""
 msgid "home.inbox.generic"
 msgstr ""
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhere"
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.startCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx

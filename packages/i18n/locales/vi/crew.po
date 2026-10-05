@@ -480,6 +480,10 @@ msgstr "Lời mời chưa gửi được. Thử lại nhé."
 msgid "crew.waitlist.missed"
 msgstr "Chỗ đó đã về tay người khác. Bạn vẫn đang trong hàng chờ."
 
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeComing"
+msgstr "Nhóm đã được lưu. Mã và đường dẫn mời đang tới…"
+
 #: ../../apps/mobile/src/features/crew/waitlist/WaitlistCards.tsx
 msgid "crew.waitlist.theTrip"
 msgstr "chuyến đi"

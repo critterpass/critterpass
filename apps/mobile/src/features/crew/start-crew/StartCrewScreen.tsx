@@ -1,7 +1,8 @@
 /**
  * Start a crew (undesigned; from the page and sheet patterns): a name up to 32 characters and a
  * guide sticker as the crew's art, then the crew's page (its sticker, its code in display type)
- * with the share sheet to send the code, then Home. A queued crew (offline, or while the queue uploads) shows its code as soon as it syncs.
+ * with the share sheet to send the code, then Home. The code shows as soon as the crew has synced;
+ * until then the page says it is on its way (online) or waiting for a connection (offline).
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -18,6 +19,7 @@ import {
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { AvatarPicker, type GuideAvatarId } from '@/ui/avatar';
 import { guideSticker } from '@/ui/avatar/guides';
@@ -70,6 +72,28 @@ const useStyles = makeStyles((th) => ({
   done: { alignSelf: 'center' },
   art: { alignSelf: 'center', marginTop: th.space['24'] },
 }));
+
+/**
+ * The crew is sent through the offline queue, so its code always arrives a moment later: online
+ * that is the next sync (the line says it is on its way), offline it waits for the connection.
+ */
+function CodePending() {
+  const theme = useTheme();
+  const sync = useSyncStatus();
+  return (
+    <Text variant="body" color={theme.semantic.text.secondary} testID="start-crew-code-pending">
+      {sync.phase === 'offline'
+        ? t({
+            id: 'crew.start.codeLater',
+            message: 'Your code arrives once you’re back online. The crew is saved.',
+          })
+        : t({
+            id: 'crew.start.codeComing',
+            message: 'The crew is saved. Its code and invite link are on their way…',
+          })}
+    </Text>
+  );
+}
 
 type Step =
   | { readonly kind: 'name' }
@@ -146,12 +170,7 @@ export function StartCrewScreen() {
             {upper(t({ id: 'crew.start.createdTitle', message: `${crew} is on` }), locale)}
           </Text>
           {code === null ? (
-            <Text variant="body" color={theme.semantic.text.secondary}>
-              {t({
-                id: 'crew.start.codeLater',
-                message: 'Your code arrives once you’re back online. The crew is saved.',
-              })}
-            </Text>
+            <CodePending />
           ) : (
             <>
               <Text variant="body" color={theme.semantic.text.secondary}>

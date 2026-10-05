@@ -125,6 +125,14 @@ msgstr "All"
 msgid "home.inbox.caughtUp.title"
 msgstr "All caught up"
 
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.searchBody"
+msgstr "Any city or region. A guide comes along wherever you go."
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.nearHome"
+msgstr "Close to home"
+
 #: ../../apps/mobile/src/features/home/join-trip-card.tsx
 msgid "home.joinTrip.failed"
 msgstr "Couldn’t join the trip. Try again."
@@ -152,10 +160,6 @@ msgstr "Dismiss tip"
 #: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
 msgid "home.inbox.earlier"
 msgstr "Earlier"
-
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhereOwnGuide"
-msgstr "Every city has a guide of its own. Some are still learning their place."
 
 #: ../../apps/mobile/src/features/home/explore-row.tsx
 msgid "home.explore.title"
@@ -277,10 +281,6 @@ msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
 msgid "home.today.open"
 msgstr "Open today"
 
-#: ../../apps/mobile/src/features/home/home-screen.tsx
-msgid "home.firstRun.body"
-msgstr "Pick a guide to start a trip. Your crew can vote on it later."
-
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.pitch"
 msgstr "Pitch a place"
@@ -296,6 +296,14 @@ msgstr "Plan {progress}%"
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.ideasPlaced.open"
 msgstr "Review"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.search"
+msgstr "Search a place"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr "Search a place or pick a guide to start a trip. Your crew can vote on it later."
 
 #: ../../apps/mobile/src/features/home/inbox/plan-change-renderers.ts
 msgid "home.inbox.planChange.open"
@@ -329,9 +337,9 @@ msgstr "Something needs you"
 msgid "home.inbox.generic"
 msgstr "Something new for you"
 
-#: ../../apps/mobile/src/features/home/first-run-grid.tsx
-msgid "home.firstRun.elsewhere"
-msgstr "Somewhere else"
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.startCrew"
+msgstr "Start a crew"
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.open"
