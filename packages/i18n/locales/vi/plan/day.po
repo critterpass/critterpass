@@ -240,6 +240,10 @@ msgstr "Thứ tự mới cho {0}"
 msgid "plan.day.reason.moved"
 msgstr "Giờ mới"
 
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr "Chưa có ước tính"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
 msgstr "chưa có dự báo"

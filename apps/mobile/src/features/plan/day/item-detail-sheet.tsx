@@ -78,6 +78,7 @@ export function ItemDetailSheet({
   actions,
   dayLabels,
   mustDoMine = false,
+  priceLevel = null,
   suggestion = null,
   preview,
 }: {
@@ -91,6 +92,8 @@ export function ItemDetailSheet({
   readonly dayLabels?: ReadonlyMap<number, string>;
   /** The must-do is the reader's own. */
   readonly mustDoMine?: boolean;
+  /** The place's price level (0 = known to be free); null = not known. */
+  readonly priceLevel?: number | null;
   /** A change to this stop the crew is still deciding on. */
   readonly suggestion?: { readonly line: string; readonly onSee: () => void } | null;
   readonly preview?: (change: {
@@ -187,7 +190,7 @@ export function ItemDetailSheet({
                 />
               </Section>
             ) : null}
-            <ItemFacts item={item} members={members} />
+            <ItemFacts item={item} members={members} priceLevel={priceLevel} />
             <Section label={t({ id: 'plan.day.item.moveTo', message: 'Move to' })}>
               <Row gap="6" wrap>
                 {dayNos.map((option) => (

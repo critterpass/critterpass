@@ -240,6 +240,10 @@ msgstr ""
 msgid "plan.day.reason.moved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
 msgstr ""

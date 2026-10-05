@@ -240,6 +240,10 @@ msgstr "New order for {0}"
 msgid "plan.day.reason.moved"
 msgstr "New time"
 
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr "No estimate yet"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
 msgstr "no forecast yet"

@@ -40,12 +40,30 @@ export function Section({
   );
 }
 
+/**
+ * What the cost line can say: a price when there is one; "Free" only for a place known to be free
+ * (its price level says so); "No estimate yet" for a place nobody has priced, never "Free"; and
+ * nothing for a note with no place and no price.
+ */
+export function costKind(
+  amountMinor: number | null,
+  priceLevel: number | null,
+  hasPlace: boolean,
+): 'priced' | 'free' | 'unknown' | 'none' {
+  if (amountMinor !== null && amountMinor > 0) return 'priced';
+  if (priceLevel === 0) return 'free';
+  return hasPlace || amountMinor === 0 ? 'unknown' : 'none';
+}
+
 export function ItemFacts({
   item,
   members,
+  priceLevel = null,
 }: {
   readonly item: DayItem;
   readonly members: readonly PlanMember[];
+  /** The place's price level (0 = known to be free); null = not known. */
+  readonly priceLevel?: number | null;
 }) {
   const locale = useLocale();
   const { t } = useLingui();
@@ -53,21 +71,23 @@ export function ItemFacts({
   const shown = (minor: number, currency: string) =>
     displayWithHome(money(locale, minor, currency), minor, currency, locale);
   const going = members.filter((member) => item.attendeeIds.includes(member.uid));
+  const kind = costKind(item.amountMinor, priceLevel, item.poiId !== null);
   const cost =
-    item.amountMinor === null || item.currency === null
+    kind === 'none'
       ? null
-      : item.amountMinor === 0
-        ? // A stop with nothing to pay (a temple, a beach, a walk) says so, never "SGD 0 each".
-          t({ id: 'plan.day.item.costFree', message: 'Free' })
-        : item.costModel === 'per_person'
-          ? t({
-              id: 'plan.day.item.costEach',
-              message: `${shown(item.amountMinor, item.currency)} each`,
-            })
-          : t({
-              id: 'plan.day.item.costGroup',
-              message: `${shown(item.amountMinor, item.currency)} for the group`,
-            });
+      : kind === 'free'
+        ? t({ id: 'plan.day.item.costFree', message: 'Free' })
+        : kind === 'unknown' || item.amountMinor === null || item.currency === null
+          ? t({ id: 'plan.day.item.costUnknown', message: 'No estimate yet' })
+          : item.costModel === 'per_person'
+            ? t({
+                id: 'plan.day.item.costEach',
+                message: `${shown(item.amountMinor, item.currency)} each`,
+              })
+            : t({
+                id: 'plan.day.item.costGroup',
+                message: `${shown(item.amountMinor, item.currency)} for the group`,
+              });
   return (
     <>
       <Section label={t({ id: 'plan.day.item.who', message: 'Who’s going' })}>

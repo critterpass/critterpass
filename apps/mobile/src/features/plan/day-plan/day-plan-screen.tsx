@@ -161,6 +161,7 @@ export function DayPlanScreen({
           slot={slot}
           editor={editor}
           announce={announceEdit}
+          travel={travel}
           onClose={() => setOpenId(null)}
         />
       )}

@@ -21,7 +21,8 @@ import { impact } from '@/motion/feedback';
 
 import { usePlanGuide } from '../plan-guide';
 import { AddBlock } from './add-block';
-import { addIntoDay, openStartOn } from './add-into-day';
+import { whyTiles, type WhyInput } from './add-kind-copy';
+import { addIntoDay, looseBlock, needsTiming, openStartOn } from './add-into-day';
 import {
   blockDetail,
   dayHeader,
@@ -29,7 +30,6 @@ import {
   lengthLabel,
   nearbyLine,
   offlineNote,
-  reasonTiles,
   whyTitle,
 } from './add-copy';
 import {
@@ -141,25 +141,12 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
   // A time the fit did not choose, or one that only fits if a stop moves, is timed against that
   // day before it is added: the stop in the way is pushed, never sat on.
   const loose =
-    choice !== null && existing === null && !nowhere && !waiting && subject !== null
-      ? choice.timePicked || shown === null || shown.grade === 'no' || shown.needs_move != null
-      : false;
-  const into = addIntoDay({
-    plan,
-    day,
-    tz,
-    locale,
-    block:
-      !loose || choice === null || subject === null
-        ? null
-        : {
-            stableId: stableIds[0],
-            title: subject.name,
-            start: choice.startMin,
-            end: choice.startMin + length,
-            place: { lat: subject.lat, lng: subject.lng },
-          },
-  });
+    existing === null &&
+    !nowhere &&
+    !waiting &&
+    (choice?.timePicked === true || needsTiming(shown));
+  const block = looseBlock(loose ? choice : null, subject, stableIds[0], length);
+  const into = addIntoDay({ plan, day, tz, locale, block });
   const best = server.fit?.best ?? null;
   const guidePick =
     best === null || choice === null || existing !== null || best.day_no === choice.dayNo
@@ -174,6 +161,24 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
         };
 
   const stopName = (stableId: string) => plan.display.get(stableId)?.title ?? null;
+  const nearbySlot =
+    nearbyAdd === null || choice === null || existing !== null || waiting
+      ? null
+      : {
+          time: clockOf(choice.startMin + length + nearbyAdd.minutes),
+          text: nearbyLine(nearbyAdd.name, nearbyAdd.minutes),
+          picked: withNearby,
+          onToggle: () => setWithNearby((on) => !on),
+        };
+  const why: WhyInput = {
+    day: shown,
+    month: day === null ? '' : monthOf(day.date),
+    stopName,
+    place: fitPlace,
+    tz,
+    lengthMin: length,
+    timePicked: choice?.timePicked === true,
+  };
   const words = sheetWords({
     waiting,
     nowhere,
@@ -254,25 +259,12 @@ export function AddSheet({ tripId, placeId, preset: route, afterStableId }: AddS
               setPicked(pickTime(choice, start));
               setLengthMin(end - start);
             }}
-            nearby={
-              nearbyAdd === null || choice === null || existing !== null || waiting
-                ? null
-                : {
-                    time: clockOf(choice.startMin + length + nearbyAdd.minutes),
-                    text: nearbyLine(nearbyAdd.name, nearbyAdd.minutes),
-                    picked: withNearby,
-                    onToggle: () => setWithNearby((on) => !on),
-                  }
-            }
+            nearby={nearbySlot}
           />
         )
       }
       whyTitle={nowhere || waiting ? '' : whyTitle(time)}
-      reasons={
-        nowhere || waiting
-          ? []
-          : reasonTiles(shown, day === null ? '' : monthOf(day.date), stopName)
-      }
+      reasons={nowhere || waiting ? [] : whyTiles(why)}
       note={
         into?.line ??
         (server.status === 'offline' && server.fit === null ? offlineNote(guide) : null)
