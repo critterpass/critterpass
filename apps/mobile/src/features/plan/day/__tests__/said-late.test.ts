@@ -7,6 +7,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { DayItem } from '@/data/plan/plan-model';
 
+import { legTravel } from '../../day-plan/reschedule';
 import { lateStep, saidLate } from '../said-late';
 
 const SLOT = { dayNo: 1, date: '2026-10-05' };
@@ -58,6 +59,22 @@ describe('saying she is running late', () => {
     // The market and the noodles after it move; the bridge, hours later, stays.
     expect(late?.ops).toHaveLength(2);
     expect(JSON.stringify(late?.ops)).not.toContain('bridge');
+  });
+
+  it('leaves the stored walk to the next stop whole, never a minute short', () => {
+    // The museum 16:15–17:45, the bridge at 18:15, six minutes' walk between them (a stored leg).
+    const museum = stop('museum', 16 * 60 + 15, 17 * 60 + 45);
+    const bridge = stop('bridge', 18 * 60 + 15, 18 * 60 + 45);
+    const late = saidLate({
+      ...base,
+      stops: [museum, bridge],
+      stop: museum,
+      minutes: 30,
+      travel: legTravel([{ from: 'museum', to: 'bridge', minutes: 6 }]),
+    });
+    // The museum now ends 18:15: the bridge starts no earlier than 18:21, on the five-minute grid.
+    expect(late?.effect).toMatchObject({ ok: true, pushed: 1, pushedBy: 10 });
+    expect(JSON.stringify(late?.ops)).toContain('bridge');
   });
 
   it('moves nothing else when the day has room', () => {

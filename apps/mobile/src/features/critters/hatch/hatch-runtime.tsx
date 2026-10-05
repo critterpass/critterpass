@@ -20,6 +20,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { countryOf } from '@/lib/location';
 import { setCeremonyPending } from '@/lib/location/visits/use-rested-on-trip-surface';
 import { useTabBarCovered } from '@/ui/sheet/tab-bar-cover';
+import { isTouchQuiet } from '@/lib/interaction/touch-quiet';
 
 import { useInFront } from '../data/app-front';
 import { hatchEggCommand } from '../data/commands';
@@ -31,19 +32,29 @@ import { deviceTimeZone, eggCardFor, hatchSeen, useHatchSeenVersion } from './ha
 
 /** How long the viewer must rest on a calm screen before the ceremony opens. */
 export const CALM_MS = 1500;
+/** How long the screen must have been left alone: the ceremony never lands on a tap just made. */
+export const HATCH_QUIET_MS = 3000;
 
 /** How often a whole egg re-checks the latest position while the trip is under way. */
 const ARRIVAL_CHECK_MS = 60_000;
 
-const CALM_PATHS = [/^\/$/u, /^\/pass$/u, /^\/trips$/u, /^\/trips\/[^/]+$/u];
+const CALM_PATHS = [/^\/trips$/u, /^\/trips\/[^/]+$/u];
 
-/** A tab root with nothing over it: the only places the hatch may open by itself. */
+/**
+ * The trip's own screen with nothing over it (the trips tab, a trip's hub): the only places the
+ * hatch may open by itself. Home and the pass are where she goes to do something else.
+ */
 export function isCalmPath(pathname: string): boolean {
   return CALM_PATHS.some((pattern) => pattern.test(pathname));
 }
 
 /** The viewer is typing: the keyboard is up or a text field has focus. */
 const isTyping = () => Keyboard.isVisible() || TextInput.State.currentlyFocusedInput() !== null;
+
+/** The moment is still calm when the wait ends: on a calm path, not typing, no touch for a while. */
+export function calmNow(pathname: string, now: number = Date.now()): boolean {
+  return isCalmPath(pathname) && !isTyping() && isTouchQuiet(HATCH_QUIET_MS, now);
+}
 
 const arrivedAsked = new Set<string>();
 
@@ -66,6 +77,10 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
   const unseenTrip = egg?.kind === 'unseen' ? egg.tripId : null;
   // A sheet open on the screen in front: she is in the middle of something.
   const covered = useTabBarCovered();
+  const pathNow = useRef(pathname);
+  useLayoutEffect(() => {
+    pathNow.current = pathname;
+  });
   useEffect(() => {
     setCeremonyPending(unseenEgg !== null);
     return () => setCeremonyPending(false);
@@ -78,7 +93,8 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
     let timer: ReturnType<typeof setTimeout>;
     const wait = () => {
       timer = setTimeout(() => {
-        if (isTyping()) {
+        // Read again at the moment of opening: she may have just tapped or moved on.
+        if (!calmNow(pathNow.current)) {
           wait();
           return;
         }

@@ -1,14 +1,17 @@
 /**
  * What a stop of today offers first, at the top of its sheet (design in code; logged in
  * docs/undesigned-states.md): GO, "I'm here" then "Done", "Running late?" with 15, 30 and 45
- * minutes, and "Skip it, just me". Nothing is shown for a stop of another day or one with no time,
+ * minutes, and "Skip it, just me"; once she is there well before the start, "Start from now?". Nothing is shown for a stop of another day or one with no time,
  * or with the planning screens off: there the sheet is the planning sheet it always was.
  */
 import { toLocalWallTime } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 
+import type { PlanOp } from '@cp/domain';
+
 import { minutesOnDay, type DayItem } from '@/data/plan/plan-model';
+import type { DaySlot } from '@/data/plan/plan-ops';
 import { goHref } from '@/features/go';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { usePlanningSwitch } from '@/lib/navigation/planning-switch';
@@ -24,6 +27,7 @@ import { clock } from './format';
 
 import { LateEntry } from './late-entry';
 import { saidLateRoute } from './said-late';
+import { startFromNow } from './start-now';
 import { useStopCheckIn } from './stop-check-in';
 
 /** The stop is on the trip's own today (in the trip's time zone) and has a time. */
@@ -44,6 +48,7 @@ export function StopDayActions({
   onClose,
   onSkipForMe,
   solo = false,
+  day,
 }: {
   readonly tripId: string;
   readonly item: DayItem;
@@ -55,6 +60,12 @@ export function StopDayActions({
   readonly onSkipForMe: () => void;
   /** She travels alone: there is no "just me" to say. */
   readonly solo?: boolean;
+  /** The stop's day and the plan editor: "start from now" moves the day through it (with UNDO). */
+  readonly day?: {
+    readonly stops: readonly DayItem[];
+    readonly slot: DaySlot;
+    readonly submit: (ops: readonly PlanOp[]) => void;
+  };
 }) {
   const theme = useTheme();
   const locale = useLocale();
@@ -70,6 +81,13 @@ export function StopDayActions({
         ? t({ id: 'plan.day.stop.doneAt', message: `Done at ${at(checkIn.leftAt)}` })
         : t({ id: 'plan.day.stop.hereSince', message: `Here since ${at(checkIn.arrivedAt)}` });
   const poiId = item.poiId;
+  // Here well before the start: offer to start now and bring the rest of the day forward.
+  const now = new Date();
+  const nowMinutes = date === null ? 0 : minutesOnDay(now.toISOString(), tz, date);
+  const early =
+    state !== 'here' || day === undefined
+      ? null
+      : startFromNow({ stops: day.stops, stop: item, nowMinutes, slot: day.slot });
   return (
     <Stack gap="12" testID="stop-day-actions">
       <Row gap="8" align="center" wrap>
@@ -100,6 +118,19 @@ export function StopDayActions({
         <Text variant="bodySm" color={theme.semantic.text.secondary} testID="stop-day-since">
           {since}
         </Text>
+      )}
+      {early === null || day === undefined ? null : (
+        <TextLink
+          label={t({
+            id: 'plan.day.stop.startNow',
+            message: `Start from now (${clock(locale, early.start)})?`,
+          })}
+          onPress={() => {
+            day.submit(early.ops);
+            onClose();
+          }}
+          testID="stop-day-start-now"
+        />
       )}
       {state !== 'ahead' ? null : (
         <>

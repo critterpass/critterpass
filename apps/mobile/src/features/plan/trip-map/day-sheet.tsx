@@ -17,7 +17,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { freeGaps } from './day-gaps';
-import { useSaidStops } from '../day/stop-check-in';
+import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, usePlanClock } from './next-stop';
 import { dateLine, dayOfTrip, stopsLine } from './format';
 import type { TripMapSheetProps } from './sheet-props';
@@ -45,6 +45,7 @@ export function DaySheet(
   const tz = model.tz;
   const now = usePlanClock(model.now);
   const said = useSaidStops(model.tripId);
+  const hereSince = useHereSince(model.tripId, tz, locale);
   const rows = useMemo(() => {
     if (day === null) return [];
     const crew = model.members.map((member) => member.uid);
@@ -56,8 +57,9 @@ export function DaySheet(
       members: model.members,
       me: model.me,
       progress: dayProgress(day, now, tz, said),
+      here: hereSince,
     });
-  }, [day, locale, model.members, model.me, now, route, tz, said]);
+  }, [day, locale, model.members, model.me, now, route, tz, said, hereSince]);
   const goStop = useMemo(
     () => (day === null ? null : nextGoStop(day, now, tz, said)),
     [day, now, tz, said],

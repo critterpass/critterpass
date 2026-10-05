@@ -27,7 +27,7 @@ import { tokens } from '@cp/design-tokens';
 import { freeGaps } from '../trip-map/day-gaps';
 import type { DayRoute } from '../trip-map/day-route';
 import { dateLine, dayOfTrip, stopsLine } from '../trip-map/format';
-import { useSaidStops } from '../day/stop-check-in';
+import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, todayOf, usePlanClock } from '../trip-map/next-stop';
 import { dayChips } from '../trip-map/sheet-copy';
 import type { TripMapModel } from '../trip-map/sheet-props';
@@ -89,6 +89,7 @@ export function DayPlanView(props: DayPlanViewProps) {
   const { model, day, route } = props;
   const now = usePlanClock(model.now);
   const said = useSaidStops(model.tripId);
+  const hereSince = useHereSince(model.tripId, model.tz, locale);
   const progress = useMemo(() => dayProgress(day, now, model.tz, said), [day, now, model.tz, said]);
   const goStop = nextGoStop(day, now, model.tz, said);
   const rows = useMemo(
@@ -105,8 +106,9 @@ export function DayPlanView(props: DayPlanViewProps) {
         members: model.members,
         me: model.me,
         progress,
+        here: hereSince,
       }),
-    [locale, day, route, model.members, model.me, model.tz, progress],
+    [locale, day, route, model.members, model.me, model.tz, progress, hereSince],
   );
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   const n = day.dayNo;

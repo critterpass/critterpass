@@ -178,6 +178,7 @@ export function ItemSheetHost({
             onClose={onClose}
             onSkipForMe={skipForMe}
             solo={plan.members.length <= 1}
+            day={{ stops: here, slot, submit: (ops) => void editor.submit(ops) }}
           />
         )
       }
