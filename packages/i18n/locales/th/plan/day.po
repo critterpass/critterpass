@@ -447,6 +447,11 @@ msgstr ""
 msgid "plan.day.item.useStart"
 msgstr ""
 
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"
 msgstr ""

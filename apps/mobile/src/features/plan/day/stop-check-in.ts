@@ -5,13 +5,21 @@
  * phone, so what this phone said is kept here, per trip and stop, for the buttons to read.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names and storage keys, never copy. */
-import { generateUuidV7, type RecordVisitPayload } from '@cp/domain';
+import { generateUuidV7, toLocalWallTime, type RecordVisitPayload } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useCommand } from '@/data/commands/use-command';
-import { checkInState, nextCheckIn, parseCheckIn, useCheckInValue } from '@/data/plan/said-stops';
+import {
+  checkInState,
+  nextCheckIn,
+  parseCheckIn,
+  useCheckIns,
+  useCheckInValue,
+} from '@/data/plan/said-stops';
+
+import { clock } from './format';
 
 export {
   checkInState,
@@ -55,4 +63,24 @@ export function useStopCheckIn(tripId: string, stableId: string, poiId: string |
     });
   }, [raw, setRaw, send, tripId, poiId]);
   return { checkIn, state, advance };
+}
+
+/** The stops she said she is at, with the clock she arrived on the trip's time ("13:01"). */
+export function useHereSince(
+  tripId: string | null,
+  tz: string,
+  locale: string,
+): ReadonlyMap<string, string> {
+  const checkIns = useCheckIns(tripId);
+  return useMemo(() => {
+    const here = new Map<string, string>();
+    for (const [id, checkIn] of checkIns) {
+      if (checkIn.leftAt !== null) continue;
+      const [hours = 0, minutes = 0] = toLocalWallTime(new Date(checkIn.arrivedAt), tz)
+        .time.split(':')
+        .map(Number);
+      here.set(id, clock(locale, hours * 60 + minutes));
+    }
+    return here;
+  }, [checkIns, tz, locale]);
 }

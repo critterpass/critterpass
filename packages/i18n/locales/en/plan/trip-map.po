@@ -473,5 +473,9 @@ msgid "plan.tripMap.you"
 msgstr "you"
 
 #: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
+msgid "plan.tripMap.hereSince"
+msgstr "You’re here · since {since}"
+
+#: ../../apps/mobile/src/features/plan/trip-map/stop-rows.ts
 msgid "plan.tripMap.personal.skipping"
 msgstr "You’re skipping this"

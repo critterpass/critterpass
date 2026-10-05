@@ -447,6 +447,11 @@ msgstr "Someone removed it while you had it open."
 msgid "plan.day.item.useStart"
 msgstr "Start at {0} instead"
 
+#. placeholder {0}: clock(locale, early.start)
+#: ../../apps/mobile/src/features/plan/day/stop-day-actions.tsx
+msgid "plan.day.stop.startNow"
+msgstr "Start from now ({0})?"
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"
 msgstr "Starts"

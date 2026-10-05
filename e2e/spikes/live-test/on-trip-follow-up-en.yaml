@@ -1,0 +1,112 @@
+appId: app.critterpass.dev
+---
+# The trip-day re-walk's follow-ups, walked in English by a fresh account on real staging (a
+# three-day Đà Nẵng trip that starts today, locked in alone):
+#   1. UNDO on the toast over the day plan's header undoes the push, and SHARE does not open.
+#   2. "I'm here" on the first stop: the day plan says so; "Start from now?" when it is early.
+#   3. "Done here": the hub's next row moves on.
+#   4. Running 30 min late for the next stop: the stop after it keeps its whole leg.
+- runFlow:
+    file: subflows/on-trip-start-english.yaml
+    env:
+      SHOTS: follow-up-en-00-setup
+- runFlow: subflows/on-trip-to-hub.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-later'
+    timeout: 8000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd:
+          timeout: 4000
+- runFlow: subflows/on-trip-to-hub.yaml
+- takeScreenshot: follow-up-en-01-hub-before
+- runFlow: subflows/on-trip-open-day-plan.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'day-plan'
+    timeout: 30000
+# 1. A push from the stop's sheet, then UNDO from the toast over the header.
+- tapOn:
+    id: 'stop-2'
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-late-30'
+    timeout: 20000
+- tapOn:
+    id: 'stop-day-late-30'
+- extendedWaitUntil:
+    visible:
+      id: 'late-choose'
+    timeout: 20000
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 6000
+- takeScreenshot: follow-up-en-02-running-late-leg-kept
+- tapOn:
+    id: 'late-choose'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-open'
+    timeout: 20000
+- takeScreenshot: follow-up-en-03-pushed-toast-under-header
+- tapOn:
+    id: 'island-toast-open'
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 6000
+- assertNotVisible:
+    id: 'plan-share-sheet'
+- takeScreenshot: follow-up-en-04-after-undo
+# 2. I'm here on the first stop.
+- scrollUntilVisible:
+    element:
+      id: 'stop-1'
+    direction: UP
+    timeout: 10000
+    optional: true
+- tapOn:
+    id: 'stop-1'
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-here'
+    timeout: 20000
+- tapOn:
+    id: 'stop-day-here'
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-done'
+    timeout: 10000
+- takeScreenshot: follow-up-en-05-here-start-now-offer
+- back
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: follow-up-en-06-day-plan-says-here
+# 3. Done, then the hub.
+- tapOn:
+    id: 'stop-1'
+- extendedWaitUntil:
+    visible:
+      id: 'stop-day-done'
+    timeout: 20000
+- tapOn:
+    id: 'stop-day-done'
+- waitForAnimationToEnd:
+    timeout: 3000
+- back
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow: subflows/on-trip-to-hub.yaml
+- runFlow:
+    file: subflows/settle.yaml
+    env:
+      WAIT: 3000
+- takeScreenshot: follow-up-en-07-hub-after-done
