@@ -31,6 +31,8 @@ export interface PlacementIdeaRow {
   readonly hours: unknown;
   readonly time_needed_min: number | null;
   readonly best_time: boolean;
+  readonly best_time_text: string | null;
+  readonly tags: string[] | null;
   readonly want: number;
   readonly rather_not: number;
 }
@@ -54,6 +56,7 @@ export async function loadPlacement(
             coalesce(p.lat, i.lat) AS lat, coalesce(p.lng, i.lng) AS lng, p.hours,
             (p.editorial->>'time_needed_min')::int AS time_needed_min,
             coalesce(p.editorial ? 'best_time', false) AS best_time,
+            p.editorial->>'best_time' AS best_time_text, p.tags,
             (SELECT count(*) FROM place_stances s
               WHERE s.trip_id = i.trip_id AND s.poi_id = i.poi_id AND s.stance = 'want')::int AS want,
             (SELECT count(*) FROM place_stances s
@@ -93,6 +96,9 @@ export async function placementIdeas(
       crowds: row.poi_id === null ? null : (weeks.get(row.poi_id) ?? null),
       stances: { want: row.want, ratherNot: row.rather_not },
       bestTime: row.best_time,
+      name: row.name,
+      tags: row.tags ?? [],
+      bestTimeText: row.best_time_text,
     },
   }));
 }

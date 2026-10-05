@@ -28,6 +28,7 @@ import { usePlanGuide } from '../plan-guide';
 import { addRoute } from '../add/routes';
 import { dayName } from '../day/format';
 import { planRoutes } from '../overview/routes';
+import { chipWeekday, dayOfMonth } from '../trip-map/format';
 import { IdeaActions } from './idea-actions';
 import { ideaIcon } from './idea-icon';
 import { IdeaRow } from './idea-row';
@@ -104,10 +105,11 @@ export function IdeasScreen({ tripId }: { readonly tripId: string }) {
   const weekdays = new Map(days.map((day) => [day.dayNo, weekdayOf(day.date, locale)]));
   const chips: DayChip[] = days.map((day) => ({
     dayNo: day.dayNo,
-    weekday: weekdays.get(day.dayNo) ?? '',
+    weekday: chipWeekday(locale, day.date),
+    dateLabel: dayOfMonth(day.date),
     color: dayTileColour(day.dayNo),
     fit: dragged === null ? undefined : (grades.get(day.dayNo) ?? 'no'),
-    accessibilityLabel: `${weekdays.get(day.dayNo) ?? ''} ${day.date.slice(8, 10)}`,
+    accessibilityLabel: dayName(locale, day.date),
   }));
   const names = new Map(plan.members.map((member) => [member.uid, member]));
   const stopName = (stableId: string) => plan.display.get(stableId)?.title ?? null;

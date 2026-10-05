@@ -5,7 +5,7 @@
  * far as they need, and a time that would run into the stop before it, a booking or a must-do
  * can't be added as it is: an add never leaves two stops overlapping.
  */
-import type { PlanOp } from '@cp/domain';
+import type { DayFit, PlanOp } from '@cp/domain';
 
 import { dayItems, type DayItem } from '@/data/plan/plan-model';
 import type { TripPlan } from '@/data/plan/use-trip-plan';
@@ -98,4 +98,26 @@ function timeInto(input: {
   const preview: ChangePreview = retimePreview(result, input.locale, null);
   if (!result.ok) return { ops: [], line: preview.line, blocked: true };
   return { ops: result.ops, line: result.pushed === 0 ? null : preview.line, blocked: false };
+}
+
+/** The fit did not find this slot free as it is: no slot that day, or one that moves a stop. */
+export function needsTiming(shown: DayFit | null): boolean {
+  return shown === null || shown.grade === 'no' || shown.needs_move != null;
+}
+
+/** The block to time: the place at the chosen start; null when there is nothing to time. */
+export function looseBlock(
+  choice: { readonly startMin: number } | null,
+  subject: { readonly name: string; readonly lat: number; readonly lng: number } | null,
+  stableId: string,
+  lengthMin: number,
+): LooseBlock | null {
+  if (choice === null || subject === null) return null;
+  return {
+    stableId,
+    title: subject.name,
+    start: choice.startMin,
+    end: choice.startMin + lengthMin,
+    place: { lat: subject.lat, lng: subject.lng },
+  };
 }

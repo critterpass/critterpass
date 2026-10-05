@@ -203,6 +203,14 @@ msgstr "Sẽ đổi khi mọi người đồng ý."
 msgid "plan.day.item.removeLine"
 msgstr "Mục này sẽ bị bỏ khỏi ngày của mọi người đi cùng."
 
+#: ../../apps/mobile/src/features/plan/day/item-confirm.tsx
+msgid "plan.day.item.removeLineSolo"
+msgstr "Mục này sẽ bị bỏ khỏi ngày của bạn."
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.justYou"
+msgstr "Chỉ mình bạn"
+
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.later"
 msgstr "Muộn hơn 15 phút"
@@ -239,6 +247,10 @@ msgstr "Thứ tự mới cho {0}"
 #: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
 msgstr "Giờ mới"
+
+#: ../../apps/mobile/src/features/plan/day/item-facts.tsx
+msgid "plan.day.item.costUnknown"
+msgstr "Chưa có ước tính"
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.noForecast"
@@ -351,6 +363,10 @@ msgstr "Đã gửi cho cả nhóm"
 msgid "plan.day.item.skip"
 msgstr "Bỏ qua, chỉ mình tôi"
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skipSolo"
+msgstr "Bỏ qua điểm này"
+
 #: ../../apps/mobile/src/features/plan/day/item-sheet-host.tsx
 msgid "plan.day.skippedToast"
 msgstr "Đã bỏ qua, chỉ riêng bạn"
@@ -371,6 +387,11 @@ msgstr "Có người đã ghim nó ở giờ này."
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr "Có người đã bỏ mục này khi bạn đang mở."
+
+#. placeholder {0}: clock(locale, effect.useStart)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.useStart"
+msgstr "Bắt đầu lúc {0}"
 
 #: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
 msgid "plan.day.time.starts"

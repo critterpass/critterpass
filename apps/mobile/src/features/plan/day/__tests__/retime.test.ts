@@ -3,12 +3,14 @@
  * need, the stops before it stay, and a time that would run into the stop ahead, a booked stop or
  * a must-do is refused with the stop in the way. A must-do counts as pinned for a drag too.
  */
-import { describe, expect, it } from '@jest/globals';
+import { i18n } from '@lingui/core';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 
 import type { DayItem, LockKind } from '@/data/plan/plan-model';
 import { minutesOnDay } from '@/data/plan/plan-model';
 
 import { isPinned, moveInOrder, reschedule, retime } from '../../day-plan/reschedule';
+import { retimePreview } from '../retime-copy';
 
 const DATE = '2026-10-20';
 const TZ = 'Asia/Makassar';
@@ -57,6 +59,38 @@ function startsOf(result: ReturnType<typeof retime>): Record<string, number> {
     ),
   );
 }
+
+beforeAll(() => {
+  i18n.loadAndActivate({ locale: 'en', messages: {} });
+});
+
+describe('what the sheet says before SAVE', () => {
+  it('offers the first start that works when the chosen one is taken, and blocks SAVE', () => {
+    const taken = retime(
+      DAY,
+      { stableId: 'palace', start: at('09:00'), end: at('10:00') },
+      SLOT,
+      HALF_HOUR,
+    );
+    expect(retimePreview(taken, 'en-GB', null)).toMatchObject({
+      blocked: true,
+      useStart: at('10:00'),
+    });
+  });
+
+  it('says how many later stops move, and offers nothing when the time is free', () => {
+    const pushed = retime(
+      DAY,
+      { stableId: 'palace', start: at('11:00'), end: at('12:00') },
+      SLOT,
+      HALF_HOUR,
+    );
+    expect(retimePreview(pushed, 'en-GB', null)).toEqual({
+      blocked: false,
+      line: '1 later stop moves by 1 h',
+    });
+  });
+});
 
 describe('a new time for one stop', () => {
   it('pushes the stops after it only as far as they need, keeping the room they had', () => {

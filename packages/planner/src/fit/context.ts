@@ -139,6 +139,13 @@ export interface FitPlace {
   readonly stances?: { readonly want: number; readonly ratherNot: number } | null;
   /** The place has an editorial best-time line (shown verbatim by the app). */
   readonly bestTime?: boolean;
+  /**
+   * What the time of day the place is for is read from (./kind-time): its name, its tags and what
+   * our editors wrote about when to go. Absent = its kind alone decides.
+   */
+  readonly name?: string;
+  readonly tags?: readonly string[];
+  readonly bestTimeText?: string | null;
   /** Its own item when the place is already in the plan: never counted as busy. */
   readonly stableId?: string | null;
 }
