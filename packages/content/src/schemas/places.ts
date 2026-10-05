@@ -145,8 +145,19 @@ export const poiItemSchema = z
     merge_into: poiRefSchema.nullable(),
     /** A nearby record that may be the same place; a reviewer decides. */
     possible_duplicate_of: poiRefSchema.nullable(),
+    /**
+     * Takes the record out of the catalogue: publishing sets it to status `hidden` and takes it
+     * out of the recommended set (a record pinned far from the place it names, with no record at
+     * the place to merge it into). Publishing refuses while a trip's stop, idea or must-do points
+     * at it. A hidden record is neither merged nor a must-see.
+     */
+    hide: z.literal(true).optional(),
   })
-  .strict();
+  .strict()
+  .refine(
+    (poi) => poi.hide !== true || (poi.merge_into === null && poi.editorial.must_see !== true),
+    { message: 'a hidden place is neither merged nor a must-see', path: ['hide'] },
+  );
 export type PoiItem = z.infer<typeof poiItemSchema>;
 
 /** Opening hours read from an official venue or tourism site, waiting for a person to verify them. */

@@ -5,12 +5,14 @@ import { loadRelease, type ContentItem } from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
 import {
-  correctionCounts,
   correctionItems,
   loadCorrections,
   type BeforeRow,
   type PlaceCorrection,
 } from '../src/kinds/places/corrections';
+import { correctionCounts } from '../src/kinds/places/corrections-counts';
+import { batchItems, hiddenItems } from '../src/kinds/places/corrections-hidden';
+import { outOfReach, withNewRecords } from '../src/kinds/places/corrections-new-records';
 import { placesKind } from '../src/kinds/places/pois';
 import { runValidators } from '../src/validators/registry';
 import { FACTORY_DIR, readJson } from '../src/work';
@@ -62,6 +64,7 @@ const row = (ref: string, over: Partial<BeforeRow> = {}): BeforeRow => ({
   curated: true,
   must_see: false,
   essential: false,
+  trip_refs: 0,
   merged_into: null,
   item: liveItem(ref),
   ...over,
@@ -186,7 +189,7 @@ describe('place corrections', () => {
     const items = correctionItems(
       [
         place({
-          revise: { why_go: 'A holy spring temple at Tampaksiring.' },
+          revise: { why_go: 'A holy spring temple at Tampaksiring.', time_needed_min: 120 },
           merge: [{ ref: 'overture:far', stored_name: 'Tirta Empul', kept_note: true }],
         }),
       ],
@@ -203,6 +206,7 @@ describe('place corrections', () => {
     expect(items[0]?.editorial).toEqual({
       ...liveItem('overture:kept').editorial,
       why_go: 'A holy spring temple at Tampaksiring.',
+      time_needed_min: 120,
     });
     expect(items[1]).toMatchObject({
       ref: 'overture:far',
@@ -210,6 +214,33 @@ describe('place corrections', () => {
       tags: ['temples', 'culture'],
       editorial: { why_go: 'A holy spring temple at Tampaksiring.' },
     });
+  });
+
+  it('restates a hidden record with hide and without its flags, and refuses one a trip points at', () => {
+    const flagged = liveItem('overture:far', {
+      editorial: { ...liveItem('overture:far').editorial, must_see: true, essential: true },
+    });
+    const hidden = [
+      {
+        destination: 'bali',
+        ref: 'overture:far',
+        stored_name: 'Tirta Empul',
+        why: 'Pinned in Kuta.',
+      },
+    ];
+    const [item] = hiddenItems(hidden, [row('overture:far', { item: flagged })], new Set());
+    expect(item).toMatchObject({ ref: 'overture:far', hide: true, merge_into: null });
+    expect(item?.editorial).toEqual(liveItem('overture:far').editorial);
+    expect(() =>
+      hiddenItems(hidden, [row('overture:far', { item: flagged, trip_refs: 2 })], new Set()),
+    ).toThrow(/2 trip stops/u);
+    // Not both corrected and hidden, and only a record the live release states.
+    expect(() => hiddenItems(hidden, [row('overture:far')], new Set(['overture:far']))).toThrow(
+      /twice/u,
+    );
+    expect(() => hiddenItems(hidden, [row('overture:far', { item: null })], new Set())).toThrow(
+      /no live item/u,
+    );
   });
 
   it('builds the item of a record that joins the recommended set from its note', () => {
@@ -293,12 +324,13 @@ describe('committed corrections batches', () => {
     '%s is what its decisions and snapshot build, and passes the validators',
     (batchKey) => {
       const { file, before } = loadCorrections(batchKey);
-      const items = correctionItems(file.places, before);
+      const items = batchItems(file, before);
       const artifact = loadRelease(
         readJson<unknown>(path.join(FACTORY_DIR, 'batches', 'places', `${batchKey}.json`)),
         'places',
       );
       expect(artifact.items).toEqual(items);
+      expect(outOfReach(file.new_records)).toEqual([]);
       expect(runValidators('places', items, placesKind.validators).counts.fail).toBe(0);
       // Every must-see is a record the batch leaves visible.
       for (const item of items.filter((poi) => poi.editorial.must_see === true)) {
@@ -306,4 +338,82 @@ describe('committed corrections batches', () => {
       }
     },
   );
+});
+
+describe('a place the catalogue does not hold yet', () => {
+  const lagoon = {
+    destination: 'iceland',
+    ref: 'overture:1f85bbe3-eb4a-4009-b165-a34704a51610',
+    name: 'Blue Lagoon',
+    name_local: 'Bláa lónið',
+    category: 'nature' as const,
+    lat: 63.88038,
+    lng: -22.44756,
+    address: null,
+  };
+  const place: PlaceCorrection = {
+    destination: 'iceland',
+    keep: lagoon.ref,
+    stored_name: 'Blue Lagoon',
+    stated: true,
+    must_see: true,
+    essential: true,
+    note: {
+      why_go: 'A geothermal lagoon in a lava field.',
+      best_time: 'First slot of the day',
+      time_needed_min: 180,
+      crowd_hint: 'Timed tickets sell out',
+      etiquette: null,
+      tags: ['wellness'],
+    },
+    why: 'The box now reaches it.',
+    checked: { source: 'OpenStreetMap way 69991144', lat: 63.88005, lng: -22.44935, off_m: 95 },
+    merge: [],
+  };
+
+  it('is created at its stated point, under the id the ingest will store it by', () => {
+    const [item] = correctionItems([place], withNewRecords([], [lagoon]));
+    expect(item).toMatchObject({
+      ref: lagoon.ref,
+      destination: 'iceland',
+      name: 'Blue Lagoon',
+      name_local: 'Bláa lónið',
+      category: 'nature',
+      lat: 63.88038,
+      lng: -22.44756,
+      tz: 'Atlantic/Reykjavik',
+      licence: { source: 'overture', source_id: '1f85bbe3-eb4a-4009-b165-a34704a51610' },
+      editorial: { must_see: true, essential: true, time_needed_min: 180 },
+      merge_into: null,
+    });
+  });
+
+  it('gives way to the stored record once the ingest has created it', () => {
+    const stored = row(lagoon.ref, {
+      destination: 'iceland',
+      name: 'Blue Lagoon Iceland',
+      lat: 63.8801,
+      lng: -22.4491,
+      tz: 'Atlantic/Reykjavik',
+      curated: false,
+      must_see: false,
+      item: null,
+    });
+    const before = withNewRecords([stored], [lagoon]);
+    expect(before).toEqual([stored]);
+    expect(correctionItems([{ ...place, name: 'Blue Lagoon' }], before)[0]).toMatchObject({
+      name: 'Blue Lagoon',
+      lat: 63.8801,
+      lng: -22.4491,
+    });
+  });
+
+  it('is refused beyond the map pack and routing area of its destination', () => {
+    expect(outOfReach([lagoon])).toEqual([]);
+    expect(
+      outOfReach([
+        { ...lagoon, destination: 'cusco', name: 'Machu Picchu', lat: -13.1631, lng: -72.545 },
+      ]),
+    ).toEqual(["Machu Picchu lies 27 km outside cusco's map pack and routing area"]);
+  });
 });

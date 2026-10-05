@@ -31,6 +31,10 @@ msgstr "~{count} phút"
 msgid "go.preview.aboutHours"
 msgstr "~{hours}H{rest}"
 
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimateLine"
+msgstr "Ước tính theo bảng giá Grab công bố. Giá thật hiện trong Grab."
+
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.appleMaps"
 msgstr "Apple Maps"
@@ -43,6 +47,10 @@ msgstr " TỶ"
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.back"
 msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.noFix"
+msgstr "Chưa tìm thấy vị trí của bạn. Có vị trí là đường đi hiện ngay."
 
 #: ../../apps/mobile/src/features/go/maps-app-row.tsx
 msgid "go.settings.mapsApp"
@@ -79,6 +87,10 @@ msgstr "Google Maps"
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabFare"
 msgstr "Grab {fare}"
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.grabEstimate"
+msgstr "Grab khoảng {fare}"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.grabHere"
@@ -131,6 +143,10 @@ msgstr "Bắt đầu trong Google Maps"
 #: ../../apps/mobile/src/features/go/go-screen.tsx
 msgid "go.preview.missing"
 msgstr "Địa điểm này chưa có trên điện thoại. Hãy thử lại sau khi đồng bộ xong."
+
+#: ../../apps/mobile/src/features/go/go-preview-view.tsx
+msgid "go.preview.retryLocate"
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/go/go-preview-view.tsx
 msgid "go.preview.walk"

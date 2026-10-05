@@ -82,17 +82,30 @@ function readTime(poi: DraftPoi): PlaceTime | null {
 }
 
 const SUNSETS = new Map<string, number>();
+const SUNSETS_OF = new WeakMap<object, Map<string, number>>();
 const DEFAULT_SUNSET_MIN = 18 * 60;
 
 /** Sunset at the place on the date as a local minute, kept between four and nine in the evening. */
 export function sunsetMin(poi: Pick<DraftPoi, 'lat' | 'lng' | 'tz'>, date: string): number {
+  // Asked for on every timing pass: the place's own answers first, without building a key.
+  let mine = SUNSETS_OF.get(poi);
+  if (mine === undefined) {
+    mine = new Map();
+    SUNSETS_OF.set(poi, mine);
+  }
+  const seen = mine.get(date);
+  if (seen !== undefined) return seen;
   const key = `${date}:${poi.lat.toFixed(1)}:${poi.lng.toFixed(1)}:${poi.tz}`;
   const known = SUNSETS.get(key);
-  if (known !== undefined) return known;
+  if (known !== undefined) {
+    mine.set(date, known);
+    return known;
+  }
   const at = solarDay(date, poi.lat, poi.lng).sunset;
   const minute = at === null ? DEFAULT_SUNSET_MIN : localMinute(at, poi.tz);
   const kept = Math.min(21 * 60, Math.max(16 * 60, minute));
   SUNSETS.set(key, kept);
+  mine.set(date, kept);
   return kept;
 }
 

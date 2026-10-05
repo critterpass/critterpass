@@ -259,6 +259,10 @@ msgstr "Ổn"
 msgid "trip.disruptions.forecast.stale"
 msgstr "Mình chưa kiểm tra được trong ba giờ qua. Đây là lần xem gần nhất."
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skip"
+msgstr "Chỉ riêng bạn. Điểm này vẫn ở trong lịch."
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.option.keep"
 msgstr "Giữ {day}"
@@ -322,6 +326,10 @@ msgstr "Không có bản đồ khi ngoại tuyến. Lựa chọn của bạn s�
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.tally.none"
 msgstr "Chưa ai bỏ phiếu."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.pick"
+msgstr "Chưa có gì thay đổi. Chọn cách xử lý nhé."
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.missing"
@@ -414,6 +422,10 @@ msgstr "Bỏ {title}"
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.skip"
 msgstr "Bỏ qua"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skipped"
+msgstr "Đã bỏ qua, chỉ riêng bạn"
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.option.swap"
@@ -570,6 +582,10 @@ msgstr "Bạn đang ngoại tuyến. Phiếu của bạn sẽ được gửi khi
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
 msgstr "Bạn đã kịp giờ trở lại."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.told"
+msgstr "Nhóm đã được báo. Lát nữa các lựa chọn của bạn sẽ hiện ở đây."
 
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.vote"

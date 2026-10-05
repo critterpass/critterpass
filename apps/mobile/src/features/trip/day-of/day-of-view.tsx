@@ -1,6 +1,7 @@
 /**
  * The day-of screen (3k-2) from props: the pink leave-by hero with the draining ring and who is
- * up, the in-app I'M UP, the pack chips and the day's timeline. A day with no early start shows
+ * up, GO and "Running late?" for today's next stop, the in-app I'M UP, the pack chips and the
+ * day's timeline. A day with no early start shows
  * the day's first item instead of a leave-by, and a link under the timeline opens the day plan.
  * The status bar keeps the hero's pink behind it while the page scrolls. The lab scenes render it
  * with fixed data.
@@ -62,12 +63,16 @@ export interface DayOfViewProps {
   readonly offline: boolean;
   readonly alarmNote: AlarmNote | null;
   readonly onImUp: () => void;
+  /** Today is shown and the trip has a tomorrow: its page (its leave-by, its alarm). */
+  readonly onTomorrow?: (() => void) | undefined;
   /** Opens the day plan for the day shown (legs, the map, adding and moving stops). */
   readonly onDayPlan?: (() => void) | undefined;
   /** GO to the next stop: the route from here, then directions in the maps app. */
   readonly onGo?: (() => void) | undefined;
   /** Where GO goes when the screen names no place for it (a flight's airport). */
   readonly goDetail?: string | null | undefined;
+  /** "Running late?" with its minutes, for today's next stop (the screen's own control). */
+  readonly late?: ReactNode;
   readonly onTogglePack: (id: string, packed: boolean) => void;
   readonly onAddPack: (label: string) => void;
   readonly onRemovePack: (id: string) => void;
@@ -241,6 +246,7 @@ export function DayOfView(props: DayOfViewProps) {
           {props.onGo === undefined ? null : (
             <GoButton block onPress={props.onGo} detail={props.goDetail} testID="trip-day-go" />
           )}
+          {props.late}
           {canWake ? (
             <PillButton
               label={t({ id: 'trip.dayOf.imUp', message: "I'm up" })}
@@ -278,6 +284,13 @@ export function DayOfView(props: DayOfViewProps) {
               block
               onPress={props.onDayPlan}
               testID="trip-day-to-plan"
+            />
+          )}
+          {props.onTomorrow === undefined ? null : (
+            <TextLink
+              label={t({ id: 'trip.dayOf.toTomorrow', message: 'See tomorrow' })}
+              onPress={props.onTomorrow}
+              testID="trip-day-to-tomorrow"
             />
           )}
         </View>

@@ -259,6 +259,10 @@ msgstr ""
 msgid "trip.disruptions.forecast.stale"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.option.keep"
 msgstr ""
@@ -321,6 +325,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
 msgid "trip.disruptions.storm.tally.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.pick"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
@@ -413,6 +421,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.skipped"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
@@ -569,6 +581,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.said.told"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts

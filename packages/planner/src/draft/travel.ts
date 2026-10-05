@@ -14,15 +14,24 @@ const REGIONAL_KMH = 60;
 const REGIONAL_BUFFER_MIN = 10;
 
 export function straightLineMatrix(pois: ReadonlyMap<string, DraftPoi>): TravelMatrix {
-  const cache = new Map<string, number>();
+  // Asked for millions of times while a draft is sequenced: one map per place, both directions
+  // stored, so a known leg costs two lookups and no string building.
+  const cache = new Map<string, Map<string, number>>();
+  const row = (id: string) => {
+    let found = cache.get(id);
+    if (found === undefined) {
+      found = new Map();
+      cache.set(id, found);
+    }
+    return found;
+  };
   return (from, to) => {
     if (from === to) return 0;
+    const known = cache.get(from)?.get(to);
+    if (known !== undefined) return known;
     const a = pois.get(from);
     const b = pois.get(to);
     if (a === undefined || b === undefined) return null;
-    const key = from < to ? `${from}>${to}` : `${to}>${from}`;
-    const known = cache.get(key);
-    if (known !== undefined) return known;
     const leg = { originLat: a.lat, originLng: a.lng, destLat: b.lat, destLng: b.lng };
     const transit = estimateStraightLineEta({ ...leg, mode: 'multimodal' });
     const minutes =
@@ -32,7 +41,8 @@ export function straightLineMatrix(pois: ReadonlyMap<string, DraftPoi>): TravelM
             estimateStraightLineEta({ ...leg, mode: 'pedestrian' }).minutes,
             transit.minutes,
           );
-    cache.set(key, minutes);
+    row(from).set(to, minutes);
+    row(to).set(from, minutes);
     return minutes;
   };
 }

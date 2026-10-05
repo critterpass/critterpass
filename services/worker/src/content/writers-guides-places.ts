@@ -73,6 +73,8 @@ const AS_PUBLISHED = `name = $2 AND name_local IS NOT DISTINCT FROM $3 AND categ
  * large text indexes on `pois` for nothing. Any write that remains may still pay for merging one
  * of those indexes' pending lists, which passes the usual statement limit on a table this size,
  * so the publish waits for it as the ingest does.
+ *
+ * An item with `hide` takes its record out of the catalogue instead (see `hidePlaces`).
  */
 export async function writePlaces(
   tx: pg.PoolClient,
@@ -83,7 +85,7 @@ export async function writePlaces(
   );
   const destinations = new Map(rows.map((row) => [row.slug, row.id]));
   await allowIndexMaintenance(tx);
-  for (const poi of items) {
+  for (const poi of items.filter((item) => item.hide !== true)) {
     const destinationId = destinations.get(poi.destination);
     if (destinationId === undefined) {
       throw new PublishRefusedError(`destination ${poi.destination} does not exist`);
@@ -148,4 +150,53 @@ export async function writePlaces(
       [fromId.join(':'), toId.join(':')],
     );
   }
+  await hidePlaces(
+    tx,
+    items.filter((item) => item.hide === true),
+  );
+}
+
+/** Tables whose rows put a place into a trip: a place one of them points at is not hidden. */
+const TRIP_POINTERS = ['plan_items', 'trip_ideas', 'must_dos'] as const;
+
+/**
+ * Hides the records the release lists (`hide`): status `hidden`, out of the recommended set, its
+ * must-see flags dropped. Only records still active are touched, so a record hidden by an earlier
+ * publish costs nothing. A record a trip's stop, idea or must-do points at is not hidden and the
+ * publish is refused, naming it: it needs a merge or a decision first.
+ */
+async function hidePlaces(
+  tx: pg.PoolClient,
+  items: readonly ContentItem<'places'>[],
+): Promise<void> {
+  const active: { id: string; name: string }[] = [];
+  for (const poi of items) {
+    const { rows } = await tx.query<{ id: string; name: string }>(
+      `SELECT id, name FROM pois WHERE ${sourceIdMatch(poi.licence.source, '$1')} AND status = 'active'`,
+      [poi.licence.source_id],
+    );
+    active.push(...rows);
+  }
+  if (active.length === 0) return;
+  const ids = active.map((row) => row.id);
+  const pointed = new Set<string>();
+  for (const table of TRIP_POINTERS) {
+    const { rows } = await tx.query<{ poi_id: string }>(
+      `SELECT DISTINCT poi_id FROM ${table} WHERE poi_id = ANY($1::uuid[])`,
+      [ids],
+    );
+    for (const row of rows) pointed.add(row.poi_id);
+  }
+  if (pointed.size > 0) {
+    const names = active.filter((row) => pointed.has(row.id)).map((row) => row.name);
+    throw new PublishRefusedError(
+      `a trip points at ${names.length} of the places to hide (merge them or decide first): ${names.join(', ')}`,
+    );
+  }
+  await tx.query(
+    `UPDATE pois SET status = 'hidden', curation = 'auto',
+            editorial = editorial - 'must_see' - 'essential'
+      WHERE id = ANY($1::uuid[])`,
+    [ids],
+  );
 }

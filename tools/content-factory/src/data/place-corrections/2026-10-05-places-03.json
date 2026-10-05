@@ -1,0 +1,4508 @@
+{
+  "batch": "2026-10-05-places-03",
+  "checked_at": "2026-10-05T11:40:00+07:00",
+  "places": [
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c14c83ca5eb76b0d839c2b7",
+      "stored_name": "Bãi Biển An Bàng (An Bang Beach)",
+      "stated": true,
+      "name": "An Bàng Beach",
+      "name_local": "Bãi biển An Bàng",
+      "why": "Name: one name, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 2217387212 “An Bang Beach Club” (amenity=restaurant)",
+        "lat": 15.91418,
+        "lng": 108.33966,
+        "off_m": 125
+      },
+      "merge": [
+        {
+          "ref": "overture:5caca522-ff5c-4fb0-adee-7c88aa7b1ba9",
+          "stored_name": "Bãi Biển An Bàng (An Bang Beach)"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:0490fa68-7f0d-4140-b999-bffd638eac72",
+      "stored_name": "Bãi biển Hà My",
+      "stated": true,
+      "name": "Hà My Beach",
+      "name_local": "Bãi biển Hà My",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f8767e6d-c531-49b9-83a5-e7ed8bce2389",
+      "stored_name": "Bãi Biển Phạm Văn Đồng",
+      "stated": true,
+      "name": "Phạm Văn Đồng Beach",
+      "name_local": "Bãi biển Phạm Văn Đồng",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:fb07e1a4-9961-424d-992e-a524dc8029b4",
+      "stored_name": "Bún Mắm Thu (16 Nguyễn Thiện Thuật)",
+      "stated": true,
+      "name": "Bún Mắm Thu",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:1a92d887-4a16-430a-9f39-02bbcc209549",
+      "stored_name": "Bánh mì 142 ( Cô Thắm )",
+      "stated": true,
+      "name": "Bánh Mì 142 Cô Thắm",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:d14d8a47-5fda-46cd-a6d8-3b8342762635",
+      "stored_name": "BÁNH TRÁNG THỊT HEO ĐẠI LỘC - Quán ĐẠI LỘC 97 & 148 Trưng Nữ Vương.",
+      "stated": true,
+      "name": "Bánh Tráng Thịt Heo Đại Lộc (Trưng Nữ Vương)",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:6a72dd1ff57dfa7afaf6845d",
+      "stored_name": "Bò Né Mùi (Bo Ne Mui) – Beef Steak",
+      "stated": true,
+      "name": "Bò Né Mùi",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50494f27e4b0cf8db2fe17b0",
+      "stored_name": "Bún Chả Cá Bà Phiến (Bà Thừa)",
+      "stated": true,
+      "name": "Bún Chả Cá Bà Phiến",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:d3c22e0c-47fe-4a8b-ba48-fc28d07f47b1",
+      "stored_name": "Bún Chả Cá Hoa - 286 Tú Mỡ",
+      "stated": true,
+      "name": "Bún Chả Cá Hoa",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f898577e4b055d230030023",
+      "stored_name": "Bún Chả Cá Ông Tạ 113A Nguyễn Chí Thanh",
+      "stated": true,
+      "name": "Bún Chả Cá Ông Tạ",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:485b3219-87a3-49e6-8955-a19edf2fce0b",
+      "stored_name": "Bún Thịt Nướng Cô Chi ( Bà Muối )",
+      "stated": true,
+      "name": "Bún Thịt Nướng Cô Chi",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:59f155d68a6f176651eeb1d0",
+      "stored_name": "Cong Caphe",
+      "stated": true,
+      "name": "Cộng Cà Phê (Hội An)",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5dfdd86f3b4c440008334d1d",
+      "stored_name": "Cong Caphe",
+      "stated": true,
+      "name": "Cộng Cà Phê (Lý Tự Trọng)",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:53d25987498ea84ed3871368",
+      "stored_name": "Cộng Càphê",
+      "stated": true,
+      "name": "Cộng Cà Phê (Bạch Đằng)",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:878c01c6-e79a-40b1-b74e-a26578bbaf5b",
+      "stored_name": "Cà Phê Trứng 3T - Cầu Rồng - Đà Nẵng",
+      "stated": true,
+      "name": "Cà Phê Trứng 3T",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:7b59c4eb-4e88-4b31-b7ed-4df822011fd7",
+      "stored_name": "Da Nang Pancake Restaurants - 다낭 바인 쌔오식당 - ダナン バインセオ レストラン",
+      "stated": true,
+      "name": "Da Nang Pancake Restaurant",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b7ee27b5-2a3b-481f-b11f-7f2f087231b4",
+      "stored_name": "Gỏi Cá Lạc - 150 Lê Tấn Trung",
+      "stated": true,
+      "name": "Gỏi Cá Lạc",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:c07667a0-541e-46f8-8da1-d5b8aee77861",
+      "stored_name": "Hoang Meo - Cà Phê Muối Đà Nẵng",
+      "stated": true,
+      "name": "Hoang Meo Cà Phê Muối",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:10e589fb-ea1e-498a-954c-607a7512023b",
+      "stored_name": "Mì Quảng 92 - 246 Đỗ Bá",
+      "stated": true,
+      "name": "Mì Quảng 92",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:69cfaa494aa26f4868a077a6",
+      "stored_name": "Mẹt Hội An - Vietnamese Restaurant & Vegetarian Food",
+      "stated": true,
+      "name": "Mẹt Hội An",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:2272b258-9c84-4588-8ce8-3f1f182a17bc",
+      "stored_name": "Nướng Bơ Đà Nẵng - Nướng bơ 1986",
+      "stated": true,
+      "name": "Nướng Bơ 1986",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:3c0b34c2-78c5-4ede-928e-0dd966e59e81",
+      "stored_name": "Pistachio Restaurant Da Nang – Vietnamese Cuisine, Live Cooking Experience",
+      "stated": true,
+      "name": "Pistachio Restaurant Da Nang",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:9d5ee9c9-b38a-4416-a460-5c3b43dabacb",
+      "stored_name": "Poomba’s Smokehouse American BBQ- Le Quang Dao",
+      "stated": true,
+      "name": "Poomba’s Smokehouse",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e0dcb15b0fb59de67cf7bc7",
+      "stored_name": "Quán Ăn Vườn Xưa - Old Garden",
+      "stated": true,
+      "name": "Quán Ăn Vườn Xưa",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67cac13cc86ec43f045b0b1b",
+      "stored_name": "Rau Ơi Eatery - Vegan Food And Cooking Classes",
+      "stated": true,
+      "name": "Rau Ơi Eatery",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:740d5513-0a93-486a-a09e-2be86afa0a1a",
+      "stored_name": "The View - Yacht Restaurant Booking",
+      "stated": true,
+      "name": "The View Yacht Restaurant",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:faecabef-f68f-43be-a964-ba8b63102916",
+      "stored_name": "Ốc Phụng (Ba Phụng) - Nhậu bình dân",
+      "stated": true,
+      "name": "Ốc Phụng",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:58562d4f-7e94-4f04-805f-5ddfa3c85c5b",
+      "stored_name": "Kem Dừa Mã Lai - Mr. Quân",
+      "stated": true,
+      "name": "Kem Dừa Mã Lai Mr. Quân",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:bd0c59ed-3ef6-4ff4-b8d8-1367970f35e1",
+      "stored_name": "Avocuddle - Chè Bơ & Ice Cream",
+      "stated": true,
+      "name": "Avocuddle",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:69e470892c57740afe51c0b5",
+      "stored_name": "Black Pearl - World Foods",
+      "stated": true,
+      "name": "Black Pearl",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:881e968e-267e-470c-b6be-558ad96f7bb8",
+      "stored_name": "Duyên - Gà Nướng Mắm Nhĩ",
+      "stated": true,
+      "name": "Duyên Gà Nướng Mắm Nhĩ",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67cbd6b4a1867c07ca61ea6d",
+      "stored_name": "Bliss Spa In Danang Bliss Spa Đà Nẵng",
+      "stated": true,
+      "name": "Bliss Spa Đà Nẵng",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8b4a180d-9d54-463c-ae1f-1e9f0134ed36",
+      "stored_name": "Golden Lotus Smile Dental - Nha Khoa Quốc Tế Đà Nẵng",
+      "stated": true,
+      "name": "Golden Lotus Smile Dental",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:57f50bc1-bd23-45b1-848e-9690f334240e",
+      "stored_name": "Nha Khoa Tâm An Đà Nẵng - Serenity International Dental Center Da Nang",
+      "stated": true,
+      "name": "Serenity International Dental Center",
+      "name_local": "Nha Khoa Tâm An Đà Nẵng",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:c116645d-7e41-4924-bc52-c4641568d634",
+      "stored_name": "Nhà thuốc Circa Central Đống Đa Đà Nẵng - Giao hàng 30 phút - Mở cửa 24/7",
+      "stated": true,
+      "name": "Nhà thuốc Circa Central Đống Đa",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fc2e619e4b0ed7962676dfe",
+      "stored_name": "Benh Vien Da Khoa Da Nang",
+      "stated": true,
+      "name": "Da Nang Hospital",
+      "name_local": "Bệnh viện Đà Nẵng",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:10645942-a8b9-42c2-8a43-7c8aeb18b422",
+      "stored_name": "Medical Tourism - Thien Nhan Hospital",
+      "stated": true,
+      "name": "Thiện Nhân Hospital",
+      "name_local": "Bệnh viện Thiện Nhân",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f6cc9ef5-34a2-40b3-bd1e-381e518c6251",
+      "stored_name": "Da Nang Oncology Hospital",
+      "stated": true,
+      "name_local": "Bệnh viện Ung bướu Đà Nẵng",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:08e3d3c4-0637-432f-b466-163a9b6515ac",
+      "stored_name": "BVDK Gia Dinh",
+      "stated": true,
+      "name": "Gia Đình General Hospital",
+      "name_local": "Bệnh viện Đa khoa Gia Đình",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b9553857-7db8-4897-83af-2a9f8f3972ec",
+      "stored_name": "Bệnh viện 199",
+      "stated": true,
+      "name": "Hospital 199",
+      "name_local": "Bệnh viện 199",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:d3b123dc-558f-4a32-833e-26c4580f93e9",
+      "stored_name": "Bệnh Viện C Đà Nẵng",
+      "stated": true,
+      "name": "Hospital C Da Nang",
+      "name_local": "Bệnh viện C Đà Nẵng",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 372433951 “Bệnh viện C Đà Nẵng” (amenity=hospital)",
+        "lat": 16.07319,
+        "lng": 108.21664,
+        "off_m": 96
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:52993dc811d2d664ab5499d6",
+          "stored_name": "Benh Vien C Da Nang"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4d06dae830a58cfa6473ade7",
+      "stored_name": "Chợ Cồn (Con Market)",
+      "stated": true,
+      "name": "Con Market",
+      "name_local": "Chợ Cồn",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4ca6b653b7106dcb733161a5",
+      "stored_name": "Chợ Hàn (Han Market)",
+      "stated": true,
+      "name": "Han Market",
+      "name_local": "Chợ Hàn",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8fa93014-60f3-42a6-89a3-9183c2683b7d",
+      "stored_name": "Chợ Hội An",
+      "stated": true,
+      "name": "Hội An Market",
+      "name_local": "Chợ Hội An",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f3099cee4b0f99d8784458d",
+      "stored_name": "Bảo Tàng Hội An",
+      "stated": true,
+      "name": "Hội An Museum",
+      "name_local": "Bảo tàng Hội An",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b780748b-2546-47a4-b6f1-04adf53f69a6",
+      "stored_name": "Bảo Tàng Khu 5",
+      "stated": true,
+      "name": "Military Zone 5 Museum",
+      "name_local": "Bảo tàng Khu 5",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:69ef0ba7-61b5-495c-a36c-b83b73878448",
+      "stored_name": "Bảo tàng Ký  ức Điêu khắc Đá mỹ nghệ Non Nước - Ngũ Hành Sơn",
+      "stated": true,
+      "name": "Bảo tàng Ký ức Điêu khắc Đá mỹ nghệ Non Nước",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5cca968d9cadd9002c61963b",
+      "stored_name": "Bảo Tàng Nghề Y Truyền Thống Hội An (Hoi An Museum of Traditional Medicine)",
+      "stated": true,
+      "name": "Hội An Museum of Traditional Medicine",
+      "name_local": "Bảo tàng Nghề Y Truyền thống Hội An",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50daebdae4b05cc5f56e54b7",
+      "stored_name": "Bảo tàng Văn hóa Dân gian Hội An (Museum of Folklore in Hoi An)",
+      "stated": true,
+      "name": "Hội An Museum of Folk Culture",
+      "name_local": "Bảo tàng Văn hóa Dân gian Hội An",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f782097e4b05cde618102dd",
+      "stored_name": "Bảo Tàng Văn Hóa Sa Huỳnh (Sa Huynh Culture Museum)",
+      "stated": true,
+      "name": "Sa Huỳnh Culture Museum",
+      "name_local": "Bảo tàng Văn hóa Sa Huỳnh",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e0d32b5d4c0f6d6b3ee5e9f",
+      "stored_name": "Bảo Tàng Điêu Khắc Chăm Đà Nẵng (Danang Museum of Cham Sculpture)",
+      "stated": true,
+      "name": "Museum of Cham Sculpture",
+      "name_local": "Bảo tàng Điêu khắc Chăm Đà Nẵng",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50d6712ee4b0487c366699d5",
+      "stored_name": "Bảo tàng Đồng Đình",
+      "stated": true,
+      "name": "Đồng Đình Museum",
+      "name_local": "Bảo tàng Đồng Đình",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:87b5d96a-ff85-4df6-b873-0146f8494fd6",
+      "stored_name": "Chùa Non Nước , Ngũ Hành Sơn, Đà Nẵng",
+      "stated": true,
+      "name": "Chùa Non Nước",
+      "category": "temple_shrine",
+      "why": "Name: one name, filed as museum.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:045a93ab-eec0-410b-bd21-c9ed529fed4f",
+      "stored_name": "Di Tích Lịch Sử Thành Cổ Điện Hải",
+      "stated": true,
+      "name": "Điện Hải Citadel",
+      "name_local": "Thành Điện Hải",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:053c4295-2e37-4f8a-bdc9-ae1ef701f535",
+      "stored_name": "Ho Chi Minh Museum",
+      "stated": true,
+      "name_local": "Bảo tàng Hồ Chí Minh",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fea6bece4b047fa4b6adcb6",
+      "stored_name": "Hầm Rượu De Bay",
+      "stated": true,
+      "name": "Debay Wine Cellar",
+      "name_local": "Hầm rượu Debay",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:80699d26-baa6-475a-9ccd-7070c126b3ef",
+      "stored_name": "Nhà Trưng bày Hoàng Sa",
+      "stated": true,
+      "name": "Hoàng Sa Exhibition House",
+      "name_local": "Nhà Trưng bày Hoàng Sa",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:33ccad97-e28b-4c07-a2a9-ef28d836e5de",
+      "stored_name": "Thanh Ha Terracotta Park",
+      "stated": true,
+      "name": "Thanh Hà Terracotta Park",
+      "name_local": "Công viên Đất nung Thanh Hà",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5007c4cde4b092cb6016790d",
+      "stored_name": "Mother Âu Cơ Statue",
+      "stated": true,
+      "name_local": "Tượng Mẹ Âu Cơ",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67d51a479b541b72bda8b948",
+      "stored_name": "APEC Park",
+      "stated": true,
+      "name_local": "Công viên APEC",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6b86c150-b215-41fa-a166-88d8e7ee3790",
+      "stored_name": "Cây Đa Ngàn Năm",
+      "stated": true,
+      "name": "Thousand-Year Banyan Tree",
+      "name_local": "Cây Đa Ngàn Năm",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5bff7210b77c77002c359b50",
+      "stored_name": "Hòn Thủy Sơn",
+      "stated": true,
+      "name": "Thủy Sơn Mountain",
+      "name_local": "Hòn Thủy Sơn",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:d6112286-7c23-49fb-acd4-3a51addd6e0d",
+      "stored_name": "Khu Du Lịch Suối Khoáng Nóng Núi Thần Tài",
+      "stated": true,
+      "name": "Núi Thần Tài Hot Springs Park",
+      "name_local": "Khu du lịch Suối khoáng nóng Núi Thần Tài",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:fc598301-9755-4d3b-855f-69d6f38e203a",
+      "stored_name": "Quảng Trương Sông Hoài",
+      "stated": true,
+      "name": "Sông Hoài Square",
+      "name_local": "Quảng trường Sông Hoài",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:9b3e431e-17da-4d54-8eae-3ad37fbd9a03",
+      "stored_name": "Sông Thu Bồn",
+      "stated": true,
+      "name": "Thu Bồn River",
+      "name_local": "Sông Thu Bồn",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 1356609131 “Sông Thu Bồn” (waterway=river)",
+        "lat": 15.86611,
+        "lng": 108.33553,
+        "off_m": 1337
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4e476c6062845e1d3c9ff303",
+          "stored_name": "Sông Thu Bồn"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:390358e6-fc2a-4209-a4df-ce02a2a8839c",
+      "stored_name": "Van Thong cave - Ngu Hanh Son Mountain",
+      "stated": true,
+      "name": "Vân Thông Cave",
+      "name_local": "Động Vân Thông",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f3c4328e4b0d615302b3181",
+      "stored_name": "Đồi Vọng Cảnh Sơn Trà (Son Tra Lookout)",
+      "stated": true,
+      "name": "Sơn Trà Lookout",
+      "name_local": "Đồi Vọng Cảnh Sơn Trà",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5b09290c31ac6c002cf8433d",
+      "stored_name": "Kazik Park",
+      "stated": true,
+      "name_local": "Công viên Kazik",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8a4bd844-9f4c-4e4a-8478-4ff6dafa57d1",
+      "stored_name": "1988 Beer Lounge - Nguyễn Sinh Sắc",
+      "stated": true,
+      "name": "1988 Beer Lounge",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:18cc84ef-c918-4520-a84f-ae050f6b331f",
+      "stored_name": "An Thuong Walking Street - PHỐ ĐI BỘ",
+      "stated": true,
+      "name": "An Thượng Walking Street",
+      "name_local": "Phố đi bộ An Thượng",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:67acd02786b4d27fb9fcaade",
+      "stored_name": "ANGEL LOUNGE",
+      "stated": true,
+      "name": "Angel Lounge",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:624d99c9-6b52-4c6e-bb06-c273e71d0825",
+      "stored_name": "Carol Lounge - 28D Đống Đa - DN",
+      "stated": true,
+      "name": "Carol Lounge",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:ea15f6c8-da9c-4f29-8ce0-40cb530a2fbd",
+      "stored_name": "Kameyoshi Bar - Hidden Japanese Bar In Danang",
+      "stated": true,
+      "name": "Kameyoshi Bar",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:55b83c37-f47b-4174-b73e-3fbb7c076397",
+      "stored_name": "Marine Sky Bar-Rooftop SeaView with Exclusive Spa Offers",
+      "stated": true,
+      "name": "Marine Sky Bar",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:a1a8c90e-eee0-441c-9b39-8f802db0b142",
+      "stored_name": "Tây Nguyên Soul wine & cocktail bar - best craft cocktail & local spirits in Da Nang.",
+      "stated": true,
+      "name": "Tây Nguyên Soul",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6d8b4131-4970-49ab-a886-d49c7a940967",
+      "stored_name": "BUNNY Bar & Lounge",
+      "stated": true,
+      "name": "Bunny Bar & Lounge",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:a054ce33-928c-4ea8-81a8-4b3507320463",
+      "stored_name": "Chèo SUP Đà Nẵng - Danang Stand Up Paddle Board Tours & Rentals",
+      "stated": true,
+      "name": "Chèo SUP Đà Nẵng",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:bad9985d-4266-4317-bea7-35f1d23a35f0",
+      "stored_name": "Tran Thi Ly Bridge",
+      "stated": true,
+      "name": "Trần Thị Lý Bridge",
+      "name_local": "Cầu Trần Thị Lý",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:56bd64ae498edb43b2a6b78a",
+      "stored_name": "Nhà cổ Quân Thắng",
+      "stated": true,
+      "name": "Quân Thắng Old House",
+      "name_local": "Nhà cổ Quân Thắng",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f0e02216-2d20-44fe-96c0-8ed38330efb9",
+      "stored_name": "A Dong Silk Hoi An Tailor - Custom Suits",
+      "stated": true,
+      "name": "A Dong Silk",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:ad52499e-005c-4dd5-8fbf-e8ab23538187",
+      "stored_name": "Xưởng Lồng Đèn Hội An - Chuyên Sỉ & Lẻ Đèn Lồng Giá Tốt",
+      "stated": true,
+      "name": "Xưởng Lồng Đèn Hội An",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:67738568-215c-460f-bb0b-04468163c4b9",
+      "stored_name": "Chùa Bà Thiên Hậu Ngũ Bang Đà Nẵng 天后宮",
+      "stated": true,
+      "name": "Chùa Bà Thiên Hậu Ngũ Bang",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:4674296a-3715-4ecf-9550-0a847d2320a0",
+      "stored_name": "Chùa Quan Thế Âm Ngũ Hành Sơn Đà Nẵng",
+      "stated": true,
+      "name": "Chùa Quan Thế Âm",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:f9e405d6-4b4a-4a01-b984-0aea1ef5ea18",
+      "stored_name": "Chùa Viên Quang - Vien Quang Pagoda",
+      "stated": true,
+      "name": "Chùa Viên Quang",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:7b63b1b2-06b4-4e97-9222-3cf44de42091",
+      "stored_name": "Hội An Tiên Tự (Hoi An Ancestral Temple)",
+      "stated": true,
+      "name": "Hội An Ancestral Temple",
+      "name_local": "Hội An Tiên Tự",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4f4079fde4b0f4d09b771650",
+      "stored_name": "Hội quán Hải Nam",
+      "stated": true,
+      "name": "Hainan Assembly Hall",
+      "name_local": "Hội quán Hải Nam",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50dabb1de4b0fb6f171c2504",
+      "stored_name": "Hội quán Triều Châu",
+      "stated": true,
+      "name": "Teochew Assembly Hall",
+      "name_local": "Hội quán Triều Châu",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 448044645 “Hội quán Triều Châu” (building=yes)",
+        "lat": 15.87791,
+        "lng": 108.33303,
+        "off_m": 33
+      },
+      "merge": [
+        {
+          "ref": "overture:36b0f1f6-91b2-43dd-9bb0-61284143a328",
+          "stored_name": "Hoi Quan Trieu Chau"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:39647ce8-c93d-4260-ab70-33844107c45c",
+      "stored_name": "Linh Phong Tower/Stupa",
+      "stated": true,
+      "name": "Linh Phong Stupa",
+      "name_local": "Tháp Linh Phong",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4c26198a136d20a14ba5e461",
+      "stored_name": "Nhà thờ Chính Tòa Đà Nẵng (Da Nang Cathedral)",
+      "stated": true,
+      "name": "Da Nang Cathedral",
+      "name_local": "Nhà thờ Chính tòa Đà Nẵng",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fa090d8e4b0f2a774cffefb",
+      "stored_name": "Tháp Bằng An",
+      "stated": true,
+      "name": "Bằng An Tower",
+      "name_local": "Tháp Bằng An",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e3131f5ae6085c3ad180c47",
+      "stored_name": "Thích Ca Phật Đài - Bà Nà",
+      "stated": true,
+      "name": "Thích Ca Phật Đài (Bà Nà)",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:afddeffc-eeb2-4605-ab9a-21d8278f1831",
+      "stored_name": "Tran Family Chapel",
+      "stated": true,
+      "name_local": "Nhà thờ tộc Trần",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:8aba770c-3bc6-46b9-bba6-22d99cba989c",
+      "stored_name": "Tòa Thánh Tây Ninh-Châu Đốc Quảng Nam Thánh Thất Hội An",
+      "stated": true,
+      "name": "Thánh Thất Cao Đài Hội An",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:4404f093-c21a-45b3-81a1-10864036628b",
+      "stored_name": "Tượng Phật nằm",
+      "stated": true,
+      "name": "Reclining Buddha",
+      "name_local": "Tượng Phật nằm",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:50bad1a0e4b011c4a86bed1c",
+      "stored_name": "Động Âm Phủ",
+      "stated": true,
+      "name": "Âm Phủ Cave",
+      "name_local": "Động Âm Phủ",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4fb86b3de4b029bc2266cfec",
+      "stored_name": "Tháp Xá Lợi",
+      "stated": true,
+      "name": "Xá Lợi Tower",
+      "name_local": "Tháp Xá Lợi",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4e0eb23fd22d8582bdc22e49",
+      "stored_name": "Bến Xe Hội An (Hoi An Bus Station)",
+      "stated": true,
+      "name": "Hội An Bus Station",
+      "name_local": "Bến xe Hội An",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:4be6a31d9026ef3b63da0a38",
+      "stored_name": "Da Nang International Airport",
+      "stated": true,
+      "name_local": "Sân bay quốc tế Đà Nẵng",
+      "why": "Name: local name set. 3 more records of the name outside the recommended set fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 1457819839 “Hải quan cửa khẩu Sân bay Quốc tế Đà Nẵng” (office=government)",
+        "lat": 16.05877,
+        "lng": 108.20324,
+        "off_m": 662
+      },
+      "merge": [
+        {
+          "ref": "overture:7ac8be14-14e8-4b53-9df4-a02f3e592335",
+          "stored_name": "Da Nang International Airport"
+        },
+        {
+          "ref": "overture:845e880b-c782-4fff-bd22-4887a5ebde8b",
+          "stored_name": "Da Nang International Airport"
+        },
+        {
+          "ref": "overture:92e56564-a145-47e6-8b7c-f43815c018b3",
+          "stored_name": "Da Nang International Airport"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:563b4d32cd109d1223bea5d1",
+      "stored_name": "artist alley restaurant",
+      "stated": true,
+      "name": "Artist Alley Restaurant",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5ae5c1d6d1a402002c674160",
+      "stored_name": "bánh ướt lòng gà",
+      "stated": true,
+      "name": "Bánh Ướt Lòng Gà",
+      "why": "Name: name set in one spelling. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6152501985 “Bánh ướt lòng gà” (amenity=restaurant)",
+        "lat": 11.94385,
+        "lng": 108.43492,
+        "off_m": 33
+      },
+      "merge": [
+        {
+          "ref": "overture:2c74a25f-e10d-4716-ae8e-c1e45303d2b5",
+          "stored_name": "Banh Uot Long Ga"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:71ffaf0b-5385-48b8-8cfc-bae184d31667",
+      "stored_name": "BÁNH MÌ HÀ",
+      "stated": true,
+      "name": "Bánh Mì Hà",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:87f2c9fa-06f8-4ef3-8799-0bbeae52fd2b",
+      "stored_name": "BÁNh MÌ XÍU MẠI 79",
+      "stated": true,
+      "name": "Bánh Mì Xíu Mại 79",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c7c6427d-17ce-4890-a667-007b44646f4a",
+      "stored_name": "cà phê H36",
+      "stated": true,
+      "name": "Cà Phê H36",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:b0aab0d2-5902-439a-b804-3c8ca8e7fbee",
+      "stored_name": "Cà phê Nhớ Hoài (Bối cảnh chính gốc phim Em và Trịnh)",
+      "stated": true,
+      "name": "Cà phê Nhớ Hoài",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2d018fe3-d0b8-42eb-8207-cfe888be4fb9",
+      "stored_name": "Cà Phê Chồn - Trại Hầm Đà Lạt - Weasel Coffee",
+      "stated": true,
+      "name": "Cà Phê Chồn Trại Hầm",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:64f57a68e1af290dcbb6d57b",
+      "stored_name": "phở hiếu",
+      "stated": true,
+      "name": "Phở Hiếu",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:56652144498e64f8eb3de749",
+      "stored_name": "one more cafe",
+      "stated": true,
+      "name": "One More Cafe",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:da089f8d-16bb-4805-85c2-08f12e638a84",
+      "stored_name": "LẨU ATISÔ - Bếp Chú Đạt",
+      "stated": true,
+      "name": "Lẩu Atisô Bếp Chú Đạt",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:34c1f1fb-ee4b-4555-ae77-78db8c9a931c",
+      "stored_name": "LẨU GÀ LÁ É 3/4",
+      "stated": true,
+      "name": "Lẩu Gà Lá É 3/4",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:655f36f1d3a1052bfe8d7ba0",
+      "stored_name": "Lẩu gà lá é Tao Ngộ (30 Bùi Thị Xuân)",
+      "stated": true,
+      "name": "Lẩu Gà Lá É Tao Ngộ (Bùi Thị Xuân)",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:1ae65256-7fba-4e5d-84cb-e1d3ebf96910",
+      "stored_name": "Lẩu gà lá é Tao Ngộ QUÁN GỐC KHÔNG CHI NHÁNH",
+      "stated": true,
+      "name": "Lẩu Gà Lá É Tao Ngộ",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:16b367cf-5015-4f12-929a-7932465d3d0e",
+      "stored_name": "Lẩu Gà Lá Dít - 4C Yersin Đà Lạt",
+      "stated": true,
+      "name": "Lẩu Gà Lá Dít",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5f2a2521-c1c0-40aa-b101-fe367b9e21b4",
+      "stored_name": "Nem nướng gia truyền Hà Tốt - Authentic Family-Recipe Grilled Pork Rolls",
+      "stated": true,
+      "name": "Nem Nướng Hà Tốt",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4e1d4424d1640dd25204aa7b",
+      "stored_name": "Nhat Ly Restaurant(Nhà Hàng Nhật Ly)",
+      "stated": true,
+      "name": "Nhật Ly Restaurant",
+      "name_local": "Nhà hàng Nhật Ly",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4d9a91b45e52224b0c2230e3",
+      "stored_name": "Thanh Thủy Restaurant (Blue Water Restaurant)",
+      "stated": true,
+      "name": "Thanh Thủy Restaurant",
+      "name_local": "Nhà hàng Thanh Thủy",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ae0b9fdf-33a1-49aa-8599-c1b58e245052",
+      "stored_name": "Nem Nướng Văn Chung - Nguyễn Văn Cừ",
+      "stated": true,
+      "name": "Nem Nướng Văn Chung",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d2dbac49-15b9-4796-aeee-bb1ca0ae4701",
+      "stored_name": "Phở Bò Nam Quang -Hoàng Diệu ",
+      "stated": true,
+      "name": "Phở Bò Nam Quang",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:fb07c404-24fc-4968-8610-812aa97059fb",
+      "stored_name": "Gốc Đa Quán - Quán ăn gia đình",
+      "stated": true,
+      "name": "Gốc Đa Quán",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8f896c60-1b09-4b8e-8494-fc25e0eb5aab",
+      "stored_name": "Gốm Coffee - khu biệt thự cổ Nguyễn Viết Xuân",
+      "stated": true,
+      "name": "Gốm Coffee",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:67bd1928-accf-40db-a0d6-93ec9ae274e9",
+      "stored_name": "Tiệm Gà Hạnh Phúc - Gà Nướng Cơm Lam & Lẩu Gà Lá é",
+      "stated": true,
+      "name": "Tiệm Gà Hạnh Phúc",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:21a80694-9ad5-4a1b-86fe-94dfad58f8c5",
+      "stored_name": "Tây Nguyên Quán - Heo Tộc Quay Lu, Lẩu Bò Trùng Khánh",
+      "stated": true,
+      "name": "Tây Nguyên Quán",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:484f1232-238c-443a-b59c-33cda0b7c56c",
+      "stored_name": "Meander Dalat - Specialty Coffee & Matcha",
+      "stated": true,
+      "name": "Meander Dalat",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:05402a73-81e9-42d0-9959-acada1a1d738",
+      "stored_name": "Mew Roastery - Specialty Coffee",
+      "stated": true,
+      "name": "Mew Roastery",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c0703de8-61ad-455f-8e8e-ef65dd90edba",
+      "stored_name": "Quán Gà Đồi - Nhậu Bình Dân",
+      "stated": true,
+      "name": "Quán Gà Đồi",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d6565470-8d5f-414c-8d13-304292754779",
+      "stored_name": "Làng Hoa Thái Phiên - Đà Lạt",
+      "stated": true,
+      "name": "Thái Phiên Flower Village",
+      "name_local": "Làng hoa Thái Phiên",
+      "category": "nature",
+      "why": "Name: one name, local name set, filed as food.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:37205c7a-e280-4235-a0fa-f5dc64327ea1",
+      "stored_name": "Biệt điện Trần Lệ Xuân",
+      "stated": true,
+      "name": "Trần Lệ Xuân Villa",
+      "name_local": "Biệt điện Trần Lệ Xuân",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:df3336ab-12cb-4382-869e-42087af64e10",
+      "stored_name": "Di Tích Lịch Sử Quốc Gia Nhà Lao Thiếu Nhi Đà Lạt Di Tich Lich Su Quoc Gia Nha Lao Thieu Nhi Da Lat",
+      "stated": true,
+      "name": "Đà Lạt Children’s Prison",
+      "name_local": "Nhà lao Thiếu nhi Đà Lạt",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e855d600-8b03-417d-9b3a-fc47f40aa971",
+      "stored_name": "Dinh 1 Đà Lạt",
+      "stated": true,
+      "name": "Dinh I Palace",
+      "name_local": "Dinh I",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:01cfebf8-3352-498d-a8c2-9f13eae00ee6",
+      "stored_name": "Dinh Bảo Đại II",
+      "stated": true,
+      "name": "Bảo Đại Palace II (Dinh II)",
+      "name_local": "Dinh Bảo Đại II",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:52aadb0f-3fe3-4b51-ac37-bd19a23a133c",
+      "stored_name": "Du lịch làng hoa Vạn Thành Đà Lạt",
+      "stated": true,
+      "name": "Vạn Thành Flower Village",
+      "name_local": "Làng hoa Vạn Thành",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:17f8576a-d0b8-42f3-acfa-6523a632e6ea",
+      "stored_name": "KDL Thác Bảo Đại - Hồ Tuyền Lâm",
+      "stated": true,
+      "name": "Bảo Đại Waterfall",
+      "name_local": "Thác Bảo Đại",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:efaad3d8-c36f-4f0a-a74a-7745f1d16394",
+      "stored_name": "Làng Cù Lần",
+      "stated": true,
+      "name": "Cù Lần Village",
+      "name_local": "Làng Cù Lần",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:53bcd768-bdde-4ec0-9756-a10d3b4492a3",
+      "stored_name": "Statue of Golden Buddha",
+      "stated": true,
+      "name_local": "Tượng Phật Vàng",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8a74653b-c582-44f1-aa20-19996a56ba05",
+      "stored_name": "Vườn Thú Zoodoo Đà Lạt",
+      "stated": true,
+      "name": "Zoodoo Đà Lạt",
+      "name_local": "Vườn thú Zoodoo Đà Lạt",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4cede7400acea35d2befe6ae",
+      "stored_name": "XQ Sử Quán",
+      "stated": true,
+      "name": "XQ Historical Village",
+      "name_local": "XQ Sử Quán",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:dcae9e75-304f-4442-b4e6-55366add3d38",
+      "stored_name": "Điểm Dã Ngoại Suối Vàng-Suối Bạc Diem Da Ngoai Suoi Vang-Suoi Bac",
+      "stated": true,
+      "name": "Điểm dã ngoại Suối Vàng - Suối Bạc",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:e94f9abe-8999-403b-ae4f-4bdecc5d376f",
+      "stored_name": "Cam Ly Waterfall",
+      "stated": true,
+      "name_local": "Thác Cam Ly",
+      "must_see": false,
+      "revise": {
+        "why_go": "A small waterfall at the western edge of town; the stream carries the city's waste water and often smells, so it is a brief look at most.",
+        "crowd_hint": "Few visitors"
+      },
+      "claim": {
+        "said": "must-see",
+        "finding": "Vietnamese Wikipedia has a section \"Ô nhiễm nghiêm trọng\" (seriously polluted): from early 2011 the falls are \"seriously polluted, foul-smelling, low on water\", taking the city's untreated waste water. Wikivoyage's Da Lat guide does not list the falls. The flag is cleared and the note says so.",
+        "source": "https://vi.wikipedia.org/wiki/Th%C3%A1c_Cam_Ly"
+      },
+      "why": "Name: local name set. No longer a must-see: commonly described as polluted. It stays a recommended place.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3494fa74-526a-40af-800d-0916b88356e2",
+      "stored_name": "Công Viên Ánh Sáng Cong Vien Anh Sang",
+      "stated": true,
+      "name": "Công viên Ánh Sáng",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5025b6af-e2d9-456a-8a03-4f0ecf91f657",
+      "stored_name": "Delight Park Dalat Khu Du lịch Vui Chơi Giải trí",
+      "stated": true,
+      "name": "Delight Park Dalat",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:eb0d16eb-188f-4b4b-ae9a-d0bca60a07a3",
+      "stored_name": "Hồ Than Thở",
+      "stated": true,
+      "name": "Lake of Sighs",
+      "name_local": "Hồ Than Thở",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:5415d2a0-d421-4309-ad0d-fb45cb575cf8",
+      "stored_name": "Hồ Tuyền Lâm",
+      "stated": true,
+      "name": "Tuyền Lâm Lake",
+      "name_local": "Hồ Tuyền Lâm",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 125165263 “Hồ Tuyền Lâm” (water=reservoir)",
+        "lat": 11.8908,
+        "lng": 108.42508,
+        "off_m": 245
+      },
+      "merge": [
+        {
+          "ref": "overture:cc1873f4-f8a6-4679-b859-b14a4b2091ad",
+          "stored_name": "Hồ Tuyền Lâm"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q16480637",
+      "stored_name": "Hồ Đơn Dương",
+      "stated": true,
+      "name": "Đơn Dương Lake",
+      "name_local": "Hồ Đơn Dương",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3982f2b2-efbf-42bd-b083-29ca3525ac15",
+      "stored_name": "Khu du lịch Thác Prenn",
+      "stated": true,
+      "name": "Prenn Waterfall",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c7047b81-0861-4203-91b0-6334fe456eae",
+      "stored_name": "Langfarm Center - Nông Trại Cổ Tích",
+      "stated": true,
+      "name": "Langfarm Center",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5ca2f07f2db4a9002cdd0c9f",
+      "stored_name": "Nhà dâu ICHIGO",
+      "stated": true,
+      "name": "Nhà Dâu Ichigo",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:bd1d36af-1948-48dd-8334-c210877e0cdd",
+      "stored_name": "Thung lũng Vàng Đà Lạt",
+      "stated": true,
+      "name": "Golden Valley",
+      "name_local": "Thung lũng Vàng",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q32250999",
+      "stored_name": "Thác Gougah",
+      "stated": true,
+      "name": "Gougah Waterfall",
+      "name_local": "Thác Gougah",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2868c09e-5814-40b9-9d8d-10f9892eb5ad",
+      "stored_name": "Đèo Prenn, Đà Lạt",
+      "stated": true,
+      "name": "Prenn Pass",
+      "name_local": "Đèo Prenn",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:9a3da1a0-5ae2-47ca-aefa-59b8b13942dd",
+      "stored_name": "Đỉnh Pinhatt",
+      "stated": true,
+      "name": "Pinhatt Peak",
+      "name_local": "Đỉnh Pinhatt",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:7c8a87d2-2c8c-47b5-8e69-25a996dd8093",
+      "stored_name": "Đồi Mộng Mơ",
+      "stated": true,
+      "name": "Mộng Mơ Hill",
+      "name_local": "Đồi Mộng Mơ",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 473551454 “Khu du lịch Đồi Mộng Mơ” (leisure=resort)",
+        "lat": 11.9793,
+        "lng": 108.4453,
+        "off_m": 184
+      },
+      "merge": [
+        {
+          "ref": "overture:89121191-223a-4a11-9223-f995afe7fd94",
+          "stored_name": "Đồi Mộng Mơ"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:649bcea1c91a8d2df6c1fe30",
+      "stored_name": "Đồi Đa Phú",
+      "stated": true,
+      "name": "Đa Phú Hill",
+      "name_local": "Đồi Đa Phú",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:f2ef2307-70f4-45f5-becd-6b5560bd7a76",
+      "stored_name": "Bến Xe Liên Tỉnh Đà Lạt",
+      "stated": true,
+      "name": "Đà Lạt Intercity Bus Station",
+      "name_local": "Bến xe Liên tỉnh Đà Lạt",
+      "category": "transit",
+      "why": "Name: name set in one spelling, local name set, filed as other.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:3d294d2a-628a-4884-8418-5d5f39ed46b3",
+      "stored_name": "Chùa Liên Trì-Cam Ly Đà Lạt",
+      "stated": true,
+      "name": "Chùa Liên Trì",
+      "category": "temple_shrine",
+      "why": "Name: one name, filed as other.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4da6ab7504377705c2fcf9fb",
+      "stored_name": "Dalat Cable Car Station (Ga cáp treo Đà Lạt)",
+      "stated": true,
+      "name": "Đà Lạt Cable Car Station",
+      "name_local": "Ga cáp treo Đà Lạt",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4da557d70437667c9b29985b",
+      "stored_name": "Ga Trại Mát",
+      "stated": true,
+      "name": "Trại Mát Station",
+      "name_local": "Ga Trại Mát",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:8e63af8f-cb05-4270-a375-91e04946b990",
+      "stored_name": "HẦM RƯỢU Vang Dalat",
+      "stated": true,
+      "name": "Hầm Rượu Vang Dalat",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:d4285171-4138-4793-8517-706c9f05fe06",
+      "stored_name": "Khu Du Lịch Thung Lũng Hồng - Vạn Thành Đà Lạt",
+      "stated": true,
+      "name": "Thung Lũng Hồng Vạn Thành",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c1471a64-116c-4f10-98fd-96665e07380a",
+      "stored_name": "MiA Strawberry - Vườn dâu Nhật công nghệ cao",
+      "stated": true,
+      "name": "MiA Strawberry",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:ed39ba6b-f704-4331-968a-d1084ff52949",
+      "stored_name": "Nguyệt Ca - Sữa Đậu Nành, Đậu Xanh, Bí Đỏ, Sữa Bắp",
+      "stated": true,
+      "name": "Nguyệt Ca",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:c8045459-d5a1-4973-b44a-22f99d6e6555",
+      "stored_name": "Tùng Bách  Gardens Dalat",
+      "stated": true,
+      "name": "Tùng Bách Gardens Dalat",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:511474e7c84c65a2f878705a",
+      "stored_name": "Chùa Linh Sơn",
+      "stated": true,
+      "name": "Linh Sơn Pagoda",
+      "name_local": "Chùa Linh Sơn",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4efebd5293adc82457bcbb0e",
+      "stored_name": "Chùa Tàu (Thiên Vương Cổ Sát Tự)",
+      "stated": true,
+      "name": "Chùa Tàu",
+      "name_local": "Thiên Vương Cổ Sát",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:54b23b9b498e21d894f28eaa",
+      "stored_name": "Linh-Quang Temple",
+      "stated": true,
+      "name": "Linh Quang Pagoda",
+      "name_local": "Chùa Linh Quang",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:6bc5b1a5-157c-4c36-ad2a-7ee83f22050c",
+      "stored_name": "Thiền viện Vạn Hạnh",
+      "stated": true,
+      "name": "Vạn Hạnh Zen Monastery",
+      "name_local": "Thiền viện Vạn Hạnh",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:aa703b5a-961e-4907-8391-1aa77b38277e",
+      "stored_name": "Thánh thất Đa Phước",
+      "stated": true,
+      "name": "Đa Phước Cao Đài Temple",
+      "name_local": "Thánh thất Đa Phước",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "editorial:wikidata-Q42293656",
+      "stored_name": "Đan Viện Thánh Mẫu Châu Sơn Đơn Dương",
+      "stated": true,
+      "name": "Châu Sơn Monastery",
+      "name_local": "Đan viện Thánh Mẫu Châu Sơn",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:10795ca3-30ad-4f7f-afd8-431d4606a75d",
+      "stored_name": "Ben xe Phuong Trang Da Lat",
+      "stated": true,
+      "name": "Phương Trang Bus Station",
+      "name_local": "Bến xe Phương Trang Đà Lạt",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:e8c6764c-7fc7-4066-98c8-b14c1d497585",
+      "stored_name": "Diamond Beach",
+      "stated": true,
+      "name_local": "Pantai Diamond",
+      "why": "Name: local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6338694985 “Panorama on Atuh and Diamond Beach” (tourism=viewpoint)",
+        "lat": -8.77546,
+        "lng": 115.62133,
+        "off_m": 49
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5c56a30f1acf11002c01aa0b",
+          "stored_name": "Diamond Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:52a69e3011d2e69b20905269",
+      "stored_name": "Grand Puncak Sari 2 (Restoran Kintamani)",
+      "stated": true,
+      "name": "Grand Puncak Sari 2",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:6250fcd8d05967199ded2eb4",
+      "stored_name": "Cliffhanger Bali ( Restaurant, Beach Bar, Grill and Lounge)",
+      "stated": true,
+      "name": "Cliffhanger Bali",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:56701d9b237c7aa0a1813589",
+      "stored_name": "マデスワルン",
+      "stated": true,
+      "name": "Made’s Warung",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4cdd38fe5aeda1cd3e19c711",
+      "stored_name": "Gado Gado Restaurant | Bar",
+      "stated": true,
+      "name": "Gado Gado Restaurant",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:69f70d0cc870e221ac7fcb91",
+      "stored_name": "Revolver Umalas - HQ & All Day Cafe",
+      "stated": true,
+      "name": "Revolver Umalas",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:6a4410447249ca6bcd5cfa3c",
+      "stored_name": "Warung M.J. ikan mujair nyat-nyat",
+      "stated": true,
+      "name": "Warung M.J. Ikan Mujair Nyat-Nyat",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c3af81862f1c92877b88e53",
+      "stored_name": "Merdeka Medical Centre (MMC)",
+      "stated": true,
+      "name": "Merdeka Medical Centre",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:eda8f601-ec48-4b62-b9fb-c8ec439a8528",
+      "stored_name": "Rumah Sakit Sanglah",
+      "stated": true,
+      "name": "Sanglah Hospital",
+      "name_local": "Rumah Sakit Sanglah",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f20467aa-2f69-4905-a834-ec8e5cc7290e",
+      "stored_name": "Rumah Sakit Umum Surya Husadha Nusa Dua",
+      "stated": true,
+      "name": "Surya Husadha Hospital Nusa Dua",
+      "name_local": "Rumah Sakit Umum Surya Husadha Nusa Dua",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:512ca9b7e4b0ab95662247fe",
+      "stored_name": "UGD RSUP Sanglah Denpasar",
+      "stated": true,
+      "name": "Sanglah Hospital Emergency Room",
+      "name_local": "UGD RSUP Sanglah Denpasar",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f0df04b9-4687-484d-84e8-46d60cee04fc",
+      "stored_name": "Bali Bombing Memorial (Ground Zero)",
+      "stated": true,
+      "name": "Bali Bombing Memorial",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4ba05876f964a5208e6937e3",
+      "stored_name": "Dewa Ruci Statue (Simpang Siur Roundabout)",
+      "stated": true,
+      "name": "Dewa Ruci Statue",
+      "name_local": "Patung Dewa Ruci",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c79b147bd346dcb3877f6ef",
+      "stored_name": "Garuda Wisnu Kencana Cultural Park (GWK)",
+      "stated": true,
+      "name": "GWK Cultural Park",
+      "name_local": "Taman Budaya Garuda Wisnu Kencana",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:90c67c7e-200a-4319-9b6e-94592efc8291",
+      "stored_name": "Jemeluk Bay Lookout / Agung & Amed View",
+      "stated": true,
+      "name": "Jemeluk Bay Lookout",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bf646f994b2a5930a35adee",
+      "stored_name": "Museum Bali",
+      "stated": true,
+      "name": "Bali Museum",
+      "name_local": "Museum Bali",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 311676978 “Museum Bali” (tourism=museum)",
+        "lat": -8.65765,
+        "lng": 115.21868,
+        "off_m": 22
+      },
+      "merge": [
+        {
+          "ref": "overture:007ce8b2-03a6-4824-b099-7d76d47f22b3",
+          "stored_name": "Museum Bali"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:527ac0ce-306e-4ace-bae0-de94e3d6b97f",
+      "stored_name": "Puri Agung Batuan Sukawati",
+      "stated": true,
+      "name": "Puri Agung Batuan",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:69322b48-eee4-4bf9-b08f-7435716890ff",
+      "stored_name": "Sambangan The Secret Garden - Lovina-Bali",
+      "stated": true,
+      "name": "Sambangan Secret Garden",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c14efd2f1e0b713cbe834bc",
+      "stored_name": "Taman Werdhi Budaya Art Center",
+      "stated": true,
+      "name": "Bali Art Centre",
+      "name_local": "Taman Werdhi Budaya",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bdd320d645e0f4778156b19",
+      "stored_name": "The Blanco Renaissance Museum",
+      "stated": true,
+      "name": "Blanco Renaissance Museum",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:39d35473-1203-4841-a1ce-101a9f25918c",
+      "stored_name": "Bali Barat National Park",
+      "stated": true,
+      "name": "West Bali National Park",
+      "name_local": "Taman Nasional Bali Barat",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:56765e3b498ee8858651a6f1",
+      "stored_name": "Banyumala Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Banyumala",
+      "why": "Name: local name set. 2 more records of the name outside the recommended set fold into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 4423304495 “Banyumala Waterfall” (waterway=waterfall)",
+        "lat": -8.2173,
+        "lng": 115.10166,
+        "off_m": 294
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:55e11d90498e49d8460a419b",
+          "stored_name": "Banyumala Waterfall"
+        },
+        {
+          "ref": "fsq_os:56bb4a86498ee13839ec9892",
+          "stored_name": "Banyumala Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:4a9721e7-6ea4-4330-8dc7-ec871b5a9f67",
+      "stored_name": "Kanto Lampo Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Kanto Lampo",
+      "why": "Name: local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 5235738818 “Kanto Lampo” (waterway=waterfall)",
+        "lat": -8.53234,
+        "lng": 115.33298,
+        "off_m": 186
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:585cdae461052862e7c5b71c",
+          "stored_name": "Kanto Lampo Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:58faa34ac21cb16c175808a7",
+      "stored_name": "Kelingking Beach",
+      "stated": true,
+      "name_local": "Pantai Kelingking",
+      "why": "Name: local name set. 6 more records of the name outside the recommended set fold into it, 4 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap relation 9869698 “Kelingking Beach” (natural=beach)",
+        "lat": -8.75126,
+        "lng": 115.47313,
+        "off_m": 191
+      },
+      "merge": [
+        {
+          "ref": "overture:9b3c2631-08c2-4f37-8604-50e074f9310f",
+          "stored_name": "Kelingking Beach"
+        },
+        {
+          "ref": "fsq_os:58bcc735debdf608b2e73610",
+          "stored_name": "Kelingking Beach"
+        },
+        {
+          "ref": "fsq_os:5338d9e5498e38586583f6b7",
+          "stored_name": "Kelingking Beach"
+        },
+        {
+          "ref": "fsq_os:5d847faf60548300084480ef",
+          "stored_name": "Kelingking Beach"
+        },
+        {
+          "ref": "fsq_os:585a43a5ca10705098c3cf2b",
+          "stored_name": "Kelingking Beach"
+        },
+        {
+          "ref": "fsq_os:5a6efe851f8ed63277cd8f6c",
+          "stored_name": "Kelingking Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:95c41da8-a8d5-4685-b9ad-7898e6820ae8",
+      "stored_name": "Munduk Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Munduk",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c7a04dd2dc19521bd09aa77",
+      "stored_name": "Nungnung Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Nungnung",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:ddf28f2a-4d25-43d1-b869-65324a924e78",
+      "stored_name": "Seganing Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Seganing",
+      "why": "Name: local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5688c451498e3181bd093eeb",
+      "stored_name": "Tukad Cepung Waterfall",
+      "stated": true,
+      "name_local": "Air Terjun Tukad Cepung",
+      "why": "Name: local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6639327770 “Ticket booth to Tukad Cepung Waterfall” (shop=ticket)",
+        "lat": -8.44112,
+        "lng": 115.38845,
+        "off_m": 83
+      },
+      "merge": [
+        {
+          "ref": "overture:b75b22d3-117c-48b3-8fb7-34758df92a7f",
+          "stored_name": "Tukad Cepung Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f1cc3060-40f1-4fcd-91cc-40869bc17499",
+      "stored_name": "Twin Lakes Viewpoint (Buyan and Tamblingan)",
+      "stated": true,
+      "name": "Twin Lakes Viewpoint",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bb4c8e286a8d13a2edade7f",
+      "stored_name": "Gereja Paroki Roh Kudus Katedral",
+      "stated": true,
+      "name": "Denpasar Cathedral",
+      "name_local": "Gereja Katedral Roh Kudus",
+      "why": "Name: name set in one spelling, local name set. 2 more records of the name outside the recommended set fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 256126672 “Gereja Katolik Roh Kudus Katedral” (amenity=place_of_worship)",
+        "lat": -8.67402,
+        "lng": 115.22962,
+        "off_m": 8
+      },
+      "merge": [
+        {
+          "ref": "overture:1df16fa1-dee6-46a4-9695-8514790ac2b2",
+          "stored_name": "Gereja Paroki Roh Kudus Katedral"
+        },
+        {
+          "ref": "fsq_os:54e48e5e498e1961aeff3ef3",
+          "stored_name": "Gereja Paroki Roh Kudus Katedral"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bf8b07e4a67c92810e825cf",
+      "stored_name": "Goa Gajah (Elephant Cave)",
+      "stated": true,
+      "name": "Goa Gajah",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c136bf0b7b9c928947ea937",
+      "stored_name": "Lempuyang Temple (Gates of Heaven)",
+      "stated": true,
+      "name": "Lempuyang Temple",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4fcc950be4b0dc2779122215",
+      "stored_name": "Saraswati Temple (Ubud Water Palace)",
+      "stated": true,
+      "name": "Saraswati Temple",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c14c477127f952157e62425",
+      "stored_name": "Pura Kehen",
+      "stated": true,
+      "name": "Kehen Temple",
+      "name_local": "Pura Kehen",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 277204886 “Pura Kehen” (amenity=place_of_worship)",
+        "lat": -8.44192,
+        "lng": 115.36006,
+        "off_m": 19
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5152ad04e4b00706132e0d3f",
+          "stored_name": "Pura Kehen"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4ce8b7fbd99f721e6386b273",
+      "stored_name": "Pura Luhur Batukaru",
+      "stated": true,
+      "name": "Batukaru Temple",
+      "name_local": "Pura Luhur Batukaru",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5046d1d7e4b0d15eda255dce",
+      "stored_name": "Tampak siring temple",
+      "stated": true,
+      "name": "Tampak Siring Temple",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:fed9d79b-bad0-40fd-8d35-e7f42bad48b6",
+      "stored_name": "Batu Bulan Bus Terminal",
+      "stated": true,
+      "name": "Batubulan Bus Terminal",
+      "name_local": "Terminal Batubulan",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:52567eae498ed37f3789b62b",
+      "stored_name": "Padang Bai Harbour, Bali",
+      "stated": true,
+      "name": "Padang Bai Harbour",
+      "name_local": "Pelabuhan Padang Bai",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c82c5aee63376b0dbe4b53d",
+      "stored_name": "Pelabuhan Benoa (Port Of Benoa)",
+      "stated": true,
+      "name": "Port of Benoa",
+      "name_local": "Pelabuhan Benoa",
+      "why": "Name: one name, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:6b32fe44-f374-47fe-8ad2-2abd0badecf3",
+      "stored_name": "Pelabuhan Sanur",
+      "stated": true,
+      "name": "Sanur Harbour",
+      "name_local": "Pelabuhan Sanur",
+      "why": "Name: name set in one spelling, local name set. 2 more records of the name outside the recommended set fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 560851096 “Pelabuhan Sanur” (shop=ticket)",
+        "lat": -8.66962,
+        "lng": 115.26088,
+        "off_m": 3
+      },
+      "merge": [
+        {
+          "ref": "overture:d28b8f40-af11-4990-95a4-ebf97b91048c",
+          "stored_name": "Pelabuhan Sanur"
+        },
+        {
+          "ref": "overture:3d51ff00-1517-4c84-a44e-0ccf9d7fd9b5",
+          "stored_name": "Pelabuhan SANUR"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:bc3cbf07-3e07-4332-931e-cef15006a70c",
+      "stored_name": "Pelabuhan Toya Pakeh",
+      "stated": true,
+      "name": "Toya Pakeh Harbour",
+      "name_local": "Pelabuhan Toya Pakeh",
+      "why": "Name: name set in one spelling, local name set.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:51ccc9d4498ea7d645d6d671",
+      "stored_name": "Terminal Gilimanuk",
+      "stated": true,
+      "name": "Gilimanuk Terminal",
+      "name_local": "Terminal Gilimanuk",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 247742937 “Terminal Gilimanuk” (amenity=bus_station)",
+        "lat": -8.16384,
+        "lng": 114.43668,
+        "off_m": 165
+      },
+      "merge": [
+        {
+          "ref": "overture:fdd3bab2-4920-466b-83dd-e427ee686e15",
+          "stored_name": "Terminal Gilimanuk"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c4bbb48c9e4ef3bf9e80d11",
+      "stored_name": "Terminal Ubung",
+      "stated": true,
+      "name": "Ubung Terminal",
+      "name_local": "Terminal Ubung",
+      "why": "Name: name set in one spelling, local name set. 1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 428468494 “Terminal Ubung” (amenity=bus_station)",
+        "lat": -8.63523,
+        "lng": 115.20592,
+        "off_m": 23
+      },
+      "merge": [
+        {
+          "ref": "overture:a8e8d821-6921-40a1-b84e-f9d06ef82b5e",
+          "stored_name": "Terminal Ubung"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:6a429bc47249ca6bcd4d82f3",
+      "stored_name": "After Rock, Bali",
+      "stated": true,
+      "name": "After Rock",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:527f47f2498e90284224ad04",
+      "stored_name": "Unique Rooftop Bar, RIMBA Jimbaran",
+      "stated": true,
+      "name": "Unique Rooftop Bar",
+      "why": "Name: name set in one spelling.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:a6564ea5-a3b6-43f3-aa7d-36130ab72ba4",
+      "stored_name": "Above Eleven Bali Rooftop Bar & Restaurant",
+      "stated": true,
+      "name": "Above Eleven Bali",
+      "why": "Name: one name.",
+      "merge": []
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c034047f56c2d7fb0b71c66",
+      "stored_name": "Alas Kedaton Monkey Forest",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 990948344 “Pura Alas Kedaton” (amenity=place_of_worship)",
+        "lat": -8.52952,
+        "lng": 115.15546,
+        "off_m": 160
+      },
+      "merge": [
+        {
+          "ref": "overture:db32d507-19f0-46a7-bd10-c23676f02d90",
+          "stored_name": "Alas Kedaton Monkey Forest"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:3de8d46a-cd2c-4809-93aa-729d43eae462",
+      "stored_name": "Angel's Billabong",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 709619834 “Angel's Billabong” (water=lagoon)",
+        "lat": -8.73353,
+        "lng": 115.44899,
+        "off_m": 4
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:58156188d67c3973893c256a",
+          "stored_name": "Angel's Billabong"
+        },
+        {
+          "ref": "fsq_os:59049fbb1acf112d71cd2570",
+          "stored_name": "Angel's Billabong"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:68ceac03026b6c0479388ca9",
+      "stored_name": "Atlas Super Club",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 1360536968 “Atlas Super Club” (amenity=nightclub)",
+        "lat": -8.66432,
+        "lng": 115.13907,
+        "off_m": 170
+      },
+      "merge": [
+        {
+          "ref": "overture:8cafdad3-e0c9-4bd6-b8db-8dc42a39f70b",
+          "stored_name": "Atlas Super Club"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f6a4a9a2-9701-4ad4-9473-7085416a6cfd",
+      "stored_name": "Babi Guling Ibu Oka 2",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 4182810693 “Warung Babi Guling Ibu Oka 2” (amenity=restaurant)",
+        "lat": -8.53042,
+        "lng": 115.27166,
+        "off_m": 15
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4bde7a716198c9b6301314ff",
+          "stored_name": "Babi Guling Ibu Oka 2"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:6d7a9965-92ac-473a-9277-5121a3fb2ea8",
+      "stored_name": "Bali Bird Park",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 4467737331 “Bali Bird Park” (amenity=restaurant)",
+        "lat": -8.60002,
+        "lng": 115.25152,
+        "off_m": 67
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5528c9b4498eaba11d5e180f",
+          "stored_name": "Bali Bird Park"
+        },
+        {
+          "ref": "fsq_os:6a209347976a55538006b64a",
+          "stored_name": "Bali Bird Park"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bba8e3f3db7b713817d239a",
+      "stored_name": "Bali Safari and Marine Park",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 474491505 “Bali Safari & Marine Park” (tourism=zoo)",
+        "lat": -8.5805,
+        "lng": 115.34389,
+        "off_m": 527
+      },
+      "merge": [
+        {
+          "ref": "overture:ffe760ba-ff49-422e-8443-f0beecf43627",
+          "stored_name": "Bali Safari and Marine Park"
+        },
+        {
+          "ref": "fsq_os:543f305b498ea794e94e0ccb",
+          "stored_name": "Bali Safari And Marine Park"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:1f0fa92f-a531-4f62-83fa-5601e31b9e6d",
+      "stored_name": "Besakih Temple",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 719365379 “Pura Penataran Agung Besakih” (amenity=place_of_worship)",
+        "lat": -8.37398,
+        "lng": 115.45226,
+        "off_m": 14
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:004b06afdb1a42d86ef24f99",
+          "stored_name": "Besakih Temple"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:53f9285d498e07b7679d8c3f",
+      "stored_name": "Dolphins Points Lovina Beach",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 10988259974 “Lovina Beach” (natural=beach)",
+        "lat": -8.16102,
+        "lng": 115.02433,
+        "off_m": 1575
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4e348334b0fb59390e954c34",
+          "stored_name": "Dolphins Points Lovina Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bda5c593904a593a74d469e",
+      "stored_name": "Goa Lawah Temple",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 314914957 “Pura Goa Lawah” (amenity=place_of_worship)",
+        "lat": -8.55153,
+        "lng": 115.46897,
+        "off_m": 5
+      },
+      "merge": [
+        {
+          "ref": "overture:bb6718c7-9b91-48ad-9009-d648d8ee8395",
+          "stored_name": "Goa Lawah Temple"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:69f576b41d557879cfd935d5",
+      "stored_name": "Jimbaran Beach",
+      "stated": true,
+      "why": "4 more records of the name outside the recommended set fold into it, 4 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 986320558 “Jimbaran Beach” (natural=beach)",
+        "lat": -8.78086,
+        "lng": 115.1638,
+        "off_m": 11
+      },
+      "merge": [
+        {
+          "ref": "overture:388d428c-9170-4cc4-85dd-2733edaaff61",
+          "stored_name": "Jimbaran Beach"
+        },
+        {
+          "ref": "fsq_os:533fe732498e07aca049c7cc",
+          "stored_name": "Jimbaran Beach"
+        },
+        {
+          "ref": "fsq_os:5475bab9498e3c86ae520378",
+          "stored_name": "Jimbaran Beach"
+        },
+        {
+          "ref": "fsq_os:53d4fc76498e87e251b2b0fd",
+          "stored_name": "Jimbaran Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5fa61b5f362cd92c77826fb5",
+      "stored_name": "Kuta Beach",
+      "stated": true,
+      "why": "10 more records of the name outside the recommended set fold into it, 8 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 1300552681 “Jalan Pantai Kuta” (highway=secondary)",
+        "lat": -8.71112,
+        "lng": 115.16719,
+        "off_m": 237
+      },
+      "merge": [
+        {
+          "ref": "overture:ef63c402-8b87-4f49-860d-c3b6fd51cd25",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "fsq_os:57484031498ea8a2d9d8244b",
+          "stored_name": "Kuta beach"
+        },
+        {
+          "ref": "fsq_os:5ca87821f96b2c002c068876",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "fsq_os:53ff0224498ea70dc6cf428e",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "fsq_os:545afa64498e08322d0207f1",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "fsq_os:54424ae2498eb68f7c10a8ed",
+          "stored_name": "kuta beach"
+        },
+        {
+          "ref": "fsq_os:54579a4e498eade8af9c7c17",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "overture:e2b8e43b-a151-42fe-93ec-47d4bd5d2116",
+          "stored_name": "Kuta beach"
+        },
+        {
+          "ref": "overture:334af7b2-670d-4ee8-ad1a-7590c35211c6",
+          "stored_name": "Kuta Beach"
+        },
+        {
+          "ref": "overture:da955bf2-73e7-4575-8c01-6fc765352415",
+          "stored_name": "Kuta Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c64ef97e0c4be9a23f58658",
+      "stored_name": "Lake Batur",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap relation 9747883 “Danau Batur” (water=lake)",
+        "lat": -8.25496,
+        "lng": 115.41211,
+        "off_m": 132
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:549e7330498e2489113e5e08",
+          "stored_name": "Lake Batur"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:d89890d7-7bb5-4377-8350-799d04939948",
+      "stored_name": "Melasti Beach",
+      "stated": true,
+      "why": "6 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap relation 9754137 “Pantai Melasti” (natural=beach)",
+        "lat": -8.84829,
+        "lng": 115.15757,
+        "off_m": 8
+      },
+      "merge": [
+        {
+          "ref": "overture:98cfe7d3-fb4d-4cd5-88f2-c1097e1066d1",
+          "stored_name": "Melasti Beach"
+        },
+        {
+          "ref": "fsq_os:5492294f498e2a6417917adf",
+          "stored_name": "Melasti Beach"
+        },
+        {
+          "ref": "fsq_os:55bd8a16498e25847d9f7ef1",
+          "stored_name": "Melasti Beach"
+        },
+        {
+          "ref": "fsq_os:544b7384498e50c1dd3b9c94",
+          "stored_name": "Melasti Beach"
+        },
+        {
+          "ref": "fsq_os:5496a5a9498ea9800f6561fb",
+          "stored_name": "Melasti Beach"
+        },
+        {
+          "ref": "fsq_os:55554648498e231e104a488c",
+          "stored_name": "Melasti Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:57f33ae0498e0a4ac99ff3fc",
+      "stored_name": "Menjangan Island",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 24056423 “Pulau Menjangan” (place=island)",
+        "lat": -8.09605,
+        "lng": 114.51692,
+        "off_m": 82
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4cdf6dff7e2e236aa7d6851b",
+          "stored_name": "Menjangan Island"
+        },
+        {
+          "ref": "fsq_os:56a497ee498e557a82e2793c",
+          "stored_name": "Menjangan Island"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4cdf690ddcaea0908ec79344",
+      "stored_name": "Mount Agung",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 1070157207 “Gunung Agung” (natural=volcano)",
+        "lat": -8.34289,
+        "lng": 115.50721,
+        "off_m": 135
+      },
+      "merge": [
+        {
+          "ref": "overture:d9a09254-e394-4661-8671-d3c1ebbbd854",
+          "stored_name": "Mount Agung"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:48bf4cae-b700-432b-b3cf-8112504f691e",
+      "stored_name": "Mount Batur",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap relation 7776212 “Taman Wisata Alam Gunung Batur Bukit Payang” (leisure=nature_reserve)",
+        "lat": -8.25183,
+        "lng": 115.36625,
+        "off_m": 774
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5daede6c8b13530008aefdd0",
+          "stored_name": "Mount Batur"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:7b30a72b-7baf-4ea4-abb7-37c2c0d4449f",
+      "stored_name": "Ngurah Rai International Airport",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 82162575 “Bandar Udara Internasional Ngurah Rai (DPS)” (aeroway=aerodrome)",
+        "lat": -8.74652,
+        "lng": 115.16737,
+        "off_m": 578
+      },
+      "merge": [
+        {
+          "ref": "overture:e131bc05-aff7-478a-b295-7c8772d05299",
+          "stored_name": "Ngurah Rai International Airport"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4bee1757946c0f47b07ca363",
+      "stored_name": "Nusa Dua Beach",
+      "stated": true,
+      "why": "5 more records of the name outside the recommended set fold into it, 3 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 1455327999 “Nusa Dua Beach” (tourism=beach)",
+        "lat": -8.79609,
+        "lng": 115.23282,
+        "off_m": 192
+      },
+      "merge": [
+        {
+          "ref": "overture:d0bf02f1-e167-4d30-b79c-7130f79a2a00",
+          "stored_name": "Nusa Dua Beach"
+        },
+        {
+          "ref": "overture:cf987cc0-a48f-4108-b1dc-00fbee081508",
+          "stored_name": "Nusa Dua Beach"
+        },
+        {
+          "ref": "overture:196d3d62-c2dc-4109-9310-9b9295eaf413",
+          "stored_name": "Nusa Dua Beach"
+        },
+        {
+          "ref": "fsq_os:541e9dc6498e1777b884c066",
+          "stored_name": "Nusa Dua Beach"
+        },
+        {
+          "ref": "fsq_os:57b3bba1498ec569889e35de",
+          "stored_name": "Nusa Dua Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:f3b7056a-7f49-4f19-9e3f-f022cf079229",
+      "stored_name": "Old Man's",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 373169842 “Old Man's” (amenity=pub)",
+        "lat": -8.65905,
+        "lng": 115.13086,
+        "off_m": 16
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:51b99d4c498e6c14f85f48f1",
+          "stored_name": "Old Man's"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:b6fde27a-4e1e-4aac-a5e9-c4adfef6f636",
+      "stored_name": "Pandawa Beach",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 284984714 “Pantai Pandawa” (natural=beach)",
+        "lat": -8.8458,
+        "lng": 115.18509,
+        "off_m": 228
+      },
+      "merge": [
+        {
+          "ref": "overture:f380bef2-953a-4255-a71b-4b70e8f5c502",
+          "stored_name": "Pandawa Beach"
+        },
+        {
+          "ref": "fsq_os:5ab8d9f41c675b0d1e00f104",
+          "stored_name": "Pandawa Beach"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:5178c2a9498e74dbd4c617f2",
+      "stored_name": "Penglipuran Village",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 8482826504 “Penglipuran” (place=hamlet)",
+        "lat": -8.42216,
+        "lng": 115.35892,
+        "off_m": 22
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5892e98e730a9265617f20cf",
+          "stored_name": "Penglipuran Village"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c3446883896e21eee47eb90",
+      "stored_name": "Pura Luhur Uluwatu",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 707659668 “Pura Luhur Uluwatu” (amenity=place_of_worship)",
+        "lat": -8.82937,
+        "lng": 115.08434,
+        "off_m": 233
+      },
+      "merge": [
+        {
+          "ref": "overture:893cc0a9-a8a9-46be-834d-6cb889d16839",
+          "stored_name": "Pura Luhur Uluwatu"
+        },
+        {
+          "ref": "overture:22fa7593-eb23-417d-a28d-8588ff8fe21b",
+          "stored_name": "Pura luhur uluwatu"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c7364260e8cbfb7857509db",
+      "stored_name": "Sacred Monkey Forest Sanctuary",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap relation 9732447 “Mandala Wisata Wenara Wana” (leisure=nature_reserve)",
+        "lat": -8.51873,
+        "lng": 115.25832,
+        "off_m": 44
+      },
+      "merge": [
+        {
+          "ref": "overture:1b0abd6b-42c8-433c-82fe-3d900779aaee",
+          "stored_name": "Sacred Monkey Forest Sanctuary"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:652b938c61f7684e874a50f6",
+      "stored_name": "SAKA Museum",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap relation 17592907 “SAKA Museum” (building=yes)",
+        "lat": -8.78983,
+        "lng": 115.14319,
+        "off_m": 21
+      },
+      "merge": [
+        {
+          "ref": "overture:741f58cb-cb88-4d2e-82da-5012c763d0ed",
+          "stored_name": "SAKA Museum"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:43ad24c2-d128-48d7-adc2-e406e55137fb",
+      "stored_name": "Sekumpul Waterfall",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 14189403447 “Sekumpul Waterfall” (shop=ticket)",
+        "lat": -8.17207,
+        "lng": 115.18612,
+        "off_m": 28
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:562357d9498e3c630a0d5d23",
+          "stored_name": "Sekumpul Waterfall"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:abff2e3a-e73f-4a82-bad6-4350f2797711",
+      "stored_name": "Single Fin",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 3705035338 “Single Fin” (amenity=bar)",
+        "lat": -8.81492,
+        "lng": 115.08888,
+        "off_m": 19
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4d8f32563bfef04d3ceda886",
+          "stored_name": "Single Fin"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:559b1638-15c3-47bd-ad39-9ec980da2951",
+      "stored_name": "Sukawati Art Market",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap relation 6241812 “Pasar Seni Sukawati” (tourism=attraction)",
+        "lat": -8.59648,
+        "lng": 115.28244,
+        "off_m": 4
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:54925602498e778f195073c9",
+          "stored_name": "Sukawati Art Market"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4c0b27013c70b7134d20285b",
+      "stored_name": "Taman Ayun Temple",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 990948352 “Pura Taman Ayun” (amenity=place_of_worship)",
+        "lat": -8.54185,
+        "lng": 115.17249,
+        "off_m": 4
+      },
+      "merge": [
+        {
+          "ref": "overture:4b5bda7e-217e-4b7d-bfc6-6ea3221c5de5",
+          "stored_name": "Taman Ayun Temple"
+        },
+        {
+          "ref": "fsq_os:539985b4498ebaba34dbe925",
+          "stored_name": "Taman Ayun Temple"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:513ffe98e4b0829e2f766f19",
+      "stored_name": "Taman Ujung Water Palace",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 240066436 “Taman Ujung Water Palace” (leisure=garden)",
+        "lat": -8.46455,
+        "lng": 115.6305,
+        "off_m": 71
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:54b0ea8d498e803826c8cc32",
+          "stored_name": "Taman Ujung Water Palace"
+        },
+        {
+          "ref": "overture:6622a69d-5b05-4593-8cae-c3d4d666c09f",
+          "stored_name": "taman ujung water palace"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:4e3434e3-df15-4602-b663-d5b9fa66cb10",
+      "stored_name": "Tanah Lot Temple",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 6930069190 “Tanah Lot” (amenity=place_of_worship)",
+        "lat": -8.62122,
+        "lng": 115.08688,
+        "off_m": 8
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5a16a942a87921069b2bed60",
+          "stored_name": "Tanah Lot Temple"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:c00e0b55-37a6-46e5-84da-ee7276c527fa",
+      "stored_name": "Tegallalang Rice Terraces",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 2854256832 “Rice terrace cafe” (amenity=cafe)",
+        "lat": -8.43373,
+        "lng": 115.2788,
+        "off_m": 26
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:4d0473019d33a143bb61bb78",
+          "stored_name": "Tegallalang Rice Terraces"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:26f40d28-3e45-45b2-a3e5-4f849e386368",
+      "stored_name": "Tonyraka Art Gallery",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6315223185 “Pranoto's art gallery” (amenity=community_centre)",
+        "lat": -8.52244,
+        "lng": 115.28322,
+        "off_m": 1576
+      },
+      "merge": [
+        {
+          "ref": "overture:386fa6be-50ec-41a9-9198-85f70cc72792",
+          "stored_name": "Tonyraka Art Gallery"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:656f8f8a-6992-4e05-8b64-44b7801c61e8",
+      "stored_name": "Ubud Art Market",
+      "stated": true,
+      "why": "3 more records of the name outside the recommended set fold into it.",
+      "checked": {
+        "source": "OpenStreetMap way 238194819 “Pasar Ubud” (amenity=marketplace)",
+        "lat": -8.50781,
+        "lng": 115.26346,
+        "off_m": 82
+      },
+      "merge": [
+        {
+          "ref": "overture:4af84e14-6753-47a9-bdd7-2c45f7d5c20e",
+          "stored_name": "Ubud Art Market"
+        },
+        {
+          "ref": "overture:c5068f11-994d-468b-8b03-230223855914",
+          "stored_name": "Ubud Art Market"
+        },
+        {
+          "ref": "fsq_os:5d84847fdd324900084fd3b9",
+          "stored_name": "Ubud Art Market"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4e23e0e1aeb70263954795eb",
+      "stored_name": "Ubud Palace",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 284575978 “Puri Saren Agung” (tourism=attraction)",
+        "lat": -8.50672,
+        "lng": 115.26271,
+        "off_m": 12
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:69f88e0368d4ec2764ccffd1",
+          "stored_name": "ubud palace"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4eb0ed68b8f74bbb23a4553e",
+      "stored_name": "Ulun Danu Batur Temple",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 1547554347 “Pura Ulun Danu Batur” (historic=monument)",
+        "lat": -8.25672,
+        "lng": 115.33863,
+        "off_m": 370
+      },
+      "merge": [
+        {
+          "ref": "overture:bb6cfa4d-949d-454b-a5f0-3fab5c0ca990",
+          "stored_name": "Ulun Danu Batur Temple"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "overture:ce7b865b-c8d4-45c1-8126-78961ef9124c",
+      "stored_name": "Waterbom Bali",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 4349528391 “Waterbom” (tourism=attraction)",
+        "lat": -8.72847,
+        "lng": 115.16963,
+        "off_m": 37
+      },
+      "merge": [
+        {
+          "ref": "overture:f70221cf-5de6-40cb-a214-bafaf610eeab",
+          "stored_name": "Waterbom Bali"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4c4acd3dbad7a593f0f0efaa",
+      "stored_name": "Bánh canh Xuân An",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 13763157502 “Banh canh ca loc 86” (amenity=restaurant)",
+        "lat": 11.93983,
+        "lng": 108.43685,
+        "off_m": 548
+      },
+      "merge": [
+        {
+          "ref": "overture:67c94874-2612-4ef9-9350-9d127e28cba2",
+          "stored_name": "Bánh canh Xuân An"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5f9ba825551ee9255ba92683",
+      "stored_name": "Kem Phụng",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 9863286730 “Kem Phụng” (amenity=ice_cream)",
+        "lat": 11.94913,
+        "lng": 108.43789,
+        "off_m": 10
+      },
+      "merge": [
+        {
+          "ref": "overture:2b588858-7372-40de-80f4-6f73029faf30",
+          "stored_name": "Kem Phụng"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:5614882c498ede773b46869d",
+      "stored_name": "Là Việt Coffee",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 4601279191 “La Viet Coffee” (amenity=cafe)",
+        "lat": 11.95692,
+        "lng": 108.43511,
+        "off_m": 16
+      },
+      "merge": [
+        {
+          "ref": "overture:ddeaae52-87ce-4789-a9d3-f23efaf9f417",
+          "stored_name": "La Viet Coffee"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "fsq_os:4f3a4f88e4b0e3d3daf416e0",
+      "stored_name": "Nem nướng Bà Hùng",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 6296989685 “Nem Nuong Ba Hung” (amenity=restaurant)",
+        "lat": 11.93703,
+        "lng": 108.43991,
+        "off_m": 1162
+      },
+      "merge": [
+        {
+          "ref": "overture:fb56995d-1d94-4574-8119-a59352ae4bd1",
+          "stored_name": "Nem nướng Bà Hùng"
+        }
+      ]
+    },
+    {
+      "destination": "vn-da-lat",
+      "keep": "overture:2abc4a5b-6668-4341-b6df-68fc163094ad",
+      "stored_name": "Valley of Love",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 1160978742 “Thung Lũng Tình Yêu” (tourism=viewpoint)",
+        "lat": 11.97819,
+        "lng": 108.44992,
+        "off_m": 215
+      },
+      "merge": [
+        {
+          "ref": "overture:9884163b-e906-42cb-8e63-2eb275b823e8",
+          "stored_name": "Valley Of Love"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:b3b9719e-6f66-42b8-977c-efa6dca57933",
+      "stored_name": "Bà Nà Hills",
+      "stated": true,
+      "why": "2 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap way 359114064 “Sun World Bà Nà Hills” (tourism=theme_park)",
+        "lat": 15.99586,
+        "lng": 107.98907,
+        "off_m": 153
+      },
+      "merge": [
+        {
+          "ref": "overture:44e198e8-e99b-41b2-9d8b-88fa2eae8551",
+          "stored_name": "Bà Nà Hills"
+        },
+        {
+          "ref": "fsq_os:5640d7ebcd1028d385983791",
+          "stored_name": "Ba Na Hills"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:28172813-7312-4d29-a99b-90082628e30a",
+      "stored_name": "Chùa Long Thọ",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 2091401445 “Chua Long Tho” (amenity=place_of_worship)",
+        "lat": 15.87481,
+        "lng": 108.32575,
+        "off_m": 9
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:5b697928db1d81002c0f499b",
+          "stored_name": "Chua Long Tho"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:abb2a223-cc15-4076-927a-c85030e58813",
+      "stored_name": "Chùa Thái Sơn",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 627383451 “Chùa Tam Thai” (amenity=place_of_worship)",
+        "lat": 16.00389,
+        "lng": 108.26279,
+        "off_m": 329
+      },
+      "merge": [
+        {
+          "ref": "overture:4b777b74-9c2a-446b-b4c9-0b6e53a1703a",
+          "stored_name": "Chùa Thái Sơn"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:92c680ad-8a6a-4818-b70c-b44a8c1b9cb5",
+      "stored_name": "Han River Bridge",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 696348478 “Cầu Sông Hàn” (highway=primary)",
+        "lat": 16.07199,
+        "lng": 108.22555,
+        "off_m": 832
+      },
+      "merge": [
+        {
+          "ref": "overture:c6f92cb0-013b-4aa1-ac77-0d1da739dffd",
+          "stored_name": "Han River Bridge"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:796b8445-d0f9-47d3-b63b-d34133aa2149",
+      "stored_name": "Hội An Memories Land",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 14131302 “Hoi An Memories Land” (place=islet)",
+        "lat": 15.87506,
+        "lng": 108.33998,
+        "off_m": 135
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:65a52bceeda6c87ab48a6de5",
+          "stored_name": "Hoi An Memories Land"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:64e755277a06586236b13ecb",
+      "stored_name": "MAAZI Da Nang",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap node 13917253901 “Maazi” (amenity=restaurant)",
+        "lat": 16.06224,
+        "lng": 108.22314,
+        "off_m": 65
+      },
+      "merge": [
+        {
+          "ref": "overture:45f2d3ee-0703-4d3e-a29c-2093317502ac",
+          "stored_name": "Maazi Da Nang"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:6eb596b4-7e24-458a-8b4f-c9514d9a7889",
+      "stored_name": "My Khe Beach",
+      "stated": true,
+      "why": "4 more records of the name outside the recommended set fold into it, 2 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap relation 19000664 “Bãi biển Mỹ Khê” (natural=beach)",
+        "lat": 16.07563,
+        "lng": 108.24688,
+        "off_m": 1400
+      },
+      "merge": [
+        {
+          "ref": "overture:797108e8-1af1-48b3-b2fe-45d906034725",
+          "stored_name": "My Khe Beach"
+        },
+        {
+          "ref": "fsq_os:67f0b0a86fa1ec4d80bbb170",
+          "stored_name": "My Khe Beach"
+        },
+        {
+          "ref": "overture:12ca4568-d6ad-4cf9-b235-168639779a4c",
+          "stored_name": "Mỹ Khê Beach"
+        },
+        {
+          "ref": "fsq_os:6a59936202241676cd38a3e4",
+          "stored_name": "My Khe Beach"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "fsq_os:5e6d91fd5bc03b0008a4b012",
+      "stored_name": "Sơn Trà Peninsula",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it, 1 pinned over 2 km away.",
+      "checked": {
+        "source": "OpenStreetMap node 1623183634 “Bán đảo Sơn Trà” (place=locality)",
+        "lat": 16.12049,
+        "lng": 108.26471,
+        "off_m": 4843
+      },
+      "merge": [
+        {
+          "ref": "overture:705b5428-6ecb-4074-a16b-713ba483256a",
+          "stored_name": "Son Tra Peninsula"
+        }
+      ]
+    },
+    {
+      "destination": "da-nang",
+      "keep": "overture:65f7f860-b94a-4fbd-929d-a6d0b116f090",
+      "stored_name": "Sun Wheel",
+      "stated": true,
+      "why": "1 more record of the name outside the recommended set folds into it.",
+      "checked": {
+        "source": "OpenStreetMap way 667422708 “Da Nang Downtown” (landuse=construction)",
+        "lat": 16.04122,
+        "lng": 108.22639,
+        "off_m": 88
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:53ce7bf5498e308ce775d2ca",
+          "stored_name": "Sun Wheel"
+        }
+      ]
+    },
+    {
+      "destination": "bali",
+      "keep": "fsq_os:4e7dd12f77c837d97a7d0e5d",
+      "stored_name": "Finn's Beach Club",
+      "stated": true,
+      "category": "nightlife",
+      "note": {
+        "why_go": "A beach club on Berawa beach in Canggu with pools, daybeds and sunset DJ sets.",
+        "best_time": "Late afternoon for sunset",
+        "time_needed_min": 180,
+        "crowd_hint": "Full at weekends; book daybeds ahead",
+        "etiquette": null,
+        "tags": ["nightlife", "beach", "late_starts"]
+      },
+      "why": "The recommended record of the club was pinned at Ungasan, 21 km away, where it used to be; this record is at the club on Berawa beach. The other records of the name fold into it.",
+      "checked": {
+        "source": "OpenStreetMap node 4213155289 “Finn's Beach Club” (amenity=bar)",
+        "lat": -8.66695,
+        "lng": 115.13923,
+        "off_m": 18
+      },
+      "merge": [
+        {
+          "ref": "fsq_os:53ce28b0498e950f5562a3db",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:54292028498e1ba5552c8b98",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:586086ce51666a7a04044b73",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:5375fdc1498eeb17e4e303f6",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:538aea28498e63a9b04bba04",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:54684b44498e1b95c05e0294",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:57a6e4c1498ec7468ab10b35",
+          "stored_name": "Finn's Beach Club"
+        },
+        {
+          "ref": "fsq_os:592530f328122f403dd02683",
+          "stored_name": "Finns Beach Club"
+        },
+        {
+          "ref": "fsq_os:6a9318466dd6e70439beb19d",
+          "stored_name": "FINNS Beach Club"
+        },
+        {
+          "ref": "overture:559b88c5-edf5-40a6-8c26-2f4ab7ca6ab8",
+          "stored_name": "Finn's Beach Club"
+        }
+      ]
+    }
+  ],
+  "hidden": [
+    {
+      "destination": "mexico-city",
+      "ref": "fsq_os:5470a018498e3f6064bacbae",
+      "stored_name": "Aeropuerto Internacional Felipe Ángeles",
+      "why": "Felipe Ángeles airport pinned at Texcoco; the airport is at Zumpango, 29 km north and outside the map."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "fsq_os:4ffa4caae4b0887e56089388",
+      "stored_name": "Exconvento De San Agustín Acolman",
+      "why": "The Acolman monastery (near Teotihuacán, outside the map) pinned in Iztapalapa."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "fsq_os:53f92d40498eb0ce54fa1994",
+      "stored_name": "La Gruta Teotihuacan",
+      "why": "A restaurant at Teotihuacán pinned in Coyoacán, 51 km away."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "overture:cf9255e8-1128-44c6-9b36-28ec24ebdc2d",
+      "stored_name": "Parque Nacional Izta-Popo",
+      "why": "The Izta-Popo national park pinned in Santa Fe, on the wrong side of the city."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "fsq_os:56aeb716498ecac56836ba3a",
+      "stored_name": "Paso de Cortés  / Izta-Popo",
+      "why": "Paso de Cortés lies between the volcanoes, 43 km from this pin and outside the map."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "overture:74da8343-806f-454b-acc7-d2a80e4746c5",
+      "stored_name": "Pirámirde de la Luna, Teotihuacan, Mexico.",
+      "why": "Named for the Pyramid of the Moon at Teotihuacán but pinned in Lomas, 45 km away."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "fsq_os:571d76e8498ed52e10807a6b",
+      "stored_name": "prismas balsáticos",
+      "why": "The Basaltic Prisms of Huasca de Ocampo (Hidalgo, about 100 km north) pinned in Iztapalapa; name in lower case."
+    },
+    {
+      "destination": "lisbon",
+      "ref": "overture:9f5d829b-2ff5-4aeb-9d05-9beb22af2ed0",
+      "stored_name": "Convento De Mafra",
+      "why": "The Mafra convent pinned in Odivelas, 20 km from Mafra; Mafra is outside the destination's map."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:dc14720a-5ecf-4e5a-914f-d2278162e6c2",
+      "stored_name": "Ausangate Trail / Rainbow Mountains",
+      "why": "The Ausangate trail pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:0178ef75-43a3-4575-b647-f43dd38787d5",
+      "stored_name": "Catarata Poc Poc",
+      "why": "Poc Poc waterfall (Chinchero) pinned in Cusco; the catalogue has no record at the falls."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:e14bd2b5-9bbc-421e-a56a-10d0291e8176",
+      "stored_name": "Cordillera del Vilcanota",
+      "why": "The Vilcanota range pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:08fbd009-3c73-4eba-b702-f421851095c4",
+      "stored_name": "Huaynapicchu",
+      "why": "Pinned in the city; the place itself lies outside the destination's map."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:099ab0d2-8179-4172-b24a-f1f25b1d0411",
+      "stored_name": "Humantay Lake",
+      "why": "Humantay Lake (Mollepata, outside the map) pinned on Avenida El Sol."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:3631cd03-3002-4480-801c-68ab4a9fa9da",
+      "stored_name": "La Capilla De Andahuaylillas",
+      "why": "The Andahuaylillas church, 35 km away (2 km beyond the map), pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:3b25e4d4-d0e9-46cd-abaf-7fdac9d380c0",
+      "stored_name": "Laguna De Sibinacocha",
+      "why": "Sibinacocha lake, 108 km away, pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:d33c2c59-655c-4992-a52c-16ce998c5086",
+      "stored_name": "Laguna De Pampamarca",
+      "why": "Pampamarca lake, 87 km away, pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:6dbabcfc-05df-4e9c-81b1-167d90c44388",
+      "stored_name": "Laguna Humantay",
+      "why": "Humantay Lake pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:faedce58-c78a-4b58-bd90-7b6cfe0e29e2",
+      "stored_name": "Laguna Humantay - Cusco",
+      "why": "Humantay Lake pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:eb31d83e-a543-495a-92b8-d2b1196cb181",
+      "stored_name": "Machu Picchu",
+      "why": "Named for Machu Picchu, pinned at Yucay in the Sacred Valley."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:0256076a-5840-40ce-a047-a532fbef3f0d",
+      "stored_name": "Manu National Park",
+      "why": "Manu National Park (Amazon basin) pinned at an office in San Blas."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:55828264-ee79-4dd0-b553-1cbb0d0b6e5d",
+      "stored_name": "Machu Picchu, Peru - Wonder Of The World",
+      "why": "Named for Machu Picchu, pinned on Avenida El Sol in Cusco. Machu Picchu is 27 km outside the destination's map."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:cf733c6c-c177-49ff-85f5-94350af08eb9",
+      "stored_name": "Machu Picchu Inca trail",
+      "why": "The Inca Trail pinned on Cusco's Plaza de Armas."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:0828506f-7c03-408d-8788-ccb6acffa493",
+      "stored_name": "Orgánika La Huerta",
+      "why": "A restaurant at Urubamba, 31 km away, pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:4493e581-0cc2-40ba-a06d-78f223df502e",
+      "stored_name": "Monte Auzangate",
+      "why": "Mount Ausangate pinned on the Plaza de Armas."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:4a83f8f7-1ece-446b-988f-d9a9fa1becd4",
+      "stored_name": "Montana Wainapicchu",
+      "why": "Pinned in the city; the place itself lies outside the destination's map."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:aa8221a2-7b2b-4ca0-bc8b-f78335d6d80b",
+      "stored_name": "Montaña Machupicchu - 10,043 ft",
+      "why": "Pinned in the city; the place itself lies outside the destination's map."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:d60e8fa3-f2d0-4e91-965c-0d6147ea21e6",
+      "stored_name": "Montaña De 7 Colores",
+      "why": "Rainbow Mountain (Montaña de 7 Colores) pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:bcf97171-1e5a-484f-b28f-d353b9170b2c",
+      "stored_name": "Nevado La Verónica",
+      "why": "Mount Verónica pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:5d398c04-9924-42af-b3af-341164583000",
+      "stored_name": "Quelccaya",
+      "why": "The Quelccaya ice cap, 133 km away, pinned on the Plaza de Armas."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:c5254a7e-9687-47bc-b728-b751f0b005e3",
+      "stored_name": "Rainbow Mountain",
+      "why": "Rainbow Mountain (Vinicunca, 67 km south-east, outside the map) pinned at a tour office in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:dfc7edc8-52c8-4bc8-9652-c54028935e75",
+      "stored_name": "Rainbow Mountain Cusco",
+      "why": "Rainbow Mountain pinned at a tour office in Cusco."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:b2b72cca-c791-4552-978a-3705846e0a85",
+      "stored_name": "Blue Lagoon, Reykjavik",
+      "why": "The Blue Lagoon pinned at Mosfellsbær, 50 km from it; the lagoon lies 5 km outside the destination's map."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:4c00d24b-1c5d-46d0-ac3b-7f3ff19c47b2",
+      "stored_name": "Dimmuborgir",
+      "why": "Dimmuborgir (north Iceland) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:61fdaa72-79ae-4881-a746-8f1ef577ad18",
+      "stored_name": "Eyjafjallajokull",
+      "why": "Eyjafjallajökull pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:ee8170a3-25f6-4fe5-9bb7-f273ec4d0bd4",
+      "stored_name": "Eyjafjallajökull",
+      "why": "Eyjafjallajökull (119 km) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:57077598498e056440f237fb",
+      "stored_name": "Gígjökull Glacier",
+      "why": "Gígjökull glacier pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:ac000169-ef97-4c06-8103-360dc033a295",
+      "stored_name": "glacier lagoon",
+      "why": "Jökulsárlón (\"glacier lagoon\", in lower case) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:2ffa3d27-828d-4061-a97f-71b8a96938c3",
+      "stored_name": "Jokulsarlon, Glacier Lagoon",
+      "why": "Jökulsárlón (380 km) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:9de8a3bd-f126-4ebd-b146-f64b53eda630",
+      "stored_name": "Keflavíkurkirkja",
+      "why": "A church in Keflavík pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:bf6bed27-3d4e-4f42-8272-9c103a208125",
+      "stored_name": "Kerlingafjoll",
+      "why": "Kerlingarfjöll (central highlands) pinned 90 km south of it."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:4e47f33562e148603b8665cc",
+      "stored_name": "landmannalaugar",
+      "why": "Landmannalaugar (78 km east, outside the map) pinned near Hella; name in lower case."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:566d469b-2c29-44a0-8aa8-00c3d850b53e",
+      "stored_name": "Látrabjarg, West Fjords, Iceland",
+      "why": "Látrabjarg (Westfjords) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:11782a7c-d52a-4d70-9742-a3c1982b420d",
+      "stored_name": "Laugavegur Hiking Trail",
+      "why": "The Laugavegur hiking trail (highlands) pinned on Laugavegur street in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:5397959d498e056d3cfefb4d",
+      "stored_name": "Myvatn",
+      "why": "Mývatn (north Iceland) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:0323a65c-5931-4aaf-b2f5-f62cc729daa3",
+      "stored_name": "Raudfeldar Canyon",
+      "why": "Rauðfeldsgjá gorge (Snæfellsnes) pinned at Akranes."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:f7628ece-85ca-4a44-8a86-2b62561bf71d",
+      "stored_name": "Reykjanesfólkvangur National Park",
+      "why": "The Reykjanes nature reserve pinned in central Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:51c257ee498ed7715988741d",
+      "stored_name": "Siglufjordhur Iceland",
+      "why": "Siglufjörður (north Iceland) pinned at Seltjarnarnes."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:3f8c1189-0573-4f67-b713-22fda6c0d215",
+      "stored_name": "Seljalandfoss, Iceland",
+      "why": "Seljalandsfoss pinned in Hafnarfjörður; the falls are 9 km outside the map."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:77348192-3c2f-4546-8ec4-7e182f96fd05",
+      "stored_name": "Skógarfoss",
+      "why": "Skógafoss pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:87e35e20-e57a-4372-a31f-91af9fc036e5",
+      "stored_name": "Skógafoss",
+      "why": "Skógafoss (south coast, 136 km) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:5e13742ebeecb00007ef6981",
+      "stored_name": "Sólheimasandur Plane Wreck",
+      "why": "The plane wreck (south coast, 146 km away) pinned at Efstidalur."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:55fb69c6498ec525efd3fa62",
+      "stored_name": "Sólheimasandur",
+      "why": "Sólheimasandur pinned in Reykjavík; its address field holds the real coordinates."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:a5f8f0f7-1902-432a-a54e-2b49869401e5",
+      "stored_name": "Snæfellsjökull Glacier, Iceland",
+      "why": "Snæfellsjökull pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:12cd4bac-528c-4eba-abd5-ef32d7be1a87",
+      "stored_name": "Svartifoss, Ísland",
+      "why": "Svartifoss (Skaftafell) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:fbd7be92-8e84-41cd-8bdb-bbe604b5ab7a",
+      "stored_name": "Vatnajokull National Park",
+      "why": "Vatnajökull National Park pinned at Þingvellir."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:9416516d-6082-4e5d-a995-33b5f077a4c4",
+      "stored_name": "Vík Í Mýrdal",
+      "why": "Vík í Mýrdal (south coast) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:f7bdedf4-cad7-4d96-ad9d-220392bde456",
+      "stored_name": "Þórsmörk",
+      "why": "Þórsmörk pinned in Reykjavík."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:106243a9-3ad1-4209-89e9-7ee23035c697",
+      "stored_name": "Tullpa Andean restaurant ",
+      "why": "Addressed Ollantaytambo, pinned in Cusco."
+    },
+    {
+      "destination": "cusco",
+      "ref": "overture:7f437893-57fe-4213-8a19-978f00e01451",
+      "stored_name": "Sayacmarca Peru",
+      "why": "An Inca Trail ruin, 66 km away, pinned in Cusco."
+    },
+    {
+      "destination": "iceland",
+      "ref": "fsq_os:4db044265da32cf2df45c238",
+      "stored_name": "Hòlar",
+      "why": "Hólar (north Iceland) pinned in Reykjavík."
+    },
+    {
+      "destination": "iceland",
+      "ref": "overture:73dd0d26-c30e-4d51-89ed-fec0600a933d",
+      "stored_name": "Keflavík International Airport (Reykjavik, IS)",
+      "why": "Keflavík airport pinned at the BSÍ bus terminal in Reykjavík; the airport lies outside the map."
+    },
+    {
+      "destination": "mexico-city",
+      "ref": "overture:b0fcb976-bd08-4d29-b921-406bba6ab4f4",
+      "stored_name": "Piramides de Teotihuacan",
+      "why": "Named for the Teotihuacán pyramids but pinned in Condesa. Teotihuacán is 10 km beyond the edge of the destination's map, so there is no record to merge it into."
+    }
+  ],
+  "left_alone": [
+    {
+      "destination": "bali",
+      "name": "Aahaaram Lembongan (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 450 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Arabica Bali Uluwatu (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 476 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Ayam Betutu Ibu Nia (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 4.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Bali Bakery (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 9.4 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Bali Bird Park (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 120 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Bali Botanic Garden (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 802 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Besakih Temple (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 5.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Bodywise Bali-Therapy Centre (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 191 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Deus Ex Machina (4 more records of the name left)",
+      "why": "4 a second branch, or a record that cannot be told from one. Distances: 3.8 km, 4.5 km, 12.1 km, 21.1 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Diamond Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 238 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Dream Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 63 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Ganesha Cafe (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 6.5 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Genah Melukat Sebatu (2 more records of the name left)",
+      "why": "2 the kept point could not be checked against the map. Distances: 177 m, 29.9 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Genius Cafe (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 17.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Goa Lawah Temple (1 more record of the name left)",
+      "why": "1 filed as nightlife: a business named after the place. Distances: 26 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Golden Monkey (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 19.6 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Gunung Kawi Temple (1 more record of the name left)",
+      "why": "1 Gunung Kawi Sebatu is another temple. Distances: 11.1 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Handara Gate (1 more record of the name left)",
+      "why": "1 carries a street address elsewhere: a business of that name. Distances: 29.4 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Hard Rock Cafe Bali (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 597 m, 6.5 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Jari Menari (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 12.2 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Jemeluk Bay Lookout / Agung & Amed View (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 379 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Jimbaran Beach (2 more records of the name left)",
+      "why": "2 filed as stay: a business named after the place. Distances: 2.3 km, 2.3 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Kafe Batan Waru (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 27.2 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Kasih Ibu General Hospital (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 9.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Kelingking Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 204 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Kopi Bali House (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 20.8 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Kuta Beach (2 more records of the name left)",
+      "why": "1 filed as nightlife: a business named after the place; 1 held by OpenStreetMap only, which a release cannot name. Distances: 598 m, 641 m."
+    },
+    {
+      "destination": "bali",
+      "name": "La Brisa Bali (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 2.5 km."
+    },
+    {
+      "destination": "bali",
+      "name": "La Favela Bali (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.1 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Locavore NXT (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 3.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Luna Beach Club (3 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one; 1 held by OpenStreetMap only, which a release cannot name. Distances: 70 m, 5.0 km, 6.6 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Melasti Beach (6 more records of the name left)",
+      "why": "5 the map has a second Pantai Melasti near Tanah Lot; cannot tell which beach these are; 1 carries a street address elsewhere: a business of that name. Distances: 6.3 km, 8.2 km, 10.0 km, 10.3 km, 15.3 km, 25.1 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Monumen Puputan Margarana (1 more record of the name)",
+      "why": "Left: the recommended record itself is in doubt (batch 01)."
+    },
+    {
+      "destination": "bali",
+      "name": "Motel Mexicola (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 15.4 km, 17.4 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Mount Agung (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 416 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Mount Batur (1 more record of the name left)",
+      "why": "1 carries a street address elsewhere: a business of that name. Distances: 32.4 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Museum Rudana (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 64 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Nasi Ayam Bu Oki (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 6.0 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Neka Art Museum (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 69 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Nusa Dua Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 501 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Old Man's (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 3.3 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Pandawa Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 239 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Batu Bolong (1 more record of the name)",
+      "why": "Left: another temple of the same name stands at Canggu."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Batu Madeg (1 more record of the name)",
+      "why": "Left: a temple of the same name 45 km away, at Gobleg."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Petitenget (1 more record of the name)",
+      "why": "Left: the map has a second temple of this name at Pererenan."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Sada (2 more records of the name)",
+      "why": "Left: the map has the temple of this name at Kapal; cannot tell which record is which."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Ulun Danu Buyan (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 63 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Revolver Umalas - HQ & All Day Cafe (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 9 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Rock Bar (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 4.2 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Sacred Monkey Forest Sanctuary (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 79 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Satria Agrowisata (5 more records of the name left)",
+      "why": "5 a second branch, or a record that cannot be told from one. Distances: 7.4 km, 17.3 km, 17.3 km, 22.9 km, 22.9 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Savaya Bali (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.0 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Sekumpul Waterfall (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 769 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Single Fin (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 2.6 km, 2.7 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Sista Canggu (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 5.1 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Sky Garden (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 4.2 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Syrco BASÈ (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.9 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Taman Ujung Water Palace (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 80 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Tanah Lot Temple (2 more records of the name left)",
+      "why": "1 filed as stay: a business named after the place; 1 carries a street address elsewhere: a business of that name. Distances: 6 m, 13.9 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Tegallalang Rice Terraces (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 200 m."
+    },
+    {
+      "destination": "bali",
+      "name": "The Grumpy Butcher (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.5 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Tirta Empul Temple (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 34 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Tonic Massage And Botanicals (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 20.8 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Ubud Coffee Roastery (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 2.0 km."
+    },
+    {
+      "destination": "bali",
+      "name": "Waterbom Bali (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 132 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Yeh Pulu (2 more records of the name left)",
+      "why": "2 held by OpenStreetMap only, which a release cannot name. Distances: 126 m, 146 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh Căn Cô Chín (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 572 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh căn Cô Dưỡng (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 3.2 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh Canh Cua Má Báy (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 111 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh Mì Xíu Mại (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.5 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh Mì Xíu Mại (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 504 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "BÁNh MÌ XÍU MẠI 79 (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.3 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bánh mì xíu mại Chén (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 475 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Bùi Văn Ngọ Coffee (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 6 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Market (1 more record of the name left)",
+      "why": "1 filed as shopping: a business named after the place. Distances: 2.3 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Đà Lạt Night Market (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 15 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Datanla Falls (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 18 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Đồi Cỏ Hồng (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 11.0 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Đồi cỏ hồng Đà Lạt (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.0 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Fox’s Den (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 6 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Góc Hà Thành (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 16 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "HOA THÔNG Brewing CO (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 661 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Kem Phụng (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 675 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Lặng Coffee (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 5.4 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Lẩu gà lá é Phú Yên (4 more records of the name left)",
+      "why": "4 a second branch, or a record that cannot be told from one. Distances: 278 m, 1.4 km, 2.0 km, 2.7 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Là Việt Coffee (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 3.4 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Liên Hoa Bakery (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 568 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Miến Gà Tường Vy (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.3 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Nem Nướng Bà Hùng (3 more records of the name left)",
+      "why": "3 a second branch, or a record that cannot be told from one. Distances: 1.6 km, 1.9 km, 6.9 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Nem nướng Bà Hùng (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 1.5 km, 7.3 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Nem nướng Ninh Hoà (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 4.2 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Nem Nướng Tân Long (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 6.4 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Nhà Thuốc FPT Long Châu (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 2.6 km."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Phuc Long Coffee & Tea (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 881 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Pint Beer (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 25 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Tiệm Gốm Tako Đà Lạt (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 991 m."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Yaourt 71 (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 2.2 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bà Nà Hills (3 more records of the name left)",
+      "why": "2 filed as stay: a business named after the place; 1 carries a street address elsewhere: a business of that name. Distances: 5.7 km, 5.8 km, 26.0 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bàn Cờ Peak (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 6 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bánh bèo Bà Bảy (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 19.2 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bánh Tráng Thịt Heo Hương Đại Lộc (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 285 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bảo tàng Đồng Đình (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 250 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Bún Chả Cá Bà Phiến (Bà Thừa) (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 23.5 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Charming Danang (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 1.0 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Chùa Long Thọ (1 more record of the name left)",
+      "why": "1 carries a street address elsewhere: a business of that name. Distances: 24.2 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Cơm gà Bà Lắm (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 943 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Cộng Cà Phê (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 2.9 km, 3.1 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "East Sea Park (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 238 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Golden Dragon (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 6.8 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Hải Sản Bé Hân (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 7.8 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Hải Vân Pass (2 more records of the name left)",
+      "why": "1 carries a street address elsewhere: a business of that name; 1 pinned in the city with the business of that name. Distances: 15.4 km, 15.4 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Ho Chi Minh Museum (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 249 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Hòn Thủy Sơn (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 210 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Huyền Không Cave (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 35 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Khu du lịch Hòa Phú Thành (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 26.7 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Lam Vien Restaurant (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 5.6 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Lotus Spa (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 19.0 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Marble Mountains (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 594 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mì Quảng Bà Mua (3 more records of the name left)",
+      "why": "3 a second branch, or a record that cannot be told from one. Distances: 1.1 km, 2.6 km, 7.4 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mì Quảng Bích (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 27.2 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mì quảng ếch Bếp Trang (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 2.1 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mì Quảng Giao Thủy (2 more records of the name left)",
+      "why": "2 a second branch, or a record that cannot be told from one. Distances: 3.0 km, 6.5 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mì quảng Hương Quê (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 4.1 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "My Khe Beach (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 1.4 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Mỹ Sơn (2 more records of the name)",
+      "why": "Left: businesses in the city that carry the name."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Non Nước Beach (2 more records of the name left)",
+      "why": "2 held by OpenStreetMap only, which a release cannot name. Distances: 307 m, 2.2 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Sleepy Dog Pub (1 more record of the name left)",
+      "why": "1 the kept point could not be checked against the map. Distances: 196 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Thánh Thất Cao Đài (3 more records of the name)",
+      "why": "Left: a kind of temple, not one place."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Tháp Xá Lợi (1 more record of the name)",
+      "why": "Left: a kind of tower, not one place."
+    },
+    {
+      "destination": "da-nang",
+      "name": "The Espresso Station (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 23.5 km."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Thuận Phước Bridge (1 more record of the name left)",
+      "why": "1 held by OpenStreetMap only, which a release cannot name. Distances: 97 m."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Vọng Hải Đài (1 more record of the name left)",
+      "why": "1 a second branch, or a record that cannot be told from one. Distances: 583 m."
+    },
+    {
+      "destination": "bali",
+      "name": "Pura Luhur Uluwatu",
+      "why": "Keeps its Balinese name as the name: the factory's Bali fixture holds a second record called \"Uluwatu Temple\", and a pin must name the kept record. It is a short name and reads well; say if it should change and the fixture with it."
+    },
+    {
+      "destination": "bali",
+      "name": "Temples named \"Pura …\" (about 25)",
+      "why": "The Balinese name is the name by which guides list them; only Kehen and Batukaru, which have a common English form, were given one. No local name is set where it would repeat the name."
+    },
+    {
+      "destination": "bali",
+      "name": "Jatiluwih and Tegallalang rice terraces, Angel's Billabong, Handara Gate, Dream Beach",
+      "why": "No local name set: I could not check one."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Restaurants and cafés whose name is Vietnamese (about 120)",
+      "why": "The name is the local name; no second copy is put in the local-name field. The app falls back to the name."
+    },
+    {
+      "destination": "da-nang",
+      "name": "China Beach; Non Nước - My Khe Beach; Cầu Rồng, Cầu Quay Sông Hàn, Cầu Tình Yêu, Cầu Trần Thị Lý",
+      "why": "Names for more than one place; left as in batch 01."
+    },
+    {
+      "destination": "da-nang",
+      "name": "Hyphenated business names that are the business's own (Hội An Cuisine - Cơm Quê, Cơm Niêu Hội An - Việt Xưa, Bam Lounge - Wisky Beer…)",
+      "why": "Left: one name already, not a translation or an address."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Cafés and food stalls whose name is Vietnamese (about 190)",
+      "why": "The name is the local name; no second copy is put in the local-name field."
+    },
+    {
+      "destination": "vn-da-lat",
+      "name": "Yaourt Pho Mai Da Lat - Co Dung, Ben xe Phuong Trang (spelt without accents)",
+      "why": "Phương Trang got its accented local name; the yoghurt shop is left, since I could not check its spelling."
+    }
+  ]
+}
