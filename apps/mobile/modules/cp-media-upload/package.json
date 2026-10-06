@@ -1,0 +1,9 @@
+{
+  "name": "cp-media-upload",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Background photo uploads that survive the app being closed: iOS background URLSession, Android WorkManager; GPS stripped before upload.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

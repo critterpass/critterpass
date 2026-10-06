@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpSpeechModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.speech.CpSpeechModule"]
+  }
+}

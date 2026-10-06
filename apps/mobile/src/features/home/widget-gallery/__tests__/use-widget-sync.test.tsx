@@ -54,6 +54,7 @@ describe('useWidgetSync', () => {
     const ports: WidgetPorts = {
       sink: { writeSnapshot: (key) => void writes.push(key), reloadWidgets: () => undefined },
       installed: () => Promise.resolve([{ kind: 'CPVoteWidget', family: 'system_medium' }]),
+      pushToken: null,
     };
     let clock = 1_000_000;
     let onChange: ((state: string) => void) | undefined;

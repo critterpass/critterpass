@@ -47,6 +47,9 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   // No release has version 999, so an allowed rollback finds nothing to restore.
   rollback_content_release: () => ({ kind: 'sets', to_version: 999 }),
   moderate_item: () => ({ kind: 'user', id: nobody(), verdict: 'approve', note: null }),
+  hold_driver_ratings: () => ({ listing_id: nobody(), rating_ids: [nobody()] }),
+  take_down_driver_listing: () => ({ listing_id: nobody(), reason: 'matrix' }),
+  clear_driver_flag: () => ({ flag_id: nobody(), reason: 'matrix' }),
   grant_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', until: soon(), reason: 'matrix' }),
   revoke_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', reason: 'matrix' }),
   revoke_session: () => ({ uid: nobody(), session_id: nobody(), reason: 'matrix' }),

@@ -127,7 +127,8 @@ export async function planGuideAction(
   }
   const kind = input.kind as PlanActionKind;
   const ops = changeSetOpsSchema.parse(input.ops);
-  if (ops.some((op) => !PLAN_ACTION_OPS[kind].includes(op.op))) {
+  const allowed: readonly string[] = PLAN_ACTION_OPS[kind];
+  if (ops.some((op) => !allowed.includes(op.op))) {
     throw new DomainError('VALIDATION', { reason: 'op_not_allowed_for_kind', kind });
   }
   const { rows: trips } = await tx.query<{ version: string | null }>(

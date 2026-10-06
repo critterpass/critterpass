@@ -2,7 +2,8 @@
  * `create_changeset` (docs/api-contracts.md §4.6): any member drafts a change set against the
  * trip's current plan (a member's own edit, or a guide suggestion they adopted). The ops must replay
  * on that version; the server fills each op's `before` from it, so the review screen, the stale
- * check and a personal overlay all know what the change started from.
+ * check and a personal overlay all know what the change started from. A driver pick
+ * (`assign_provider`) rides along and is checked like the direct pick.
  */
 import { appendDomainEvent } from '@cp/db';
 import {
@@ -11,12 +12,14 @@ import {
   DomainError,
   generateUuidV7,
   PLAN_RT,
+  planItemOps,
   type ChangeSetOp,
   type PlanState,
 } from '@cp/domain';
 
 import { requireTripMember } from '../../plan/access';
 import { publishPlan } from '../../plan/changeset-store';
+import { requireAssignableProviders } from '../../plan/provider-assignment';
 import { assertCurrentBase, loadPlanState, lockTripPlan, replay } from '../../plan/versioning';
 import { defineCommand } from '../_framework/define-command';
 
@@ -56,9 +59,14 @@ export const createChangesetCommand = defineCommand({
     const state = await loadPlanState(tx, base);
     const ops = withBefore(state, payload.ops);
     replay(state, changeSetOpsToEdits(ops));
-    if (ops.some((op) => op.op !== 'add' && !state.items.some((i) => i.stable_id === op.target))) {
+    if (
+      planItemOps(ops).some(
+        (op) => op.op !== 'add' && !state.items.some((i) => i.stable_id === op.target),
+      )
+    ) {
       throw new DomainError('VALIDATION', { reason: 'unknown_item' });
     }
+    await requireAssignableProviders(tx, payload.trip_id, ops);
     // As the member: RLS lets any member of the trip's crew propose, in their own name.
     await tx.query(
       `INSERT INTO change_sets (id, trip_id, base_version_id, trigger, author_kind, author_id, ops)

@@ -1,0 +1,134 @@
+{
+  "language": "vi",
+  "server": [
+    {
+      "type": "SpeechStarted",
+      "channel": [0],
+      "timestamp": 0.42
+    },
+    {
+      "type": "Results",
+      "channel_index": [0, 1],
+      "duration": 1.02,
+      "start": 0.0,
+      "is_final": false,
+      "speech_final": false,
+      "from_finalize": false,
+      "channel": {
+        "alternatives": [
+          {
+            "transcript": "cho tôi hỏi",
+            "confidence": 0.91,
+            "words": [
+              {
+                "word": "cho",
+                "start": 0.48,
+                "end": 0.66,
+                "confidence": 0.93,
+                "punctuated_word": "Cho"
+              },
+              {
+                "word": "tôi",
+                "start": 0.66,
+                "end": 0.84,
+                "confidence": 0.95,
+                "punctuated_word": "tôi"
+              },
+              {
+                "word": "hỏi",
+                "start": 0.84,
+                "end": 1.02,
+                "confidence": 0.85,
+                "punctuated_word": "hỏi"
+              }
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "request_id": "5d0d7c2f-0a2c-4a0e-8f43-6f0a6c1f4b1e",
+        "model_info": { "name": "general-nova-3", "version": "2025-04-17.0", "arch": "nova-3" },
+        "model_uuid": "40bd3654-e622-47c4-a111-63a61b23bd5c"
+      }
+    },
+    {
+      "type": "Results",
+      "channel_index": [0, 1],
+      "duration": 1.86,
+      "start": 0.0,
+      "is_final": true,
+      "speech_final": false,
+      "from_finalize": false,
+      "channel": {
+        "alternatives": [{ "transcript": "Cho tôi hỏi quán phở", "confidence": 0.93, "words": [] }]
+      },
+      "metadata": {
+        "request_id": "5d0d7c2f-0a2c-4a0e-8f43-6f0a6c1f4b1e",
+        "model_info": { "name": "general-nova-3", "version": "2025-04-17.0", "arch": "nova-3" },
+        "model_uuid": "40bd3654-e622-47c4-a111-63a61b23bd5c"
+      }
+    },
+    {
+      "type": "Results",
+      "channel_index": [0, 1],
+      "duration": 0.94,
+      "start": 1.86,
+      "is_final": false,
+      "speech_final": false,
+      "from_finalize": false,
+      "channel": {
+        "alternatives": [{ "transcript": "gần đây", "confidence": 0.88, "words": [] }]
+      },
+      "metadata": {
+        "request_id": "5d0d7c2f-0a2c-4a0e-8f43-6f0a6c1f4b1e",
+        "model_info": { "name": "general-nova-3", "version": "2025-04-17.0", "arch": "nova-3" },
+        "model_uuid": "40bd3654-e622-47c4-a111-63a61b23bd5c"
+      }
+    }
+  ],
+  "afterFinalize": [
+    {
+      "type": "Results",
+      "channel_index": [0, 1],
+      "duration": 1.22,
+      "start": 1.86,
+      "is_final": true,
+      "speech_final": true,
+      "from_finalize": true,
+      "channel": {
+        "alternatives": [{ "transcript": "gần đây nhất?", "confidence": 0.9, "words": [] }]
+      },
+      "metadata": {
+        "request_id": "5d0d7c2f-0a2c-4a0e-8f43-6f0a6c1f4b1e",
+        "model_info": { "name": "general-nova-3", "version": "2025-04-17.0", "arch": "nova-3" },
+        "model_uuid": "40bd3654-e622-47c4-a111-63a61b23bd5c"
+      }
+    },
+    {
+      "type": "Metadata",
+      "transaction_key": "deprecated",
+      "request_id": "5d0d7c2f-0a2c-4a0e-8f43-6f0a6c1f4b1e",
+      "sha256": "4b1e4f7c1c2b9a1d6a5f0d7f0f3b2a1c9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b",
+      "created": "2026-10-06T05:12:44.181Z",
+      "duration": 3.08,
+      "channels": 1,
+      "models": ["40bd3654-e622-47c4-a111-63a61b23bd5c"],
+      "model_info": {
+        "40bd3654-e622-47c4-a111-63a61b23bd5c": {
+          "name": "general-nova-3",
+          "version": "2025-04-17.0",
+          "arch": "nova-3"
+        }
+      }
+    }
+  ],
+  "expected": {
+    "partials": [
+      "cho tôi hỏi",
+      "Cho tôi hỏi quán phở",
+      "Cho tôi hỏi quán phở gần đây",
+      "Cho tôi hỏi quán phở gần đây nhất?"
+    ],
+    "final": "Cho tôi hỏi quán phở gần đây nhất?"
+  }
+}

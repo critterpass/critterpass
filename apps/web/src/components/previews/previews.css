@@ -615,3 +615,19 @@
     gap: 5px;
   }
 }
+
+/* A published crew plan (`/p/{token}`). */
+.pv-plan__proof {
+  margin: 16px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.pv-plan__title {
+  font-size: 26px;
+  font-stretch: 78%;
+}
+.pv-plan__body {
+  margin: 8px 0 20px;
+  color: var(--color-ink-100);
+  line-height: 1.5;
+}

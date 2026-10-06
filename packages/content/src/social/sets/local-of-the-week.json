@@ -1,0 +1,35 @@
+{
+  "id": "local-of-the-week",
+  "templates": ["post-square", "story"],
+  "eyebrow": { "en": "LOCAL OF THE WEEK", "vi": "BẠN BẢN ĐỊA CỦA TUẦN" },
+  "items": [
+    {
+      "critter": "cp-001",
+      "seed": 1,
+      "copy": {
+        "en": {
+          "line": "Land in Hà Nội and Cụ Rùa joins your pass.",
+          "alt": "Cụ Rùa, a hand-drawn Hoàn Kiếm turtle sticker, CritterPass local of the week for Hà Nội."
+        },
+        "vi": {
+          "line": "Đặt chân đến Hà Nội, Cụ Rùa sẽ vào hộ chiếu của bạn.",
+          "alt": "Cụ Rùa, hình dán rùa Hồ Gươm vẽ tay, bạn bản địa của tuần trên CritterPass ở Hà Nội."
+        }
+      }
+    },
+    {
+      "critter": "cp-112",
+      "seed": 7,
+      "copy": {
+        "en": {
+          "line": "Land in Bali and Tokek joins your pass.",
+          "alt": "Tokek, a hand-drawn tokay gecko sticker, CritterPass local of the week for Bali."
+        },
+        "vi": {
+          "line": "Đặt chân đến Bali, Tokek sẽ vào hộ chiếu của bạn.",
+          "alt": "Tokek, hình dán tắc kè vẽ tay, bạn bản địa của tuần trên CritterPass ở Bali."
+        }
+      }
+    }
+  ]
+}

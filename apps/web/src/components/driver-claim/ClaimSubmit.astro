@@ -1,0 +1,27 @@
+---
+// Sends the page's forms as JSON to the same address and shows the page that comes back (after a
+// change, the address of his new private link). Without script the forms post themselves.
+---
+
+<script is:inline>
+  document.addEventListener('submit', async (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    event.preventDefault();
+    const fields = Object.fromEntries(new FormData(form, event.submitter));
+    try {
+      const response = await fetch(location.href, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(fields),
+      });
+      const html = await response.text();
+      history.replaceState(null, '', response.url);
+      document.open();
+      document.write(html);
+      document.close();
+    } catch {
+      form.submit();
+    }
+  });
+</script>

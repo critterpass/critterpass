@@ -28,5 +28,5 @@ export const publicProposalSchema = z.object({
 });
 export type PublicProposal = z.infer<typeof publicProposalSchema>;
 
-export const PUBLIC_PREVIEW_KINDS = ['proposal'] as const;
+export const PUBLIC_PREVIEW_KINDS = ['proposal', 'plan'] as const;
 export type PublicPreviewKind = (typeof PUBLIC_PREVIEW_KINDS)[number];

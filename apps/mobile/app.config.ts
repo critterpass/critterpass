@@ -276,6 +276,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     // Communication Notifications for the notification service extension (entitlement +
     // NSUserActivityTypes).
     './modules/cp-notifications/plugin/with-communication-notifications',
+    // Android surfaces' permissions (Live Updates, full-screen alarm, exact alarm, SOS DND access).
+    './plugins/with-android-surfaces',
     '@maplibre/maplibre-react-native',
     'expo-apple-authentication',
     // Google Sign-In's iOS URL scheme, from this environment's iOS OAuth client id.
@@ -312,6 +314,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     './plugins/with-location-permissions',
     // The leave-by alarm: AlarmKit usage string fallback and the CpAlarm pod's App Intents package.
     './plugins/with-alarmkit',
+    // Alternate home-screen icons (iOS alternate icons, Android launcher aliases) for cp-app-icon.
+    './modules/cp-app-icon/plugin/with-app-icons',
     // Last: copies the bake pipeline's generated critter art into the app + every extension target
     // (iOS) and Android res/ once every other plugin's prebuild output exists.
     './plugins/with-critter-art',

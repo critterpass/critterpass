@@ -11,6 +11,8 @@ export interface WidgetsPort {
   reloadAll(): void;
   /** The widgets placed on this phone: WidgetKit kind and family. */
   installed(): Promise<NativeInstalledWidget[]>;
+  /** The widget extension's push token (hex) for `register_widget_token`, null until issued. */
+  pushToken(): string | null;
 }
 
 let port: WidgetsPort | null = null;
@@ -19,6 +21,10 @@ let port: WidgetsPort | null = null;
 export function getWidgetsPort(): WidgetsPort | null {
   const native = nativeCpWidgetsModule;
   if (native === null) return null;
-  port ??= { reloadAll: () => native.reloadAll(), installed: () => native.installed() };
+  port ??= {
+    reloadAll: () => native.reloadAll(),
+    installed: () => native.installed(),
+    pushToken: () => native.pushToken?.() ?? null,
+  };
   return port;
 }

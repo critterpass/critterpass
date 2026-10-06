@@ -12,6 +12,7 @@ struct TodayWidget: Widget {
             TodayView(entry: entry)
                 .containerBackground(for: .widget) { LAPalette.card }
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Today")
         .description("The day's plan, with a tap to tick things off.")
         .supportedFamilies([.systemLarge])
@@ -35,11 +36,13 @@ struct TodayProvider: TimelineProvider {
 
     /// One entry now and one at each moment a stop falls behind, so strikes appear on time.
     func getTimeline(in context: Context, completion: @escaping (Timeline<TodayEntry>) -> Void) {
-        let entry = Self.entry(Date())
-        let changes = TodayFace.changes(today: entry.file?.snapshot.today, after: entry.date)
-        let entries = [entry] + changes.map { TodayEntry(date: $0, file: entry.file, acted: entry.acted) }
-        let later = entry.file.map { $0.generatedAt.addingTimeInterval(WidgetSnapshotFile.staleAfter + 60) }
-        completion(Timeline(entries: entries, policy: later.map { .after($0) } ?? .atEnd))
+        WidgetSnapshotFetcher.afterRefresh(completion) { (completion: @escaping (Timeline<TodayEntry>) -> Void) in
+            let entry = Self.entry(Date())
+            let changes = TodayFace.changes(today: entry.file?.snapshot.today, after: entry.date)
+            let entries = [entry] + changes.map { TodayEntry(date: $0, file: entry.file, acted: entry.acted) }
+            let later = entry.file.map { $0.generatedAt.addingTimeInterval(WidgetSnapshotFile.staleAfter + 60) }
+            completion(Timeline(entries: entries, policy: later.map { .after($0) } ?? .atEnd))
+        }
     }
 
     static func entry(_ date: Date) -> TodayEntry {

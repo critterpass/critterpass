@@ -10,7 +10,7 @@ import { Temporal } from '@js-temporal/polyfill';
 import { z } from 'zod';
 
 import type { LockedReason } from '../itinerary/schemas';
-import type { ChangeSetOp } from './change-set-ops';
+import { planItemOps, type ChangeSetOp } from './change-set-ops';
 import { planItemSnapshotSchema, type PlanItemSnapshot } from './plan-item';
 
 export const PLAN_OP_KINDS = ['move', 'resize', 'add', 'remove', 'reorder_days'] as const;
@@ -172,9 +172,12 @@ export function planOpsToEdits(ops: readonly PlanOp[]): PlanEdit[] {
   });
 }
 
-/** ChangeSet ops the reviewer left on (`accepted !== false`), as edits. */
+/**
+ * ChangeSet ops the reviewer left on (`accepted !== false`), as edits. A driver pick is not a plan
+ * item edit and is left out.
+ */
 export function changeSetOpsToEdits(ops: readonly ChangeSetOp[]): PlanEdit[] {
-  return ops
+  return planItemOps(ops)
     .filter((op) => op.accepted !== false)
     .map((op): PlanEdit => {
       if (op.op === 'remove') return { kind: 'remove', stableId: op.target };

@@ -1,11 +1,17 @@
 /* eslint-disable lingui/no-unlocalized-strings -- header names and URL paths, not UI copy. */
 /**
  * Server-side reads of the api's public previews (`GET /v1/public/{kind}/{token}`): the draft behind
- * a trip invite. Like the link preview, it passes the visitor's IP and user agent with the shared
+ * a trip invite and the published crew plan behind a plan link. Like the link preview, it passes the visitor's IP and user agent with the shared
  * proxy secret so limits apply to the visitor, is never cached, and never holds a page up: a slow,
  * failing or empty answer leaves the section out.
  */
-import { publicProposalSchema, type LinkTarget, type PublicProposal } from '@cp/domain';
+import {
+  publicPlanSchema,
+  publicProposalSchema,
+  type LinkTarget,
+  type PublicPlan,
+  type PublicProposal,
+} from '@cp/domain';
 
 export interface PublicPreviewRequest {
   readonly apiBaseUrl: string;
@@ -17,6 +23,16 @@ export interface PublicPreviewRequest {
   readonly timeoutMs?: number;
 }
 
+function visitorHeaders(request: PublicPreviewRequest): Headers {
+  const headers = new Headers({ accept: 'application/json' });
+  if (request.proxySecret !== undefined && request.proxySecret !== '') {
+    headers.set('x-cp-web-proxy', request.proxySecret);
+    if (request.visitorIp !== null) headers.set('x-cp-visitor-ip', request.visitorIp);
+    if (request.visitorUserAgent !== null) headers.set('x-cp-visitor-ua', request.visitorUserAgent);
+  }
+  return headers;
+}
+
 /** The proposal behind an invite link, or null when there is none to show. */
 export async function fetchPublicProposal(
   request: PublicPreviewRequest,
@@ -25,15 +41,9 @@ export async function fetchPublicProposal(
   if (target.kind !== 'invite') return null;
   const query = target.seat === undefined ? '' : `?seat=${encodeURIComponent(target.seat)}`;
   const url = `${request.apiBaseUrl}/v1/public/proposal/${encodeURIComponent(target.code)}${query}`;
-  const headers = new Headers({ accept: 'application/json' });
-  if (request.proxySecret !== undefined && request.proxySecret !== '') {
-    headers.set('x-cp-web-proxy', request.proxySecret);
-    if (request.visitorIp !== null) headers.set('x-cp-visitor-ip', request.visitorIp);
-    if (request.visitorUserAgent !== null) headers.set('x-cp-visitor-ua', request.visitorUserAgent);
-  }
   try {
     const response = await (request.fetchImpl ?? fetch)(url, {
-      headers,
+      headers: visitorHeaders(request),
       signal: AbortSignal.timeout(request.timeoutMs ?? 2000),
     });
     if (!response.ok) return null;
@@ -41,5 +51,32 @@ export async function fetchPublicProposal(
     return parsed.success && parsed.data.days.length > 0 ? parsed.data : null;
   } catch {
     return null;
+  }
+}
+
+/**
+ * A plan link's page: the published plan, `gone` when the link no longer shows one (revoked, the
+ * plan taken down or never published), `unavailable` when the api could not say.
+ */
+export type PublicPlanOutcome =
+  | { readonly status: 'found'; readonly plan: PublicPlan }
+  | { readonly status: 'gone' }
+  | { readonly status: 'unavailable' };
+
+export async function fetchPublicPlan(request: PublicPreviewRequest): Promise<PublicPlanOutcome> {
+  const { target } = request;
+  if (target.kind !== 'plan_share') return { status: 'unavailable' };
+  const url = `${request.apiBaseUrl}/v1/public/plan/${encodeURIComponent(target.token)}`;
+  try {
+    const response = await (request.fetchImpl ?? fetch)(url, {
+      headers: visitorHeaders(request),
+      signal: AbortSignal.timeout(request.timeoutMs ?? 2500),
+    });
+    if (response.status === 404) return { status: 'gone' };
+    if (!response.ok) return { status: 'unavailable' };
+    const parsed = publicPlanSchema.safeParse(await response.json());
+    return parsed.success ? { status: 'found', plan: parsed.data } : { status: 'unavailable' };
+  } catch {
+    return { status: 'unavailable' };
   }
 }

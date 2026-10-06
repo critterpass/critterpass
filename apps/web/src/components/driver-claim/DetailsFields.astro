@@ -1,0 +1,24 @@
+---
+/* eslint-disable lingui/no-unlocalized-strings -- form field names, not UI copy. */
+// The editable details on the claim and change forms: name, areas, languages, car, seats, day
+// trips and the price in his own words.
+import type { MessageDescriptor } from '@lingui/core';
+import type { DriverClaimDetails } from '@cp/domain';
+
+import { claimCopy as c } from './copy';
+
+interface Props {
+  readonly details: DriverClaimDetails;
+  readonly t: (d: MessageDescriptor, values?: Record<string, unknown>) => string;
+}
+
+const { details, t } = Astro.props;
+---
+
+<label>{t(c.name)}<input name="display_name" value={details.display_name} maxlength="80" required /></label>
+<label>{t(c.areas)}<input name="areas" value={details.areas.join(', ')} required /><small>{t(c.areasHint)}</small></label>
+<label>{t(c.languages)}<input name="languages" value={details.languages.join(', ')} required /></label>
+<label>{t(c.car)}<input name="vehicle_model" value={details.vehicle_model ?? ''} maxlength="80" /></label>
+<label>{t(c.seats)}<input name="seats" type="number" min="1" max="60" value={details.seats ?? ''} /></label>
+<label class="check"><input type="checkbox" name="day_trips" checked={details.day_trips} /> {t(c.dayTrips)}</label>
+<label>{t(c.price)}<input name="price_text" value={details.price_text ?? ''} maxlength="200" /><small>{t(c.priceHint)}</small></label>

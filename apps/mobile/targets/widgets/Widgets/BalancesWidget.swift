@@ -12,6 +12,7 @@ struct BalancesWidget: Widget {
                 .containerBackground(for: .widget) { BalancesView.ground(entry) }
                 .widgetURL(LADeepLink.url(route: "wallet/money"))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Balances")
         .description("Who owes who on the trip.")
         .supportedFamilies([.systemSmall])

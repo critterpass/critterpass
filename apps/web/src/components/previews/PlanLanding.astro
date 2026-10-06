@@ -1,0 +1,107 @@
+---
+/**
+ * A published crew plan inside the site shell (`/p/{token}`): the plan's ticket, then "Copy into
+ * my trip", which opens the plan in the app (or the store first), with a QR code on desktop.
+ * Rendered per request and never cached, so a link revoked or a plan taken down after one visit is
+ * gone on the next.
+ */
+import '../link-handoff/handoff.css';
+import './previews.css';
+
+import type { PublicPlan } from '@cp/domain';
+
+import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import Site from '../../layouts/Site.astro';
+import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
+import { inviteCopy } from '../site/copy/invite';
+import { planCopy as copy } from '../site/copy/plan';
+import { siteTranslator } from '../site/i18n';
+import { planWords } from './plan-facts';
+import PlanPreview from './PlanPreview.astro';
+import Qr from './Qr.astro';
+
+export interface Props {
+  readonly plan: PublicPlan;
+  /** The plan link's token: the key of its share card. */
+  readonly token: string;
+  /** The handoff to the plan's screen in the app. */
+  readonly loaded: Extract<LoadedHandoff, { kind: 'page' }>;
+}
+
+const { plan, token, loaded } = Astro.props;
+const { model, qrSvg, install } = loaded;
+const t = await siteTranslator();
+const words = planWords(plan, t);
+// Android goes through the intent URL and the install referrer; everywhere else the link is copied.
+const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
+---
+
+<Site
+  title={words.pageTitle}
+  description={words.pageDescription}
+  canonicalPath={null}
+  noindex
+  ogImage={`/og/plan/${token}.png`}
+  tone="ink"
+>
+  <Fragment slot="head">
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+  </Fragment>
+  <section class="pv-page site-halftone--light">
+    <div class="site-wrap pv-grid">
+      <PlanPreview plan={plan} words={words} />
+      <div class="pv-side">
+        <section class="pv-panel" aria-labelledby="pv-plan-copy">
+          <h2 id="pv-plan-copy" class="site-display pv-plan__title">{t(copy.copyTitle)}</h2>
+          <p class="pv-plan__body">{t(copy.copyBody)}</p>
+          {qrSvg !== null && <Qr svg={qrSvg} crewName={null} />}
+          <div class="pv-actions">
+            {
+              model !== null && (
+                <a class="site-button pv-actions__open" href={model.openInAppHref} data-copy-link={copyLink} data-testid="open-in-app">
+                  {t(copy.copyCta)}
+                </a>
+              )
+            }
+            {
+              install.kind === 'stores' && (
+                <div class="pv-actions__stores">
+                  {install.appStoreHref !== null && (
+                    <a class="pv-store" href={install.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                      {t(inviteCopy.appStore)}
+                    </a>
+                  )}
+                  <a class="pv-store" href={install.playStoreHref} data-testid="google-play">
+                    {t(inviteCopy.googlePlay)}
+                  </a>
+                </div>
+              )
+            }
+            {
+              install.kind === 'testflight' && (
+                <a class="pv-store" href={install.href} data-copy-link={copyLink} data-testid="testflight">
+                  {t(inviteCopy.testFlight)}
+                </a>
+              )
+            }
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+  {
+    model?.inAppBrowser && (
+      <InAppBrowserEscape
+        inAppBrowser={model.inAppBrowser}
+        platform={model.platform}
+        link={model.canonicalLink}
+        openInChromeHref={model.openInChromeHref}
+      />
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

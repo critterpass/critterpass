@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- RECORD_AUDIO is declared with the app's other permissions (plugins/with-location-permissions.ts).
+       Android 11+ package visibility: SpeechRecognizer binds to the device's recognition service. -->
+  <queries>
+    <intent>
+      <action android:name="android.speech.RecognitionService" />
+    </intent>
+  </queries>
+  <application />
+</manifest>

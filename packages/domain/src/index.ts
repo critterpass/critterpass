@@ -174,10 +174,13 @@ export {
   type UpsertPoiResult,
 } from './places/poi';
 export {
+  ASSIGN_PROVIDER_OP,
   CHANGE_SET_OP_KINDS,
   changeSetOpKindSchema,
   changeSetOpSchema,
   changeSetOpsSchema,
+  isAssignProviderOp,
+  planItemOps,
   type ChangeSetOp,
   type ChangeSetOpKind,
   type ChangeSetOps,
@@ -249,6 +252,8 @@ export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } 
 export * from './surfaces/entitlements';
 export * from './surfaces/widget-snapshot';
 export * from './surfaces/widget-refresh';
+export * from './surfaces/android-live-update';
+export * from './surfaces/notification-categories';
 export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';
@@ -294,3 +299,4 @@ export * from './account';
 export * from './recap';
 export * from './album';
 export * from './public';
+export * from './driver-directory';
