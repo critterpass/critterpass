@@ -9,6 +9,7 @@ import type pg from 'pg';
 import type { AppEnv } from '../app';
 import type { SessionResolver } from '../commands/_framework/session';
 import { registerDestinationCostIndicesRoute } from './destination-cost-indices';
+import { registerDestinationLinksRoute } from './destination-links';
 import { registerDestinationSeasonRoute } from './destination-season';
 import { registerHelpIdeasRoute } from './help-ideas';
 import { registerPlaceCrowdForecastsRoute } from './place-crowd-forecasts';
@@ -25,5 +26,6 @@ export function registerSharedContentRoutes(
   registerHelpIdeasRoute(app, deps);
   registerDestinationSeasonRoute(app, deps);
   registerDestinationCostIndicesRoute(app, deps);
+  registerDestinationLinksRoute(app, deps);
   registerPlaceCrowdForecastsRoute(app, deps);
 }
