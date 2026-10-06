@@ -103,9 +103,11 @@ export async function submitDriverReply(
       await tx.query(
         `INSERT INTO change_sets (id, trip_id, base_version_id, trigger, author_kind, author_id,
            status, ops)
-         VALUES ($1, $2, $3, 'driver', 'provider', $4, 'proposed', $5)`,
+         VALUES ($1, $2, $3, 'driver', 'provider', $4, 'draft', $5)`,
         [changeSetId, share.trip_id, versionId, share.id, JSON.stringify(ops)],
       );
+      // A change set starts as a draft; the driver's goes straight to the crew.
+      await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
       const closesAt = approvalClosesAt({ now, inTrip: false });
       const pollId = await openPoll(
         tx,
