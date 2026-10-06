@@ -531,6 +531,10 @@ msgstr "Prévenir {name} sur WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Texte ou lien"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Ça n’est pas passé. Réessayez dans un instant."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Ce n’est pas enregistré. Un jour vient peut-être d’être pris."

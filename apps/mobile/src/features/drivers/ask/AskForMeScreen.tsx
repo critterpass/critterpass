@@ -144,6 +144,7 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
                 value={edits[editing] ?? (editing === 'budget' ? '' : values[editing])}
                 onChangeText={(text) => setEdits((prev) => ({ ...prev, [editing]: text }))}
                 onSubmitEditing={() => setEditing(null)}
+                autoFocus
                 testID="drivers-ask-edit"
               />
             )}

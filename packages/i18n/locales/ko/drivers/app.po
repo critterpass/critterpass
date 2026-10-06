@@ -531,6 +531,10 @@ msgstr "WhatsApp으로 {name}에게 알리기"
 msgid "drivers.add.pasteDetail"
 msgstr "텍스트나 링크"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "처리되지 않았어요. 잠시 후 다시 해 보세요."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "저장되지 않았어요. 방금 다른 예약이 들어왔을 수 있어요."

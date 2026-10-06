@@ -38,6 +38,8 @@ appId: app.critterpass.dev
 - takeScreenshot: en-6b-1-ask-for-me
 - tapOn:
     id: 'drivers-ask-budget'
+- tapOn:
+    id: 'drivers-ask-edit'
 - inputText: 'Rp 700k a day'
 - assertVisible:
     text: '(?s).*Rp 700k a day.*'

@@ -531,6 +531,10 @@ msgstr "Laat het {name} weten via WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Tekst of link"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Dat is niet gelukt. Probeer het zo nog eens."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Dat is niet opgeslagen. Misschien is er net een dag bezet geraakt."

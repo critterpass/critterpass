@@ -531,6 +531,10 @@ msgstr "Avisar a {name} por WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Texto o enlace"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "No se pudo enviar. Inténtalo de nuevo en un momento."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "No se guardó. Puede que acaben de ocupar un día."

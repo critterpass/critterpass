@@ -531,6 +531,10 @@ msgstr "Beritahu {name} di WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Teks atau pautan"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Tidak berjaya. Cuba lagi sebentar lagi."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Tidak disimpan. Mungkin ada hari yang baru diambil."

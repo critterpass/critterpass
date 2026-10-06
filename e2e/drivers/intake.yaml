@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Add a driver on a real account: a pasted WhatsApp message is shared to the trip and read into a
-# card whose lines all start unconfirmed; CONFIRM stays locked until each line is checked.
+# card whose lines all start unconfirmed; CONFIRM stays locked until each line is checked. Needs
+# the driver commands on the api the build talks to (staging).
 - runFlow:
     file: ../happy/subflows/fresh-account.yaml
     env:

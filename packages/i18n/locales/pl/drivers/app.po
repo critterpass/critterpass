@@ -531,6 +531,10 @@ msgstr "Daj znać na WhatsAppie: {name}"
 msgid "drivers.add.pasteDetail"
 msgstr "Tekst lub link"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Nie udało się. Spróbuj ponownie za chwilę."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Nie zapisano. Być może dzień został właśnie zajęty."

@@ -215,6 +215,14 @@ export function AddDriverScreen({
             })}
           </Text>
         ) : null}
+        {intake.state.kind === 'failed' ? (
+          <Text variant="bodySm" color={theme.semantic.state.urgent} testID="drivers-add-failed">
+            {t({
+              id: 'drivers.add.failed',
+              message: 'That didn’t go through. Try again in a moment.',
+            })}
+          </Text>
+        ) : null}
         {items.length === 0 ? null : (
           <Stack gap="8">
             <Text variant="eyebrow" color={theme.semantic.text.secondary}>

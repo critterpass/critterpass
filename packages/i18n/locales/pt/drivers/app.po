@@ -531,6 +531,10 @@ msgstr "Avisar {name} no WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "Texto ou link"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Não deu certo. Tente de novo daqui a pouco."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Não salvou. Talvez um dia tenha acabado de ser ocupado."

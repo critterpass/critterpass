@@ -531,6 +531,10 @@ msgstr "บอก {name} ทาง WhatsApp"
 msgid "drivers.add.pasteDetail"
 msgstr "ข้อความหรือลิงก์"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "ยังไม่สำเร็จ ลองใหม่อีกสักครู่"
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "ยังไม่ได้บันทึก อาจมีวันที่เพิ่งถูกจองไป"

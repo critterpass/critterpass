@@ -16,6 +16,7 @@ export type IntakeState =
   | { readonly kind: 'idle' }
   | { readonly kind: 'reading' }
   | { readonly kind: 'queued' }
+  | { readonly kind: 'failed' }
   | { readonly kind: 'done'; readonly item: ReadIntake };
 
 /** A contact typed in by hand: its name and number are the card, nothing to read. */
@@ -41,7 +42,7 @@ export function useIntake(tripId: string, api: DriversApi = deviceDriversApi) {
     setState({ kind: 'reading' });
     const sent = await share.send({ intake_id: intakeId, trip_id: tripId, kind, text });
     if (sent.kind === 'rejected') {
-      setState({ kind: 'idle' });
+      setState({ kind: 'failed' });
       return null;
     }
     if (preset !== undefined) {

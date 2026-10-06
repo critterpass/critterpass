@@ -531,6 +531,10 @@ msgstr "WhatsApp’tan haber ver: {name}"
 msgid "drivers.add.pasteDetail"
 msgstr "Metin veya bağlantı"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "Olmadı. Birazdan yeniden dene."
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "Kaydedilmedi. Bir gün az önce dolmuş olabilir."

@@ -531,6 +531,10 @@ msgstr "用 WhatsApp 告诉{name}"
 msgid "drivers.add.pasteDetail"
 msgstr "文字或链接"
 
+#: ../../apps/mobile/src/features/drivers/intake/AddDriverScreen.tsx
+msgid "drivers.add.failed"
+msgstr "没有成功，稍后再试。"
+
 #: ../../apps/mobile/src/features/drivers/pick/PickDaysSheet.tsx
 msgid "drivers.pick.failed"
 msgstr "没保存成功，可能刚好有一天被订了。"
