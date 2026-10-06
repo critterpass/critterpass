@@ -100,6 +100,8 @@ export const PRODUCER_QUEUES: readonly string[] = [
   TRIP_PLACES_REFRESH_QUEUE,
   PLANNING_QUEUES.legs,
   PLANNING_QUEUES.check,
+  // A crew's tip about its driver is screened by the worker after the command commits.
+  'compliance.check',
 ];
 
 /**
