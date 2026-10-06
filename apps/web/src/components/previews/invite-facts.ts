@@ -6,9 +6,10 @@
  */
 import { canonicalSeed, critters, isGuideSpec } from '@cp/critter-art';
 import { guideSlug } from '@cp/critter-art/guides';
-import { parseMemberColour, type LinkPreview } from '@cp/domain';
+import { parseMemberColour, type LinkPreview, type PublicProposal } from '@cp/domain';
 
 const DEFAULT_KIND = 'gecko';
+const DEFAULT_GUIDE_NAME = 'Tokek';
 // Every critter is the guide of its own city, known by its name folded to a slug.
 const CRITTERS_BY_SLUG = new Map(critters.map((critter) => [guideSlug(critter.name), critter]));
 
@@ -108,4 +109,44 @@ export function countdownLabel(expiresAt: string | null | undefined, now: number
     .map((part) => String(part).padStart(2, '0'))
     .join(':');
   return days > 0 ? `${days}d ${clock}` : clock;
+}
+
+/** The guide's own name ("Tokek" when the trip has none or one the dex does not know). */
+export function guideName(slug: string | null | undefined): string {
+  return critterOf(slug)?.name ?? DEFAULT_GUIDE_NAME;
+}
+
+const DAY_TONES = ['green', 'orange', 'blue'] as const;
+
+export interface DraftRow {
+  readonly key: number;
+  /** The day of the month, or null while the trip has no dates (the tile then says "Day n"). */
+  readonly dayOfMonth: string | null;
+  readonly weekday: string | null;
+  readonly dayNo: number;
+  /** The day's theme, else its first stop; null when the day has neither. */
+  readonly title: string | null;
+  /** The stops after the one used as the title. */
+  readonly line: string | null;
+  readonly tone: (typeof DAY_TONES)[number];
+}
+
+/** The invite ticket's draft rows: date tile, title and stops for each day shown. */
+export function draftRows(proposal: PublicProposal, locale = 'en'): readonly DraftRow[] {
+  const dayOfMonth = new Intl.DateTimeFormat(locale, { day: 'numeric', timeZone: 'UTC' });
+  const weekday = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
+  return proposal.days.map((day, index) => {
+    const date = day.date === null ? null : new Date(`${day.date}T00:00:00Z`);
+    const title = day.theme ?? day.stops[0] ?? null;
+    const rest = day.theme === null ? day.stops.slice(1) : day.stops;
+    return {
+      key: day.day_no,
+      dayOfMonth: date === null ? null : dayOfMonth.format(date),
+      weekday: date === null ? null : weekday.format(date),
+      dayNo: day.day_no,
+      title,
+      line: rest.length > 0 ? rest.join(', ') : null,
+      tone: DAY_TONES[index % DAY_TONES.length] ?? 'green',
+    };
+  });
 }

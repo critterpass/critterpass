@@ -1,0 +1,54 @@
+---
+/**
+ * The proposal on Site-Invite's ticket: "{guide}'s draft · 3 of 8 days" and the first days as
+ * date tile, theme and stops. Only what the public proposal projection carries: no prices per
+ * member, notes or people.
+ */
+import type { PublicProposal } from '@cp/domain';
+
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import { draftRows, guideName } from './invite-facts';
+
+export interface Props {
+  readonly proposal: PublicProposal;
+  readonly guideSlug: string | null | undefined;
+}
+
+const { proposal, guideSlug } = Astro.props;
+const t = await siteTranslator();
+const rows = draftRows(proposal);
+const title = t(copy.draftTitle, {
+  guide: guideName(guideSlug),
+  shown: rows.length,
+  total: proposal.days_total,
+});
+---
+
+<section class="pv-draft" aria-labelledby="pv-draft-title" data-testid="invite-draft">
+  <h2 id="pv-draft-title" class="site-eyebrow pv-draft__title">{title}</h2>
+  <ol class="pv-draft__days">
+    {
+      rows.map((row) => (
+        <li class="pv-draft__day">
+          <span class={`pv-draft__tile pv-draft__tile--${row.tone}`} aria-hidden="true">
+            {row.dayOfMonth === null ? (
+              <span class="pv-draft__tile-day">{t(copy.draftDay, { n: row.dayNo })}</span>
+            ) : (
+              <>
+                <span class="pv-draft__tile-num">{row.dayOfMonth}</span>
+                <span class="pv-draft__tile-week">{row.weekday}</span>
+              </>
+            )}
+          </span>
+          <span class="pv-draft__text">
+            <span class="site-display pv-draft__name">
+              {row.title ?? t(copy.draftDay, { n: row.dayNo })}
+            </span>
+            {row.line && <span class="pv-draft__line">{row.line}</span>}
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+</section>

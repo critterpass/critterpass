@@ -116,7 +116,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. `public_reader` role + security-barrier views for proposal/recap with explicit allow-lists; grant on 52's `community.shared_plan_public`. 2. Handlers run `SET LOCAL ROLE public_reader`; kind=plan calls 52's `readPublicPlan(token)`. 3. Token validation (revoked/expired/unlisted → 404). 4. Proposal crew = count + stickers; names only with consent. 5. Rate limit + bot filter reuse from 21.
 - Tests: `pnpm --filter @cp/api test -- public-previews`; `pnpm --filter @cp/db test -- public-projections`.
 - Done when: projection test fails if any column tagged C2/C3 is selected; `public_reader` SELECT on any base table is denied; revoked token returns 404.
-- Status: blocked — the proposal, recap and plan projections need `proposals` (phase 31), `recaps` (phase 43) and `community.shared_plan_public` with `readPublicPlan` (phase 52), none of which exist yet; the locals projection needs phase 40 to settle which critter names and forms a public `/locals/<place>` page may show (names are server-only until found today)
+- Status: partly done — c0462e1d (`public_reader`, `public.proposal_public` and `GET /v1/public/proposal/{token}` for a trip code or seat). Left: the recap and plan kinds, which wait on `recaps` publishing (phase 43) and `readPublicPlan` (phase 52), both being built; the locals projection, which waits on phase 40's `critter_public`
 
 ### T4 — Invite landing + /join + referral
 - Goal: F-183.
@@ -156,7 +156,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Sign-in options: phone OTP via Better Auth through the phase-09 sender router (country allow-list), Cloudflare Turnstile verified server-side, per-IP and per-number rate limits; Sign in with Apple (web Services ID) and Google (web client) via Better Auth social; CORS allow-list for web origin. 2. Anonymous-only notice ("delete in the app"). 3. Confirm screen lists what is deleted/kept (C5 records). 4. Calls `request_account_deletion`; done page with grace period.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/deletion` (against local compose stack); `pnpm --filter @cp/api test -- web-otp-guard`.
 - Done when: phone, Apple and Google sign-in each create an `account_deletions` row for the signed-in uid; OTP without Turnstile token, over rate limit, or to a non-allow-listed country is rejected without sending; unauthenticated call rejected.
-- Status: blocked — needs `request_account_deletion` (phase 45, not built) and founder accounts for web sign-in: an Apple Services ID, a Google web OAuth client and Cloudflare Turnstile keys
+- Status: blocked — `request_account_deletion` exists now; still needs founder accounts for web sign-in: an Apple Services ID, a Google web OAuth client and Cloudflare Turnstile keys
 
 ### T9 — Web previews: proposal, recap, plan, locals (block B)
 - Goal: F-092.
@@ -164,7 +164,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Layouts derived from 3a-10/3m-9/3o-4 styles; proposal crew as count + anonymous stickers. 2. noindex for unlisted. 3. `no-store` for token pages. 4. Handoff CTA.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/previews`.
 - Done when: each preview renders from seeded local stack; unlisted pages carry `noindex`; revoked token shows gone state; proposal preview shows no avatar or name without consent.
-- Status: blocked — proposal, recap and plan previews wait on T3 and phases 31, 43 and 52; the locals page waits on phase 40
+- Status: partly done — 4915f7c5 (the proposal's first days on the invite ticket, as Site-Invite draws them; a proposal has no link of its own, it travels on `/i/{code}`). Left: recap and plan previews (phases 43 and 52), the locals page (phase 40)
 
 ### T11 — Private OG kinds, locals OG, home pricing (block B)
 - Goal: complete F-186 kinds and F-182 pricing.
@@ -172,7 +172,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Proposal/recap/plan templates keyed by link token, content from T3 projections only (no names/avatars without consent). 2. Locals template by public slug (critter forms from 40). 3. Pricing section from `/v1/catalog/perks` at build (build fails if unreachable in production; no hard-coded perks).
 - Tests: `pnpm --filter @cp/web test -- og` (golden per new kind + revoked plan link → 404); `pnpm --filter @cp/web test:e2e -- site/home`.
 - Done when: all 7 kinds render 1200×630 < 300 KB; revoked plan/recap/proposal tokens 404 with R2 purged; pricing section matches Site-Home render.
-- Status: blocked — private proposal/recap/plan cards wait on T3; the locals card on phase 40; home pricing on `/v1/catalog/perks` (phase 46)
+- Status: blocked — a proposal shares the invite card (`/og/invite/{code}.png`), so it needs no card of its own; recap and plan cards wait on their T3 kinds, the locals card on phase 40, home pricing on `/v1/catalog/perks` (phase 46)
 
 ### T10 — Deploy pipeline + link-preview verification
 - Goal: production readiness.

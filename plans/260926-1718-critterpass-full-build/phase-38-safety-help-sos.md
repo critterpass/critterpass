@@ -152,6 +152,7 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Steps: 1. Register handlers for `cp.sos` COMING/CALL/OPEN and `cp.help` STOP_SHARE (action keys scope `sos`). 2. Android `cp_sos` channel DND-bypass request flow + FSI permission explainer. 3. Maestro flows with second simulated crew device via API.
 - Tests: `maestro test e2e/safety/`
 - Done when: all flows green on iOS 26 + Android 36.
+- Status: partly done — 67a22bdb, 3ac5f1cc (the `cp.sos` and `cp.help` action handlers; `e2e/safety/help-sos.yaml` and `sos-receive-respond.yaml` cover share, send, cancel, receive, respond and resolve). Left: the Android `cp_sos` Do Not Disturb request and full-screen explainer, which need native changes in `apps/mobile/modules/cp-notifications` (outside this phase's files) and a native build
 
 ## Phase acceptance criteria
 - [ ] Help works fully offline for numbers, phrases, checklists; online shows geocode + nearest facility
