@@ -1,9 +1,10 @@
 /**
  * `daybundle.build`: the offline manifest of one trip day (docs/api-contracts.md §5.5): the
  * crew-visible booking documents in play that day, phrase audio in the destination's language, the
- * map region, the latest FX rates with their date, labels for the day's places and the day's point
- * forecasts. The manifest is hashed in canonical form; the version bumps only when the content
- * changed, so devices download deltas and a rerun with nothing new changes nothing.
+ * map region, the latest FX rates with their date, labels for the day's places (from the trip's own
+ * `trip_places` cards) and the day's point forecasts. The manifest is hashed in canonical form; the
+ * version bumps only when the content changed, so devices download deltas and a rerun with nothing
+ * new changes nothing.
  */
 import { createHash } from 'node:crypto';
 
@@ -123,12 +124,17 @@ export async function dayManifest(
       ORDER BY base, quote, as_of DESC`,
     [trip.currency],
   );
+  // The day's labels are the trip's own place cards, the same rows the trip stream syncs. A plan
+  // change queues this build before the debounced card refresh runs, so bring the cards in line
+  // first (a refresh with nothing new writes nothing).
+  await tx.query('SELECT app.refresh_trip_places($1)', [tripId]);
   const places = await tx.query<BundleManifest['places'][number]>(
-    `SELECT DISTINCT ON (p.id) p.id AS poi_id, p.name, p.address, p.lat, p.lng
-       FROM plan_items i JOIN pois p ON p.id = i.poi_id
-      WHERE i.version_id = $1 AND i.starts_at >= $2 AND i.starts_at < $3
-      ORDER BY p.id`,
-    [trip.version_id, from, to],
+    `SELECT DISTINCT ON (p.poi_id) p.poi_id, p.name, p.address, p.lat, p.lng
+       FROM plan_items i
+       JOIN trip_places p ON p.trip_id = i.trip_id AND p.poi_id = i.poi_id AND p.visibility = 'crew'
+      WHERE i.version_id = $1 AND i.trip_id = $4 AND i.starts_at >= $2 AND i.starts_at < $3
+      ORDER BY p.poi_id`,
+    [trip.version_id, from, to, tripId],
   );
   const forecasts = await tx.query<BundleManifest['forecasts'][number]>(
     `SELECT point_key, elevation_m, hourly FROM weather_snapshots
