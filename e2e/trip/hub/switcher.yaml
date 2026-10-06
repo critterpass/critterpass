@@ -1,0 +1,85 @@
+appId: app.critterpass.dev
+---
+# Two trips on one phone: a trip that is on today (built in the app and joined by five simulated
+# travellers) and a solo trip still in planning, started from a place's Explore page. The hub opens
+# on the trip that is on; SWITCH TRIP lists both, and each opens in its own phase.
+- runFlow:
+    file: ../../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: switcher
+      CREW_NAME: 'Switch Crew'
+- runFlow: ../subflows/crew-of-six.yaml
+- runFlow: ../../happy/subflows/wait-for-trip-start.yaml
+# A second trip, for one: SOLO TRIP from a place's page.
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'hoi an'
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 15000
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- scrollUntilVisible:
+    element:
+      id: 'explore-solo'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'explore-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-solo-confirm'
+    timeout: 10000
+- tapOn:
+    id: 'explore-solo-start'
+- extendedWaitUntil:
+    visible:
+      id: 'when-cta|when-pick-week'
+    timeout: 60000
+- launchApp
+- runFlow: ../subflows/to-hub.yaml
+- assertVisible:
+    id: 'trip-hub-header-in'
+- assertVisible:
+    id: 'trip-hub-switch'
+- waitForAnimationToEnd
+- takeScreenshot: switcher-hub-in
+- tapOn:
+    id: 'trip-hub-switch'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list'
+    timeout: 15000
+- assertVisible:
+    id: 'trip-list-row-.*'
+    index: 1
+- waitForAnimationToEnd
+- takeScreenshot: switcher-list
+# The list puts the trip that is on first; the second row is the solo trip in planning.
+- tapOn:
+    id: 'trip-list-row-.*'
+    index: 1
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-planning'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: switcher-hub-planning
+- tapOn:
+    id: 'trip-hub-switch'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list'
+    timeout: 15000
+- tapOn:
+    id: 'trip-list-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-in'
+    timeout: 15000
