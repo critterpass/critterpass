@@ -2,3 +2,6 @@
 export { feedbackHref, HELP_ROUTES, type FeedbackMode } from './routes';
 export { storeReviewUrl } from './data/store-review';
 export { useIdeasToVote } from './data/help-local';
+export { PrivateContent } from './shake/PrivateContent';
+export { ShakeToReport } from './shake/ShakeListener';
+export { shakeToReportAvailable, useShakeToReport } from './shake/shake-pref';

@@ -37,6 +37,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly language: string;
   /** The App icon row is offered only where the app has other icons to switch to. */
   readonly appIcon?: boolean;
+  /** Shake to report on this phone; absent where a shake cannot open a report. */
+  readonly shakeToReport?: boolean | null;
   /** "On the App Store" / "On Google Play", under Rate CritterPass. */
   readonly storeName: string;
   /** Ideas open to votes on the idea board, from its synced rows; null until known. */
@@ -60,6 +62,7 @@ export interface SettingsHandlers {
   readonly onMapsApp?: (next: MapsApp) => void;
   readonly onLanguage: () => void;
   readonly onAppIcon?: () => void;
+  readonly onShakeToReport?: (next: boolean) => void;
   readonly onSignOut: () => void;
   readonly onRate: (() => void) | null;
   readonly onFeedback: () => void;

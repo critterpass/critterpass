@@ -84,6 +84,7 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'app-icon', section: 'app', scope: link, owner: 'you' },
   { key: 'rate', section: 'help', scope: link, owner: 'help' },
   { key: 'feedback', section: 'help', scope: link, owner: 'help' },
+  { key: 'shake-to-report', section: 'help', scope: device, owner: 'help' },
   { key: 'idea', section: 'help', scope: link, owner: 'help' },
   { key: 'help-centre', section: 'help', scope: link, owner: 'help' },
   { key: 'download-data', section: 'account', scope: link, owner: 'you' },

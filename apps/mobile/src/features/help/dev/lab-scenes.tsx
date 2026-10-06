@@ -9,6 +9,11 @@ import { useState, type ReactNode } from 'react';
 
 import type { FeedbackCategory, FeedbackMood } from '@cp/domain';
 
+import { PillButton } from '@/ui/buttons/PillButton';
+import { Stack } from '@/ui/layout/Stack';
+import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
+
 import { searchLocal, type LocalArticle } from '../data/search-local';
 import { canSend, initialDraft, topicsFor, type FeedbackDraft } from '../feedback/draft';
 import { FeedbackView } from '../feedback/FeedbackView';
@@ -16,6 +21,9 @@ import { SentView } from '../feedback/SentView';
 import { HubView } from '../hub/HubView';
 import { ReaderView } from '../reader/ReaderView';
 import type { FeedbackMode } from '../routes';
+import { captureMasked } from '../shake/capture';
+import { PrivateContent } from '../shake/PrivateContent';
+import { deviceCapturePorts } from '../shake/ShakeListener';
 import { IDEA_SCENES } from './idea-scenes';
 
 const noop = () => undefined;
@@ -120,6 +128,44 @@ function Feedback({
   );
 }
 
+/**
+ * What a shake does, without the shake: takes the masked screenshot of this scene (as an ordinary
+ * screen, or as a private one that is covered whole) and opens the problem report with it attached.
+ */
+function ShakeReport() {
+  const [shot, setShot] = useState<string | null | undefined>(undefined);
+  if (shot !== undefined) {
+    return (
+      <Feedback
+        mode="problem"
+        start={{
+          attachments: shot === null ? [] : [{ uri: shot, contentType: 'image/jpeg', bytes: null }],
+        }}
+      />
+    );
+  }
+  const shake = (pathname: string) =>
+    void captureMasked(pathname, deviceCapturePorts).then(setShot);
+  return (
+    <Scaffold variant="dark" edges={['top', 'bottom']} testID="help-shake-lab">
+      <Stack gap="16" padding="20">
+        <Text variant="eyebrow">You owe Winston</Text>
+        <PrivateContent>
+          <Text variant="h1">Rp 4.500.000</Text>
+        </PrivateContent>
+        <Text variant="body">The amount above is marked private; this line is not.</Text>
+        <PillButton label="Shake here" onPress={() => shake('/explore')} testID="help-shake-here" />
+        <PillButton
+          label="Shake on a private screen"
+          variant="secondary"
+          onPress={() => shake('/wallet')}
+          testID="help-shake-private"
+        />
+      </Stack>
+    </Scaffold>
+  );
+}
+
 const NOTE =
   'Tokek suggested the boat on a rainy morning. Could the guide check the forecast first?';
 
@@ -143,6 +189,7 @@ export const HELP_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   'feedback-empty': () => <Feedback mode="feedback" />,
   'feedback-problem': () => <Feedback mode="problem" />,
+  'shake-report': () => <ShakeReport />,
   '3p-3-sent': () => (
     <SentView
       ticketNo={2291}

@@ -1048,6 +1048,14 @@ msgstr "Settle up"
 msgid "you.delete.owedLine"
 msgstr "Settle up first, or {crew} keep it."
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReportLine"
+msgstr "Shake any screen to report a problem with a screenshot"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReport"
+msgstr "Shake to report"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
 msgstr "Share where I am from Help"

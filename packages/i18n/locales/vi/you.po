@@ -1048,6 +1048,14 @@ msgstr "Thanh toán"
 msgid "you.delete.owedLine"
 msgstr "Hãy thanh toán trước, nếu không {crew} sẽ giữ số này."
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReportLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.shakeToReport"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
 msgstr "Chia sẻ vị trí khi mở Trợ giúp"
