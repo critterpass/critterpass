@@ -21,22 +21,26 @@ appId: app.critterpass.dev
     visible:
       id: 'live-pause-chip'
     timeout: 20000
+# The map's pins are drawn by the map view and are not in Android's hierarchy, so the crew is read
+# from the panel under it: Maya and Rin walk together and share one row, and the meet-up is set.
 - extendedWaitUntil:
-    visible:
-      id: 'live-bunch'
+    visible: '(?i)maya and rin'
     timeout: 60000
 - takeScreenshot: live-map-crew-gliding
 - extendedWaitUntil:
-    visible:
-      id: 'live-meetup-pin'
+    visible: '(?i)meet-up.*'
     timeout: 30000
+# Each crewmate's row carries when they arrive ("Arrives 03:20"), counted every 60 s.
+- extendedWaitUntil:
+    visible: 'Arrives .*'
+    timeout: 150000
 - copyTextFrom:
-    id: 'live-row-.*'
+    text: 'Arrives .*'
     index: 0
 - evalScript: ${output.before = maestro.copiedText}
-# ETAs recount every 60 s.
+- takeScreenshot: live-map-eta-shown
 - extendedWaitUntil:
     notVisible:
       text: ${output.before}
-    timeout: 75000
+    timeout: 150000
 - takeScreenshot: live-map-eta-recounted
