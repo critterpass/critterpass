@@ -15,5 +15,6 @@ import './explore/split/register';
 import '@/features/explore/search/register';
 import './explore/places/register';
 import '@/features/explore/trip-explore/register';
+import '@/features/explore/day-trips/register';
 
 startPlanHubFeed();
