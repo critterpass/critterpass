@@ -19,10 +19,13 @@ import { knownHours, openAt, poiCategorySchema, type Hours, type PoiCategory } f
 import type pg from 'pg';
 
 import { areaFromAddress } from '../planning/search/area';
+import { withBrowseDetails, type PlaceBrowseDetails } from './browse-details';
 import { onePerPlace } from './same-place';
 
 const DEFAULT_LIMIT = 20;
 const MAX_LIMIT = 50;
+/** A destination's no-query browse fills a map: one page holds this many places. */
+export const MAX_BROWSE_LIMIT = 300;
 /** Fetched before an app-layer `open_at` filter narrows down to `limit`, since hours evaluation
  *  (tz-aware, overnight-span-aware) is not expressible as a single SQL predicate. */
 const OPEN_AT_CANDIDATE_MULTIPLIER = 5;
@@ -178,15 +181,16 @@ async function destinationWords(
 export async function searchPlaces(
   tx: pg.PoolClient,
   filters: PlaceSearchFilters,
-): Promise<readonly PlaceSearchResultItem[]> {
-  const limit = Math.min(filters.limit ?? DEFAULT_LIMIT, MAX_LIMIT);
+): Promise<readonly (PlaceSearchResultItem & PlaceBrowseDetails)[]> {
+  const browse = filters.destinationId !== undefined && (filters.q ?? '').trim() === '';
+  const limit = Math.min(filters.limit ?? DEFAULT_LIMIT, browse ? MAX_BROWSE_LIMIT : MAX_LIMIT);
   const needsOpenAtFilter = filters.openAt !== undefined;
   const fetchLimit = needsOpenAtFilter ? limit * OPEN_AT_CANDIDATE_MULTIPLIER : limit;
   const rows = await queryPlaceRows(tx, filters, fetchLimit);
   const results = needsOpenAtFilter
     ? rows.filter((row) => isOpenAtInstant(row, filters.openAt as Date) === true)
     : rows;
-  return results.slice(0, limit).map(toResultItem);
+  return withBrowseDetails(tx, results.slice(0, limit).map(toResultItem));
 }
 
 /**
