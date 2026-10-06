@@ -134,7 +134,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Start path: foreground → local request; background → worker sends APNs push-to-start on `encounter.dwell_started` (POI id + distance band only) using the stored push-to-start token; missing token/permission → time-sensitive notification. 2. Ring/blur stage from server-confirmed dwell fraction (10 steps); drain on leave. 3. End on catch with found art / on expiry.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:CritterSnapshots`; `pnpm --filter @cp/mobile test -- critter-nearby`; `pnpm --filter @cp/worker test -- la/critter-start` (background dwell → push-to-start payload; no token → time-sensitive notification; payload contains no coordinates).
 - Done when: simulated dwell sequence produces 10 ring states and drains without reset; backgrounded dwell start goes via push-to-start, never local `Activity.request`.
-- Status: partly done — 8a48ec237d (the lock-screen view and the in-app start, ring and end, with `critter-nearby` tests). Not built: the worker's push-to-start when a dwell begins with the app in the background
+- Status: done — 8a48ec237d (the lock-screen view and the in-app start, ring and end, with `critter-nearby` tests), 48a9d92cfc (the worker's push-to-start for a background dwell, the ring from reported samples, the notification when the phone cannot show it). Not built: the app adopting a push-started activity (it keys its own by spawn rule, the server by encounter), and a re-run on each sample report (the ring moves on the minute sweep)
 
 ### T8 — Crew-live LA + lock-screen offer (5a-2, 5a-6)
 - Goal: boosted crew meet-up LA on every member's phone.
@@ -150,7 +150,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Triggers per kind; concurrency demotion to notifications. 2. SOS p10 to recipients, local for sender. 3. Snapshots all states.
 - Tests: `pnpm --filter @cp/worker test -- la`; `xcodebuild test -scheme CPWidgets`.
 - Done when: SOS pre-empts a running LeaveBy on a device at the 2-activity cap; ballot intent returns tallies and shows the stamp.
-- Status: partly done — 8a48ec237d (Vote, Storm, SOS and Ride views, the ballot and coming intents, the worker's vote and SOS loaders). Not built: worker loaders that start the Storm and Ride activities
+- Status: done — 8a48ec237d (Vote, Storm, SOS and Ride views, the ballot and coming intents, the worker's vote and SOS loaders), d708e84128 (the worker's Storm and Ride loaders and their minute-sweep starts)
 
 ### T10 — Alarm countdown presentation + E2E pass
 - Goal: AlarmKit UI inside the widget extension; full LA regression.
