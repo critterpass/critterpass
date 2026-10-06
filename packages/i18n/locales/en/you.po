@@ -50,6 +50,10 @@ msgstr "{count, plural, one {Trip} other {Trips}}"
 msgid "you.language.more"
 msgstr "{count} more"
 
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.passCount"
+msgstr "{critters, plural, one {Your pass, your # critter and your stamps} other {Your pass, your # critters and your stamps}}"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr "{days, plural, one {{place} in # day} other {{place} in # days}}"
@@ -78,6 +82,18 @@ msgstr "{language} · prices in {symbol}"
 msgid "you.settings.languageBoth"
 msgstr "{language} · prices in {symbol} and local"
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripCoOrganiser"
+msgstr "{name} keeps its other organiser."
+
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicFollows"
+msgstr "{name}, follows your guide"
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripHandOver"
+msgstr "{next} takes over organising {name}."
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
 msgstr "{place} today"
@@ -93,6 +109,10 @@ msgstr "12-hour"
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.twentyFourHour"
 msgstr "24-hour"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.voicesLine"
+msgstr "A chirp when a guide pops up"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
@@ -269,6 +289,10 @@ msgstr "Critter"
 msgid "you.avatar.formLabel"
 msgstr "Critter {0}"
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.voices"
+msgstr "Critter voices"
+
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.title"
 msgstr "Currency"
@@ -276,6 +300,10 @@ msgstr "Currency"
 #: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
 msgid "you.currency.search"
 msgstr "Currency code, like SGD"
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.chava"
+msgstr "Đàn bầu lo-fi"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
@@ -309,9 +337,17 @@ msgstr "Done"
 msgid "you.settings.downloadData"
 msgstr "Download my data"
 
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.downloadFirst"
+msgstr "Download my data first"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.trips"
 msgstr "During trips"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.musicLine"
+msgstr "Each guide has a theme. It changes when you land."
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
@@ -324,6 +360,14 @@ msgstr "Edit profile"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.back"
 msgstr "Edit profile"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.effects"
+msgstr "Effects"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.effectsVolume"
+msgstr "Effects volume"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.en"
@@ -349,6 +393,14 @@ msgstr "EXIT · SORTIE"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.sardi"
+msgstr "Fado guitar waltz"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.follow"
+msgstr "Follow my guide"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShareLine"
@@ -378,6 +430,10 @@ msgstr "From your Critterdex"
 msgid "you.currency.fromAirport"
 msgstr "From your home airport"
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.tokek"
+msgstr "Gamelan lo-fi"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.getPassPlus"
 msgstr "Get Pass+"
@@ -391,8 +447,8 @@ msgstr "Getting it ready… {0}%. We’ll tell you when it’s done."
 msgid "you.delete.goes"
 msgstr "Goes"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.haptics"
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.haptics"
 msgstr "Haptics"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -514,6 +570,10 @@ msgstr "km"
 msgid "you.language.name.ko"
 msgstr "Korean"
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.pon"
+msgstr "Koto and rain"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.languageCurrency"
 msgstr "Language and currency"
@@ -571,6 +631,14 @@ msgstr "Local"
 msgid "you.settings.location"
 msgstr "Location"
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.manageSubscription"
+msgstr "Manage subscription ›"
+
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.ajo"
+msgstr "Marimba lo-fi"
+
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
@@ -583,6 +651,22 @@ msgstr "mi"
 #: ../../apps/mobile/src/features/you/language/formats-section.tsx
 msgid "you.formats.miLong"
 msgstr "Miles"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.music"
+msgstr "Music"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.music"
+msgstr "Music"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.musicVolume"
+msgstr "Music volume"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.quietLine"
+msgstr "Mutes everything 22:00–07:00 and inside temples"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
@@ -605,6 +689,10 @@ msgstr "No dot at the start or end, and never two in a row."
 msgid "you.profile.crew.none"
 msgstr "No trips yet"
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripAlone"
+msgstr "Nobody else is on {name}, so it closes with you."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.normal"
 msgstr "Normal"
@@ -618,6 +706,10 @@ msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters
 msgid "you.settings.notifications"
 msgstr "Notifications"
 
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicOff"
+msgstr "Off"
+
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
@@ -630,6 +722,10 @@ msgstr "Off"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
 msgstr "Offline"
+
+#: ../../apps/mobile/src/features/you/sound/music-line.ts
+msgid "you.settings.musicOn"
+msgstr "On"
 
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.rateAndroid"
@@ -651,11 +747,23 @@ msgstr "One export a day. Try again tomorrow."
 msgid "you.avatar.initialsTitle"
 msgstr "One letter, every crew’s colour"
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.paco"
+msgstr "Pan flute and charango"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
 msgstr "Pass"
 
-#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.billedPlay"
+msgstr "Pass+ is billed by Google Play. Deleting doesn’t cancel it, so cancel it there too."
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.billedAppStore"
+msgstr "Pass+ is billed by the App Store. Deleting doesn’t cancel it, so cancel it there too."
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
@@ -704,6 +812,10 @@ msgstr "Plans you helped make, shown as “former member”"
 msgid "you.export.line"
 msgstr "Plans, photos and chat as a zip"
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.playMusic"
+msgstr "Play music"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.pt"
 msgstr "Portuguese"
@@ -731,6 +843,10 @@ msgstr "Profile"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
 msgstr "Quiet"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.quiet"
+msgstr "Quiet on the road"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.rare"
@@ -800,6 +916,10 @@ msgstr "Self-reported"
 msgid "you.settings.feedback"
 msgstr "Send feedback"
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.back"
+msgstr "Settings"
+
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
 msgstr "Settings"
@@ -819,6 +939,14 @@ msgstr "Settings"
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.back"
 msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.settleUp"
+msgstr "Settle up"
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owedLine"
+msgstr "Settle up first, or {crew} keep it."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
@@ -853,6 +981,10 @@ msgstr "Signing out erases it from this phone, and there is no way to sign back 
 msgid "you.profile.since"
 msgstr "SINCE {0}"
 
+#: ../../apps/mobile/src/features/you/sound/theme-names.ts
+msgid "you.sound.theme.lundi"
+msgstr "Slow sea shanty"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.incomplete"
@@ -873,6 +1005,10 @@ msgstr "Something else"
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.soon"
 msgstr "Soon"
+
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.title"
+msgstr "Sound"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffects"
@@ -906,6 +1042,10 @@ msgstr "Stays on your account"
 msgid "you.settings.soundEffectsLine"
 msgstr "Sticker slaps, stamps, pops"
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.stickers"
+msgstr "Stickers and stamps"
+
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedbackLine"
 msgstr "Straight to the team"
@@ -918,9 +1058,9 @@ msgstr "Suggest a feature"
 msgid "you.settings.talkOutLoud"
 msgstr "Talk out loud"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.hapticsLine"
-msgstr "Taps and thuds you can feel"
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.hapticsLine"
+msgstr "Taps on stamps, holds and votes"
 
 #: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideaLine"
@@ -958,6 +1098,10 @@ msgstr "The app, your guide’s replies and your notifications switch together. 
 msgid "you.delete.keeps"
 msgstr "The crew keeps"
 
+#: ../../apps/mobile/src/features/you/sound/sound-view.tsx
+msgid "you.sound.stickersLine"
+msgstr "The slap, the thud, the peel"
+
 #: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
 msgid "you.profile.retakeTitle"
 msgstr "This or that"
@@ -965,6 +1109,10 @@ msgstr "This or that"
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
 msgstr "This pass isn’t saved"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closesInstant"
+msgstr "This pass isn’t saved, so it’s erased right away. There’s no way back to it."
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedBody"
@@ -1076,9 +1224,21 @@ msgstr "You changed it recently. You can change it again on {when}."
 msgid "you.edit.save.cooldown"
 msgstr "You changed your username recently."
 
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owe"
+msgstr "You owe {crew} {amount}. It stays on the crew’s balances under “former member”."
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.offline"
 msgstr "You’re offline. Deleting needs a connection."
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.activeTrip"
+msgstr "You’re on {name} right now. The crew loses your plans, pings and location at once."
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.owed"
+msgstr "You’re owed {amount}"
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -1132,6 +1292,10 @@ msgstr "Your pass, your critters and your stamps"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.profile"
 msgstr "Your profile, uploads and chat messages"
+
+#: ../../apps/mobile/src/features/you/account/preflight-parts.tsx
+msgid "you.delete.tripFallback"
+msgstr "your trip"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves.trips"

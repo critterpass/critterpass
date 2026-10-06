@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# The TRIPS tab, once the hub's header shows; the visit history offer is answered if it rises.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- runFlow: ../../happy/subflows/answer-visit-offer.yaml

@@ -174,6 +174,24 @@ describe('account actions', () => {
     expect(await auditCount(mai.uid, 'revoke_session')).toEqual({ n: 1, hashed: 1 });
   });
 
+  it('revoking all sessions signs the traveller out and leaves the console session alone', async () => {
+    const mai = await seededTraveller();
+    const response = await app.command(support, 'revoke_all_sessions', {
+      uid: mai.uid,
+      reason: 'Account taken over',
+    });
+    expect(response.status).toBe(200);
+    const after = await app.userCommand(mai, 'report_content', {
+      kind: 'user',
+      id: other.uid,
+      reason: 'spam',
+    });
+    expect(after.status).toBe(401);
+    const user = supportUserSchema.parse((await get(`/v1/admin/users/${mai.uid}`)).body);
+    expect(user.sessions).toEqual([]);
+    expect(await auditCount(mai.uid, 'revoke_all_sessions')).toEqual({ n: 1, hashed: 1 });
+  });
+
   it('bans until a date, then unbans once', async () => {
     const mai = await seededTraveller();
     const until = new Date(Date.now() + 7 * 86_400_000).toISOString();

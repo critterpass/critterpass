@@ -8,6 +8,7 @@ import {
   AI_ROUTES,
   CAPPED_TIERS,
   SERVICES,
+  SERVICE_HEALTH_STALE_MINUTES,
   serviceStateAt,
   servicesResponseSchema,
   setVendorCostPayloadSchema,
@@ -69,10 +70,17 @@ async function readServices(tx: pg.PoolClient, now: Date) {
   );
   const tierToday = new Map(tiers.rows.map((row) => [row.tier, Number(row.micros)]));
 
-  const month = await tx.query<{ micros: string | null }>(
-    "SELECT sum(cost_micros)::text AS micros FROM ai_usage WHERE at >= date_trunc('month', now())",
+  const month = await tx.query<{ tier: string; micros: string }>(
+    `SELECT tier, sum(cost_micros)::text AS micros FROM ai_usage
+      WHERE at >= date_trunc('month', now()) GROUP BY tier`,
   );
-  const aiMonth = Number(month.rows[0]?.micros ?? 0);
+  // Each AI vendor's month is its tiers' sum: DeepSeek runs the generation tiers.
+  const aiVendorMonth = new Map<string, number>();
+  for (const row of month.rows) {
+    const vendor = row.tier === 'jev' ? 'jev' : row.tier === 'gemini' ? 'gemini' : 'deepseek';
+    aiVendorMonth.set(vendor, (aiVendorMonth.get(vendor) ?? 0) + Number(row.micros));
+  }
+  const aiMonth = [...aiVendorMonth.values()].reduce((total, micros) => total + micros, 0);
 
   const days = await tx.query<{ day: string; tier: string; micros: string }>(
     `SELECT to_char(date_trunc('day', at), 'YYYY-MM-DD') AS day, tier, sum(cost_micros)::text AS micros
@@ -128,9 +136,12 @@ async function readServices(tx: pg.PoolClient, now: Date) {
     services: SERVICES.map((entry) => {
       const snapshot = latest.get(entry.key) ?? null;
       const state = serviceStateAt(snapshot, now);
-      const fresh = state !== 'unknown' && snapshot !== null;
+      // A fresh snapshot can carry quota use while its state is still unknown (no calls yet).
+      const fresh =
+        snapshot !== null &&
+        now.getTime() - snapshot.at.getTime() <= SERVICE_HEALTH_STALE_MINUTES * 60_000;
       const paid = vendorSpend.get(entry.key);
-      const aiSpend = entry.key === 'deepseek' ? aiMonth : null;
+      const aiSpend = aiVendorMonth.get(entry.key) ?? null;
       return {
         key: entry.key,
         name: entry.name,

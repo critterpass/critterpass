@@ -2,6 +2,8 @@
  * `cost.recompute` over a migrated Postgres: prices a trip from its quotes, nightly fares, plan
  * items, the reviewed editorial index and one FX run; stores components, own share calcs and crew
  * totals; writes nothing on a rerun with the same inputs; follows quote and participant changes.
+ * A trip with two stops keeps one food and one fun line added over both stops and a stay line per
+ * stop; with a stop that has no reviewed index it gets no index line at all.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -177,5 +179,75 @@ describe('cost.recompute', () => {
     ]);
     await enqueue(boss, costRecomputeJob, { trip_id: tripId });
     await until(async () => (await totals())[uids.a] === '170400');
+  });
+});
+
+describe('cost.recompute on a trip with two stops', () => {
+  let routeTripId: string;
+  let secondStop: string;
+
+  const lines = async () => {
+    const { rows } = await db.pool.query<{ component_key: string; amount_minor: string }>(
+      `SELECT component_key, amount_minor FROM cost_components
+        WHERE trip_id = $1 AND component_key LIKE 'index:%' ORDER BY component_key`,
+      [routeTripId],
+    );
+    return Object.fromEntries(rows.map((row) => [row.component_key, Number(row.amount_minor)]));
+  };
+
+  beforeAll(async () => {
+    const q = (sql: string, params: unknown[] = []) => db.pool.query(sql, params);
+    const uid = await insertUser(db.pool);
+    const crewId = await insertCrew(db.pool, [uid]);
+    await q("UPDATE crews SET settlement_currency = 'USD' WHERE id = $1", [crewId]);
+    const { rows: first } = await q('SELECT destination_id AS id FROM trips WHERE id = $1', [
+      tripId,
+    ]);
+    const firstStop = (first[0] as { id: string }).id;
+    const { rows: next } = await q(
+      "INSERT INTO destinations (slug, name, coverage) VALUES ('osaka', 'Osaka', 'guest') RETURNING id",
+    );
+    secondStop = (next[0] as { id: string }).id;
+    // Kyoto two nights then Osaka two nights: five days, the last three counted to Osaka.
+    const { rows: trip } = await q(
+      `INSERT INTO trips (crew_id, status, destination_id, tz, start_date, end_date)
+       VALUES ($1, 'setup', $2, 'Asia/Tokyo', '2027-05-01', '2027-05-05') RETURNING id`,
+      [crewId, firstStop],
+    );
+    routeTripId = (trip[0] as { id: string }).id;
+    await q("INSERT INTO trip_participants (trip_id, user_id, rsvp) VALUES ($1, $2, 'in')", [
+      routeTripId,
+      uid,
+    ]);
+    await q(
+      `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+       VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 2)`,
+      [routeTripId, crewId, firstStop, secondStop],
+    );
+  }, 120_000);
+
+  it('writes no index line while one stop has no reviewed index', async () => {
+    await recomputeTripCosts(db.pool, routeTripId);
+    expect(await lines()).toEqual({});
+  });
+
+  it('adds food and fun over the stops and prices a stay line per stop', async () => {
+    await db.pool.query(
+      `INSERT INTO destination_cost_indices (destination_id, stay_type, nightly_minor_low,
+         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, source, sourced_on,
+         reviewed_at)
+       VALUES ($1, 'hotel', 5000, 9000, 2500, 1000, 'USD', 'Editorial estimate', '2026-09-28',
+         '2026-09-28T00:00:00Z')`,
+      [secondStop],
+    );
+    await recomputeTripCosts(db.pool, routeTripId);
+    expect(await lines()).toEqual({
+      // Kyoto: two days at $40 and $30, two apartment nights at $70.
+      // Osaka: three days at $25 and $10, two hotel nights at $90.
+      'index:food': 2 * 4000 + 3 * 2500,
+      'index:fun': 2 * 3000 + 3 * 1000,
+      'index:stay:apartment': 2 * 7000,
+      'index:stay:hotel:2': 2 * 9000,
+    });
   });
 });

@@ -195,12 +195,13 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       sql: 'SELECT 1 FROM crew_members WHERE crew_id = $1 AND user_id = $2',
       params: (f) => [f.crewId, f.actors.organiser],
     },
+    // Insert: only the crew's creator adds their own row; everyone else joins via app.join_crew.
     expectations: {
-      outsider: op(false, true, false),
-      exMember: op(false, true, false),
-      anonymous: op(false, true, false),
-      member: op(true, true, false),
-      coOrganiser: op(true, true, true),
+      outsider: op(false, false, false),
+      exMember: op(false, false, false),
+      anonymous: op(false, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, true),
       organiser: op(true, true, true),
     },
   },
@@ -256,10 +257,11 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       sql: 'SELECT 1 FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
       params: (f) => [f.tripId, f.actors.organiser],
     },
+    // Insert: one's own row, on a trip of a crew one is an active member of.
     expectations: {
-      outsider: op(false, true, false),
-      exMember: op(false, true, false),
-      anonymous: op(false, true, false),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
       member: op(true, true, false),
       coOrganiser: op(true, true, true),
       organiser: op(true, true, true),
@@ -691,6 +693,30 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       member: op(true, false, false),
       coOrganiser: op(true, false, false),
       organiser: op(true, false, false),
+    },
+  },
+  // How to reach a destination from a home city (class R, keyed by the two places).
+  destination_home_links: {
+    selectProbe: { sql: 'SELECT count(*) FROM destination_home_links', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // The worker's record of a destination's links run (server-only, class S).
+  destination_link_runs: {
+    selectProbe: { sql: 'SELECT 1 FROM destination_link_runs LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
     },
   },
   // The shared pace of the worker's place searches (server-only, class S).
@@ -1657,6 +1683,60 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   rides: {
     selectProbe: { sql: 'SELECT 1 FROM rides WHERE trip_id = $1', params: (f) => [f.tripId] },
     expectations: CREW_VISIBLE_READ,
+  },
+  // A driver's terms and the days he is set on are the crew's to read; only the api writes them.
+  provider_terms: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM provider_terms WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+      seed: `INSERT INTO provider_terms (provider_id, trip_id, source)
+             SELECT id, trip_id, 'found' FROM providers
+              WHERE trip_id = $1 AND deleted_at IS NULL LIMIT 1
+             ON CONFLICT (provider_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  provider_assignments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM provider_assignments WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+      seed: `INSERT INTO provider_assignments (trip_id, day_date, provider_id, assigned_by)
+             SELECT pr.trip_id, DATE '2026-01-02', pr.id, tp.user_id
+               FROM providers pr JOIN trip_participants tp ON tp.trip_id = pr.trip_id
+              WHERE pr.trip_id = $1 AND pr.deleted_at IS NULL LIMIT 1
+             ON CONFLICT (trip_id, day_date) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // A member's NOT NOW on a day is theirs alone.
+  pickup_gap_dismissals: {
+    selectProbe: {
+      ...ownRowProbe('pickup_gap_dismissals'),
+      seed: `INSERT INTO pickup_gap_dismissals (trip_id, user_id, day_date)
+             SELECT trip_id, user_id, DATE '2026-01-02' FROM trip_participants
+              WHERE user_id = $1 LIMIT 1
+             ON CONFLICT (user_id, trip_id, day_date) DO NOTHING`,
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: op(true, false, false),
+    },
+  },
+  // RLS class S: shared driver messages carry a third party's number; only the api reads them.
+  provider_intake: {
+    selectProbe: { sql: 'SELECT 1 FROM provider_intake LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   affiliate_clicks: {
     selectProbe: { sql: 'SELECT 1 FROM affiliate_clicks LIMIT 1', params: () => [] },

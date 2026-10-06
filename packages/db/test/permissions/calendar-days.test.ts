@@ -54,6 +54,31 @@ describe('calendar_days', () => {
     ).rejects.toThrow(/permission denied/i);
   });
 
+  it("tags a day with a trip only for a member of that trip's crew", async () => {
+    const { member, outsider } = harness.fixture.actors;
+    const tripId = harness.fixture.tripId;
+    const tagged = `INSERT INTO calendar_days (user_id, trip_id, date, state, source)
+                    VALUES ($1, $2, current_date + 42, 'free', 'manual')`;
+    await expect(as(outsider, tagged, [outsider, tripId])).rejects.toThrow(/row-level security/i);
+    await as(member, tagged, [member, tripId]);
+
+    await as(
+      outsider,
+      `INSERT INTO calendar_days (user_id, date, state, source)
+       VALUES ($1, current_date + 42, 'free', 'manual')`,
+      [outsider],
+    );
+    await expect(
+      as(outsider, 'UPDATE calendar_days SET trip_id = $2 WHERE user_id = $1', [outsider, tripId]),
+    ).rejects.toThrow(/not a member of the trip's crew/);
+    const changed = await as(
+      outsider,
+      "UPDATE calendar_days SET state = 'busy' WHERE user_id = $1",
+      [outsider],
+    );
+    expect(changed.rowCount).toBe(1);
+  });
+
   it('only lets the guide ask about a maybe day', async () => {
     const { member } = harness.fixture.actors;
     await expect(

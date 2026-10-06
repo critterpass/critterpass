@@ -1,7 +1,7 @@
 /**
  * Settings over this account and this phone: the synced settings (guide, alarms, privacy) with
  * unsent changes on top, the Help share consent, crew chat pings, the mailbox row the bookings
- * area offers, this phone's sound effects and haptics, the permissions the app holds, signing out
+ * area offers, this phone's music and sound effects, the permissions the app holds, signing out
  * and deleting the account (once the server has answered for it), and the build it runs.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -30,6 +30,7 @@ import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
 import { useHelpShareConsent } from './help-share-consent';
 import { useLocationRow } from './location-row';
+import { useMusicLine } from '../sound/music-line';
 import { useSettingsSections } from './settings-sections';
 import { SettingsView } from './settings-view';
 import { playTokekTheme } from './tokek-theme';
@@ -77,6 +78,7 @@ export function SettingsScreen({
     message: 'Forward confirmations to your crew’s address',
   });
   const [choosingCrewChat, setChoosingCrewChat] = useState(false);
+  const musicLine = useMusicLine(prefs.musicEnabled);
   const sections = useSettingsSections(
     {
       ...synced.settings,
@@ -85,7 +87,7 @@ export function SettingsScreen({
       mailbox: { title: mailbox.title, subtitle: inboxOn ? mailbox.subtitle : forwardLine },
       helpShare: helpShare.on,
       soundEffects: prefs.categoryEnabled[STICKER_SOUNDS],
-      haptics: prefs.hapticsEnabled,
+      music: musicLine,
       mapsApp: Platform.OS === 'ios' ? mapsAppFor('ios', chosenMapsApp) : null,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
@@ -111,7 +113,7 @@ export function SettingsScreen({
       onHelpShare: helpShare.set,
       onOfflineTrips: () => router.push(YOU_ROUTES.offlineStorage),
       onSoundEffects: (next) => prefs.setCategoryEnabled(STICKER_SOUNDS, next),
-      onHaptics: prefs.setHapticsEnabled,
+      onMusic: () => router.push(YOU_ROUTES.sound),
       onMapsApp: setMapsApp,
       onLanguage: () => router.push(YOU_ROUTES.language),
       onSignOut: () => router.push(YOU_ROUTES.signOut),

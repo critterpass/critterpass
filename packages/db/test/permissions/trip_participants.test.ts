@@ -2,7 +2,13 @@ import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { anonymousActor, insertTripParticipant, insertUser } from '../helpers/actors';
+import {
+  anonymousActor,
+  insertCrewMember,
+  insertTripParticipant,
+  insertUser,
+  setCrewMemberStatus,
+} from '../helpers/actors';
 import {
   startDbTestContainer,
   type DbTestContainer,
@@ -93,8 +99,12 @@ describe('trip_participants RLS: write', () => {
     expect(rows.find((r) => r.user_id === fixture.memberId)).toMatchObject({ rsvp: 'maybe' });
   });
 
-  it('lets a crew member join the roster for themselves only', async () => {
-    const joiner = fixture.outsiderId;
+  it('lets a crew member without a row join the roster for themselves', async () => {
+    const joiner = await withSystem(db.pool, async (tx) => {
+      const userId = await insertUser(tx);
+      await insertCrewMember(tx, { crewId: fixture.crewId, userId, role: 'member' });
+      return userId;
+    });
     await withUser(db.pool, joiner, anonymousActor().device, async (tx) => {
       await tx.query(
         "INSERT INTO trip_participants (trip_id, user_id, role) VALUES ($1, $2, 'member')",
@@ -103,6 +113,27 @@ describe('trip_participants RLS: write', () => {
     });
     const rows = await selectRoster(fixture.organiserId);
     expect(rows.some((r) => r.user_id === joiner)).toBe(true);
+  });
+
+  it("rejects someone outside the trip's crew adding themselves to the roster", async () => {
+    const former = await withSystem(db.pool, async (tx) => {
+      const userId = await insertUser(tx);
+      await insertCrewMember(tx, { crewId: fixture.crewId, userId, role: 'member' });
+      await setCrewMemberStatus(tx, { crewId: fixture.crewId, userId, status: 'removed' });
+      return userId;
+    });
+    for (const uid of [fixture.outsiderId, former]) {
+      await expect(
+        withUser(db.pool, uid, anonymousActor().device, async (tx) => {
+          await tx.query(
+            "INSERT INTO trip_participants (trip_id, user_id, role) VALUES ($1, $2, 'member')",
+            [fixture.tripId, uid],
+          );
+        }),
+      ).rejects.toThrow(/row-level security/i);
+    }
+    const rows = await selectRoster(fixture.organiserId);
+    expect(rows.some((r) => r.user_id === fixture.outsiderId || r.user_id === former)).toBe(false);
   });
 
   it('rejects inserting a roster row for someone else', async () => {

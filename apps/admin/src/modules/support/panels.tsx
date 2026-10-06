@@ -4,117 +4,46 @@ import type { SupportUser } from '@cp/domain';
 import { EmptyState } from '../../kit/states';
 import { useUserCommand, type OpenAction } from './use-user-command';
 
-const when = (value: string | null) => (value === null ? '—' : new Date(value).toLocaleString());
+export const when = (value: string | null) =>
+  value === null ? '—' : new Date(value).toLocaleString();
 
-interface PanelProps {
+export interface PanelProps {
   readonly user: SupportUser;
   readonly open: OpenAction;
 }
 
-export function AccountPanel({ user, open }: PanelProps) {
-  const run = useUserCommand(user.profile.uid);
-  const account = user.account;
-  return (
-    <section className="card stack" aria-label="Account">
-      <h2 className="section-title">Account</h2>
-      <dl className="kv">
-        <dt>Username</dt>
-        <dd className="mono">{user.profile.username ?? '—'}</dd>
-        <dt>Status</dt>
-        <dd>{user.profile.status}</dd>
-        <dt>Member since</dt>
-        <dd>{when(user.profile.member_since)}</dd>
-        <dt>Home</dt>
-        <dd>
-          {[user.profile.home_country, user.profile.locale, user.profile.tz]
-            .filter(Boolean)
-            .join(' · ') || '—'}
-        </dd>
-        <dt>Sign-in</dt>
-        <dd>
-          {account === null
-            ? 'No auth account'
-            : [
-                account.is_anonymous ? 'anonymous' : 'registered',
-                account.has_email ? 'e-mail on file' : null,
-                account.has_phone ? 'phone on file' : null,
-              ]
-                .filter(Boolean)
-                .join(' · ')}
-        </dd>
-        {account?.banned === true && (
-          <>
-            <dt>Banned</dt>
-            <dd>
-              <span className="badge" data-tone="urgent">
-                banned
-              </span>{' '}
-              {account.ban_reason} · until{' '}
-              {account.ban_expires ? when(account.ban_expires) : 'unbanned'}
-            </dd>
-          </>
-        )}
-      </dl>
-      {account !== null && (
-        <div className="row">
-          {account.banned ? (
-            <button
-              type="button"
-              className="btn"
-              onClick={() =>
-                open({
-                  title: 'Unban this account',
-                  body: 'They can sign in again straight away.',
-                  confirmLabel: 'Unban',
-                  run: ({ reason }) => run('unban_user', { reason }),
-                })
-              }
-            >
-              Unban
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() =>
-                open({
-                  title: 'Ban this account',
-                  body: 'Every session ends now and sign-in is refused until the date you set.',
-                  confirmLabel: 'Ban',
-                  until: 'optional',
-                  run: ({ reason, until }) => run('ban_user', { reason, until }),
-                })
-              }
-            >
-              Ban
-            </button>
-          )}
-        </div>
-      )}
-    </section>
-  );
-}
+export const day = (value: string | null) =>
+  value === null
+    ? '—'
+    : new Date(value).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
 
 export function SessionsPanel({ user, open }: PanelProps) {
   const run = useUserCommand(user.profile.uid);
   return (
-    <section className="card stack" aria-label="Sessions">
-      <h2 className="section-title">Sessions</h2>
+    <section className="card panel" aria-label="Sessions">
+      <div className="card-head">
+        <span className="section-label">Sessions · {user.sessions.length}</span>
+        <span className="muted">no IP or location is kept here</span>
+      </div>
       {user.sessions.length === 0 ? (
         <EmptyState title="No live sessions" />
       ) : (
         user.sessions.map((session) => (
-          <div key={session.id} className="row" style={{ justifyContent: 'space-between' }}>
+          <div key={session.id} className="panel-row">
             <span>
-              {session.user_agent ?? 'Unknown client'}
+              <strong>{session.user_agent ?? 'Unknown client'}</strong>
               <br />
-              <span className="muted">
-                since {when(session.created_at)} · ends {when(session.expires_at)}
+              <span className="mono muted">
+                created {day(session.created_at)} · ends {day(session.expires_at)}
               </span>
             </span>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-sm"
               onClick={() =>
                 open({
                   title: 'Revoke this session',
@@ -136,21 +65,25 @@ export function SessionsPanel({ user, open }: PanelProps) {
 export function DevicesPanel({ user, open }: PanelProps) {
   const run = useUserCommand(user.profile.uid);
   return (
-    <section className="card stack" aria-label="Devices">
-      <h2 className="section-title">Devices</h2>
+    <section className="card panel" aria-label="Devices">
+      <div className="card-head">
+        <span className="section-label">Device action keys · {user.devices.length}</span>
+      </div>
       {user.devices.length === 0 ? (
         <EmptyState title="No devices" />
       ) : (
         user.devices.map((device) => (
-          <div key={device.id} className="row" style={{ justifyContent: 'space-between' }}>
+          <div key={device.id} className="panel-row">
             <span>
-              {device.platform} {device.os_version ?? ''} · app {device.app_version}
+              <strong>
+                {device.platform} {device.os_version ?? ''} · app {device.app_version}
+              </strong>
               <br />
-              <span className="muted">last seen {when(device.last_seen_at)}</span>
+              <span className="mono muted">last seen {when(device.last_seen_at)}</span>
             </span>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn btn-sm"
               onClick={() =>
                 open({
                   title: 'Revoke device action keys',
@@ -175,33 +108,39 @@ export function EntitlementsPanel({ user, open }: PanelProps) {
     (grant) => grant.revoked_at === null && new Date(grant.until) > new Date(),
   );
   return (
-    <section className="card stack" aria-label="Entitlements">
-      <h2 className="section-title">Entitlements</h2>
-      <dl className="kv">
-        <dt>Pass+</dt>
-        <dd>
-          <span className="badge" data-tone={user.entitlements?.pass_plus ? 'success' : undefined}>
-            {user.entitlements?.pass_plus ? 'active' : 'free'}
-          </span>{' '}
+    <section className="card panel" aria-label="Entitlements">
+      <div className="card-head">
+        <span className="section-label">Entitlements</span>
+        <span className="mono muted">computed {when(user.entitlements?.computed_at ?? null)}</span>
+      </div>
+      <div className="panel-row">
+        <span className="row">
+          <span className="badge" data-tone={user.entitlements?.pass_plus ? 'warning' : undefined}>
+            Pass+
+          </span>
+          <strong>{user.entitlements?.pass_plus ? 'active' : 'free'}</strong>
+        </span>
+        <span className="mono muted">
           {user.entitlements?.expires_at ? `until ${when(user.entitlements.expires_at)}` : ''}
-        </dd>
-        <dt>Computed</dt>
-        <dd>{when(user.entitlements?.computed_at ?? null)}</dd>
-      </dl>
-      {user.grants.length > 0 && (
-        <ul className="stack" style={{ margin: 0, paddingLeft: 'var(--space-16)' }}>
-          {user.grants.map((grant) => (
-            <li key={grant.id}>
-              {grant.perk.replace('_', ' ')} until {when(grant.until)} — {grant.reason}{' '}
-              <span className="muted">
-                by {grant.granted_by}
-                {grant.revoked_at ? ` · revoked ${when(grant.revoked_at)}` : ''}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
-      <div className="row">
+        </span>
+      </div>
+      {user.grants.map((grant) => (
+        <div key={grant.id} className="panel-row">
+          <span>
+            <strong>
+              {grant.perk.replace('_', ' ')} until {day(grant.until)}
+            </strong>
+            <br />
+            <span className="mono muted">
+              {grant.reason} · by {grant.granted_by}
+            </span>
+          </span>
+          {grant.revoked_at !== null && (
+            <span className="muted">revoked {day(grant.revoked_at)}</span>
+          )}
+        </div>
+      ))}
+      <div className="panel-row" style={{ justifyContent: 'flex-start' }}>
         <button
           type="button"
           className="btn btn-primary"

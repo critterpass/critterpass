@@ -5,6 +5,9 @@
  * distance, the fourth lock in an hour is `RATE_LIMITED`. Across everything, no max ever reaches
  * a response body (other than its owner's own private read), a log line, a domain event, a
  * realtime hint, a command result, a job, or the guide's trip context.
+ *
+ * The price inputs of a trip with several stops list each stop with its own reviewed cost index;
+ * a trip with no stop rows gets the same keys as ever and no `stops`.
  */
 import { budgetAggregate } from '@cp/cost-engine';
 import { withSystem } from '@cp/db';
@@ -198,5 +201,76 @@ describe('where a max may appear', () => {
       expect(everything).not.toContain(String(amount));
       expect(everything).not.toContain((amount / 100).toFixed(2));
     }
+  });
+});
+
+describe('the price inputs of a trip with several stops', () => {
+  const inputs = async (tripId: string) => {
+    const { rows } = await withSystem(harness.pool, (tx) =>
+      tx.query<{ inputs: Record<string, unknown> }>(
+        'SELECT app.setup_budget_inputs($1) AS inputs',
+        [tripId],
+      ),
+    );
+    return rows[0]!.inputs;
+  };
+
+  it('lists each stop with its reviewed index rows only, and nothing new for one stop', async () => {
+    const crew = await buildSetupCrew(harness, 1);
+    const ids = await withSystem(harness.pool, async (tx) => {
+      const { rows: trip } = await tx.query<{ destination_id: string; crew_id: string }>(
+        'SELECT destination_id, crew_id FROM trips WHERE id = $1',
+        [crew.tripId],
+      );
+      const { rows: next } = await tx.query<{ id: string }>(
+        `INSERT INTO destinations (slug, name, coverage, currency, tz)
+         VALUES ('osaka-' || gen_random_uuid(), 'Osaka', 'guest', 'USD', 'Asia/Tokyo') RETURNING id`,
+      );
+      const first = trip[0]!.destination_id;
+      const second = next[0]!.id;
+      await tx.query(
+        `INSERT INTO destination_cost_indices (destination_id, stay_type, nightly_minor_low,
+           nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, source, sourced_on,
+           reviewed_at)
+         VALUES ($1, 'ryokan', 9000, 11000, 2750, 1250, 'USD', 'editorial', current_date, now()),
+                ($2, 'hotel', 6000, 8000, 2000, 1000, 'USD', 'editorial', current_date, now()),
+                ($2, 'hostel', 2000, 3000, 2000, 1000, 'USD', 'editorial', current_date, NULL)`,
+        [first, second],
+      );
+      return { first, second, crewId: trip[0]!.crew_id };
+    });
+    const before = await inputs(crew.tripId);
+    expect(Object.keys(before).sort()).toEqual([
+      'currency',
+      'end_date',
+      'fares',
+      'fx',
+      'indices',
+      'members',
+      'start_date',
+    ]);
+
+    await withSystem(harness.pool, (tx) =>
+      tx.query(
+        `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+         VALUES ($1, $2, 1, $3, 2), ($1, $2, 2, $4, 3)`,
+        [crew.tripId, ids.crewId, ids.first, ids.second],
+      ),
+    );
+    const { stops, ...rest } = await inputs(crew.tripId);
+    // Every other key is what it was: a reader that does not know `stops` computes the same.
+    expect(rest).toEqual(before);
+    const hotel = {
+      stay_type: 'hotel',
+      nightly_low_minor: 6000,
+      nightly_high_minor: 8000,
+      food_pp_day_minor: 2000,
+      fun_pp_day_minor: 1000,
+      currency: 'USD',
+    };
+    expect(stops).toEqual([
+      { position: 1, destination_id: ids.first, nights: 2, indices: before['indices'] },
+      { position: 2, destination_id: ids.second, nights: 3, indices: [hotel] },
+    ]);
   });
 });

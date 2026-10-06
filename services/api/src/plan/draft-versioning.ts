@@ -11,7 +11,13 @@
  * guide's drafts, kept redrafts, restored drafts and her latest edit of each.
  */
 import { dropReplacedDraft, emitEvent } from '@cp/db';
-import { DomainError, type PlanState } from '@cp/domain';
+import {
+  DomainError,
+  refitStops,
+  stopDayRanges,
+  type PlanState,
+  type TripStopRow,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { carryPlanForward } from '../commands/checks/carry-forward';
@@ -46,7 +52,10 @@ export async function lockTripDraft(tx: pg.PoolClient, tripId: string): Promise<
   return head;
 }
 
-/** A draft with a day for every trip date and no stops, as the trip's draft; returns its id. */
+/**
+ * A draft with a day for every trip date and no stops, as the trip's draft; returns its id. On a
+ * trip with several stops every day of a later stop carries that stop's city.
+ */
 export async function createEmptyDraft(
   tx: pg.PoolClient,
   head: Pick<DraftHead, 'tripId' | 'startDate' | 'endDate' | 'currency'>,
@@ -67,6 +76,14 @@ export async function createEmptyDraft(
        FROM generate_series($3::date, $4::date, interval '1 day') AS day`,
     [id, head.tripId, head.startDate, head.endDate],
   );
+  const stops = await loadStopRows(tx, head.tripId);
+  for (const [index, range] of stopDayRanges(stops, Number.MAX_SAFE_INTEGER).entries()) {
+    if (index === 0 || stops[index] === undefined) continue;
+    await tx.query(
+      'UPDATE plan_days SET destination_id = $2 WHERE version_id = $1 AND day_no BETWEEN $3 AND $4',
+      [id, stops[index].destination_id, range.first, Math.min(range.last, 366)],
+    );
+  }
   await tx.query('UPDATE trips SET draft_version_id = $2 WHERE id = $1', [head.tripId, id]);
   return id;
 }
@@ -150,4 +167,61 @@ export async function draftChanged(
       op_count: input.opCount,
     },
   });
+}
+
+/** A stop row of a trip with several cities, in order. */
+export interface StopRow {
+  readonly destination_id: string;
+  readonly nights: number;
+}
+
+const rowsOf = (stops: readonly StopRow[]): TripStopRow[] =>
+  stops.map((stop, index) => ({ position: index + 1, ...stop }));
+
+/** Replaces the trip's stop rows; one stop or none leaves no rows. */
+export async function writeStopRows(
+  tx: pg.PoolClient,
+  trip: { readonly id: string; readonly crew_id: string },
+  stops: readonly StopRow[],
+): Promise<TripStopRow[]> {
+  await tx.query('DELETE FROM trip_stops WHERE trip_id = $1', [trip.id]);
+  if (stops.length < 2) return [];
+  await tx.query(
+    `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+     SELECT $1, $2, s.position, s.destination_id, s.nights
+       FROM unnest($3::uuid[], $4::int[]) WITH ORDINALITY AS s(destination_id, nights, position)`,
+    [
+      trip.id,
+      trip.crew_id,
+      stops.map((stop) => stop.destination_id),
+      stops.map((stop) => stop.nights),
+    ],
+  );
+  return rowsOf(stops);
+}
+
+export async function loadStopRows(tx: pg.PoolClient, tripId: string): Promise<StopRow[]> {
+  const { rows } = await tx.query<StopRow>(
+    'SELECT destination_id, nights FROM trip_stops WHERE trip_id = $1 ORDER BY position',
+    [tripId],
+  );
+  return rows;
+}
+
+/**
+ * Fits the trip's stops to its new nights. Answers the stops before and after, and `changed` when
+ * the rows were rewritten. A one-stop trip has no rows and nothing happens.
+ */
+export async function refitTripStops(
+  tx: pg.PoolClient,
+  trip: { readonly id: string; readonly crew_id: string },
+  nights: number,
+): Promise<{ before: StopRow[]; after: TripStopRow[]; changed: boolean }> {
+  const before = await loadStopRows(tx, trip.id);
+  if (before.length === 0) return { before, after: [], changed: false };
+  const fitted = refitStops(before, nights);
+  if (JSON.stringify(fitted) === JSON.stringify(before)) {
+    return { before, after: rowsOf(before), changed: false };
+  }
+  return { before, after: await writeStopRows(tx, trip, fitted), changed: true };
 }

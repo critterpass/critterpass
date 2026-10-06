@@ -77,3 +77,38 @@ export const purgeNowResultSchema = z.object({
   purged_at: z.iso.datetime({ offset: true }),
 });
 export type PurgeNowResult = z.infer<typeof purgeNowResultSchema>;
+
+/** The store that bills a live subscription: deleting the account never cancels it there. */
+export const SUBSCRIPTION_SOURCES = ['app_store', 'play', 'promo', 'gift'] as const;
+
+/**
+ * `GET /v1/me/deletion/preflight` (3n-9): what goes and what the crew keeps, with real numbers.
+ * `balances.net_minor` is positive when the crew owes the caller, negative when the caller owes.
+ */
+export const deletionPreflightSchema = z.object({
+  /** No way back in (anonymous): the account is erased on the next run, with no undo page. */
+  instant: z.boolean(),
+  critters: z.number().int().nonnegative(),
+  stamps: z.number().int().nonnegative(),
+  balances: z.array(
+    z.object({
+      crew_id: z.uuid(),
+      crew_name: z.string(),
+      currency: z.string().length(3),
+      net_minor: z.number().int(),
+    }),
+  ),
+  /** Open trips the caller organises: who takes over at close, or nobody when alone on it. */
+  organised_trips: z.array(
+    z.object({
+      trip_id: z.uuid(),
+      trip_name: z.string().nullable(),
+      transfer_to_name: z.string().nullable(),
+      sole_member: z.boolean(),
+    }),
+  ),
+  /** A trip the caller is on right now, if any. */
+  active_trip: z.object({ trip_id: z.uuid(), trip_name: z.string().nullable() }).nullable(),
+  subscription: z.object({ source: z.enum(SUBSCRIPTION_SOURCES) }).nullable(),
+});
+export type DeletionPreflight = z.infer<typeof deletionPreflightSchema>;

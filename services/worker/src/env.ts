@@ -133,6 +133,24 @@ export const workerEnvSchema = z.object({
   /** PhotoDNA Cloud Service key: known-image hash matching for photo avatars once ops switches
    *  `moderation.hash_match` on; unset = photos wait for ops review. */
   PHOTODNA_API_KEY: optionalString,
+  /** Health probes for the console's Services screen (src/jobs/ops/service-health.ts): the api's
+   *  private base URL (`http://api.railway.internal:<port>`); unset = no api row. */
+  API_INTERNAL_URL: optionalUrl,
+  /** PowerSync's private base URL for its liveness probe; unset = no PowerSync row. */
+  POWERSYNC_URL: optionalUrl,
+  /** PowerSync's bucket-storage database (same value as its PS_STORAGE_URI): the collector reads
+   *  its size and WAL; unset = the storage disk row stays unknown. */
+  POWERSYNC_STORAGE_URL: optionalUrl,
+  /** The storage volume's size, so its disk use reads as a share; unset = size without a share. */
+  POWERSYNC_STORAGE_VOLUME_GB: z.preprocess(
+    emptyAsUndefined,
+    z.coerce.number().positive().optional(),
+  ),
+  /** The primary database's storage limit, for the same share. */
+  DATABASE_STORAGE_LIMIT_GB: z.preprocess(
+    emptyAsUndefined,
+    z.coerce.number().positive().optional(),
+  ),
   /** APNs token auth (src/push/apns.ts): key id, team id and the .p8 contents. All three or none. */
   APNS_KEY_ID: optionalString,
   APNS_TEAM_ID: optionalString,

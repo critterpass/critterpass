@@ -136,6 +136,26 @@ msgstr "Being written"
 msgid "trip.hub.tile.bookings"
 msgstr "Bookings"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelTitle"
+msgstr "Call off this trip?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancel"
+msgstr "Call off trip"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelConfirm"
+msgstr "Call off trip"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.calledOff"
+msgstr "called off"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.cancelledGroup"
+msgstr "Cancelled"
+
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.planComing"
 msgstr "Coming"
@@ -151,6 +171,18 @@ msgstr "D"
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.dayOf"
 msgstr "Day {dayNo} of {days}"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteTitle"
+msgstr "Delete this trip?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.delete"
+msgstr "Delete trip"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteConfirm"
+msgstr "Delete trip"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.done"
@@ -171,6 +203,10 @@ msgstr "Early start"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
 msgstr "Even"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelTold"
+msgstr "Everyone on it gets told."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.swipeDetailIdeas"
@@ -216,6 +252,18 @@ msgstr "Lands {time}"
 msgid "trip.hub.leaveByToday"
 msgstr "Leave by"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveTitle"
+msgstr "Leave this trip?"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leave"
+msgstr "Leave trip"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveConfirm"
+msgstr "Leave trip"
+
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.leavingIn"
 msgstr "Leaving in"
@@ -239,6 +287,10 @@ msgstr "Next up"
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyTitle"
 msgstr "No trips yet"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteGone"
+msgstr "Nobody else is on it yet, so it goes for good: dates, ideas and any draft."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-turn.ts
 msgid "trip.hub.tile.notYet"
@@ -287,6 +339,10 @@ msgstr "Only you see it"
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.open"
 msgstr "Open"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelBoost"
+msgstr "Open votes close. A boost moves to your next trip, or comes back as a credit."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
@@ -340,6 +396,10 @@ msgstr "Set up the trip"
 msgid "trip.list.settingUp"
 msgstr "setting up"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveMoney"
+msgstr "Shared costs are split again without you."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
 msgstr "Someone"
@@ -361,6 +421,14 @@ msgstr "Switch trip"
 msgid "trip.hub.takeOff"
 msgstr "Take off in"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.failed"
+msgstr "That didn’t go through. Try again with signal."
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelKept"
+msgstr "The chat, money, bookings and photos stay to read."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr "The place is picked"
@@ -380,6 +448,10 @@ msgstr "The plan is out to the crew"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.planning"
 msgstr "The plan is still being worked on"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.stateChanged"
+msgstr "The trip changed since you opened it. Have another look."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.inTrip"
@@ -404,6 +476,10 @@ msgstr "The trip was called off"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.voting"
 msgstr "The vote is open"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.cancelledNote"
+msgstr "This trip was called off. The chat, money, bookings and photos stay here."
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
@@ -450,6 +526,10 @@ msgstr "you owe"
 msgid "trip.briefing.queued"
 msgstr "Your briefing"
 
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.deleteCrew"
+msgstr "Your crew and its chat stay."
+
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.yourDraft"
 msgstr "Your draft is ready"
@@ -457,6 +537,10 @@ msgstr "Your draft is ready"
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Your flight"
+
+#: ../../apps/mobile/src/features/trip/hub/trip-menu.tsx
+msgid "trip.menu.leaveSeat"
+msgstr "Your seat opens for the next person waiting."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.recapDetail"

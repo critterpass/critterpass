@@ -166,6 +166,10 @@ msgstr "Crew name change"
 msgid "crew.queued.notify"
 msgstr "Crew notification setting"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.settings"
+msgstr "Crew settings"
+
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.art"
 msgstr "Crew sticker"

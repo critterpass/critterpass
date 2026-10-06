@@ -41,7 +41,10 @@ export function FlagEditor({ flag, onSaved }: { flag: AdminFlag; onSaved: () => 
   const [confirming, setConfirming] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const [conflict, setConflict] = useState<readonly FieldChange[] | null>(null);
+  const [conflict, setConflict] = useState<{
+    changes: readonly FieldChange[];
+    cause: unknown;
+  } | null>(null);
 
   if (definition === undefined || field === undefined) return null;
   const value = parseValue(field.kind, raw);
@@ -66,7 +69,7 @@ export function FlagEditor({ flag, onSaved }: { flag: AdminFlag; onSaved: () => 
       if (isApiError(caught, 'VERSION_CONFLICT')) {
         const server = (caught.detail as { current?: Record<string, unknown> } | undefined)
           ?.current;
-        setConflict(diffValues(server ?? {}, { value, audience }));
+        setConflict({ changes: diffValues(server ?? {}, { value, audience }), cause: caught });
       } else setError(caught);
     } finally {
       setBusy(false);
@@ -76,7 +79,8 @@ export function FlagEditor({ flag, onSaved }: { flag: AdminFlag; onSaved: () => 
   if (conflict !== null) {
     return (
       <ConflictState
-        changes={conflict}
+        changes={conflict.changes}
+        cause={conflict.cause}
         onReload={() => {
           setConflict(null);
           void client.invalidateQueries({ queryKey: ['flags'] });

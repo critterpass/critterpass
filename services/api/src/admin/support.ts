@@ -14,6 +14,7 @@ import {
   normalizeJoinCode,
   revokeDeviceKeyPayloadSchema,
   revokeEntitlementPayloadSchema,
+  revokeAllSessionsPayloadSchema,
   revokeSessionPayloadSchema,
   supportLookupQuerySchema,
   supportLookupResponseSchema,
@@ -142,6 +143,16 @@ export function supportArea(deps: SupportAreaDeps) {
             throw new DomainError('NOT_FOUND');
           }
           return { revoked: true };
+        },
+      }),
+      defineAdminCommand({
+        name: 'revoke_all_sessions',
+        schema: revokeAllSessionsPayloadSchema,
+        audit: (payload, result: { revoked: number }) =>
+          userTarget(payload, { sessions: result.revoked }),
+        handle: async (_tx, payload) => {
+          if ((await accounts.account(payload.uid)) === null) throw new DomainError('NOT_FOUND');
+          return { revoked: await accounts.revokeAllSessions(payload.uid) };
         },
       }),
       defineAdminCommand({

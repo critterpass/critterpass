@@ -7,11 +7,18 @@
  */
 import { randomUUID } from 'node:crypto';
 
+import {
+  AggregationTemporality,
+  InMemoryMetricExporter,
+  MeterProvider,
+  PeriodicExportingMetricReader,
+} from '@opentelemetry/sdk-metrics';
 import type { JobWithMetadata } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { runAttempt } from '../src/boss';
 import { pushSendJob, sendPush, type PushSendDeps } from '../src/jobs/push/send';
+import { createMetricsRecorder } from '../src/obs/metrics';
 import { createApnsProvider, createCopyRenderer, createFcmProvider } from '../src/push';
 import {
   insertDevice,
@@ -222,5 +229,50 @@ describe('FCM', () => {
       const t = await target({ platform: 'android', token: `${kind}-${randomUUID()}` });
       expect((await send(t)).outcome).toBe('retry');
     }
+  });
+});
+
+describe('cp_push_total', () => {
+  it('counts every attempt that reached a provider, by provider, category and outcome', async () => {
+    const exporter = new InMemoryMetricExporter(AggregationTemporality.CUMULATIVE);
+    const reader = new PeriodicExportingMetricReader({ exporter, exportIntervalMillis: 60_000 });
+    const meter = new MeterProvider({ readers: [reader] }).getMeter('test');
+    const counted = { ...deps, metrics: createMetricsRecorder({ meter, strict: true }) };
+    const attempt = (t: Target, isFinal = false) =>
+      sendPush(
+        db.pool,
+        counted,
+        { notification_id: t.notificationId, device_id: t.deviceId },
+        isFinal,
+      );
+
+    await attempt(await target({ token: `ok-${randomUUID()}` }));
+    await attempt(await target({ token: `ok-${randomUUID()}` }));
+    await attempt(await target({ token: `gone-${randomUUID()}` }));
+    const busy = await target({ token: `busy-${randomUUID()}` });
+    await attempt(busy);
+    await attempt(busy, true);
+    await attempt(await target({ platform: 'android', token: `ok-${randomUUID()}` }));
+    await attempt(await target({ token: `ok-${randomUUID()}`, permission: 'denied' }));
+
+    await reader.forceFlush();
+    const points = exporter
+      .getMetrics()
+      .flatMap((resource) => resource.scopeMetrics.flatMap((scope) => scope.metrics))
+      .filter((metric) => metric.descriptor.name === 'cp_push_total')
+      .flatMap((metric) =>
+        metric.dataPoints.map((point) => ({ ...point.attributes, value: point.value })),
+      );
+    const vote = { category: 'cp.vote' };
+    expect(points).toHaveLength(5);
+    expect(points).toEqual(
+      expect.arrayContaining([
+        { ...vote, provider: 'apns', outcome: 'sent', value: 2 },
+        { ...vote, provider: 'apns', outcome: 'invalid_token', value: 1 },
+        { ...vote, provider: 'apns', outcome: 'retry', value: 1 },
+        { ...vote, provider: 'apns', outcome: 'failed', value: 1 },
+        { ...vote, provider: 'fcm', outcome: 'sent', value: 1 },
+      ]),
+    );
   });
 });

@@ -22,6 +22,7 @@ const PAGES = [
   { name: 'moderation', path: '/moderation' },
   { name: 'desk', path: '/desk' },
   { name: 'support', path: '/support' },
+  { name: 'ideas', path: '/ideas' },
   { name: 'billing', path: '/billing' },
   { name: 'catalogue', path: '/catalogue' },
   { name: 'content', path: '/content' },
@@ -62,6 +63,13 @@ for (const size of WIDTHS) {
       await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
       await shot(page, entry.name, size.name);
     }
+
+    await page.goto('/support');
+    await page.getByLabel('Find user', { exact: true }).fill('@maitran');
+    await page.getByRole('button', { name: 'Find user' }).click();
+    await page.getByRole('link', { name: 'Mai Tran' }).click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mai Tran');
+    await shot(page, 'support-user', size.name);
 
     if (size.name === '390') {
       await page.goto('/');

@@ -108,17 +108,28 @@ export function ForbiddenState({ area, label }: { area?: AdminArea; label?: stri
   );
 }
 
+/** Who saved first and when, from a `VERSION_CONFLICT` answer's detail. */
+export function conflictSaver(error: unknown): { savedBy: string | null; savedAt: string | null } {
+  const detail = isApiError(error, 'VERSION_CONFLICT')
+    ? (error.detail as { updated_by?: unknown; updated_at?: unknown } | null | undefined)
+    : null;
+  return {
+    savedBy: typeof detail?.updated_by === 'string' ? detail.updated_by : null,
+    savedAt: typeof detail?.updated_at === 'string' ? detail.updated_at : null,
+  };
+}
+
 export function ConflictState({
   changes,
   onReload,
-  savedBy,
-  savedAt,
+  cause,
 }: {
   changes: readonly FieldChange[];
   onReload: () => void;
-  savedBy?: string | null;
-  savedAt?: string | null;
+  /** The refused save's error; its detail names who saved first and when. */
+  cause?: unknown;
 }) {
+  const { savedBy, savedAt } = conflictSaver(cause);
   return (
     <div className="card stack" role="alert">
       <div className="state-title">

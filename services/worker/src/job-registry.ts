@@ -35,6 +35,8 @@ import { nudgeDispatchJob } from './jobs/nudges';
 import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
+import { serviceHealthJob, type HealthRedis } from './jobs/ops/service-health';
+import { vendorUsageJob, type UsageRedis } from './jobs/ops/vendor-usage';
 import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
 import { mapRegionRegisterJob, placesJobs } from './jobs/places';
@@ -66,6 +68,10 @@ export interface JobRegistryDeps {
   readonly metrics: MetricsRecorder;
   readonly renderer: CopyRenderer;
   readonly pushProviders: PushProviders;
+  /** Redis for the console's health collector and usage poller. */
+  readonly opsRedis: HealthRedis & UsageRedis;
+  /** PowerSync's bucket-storage database, for its disk row. */
+  readonly storagePool?: pg.Pool | undefined;
 }
 
 export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDefinition[]> {
@@ -186,6 +192,10 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       }),
     );
   }
+  jobs.push(
+    serviceHealthJob({ redis: deps.opsRedis, env, storagePool: deps.storagePool }),
+    vendorUsageJob({ redis: deps.opsRedis, env }),
+  );
   if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
     jobs.push(
       rtRelayJob(
@@ -211,6 +221,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       ...deps.pushProviders,
       renderer,
       defaultBundleId: defaultBundleId(env.APP_ENV),
+      metrics: deps.metrics,
     }),
     roundupBuild,
     roundupScanJob(roundupBuild),

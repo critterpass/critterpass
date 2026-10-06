@@ -1,4 +1,5 @@
 import { serve } from '@hono/node-server';
+import { subscribe } from 'node:diagnostics_channel';
 
 import packageJson from '../package.json' with { type: 'json' };
 
@@ -34,13 +35,19 @@ import { createClaimAttributionCommand } from './commands/attribution/claim-attr
 import { registerInvites } from './commands/invites';
 import { registerNudgeCommands } from './commands/nudges';
 import { createLinkProviderRegistry } from './links/registry';
-import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
+import {
+  meterVendorCalls,
+  redisCallSink,
+  seatTokenKeyringFromJson,
+  type LinkEnvironment,
+} from '@cp/domain';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
 import { startApiObservability } from './obs';
+import { createMetricsRecorder } from './obs/metrics';
 import { createRequestPool } from './db-pool';
 import { createRedisClient } from './redis-client';
 
@@ -54,6 +61,8 @@ const redis = createRedisClient(env.REDIS_URL, logger);
 redis
   .connect()
   .catch((error: unknown) => logger.warn({ err: error }, 'redis initial connect failed'));
+// Outbound vendor calls feed the console's Services screen (the worker's health collector).
+meterVendorCalls(subscribe, redisCallSink(redis));
 
 const routing =
   env.MAPBOX_TOKEN !== undefined
@@ -135,6 +144,7 @@ const authModule = createAuthModule({
   fixedCodes: fixedCodeNumbersFromEnv(env, (warning) => logger.warn(warning)),
   onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
   onOtpChannelFailure: (failure) => logger.warn(failure, 'otp channel send failed'),
+  metrics: createMetricsRecorder({ strict: env.APP_ENV === 'local' }),
   rateLimit: { customRules: buildAuthRateLimitCustomRules(env) },
   attestation: buildAttestationConfigFromEnv(env),
   onAttestationFailure: (error, context) => {

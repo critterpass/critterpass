@@ -4,14 +4,19 @@
  * the account is closed.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- result kinds, wire values and test ids, never copy. */
-import type { DeletionReason } from '@cp/domain';
+import type { DeletionPreflight, DeletionReason } from '@cp/domain';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Linking, Platform } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { exportLine } from '../export/export-copy';
+import { useDataExport } from '../export/use-data-export';
 import { requestAccountDeletionCommand, type ClosedAccount } from './account-api';
 import { deviceAccountServices, type AccountServices } from './account-services';
 import { closeAccount } from './close-account';
@@ -21,6 +26,29 @@ import { useOnline } from './use-account';
 
 const PASS_PLUS_SQL = 'SELECT pass_plus FROM user_entitlements WHERE user_id = ?';
 const PASS_PLUS_TABLES = ['user_entitlements'];
+
+/** Where each store lets someone cancel a subscription. */
+const MANAGE_SUBSCRIPTION_URL =
+  Platform.OS === 'ios'
+    ? 'https://apps.apple.com/account/subscriptions'
+    : 'https://play.google.com/store/account/subscriptions';
+
+function usePreflight(services: AccountServices): DeletionPreflight | null {
+  const [preflight, setPreflight] = useState<DeletionPreflight | null>(null);
+  useEffect(() => {
+    let live = true;
+    void services
+      .readPreflight()
+      .catch(() => null)
+      .then((next) => {
+        if (live) setPreflight(next);
+      });
+    return () => {
+      live = false;
+    };
+  }, [services]);
+  return preflight;
+}
 
 export interface DeleteScreenProps {
   readonly services?: AccountServices;
@@ -40,6 +68,9 @@ export function DeleteScreen({
     uid === null ? null : [uid],
     PASS_PLUS_TABLES,
   );
+  const preflight = usePreflight(services);
+  const dataExport = useDataExport(now);
+  const locale = useLocale();
   const [step, setStep] = useState<DeleteStep>('review');
   const [reason, setReason] = useState<DeletionReason | null>(null);
   const [busy, setBusy] = useState(false);
@@ -88,6 +119,17 @@ export function DeleteScreen({
       online={online}
       busy={busy}
       passPlus={passPlus.rows[0]?.pass_plus === 1}
+      preflight={preflight}
+      onSettle={() => {
+        // Settle up (3i-5), by its design id: the money area registers the route.
+        const settle = hrefFor('3i-5');
+        if (settle !== undefined) router.push(settle);
+      }}
+      onManageSubscription={() => void Linking.openURL(MANAGE_SUBSCRIPTION_URL)}
+      download={{
+        line: exportLine(dataExport.state, dataExport.problem, locale),
+        onPress: dataExport.state.kind === 'ready' ? dataExport.open : dataExport.request,
+      }}
       reason={reason}
       problem={failed ? 'not_closed' : null}
       onContinue={() => setStep('hold')}
