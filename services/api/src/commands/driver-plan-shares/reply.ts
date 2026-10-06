@@ -18,7 +18,7 @@ import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { tripOrganiserIds, tripVoters } from '../../plan/access';
-import { publishPlan } from '../../plan/changeset-store';
+import { closeVote, lockChangeSet, publishPlan } from '../../plan/changeset-store';
 import { loadPlanState, lockTripPlan } from '../../plan/versioning';
 import { openPoll } from '../changesets/send';
 import { assertShareLive, loadShare, shareTokenHash } from './store';
@@ -32,7 +32,7 @@ export interface DriverReplyOutcome {
   readonly replaced: boolean;
 }
 
-async function replacePrevious(tx: pg.PoolClient, shareId: string, now: Date): Promise<boolean> {
+async function replacePrevious(tx: pg.PoolClient, shareId: string): Promise<boolean> {
   const { rows } = await tx.query<{
     id: string;
     change_set_id: string | null;
@@ -50,17 +50,13 @@ async function replacePrevious(tx: pg.PoolClient, shareId: string, now: Date): P
   if (previous.votes > 0) throw new DomainError('STATE_INVALID', { reason: 'crew_voting' });
   await tx.query("UPDATE driver_plan_replies SET status = 'replaced' WHERE id = $1", [previous.id]);
   if (previous.change_set_id !== null) {
-    await tx.query(
-      "UPDATE change_sets SET status = 'rejected' WHERE id = $1 AND status IN ('proposed', 'voting')",
-      [previous.change_set_id],
-    );
-  }
-  if (previous.poll_id !== null) {
-    await tx.query(
-      `UPDATE polls SET status = 'cancelled', closed_at = $2, close_reason = 'manual'
-        WHERE id = $1 AND status = 'open'`,
-      [previous.poll_id, now],
-    );
+    // The crew has not voted: the earlier suggestion is withdrawn and its vote closed for everyone.
+    const row = await lockChangeSet(tx, previous.change_set_id);
+    if (row.status === 'proposed' || row.status === 'voting') {
+      await tx.query("UPDATE change_sets SET status = 'rejected' WHERE id = $1", [row.id]);
+      await closeVote(tx, row, 'reject', 'manual', null);
+      await publishPlan(tx, row.trip_id, PLAN_RT.changesetRejected, { change_set_id: row.id });
+    }
   }
   return true;
 }
@@ -82,7 +78,7 @@ export async function submitDriverReply(
   if (versionId === null) throw new DomainError('STATE_INVALID', { reason: 'no_plan' });
   const state = await loadPlanState(tx, versionId);
   return asSystemRole(tx, async () => {
-    const replaced = await replacePrevious(tx, share.id, now);
+    const replaced = await replacePrevious(tx, share.id);
     const tz = await tx.query<{ tz: string | null }>(
       `SELECT coalesce(t.tz, d.tz) AS tz FROM trips t
          LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,

@@ -143,21 +143,13 @@ describe('driver plan shares', () => {
 
     const sent = await reply(token, suggestion('08:00'));
     const sentText = await sent.text();
-    expect(
-      sent.status,
-      `${sentText} ${harness.logs
-        .filter((l) =>
-          l.includes(String.fromCharCode(34) + 'level' + String.fromCharCode(34) + ':50'),
-        )
-        .slice(-2)
-        .join(' ')}`,
-    ).toBe(200);
+    expect(sent.status, sentText).toBe(200);
     const first = JSON.parse(sentText) as { change_set_id: string; replaced: boolean };
     expect(first.replaced).toBe(false);
-    const second = (await (await reply(token, suggestion('07:00'))).json()) as {
-      change_set_id: string;
-      replaced: boolean;
-    };
+    const again = await reply(token, suggestion('07:00'));
+    const againText = await again.text();
+    expect(again.status, againText).toBe(200);
+    const second = JSON.parse(againText) as { change_set_id: string; replaced: boolean };
     expect(second.replaced).toBe(true);
 
     const { rows: sets } = await harness.pool.query<{
