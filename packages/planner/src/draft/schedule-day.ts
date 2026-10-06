@@ -16,7 +16,7 @@ import { ceilGrid } from './day-minutes';
 import { foodRole } from './food-role';
 import { opensDay, startFloor } from './day-start';
 import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
-import { placeWindows, windowFor } from './place-time';
+import { placeWindows, windowFor } from './time-of-day';
 import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import {
   isPinId,

@@ -9,6 +9,7 @@
  */
 import { ceilGrid, floorGrid, spansOn } from './day-minutes';
 import { nameTokens } from './place-names';
+import { isTyped } from './typed-facts';
 import type { DraftPoi } from './types';
 
 export const WISH_TIMES = [
@@ -132,10 +133,11 @@ export function heldWindow(
 
 /**
  * The hour our editors give a place for the evening ("before the 9pm show", "the show at
- * 21:00"): an evening or night wish there starts within a quarter of an hour of it.
+ * 21:00"): an evening or night wish there starts within a quarter of an hour of it. A place
+ * with typed facts has no such line read: its evening is the evening's usual window.
  */
 function showtime(poi: DraftPoi, when: WishTime | null | undefined): StartWindow | null {
-  if ((when !== 'evening' && when !== 'night') || poi.bestTime == null) return null;
+  if ((when !== 'evening' && when !== 'night') || poi.bestTime == null || isTyped(poi)) return null;
   const found =
     /\b(\d{1,2})(?::(\d{2}))?\s*(pm|p\.m\.)/iu.exec(poi.bestTime) ??
     /\b(\d{1,2}):(\d{2})\b/u.exec(poi.bestTime);

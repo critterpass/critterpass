@@ -21,7 +21,7 @@ import {
   mealsInWindow,
   type MealSlot,
 } from './meal-slots';
-import { placeWindows } from './place-time';
+import { placeWindows } from './time-of-day';
 import { isKept, isTheirs, type DayWindow, type DraftPoi, type TravelMatrix } from './types';
 
 export type DaySenseCode =

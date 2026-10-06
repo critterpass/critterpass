@@ -13,7 +13,7 @@ import { ceilGrid, spansOn } from './day-minutes';
 import { opensDay, startFloor } from './day-start';
 import { dinnerIsRideHome, longHops, mealDetours } from './hops';
 import { DINNER, LUNCH, mealAt, mealDuration, mealSlotAt, servingOn } from './meal-slots';
-import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './place-time';
+import { MORNING_ENDS_MIN, placeTime, placeWindows, windowFor } from './time-of-day';
 import { defaultDurationMin, fixedMinutes } from './schedule-day';
 import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';

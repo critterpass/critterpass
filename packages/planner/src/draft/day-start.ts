@@ -8,7 +8,8 @@
  * stop follows on instead of waiting for the usual hour, when that wait is two hours or less. A
  * day the crew asked to start later is never opened sooner by a sight: they asked for the morning.
  */
-import { placeTime } from './place-time';
+import { placeTime } from './time-of-day';
+import { typedEarlyNeed, type TypedPoi } from './typed-facts';
 import type { DayWindow, DraftPoi, TravelMatrix } from './types';
 
 const OPEN_AIR: ReadonlySet<string> = new Set(['nature', 'beach']);
@@ -67,10 +68,12 @@ const EARLY_WORDS =
 
 /**
  * How strongly a place needs the start of the day: 3 for sunrise, 2 when our editors say early or
- * before the crowds, 1 for any morning, 0 otherwise. Of two places that would open one day, the
- * stronger keeps the morning.
+ * before the crowds (or its typed times say early morning), 1 for any morning, 0 otherwise. Of two
+ * places that would open one day, the stronger keeps the morning.
  */
-export function earlyNeed(poi: Pick<DraftPoi, 'bestTime'>): number {
+export function earlyNeed(poi: Pick<DraftPoi, 'bestTime'> & Partial<DraftPoi>): number {
+  // A typed place is a whole one: the loader sets typed facts only on full rows.
+  if (poi.bestTimes !== undefined) return typedEarlyNeed(poi as TypedPoi);
   const said = (poi.bestTime ?? '')
     .normalize('NFD')
     .replace(/\p{M}+/gu, '')

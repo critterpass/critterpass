@@ -31,14 +31,16 @@ export type VisitSpan = 'full' | 'half';
 
 /**
  * How much of a day a visit takes: its length at the place and the ride there and back from the
- * stay (`rideMin` each way), and at least what our editors' notes say ("half a day").
+ * stay (`rideMin` each way), and at least what our editors' notes say ("half a day"). A place with
+ * typed facts has its typed visit length, and no notes are read.
  */
 export function visitSpan(
-  poi: Pick<DraftPoi, 'durationMin' | 'bestTime' | 'whyGo'>,
+  poi: Pick<DraftPoi, 'durationMin' | 'bestTime' | 'whyGo' | 'bestTimes'>,
   rideMin = 0,
 ): VisitSpan | null {
   const total = poi.durationMin + 2 * Math.max(0, rideMin);
-  const said = folded(`${poi.bestTime ?? ''} ${poi.whyGo ?? ''}`);
+  const said =
+    poi.bestTimes === undefined ? folded(`${poi.bestTime ?? ''} ${poi.whyGo ?? ''}`) : '';
   if (total >= FULL_DAY_VISIT_MIN || FULL_WORDS.test(said)) return 'full';
   return total >= HALF_DAY_VISIT_MIN || HALF_WORDS.test(said) ? 'half' : null;
 }
