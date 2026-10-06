@@ -15,7 +15,12 @@ import type { AgentStepContext } from '../../../../src/ai/job-runner';
 import { firstDraftAsk, planDayGroups, savedAreas } from '../../../../src/jobs/ai/draft/day-groups';
 import { load } from '../../../../src/jobs/ai/draft/job-context';
 import { loadDraftTrip } from '../../../../src/jobs/ai/draft/load';
-import { persistDraft, type DraftToSave } from '../../../../src/jobs/ai/draft/persist';
+import {
+  draftMetrics,
+  persistDraft,
+  type DraftToSave,
+} from '../../../../src/jobs/ai/draft/persist';
+import { saveCandidate } from '../../../../src/jobs/ai/draft/redraft-store';
 import { startJobsHarness, type JobsHarness } from '../../../helpers/jobs-harness';
 import { seedTrip } from './kyoto-trip';
 
@@ -168,6 +173,22 @@ describe('a trip with a second stop', () => {
       { day_no: 3, destination_id: nara },
       { day_no: 4, destination_id: nara },
     ]);
+    // A redraft's candidate keeps every day's area.
+    const candidate = await withSystem(harness.pool, (tx) =>
+      saveCandidate(tx, {
+        jobId: randomUUID(),
+        tripId,
+        baseVersionId: saved.once?.versionId as string,
+        itinerary,
+        metrics: draftMetrics(save),
+        coverage: null,
+      }),
+    );
+    const kept = await harness.pool.query<{ day_no: number; destination_id: string | null }>(
+      'SELECT day_no, destination_id FROM plan_days WHERE version_id = $1 ORDER BY day_no',
+      [candidate],
+    );
+    expect(kept.rows).toEqual(rows);
   });
 });
 

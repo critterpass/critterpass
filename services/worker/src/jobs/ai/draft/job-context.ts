@@ -28,11 +28,11 @@ import {
   withMealKinds,
   type HeldStop,
 } from './held-stops';
-import { NO_GROUPS, type GroupsPlan } from './day-groups';
+import { NO_GROUPS, planDayGroups, type GroupsPlan } from './day-groups';
 import { groupInputs } from './group-inputs';
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
-import { buildPlanInput, wishOffer } from './plan-input';
+import { buildPlanInput, tripDates, wishOffer } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { savedWishAnswers } from './redraft-store';
 import { loadRoutedPairs } from './road-minutes';
@@ -132,7 +132,16 @@ export async function load(
   const mustDos = trip.mustDos.filter(
     (m) => !made.has(m.id) && !(m.poiId !== null && taken.has(m.poiId)),
   );
-  const plan = groupsPlanOf(ctx);
+  // A redraft plans its day in that day's group, worked out from the version it redoes.
+  const plan = base.success
+    ? await planDayGroups(ctx.pool, {
+        tripId,
+        dayCount: tripDates(trip).length,
+        baseVersionId: base.data.base_version,
+        first: false,
+        held: there.held,
+      })
+    : groupsPlanOf(ctx);
   if (plan.groups.length > 1) {
     const groups = await groupInputs(ctx.pool, {
       trip,

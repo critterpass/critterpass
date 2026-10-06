@@ -71,7 +71,7 @@ async function readPlaceAreas(
   // Place boxes are not the traveller's to read; the caller already checked the trip.
   const { rows } = await asSystemRole(tx, () =>
     tx.query<{ id: string; area_id: string | null }>(
-      `WITH areas AS (SELECT unnest(app.trip_area_ids($1, true)) AS id)
+      `WITH areas AS (SELECT id FROM app.trip_area_ids($1, true) AS id)
      SELECT p.id, (
               SELECT d.id FROM areas a JOIN destinations d ON d.id = a.id
                WHERE ST_Intersects(p.location, d.place_bounds) OR p.destination_id = d.id
