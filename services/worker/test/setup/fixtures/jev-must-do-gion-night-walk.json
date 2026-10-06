@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from TypeSafe Jev (route must_do.resolve), 2026-10-06. Must-do: a night walk in Gion",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "time": {
+          "type": "choice",
+          "choice": "after_dark",
+          "confidence": 1,
+          "probabilities": {
+            "early_morning": 0,
+            "any": 0,
+            "afternoon": 0,
+            "after_dark": 1,
+            "midday": 0,
+            "evening": 0,
+            "morning": 0,
+            "sunset": 0
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 478,
+        "output_tokens": 84
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "source": "Live recording from TypeSafe Jev (route must_do.resolve), 2026-10-06. Must-do: ăn tối ở chợ đêm",
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "time": {
+          "type": "choice",
+          "choice": "evening",
+          "confidence": 0.93,
+          "probabilities": {
+            "midday": 0,
+            "after_dark": 0.06,
+            "any": 0.01,
+            "afternoon": 0,
+            "evening": 0.93,
+            "early_morning": 0,
+            "morning": 0,
+            "sunset": 0
+          }
+        },
+        "place": {
+          "type": "choice",
+          "choice": "none",
+          "confidence": 0.99,
+          "probabilities": {
+            "a": 0,
+            "none": 1
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 617,
+        "output_tokens": 112
+      }
+    }
+  }
+}

@@ -50,7 +50,10 @@ export interface DraftMustDo {
   /** Null for a freeform must-do (no place to schedule). */
   readonly poiId: string | null;
   readonly title: string;
-  /** When in the day it should happen: the member's own words, else the guide's answer. */
+  /**
+   * When in the day it should happen: the must-do's stored time of day (`must_dos.time_of_day`,
+   * decided once when it was set), else the guide's answer.
+   */
   readonly when?: WishTime | null;
 }
 
