@@ -12,7 +12,14 @@
  */
 import type { FitNoteInput, FitNoteReason, FitNoteResult } from '@cp/ai';
 import { appendDomainEvent, outbox, withSystem } from '@cp/db';
-import { channelName, hoursSchema, SETUP_QUEUES, SETUP_RT, WEEKDAYS } from '@cp/domain';
+import {
+  channelName,
+  hoursSchema,
+  SETUP_QUEUES,
+  SETUP_RT,
+  stopDayRanges,
+  WEEKDAYS,
+} from '@cp/domain';
 import { datesOf, preDraftFit, type FitStatus } from '@cp/planner';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -42,6 +49,30 @@ interface MustDoRow {
   readonly fit_checked_at: string | null;
   readonly external_action: string;
   readonly external_deadline: string | null;
+  /** The later stop whose city the place lies in; null for the first stop's, or for none. */
+  readonly stop_position?: number | null;
+}
+
+/** The dates a must-do is checked on, and whether the last of them is the day the crew leaves. */
+export interface CheckedDates {
+  readonly dates: readonly string[];
+  readonly leaves: boolean;
+}
+
+/**
+ * The dates a must-do can happen on: a place in a later stop's city only on that stop's days (its
+ * first is the day the crew arrives, its last a full day unless the trip ends there); any other
+ * place on every date of the trip, as on a trip of one stop.
+ */
+export function datesForStop(
+  dates: readonly string[],
+  stops: readonly { readonly position: number; readonly nights: number }[],
+  position: number | null | undefined,
+): CheckedDates {
+  const index = position == null ? -1 : stops.findIndex((stop) => stop.position === position);
+  const range = index < 1 ? undefined : stopDayRanges(stops, dates.length)[index];
+  if (range === undefined) return { dates, leaves: true };
+  return { dates: dates.slice(range.first - 1, range.last), leaves: range.last >= dates.length };
 }
 
 export interface MustDoVerdict {
@@ -74,6 +105,7 @@ export function judgeMustDo(
   row: MustDoRow,
   dates: readonly string[],
   start: string | null,
+  leaves = true,
 ): MustDoVerdict {
   const parsed = row.hours === null ? null : hoursSchema.safeParse(row.hours);
   const hours =
@@ -82,7 +114,7 @@ export function judgeMustDo(
   const first = dates[0];
   const last = dates[dates.length - 1];
   if (first !== undefined) busy[first] = [ARRIVAL_BUSY];
-  if (last !== undefined && last !== first) busy[last] = [DEPARTURE_BUSY];
+  if (leaves && last !== undefined && last !== first) busy[last] = [DEPARTURE_BUSY];
   const status = preDraftFit({
     hours,
     durationMin: row.time_needed_min ?? DEFAULT_DURATION_MIN,
@@ -122,6 +154,19 @@ export function judgeMustDo(
   };
 }
 
+/**
+ * The stop a must-do's place lies in, when that is not the first: the stop whose city owns the
+ * place or whose place box holds it (the smallest box first, as a trip's areas claim places).
+ */
+const STOP_OF_PLACE_SQL = `(
+  SELECT CASE WHEN s.position > 1 THEN s.position END
+    FROM trip_stops s JOIN destinations d ON d.id = s.destination_id
+   WHERE s.trip_id = m.trip_id
+     AND (p.destination_id = d.id OR ST_Intersects(p.location, d.place_bounds))
+   ORDER BY ST_Intersects(p.location, d.place_bounds) DESC NULLS LAST,
+            ST_Area(d.place_bounds) NULLS LAST, s.position
+   LIMIT 1)`;
+
 export async function checkTripFits(
   pool: pg.Pool,
   tripId: string,
@@ -137,12 +182,22 @@ export async function checkTripFits(
     const rows = await tx.query<MustDoRow>(
       `SELECT m.id, m.title, p.name AS poi_name, p.hours, p.tags,
               (p.editorial->>'time_needed_min')::int AS time_needed_min, m.fit_status, m.fit_note,
-              m.fit_checked_at::text AS fit_checked_at, m.external_action, m.external_deadline::text AS external_deadline
+              m.fit_checked_at::text AS fit_checked_at, m.external_action, m.external_deadline::text AS external_deadline,
+              ${STOP_OF_PLACE_SQL} AS stop_position
          FROM must_dos m LEFT JOIN pois p ON p.id = m.poi_id
         WHERE m.trip_id = $1 AND m.deleted_at IS NULL ORDER BY m.created_at`,
       [tripId],
     );
-    return { trip: trip.rows[0], rows: rows.rows, facts: await setupFacts(tx, tripId) };
+    const stops = await tx.query<{ position: number; nights: number }>(
+      'SELECT position, nights FROM trip_stops WHERE trip_id = $1 ORDER BY position',
+      [tripId],
+    );
+    return {
+      trip: trip.rows[0],
+      rows: rows.rows,
+      stops: stops.rows,
+      facts: await setupFacts(tx, tripId),
+    };
   });
   if (loaded.trip === undefined || loaded.facts === undefined) return { checked: 0, changed: 0 };
   const { start_date: start, end_date: end } = loaded.trip;
@@ -154,7 +209,8 @@ export async function checkTripFits(
   /** Rows whose verdict stands but which were never stamped as looked at. */
   const looked: MustDoRow[] = [];
   for (const row of loaded.rows) {
-    const verdict = judgeMustDo(row, dates, start);
+    const on = datesForStop(dates, loaded.stops, row.stop_position);
+    const verdict = judgeMustDo(row, on.dates, start, on.leaves);
     const needsNote = verdict.status !== 'unknown';
     const unchanged =
       row.fit_status === verdict.status &&

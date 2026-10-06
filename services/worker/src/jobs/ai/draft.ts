@@ -54,7 +54,7 @@ import {
   staysLabel,
 } from './draft/steps';
 import { stayRows, type SlotCheck, noSlotCheck } from './draft/suppliers';
-import { checkStage, keptWithJob } from './draft/validate-repair';
+import { checkProgress, checkStage, keptWithJob } from './draft/validate-repair';
 import { redraftJob } from './redraft';
 import { redraftNoteDecisions } from './redraft-note';
 
@@ -170,8 +170,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
             input,
             skeleton,
             ctx.results.days as Drafted,
-            held,
-            groups,
+            { held, groups, progress: checkProgress(ctx) },
           );
           const label = foodLabel(trip);
           await hint(ctx, 'validate', 'done', label);

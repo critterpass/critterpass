@@ -14,8 +14,10 @@ import {
   type DraftPlanInput,
   type RepairOutcome,
 } from '@cp/ai';
+import type pg from 'pg';
 
 import type { Drafted } from './fan-out';
+import { eachGroup, groupProgress, type GroupProgress } from './group-progress';
 import { holdStops, type HeldStop } from './held-stops';
 import type { Outline } from './skeleton';
 
@@ -25,17 +27,25 @@ function repairGroups(
   groups: readonly DayGroup[],
   skeleton: Outline,
   drafted: Drafted,
+  progress: GroupProgress | undefined,
 ): Promise<RepairOutcome> {
-  return Promise.all(
-    groups.map((group, index) => {
-      const outline = skeleton.groups?.[index];
-      const days = drafted.groups?.[index];
-      if (outline === undefined || days === undefined) {
-        throw new Error('draft: a day group has no outline or days');
-      }
-      return repairGroup(model, group, groupPrefix(groups, index), outline, days);
-    }),
-  ).then((outcomes) => joinRepairs(groups, outcomes));
+  return eachGroup(groups.length, progress, (index) => {
+    const group = groups[index];
+    const outline = skeleton.groups?.[index];
+    const days = drafted.groups?.[index];
+    if (group === undefined || outline === undefined || days === undefined) {
+      throw new Error('draft: a day group has no outline or days');
+    }
+    return repairGroup(model, group, groupPrefix(groups, index), outline, days);
+  }).then((outcomes) => joinRepairs(groups, outcomes));
+}
+
+/** Where the check step keeps each day group's result while it runs (./group-progress.ts). */
+export function checkProgress(ctx: {
+  readonly pool: pg.Pool;
+  readonly agentJob: { readonly id: string };
+}): GroupProgress {
+  return groupProgress(ctx.pool, ctx.agentJob.id, 'validate');
 }
 
 export async function checkStage(
@@ -43,13 +53,17 @@ export async function checkStage(
   input: DraftPlanInput,
   skeleton: Outline,
   drafted: Drafted,
-  held: readonly HeldStop[] = [],
-  groups: readonly DayGroup[] = [],
+  options: {
+    readonly held?: readonly HeldStop[];
+    readonly groups?: readonly DayGroup[] | undefined;
+    readonly progress?: GroupProgress;
+  } = {},
 ): Promise<RepairOutcome> {
+  const { held = [], groups = [], progress } = options;
   const outcome =
     groups.length < 2
       ? await validateAndRepair(model, input, skeleton, drafted.itinerary)
-      : await repairGroups(model, groups, skeleton, drafted);
+      : await repairGroups(model, groups, skeleton, drafted, progress);
   // The planner was given her stops and planned around them. Putting them back here, exactly as
   // she placed them, is the guarantee that holds whatever happened above.
   return { ...outcome, itinerary: holdStops(outcome.itinerary, held, input.travel).itinerary };
