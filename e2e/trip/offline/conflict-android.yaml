@@ -1,0 +1,77 @@
+appId: app.critterpass.dev
+---
+# A write made with no signal that the server turns down once the phone is back: a crewmate adds
+# "Torch" to the crew's shared pack list (a simulated traveller, through the api), the phone loses
+# its network and ticks it, and meanwhile another crewmate takes Torch off the list. Back online
+# the tick has nothing to land on, so the trip hub lists it under "Didn't go through" until OK
+# clears it. Android only: the runner cuts the emulator's network (/network).
+- runFlow:
+    file: ../subflows/today-with-crew.yaml
+    env:
+      SHOTS: conflict
+      CREW_NAME: 'Conflict Crew'
+- runFlow:
+    file: ../subflows/shared-pack-item.yaml
+    env:
+      ACTION: add
+      LABEL: Torch
+# The crewmate's item reaches this phone through sync.
+- scrollUntilVisible:
+    element:
+      text: 'TORCH|Torch'
+    direction: DOWN
+    timeout: 90000
+# Runner: Wi-Fi and data off.
+- evalScript: "${output.cut = http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
+- assertTrue: ${output.cut == 200}
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-offline'
+    direction: UP
+    timeout: 60000
+- scrollUntilVisible:
+    element:
+      text: 'TORCH|Torch'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: 'TORCH|Torch'
+- waitForAnimationToEnd
+- takeScreenshot: conflict-ticked-offline
+# Meanwhile the item is taken off the crew's list.
+- runFlow:
+    file: ../subflows/shared-pack-item.yaml
+    env:
+      ACTION: remove
+      LABEL: Torch
+# The tick waits on the phone.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-card'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-offline-send-.*'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: conflict-waiting-to-send
+# Runner: back online. The server turns the tick down and the hub says so.
+- evalScript: "${output.restored = http.post('http://127.0.0.1:7788/network?state=on', { body: '{}' }).status}"
+- assertTrue: ${output.restored == 200}
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-conflicts'
+    timeout: 90000
+- assertVisible: "(?i).*didn't go through.*"
+- waitForAnimationToEnd
+- takeScreenshot: conflict-did-not-go-through
+# It stays until the traveller has read it.
+- tapOn:
+    id: 'trip-offline-conflict-.*'
+- extendedWaitUntil:
+    notVisible:
+      id: 'trip-offline-conflicts'
+    timeout: 10000
