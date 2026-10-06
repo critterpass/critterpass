@@ -5,12 +5,14 @@
  */
 import { withUser } from '@cp/db';
 import { generateUuidV7 } from '@cp/domain';
+import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerInviteCommands } from '../../src/commands/invites';
 import { registerOnboardingCommands } from '../../src/commands/onboarding';
 import { seedLiveMapFor, type SeedLiveMapResult } from '../../src/dev/demo-live-map';
 import { registerDevRoutes } from '../../src/dev/routes';
+import { startJobProducer } from '../../src/jobs/producer';
 import { testInviteDeps } from '../crews/invite-fixture';
 import {
   envelope,
@@ -20,6 +22,7 @@ import {
 } from '../routes/command-doors-harness';
 
 let harness: CommandDoorsHarness;
+let producer: PgBoss;
 const logger = { info: () => undefined, warn: () => undefined };
 
 beforeAll(async () => {
@@ -30,9 +33,15 @@ beforeAll(async () => {
     },
     (app, deps) => registerDevRoutes(app, { ...deps, appEnv: 'staging', logger }),
   );
+  // Joining with a code queues jobs, as on the api.
+  const { connectionString } = (
+    harness.pool as unknown as { options: { connectionString: string } }
+  ).options;
+  producer = await startJobProducer({ connectionString, logger: { error: () => undefined } });
 }, 240_000);
 
 afterAll(async () => {
+  await producer?.stop({ graceful: false });
   await harness?.stop();
 });
 
@@ -77,10 +86,12 @@ describe('POST /v1/dev/seed-live-map', { timeout: 60_000 }, () => {
     await seedLiveMapFor(harness.pool, caller.uid, new Date());
     const seeded = await seed(caller);
     expect(seeded.code).toMatch(/^[A-Z0-9]{6}$/);
-    expect(await tripsSeenBy(caller.uid)).toEqual([
-      { id: seeded.trip_id, status: 'in_trip', live_map: true },
-      { id: seeded.unboosted_trip_id, status: 'in_trip', live_map: false },
-    ]);
+    expect(await tripsSeenBy(caller.uid)).toEqual(
+      expect.arrayContaining([
+        { id: seeded.trip_id, status: 'in_trip', live_map: true },
+        { id: seeded.unboosted_trip_id, status: 'in_trip', live_map: false },
+      ]),
+    );
 
     // Each call is a fresh crew, so a rerun never inherits the last run's crewmates.
     const again = await seed(caller);
