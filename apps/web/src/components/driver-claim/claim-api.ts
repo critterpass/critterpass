@@ -1,7 +1,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- routes, form field names and wire values, not UI copy. */
 /**
  * The claim page's server side: reads the key's state from the api and turns the page's plain HTML
- * form posts into the api's public claim calls. No script runs in the driver's browser; every
+ * form posts into the api's public claim calls. Every
  * action posts the form and the Worker answers with the next page (or a redirect to the rotated
  * key).
  */
@@ -89,4 +89,20 @@ export function detailsFromForm(form: FormData): DriverClaimDetails {
 
 export function asView(body: Record<string, unknown>): DriverClaimView {
   return body as unknown as DriverClaimView;
+}
+
+/**
+ * The posted form: the page's script sends the fields as JSON (a same-page request the framework's
+ * cross-site form check does not apply to); a browser without script posts the form itself.
+ */
+export async function postedForm(request: Request): Promise<FormData> {
+  if (!(request.headers.get('content-type') ?? '').includes('application/json')) {
+    return request.formData();
+  }
+  const form = new FormData();
+  const fields = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+  for (const [name, value] of Object.entries(fields)) {
+    if (typeof value === 'string') form.set(name, value);
+  }
+  return form;
 }

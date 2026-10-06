@@ -1,17 +1,23 @@
 ---
 /* eslint-disable lingui/no-unlocalized-strings -- form field names, actions and class names, not UI copy. */
 // The driver's own page (6h-1 claim, 6h-2 listed): critterpass.app/d/{key}, web-only (never a
-// Universal or App Link) and noindex. Plain HTML forms posted to this page; no script, system
-// fonts and no images, so it stays far under 60 KB on a slow phone connection.
+// Universal or App Link) and noindex. Plain HTML forms posted to this page (a few lines of script
+// send them as JSON), system fonts and no images, so it stays far under 60 KB on a slow phone.
 import { env } from 'cloudflare:workers';
 import { createServerI18n } from '@cp/i18n/server';
 import type { MessageDescriptor } from '@lingui/core';
 import type { DriverClaimView } from '@cp/domain';
 
 import ClaimStyles from '../../components/driver-claim/ClaimStyles.astro';
+import ClaimSubmit from '../../components/driver-claim/ClaimSubmit.astro';
 import DetailsFields from '../../components/driver-claim/DetailsFields.astro';
 import { runClaimAction, type ClaimOutcome } from '../../components/driver-claim/claim-actions';
-import { asView, callClaimApi, claimLang } from '../../components/driver-claim/claim-api';
+import {
+  asView,
+  callClaimApi,
+  claimLang,
+  postedForm,
+} from '../../components/driver-claim/claim-api';
 import { claimCopy as c, tagCopy } from '../../components/driver-claim/copy';
 import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
 
@@ -31,7 +37,7 @@ const here = (k: string) => `/d/${encodeURIComponent(k)}${lang === 'id' ? '?lang
 
 let outcome: ClaimOutcome = {};
 if (Astro.request.method === 'POST') {
-  outcome = await runClaimAction(api, await Astro.request.formData(), lang);
+  outcome = await runClaimAction(api, await postedForm(Astro.request), lang);
   if (outcome.nextKey !== undefined) return Astro.redirect(here(outcome.nextKey), 303);
 }
 
@@ -184,5 +190,6 @@ const final = outcome.finalState;
         </section>
       )}
     </main>
+    <ClaimSubmit />
   </body>
 </html>
