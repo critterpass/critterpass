@@ -28,6 +28,5 @@ $$;
 CREATE INDEX postcard_mailings_trip_payer_idx ON postcard_mailings (trip_id, payer_id);
 
 -- Reported album photos reach the ops console: the moderation preview reads them as admin_reader.
-GRANT SELECT (id, trip_id, uploader_id, media_key, display_key, deleted_at, created_at)
-  ON photos TO admin_reader;
+GRANT SELECT ON photos TO admin_reader;
 CREATE POLICY photos_admin_reader ON photos FOR SELECT TO admin_reader USING (true);
