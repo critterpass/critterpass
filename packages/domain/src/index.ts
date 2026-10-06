@@ -282,6 +282,7 @@ export * from './planning';
 export * from './proposal';
 export * from './critters';
 export * from './trips/lifecycle';
+export * from './trips/removal';
 export * from './quests';
 export * from './locale/app-locale';
 export * from './locale/guide-text';

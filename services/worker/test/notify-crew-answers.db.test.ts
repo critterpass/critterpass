@@ -312,4 +312,28 @@ describe('a confirmed trip', () => {
     });
     expect(fanOut).toEqual({ outcome: 'fanned_out', recipients: 0 });
   });
+
+  it('tells everyone not already out when an organiser calls the trip off', async () => {
+    const { maya, rin, sam, linh, tripId, event } = await confirmed('maya');
+    const eventId = await event('cancelled');
+    const fanOut = await routeNotification(db.pool, deps, {
+      event_id: eventId,
+      key: 'trip_cancelled',
+    });
+    expect(fanOut).toEqual({ outcome: 'fanned_out', recipients: 3 });
+    expect([...(await recipients(eventId))].sort()).toEqual([rin, sam, linh].sort());
+    await routeNotification(db.pool, deps, { event_id: eventId, key: 'trip_cancelled', uid: rin });
+    expect(await notificationsFor(rin)).toEqual([
+      {
+        key: 'trip_cancelled',
+        class: 'budgeted',
+        state: 'queued',
+        title: 'Bali crew is called off',
+        body: 'Maya cancelled the trip. The chat, money, bookings and photos stay to read.',
+        collapse_key: `trip_cancelled:${tripId}`,
+        deep_link: `/trips/${tripId}`,
+      },
+    ]);
+    expect(await notificationsFor(maya)).toEqual([]);
+  });
 });
