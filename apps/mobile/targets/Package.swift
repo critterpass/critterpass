@@ -82,7 +82,7 @@ let package = Package(
       name: "LiveActivityLogicCore",
       path: "_shared/ActivityAttributes",
       exclude: ["CPActivityAttributes.swift", "Tests"],
-      sources: ["LiveActivityLogic.swift"]
+      sources: ["LiveActivityLogic.swift", "LeaveBySending.swift"]
     ),
     .testTarget(
       name: "LiveActivityLogicTests",

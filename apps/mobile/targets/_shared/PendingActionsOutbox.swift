@@ -52,6 +52,17 @@ struct PendingAction: Hashable, Sendable {
         )
     }
 
+    /// SNOOZE on the leave-by Live Activity: `snooze_leave_by{leave_by_id}`. The server counts the
+    /// snoozes (the second one knocks on the crew), so the phone sends no count of its own.
+    static func snooze(
+        leaveById: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "snooze_leave_by", via: .laIntent, scope: "readiness", clientTs: now,
+            payload: ["leave_by_id": .text(leaveById)]
+        )
+    }
+
     /// RUNNING LATE on the crew-live activity: `report_running_late{trip_id, meetup_id, minutes}`.
     static func runningLate(
         tripId: String, meetupId: String, minutes: Int = 10,
