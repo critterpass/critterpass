@@ -124,6 +124,22 @@ wait for the screen after every character (`e2e/happy/bookings.yaml`). `/push` f
 Wi-Fi and mobile data off or on (Android only; iOS answers 501). Each call answers 200 once done,
 and logs a line in the shard's output.
 
+`/scenario?name=…` starts a script that drives other people through the api of the build under
+test, and `/scenario-output?name=…` answers 200 once it is done (202 while it runs, 500 if it
+failed). The scripts sign simulated travellers up, join them with the crew's code and act with real
+commands, reading the ids they need from the sync service as a phone would
+(`tools/scripts/seed-sync-rows.ts`):
+
+| Scenario    | Script                                   | What the other people do                                                                 |
+| ----------- | ---------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `trip-day`  | `tools/scripts/seed-trip-day.ts`         | five travellers join the crew behind `code`; `up=N` of them say they are up for the day |
+| `trip-pack` | `tools/scripts/seed-trip-pack.ts`        | one more joins and adds (`action=add`) or removes the shared pack item `label`          |
+| `live-map`  | `tools/scripts/live-map-sim/by-code.ts`  | crewmates join, share their location and walk to the meet-up on `trip`                  |
+
+The runner is on the host, so a flow can start a scenario while the device has no network
+(`e2e/trip/offline/conflict-android.yaml`). Map pins are drawn by the map view and are not in
+Android's hierarchy: assert on the panel under the map (`e2e/crew/live-map/share-and-meetup.yaml`).
+
 ### Android emulators
 
 Each Android shard boots a fresh `system-images;android-35;google_apis;x86_64` emulator (Pixel 7
