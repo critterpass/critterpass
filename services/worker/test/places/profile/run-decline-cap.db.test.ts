@@ -117,7 +117,11 @@ describe('places.profile without a profile', { timeout: 60_000 }, () => {
     // Let the image search that started beside the web search settle.
     await new Promise((resolve) => setTimeout(resolve, 200));
     expect(puts).toEqual([]);
-    expect(net.calls.every((url) => url.startsWith(`${SEARX}/search`))).toBe(true);
+    // Only the searches and the labelling model were called: no image was downloaded.
+    const downloads = net.calls.filter(
+      (url) => !url.startsWith(`${SEARX}/search`) && !/typesafe|deepseek/u.test(url),
+    );
+    expect(downloads).toEqual([]);
     expect(await row(id)).toMatchObject({ status: 'declined', error: 'no_pages', photos: [] });
   });
 
