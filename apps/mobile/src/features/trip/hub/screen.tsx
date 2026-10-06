@@ -32,6 +32,7 @@ import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
 import { hubPlanning, planTileBeforeSend, planVoteEntry } from './hub-turn';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
+import { TripMenu } from './trip-menu';
 
 /** Today's saved day has every file it names (the BOOKINGS tile says "all offline"). */
 function todayComplete(data: string): boolean {
@@ -271,6 +272,11 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       )}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
+      {...(trip === null
+        ? {}
+        : {
+            menu: <TripMenu tripId={tripId} status={trip.status} role={trip.role} me={me} />,
+          })}
     />
   );
 }
