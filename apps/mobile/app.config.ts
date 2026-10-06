@@ -276,6 +276,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     // Communication Notifications for the notification service extension (entitlement +
     // NSUserActivityTypes).
     './modules/cp-notifications/plugin/with-communication-notifications',
+    // Android surfaces' permissions (Live Updates, full-screen alarm, exact alarm, SOS DND access).
+    './plugins/with-android-surfaces',
     '@maplibre/maplibre-react-native',
     'expo-apple-authentication',
     // Google Sign-In's iOS URL scheme, from this environment's iOS OAuth client id.
