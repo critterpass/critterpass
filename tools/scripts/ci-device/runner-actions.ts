@@ -33,7 +33,14 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import type { DevicePlatform } from './plan-shards';
-import { location, pasteboard, scenario, scenarioOutput, stopScenarios } from './runner-scenarios';
+import {
+  freshLaunch,
+  location,
+  pasteboard,
+  scenario,
+  scenarioOutput,
+  stopScenarios,
+} from './runner-scenarios';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 export const RUNNER_ACTIONS_PORT = 7788;

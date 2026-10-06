@@ -42,8 +42,9 @@ async function seed(who: SignedIn): Promise<SeedLiveMapResult> {
     headers: { cookie: who.cookie },
     body: '{}',
   });
-  expect(response.status).toBe(200);
-  return (await response.json()) as SeedLiveMapResult;
+  const body = await response.text();
+  expect(response.status, body).toBe(200);
+  return JSON.parse(body) as SeedLiveMapResult;
 }
 
 async function send(who: SignedIn, cmd: string, payload: unknown) {

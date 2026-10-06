@@ -77,13 +77,13 @@ async function tripInTripDays(
       DESTINATION.currency,
     ],
   );
-  for (const status of TO_IN_TRIP) {
-    await tx.query('UPDATE trips SET status = $1 WHERE id = $2', [status, tripId]);
-  }
   await tx.query(
     `INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, 'organiser', 'in')`,
     [tripId, uid],
   );
+  for (const status of TO_IN_TRIP) {
+    await tx.query('UPDATE trips SET status = $1 WHERE id = $2', [status, tripId]);
+  }
   await tx.query(
     `INSERT INTO trip_entitlements (trip_id, boost_active, live_map) VALUES ($1, $2, $2)
      ON CONFLICT (trip_id) DO UPDATE SET boost_active = $2, live_map = $2`,

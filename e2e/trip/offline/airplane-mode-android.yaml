@@ -35,14 +35,28 @@ appId: app.critterpass.dev
       text: 'RAINCOAT|Raincoat, just you'
     timeout: 10000
 - hideKeyboard
-# The day's plan from the phone alone.
+# The hub's offline card lists what waits to send, and opens today's plan from the phone alone.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-offline-card'
+    timeout: 30000
 - scrollUntilVisible:
     element:
-      id: 'trip-day-to-plan'
+      id: 'trip-offline-send-.*'
+    direction: DOWN
+    timeout: 10000
+- assertVisible: '.*Raincoat.*'
+- waitForAnimationToEnd
+- takeScreenshot: offline-hub-sends
+- scrollUntilVisible:
+    element:
+      id: 'trip-offline-open-plan'
     direction: DOWN
     timeout: 10000
 - tapOn:
-    id: 'trip-day-to-plan'
+    id: 'trip-offline-open-plan'
 - extendedWaitUntil:
     visible:
       id: 'stop-[0-9]+'
@@ -52,14 +66,14 @@ appId: app.critterpass.dev
 - back
 - extendedWaitUntil:
     visible:
-      id: 'trip-day'
+      id: 'trip-offline-card'
     timeout: 15000
 # Runner: back online.
 - evalScript: "${output.restored = http.post('http://127.0.0.1:7788/network?state=on', { body: '{}' }).status}"
 - assertTrue: ${output.restored == 200}
 - extendedWaitUntil:
     notVisible:
-      id: 'trip-day-offline'
+      id: 'trip-offline-send-.*'
     timeout: 90000
 - waitForAnimationToEnd
 - takeScreenshot: offline-back
