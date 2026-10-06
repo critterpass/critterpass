@@ -4,8 +4,9 @@
  * it is off while the phone is offline: the server must close the account before the phone is
  * cleared.
  */
-import type { DeletionReason } from '@cp/domain';
+import type { DeletionPreflight, DeletionReason } from '@cp/domain';
 import { upper } from '@cp/i18n';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useRef } from 'react';
 import { ScrollView, View, type ScrollViewInstance } from 'react-native';
@@ -23,6 +24,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { DotList, Problem } from './account-parts';
+import { BillingNote, OwedCard, PreflightLines } from './preflight-parts';
 
 export type DeleteStep = 'review' | 'hold';
 
@@ -35,6 +37,8 @@ export interface DeleteViewProps {
   readonly online: boolean;
   readonly busy: boolean;
   readonly passPlus: boolean;
+  /** The server's preflight; null until it answers (or when it cannot be reached). */
+  readonly preflight: DeletionPreflight | null;
   readonly reason: DeletionReason | null;
   readonly problem: DeleteProblem | null;
   readonly onContinue: () => void;
@@ -43,6 +47,10 @@ export interface DeleteViewProps {
   readonly onDelete: () => void;
   readonly onKeep: () => void;
   readonly onBack?: () => void;
+  readonly onSettle?: () => void;
+  readonly onManageSubscription?: () => void;
+  /** "Download my data first", with the export's state under it. */
+  readonly download?: { readonly line: string; readonly onPress: () => void };
 }
 
 const useStyles = makeStyles((t) => ({
@@ -79,6 +87,8 @@ function useReasons(): readonly { readonly id: DeletionReason; readonly label: s
   /* eslint-enable lingui/no-unlocalized-strings */
 }
 
+const noop = () => undefined;
+
 export function DeleteView(props: DeleteViewProps) {
   const { t } = useLingui();
   const styles = useStyles();
@@ -87,11 +97,30 @@ export function DeleteView(props: DeleteViewProps) {
   const reasons = useReasons();
   const scroll = useRef<ScrollViewInstance>(null);
   const holdLabel = t({ id: 'you.delete.holdAction', message: 'Delete my account' });
-  const closesLine = t({
-    id: 'you.delete.closesLine',
-    message:
-      'Your account is closed now and erased after 30 days. Sign in before then and everything comes back.',
-  });
+  const preflight = props.preflight;
+  const closesLine =
+    preflight?.instant === true
+      ? t({
+          id: 'you.delete.closesInstant',
+          message: 'This pass isn’t saved, so it’s erased right away. There’s no way back to it.',
+        })
+      : t({
+          id: 'you.delete.closesLine',
+          message:
+            'Your account is closed now and erased after 30 days. Sign in before then and everything comes back.',
+        });
+  const critters = preflight?.critters ?? null;
+  const goesPass =
+    critters === null || critters === 0
+      ? t({ id: 'you.delete.goes.pass', message: 'Your pass, your critters and your stamps' })
+      : t({
+          id: 'you.delete.goes.passCount',
+          message: plural(critters, {
+            one: 'Your pass, your # critter and your stamps',
+            other: 'Your pass, your # critters and your stamps',
+          }),
+        });
+  const owed = (preflight?.balances ?? []).filter((b) => b.net_minor > 0);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="you-delete">
       <ScrollView
@@ -121,10 +150,7 @@ export function DeleteView(props: DeleteViewProps) {
             title={t({ id: 'you.delete.goes', message: 'Goes' })}
             color={theme.semantic.state.urgent}
             lines={[
-              t({
-                id: 'you.delete.goes.pass',
-                message: 'Your pass, your critters and your stamps',
-              }),
+              goesPass,
               t({
                 id: 'you.delete.goes.profile',
                 message: 'Your profile, uploads and chat messages',
@@ -147,19 +173,19 @@ export function DeleteView(props: DeleteViewProps) {
             ]}
           />
         </View>
-        {props.passPlus ? (
-          <Text
-            variant="bodySm"
-            color={theme.semantic.text.secondary}
-            testID="you-delete-pass-plus"
-          >
-            {t({
-              id: 'you.delete.passPlus',
-              message:
-                'Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too.',
-            })}
-          </Text>
-        ) : null}
+        {owed.map((balance) => (
+          <OwedCard
+            key={`${balance.crew_id}-${balance.currency}`}
+            balance={balance}
+            onSettle={props.onSettle ?? noop}
+          />
+        ))}
+        {preflight === null ? null : <PreflightLines preflight={preflight} />}
+        <BillingNote
+          source={preflight?.subscription?.source ?? null}
+          passPlus={props.passPlus}
+          onManage={props.onManageSubscription ?? null}
+        />
 
         {props.step === 'review' ? (
           <PillButton
@@ -237,6 +263,19 @@ export function DeleteView(props: DeleteViewProps) {
                 'We couldn’t close your account, so nothing was changed on this phone. Try again in a moment.',
             })}
           />
+        )}
+        {props.download === undefined || props.step !== 'review' ? null : (
+          <Stack gap="2" align="center">
+            <TextLink
+              label={t({ id: 'you.delete.downloadFirst', message: 'Download my data first' })}
+              onPress={props.download.onPress}
+              disabled={props.busy}
+              testID="you-delete-download"
+            />
+            <Text variant="caption" color={theme.semantic.text.secondary}>
+              {props.download.line}
+            </Text>
+          </Stack>
         )}
         <TextLink
           label={t({ id: 'you.delete.keep', message: 'Keep my account' })}

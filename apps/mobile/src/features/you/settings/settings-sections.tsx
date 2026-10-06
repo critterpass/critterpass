@@ -29,7 +29,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly mailbox: { readonly title: string; readonly subtitle: string } | null;
   readonly helpShare: boolean;
   readonly soundEffects: boolean;
-  readonly haptics: boolean;
+  /** The Music row's line ("Gamelan lo-fi, follows your guide", "Off"). */
+  readonly music: string;
   /** Which maps app Start opens; absent or null where there is no choice (Android). */
   readonly mapsApp?: MapsApp | null;
   /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
@@ -53,7 +54,7 @@ export interface SettingsHandlers {
   readonly onHelpShare: (next: boolean) => void;
   readonly onOfflineTrips: () => void;
   readonly onSoundEffects: (next: boolean) => void;
-  readonly onHaptics: (next: boolean) => void;
+  readonly onMusic: () => void;
   readonly onMapsApp?: (next: MapsApp) => void;
   readonly onLanguage: () => void;
   readonly onSignOut: () => void;
@@ -228,13 +229,14 @@ export function useSettingsSections(
       values.soundEffects,
       handlers.onSoundEffects,
     ),
-    haptics: toggle(
-      'haptics',
-      t({ id: 'you.settings.haptics', message: 'Haptics' }),
-      t({ id: 'you.settings.hapticsLine', message: 'Taps and thuds you can feel' }),
-      values.haptics,
-      handlers.onHaptics,
-    ),
+    music: {
+      key: 'music',
+      kind: 'value',
+      title: t({ id: 'you.settings.music', message: 'Music' }),
+      subtitle: values.music,
+      value: '',
+      onPress: handlers.onMusic,
+    },
     'maps-app': mapsApp,
     language: {
       key: 'language',
