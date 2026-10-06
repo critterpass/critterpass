@@ -181,6 +181,10 @@ msgstr "Trước đó"
 msgid "home.explore.title"
 msgstr "Khám phá"
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.fixShippedVersion"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
 msgstr "Hướng dẫn viên"
@@ -480,6 +484,10 @@ msgstr "Hoàn tác: {line}"
 #: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
 msgid "home.inbox.undone"
 msgstr "Đã hoàn tác. Kế hoạch trở lại như cũ."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.fixShipped"
+msgstr ""
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.welcomeAnon"

@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# One step back from a album lab scene: the scene's invisible back target on iOS (an edge swipe
+# over a full-bleed scene is not reliable), the system back on Android.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'album-scene-back'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- waitForAnimationToEnd

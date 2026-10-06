@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The album and postcard lab scenes in en.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/album-shots.yaml
+    env:
+      LANG: en

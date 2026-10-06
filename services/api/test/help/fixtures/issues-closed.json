@@ -1,0 +1,26 @@
+{
+  "action": "closed",
+  "issue": {
+    "id": 3501220011,
+    "number": 41,
+    "title": "[CP-10001] The split shows the payer as owing money.",
+    "state": "closed",
+    "state_reason": "completed",
+    "html_url": "https://github.com/critterpass/feedback/issues/41",
+    "labels": [
+      { "id": 9001, "name": "feedback" },
+      { "id": 9002, "name": "kind:bug" },
+      { "id": 9003, "name": "area:money" },
+      { "id": 9004, "name": "severity:critical" },
+      { "id": 9005, "name": "fixed-in:1.2.0" }
+    ],
+    "closed_at": "2026-10-06T12:00:00Z"
+  },
+  "repository": {
+    "id": 1389056999,
+    "name": "feedback",
+    "full_name": "critterpass/feedback",
+    "private": true
+  },
+  "sender": { "login": "octocat", "id": 1 }
+}

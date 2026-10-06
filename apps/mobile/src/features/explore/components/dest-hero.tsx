@@ -7,13 +7,13 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
-import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, type ReactNode } from 'react';
 import { PixelRatio, Pressable, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import type { MediaView } from '@/lib/media/variants';
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { InfoPill } from '@/ui/chips/InfoPill';
@@ -81,7 +81,8 @@ export interface DestHeroProps {
   readonly trailing?: ReactNode;
   /** Already worded facts, in display order. */
   readonly chips: readonly HeroChip[];
-  readonly photo: MediaAsset | null;
+  /** The destination's curated media, or a pick's photo where it has none. */
+  readonly photo: MediaView | null;
   /**
    * `ghost`: the paper silhouette; `seated` (the default): the guide's own sticker.
    */
