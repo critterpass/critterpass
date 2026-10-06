@@ -16,7 +16,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Linking } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
-import { useLiveRows, useOwnerUid } from '@/features/recap/data/live-rows';
+import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
@@ -24,7 +25,8 @@ import { inviteDriverCommand } from '../ours/commands';
 import { useOurDrivers } from '../ours/use-our-drivers';
 import { InviteView } from './InviteView';
 
-const NAME_SQL = 'SELECT display_name FROM users WHERE id = ?';
+const NAME_SQL = `SELECT display_name FROM users
+  WHERE id = (SELECT value FROM local_state WHERE id = ?)`;
 
 export function InviteScreen({
   tripId,
@@ -36,10 +38,20 @@ export function InviteScreen({
   const { t } = useLingui();
   const locale = useLocale();
   const { data } = useOurDrivers(tripId);
-  const me = useOwnerUid();
-  const myName =
-    useLiveRows<{ display_name: string | null }>(NAME_SQL, me === null ? null : [me], ['users'])
-      .rows[0]?.display_name ?? null;
+  const { db } = useLocalFirst();
+  const [myName, setMyName] = useState<string | null>(null);
+  useEffect(() => {
+    let live = true;
+    void db
+      .getAll<{ display_name: string | null }>(NAME_SQL, [OWNER_UID_KEY])
+      .then((rows) => {
+        if (live) setMyName(rows[0]?.display_name ?? null);
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, [db]);
   const invite = useCommand(inviteDriverCommand);
   const [link, setLink] = useState<InviteDriverResult | null>(null);
   const [error, setError] = useState<string | null>(null);

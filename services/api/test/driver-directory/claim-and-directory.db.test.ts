@@ -158,7 +158,7 @@ describe('drivers our crews used', () => {
       ...answer,
       tip: 'Ask for the upper car park at Jatiluwih.',
     });
-    expect(rated.body.status).toBe('applied');
+    expect(rated.body.status, JSON.stringify([rated.body, harness.logs.slice(-3)])).toBe('applied');
     const tips = await q<{ status: string }>('SELECT status FROM driver_tips');
     expect(tips).toEqual([{ status: 'pending' }]);
   });
