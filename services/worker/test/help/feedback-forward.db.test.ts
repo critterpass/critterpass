@@ -367,7 +367,7 @@ describe('feedback.fix_shipped', () => {
   const tell = (id: string) =>
     withSystem(harness.pool, (tx) => tellFixShipped(tx, { ticket_id: id, waited: 0 }));
   async function fanOut(ticketId: string): Promise<void> {
-    const events = await q<{ id: string }>(
+    const { rows: events } = await harness.pool.query<{ id: string }>(
       "SELECT id FROM domain_events WHERE type = 'feedback.fix_shipped' AND aggregate_id = $1",
       [ticketId],
     );
@@ -386,12 +386,12 @@ describe('feedback.fix_shipped', () => {
 
     expect(await tell(t.id)).toBe('waiting');
     expect(await cards(reporter)).toEqual([]);
-    const later = await q<{ data: { waited: number }; soon: boolean }>(
+    const later = await harness.pool.query<{ data: { waited: number }; soon: boolean }>(
       `SELECT data, start_after < now() + interval '23 hours' AS soon FROM pgboss.job
         WHERE name = 'feedback.fix_shipped' AND data->>'ticket_id' = $1`,
       [t.id],
     );
-    expect(later).toEqual([{ data: { ticket_id: t.id, waited: 1 }, soon: false }]);
+    expect(later.rows).toEqual([{ data: { ticket_id: t.id, waited: 1 }, soon: false }]);
 
     await q("UPDATE devices SET app_version = '1.10.0' WHERE id = $1", [phone]);
     expect(await tell(t.id)).toBe('told');
