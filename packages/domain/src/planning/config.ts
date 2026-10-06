@@ -1,6 +1,6 @@
 /**
- * Planning config keys (`ops.ops_config`, docs/api-contracts-planning.md, config): the rollout
- * switch for the redesigned plan and places screens, what the trip's PLAN tile opens, the plan
+ * Planning config keys (`ops.ops_config`, docs/api-contracts-planning.md, config): the retired
+ * plan and places switch (pinned on for installed builds), what the trip's PLAN tile opens, the plan
  * check's limits and thresholds, the walking limit, the silent fair-use caps of the planning
  * model calls, and the link platforms the import reads. Public keys sync to the app through
  * `client_config`. Each key's default is seeded by the migration that adds the planning tables.
@@ -33,7 +33,7 @@ export const planCheckThresholdsSchema = z.strictObject({
 export type PlanCheckThresholds = z.infer<typeof planCheckThresholdsSchema>;
 
 export const PLANNING_CONFIG_DEFAULTS = {
-  'planning.redesign': false,
+  'planning.redesign': true,
   'plan.hub': 'map',
   'plan.check.max_runs_per_trip_day': 96,
   'plan.check.thresholds': {
@@ -62,13 +62,15 @@ export const PLANNING_FAIR_USE_METRICS = [
 const cap = (max: number) => z.number().int().min(0).max(max);
 
 export const PLANNING_CONFIG_KEYS: Readonly<Record<PlanningConfigKey, ConfigKeyDefinition>> = {
+  // Not deleted: a build that still has the switch reads a missing key as off and would show the
+  // earlier screens, and there is no minimum app version to wait for.
   'planning.redesign': {
     group: 'limits',
-    schema: z.boolean(),
+    schema: z.literal(true),
     isPublic: true,
     critical: true,
     description:
-      'Show the redesigned trip map, day plan, places and plan check; off keeps the earlier plan and places screens',
+      'Retired: the redesigned plan and places screens are the only ones. Stays on for installed builds that still read it',
   },
   'plan.hub': {
     group: 'limits',

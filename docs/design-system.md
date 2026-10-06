@@ -179,7 +179,7 @@ Flat sticker language; rings over shadows.
 | `Scaffold` | dark / paper / colourHero / scene / map; optional halftone; status-bar style | all |
 | `TabBar` + `GuideFab` | 5 slots HOME · TRIPS · FAB · WALLET · PASS; FAB = context guide sticker; tap → guide sheet, long-press → Help; icon bounce | 17 screens |
 | `BackEyebrow` | "← SECTION" (mirrors in RTL, real icon) | pushed screens |
-| `CloseButton` | 40 pt circle; mandatory on every sheet/rise | 3d-3, 3m-*, 4e-1 |
+| `CloseButton` | 40 pt circle; mandatory on every sheet/rise | 3m-*, 4e-1 |
 | `LargeTitle` | condensed h1, collapses on scroll | 3n-6, all |
 | `HeaderPills` | action pill; status pill (ONLY YOU SEE THIS, LIVE, NO SIGNAL, BOOSTED, countdown) | 3c-9, 3f-6 |
 | `HomeHeader` | greeting, crew switcher ▾, crew pill + badge, bell + badge | 3b-2, 3b-6 |
@@ -195,14 +195,14 @@ Flat sticker language; rings over shadows.
 | Component | Variants | Screens |
 |---|---|---|
 | `PillButton` | primary yellow / green / pink / orange / ink / cream; secondary outline; tertiary link; destructive; sheen; label flap; loading; disabled | all |
-| `SplitCtaRow` | primary + secondary / icon | 3d-3, 3l-3 |
+| `SplitCtaRow` | primary + secondary / icon | 7e-1, 3l-3 |
 | `InlineAction` | choice, approve, nudge, ghost (in cards) | 3b-4, 3k-5 |
-| `IconButton` | 40–56 pt dark/cream/on-photo | 3d-3, 3h-3 |
+| `IconButton` | 40–56 pt dark/cream/on-photo | 7e-1, 3h-3 |
 | `TextField` / `SearchField` | focus ring, live mirror, clear, results | 3a-2, 3b-7 |
 | `CodeBoxes` | 6-box OTP/join (drop digits, valid green, invalid shake); 4-4-4 gift code | 3a-8, 3a-11, 4d-4 |
 | `Keypad` | 3×4 incl. 000, ⌫; amount odometer; ≈ line | 3i-2 |
 | `Toggle` | squash knob; On/Off a11y value | 3a-9, 3n-2 |
-| `Segmented` | 2–4 segments, badge | 3b-4, 3e-1, 4e-1 |
+| `Segmented` | 2–4 segments, badge | 3b-4, 7d-2, 4e-1 |
 | `RadioCard` | outline + pick tag ("PON'S PICK") | 3c-4, 3k-8 |
 | `Slider` / `RangePrivateMarkers` / `SegmentBudget` | music/effects; anonymous dots + sweet spot; 10-segment ping budget | 3n-7, 3c-5, 5b-4 |
 | `SlideToConfirm` | 68 h track, critter knob; a11y action | 3f-5, 5b-3 |
@@ -340,8 +340,8 @@ Gestures: tap cancels over 8 pt; long-press 320 ms; edge-swipe back from x < 28,
 | `stamp` | fall s 2.2→.94 450 slam, overshoot 1.04, settle ~540; at impact: `thud` (screen ty 0→5→−2→0, 280) + haptic heavy + `sfx.thud` | 3a-6, 3c-2, 4b-5, 3m-8 |
 | `slap` | s 0 r ±24 → 1 r ±8, 540 back; stagger 300; `sfx.slap` | 3m-3, 3l-6, 3b-3 |
 | `settle` | ty −40 r −8 → 0 r −2, 630 back | 3a-6, 3a-10 |
-| `deal` | rows ty −12→0 + fade, 400 standard, stagger 80 | 3e-3, 3c-9 |
-| `fling` | drag translate(dx, dy·.3) rotate(dx/14°); commit |dx| > 110; out 400 slam; return spring; next card from ty 26 s .93 gentle | 3d-2, 3o-3 |
+| `deal` | rows ty −12→0 + fade, 400 standard, stagger 80 | 3j-1, 3c-9 |
+| `fling` | drag translate(dx, dy·.3) rotate(dx/14°); commit |dx| > 110; out 400 slam; return spring; next card from ty 26 s .93 gentle | 7g-2, 3o-3 |
 | `slideOff` | tx 110% r 4° fade 360 exit, then collapse 320 standard | inbox, handled cards |
 | `flap` | rotateX 0→90→0, 340 inOut, text swaps at 170 | every label state change |
 | `odometer` | per-digit rolling columns, 650 enter, digit stagger 30 | money, prices |

@@ -1,9 +1,9 @@
 /**
- * A trip's days before any draft, on the real stack. With the rollout switch off, locking dates
- * writes no plan (installed apps see exactly what they saw); with it on, the trip gets an
- * organiser-only draft with a day per date. `ensure_plan_days` gives one trip its days whatever the
- * switch says, once. A dates change keeps every stop: same day number and local time, a place on a
- * day that is gone goes back to Ideas, a custom stop moves to the last day.
+ * A trip's days before any draft, on the real stack. Locking dates gives the trip an
+ * organiser-only draft with a day per date. `ensure_plan_days` gives a trip whose dates locked
+ * before the empty plan existed its days, once. A dates change keeps every stop: same day number
+ * and local time, a place on a day that is gone goes back to Ideas, a custom stop moves to the
+ * last day.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -28,14 +28,6 @@ const day = (offset: number) =>
   new Date(Date.now() + offset * 86_400_000).toISOString().slice(0, 10);
 const tokyo = (date: string, hour: number) =>
   new Date(`${date}T${String(hour).padStart(2, '0')}:00:00+09:00`).toISOString();
-
-async function setSwitch(on: boolean): Promise<void> {
-  await harness.pool.query(
-    `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('planning.redesign', $1::jsonb, true)
-     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
-    [JSON.stringify(on)],
-  );
-}
 
 const lock = (crew: SetupCrew, from: number, to: number) =>
   harness.run(crew.organiser, 'lock_trip_dates', {
@@ -74,13 +66,17 @@ afterAll(async () => {
 });
 
 describe('the trip has its days before any draft', () => {
-  it('writes no plan when dates lock with the switch off, and one on request, once', async () => {
-    await setSwitch(false);
+  it('gives a trip whose dates locked before the empty plan existed its days, once', async () => {
     const crew = await buildSetupCrew(harness, 2);
     const [, member] = crew.members as [SignedIn, SignedIn];
-    const locked = await lock(crew, 40, 42);
-    expect(locked.status, JSON.stringify(locked.body)).toBe(200);
-    expect(resultOf<Record<string, unknown>>(locked)).not.toHaveProperty('moved_stops');
+    // Dates locked by an earlier server that wrote no plan: the row carries them, no version.
+    await withSystem(harness.pool, (tx) =>
+      tx.query(
+        `UPDATE trips SET status = 'setup', setup_step = 'budget', start_date = $2, end_date = $3
+          WHERE id = $1`,
+        [crew.tripId, day(40), day(42)],
+      ),
+    );
     expect(await draftOf(crew.tripId)).toMatchObject({ id: null, versions: 0 });
 
     const denied = await harness.run(member, 'ensure_plan_days', { trip_id: crew.tripId });
@@ -145,8 +141,7 @@ describe('the trip has its days before any draft', () => {
     });
   });
 
-  it('writes the empty plan when dates lock with the switch on, and follows a dates change', async () => {
-    await setSwitch(true);
+  it('writes the empty plan when dates lock, and follows a dates change', async () => {
     const crew = await buildSetupCrew(harness, 1);
     expect((await lock(crew, 40, 42)).status).toBe(200);
     const empty = await draftOf(crew.tripId);
@@ -163,7 +158,6 @@ describe('the trip has its days before any draft', () => {
     const moved = await draftOf(crew.tripId);
     expect(moved.dates).toEqual([day(50), day(51), day(52), day(53)]);
     expect(moved).toMatchObject({ origin: 'dates', versions: 1 });
-    await setSwitch(false);
   });
 
   it('keeps every stop when the trip gets shorter and tells her which moved', async () => {
