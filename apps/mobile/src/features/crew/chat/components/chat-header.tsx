@@ -1,7 +1,7 @@
 /**
  * The chat header (3g-1): a plain back arrow, the crew's name on one compact line, "{n} people ·
  * {guide} is in this chat" (the guide part only while the crew has a trip), and the MAP pill with
- * its pin when a map target is registered.
+ * its pin when a map target is registered. Tapping the crew's name opens its settings.
  */
 import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -14,6 +14,7 @@ import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
 
+import { crewSettingsRoute } from '../../crews-sheet/routes';
 import { chatMapTarget } from '../slots';
 
 export function peopleLine(count: number, guideName: string | null): string {
@@ -77,16 +78,24 @@ export function ChatHeader({
           color={theme.semantic.text.primary}
         />
       </Pressable>
-      <Stack style={styles.titles} gap="2">
-        <Text variant="h3" designSize={TITLE_SIZE} numberOfLines={1} accessibilityRole="header">
-          {title}
-        </Text>
-        {people > 0 ? (
-          <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={1}>
-            {peopleLine(people, guideName)}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityHint={t({ id: 'chat.header.openSettings', message: 'Opens crew settings' })}
+        onPress={() => router.push(crewSettingsRoute(crewId))}
+        style={styles.titles}
+        testID="chat-crew-settings"
+      >
+        <Stack gap="2">
+          <Text variant="h3" designSize={TITLE_SIZE} numberOfLines={1} accessibilityRole="header">
+            {title}
           </Text>
-        ) : null}
-      </Stack>
+          {people > 0 ? (
+            <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={1}>
+              {peopleLine(people, guideName)}
+            </Text>
+          ) : null}
+        </Stack>
+      </Pressable>
       {map === null ? null : (
         <View>
           <HeaderPill
