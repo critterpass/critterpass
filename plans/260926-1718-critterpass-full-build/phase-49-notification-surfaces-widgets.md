@@ -98,6 +98,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. Atomic writes of `snapshot/widgets.json`, `entitlements.json`, `prefs.json`. 2. Reload timelines on write. 3. Report configurations. 4. Swift Codable from zod.
 - Tests: `pnpm --filter @cp/mobile test -- cp-widgets`; `xcodebuild test -scheme CPShared`.
 - Done when: unknown fields ignored by Swift decoder test; writes are atomic (temp+rename test).
+- Status: done — 8a48ec237d (the writer lives in `features/home/widget-gallery/write-widget-snapshot.ts`)
 
 ### T3 — Widget refresh pipeline
 - Status: done — 68c8db747 (server side; the extension push handler is native and still to do)
@@ -113,6 +114,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. Timelines (midnight entry, flip transition). 2. Interactive vote with optimistic tally + result state. 3. Empty/stale/signed-out states.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:HomeWidgetSnapshots`.
 - Done when: snapshot tests for all sizes/states match renders; vote intent writes ballot `source: widget`.
+- Status: done — 8a48ec237d (the widgets show the snapshot's trip; the pick-a-trip and pick-a-crew configuration intents are not built)
 
 ### T5 — Today, Balances, Crew, Next flight widgets
 - Goal: 5c-2 trip widgets incl. locked states.
@@ -120,6 +122,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. Today L with strike/fade transitions and forecast line. 2. NUDGE (1/pair/24 h, server). 3. Crew (Boost) and Next flight (Pass+) locked renderings → offer deep links.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:TripWidgetSnapshots`; `pnpm --filter @cp/api test -- nudge-rate`.
 - Done when: second nudge in 24 h returns rate-limit and widget shows "sent earlier"; locked widgets deep link to correct offer route.
+- Status: done — 8a48ec237d (intents in `_shared/Intents/WidgetTripIntents.swift`)
 
 ### T6 — Lock-screen accessory + StandBy
 - Goal: 5c-3, 5c-4.
@@ -127,6 +130,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. `widgetRenderingMode` accented/vibrant with mono art. 2. StandBy pair with minute timeline + alarm switch.
 - Tests: `xcodebuild test -scheme CPWidgets -only-testing:AccessorySnapshots`.
 - Done when: every accessory legible in tinted mode snapshot; StandBy switches to alarm at leave-by time.
+- Status: done — 8a48ec237d
 
 ### T7 — Categories + actionable notifications (all §3.4)
 - Goal: every category's background actions work locked.
@@ -134,6 +138,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. Canonical category table; generated registration. 2. Action handler in NSE-shared code → `/v1/actions`. 3. Re-post with collapse id and result text.
 - Tests: `pnpm --filter @cp/domain test -- notification-categories`; `maestro test e2e/notifications/actions/`.
 - Done when: each category's background action produces its command with `via: notif_action`, idempotent on replay.
+- Status: partly done — categories are registered per feature (leave-by, SOS, help, change set, vendor); the shared category registry, `Categories.swift` and the action flows beyond `ping-settings` are not built
 
 ### T8 — Vote poster content extension
 - Goal: 5b-2 poster + stamp.
@@ -141,6 +146,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. SwiftUI poster with critter frames + VS pulse. 2. Actions update poster in place (`.doNotDismiss`), stamp on success, closed state. 3. RSVP poster reuse.
 - Tests: `xcodebuild test -scheme CPNotificationContent`.
 - Done when: poster snapshot matches render; vote from poster stamps without dismiss.
+- Status: partly done — 356cc52704 (the vote poster from the platform spike). Not built: the RSVP poster and voting from the poster
 
 ### T9 — Ping settings screen
 - Status: done — 9af4f0b9c, 771624f17, b69b32815, 42fb7aaeb (device capture waits for a runner slot)
@@ -156,6 +162,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Steps: 1. Live previews from snapshot (RN components mirroring widget layouts). 2. Tier pills from perks; locked → offer. 3. iOS how-to sheet animation. 4. App Shortcuts + Controls.
 - Tests: `pnpm --filter @cp/mobile test -- widget-gallery`; `maestro test e2e/widgets/`.
 - Done when: gallery lists the 7 home widgets incl. Critterdex; how-to sheet opens on "+"; `ImUpControl` sets readiness.
+- Status: partly done — 8a48ec237d (installed-widget tracking and snapshot sync). Not built: the gallery screen, App Shortcuts and Controls, `e2e/widgets/gallery.yaml`
 
 ## Phase acceptance criteria
 - [ ] Locked-phone vote action casts ballot and re-posts stamp
