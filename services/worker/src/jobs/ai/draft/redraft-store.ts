@@ -282,6 +282,14 @@ export async function saveCandidate(
   const id = rows[0]?.id;
   if (id === undefined) throw new Error('candidate version insert returned no id');
   await insertDays(tx, input.tripId, id, input.itinerary);
+  // Each day keeps the area it is spent in.
+  await tx.query(
+    `UPDATE plan_days n SET destination_id = b.destination_id
+       FROM plan_days b
+      WHERE n.version_id = $1 AND b.version_id = $2 AND b.day_no = n.day_no
+        AND b.destination_id IS NOT NULL`,
+    [id, input.baseVersionId],
+  );
   // Every stop that was already there keeps what the planner's items do not carry.
   await carryBaseRows(tx, input.baseVersionId, id);
   return id;

@@ -3,10 +3,16 @@
  * id makes a queued replay land once, with the same ticket number. Attachments are the sender's own
  * `feedback` uploads; device info is kept only when the sender left "Include device info" on.
  * Support answers by email when the account has a verified address, else in the Inbox, and the
- * ticket is due a reply `feedback.reply_hours` (48 by default) after it arrives.
+ * ticket is due a reply `feedback.reply_hours` (48 by default) after it arrives. Storing it queues
+ * `feedback.forward`, which triages it and files it in the tracker.
  */
-import { emitEvent } from '@cp/db';
-import { DomainError, submitFeedbackPayloadSchema, type SubmitFeedbackResult } from '@cp/domain';
+import { emitEvent, sendInTx } from '@cp/db';
+import {
+  DomainError,
+  FEEDBACK_FORWARD_QUEUE,
+  submitFeedbackPayloadSchema,
+  type SubmitFeedbackResult,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { asServer } from '../../billing/as-server';
@@ -122,6 +128,13 @@ export const submitFeedbackCommand = defineCommand({
           attachments: mediaIds.length,
         },
       });
+      // Triage and the tracker forward follow in the worker, queued with the ticket itself.
+      await sendInTx(
+        tx,
+        FEEDBACK_FORWARD_QUEUE,
+        { ticket_id: payload.id },
+        { singletonKey: payload.id },
+      );
       return { ticket_id: payload.id, ticket_no: ticketNo };
     }),
 });

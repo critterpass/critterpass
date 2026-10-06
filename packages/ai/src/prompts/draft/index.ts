@@ -15,6 +15,21 @@ export { essentialsLeftOut, type EssentialGap, type EssentialLeftOut } from './e
 export { buildDayRequest, draftOneDay, toChoices, type DayContext } from './day';
 export { draftDays, runDraftPlan, type DraftedDays, type DraftPlanResult } from './pipeline';
 export {
+  draftGroupDays,
+  groupInput,
+  groupModel,
+  groupPrefix,
+  joinDrafted,
+  joinedInput,
+  joinOutlines,
+  joinRepairs,
+  outlineGroup,
+  repairGroup,
+  runGroupedDraftPlan,
+  tripDayOf,
+  type DayGroup,
+} from './groups';
+export {
   buildRedraftRequest,
   ownViolations,
   runRedraft,

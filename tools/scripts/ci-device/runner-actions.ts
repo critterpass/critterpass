@@ -20,10 +20,12 @@
  * waits for the text's end to show. `/keyboard?state=off|on` disables the soft keyboard (the default
  * input method) and brings it back (Android): typed keys still reach the focused field, and no
  * keyboard panel is left covering the screen's buttons. The other actions answer 200 when done.
+ * `/pasteboard`, `/fresh-launch`, `/location` and `/scenario` (other people driven through the api) live in
+ * ./runner-scenarios.
  *
  *   tsx tools/scripts/ci-device/runner-actions.ts --platform android --device <serial> [--port 7788]
  */
-import { spawnSync } from 'node:child_process';
+import { spawnSync, type spawn } from 'node:child_process';
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
@@ -31,6 +33,14 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import type { DevicePlatform } from './plan-shards';
+import {
+  freshLaunch,
+  location,
+  pasteboard,
+  scenario,
+  scenarioOutput,
+  stopScenarios,
+} from './runner-scenarios';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 export const RUNNER_ACTIONS_PORT = 7788;
@@ -85,6 +95,8 @@ export interface ActionContext {
   /** Waits between typed chunks; defaults to a real timer. */
   readonly sleep?: (ms: number) => Promise<void>;
   readonly log?: (line: string) => void;
+  /** Starts a scenario script (./runner-scenarios); defaults to node's spawn. */
+  readonly spawn?: typeof spawn;
 }
 
 export interface ActionResult {
@@ -191,7 +203,7 @@ function type(text: string, ctx: ActionContext): ActionResult {
   };
 }
 
-/** Routes one request (`/push?fixture=…`, `/network?state=…`, `/type` with a body, `/keyboard?state=…`) to its action. */
+/** Routes one request (`/push`, `/network`, `/type`, `/keyboard`, and ./runner-scenarios' own) to its action. */
 export function handleAction(url: string, ctx: ActionContext, body = ''): ActionResult {
   const { pathname, searchParams } = new URL(url, 'http://127.0.0.1');
   try {
@@ -199,6 +211,11 @@ export function handleAction(url: string, ctx: ActionContext, body = ''): Action
     if (pathname === '/network') return network(searchParams.get('state') ?? '', ctx);
     if (pathname === '/type') return type(body, ctx);
     if (pathname === '/keyboard') return keyboard(searchParams.get('state') ?? '', ctx);
+    if (pathname === '/pasteboard') return pasteboard(body, ctx);
+    if (pathname === '/location') return location(searchParams, ctx);
+    if (pathname === '/fresh-launch') return freshLaunch(searchParams, ctx);
+    if (pathname === '/scenario') return scenario(searchParams, ctx);
+    if (pathname === '/scenario-output') return scenarioOutput(searchParams);
     return { status: 404, message: `no action ${pathname}` };
   } catch (error) {
     return { status: 500, message: error instanceof Error ? error.message : String(error) };
@@ -228,6 +245,10 @@ function main(): void {
       response.writeHead(result.status, { 'content-type': 'text/plain' }).end(result.message);
     });
   }).listen(Number(values.port), '127.0.0.1', () => {
+    process.once('SIGTERM', () => {
+      stopScenarios();
+      process.exit(0);
+    });
     console.log(`Runner actions on 127.0.0.1:${values.port}`);
   });
 }

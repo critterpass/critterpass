@@ -4,10 +4,8 @@
  * stretch (./meal-slots) and for the time of day the place is for (./place-time), lasts the
  * place's visit time, and sits on the 15-minute grid in the destination's local time. Prices come
  * from the destination's cost bands scaled by the place's price level. The scheduler never rejects
- * anything: whatever still does not fit is the validator's to report.
- *
- * With no flight known the first day starts in the early afternoon and the last day ends in the
- * mid-afternoon (a morning's stops and lunch); a known arrival or departure replaces either.
+ * anything: whatever still does not fit is the validator's to report. The usable part of each
+ * day is ./day-window's.
  */
 import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '@cp/domain';
 
@@ -17,30 +15,26 @@ import { foodRole } from './food-role';
 import { opensDay, startFloor } from './day-start';
 import { DINNER, mealAt, mealDuration, mealShare, mealSlotAt } from './meal-slots';
 import { placeWindows, windowFor } from './time-of-day';
-import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
+import { heldWindow, timedDuration } from './wish-time';
 import {
   isPinId,
-  type Chronotype,
   type CostBands,
   type DayChoice,
   type DayWindow,
   type DraftPoi,
   type TravelMatrix,
-  type TripFrame,
 } from './types';
 
 export { ceilGrid, GRID_MIN } from './day-minutes';
-/** First-day plans start this long after landing; last-day plans end this long before take-off. */
-export const ARRIVAL_BUFFER_MIN = 90;
-export const DEPARTURE_BUFFER_MIN = 180;
-/**
- * Assumed when no flight is known (the same fixed skeleton as the pre-draft must-do fit): the crew
- * lands at half past twelve and leaves in the early evening, so the first day starts at two and
- * the last one ends at three.
- */
-export const DEFAULT_ARRIVAL_MIN = 12 * 60 + 30;
-export const DEFAULT_DEPARTURE_MIN = 18 * 60;
-
+export {
+  ARRIVAL_BUFFER_MIN,
+  baseWindow,
+  dayWindow,
+  DEFAULT_ARRIVAL_MIN,
+  DEFAULT_DEPARTURE_MIN,
+  DEPARTURE_BUFFER_MIN,
+  timeFitsDay,
+} from './day-window';
 const DEFAULT_DURATION: Readonly<Record<string, number>> = {
   food: 75,
   temple_shrine: 90,
@@ -98,88 +92,6 @@ export function minuteOfDate(at: Date, date: string, tz: string): number {
     const days = Math.floor((at.getTime() - midnight) / 86_400_000);
     return days * 1440 + localMinute(at, tz);
   });
-}
-
-function majority(frame: TripFrame, kind: Chronotype): boolean {
-  const count = frame.members.filter((uid) => frame.chronotypes[uid] === kind).length;
-  return frame.members.length > 0 && count * 2 > frame.members.length;
-}
-
-/** The chronotype-shaped day, before any flight. */
-export function baseWindow(frame: TripFrame): DayWindow {
-  const startMin = majority(frame, 'early_bird')
-    ? 8 * 60
-    : majority(frame, 'night_owl')
-      ? 10 * 60
-      : 9 * 60;
-  return { startMin, endMin: 22 * 60 };
-}
-
-/** A timed stop may start this early (a sunrise) and end this late (a night show). */
-const EARLIEST_TIMED_MIN = 4 * 60 + 30;
-const LATEST_TIMED_MIN = 24 * 60;
-
-/** A day the crew asked to start later opens this much later, and never before half past ten. */
-const LATER_START_BY_MIN = 90;
-const LATER_START_FLOOR_MIN = 10 * 60 + 30;
-
-/**
- * The usable part of day `dayIndex` (0-based): the base day, cut by arrival and departure, and
- * opened later when the crew asked for a later start (a stop held to its own time keeps it).
- */
-export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
-  const base = baseWindow(frame);
-  let { startMin, endMin } = base;
-  let earliestMin = EARLIEST_TIMED_MIN;
-  let latestMin = LATEST_TIMED_MIN;
-  if (dayIndex === 0) {
-    const landed = frame.arrivalMin ?? DEFAULT_ARRIVAL_MIN;
-    startMin = Math.max(startMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
-    earliestMin = Math.max(earliestMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
-  }
-  if (dayIndex === frame.dates.length - 1) {
-    const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
-    endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
-    latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
-  }
-  const laterStart = frame.laterStartDays?.includes(dayIndex + 1) === true;
-  if (laterStart) {
-    const later = Math.max(startMin + LATER_START_BY_MIN, LATER_START_FLOOR_MIN);
-    // A short last day keeps at least a lunch-length stretch.
-    startMin = Math.max(startMin, Math.min(later, endMin - LATER_START_BY_MIN));
-  }
-  return {
-    startMin,
-    endMin: Math.max(startMin, endMin),
-    earliestMin,
-    latestMin,
-    ...(laterStart ? { laterStart } : {}),
-  };
-}
-
-/**
- * Whether a stop held to `when` can happen on day `dayIndex` at all: a sunrise needs the crew
- * landed by then, a night show needs them not yet at the airport, a full day needs the morning,
- * and the place's own hours must leave a start for it that day (see `heldWindow`).
- */
-export function timeFitsDay(
-  frame: TripFrame,
-  dayIndex: number,
-  when: WishTime | null | undefined,
-  poi: DraftPoi,
-): boolean {
-  if (timeWindow(when) === null) return true;
-  // A day trip is never planned on the strength of a guessed departure.
-  const last = dayIndex === frame.dates.length - 1 && frame.dates.length > 1;
-  if (when === 'full_day' && last && frame.departureMin === null) return false;
-  const held = heldWindow(poi, frame.dates[dayIndex] ?? '', when);
-  if (held === null) return false;
-  const window = dayWindow(frame, dayIndex);
-  const start = Math.max(held.fromMin, window.earliestMin ?? window.startMin);
-  return (
-    start <= held.toMin &&
-    start + ceilGrid(timedDuration(poi, when)) <= (window.latestMin ?? window.endMin)
-  );
 }
 
 const LEVEL_FACTOR = [0, 0.6, 1, 1.6, 2.4] as const;

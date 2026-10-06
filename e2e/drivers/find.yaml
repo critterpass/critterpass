@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# Find a driver on a real account: the staging demo crew's Bali trip, opened from the drivers lab.
+# The hub offers private tours, finding one yourself and Tokek's post; the post is built from the
+# trip and never leaves the phone until it is copied.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-drivers-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-drivers-lab'
+- tapOn:
+    id: 'drivers-lab-index'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-find'
+    timeout: 30000
+- assertVisible:
+    id: 'drivers-find-tours'
+- assertVisible:
+    id: 'drivers-find-found'
+- takeScreenshot: en-6a-2-find-a-driver
+- tapOn:
+    id: 'drivers-find-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'drivers-ask-post'
+    timeout: 15000
+- takeScreenshot: en-6b-1-ask-for-me
+- tapOn:
+    id: 'drivers-ask-budget'
+- tapOn:
+    id: 'drivers-ask-edit'
+- inputText: 'Rp 700k a day'
+- assertVisible:
+    text: '(?s).*Rp 700k a day.*'
+- tapOn:
+    id: 'drivers-ask-copy'
+- assertVisible:
+    text: '(?i)copied'

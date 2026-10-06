@@ -856,6 +856,12 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     source: 'settings',
     attachments: 1,
   },
+  'feedback.fix_shipped': {
+    ticket_id: crypto.randomUUID(),
+    ticket_no: 10001,
+    user_id: crypto.randomUUID(),
+    fixed_in_version: '1.2.0',
+  },
   'idea.submitted': { idea_id: crypto.randomUUID(), author_id: crypto.randomUUID(), locale: 'en' },
   'idea.voted': {
     idea_id: crypto.randomUUID(),

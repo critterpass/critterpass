@@ -1,7 +1,7 @@
 ---
 phase: 55
 title: Find a driver: ask, capture, compare, pick, private tours
-status: pending
+status: in_progress
 depends_on: [13, 16, 29, 34, 35, 36, 58]
 wave: 18
 features: [F-193, F-194]
@@ -102,57 +102,70 @@ Build this phase's console panel to its render (`design/Ops - Community.dc.html`
 
 ## Tasks
 ### T1 — Decision + contract deltas
+- Status: done — 98b2a65e03
 - Files: `docs/product-decisions.md` (D21 row, §5 copy rows for 6a–6f), `docs/data-model.md` §3.7, `docs/data-model-sync-and-privacy.md`, `docs/api-contracts.md` §4.11/§5, `docs/undesigned-states.md`
 - Done when: tables, commands, routes and privacy classes above are in the docs; D21 records "users bring drivers in; we never read or post to groups; the user sends every WhatsApp message; directory listings only after the driver confirms".
 
 ### T2 — Schema, stream, permission tests
+- Status: done — 5a6264c9e3 (pickup gaps and ask groups are not tables: founder 6 Oct, no new curated datasets)
 - Files: `packages/db/src/schema/drivers.ts`, `packages/db/migrations/*_driver_shortlist_intake.sql`, `packages/db/test/permissions/*`, `infra/powersync/streams/drivers.yaml`
 - Tests: `pnpm --filter @cp/db test:db -- permissions/provider-` etc.
 - Done when: forced RLS + grants on every new table; non-members read nothing; raw intake text absent from the PowerSync publication and `guide_reader`.
 
 ### T3 — Pickup gaps + leg card (6a-1) + Getting around card
+- Status: done — 5f5f2c35a0 (gaps are read from the plan day; the card sits on the trip map day sheet)
 - Files: `packages/domain/src/drivers/pickup-gaps.ts`, `apps/mobile/src/features/drivers/leg-card/**`, mounts in plan day row + getting-around
 - Done when: a Jatiluwih leg shows the card; after 18:00 only for the Ubud-centre window; NOT NOW folds to NO RIDE and persists per user.
 
 ### T4 — Find-a-driver hub + shortlist (6a-2)
+- Status: done — 3a709ea761
 - Files: `apps/mobile/src/app/(trip)/[tripId]/drivers/index.tsx`, `features/drivers/find/**`, `services/api/src/commands/drivers/shortlist-provider.ts`
 - Done when: leg chips prefill from the card; the shortlist collects items from every source with the hop animation; the crews' drivers row is hidden behind a flag until P56 is done.
 
 ### T5 — Ask for me (6b-1)
+- Status: done — 1b44a4e031 (no group list or open counts: no curated datasets)
 - Files: `features/drivers/ask/**`, `packages/domain/src/drivers/ask-post.ts`, i18n `drivers/ask` EN + ID templates, `record_ask_group_open`
 - Done when: the post rewrites around an edited slot; budget appears only when the user adds it; group counts come from real opens.
 
 ### T6 — Intake: paste, screenshot, contact, OS share (6c-1)
+- Status: blocked — paste, screenshot and contact are done (c1ed943d23); the OS share target needs a native build batch
 - Files: `features/drivers/intake/**`, `apps/mobile/src/lib/share-intake/`, `apps/mobile/targets/share-extension/`, `apps/mobile/plugins/with-share-intake.ts`, `share_provider_intake`
 - Notes: native target → needs an EAS build; batch with other native changes (CLAUDE.md cost rule). Android `arm64-v8a` only.
 - Done when: sharing a WhatsApp message and a Facebook screenshot from each OS lands in SHARED WITH TOKEK for every crew member.
 
 ### T7 — Extraction route, eval, check-the-card, couldn't-read (6c-2, 6c-3)
+- Status: blocked — route, span checks and check-the-card are done (74f2870b94, c1ed943d23); the 43-case eval suite is not wired
 - Files: `packages/ai/src/routes/provider-extract/`, `packages/ai/evals/provider-extract/`, `services/worker/src/jobs/drivers/parse-intake.ts`, `features/drivers/intake/check/**`
 - Steps: wire the fixture file into a promptfoo suite; render the `render`/`crop` cases to PNG with Playwright at suite start (not committed).
 - Done when: eval thresholds pass; span highlighting maps to the source; CONFIRM unlocks only when all lines are checked; ASK MADE opens WhatsApp with the templated question.
 
 ### T8 — Private tours (6f-1)
+- Status: done — ae3ad962b5 (link rows until a Viator destination ref exists for the trip)
 - Files: `packages/suppliers/src/private-transport/`, `services/api/src/routes/drivers.ts`, `features/drivers/private-tours/**`
 - Done when: with Viator on and Klook off, Viator cards render verbatim and Klook shows its link row; a test asserts no supplier text reaches `packages/ai` payloads; fit lines come from templates.
 
 ### T9 — Compare (6d-1)
+- Status: done — 75d8280ca8
 - Files: `features/drivers/compare/**`, `packages/domain/src/drivers/compare.ts` (uses cost engine)
 - Done when: per-car and per-day prices line up as each person's share; NOT SAID taps offer the ASK message; the risk line is deterministic and unit-tested.
 
 ### T10 — Pick for which days (6d-2) + assign op
+- Status: blocked — direct SET is done (a7875e6625); "Ask the crew first" needs an assign_provider op in app.apply_change_set
 - Files: `features/drivers/pick/**`, `packages/planner/src/ops/assign-provider.ts` (+ registry mount), `services/api/src/commands/drivers/assign-provider.ts`
 - Done when: direct SET and the vote path both write `provider_assignments`; TAKEN days are locked; 3h-3 shows the driver; the overtime warning shows when a day window exceeds the quoted hours.
 
 ### T11 — Offline ride back (6e-4)
+- Status: done — f57eebdabc (no phrase card with the pickup spot yet)
 - Files: `features/drivers/offline/**`, mount in `offline-bundle.ts`
 - Done when: in airplane mode the card shows name, car, plate, pickup and terms; CALL dials; WhatsApp is queued and sent on reconnect.
 
 ### T12 — Admin: pickup gaps and ask groups
+- Status: blocked — dropped by the founder's 6 Oct rule (no new curated datasets); nothing to administer
 - Files: `services/api/src/admin/drivers.ts`, `apps/admin/src/modules/drivers/`
 - Done when: ops can add, edit and retire gaps and groups per destination; seed rows come from `plans/reports/research-260927-2116-driver-finder-seed-lists-merged-report.md` after the founder approves it and ops has checked every group URL while logged in.
 
 ### T13 — E2E + screenshots
+- Status: done — ea95f48f2f (flows run on the device workflow, not locally)
 - Files: `e2e/drivers/*.yaml`, `e2e/screens/drivers-find.yaml`
 - Done when: flows pass locally (iOS sim + Android arm64 emulator); screenshots captured into the task report.
 

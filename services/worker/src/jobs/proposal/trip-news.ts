@@ -1,7 +1,8 @@
 /**
  * What the crew hears about the trip itself, from the people on it: a member's own answer (in,
- * maybe, out, waitlisted) to the trip's organisers, and "it's on" to everyone on the trip when it
- * is confirmed (the organiser locked it in, or enough were in when reply-by passed).
+ * maybe, out, waitlisted) to the trip's organisers, "it's on" to everyone on the trip when it
+ * is confirmed (the organiser locked it in, or enough were in when reply-by passed), and "called
+ * off" when an organiser cancels it.
  */
 import { tripHubPath } from '@cp/domain';
 import type pg from 'pg';
@@ -39,6 +40,14 @@ export const TRIP_NEWS_PUSH = {
   confirmedAutoBody: /*i18n*/ {
     id: 'notifications.trip_confirmed.auto_body',
     message: 'Enough friends are in, so the trip is locked in.',
+  },
+  cancelledTitle: /*i18n*/ {
+    id: 'notifications.trip_cancelled.title',
+    message: '{place} is called off',
+  },
+  cancelledBody: /*i18n*/ {
+    id: 'notifications.trip_cancelled.body',
+    message: '{name} cancelled the trip. The chat, money, bookings and photos stay to read.',
   },
 } as const;
 
@@ -196,6 +205,38 @@ export function registerTripNewsNotifications(): void {
         body: locker === '' ? TRIP_NEWS_PUSH.confirmedAutoBody : TRIP_NEWS_PUSH.confirmedByBody,
         vars: { place: trip.place, dates: dates ?? '', name: locker },
         sender: trip.guide,
+        crewId: trip.crew_id,
+        tripId,
+        deepLink: tripHubPath(tripId ?? ''),
+        collapseVars: { trip_id: tripId ?? '' },
+      };
+    },
+  });
+
+  registerNotification({
+    key: 'trip_cancelled',
+    event: 'trip.status_changed',
+    // Everyone who had not already answered OUT, except the organiser who called it off.
+    async audience(tx, routed) {
+      if (routed.payload['to'] !== 'cancelled') return [];
+      const { rows } = await tx.query<{ user_id: string }>(
+        `SELECT user_id FROM trip_participants
+          WHERE trip_id = $1 AND rsvp <> 'out' AND user_id IS DISTINCT FROM $2::uuid
+          ORDER BY user_id`,
+        [str(routed, 'trip_id'), routed.actorId],
+      );
+      return rows.map((row) => row.user_id);
+    },
+    async compose(tx, routed) {
+      const tripId = str(routed, 'trip_id');
+      const trip = await tripFacts(tx, tripId);
+      if (trip === null || routed.actorId === null) return null;
+      const name = await firstName(tx, routed.actorId);
+      return {
+        title: TRIP_NEWS_PUSH.cancelledTitle,
+        body: TRIP_NEWS_PUSH.cancelledBody,
+        vars: { place: trip.place, name },
+        sender: { kind: 'member', id: routed.actorId, name },
         crewId: trip.crew_id,
         tripId,
         deepLink: tripHubPath(tripId ?? ''),

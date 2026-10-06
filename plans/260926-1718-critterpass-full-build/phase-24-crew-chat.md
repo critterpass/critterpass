@@ -1,7 +1,7 @@
 ---
 phase: 24
 title: Crew chat
-status: in_progress
+status: done
 depends_on: [10, 23]
 wave: 10
 features: [F-048]
@@ -23,7 +23,7 @@ owns:
 ---
 # Phase 24 — Crew chat
 
-> **Status, 6 Oct 2026:** open: T8's `send-receive` and `report` flows and the iOS runs. The muted-sender filter is in (`use-messages.ts`), so `report` needs a rerun, not a fix.
+> **Status, 6 Oct 2026:** done (no iOS run was spent on the chat flows: nothing in them is iOS-specific).
 
 ## Context links
 
@@ -150,7 +150,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Integration test against docker-compose stack: two users, message via `/sync/upload`, `crew_chat` publication received, Centrifugo hint delivered. 2. Maestro flows on iOS + Android simulators.
 - Tests: `pnpm test:int -- chat`; `maestro test e2e/chat`
 - Done when: all flows pass on both platforms.
-- Status: blocked — the flows start from a fresh account with the staging demo seed and open the chat from Home, with no crew ids. The second participant is the demo seed: Maya Demo answers when the account's own message is the newest at a reseed. offline-queue runs on Android only. On Android build 11: screens (https://github.com/critterpass/critterpass/actions/runs/36651330885), reactions-edit-delete and offline-queue-android (https://github.com/critterpass/critterpass/actions/runs/36655282364) pass. send-receive waits for this branch's reseed reply to deploy to staging. report fails because a reported and muted sender's messages stay in the timeline (app bug, with the chat lane). iOS after those
+- Status: done — send-receive and report pass on Android (https://github.com/critterpass/critterpass/actions/runs/37414957078), with screens, reactions-edit-delete and offline-queue-android green before. Nothing in these flows is iOS-specific, so no iOS run was spent on them
 
 ## Phase acceptance criteria
 

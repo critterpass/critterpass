@@ -10,6 +10,7 @@ import type { DraftDay, Itinerary } from '@cp/domain';
 
 import { nameTokens } from './place-names';
 import { sunsetMin } from './time-of-day';
+import { landsOn, leavesOn } from './day-window';
 import { minuteOfDate } from './schedule-day';
 import type { DraftPoi, TripFrame } from './types';
 
@@ -139,12 +140,11 @@ export function withAssumedTravelNotes(
     departure: ASSUMED_DEPARTURE_NOTE,
   },
 ): Itinerary {
-  const first = frame.dates[0];
-  const last = frame.dates[frame.dates.length - 1];
   const mark = (day: DraftDay): DraftDay => {
     const at = { arrival: -1, departure: -1 };
-    if (frame.arrivalMin === null && day.date === first) at.arrival = 0;
-    if (frame.departureMin === null && day.date === last) at.departure = day.items.length - 1;
+    const index = frame.dates.indexOf(day.date);
+    if (frame.arrivalMin === null && landsOn(frame, index)) at.arrival = 0;
+    if (frame.departureMin === null && leavesOn(frame, index)) at.departure = day.items.length - 1;
     if (at.arrival === at.departure) at.arrival = -1;
     if (at.arrival < 0 && at.departure < 0) return day;
     return {

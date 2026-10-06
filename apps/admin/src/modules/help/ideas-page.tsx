@@ -20,6 +20,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../kit/states';
 import { POLL_MS } from '../../kit/table';
 import { getJson, runCommand } from '../../lib/api';
 import { useOperator } from '../../lib/session';
+import { HelpTabs } from './feedback-page';
 
 const TABS = IDEA_STATUSES.filter((status) => status !== 'merged');
 const TAB_LABEL: Readonly<Record<string, string>> = { pending_review: 'Suggested', open: 'Open' };
@@ -159,6 +160,7 @@ export function IdeasPage() {
         title="Feedback & ideas"
         subtitle="Suggested ideas wait here. Publish the ones that belong on the board, then keep their status honest."
       />
+      <HelpTabs current="ideas" />
       <div className="chips" role="tablist" aria-label="Idea status">
         {TABS.map((candidate) => (
           <button

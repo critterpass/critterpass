@@ -3,7 +3,6 @@
  * doodle on hatching while there is no licensed photo) over its name. Tapping one opens the place.
  * A sponsored card is the same card with its tag and the "why" link under it.
  */
-import type { PlaceMediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
@@ -17,6 +16,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon, categoryLabel } from '../category';
 import { isGenericPhoto } from '../place-photo';
+import type { ShownPhoto } from '../profile-photo';
 import { GenericPhotoLabel } from './generic-photo-label';
 import { SponsoredTag, WhySponsoredLink } from './sponsored-card';
 
@@ -41,7 +41,7 @@ export interface PickCard {
   readonly id: string;
   readonly name: string;
   readonly category: string;
-  readonly photo: PlaceMediaAsset | null;
+  readonly photo: ShownPhoto | null;
   /** A paid-for card: labelled, with the way to ask why it is shown. */
   readonly sponsored?: { readonly onWhy: () => void } | undefined;
 }

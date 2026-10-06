@@ -1,0 +1,23 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), one answer replayed for every search of Đà Nẵng, Vietnam: the pages the kept entries cite, found through our search on 2026-10-06 and saved as the excerpt around each quoted sentence.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Đà Nẵng, Vietnam",
+      "results": [
+        {
+          "url": "https://dacotours.com/best-8-day-trips-from-da-nang-vietnam-by-locals",
+          "title": "Best 8 Day Trips from Da Nang Vietnam Guided by Locals 2026",
+          "content": "Best 8 Day Trips from Da Nang Vietnam Guided by Locals 2026",
+          "engine": "bing"
+        },
+        {
+          "url": "https://www.findawayabroad.com/post/day-trips-from-da-nang",
+          "title": "8 Best Day Trips from Da Nang (From an Expat) - A Way Abroad",
+          "content": "8 Best Day Trips from Da Nang (From an Expat) - A Way Abroad",
+          "engine": "bing"
+        }
+      ]
+    }
+  }
+}

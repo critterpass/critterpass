@@ -2,7 +2,8 @@
  * The evidence a destination brief is written from, gathered in code (the model writes no
  * queries): eight searches for a destination in Vietnam (sights, food and dishes, areas, day trips
  * and stay prices, in Vietnamese and English), six elsewhere, our own fetch of the top pages, and
- * the result snippets beside them. Queries carry the destination's name and topics only (D23).
+ * the result snippets beside them. The links of a destination and the ways to it from a home city
+ * are searched the same way. Queries carry place names and topics only (D23).
  */
 import type { BriefDestination, ProfilePage } from '@cp/ai';
 import { isVietnam } from '@cp/domain';
@@ -39,12 +40,13 @@ export function briefQueries(name: string, country: string | null): [string, str
   return queries;
 }
 
-export async function gatherBriefPages(
-  destination: { readonly name: string; readonly country: string | null },
+/** The top pages of `queries` read in full (windowed near `near`), the other results as snippets. */
+export async function gatherPages(
+  queries: readonly [string, string][],
+  near: readonly string[],
   deps: { readonly search: PlaceSearch; readonly fetch?: typeof fetch | undefined },
   signal?: AbortSignal,
 ): Promise<ProfilePage[]> {
-  const queries = briefQueries(destination.name, destination.country);
   const lists = await Promise.all(
     queries.map(([q, lang]) => deps.search.web(q, lang, signal).catch(() => [])),
   );
@@ -61,7 +63,7 @@ export async function gatherBriefPages(
   }
   const pages = await fetchTopPages(
     snippets.map((s) => s.url),
-    [destination.name],
+    near,
     BRIEF_PAGES_READ,
     {
       ...(deps.fetch === undefined ? {} : { fetch: deps.fetch }),
@@ -70,4 +72,48 @@ export async function gatherBriefPages(
   );
   const fetched = new Set(pages.map((p) => p.url));
   return [...pages, ...snippets.filter((s) => !fetched.has(s.url))];
+}
+
+export function gatherBriefPages(
+  destination: { readonly name: string; readonly country: string | null },
+  deps: { readonly search: PlaceSearch; readonly fetch?: typeof fetch | undefined },
+  signal?: AbortSignal,
+): Promise<ProfilePage[]> {
+  return gatherPages(
+    briefQueries(destination.name, destination.country),
+    [destination.name],
+    deps,
+    signal,
+  );
+}
+
+/** The searches for a destination's day trips and onward cities: [query, language]. */
+export function linkQueries(name: string, country: string | null): [string, string][] {
+  const queries: [string, string][] = [
+    [`best day trips from ${name} how to get there travel time`, 'en'],
+    [`${name} where to go next nearby cities by train or bus how long`, 'en'],
+    [`${name} day trip ticket price train bus`, 'en'],
+  ];
+  if (isVietnam(country)) {
+    queries.push(
+      [`từ ${name} đi đâu chơi trong ngày mất bao lâu`, 'vi'],
+      [`từ ${name} đi các thành phố lân cận bằng tàu xe giá vé`, 'vi'],
+    );
+  }
+  return queries;
+}
+
+/** The searches for a journey between two places (the pair of names only, D23). */
+export function homeLinkQueries(
+  origin: string,
+  destination: string,
+  vietnamese: boolean,
+): [string, string][] {
+  const queries: [string, string][] = [
+    [`how to get from ${origin} to ${destination} flight train bus travel time`, 'en'],
+    [`${origin} to ${destination} flight duration ticket price`, 'en'],
+    [`${origin} to ${destination} by bus or train how long cost`, 'en'],
+  ];
+  if (vietnamese) queries.push([`từ ${origin} đi ${destination} mất bao lâu giá vé`, 'vi']);
+  return queries;
 }
