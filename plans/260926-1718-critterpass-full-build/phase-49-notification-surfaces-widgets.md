@@ -163,13 +163,12 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: saving budget 3 routes the 4th BUDGET item of a day to roundup (router test with new prefs).
 
 ### T10 — Widget gallery + App Shortcuts/Controls
-- Status: partial — 7ffc6d88a (App Shortcuts and controls), 38523bb6eb (the app writes `snapshot/crews.json`, which Siri's crew list and the notification extension read, and the crew shortcut's link makes that crew active and opens Home on it). The gallery screen (5c-5) and `e2e/widgets/gallery.yaml` are not built
+- Status: done — 7ffc6d88a (App Shortcuts and controls), 38523bb6eb (the app writes `snapshot/crews.json`, which Siri's crew list and the notification extension read, and the crew shortcut's link makes that crew active and opens Home on it). fcb47aff4b (the gallery screen 5c-5 at `/you/widgets` behind Settings › Widgets, the how-to sheet, pin on Android), 7e106ae7d1 (its flow is `e2e/android/surfaces-settings.yaml`; no `e2e/widgets/gallery.yaml`). Only the countdown preview is live, tier pills are fixed per widget and the how-to sheet is plain steps, not animated
 - Goal: 5c-5 and Siri/Control surfaces.
 - Files: `apps/mobile/src/app/you/widgets.tsx`, `apps/mobile/src/features/home/widget-gallery/**`, `apps/mobile/targets/widgets/Intents/AppShortcuts/*.swift`, `e2e/widgets/gallery.yaml`.
 - Steps: 1. Live previews from snapshot (RN components mirroring widget layouts). 2. Tier pills from perks; locked → offer. 3. iOS how-to sheet animation. 4. App Shortcuts + Controls.
 - Tests: `pnpm --filter @cp/mobile test -- widget-gallery`; `maestro test e2e/widgets/`.
 - Done when: gallery lists the 7 home widgets incl. Critterdex; how-to sheet opens on "+"; `ImUpControl` sets readiness.
-- Status: partly done — 8a48ec237d (installed-widget tracking and snapshot sync). Not built: the gallery screen, App Shortcuts and Controls, `e2e/widgets/gallery.yaml`
 
 ## Phase acceptance criteria
 - [ ] Locked-phone vote action casts ballot and re-posts stamp
