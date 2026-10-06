@@ -15,6 +15,7 @@ import { MailingStatus } from '../mailing/mailing-status';
 import type { AlbumPerson, AlbumPhoto } from '../data/album-model';
 import type { PostcardFormat } from '../postcard/postcard-pair';
 import { PostcardView } from '../postcard/postcard-view';
+import { ReceivedView } from '../postcard/received-view';
 import { PhotoViewer } from '../viewer/photo-viewer';
 
 const noop = () => undefined;
@@ -162,6 +163,20 @@ export const ALBUM_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3m-9-postcard': () => <Postcard />,
   '3m-9-sent': () => <Postcard sent />,
   '3m-9-mailed': () => <Postcard sent mailed />,
+  '3m-9-received': () => (
+    <AlbumMediaProvider http={null}>
+      <ReceivedView
+        sender="Wes"
+        format="classic"
+        photoKey={null}
+        place="Bali"
+        note="Summit at 06:02, knees at 06:03. Same time next year?"
+        guide="tokek"
+        onOwn={noop}
+        onClose={noop}
+      />
+    </AlbumMediaProvider>
+  ),
   'album-address': () => <AddressScreen />,
 };
 

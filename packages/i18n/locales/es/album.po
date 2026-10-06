@@ -15,6 +15,14 @@ msgstr "{failed, plural, one {# foto no se subió.} other {# fotos no se subiero
 msgid "album.postcard.noteLeft"
 msgstr "Quedan {left} caracteres"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name} te envió una postal"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name} quiere mandarte una postal"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · llega hacia el {arrives}"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ Salgo en esta"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "Una foto denunciada"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "Una favorita, de {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "Una postal para ti"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "Una postal para ti"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "Añadir dirección"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "Añade una dirección. Solo la imprenta la ve, nunca tu crew."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "¿Borrar esta foto?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "Listo"
 
@@ -188,6 +214,10 @@ msgstr "Piso, puerta (opcional)"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "Para postales impresas de tu crew. Solo la imprenta la ve; tu crew y el guía nunca."
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "De {sender}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "Nadie ha dicho todavía que sale en esta."
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "Nadie está etiquetado aún. Mantén pulsada una foto y toca «Salgo en esta»."
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "Abrirla"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "Ábrela y lee el reverso."
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "Mándala a casa"
 msgid "album.postcard.send"
 msgstr "Enviar a la crew"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "Enviar la tuya"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "Enviada a {names}"
@@ -409,6 +451,7 @@ msgstr "La nota"
 msgid "album.mail.unsupported"
 msgstr "La imprenta aún no envía a su país, así que reciben la digital"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "el viaje"
@@ -453,9 +496,21 @@ msgstr "No sales en una foto"
 msgid "album.address.title"
 msgstr "Tu dirección"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "Tu crew quiere mandarte una postal"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "Tu postal"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "Tus postales impresas están en el correo"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "No se pudieron hacer tus postales impresas. El envío de este viaje vuelve a estar libre."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

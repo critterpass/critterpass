@@ -15,6 +15,14 @@ msgstr "{failed, plural, other {# foto tidak dimuat naik.}}"
 msgid "album.postcard.noteLeft"
 msgstr "Tinggal {left} aksara"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name} menghantar poskad kepada anda"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name} mahu poskan poskad kepada anda"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · tiba sekitar {arrives}"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ Saya ada dalam ini"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "Satu foto dilaporkan"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "Kegemaran, daripada {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "Poskad untuk anda"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "Poskad untuk anda"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "Tambah alamat"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "Tambah alamat. Hanya pencetak yang nampak, kru anda tidak pernah."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "Padam foto ini?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "Selesai"
 
@@ -188,6 +214,10 @@ msgstr "Unit, tingkat (pilihan)"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "Untuk poskad bercetak daripada kru anda. Hanya pencetak yang nampak; kru dan pemandu tidak pernah."
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "Daripada {sender}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "Belum ada yang kata mereka dalam foto ini."
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "Belum ada yang ditag. Tekan lama sebuah foto dan ketik “Saya ada dalam ini”."
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "Buka"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "Buka dan baca bahagian belakang."
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "Hantar ke rumah"
 msgid "album.postcard.send"
 msgstr "Hantar kepada kru"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "Hantar poskad anda"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "Dihantar kepada {names}"
@@ -409,6 +451,7 @@ msgstr "Nota"
 msgid "album.mail.unsupported"
 msgstr "Pencetak belum menghantar ke negara mereka, jadi mereka dapat yang digital"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "perjalanan"
@@ -453,9 +496,21 @@ msgstr "Anda tiada dalam foto"
 msgid "album.address.title"
 msgstr "Alamat anda"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "Kru anda mahu poskan poskad kepada anda"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "Poskad anda"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "Poskad bercetak anda dalam pos"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "Poskad bercetak anda tidak dapat dibuat. Hantaran perjalanan ini kosong semula."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

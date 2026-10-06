@@ -15,6 +15,14 @@ msgstr "{failed, plural, other {#枚アップロードできませんでした�
 msgid "album.postcard.noteLeft"
 msgstr "残り{left}文字"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name}からポストカードが届きました"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name}がポストカードを郵送したがっています"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · {arrives}ごろ到着"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ 自分が写ってる"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "写真を報告しました"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "ベスト、{uploaderName}の写真"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "あなたにポストカード"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "あなたにポストカード"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "住所を追加"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "住所を追加してください。見るのは印刷会社だけで、クルーには見えません。"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "この写真を削除しますか？"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "完了"
 
@@ -188,6 +214,10 @@ msgstr "部屋番号・階（任意）"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "クルーからの印刷ポストカード用です。見るのは印刷会社だけで、クルーやガイドには見えません。"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "{sender}より"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "まだ誰も写っていると言っていません。"
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "まだ誰もタグ付けされていません。写真を長押しして「自分が写ってる」をタップしてね。"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "開く"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "開いて裏面を読んでね。"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "家に送ろう"
 msgid "album.postcard.send"
 msgstr "クルーに送る"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "自分も送る"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "{names}に送りました"
@@ -409,6 +451,7 @@ msgstr "メッセージ"
 msgid "album.mail.unsupported"
 msgstr "印刷会社がまだその国に発送していないため、デジタル版が届きます"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "この旅"
@@ -453,9 +496,21 @@ msgstr "写真に写っていません"
 msgid "album.address.title"
 msgstr "あなたの住所"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "クルーがポストカードを郵送したがっています"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "あなたのポストカード"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "印刷ポストカードを郵送中です"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "印刷ポストカードを作れませんでした。この旅の郵送枠は空きに戻りました。"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

@@ -15,6 +15,14 @@ msgstr "{failed, plural, other {# 张照片上传失败。}}"
 msgid "album.postcard.noteLeft"
 msgstr "还剩 {left} 个字"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name} 给你发了一张明信片"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name} 想给你寄一张明信片"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · 预计 {arrives} 左右送达"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ 我在照片里"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "已举报一张照片"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "精选，来自 {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "给你的明信片"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "给你的明信片"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "添加地址"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "添加地址。只有印刷商能看到，小队永远看不到。"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "删除这张照片？"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "完成"
 
@@ -188,6 +214,10 @@ msgstr "单元、楼层（可选）"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "用于接收小队寄的实体明信片。只有印刷商能看到；小队和向导永远看不到。"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "来自 {sender}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "还没有人说自己在这张照片里。"
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "还没有人被标记。长按照片，点按“我在照片里”。"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "打开"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "打开看看背面。"
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "寄回家"
 msgid "album.postcard.send"
 msgstr "发给小队"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "也发一张"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "已发给 {names}"
@@ -409,6 +451,7 @@ msgstr "留言"
 msgid "album.mail.unsupported"
 msgstr "印刷商还不寄往他们的国家，所以他们会收到电子版"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "这次旅行"
@@ -453,9 +496,21 @@ msgstr "你不在一张照片里"
 msgid "album.address.title"
 msgstr "你的地址"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "小队想给你寄一张明信片"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "你的明信片"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "你的实体明信片正在邮寄中"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "你的实体明信片无法制作。这次旅行的寄送名额已恢复。"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

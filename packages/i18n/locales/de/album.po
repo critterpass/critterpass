@@ -15,6 +15,14 @@ msgstr "{failed, plural, one {# Foto wurde nicht hochgeladen.} other {# Fotos wu
 msgid "album.postcard.noteLeft"
 msgstr "Noch {left} Zeichen"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name} hat dir eine Postkarte geschickt"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name} möchte dir eine Postkarte schicken"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · kommt etwa am {arrives} an"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ Ich bin drauf"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "Ein Foto gemeldet"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "Ein Favorit, von {uploaderName}"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "Eine Postkarte für dich"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "Eine Postkarte für dich"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "Adresse eintragen"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "Trag eine Adresse ein. Nur die Druckerei sieht sie, nie deine Crew."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "Dieses Foto löschen?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "Fertig"
 
@@ -188,6 +214,10 @@ msgstr "Wohnung, Etage (optional)"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "Für gedruckte Postkarten von deiner Crew. Nur die Druckerei sieht sie, deine Crew und der Guide nie."
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "Von {sender}"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "Bisher hat niemand gesagt, dass er drauf ist."
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "Noch niemand markiert. Halte ein Foto gedrückt und tippe auf „Ich bin drauf“."
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "Öffnen"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "Öffne sie und lies die Rückseite."
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "Ab nach Hause damit"
 msgid "album.postcard.send"
 msgstr "An die Crew schicken"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "Eigene schicken"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "An {names} geschickt"
@@ -409,6 +451,7 @@ msgstr "Der Text"
 msgid "album.mail.unsupported"
 msgstr "Die Druckerei verschickt noch nicht in ihr Land, also bekommen sie die digitale"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "den Trip"
@@ -453,9 +496,21 @@ msgstr "Du bist nicht auf einem Foto"
 msgid "album.address.title"
 msgstr "Deine Adresse"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "Deine Crew möchte dir eine Postkarte schicken"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "Deine Postkarte"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "Deine gedruckten Postkarten sind in der Post"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "Deine gedruckten Postkarten konnten nicht hergestellt werden. Der Versand für diesen Trip ist wieder frei."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

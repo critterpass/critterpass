@@ -15,6 +15,14 @@ msgstr "{failed, plural, other {사진 #장을 올리지 못했어요.}}"
 msgid "album.postcard.noteLeft"
 msgstr "{left}자 남음"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr "{name}님이 엽서를 보냈어요"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr "{name}님이 엽서를 우편으로 보내고 싶어 해요"
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr "{progress} · {arrives}쯤 도착"
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr "✓ 나 여기 있어요"
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -76,6 +85,22 @@ msgstr "사진 신고함"
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
 msgstr "베스트, {uploaderName}의 사진"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr "엽서가 도착했어요"
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr "엽서가 도착했어요"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr "주소 추가"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
+msgstr "주소를 추가하세요. 인쇄소만 보고 크루는 절대 못 봐요."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.empty.add"
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr "이 사진을 삭제할까요?"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr "완료"
 
@@ -188,6 +214,10 @@ msgstr "동·호수, 층 (선택)"
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
 msgstr "크루가 보내는 인쇄 엽서용이에요. 인쇄소만 보고, 크루와 가이드는 절대 못 봐요."
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
+msgstr "{sender}님이 보냄"
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
 msgid "album.postcard.greetings"
@@ -260,6 +290,14 @@ msgstr "아직 이 사진에 있다고 한 사람이 없어요."
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
 msgstr "아직 태그된 사람이 없어요. 사진을 길게 누르고 ‘나 여기 있어요’를 탭하세요."
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr "열기"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
+msgstr "열어서 뒷면을 읽어 보세요."
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.hint"
@@ -357,6 +395,10 @@ msgstr "집으로 보내요"
 msgid "album.postcard.send"
 msgstr "크루에게 보내기"
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr "나도 보내기"
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr "{names}에게 보냈어요"
@@ -409,6 +451,7 @@ msgstr "메시지"
 msgid "album.mail.unsupported"
 msgstr "인쇄소가 아직 그 나라로 배송하지 않아서 디지털 엽서를 받아요"
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr "이번 여행"
@@ -453,9 +496,21 @@ msgstr "사진에 내가 없어요"
 msgid "album.address.title"
 msgstr "내 주소"
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr "크루가 엽서를 우편으로 보내고 싶어 해요"
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
 msgstr "내 엽서"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr "인쇄 엽서가 배송 중이에요"
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
+msgstr "인쇄 엽서를 만들지 못했어요. 이번 여행 우편 발송이 다시 가능해요."
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.export.ready"

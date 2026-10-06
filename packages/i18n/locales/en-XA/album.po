@@ -15,6 +15,14 @@ msgstr ""
 msgid "album.postcard.noteLeft"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/mailing/mailing-status.tsx
 msgid "album.mail.status.eta"
 msgstr ""
@@ -52,6 +60,7 @@ msgid "album.viewer.meIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/viewer/viewer-screen.tsx
 msgid "album.formerTraveller"
@@ -75,6 +84,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
 msgid "album.tile.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.plain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
@@ -174,6 +199,7 @@ msgid "album.delete.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-view.tsx
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
 msgid "album.postcard.close"
 msgstr ""
 
@@ -187,6 +213,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/mailing/address-screen.tsx
 msgid "album.address.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.from"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/postcard/postcard-pair.tsx
@@ -259,6 +289,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx
 msgid "album.people.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.received.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/photo-tile.tsx
@@ -357,6 +395,10 @@ msgstr ""
 msgid "album.postcard.send"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/received-view.tsx
+msgid "album.received.own"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.sentTo"
 msgstr ""
@@ -409,6 +451,7 @@ msgstr ""
 msgid "album.mail.unsupported"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/postcard/opened-postcard-screen.tsx
 #: ../../apps/mobile/src/features/album/postcard/postcard-screen.tsx
 msgid "album.postcard.placeFallback"
 msgstr ""
@@ -453,8 +496,20 @@ msgstr ""
 msgid "album.address.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.address.plain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/album/commands.ts
 msgid "album.queued.postcard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.shipped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/album/inbox-renderers.ts
+msgid "album.inbox.mailing.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/album/grid/album-view.tsx

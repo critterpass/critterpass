@@ -59,7 +59,8 @@ export function registerPostcardInboxFanouts(): void {
         actorId: str(event, 'payer_id'),
         data: { trip_id: tripId, postcard_id: postcardId, payer_id: str(event, 'payer_id') },
         resolveKey: postcardAddressResolveKey(uid),
-        deepLink: postcardPath(tripId, postcardId),
+        // The member's own address form: saving one settles this request.
+        deepLink: '/album/address',
       });
     },
   });

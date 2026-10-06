@@ -44,4 +44,7 @@ appId: app.critterpass.dev
     env: { SCENE: '3m-9-mailed', ROOT: 'postcard-mailing', SHOT: '${LANG}-3m-9-mailed' }
 - runFlow:
     file: lab-scene.yaml
+    env: { SCENE: '3m-9-received', ROOT: 'postcard-received', SHOT: '${LANG}-3m-9-received' }
+- runFlow:
+    file: lab-scene.yaml
     env: { SCENE: 'album-address', ROOT: 'album-address', SHOT: '${LANG}-album-address' }
