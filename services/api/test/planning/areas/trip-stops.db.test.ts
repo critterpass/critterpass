@@ -144,12 +144,14 @@ describe('set_trip_stops', () => {
       [place.osaka, 2],
     ]);
     expect(first.status, JSON.stringify(first.body)).toBe(200);
+    // The trip has its empty plan since the dates locked: the answer names the seated draft.
     expect(resultOf(first)).toEqual({
       trip_id: crew.tripId,
       stops: [
         { position: 1, destination_id: place.kyoto, nights: 2 },
         { position: 2, destination_id: place.osaka, nights: 2 },
       ],
+      version_id: expect.any(String) as string,
     });
     expect(await stored()).toEqual([
       { position: 1, destination_id: place.kyoto, nights: 2 },
@@ -177,6 +179,7 @@ describe('set_trip_stops', () => {
     expect(resultOf(await setStops([[place.kyoto, 4]]))).toEqual({
       trip_id: crew.tripId,
       stops: [],
+      version_id: expect.any(String) as string,
     });
     expect(await stored()).toEqual([]);
     await setStops([
