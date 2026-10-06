@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpAppIconModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.appicon.CpAppIconModule"]
+  }
+}

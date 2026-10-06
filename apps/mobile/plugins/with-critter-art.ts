@@ -35,7 +35,8 @@ export const IOS_EXTENSION_CRITTER_ART: Readonly<Record<string, readonly string[
   ],
   // AvatarLoader.guideDefaultImageName: the face a notification shows when no avatar loads.
   'notification-service': ['gecko-common-idle-color-96pt'],
-  'notification-content': [],
+  // The vote poster's two sides (notification-content/VotePosterView.swift).
+  'notification-content': ['sardine-common-idle-color-48pt', 'tanuki-common-idle-color-48pt'],
 };
 
 const CATALOG_NAME = 'CritterArt.xcassets';

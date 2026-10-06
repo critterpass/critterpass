@@ -24,5 +24,7 @@ struct CPWidgetBundle: WidgetBundle {
         NextFlightWidget()
         NextLeaveByWidget()
         SleepyClockWidget()
+        ImUpControl()
+        SOSControl()
     }
 }

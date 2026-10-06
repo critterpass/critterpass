@@ -12,6 +12,7 @@ struct NextFlightWidget: Widget {
                 .containerBackground(for: .widget) { LAPalette.card }
                 .widgetURL(LADeepLink.url(route: "wallet/bookings"))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Next flight")
         .description("Gate, seat and boarding time.")
         .supportedFamilies([.systemSmall])

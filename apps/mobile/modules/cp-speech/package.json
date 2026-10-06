@@ -1,0 +1,9 @@
+{
+  "name": "cp-speech",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Voice mode audio: on-device speech recognition (iOS SpeechAnalyzer, Android SpeechRecognizer) or PCM frames for the Deepgram streaming client, echo-cancelled capture with mic level and voice activity events, and an ordered, cancellable queue for the guide's spoken reply.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

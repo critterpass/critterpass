@@ -10,6 +10,8 @@ export declare class NativeCpWidgetsModule extends NativeModule {
   reloadAll(): void;
   reload(kind: string): void;
   installed(): Promise<NativeInstalledWidget[]>;
+  /** Missing on binaries built before widget push. */
+  pushToken?: () => string | null;
 }
 
 export const nativeCpWidgetsModule =

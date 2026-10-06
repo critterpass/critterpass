@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Glance draws the content; the launcher shows Glance's loading layout for the first frame. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:description="@string/cp_widget_next_flight_description"
+  android:initialLayout="@layout/glance_default_loading_layout"
+  android:minWidth="250dp"
+  android:minHeight="110dp"
+  android:resizeMode="horizontal|vertical"
+  android:updatePeriodMillis="0"
+  android:widgetCategory="home_screen" />

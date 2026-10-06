@@ -1,0 +1,9 @@
+{
+  "name": "cp-android-surfaces",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android off-app surfaces: Live Updates, notification actions and the vote poster, the SOS channel, Glance widgets, the lock-screen hub probe, the sleepy-clock dream, widget pinning and signed /v1/actions requests with a Keystore-held action key.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

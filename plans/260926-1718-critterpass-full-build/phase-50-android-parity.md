@@ -1,7 +1,7 @@
 ---
 phase: 50
 title: Android parity layer
-status: pending
+status: in_progress
 depends_on: [36, 48, 49]
 wave: 21
 features: [F-181]
@@ -81,6 +81,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 ## Tasks
 
 ### T1 — Module scaffold, config plugin, shared snapshot + action signing
+- Status: done — 48fd61574 (scaffold, Keystore action key, signer, worker), 9c10e6093 (JS API, config plugin)
 - Goal: Kotlin foundation.
 - Files: `apps/mobile/modules/cp-android-surfaces/{expo-module.config.json,index.ts,android/src/main/java/app/critterpass/surfaces/{SnapshotStore,ActionSigner,ActionWorker,PendingActions}.kt}`, `apps/mobile/plugins/with-android-surfaces.ts`.
 - Steps: 1. DataStore `cp_snapshot` mirror of App Group JSON. 2. Import the server-issued action-key secret into Android Keystore as a non-exportable `HmacSHA256` key (`KeyProperties.PURPOSE_SIGN`); key id/scope/expiry metadata in DataStore; revoke = delete Keystore entry. 3. WorkManager expedited worker + offline queue drain. 4. Verify the generated Gradle project name (follows the module package name) and record it in the module README; later tasks use that name (`<cp-surfaces-gradle>` below).
@@ -88,6 +89,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: Keystore signature matches the TS reference vector test; key is non-exportable (`KeyInfo.isInsideSecureHardware` logged, export attempt fails); queued action drains on connectivity.
 
 ### T2a — Live Update spec + FCM payloads (TS)
+- Status: done — e6dc067a5 (the la worker jobs do not call it yet)
 - Goal: server side of LA parity for 5 kinds.
 - Files: `packages/domain/src/surfaces/android-live-update.ts`, `services/worker/src/push/fcm-surfaces.ts`, `services/worker/test/android-surfaces/*.test.ts`.
 - Steps: 1. `ProgressSpec` derivation per kind from phase-48 ContentState. 2. Per-kind audience split per initiator rule (Live Update payload to initiator/opted-in devices; notification payload to others). 3. FCM op start/update/end mapping + Kotlin data class generation.
@@ -95,6 +97,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: fixture sessions produce Live Update payloads only for initiator/opted-in devices and notification payloads for other members.
 
 ### T2b — Live Update renderer (Kotlin)
+- Status: done — c4670e1ca
 - Goal: render ProgressStyle / MetricStyle / fallback.
 - Files: `apps/mobile/modules/cp-android-surfaces/android/.../liveupdate/*.kt`.
 - Steps: 1. Renderer with API gates (36 ProgressStyle, 37 MetricStyle, else ongoing). 2. `requestPromotedOngoing` + promotion-denied fallback. 3. Op start/update/end handling.
@@ -102,6 +105,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: leave-by spec renders segments per leg on API 36 emulator screenshot test; API 35 shows ongoing notification.
 
 ### T3 — Notification actions + vote poster
+- Status: done — 4fc39fd98
 - Goal: §3.4 parity from the shade.
 - Files: `.../actions/{NotificationActionReceiver,Categories}.kt` (generated from `notification-categories.ts`), `.../vote/VotePosterNotification.kt`.
 - Steps: 1. Category → action set. 2. Receiver → worker → re-post with stamp. 3. Remote-input reply for chat.
@@ -109,6 +113,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: vote action from locked shade creates ballot `source: notification`.
 
 ### T4 — Full-screen alarm, SOS DND channel + permission flows
+- Status: done — 28f84069a, 6ba47959c (reuses cp-alarm's full-screen alarm activity; explainer rows are not mounted in a screen yet)
 - Goal: 5b-3 on Android and SOS DND bypass, both with denied-by-default degrade paths.
 - Files: `.../alarm/{AlarmFullScreenActivity,AlarmUi}.kt`, `.../sos/SosChannel.kt`, `apps/mobile/src/features/you/android-permissions/**`.
 - Steps: 1. Compose UI per render; slide I'M UP → `set_readiness`; snooze once → second snooze crew knock. 2. Explainer + settings deep links for exact alarm (`SCHEDULE_EXACT_ALARM`), FSI, promoted notifications, DND access. 3. `cp_sos` channel with `setBypassDnd(true)` once `isNotificationPolicyAccessGranted`; recreate channel after grant. 4. Degrade matrix with denied as the default row.
@@ -116,6 +121,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: fresh install (nothing granted) → alarm posts heads-up + Live Update at an inexact time with earlier warning; with FSI + exact alarm granted the Activity shows over lock screen on time; SOS in DND rings only when policy access is granted, otherwise posts HIGH notification + settings banner.
 
 ### T5 — Glance home widgets (free)
+- Status: done — 19f0bbe75
 - Goal: Countdown, Vote, Today, Balances, Critterdex.
 - Files: `.../widgets/{Countdown,Vote,Today,Balances,Critterdex}Widget.kt`, `res/xml/*_widget_info.xml` via plugin.
 - Steps: 1. Glance layouts with baked drawables. 2. `actionRunCallback` for vote, nudge, packing check. 3. FCM refresh + `installed_widgets` sync.
@@ -123,6 +129,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: widget unit tests cover empty/stale/active states; vote callback posts action.
 
 ### T6 — Crew, Next flight, keyguard, dream, pin
+- Status: done — 19f0bbe75 (no verified-device list: nothing ran on a device)
 - Goal: tiered widgets and extras.
 - Files: `.../widgets/{Crew,NextFlight}Widget.kt`, `.../hub/{LockScreenWidgets,SleepyClockDream}.kt`, `.../PinWidget.kt`.
 - Steps: 1. Locked states → offer deep links. 2. Keyguard support probe; hidden-with-explanation default. 3. DreamService ("while charging" copy). 4. `requestPinAppWidget` bridged to gallery.
@@ -130,6 +137,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: pin request dialog appears from gallery "+" on Pixel emulator; probe returns unsupported on API 36 phone emulator (hidden state shown); verified-device list (device, OS build, keyguard yes/no, dream yes/no) recorded in `apps/mobile/modules/cp-android-surfaces/README.md`.
 
 ### T7 — Conversation shortcuts
+- Status: done — 6229ba711 (cp-notifications ConversationShortcuts)
 - Goal: sender identity polish (alternate icons are owned by phase 45).
 - Files: `.../shortcuts/ConversationShortcuts.kt`.
 - Steps: 1. Dynamic long-lived shortcuts per guide/crew with avatars, bubbles off. 2. Link MessagingStyle notifications (phase 11) via `setShortcutId`.
@@ -137,6 +145,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Done when: a crew message notification is shown as a conversation with the crew avatar.
 
 ### T8 — Play policy declarations doc
+- Status: done — fe4f8e51e
 - Goal: submission-ready declarations.
 - Files: `docs/play-policy-declarations.md`.
 - Steps: 1. One section per sensitive permission with justification text, UX evidence path (screenshot route), fallback. 2. Link from `docs/README.md` table (one row edit).
