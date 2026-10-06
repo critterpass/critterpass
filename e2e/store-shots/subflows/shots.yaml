@@ -1,0 +1,114 @@
+appId: app.critterpass.dev
+---
+# One capture per store shot, named `store-${LANG}-<shot>` after the shot templates in
+# packages/content/src/store/templates. Elements are found by id only, so the same steps run in
+# every language. The expense comes last: it is the only step that writes.
+
+# vote: the crew's destination board on Home.
+- scrollUntilVisible:
+    element:
+      id: 'destination-board'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: store-${LANG}-vote
+
+# critters: the Critterdex on the PASS tab, once the catalogue has synced.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: store-${LANG}-critters
+
+# trip-day: the trip's hub, then its first day.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre|visit-consent-decline'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: store-${LANG}-trip-day
+- runFlow: ../../onboarding/subflows/back.yaml
+
+# plan: the trip's plan, on its map or on the day it opens at.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map|day-plan'
+    timeout: 60000
+# The map draws its tiles after the screen is up.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-map-peek'
+    timeout: 15000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: store-${LANG}-plan
+- runFlow: ../../onboarding/subflows/back.yaml
+
+# money: the wallet after the account adds 450,000 it paid, split evenly (the default split).
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn:
+          id: 'money-add-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn:
+    id: 'money-add-keypad-key-4'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: store-${LANG}-money

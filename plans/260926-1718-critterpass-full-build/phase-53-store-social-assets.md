@@ -66,7 +66,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Create anonymous accounts via Better Auth API, crew, trip, poll, plan, expenses through `/v1/cmd`. 2. Bookings only via the Viator sandbox (activities) and forwarded-booking fixtures (stays) through the real ingest path. 3. Idempotent (op_ids derived from seed name). 4. Guards: refuses non-staging API base; refuses to run unless the target's `/v1/health` reports supplier mode `sandbox` for every supplier adapter (no production supplier keys).
 - Tests: `pnpm tsx tools/scripts/store-kit/seed-demo-crew.ts --api http://localhost:8787 --dry-run` then full run on local compose stack; `pnpm vitest run tools/scripts/store-kit/seed-guard`.
 - Done when: rerun produces no duplicates; refusing prod base URL and production supplier mode both tested.
-- Status: blocked — the seed guard needs the api to report each supplier adapter's mode; `/health` does not, and that route belongs to another phase
+- Status: blocked — the seed and its guards are in (16afd775); a full run waits for the api's `/health` to report each supplier adapter's mode, and the poll, plan and booking steps are not seeded yet
 
 ### T2 — Maestro capture flows (iOS + Android, all locales)
 - Goal: raw screenshots + preview video.
@@ -74,6 +74,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Flows per shot (vote, plan, trip day, critters, recap, money). 2. Locale switch via launch args. 3. Status bar clean (`simctl status_bar`, Android demo mode). 4. Screen recording for previews.
 - Tests: `pnpm tsx tools/scripts/store-kit/capture.ts --platform ios --locale en`.
 - Done when: raw captures for every device×locale exist with deterministic names.
+- Status: blocked — flows, device matrix and capture script are in (b0279e6c); raw captures wait for the device runs (Android dispatched, iOS not run), and recap has no capture path
 
 ### T3 — Store shot compositor + icons
 - Goal: final store images.
@@ -81,6 +82,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Templates from Store-Shot render. 2. Size validation per store spec. 3. Icons: 1024 marketing icon, Play 512 + adaptive + monochrome via `critter-bake` (alternate icon set from phase 45 `APP_ICON_IDS`, read-only).
 - Tests: `pnpm vitest run tools/scripts/store-kit/compose` (golden image diff; `tools/scripts` is not a workspace package, per phase 01).
 - Done when: every output matches required pixel dimensions and has no alpha where stores forbid it.
+- Status: done — e4c46a59
 
 ### T4 — Listing copy, CPPs, In-App Events, metadata upload
 - Goal: listing as data.
@@ -96,6 +98,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. ffmpeg trim/concat of in-app recordings, caption burn-in, required resolutions/fps, ≤30 s. 2. Poster frame selection.
 - Tests: `pnpm tsx tools/scripts/store-kit/preview-video.ts --check` (ffprobe asserts duration/resolution).
 - Done when: outputs pass ffprobe checks for each required size.
+- Status: blocked — the cut and its ffprobe checks are in (9ea7c11c); the videos wait for app recordings from a device run
 
 ### T6 — Social kit renderer
 - Goal: F-188.
@@ -103,7 +106,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Steps: 1. Templates from Social-Kit page. 2. Batch per set × locale. 3. Manifest with alt text.
 - Tests: `pnpm vitest run tools/scripts/social-kit` (golden diff).
 - Done when: `local-of-the-week` set renders square + story for each shipped locale.
-- Status: blocked — waits for the web phase (OG templates and fonts) to merge
+- Status: done — 6ddeec8b
 
 ## Phase acceptance criteria
 - [ ] One command regenerates all store screenshots for both stores and all shipped locales
