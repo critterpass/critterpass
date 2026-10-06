@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# Sound (3n-7, music on and off) and deleting the account with the server's numbers (3n-9 as
+# rendered, then owing, a hand-over and a trip under way, the hold of 3n-10, and an unsaved pass),
+# from the profile lab scenes in en.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+# The lab list opens on its first scene; the rest are scrolled to from there.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-1-profile'
+      ROOT: 'you-profile'
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-7-sound'
+      ROOT: 'you-sound'
+      SHOT: en-3n-7-sound
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-7-music-off'
+      ROOT: 'you-sound'
+      SHOT: en-3n-7-music-off
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-9-delete'
+      ROOT: 'you-delete-continue'
+      SHOT: en-3n-9-delete
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-9-delete-owing'
+      ROOT: 'you-delete-continue'
+      SHOT: en-3n-9-delete-owing
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-10-hold'
+      ROOT: 'you-delete-hold-step'
+      SHOT: en-3n-10-hold
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-9-delete-unsaved'
+      ROOT: 'you-delete-hold-step'
+      SHOT: en-3n-9-delete-unsaved

@@ -41,6 +41,11 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Bookings (3h scenes)',
       },
       {
+        testId: 'dev-nav-drivers-lab',
+        href: '/(dev)/drivers-lab',
+        label: 'Find a driver (6a–6f on this trip)',
+      },
+      {
         testId: 'dev-nav-supplier-lab',
         href: '/(dev)/supplier-lab',
         label: 'Suppliers (3h-3, 6f-1 scenes)',

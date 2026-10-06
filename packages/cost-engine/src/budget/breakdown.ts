@@ -8,6 +8,7 @@ import { allocate } from '../money/allocate';
 import { type CurrencyCode } from '../money/currencies';
 import { type Money } from '../money/money';
 import { chooseStayMix, type StayMixPart } from './stay-mix';
+import { stopsBreakdown, stopsFeasibleLow, type StopEstimate } from './stops';
 
 /** A destination's editorial cost index (`destination_cost_indices`), in the trip currency. */
 export interface CostIndex {
@@ -29,6 +30,8 @@ export interface BreakdownInput {
   readonly days: number;
   /** `null` = no editorial index for this destination yet. */
   readonly index: CostIndex | null;
+  /** Set for a trip with several stops: each is priced from its own index and the amounts added. */
+  readonly stops?: readonly StopEstimate[];
 }
 
 export type BreakdownCategory = 'flights' | 'stays' | 'food' | 'fun';
@@ -48,6 +51,9 @@ export interface Breakdown {
 const of = (amountMinor: bigint, currency: CurrencyCode): Money => ({ amountMinor, currency });
 
 export function budgetBreakdown(input: BreakdownInput): Breakdown {
+  if (input.stops !== undefined) {
+    return stopsBreakdown({ target: input.target, flights: input.flights, stops: input.stops });
+  }
   const { target, flights, nights, days, index } = input;
   const currency = target.currency;
   if (!index) {
@@ -89,6 +95,9 @@ export function budgetBreakdown(input: BreakdownInput): Breakdown {
  * true floor, since no trip costs less than its stay, food and fun. `null` without an index.
  */
 export function feasibleLow(input: Omit<BreakdownInput, 'target'>): Money | null {
+  if (input.stops !== undefined) {
+    return stopsFeasibleLow({ flights: input.flights, stops: input.stops });
+  }
   const { flights, nights, days, index } = input;
   if (!index || index.stays.length === 0) return null;
   const cheapestNight = index.stays.reduce(

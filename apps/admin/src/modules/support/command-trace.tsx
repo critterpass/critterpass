@@ -14,35 +14,30 @@ export function CommandTrace({ query }: { query: string }) {
   if (trace.isError) return <ErrorState error={trace.error} onRetry={() => void trace.refetch()} />;
   if (trace.data.items.length === 0) return <EmptyState title="No commands" />;
   return (
-    <div className="table-wrap">
-      <table className="table" aria-label="Command trace">
-        <thead>
-          <tr>
-            <th scope="col">When</th>
-            <th scope="col">Command</th>
-            <th scope="col">Outcome</th>
-            <th scope="col">op_id</th>
-          </tr>
-        </thead>
-        <tbody>
-          {trace.data.items.map((item) => (
-            <tr key={item.op_id}>
-              <td className="muted">{new Date(item.server_ts).toLocaleString()}</td>
-              <td className="mono">{item.cmd}</td>
-              <td>
-                <span
-                  className="badge"
-                  data-tone={item.status === 'rejected' ? 'urgent' : 'success'}
-                >
-                  {item.status}
-                </span>{' '}
-                {item.code !== null && <span className="mono">{item.code}</span>}
-              </td>
-              <td className="mono">{item.op_id}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div role="list" aria-label="Command trace">
+      {trace.data.items.map((item) => (
+        <div key={item.op_id} role="listitem" className="panel-row">
+          <span className="mono muted" style={{ minWidth: 52 }}>
+            {new Date(item.server_ts).toLocaleString('en-GB', {
+              day: 'numeric',
+              month: 'short',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <strong className="mono">{item.cmd}</strong>
+            <br />
+            <span className="mono muted">
+              op {item.op_id}
+              {item.code !== null ? ` · ${item.code}` : ''}
+            </span>
+          </span>
+          <span className="queue-tag" data-many={item.status === 'rejected'}>
+            {item.status}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }

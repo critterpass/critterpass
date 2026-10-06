@@ -10,6 +10,7 @@ import { contentModule } from '../modules/content';
 import { costsModule } from '../modules/costs';
 import { deskModule } from '../modules/desk';
 import { flagsModule } from '../modules/flags';
+import { helpModule } from '../modules/help';
 import { jobsModule } from '../modules/jobs';
 import { moderationModule } from '../modules/moderation';
 import { operatorsModule } from '../modules/operators';
@@ -34,6 +35,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   supportModule,
   deskModule,
   vendorDeskModule,
+  helpModule,
   billingModule,
   auditModule,
   operatorsModule,

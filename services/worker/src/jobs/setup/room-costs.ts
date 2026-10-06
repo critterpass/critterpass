@@ -3,7 +3,8 @@
  * occupied room of the trip's room plan — its nightly price times its stay's nights, split between
  * the people in it (unit `room`), in the plan's currency, source `estimate`. The editorial index's
  * trip-wide stay estimate then covers only the nights no room plan prices; an empty room costs
- * nobody anything.
+ * nobody anything. On a trip with several stops the nights a room plan does not price are counted
+ * from the end of the trip, and only those stops keep their stay line.
  */
 import { assertCurrencyCode, type CostComponent } from '@cp/cost-engine';
 import type pg from 'pg';
@@ -75,8 +76,29 @@ export function pricedByRooms(
   index: readonly CostComponent[],
   rooms: RoomPlanPricing,
   trip: { readonly start_date: string | null; readonly end_date: string | null },
+  /** Several stops: the nights each index stay line prices, in stop order. */
+  stayNights?: ReadonlyMap<string, number>,
 ): CostComponent[] {
   if (rooms.components.length === 0) return [...index];
+  if (stayNights !== undefined) {
+    const total = [...stayNights.values()].reduce((sum, nights) => sum + nights, 0);
+    let unpriced = Math.max(0, total - rooms.pricedNights);
+    const kept = new Map<string, number>();
+    for (const [id, nights] of [...stayNights].reverse()) {
+      kept.set(id, Math.min(unpriced, nights));
+      unpriced -= kept.get(id) ?? 0;
+    }
+    const lines = index.flatMap((component) => {
+      const nights = stayNights.get(component.id);
+      if (nights === undefined) return [component];
+      const keep = kept.get(component.id) ?? 0;
+      if (keep === 0 || component.amountMinor === null) return [];
+      return [
+        { ...component, amountMinor: (component.amountMinor / BigInt(nights)) * BigInt(keep) },
+      ];
+    });
+    return [...lines, ...rooms.components];
+  }
   const nights =
     trip.start_date === null || trip.end_date === null
       ? 0

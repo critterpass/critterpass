@@ -7,11 +7,16 @@
  * deployment) are skipped, never faked. A channel switched off in the ops
  * console (`otp.<channel>.enabled`) is skipped too; only when every channel the country could use
  * is off does the send answer `STATE_INVALID {reason: 'switched_off', key}` (the first channel's key).
+ * Each SMS a provider accepted counts on `cp_sms_sent_total` by destination country.
  */
 import type { KillSwitchReader } from '@cp/db';
 import { DomainError, switchedOffError } from '@cp/domain';
 
+import type { MetricsRecorder } from '../../obs/metrics';
 import { countryOtpPolicy, isValidSendableNumber, type OtpChannel } from './countries';
+
+/** The channels that send a paid SMS (the others deliver in a chat app). */
+const SMS_CHANNELS: ReadonlySet<OtpChannel> = new Set(['prelude']);
 
 export interface OtpChannelAdapter {
   /** Sends the code; resolves with a provider-assigned message id when the provider gives one (WhatsApp, Telegram Gateway), throws on a synchronous send failure. */
@@ -45,6 +50,7 @@ export interface OtpRouterDeps {
   readonly switches: Pick<KillSwitchReader, 'isOn'>;
   /** Told about every channel whose send failed, so the reason reaches the logs (never the number). */
   readonly onChannelFailure?: ((failure: OtpChannelFailure) => void) | undefined;
+  readonly metrics?: Pick<MetricsRecorder, 'record'> | undefined;
 }
 
 export interface OtpChannelFailure {
@@ -113,6 +119,12 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
         if (!adapter) continue;
         try {
           const result = await adapter.send({ phoneE164: context.phoneE164, code: context.code });
+          if (SMS_CHANNELS.has(channel)) {
+            deps.metrics?.record('cp_sms_sent_total', 1, {
+              provider: channel,
+              country: policy.country.toLowerCase(),
+            });
+          }
           if (result.providerMessageId) {
             await deps.tracker.recordDelivery({
               providerMessageId: result.providerMessageId,

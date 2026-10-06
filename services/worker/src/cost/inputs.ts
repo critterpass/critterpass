@@ -2,7 +2,7 @@
  * Loads everything a trip's cost calc depends on, as app_system, into `@cp/cost-engine` shapes:
  * the seated members and their home airports, the trip's quotes (latest per kind and origin), the
  * nightly fare for any origin without a quote, the priced items of the current (else draft) plan,
- * the destination's reviewed editorial index for stays without a quote plus food and fun, and the
+ * the reviewed editorial index of each stop for stays without a quote plus food and fun, and the
  * latest FX run when any price is in another currency. Pure mapping lives here; nothing is priced.
  */
 import {
@@ -17,6 +17,7 @@ import {
 import { readLatestRates } from '@cp/db';
 import type pg from 'pg';
 import { loadRoomComponents, pricedByRooms } from '../jobs/setup/room-costs';
+import { loadIndexEstimates } from './index-estimates';
 
 /** Currency a trip is priced in when its crew has not picked a settlement currency yet. */
 export const DEFAULT_TRIP_CURRENCY: CurrencyCode = 'USD';
@@ -48,7 +49,6 @@ const QUOTE_UNITS = {
   transfer: 'group',
 } as const;
 const IATA = /^[A-Z]{3}$/;
-const DAY_MS = 86_400_000;
 
 const iso = (value: Date | string) => new Date(value).toISOString();
 
@@ -168,65 +168,6 @@ async function loadPlanItems(
   }));
 }
 
-/** Food, fun and (when no stay was quoted) the cheapest stay type, from the reviewed index. */
-async function loadIndexEstimates(
-  tx: pg.PoolClient,
-  trip: TripRow,
-  hasStayQuote: boolean,
-): Promise<CostComponent[]> {
-  if (!trip.destination_id || !trip.start_date || !trip.end_date) return [];
-  const nights = Math.round((Date.parse(trip.end_date) - Date.parse(trip.start_date)) / DAY_MS);
-  if (nights < 0) return [];
-  const { rows } = await tx.query<{
-    stay_type: string;
-    nightly_minor_high: string;
-    food_pp_day_minor: string;
-    fun_pp_day_minor: string;
-    currency: string;
-    reviewed_at: Date;
-  }>(
-    `SELECT stay_type, nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at
-       FROM destination_cost_indices
-      WHERE destination_id = $1 AND reviewed_at IS NOT NULL
-      ORDER BY nightly_minor_high, stay_type`,
-    [trip.destination_id],
-  );
-  const cheapest = rows[0];
-  if (!cheapest) return [];
-  const days = BigInt(nights + 1);
-  const base = {
-    unit: 'person' as const,
-    currency: assertCurrencyCode(cheapest.currency),
-    source: 'editorial' as const,
-    seenAt: iso(cheapest.reviewed_at),
-  };
-  return [
-    {
-      ...base,
-      id: 'index:food',
-      kind: 'food',
-      amountMinor: BigInt(cheapest.food_pp_day_minor) * days,
-    },
-    {
-      ...base,
-      id: 'index:fun',
-      kind: 'fun',
-      amountMinor: BigInt(cheapest.fun_pp_day_minor) * days,
-    },
-    ...(hasStayQuote || nights === 0
-      ? []
-      : [
-          {
-            ...base,
-            id: `index:stay:${cheapest.stay_type}`,
-            kind: 'stay' as const,
-            amountMinor: BigInt(cheapest.nightly_minor_high) * BigInt(nights),
-            label: cheapest.stay_type,
-          },
-        ]),
-  ];
-}
-
 export async function loadCostInputs(
   tx: pg.PoolClient,
   tripId: string,
@@ -246,18 +187,20 @@ export async function loadCostInputs(
   const unquoted = [...new Set(members.flatMap((m) => (m.origin ? [m.origin] : [])))]
     .filter((origin) => !quotedOrigins.has(origin))
     .sort();
+  const index = await loadIndexEstimates(
+    tx,
+    { ...trip, id: tripId, currency },
+    quotes.some((q) => q.kind === 'stay'),
+  );
   const components = [
     ...quotes,
     ...(await loadFares(tx, trip, unquoted)),
     ...(await loadPlanItems(tx, trip.version_id)),
     ...pricedByRooms(
-      await loadIndexEstimates(
-        tx,
-        trip,
-        quotes.some((q) => q.kind === 'stay'),
-      ),
+      index.components,
       await loadRoomComponents(tx, tripId),
       trip,
+      index.stayNights,
     ),
   ];
   const needsFx = components.some((c) => c.currency !== currency);

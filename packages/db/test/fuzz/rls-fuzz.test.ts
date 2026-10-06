@@ -42,16 +42,6 @@ const SEED = Number(process.env.FUZZ_SEED ?? Date.now() % 4_294_967_296);
 const GENERATED_WORLDS = 8;
 const MIN_ITERATIONS = 10_000;
 
-/**
- * Open backstop gaps, recorded in docs/compliance/security-review.md: these insert policies check
- * only `user_id = app.uid()`, so the request role lets a user add their own membership,
- * participation or calendar day to a crew or trip they are not in. Commands gate joins today
- * (invite and seat-claim checks), so it takes a command bug to reach this. The test asserts the
- * gap is exactly this, so fixing a policy fails it until the entry is removed, and any other
- * leak fails it at once.
- */
-const OPEN_INSERT_GAPS = new Set(['crew_members', 'trip_participants', 'calendar_days']);
-
 let container: DbTestContainer;
 let db: DbTestDatabase;
 let worlds: World[];
@@ -215,12 +205,7 @@ describe('RLS backstop fuzz', { timeout: 900_000 }, () => {
     }
     expect(tables.length).toBeGreaterThan(50);
     expect(iterations).toBeGreaterThanOrEqual(MIN_ITERATIONS);
-    const open = leaks.filter((l) => l.op === 'insert' && OPEN_INSERT_GAPS.has(l.table));
-    expect(new Set(open.map((l) => l.table)), `seed ${SEED}`).toEqual(OPEN_INSERT_GAPS);
-    expect(
-      leaks.filter((l) => !open.includes(l)),
-      `seed ${SEED}`,
-    ).toEqual([]);
+    expect(leaks, `seed ${SEED}`).toEqual([]);
   });
 });
 

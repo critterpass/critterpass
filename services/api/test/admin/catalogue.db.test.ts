@@ -119,8 +119,12 @@ describe('upsert_catalogue_item', () => {
     const body = (await stale.json()) as { error: { code: string; detail: unknown } };
     expect(body.error).toMatchObject({
       code: 'VERSION_CONFLICT',
-      detail: { current: { name: 'Tokek the Gecko' } },
+      detail: {
+        current: { name: 'Tokek the Gecko' },
+        updated_by: 'content@critterpass.test',
+      },
     });
+    expect((body.error.detail as { updated_at: string }).updated_at).toMatch(/^\d{4}-\d{2}-\d{2}T/);
   });
 
   it('never writes a guide colour and never creates a guide', async () => {

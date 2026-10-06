@@ -313,4 +313,35 @@ describe('apply_plan_ops', () => {
     );
     expect(after.rows[0]?.places).toEqual(names);
   });
+
+  it("reorders a crew plan's days inside one stop and refuses a day carried across stops", async () => {
+    const reorder = async (order: number[]) =>
+      harness.run(crew.organiser, 'apply_plan_ops', {
+        trip_id: crew.tripId,
+        base_version: await current(),
+        ops: [{ op: 'reorder_days', new: { order } }],
+      });
+    const stops = (first: number, second: number) =>
+      harness.pool.query(
+        `INSERT INTO trip_stops (trip_id, crew_id, position, destination_id, nights)
+         SELECT t.id, t.crew_id, s.position, t.destination_id, s.nights
+           FROM trips t, unnest($2::int[]) WITH ORDINALITY AS s(nights, position)
+          WHERE t.id = $1
+         ON CONFLICT (trip_id, position) DO UPDATE SET nights = EXCLUDED.nights`,
+        [crew.tripId, [first, second]],
+      );
+    try {
+      // Day 1 is the first stop's, days 2 and 3 the second's: days 1 and 3 cannot swap.
+      await stops(1, 1);
+      expect(errorOf(await reorder([3, 2, 1]))).toMatchObject({
+        code: 'STATE_INVALID',
+        detail: { reason: 'stop_day_fixed', day_no: 3 },
+      });
+      // All three days in the first stop: the same swap is taken.
+      await stops(3, 1);
+      expect((await reorder([3, 2, 1])).status).toBe(200);
+    } finally {
+      await harness.pool.query('DELETE FROM trip_stops WHERE trip_id = $1', [crew.tripId]);
+    }
+  });
 });

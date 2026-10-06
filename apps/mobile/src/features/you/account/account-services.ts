@@ -2,14 +2,18 @@
  * What the account screens need from the device, in one object so screens take the real one by
  * default and tests and lab scenes pass their own.
  */
+import type { DeletionPreflight } from '@cp/domain';
+
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
-import { readAccountState, type AccountRead } from './account-api';
+import { readAccountState, readDeletionPreflight, type AccountRead } from './account-api';
 import { clearThisPhone, type ClearReason, type ClearResult } from './clear-phone';
 import { deviceWipePorts, markResumeSignIn } from './device-wipe';
 
 export interface AccountServices {
   readonly readAccount: () => Promise<AccountRead>;
+  /** What deleting would take (3n-9); null when the server cannot say. */
+  readonly readPreflight: () => Promise<DeletionPreflight | null>;
   /**
    * Whether this pass can be signed back into: it has a phone number or a linked sign-in. An
    * unsaved pass is erased for good by a sign-out, so its owner is told first.
@@ -34,6 +38,10 @@ export const deviceAccountServices: AccountServices = {
   async readAccount() {
     const { sessionHeaders } = await import('@/data/app-session/auth-client');
     return readAccountState({ baseUrl: resolveApiBaseUrl(), sessionHeaders, fetch });
+  },
+  async readPreflight() {
+    const { sessionHeaders } = await import('@/data/app-session/auth-client');
+    return readDeletionPreflight({ baseUrl: resolveApiBaseUrl(), sessionHeaders, fetch });
   },
   async passSaved() {
     const { authClient } = await import('@/data/app-session/auth-client');

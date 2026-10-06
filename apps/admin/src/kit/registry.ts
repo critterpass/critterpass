@@ -84,7 +84,8 @@ export interface QueueAction<Item> {
   readonly label: string;
   /** Single-key shortcut while an item is focused (e.g. `a`, `h`, `r`). */
   readonly shortcut?: string;
-  readonly tone?: 'default' | 'danger';
+  /** `approve` green, `warn` orange, `danger` pink, `outline` pink outline (asks first). */
+  readonly tone?: 'default' | 'approve' | 'warn' | 'danger' | 'outline';
   /** Whether the action applies to this item (e.g. a verdict its kind supports); default always. */
   readonly available?: (item: Item) => boolean;
   /** Asks before running (destructive actions); the shortcut opens the same confirm. */
@@ -100,12 +101,24 @@ export interface QueueDefinition<Item> {
   readonly load: (
     status: string,
     cursor: string | undefined,
+    /** The selected filter chip's id; undefined for "all". */
+    filter?: string,
   ) => Promise<{
     items: Item[];
     next_cursor: string | null;
+    /** Items in this status per filter chip, whatever chip is selected. */
+    counts?: Readonly<Record<string, number>>;
   }>;
   readonly actions: readonly QueueAction<Item>[];
   readonly preview: (item: Item) => ReactNode;
+  /** A label for each filter chip id the load's `counts` names; chips show only when set. */
+  readonly filterLabel?: (id: string) => string;
+  /** A column beside the focused item (who it concerns, what each action does). */
+  readonly aside?: (item: Item) => ReactNode;
+  /** A status tab's label; default the status with spaces. */
+  readonly statusLabel?: (status: string) => string;
+  /** The line above the list ("By due time"). */
+  readonly listLabel?: string;
   /** Shown when the current status has no items. */
   readonly emptyTitle?: string;
 }

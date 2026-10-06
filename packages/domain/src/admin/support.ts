@@ -118,6 +118,9 @@ export const revokeSessionPayloadSchema = z.object({
   reason,
 });
 
+/** Signs the user out of the app on every device; console sessions are a separate store. */
+export const revokeAllSessionsPayloadSchema = z.object({ uid: z.uuid(), reason });
+
 export const banUserPayloadSchema = z.object({
   uid: z.uuid(),
   reason,

@@ -119,6 +119,23 @@ export interface VersionItem {
   readonly must_do: boolean;
   /** When the stop starts on the trip's own clock, `HH:MM` (24 h); absent when it has no time. */
   readonly time?: string | null;
+  /** On a trip with several stops: the city or day-trip area its day is spent in. */
+  readonly city?: string;
+}
+
+/** One city of a trip with several stops, and how the crew gets there from the one before. */
+export interface VersionRouteStop {
+  readonly city: string;
+  readonly nights: number;
+  /**
+   * The way in from the stop before; null for the first stop or when nothing is known. `booked`
+   * is the crew's own train or flight that day; otherwise `minutes` is an estimate.
+   */
+  readonly travel: {
+    readonly mode: string;
+    readonly minutes?: number;
+    readonly booked?: boolean;
+  } | null;
 }
 
 /** A saving the cost engine priced for this recipient; `amount` is the display label. */
@@ -135,6 +152,8 @@ export interface VersionContext {
   readonly dates: string | null;
   readonly tasteTags: readonly string[];
   readonly items: readonly VersionItem[];
+  /** The trip's cities in order; only for a trip with several stops. */
+  readonly route?: readonly VersionRouteStop[];
   /** The recipient's own share label ("$1,310"); null when cost is hidden or unknown. */
   readonly share: string | null;
   readonly savings: readonly VersionSaving[];

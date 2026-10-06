@@ -84,5 +84,27 @@ registerFixture('StoryPlayer', 'proposal trailer', () => (
     />
   </View>
 ));
+// Held, as while a reply panel is open: the bars stand still, so the tap and hold gestures can be
+// driven one step at a time (e2e/gallery/gestures.yaml).
+registerFixture('StoryPlayer', 'held for a reply', () => (
+  <View style={{ height: 480 }}>
+    <StoryPlayer
+      held
+      hint="Tap for the next day · hold to pause"
+      segments={[
+        {
+          id: 'day2',
+          label: 'Day 2, 06:00. 10,000 gates. Nobody else.',
+          content: slide('Day 2 · 06:00', '10,000 gates. Nobody else.'),
+        },
+        {
+          id: 'day3',
+          label: 'Day 3. Bamboo before the buses.',
+          content: slide('Day 3 · 06:30', 'Bamboo before the buses.'),
+        },
+      ]}
+    />
+  </View>
+));
 registerFixture('StepTabs', 'kyoto setup', () => <StepsDemo />);
 registerFixture('PageDots', 'page three of four', () => <PageDots page={3} total={4} />);

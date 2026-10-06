@@ -22,6 +22,7 @@ import { runAdminCommand } from './command';
 import { countsArea } from './counts';
 import { refuseDuringMaintenance } from './incidents';
 import { jobsArea, type JobsPanelDeps } from './jobs';
+import { nameLastSaver } from './last-save';
 import { webhookReplayArea } from './webhook-replay';
 import { deskQueueArea, workArea } from './work';
 import {
@@ -179,9 +180,17 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
       via,
       ...(deps.now !== undefined ? { now: deps.now } : {}),
     });
-    if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);
-    if (outcome.status === 'duplicate' && outcome.original === 'rejected') {
-      throw new DomainError(outcome.code ?? 'INTERNAL', outcome.detail);
+    if (
+      outcome.status === 'rejected' ||
+      (outcome.status === 'duplicate' && outcome.original === 'rejected')
+    ) {
+      const code = outcome.code ?? 'INTERNAL';
+      // A stale save names who saved first and when.
+      const detail =
+        code === 'VERSION_CONFLICT'
+          ? await nameLastSaver(outcome.detail, (uids) => deps.auth.operatorEmails(uids))
+          : outcome.detail;
+      throw new DomainError(code, detail);
     }
     return c.json(outcomeBody(outcome), 200);
   });

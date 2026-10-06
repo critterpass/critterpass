@@ -1,0 +1,90 @@
+/* The desk task: stepper, due clock, the approved text and notes. */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+.step {
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--color-ink-700);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-200);
+}
+.step[data-state='past'] {
+  background: var(--color-ink-780);
+}
+.step[data-state='current'] {
+  background: var(--color-blue);
+  border-color: var(--color-blue);
+  color: var(--color-ink-900);
+}
+.step-line {
+  width: 18px;
+  height: 1px;
+  background: var(--color-ink-700);
+}
+.due-clock {
+  text-align: right;
+}
+.due-clock strong {
+  display: block;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--semantic-state-success);
+}
+.due-clock[data-sla='overdue'] strong {
+  color: var(--semantic-state-urgent);
+}
+.due-clock[data-sla='due_soon'] strong {
+  color: var(--semantic-state-warning);
+}
+.approved-text {
+  position: relative;
+  padding: var(--space-16);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-base);
+  color: var(--color-ink-900);
+  border-left: none;
+}
+.approved-text .section-label,
+.approved-text .mono {
+  color: var(--color-ink-700);
+}
+.approved-text .preview-text {
+  background: transparent;
+  padding: 0;
+  font-size: 15px;
+}
+.approved-text .stamp {
+  position: absolute;
+  right: var(--space-12);
+  bottom: var(--space-12);
+}
+.approved-text .approved-meta {
+  border-top: 1px dashed var(--color-ink-200);
+  padding-top: var(--space-8);
+  padding-right: 96px;
+}
+.notes {
+  border-radius: var(--radius-md);
+  background: var(--color-ink-930);
+  padding: var(--space-12);
+}
+.notes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.note-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: var(--space-8);
+  padding: var(--space-6) 0;
+}

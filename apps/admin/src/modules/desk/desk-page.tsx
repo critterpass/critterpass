@@ -37,6 +37,7 @@ function useDeskQueue() {
       id: 'take',
       label: 'Take',
       shortcut: 't',
+      tone: 'approve',
       available: (task) => !task.assigned_to_me && !['done', 'cancelled'].includes(task.status),
       run: async (task) => {
         await update(task, { assignee: 'self' });
@@ -46,7 +47,7 @@ function useDeskQueue() {
       id: move.status,
       label: move.label,
       shortcut: move.shortcut,
-      tone: move.status === 'cancelled' ? 'danger' : 'default',
+      tone: move.status === 'cancelled' ? 'outline' : 'default',
       available: (task) => canMoveConciergeTask(task.status, move.status),
       ...(move.status === 'cancelled'
         ? {
@@ -67,21 +68,32 @@ function useDeskQueue() {
     statuses: CONCIERGE_TASK_STATUSES,
     itemId: (task) => task.id,
     title: (task) => (
-      <span className="stack" style={{ gap: 'var(--space-4)' }}>
-        <span className="row">
-          <strong>{task.kind.replaceAll('_', ' ')}</strong>
-          {task.approval !== null && (
-            <span className="badge" data-tone="success">
-              approved
-            </span>
-          )}
-          {task.assignee !== null && <span className="badge">{task.assignee}</span>}
-        </span>
-        <span className="sla" data-sla={task.sla}>
+      <span className="report-card task-card" data-sla={task.sla}>
+        <span className="report-kind">{task.kind.replaceAll('_', ' ')}</span>
+        <span
+          className="report-age mono"
+          data-late={task.sla === 'overdue'}
+          data-soon={task.sla === 'due_soon'}
+        >
           {dueLabel(task)}
+        </span>
+        <strong className="report-title">
+          {task.requester_name === null
+            ? task.kind.replaceAll('_', ' ')
+            : `${task.kind.replaceAll('_', ' ')} for ${task.requester_name}`}
+        </strong>
+        <span className="row">
+          <span className="queue-tag" data-status={task.status}>
+            {task.status.replaceAll('_', ' ')}
+          </span>
+          {task.approval !== null && <span className="queue-tag">approved</span>}
+        </span>
+        <span className="muted">
+          {task.assigned_to_me ? `You · ${task.assignee ?? ''}` : (task.assignee ?? 'unassigned')}
         </span>
       </span>
     ),
+    listLabel: 'By due time',
     load: async (status) => {
       const page = await getJson(`/v1/admin/desk?status=${status}`, deskResponseSchema);
       return { items: page.items, next_cursor: null };
@@ -98,10 +110,11 @@ export function DeskPage() {
   return (
     <div className="stack">
       <PageHeader
-        title="Ops desk"
-        subtitle="Concierge tasks, soonest due first. Nothing goes to a vendor without the user's approval."
+        eyebrow="Queues"
+        title="Concierge desk"
+        subtitle="Human tasks for crews. Nothing goes to a vendor until the user has approved the exact text."
         actions={
-          <button type="button" className="btn btn-primary" onClick={() => setCreating(true)}>
+          <button type="button" className="btn" onClick={() => setCreating(true)}>
             New task
           </button>
         }

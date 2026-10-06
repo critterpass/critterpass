@@ -129,6 +129,7 @@ export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from 
 export { placeCards } from './place-cards';
 export { placeProfiles, placeSearchPace } from './place-profiles';
 export { destinationBriefs } from './destination-briefs';
+export { destinationHomeLinks, destinationLinkRuns } from './destination-travel';
 export * from './explore';
 export * from './planning';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';
@@ -241,3 +242,4 @@ export {
   sharedPlanCopies,
   sharedPlans,
 } from './community';
+export { pickupGapDismissals, providerAssignments, providerIntake, providerTerms } from './drivers';

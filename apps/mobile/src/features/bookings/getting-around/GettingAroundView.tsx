@@ -7,6 +7,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -46,6 +47,8 @@ export interface GettingAroundViewProps {
   } | null;
   readonly later: readonly (LaterTodayRowProps & { readonly key: string })[];
   readonly note?: string | null;
+  /** The driver set on today, at the top (the ride-back card, `features/drivers/offline`). */
+  readonly top?: ReactNode;
   readonly guide: { readonly id: GuideId; readonly name: string };
   readonly onBack?: () => void;
 }
@@ -128,6 +131,7 @@ export function GettingAroundView(props: GettingAroundViewProps) {
           </Row>
         </View>
         <View style={styles.body}>
+          {props.top ?? null}
           {props.note ? (
             <Text
               variant="bodySm"
