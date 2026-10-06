@@ -2198,6 +2198,81 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // A driver's confirmed listing and its stats: any signed-in caller reads a listed one; only the
+  // api writes. The crew's own invites, answers and tips are the crew's to read.
+  driver_listings: {
+    selectProbe: {
+      sql: "SELECT 1 FROM driver_listings WHERE display_name = 'Matrix Probe Driver'",
+      params: () => [],
+      seed: `INSERT INTO driver_listings
+               (display_name, phone_e164_enc, phone_hash, consent_version, consent_at, key_hash)
+             VALUES ('Matrix Probe Driver', 'enc', 'matrix-probe-phone', 'v1', now(),
+                     'matrix-probe-key')
+             ON CONFLICT (phone_hash) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  driver_listing_stats: {
+    selectProbe: {
+      sql: `SELECT 1 FROM driver_listing_stats s JOIN driver_listings l ON l.id = s.listing_id
+             WHERE l.phone_hash = 'matrix-probe-phone'`,
+      params: () => [],
+      seed: `WITH l AS (
+               INSERT INTO driver_listings
+                 (display_name, phone_e164_enc, phone_hash, consent_version, consent_at, key_hash)
+               VALUES ('Matrix Probe Driver', 'enc', 'matrix-probe-phone', 'v1', now(),
+                       'matrix-probe-key')
+               ON CONFLICT (phone_hash) DO UPDATE SET display_name = EXCLUDED.display_name
+               RETURNING id
+             )
+             INSERT INTO driver_listing_stats (listing_id) SELECT id FROM l
+             ON CONFLICT (listing_id) DO NOTHING`,
+    },
+    expectations: READ_ONLY_ALL,
+  },
+  driver_invites: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_invites WHERE trip_id = $1 AND inviter_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_invites
+               (provider_id, trip_id, crew_id, inviter_id, token_hash, phone_hash, expires_at)
+             SELECT p.id, t.id, t.crew_id, $2, 'matrix-probe-token', 'matrix-probe-phone',
+                    now() + interval '30 days'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (token_hash) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_ratings: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_ratings WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_ratings (provider_id, trip_id, crew_id, user_id, verdict)
+             SELECT p.id, t.id, t.crew_id, $2, 'loved'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id, user_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_tips: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM driver_tips WHERE trip_id = $1 AND $2::uuid IS NOT NULL',
+      params: (f) => [f.tripId, f.actors.organiser],
+      seed: `INSERT INTO driver_tips
+               (provider_id, trip_id, crew_id, author_id, text, crew_size, month)
+             SELECT p.id, t.id, t.crew_id, $2, 'Ask for the upper car park.', 4, '2026-08-01'
+               FROM providers p JOIN trips t ON t.id = p.trip_id
+              WHERE t.id = $1 LIMIT 1
+             ON CONFLICT (provider_id, trip_id) DO NOTHING`,
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  driver_listing_flags: {
+    selectProbe: { sql: 'SELECT 1 FROM driver_listing_flags', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
 };
 
 /**
