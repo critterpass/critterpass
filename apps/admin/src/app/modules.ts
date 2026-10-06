@@ -3,6 +3,7 @@
  * their `defineAdminModule` export here; `defineAdminModule` in ../kit/registry.ts shows one.
  */
 import type { AdminModule } from '../kit/registry';
+import { accountModule } from '../modules/account';
 import { auditModule } from '../modules/audit';
 import { billingModule } from '../modules/billing';
 import { catalogueModule } from '../modules/catalogue';
@@ -33,6 +34,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   servicesModule,
   jobsModule,
   supportModule,
+  accountModule,
   deskModule,
   vendorDeskModule,
   helpModule,

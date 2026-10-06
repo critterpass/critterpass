@@ -4,6 +4,7 @@
  */
 import type pg from 'pg';
 
+import { accountDeletionArea } from './account/deletion';
 import type { AccountControl } from './accounts';
 import type { AdminAllowlist } from './allowlist';
 import { auditArea } from './audit-read';
@@ -53,5 +54,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     homeArea(deps.pool),
     servicesArea(deps.pool),
     ideasArea(deps.pool),
+    accountDeletionArea(deps.pool),
   ];
 }
