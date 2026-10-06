@@ -1,7 +1,11 @@
-/** The Settings lab scene (3n-2, 3n-6): the real sections over the render's values, every handler a no-op. */
+/**
+ * The Settings lab scenes (3n-2, 3n-6, and Sound, 3n-7): the real sections and views over the
+ * render's values, every handler a no-op.
+ */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, never shipped copy. */
 import { useSettingsSections } from '../settings/settings-sections';
 import { SettingsView } from '../settings/settings-view';
+import { SoundView } from '../sound/sound-view';
 
 const noop = () => undefined;
 
@@ -22,7 +26,7 @@ export function Settings() {
       helpShare: false,
       hideCollection: false,
       soundEffects: true,
-      haptics: true,
+      music: 'Gamelan lo-fi, follows your guide',
       account: true,
       dataExport: { line: 'Plans, photos and chat as a zip', enabled: true },
       language: 'English · prices in S$ and local',
@@ -38,7 +42,7 @@ export function Settings() {
       onHelpShare: noop,
       onOfflineTrips: noop,
       onSoundEffects: noop,
-      onHaptics: noop,
+      onMusic: noop,
       onLanguage: noop,
       onSignOut: noop,
       onRate: noop,
@@ -55,6 +59,38 @@ export function Settings() {
       version="CRITTERPASS 1.0 (214)"
       onTokek={noop}
       onBack={noop}
+    />
+  );
+}
+
+/** 3n-7 as rendered: music on, Tokek's theme following the guide, every effect on. */
+export function Sound({ musicOn = true }: { readonly musicOn?: boolean }) {
+  return (
+    <SoundView
+      values={{
+        musicEnabled: musicOn,
+        musicVolume: 0.6,
+        effectsVolume: 0.8,
+        stickers: true,
+        critterVoices: true,
+        quietOnTheRoad: true,
+        haptics: true,
+        themes: ['tokek', 'pon', 'lundi'],
+        current: 'tokek',
+        pinned: false,
+      }}
+      handlers={{
+        onMusic: noop,
+        onMusicVolume: noop,
+        onEffectsVolume: noop,
+        onStickers: noop,
+        onCritterVoices: noop,
+        onQuiet: noop,
+        onHaptics: noop,
+        onTheme: noop,
+        onFollow: noop,
+        onBack: noop,
+      }}
     />
   );
 }
