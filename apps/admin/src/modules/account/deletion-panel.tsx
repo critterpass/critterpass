@@ -82,7 +82,8 @@ export function DeletionPanel({ uid }: { uid: string }) {
           </button>
         </div>
       )}
-      <ActionDialog action={action} onClose={() => setAction(null)} />
+      {/* Mounted only while open: the page has its own reason dialog with the same field. */}
+      {action !== null && <ActionDialog action={action} onClose={() => setAction(null)} />}
     </div>
   );
 }
