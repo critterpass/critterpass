@@ -17,6 +17,10 @@ test.describe('invite landing', () => {
     await expect(ticket).toContainText('4 already in');
     await expect(ticket).toContainText('~$1,240 each');
     await expect(ticket).toContainText('The Bali Six');
+    const draft = page.getByTestId('invite-draft');
+    await expect(draft.getByRole('heading')).toHaveText("Tokek's draft · 3 of 8 days");
+    await expect(draft.getByRole('listitem')).toHaveCount(3);
+    await expect(draft).toContainText('Batur sunrise hike');
     const expires = page.getByTestId('invite-expires');
     const first = await expires.textContent();
     expect(first).toMatch(/^Expires in \d+d \d\d:\d\d:\d\d$/u);
@@ -33,6 +37,7 @@ test.describe('invite landing', () => {
     await page.goto('/i/EXPR22');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('This invite has run out');
     await expect(page.getByTestId('invite-expires')).toHaveCount(0);
+    await expect(page.getByTestId('invite-draft')).toHaveCount(0);
     await page.goto('/i/FAWN33');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Every seat is taken');
     await page.goto('/i/BAX6XC');

@@ -7,7 +7,11 @@
 import '../link-handoff/handoff.css';
 import './previews.css';
 
+import { env } from 'cloudflare:workers';
+
+import { fetchPublicProposal } from '../../lib/api/public-previews';
 import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
 import Site from '../../layouts/Site.astro';
 import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
 import { inviteCopy as copy } from '../site/copy/invite';
@@ -35,6 +39,17 @@ const inviter = preview?.inviter_first_name ?? null;
 // Android goes through the intent URL and the install referrer; everywhere else the link is copied.
 const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
 const ogImage = code === null ? undefined : `/og/invite/${code}.png`;
+const webEnv = env as unknown as LinksWebEnv;
+const proposal =
+  model !== null && preview?.state === 'active'
+    ? await fetchPublicProposal({
+        apiBaseUrl: linkRequestContext(Astro.url, webEnv).apiBaseUrl,
+        target: model.target,
+        visitorIp: Astro.request.headers.get('cf-connecting-ip'),
+        visitorUserAgent: Astro.request.headers.get('user-agent'),
+        proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+      })
+    : null;
 ---
 
 <Site
@@ -50,7 +65,7 @@ const ogImage = code === null ? undefined : `/og/invite/${code}.png`;
   </Fragment>
   <section class="pv-page site-halftone--light">
     <div class="site-wrap pv-grid">
-      <InviteCard copy={words} preview={preview} />
+      <InviteCard copy={words} preview={preview} proposal={proposal} />
       <div class="pv-side">
         <section class="pv-panel" aria-label={t(copy.getTheApp)}>
           {
