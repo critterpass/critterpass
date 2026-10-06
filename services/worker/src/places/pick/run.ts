@@ -13,14 +13,12 @@ import { LOW_QUALITY, MIN_CURATED_PLACES, pickCoverage, QUALITY_SCORE, withSyste
 import type pg from 'pg';
 
 import type { JobLogger } from '../../boss/define-job';
-import { matchNamedPlace, plainWords, searchWords, type PickCandidate } from './match';
+import { CANDIDATE_COLUMNS, candidateOf, namedCandidates, type CandidateRow } from './candidates';
+import { matchNamedPlace, plainWords, type PickCandidate } from './match';
 import { PICK_BUCKETS, PICK_TARGET, rankPicks, type PickBucket, type RankedPick } from './select';
 
-/** Rows read per named place, and per bucket for each seat it may fill (dedupe drops some). */
-const NAME_CANDIDATES = 40;
+/** Rows read per bucket for each seat it may fill (dedupe drops some). */
 const FILL_OVERSAMPLE = 3;
-
-const NEVER = ['transit', 'stay', 'health'];
 
 /** A food row whose name says coffee or tea: the open data has no cafe category. */
 const CAFE_NAME = String.raw`(^|[^a-z])(cafe|coffee|caphe|ca phe|kafe|kopi|roastery|roasters|tea|tiem tra)([^a-z]|$)`;
@@ -45,31 +43,6 @@ const FILL_CATEGORIES = [
   'nightlife',
   'shopping',
 ];
-
-const COLUMNS = `p.id, p.name, p.name_local, p.category, p.lat, p.lng, p.address,
-  ${QUALITY_SCORE}::float8 AS quality`;
-
-interface Row {
-  readonly id: string;
-  readonly name: string;
-  readonly name_local: string | null;
-  readonly category: string;
-  readonly lat: number;
-  readonly lng: number;
-  readonly address: string | null;
-  readonly quality: number;
-}
-
-const candidateOf = (row: Row): PickCandidate => ({
-  id: row.id,
-  name: row.name,
-  nameLocal: row.name_local,
-  category: row.category,
-  lat: row.lat,
-  lng: row.lng,
-  address: row.address,
-  quality: row.quality,
-});
 
 export interface PlacePickDeps {
   /** Absent without a model key: the picks are then the open-data fill alone. */
@@ -125,32 +98,10 @@ export async function matchNamedPlaces(
   const matched: PickCandidate[] = [];
   const used = new Set<string>();
   for (const lead of leads) {
-    const words = searchWords(lead, plain);
-    if (words.length === 0) continue;
-    const { rows } = await tx.query<Row>(
-      `SELECT ${COLUMNS}
-         FROM pois p
-        WHERE p.destination_id = $1 AND p.status = 'active' AND p.merged_into_id IS NULL
-          AND p.curation <> 'editorial' AND p.category <> ALL($4::text[])
-          AND p.fts @@ to_tsquery('simple', $2)
-        ORDER BY greatest(similarity(p.name, $5), similarity(p.name, $6),
-                          similarity(coalesce(p.name_local, ''), $6)) DESC,
-                 ts_rank(p.fts, to_tsquery('simple', $2)) DESC, p.id
-        LIMIT $3`,
-      // The words also match addresses (every shop on a street named after a sight), so rows
-      // whose own name is closest to either name come first.
-      [
-        destinationId,
-        words.join(' | '),
-        NAME_CANDIDATES,
-        NEVER,
-        lead.name,
-        lead.localName ?? lead.name,
-      ],
-    );
+    const candidates = await namedCandidates(tx, destinationId, lead, plain);
     const row = matchNamedPlace(
       lead,
-      rows.map(candidateOf).filter((candidate) => !used.has(candidate.id)),
+      candidates.filter((candidate) => !used.has(candidate.id)),
       plain,
     );
     if (row === null) continue;
@@ -180,9 +131,9 @@ export async function loadFill(
   perBucket: number,
   scan: number = FILL_SCAN,
 ): Promise<Record<PickBucket, PickCandidate[]>> {
-  const { rows } = await tx.query<Row & { bucket: PickBucket }>(
+  const { rows } = await tx.query<CandidateRow & { bucket: PickBucket }>(
     `WITH best AS (
-       SELECT ${COLUMNS}, ${BUCKET_OF} AS bucket,
+       SELECT ${CANDIDATE_COLUMNS}, ${BUCKET_OF} AS bucket,
               (jsonb_path_exists(p.hours, '$.weekly.*[*]'))::int + (p.website IS NOT NULL)::int
                 + (p.phone IS NOT NULL)::int AS detail
          FROM pois p

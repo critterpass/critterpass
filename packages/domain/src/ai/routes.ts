@@ -79,6 +79,8 @@ export const AI_ROUTES = [
   'place.profile_fast',
   'place.profile_check',
   'place.profile_translate',
+  // A destination's essentials, eateries and stay prices from web pages (system usage).
+  'destination.brief',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

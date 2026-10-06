@@ -1,0 +1,35 @@
+{
+  "source": "SearXNG JSON answer shape (searxng/searxng 2026.10), one answer replayed for every brief search; the pages are Wikivoyage's Da Lat guide and vietnamtourism.com's stay guide as fetched on 2026-10-06 (the supplier result is left out by the domain filter).",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Đà Lạt",
+      "results": [
+        {
+          "url": "https://en.wikivoyage.org/wiki/Da_Lat",
+          "title": "Da Lat – Travel guide at Wikivoyage",
+          "content": "Da Lat is the capital of Lam Dong Province in the Central Highlands. See: colonial palaces, Crazy House, Datanla Waterfall, Xuan Huong Lake.",
+          "engine": "bing"
+        },
+        {
+          "url": "https://en.wikivoyage.org/wiki/Da_Lat#Eat",
+          "title": "Da Lat – Travel guide at Wikivoyage: Eat",
+          "content": "Food markets, budget eats and the night market around the central market.",
+          "engine": "mojeek"
+        },
+        {
+          "url": "https://www.vietnamtourism.com/en/where-to-stay-in-da-lat-neighborhoods-and-hotel-picks-by-budget",
+          "title": "Where to Stay in Da Lat: Neighborhoods and Hotel Picks by Budget",
+          "content": "Budget travelers can find decent private rooms for 250,000-400,000 VND ($10-16). A comfortable mid-range hotel room costs 700,000-1,200,000 VND ($28-48) per night.",
+          "engine": "startpage"
+        },
+        {
+          "url": "https://www.tripadvisor.com/Attractions-g293922-Activities-Da_Lat.html",
+          "title": "THE 15 BEST Things to Do in Da Lat",
+          "content": "Things to do in Da Lat.",
+          "engine": "bing"
+        }
+      ]
+    }
+  }
+}
