@@ -13,6 +13,7 @@ struct NextLeaveByWidget: Widget {
                 .containerBackground(for: .widget) { NextLeaveByView.ground(entry) }
                 .widgetURL(LADeepLink.url(route: entry.file?.snapshot.trip.map { "trips/\($0.id)" } ?? "trips"))
         }
+        .pushHandler(CPWidgetPushHandler.self)
         .configurationDisplayName("Leave-by")
         .description("Minutes until it's time to go, for the nightstand.")
         .supportedFamilies([.systemSmall, .accessoryRectangular])
@@ -30,16 +31,18 @@ struct LeaveByMinuteProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) {
-        let first = HomeWidgetEntry.now()
-        guard let leaveAt = WidgetDate.parse(first.file?.snapshot.nextLeaveBy?.leaveAt) else {
-            completion(Timeline(entries: [first], policy: .never))
-            return
+        WidgetSnapshotFetcher.afterRefresh(completion) { (completion: @escaping (Timeline<HomeWidgetEntry>) -> Void) in
+            let first = HomeWidgetEntry.now()
+            guard let leaveAt = WidgetDate.parse(first.file?.snapshot.nextLeaveBy?.leaveAt) else {
+                completion(Timeline(entries: [first], policy: .never))
+                return
+            }
+            let entries = LeaveByClockFace.entryDates(leaveAt: leaveAt, now: first.date).map {
+                HomeWidgetEntry(date: $0, file: first.file, pendingVote: nil)
+            }
+            // After leave time the snapshot moves on to the next leave-by; look again in an hour.
+            completion(Timeline(entries: entries, policy: .after(leaveAt.addingTimeInterval(3600))))
         }
-        let entries = LeaveByClockFace.entryDates(leaveAt: leaveAt, now: first.date).map {
-            HomeWidgetEntry(date: $0, file: first.file, pendingVote: nil)
-        }
-        // After leave time the snapshot moves on to the next leave-by; look again in an hour.
-        completion(Timeline(entries: entries, policy: .after(leaveAt.addingTimeInterval(3600))))
     }
 }
 

@@ -249,6 +249,8 @@ export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } 
 export * from './surfaces/entitlements';
 export * from './surfaces/widget-snapshot';
 export * from './surfaces/widget-refresh';
+export * from './surfaces/android-live-update';
+export * from './surfaces/notification-categories';
 export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';

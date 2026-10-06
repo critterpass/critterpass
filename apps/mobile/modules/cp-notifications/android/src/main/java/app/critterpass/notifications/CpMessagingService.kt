@@ -26,6 +26,7 @@ import java.net.URL
  */
 class CpMessagingService : ExpoFirebaseMessagingService() {
   override fun onMessageReceived(remoteMessage: RemoteMessage) {
+    if (dataHandlers.any { handler -> runCatching { handler(this, remoteMessage.data) }.getOrDefault(false) }) return
     val message = SenderStyle.parse(
       remoteMessage.data,
       guideNameFormat = getString(R.string.cp_sender_guide_display_name),
@@ -36,7 +37,7 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
     }
     if (ForegroundConversation.suppresses(message.conversationId)) return
     Channels.ensure(this)
-    runCatching { post(this, message) }
+    runCatching { post(this, message, remoteMessage.data) }
   }
 
   companion object {
@@ -45,15 +46,21 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
     private const val MAX_AVATAR_BYTES = 512 * 1024
 
     /**
-     * Action buttons per notification category. Empty until a feature registers its category's
-     * buttons; each provider builds its actions for one message.
+     * Data messages another module draws itself (Live Updates, widget refreshes, the vote poster),
+     * registered at application start; the first handler that answers true consumes the message.
      */
-    val actionProviders: MutableMap<String, (Context, SenderMessage) -> List<NotificationCompat.Action>> =
+    val dataHandlers: MutableList<(Context, Map<String, String>) -> Boolean> = java.util.concurrent.CopyOnWriteArrayList()
+
+    /**
+     * Action buttons per notification category. Empty until a feature registers its category's
+     * buttons; each provider builds its actions for one message from its raw data (the `cp.ctx`).
+     */
+    val actionProviders: MutableMap<String, (Context, SenderMessage, Map<String, String>) -> List<NotificationCompat.Action>> =
       mutableMapOf()
 
     // Permission is checked through areNotificationsEnabled(), which covers POST_NOTIFICATIONS.
     @SuppressLint("MissingPermission")
-    fun post(context: Context, message: SenderMessage) {
+    fun post(context: Context, message: SenderMessage, data: Map<String, String> = emptyMap()) {
       val manager = NotificationManagerCompat.from(context)
       if (!manager.areNotificationsEnabled()) return
       val sender = message.sender
@@ -86,7 +93,7 @@ class CpMessagingService : ExpoFirebaseMessagingService() {
       }
       message.category
         ?.let { actionProviders[it] }
-        ?.invoke(context, message)
+        ?.invoke(context, message, data)
         ?.forEach(builder::addAction)
 
       manager.notify(tag, NOTIFICATION_ID, builder.build())

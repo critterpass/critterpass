@@ -93,6 +93,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: snapshot for Pass+-less user omits next flight and sets `locked`; permission tests pass.
 
 ### T2 — App Group writer + cp-widgets module + Swift snapshot reader
+- Status: done — 8a48ec237
 - Goal: app writes, extensions read.
 - Files: `apps/mobile/modules/cp-widgets/**`, `apps/mobile/modules/cp-app-group/src/snapshots/widgets/*`, `apps/mobile/targets/_shared/Snapshot/*.swift`.
 - Steps: 1. Atomic writes of `snapshot/widgets.json`, `entitlements.json`, `prefs.json`. 2. Reload timelines on write. 3. Report configurations. 4. Swift Codable from zod.
@@ -100,7 +101,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: unknown fields ignored by Swift decoder test; writes are atomic (temp+rename test).
 
 ### T3 — Widget refresh pipeline
-- Status: done — 68c8db747 (server side; the extension push handler is native and still to do)
+- Status: done — 68c8db747 (server), 735b56cb4, 11f808a02 (widget push token and a snapshot fetch with the device key before each timeline)
 - Goal: server-driven refresh within budget.
 - Files: `services/worker/src/jobs/widgets/{refresh,debounce}.ts`, `services/worker/test/widgets/*.test.ts`.
 - Steps: 1. Event → affected users → debounce → push. 2. Daily cap + priority exceptions. 3. Widget extension push handler fetching snapshot with action key.
@@ -108,6 +109,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: 50 events in 10 min yield ≤1 routine push; vote close always pushes.
 
 ### T4 — Countdown, Vote, Critterdex home widgets
+- Status: done — 8a48ec237
 - Goal: 5c-1 free widgets.
 - Files: `apps/mobile/targets/widgets/Widgets/{Countdown,Vote,Critterdex}Widget.swift`, `apps/mobile/targets/widgets/Intents/Widget/{CastBallotIntent,SelectTripIntent,SelectCrewIntent}.swift`.
 - Steps: 1. Timelines (midnight entry, flip transition). 2. Interactive vote with optimistic tally + result state. 3. Empty/stale/signed-out states.
@@ -115,6 +117,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: snapshot tests for all sizes/states match renders; vote intent writes ballot `source: widget`.
 
 ### T5 — Today, Balances, Crew, Next flight widgets
+- Status: done — 8a48ec237
 - Goal: 5c-2 trip widgets incl. locked states.
 - Files: `apps/mobile/targets/widgets/Widgets/{Today,Balances,Crew,NextFlight}Widget.swift`, `apps/mobile/targets/widgets/Intents/Widget/{NudgeIntent,PackingCheckIntent}.swift`.
 - Steps: 1. Today L with strike/fade transitions and forecast line. 2. NUDGE (1/pair/24 h, server). 3. Crew (Boost) and Next flight (Pass+) locked renderings → offer deep links.
@@ -122,6 +125,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: second nudge in 24 h returns rate-limit and widget shows "sent earlier"; locked widgets deep link to correct offer route.
 
 ### T6 — Lock-screen accessory + StandBy
+- Status: done — 8a48ec237 (accessories are families of the existing widgets)
 - Goal: 5c-3, 5c-4.
 - Files: `apps/mobile/targets/widgets/Widgets/Accessory/{CountdownInline,CountdownRing,VoteScore,CritterdexRing,NextLeaveBy}.swift`, `apps/mobile/targets/widgets/Widgets/StandBy/{SleepyClock,LeaveByAlarm}.swift`.
 - Steps: 1. `widgetRenderingMode` accented/vibrant with mono art. 2. StandBy pair with minute timeline + alarm switch.
@@ -129,6 +133,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: every accessory legible in tinted mode snapshot; StandBy switches to alarm at leave-by time.
 
 ### T7 — Categories + actionable notifications (all §3.4)
+- Status: partial — c4bfd3696, b72015e0b, 8ca6730f5 (one category table generating the iOS categories). Nothing calls the registration yet, and the money, chat, disruption, invite, import, briefing and memory actions have no background handler
 - Goal: every category's background actions work locked.
 - Files: `packages/domain/src/surfaces/notification-categories.ts`, `apps/mobile/targets/_shared/Categories/Categories.swift`, `apps/mobile/src/data/push/categories.ts` (edit of phase-11 folder: registration call only), `e2e/notifications/actions/*.yaml`.
 - Steps: 1. Canonical category table; generated registration. 2. Action handler in NSE-shared code → `/v1/actions`. 3. Re-post with collapse id and result text.
@@ -136,6 +141,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: each category's background action produces its command with `via: notif_action`, idempotent on replay.
 
 ### T8 — Vote poster content extension
+- Status: done — 6af21f314 (RSVP buttons need `ctx.proposal_id` in the push, which the worker does not send yet)
 - Goal: 5b-2 poster + stamp.
 - Files: `apps/mobile/targets/notification-content/{NotificationViewController.swift,VotePosterView.swift,RsvpPosterView.swift,Info.plist}`.
 - Steps: 1. SwiftUI poster with critter frames + VS pulse. 2. Actions update poster in place (`.doNotDismiss`), stamp on success, closed state. 3. RSVP poster reuse.
@@ -151,6 +157,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: saving budget 3 routes the 4th BUDGET item of a day to roundup (router test with new prefs).
 
 ### T10 — Widget gallery + App Shortcuts/Controls
+- Status: partial — 7ffc6d88a (App Shortcuts and controls). The gallery screen is not built; the crew shortcut only opens the crew
 - Goal: 5c-5 and Siri/Control surfaces.
 - Files: `apps/mobile/src/app/you/widgets.tsx`, `apps/mobile/src/features/home/widget-gallery/**`, `apps/mobile/targets/widgets/Intents/AppShortcuts/*.swift`, `e2e/widgets/gallery.yaml`.
 - Steps: 1. Live previews from snapshot (RN components mirroring widget layouts). 2. Tier pills from perks; locked → offer. 3. iOS how-to sheet animation. 4. App Shortcuts + Controls.

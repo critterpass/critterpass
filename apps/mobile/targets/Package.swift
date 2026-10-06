@@ -34,6 +34,24 @@ let package = Package(
       swiftSettings: testSettings
     ),
     .target(
+      name: "NotificationContentCore",
+      path: ".",
+      exclude: [
+        "widgets", "notification-service", "app-clip", "notification-content/Tests",
+        "notification-content/CritterArt.xcassets",
+      ],
+      sources: [
+        "_shared/Categories/Categories.swift",
+        "notification-content/PosterModel.swift",
+      ]
+    ),
+    .testTarget(
+      name: "NotificationContentTests",
+      dependencies: ["NotificationContentCore"],
+      path: "notification-content/Tests",
+      swiftSettings: testSettings
+    ),
+    .target(
       name: "AppClipCore",
       path: "app-clip",
       exclude: [
@@ -45,8 +63,11 @@ let package = Package(
     .target(
       name: "PendingActionsCore",
       path: "_shared",
-      exclude: ["ActionKey", "PushPayload"],
-      sources: ["PendingActionsOutbox.swift"]
+      exclude: ["PushPayload"],
+      sources: [
+        "PendingActionsOutbox.swift", "Intents/SignedActionSender.swift",
+        "ActionKey/SignedRequest.swift", "ActionKey/ActionKeyStore.swift",
+      ]
     ),
     .testTarget(
       name: "PendingActionsTests",
@@ -69,6 +90,7 @@ let package = Package(
         "Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift",
         "Snapshot/HomeWidgetModels.swift", "Snapshot/PendingVote.swift",
         "Snapshot/TripWidgetModels.swift", "Snapshot/WidgetTaps.swift",
+        "Snapshot/WidgetSnapshotRefresh.swift",
       ]
     ),
     .testTarget(
@@ -82,7 +104,7 @@ let package = Package(
       name: "LiveActivityLogicCore",
       path: "_shared/ActivityAttributes",
       exclude: ["CPActivityAttributes.swift", "Tests"],
-      sources: ["LiveActivityLogic.swift"]
+      sources: ["LiveActivityLogic.swift", "LeaveBySending.swift"]
     ),
     .testTarget(
       name: "LiveActivityLogicTests",

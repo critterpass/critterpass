@@ -1,0 +1,25 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'app.critterpass.speech'
+version = '1.0.0'
+
+android {
+  namespace 'app.critterpass.speech'
+  buildFeatures {
+    buildConfig true
+  }
+  defaultConfig {
+    // The fixture-audio input (a WAV file in place of the mic) is in debug builds and in the
+    // development variant, whose release-built e2e-test APKs run the Maestro voice flows.
+    buildConfigField 'boolean', 'SPEECH_FIXTURES', String.valueOf(System.getenv('APP_VARIANT') == 'development')
+  }
+}
+
+dependencies {
+  // The same media3 release expo-audio ships, so the app carries one copy.
+  implementation 'androidx.media3:media3-exoplayer:1.9.1'
+  testImplementation 'junit:junit:4.13.2'
+}
