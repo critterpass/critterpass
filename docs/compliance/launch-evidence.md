@@ -15,7 +15,7 @@ against production.
 | Performance: command p95 ≤300 ms, api → database p50 <3 ms | Grafana queries in `tools/scripts/perf/api-p95.ts` | not met: database p50 last read 7.4 ms on staging; the command duration metric is missing in Grafana |
 | Performance budgets not measured by any script | local query p95, chat round trip, realtime revocation, guide first token, draft job time, widget memory, background location battery, web LCP (docs/system-architecture.md §9) | **unknown** |
 | Accessibility | [accessibility-audit.md](accessibility-audit.md) | contrast met (26 pairs); screens not scanned; manual checklist unsigned |
-| Database isolation | permission matrix and RLS fuzz in CI; static report `tools/scripts/security/rls-coverage.ts` | met: 284 tables, RLS forced on all, fuzz finding fixed ([security-review.md](security-review.md) finding 2) |
+| Database isolation | permission matrix and RLS fuzz in CI; static report `tools/scripts/security/rls-coverage.ts` | met: 286 tables, RLS forced on all, fuzz finding fixed ([security-review.md](security-review.md) finding 2) |
 | Secrets and dependencies | `bash tools/scripts/security/scan.sh` | met on 2026-10-07 for tracked files, `pnpm audit` and OSV (six accepted advisories) |
 | Containers | Trivy config scan | 3 open (security-review finding 1) |
 | HTTP security headers | `tools/scripts/security/headers.ts` | not met on staging (security-review findings 3 and 4); production unknown |
@@ -25,7 +25,7 @@ against production.
 | Age rating | [age-rating.md](age-rating.md) | proposed, not filed; three unknowns |
 | AI disclosure | [ai-disclosure.md](ai-disclosure.md) | server marks every guide payload; in-app label not evidenced |
 | Affiliate disclosure, "contains ads: no" | [affiliate-disclosure.md](affiliate-disclosure.md) | copy present on supplier cards; surfaces not walked on a device |
-| Account deletion end to end | purge suites in CI (`packages/db/test/purge`, `services/worker/test/account/purge.db.test.ts`) | database purge covered; stored-object erase not evidenced; no device journey; no web page |
+| Account deletion end to end | purge suites in CI (`packages/db/test/purge`, `services/worker/test/account/purge.db.test.ts`, `services/worker/test/account/purge-external.test.ts`) | database and external-store purge covered by tests; not observed on staging; no device journey; no web page |
 | Legal documents | drafts in `packages/content/src/legal` (all at their first draft version) | not counsel-approved (founder item) |
 | Load | harness in `tools/scripts/load`, results in docs/runbooks/capacity.md | built; not run |
 | AI cost guard and kill switches | suites in CI | production caps and the staging switch drill not done (founder item) |

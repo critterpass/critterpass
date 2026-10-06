@@ -19,7 +19,7 @@ scans only the files tracked at HEAD, for a clone without full history).
 |---|---|---|
 | 2026-10-06 | secrets: gitleaks, full history (4,227 commits) | clean |
 | 2026-10-06 | ci-logs: gitleaks over the logs of the last 15 workflow runs | clean |
-| 2026-10-07 | tracked: gitleaks over the 17,816 files tracked at HEAD | clean (one accepted test vector, listed in `.gitleaksignore`) |
+| 2026-10-07 | tracked: gitleaks over the 18,031 files tracked at HEAD | clean (one accepted test vector, listed in `.gitleaksignore`) |
 | 2026-10-07 | deps: `pnpm audit --audit-level high` | clean apart from the accepted advisories below |
 | 2026-10-07 | osv: OSV scanner over `pnpm-lock.yaml` (2,078 packages) | clean apart from the accepted advisories below |
 | 2026-10-07 | containers: Trivy config over the Dockerfiles | 3 open (finding 1) |
@@ -30,7 +30,7 @@ History and CI-log scans were not repeated on 2026-10-07 (the build machine hold
 
 | Date | Check | Command | Result |
 |---|---|---|---|
-| 2026-10-07 | Row-level security coverage, read from the 162 migrations | `pnpm tsx tools/scripts/security/rls-coverage.ts` | 284 `public` tables, all with RLS enabled and forced; no table without RLS; every one has a permission matrix entry (`packages/db/test/permissions/_matrix.ts`, 284 entries) |
+| 2026-10-07 | Row-level security coverage, read from the 166 migrations | `pnpm tsx tools/scripts/security/rls-coverage.ts` | 286 `public` tables, all with RLS enabled and forced; no table without RLS; every one has a permission matrix entry (`packages/db/test/permissions/_matrix.ts`, 286 entries) |
 | 2026-10-07 | HTTP security headers, one GET each of `https://staging.critterpass.app/` and the staging API's `/health` | `pnpm tsx tools/scripts/security/headers.ts` | fails on both (findings 3 and 4) |
 | 2026-10-07 | Privacy manifests for the app and its extensions | `pnpm tsx tools/scripts/security/privacy-manifest-check.ts` | fails for the app (finding 5) |
 

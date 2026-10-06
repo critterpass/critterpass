@@ -52,12 +52,12 @@ docs/play-policy-declarations.md): `ACCESS_COARSE_LOCATION`, `ACCESS_FINE_LOCATI
    use needs broad library access and asks for a declaration; otherwise the system photo picker
    must be used. Whether the album needs broad access, and whether `READ_MEDIA_AUDIO` and the
    legacy storage permissions are needed at all, is not decided here (unknown).
-3. **Purge of stored objects.** The account purge keeps a deleted user's `media_objects` rows "for
-   the object store purge" (`packages/domain/src/account/purge-policy.ts`), and
-   docs/data-model-sync-and-privacy.md §6 lists a job that deletes stored objects without a row.
-   No job that deletes objects from the bucket was found in `services/worker/src/jobs` (searched
-   for `media_objects`, "orphan" and object deletes), so "photos are erased on deletion" is
-   **not evidenced**.
+3. **Purge outside the database.** After the database purge, `account.purge_external`
+   (`services/worker/src/jobs/account/purge-external.ts`, `purge-stores.ts`) erases the account's
+   stored objects, analytics person and guide traces; `services/worker/test/account/purge-external.test.ts`
+   and `purge-external.db.test.ts` cover it against recorded responses. It has not been observed
+   on staging with a real bucket (**unknown**): one closed test account, purged, then an object
+   listing for its prefix, is the evidence to record here.
 4. **Deletion end to end.** Database purge behaviour is covered by
    `packages/db/test/purge/account-purge.test.ts`, `packages/db/test/purge/purge-policy-coverage.test.ts`
    (every C3 table is deleted) and `services/worker/test/account/purge.db.test.ts`, which run in CI.

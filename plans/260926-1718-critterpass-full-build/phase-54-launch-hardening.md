@@ -121,7 +121,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Steps: 1. Derive data types from data-model privacy classes + SDK inventory. 2. Verify `PrivacyInfo.xcprivacy` in app + every extension. 3. Deletion e2e: request → purge job → verify C3 rows gone, R2 objects deleted. 4. AI disclosure presence check on guide surfaces (Maestro assertions).
 - Tests: `pnpm tsx tools/scripts/security/privacy-manifest-check.ts`; `maestro test e2e/journeys/_shared/deletion.yaml`.
 - Done when: evidence docs complete; purge verification passes.
-- Status: blocked — evidence documents and the manifest check built (64f94374); open: app privacy manifest, web deletion page, in-app AI label, stored-object erase on purge, deletion journey, store forms not filed
+- Status: blocked — evidence documents and the manifest check built (64f94374); open: app privacy manifest, web deletion page, in-app AI label, a purge observed on staging, deletion journey, store forms not filed
 
 ### T8 — Load tests
 - Goal: capacity proof.
