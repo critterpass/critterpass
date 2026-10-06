@@ -6,4 +6,7 @@ GRANT SELECT (consent_required_uids, copies_count, cost_pp_rounded_minor, create
   currency, days_count, destination_id, id, projection, published_at, rating_avg, rating_count,
   requested_by, saves_count, status, tags, taste, title, toggles, travel_month, travel_year,
   travelled, trip_id, unpublish_reason, unpublished_at, updated_at) ON shared_plans TO admin_reader;
-CREATE POLICY shared_plans_admin_reader ON shared_plans FOR SELECT TO admin_reader USING (true);
+-- A plan still waiting for its crew's consent, declined or being prepared was never made public, so
+-- the console never reads it.
+CREATE POLICY shared_plans_admin_reader ON shared_plans FOR SELECT TO admin_reader
+  USING (status IN ('published', 'unpublished'));
