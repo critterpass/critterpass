@@ -20,11 +20,11 @@ const TASK = [
   'Every field has `quote`: the exact words of the message you read it from, copied character for',
   'character (a short phrase, not the whole message). If the message does not say it, the field is',
   'null. Never guess, infer or fill in a value the message does not state.',
-  '- `name`: the driver\'s own name (not the poster\'s, unless the poster is the driver).',
+  "- `name`: the driver's own name (not the poster's, unless the poster is the driver).",
   '- `phone`: the WhatsApp or phone number as E.164 when it has a country code ("+62 812…" →',
   '  "+62812…"); a local number ("0812…") is copied as written.',
-  '- `area`: where the driver is based ("Ubud"). `languages`: languages he says he speaks,
-  as ISO 639-1 codes (`en`, `id`, `ja`).',
+  '- `area`: where the driver is based ("Ubud"). `languages`: languages he says he speaks,',
+  '  as ISO 639-1 codes (`en`, `id`, `ja`).',
   '- `car`: model and, when stated, `seats` (passengers, "6 pax" = 6).',
   '- `price`: `amount` in major units as a number ("650k" = 650000, "Rp 650.000" = 650000,',
   '  "US$68" = 68), `currency` as an ISO code or null when no currency is shown, `unit` `day`',
@@ -52,7 +52,14 @@ export function buildProviderExtractRequest(input: ProviderExtractRequestInput):
     messages: [
       userTurnWithData(
         `Read the driver card. Prices without a currency are in ${input.currencyHint}.`,
-        [wrapUntrusted({ kind: input.kind === 'image' ? 'ocr_text' : 'crew_message', text: input.text, source, label: 'driver message' })],
+        [
+          wrapUntrusted({
+            kind: input.kind === 'image' ? 'ocr_text' : 'crew_message',
+            text: input.text,
+            source,
+            label: 'driver message',
+          }),
+        ],
       ),
     ],
     outputFormat: PROVIDER_EXTRACT_FORMAT,

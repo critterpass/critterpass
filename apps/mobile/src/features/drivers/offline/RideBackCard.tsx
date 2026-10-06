@@ -23,8 +23,16 @@ import { money } from '../shared/format';
 import { cachedDrivers, useAssignments } from '../shared/use-drivers';
 
 const useStyles = makeStyles((t) => ({
-  card: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, padding: t.space['16'] },
-  saved: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, padding: t.space['14'] },
+  card: {
+    backgroundColor: t.semantic.bg.raised,
+    borderRadius: t.radius.lg,
+    padding: t.space['16'],
+  },
+  saved: {
+    backgroundColor: t.semantic.bg.raised,
+    borderRadius: t.radius.lg,
+    padding: t.space['14'],
+  },
 }));
 
 interface Agreed {
@@ -65,7 +73,10 @@ export function RideBackCard({ tripId, date }: { readonly tripId: string; readon
     .filter(([, value]) => value === 'yes')
     .map(([key]) => key)
     .join(', ');
-  const terms = [price, included === '' ? null : t({ id: 'drivers.offline.included', message: `${included} included` })]
+  const terms = [
+    price,
+    included === '' ? null : t({ id: 'drivers.offline.included', message: `${included} included` }),
+  ]
     .filter((part): part is string => part !== null)
     .join(', ');
   const wa = phone === null ? null : whatsappLink(phone, '');

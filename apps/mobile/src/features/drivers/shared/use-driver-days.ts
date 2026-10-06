@@ -39,11 +39,11 @@ interface TripRow {
 
 export function useDriverDays(tripId: string) {
   const data = useTripMapData(tripId);
-  const { rows } = useLiveRows<TripRow>(TRIP_SQL, [tripId], [
-    'trips',
-    'destinations',
-    'trip_participants',
-  ]);
+  const { rows } = useLiveRows<TripRow>(
+    TRIP_SQL,
+    [tripId],
+    ['trips', 'destinations', 'trip_participants'],
+  );
   const trip = rows[0] ?? null;
   const hasRideApp = rideAppsFor(trip?.country ?? null).length > 0;
   const days = useMemo<DriverDay[]>(

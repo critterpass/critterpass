@@ -28,7 +28,11 @@ export function hoursBetween(start: string, end: string): number {
   return (span < 0 ? span + 1440 : span) / 60;
 }
 
-export function riskLine(t: ReturnType<typeof useLingui>['t'], risk: CompareRisk, locale: string): string {
+export function riskLine(
+  t: ReturnType<typeof useLingui>['t'],
+  risk: CompareRisk,
+  locale: string,
+): string {
   const name = risk.name;
   switch (risk.kind) {
     case 'overtime_unknown': {
@@ -47,7 +51,10 @@ export function riskLine(t: ReturnType<typeof useLingui>['t'], risk: CompareRisk
     }
     case 'seats_short': {
       const cars = risk.cars;
-      return t({ id: 'drivers.risk.seats', message: `${name}'s cheapest, but you'd need ${cars} cars.` });
+      return t({
+        id: 'drivers.risk.seats',
+        message: `${name}'s cheapest, but you'd need ${cars} cars.`,
+      });
     }
     case 'not_said': {
       const count = risk.count;

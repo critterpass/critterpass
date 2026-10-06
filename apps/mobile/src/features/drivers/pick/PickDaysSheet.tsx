@@ -32,8 +32,19 @@ import { useAssignments, useDrivers } from '../shared/use-drivers';
 import { tellMessage, whatsappAsk } from '../shared/whatsapp-copy';
 
 const useStyles = makeStyles((t) => ({
-  group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, padding: t.space['14'] },
-  box: { width: 28, height: 28, borderRadius: 8, borderWidth: 2, alignItems: 'center', justifyContent: 'center' },
+  group: {
+    backgroundColor: t.semantic.bg.raised,
+    borderRadius: t.radius.lg,
+    padding: t.space['14'],
+  },
+  box: {
+    width: 28,
+    height: 28,
+    borderRadius: 8,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 export function PickDaysSheet(props: { tripId: string; providerId: string; days?: string }) {
@@ -107,7 +118,10 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
           <Stack gap="12">
             {days.map((day) => {
               const on = picked.has(day.date) && !day.taken;
-              const place = plan.days.find((d) => d.date === day.date)?.gap?.place ?? plan.days.find((d) => d.date === day.date)?.theme ?? '';
+              const place =
+                plan.days.find((d) => d.date === day.date)?.gap?.place ??
+                plan.days.find((d) => d.date === day.date)?.theme ??
+                '';
               const window =
                 day.window === null || day.hours === null
                   ? null
@@ -150,11 +164,18 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
                         style={[
                           styles.box,
                           on
-                            ? { backgroundColor: theme.color.yellow, borderColor: theme.color.yellow }
+                            ? {
+                                backgroundColor: theme.color.yellow,
+                                borderColor: theme.color.yellow,
+                              }
                             : { borderColor: theme.semantic.border.control },
                         ]}
                       >
-                        {on ? <Text variant="label" color={theme.color.ink}>✓</Text> : null}
+                        {on ? (
+                          <Text variant="label" color={theme.color.ink}>
+                            ✓
+                          </Text>
+                        ) : null}
                       </View>
                     )}
                   </Row>
@@ -186,7 +207,12 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
           </Row>
         </View>
         {long === undefined || card?.included_hours == null || long.hours === null ? null : (
-          <Text variant="bodySm" color={theme.color.orange} style={{ textAlign: 'center' }} testID="drivers-pick-overtime">
+          <Text
+            variant="bodySm"
+            color={theme.color.orange}
+            style={{ textAlign: 'center' }}
+            testID="drivers-pick-overtime"
+          >
             {t({
               id: 'drivers.pick.overtime',
               message: `${dayLabel(long.date, locale)} is ${hoursFigure(long.hours)} hours. ${name}'s price covers ${hoursFigure(card.included_hours)}.`,
@@ -195,7 +221,10 @@ export function PickDaysSheet(props: { tripId: string; providerId: string; days?
         )}
         {failed ? (
           <Text variant="bodySm" color={theme.semantic.state.urgent}>
-            {t({ id: 'drivers.pick.failed', message: 'That didn’t save. A day may have just been taken.' })}
+            {t({
+              id: 'drivers.pick.failed',
+              message: 'That didn’t save. A day may have just been taken.',
+            })}
           </Text>
         ) : null}
         <PillButton

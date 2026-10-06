@@ -5,7 +5,14 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
-const DOT = { width: 28, height: 28, borderRadius: 14, borderWidth: 2, alignItems: 'center', justifyContent: 'center' } as const;
+const DOT = {
+  width: 28,
+  height: 28,
+  borderRadius: 14,
+  borderWidth: 2,
+  alignItems: 'center',
+  justifyContent: 'center',
+} as const;
 
 export function CheckDot({ on, onPress }: { readonly on: boolean; readonly onPress: () => void }) {
   const theme = useTheme();
@@ -22,7 +29,11 @@ export function CheckDot({ on, onPress }: { readonly on: boolean; readonly onPre
           : { borderColor: theme.semantic.border.control, borderStyle: 'dashed' },
       ]}
     >
-      {on ? <Text variant="label" color={theme.color.ink}>✓</Text> : null}
+      {on ? (
+        <Text variant="label" color={theme.color.ink}>
+          ✓
+        </Text>
+      ) : null}
     </PressScale>
   );
 }

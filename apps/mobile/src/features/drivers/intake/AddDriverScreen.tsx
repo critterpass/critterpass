@@ -46,7 +46,11 @@ const useStyles = makeStyles((t) => ({
     borderColor: t.color.yellow,
     padding: t.space['14'],
   },
-  list: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, padding: t.space['14'] },
+  list: {
+    backgroundColor: t.semantic.bg.raised,
+    borderRadius: t.radius.lg,
+    padding: t.space['14'],
+  },
 }));
 
 export function AddDriverScreen({
@@ -73,7 +77,11 @@ export function AddDriverScreen({
   const reading = intake.state.kind === 'reading';
   const openCheck = (intakeId: string) =>
     router.push(driversRoute(tripId, 'check', { intake: intakeId, ...(days ? { days } : {}) }));
-  const read = async (kind: 'text' | 'image' | 'contact', body: string, preset?: ReturnType<typeof contactCard>) => {
+  const read = async (
+    kind: 'text' | 'image' | 'contact',
+    body: string,
+    preset?: ReturnType<typeof contactCard>,
+  ) => {
     const item = await intake.submit(kind, body, preset);
     void refresh();
     if (item !== null) openCheck(item.intakeId);
@@ -159,7 +167,9 @@ export function AddDriverScreen({
                   size="sm"
                   loading={reading}
                   disabled={text.trim().length < 8 || reading}
-                  onPress={() => void read(/^https?:\/\//u.test(text.trim()) ? 'text' : 'text', text)}
+                  onPress={() =>
+                    void read(/^https?:\/\//u.test(text.trim()) ? 'text' : 'text', text)
+                  }
                   testID="drivers-add-read"
                 />
               </Row>
@@ -173,7 +183,10 @@ export function AddDriverScreen({
                 testID="drivers-add-contact-name"
               />
               <TextField
-                label={t({ id: 'drivers.add.contactPhone', message: 'WhatsApp number, with its country code' })}
+                label={t({
+                  id: 'drivers.add.contactPhone',
+                  message: 'WhatsApp number, with its country code',
+                })}
                 value={phone}
                 onChangeText={setPhone}
                 keyboardType="phone-pad"
@@ -184,9 +197,7 @@ export function AddDriverScreen({
                 tone="yellow"
                 size="sm"
                 disabled={name.trim() === '' || reading}
-                onPress={() =>
-                  void read('contact', `${name}\n${phone}`, contactCard(name, phone))
-                }
+                onPress={() => void read('contact', `${name}\n${phone}`, contactCard(name, phone))}
                 testID="drivers-add-contact-add"
               />
             </Stack>
@@ -261,7 +272,8 @@ export function AddDriverScreen({
           name={plan.guide.name}
           line={t({
             id: 'drivers.add.footnote',
-            message: 'Copy any message from WhatsApp or Facebook and paste it here. I only read what you send.',
+            message:
+              'Copy any message from WhatsApp or Facebook and paste it here. I only read what you send.',
           })}
           sticker={<Sticker kind={sticker.kind} name={sticker.name} pose="idle" size={44} />}
         />

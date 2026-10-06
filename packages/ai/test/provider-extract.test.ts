@@ -22,7 +22,13 @@ const reply = (overrides: Partial<ProviderExtractReply> = {}): ProviderExtractRe
   area: { value: 'Ubud', quote: 'driver in Ubud' },
   languages: { value: ['en'], quote: 'English OK' },
   car: { value: 'Toyota Avanza', seats: 6, quote: 'Avanza 6 pax' },
-  price: { amount: 650_000, currency: 'IDR', unit: 'day', hours: 10, quote: 'Full day 10 hrs Rp 650k' },
+  price: {
+    amount: 650_000,
+    currency: 'IDR',
+    unit: 'day',
+    hours: 10,
+    quote: 'Full day 10 hrs Rp 650k',
+  },
   includes: {
     fuel: 'yes',
     parking: 'yes',
@@ -57,7 +63,9 @@ describe('provider extract', () => {
   it('never keeps a phone number whose digits are not in the message', () => {
     const invented = reply({ phone: { value: '+6281299999999', quote: '+62 812 0000 0101' } });
     expect(validateProviderReply(invented, MESSAGE, options).card.phone).toBeNull();
-    const unquoted = reply({ phone: { value: '+6281200000101', quote: 'call me on +62 812 0000 0101' } });
+    const unquoted = reply({
+      phone: { value: '+6281200000101', quote: 'call me on +62 812 0000 0101' },
+    });
     expect(validateProviderReply(unquoted, MESSAGE, options).card.phone).toBeNull();
     expect(verifiedPhone('0813-0000-0202', 'WhatsApp 0813-0000-0202', '62')).toBe('+6281300000202');
     expect(verifiedPhone('0813-0000-0202', 'WhatsApp 0813-0000-0202', null)).toBeNull();

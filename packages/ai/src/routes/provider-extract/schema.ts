@@ -141,7 +141,11 @@ export function spanOf(source: string, quote: string): SourceSpan | null {
 const digits = (text: string) => text.replace(/\D/gu, '');
 
 /** The number as E.164, only when its digits are in the quoted words of the message. */
-export function verifiedPhone(value: string, quote: string, callingCode: string | null): string | null {
+export function verifiedPhone(
+  value: string,
+  quote: string,
+  callingCode: string | null,
+): string | null {
   const said = digits(quote);
   let e164 = digits(value);
   if (e164.length < 7) return null;

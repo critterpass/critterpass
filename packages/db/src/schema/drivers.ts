@@ -130,7 +130,11 @@ registerTablePrivacy('provider_assignments', { class: 'C1' });
 registerTablePrivacy('pickup_gap_dismissals', { class: 'C1' });
 
 registerMergeRule({ table: 'provider_intake', userColumn: 'shared_by', strategy: 'reassign' });
-registerMergeRule({ table: 'provider_assignments', userColumn: 'assigned_by', strategy: 'reassign' });
+registerMergeRule({
+  table: 'provider_assignments',
+  userColumn: 'assigned_by',
+  strategy: 'reassign',
+});
 registerMergeRule({
   table: 'pickup_gap_dismissals',
   userColumn: 'user_id',

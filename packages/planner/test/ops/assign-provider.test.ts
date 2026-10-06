@@ -3,9 +3,24 @@ import { describe, expect, it } from 'vitest';
 import { assignProviderPayload, pickDays, type PickableDay } from '../../src/ops/assign-provider';
 
 const days: PickableDay[] = [
-  { date: '2026-10-14', window: { start: '06:30', end: '18:00' }, pickup: 'Villa', assignedProviderId: null },
-  { date: '2026-10-15', window: { start: '03:30', end: '11:00' }, pickup: null, assignedProviderId: 'ketut' },
-  { date: '2026-10-18', window: { start: '13:00', end: '21:30' }, pickup: null, assignedProviderId: 'made' },
+  {
+    date: '2026-10-14',
+    window: { start: '06:30', end: '18:00' },
+    pickup: 'Villa',
+    assignedProviderId: null,
+  },
+  {
+    date: '2026-10-15',
+    window: { start: '03:30', end: '11:00' },
+    pickup: null,
+    assignedProviderId: 'ketut',
+  },
+  {
+    date: '2026-10-18',
+    window: { start: '13:00', end: '21:30' },
+    pickup: null,
+    assignedProviderId: 'made',
+  },
   { date: '2026-10-19', window: null, pickup: null, assignedProviderId: null },
 ];
 
@@ -22,7 +37,12 @@ describe('pick a driver for days', () => {
 
   it('never sends a TAKEN day, and nothing when no free day is picked', () => {
     const picked = pickDays(days, 'made', 10);
-    const payload = assignProviderPayload('trip', 'made', picked, new Set(['2026-10-14', '2026-10-15']));
+    const payload = assignProviderPayload(
+      'trip',
+      'made',
+      picked,
+      new Set(['2026-10-14', '2026-10-15']),
+    );
     expect(payload?.days).toEqual([
       { date: '2026-10-14', window_start: '06:30', window_end: '18:00', pickup: 'Villa' },
     ]);

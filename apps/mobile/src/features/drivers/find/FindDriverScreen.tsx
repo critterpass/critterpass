@@ -111,9 +111,7 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
   const shown = adding ? plan.days : chosen;
   return (
     <Scaffold variant="dark" testID="drivers-find">
-      <ScrollView
-        contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}
-      >
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
         <BackEyebrow
           label={upper(
             first === null
@@ -132,7 +130,8 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({
             id: 'drivers.find.intro',
-            message: 'Pick the legs, then where the driver comes from. You can mix sources and compare them after.',
+            message:
+              'Pick the legs, then where the driver comes from. You can mix sources and compare them after.',
           })}
         </Text>
         <Text variant="eyebrow" color={theme.semantic.text.secondary}>
@@ -162,7 +161,10 @@ export function FindDriverScreen({ tripId, days: initial }: { tripId: string; da
         </Row>
         <SourceCard
           title={upper(t({ id: 'drivers.find.tours', message: 'Book a private tour' }), locale)}
-          body={t({ id: 'drivers.find.toursBody', message: 'Klook and Viator, fixed price per car' })}
+          body={t({
+            id: 'drivers.find.toursBody',
+            message: 'Klook and Viator, fixed price per car',
+          })}
           color={theme.color.blue}
           icon="ticket"
           onPress={() => router.push(driversRoute(tripId, 'tours', daysParam))}

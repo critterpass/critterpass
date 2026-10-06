@@ -57,7 +57,7 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
   const wording = ASK_POST_WORDING[lang];
   const picked = new Set(splitDays(days));
   const legs = plan.days
-    .filter((day) => picked.size === 0 ? day.gap !== null : picked.has(day.date))
+    .filter((day) => (picked.size === 0 ? day.gap !== null : picked.has(day.date)))
     .map((day) => ({
       date: dayMonthLabel(day.date, lang),
       route: [plan.area, day.gap?.place ?? day.stops.at(-1)?.name ?? '', plan.area]
@@ -96,14 +96,18 @@ export function AskForMeScreen({ tripId, days }: { tripId: string; days?: string
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({
             id: 'drivers.ask.intro',
-            message: 'Copy it and post it in the groups yourself. CritterPass never posts there and never reads them.',
+            message:
+              'Copy it and post it in the groups yourself. CritterPass never posts there and never reads them.',
           })}
         </Text>
         <View style={styles.paper}>
           <Stack gap="12">
             <Row align="center" style={{ justifyContent: 'space-between' }}>
               <Text variant="eyebrow" color={ink}>
-                {upper(t({ id: 'drivers.ask.tapSlot', message: 'Tap a highlight to change it' }), locale)}
+                {upper(
+                  t({ id: 'drivers.ask.tapSlot', message: 'Tap a highlight to change it' }),
+                  locale,
+                )}
               </Text>
               <Segmented<AskPostLanguage>
                 segments={[

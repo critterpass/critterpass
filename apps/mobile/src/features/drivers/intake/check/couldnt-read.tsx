@@ -38,47 +38,47 @@ export function CouldntReadView(props: {
   const locale = useLocale();
   const { t } = useLingui();
   const sticker = guideSticker(props.guide);
-    return (
-      <Scaffold variant="dark" testID="drivers-unread">
-        <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
-          {back}
-          <Row gap="12" align="center">
-            <Sticker kind={sticker.kind} name={sticker.name} pose="think" size={64} />
-            <Text variant="h1" designSize={48} accessibilityRole="header" style={{ flex: 1 }}>
-              {upper(t({ id: 'drivers.unread.title', message: 'Couldn’t read it' }), locale)}
-            </Text>
-          </Row>
-          <Text variant="body" color={theme.semantic.text.secondary}>
-            {parsed?.unreadable.join(' ') ||
-              t({
-                id: 'drivers.unread.body',
-                message: 'I couldn’t find a driver’s name, number or price in it.',
-              })}
+  return (
+    <Scaffold variant="dark" testID="drivers-unread">
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: theme.space['32'] }]}>
+        {back}
+        <Row gap="12" align="center">
+          <Sticker kind={sticker.kind} name={sticker.name} pose="think" size={64} />
+          <Text variant="h1" designSize={48} accessibilityRole="header" style={{ flex: 1 }}>
+            {upper(t({ id: 'drivers.unread.title', message: 'Couldn’t read it' }), locale)}
           </Text>
-          {source === '' ? null : (
-            <View style={styles.peek}>
-              <Text variant="monoData" color={theme.color.paper.ink} numberOfLines={8}>
-                {source}
-              </Text>
-              {parsed?.cut_off === true ? (
-                <InfoPill variant="solid">
-                  {upper(t({ id: 'drivers.unread.cutOff', message: 'Cut off here' }), locale)}
-                </InfoPill>
-              ) : null}
-            </View>
-          )}
-          <PillButton
-            label={t({ id: 'drivers.unread.type', message: 'Type the rest in' })}
-            tone="yellow"
-            block
-            onPress={props.onType}
-            testID="drivers-unread-type"
-          />
-          <TextLink
-            label={t({ id: 'drivers.unread.another', message: 'Try another screenshot' })}
-            onPress={() => router.back()}
-          />
-        </ScrollView>
-      </Scaffold>
-    );
+        </Row>
+        <Text variant="body" color={theme.semantic.text.secondary}>
+          {parsed?.unreadable.join(' ') ||
+            t({
+              id: 'drivers.unread.body',
+              message: 'I couldn’t find a driver’s name, number or price in it.',
+            })}
+        </Text>
+        {source === '' ? null : (
+          <View style={styles.peek}>
+            <Text variant="monoData" color={theme.color.paper.ink} numberOfLines={8}>
+              {source}
+            </Text>
+            {parsed?.cut_off === true ? (
+              <InfoPill variant="solid">
+                {upper(t({ id: 'drivers.unread.cutOff', message: 'Cut off here' }), locale)}
+              </InfoPill>
+            ) : null}
+          </View>
+        )}
+        <PillButton
+          label={t({ id: 'drivers.unread.type', message: 'Type the rest in' })}
+          tone="yellow"
+          block
+          onPress={props.onType}
+          testID="drivers-unread-type"
+        />
+        <TextLink
+          label={t({ id: 'drivers.unread.another', message: 'Try another screenshot' })}
+          onPress={() => router.back()}
+        />
+      </ScrollView>
+    </Scaffold>
+  );
 }

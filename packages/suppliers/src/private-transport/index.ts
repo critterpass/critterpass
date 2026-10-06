@@ -16,7 +16,11 @@ export type PrivateTransportPartner = (typeof PRIVATE_TRANSPORT_PARTNERS)[number
 const PRIVATE_DRIVER = /\b(private (car|driver|tour|charter)|car charter|chauffeur|driver)\b/iu;
 
 /** The partner search a link row opens: a private car with driver around `area`. */
-export function privateTransportTarget(area: string, date: string | null, adults: number): LinkTarget {
+export function privateTransportTarget(
+  area: string,
+  date: string | null,
+  adults: number,
+): LinkTarget {
   return {
     kind: 'activity',
     query: `private car charter with driver ${area}`.slice(0, 120),

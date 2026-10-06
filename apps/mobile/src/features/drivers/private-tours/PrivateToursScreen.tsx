@@ -35,7 +35,11 @@ import { useDriverDays } from '../shared/use-driver-days';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
-  card: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, padding: t.space['16'] },
+  card: {
+    backgroundColor: t.semantic.bg.raised,
+    borderRadius: t.radius.lg,
+    padding: t.space['16'],
+  },
 }));
 
 export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: string }) {
@@ -75,16 +79,24 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({
             id: 'drivers.tours.intro',
-            message: 'Fixed price, booked and paid with the supplier. Titles, photos and ratings are theirs, word for word.',
+            message:
+              'Fixed price, booked and paid with the supplier. Titles, photos and ratings are theirs, word for word.',
           })}
         </Text>
         {tours === null ? (
-          <Skeleton preset="photo" label={t({ id: 'drivers.tours.loading', message: 'Looking for private cars' })} />
+          <Skeleton
+            preset="photo"
+            label={t({ id: 'drivers.tours.loading', message: 'Looking for private cars' })}
+          />
         ) : null}
         {(value?.cards ?? []).map((card) => {
           const done = added.has(card.product_id);
           return (
-            <View key={card.product_id} style={styles.card} testID={`drivers-tour-${card.product_id}`}>
+            <View
+              key={card.product_id}
+              style={styles.card}
+              testID={`drivers-tour-${card.product_id}`}
+            >
               <Stack gap="8">
                 <InfoPill variant="solid">
                   {upper(t({ id: 'drivers.tours.from', message: 'From Viator' }), locale)}
@@ -146,7 +158,11 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
                         void openLink({
                           partner: 'viator',
                           tripId,
-                          target: { kind: 'activity', query: card.title, ...(card.product_url ? { pageUrl: card.product_url } : {}) },
+                          target: {
+                            kind: 'activity',
+                            query: card.title,
+                            ...(card.product_url ? { pageUrl: card.product_url } : {}),
+                          },
                         })
                       }
                     />
@@ -159,11 +175,18 @@ export function PrivateToursScreen({ tripId, days }: { tripId: string; days?: st
         {(value?.links ?? [])
           .filter((link) => !(link.partner === 'viator' && (value?.cards.length ?? 0) > 0))
           .map((link) => (
-            <View key={link.partner} style={styles.card} testID={`drivers-tours-link-${link.partner}`}>
+            <View
+              key={link.partner}
+              style={styles.card}
+              testID={`drivers-tours-link-${link.partner}`}
+            >
               <TextLink
                 label={
                   link.partner === 'klook'
-                    ? t({ id: 'drivers.tours.klookLink', message: 'Private car charters on Klook ↗' })
+                    ? t({
+                        id: 'drivers.tours.klookLink',
+                        message: 'Private car charters on Klook ↗',
+                      })
                     : t({ id: 'drivers.tours.viatorLink', message: 'Private drivers on Viator ↗' })
                 }
                 onPress={() =>

@@ -18,10 +18,9 @@ export interface DriverDeps {
 }
 
 export async function requireMember(tx: pg.PoolClient, tripId: string): Promise<void> {
-  const { rows } = await tx.query<{ member: boolean }>(
-    'SELECT app.is_trip_member($1) AS member',
-    [tripId],
-  );
+  const { rows } = await tx.query<{ member: boolean }>('SELECT app.is_trip_member($1) AS member', [
+    tripId,
+  ]);
   if (rows[0]?.member !== true) throw new DomainError('NOT_FOUND', { reason: 'trip' });
 }
 

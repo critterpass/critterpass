@@ -8,8 +8,16 @@ import type { ParsedIntake } from '@cp/domain';
 import type { Gateway } from '../../client';
 import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
-import { buildProviderExtractRequest, PROVIDER_EXTRACT_ROUTE, type ProviderExtractRequestInput } from './prompt';
-import { providerExtractReplySchema, validateProviderReply, type ValidateProviderOptions } from './schema';
+import {
+  buildProviderExtractRequest,
+  PROVIDER_EXTRACT_ROUTE,
+  type ProviderExtractRequestInput,
+} from './prompt';
+import {
+  providerExtractReplySchema,
+  validateProviderReply,
+  type ValidateProviderOptions,
+} from './schema';
 
 export * from './prompt';
 export * from './schema';

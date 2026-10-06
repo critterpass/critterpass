@@ -108,7 +108,13 @@ export function DaySheet(
       </PressScale>
       {/* Her own plan before the crew has one: where it stands, as on the peek. */}
       <DraftNote model={model} />
-      <DriverLegCard tripId={model.tripId} date={day.date} stops={gapStopsOf(day.stops)} stay={day.stay} guide={model.guide.id} />
+      <DriverLegCard
+        tripId={model.tripId}
+        date={day.date}
+        stops={gapStopsOf(day.stops)}
+        stay={day.stay}
+        guide={model.guide.id}
+      />
       {rows.length === 0 && (day.mine ?? []).length === 0 ? (
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({ id: 'plan.tripMap.nothingYet', message: 'Nothing planned yet' })}

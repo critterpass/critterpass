@@ -47,10 +47,11 @@ export function DriverLegCard({ tripId, date, stops, stay, guide }: DriverLegCar
   // NOT NOW folds at once, before the dismissal syncs back (it is queued offline).
   const [folded, setFolded] = useState(false);
   const assignments = useAssignments(tripId);
-  const { rows } = useLiveRows<{ country: string | null }>(COUNTRY_SQL, [tripId], [
-    'trips',
-    'destinations',
-  ]);
+  const { rows } = useLiveRows<{ country: string | null }>(
+    COUNTRY_SQL,
+    [tripId],
+    ['trips', 'destinations'],
+  );
   if (date === null) return null;
   const assigned = assignments.rows.find((row) => row.day_date === date);
   if (assigned !== undefined) {
@@ -63,11 +64,7 @@ export function DriverLegCard({ tripId, date, stops, stay, guide }: DriverLegCar
       </Text>
     );
   }
-  const gap = pickupGapFor(
-    { date, stops },
-    stay,
-    rideAppsFor(rows[0]?.country ?? null).length > 0,
-  );
+  const gap = pickupGapFor({ date, stops }, stay, rideAppsFor(rows[0]?.country ?? null).length > 0);
   if (gap === null) return null;
   if (folded || dismissed.has(date)) {
     return (

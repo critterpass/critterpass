@@ -18,7 +18,6 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { Avatar } from '@/ui/people/Avatar';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { PressScale } from '@/ui/press/PressScale';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
@@ -29,6 +28,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { driverCardOf, type ShortlistDriver } from '../shared/api';
+import { COLUMN, ColumnHead } from './column-head';
 import { candidateOf, hoursBetween, riskLine } from './compare-model';
 import { dayLabel, money } from '../shared/format';
 import { driversRoute, splitDays } from '../shared/routes';
@@ -36,18 +36,8 @@ import { useDriverDays } from '../shared/use-driver-days';
 import { useDrivers } from '../shared/use-drivers';
 import { askMessage, whatsappAsk } from '../shared/whatsapp-copy';
 
-const COLUMN = 112;
-
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingTop: t.space['8'] },
-  head: {
-    width: COLUMN,
-    backgroundColor: t.semantic.bg.raised,
-    borderRadius: t.radius.md,
-    padding: t.space['10'],
-    alignItems: 'center',
-    gap: t.space['6'],
-  },
   row: { borderTopWidth: 1, borderColor: t.semantic.border.control, paddingVertical: t.space['8'] },
   cell: { width: COLUMN },
 }));
@@ -84,7 +74,10 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
   if (state.kind === 'loading') {
     return (
       <Scaffold variant="dark" testID="drivers-compare-loading">
-        <Skeleton preset="photo" label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })} />
+        <Skeleton
+          preset="photo"
+          label={t({ id: 'drivers.compare.loading', message: 'Loading the shortlist' })}
+        />
       </Scaffold>
     );
   }
@@ -92,7 +85,10 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
     const ask = askMessage(t, driver.name, [], driverCardOf(driver).overtime_minor === null);
     return (
       <PressScale
-        accessibilityLabel={t({ id: 'drivers.compare.notSaidHint', message: 'Not said. Ask him on WhatsApp' })}
+        accessibilityLabel={t({
+          id: 'drivers.compare.notSaidHint',
+          message: 'Not said. Ask him on WhatsApp',
+        })}
         onPress={() => {
           const url = whatsappAsk(driver.phone, ask);
           if (url !== null) void Linking.openURL(url);
@@ -104,11 +100,19 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
       </PressScale>
     );
   };
-  const rows: { readonly key: string; readonly label: string; readonly cell: (d: ShortlistDriver, i: number) => React.ReactNode }[] = [
+  const rows: {
+    readonly key: string;
+    readonly label: string;
+    readonly cell: (d: ShortlistDriver, i: number) => React.ReactNode;
+  }[] = [
     {
       key: 'day',
       label: t({ id: 'drivers.compare.day', message: 'A day' }),
-      cell: (d) => <Text variant="bodySm">{money(driverCardOf(d).price_minor, d.terms.currency, locale) ?? '—'}</Text>,
+      cell: (d) => (
+        <Text variant="bodySm">
+          {money(driverCardOf(d).price_minor, d.terms.currency, locale) ?? '—'}
+        </Text>
+      ),
     },
     {
       key: 'each',
@@ -130,14 +134,20 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
       label: t({ id: 'drivers.compare.car', message: 'Car' }),
       cell: (d) => (
         <Text variant="bodySm">
-          {[d.terms.car, d.terms.seats === null ? null : String(d.terms.seats)].filter(Boolean).join(' · ') || '—'}
+          {[d.terms.car, d.terms.seats === null ? null : String(d.terms.seats)]
+            .filter(Boolean)
+            .join(' · ') || '—'}
         </Text>
       ),
     },
     {
       key: 'speaks',
       label: t({ id: 'drivers.compare.speaks', message: 'Speaks' }),
-      cell: (d) => <Text variant="bodySm">{d.terms.languages.map((l) => l.toUpperCase()).join(' · ') || '—'}</Text>,
+      cell: (d) => (
+        <Text variant="bodySm">
+          {d.terms.languages.map((l) => l.toUpperCase()).join(' · ') || '—'}
+        </Text>
+      ),
     },
     ...(['tolls', 'entry'] as const).map((key) => ({
       key,
@@ -147,7 +157,8 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
           : t({ id: 'drivers.compare.entry', message: 'Entry fees' }),
       cell: (d: ShortlistDriver) => {
         const said = d.terms.includes[key] ?? 'unknown';
-        if (said === 'unknown') return d.terms.source === 'private_tour' ? <Text variant="bodySm">—</Text> : notSaid(d);
+        if (said === 'unknown')
+          return d.terms.source === 'private_tour' ? <Text variant="bodySm">—</Text> : notSaid(d);
         return (
           <Text variant="bodySm" color={said === 'yes' ? theme.color.green.base : undefined}>
             {said === 'yes'
@@ -162,8 +173,16 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
       label: t({ id: 'drivers.compare.overtime', message: 'Overtime' }),
       cell: (d) => {
         const card = driverCardOf(d);
-        if (card.overtime_minor === null) return d.terms.source === 'private_tour' ? <Text variant="bodySm">—</Text> : notSaid(d);
-        return <Text variant="bodySm">{t({ id: 'drivers.compare.perHour', message: `${money(card.overtime_minor, card.currency, locale) ?? ''}/hr` })}</Text>;
+        if (card.overtime_minor === null)
+          return d.terms.source === 'private_tour' ? <Text variant="bodySm">—</Text> : notSaid(d);
+        return (
+          <Text variant="bodySm">
+            {t({
+              id: 'drivers.compare.perHour',
+              message: `${money(card.overtime_minor, card.currency, locale) ?? ''}/hr`,
+            })}
+          </Text>
+        );
       },
     },
     {
@@ -171,7 +190,9 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
       label: t({ id: 'drivers.compare.licence', message: 'Licence' }),
       cell: (d) =>
         d.terms.source === 'private_tour' ? (
-          <Text variant="bodySm">{t({ id: 'drivers.compare.supplierChecks', message: 'Supplier checks' })}</Text>
+          <Text variant="bodySm">
+            {t({ id: 'drivers.compare.supplierChecks', message: 'Supplier checks' })}
+          </Text>
         ) : d.terms.licence_shown === true ? (
           <Text variant="bodySm">{t({ id: 'drivers.compare.shows', message: 'Shows it' })}</Text>
         ) : (
@@ -197,25 +218,17 @@ export function CompareScreen({ tripId, days }: { tripId: string; days?: string 
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <Stack gap="0">
             <Row gap="8">
-              {drivers.map((driver, index) => {
-                const missing = compareColumn(candidates[index] as CompareCandidate, compareDays, plan.people).notSaid.length;
-                return (
-                  <View key={driver.id} style={styles.head} testID={`drivers-compare-col-${index}`}>
-                    <Avatar name={driver.name} joinIndex={index + 2} size="md" />
-                    <Text variant="label" numberOfLines={1}>
-                      {upper(driver.name, locale)}
-                    </Text>
-                    <InfoPill variant={missing === 0 ? 'solid' : 'outline'}>
-                      {upper(
-                        missing === 0
-                          ? t({ id: 'drivers.compare.complete', message: 'Complete' })
-                          : t({ id: 'drivers.compare.missing', message: `${missing} missing` }),
-                        locale,
-                      )}
-                    </InfoPill>
-                  </View>
-                );
-              })}
+              {drivers.map((driver, index) => (
+                <ColumnHead
+                  key={driver.id}
+                  name={driver.name}
+                  index={index}
+                  missing={
+                    compareColumn(candidates[index] as CompareCandidate, compareDays, plan.people)
+                      .notSaid.length
+                  }
+                />
+              ))}
             </Row>
             {rows.map((row) => (
               <View key={row.key} style={styles.row}>

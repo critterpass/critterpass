@@ -18,7 +18,11 @@ export function dayMonthLabel(date: string, locale: string): string {
   }).format(new Date(`${date}T12:00:00Z`));
 }
 
-export function money(minor: number | null, currency: string | null, locale: string): string | null {
+export function money(
+  minor: number | null,
+  currency: string | null,
+  locale: string,
+): string | null {
   if (minor === null || currency === null) return null;
   return formatAmount(BigInt(Math.round(minor)), currency, locale);
 }

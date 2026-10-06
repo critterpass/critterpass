@@ -64,10 +64,14 @@ describe('compare', () => {
       name: 'Made',
       count: 4,
     });
-    expect(compareRisk([komang], short, 12)).toEqual({ kind: 'seats_short', name: 'Komang', cars: 2 });
-    expect(compareRisk([{ ...komang, includes: { tolls: 'yes', entry: 'yes' } }], short, 6)).toEqual(
-      { kind: 'all_clear', name: 'Komang' },
-    );
+    expect(compareRisk([komang], short, 12)).toEqual({
+      kind: 'seats_short',
+      name: 'Komang',
+      cars: 2,
+    });
+    expect(
+      compareRisk([{ ...komang, includes: { tolls: 'yes', entry: 'yes' } }], short, 6),
+    ).toEqual({ kind: 'all_clear', name: 'Komang' });
     expect(compareRisk([{ ...made, priceMinor: null, currency: null }], days, 6)).toBeNull();
   });
 
@@ -81,7 +85,13 @@ describe('compare', () => {
   });
 });
 
-const stop = (name: string, lat: number, lng: number, starts: string | null, ends: string | null): GapStop => ({
+const stop = (
+  name: string,
+  lat: number,
+  lng: number,
+  starts: string | null,
+  ends: string | null,
+): GapStop => ({
   name,
   lat,
   lng,

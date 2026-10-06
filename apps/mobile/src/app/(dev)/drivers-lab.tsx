@@ -31,7 +31,9 @@ export default function DriversLab() {
             chevron
             onPress={() => {
               if (tripId !== null)
-                router.push(driversRoute(tripId, screen, screen === 'check' ? { unread: '1' } : {}));
+                router.push(
+                  driversRoute(tripId, screen, screen === 'check' ? { unread: '1' } : {}),
+                );
             }}
             testID={`drivers-lab-${screen}`}
           />

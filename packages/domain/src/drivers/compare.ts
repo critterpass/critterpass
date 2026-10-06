@@ -109,8 +109,7 @@ export function compareRisk(
   people: number,
   toCommon: (minor: number, currency: string) => number | null = (minor) => minor,
 ): CompareRisk | null {
-  let cheapest: { candidate: CompareCandidate; column: CompareColumn; value: number } | null =
-    null;
+  let cheapest: { candidate: CompareCandidate; column: CompareColumn; value: number } | null = null;
   for (const candidate of candidates) {
     const column = compareColumn(candidate, days, people);
     if (column.eachMinor === null || candidate.currency === null) continue;

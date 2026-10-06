@@ -129,7 +129,7 @@ export interface AskPostWording extends AskPostTemplates {
  */
 export const ASK_POST_WORDING: Readonly<Record<AskPostLanguage, AskPostWording>> = {
   en: {
-    body: 'Hi all, looking for a driver or driver-guide in {area} for {party}.\n\n{legs}\n\nNeed {seats}, {language} please.{budget} Please say what\'s included (fuel, parking, tolls, entry) and your overtime rate. Thank you!',
+    body: "Hi all, looking for a driver or driver-guide in {area} for {party}.\n\n{legs}\n\nNeed {seats}, {language} please.{budget} Please say what's included (fuel, parking, tolls, entry) and your overtime rate. Thank you!",
     budget: ' Budget around {amount}.',
     leg: '{date}: {route}, {start} to about {end}',
     legNoTime: '{date}: {route}',

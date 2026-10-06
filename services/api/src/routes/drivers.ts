@@ -123,19 +123,17 @@ export function registerDriverRoutes(app: OpenAPIHono<AppEnv>, deps: DriverRoute
         [tripId],
       );
       return {
-        intake: intake.rows.map(
-          (row): IntakeItem => ({
-            id: row.id,
-            kind: row.kind,
-            status: row.status,
-            shared_by: row.shared_by,
-            shared_by_name: row.shared_by_name,
-            text: row.raw_text,
-            parsed: parsedIntakeSchema.safeParse(row.parsed).data ?? null,
-            provider_id: row.provider_id,
-            created_at: row.created_at.toISOString(),
-          }),
-        ),
+        intake: intake.rows.map((row): IntakeItem => ({
+          id: row.id,
+          kind: row.kind,
+          status: row.status,
+          shared_by: row.shared_by,
+          shared_by_name: row.shared_by_name,
+          text: row.raw_text,
+          parsed: parsedIntakeSchema.safeParse(row.parsed).data ?? null,
+          provider_id: row.provider_id,
+          created_at: row.created_at.toISOString(),
+        })),
         drivers: drivers.rows.map((row) => ({
           id: row.id,
           name: row.name,

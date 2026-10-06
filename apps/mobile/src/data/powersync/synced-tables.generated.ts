@@ -191,6 +191,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   phrase_progress:
     'user_id phrase_id attempts:integer score:integer practised_at created_at updated_at',
+  pickup_gap_dismissals: 'trip_id user_id day_date created_at',
   ping_ledger:
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
@@ -228,6 +229,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'proposal_id trip_id recipient_id status shared:integer slides poster postcard poster_key postcard_key highlights savings savings_minor:integer share_minor:integer currency lead_item_id fallback_note agent_job_id attempts:integer created_at updated_at',
   proposals:
     'trip_id version_id created_by format show_cost:integer personal:integer options reply_by stay_free_cancel_until status sent_at reminded_at locked_at created_at updated_at',
+  provider_assignments:
+    'trip_id day_date provider_id window_start window_end pickup agreed change_set_id assigned_by created_at updated_at',
+  provider_terms:
+    'provider_id trip_id source status area languages car seats:integer price_minor:integer currency price_unit included_hours includes overtime_minor:integer licence_shown:integer confirmed_fields supplier_ref created_at updated_at',
   providers:
     'trip_id kind name contact_enc vehicle policies added_by deleted_at version:integer created_at updated_at',
   quest_progress: 'quest_id trip_id value:integer counted source_event_ids updated_at',
