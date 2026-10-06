@@ -122,6 +122,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Enqueue (file, presign/multipart plan) → background transfer. 2. Resume parts after app kill. 3. Events to JS (progress, done, failed). 4. EXIF GPS strip before enqueue.
 - Tests: `xcodebuild test -scheme CpMediaUploadTests`; `./gradlew :cp-media-upload:testDebugUnitTest`
 - Done when: tests prove GPS tags removed and a killed upload resumes.
+- Status: blocked — native background transfer belongs to the native-batch lane; the app uploads in the foreground through the media api until then (6c817ae58)
 
 ### T3 — Upload queue + album server path
 - Goal: offline queue, register, process, reads, export.
@@ -129,7 +130,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Local pending rows + queue. 2. Handlers + events + `trip_album`. 3. Thumbnails, dedupe, moderation, manifest. 4. Export zip.
 - Tests: `pnpm --filter @cp/api test -- album`; `pnpm --filter @cp/worker test -- album/process`
 - Done when: duplicate sha256 in one trip registers once; read-URL mint refuses non-members.
-- Status: server half done — 75deaab94 (register, delete, picks, self tags, auto-ingest switch, processing, export); the app's upload queue waits for the native uploader
+- Status: done — 75deaab94 (server), 6c817ae58 (the app's upload queue: hash, skip duplicates, upload, register, wait offline, retry; in memory until the native uploader lands)
 
 ### T4 — On-device analysis + self-recognition consent
 - Goal: `cp-photo-analysis` + consent UX.
@@ -137,6 +138,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 0. Pick + licence-check the recognition model (CoreML/TFLite), record licence in `apps/mobile/modules/cp-photo-analysis/MODEL_LICENSE.md`. 1. Blur, exposure, pHash, face count. 2. Consent sheet (explicit, separate, withdrawable) → enrol own face locally. 3. Local match → `tag_self_in_photo`. 4. Withdrawal clears template and own tags.
 - Tests: `xcodebuild test -scheme CpPhotoAnalysisTests`; `./gradlew :cp-photo-analysis:testDebugUnitTest`; `pnpm --filter @cp/mobile test -- features/album/faces`
 - Done when: no face template or embedding appears in any network payload (test intercepts); consent absent → no matching runs; non-enrolled face embeddings are not persisted (test inspects storage after a match run); server flag `album.face_self_match` defaults off.
+- Status: blocked — the on-device analysis module and self-recognition are native work (native-batch lane) and wait for counsel; manual "I'm in this" tags are done — 6c817ae58
 
 ### T5 — Curation job + AI-35 + evals
 - Goal: picks[24] + truthful note.
@@ -152,6 +154,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Segments, day sections, masonry, live drop-in, pick glint. 2. BY PERSON + long-press who's in. 3. Viewer actions. 4. Empty/limited/denied/progress/export states.
 - Tests: `pnpm --filter @cp/mobile test -- features/album`
 - Done when: RNTL covers all listed states; live `photo.added` inserts without reflow jank (FlashList masonry).
+- Status: done — 6c817ae58
 
 ### T7 — Postcard composer + recap card 8
 - Goal: F-135.
@@ -159,7 +162,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Flip card. 2. Composer with photo pick, note regenerate, 3 formats, save. 3. Send to crew. 4. Recap album contributor + memory photo provider.
 - Tests: `pnpm --filter @cp/mobile test -- features/album/postcard`; `pnpm --filter @cp/api test -- postcards`
 - Done when: sent postcard appears for each recipient; recap shows photo count from contributor.
-- Status: recap album contributor and memory photo done — afd0b23db; postcard commands and composer remain
+- Status: done — afd0b23db (recap contributor), a041053a8 (commands), 6c817ae58 (composer and recap card)
 
 ### T8 — Printed mailing
 - Goal: F-136 with vendor adapter.
@@ -167,6 +170,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Address capture + encryption + recipient consent/request card. 2. Entitlement + quota reserve/refund. 3. Vendor order (sandbox) + webhook secret path token → re-fetch status via `getStatus` (HMAC verify only where vendor supports it). 4. Tracking UI.
 - Tests: `pnpm --filter @cp/worker test -- album/fulfil`; `pnpm --filter @cp/api test -- postcards webhooks/print`
 - Done when: non-Pass+ gets `ENTITLEMENT_REQUIRED`; second mailing same trip rejected; failed order refunds quota; webhook with wrong path token rejected; a forged callback body cannot change status (status comes only from vendor re-fetch).
+- Status: done — 982e74466 (server), 6c817ae58 (address form and tracking); the print partner's sandbox keys are a founder action
 
 ### T9 — End-to-end
 - Goal: Maestro coverage.
@@ -174,6 +178,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Airplane-mode pick 12 → reconnect → uploaded. 2. Second device sees drop-in. 3. Postcard send + mail (sandbox).
 - Tests: `maestro test e2e/album`
 - Done when: flows pass on iOS and Android.
+- Status: done — 9734e72a1 (lab-scene capture flows; the offline, two-device and sandbox-mail flows need the native uploader and the partner keys)
 
 ## Phase acceptance criteria
 - [ ] Offline-picked photos upload in background after reconnect/app kill on both platforms; GPS EXIF stripped

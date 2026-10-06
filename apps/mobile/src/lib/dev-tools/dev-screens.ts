@@ -80,6 +80,31 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Help (3p scenes)' },
       { testId: 'dev-nav-recap-lab', href: '/(dev)/recap-lab', label: 'Recap (3m scenes)' },
       {
+        testId: 'dev-nav-crew-plans',
+        href: '/community/da-lat',
+        label: 'Crew plans for Đà Lạt (3o-1)',
+      },
+      {
+        testId: 'dev-nav-shared-plan',
+        href: '/community/plan/00000000-0000-7000-8000-000000000000',
+        label: 'A shared plan that is gone (3o-2)',
+      },
+      {
+        testId: 'dev-nav-rate-trip',
+        href: '/community/rate/00000000-0000-7000-8000-000000000000',
+        label: 'Rate the trip, no trip (3o-3)',
+      },
+      {
+        testId: 'dev-nav-share-plan',
+        href: '/community/publish/00000000-0000-7000-8000-000000000000',
+        label: 'Share the plan, no trip (3o-4)',
+      },
+      {
+        testId: 'dev-nav-album-lab',
+        href: '/(dev)/album-lab',
+        label: 'Album and postcards (3m-2, 3m-9 scenes)',
+      },
+      {
         testId: 'dev-nav-live-map',
         href: '/(dev)/live-map',
         label: 'Crew live map (3g-4 scenes)',

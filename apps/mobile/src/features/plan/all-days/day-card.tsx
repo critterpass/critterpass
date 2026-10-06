@@ -17,7 +17,7 @@ import { MiniRouteSketch, PaceBars, PlanningTag, sketchLayout } from '@/ui/plann
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { tagColor, tagLabel } from '../trip-map/format';
+import { tagColor, tagLabel, withArea } from '../trip-map/format';
 import { paceWords } from '../trip-map/sheet-copy';
 import type { TripDay } from '../trip-map/trip-days';
 import type { CardRect } from './use-cross-day-drag';
@@ -46,6 +46,7 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['6'],
   },
   summary: { flex: 1, minWidth: 0 },
+  name: { flex: 1, minWidth: 0 },
   move: { paddingTop: t.space['6'], alignItems: 'flex-start' },
 }));
 
@@ -126,7 +127,7 @@ export function AllDaysCard(props: DayCardProps) {
   const points = placed.map((stop) => stop.place ?? { lat: 0, lng: 0 });
   const layout = width === 0 ? [] : sketchLayout(points, width, SKETCH_HEIGHT);
   const n = day.dayNo;
-  const name = props.name;
+  const name = withArea(props.name === '' ? String(n) : props.name, day);
   const title = day.theme ?? t({ id: 'plan.allDays.dayTitle', message: `Day ${n}` });
   const moveLabel = t({ id: 'plan.allDays.moveStop', message: 'Move a stop to another day' });
   return (
@@ -134,7 +135,7 @@ export function AllDaysCard(props: DayCardProps) {
       <Pressable
         onPress={props.onOpen}
         accessibilityRole="button"
-        accessibilityLabel={`${name === '' ? String(n) : name}, ${title}, ${props.summary}`}
+        accessibilityLabel={`${name}, ${title}, ${props.summary}`}
         accessibilityActions={props.canMove ? [{ name: 'moveStop', label: moveLabel }] : []}
         onAccessibilityAction={(event) => {
           if (event.nativeEvent.actionName === 'moveStop') props.onMoveMenu();
@@ -171,8 +172,8 @@ export function AllDaysCard(props: DayCardProps) {
             )}
           </View>
           <View style={styles.row}>
-            <Text variant="label" color={day.color}>
-              {name === '' ? String(n) : name}
+            <Text variant="label" color={day.color} numberOfLines={1} style={styles.name}>
+              {name}
             </Text>
             <PaceBars level={day.pace} color={day.color} accessibilityLabel={paceWords(day)} />
           </View>

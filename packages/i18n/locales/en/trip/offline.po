@@ -77,6 +77,10 @@ msgstr "Last synced {lastSynced}"
 msgid "trip.offline.kind.maps"
 msgstr "maps"
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.mapsOf"
+msgstr "maps of {0}"
+
 #: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
 msgid "trip.offline.editLabel"
 msgstr "Message"

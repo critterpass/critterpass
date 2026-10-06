@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and keys, never copy. */
 import type { PlanCheckIssue, PlanState } from '@cp/domain';
 
+import type { AreaLink } from '@/data/areas/area-links';
+import type { TripAreas } from '@/data/areas/trip-areas-model';
 import { dayItems, type DayItem, type ItemDisplay } from '@/data/plan/plan-model';
 import type { PlanDayRow } from '@/data/plan/queries';
 
@@ -24,6 +26,15 @@ export type DayTag =
 export interface Point {
   readonly lat: number;
   readonly lng: number;
+}
+
+/** Where a day is spent when that is not the trip's own city. */
+export interface TripDayArea {
+  readonly id: string;
+  /** The area's name as its row has it; empty when neither its link nor its row is here. */
+  readonly name: string;
+  /** How to get there and back; null when the link is gone (no travel line is shown). */
+  readonly link: AreaLink | null;
 }
 
 export interface TripDay {
@@ -52,6 +63,10 @@ export interface TripDay {
   readonly personal?: ReadonlyMap<string, PersonalMark> | undefined;
   /** Stops only I have on this day, in time order: listed under the day, never part of its route. */
   readonly mine?: readonly DayItem[] | undefined;
+  /** Set on a day trip only: a day in the trip's own city carries nothing new. */
+  readonly area?: TripDayArea | undefined;
+  /** The day is at a later stop of a trip with several cities. */
+  readonly laterStop?: true | undefined;
 }
 
 export interface TripDaysInput {
@@ -67,6 +82,9 @@ export interface TripDaysInput {
   readonly personal?:
     | { readonly layer: PersonalLayer; readonly display: ReadonlyMap<string, ItemDisplay> }
     | undefined;
+  /** The days spent away from the trip's first stop, by day number; absent for a one-stop trip. */
+  readonly areas?:
+    ReadonlyMap<number, { readonly area?: TripDayArea; readonly laterStop?: true }> | undefined;
 }
 
 const TAG_ISSUES: readonly DayTagKind[] = ['clash', 'too_far', 'rain', 'closed'];
@@ -168,6 +186,7 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
             input.personal.display,
             input.tz,
           ).filter(isStop);
+    const away = input.areas?.get(dayNo);
     return {
       dayNo,
       dayId,
@@ -176,7 +195,8 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
       color: dayTileColour(dayNo),
       items,
       stops,
-      stay: stayFor(dayNo, planned),
+      // The stay is the base city's: a day trip is not routed from it nor drawn around it.
+      stay: away?.area === undefined ? stayFor(dayNo, planned) : null,
       pace: dayPace(stops),
       vote,
       booked,
@@ -184,6 +204,8 @@ export function buildTripDays(input: TripDaysInput): TripDay[] {
       tag: tagOf(issues, vote, booked),
       ...(marks.length === 0 ? {} : { personal: new Map(marks) }),
       ...(mine.length === 0 ? {} : { mine }),
+      ...(away?.area === undefined ? {} : { area: away.area }),
+      ...(away?.laterStop === undefined ? {} : { laterStop: true as const }),
     };
   });
 }
@@ -196,4 +218,34 @@ export function mappedStops(day: TripDay): { readonly n: number; readonly stop: 
 /** The issue a stop is named in, fixes first (the note under it on the day plan). */
 export function issueFor(day: TripDay, stableId: string): PlanCheckIssue | null {
   return day.issues.find((issue) => issue.stable_ids.includes(stableId)) ?? null;
+}
+
+/** What a trip's areas put on its days: nothing at all for a one-stop trip with no day trip. */
+export function dayAreaMarks(areas: Pick<TripAreas, 'on' | 'days'>): TripDaysInput['areas'] {
+  if (!areas.on) return undefined;
+  const marks = new Map<number, { readonly area?: TripDayArea; readonly laterStop?: true }>();
+  for (const day of areas.days) {
+    if (day.dayTrip && day.areaId !== null) {
+      marks.set(day.dayNo, {
+        area: { id: day.areaId, name: day.areaName ?? '', link: day.link },
+        ...(day.stopIndex > 0 ? { laterStop: true as const } : {}),
+      });
+    } else if (day.stopIndex > 0) {
+      marks.set(day.dayNo, { laterStop: true });
+    }
+  }
+  return marks.size === 0 ? undefined : marks;
+}
+
+/**
+ * The area whose places and map pack the trip map shows: the chosen day's own area on a day trip
+ * (its tiles when the pack is on the phone, else the world tiles with "a detailed map is on its
+ * way"), and the trip's destination on every other day and for a one-stop trip.
+ */
+export function mapAreaOf(
+  trip: { readonly id: string | null; readonly slug: string | null },
+  day: Pick<TripDay, 'area'> | null,
+): { readonly id: string | null; readonly slug: string | null } {
+  const area = day?.area;
+  return area === undefined ? trip : { id: area.id, slug: area.link?.toSlug ?? null };
 }

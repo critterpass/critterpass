@@ -10,9 +10,11 @@ import { Image, Linking, ScrollView, View } from 'react-native';
 import { ListCard } from '@/ui/cards/ListCard';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
+import { LightboxThumb, useLightbox } from '@/ui/media/lightbox/use-lightbox';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { livePhotoItems } from '../place-lightbox';
 import type { LiveDetails } from '../place-live';
 
 const STRIP_HEIGHT = 96;
@@ -52,6 +54,7 @@ export function PlaceLiveDetails(details: LiveDetails) {
   const theme = useTheme();
   const { t } = useLingui();
   const { rating, photos, tips, phone, website, attribution } = details;
+  const lightbox = useLightbox(livePhotoItems(photos, attribution), 'place-live-lightbox');
   return (
     <View style={{ gap: theme.space['16'] }} testID="explore-place-live">
       {rating === null ? null : (
@@ -74,16 +77,24 @@ export function PlaceLiveDetails(details: LiveDetails) {
           contentContainerStyle={styles.strip}
           testID="explore-place-photos"
         >
-          {photos.map((photo) => (
-            <Image
+          {photos.map((photo, index) => (
+            <LightboxThumb
               key={photo.url}
-              source={{ uri: photo.url }}
-              style={[styles.photo, { width: (STRIP_HEIGHT * photo.width) / photo.height }]}
-              accessibilityIgnoresInvertColors
-            />
+              position={index + 1}
+              total={photos.length}
+              onPress={() => lightbox.open(photo.url)}
+              testID={`explore-place-photo-${index}`}
+            >
+              <Image
+                source={{ uri: photo.url }}
+                style={[styles.photo, { width: (STRIP_HEIGHT * photo.width) / photo.height }]}
+                accessibilityIgnoresInvertColors
+              />
+            </LightboxThumb>
           ))}
         </ScrollView>
       )}
+      {lightbox.viewer}
       {tips.length === 0 ? null : (
         <View style={styles.block} testID="explore-place-tips">
           <Text variant="label" color={theme.semantic.text.secondary}>

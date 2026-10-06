@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# Opens the album lab (apps/mobile/src/app/(dev)/album-lab.tsx) from the developer tools list.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-album-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-album-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'album-lab-3m-2-best'
+    timeout: 15000

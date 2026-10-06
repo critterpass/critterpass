@@ -1,0 +1,116 @@
+appId: app.critterpass.dev
+---
+# The plan screens on a day trip, from the plan views lab, in English then Vietnamese: the Bali
+# Six's boat day spent at Nusa Penida (about 1 h 30 by boat each way). The trip map on that day
+# (the area's name on the day, its travel line, no stay, the area's pack not on the phone), the
+# whole trip with the day's row named, the day plan opening and ending with the travel line, and
+# all days with the area on its card. Shots carry the nearest design id.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: trip-map-day-trip, SCREEN: trip-map, SHOT: 'en-7a-2-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: trip-map-day-trip-whole-trip, SCREEN: trip-map, SHOT: 'en-7a-3-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: day-plan-day-trip, SCREEN: day-plan, SHOT: 'en-7b-1-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: all-days-day-trip, SCREEN: all-days, SHOT: 'en-7b-3-day-trip' }
+# Back to the tools for the language.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-plan-views-lab'
+    times: 2
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 2000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+# An iOS edge swipe can carry past the lab's list to the tools: open the lab again from there.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-plan-views-lab'
+    commands:
+      - tapOn:
+          id: 'dev-nav-plan-views-lab'
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: trip-map-day-trip, SCREEN: trip-map, SHOT: 'vi-7a-2-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: trip-map-day-trip-whole-trip, SCREEN: trip-map, SHOT: 'vi-7a-3-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: day-plan-day-trip, SCREEN: day-plan, SHOT: 'vi-7b-1-day-trip' }
+- runFlow:
+    file: ../plan/subflows/open-plan-lab-scene.yaml
+    env: { SCENE: all-days-day-trip, SCREEN: all-days, SHOT: 'vi-7b-3-day-trip' }

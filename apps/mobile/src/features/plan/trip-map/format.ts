@@ -5,13 +5,14 @@
  */
 import { plural, t } from '@lingui/core/macro';
 import { tokens } from '@cp/design-tokens';
-import type { PlanCheckIssue } from '@cp/domain';
+import { AREA_LINK_MODES, type PlanCheckIssue } from '@cp/domain';
 import { currencyExponent, currencySymbol, isKnownCurrency } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 
 import type { DayLeg } from '@/data/legs/day-legs';
+import { travelLegLabel } from '@/data/areas/travel-line';
 
-import type { DayTag } from './trip-days';
+import type { DayTag, TripDay } from './trip-days';
 
 /** "3h30", "1h", "20 min". */
 export function lengthLabel(minutes: number): string {
@@ -54,6 +55,11 @@ export function legLabel(leg: DayLeg): string {
   if (leg.pending === true) {
     return t({ id: 'plan.tripMap.leg.pending', message: 'Working out the ride…' });
   }
+  // Between two areas: the link's own mode word and "about", never a car time.
+  const linkMode = AREA_LINK_MODES.find((mode) => mode === leg.mode);
+  if (leg.source === 'link' && linkMode !== undefined) {
+    return travelLegLabel({ minutes: leg.minutes, mode: linkMode });
+  }
   const mode = modeLabel(leg.mode);
   const length = lengthLabel(leg.minutes);
   return leg.approx && leg.source === 'straight_line'
@@ -68,7 +74,8 @@ export function roadMinutes(legs: readonly DayLeg[]): {
   /** A leg's routed time is still on its way: the total is not to be shown yet. */
   pending: boolean;
 } {
-  const road = legs.filter((leg) => leg.mode !== 'walk');
+  // A day trip's way there and back is its own line, never time "in the car".
+  const road = legs.filter((leg) => leg.mode !== 'walk' && leg.source !== 'link');
   return {
     minutes: road.reduce((sum, leg) => sum + leg.minutes, 0),
     approx: road.some((leg) => leg.source === 'straight_line'),
@@ -264,4 +271,10 @@ export function compactMoney(locale: string, amountMinor: number, currency: stri
         : short(major);
   // A letter symbol (Rp) takes a space; a sign ($, €) sits on the number.
   return /\p{L}$/u.test(symbol) ? `${symbol} ${amount}` : `${symbol}${amount}`;
+}
+
+/** A day's name with where it is spent: "Wed 14 · Machu Picchu"; the name alone in the city. */
+export function withArea(name: string, day: Pick<TripDay, 'area'>): string {
+  const area = day.area?.name ?? '';
+  return area === '' ? name : `${name} · ${area}`;
 }

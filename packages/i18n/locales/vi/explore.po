@@ -7,6 +7,38 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moves"
+msgstr "{count, plural, other {# điểm dừng quay về Ý tưởng}}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.placesComing"
+msgstr "{guide} vẫn đang gom các địa điểm ở đây. Bạn cứ thêm ngày này trước, rồi lấp đầy khi có địa điểm."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.drafting"
+msgstr "{guide} đang viết kế hoạch. Hãy thêm chuyến đi trong ngày khi bản nháp xong."
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hours"
+msgstr "{hours} giờ"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.hoursMinutes"
+msgstr "{hours} giờ {rest}"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.length.minutes"
+msgstr "{mins} phút"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.leg"
+msgstr "{mode} · khoảng {length}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.tagline"
+msgstr "Đi một ngày từ {city}, tối quay về."
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listNew"
 msgstr "Một danh sách mới"
@@ -19,21 +51,145 @@ msgstr "Một địa điểm đã lưu"
 msgid "explore.queued.swipe"
 msgstr "Một lượt quẹt"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.cost"
+msgstr "khoảng {amount} mỗi người"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.boat"
+msgstr "mỗi chiều khoảng {length} đi thuyền"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.bus"
+msgstr "mỗi chiều khoảng {length} đi xe khách"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.car"
+msgstr "mỗi chiều khoảng {length} đi ô tô"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.flight"
+msgstr "mỗi chiều khoảng {length} đi máy bay"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.train"
+msgstr "mỗi chiều khoảng {length} đi tàu"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.travel.tour"
+msgstr "mỗi chiều khoảng {length} theo tour"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.add"
+msgstr "Thêm làm chuyến đi trong ngày"
+
+#: ../../apps/mobile/src/features/explore/day-trips/day-picker-sheet.tsx
+msgid "explore.dayTrips.confirmNone"
+msgstr "Thêm chuyến đi trong ngày"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.confirm"
+msgstr "Thêm vào ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.ask"
+msgstr "Nhờ {organiser} thêm vào"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.askAnyone"
+msgstr "Nhờ trưởng nhóm thêm vào"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.moved"
+msgstr "Quay về Ý tưởng: {names}"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
 msgstr "Bãi biển"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.boat"
+msgstr "Thuyền"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.bus"
+msgstr "Xe khách"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.car"
+msgstr "Ô tô"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.changeDay"
+msgstr "Đổi ngày"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDay"
+msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeBack"
+msgstr "Ngày {dayNo} quay về {city}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.added"
+msgstr "Ngày {dayNo} ở {area}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removed"
+msgstr "Ngày {dayNo} đã quay về {city}"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.title"
+msgstr "Đi trong ngày từ {city}"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.listDelete"
 msgstr "Xóa một danh sách"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.back"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.flight"
+msgstr "Máy bay"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Ăn uống"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.fullDay"
+msgstr "Cả ngày"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.halfDay"
+msgstr "Nửa ngày"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.health"
 msgstr "Y tế"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.currency"
+msgstr "Nơi này dùng tiền tệ khác, chuyến đi trong ngày chưa hỗ trợ."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.timeZone"
+msgstr "Nơi này ở múi giờ khác, chuyến đi trong ngày chưa hỗ trợ."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDayLine"
+msgstr "Đang ở ngày {dayNo} của kế hoạch."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.onDateLine"
+msgstr "Đang ở ngày {dayNo}, {date}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.noPlan"
+msgstr "Hãy chốt ngày đi trước: chuyến đi trong ngày chiếm một ngày của kế hoạch."
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
@@ -59,9 +215,21 @@ msgstr "Về đêm"
 msgid "explore.solo.refusedBody"
 msgstr "Chưa có chuyến đi nào được tạo. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickDay"
+msgstr "Chọn một ngày"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
 msgstr "Địa điểm"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.remove"
+msgstr "Gỡ"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeConfirm"
+msgstr "Gỡ chuyến đi trong ngày"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
@@ -83,6 +251,10 @@ msgstr "Bắt đầu một phiên quẹt"
 msgid "explore.category.stay"
 msgstr "Chỗ ở"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.removeTitle"
+msgstr "Gỡ {area} khỏi kế hoạch?"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr "Đền chùa"
@@ -91,9 +263,69 @@ msgstr "Đền chùa"
 msgid "explore.solo.refused"
 msgstr "Chưa thực hiện được"
 
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.other"
+msgstr "Chưa thực hiện được. Thử lại sau giây lát nhé."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.notADayTrip"
+msgstr "Nơi này không còn là chuyến đi trong ngày từ đây nữa."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.movesNone"
+msgstr "Ngày này còn trống: không có gì phải dời."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.refused.planChanged"
+msgstr "Kế hoạch vừa thay đổi khi bạn đang chọn. Xem lại rồi thử lần nữa nhé."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.booked"
+msgstr "Ngày này có một đặt chỗ. Đặt chỗ vẫn ở lại ngày đó."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.otherTrip"
+msgstr "Ngày này đã ở {area}."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.closed"
+msgstr "Chuyến đi đã kết thúc nên kế hoạch không đổi nữa."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.estimate"
+msgstr "Thời gian và giá là ước tính."
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.tour"
+msgstr "Tour"
+
+#: ../../apps/mobile/src/data/areas/travel-line.ts
+msgid "explore.dayTrips.mode.train"
+msgstr "Tàu"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.transit"
 msgstr "Di chuyển"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.places"
+msgstr "Ở {area} có gì"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.pickerTitle"
+msgstr "Đi {area} ngày nào?"
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.firstDay"
+msgstr "Bạn đến nơi vào ngày này: đi trong ngày thì chẳng còn mấy thời gian."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.lastDay"
+msgstr "Bạn rời đi vào ngày này: đi trong ngày thì chẳng còn mấy thời gian."
+
+#: ../../apps/mobile/src/features/explore/day-trips/copy.ts
+msgid "explore.dayTrips.offline"
+msgstr "Bạn đang ngoại tuyến. Cần có mạng để thêm chuyến đi trong ngày."
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"

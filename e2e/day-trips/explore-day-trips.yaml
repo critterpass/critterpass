@@ -1,0 +1,94 @@
+appId: app.critterpass.dev
+---
+# Day trips in Explore, from the Explore lab, in English then Vietnamese: "Day trips from Cusco" on
+# Explore in a trip (one already on day 3), the area's page for the organiser, a member, an area
+# with no places yet, offline, the day picker with a day chosen (a booking stays, three stops go
+# back to Ideas) and the page once the area is on a day. Shots carry the nearest design id.
+- runFlow: ../explore/subflows/lab-en.yaml
+# The day-trip scenes sit at the end of the lab's long list.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-day-trips'
+    direction: DOWN
+    timeout: 120000
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trips, READY: explore-day-trips, SHOT: 'en-7g-1-day-trips' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trip-area, READY: day-trip-add, SHOT: 'en-7g-3-day-trip-area' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trip-area-member, READY: day-trip-ask, SHOT: 'en-7g-3-day-trip-area-member' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-area-no-places,
+        READY: day-trip-add,
+        SHOT: 'en-7g-3-day-trip-area-no-places',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-area-offline,
+        READY: day-trip-add-offline,
+        SHOT: 'en-7g-3-day-trip-area-offline',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-picker,
+        READY: day-trip-picker-confirm,
+        SHOT: 'en-7g-3-day-trip-day-picker',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      { SCENE: day-trip-area-on-day, READY: day-trip-on-day, SHOT: 'en-7g-3-day-trip-area-on-day' }
+- runFlow: ../explore/subflows/lab-vi.yaml
+# The day-trip scenes sit at the end of the lab's long list.
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-day-trips'
+    direction: DOWN
+    timeout: 120000
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trips, READY: explore-day-trips, SHOT: 'vi-7g-1-day-trips' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trip-area, READY: day-trip-add, SHOT: 'vi-7g-3-day-trip-area' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env: { SCENE: day-trip-area-member, READY: day-trip-ask, SHOT: 'vi-7g-3-day-trip-area-member' }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-area-no-places,
+        READY: day-trip-add,
+        SHOT: 'vi-7g-3-day-trip-area-no-places',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-area-offline,
+        READY: day-trip-add-offline,
+        SHOT: 'vi-7g-3-day-trip-area-offline',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      {
+        SCENE: day-trip-picker,
+        READY: day-trip-picker-confirm,
+        SHOT: 'vi-7g-3-day-trip-day-picker',
+      }
+- runFlow:
+    file: ../explore/subflows/scene.yaml
+    env:
+      { SCENE: day-trip-area-on-day, READY: day-trip-on-day, SHOT: 'vi-7g-3-day-trip-area-on-day' }

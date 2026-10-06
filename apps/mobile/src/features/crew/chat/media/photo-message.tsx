@@ -1,20 +1,21 @@
 /**
  * A photo message: the worker's thumbnail (the original until the thumbnail exists) at the photo's
  * own aspect ratio, several photos in a two-column grid, the caption under them; tapping opens the
- * full view.
+ * full-screen viewer on that photo (the originals), paging through the message's photos.
  */
 import { t } from '@lingui/core/macro';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, useWindowDimensions, View } from 'react-native';
 
+import { Lightbox } from '@/ui/media/lightbox/Lightbox';
+import { indexOfKey, type LightboxItem } from '@/ui/media/lightbox/lightbox-model';
 import { PressScale } from '@/ui/press/PressScale';
 import { Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
 import type { ChatCardProps } from '../cards/registry';
 import { useChatMedia } from './media-services';
-import { MediaViewer } from './media-viewer';
-import { useReadUrl } from './read-urls';
+import { readUrl, useReadUrl } from './read-urls';
 
 /**
  * The photos' share of the screen, narrower than the card slot they sit in (to the side of the
@@ -57,6 +58,53 @@ function Tile({
   );
 }
 
+/** The message's photos as the viewer's set; a photo's page waits until its signed link arrives. */
+export function photoItems(
+  keys: readonly string[],
+  urls: Readonly<Record<string, string>>,
+  caption: string,
+): LightboxItem[] {
+  return keys.map((key) => ({ key, kind: 'image', uri: urls[key] ?? null, caption }));
+}
+
+function PhotoViewer({
+  keys,
+  openKey,
+  caption,
+  onClose,
+}: {
+  readonly keys: readonly string[];
+  readonly openKey: string;
+  readonly caption: string;
+  readonly onClose: () => void;
+}) {
+  const media = useChatMedia();
+  const http = media?.http ?? null;
+  const [urls, setUrls] = useState<Readonly<Record<string, string>>>({});
+  const joined = keys.join('\n');
+  useEffect(() => {
+    if (http === null) return undefined;
+    let live = true;
+    for (const key of joined.split('\n')) {
+      void readUrl(http, key).then((url) => {
+        if (live && url !== null) setUrls((known) => ({ ...known, [key]: url }));
+      });
+    }
+    return () => {
+      live = false;
+    };
+  }, [http, joined]);
+  const items = photoItems(keys, urls, caption);
+  return (
+    <Lightbox
+      items={items}
+      initialIndex={indexOfKey(items, openKey)}
+      onClose={onClose}
+      testID="chat-media-viewer"
+    />
+  );
+}
+
 export function PhotoMessage({ message, mine }: ChatCardProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -88,7 +136,14 @@ export function PhotoMessage({ message, mine }: ChatCardProps) {
           {message.body}
         </Text>
       )}
-      {open === null ? null : <MediaViewer mediaKey={open} onClose={() => setOpen(null)} />}
+      {open === null ? null : (
+        <PhotoViewer
+          keys={photos.map((photo) => photo.media_key)}
+          openKey={open}
+          caption={message.body}
+          onClose={() => setOpen(null)}
+        />
+      )}
     </Stack>
   );
 }

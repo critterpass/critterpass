@@ -1,0 +1,89 @@
+appId: app.critterpass.dev
+---
+# A solo trip from a destination page, start to confirmed, never asking who is in: a fresh account
+# opens a guide's destination from Home, SOLO TRIP starts a trip for one and opens set-up, the
+# guide drafts it, and the draft's next step is to lock the plan in. Locking leads (inviting stays
+# as the quiet second action for a traveller who later wants company), no "Who's in?" tracker and
+# no "Invite your friends first" shows on the way, and Home counts down to the confirmed trip.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'home-guide-pon'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'home-guide-pon'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'explore-(picks|months|writing)'
+    timeout: 45000
+- scrollUntilVisible:
+    element:
+      id: 'explore-solo'
+    timeout: 15000
+- tapOn:
+    id: 'explore-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-solo-confirm'
+    timeout: 10000
+- tapOn:
+    id: 'explore-solo-start'
+# Set-up opens on the dates step once the server has made the trip.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 45000
+- assertNotVisible:
+    id: 'proposal-tracker'
+- waitForAnimationToEnd
+- takeScreenshot: en-solo-setup-dates
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- assertNotVisible:
+    id: 'proposal-tracker'
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+# Nobody to ask on a trip for one: the plan is locked in from here.
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- assertVisible:
+    id: 'proposal-alone'
+- assertVisible:
+    id: 'build-invite'
+- assertNotVisible:
+    id: 'proposal-tracker'
+- assertNotVisible:
+    text: '(?i)who.s in.*'
+- assertNotVisible:
+    text: '(?i)invite your friends first'
+- waitForAnimationToEnd
+- takeScreenshot: en-solo-lock-in
+- tapOn:
+    id: 'build-lock-alone'
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- assertNotVisible:
+    text: '(?i)who.s in.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-solo-home-confirmed

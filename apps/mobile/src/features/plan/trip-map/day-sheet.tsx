@@ -21,7 +21,9 @@ import { DraftNote } from './draft-note';
 import { DriverLegCard, gapStopsOf } from '@/features/drivers';
 import { useHereSince, useSaidStops } from '../day/stop-check-in';
 import { dayProgress, nextGoStop, usePlanClock } from './next-stop';
-import { dateLine, dayOfTrip, stopsLine } from './format';
+import { travelLine } from '@/data/areas/travel-line';
+
+import { dateLine, dayOfTrip, stopsLine, withArea } from './format';
 import type { TripMapSheetProps } from './sheet-props';
 import { StopList } from './stop-list';
 import { buildStopRows, mineRows, stayRows } from './stop-rows';
@@ -69,7 +71,8 @@ export function DaySheet(
   if (day === null) return null;
   const n = day.dayNo;
   const of = dayOfTrip(n, model.days.length);
-  const head = day.date === null ? of : `${dateLine(locale, day.date)} · ${of}`;
+  const head =
+    day.date === null ? withArea(of, day) : `${withArea(dateLine(locale, day.date), day)} · ${of}`;
   const title = day.theme ?? t({ id: 'plan.tripMap.dayTitle', message: `Day ${n}` });
   const titles = new Map(day.stops.map((stop) => [stop.stableId, stop.title]));
   return (
@@ -105,6 +108,11 @@ export function DaySheet(
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {stopsLine(day.stops.length, route.legs)}
         </Text>
+        {day.area?.link == null ? null : (
+          <Text variant="bodySm" color={theme.semantic.text.secondary} testID="trip-map-day-travel">
+            {travelLine(day.area.link)}
+          </Text>
+        )}
       </PressScale>
       {/* Her own plan before the crew has one: where it stands, as on the peek. */}
       <DraftNote model={model} />

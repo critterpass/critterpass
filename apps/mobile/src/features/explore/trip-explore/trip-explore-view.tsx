@@ -29,6 +29,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { DestHero, type DestHeroProps } from '../components/dest-hero';
 import { PicksRow, type PickCard } from '../components/picks-row';
 import * as copy from './copy';
+import { DayTripsRow, type DayTripsRowProps } from '../day-trips/day-trips-row';
 import { DOCKED_SEARCH_HEIGHT, DockedSearch } from './docked-search';
 import { GapsCard, type GapsCardState } from './gaps-card';
 import { KindsRow, type KindTile } from './kinds-row';
@@ -57,6 +58,8 @@ export interface TripExploreViewProps {
   readonly onAllPlaces?: (() => void) | undefined;
   readonly onOpenPick?: ((pick: PickCard) => void) | undefined;
   readonly onSavePick: (pick: TripPick) => void;
+  /** The day trips the trip's stop offers; absent when it has none (the page is then as before). */
+  readonly dayTrips?: Omit<DayTripsRowProps, 'accent'> | undefined;
   /** The kinds of place here with their counts; none while the places have not synced. */
   readonly kinds: readonly KindTile[];
   /** Absent for someone travelling alone: there is nobody to swipe with. */
@@ -183,6 +186,9 @@ export function TripExploreView(props: TripExploreViewProps) {
                 }}
               />
             </View>
+          )}
+          {props.dayTrips === undefined ? null : (
+            <DayTripsRow {...props.dayTrips} accent={guide.colour} />
           )}
           <KindsRow kinds={props.kinds} />
           {props.swipe === undefined ? null : <SwipeTogetherCard {...props.swipe} />}

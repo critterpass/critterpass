@@ -128,6 +128,7 @@ const IDEA = {
   user_id: crypto.randomUUID(),
 };
 const STANCE = { trip_id: IDEA.trip_id, poi_id: crypto.randomUUID(), user_id: IDEA.user_id };
+const SHARED_PLAN = { shared_plan_id: crypto.randomUUID(), trip_id: IDEA.trip_id };
 const SOS_REF = { trip_id: crypto.randomUUID(), sos_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
@@ -611,6 +612,24 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     status: 'declined',
   },
   'trip.areas_changed': { trip_id: IDEA.trip_id },
+  'shared_plan.requested': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'shared_plan.consent_given': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'shared_plan.declined': SHARED_PLAN,
+  'shared_plan.published': SHARED_PLAN,
+  'shared_plan.updated': SHARED_PLAN,
+  'shared_plan.unpublished': { ...SHARED_PLAN, reason: 'consent_withdrawn' },
+  'shared_plan.saved': { shared_plan_id: SHARED_PLAN.shared_plan_id, user_id: IDEA.user_id },
+  'shared_plan.unsaved': { shared_plan_id: SHARED_PLAN.shared_plan_id, user_id: IDEA.user_id },
+  'shared_plan.copied': { ...SHARED_PLAN, user_id: IDEA.user_id, days: [3] },
+  'shared_plan.suggested': { ...SHARED_PLAN, user_id: IDEA.user_id },
+  'plan_link.created': { link_id: crypto.randomUUID(), trip_id: IDEA.trip_id },
+  'plan_link.revoked': { link_id: crypto.randomUUID(), trip_id: IDEA.trip_id },
+  'place.rated': {
+    trip_id: IDEA.trip_id,
+    user_id: IDEA.user_id,
+    poi_ids: [STANCE.poi_id],
+    tips: 1,
+  },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),
@@ -1015,6 +1034,33 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     photos: 12,
   },
   'album.curated': { trip_id: crypto.randomUUID(), picks: 24 },
+  'postcard.saved': { trip_id: crypto.randomUUID(), postcard_id: crypto.randomUUID() },
+  'postcard.sent': {
+    trip_id: crypto.randomUUID(),
+    postcard_id: crypto.randomUUID(),
+    sender_id: crypto.randomUUID(),
+    to_uids: [crypto.randomUUID()],
+  },
+  'postcard.ordered': {
+    trip_id: crypto.randomUUID(),
+    postcard_id: crypto.randomUUID(),
+    mailing_id: crypto.randomUUID(),
+    payer_id: crypto.randomUUID(),
+    recipient_ids: [crypto.randomUUID()],
+  },
+  'postcard.address_requested': {
+    trip_id: crypto.randomUUID(),
+    postcard_id: crypto.randomUUID(),
+    payer_id: crypto.randomUUID(),
+    user_ids: [crypto.randomUUID()],
+  },
+  'postcard.address_saved': { user_id: crypto.randomUUID(), saved: true },
+  'postcard.mailing_updated': {
+    trip_id: crypto.randomUUID(),
+    mailing_id: crypto.randomUUID(),
+    payer_id: crypto.randomUUID(),
+    status: 'shipped',
+  },
   'sos.triggered': { ...SOS_REF, crew_count: 4 },
   'sos.stale': { ...SOS_REF, age_min: 14 },
   'sos.escalated': SOS_REF,

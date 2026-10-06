@@ -1,0 +1,60 @@
+{
+  "destination_id": "0192f000-0000-7000-8000-00000000c05c",
+  "links": [
+    {
+      "id": "0192f000-0000-7000-8000-0000000011a1",
+      "kind": "day_trip",
+      "to": {
+        "id": "0192f000-0000-7000-8000-0000000a4ea1",
+        "name": "Sacred Valley",
+        "slug": "sacred-valley"
+      },
+      "minutes": 90,
+      "mode": "tour",
+      "day_length": "full",
+      "essential": false,
+      "cost_pp_minor": null,
+      "cost_currency": null,
+      "note": null,
+      "estimate": true,
+      "sources": [
+        {
+          "url": "https://www.peru.travel/en/attractions/sacred-valley",
+          "title": "Sacred Valley of the Incas"
+        }
+      ]
+    },
+    {
+      "id": "0192f000-0000-7000-8000-0000000011a2",
+      "kind": "day_trip",
+      "to": {
+        "id": "0192f000-0000-7000-8000-0000000a4ea2",
+        "name": "Machu Picchu",
+        "slug": "machu-picchu"
+      },
+      "minutes": 210,
+      "mode": "train",
+      "day_length": "full",
+      "essential": true,
+      "cost_pp_minor": 14000,
+      "cost_currency": "USD",
+      "note": "Trains leave from Poroy or Ollantaytambo; book the entry slot first.",
+      "estimate": true,
+      "sources": [{ "url": "https://www.perurail.com/trains/", "title": "PeruRail" }]
+    },
+    {
+      "id": "0192f000-0000-7000-8000-0000000011a3",
+      "kind": "onward",
+      "to": { "id": "0192f000-0000-7000-8000-0000000a4ea3", "name": "Puno", "slug": "puno" },
+      "minutes": 600,
+      "mode": "bus",
+      "day_length": null,
+      "essential": null,
+      "cost_pp_minor": null,
+      "cost_currency": null,
+      "note": null,
+      "estimate": true,
+      "sources": [{ "url": "https://www.peru.travel/en/destinations/puno", "title": null }]
+    }
+  ]
+}

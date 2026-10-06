@@ -11,6 +11,7 @@ import { LAB_PHOTOS } from '@/data/media/dev/lab-place-photos';
 import type { PlaceTilePhoto } from '@/data/media/use-place-tile-photos';
 import { useLocale } from '@/lib/i18n/use-locale';
 
+import { DAY_TRIP_SCENES } from '../../day-trips/dev/day-trip-scenes';
 import { guideFor } from '../../format';
 import { guideTagline } from '../../guide-copy';
 import * as copy from '../copy';
@@ -180,4 +181,5 @@ export const TRIP_EXPLORE_SCENES: Readonly<Record<string, () => ReactNode>> = {
     Object.entries(SPECS).map(([name, spec]) => [name, () => <TripExploreScene spec={spec} />]),
   ),
   ...SWIPE_IDEA_SCENES,
+  ...DAY_TRIP_SCENES,
 };

@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Crew plans (3o-1) for a destination: the honest empty state on a fresh stack.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-crew-plans'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-crew-plans'
+- extendedWaitUntil:
+    visible:
+      id: 'crew-plans'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3o-1-crew-plans

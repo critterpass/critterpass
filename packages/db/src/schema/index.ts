@@ -235,4 +235,12 @@ export {
 } from './album';
 export { tripPlaces } from './trip-places';
 export { driverPlanReplies, driverPlanShares } from './plan-shares';
+export {
+  placeRatingStats,
+  planLinks,
+  ratings,
+  sharedPlanConsents,
+  sharedPlanCopies,
+  sharedPlans,
+} from './community';
 export { pickupGapDismissals, providerAssignments, providerIntake, providerTerms } from './drivers';
