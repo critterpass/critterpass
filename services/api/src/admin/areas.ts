@@ -10,6 +10,7 @@ import type { AdminAllowlist } from './allowlist';
 import { auditArea } from './audit-read';
 import { billingArea } from './billing';
 import { catalogueArea } from './catalogue';
+import { communityArea } from './community/shared-plans';
 import { contentArea } from './content';
 import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
@@ -55,5 +56,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     servicesArea(deps.pool),
     ideasArea(deps.pool),
     accountDeletionArea(deps.pool),
+    communityArea(deps.pool),
   ];
 }

@@ -7,6 +7,7 @@ import { accountModule } from '../modules/account';
 import { auditModule } from '../modules/audit';
 import { billingModule } from '../modules/billing';
 import { catalogueModule } from '../modules/catalogue';
+import { communityModule } from '../modules/community';
 import { contentModule } from '../modules/content';
 import { costsModule } from '../modules/costs';
 import { deskModule } from '../modules/desk';
@@ -25,6 +26,7 @@ import { workModule } from '../modules/work';
 export const ADMIN_MODULES: readonly AdminModule[] = [
   workModule,
   moderationModule,
+  communityModule,
   catalogueModule,
   seasonModule,
   costsModule,
